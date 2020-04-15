@@ -8,7 +8,7 @@ function Buy () {
   return (
     <div>
       <Header />
-      <MegaMenu />
+      {/* <MegaMenu /> */}
       <main class="rc-content--fixed-header rc-bg-colour--brand3">
         <div id="checkout-main" class="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg">
           <div class="rc-padding--sm rc-padding-top--none">

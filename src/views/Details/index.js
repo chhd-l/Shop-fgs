@@ -8,7 +8,7 @@ function Details () {
   return (
     <div>
       <Header />
-      <MegaMenu />
+      {/* <MegaMenu /> */}
       <main className="rc-content--fixed-header">
         <div className="product-detail product-wrapper rc-bg-colour--brand3">
           <div className="rc-max-width--xl">

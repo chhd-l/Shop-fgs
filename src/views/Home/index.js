@@ -8,7 +8,7 @@ function Home () {
   return (
     <div>
       <Header />
-      <MegaMenu />
+      {/* <MegaMenu /> */}
       <main className="rc-content--fixed-header rc-main-content__wrapper ">
         <div className="rc-full-width">
           <div className="experience-component experience-layouts-herocarousel">
@@ -29,7 +29,7 @@ function Home () {
                   <div className="row">
                     <div className="col-md-3 col-6">
                       <a className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                        href="./doglist.html" title="Dogs">
+                        href="#/list/dogs" title="Dogs">
                         <picture className="category-cards__card__img">
                           <source
                             srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw96967667/Dog_categorie-RU@2x.jpg?sw=144&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw96967667/Dog_categorie-RU@2x.jpg?sw=288&amp;sfrm=png 2x" />
@@ -45,7 +45,7 @@ function Home () {
                     </div>
                     <div className="col-md-3 col-6">
                       <a className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                        href="./catlist.html" title="Products for cats">
+                        href="#/list/cats" title="Products for cats">
                         <picture className="category-cards__card__img">
                           <source
                             srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw9266069c/homepage/Cat_categorie@2x.jpg?sw=144&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw9266069c/homepage/Cat_categorie@2x.jpg?sw=288&amp;sfrm=png 2x" />
@@ -61,7 +61,7 @@ function Home () {
                     </div>
                     <div className="col-md-3 col-6">
                       <a className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                        href="./doglist.html" title="Puppies">
+                        href=".#/list/puppies" title="Puppies">
                         <picture className="category-cards__card__img">
                           <source
                             srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw87e948c2/homepage/Puppy_categorie@2x.jpg?sw=144&sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw87e948c2/homepage/Puppy_categorie@2x.jpg?sw=288&sfrm=png 2x" />
@@ -77,7 +77,7 @@ function Home () {
                     </div>
                     <div className="col-md-3 col-6">
                       <a className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                        href="./catlist.html" title="Kittens">
+                        href="#/list/kittens" title="Kittens">
                         <picture className="category-cards__card__img">
                           <source
                             srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwcfc83bc5/homepage/Kitten_categorie@2x.jpg?sw=144&sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwcfc83bc5/homepage/Kitten_categorie@2x.jpg?sw=288&sfrm=png 2x" />
