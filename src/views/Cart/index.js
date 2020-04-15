@@ -172,8 +172,8 @@ class Cart extends React.Component {
                                     <span
                                       class=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"></span>
                                     <input class="rc-quantity__input" disabled="" id="quantity" name="quantity" type="number"
-                                      value="1" min="1" max="10"/>
-                                    <span class=" rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                                      value="" min="1" max="10"/>
+                                    <span class="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                                       data-quantity-error-msg="Вы не можете заказать больше 10"></span>
                                   </div>
                                 </div>
