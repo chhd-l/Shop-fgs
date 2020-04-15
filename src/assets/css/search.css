@@ -738,7 +738,7 @@
   padding-right: .6375em
 }
 
-.filter-bar li.filter-value:after {
+/* .filter-bar li.filter-value:after {
   content: "";
   display: inline-block;
   background-repeat: no-repeat;
@@ -752,6 +752,22 @@
   -webkit-transition: all .3s ease-in-out;
   transition: all .3s ease-in-out;
   background-position: 30.77% 33.33%;
+  background-image: url(https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/ru_RU/images/icons/royal-canin.sprite--iconography.svg);
+} */
+.filter-remove {
+  display: inline-block;
+  background-repeat: no-repeat;
+  width: 32px;
+  height: 32px;
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  position: absolute;
+  top: 4px;
+  right: 0;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  background-position: 30.77% 33.33%;
+  background-image: url(https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/ru_RU/images/icons/royal-canin.sprite--iconography.svg);
 }
 
 .filter-bar li.swatch-filter {

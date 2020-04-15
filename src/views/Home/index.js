@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from '../components/Header/index'
-import Footer from '../components/Footer/index'
-import MegaMenu from '../components/MegaMenu/index'
-import HeroCarousel from '../components/HeroCarousel/index'
+import Header from '@/components/Header/index'
+import Footer from '@/components/Footer/index'
+import MegaMenu from '@/components/MegaMenu/index'
+import HeroCarousel from '@/components/HeroCarousel/index'
 
 function Home () {
   return (

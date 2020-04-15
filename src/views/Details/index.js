@@ -1,8 +1,8 @@
 import React from 'react'
-import Header from '../components/Header/index'
-import Footer from '../components/Footer/index'
-import MegaMenu from '../components/MegaMenu/index'
-import BreadCrumbs from '../components/BreadCrumbs/index'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import MegaMenu from '@/components/MegaMenu'
+import BreadCrumbs from '@/components/BreadCrumbs'
 
 function Details () {
   return (

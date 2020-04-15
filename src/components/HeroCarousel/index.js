@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../assets/css/heroCarousel.css'
+import '@/assets/css/heroCarousel.css'
 
 function HeroCarousel () {
   return (

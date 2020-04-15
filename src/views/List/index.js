@@ -1,16 +1,16 @@
 import React from 'react';
-import Header from '../../components/Header/index'
-import Footer from '../../components/Footer/index'
-import MegaMenu from '../../components/MegaMenu/index'
-import BreadCrumbs from '../../components/BreadCrumbs/index'
-import Filters from '../../components/Filters/index'
-import './list.css'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import MegaMenu from '@/components/MegaMenu'
+import BreadCrumbs from '@/components/BreadCrumbs'
+import Filters from '@/components/Filters'
+import './index.css'
+import { cloneDeep } from 'lodash'
 
 class List extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      results: 33,
       productList: [
         // 占位用，不能删
         {
@@ -23,13 +23,168 @@ class List extends React.Component {
           price: 945
         }
       ],
-      loading: true
+      loading: true,
+      checkedList: [],
+      current: 1,
+      total: 1, // 总页数
+      results: 33 // 总数据条数
     }
+    this.filterList = [
+      {
+        name: 'AGE',
+        list: [
+          {
+            label: 'Puppies (up to 10 months)',
+            value: 'Puppies (up to 10 months)'
+          },
+          {
+            label: 'Adults (1-7 years old)',
+            value: 'Adults (1-7 years old)'
+          },
+          {
+            label: 'Aging (over 7 years old)',
+            value: 'Aging (over 7 years old)'
+          }
+        ]
+      },
+      {
+        name: 'Pet size',
+        list: [
+          {
+            label: 'X-Small (up to 4 kg)',
+            value: 'X-Small (up to 4 kg)'
+          },
+          {
+            label: 'Mini (4-10 kg)',
+            value: 'Mini (4-10 kg)'
+          },
+          {
+            label: 'Medium (10-25 kg)',
+            value: 'Medium (10-25 kg)'
+          },
+          {
+            label: 'Maxi (25-45 kg)',
+            value: 'Maxi (25-45 kg)'
+          },
+          {
+            label: 'Giant (over 45 kg)',
+            value: 'Giant (over 45 kg)'
+          }
+        ]
+      },
+      {
+        name: 'Breed',
+        list: [
+          {
+            label: 'Bulldog',
+            value: 'Bulldog'
+          },
+          {
+            label: 'Beagle',
+            value: 'Beagle'
+          },
+          {
+            label: 'Boxer',
+            value: 'Boxer'
+          },
+          {
+            label: 'West Highland White Terrier',
+            value: 'West Highland White Terrier'
+          },
+          {
+            label: 'Dalmatian',
+            value: 'Dalmatian'
+          },
+          {
+            label: 'Jack Russell Terrier',
+            value: 'Jack Russell Terrier'
+          },
+          {
+            label: 'Golden retriever',
+            value: 'Golden retriever'
+          },
+          {
+            label: 'Labrador retriever',
+            value: 'Labrador retriever'
+          },
+          {
+            label: 'Pug',
+            value: 'Pug'
+          },
+          {
+            label: 'German Shepherd',
+            value: 'German Shepherd'
+          },
+          {
+            label: 'Rottweiler',
+            value: 'Rottweiler'
+          },
+          {
+            label: 'Dachshund standard smooth-haired',
+            value: 'Dachshund standard smooth-haired'
+          },
+          {
+            label: 'Shih Tzu',
+            value: 'Shih Tzu'
+          },
+          {
+            label: 'French Bulldog',
+            value: 'French Bulldog'
+          },
+          {
+            label: 'Yorkshire Terrier',
+            value: 'Yorkshire Terrier'
+          },
+          {
+            label: 'Chihuahua longhair',
+            value: 'Chihuahua longhair'
+          },
+          {
+            label: 'Mixed Breed or Outbred',
+            value: 'Mixed Breed or Outbred'
+          }
+        ]
+      },
+      {
+        name: 'Feed type',
+        list: [
+          {
+            label: 'Dry',
+            value: 'Dry'
+          },
+          {
+            label: 'Wet',
+            value: 'Wet'
+          }
+        ]
+      },
+      {
+        name: 'Sterilization',
+        list: [
+          {
+            label: 'Yes',
+            value: 'Yes'
+          },
+          {
+            label: 'No',
+            value: 'No'
+          }
+        ]
+      }
+    ]
+    this.handleFilterChange = this.handleFilterChange.bind(this)
+    this.handleRemove = this.handleRemove.bind(this)
+    this.handleCurrentPageNumChange = this.handleCurrentPageNumChange.bind(this)
+    this.handlePrevPage = this.handlePrevPage.bind(this)
+    this.handleNextPage = this.handleNextPage.bind(this)
   }
   componentDidMount () {
     this.getProductList()
   }
   getProductList () {
+    // 搜索参数
+    const { checkedList, current } = this.state;
+    console.log('query getProductList interface', checkedList, current)
     let res = [
       {
         pid: '3003_RU',
@@ -84,8 +239,56 @@ class List extends React.Component {
       })
     }, 1000)
   }
+  handleFilterChange (value) {
+    const { checkedList } = this.state;
+    let checkedListCopy = cloneDeep(checkedList);
+    let index = checkedListCopy.indexOf(value);
+    if (index > -1) {
+      checkedListCopy.splice(index, 1)
+    } else {
+      checkedListCopy.push(value)
+    }
+    this.setState({ checkedList: checkedListCopy }, () => this.getProductList())
+  }
+  handleRemove (val) {
+    const { checkedList } = this.state;
+    let checkedListCopy = cloneDeep(checkedList);
+    let res
+    if (val == 'all') {
+      res = []
+    } else {
+      checkedListCopy.splice(checkedListCopy.indexOf(val), 1)
+      res = checkedListCopy
+    }
+    this.setState({ checkedList: res }, () => this.getProductList())
+
+  }
+  handleCurrentPageNumChange (e) {
+    let tmp = parseInt(e.target.value)
+    if (isNaN(tmp)) {
+      tmp = 1
+    }
+    if (tmp > this.state.total) {
+      tmp = this.state.total
+    }
+    this.setState({ current: tmp }, () => this.getProductList())
+  }
+  handlePrevPage () {
+    const { current } = this.state
+    if (current <= 1) {
+      return
+    }
+    this.setState({ current: current - 1 }, () => this.getProductList())
+  }
+  handleNextPage () {
+    const { current, total } = this.state
+    if (current >= total) {
+      return
+    }
+    this.setState({ current: current + 1 }, () => this.getProductList())
+  }
   render () {
-    const { results, productList, loading } = this.state
+    const { results, productList, loading, checkedList, current, total } = this.state
     return (
       <div>
         <Header />
@@ -130,7 +333,7 @@ class List extends React.Component {
                   <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
                     data-filter-trigger="filter-example">Filters</button>
                   <aside className="rc-filters" data-filter-target="filter-example">
-                    <Filters />
+                    <Filters onChange={this.handleFilterChange} onRemove={this.handleRemove} filterList={this.filterList} checkedList={checkedList} />
                   </aside>
                 </div>
                 <div className="rc-column rc-triple-width">
@@ -172,14 +375,14 @@ class List extends React.Component {
                       </div>
                     ))}
                     <div className="grid-footer rc-full-width">
-                      <nav className="rc-pagination" data-pagination="" data-pages="10">
-                        <form action="#" method="POST" className="rc-pagination__form">
+                      <nav className="rc-pagination" data-pagination="" data-pages={total}>
+                        <form className="rc-pagination__form">
                           <button
                             className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-                            aria-label="Previous step" data-prev="" type="submit"></button>
+                            aria-label="Previous step" data-prev="" type="submit" onClick={this.handlePrevPage}></button>
                           <div className="rc-pagination__steps">
-                            <input type="text" className="rc-pagination__step rc-pagination__step--current" value="1"
-                              aria-label="Current step" />
+                            <input type="text" className="rc-pagination__step rc-pagination__step--current" value={current}
+                              aria-label="Current step" onChange={this.handleCurrentPageNumChange} />
                             <div className="rc-pagination__step rc-pagination__step--of">
                               of
                               <span data-total-steps-label=""></span>
@@ -187,7 +390,7 @@ class List extends React.Component {
                           </div>
                           <button
                             className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-                            aria-label="Previous step" data-next="" type="submit"></button>
+                            aria-label="Previous step" data-next="" type="submit" onClick={this.handleNextPage}></button>
                         </form>
                       </nav>
                     </div>
