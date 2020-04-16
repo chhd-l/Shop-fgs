@@ -24,7 +24,7 @@ class Details extends React.Component {
       quantityMinLimit: 1,
       instockStatus: true,
       currentPrice: 0,
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : null
+      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
     this.changeAmount = this.changeAmount.bind(this)
     this.handleAmountChange = this.handleAmountChange.bind(this)
