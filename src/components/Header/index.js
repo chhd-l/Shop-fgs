@@ -15,7 +15,7 @@ function Header () {
           </li> */}
         </ul>
 
-        <a href="/" className="rc-header__brand">
+        <a href="#/" className="rc-header__brand">
           <span className="rc-screen-reader-text">Royal Canin Logo</span>
           <object id="header__logo" className="rc-header__logo" type="image/svg+xml"
             data="https://d1a19ys8w1wkc1.cloudfront.net/logo--animated.svg?v=8-7-8" data-js-import-interactive-svg>
@@ -57,7 +57,7 @@ function Header () {
           <li className="rc-list__item">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
               <li className="rc-list__item">
-                <a className="rc-list__header" href="/getting-started/overview/about_design_language.html">CATS</a>
+                <a className="rc-list__header" href="#/list/cats">CATS</a>
               </li>
             </ul>
           </li>
@@ -66,7 +66,7 @@ function Header () {
           <li className="rc-list__item">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
               <li className="rc-list__item">
-                <a className="rc-list__header" href="/getting-started/support/submit_an_issue.html">DOGS</a>
+                <a className="rc-list__header" href="#/list/dogs">DOGS</a>
               </li>
             </ul>
           </li>
@@ -74,7 +74,7 @@ function Header () {
           <li className="rc-list__item">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
               <li className="rc-list__item">
-                <a className="rc-list__header" href="/ui-framework/brand_identity/colour.html">ABOUT US</a>
+                <a className="rc-list__header" href="#/">ABOUT US</a>
               </li>
             </ul>
           </li>

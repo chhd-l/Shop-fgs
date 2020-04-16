@@ -1,73 +1,28 @@
 import React from 'react'
-import '../../assets/css/search.css'
-import { cloneDeep } from 'lodash'
+import '@/assets/css/search.css'
 
 class Filter extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { checkedList: [] }
+    this.matchParentCatogery = this.matchParentCatogery.bind(this)
   }
-  handleChange (value) {
-    const { checkedList } = this.state
-    let checkedListCopy = cloneDeep(checkedList)
-    let index = checkedListCopy.indexOf(value);
-    if (index > -1) {
-      checkedListCopy.splice(index, 1)
-    } else {
-      checkedListCopy.push(value)
-    }
-
-    this.setState({
-      checkedList: []
+  get computedCheckList () {
+    return this.props.checkedList.map(v => {
+      return { parentCatogery: this.matchParentCatogery(v), value: v }
     })
-    this.checkedList.push(value)
+  }
+  matchParentCatogery (val) {
+    let res = ''
+    this.props.filterList.forEach(item => {
+      if (item.list.find(l => l.value == val)) {
+        res = item.name.toLocaleLowerCase()
+      }
+    });
+    return res
   }
   render () {
-    // const { filterList } = this.props
-    const filterList = [
-      {
-        name: 'AGE',
-        list: [
-          {
-            label: 'Puppies (up to 10 months)',
-            value: 'Puppies (up to 10 months)'
-          },
-          {
-            label: 'Adults (1-7 years old)',
-            value: 'Adults (1-7 years old)'
-          },
-          {
-            label: 'Aging (over 7 years old)',
-            value: 'Aging (over 7 years old)'
-          }
-        ]
-      },
-      {
-        name: 'Pet size',
-        list: [
-          {
-            label: 'X-Small (up to 4 kg)',
-            value: 'X-Small (up to 4 kg)'
-          },
-          {
-            label: 'Mini (4-10 kg)',
-            value: 'Mini (4-10 kg)'
-          },
-          {
-            label: 'Medium (10-25 kg)',
-            value: 'Medium (10-25 kg)'
-          },
-          {
-            label: 'Maxi (25-45 kg)',
-            value: 'Maxi (25-45 kg)'
-          },
-          {
-            label: 'Giant (over 45 kg)',
-            value: 'Giant (over 45 kg)'
-          }
-        ]
-      }
-    ]
+    const { computedCheckList } = this
+    const { onChange, onRemove, filterList, checkedList } = this.props
     return (
       <form className="rc-filters__form" action="" name="example-filter">
         <header className="rc-filters__header">
@@ -77,6 +32,21 @@ class Filter extends React.Component {
             <span className="md-up rc-icon rc-filter--xs rc-iconography"></span>
             Filters
           </h1>
+          <div className="filter-bar">
+            <ul>
+              {computedCheckList.map((v, i) => (
+                <li className="filter-value" title={`Sorted by ${v.parentCatogery}: ${v.value}`} key={v + i}>
+                  {v.value}
+                  <i className="filter-remove" onClick={onRemove.bind(this, v.value)}></i>
+                </li>
+              ))}
+            </ul>
+          </div>
+          {checkedList.length ?
+            <div className="text-center rc-margin-y--xs rc-padding-bottom--xs">
+              <a className="rc-styled-link js-clear-filter" onClick={onRemove.bind(this, 'all')}>Remove all filters</a>
+            </div> : ''}
+
         </header>
 
         <dl data-toggle-group="" data-toggle-effect="rc-expand--vertical" role="presentation" className="rc-margin--none">
@@ -90,7 +60,8 @@ class Filter extends React.Component {
                   <li title={`Sort by ${f.name.toLocaleLowerCase()}: ${l.label}`} className="rc-list__item" key={l.label + i}>
                     <div className="rc-input rc-input--stacked">
                       <input className="rc-input__checkbox" id={`input-${index}-${i}`} type="checkbox" name="checkbox"
-                        value={l.value} onChange={this.handleChange.bind(this, l.value)} />
+                        checked={checkedList.indexOf(l.value) > -1}
+                        value={l.value} onChange={onChange.bind(this, l.value)} />
                       <label className="rc-input__label--inline" htmlFor={`input-${index}-${i}`}>
                         {l.label}
                       </label>

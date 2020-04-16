@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../assets/css/heroCarousel.css'
+import '@/assets/css/heroCarousel.css'
 
 function HeroCarousel () {
   return (
@@ -10,7 +10,7 @@ function HeroCarousel () {
             <div className="d-flex align-items-center hero-carousel__slide__inner flex-column-reverse flex-column flex-md-row">
               <div className="hero-carousel__slide__video">
                 <img src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw994156b8/homepage/01_Slider_img_Mobile@2x.jpg?sw=414&amp;sfrm=png" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw994156b8/homepage/01_Slider_img_Mobile@2x.jpg?sw=414&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw994156b8/homepage/01_Slider_img_Mobile@2x.jpg?sw=828&amp;sfrm=png 2x" alt="cat and dog mobile hero image" title="cat and dog mobile hero image" />
-                <video autoplay="" muted="" loop="" id="myVideo" poster="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw92b314b6/homepage/01_Slider_img_Desktop.jpg?sw=1400&amp;sfrm=png">
+                <video autoPlay="" muted="" loop="" id="myVideo" poster="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw92b314b6/homepage/01_Slider_img_Desktop.jpg?sw=1400&amp;sfrm=png">
                   <source src="https://www.shop.royal-canin.ru/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw346c3179/homepage/Home page video_7s.mp4" type="video/mp4" />
                 </video>
               </div>
