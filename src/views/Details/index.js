@@ -4,92 +4,161 @@ import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import InterestedIn from '@/components/InterestedIn'
 import './index.css'
+import { cloneDeep } from 'lodash'
 
 class Details extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       details: {
-        pid: '',
+        id: '',
         name: '',
-        imgSrc: '',
-        imgSrcSet: '',
+        url: '',
+        img: '',
         description: '',
-        price: 0,
-        reference: 0
+        reference: 0,
+        sizeList: []
       },
-      amount: 1,
-      amountMaxLimit: 10,
-      amountMinLimit: 1
+      quantity: 1,
+      quantityMaxLimit: 10,
+      quantityMinLimit: 1,
+      instockStatus: true,
+      currentPrice: 0,
+      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : null
     }
     this.changeAmount = this.changeAmount.bind(this)
     this.handleAmountChange = this.handleAmountChange.bind(this)
+    this.handleChooseSize = this.handleChooseSize.bind(this)
+    this.hanldeAddToCart = this.hanldeAddToCart.bind(this)
   }
   componentDidMount () {
     this.setState({
-      pid: Object.assign({}, this.state.details, { pid: this.props.match.params.id })
+      id: this.props.match.params.id
     }, () => this.getDetails())
   }
   getDetails () {
-    const { pid } = this.state
+    const { id } = this.state
     let res = {
-      pid,
+      id: id,
       name: 'Miniddd adult',
-      imgSrc: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-      imgSrcSet: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
-      description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-      price: 945
+      url: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
+      img: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
+      description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years. MINI Adult is specially designed for dogs of small breeds (weighing from 4 to 10 kg). In the nutrition of dogs of small breeds, not only the adapted croquet size is important. They need more energy than large dogs, their growth period is shorter and their growth is more intense. As a rule, they live longer than large dogs, and are more picky in their diet.<ul><li>dsdsds</li></ul>',
+      reference: 2323,
+      sizeList: [
+        {
+          label: '2.00',
+          price: 100,
+          originalPrice: 120,
+          unit: 'kg',
+          selected: true
+        },
+        {
+          label: '4.00',
+          price: 300,
+          originalPrice: 320,
+          unit: 'kg',
+          selected: false
+        },
+        {
+          label: '6.00',
+          price: 500,
+          originalPrice: 530,
+          unit: 'kg',
+          selected: false
+        }
+      ]
     }
     setTimeout(() => {
       this.setState({
-        details: Object.assign({}, res)
+        details: Object.assign({}, this.state.details, res),
+        currentPrice: res.sizeList[1].price * this.state.quantity
       })
     }, 1000)
   }
   changeAmount (type) {
     if (!type) return
-    const { amount, amountMaxLimit } = this.state
+    const { quantity, quantityMaxLimit } = this.state
     let res
     if (type === 'minus') {
-      if (amount <= 1) {
+      if (quantity <= 1) {
         res = 1
       } else {
-        res = amount - 1
+        res = quantity - 1
       }
     } else {
-      if (amount >= amountMaxLimit) {
-        res = amountMaxLimit
+      if (quantity >= quantityMaxLimit) {
+        res = quantityMaxLimit
       } else {
-        res = amount + 1
+        res = quantity + 1
       }
     }
     this.setState({
-      amount: res
+      quantity: res
     })
   }
   handleAmountChange (e) {
     const val = e.target.value
     if (val === '') {
-      this.setState({ amount: val })
+      this.setState({ quantity: val })
     } else {
-      const { amountMaxLimit, amountMinLimit } = this.state
+      const { quantityMaxLimit, quantityMinLimit } = this.state
       let tmp = parseInt(val)
       if (isNaN(tmp)) {
         tmp = 1
       }
-      if (tmp > amountMaxLimit) {
-        tmp = amountMaxLimit
-      } else if (tmp < amountMinLimit) {
-        tmp = amountMinLimit
+      if (tmp > quantityMaxLimit) {
+        tmp = quantityMaxLimit
+      } else if (tmp < quantityMinLimit) {
+        tmp = quantityMinLimit
       }
-      this.setState({ amount: tmp })
+      this.setState({ quantity: tmp })
     }
   }
+  handleChooseSize (data, index) {
+    const { sizeList } = this.state.details
+    let list = cloneDeep(sizeList)
+    let ret = list.map((elem, indx) => {
+      if (indx === index) {
+        elem = { ...elem, selected: true }
+      } else {
+        elem = { ...elem, selected: false }
+      }
+      return elem
+    })
+    this.setState({
+      currentPrice: data.price,
+      details: Object.assign({}, this.state.details, { sizeList: ret })
+    })
+  }
+  hanldeAddToCart () {
+    const { quantity, cartData } = this.state
+    const { id, sizeList } = this.state.details
+    let newCartData
+
+    if (cartData) {
+      newCartData = cloneDeep(cartData)
+      let targetData = newCartData.find(c => c.id === id)
+      if (targetData && (sizeList.findIndex(l => l.selected) === targetData.sizeList.findIndex(s => s.selected))) {
+        targetData.quantity += quantity
+      } else {
+        newCartData.push(Object.assign({}, this.state.details, { quantity: this.state.quantity }))
+      }
+    } else {
+      newCartData = []
+      newCartData.push(Object.assign({}, this.state.details, { quantity: this.state.quantity }))
+    }
+    localStorage.setItem('rc-cart-data', JSON.stringify(newCartData))
+    this.setState({
+      cartData: newCartData
+    })
+  }
   render () {
-    const { details, amount, amountMaxLimit, amountMinLimit } = this.state
+    const createMarkup = text => ({ __html: text });
+    const { details, quantity, quantityMaxLimit, quantityMinLimit, instockStatus, currentPrice, cartData } = this.state
     return (
       <div>
-        <Header />
+        <Header cartData={cartData} />
         <main className="rc-content--fixed-header">
           <div className="product-detail product-wrapper rc-bg-colour--brand3">
             <div className="rc-max-width--xl">
@@ -103,8 +172,8 @@ class Details extends React.Component {
                         <div data-js-carousel="" className="rc-carousel rc-carousel__gallery-thumbnails">
                           <div className="rc-carousel__img">
                             <img className="w-100 loaded tns-complete"
-                              src={details.imgSrc}
-                              srcSet={details.imgSrcSet}
+                              src={details.url}
+                              srcSet={details.img}
                               alt={details.name}
                               title={details.name} />
                           </div>
@@ -123,14 +192,12 @@ class Details extends React.Component {
                         <h3>
                           <div className="rating-stars hidden-lg-down">
                             <div className="product-number-rating clearfix">
-
                               <div className="ratings pull-left">
                               </div>
                             </div>
                           </div>
                         </h3>
-                        <div className="description">
-                          {details.description}
+                        <div className="description" dangerouslySetInnerHTML={createMarkup(details.description)}>
                           {/* <ul>
                             <li>Helps maintain optimal weight.</li>
                             <li>High palatability: even for fastidious dogs</li>
@@ -158,7 +225,7 @@ class Details extends React.Component {
                                   <span>
                                     <span>
                                       <span className="sales">
-                                        <span className="value" content="3369.00">3 369 ₽</span>
+                                        <span className="value" content="3369.00">{currentPrice} ₽</span>
                                       </span>
                                     </span>
                                   </span>
@@ -173,43 +240,26 @@ class Details extends React.Component {
                                       <div data-attr="size">
                                         <div>
                                           <div className="rc-swatch __select-size" id="id-single-select-size">
-                                            <div className="rc-swatch__item"
-                                              data-url="https://www.shop.royal-canin.ru/on/demandware.store/Sites-RU-Site/ru_RU/Product-Variation?dwvar_3001__RU_size=2.00&amp;pid=3001_RU&amp;quantity=1"
-                                              data-attr-value="2.00"
-                                              value="https://www.shop.royal-canin.ru/on/demandware.store/Sites-RU-Site/ru_RU/Product-Variation?dwvar_3001__RU_size=2.00&amp;pid=3001_RU&amp;quantity=1">
-                                              <span>
-                                                2.00<i>kg</i>
-                                              </span>
-                                            </div>
-                                            <div className="rc-swatch__item"
-                                              data-url="https://www.shop.royal-canin.ru/on/demandware.store/Sites-RU-Site/ru_RU/Product-Variation?dwvar_3001__RU_size=4.00&amp;pid=3001_RU&amp;quantity=1"
-                                              data-attr-value="4.00"
-                                              value="https://www.shop.royal-canin.ru/on/demandware.store/Sites-RU-Site/ru_RU/Product-Variation?dwvar_3001__RU_size=&amp;pid=3001_RU&amp;quantity=1">
-                                              <span>
-                                                4.00<i>kg</i>
-                                              </span>
-                                            </div>
-                                            <div className="rc-swatch__item"
-                                              data-url="https://www.shop.royal-canin.ru/on/demandware.store/Sites-RU-Site/ru_RU/Product-Variation?dwvar_3001__RU_size=8.00&amp;pid=3001_RU&amp;quantity=1"
-                                              data-attr-value="8.00"
-                                              value="https://www.shop.royal-canin.ru/on/demandware.store/Sites-RU-Site/ru_RU/Product-Variation?dwvar_3001__RU_size=8.00&amp;pid=3001_RU&amp;quantity=1">
-                                              <span>
-                                                8.00<i>kg</i>
-                                              </span>
-                                            </div>
+                                            {details.sizeList.map((item, i) => (
+                                              <div className={['rc-swatch__item', item.selected ? 'selected' : ''].join(' ')} key={i} onClick={() => this.handleChooseSize(item, i)}>
+                                                <span>
+                                                  {item.label}<i>{item.unit}</i>
+                                                </span>
+                                              </div>
+                                            ))}
                                           </div>
                                         </div>
                                       </div>
                                     </div>
 
-                                    <div class="quantity-width start-lines" data-attr="size">
-                                      <div class="quantity d-flex justify-content-between align-items-center">
+                                    <div className="quantity-width start-lines" data-attr="size">
+                                      <div className="quantity d-flex justify-content-between align-items-center">
                                         <span>Amount:</span>
                                         <input type="hidden" id="invalid-quantity" value="Пожалуйста, введите правильный номер." />
-                                        <div class="rc-quantity text-right d-flex justify-content-end">
-                                          <span class="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus" onClick={() => this.changeAmount('minus')}></span>
-                                          <input class="rc-quantity__input" id="quantity" name="quantity" type="number" value={amount} min={amountMinLimit} max={amountMaxLimit} onChange={this.handleAmountChange} maxlength="2" />
-                                          <span class="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus" onClick={() => this.changeAmount('plus')}></span>
+                                        <div className="rc-quantity text-right d-flex justify-content-end">
+                                          <span className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus" onClick={() => this.changeAmount('minus')}></span>
+                                          <input className="rc-quantity__input" id="quantity" name="quantity" type="number" value={quantity} min={quantityMinLimit} max={quantityMaxLimit} onChange={this.handleAmountChange} maxLength="2" />
+                                          <span className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus" onClick={() => this.changeAmount('plus')}></span>
                                         </div>
                                       </div>
                                     </div>
@@ -219,30 +269,24 @@ class Details extends React.Component {
                                     <div className="align-left flex">
                                       <div className="stock__wrapper">
                                         <div className="stock">
-                                          <label className="availability instock ">
-                                          {/* <label className="availability outofstock"> */}
+                                          <label className={['availability', instockStatus ? 'instock' : 'outofstock'].join(' ')} >
                                             <span className="title-select">
                                               Availability:
                                             </span>
                                           </label>
                                           <span className="availability-msg" data-ready-to-order="true">
-                                            In stock
-                                            {/* <div className="out-stock">In stock</div> */}
+                                            <div className={[instockStatus ? '' : 'out-stock'].join(' ')}>In stock</div>
                                           </span>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                  <div
-                                    className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                  <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                     <div className="cart-and-ipay">
-                                      <input type="hidden" className="add-to-cart-url"
-                                        value="/on/demandware.store/Sites-RU-Site/ru_RU/Cart-AddProduct" />
-                                      <button className="add-to-cart rc-btn rc-btn--one rc-full-width" data-loc="addToCart"
-                                        data-pid="3001_RU">
+                                      <button className="add-to-cart rc-btn rc-btn--one rc-full-width" data-loc="addToCart" onClick={this.hanldeAddToCart}>
                                         <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
-                                    Add to Cart
-                                  </button>
+                                        Add to Cart
+                                      </button>
                                     </div>
                                   </div>
                                 </div>
