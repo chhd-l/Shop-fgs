@@ -1,6 +1,9 @@
 import React from 'react';
 
 class Header extends React.Component {
+  static defaultProps = {
+    cartData: []
+  }
   get totalNum () {
     return this.props.cartData.reduce((pre, cur) => { return pre + cur.quantity }, 0)
   }
@@ -64,7 +67,7 @@ class Header extends React.Component {
                 </div>
               </div> */}
                 {/* minicart-fade */}
-                <div class="popover popover-bottom show" style={{display: 'none'}}>
+                <div class="popover popover-bottom show" style={{ display: 'none' }}>
                   <div class="container cart">
                     <div>
                       <div class="minicart__header cart--head small">
