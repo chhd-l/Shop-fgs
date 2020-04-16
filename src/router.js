@@ -11,11 +11,15 @@ const BasicRoute = () => (
   <HashRouter>
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route exact
+      <Route
+        exact
         path="/list/:type"
         render={(props) => <List key={props.match.params.type} {...props} />}
       />
-      <Route exact path="/details/:id" component={Details} />
+      <Route
+        exact
+        path="/details/:id"
+        render={(props) => <Details key={props.match.params.id} {...props} />} />
       <Route exact path="/buy" component={Buy} />
       <Route exact path="/cart" component={Cart} />
     </Switch>

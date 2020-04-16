@@ -860,7 +860,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
 
 .visual__ccv:after {
   content: "";
-  background: url() no-repeat;
+  background-repeat: no-repeat;
   width: 21px;
   height: 15px;
   position: absolute;
