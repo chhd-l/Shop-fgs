@@ -11,7 +11,6 @@ class Cart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      results: 33,
       productList: [
         {
           id: "3003_RU",
@@ -54,7 +53,55 @@ class Cart extends React.Component {
       modalShow: false,
     };
   }
-
+  changeCache() {
+    localStorage.setItem('rc-cart-data', JSON.stringify(this.state.productList))
+  }
+  addQuantity(item) {
+    item.quantity++;
+    this.setState({
+      productList: this.state.productList,
+    });
+    this.changeCache()
+  }
+  subQuantity(item) {
+    if (item.quantity > 1) {
+      item.quantity--;
+      this.setState({
+        productList: this.state.productList,
+      });
+    }
+    this.changeCache()
+  }
+  closeModal() {
+    this.setState({
+      currentProduct: null,
+      modalShow: false,
+    });
+  }
+  deleteProduct() {
+    let { currentProduct, productList } = this.state;
+    this.state.productList = productList.filter(
+      (el) => el.id !== currentProduct.id
+    );
+    this.changeCache()
+    this.closeModal()
+  }
+  changeSize(pItem, sizeItem) {
+    pItem.sizeList.map(
+      (el) => (el.selected = false)
+    );
+    sizeItem.selected = true;
+    this.setState({
+      productList: this.state.productList,
+    });
+    this.changeCache()
+  }
+  componentDidMount() {
+    let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
+    this.setState({
+      productList: productList,
+    });
+  }
   getProducts(plist) {
     const Lists = plist.map((pitem, index) => (
       <div
@@ -106,15 +153,7 @@ class Cart extends React.Component {
                                 className={`rc-swatch__item ${
                                   sizeItem.selected ? "selected" : ""
                                 }`}
-                                onClick={() => {
-                                  pitem.sizeList.map(
-                                    (el) => (el.selected = false)
-                                  );
-                                  sizeItem.selected = true;
-                                  this.setState({
-                                    productList: this.state.productList,
-                                  });
-                                }}
+                                onClick={() => this.changeSize(pitem, sizeItem)}
                               >
                                 <span>
                                   {sizeItem.label + " " + sizeItem.unit}
@@ -134,14 +173,7 @@ class Cart extends React.Component {
                       <div class="rc-quantity d-flex">
                         <span
                           class=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                          onClick={() => {
-                            if (pitem.quantity > 1) {
-                              pitem.quantity--;
-                              this.setState({
-                                productList: this.state.productList,
-                              });
-                            }
-                          }}
+                          onClick={() => this.subQuantity(pitem)}
                         ></span>
                         <input
                           class="rc-quantity__input"
@@ -156,12 +188,7 @@ class Cart extends React.Component {
                         <span
                           class="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                           data-quantity-error-msg="Вы не можете заказать больше 10"
-                          onClick={() => {
-                            pitem.quantity++;
-                            this.setState({
-                              productList: this.state.productList,
-                            });
-                          }}
+                          onClick={() => this.addQuantity(pitem)}
                         ></span>
                       </div>
                     </div>
@@ -194,6 +221,7 @@ class Cart extends React.Component {
   }
   render() {
     const { results, productList, loading } = this.state;
+
     const List = this.getProducts(this.state.productList);
     let total = 0;
     this.state.productList.map((pitem) => {
@@ -332,12 +360,7 @@ class Cart extends React.Component {
                   class="close"
                   data-dismiss="modal"
                   aria-label="Close"
-                  onClick={() => {
-                    this.setState({
-                      currentProduct: null,
-                      modalShow: false,
-                    });
-                  }}
+                  onClick={() => this.closeModal()}
                 >
                   <span aria-hidden="true">
                     <font>
@@ -354,7 +377,11 @@ class Cart extends React.Component {
                 </font>
                 <p class="product-to-remove">
                   <font>
-                    <font>{this.state.currentProduct?this.state.currentProduct.name: ''}</font>
+                    <font>
+                      {this.state.currentProduct
+                        ? this.state.currentProduct.name
+                        : ""}
+                    </font>
                   </font>
                 </p>
               </div>
@@ -363,12 +390,7 @@ class Cart extends React.Component {
                   type="button"
                   class="btn btn-outline-primary"
                   data-dismiss="modal"
-                  onClick={() => {
-                    this.setState({
-                      currentProduct: null,
-                      modalShow: false,
-                    });
-                  }}
+                  onClick={() => this.closeModal()}
                 >
                   <font>
                     <font>Cancel</font>
@@ -378,14 +400,7 @@ class Cart extends React.Component {
                   type="button"
                   class="btn btn-primary cart-delete-confirmation-btn"
                   data-dismiss="modal"
-                  onClick={() => {
-                    let {currentProduct, productList} = this.state
-                    this.state.productList = productList.filter(el => el.id !== currentProduct.id)
-                    this.setState({
-                      currentProduct: null,
-                      modalShow: false,
-                    });
-                  }}
+                  onClick={() => this.deleteProduct()}
                 >
                   <font>
                     <font>Yes</font>
