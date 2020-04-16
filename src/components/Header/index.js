@@ -2,13 +2,20 @@ import React from 'react';
 
 class Header extends React.Component {
   static defaultProps = {
-    cartData: []
+    cartData: [],
+    showMiniIcons: false
+  }
+  constructor(props) {
+    super(props)
+    this.state = { showCart: false }
+    this.handleMouseOver = this.handleMouseOver.bind(this)
+    this.handleMouseOut = this.handleMouseOut.bind(this)
   }
   get totalNum () {
     return this.props.cartData.reduce((pre, cur) => { return pre + cur.quantity }, 0)
   }
   get totalInfo () {
-    let num = this.totalNum
+    let num = this.props.cartData.length
     return num > 1 ? `${num} items` : `${num} item`
   }
   get totalPrice () {
@@ -17,6 +24,22 @@ class Header extends React.Component {
       ret += item.quantity * item.sizeList.find(s => s.selected).price
     })
     return ret
+  }
+  handleMouseOver () {
+    this.flag = 1
+    this.setState({
+      showCart: true
+    })
+  }
+  handleMouseOut () {
+    this.flag = 0
+    setTimeout(() => {
+      if (!this.flag) {
+        this.setState({
+          showCart: false
+        })
+      }
+    }, 500)
   }
   render () {
     const { cartData } = this.props
@@ -44,103 +67,107 @@ class Header extends React.Component {
           </a>
 
           <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right" role="menubar">
-            <li className="rc-list__item">
-              <button data-js-trigger="search-bar" className="rc-btn rc-btn--icon rc-icon rc-search--xs rc-iconography"
-                aria-label="Search">
-                <span className="rc-screen-reader-text">Search</span>
-              </button>
-              <span class="minicart inlineblock" data-action-url="/on/demandware.store/Sites-RU-Site/ru_RU/Cart-MiniCartShow">
-                <a class="minicart-link" data-loc="miniCartOrderBtn" href="#/cart" title="Basket">
-                  <i class="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
-                  <span class="minicart-quantity">{this.totalNum}</span>
-                </a>
-                {/* <div class="popover popover-bottom"></div> */}
-                {/* <div class="popover popover-bottom show">
-                <div class="container cart">
-                  <div class="minicart__footer__msg text-center minicart-padding">
-                    <span class="minicart__pointer"></span>
-                    <div class="minicart__empty">
-                      <img class="cart-img" src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwbedbf812/images/cart.png" alt="Интернет-магазин ROYAL CANIN®" />
-                      <p class="rc-delta">your basket is empty</p>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-                {/* minicart-fade */}
-                <div class="popover popover-bottom show" style={{ display: 'none' }}>
-                  <div class="container cart">
-                    <div>
-                      <div class="minicart__header cart--head small">
-                        <span class="minicart__pointer"></span>
-                        <div class="d-flex minicart_freeshipping_info align-items-center">
-                          <i class="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></i>
-                          <p>Mini basket</p>
+            {this.props.showMiniIcons ?
+              <li className="rc-list__item">
+                <button data-js-trigger="search-bar" className="rc-btn rc-btn--icon rc-icon rc-search--xs rc-iconography"
+                  aria-label="Search">
+                  <span className="rc-screen-reader-text">Search</span>
+                </button>
+                <span className="minicart inlineblock" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
+                  <a className="minicart-link" data-loc="miniCartOrderBtn" href="#/cart" title="Basket">
+                    <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
+                    <span className="minicart-quantity">{this.totalNum}</span>
+                  </a>
+                  {
+                    !this.totalNum
+                      ?
+                      <div className={['popover', 'popover-bottom', this.state.showCart ? 'show' : ''].join(' ')}>
+                        <div className="container cart">
+                          <div className="minicart__footer__msg text-center minicart-padding">
+                            <span className="minicart__pointer"></span>
+                            <div className="minicart__empty">
+                              <img className="cart-img" src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwbedbf812/images/cart.png" alt="Интернет-магазин ROYAL CANIN®" />
+                              <p className="rc-delta">your basket is empty</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <div class="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
-                        <span class="rc-body rc-margin--none">Total <b class="js-update-minicart-subtotal">{this.totalPrice} ₽</b></span>
-                        <a class="rc-styled-link pull-right" href="#/cart" role="button" aria-pressed="true">Change</a>
-                      </div>
-                      <div class="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                        <miaaoauth data-oauthlogintargetendpoint="2" class="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn " aria-pressed="true">
-                          Checkout</miaaoauth>
-                      </div>
-                      <div class="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
-                        <span class="rc-meta">
-                          You have <b>{this.totalInfo}</b> in your cart</span>
-                      </div>
-                      <div class="minicart-error cart-error">
-                      </div>
-                      <div class="product-summary">
-                        {cartData.map((item, idx) => (
-                          <div class="minicart__product" key={item.id + idx}>
-                            <div>
-                              <div class="product-summary__products__item">
-                                <div class="product-line-item">
-                                  <div class="product-line-item-details d-flex flex-row">
-                                    <div class="item-image">
-                                      <img class="product-image"
-                                        src={item.url}
-                                        alt={item.name}
-                                        title={item.name} />
-                                    </div>
-                                    <div class="wrap-item-title">
-                                      <div class="item-title">
-                                        <div class="line-item-name capitalize">
-                                          <span class="light">{item.name}</span>
-                                        </div>
-                                      </div>
-                                      <div class="line-item-total-price justify-content-start pull-left">
-                                        <div class="item-attributes">
-                                          <p class="line-item-attributes">{item.sizeList.find(s => s.selected).label + item.sizeList.find(s => s.selected).unit} - {item.quantity > 1 ? `${item.quantity} products` : `${item.quantity} product`}</p>
-                                        </div>
-                                      </div>
-                                      <div class="line-item-total-price justify-content-end pull-right">
-                                        <div class="item-total-07984de212e393df75a36856b6 price relative">
-                                          <div class="strike-through non-adjusted-price">null</div>
-                                          <b class="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">3 678 ₽</b>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="item-options">
-                                  </div>
-                                  <div class="line-item-promo item-07984de212e393df75a36856b6">
-                                  </div>
-                                </div>
+                      :
+                      <div className={['popover', 'popover-bottom', this.state.showCart ? 'show' : ''].join(' ')} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
+                        <div className="container cart">
+                          <div>
+                            <div className="minicart__header cart--head small">
+                              <span className="minicart__pointer"></span>
+                              <div className="d-flex minicart_freeshipping_info align-items-center">
+                                <i className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></i>
+                                <p>Mini basket</p>
                               </div>
                             </div>
+                            <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
+                              <span className="rc-body rc-margin--none">Total <b className="js-update-minicart-subtotal">{this.totalPrice} ₽</b></span>
+                              <a className="rc-styled-link pull-right" href="#/cart" role="button" aria-pressed="true">Change</a>
+                            </div>
+                            <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
+                              <miaaoauth data-oauthlogintargetendpoint="2" className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn " aria-pressed="true">
+                                Checkout</miaaoauth>
+                            </div>
+                            <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
+                              <span className="rc-meta">
+                                You have <b>{this.totalInfo}</b> in your cart</span>
+                            </div>
+                            <div className="minicart-error cart-error">
+                            </div>
+                            <div className="product-summary limit">
+                              {cartData.map((item, idx) => (
+                                <div className="minicart__product" key={item.id + idx}>
+                                  <div>
+                                    <div className="product-summary__products__item">
+                                      <div className="product-line-item">
+                                        <div className="product-line-item-details d-flex flex-row">
+                                          <div className="item-image">
+                                            <img className="product-image"
+                                              src={item.url}
+                                              alt={item.name}
+                                              title={item.name} />
+                                          </div>
+                                          <div className="wrap-item-title">
+                                            <div className="item-title">
+                                              <div className="line-item-name capitalize">
+                                                <span className="light">{item.name}</span>
+                                              </div>
+                                            </div>
+                                            <div className="line-item-total-price justify-content-start pull-left">
+                                              <div className="item-attributes">
+                                                <p className="line-item-attributes">{item.sizeList.find(s => s.selected).label + item.sizeList.find(s => s.selected).unit} - {item.quantity > 1 ? `${item.quantity} products` : `${item.quantity} product`}</p>
+                                              </div>
+                                            </div>
+                                            <div className="line-item-total-price justify-content-end pull-right">
+                                              <div className="item-total-07984de212e393df75a36856b6 price relative">
+                                                <div className="strike-through non-adjusted-price">null</div>
+                                                <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">{item.sizeList.find(s => s.selected).price * item.quantity} ₽</b>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="item-options">
+                                        </div>
+                                        <div className="line-item-promo item-07984de212e393df75a36856b6">
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
 
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                        ))}
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </span>
-            </li>
+                  }
+                </span>
+              </li>
+              : null}
           </ul>
-
           <form className="rc-header__search-bar rc-hidden" data-js-target="search-bar" autoComplete="off">
             <button className="rc-btn rc-btn--icon rc-icon rc-search--xs rc-iconography rc-stick-left rc-vertical-align"
               type="submit" aria-label="Search">

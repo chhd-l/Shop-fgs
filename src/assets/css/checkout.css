@@ -214,10 +214,13 @@
   padding: 0 1px
 }
 
-.product-summary__products__item {
+.shipping__address .product-summary__products__item {
   padding-bottom: 1rem;
   margin-bottom: 1rem;
   border-bottom: 1px solid #d7d7d7
+}
+.product-summary__products__item {
+
 }
 
 .product-summary__products__item .item-image {

@@ -152,13 +152,17 @@ class Details extends React.Component {
     this.setState({
       cartData: newCartData
     })
+    this.refs.header.handleMouseOver()
+    setTimeout(() => {
+      this.refs.header.handleMouseOut()
+    }, 1000)
   }
   render () {
     const createMarkup = text => ({ __html: text });
     const { details, quantity, quantityMaxLimit, quantityMinLimit, instockStatus, currentPrice, cartData } = this.state
     return (
       <div>
-        <Header cartData={cartData} />
+        <Header ref="header" cartData={cartData} showMiniIcons={true} />
         <main className="rc-content--fixed-header">
           <div className="product-detail product-wrapper rc-bg-colour--brand3">
             <div className="rc-max-width--xl">

@@ -29,7 +29,8 @@ class List extends React.Component {
       checkedList: [],
       current: 1,
       total: 6, // 总页数
-      results: 33 // 总数据条数
+      results: 33, // 总数据条数
+      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
     this.breadCrumbsData = []
     this.filterList = []
@@ -178,10 +179,10 @@ class List extends React.Component {
     this.setState({ current: res }, () => this.getProductList())
   }
   render () {
-    const { results, productList, loading, checkedList, current, total, titleData } = this.state
+    const { results, productList, loading, checkedList, current, total, titleData, cartData } = this.state
     return (
       <div>
-        <Header />
+        <Header cartData={cartData} showMiniIcons={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs data={this.breadCrumbsData} />
           {titleData ?
