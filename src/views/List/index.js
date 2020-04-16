@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import MegaMenu from '@/components/MegaMenu'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import Filters from '@/components/Filters'
 import './index.css'
@@ -20,7 +19,6 @@ class List extends React.Component {
         {
           pid: '3003_RU',
           name: 'Mini adult',
-          href: '#',
           imgSrc: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
           imgSrcSet: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
           description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
@@ -84,7 +82,6 @@ class List extends React.Component {
       {
         pid: '3003_RU',
         name: 'Mini adult',
-        href: '#',
         imgSrc: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
         imgSrcSet: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
         description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
@@ -93,7 +90,6 @@ class List extends React.Component {
       {
         pid: '3001_RU',
         name: 'Mini adult',
-        href: '#',
         imgSrc: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
         imgSrcSet: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
         description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
@@ -102,7 +98,6 @@ class List extends React.Component {
       {
         pid: '3005_RU',
         name: 'Mini adult',
-        href: '#',
         imgSrc: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
         imgSrcSet: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
         description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
@@ -111,7 +106,6 @@ class List extends React.Component {
       {
         pid: '3065_RU',
         name: 'Mini adult',
-        href: '#',
         imgSrc: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
         imgSrcSet: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
         description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
@@ -120,7 +114,6 @@ class List extends React.Component {
       {
         pid: '3075_RU',
         name: 'Mini adult',
-        href: '#',
         imgSrc: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
         imgSrcSet: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
         description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
@@ -185,12 +178,10 @@ class List extends React.Component {
     this.setState({ current: res }, () => this.getProductList())
   }
   render () {
-    const { type, results, productList, loading, checkedList, current, total, titleData } = this.state
+    const { results, productList, loading, checkedList, current, total, titleData } = this.state
     return (
       <div>
         <Header />
-        {/* <MegaMenu /> */}
-
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs data={this.breadCrumbsData} />
           {titleData ?
@@ -232,7 +223,7 @@ class List extends React.Component {
                         <div className={['rc-column', loading ? 'loading' : ''].join(' ')} key={item.pid}>
                           <article className="rc-card rc-card--product">
                             <div className="fullHeight">
-                              <a href={item.href}>
+                              <a href={'#/details/' + item.pid}>
                                 <article className="rc-card--a rc-text--center rc-padding-top--sm">
                                   <picture className="rc-card__image">
                                     <div className="rc-padding-bottom--xs">

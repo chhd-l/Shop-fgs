@@ -1,14 +1,13 @@
 import React from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import MegaMenu from '@/components/MegaMenu'
 import BreadCrumbs from '@/components/BreadCrumbs'
+import InterestedIn from '@/components/InterestedIn'
 
 function Details () {
   return (
     <div>
       <Header />
-      {/* <MegaMenu /> */}
       <main className="rc-content--fixed-header">
         <div className="product-detail product-wrapper rc-bg-colour--brand3">
           <div className="rc-max-width--xl">
@@ -34,7 +33,7 @@ function Details () {
                     <div className="wrap-short-des">
                       <h1 className="rc-gamma wrap-short-des--heading">
                         mini adult
-                  </h1>
+                      </h1>
                       <label>
                         Reference: <span className="sku-value">306040</span>
                       </label>
@@ -311,98 +310,7 @@ function Details () {
                 </div>
               </div>
             </div>
-            {/* <!-- interested in --> */}
-            <div className="rc-bottom-spacing rc-text-align-center">
-              <h2 className="title rc-margin-bottom--md rc-beta rc-text--center">You might also be interested in</h2>
-              <div className="rc-card-grid rc-match-heights rc-card-grid--fixed rc-four-column rc-padding-bottom--lg">
-                <div className="rc-grid">
-                  <div className="rc-card">
-                    <div>
-                      <a href="/ru/Mini%20Adult%20%28%D0%B2%20%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-1096_RU.html">
-                        <article className="rc-card--product rc-text--center rc-padding-y--xs rc-column rc-padding-x--none">
-                          <picture className="rc-card__image">
-                            <div className="rc-padding-bottom--xs">
-                              <img className=""
-                                src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw0247f661/products/RU/packshot_2017_SHN_DOG_WET_MINI_ADULT_Pouch_2018_1.jpg?sw=150&amp;sfrm=png"
-                                srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw0247f661/products/RU/packshot_2017_SHN_DOG_WET_MINI_ADULT_Pouch_2018_1.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw0247f661/products/RU/packshot_2017_SHN_DOG_WET_MINI_ADULT_Pouch_2018_1.jpg?sw=300&amp;sfrm=png 2x"
-                                alt="Mini Adult (in sauce)" title="Mini Adult (in sauce)" />
-                            </div>
-                          </picture>
-                          <div className="rc-card__body">
-                            <div className="height-product-tile">
-                              <header className="rc-text--center">
-                                <h3 className="rc-card__title rc-gamma">
-                                  Mini Adult (in sauce)
-                            </h3>
-                              </header>
-                              <div className="Product-Key-words rc-text--center"></div>
-                              <div className="rc-card__meta rc-margin-bottom--xs rc-text--center">
-                                Mini edalt: wet food for dogs aged 10 months to 8
-                                years
-                          </div>
-                            </div>
-                            <span className="rc-card__price rc-text--center rc-margin--none">
-                              <span>
-                                <span>
-                                  <span className="sales">
-                                    <span className="value" content="672.00">
-                                      672 ₽
-                                </span>
-                                  </span>
-                                </span>
-                              </span>
-                            </span>
-                          </div>
-                        </article>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="rc-grid">
-                  <div className="rc-card">
-                    <div>
-                      <a href="/ru/Mini%20Adult%20%28%D0%B2%20%D1%81%D0%BE%D1%83%D1%81%D0%B5%29-1096_RU.html">
-                        <article className="rc-card--product rc-text--center rc-padding-y--xs rc-column rc-padding-x--none">
-                          <picture className="rc-card__image">
-                            <div className="rc-padding-bottom--xs">
-                              <img className=""
-                                src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw0247f661/products/RU/packshot_2017_SHN_DOG_WET_MINI_ADULT_Pouch_2018_1.jpg?sw=150&amp;sfrm=png"
-                                srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw0247f661/products/RU/packshot_2017_SHN_DOG_WET_MINI_ADULT_Pouch_2018_1.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw0247f661/products/RU/packshot_2017_SHN_DOG_WET_MINI_ADULT_Pouch_2018_1.jpg?sw=300&amp;sfrm=png 2x"
-                                alt="Mini Adult (in sauce)" title="Mini Adult (in sauce)" />
-                            </div>
-                          </picture>
-                          <div className="rc-card__body">
-                            <div className="height-product-tile">
-                              <header className="rc-text--center">
-                                <h3 className="rc-card__title rc-gamma">
-                                  Mini Adult (in sauce)
-                            </h3>
-                              </header>
-                              <div className="Product-Key-words rc-text--center"></div>
-                              <div className="rc-card__meta rc-margin-bottom--xs rc-text--center">
-                                Mini edalt: wet food for dogs aged 10 months to 8
-                                years
-                          </div>
-                            </div>
-                            <span className="rc-card__price rc-text--center rc-margin--none">
-                              <span>
-                                <span>
-                                  <span className="sales">
-                                    <span className="value" content="672.00">
-                                      672 ₽
-                                </span>
-                                  </span>
-                                </span>
-                              </span>
-                            </span>
-                          </div>
-                        </article>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <InterestedIn />
           </div>
         </div>
       </main>

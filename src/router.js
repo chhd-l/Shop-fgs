@@ -15,7 +15,7 @@ const BasicRoute = () => (
         path="/list/:type"
         render={(props) => <List key={props.match.params.type} {...props} />}
       />
-      <Route exact path="/details" component={Details} />
+      <Route exact path="/details/:id" component={Details} />
       <Route exact path="/buy" component={Buy} />
       <Route exact path="/cart" component={Cart} />
     </Switch>
