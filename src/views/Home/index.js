@@ -26,9 +26,9 @@ class Home extends React.Component {
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
                 <div className="row rc-match-heights text-center text-md-left">
                   <div className="col-lg-3 align-self-center">
-                    <h2
-                      className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center text-lg-left rc-padding-top--none">
-                      Наши продукты по категориям</h2>
+                    <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center text-lg-left rc-padding-top--none">
+                      Our products by category
+                    </h2>
                   </div>
                   <div className="col-lg-9">
                     <div className="row">
@@ -106,7 +106,7 @@ class Home extends React.Component {
             <div className="rc-bg-colour--brand3">
               <div className="rc-full-width">
                 <div className="rc-max-width--xl rc-padding-x--sm portfolio-content">
-                  <a href="https://www.shop.royal-canin.ru/ru/cats/">
+                  <a href="#">
                     <picture>
                       <source media="(max-width: 640px)"
                         srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw765f871e/homepage/banner-mob-CLUB@2x.jpg?sw=400&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw765f871e/homepage/banner-mob-CLUB@2x.jpg?sw=800&amp;sfrm=png 2x" />
@@ -135,8 +135,7 @@ class Home extends React.Component {
               <div className="rc-full-width">
                 <div
                   className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">Почему удобно совершать
-                покупки с ROYAL CANIN®?</h4>
+                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">Why is it convenient to shop with ROYAL CANIN®?</h4>
                   <div className="value-proposition__container">
                     <div className="row mx-0">
                       <div
@@ -146,8 +145,7 @@ class Home extends React.Component {
                             src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3206e904/homepage/pack@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
                             alt="  " title="  " />
                           <div className="pl-3 d-flex align-items-center value-proposition__text">
-                            <p className="rc-margin-bottom--none rc-intro">Подбор рациона в соответствии с потребностями Вашего
-                          питомца</p>
+                            <p className="rc-margin-bottom--none rc-intro">Selection of a diet according to the needs of your pet</p>
                           </div>
                         </div>
                       </div>
@@ -158,8 +156,7 @@ class Home extends React.Component {
                             src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwc850168b/homepage/autoship@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
                             alt="  " title="  " />
                           <div className="pl-3 d-flex align-items-center value-proposition__text">
-                            <p className="rc-margin-bottom--none rc-intro">Доставка по подписке со скидкой 10% от суммы каждого
-                          заказа</p>
+                            <p className="rc-margin-bottom--none rc-intro">Subscription delivery with a 10% discount on the amount of each order</p>
                           </div>
                         </div>
                       </div>
@@ -170,7 +167,7 @@ class Home extends React.Component {
                             src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw0093423f/homepage/delivery@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
                             alt="  " title="  " />
                           <div className="pl-3 d-flex align-items-center value-proposition__text">
-                            <p className="rc-margin-bottom--none rc-intro">Быстрая бесплатная доставка при заказе от 2000 руб.</p>
+                            <p className="rc-margin-bottom--none rc-intro">Fast free shipping when ordering from 2000 rubles.</p>
                           </div>
                         </div>
                       </div>
@@ -181,8 +178,7 @@ class Home extends React.Component {
                             src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw91a30682/homepage/question@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
                             alt="  " title="  " />
                           <div className="pl-3 d-flex align-items-center value-proposition__text">
-                            <p className="rc-margin-bottom--none rc-intro">Служба поддержки: задайте интересующий вопрос о своем
-                          питомце специалисту</p>
+                            <p className="rc-margin-bottom--none rc-intro">Support service: ask a question about your pet to a specialist</p>
                           </div>
                         </div>
                       </div>
@@ -204,21 +200,21 @@ class Home extends React.Component {
                         <div data-thumb="interactive--pager" className="rc-hero rc-hero__layout--3">
                           <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
                             <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
-                              <a href="https://www.shop.royal-canin.ru/ru/Breed%20Health%20Nutrition/"
-                                title="Посмотреть продукты">
+                              <a href="#"
+                                title="View Products">
                                 <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
-                                  <p>Великолепие каждой породы -</p>
-                                  <p>в ее уникальности.</p>
+                                  <p>The splendor of each breed is</p>
+                                  <p>in its uniqueness.</p>
                                 </div>
-                                <p className="rc-body">Узнайте, что делает их уникальными!</p>
+                                <p className="rc-body">Find out what makes them unique!</p>
                               </a>
-                              <a href="https://www.shop.royal-canin.ru/ru/Breed%20Health%20Nutrition/"
+                              <a href="#"
                                 className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
                                 data-gtm="{&quot;title&quot;:&quot;Специально разработанный продукт Royal Canin®  для собак определенных пород &quot;,&quot;img&quot;:&quot;[object Object]&quot;}"
-                                title="Посмотреть продукты">Посмотреть продукты</a>
+                                title="View Products">View Products</a>
                             </div>
-                            <a href="https://www.shop.royal-canin.ru/ru/Breed%20Health%20Nutrition/"
-                              title="Посмотреть продукты">
+                            <a href="#"
+                              title="View Products">
                               <div className="rc-hero__section rc-hero__section--img">
                                 <picture>
                                   <source media="(max-width: 640px)"
@@ -239,21 +235,20 @@ class Home extends React.Component {
                         <div data-thumb="interactive--pager" className="rc-hero rc-hero__layout--3">
                           <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
                             <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
-                              <a href="https://www.shop.royal-canin.ru/ru/Feline%20Breed%20Nutrition/"
-                                title="Посмотреть продукты">
+                              <a href="#"
+                                title="View Products">
                                 <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
-                                  <p>Великолепие каждой породы -</p>
-                                  <p>в ее уникальности.</p>
+                                  <p>The splendor of each breed is</p>
+                                  <p>in its uniqueness.</p>
                                 </div>
-                                <p className="rc-body">Узнайте, что делает их уникальными!</p>
+                                <p className="rc-body">Find out what makes them unique!</p>
                               </a>
-                              <a href="https://www.shop.royal-canin.ru/ru/Feline%20Breed%20Nutrition/"
+                              <a href="#"
                                 className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
-                                data-gtm="{&quot;title&quot;:&quot;Специально разработанный продукт Royal Canin®  для кошек определенных пород&quot;,&quot;img&quot;:&quot;[object Object]&quot;}"
-                                title="Посмотреть продукты">Посмотреть продукты</a>
+                                title="View Products">View Products</a>
                             </div>
-                            <a href="https://www.shop.royal-canin.ru/ru/Feline%20Breed%20Nutrition/"
-                              title="Посмотреть продукты">
+                            <a href="#"
+                              title="View Products">
                               <div className="rc-hero__section rc-hero__section--img">
                                 <picture>
                                   <source media="(max-width: 640px)"
@@ -294,12 +289,12 @@ class Home extends React.Component {
                             </div>
                             <div className=" col-12 col-lg-6">
                               <div className=" text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                                <h5 className="rc-beta markup-text">Питание с учетом особых потребностей животных</h5>
-                                <p>Более 50 лет мы следуем принципу «Благополучие собак и кошек —прежде всего». Мы создаем для
-                              животных адаптированное питание с учетом их особых потребностей.</p>
+                                <h5 className="rc-beta markup-text">Special animal nutrition</h5>
+                                <p>
+                                  For more than 50 years, we have been following the principle of “Well-being for dogs and cats, above all.” We create adapted food for animals according to their special needs.
+                                </p>
                                 <a className="rc-btn rc-btn--two gtm-content-block-btn"
-                                  href="https://www.shop.royal-canin.ru/ru/health-nutrition/" title="Узнать больше">Узнать
-                              больше</a>
+                                  href="#" title="To learn more">To learn more</a>
                               </div>
                             </div>
                           </div>
