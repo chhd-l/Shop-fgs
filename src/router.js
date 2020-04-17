@@ -5,6 +5,8 @@ import List from '@/views/List';
 import Details from '@/views/Details';
 import Buy from '@/views/Buy';
 import Cart from '@/views/Cart'
+import Payment from '@/views/Payment'
+import Confirmation from '@/views/Confirmation'
 
 
 const BasicRoute = () => (
@@ -22,6 +24,12 @@ const BasicRoute = () => (
         render={(props) => <Details key={props.match.params.id} {...props} />} />
       <Route exact path="/buy" component={Buy} />
       <Route exact path="/cart" component={Cart} />
+      {/* <Route exact path="/payment" component={Payment} /> */}
+      <Route
+        exact
+        path="/payment/:type"
+        render={(props) => <Payment key={props.match.params.type} {...props} />} />
+      <Route exact path="/confirmation" component={Confirmation} />
     </Switch>
   </HashRouter>
 );

@@ -1,9 +1,7 @@
 import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-// import MegaMenu from '../../components/MegaMenu/index'
-// import BreadCrumbs from '../../components/BreadCrumbs/index'
-// import Filters from '../../components/Filters/index'
+import { Link } from "react-router-dom";
 import InterestedIn from "@/components/InterestedIn";
 import "./index.css";
 
@@ -54,14 +52,17 @@ class Cart extends React.Component {
     };
   }
   changeCache() {
-    localStorage.setItem('rc-cart-data', JSON.stringify(this.state.productList))
+    localStorage.setItem(
+      "rc-cart-data",
+      JSON.stringify(this.state.productList)
+    );
   }
   addQuantity(item) {
     item.quantity++;
     this.setState({
       productList: this.state.productList,
     });
-    this.changeCache()
+    this.changeCache();
   }
   subQuantity(item) {
     if (item.quantity > 1) {
@@ -70,7 +71,7 @@ class Cart extends React.Component {
         productList: this.state.productList,
       });
     }
-    this.changeCache()
+    this.changeCache();
   }
   closeModal() {
     this.setState({
@@ -83,18 +84,16 @@ class Cart extends React.Component {
     this.state.productList = productList.filter(
       (el) => el.id !== currentProduct.id
     );
-    this.changeCache()
-    this.closeModal()
+    this.changeCache();
+    this.closeModal();
   }
   changeSize(pItem, sizeItem) {
-    pItem.sizeList.map(
-      (el) => (el.selected = false)
-    );
+    pItem.sizeList.map((el) => (el.selected = false));
     sizeItem.selected = true;
     this.setState({
       productList: this.state.productList,
     });
-    this.changeCache()
+    this.changeCache();
   }
   componentDidMount() {
     let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
@@ -308,15 +307,17 @@ class Cart extends React.Component {
                     </div>
                     <div class="row checkout-proccess">
                       <div class="col-lg-12 checkout-continue">
-                        <div class="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                          <miaaoauth
-                            data-oauthlogintargetendpoint="2"
-                            class="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn "
-                            aria-pressed="true"
-                          >
-                            Checkout
-                          </miaaoauth>
-                        </div>
+                        <Link to="/payment/shipping">
+                          <div class="rc-padding-y--xs rc-column rc-bg-colour--brand4">
+                            <miaaoauth
+                              data-oauthlogintargetendpoint="2"
+                              class="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn "
+                              aria-pressed="true"
+                            >
+                              Checkout
+                            </miaaoauth>
+                          </div>
+                        </Link>
                         <div
                           class="js-dynamicGuestButtonBlock rc-padding-top--none text-center rc-bg-colour--brand4"
                           data-action="/on/demandware.store/Sites-RU-Site/ru_RU/Cart-GetGuestCheckoutButton"

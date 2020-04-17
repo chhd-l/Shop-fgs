@@ -1,0 +1,14 @@
+.thanks {
+  text-align: center;
+}
+.center {
+  text-align: center;
+}
+.imformation {
+  width: 50%;
+}
+.backtohome,.backtohome:hover {
+  /* cursor: pointer;
+  color: black;
+  border-color: black; */
+}
