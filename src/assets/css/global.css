@@ -18906,7 +18906,7 @@ button.rc-btn.tooltip-btn {
 }
 
 .veil,.veil .underlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;

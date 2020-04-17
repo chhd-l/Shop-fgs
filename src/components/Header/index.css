@@ -1,0 +1,6 @@
+.ui-cursor-pointer {
+  cursor: pointer;
+}
+.ui-cursor-pointer:hover {
+  color: #ec001a!important;
+}

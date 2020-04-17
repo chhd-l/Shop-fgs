@@ -1,4 +1,7 @@
 import React from 'react'
+import Loading from '@/components/Loading'
+import { createHashHistory } from 'history'
+import './index.css'
 
 class Header extends React.Component {
   static defaultProps = {
@@ -7,13 +10,21 @@ class Header extends React.Component {
   }
   constructor(props) {
     super(props)
-    this.state = { showCart: false, showSearchInput: false, keywords: '' }
+    this.state = {
+      showCart: false,
+      showSearchInput: false,
+      keywords: '',
+      loading: false,
+      result: null
+    }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
     this.hanldeSearchClick = this.hanldeSearchClick.bind(this)
     this.hanldeSearchCloseClick = this.hanldeSearchCloseClick.bind(this)
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this)
+    this.handleItemClick = this.handleItemClick.bind(this)
     this.inputRef = React.createRef();
+    this.inputRefMobile = React.createRef();
   }
   get totalNum () {
     return this.props.cartData.reduce((pre, cur) => { return pre + cur.quantity }, 0)
@@ -51,13 +62,15 @@ class Header extends React.Component {
     }, () => {
       setTimeout(() => {
         this.inputRef.current.focus()
+        this.inputRefMobile.current.focus()
       })
     })
   }
   hanldeSearchCloseClick () {
     this.setState({
       showSearchInput: false,
-      keywords: ''
+      keywords: '',
+      result: null
     })
   }
   handleSearchInputChange (e) {
@@ -72,7 +85,91 @@ class Header extends React.Component {
   }
   getSearchData () {
     const { keywords } = this.state
+    this.setState({ loading: true })
     console.log('query keywords search interface', keywords)
+    setTimeout(() => {
+      let res = {
+        total: 20,
+        productName: 'mini',
+        productList: [
+          {
+            id: '3003_RU',
+            name: 'Mini adult',
+            url: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
+            img: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
+            description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
+            price: 945
+          },
+          {
+            id: '3001_RU',
+            name: 'Mini adult',
+            url: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
+            img: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
+            description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
+            price: 33
+          }
+        ]
+      }
+      this.setState({
+        result: res && res.productList.length ? res : null,
+        loading: false
+      })
+    }, 1000)
+  }
+  handleItemClick () {
+    createHashHistory().push('/list/keywords')
+    localStorage.setItem('rc-search-keywords', this.state.keywords)
+  }
+  renderResultJsx () {
+    return this.state.result ?
+      <div className="suggestions">
+        <div className="container">
+          <div className="row d-flex flex-column-reverse flex-sm-row">
+            <div className="col-12 col-md-7 rc-column">
+              <div className="rc-padding-top--lg--mobile rc-large-intro">Goods</div>
+              <div className="suggestions-items row justify-content-end items rc-padding-left--xs">
+                {this.state.result.productList.map(item => (
+                  <div className="col-12 item" key={item.id}>
+                    <div className="row">
+                      <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
+                        <a href={`#/details/${item.id}`}>
+                          <img
+                            className="swatch__img"
+                            alt={item.name}
+                            title={item.name}
+                            src={item.url} />
+                        </a>
+                      </div>
+                      <div className="col-8 col-md-9 col-lg-10 rc-padding-top--xs">
+                        <a
+                          href={`#/details/${item.id}`}
+                          className="productName"
+                          alt={item.name}
+                          title={item.name}>{item.name}</a>
+                        <div className="rc-meta searchProductKeyword"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="rc-margin-top--xs">
+                <a className="productName rc-large-body ui-cursor-pointer" onClick={this.handleItemClick}>
+                  <b>View all results ({this.state.result.total})</b>
+                </a>
+              </div>
+            </div>
+            <div className="col-12 col-md-5 rc-bg-colour--brand4 rc-column d-flex flex-column rc-padding-top--md--mobile">
+              <a onClick={this.handleItemClick} className="productName ui-cursor-pointer" title={this.state.result.productName} alt={this.state.result.productName}>
+                {this.state.result.productName}
+              </a>
+            </div>
+          </div>
+          <span className="d-sm-none_ more-below">
+            <i className="fa fa-long-arrow-down" aria-hidden="true"></i>
+          </span>
+        </div>
+      </div>
+      : null
   }
   render () {
     const { cartData } = this.props
@@ -81,7 +178,7 @@ class Header extends React.Component {
         <nav className="rc-header__nav rc-header__nav--primary">
           <ul className="rc-list rc-list--blank rc-list--inline rc-list--align" role="menubar"></ul>
 
-          <a href="#/" className="rc-header__brand">
+          <a href="#/" className="header__nav__brand logo-home">
             <span className="rc-screen-reader-text">Royal Canin Logo</span>
             <object id="header__logo" className="rc-header__logo" type="image/svg+xml"
               data="https://d1a19ys8w1wkc1.cloudfront.net/logo--animated.svg?v=8-7-8" data-js-import-interactive-svg>
@@ -95,40 +192,41 @@ class Header extends React.Component {
               <React.Fragment>
                 <li className="rc-list__item">
                   <div className="inlineblock">
-                    <button data-js-trigger="search-bar"
+                    <button
                       className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-search--xs', 'rc-iconography', this.state.showSearchInput ? 'rc-hidden' : ''].join(' ')}
                       aria-label="Search"
                       onClick={this.hanldeSearchClick}>
                       <span className="rc-screen-reader-text">Search</span>
                     </button>
-                    <form
-                      className="inlineblock headerSearch headerSearchDesktop relative js-header-search rc-hidden"
-                      role="search"
-                      name="simpleSearch"
-                      onSubmit={e => { e.preventDefault() }}
-                      style={{ display: this.state.showSearchInput ? 'block' : 'none' }}>
-                      <span className="rc-input rc-input--full-width" input-setup="true">
-                        <button className="rc-input__submit rc-input__submit--search" type="submit">
-                          <span className="rc-screen-reader-text">Submit</span>
-                        </button>
-                        <input
-                          ref={this.inputRef}
-                          className="search-field"
-                          type="search"
-                          autoComplete="off"
-                          aria-label="Start typing to search"
-                          placeholder="Start typing to search"
-                          value={this.state.keywords}
-                          onChange={this.handleSearchInputChange} />
-                        <label className="rc-input__label" htmlFor="id-submit-2">
-                          <span className="rc-input__label-text"></span>
-                        </label>
-                      </span>
-                      <input type="hidden" value="null" name="lang" />
-                      <span className="rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle rc-padding-top--xs" aria-label="Close" onClick={this.hanldeSearchCloseClick}>
-                      </span>
-                      <div className="suggestions-wrapper rc-hidden"></div>
-                    </form>
+                    <div className="rc-sm-up">
+                      <form
+                        className={['inlineblock', 'headerSearch', 'headerSearchDesktop', 'relative', this.state.showSearchInput ? '' : 'rc-hidden'].join(' ')}
+                        role="search"
+                        name="simpleSearch"
+                        onSubmit={e => { e.preventDefault() }}>
+                        <span className="rc-input rc-input--full-width" input-setup="true">
+                          <button className="rc-input__submit rc-input__submit--search" type="submit">
+                            <span className="rc-screen-reader-text">Submit</span>
+                          </button>
+                          <input
+                            ref={this.inputRef}
+                            className="search-field"
+                            type="search"
+                            autoComplete="off"
+                            aria-label="Start typing to search"
+                            placeholder="Start typing to search"
+                            value={this.state.keywords}
+                            onChange={this.handleSearchInputChange} />
+                          <label className="rc-input__label" htmlFor="id-submit-2">
+                            <span className="rc-input__label-text"></span>
+                          </label>
+                        </span>
+                        <input type="hidden" value="null" name="lang" />
+                        <span className="rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle rc-padding-top--xs" aria-label="Close" onClick={this.hanldeSearchCloseClick}>
+                        </span>
+                        <div className="suggestions-wrapper">{this.renderResultJsx()}</div>
+                      </form>
+                    </div>
                   </div>
                   <span className="minicart inlineblock" style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
                     <a className="minicart-link" data-loc="miniCartOrderBtn" href="#/cart" title="Basket">
@@ -161,7 +259,7 @@ class Header extends React.Component {
                                 </div>
                               </div>
                               <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
-                                <span className="rc-body rc-margin--none">Total <b className="js-update-minicart-subtotal">{this.totalPrice} ₽</b></span>
+                                <span className="rc-body rc-margin--none">Total <b>{this.totalPrice} ₽</b></span>
                                 <a className="rc-styled-link pull-right" href="#/cart" role="button" aria-pressed="true">Change</a>
                               </div>
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
@@ -256,6 +354,35 @@ class Header extends React.Component {
             </li>
           </ul>
         </nav>
+        <div className="search">
+          <div className="rc-sm-down">
+            <form
+              className={['rc-header__search-bar', 'headerSearch', this.state.showSearchInput ? '' : 'rc-hidden'].join(' ')}
+              role="search"
+              name="simpleSearch"
+              onSubmit={e => { e.preventDefault() }}>
+              <button className="rc-btn rc-btn--icon rc-icon search--xs iconography stick-left rc-vertical-align" type="submit" aria-label="Search">
+                <span className="screen-reader-text">Search</span>
+              </button>
+              <input
+                ref={this.inputRefMobile}
+                type="search"
+                className="form-control search-field rc-header__input"
+                placeholder="Start typing to search"
+                autoComplete="off"
+                aria-label="Start typing to search"
+                value={this.state.keywords}
+                onChange={this.handleSearchInputChange}
+                style={{ padding: '1rem 4rem' }} />
+              <div className="suggestions-wrapper">{this.renderResultJsx()}</div>
+              <input type="hidden" value="ru_RU" name="lang" />
+              <button className="rc-btn rc-btn--icon rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle" type="button" aria-label="Close" onClick={this.hanldeSearchCloseClick}>
+                <span className="screen-reader-text">Close</span>
+              </button>
+            </form>
+          </div>
+        </div>
+        {this.state.loading ? <Loading /> : null}
       </header>
     )
   }

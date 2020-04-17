@@ -22,7 +22,7 @@ function HeroCarousel () {
                   <p>Choose the right food for your pet</p>
                 </div>
                 <div className="hero-carousel__slide__content__btn text-center">
-                  <a className="rc-btn rc-btn--one gtm-hero-carousel-btn " data-gtm="{&quot;title&quot;:&quot;cat and dog hero image&quot;,&quot;img&quot;:&quot;https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw994156b8/homepage/01_Slider_img_Mobile@2x.jpg?sw=414&amp;sfrm=png&quot;}" href="https://www.shop.royal-canin.ru/ru/health-nutrition/">To begin</a>
+                  <a className="rc-btn rc-btn--one gtm-hero-carousel-btn " data-gtm="{&quot;title&quot;:&quot;cat and dog hero image&quot;,&quot;img&quot;:&quot;https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw994156b8/homepage/01_Slider_img_Mobile@2x.jpg?sw=414&amp;sfrm=png&quot;}" href="#">To begin</a>
                 </div>
               </div>
             </div>

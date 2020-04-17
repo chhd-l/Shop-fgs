@@ -30,7 +30,8 @@ class List extends React.Component {
       current: 1,
       total: 6, // 总页数
       results: 33, // 总数据条数
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
+      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
+      keywords: ''
     }
     this.breadCrumbsData = []
     this.filterList = []
@@ -53,6 +54,13 @@ class List extends React.Component {
     }, () => {
       const { type } = this.state
       this.initData()
+      if (type.toLocaleLowerCase() === 'keywords') {
+        this.setState({
+          keywords: localStorage.getItem('rc-search-keywords')
+        })
+      }
+
+      // init breadcrumbs
       let capitalizeType = this.capitalize(type)
       this.breadCrumbsData = [{ name: capitalizeType, href: '' }]
       if (type === 'kittens') {
@@ -204,7 +212,13 @@ class List extends React.Component {
             : ''}
 
           <div className="search-results rc-padding--sm rc-max-width--xl">
-            <div className="search-nav"></div>
+            <div className="search-nav">
+              {this.state.keywords ?
+                <div className="nav-tabs-wrapper rc-text--center">
+                  <div className="rc-intro">You searched for:</div>
+                  <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText"><b>"mini"</b>(Results {results})</div>
+                </div> : null}
+            </div>
             <section className="rc-bg-colour--brand3">
               <div>
                 <div className="rc-text--right rc-meta rc-margin-bottom--none">

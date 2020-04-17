@@ -1,90 +1,110 @@
 import React from 'react';
+import './index.css'
 
 function Footer () {
   return (
     <footer className="rc-bg-colour--interface-dark" id="footer">
       <div className="rc-max-width--lg rc-scroll--y">
-        <div className="rc-layout-container rc-four-column rc-md-up">
-          <div className="rc-column rc-triple-width">
-            <nav className="rc-menubar">
-              <ul className="rc-list rc-list--blank rc-list--inverse tes">
-                <li className="rc-list__item ">
-                  <a href="/getting-started/overview/about_design_language.html"
-                    className="rc-list__link rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3">Getting
-              Started</a>
-                </li>
-                <li className="rc-list__item ">
-                  <a href="/"
-                    className="rc-list__link rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-home--xs rc-brand3">Home</a>
-                </li>
-                <li className="rc-list__item ">
-                  <a href="/terms.html"
-                    className="rc-list__link rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3">Terms &
-              Conditions</a>
-                </li>
-                <li className="rc-list__item ">
-                  <a href="/ui-framework/brand_identity/colour.html"
-                    className="rc-list__link rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-documents--xs rc-brand3">UI
-              Framework</a>
-                </li>
-              </ul>
-            </nav>
-          </div>
+        <div className="rc-layout-container rc-md-up">
           <div className="rc-column rc-text--right">
-            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3 " href='#'
-              role='back to top'>Back to top</a>
+            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3" role="menuitem" href="#">To the top</a>
           </div>
         </div>
         <div className="rc-divider rc-md-up"></div>
-        <div className="rc-layout-container rc-two-column rc-padding-top--md rc-padding-x--xs">
-          <div className="rc-column">
-            <h1 className="rc-espilon rc-text--inverse">&copy; Royal Canin Design Language: <a className="rc-text--inverse"
-              href="/getting-started/overview/releases.html">v 8.7.8</a></h1>
-            <p className="rc-text--inverse">Working together for the ultimate brand experience.</p>
+        <div className="rc-layout-container rc-one-column">
+          <div class="rc-column rc-padding-x--xs--desktop rc-padding-x--none--mobile">
+            <nav data-toggle-group="mobile" data-toggle-effect="rc-expand--vertical" class="rc-padding-x--xs--desktop rc-padding-x--none--mobile">
+              <ul class="rc-list rc-list--five-column rc-list--blank rc-list--align rc-list--inverse" role="menubar">
+                <li class="rc-list__item rc-list__item--group">
+                  <button class="rc-list__header" id="footer-head-158504765613564650" data-toggle="footer-list-158504765613564650" role="menuitem">
+                    <h3 class="rc-padding-left--md--mobile">ABOUT ROYAL CANIN®</h3>
+                  </button>
+                  <ul class="list list--blank list--align" id="footer-list-158504765613564650" aria-labelledby="footer-head-158504765613564650" role="menu">
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.shop.royal-canin.ru/ru/About-Us.html" role="menuitem">About Us</a></li>
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.shop.royal-canin.ru/ru/Values.html" role="menuitem">Our values</a></li>
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.shop.royal-canin.ru/ru/Quality-safety.html" role="menuitem">Quality and safety</a></li>
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.shop.royal-canin.ru/ru/Tailorednutrition.html" role="menuitem">Health and Nutrition</a></li>
+                  </ul>
+                </li>
+                <li class="rc-list__item rc-list__item--group">
+                  <button class="rc-list__header" id="footer-head-158504765613561849" data-toggle="footer-list-158504765613561849" role="menuitem">
+                    <h3 class="rc-padding-left--md--mobile">PRODUCTS</h3>
+                  </button>
+                  <ul class="list list--blank list--align" id="footer-list-158504765613561849" aria-labelledby="footer-head-158504765613561849" role="menu">
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.shop.royal-canin.ru/ru/cats/" role="menuitem">Cats</a></li>
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.shop.royal-canin.ru/ru/dogs/" role="menuitem">Dogs</a></li>
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.shop.royal-canin.ru/ru/subscription-landing.html" role="menuitem">Feed subscription</a></li>
+                  </ul>
+                </li>
+                <li class="rc-list__item rc-list__item--group">
+                  <button class="rc-list__header" id="footer-head-158504765613551093" data-toggle="footer-list-158504765613551093" role="menuitem">
+                    <h3 class="rc-padding-left--md--mobile">HELP</h3>
+                  </button>
+                  <ul class="list list--blank list--align" id="footer-list-158504765613551093" aria-labelledby="footer-head-158504765613551093" role="menu">
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.shop.royal-canin.ru/ru/account" role="menuitem">My personal account</a></li>
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.shop.royal-canin.ru/ru/help/contact" role="menuitem">Contacts</a></li>
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor5" role="menuitem">Delivery terms</a></li>
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor6" role="menuitem">Purchase returns</a></li>
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.shop.royal-canin.ru/ru/help/faq.html" role="menuitem">Frequently asked Questions</a></li>
+                  </ul>
+                </li>
+                <li class="rc-list__item rc-list__item--group">
+                  <button class="rc-list__header" id="footer-head-158504765613549553" data-toggle="footer-list-158504765613549553" role="menuitem">
+                    <h3 class="rc-padding-left--md--mobile">ADDITIONALLY</h3>
+                  </button>
+                  <ul class="list list--blank list--align" id="footer-list-158504765613549553" aria-labelledby="footer-head-158504765613549553" role="menu">
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html" role="menuitem">Terms of use</a></li>
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.mars.com/global/policies/privacy/pp-russian" role="menuitem">privacy policy </a></li>
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.mars.com/global/policies/note-to-parents/np-russian" role="menuitem">Information for Parents</a></li>
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.mars.com/global/policies/legal/ld-russian" role="menuitem">Website Terms of Use</a></li>
+                    <li class="rc-list__item"><a class="rc-list__link" href="https://www.mars.com/global/policies/cookie/cn-russian" role="menuitem">Cookie Collection Policy</a></li>
+                  </ul></li>
+              </ul>
+            </nav>
+
           </div>
         </div>
-        <div className="rc-layout-container rc-two-column">
-          <div className="rc-column rc-padding-x--xs">
-            <button className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3 modal__toggle"
-              data-modal-trigger="modal-register">Register For Updates</button>
-          </div>
-          <div className="rc-column rc-text--right rc-padding-x--none"></div>
-        </div>
-        <div className="rc-layout-container rc-one-column rc-md-down">
-          <div className="rc-column rc-padding-x--none">
-            <a className=" rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3"
-              href="/getting-started/overview/about_design_language.html">Getting Started</a>
-            <a className=" rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-home--xs rc-brand3" href="/">Home</a>
-            <a className=" rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-user--xs rc-brand3" href="/terms.html">Terms &
-        Conditions</a>
-            <a className=" rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-documents--xs rc-brand3"
-              href="/ui-framework/brand_identity/colour.html">UI Framework</a>
-            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3 " href='#'
-              role='back to top'>Back to top</a>
+        <div class="rc-divider rc-md-up"></div>
+        <div class="rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
+          <div class="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">
+            <p class="rc-espilon rc-text--inverse">Contact ROYAL CANIN®</p>
+            <div class="rc-text--inverse">
+              <p></p><p>You can contact us every day from 9:00 to 21:00</p><p></p>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="rc-bg-colour--brand4">
-        <div
-          className="rc-max-width--lg rc-layout-container rc-two-column rc-padding-x--xs--desktop rc-padding-x--none--mobile rc-flex-direction--reverse--sm-down">
-          <div className="rc-column rc-double-width rc-padding-x--none">
-            <ol className="rc-list rc-list--align rc-list--blank rc-list--inline rc-text--center--sm-down">
-              <li className="rc-list__item ">
-                <a href="https://www.royalcanin.com/us" className="rc-list__link">© Royal Canin SAS 2019</a>
+        <div class="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
+          <div class="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
+            <a class="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3" role="menuitem" href="tel:88002003735">8-800-200-37-35 </a>
+            <a class="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" href="https://www.shop.royal-canin.ru/ru/help/contact">Contact us</a>
+          </div>
+          <div class="rc-column column-flag" style={{ display: 'none' }}>
+            <div>
+            </div>
+          </div>
+        </div>
+        <div id="mars-footer-panel">
+          <div class="mars-footer-container">
+            <ul class="mars-footer-list-right" style={{ fontSize: '10px', fontFamily: 'Inherit' }}>
+              <li>
+                <a target="_blank" href="https://www.mars.com/privacy-policy-russia">
+                  <span class="mars-footer-label">Confidentiality</span>
+                </a>
               </li>
-              <li className="rc-list__item ">
-                <a href="https://www.mars.com/global/policies/privacy/pp-english" className="rc-list__link">Privacy</a>
+              <li>
+                <a target="_blank" href="https://www.mars.com/cookies-russia">
+                  <span class="mars-footer-label">Cookies</span>
+                </a>
               </li>
-              <li className="rc-list__item ">
-                <a href="/terms.html" className="rc-list__link">Terms</a>
+              <li>
+                <a target="_blank" href="https://www.mars.com/legal-russia">
+                  <span class="mars-footer-label">Legal Terms</span>
+                </a>
               </li>
-              <li className="rc-list__item ">
-                <a href="/getting-started/support/submit_an_issue.html" className="rc-list__link">Help</a>
-              </li>
-              <li className="rc-list__item ">
-                <a href="/getting-started/usage/resources.html" className="rc-list__link">Brand Resources</a>
-              </li>
-            </ol>
+            </ul>
+            <div class="mars-footer-legal" style={{ fontSize: '10px', fontFamily: 'Inherit' }}>
+              <p style={{ textAlign: 'center' }}>Copyright © Mars 2020®, Trademark of Mars Incorporated and its affiliates</p>
+            </div>
           </div>
         </div>
       </div>
