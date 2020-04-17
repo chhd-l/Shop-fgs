@@ -364,5 +364,63 @@
         }
       ]
     }
+  ],
+  "keywords": [
+    {
+      "name": "AGE",
+      "list": [
+        {
+          "label": "Kittens (up to 1 year old)",
+          "value": "Kittens (up to 1 year old)"
+        },
+        {
+          "label": "Adults (1-7 years old)",
+          "value": "Adults (1-7 years old)"
+        }
+      ]
+    },
+    {
+      "name": "Breed",
+      "list": [
+        {
+          "label": "Persian",
+          "value": "Persian"
+        },
+        {
+          "label": "Maine coon",
+          "value": "Maine coon"
+        },
+        {
+          "label": "Mixed Breed or Outbred",
+          "value": "Mixed Breed or Outbred"
+        }
+      ]
+    },
+    {
+      "name": "Feed type",
+      "list": [
+        {
+          "label": "Dry",
+          "value": "Dry"
+        },
+        {
+          "label": "Wet",
+          "value": "Wet"
+        }
+      ]
+    },
+    {
+      "name": "Sterilization",
+      "list": [
+        {
+          "label": "Yes",
+          "value": "Yes"
+        },
+        {
+          "label": "No",
+          "value": "No"
+        }
+      ]
+    }
   ]
 }

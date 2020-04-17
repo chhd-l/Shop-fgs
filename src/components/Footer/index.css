@@ -1,0 +1,221 @@
+#mars-footer-panel { 
+  min-height: 90px;
+	padding-top: 2px;
+	padding-bottom: 10px;
+}
+#mars-footer-panel .mars-footer-container {
+  min-width: 10%;
+  max-width: 93%;
+  margin: 0 auto;
+  color: #fff
+}
+#mars-footer-panel a { 
+  color: #fff
+}
+#mars-footer-panel a:hover {
+	text-decoration: underline;
+} 
+
+#mars-footer-panel ul { 
+	list-style: none; 
+	padding: 0;
+	margin: 0;
+}
+#mars-footer-panel li { 
+	display:inline-block; 
+	*display:inline;
+	*zoom: 1;
+	line-height: 21px; 
+	padding: 0 0 0 10px; 
+	margin: 0 0 0 10px; 
+}
+#mars-footer-panel li:first-child { 
+	padding-left: 0 !important;
+	margin-left: 0 !important;
+	border: none;
+}
+#mars-footer-panel .mars-footer-list-right { 
+	font-weight: bold; 
+	width: 100%;
+	font-size: 10px; 
+  color: #fff;
+  text-align: center; 
+}
+#mars-footer-panel .mars-footer-list-right a { 
+	font-weight: bold; 
+}
+#mars-footer-panel .mars-footer-list-right .mars-footer-icons {
+	display: none;
+}
+#mars-footer-panel .mars-footer-list-left { 
+	float: left; 
+	display: inline;
+	color: #c0c0c0; 
+}
+#mars-footer-panel .mars-footer-list-left li {
+	float: left; 
+} 
+#mars-footer-panel .mars-footer-clear { 
+	height: 1px; 
+	clear: both;
+}
+#mars-footer-panel .mars-footer-legal { 
+	padding-top: 1px; /* easy fix to let p tag's top margin stay inside */
+	clear: both;
+	font-size: 10px;
+}
+
+
+/* Apply a 'mars' class to the wrapper when using the mars layout */
+#mars-footer-panel.mars-footer-mars .mars-footer-list-left,
+#mars-footer-panel.mars-footer-icons .mars-footer-list-left { 
+	display: none;
+}
+#mars-footer-panel .mars-footer-social-bottom {
+	display: none;
+}
+#mars-footer-panel.mars-footer-mars .mars-footer-social-bottom,
+#mars-footer-panel.mars-footer-icons .mars-footer-social-bottom {
+	display: block;
+}
+#mars-footer-panel.mars-footer-mars .mars-footer-social-bottom li,
+#mars-footer-panel.mars-footer-icons .mars-footer-social-bottom li {
+	margin-top: 30px;
+}
+#mars-footer-panel.mars-footer-mars li { 
+	border: none;
+}
+#mars-footer-panel.mars-footer-mars .mars-footer-list-right,
+#mars-footer-panel.mars-footer-icons .mars-footer-list-right { 
+	float: none; 
+	width: 100%;
+	text-align: center;
+}
+#mars-footer-panel.mars-footer-mars .mars-footer-list-right li,
+#mars-footer-panel.mars-footer-icons .mars-footer-list-right li {
+	float: none;
+	position: relative;
+	
+	text-align: center;
+}
+#mars-footer-panel.mars-footer-mars .mars-footer-legal,
+#mars-footer-panel.mars-footer-icons .mars-footer-legal {
+	margin-top: 20px;
+	clear: none;
+	margin-bottom: 30px;
+}
+
+
+/* Apply a 'icons' class to the wrapper when using the icons layout */
+#mars-footer-panel.mars-footer-icons .mars-footer-list-right li {
+	border: none;
+	max-width: 100px;
+	/*vertical-align: top;*/
+	text-align: center;
+}
+#mars-footer-panel.mars-footer-icons .mars-footer-list-right a {
+	position: relative;
+	display: block;
+	text-decoration: none;
+	height: 85px;
+	width: 75px;
+	line-height: 1.3;
+	margin: 0 4px;
+}
+#mars-footer-panel.mars-footer-icons .mars-footer-list-right a .mars-footer-label {
+	position: absolute;
+	top: 70px;
+	left: 0;
+	width: 75px;
+}
+#mars-footer-panel.mars-footer-icons .mars-footer-list-right a:hover .mars-footer-label {
+	text-decoration: underline;
+}
+#mars-footer-panel .mars-footer-list-right .mars-footer-icon {
+	display: none;
+}
+/* default is medium sized */
+#mars-footer-panel.mars-footer-icons .mars-footer-list-right .mars-footer-icon {
+	position: absolute;
+	display: block;
+	top: -4px;
+	left: 10px;
+
+	font-family: "MarsIconFont";
+	font-weight: normal;
+	font-size: 54px;
+	color: #426195;
+}
+#mars-footer-panel.mars-footer-icons .mars-footer-list-right .mars-footer-icon strong {
+	font-family:  "MarsIconFont";
+	position: absolute;
+	top: 3px;
+	*top: 6px;
+	left: 0;
+	right: 0;
+	font-size: 50px;
+	color: #ffffff;
+	font-weight: normal;
+	font-weight: 100;
+}
+#mars-footer-panel.mars-footer-icons.mars-footer-icon-size-small .mars-footer-list-right a .mars-footer-label {
+	top: 60px;
+}
+#mars-footer-panel.mars-footer-icons.mars-footer-icon-size-small .mars-footer-list-right .mars-footer-icon {
+	top: -4px;
+	left: 15px;
+
+	font-size: 44px;
+}
+#mars-footer-panel.mars-footer-icons.mars-footer-icon-size-small .mars-footer-list-right .mars-footer-icon strong {
+	top: 3px;
+	*top: 6px;
+	left: 0;
+	right: 0;
+
+	font-size: 40px;
+}
+#mars-footer-panel.mars-footer-icons.mars-footer-icon-size-large .mars-footer-list-right a .mars-footer-label {
+	top: 75px;
+}
+#mars-footer-panel.mars-footer-icons.mars-footer-icon-size-large .mars-footer-list-right .mars-footer-icon {
+	top: -4px;
+	left: 2px;
+
+	font-size: 64px;
+}
+#mars-footer-panel.mars-footer-icons.mars-footer-icon-size-large .mars-footer-list-right .mars-footer-icon strong {
+	top: 5px;
+	*top: 8px;
+	left: 0;
+	right: 0;
+
+	font-size: 56px;
+}
+
+
+
+
+
+/* Apply a 'fixed' class to the wrapper when using the fixed footer */
+#mars-footer-panel.mars-footer-fixed {
+	position: fixed;
+	bottom: 0;
+	
+	margin: 6px 0 0 0;
+	padding-bottom: 10px;
+	height: auto;
+	min-height: 0;
+}
+#mars-footer-panel.mars-footer-fixed .mars-footer-container {
+	margin-top: 10px;
+}
+
+
+
+#mars-footer-panel.mars-footer-icons .mars-footer-list-right a .mars-footer-label, .mars-footer-legal p, .mars-footer-legal p a
+{
+  font-family: Arial,Verdana,sans-serif !important;
+  font-size: 11px !important;
+  font-weight: normal !important;
+}

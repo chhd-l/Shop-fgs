@@ -29,7 +29,9 @@ class List extends React.Component {
       checkedList: [],
       current: 1,
       total: 6, // 总页数
-      results: 33 // 总数据条数
+      results: 33, // 总数据条数
+      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
+      keywords: ''
     }
     this.breadCrumbsData = []
     this.filterList = []
@@ -52,6 +54,13 @@ class List extends React.Component {
     }, () => {
       const { type } = this.state
       this.initData()
+      if (type.toLocaleLowerCase() === 'keywords') {
+        this.setState({
+          keywords: localStorage.getItem('rc-search-keywords')
+        })
+      }
+
+      // init breadcrumbs
       let capitalizeType = this.capitalize(type)
       this.breadCrumbsData = [{ name: capitalizeType, href: '' }]
       if (type === 'kittens') {
@@ -142,7 +151,7 @@ class List extends React.Component {
     const { checkedList } = this.state;
     let checkedListCopy = cloneDeep(checkedList);
     let res
-    if (val == 'all') {
+    if (val === 'all') {
       res = []
     } else {
       checkedListCopy.splice(checkedListCopy.indexOf(val), 1)
@@ -178,10 +187,10 @@ class List extends React.Component {
     this.setState({ current: res }, () => this.getProductList())
   }
   render () {
-    const { results, productList, loading, checkedList, current, total, titleData } = this.state
+    const { results, productList, loading, checkedList, current, total, titleData, cartData } = this.state
     return (
       <div>
-        <Header />
+        <Header cartData={cartData} showMiniIcons={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs data={this.breadCrumbsData} />
           {titleData ?
@@ -203,7 +212,13 @@ class List extends React.Component {
             : ''}
 
           <div className="search-results rc-padding--sm rc-max-width--xl">
-            <div class="search-nav"></div>
+            <div className="search-nav">
+              {this.state.keywords ?
+                <div className="nav-tabs-wrapper rc-text--center">
+                  <div className="rc-intro">You searched for:</div>
+                  <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText"><b>"mini"</b>(Results {results})</div>
+                </div> : null}
+            </div>
             <section className="rc-bg-colour--brand3">
               <div>
                 <div className="rc-text--right rc-meta rc-margin-bottom--none">

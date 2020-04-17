@@ -30,6 +30,7 @@ class Details extends React.Component {
     this.handleAmountChange = this.handleAmountChange.bind(this)
     this.handleChooseSize = this.handleChooseSize.bind(this)
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this)
+    this.headerRef = React.createRef();
   }
   componentDidMount () {
     this.setState({
@@ -152,13 +153,17 @@ class Details extends React.Component {
     this.setState({
       cartData: newCartData
     })
+    this.headerRef.current.handleMouseOver()
+    setTimeout(() => {
+      this.headerRef.current.handleMouseOut()
+    }, 1000)
   }
   render () {
     const createMarkup = text => ({ __html: text });
     const { details, quantity, quantityMaxLimit, quantityMinLimit, instockStatus, currentPrice, cartData } = this.state
     return (
       <div>
-        <Header cartData={cartData} />
+        <Header ref={this.headerRef} cartData={cartData} showMiniIcons={true} />
         <main className="rc-content--fixed-header">
           <div className="product-detail product-wrapper rc-bg-colour--brand3">
             <div className="rc-max-width--xl">
@@ -216,8 +221,13 @@ class Details extends React.Component {
                             <div className="product-pricing__card singlepruchase selected" data-buybox="singlepruchase">
                               <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
                                 <div className="rc-input product-pricing__card__head__title">
-                                  <input className="rc-input__radio form-check-input" id="buybox-singlepurchase"
-                                    value="singlepurchase" type="radio" name="selectedBuybox" checked />
+                                  <input
+                                    className="rc-input__radio form-check-input"
+                                    id="buybox-singlepurchase"
+                                    type="radio"
+                                    name="selectedBuybox"
+                                    readOnly
+                                    checked={true} />
                                   <label className="rc-input__label--inline" htmlFor="buybox-singlepurchase">One-time purchase</label>
                                 </div>
 

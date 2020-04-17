@@ -18221,24 +18221,6 @@ button.rc-btn.tooltip-btn {
   box-shadow: 1px 1px 5px grey
 }
 
-@-webkit-keyframes fade {
-  0% {
-      opacity: 0
-  }
-
-  10% {
-      opacity: 1
-  }
-
-  90% {
-      opacity: 1
-  }
-
-  to {
-      opacity: 0
-  }
-}
-
 @keyframes fade {
   0% {
       opacity: 0
@@ -18924,7 +18906,7 @@ button.rc-btn.tooltip-btn {
 }
 
 .veil,.veil .underlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
