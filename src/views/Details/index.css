@@ -1471,11 +1471,6 @@ label.availability {
   flex: 0 0 auto
 }
 
-.rc-header.rc-header--scrolled .header__logo-crown,.rc-header.rc-header--scrolled .rc-header__nav--secondary {
-  -webkit-transform: none;
-  transform: none
-}
-
 .rc-header.rc-header--scrolled .header__logo-text {
   opacity: 1
 }

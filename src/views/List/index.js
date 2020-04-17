@@ -143,7 +143,7 @@ class List extends React.Component {
     const { checkedList } = this.state;
     let checkedListCopy = cloneDeep(checkedList);
     let res
-    if (val == 'all') {
+    if (val === 'all') {
       res = []
     } else {
       checkedListCopy.splice(checkedListCopy.indexOf(val), 1)
@@ -204,7 +204,7 @@ class List extends React.Component {
             : ''}
 
           <div className="search-results rc-padding--sm rc-max-width--xl">
-            <div class="search-nav"></div>
+            <div className="search-nav"></div>
             <section className="rc-bg-colour--brand3">
               <div>
                 <div className="rc-text--right rc-meta rc-margin-bottom--none">

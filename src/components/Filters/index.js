@@ -14,7 +14,7 @@ class Filter extends React.Component {
   matchParentCatogery (val) {
     let res = ''
     this.props.filterList.forEach(item => {
-      if (item.list.find(l => l.value == val)) {
+      if (item.list.find(l => l.value === val)) {
         res = item.name.toLocaleLowerCase()
       }
     });
