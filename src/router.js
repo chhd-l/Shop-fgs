@@ -17,8 +17,8 @@ const BasicRoute = () => (
         <Route exact path="/" component={Home} />
         <Route
           exact
-          path="/list/:type"
-          render={(props) => <List key={props.match.params.type} {...props} />}
+          path="/list/:category"
+          render={(props) => <List key={props.match.params.category} {...props} />}
         />
         <Route
           exact
