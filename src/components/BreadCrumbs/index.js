@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import BreadcrumbNameMap from './breadcrumbNameMap';
 
 const BreadCrumbs = withRouter(props => {
-  debugger
   const { location } = props;
   const breadcrumbNameMap = BreadcrumbNameMap;
 

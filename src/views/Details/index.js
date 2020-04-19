@@ -32,10 +32,26 @@ class Details extends React.Component {
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this)
     this.headerRef = React.createRef();
   }
+  componentWillMount () {
+    // var deleteJs = document.getElementById('js-royal-canin')
+    // if (deleteJs) {
+    //   deleteJs.parentNode.removeChild(deleteJs)
+    // var head = document.getElementsByTagName('head')[0];
+    // var script = document.createElement('script');
+    // script.type = 'text/javascript';
+    // script.src = 'http://localhost:3000/royal/royal-canin.js?V=2';
+    // head.appendChild(script)
+    // }
+  }
   componentDidMount () {
     this.setState({
       id: this.props.match.params.id
     }, () => this.getDetails())
+    // var head = document.getElementsByTagName('head')[0];
+    // var script = document.createElement('script');
+    // script.type = 'text/javascript';
+    // script.src = 'http://localhost:3000/royal/royal-canin.js?V=2';
+    // head.appendChild(script)
   }
   getDetails () {
     const { id } = this.state
@@ -167,7 +183,7 @@ class Details extends React.Component {
         <main className="rc-content--fixed-header">
           <div className="product-detail product-wrapper rc-bg-colour--brand3">
             <div className="rc-max-width--xl">
-              <BreadCrumbs data={[{ name: 'Dog', href: './doglist.html' }, { name: 'Mini adult', href: '' }]} />
+              <BreadCrumbs />
               <div className="rc-padding--sm--desktop">
                 <div className="rc-content-h-top">
                   <div className="rc-layout-container rc-six-column">
@@ -228,7 +244,7 @@ class Details extends React.Component {
                                     name="selectedBuybox"
                                     readOnly
                                     checked={true} />
-                                  <label className="rc-input__label--inline" htmlFor="buybox-singlepurchase">One-time purchase</label>
+                                  <label className="rc-input__label--inline" htmlFor="buybox-singlepurchase">Unit price</label>
                                 </div>
 
                                 <b className="product-pricing__card__head__price rc-padding-y--none js-price">

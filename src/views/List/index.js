@@ -4,6 +4,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import Filters from '@/components/Filters'
+import Loading from '@/components/Loading'
 import './index.css'
 import { cloneDeep } from 'lodash'
 import filterData from './json/index.json'
@@ -61,11 +62,6 @@ class List extends React.Component {
         })
       }
     })
-  }
-  capitalize (val) {
-    if (!val) return ''
-    val = val.toString()
-    return val.charAt(0).toUpperCase() + val.slice(1)
   }
   getProductList () {
     // 搜索参数
@@ -219,7 +215,8 @@ class List extends React.Component {
                     </aside>
                   </div>
                   <div className="rc-column rc-triple-width">
-                    <div className="rc-match-heights rc-layout-container rc-event-card--sidebar-present">
+                    <div className={['rc-match-heights', 'rc-layout-container', 'rc-event-card--sidebar-present', loading ? 'loading' : ''].join(' ')}>
+                      {loading ? <Loading noMask={true} /> : null}
                       {productList.map(item => (
                         <div className={['rc-column', loading ? 'loading' : ''].join(' ')} key={item.id}>
                           <article className="rc-card rc-card--product">
