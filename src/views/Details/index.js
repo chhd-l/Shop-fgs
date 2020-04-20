@@ -237,14 +237,7 @@ class Details extends React.Component {
                             <div className="product-pricing__card singlepruchase selected" data-buybox="singlepruchase">
                               <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
                                 <div className="rc-input product-pricing__card__head__title">
-                                  <input
-                                    className="rc-input__radio form-check-input"
-                                    id="buybox-singlepurchase"
-                                    type="radio"
-                                    name="selectedBuybox"
-                                    readOnly
-                                    checked={true} />
-                                  <label className="rc-input__label--inline" htmlFor="buybox-singlepurchase">Unit price</label>
+                                  <label className="rc-input__label--inline">Unit price</label>
                                 </div>
 
                                 <b className="product-pricing__card__head__price rc-padding-y--none js-price">

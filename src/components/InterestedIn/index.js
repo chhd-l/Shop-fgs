@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './index.css'
 
 class InterestedIn extends React.Component {
@@ -58,7 +59,7 @@ class InterestedIn extends React.Component {
             <div className={['rc-grid rc-grid-custom', loading ? 'loading' : ''].join(' ')} key={item.id}>
               <div className="rc-card">
                 <div>
-                  <a href={'#/details/' + item.id}>
+                  <Link to={'/details/' + item.id}>
                     <article className="rc-card--product rc-text--center rc-padding-y--xs rc-column rc-padding-x--none">
                       <picture className="rc-card__image">
                         <div className="rc-padding-bottom--xs">
@@ -94,7 +95,7 @@ class InterestedIn extends React.Component {
                         </span>
                       </div>
                     </article>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

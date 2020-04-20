@@ -1,7 +1,8 @@
-import React from 'react';
-import Header from '@/components/Header/index'
-import Footer from '@/components/Footer/index'
-import HeroCarousel from '@/components/HeroCarousel/index'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import HeroCarousel from '@/components/HeroCarousel'
 
 class Home extends React.Component {
   constructor(props) {
@@ -33,8 +34,8 @@ class Home extends React.Component {
                   <div className="col-lg-9">
                     <div className="row">
                       <div className="col-md-3 col-6">
-                        <a className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                          href="#/list/dogs" title="Dogs">
+                        <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          to="/list/dogs" title="Dogs">
                           <picture className="category-cards__card__img">
                             <source
                               srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw96967667/Dog_categorie-RU@2x.jpg?sw=144&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw96967667/Dog_categorie-RU@2x.jpg?sw=288&amp;sfrm=png 2x" />
@@ -46,11 +47,11 @@ class Home extends React.Component {
                             className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
                             <h3 className="rc-margin--none">Dogs</h3>
                           </div>
-                        </a>
+                        </Link>
                       </div>
                       <div className="col-md-3 col-6">
-                        <a className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                          href="#/list/cats" title="Products for cats">
+                        <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          to="/list/cats" title="Products for cats">
                           <picture className="category-cards__card__img">
                             <source
                               srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw9266069c/homepage/Cat_categorie@2x.jpg?sw=144&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw9266069c/homepage/Cat_categorie@2x.jpg?sw=288&amp;sfrm=png 2x" />
@@ -62,11 +63,11 @@ class Home extends React.Component {
                             className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
                             <h3 className="rc-margin--none">Cats</h3>
                           </div>
-                        </a>
+                        </Link>
                       </div>
                       <div className="col-md-3 col-6">
-                        <a className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                          href=".#/list/puppies" title="Puppies">
+                        <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          to="/list/puppies" title="Puppies">
                           <picture className="category-cards__card__img">
                             <source
                               srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw87e948c2/homepage/Puppy_categorie@2x.jpg?sw=144&sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw87e948c2/homepage/Puppy_categorie@2x.jpg?sw=288&sfrm=png 2x" />
@@ -78,11 +79,11 @@ class Home extends React.Component {
                             className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
                             <h3 className="rc-margin--none">Puppies</h3>
                           </div>
-                        </a>
+                        </Link>
                       </div>
                       <div className="col-md-3 col-6">
-                        <a className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                          href="#/list/kittens" title="Kittens">
+                        <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                          to="/list/kittens" title="Kittens">
                           <picture className="category-cards__card__img">
                             <source
                               srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwcfc83bc5/homepage/Kitten_categorie@2x.jpg?sw=144&sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwcfc83bc5/homepage/Kitten_categorie@2x.jpg?sw=288&sfrm=png 2x" />
@@ -94,7 +95,7 @@ class Home extends React.Component {
                             className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
                             <h3 className="rc-margin--none">Kittens</h3>
                           </div>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>

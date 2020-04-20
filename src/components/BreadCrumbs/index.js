@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import BreadcrumbNameMap from './breadcrumbNameMap';
 
 const BreadCrumbs = withRouter(props => {
@@ -15,12 +15,13 @@ const BreadCrumbs = withRouter(props => {
       <nav className="rc-progress rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs">
         <ul>
           <li>
-            <a className="rc-styled-link rc-progress__breadcrumb" href="#/"
-              aria-label="Links to example page">Home Page</a>
+            <Link to="/" className="rc-styled-link rc-progress__breadcrumb" aria-label="Links to home page">
+              Home Page
+            </Link>
           </li>
           {mapData.map((item, index) => (
             <li key={index}>
-              {item.href ? <a className="rc-styled-link rc-progress__breadcrumb" href={item.href}>{item.name}</a> : item.name}
+              {item.href ? <Link className="rc-styled-link rc-progress__breadcrumb" to={item.href}>{item.name}</Link> : item.name}
             </li>
           ))}
         </ul>
