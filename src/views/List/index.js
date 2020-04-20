@@ -9,6 +9,7 @@ import './index.css'
 import { cloneDeep } from 'lodash'
 import filterData from './json/index.json'
 import titleCfg from './json/title.json'
+import { getList } from '@/api/list'
 
 class List extends React.Component {
   constructor(props) {
@@ -64,6 +65,8 @@ class List extends React.Component {
     })
   }
   getProductList () {
+    getList().then(res => { debugger }).catch(err => { debugger })
+
     // 搜索参数
     const { checkedList, current } = this.state;
     console.log('query getProductList interface', checkedList, current)
@@ -221,7 +224,7 @@ class List extends React.Component {
                         <div className={['rc-column', loading ? 'loading' : ''].join(' ')} key={item.id}>
                           <article className="rc-card rc-card--product">
                             <div className="fullHeight">
-                              <a onClick={() => this.hanldeItemClick(item)}>
+                              <a onClick={() => this.hanldeItemClick(item)} className="ui-cursor-pointer">
                                 <article className="rc-card--a rc-text--center rc-padding-top--sm">
                                   <picture className="rc-card__image">
                                     <div className="rc-padding-bottom--xs">

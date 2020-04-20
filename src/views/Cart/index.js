@@ -9,6 +9,7 @@ class Cart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      errorShow: false,
       productList: [
         {
           id: "3003_RU",
@@ -70,6 +71,15 @@ class Cart extends React.Component {
       this.setState({
         productList: this.state.productList,
       });
+    }else {
+      this.setState({
+        errorShow: true,
+      });
+      setTimeout(() => {
+        this.setState({
+          errorShow: false,
+        });
+      }, 2000)
     }
     this.changeCache();
   }
@@ -245,7 +255,11 @@ class Cart extends React.Component {
             </div>
             <div class="rc-layout-container rc-three-column cart cart-page">
               <div class="rc-column rc-double-width">
-                <div class="cart-error-messaging cart-error"></div>
+                <div class="cart-error-messaging cart-error" style={{display: this.state.errorShow? 'block': 'none'}}>
+                  <aside class="rc-alert rc-alert--error rc-alert--with-close" role="alert">
+                    <span>The number can't be less than 1</span>
+                  </aside>
+                </div>
                 <div class="rc-padding-bottom--xs">
                   <h5 class="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
                     Your basket
@@ -272,28 +286,12 @@ class Cart extends React.Component {
                       <p class="text-right sub-total">{total}</p>
                     </div>
                   </div>
-                  <div class="row order-discount hide-order-discount">
-                    <div class="col-8">
-                      <p>Order discount</p>
-                    </div>
-                    <div class="col-4">
-                      <p class="text-right order-discount-total">- 0 ₽</p>
-                    </div>
-                  </div>
                   <div class="row">
                     <div class="col-8">
                       <p>Delivery</p>
                     </div>
                     <div class="col-4">
-                      <p class="text-right shipping-cost">300 ₽</p>
-                    </div>
-                  </div>
-                  <div class="row shipping-discount ">
-                    <div class="col-8">
-                      <p>Shipping discount</p>
-                    </div>
-                    <div class="col-4">
-                      <p class="text-right shipping-discount-total">- 300 ₽</p>
+                      <p class="text-right shipping-cost">0</p>
                     </div>
                   </div>
                   <div class="group-total">
@@ -318,18 +316,6 @@ class Cart extends React.Component {
                             </miaaoauth>
                           </div>
                         </Link>
-                        <div
-                          class="js-dynamicGuestButtonBlock rc-padding-top--none text-center rc-bg-colour--brand4"
-                          data-action="/on/demandware.store/Sites-RU-Site/ru_RU/Cart-GetGuestCheckoutButton"
-                        >
-                          <a
-                            href="https://www.shop.royal-canin.ru/ru/checkout"
-                            class="rc-styled-link rc-margin-top--xs"
-                            data-loc="miniCartGuestBtn"
-                          >
-                            Continue without registration
-                          </a>
-                        </div>
                       </div>
                     </div>
                   </div>

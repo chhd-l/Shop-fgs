@@ -16982,7 +16982,7 @@ a.normal {
 }
 
 #tippy-1 .tippy-tooltip.brand4-theme .tippy-arrow {
-  left: 75%!important
+  /* left: 75%!important */
 }
 
 #tippy-1 .tippy-tooltip.brand4-theme #header__tooltip {
@@ -22331,4 +22331,10 @@ tr.rc-table__row.inactive td:after {
   transform-origin: 50% 33%;
   -webkit-animation: swing 1.5s ease-in-out alternate infinite;
   animation: swing 1.5s ease-in-out alternate infinite
+}
+.ui-cursor-pointer {
+  cursor: pointer;
+}
+.ui-cursor-pointer:hover {
+  color: #ec001a!important;
 }

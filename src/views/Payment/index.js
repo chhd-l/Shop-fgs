@@ -9,6 +9,8 @@ class Payment extends React.Component {
     super(props);
     this.state = {
       type: "",
+      payMethod: "",
+      billingChecked: true,
       productList: [
         {
           id: "3003_RU",
@@ -46,6 +48,26 @@ class Payment extends React.Component {
           quantity: 1,
         },
       ],
+      deliveryAddress: {
+        firstName: "",
+        lastName: "",
+        address1: "",
+        address2: "",
+        country: "",
+        city: "",
+        postCode: "",
+        phoneNumber: "",
+      },
+      billingAddress: {
+        firstName: "",
+        lastName: "",
+        address1: "",
+        address2: "",
+        country: "",
+        city: "",
+        postCode: "",
+        phoneNumber: "",
+      },
       currentProduct: null,
       loading: true,
       modalShow: false,
@@ -99,6 +121,9 @@ class Payment extends React.Component {
     const { history } = this.props;
     history.push("/payment/payment");
   }
+  payMethodChange(e) {
+    this.setState({ payMethod: e.target.value });
+  }
   goConfirmation() {
     const { history } = this.props;
     history.push("/confirmation");
@@ -111,36 +136,80 @@ class Payment extends React.Component {
     const { history } = this.props;
     history.push("/cart");
   }
+  deliveryInputChange(e) {
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+    const { deliveryAddress } = this.state;
+    deliveryAddress[name] = value;
+    this.inputBlur(e);
+    this.setState({ deliveryAddress: deliveryAddress });
+  }
+  inputBlur(e) {
+    let validDom = Array.from(
+      e.target.parentElement.parentElement.children
+    ).filter((el) => {
+      let i = Array.from(el.classList).findIndex((classItem) => {
+        return classItem === "invalid-feedback";
+      });
+      return i > -1;
+    })[0];
+    if (validDom) {
+      validDom.style.display = e.target.value ? "none" : "block";
+    }
+  }
+  billingInputChange(e) {
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+    const { billingAddress } = this.state;
+    billingAddress[name] = value;
+    this.inputBlur(e);
+    this.setState({ billingAddress: billingAddress });
+    // this.setState({
+    //   [name]: value
+    // });
+  }
+  billingCheckedChange() {
+    let { billingChecked } = this.state
+    this.setState({billingChecked: !billingChecked})
+  }
   loadScript(src, callback) {
-    var script = document.createElement('script'),
-    head = document.getElementsByTagName('head')[0];
-    script.type = 'text/javascript';
-    script.charset = 'UTF-8';
+    var script = document.createElement("script"),
+      head = document.getElementsByTagName("head")[0];
+    script.type = "text/javascript";
+    script.charset = "UTF-8";
     script.src = src;
     if (script.addEventListener) {
-      script.addEventListener('load', function () {
-        callback();
-      }, false);
+      script.addEventListener(
+        "load",
+        function () {
+          callback();
+        },
+        false
+      );
     } else if (script.attachEvent) {
-      script.attachEvent('onreadystatechange', function () {
+      script.attachEvent("onreadystatechange", function () {
         var target = window.event.srcElement;
-        if (target.readyState == 'loaded') {
+        if (target.readyState == "loaded") {
           callback();
         }
       });
     }
     head.appendChild(script);
   }
+
   componentDidMount() {
     let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
     this.setState({
       type: this.props.match.params.type,
     });
-    this.loadScript('/royal/royal-canin.js', function() {
-      console.log('haha')
-    })
+    this.loadScript("/royal/royal-canin.js", function () {
+      console.log("haha");
+    });
   }
   render() {
+    const { deliveryAddress, billingAddress } = this.state;
     return (
       <div>
         <Header />
@@ -151,10 +220,7 @@ class Payment extends React.Component {
             data-checkout-stage="payment"
           >
             <div class="rc-padding--sm rc-padding-top--none">
-              <div
-                class="checkout-steps rc-layout-container rc-margin-top--lg--mobile"
-                data-loc="checkout-steps"
-              >
+              <div class="checkout-steps rc-layout-container rc-margin-top--lg--mobile">
                 <div class="rc-column rc-padding-x--none--mobile">
                   <ul class="rc-list rc-list--inline rc-content-v-middle rc-padding--none">
                     <li
@@ -217,7 +283,7 @@ class Payment extends React.Component {
                                 class="form-control-label"
                                 for="shippingFirstName"
                               >
-                                Name
+                                First Name
                               </label>
                               <span
                                 class="rc-input rc-input--inline rc-full-width rc-input--full-width"
@@ -226,10 +292,11 @@ class Payment extends React.Component {
                                 <input
                                   class="rc-input__control shippingFirstName"
                                   id="shippingFirstName"
-                                  data-loc="shippingFirstName"
                                   type="text"
-                                  value=""
-                                  name="dwfrm_shipping_shippingAddress_addressFields_firstName"
+                                  value={deliveryAddress.firstName}
+                                  onChange={(e) => this.deliveryInputChange(e)}
+                                  onBlur={(e) => this.inputBlur(e)}
+                                  name="firstName"
                                   required=""
                                   aria-required="true"
                                   maxlength="50"
@@ -240,7 +307,7 @@ class Payment extends React.Component {
                                 ></label>
                               </span>
                               <div class="invalid-feedback">
-                                This field is required.
+                                *First name must be filled
                               </div>
                             </div>
                           </div>
@@ -252,7 +319,7 @@ class Payment extends React.Component {
                                 class="form-control-label"
                                 for="shippingLastName"
                               >
-                                Surname
+                                Last Name
                               </label>
                               <span
                                 class="rc-input rc-input--inline rc-full-width rc-input--full-width"
@@ -261,10 +328,11 @@ class Payment extends React.Component {
                                 <input
                                   class="rc-input__control shippingLastName"
                                   id="shippingLastName"
-                                  data-loc="shippingLastName"
                                   type="text"
-                                  value=""
-                                  name="dwfrm_shipping_shippingAddress_addressFields_lastName"
+                                  value={deliveryAddress.lastName}
+                                  onChange={(e) => this.deliveryInputChange(e)}
+                                  onBlur={(e) => this.inputBlur(e)}
+                                  name="lastName"
                                   required=""
                                   aria-required="true"
                                   maxlength="50"
@@ -275,7 +343,7 @@ class Payment extends React.Component {
                                 ></label>
                               </span>
                               <div class="invalid-feedback">
-                                This field is required.
+                                *Last name must be filled
                               </div>
                             </div>
                           </div>
@@ -287,7 +355,7 @@ class Payment extends React.Component {
                                 class="form-control-label"
                                 for="shippingLastName"
                               >
-                                Address
+                                Address 1
                               </label>
                               <span
                                 class="rc-input rc-input--inline rc-full-width rc-input--full-width"
@@ -296,10 +364,11 @@ class Payment extends React.Component {
                                 <input
                                   class="rc-input__control shippingLastName"
                                   id="shippingLastName"
-                                  data-loc="shippingLastName"
                                   type="text"
-                                  value=""
-                                  name="dwfrm_shipping_shippingAddress_addressFields_lastName"
+                                  value={deliveryAddress.address1}
+                                  onChange={(e) => this.deliveryInputChange(e)}
+                                  onBlur={(e) => this.inputBlur(e)}
+                                  name="address1"
                                   required=""
                                   aria-required="true"
                                   maxlength="50"
@@ -310,7 +379,7 @@ class Payment extends React.Component {
                                 ></label>
                               </span>
                               <div class="invalid-feedback">
-                                This field is required.
+                                *Address 1 must be filled
                               </div>
                             </div>
                           </div>
@@ -322,7 +391,7 @@ class Payment extends React.Component {
                                 class="form-control-label"
                                 for="shippingLastName"
                               >
-                                Complement Address
+                                Address 2
                               </label>
                               <span
                                 class="rc-input rc-input--inline rc-full-width rc-input--full-width"
@@ -331,12 +400,11 @@ class Payment extends React.Component {
                                 <input
                                   class="rc-input__control shippingLastName"
                                   id="shippingLastName"
-                                  data-loc="shippingLastName"
                                   type="text"
-                                  value=""
-                                  name="dwfrm_shipping_shippingAddress_addressFields_lastName"
-                                  required=""
-                                  aria-required="true"
+                                  value={deliveryAddress.address1}
+                                  onChange={(e) => this.deliveryInputChange(e)}
+                                  onBlur={(e) => this.inputBlur(e)}
+                                  name="address2"
                                   maxlength="50"
                                 />
                                 <label
@@ -344,9 +412,6 @@ class Payment extends React.Component {
                                   for="id-text1"
                                 ></label>
                               </span>
-                              <div class="invalid-feedback">
-                                This field is required.
-                              </div>
                             </div>
                           </div>
                         </div>
@@ -360,7 +425,14 @@ class Payment extends React.Component {
                                 Country
                               </label>
                               <span class="rc-select rc-full-width rc-input--full-width rc-select-processed">
-                                <select data-js-select="" id="shippingCountry">
+                                <select
+                                  data-js-select=""
+                                  id="shippingCountry"
+                                  value={deliveryAddress.country}
+                                  onChange={(e) => this.deliveryInputChange(e)}
+                                  onBlur={(e) => this.inputBlur(e)}
+                                  name="country"
+                                >
                                   <option>Russia</option>
                                 </select>
                               </span>
@@ -376,7 +448,14 @@ class Payment extends React.Component {
                               City
                             </label>
                             <span class="rc-select rc-full-width rc-input--full-width rc-select-processed">
-                              <select data-js-select="" id="shippingCountry">
+                              <select
+                                data-js-select=""
+                                id="shippingCountry"
+                                value={deliveryAddress.city}
+                                onChange={(e) => this.deliveryInputChange(e)}
+                                onBlur={(e) => this.inputBlur(e)}
+                                name="city"
+                              >
                                 <option>1st Worker</option>
                                 <option>Ababurovo</option>
                                 <option>Akinshino</option>
@@ -390,7 +469,7 @@ class Payment extends React.Component {
                               class="form-control-label"
                               for="shippingZipCode"
                             >
-                              Index
+                              Post Code
                             </label>
                             <span
                               class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
@@ -399,12 +478,13 @@ class Payment extends React.Component {
                               <input
                                 class="rc-input__control shippingZipCode"
                                 id="shippingZipCode"
-                                data-loc="shippingZipCode"
-                                type="text"
-                                name="dwfrm_shipping_shippingAddress_addressFields_postalCode"
+                                type="number"
                                 required=""
                                 aria-required="true"
-                                value=""
+                                value={deliveryAddress.postCode}
+                                onChange={(e) => this.deliveryInputChange(e)}
+                                onBlur={(e) => this.inputBlur(e)}
+                                name="postCode"
                                 maxlength="6"
                                 minlength="6"
                                 pattern="(^\d{6}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
@@ -415,7 +495,7 @@ class Payment extends React.Component {
                               ></label>
                             </span>
                             <div class="invalid-feedback">
-                              Это поле обязательно для заполнения.
+                              *Post code must be filled
                             </div>
                             <div>Example: 123456</div>
                           </div>
@@ -433,13 +513,13 @@ class Payment extends React.Component {
                               <input
                                 class="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
-                                data-loc="shippingPhoneNumber"
-                                type="text"
-                                data-inputmask="'mask': '+7 (999) 999-99-99'"
-                                name="dwfrm_shipping_shippingAddress_addressFields_phone"
+                                type="number"
                                 required=""
                                 aria-required="true"
-                                value=""
+                                value={deliveryAddress.phoneNumber}
+                                onChange={(e) => this.deliveryInputChange(e)}
+                                onBlur={(e) => this.inputBlur(e)}
+                                name="phoneNumber"
                                 maxlength="20"
                                 minlength="18"
                                 inputmode="text"
@@ -450,7 +530,7 @@ class Payment extends React.Component {
                               ></label>
                             </span>
                             <div class="invalid-feedback">
-                              Пожалуйста, введите действующий номер телефона
+                              *Phone number must be filled
                             </div>
                             <span>Example: +7 (923) 456 78 90</span>
                           </div>
@@ -459,8 +539,24 @@ class Payment extends React.Component {
                     </div>
                     <div class="card-header rc-margin-bottom--xs">
                       <h4>Billing address</h4>
+                      <div className="billingCheckbox">
+                        <input
+                          class="form-check-input"
+                          id="id-checkbox-billing"
+                          value="Cat"
+                          type="checkbox"
+                          onChange={() => this.billingCheckedChange()}
+                          checked={this.state.billingChecked}
+                        />
+                        <label
+                          class="rc-input__label--inline"
+                          for="id-checkbox-billing"
+                        >
+                          Use delivery address
+                        </label>
+                      </div>
                     </div>
-                    <div class="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
+                    <div class="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm" style={{display: this.state.billingChecked? 'none': 'block'}}>
                       <fieldset class="shipping-address-block rc-fieldset">
                         <div class="rc-layout-container">
                           <div class="rc-column rc-padding-y--none">
@@ -469,7 +565,7 @@ class Payment extends React.Component {
                                 class="form-control-label"
                                 for="shippingFirstName"
                               >
-                                Name
+                                First Name
                               </label>
                               <span
                                 class="rc-input rc-input--inline rc-full-width rc-input--full-width"
@@ -478,10 +574,11 @@ class Payment extends React.Component {
                                 <input
                                   class="rc-input__control shippingFirstName"
                                   id="shippingFirstName"
-                                  data-loc="shippingFirstName"
                                   type="text"
-                                  value=""
-                                  name="dwfrm_shipping_shippingAddress_addressFields_firstName"
+                                  value={billingAddress.firstName}
+                                  onChange={(e) => this.billingInputChange(e)}
+                                  onBlur={(e) => this.inputBlur(e)}
+                                  name="firstName"
                                   required=""
                                   aria-required="true"
                                   maxlength="50"
@@ -492,7 +589,7 @@ class Payment extends React.Component {
                                 ></label>
                               </span>
                               <div class="invalid-feedback">
-                                This field is required.
+                                *First name must be filled
                               </div>
                             </div>
                           </div>
@@ -504,7 +601,7 @@ class Payment extends React.Component {
                                 class="form-control-label"
                                 for="shippingLastName"
                               >
-                                Surname
+                                Last Name
                               </label>
                               <span
                                 class="rc-input rc-input--inline rc-full-width rc-input--full-width"
@@ -513,10 +610,11 @@ class Payment extends React.Component {
                                 <input
                                   class="rc-input__control shippingLastName"
                                   id="shippingLastName"
-                                  data-loc="shippingLastName"
                                   type="text"
-                                  value=""
-                                  name="dwfrm_shipping_shippingAddress_addressFields_lastName"
+                                  value={billingAddress.lastName}
+                                  onChange={(e) => this.billingInputChange(e)}
+                                  onBlur={(e) => this.inputBlur(e)}
+                                  name="lastName"
                                   required=""
                                   aria-required="true"
                                   maxlength="50"
@@ -527,7 +625,7 @@ class Payment extends React.Component {
                                 ></label>
                               </span>
                               <div class="invalid-feedback">
-                                This field is required.
+                                *Last name must be filled
                               </div>
                             </div>
                           </div>
@@ -539,7 +637,7 @@ class Payment extends React.Component {
                                 class="form-control-label"
                                 for="shippingLastName"
                               >
-                                Address
+                                Address 1
                               </label>
                               <span
                                 class="rc-input rc-input--inline rc-full-width rc-input--full-width"
@@ -548,10 +646,11 @@ class Payment extends React.Component {
                                 <input
                                   class="rc-input__control shippingLastName"
                                   id="shippingLastName"
-                                  data-loc="shippingLastName"
                                   type="text"
-                                  value=""
-                                  name="dwfrm_shipping_shippingAddress_addressFields_lastName"
+                                  value={billingAddress.address1}
+                                  onChange={(e) => this.billingInputChange(e)}
+                                  onBlur={(e) => this.inputBlur(e)}
+                                  name="address1"
                                   required=""
                                   aria-required="true"
                                   maxlength="50"
@@ -562,7 +661,7 @@ class Payment extends React.Component {
                                 ></label>
                               </span>
                               <div class="invalid-feedback">
-                                This field is required.
+                                *Address 1 must be filled
                               </div>
                             </div>
                           </div>
@@ -574,7 +673,7 @@ class Payment extends React.Component {
                                 class="form-control-label"
                                 for="shippingLastName"
                               >
-                                Complement Address
+                                Address 2
                               </label>
                               <span
                                 class="rc-input rc-input--inline rc-full-width rc-input--full-width"
@@ -583,12 +682,11 @@ class Payment extends React.Component {
                                 <input
                                   class="rc-input__control shippingLastName"
                                   id="shippingLastName"
-                                  data-loc="shippingLastName"
                                   type="text"
-                                  value=""
-                                  name="dwfrm_shipping_shippingAddress_addressFields_lastName"
-                                  required=""
-                                  aria-required="true"
+                                  value={billingAddress.address2}
+                                  onChange={(e) => this.billingInputChange(e)}
+                                  onBlur={(e) => this.inputBlur(e)}
+                                  name="address2"
                                   maxlength="50"
                                 />
                                 <label
@@ -596,9 +694,6 @@ class Payment extends React.Component {
                                   for="id-text1"
                                 ></label>
                               </span>
-                              <div class="invalid-feedback">
-                                This field is required.
-                              </div>
                             </div>
                           </div>
                         </div>
@@ -608,6 +703,10 @@ class Payment extends React.Component {
                               <label
                                 class="form-control-label"
                                 for="shippingCountry"
+                                value={billingAddress.country}
+                                onChange={(e) => this.billingInputChange(e)}
+                                onBlur={(e) => this.inputBlur(e)}
+                                name="country"
                               >
                                 Country
                               </label>
@@ -628,7 +727,14 @@ class Payment extends React.Component {
                               City
                             </label>
                             <span class="rc-select rc-full-width rc-input--full-width rc-select-processed">
-                              <select data-js-select="" id="shippingCountry">
+                              <select
+                                data-js-select=""
+                                id="shippingCountry"
+                                value={billingAddress.city}
+                                onChange={(e) => this.billingInputChange(e)}
+                                onBlur={(e) => this.inputBlur(e)}
+                                name="city"
+                              >
                                 <option>1st Worker</option>
                                 <option>Ababurovo</option>
                                 <option>Akinshino</option>
@@ -642,7 +748,7 @@ class Payment extends React.Component {
                               class="form-control-label"
                               for="shippingZipCode"
                             >
-                              Index
+                              Post Code
                             </label>
                             <span
                               class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
@@ -651,12 +757,13 @@ class Payment extends React.Component {
                               <input
                                 class="rc-input__control shippingZipCode"
                                 id="shippingZipCode"
-                                data-loc="shippingZipCode"
-                                type="text"
-                                name="dwfrm_shipping_shippingAddress_addressFields_postalCode"
+                                type="number"
+                                value={billingAddress.postCode}
+                                onChange={(e) => this.billingInputChange(e)}
+                                onBlur={(e) => this.inputBlur(e)}
+                                name="postCode"
                                 required=""
                                 aria-required="true"
-                                value=""
                                 maxlength="6"
                                 minlength="6"
                                 pattern="(^\d{6}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
@@ -667,7 +774,7 @@ class Payment extends React.Component {
                               ></label>
                             </span>
                             <div class="invalid-feedback">
-                              Это поле обязательно для заполнения.
+                              *Post code must be filled
                             </div>
                             <div>Example: 123456</div>
                           </div>
@@ -685,13 +792,13 @@ class Payment extends React.Component {
                               <input
                                 class="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
-                                data-loc="shippingPhoneNumber"
-                                type="text"
-                                data-inputmask="'mask': '+7 (999) 999-99-99'"
-                                name="dwfrm_shipping_shippingAddress_addressFields_phone"
+                                type="number"
+                                value={billingAddress.phoneNumber}
+                                onChange={(e) => this.billingInputChange(e)}
+                                onBlur={(e) => this.inputBlur(e)}
+                                name="phoneNumber"
                                 required=""
                                 aria-required="true"
-                                value=""
                                 maxlength="20"
                                 minlength="18"
                                 inputmode="text"
@@ -702,7 +809,7 @@ class Payment extends React.Component {
                               ></label>
                             </span>
                             <div class="invalid-feedback">
-                              Пожалуйста, введите действующий номер телефона
+                              *Phone number must be filled
                             </div>
                             <span>Example: +7 (923) 456 78 90</span>
                           </div>
@@ -729,14 +836,18 @@ class Payment extends React.Component {
                                 <span class="shipping-method-pricing">
                                   <span class="shipping-cost">For Free</span>
                                   <span
-                                    class="info-tooltip delivery-method-tooltip"
-                                    data-tooltip="top-tooltip"
+                                    class=" info-tooltip delivery-method-tooltip"
+                                    title="Top"
                                     data-tooltip-placement="top"
-                                    data-tooltip-init="true"
-                                    tabindex="0"
+                                    data-tooltip="top-tooltip"
                                   >
                                     i
                                   </span>
+                                  <div id="top-tooltip" class="rc-tooltip">
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua.
+                                  </div>
                                 </span>
                               </div>
                             </div>
@@ -757,7 +868,6 @@ class Payment extends React.Component {
                           maxlength="1000"
                           name="dwfrm_shipping_shippingAddress_deliveryComment"
                           id="delivery-comment"
-                          data-loc="shippingDeliveryComment"
                           value=""
                         ></textarea>
                         <label
@@ -784,9 +894,13 @@ class Payment extends React.Component {
                   <div class="card shipping-summary">
                     <div class="card-header rc-margin-bottom--xs rc-padding-right--none clearfix">
                       <h4 class="pull-left">Address and Shipping Method</h4>
-                      <span class="edit-button rc-styled-link rc-margin-top--xs pull-right" onClick={() => this.goDelivery()}>
+                      <a
+                        href=""
+                        onClick={() => this.goDelivery()}
+                        class=" rc-styled-link rc-margin-top--xs pull-right"
+                      >
                         Edit
-                      </span>
+                      </a>
                     </div>
                     <div class="card-body rc-padding--none">
                       <p class="shipping-addr-label multi-shipping padding-y--sm">
@@ -797,48 +911,63 @@ class Payment extends React.Component {
                         class="single-shipping"
                         data-shipment-summary="8b50610f77571c1ac58b609278"
                       >
-                        <div
-                          class="rc-border-all rc-border-colour--interface checkout--padding"
-                          data-loc="placeOrderBillingSummary"
-                        >
+                        <div class="rc-border-all rc-border-colour--interface checkout--padding">
                           <div class="summary-details shipping rc-margin-bottom--xs">
-                            <div
-                              class="address-summary row"
-                              data-loc="confirmOrderCustomerInfo"
-                            >
+                            <div class="address-summary row">
                               <div class="col-md-6">
-                                <div>
-                                  <span class="firstName">minya</span>
-                                  <span class="lastName">tang</span>
-                                </div>
-                                <div class="country">Russia</div>
-                                <div class="districtCode">Moscow</div>
-                                <div class="stateCode">Other</div>
-                                <div>
-                                  <span class="city">1st Worker</span>
-                                  <span class="postalCode">123456</span>
+                                <div className="center">Delivery Address</div>
+                                <div className="row">
+                                  <div className="col-md-6">
+                                    <div>First Name</div>
+                                    <div>Last Name</div>
+                                    <div>Address 1</div>
+                                    <div>Address 2</div>
+                                    <div>Country</div>
+                                    <div>City</div>
+                                    <div>Post Code</div>
+                                    <div>Phone Number</div>
+                                    <div>Normal Delivery</div>
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div>&nbsp;{deliveryAddress.firstName}</div>
+                                    <div>&nbsp;{deliveryAddress.lastName}</div>
+                                    <div>&nbsp;{deliveryAddress.address1}</div>
+                                    <div>&nbsp;{deliveryAddress.address2}</div>
+                                    <div>&nbsp;{deliveryAddress.country}</div>
+                                    <div>&nbsp;{deliveryAddress.city}</div>
+                                    <div>&nbsp;{deliveryAddress.postCode}</div>
+                                    <div>
+                                      &nbsp;{deliveryAddress.phoneNumber}
+                                    </div>
+                                    <div>For free</div>
+                                  </div>
                                 </div>
                               </div>
                               <div class="col-md-6 address-summary-left">
-                                <div class="address1">1-1</div>
-                                <div>
-                                  <span class="houselabel">House</span>
-                                  <span class="house">1</span>
-                                </div>
-                                <div>
-                                  <span class="housinglabel">
-                                    Building / Building
-                                  </span>
-                                  <span class="housing">1</span>
-                                  <span class="housingdash">-</span>
-                                  <span class="entrancelabel">Entrance</span>
-                                  <span class="entrance">1</span>
-                                  <span class="entrancedash">-</span>
-                                  <span class="appartmentlabel">Apartment</span>
-                                  <span class="appartment">1</span>
-                                </div>
-                                <div class="shipping-phone">
-                                  +7 (923) 456-78-90
+                                <div className="center">Billing Address</div>
+                                <div className="row">
+                                  <div className="col-md-6">
+                                    <div>First Name</div>
+                                    <div>Last Name</div>
+                                    <div>Address 1</div>
+                                    <div>Address 2</div>
+                                    <div>Country</div>
+                                    <div>City</div>
+                                    <div>Post Code</div>
+                                    <div>Phone Number</div>
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div>&nbsp;{billingAddress.firstName}</div>
+                                    <div>&nbsp;{billingAddress.lastName}</div>
+                                    <div>&nbsp;{billingAddress.address1}</div>
+                                    <div>&nbsp;{billingAddress.address2}</div>
+                                    <div>&nbsp;{billingAddress.country}</div>
+                                    <div>&nbsp;{billingAddress.city}</div>
+                                    <div>&nbsp;{billingAddress.postCode}</div>
+                                    <div>
+                                      &nbsp;{billingAddress.phoneNumber}
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -848,23 +977,6 @@ class Payment extends React.Component {
                             style={{ display: "none" }}
                           >
                             <b>Delivery comment:</b> <span>null</span>
-                          </div>
-                          <div class="row summary-details leading-lines">
-                            <div class="col-6 start-lines">
-                              <div class="shipping-method">
-                                <span class="shipping-method-title">
-                                  Moscow region and Moscow beyond the MKAD
-                                </span>
-                                <span class="shipping-method-arrival-time">
-                                  (1-4 days)
-                                </span>
-                              </div>
-                            </div>
-                            <div class="col-6">
-                              <div class="pricing shipping-method-price">
-                                500 ₽
-                              </div>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -878,7 +990,6 @@ class Payment extends React.Component {
                         data-address-mode="new"
                         name="dwfrm_billing"
                         id="dwfrm_billing"
-                        novalidate=""
                       >
                         <div class="card-header with-tooltip-icon rc-margin-top--sm">
                           <h4>Payment Information</h4>
@@ -893,27 +1004,50 @@ class Payment extends React.Component {
                             data-is-new-payment="true"
                           >
                             <div class="rc-input rc-input--inline">
-                                  <input
-                                    class="rc-input__radio"
-                                    id="id-radio-creditCard"
-                                    value="creditCard"
-                                    type="radio"
-                                    name="radio-1"
-                                  />
-                                  <label
-                                    class="rc-input__label--inline"
-                                    for="id-radio-creditCard"
-                                  >
-                                    Credit card
-                                  </label>
-                                </div>
+                              <input
+                                class="rc-input__radio"
+                                id="id-radio-creditCard"
+                                value="creditCard"
+                                type="radio"
+                                name="pay-method"
+                                onChange={(e) => this.payMethodChange(e)}
+                                checked={this.state.payMethod === "creditCard"}
+                              />
+                              <label
+                                class="rc-input__label--inline"
+                                for="id-radio-creditCard"
+                              >
+                                Credit card
+                              </label>
+                            </div>
+                            <div class="rc-input rc-input--inline">
+                              <input
+                                class="rc-input__radio"
+                                id="id-radio-payPal"
+                                value="payPal"
+                                type="radio"
+                                name="pay-method"
+                                onChange={(e) => this.payMethodChange(e)}
+                                checked={this.state.payMethod === "payPal"}
+                              />
+                              <label
+                                class="rc-input__label--inline"
+                                for="id-radio-payPal"
+                              >
+                                PayPal
+                              </label>
+                            </div>
                             <div
                               class="rc-list__accordion-item"
                               data-method-id="CREDIT_CARD"
+                              style={{
+                                display:
+                                  this.state.payMethod == "creditCard"
+                                    ? "block"
+                                    : "none",
+                              }}
                             >
-                              <dt role="heading">
-                                
-                              </dt>
+                              <dt role="heading"></dt>
                               <dd
                                 class="rc-list__content rc-padding--none rc-expand--vertical"
                                 id="accordion-content-CREDIT_CARD"
@@ -1027,9 +1161,13 @@ class Payment extends React.Component {
                                                   type="text"
                                                   class="rc-input__control form-control email"
                                                   id="email"
-                                                  data-loc="paymentEmail"
-                                                  value=""
-                                                  name="dwfrm_billing_contactInfoFields_email"
+                                                  value={
+                                                    deliveryAddress.postCode
+                                                  }
+                                                  onChange={(e) =>
+                                                    this.deliveryInputChange(e)
+                                                  }
+                                                  name="postCode"
                                                   required=""
                                                   aria-required="true"
                                                   maxlength="254"
@@ -1061,14 +1199,17 @@ class Payment extends React.Component {
                                                   type="tel"
                                                   class="rc-input__control form-control phone"
                                                   id="phoneNumber"
-                                                  data-inputmask="'mask': '+7 (999) 999-99-99'"
-                                                  data-loc="paymentPhoneNumber"
-                                                  value=""
                                                   min-lenght="18"
                                                   max-length="18"
                                                   data-phonelength="18"
                                                   data-range-error="The phone number should contain 10 digits"
-                                                  name="dwfrm_billing_contactInfoFields_phone"
+                                                  value={
+                                                    deliveryAddress.phoneNumber
+                                                  }
+                                                  onChange={(e) =>
+                                                    this.deliveryInputChange(e)
+                                                  }
+                                                  name="phoneNumber"
                                                   required=""
                                                   aria-required="true"
                                                   maxlength="2147483647"
@@ -1081,7 +1222,7 @@ class Payment extends React.Component {
                                                 ></label>
                                               </span>
                                               <div class="invalid-feedback">
-                                                This field is required.
+                                                *Phone number must be filled
                                               </div>
                                             </div>
                                           </div>
@@ -1091,7 +1232,6 @@ class Payment extends React.Component {
                                             <button
                                               class="rc-btn rc-btn--two card-confirm"
                                               id="card-confirm"
-                                              data-loc="paymentCardConfirmation"
                                               type="button"
                                             >
                                               Confirm Card
@@ -1103,21 +1243,6 @@ class Payment extends React.Component {
                                   </div>
                                 </div>
                               </dd>
-                            </div>
-                            <div class="rc-input rc-input--inline">
-                              <input
-                                class="rc-input__radio"
-                                id="id-radio-payPal"
-                                value="payPal"
-                                type="radio"
-                                name="radio-1"
-                              />
-                              <label
-                                class="rc-input__label--inline"
-                                for="id-radio-payPal"
-                              >
-                                PayPal
-                              </label>
                             </div>
                           </dl>
                         </div>
@@ -1178,7 +1303,6 @@ class Payment extends React.Component {
                           type="submit"
                           name="submit"
                           value="submit-shipping"
-                          data-loc="shippingSubmit"
                           onClick={() => this.goConfirmation()}
                         >
                           Further
@@ -1193,16 +1317,14 @@ class Payment extends React.Component {
                   Your order
                 </h5>
                 <a
+                  href=""
                   onClick={() => this.goCart()}
                   class="product-summary__cartlink rc-styled-link"
                 >
                   Edit
                 </a>
                 <div class="product-summary__inner">
-                  <div
-                    class="product-summary__recap"
-                    data-loc="confirmOrderSummary"
-                  >
+                  <div class="product-summary__recap">
                     <div class="product-summary__itemnbr checkout--padding rc-bg-colour--brand4">
                       1 total product
                     </div>
