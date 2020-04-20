@@ -8,6 +8,7 @@ import Buy from '@/views/Buy';
 import Cart from '@/views/Cart'
 import Payment from '@/views/Payment'
 import Confirmation from '@/views/Confirmation'
+import Prescription from '@/views/Prescription'
 
 
 const BasicRoute = () => (
@@ -31,6 +32,7 @@ const BasicRoute = () => (
           path="/payment/:type"
           render={(props) => <Payment key={props.match.params.type} {...props} />} />
         <Route exact path="/confirmation" component={Confirmation} />
+        <Route exact path="/prescription" component={Prescription} />
       </Switch>
     </ScrollToTop>
   </HashRouter>

@@ -1,0 +1,12 @@
+.checkout-steps__item hr {
+  margin: 1rem;
+  border: 0;
+  border-top: 1px solid #ccc;
+}
+.map-saerch{
+  display: flex;
+}
+.headerSearchDesktop {
+  width: 280px;
+  margin-top: 30px;
+}
