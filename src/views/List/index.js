@@ -65,7 +65,7 @@ class List extends React.Component {
     })
   }
   getProductList () {
-    getList().then(res => { debugger }).catch(err => { debugger })
+    getList().then(res => {  }).catch(err => {  })
 
     // 搜索参数
     const { checkedList, current } = this.state;

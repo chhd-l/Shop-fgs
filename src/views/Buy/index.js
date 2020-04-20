@@ -1,14 +1,12 @@
 import React from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import MegaMenu from '@/components/MegaMenu'
 import '@/assets/css/checkout.css'
 
 function Buy () {
   return (
     <div>
       <Header />
-      {/* <MegaMenu /> */}
       <main class="rc-content--fixed-header rc-bg-colour--brand3">
         <div id="checkout-main" class="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg">
           <div class="rc-padding--sm rc-padding-top--none">

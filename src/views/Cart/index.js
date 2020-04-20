@@ -50,28 +50,29 @@ class Cart extends React.Component {
       currentProduct: null,
       loading: true,
       modalShow: false,
+      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     };
   }
-  changeCache() {
+  changeCache () {
     localStorage.setItem(
       "rc-cart-data",
       JSON.stringify(this.state.productList)
     );
   }
-  addQuantity(item) {
+  addQuantity (item) {
     item.quantity++;
     this.setState({
       productList: this.state.productList,
     });
     this.changeCache();
   }
-  subQuantity(item) {
+  subQuantity (item) {
     if (item.quantity > 1) {
       item.quantity--;
       this.setState({
         productList: this.state.productList,
       });
-    }else {
+    } else {
       this.setState({
         errorShow: true,
       });
@@ -83,13 +84,13 @@ class Cart extends React.Component {
     }
     this.changeCache();
   }
-  closeModal() {
+  closeModal () {
     this.setState({
       currentProduct: null,
       modalShow: false,
     });
   }
-  deleteProduct() {
+  deleteProduct () {
     let { currentProduct, productList } = this.state;
     this.state.productList = productList.filter(
       (el) => el.id !== currentProduct.id
@@ -97,7 +98,7 @@ class Cart extends React.Component {
     this.changeCache();
     this.closeModal();
   }
-  changeSize(pItem, sizeItem) {
+  changeSize (pItem, sizeItem) {
     pItem.sizeList.map((el) => (el.selected = false));
     sizeItem.selected = true;
     this.setState({
@@ -105,13 +106,13 @@ class Cart extends React.Component {
     });
     this.changeCache();
   }
-  componentDidMount() {
+  componentDidMount () {
     let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
     this.setState({
       productList: productList,
     });
   }
-  getProducts(plist) {
+  getProducts (plist) {
     const Lists = plist.map((pitem, index) => (
       <div
         class="rc-border-all rc-border-colour--interface product-info  uuid-3ab64fd26c17b64c44e4ba1a7e"
@@ -161,7 +162,7 @@ class Cart extends React.Component {
                                 key={i}
                                 className={`rc-swatch__item ${
                                   sizeItem.selected ? "selected" : ""
-                                }`}
+                                  }`}
                                 onClick={() => this.changeSize(pitem, sizeItem)}
                               >
                                 <span>
@@ -228,7 +229,7 @@ class Cart extends React.Component {
     ));
     return Lists;
   }
-  render() {
+  render () {
     const { results, productList, loading } = this.state;
 
     const List = this.getProducts(this.state.productList);
@@ -240,7 +241,7 @@ class Cart extends React.Component {
     });
     return (
       <div>
-        <Header />
+        <Header cartData={this.state.cartData} showMiniIcons={true} />
         <main class="rc-content--fixed-header">
           <div class="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
             <div class="rc-layout-container rc-one-column">
@@ -255,7 +256,7 @@ class Cart extends React.Component {
             </div>
             <div class="rc-layout-container rc-three-column cart cart-page">
               <div class="rc-column rc-double-width">
-                <div class="cart-error-messaging cart-error" style={{display: this.state.errorShow? 'block': 'none'}}>
+                <div class="cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
                   <aside class="rc-alert rc-alert--error rc-alert--with-close" role="alert">
                     <span>The number can't be less than 1</span>
                   </aside>
@@ -400,7 +401,7 @@ class Cart extends React.Component {
         <div
           className={`modal-backdrop fade ${
             this.state.modalShow ? "show" : ""
-          }`}
+            }`}
           style={{ display: this.state.modalShow ? "block" : "none" }}
         ></div>
         <Footer />

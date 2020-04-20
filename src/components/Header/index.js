@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link } from "react-router-dom"
 import Loading from '@/components/Loading'
+import MegaMenu from '@/components/MegaMenu'
 import { createHashHistory } from 'history'
+import './index.css'
 
 class Header extends React.Component {
   static defaultProps = {
@@ -15,7 +17,8 @@ class Header extends React.Component {
       showSearchInput: false,
       keywords: '',
       loading: false,
-      result: null
+      result: null,
+      showMegaMenu: false
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -23,6 +26,7 @@ class Header extends React.Component {
     this.hanldeSearchCloseClick = this.hanldeSearchCloseClick.bind(this)
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this)
     this.handleItemClick = this.handleItemClick.bind(this)
+    this.toggleMenu = this.toggleMenu.bind(this)
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
   }
@@ -120,6 +124,11 @@ class Header extends React.Component {
     createHashHistory().push('/list/keywords')
     localStorage.setItem('rc-search-keywords', this.state.keywords)
   }
+  toggleMenu () {
+    this.setState({
+      showMegaMenu: !this.state.showMegaMenu
+    })
+  }
   renderResultJsx () {
     return this.state.result ?
       <div className="suggestions">
@@ -132,20 +141,23 @@ class Header extends React.Component {
                   <div className="col-12 item" key={item.id}>
                     <div className="row">
                       <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
-                        <a href={`#/details/${item.id}`}>
+                        <Link to={`/details/${item.id}`}>
                           <img
                             className="swatch__img"
                             alt={item.name}
                             title={item.name}
                             src={item.url} />
-                        </a>
+                        </Link>
                       </div>
                       <div className="col-8 col-md-9 col-lg-10 rc-padding-top--xs">
-                        <a
-                          href={`#/details/${item.id}`}
+                        <Link
+                          to={`/details/${item.id}`}
                           className="productName"
                           alt={item.name}
-                          title={item.name}>{item.name}</a>
+                          title={item.name}
+                        >
+                          {item.name}
+                        </Link>
                         <div className="rc-meta searchProductKeyword"></div>
                       </div>
                     </div>
@@ -176,16 +188,26 @@ class Header extends React.Component {
     return (
       <header className="rc-header" data-js-header-scroll>
         <nav className="rc-header__nav rc-header__nav--primary">
-          <ul className="rc-list rc-list--blank rc-list--inline rc-list--align" role="menubar"></ul>
+          <ul className="rc-list rc-list--blank rc-list--inline rc-list--align" role="menubar">
+            {this.props.showMiniIcons ?
+              <li className="rc-list__item">
+                <button className="rc-btn rc-btn--icon-label rc-icon rc-menu--xs rc-iconography rc-md-up"
+                  aria-label="Menu" onClick={this.toggleMenu}>Menu</button>
+                <button className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-menu--xs', 'rc-iconography', 'rc-md-down', this.state.showMegaMenu ? 'btn-close' : ''].join(' ')}
+                  aria-label="Menu" onClick={this.toggleMenu}>
+                  <span className="rc-screen-reader-text">Menu</span>
+                </button>
+              </li> : null}
+          </ul>
 
-          <a href="#/" className="header__nav__brand logo-home">
+          <Link to="/" className="header__nav__brand logo-home">
             <span className="rc-screen-reader-text">Royal Canin Logo</span>
             <object id="header__logo" className="rc-header__logo" type="image/svg+xml"
               data="https://d1a19ys8w1wkc1.cloudfront.net/logo--animated.svg?v=8-7-8" data-js-import-interactive-svg>
               <img alt="Royal Canin logo" height="100" src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
                 style={{ backgroundImage: 'url(https://d1a19ys8w1wkc1.cloudfront.net/logo--animated.png?v=8-7-8)' }} width="135" />
             </object>
-          </a>
+          </Link>
 
           <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right" role="menubar">
             {this.props.showMiniIcons ?
@@ -229,10 +251,10 @@ class Header extends React.Component {
                     </div>
                   </div>
                   <span className="minicart inlineblock" style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
-                    <a className="minicart-link" data-loc="miniCartOrderBtn" href="#/cart" title="Basket">
+                    <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn" title="Basket">
                       <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
                       <span className="minicart-quantity">{this.totalNum}</span>
-                    </a>
+                    </Link>
                     {
                       !this.totalNum
                         ?
@@ -260,7 +282,7 @@ class Header extends React.Component {
                               </div>
                               <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
                                 <span className="rc-body rc-margin--none">Total <b>{this.totalPrice} ₽</b></span>
-                                <a className="rc-styled-link pull-right" href="#/cart" role="button" aria-pressed="true">Change</a>
+                                <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true">Change</Link>
                               </div>
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                                 <Link to="/payment/shipping" className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn">
@@ -332,7 +354,7 @@ class Header extends React.Component {
             <li className="rc-list__item">
               <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                 <li className="rc-list__item">
-                  <a className="rc-list__header" href="#/list/cats">CATS</a>
+                  <Link to="/list/cats" className="rc-list__header">CATS</Link>
                 </li>
               </ul>
             </li>
@@ -340,7 +362,7 @@ class Header extends React.Component {
             <li className="rc-list__item">
               <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                 <li className="rc-list__item">
-                  <a className="rc-list__header" href="#/list/dogs">DOGS</a>
+                  <Link className="rc-list__header" to="/list/dogs">DOGS</Link>
                 </li>
               </ul>
             </li>
@@ -348,7 +370,7 @@ class Header extends React.Component {
             <li className="rc-list__item">
               <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                 <li className="rc-list__item">
-                  <a className="rc-list__header" href="#/">ABOUT US</a>
+                  <Link className="rc-list__header" to="/">ABOUT US</Link>
                 </li>
               </ul>
             </li>
@@ -383,6 +405,7 @@ class Header extends React.Component {
           </div>
         </div>
         {this.state.loading ? <Loading /> : null}
+        <MegaMenu show={this.state.showMegaMenu} />
       </header>
     )
   }
