@@ -68,6 +68,7 @@ class Payment extends React.Component {
         postCode: "",
         phoneNumber: "",
       },
+      commentOnDelivery: '',
       currentProduct: null,
       loading: true,
       modalShow: false,
@@ -128,15 +129,18 @@ class Payment extends React.Component {
     const { history } = this.props;
     history.push("/confirmation");
   }
-  goDelivery() {
+  goDelivery(e) {
+    e.preventDefault()
     const { history } = this.props;
     history.push("/payment/shipping");
   }
-  goCart() {
+  goCart(e) {
+    e.preventDefault()
     const { history } = this.props;
     history.push("/cart");
   }
   deliveryInputChange(e) {
+    console.log(e)
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -170,9 +174,12 @@ class Payment extends React.Component {
     //   [name]: value
     // });
   }
+  commentChange(e) {
+    this.setState({ commentOnDelivery: e.target.value });
+  }
   billingCheckedChange() {
-    let { billingChecked } = this.state
-    this.setState({billingChecked: !billingChecked})
+    let { billingChecked } = this.state;
+    this.setState({ billingChecked: !billingChecked });
   }
   loadScript(src, callback) {
     var script = document.createElement("script"),
@@ -386,7 +393,7 @@ class Payment extends React.Component {
                         </div>
                         <div class="rc-layout-container">
                           <div class="rc-column rc-padding-y--none">
-                            <div class="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
+                            <div class="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
                                 class="form-control-label"
                                 for="shippingLastName"
@@ -474,12 +481,13 @@ class Payment extends React.Component {
                             <span
                               class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
                               input-setup="true"
+                              data-js-validate="" data-js-warning-message="*Post Code isn’t valid"
                             >
                               <input
                                 class="rc-input__control shippingZipCode"
                                 id="shippingZipCode"
-                                type="number"
-                                required=""
+                                type="tel"
+                                required
                                 aria-required="true"
                                 value={deliveryAddress.postCode}
                                 onChange={(e) => this.deliveryInputChange(e)}
@@ -487,7 +495,7 @@ class Payment extends React.Component {
                                 name="postCode"
                                 maxlength="6"
                                 minlength="6"
-                                pattern="(^\d{6}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
+                                data-js-pattern="(^\d{6}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                               />
                               <label
                                 class="rc-input__label"
@@ -509,20 +517,22 @@ class Payment extends React.Component {
                             <span
                               class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
                               input-setup="true"
+                              data-js-validate="" data-js-warning-message="*Phone Number isn’t valid"
                             >
                               <input
                                 class="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
-                                type="number"
+                                type="tel"
                                 required=""
                                 aria-required="true"
                                 value={deliveryAddress.phoneNumber}
                                 onChange={(e) => this.deliveryInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
+                                data-js-pattern="(^(\+?7|8)?9\d{9}$)"
                                 name="phoneNumber"
                                 maxlength="20"
                                 minlength="18"
-                                inputmode="text"
+                                // inputmode="text"
                               />
                               <label
                                 class="rc-input__label"
@@ -556,7 +566,12 @@ class Payment extends React.Component {
                         </label>
                       </div>
                     </div>
-                    <div class="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm" style={{display: this.state.billingChecked? 'none': 'block'}}>
+                    <div
+                      class="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm"
+                      style={{
+                        display: this.state.billingChecked ? "none" : "block",
+                      }}
+                    >
                       <fieldset class="shipping-address-block rc-fieldset">
                         <div class="rc-layout-container">
                           <div class="rc-column rc-padding-y--none">
@@ -668,7 +683,7 @@ class Payment extends React.Component {
                         </div>
                         <div class="rc-layout-container">
                           <div class="rc-column rc-padding-y--none">
-                            <div class="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
+                            <div class="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
                                 class="form-control-label"
                                 for="shippingLastName"
@@ -753,11 +768,12 @@ class Payment extends React.Component {
                             <span
                               class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
                               input-setup="true"
+                              data-js-validate="" data-js-warning-message="*Post Code isn’t valid"
                             >
                               <input
                                 class="rc-input__control shippingZipCode"
                                 id="shippingZipCode"
-                                type="number"
+                                type="tel"
                                 value={billingAddress.postCode}
                                 onChange={(e) => this.billingInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
@@ -766,7 +782,7 @@ class Payment extends React.Component {
                                 aria-required="true"
                                 maxlength="6"
                                 minlength="6"
-                                pattern="(^\d{6}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
+                                data-js-pattern="(^\d{6}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                               />
                               <label
                                 class="rc-input__label"
@@ -788,20 +804,22 @@ class Payment extends React.Component {
                             <span
                               class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
                               input-setup="true"
+                              data-js-validate="" data-js-warning-message="*Phone Number isn’t valid"
                             >
                               <input
                                 class="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
-                                type="number"
+                                type="tel"
                                 value={billingAddress.phoneNumber}
                                 onChange={(e) => this.billingInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
                                 name="phoneNumber"
+                                data-js-pattern="(^(\+?7|8)?9\d{9}$)"
                                 required=""
                                 aria-required="true"
                                 maxlength="20"
                                 minlength="18"
-                                inputmode="text"
+                                // inputmode="text"
                               />
                               <label
                                 class="rc-input__label"
@@ -844,9 +862,9 @@ class Payment extends React.Component {
                                     i
                                   </span>
                                   <div id="top-tooltip" class="rc-tooltip">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
+                                    For any consumer making order in the
+                                    website, no matter the amount, he or she is
+                                    able to be provided free delivery service.
                                   </div>
                                 </span>
                               </div>
@@ -868,7 +886,8 @@ class Payment extends React.Component {
                           maxlength="1000"
                           name="dwfrm_shipping_shippingAddress_deliveryComment"
                           id="delivery-comment"
-                          value=""
+                          value={this.state.commentOnDelivery}
+                          onChange={(e) => this.commentChange(e)}
                         ></textarea>
                         <label
                           class="rc-input__label"
@@ -895,8 +914,8 @@ class Payment extends React.Component {
                     <div class="card-header rc-margin-bottom--xs rc-padding-right--none clearfix">
                       <h4 class="pull-left">Address and Shipping Method</h4>
                       <a
-                        href=""
-                        onClick={() => this.goDelivery()}
+                        href="#"
+                        onClick={(e) => this.goDelivery(e)}
                         class=" rc-styled-link rc-margin-top--xs pull-right"
                       >
                         Edit
@@ -1194,6 +1213,7 @@ class Payment extends React.Component {
                                               <span
                                                 class="rc-input rc-input--full-width"
                                                 input-setup="true"
+                                                data-js-validate="" data-js-warning-message="*Phone Number isn’t valid"
                                               >
                                                 <input
                                                   type="tel"
@@ -1202,6 +1222,7 @@ class Payment extends React.Component {
                                                   min-lenght="18"
                                                   max-length="18"
                                                   data-phonelength="18"
+                                                  data-js-validate="(^(\+?7|8)?9\d{9}$)"
                                                   data-range-error="The phone number should contain 10 digits"
                                                   value={
                                                     deliveryAddress.phoneNumber
@@ -1214,7 +1235,7 @@ class Payment extends React.Component {
                                                   aria-required="true"
                                                   maxlength="2147483647"
                                                   autocomplete="tel"
-                                                  inputmode="text"
+                                                  // inputmode="text"
                                                 />
                                                 <label
                                                   class="rc-input__label"
@@ -1317,8 +1338,8 @@ class Payment extends React.Component {
                   Your order
                 </h5>
                 <a
-                  href=""
-                  onClick={() => this.goCart()}
+                  href="#"
+                  onClick={(e) => this.goCart(e)}
                   class="product-summary__cartlink rc-styled-link"
                 >
                   Edit

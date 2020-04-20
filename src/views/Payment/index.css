@@ -4,3 +4,13 @@
 .billingCheckbox {
   padding-left: 1.5rem;
 }
+.rc-input__validation-message {
+  color: #c03344 !important;
+  font-size: 80% !important;
+}
+.rc-input--warning>[class^=rc-input]:not([value=""]) {
+  border-color: #c03344 !important;
+}
+.rc-input--warning>[class^=rc-input]:not([value=""])+.rc-input__label::after {
+  background-color: #c03344 !important;
+}
