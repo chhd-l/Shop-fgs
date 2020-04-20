@@ -14,3 +14,7 @@
 .rc-input--warning>[class^=rc-input]:not([value=""])+.rc-input__label::after {
   background-color: #c03344 !important;
 }
+.rc-input--warning>[class^=rc-input] {
+  color: #c03344 !important;
+  border-color: #c03344 !important;
+}

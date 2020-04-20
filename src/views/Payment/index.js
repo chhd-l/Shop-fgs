@@ -408,7 +408,7 @@ class Payment extends React.Component {
                                   class="rc-input__control shippingLastName"
                                   id="shippingLastName"
                                   type="text"
-                                  value={deliveryAddress.address1}
+                                  value={deliveryAddress.address2}
                                   onChange={(e) => this.deliveryInputChange(e)}
                                   onBlur={(e) => this.inputBlur(e)}
                                   name="address2"
