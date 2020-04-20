@@ -1,18 +1,21 @@
 import React from 'react';
+import { createHashHistory } from 'history'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import Filters from '@/components/Filters'
+import Loading from '@/components/Loading'
 import './index.css'
 import { cloneDeep } from 'lodash'
 import filterData from './json/index.json'
 import titleCfg from './json/title.json'
+import { getList } from '@/api/list'
 
 class List extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      type: '',
+      category: '',
       titleData: null,
       productList: [
         // 占位用，不能删
@@ -33,57 +36,37 @@ class List extends React.Component {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       keywords: ''
     }
-    this.breadCrumbsData = []
     this.filterList = []
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
     this.handleCurrentPageNumChange = this.handleCurrentPageNumChange.bind(this)
     this.handlePrevOrNextPage = this.handlePrevOrNextPage.bind(this)
+    this.hanldeItemClick = this.hanldeItemClick.bind(this)
   }
   initData () {
-    const { type } = this.state
-    this.filterList = filterData[type]
+    const { category } = this.state
+    this.filterList = filterData[category]
     this.setState({
-      titleData: titleCfg[type]
+      titleData: titleCfg[category]
     })
     this.getProductList()
   }
   componentDidMount () {
     this.setState({
-      type: this.props.match.params.type
+      category: this.props.match.params.category
     }, () => {
-      const { type } = this.state
+      const { category } = this.state
       this.initData()
-      if (type.toLocaleLowerCase() === 'keywords') {
+      if (category.toLocaleLowerCase() === 'keywords') {
         this.setState({
           keywords: localStorage.getItem('rc-search-keywords')
         })
       }
-
-      // init breadcrumbs
-      let capitalizeType = this.capitalize(type)
-      this.breadCrumbsData = [{ name: capitalizeType, href: '' }]
-      if (type === 'kittens') {
-        this.breadCrumbsData = [
-          { name: capitalizeType, href: '#/cats' },
-          { name: 'Age', href: '#/cats' },
-          { name: 'Kitten (0-1 year old)', href: '' }
-        ]
-      } else if (type === 'puppies') {
-        this.breadCrumbsData = [
-          { name: capitalizeType, href: '#/dogs' },
-          { name: 'Age', href: '#/dogs' },
-          { name: 'Puppy (0-1 year old)', href: '' }
-        ]
-      }
     })
   }
-  capitalize (val) {
-    if (!val) return ''
-    val = val.toString()
-    return val.charAt(0).toUpperCase() + val.slice(1)
-  }
   getProductList () {
+    getList().then(res => { debugger }).catch(err => { debugger })
+
     // 搜索参数
     const { checkedList, current } = this.state;
     console.log('query getProductList interface', checkedList, current)
@@ -158,7 +141,6 @@ class List extends React.Component {
       res = checkedListCopy
     }
     this.setState({ checkedList: res }, () => this.getProductList())
-
   }
   handleCurrentPageNumChange (e) {
     let tmp = parseInt(e.target.value)
@@ -186,13 +168,16 @@ class List extends React.Component {
     }
     this.setState({ current: res }, () => this.getProductList())
   }
+  hanldeItemClick (item) {
+    createHashHistory().push('/details/' + item.id)
+  }
   render () {
     const { results, productList, loading, checkedList, current, total, titleData, cartData } = this.state
     return (
       <div>
         <Header cartData={cartData} showMiniIcons={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-          <BreadCrumbs data={this.breadCrumbsData} />
+          <BreadCrumbs />
           {titleData ?
             <div className="content-block__wrapper_ rc-bg-colour--brand3 rc-padding--sm rc-margin-bottom--xs ">
               <div className="layout-container_ two-column_ rc-layout-container rc-two-column rc-max-width--lg rc-content-h-middle">
@@ -233,12 +218,13 @@ class List extends React.Component {
                     </aside>
                   </div>
                   <div className="rc-column rc-triple-width">
-                    <div className="rc-match-heights rc-layout-container rc-event-card--sidebar-present">
+                    <div className={['rc-match-heights', 'rc-layout-container', 'rc-event-card--sidebar-present', loading ? 'loading' : ''].join(' ')}>
+                      {loading ? <Loading noMask={true} /> : null}
                       {productList.map(item => (
                         <div className={['rc-column', loading ? 'loading' : ''].join(' ')} key={item.id}>
                           <article className="rc-card rc-card--product">
                             <div className="fullHeight">
-                              <a href={'#/details/' + item.id}>
+                              <a onClick={() => this.hanldeItemClick(item)} className="ui-cursor-pointer">
                                 <article className="rc-card--a rc-text--center rc-padding-top--sm">
                                   <picture className="rc-card__image">
                                     <div className="rc-padding-bottom--xs">

@@ -3,7 +3,7 @@ import '@/assets/css/heroCarousel.css'
 
 function HeroCarousel () {
   return (
-    <div id="carousel-bfbf895cc930ed776b876ea285" className="hero-carousel with-shadow">
+    <div className="hero-carousel with-shadow">
       <div className="rc-max-width--xl">
         <div data-js-carousel="" className="rc-carousel js-hero-carousel">
           <div className="hero-carousel__slide">

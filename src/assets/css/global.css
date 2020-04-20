@@ -18912,6 +18912,9 @@ button.rc-btn.tooltip-btn {
   width: 100%;
   height: 100%
 }
+.veil.absolute {
+  position: absolute;
+}
 
 .veil .underlay {
   opacity: .5;
@@ -22328,4 +22331,10 @@ tr.rc-table__row.inactive td:after {
   transform-origin: 50% 33%;
   -webkit-animation: swing 1.5s ease-in-out alternate infinite;
   animation: swing 1.5s ease-in-out alternate infinite
+}
+.ui-cursor-pointer {
+  cursor: pointer;
+}
+.ui-cursor-pointer:hover {
+  color: #ec001a!important;
 }

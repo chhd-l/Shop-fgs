@@ -1,6 +1,7 @@
 import React from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import ScrollToTop from '@/components/ScrollToTop';
+import RouteFilter from '@/components/RouteFilter';
 import Home from '@/views/Home';
 import List from '@/views/List';
 import Details from '@/views/Details';
@@ -12,13 +13,14 @@ import Confirmation from '@/views/Confirmation'
 
 const BasicRoute = () => (
   <HashRouter>
+    <RouteFilter />
     <ScrollToTop>
       <Switch>
         <Route exact path="/" component={Home} />
         <Route
           exact
-          path="/list/:type"
-          render={(props) => <List key={props.match.params.type} {...props} />}
+          path="/list/:category"
+          render={(props) => <List key={props.match.params.category} {...props} />}
         />
         <Route
           exact
