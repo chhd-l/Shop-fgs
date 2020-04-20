@@ -1,9 +1,9 @@
 .rc-nav.rc-nav-custom {
-  position: absolute;
+  position: fixed;
   background-color: #fff;
   width: 11%;
   padding-left: 10px;
-  top: -58px;
+  top: 60px;
   z-index: 99;
   left: 17px;
   box-shadow: 0 2px 4px #e8e8e8;

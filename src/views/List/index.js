@@ -246,7 +246,7 @@ class List extends React.Component {
                                     </div>
                                     <span className="rc-card__price rc-text--center">
                                       <span className="range">
-                                        From {item.price} ₽
+                                        From $ {item.price}
                                     </span>
                                     </span>
                                   </div>
