@@ -87,7 +87,7 @@ class InterestedIn extends React.Component {
                             <span>
                               <span className="sales">
                                 <span className="value" content={item.price}>
-                                  {item.price} ₽
+                                  $ {item.price}
                                 </span>
                               </span>
                             </span>

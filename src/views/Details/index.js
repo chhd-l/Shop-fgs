@@ -3,6 +3,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import InterestedIn from '@/components/InterestedIn'
+import { createHashHistory } from 'history'
 import './index.css'
 import { cloneDeep } from 'lodash'
 
@@ -13,8 +14,67 @@ class Details extends React.Component {
       details: {
         id: '',
         name: '',
-        url: '',
-        img: '',
+        // pictureCfg: {
+        //   list: [
+        //     {
+        //       source1: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=500&fm=jpg&auto=compress',
+        //       source2: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress',
+        //       source3: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=150&fm=jpg&auto=compress',
+        //       img: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress'
+        //     }
+        //   ],
+        //   thumbnail: [
+        //     'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=64&fm=jpg&auto=compress',
+        //   ]
+        // },
+        pictureCfg: {
+          list: [
+            {
+              source1: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=500&fm=jpg&auto=compress',
+              source2: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress',
+              source3: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=150&fm=jpg&auto=compress',
+              img: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress'
+            },
+            {
+              source1: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=500&fm=jpg&auto=compress',
+              source2: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=250&fm=jpg&auto=compress',
+              source3: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=150&fm=jpg&auto=compress',
+              img: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=250&fm=jpg&auto=compress'
+            },
+            {
+              source1: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=500&fm=jpg&auto=compress',
+              source2: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=250&fm=jpg&auto=compress',
+              source3: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=150&fm=jpg&auto=compress',
+              img: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=250&fm=jpg&auto=compress'
+            },
+            {
+              source1: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=500&fm=jpg&auto=compress',
+              source2: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=250&fm=jpg&auto=compress',
+              source3: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=150&fm=jpg&auto=compress',
+              img: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=250&fm=jpg&auto=compress'
+            },
+            {
+              source1: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=500&fm=jpg&auto=compress',
+              source2: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress',
+              source3: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=150&fm=jpg&auto=compress',
+              img: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress'
+            },
+            {
+              source1: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=500&fm=jpg&auto=compress',
+              source2: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=250&fm=jpg&auto=compress',
+              source3: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=150&fm=jpg&auto=compress',
+              img: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=250&fm=jpg&auto=compress'
+            }
+          ],
+          thumbnail: [
+            'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=64&fm=jpg&auto=compress',
+            'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=64&fm=jpg&auto=compress',
+            'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=64&fm=jpg&auto=compress',
+            'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=64&fm=jpg&auto=compress',
+            'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=64&fm=jpg&auto=compress',
+            'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=64&fm=jpg&auto=compress'
+          ]
+        },
         description: '',
         reference: 0,
         sizeList: []
@@ -62,6 +122,54 @@ class Details extends React.Component {
       img: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
       description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years. MINI Adult is specially designed for dogs of small breeds (weighing from 4 to 10 kg). In the nutrition of dogs of small breeds, not only the adapted croquet size is important. They need more energy than large dogs, their growth period is shorter and their growth is more intense. As a rule, they live longer than large dogs, and are more picky in their diet.<ul><li>dsdsds</li></ul>',
       reference: 2323,
+      pictureCfg: {
+        list: [
+          {
+            source1: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=500&fm=jpg&auto=compress',
+            source2: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress',
+            source3: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=150&fm=jpg&auto=compress',
+            img: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress'
+          },
+          {
+            source1: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=500&fm=jpg&auto=compress',
+            source2: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=250&fm=jpg&auto=compress',
+            source3: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=150&fm=jpg&auto=compress',
+            img: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=250&fm=jpg&auto=compress'
+          },
+          {
+            source1: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=500&fm=jpg&auto=compress',
+            source2: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=250&fm=jpg&auto=compress',
+            source3: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=150&fm=jpg&auto=compress',
+            img: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=250&fm=jpg&auto=compress'
+          },
+          {
+            source1: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=500&fm=jpg&auto=compress',
+            source2: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=250&fm=jpg&auto=compress',
+            source3: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=150&fm=jpg&auto=compress',
+            img: 'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=250&fm=jpg&auto=compress'
+          },
+          {
+            source1: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=500&fm=jpg&auto=compress',
+            source2: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress',
+            source3: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=150&fm=jpg&auto=compress',
+            img: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress'
+          },
+          {
+            source1: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=500&fm=jpg&auto=compress',
+            source2: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=250&fm=jpg&auto=compress',
+            source3: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=150&fm=jpg&auto=compress',
+            img: 'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=250&fm=jpg&auto=compress'
+          }
+        ],
+        thumbnail: [
+          'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=64&fm=jpg&auto=compress',
+          'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=64&fm=jpg&auto=compress',
+          'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=64&fm=jpg&auto=compress',
+          'https://cdn.royalcanin-weshare-online.io/mSIRcmkBaxEApS7LMQpI/v15/vhn-dermatology-sensitivity-chicken-cat-pouch-pouch-packshot-b1ru?w=64&fm=jpg&auto=compress',
+          'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=64&fm=jpg&auto=compress',
+          'https://cdn.royalcanin-weshare-online.io/UCEUa2QBaxEApS7L_-Xz/v2/fbn-2013-graphiccodes-packshots-siam-ad-int-fbn-packshot?w=64&fm=jpg&auto=compress'
+        ]
+      },
       sizeList: [
         {
           label: '2.00',
@@ -148,7 +256,7 @@ class Details extends React.Component {
       details: Object.assign({}, this.state.details, { sizeList: ret })
     })
   }
-  hanldeAddToCart () {
+  hanldeAddToCart ({ redirect = false }) {
     const { quantity, cartData } = this.state
     const { id, sizeList } = this.state.details
     let newCartData
@@ -169,6 +277,9 @@ class Details extends React.Component {
     this.setState({
       cartData: newCartData
     })
+    if (redirect) {
+      createHashHistory().push('/payment/shipping')
+    }
     this.headerRef.current.handleMouseOver()
     setTimeout(() => {
       this.headerRef.current.handleMouseOut()
@@ -190,13 +301,52 @@ class Details extends React.Component {
                     {/* <!-- carousel --> */}
                     <div className="rc-column rc-double-width carousel-column">
                       <div className="rc-full-width">
-                        <div data-js-carousel="" className="rc-carousel rc-carousel__gallery-thumbnails">
+                        {/* <div data-js-carousel="" className="rc-carousel rc-carousel__gallery-thumbnails">
                           <div className="rc-carousel__img">
                             <img className="w-100 loaded tns-complete"
                               src={details.url}
                               srcSet={details.img}
                               alt={details.name}
                               title={details.name} />
+                          </div>
+                        </div>
+                       */}
+                        <div data-js-carousel data-image-gallery="true" data-move-carousel-up='md'
+                          data-move-carousel-to='#new-carousel-container'>
+                          <div class="rc-carousel rc-carousel__gallery-image" data-zoom-container="product-description-carousel"
+                            data-zoom-factor="3">
+                            {details.pictureCfg.list.map((item, idx) => (
+                              <div key={idx}>
+                                <div>
+                                  <picture>
+                                    <source
+                                      srcSet={item.source1}
+                                      media="(min-width: 1500px)" />
+                                    <source
+                                      srcSet={item.source2}
+                                      media="(min-width: 1000px)" />
+                                    <source
+                                      srcSet={item.source3}
+                                      media="(min-width: 500px)" />
+                                    <img
+                                      src={item.img}
+                                      alt="Product alt text" />
+                                  </picture>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          <div class="rc-carousel__gallery-thumbnails-wrapper">
+                            <div class="rc-carousel rc-carousel__gallery-thumbnails">
+                              {details.pictureCfg.thumbnail.map((item, idx) => (
+                                <div class="rc-carousel__gallery-thumbnail" key={idx}>
+                                  <figure class="rc-img--square"
+                                    style={{ backgroundImage: 'url(' + item + ')' }}>
+                                    <figcaption class="rc-screen-reader-text">Product caption text</figcaption>
+                                  </figure>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -244,14 +394,14 @@ class Details extends React.Component {
                                   <span>
                                     <span>
                                       <span className="sales">
-                                        <span className="value" content="3369.00">{currentPrice} ₽</span>
+                                        <span className="value" content="3369.00">$ {currentPrice}</span>
                                       </span>
                                     </span>
                                   </span>
                                 </b>
                               </div>
                               <div className="product-pricing__card__body rc-margin-top--xs">
-                                <div>Free shipping from $ 12</div>
+                                <div>Free shipping</div>
                                 <div className="toggleVisibility">
                                   <div className="product-selectors rc-padding-top--xs">
                                     <div id="choose-select">
@@ -305,6 +455,13 @@ class Details extends React.Component {
                                       <button className="add-to-cart rc-btn rc-btn--one rc-full-width" data-loc="addToCart" onClick={this.hanldeAddToCart}>
                                         <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
                                         Add to Cart
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                    <div className="cart-and-ipay">
+                                      <button className="add-to-cart rc-btn rc-btn--one rc-full-width" data-loc="addToCart" onClick={() => this.hanldeAddToCart({ redirect: true })}>
+                                        Checkout
                                       </button>
                                     </div>
                                   </div>
