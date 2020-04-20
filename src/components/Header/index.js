@@ -1,7 +1,7 @@
 import React from 'react'
+import { Link } from "react-router-dom"
 import Loading from '@/components/Loading'
 import { createHashHistory } from 'history'
-import './index.css'
 
 class Header extends React.Component {
   static defaultProps = {
@@ -263,9 +263,9 @@ class Header extends React.Component {
                                 <a className="rc-styled-link pull-right" href="#/cart" role="button" aria-pressed="true">Change</a>
                               </div>
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                                <a className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn" href="#/cart">
+                                <Link to="/payment/shipping" className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn">
                                   Checkout
-                                </a>
+                                </Link>
                               </div>
                               <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                                 <span className="rc-meta">
