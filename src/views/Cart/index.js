@@ -277,14 +277,14 @@ class Cart extends React.Component {
                 <div class="group-order rc-border-all rc-border-colour--interface cart__total__content">
                   <div class="row">
                     <div class="col-12 total-items medium">
-                      <span id="items-number">1</span>
-                      in the basket
+                      <span id="items-number">{this.state.productList.length}</span>
+                      item in the basket
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-8">Total</div>
                     <div class="col-4 no-padding-left">
-                      <p class="text-right sub-total">{total}</p>
+                      <p class="text-right sub-total">$ {total}</p>
                     </div>
                   </div>
                   <div class="row">
@@ -301,7 +301,7 @@ class Cart extends React.Component {
                         <strong>total cost</strong>
                       </div>
                       <div class="col-5">
-                        <p class="text-right grand-total-sum medium">{total}</p>
+                        <p class="text-right grand-total-sum medium">$ {total}</p>
                       </div>
                     </div>
                     <div class="row checkout-proccess">

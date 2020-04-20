@@ -884,3 +884,7 @@ div.product-info .strike-through {
   margin-bottom: 24px;
   margin-top: -25px
 }
+
+.line-item-price-info {
+  line-height: 36px;
+}

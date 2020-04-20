@@ -68,57 +68,27 @@ class Payment extends React.Component {
         postCode: "",
         phoneNumber: "",
       },
-      commentOnDelivery: '',
+      commentOnDelivery: "",
       currentProduct: null,
       loading: true,
       modalShow: false,
     };
   }
-  changeCache() {
-    localStorage.setItem(
-      "rc-cart-data",
-      JSON.stringify(this.state.productList)
-    );
-  }
-  addQuantity(item) {
-    item.quantity++;
-    this.setState({
-      productList: this.state.productList,
-    });
-    this.changeCache();
-  }
-  subQuantity(item) {
-    if (item.quantity > 1) {
-      item.quantity--;
-      this.setState({
-        productList: this.state.productList,
-      });
-    }
-    this.changeCache();
-  }
-  closeModal() {
-    this.setState({
-      currentProduct: null,
-      modalShow: false,
-    });
-  }
-  deleteProduct() {
-    let { currentProduct, productList } = this.state;
-    this.state.productList = productList.filter(
-      (el) => el.id !== currentProduct.id
-    );
-    this.changeCache();
-    this.closeModal();
-  }
-  changeSize(pItem, sizeItem) {
-    pItem.sizeList.map((el) => (el.selected = false));
-    sizeItem.selected = true;
-    this.setState({
-      productList: this.state.productList,
-    });
-    this.changeCache();
-  }
+
   ChoosePayment() {
+    const { deliveryAddress, billingAddress, billingChecked } = this.state;
+    if (billingChecked) {
+      localStorage.setItem(
+        "deliveryInfo",
+        JSON.stringify({ deliveryAddress, billingAddress: deliveryAddress })
+      );
+    } else {
+      localStorage.setItem(
+        "deliveryInfo",
+        JSON.stringify({ deliveryAddress, billingAddress })
+      );
+    }
+
     const { history } = this.props;
     history.push("/payment/payment");
   }
@@ -130,17 +100,17 @@ class Payment extends React.Component {
     history.push("/confirmation");
   }
   goDelivery(e) {
-    e.preventDefault()
+    e.preventDefault();
     const { history } = this.props;
     history.push("/payment/shipping");
   }
   goCart(e) {
-    e.preventDefault()
+    e.preventDefault();
     const { history } = this.props;
     history.push("/cart");
   }
   deliveryInputChange(e) {
-    console.log(e)
+    console.log(e);
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -170,9 +140,6 @@ class Payment extends React.Component {
     billingAddress[name] = value;
     this.inputBlur(e);
     this.setState({ billingAddress: billingAddress });
-    // this.setState({
-    //   [name]: value
-    // });
   }
   commentChange(e) {
     this.setState({ commentOnDelivery: e.target.value });
@@ -181,38 +148,18 @@ class Payment extends React.Component {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
   }
-  loadScript(src, callback) {
-    var script = document.createElement("script"),
-      head = document.getElementsByTagName("head")[0];
-    script.type = "text/javascript";
-    script.charset = "UTF-8";
-    script.src = src;
-    if (script.addEventListener) {
-      script.addEventListener(
-        "load",
-        function () {
-          callback();
-        },
-        false
-      );
-    } else if (script.attachEvent) {
-      script.attachEvent("onreadystatechange", function () {
-        var target = window.event.srcElement;
-        if (target.readyState == "loaded") {
-          callback();
-        }
-      });
-    }
-    head.appendChild(script);
-  }
 
   componentDidMount() {
-    let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
+    let deliveryInfoStr = localStorage.getItem("deliveryInfo");
+    if (deliveryInfoStr) {
+      let deliveryInfo = JSON.parse(deliveryInfoStr);
+      this.setState({
+        deliveryAddress: deliveryInfo.deliveryAddress,
+        billingAddress: deliveryInfo.billingAddress,
+      });
+    }
     this.setState({
       type: this.props.match.params.type,
-    });
-    this.loadScript("/royal/royal-canin.js", function () {
-      console.log("haha");
     });
   }
   render() {
@@ -481,7 +428,8 @@ class Payment extends React.Component {
                             <span
                               class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
                               input-setup="true"
-                              data-js-validate="" data-js-warning-message="*Post Code isn’t valid"
+                              data-js-validate=""
+                              data-js-warning-message="*Post Code isn’t valid"
                             >
                               <input
                                 class="rc-input__control shippingZipCode"
@@ -517,7 +465,8 @@ class Payment extends React.Component {
                             <span
                               class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
                               input-setup="true"
-                              data-js-validate="" data-js-warning-message="*Phone Number isn’t valid"
+                              data-js-validate=""
+                              data-js-warning-message="*Phone Number isn’t valid"
                             >
                               <input
                                 class="rc-input__control input__phoneField shippingPhoneNumber"
@@ -549,7 +498,7 @@ class Payment extends React.Component {
                     </div>
                     <div class="card-header rc-margin-bottom--xs">
                       <h4>Billing address</h4>
-                      <div className="billingCheckbox">
+                      <div className="billingCheckbox rc-margin-top--xs">
                         <input
                           class="form-check-input"
                           id="id-checkbox-billing"
@@ -768,7 +717,8 @@ class Payment extends React.Component {
                             <span
                               class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
                               input-setup="true"
-                              data-js-validate="" data-js-warning-message="*Post Code isn’t valid"
+                              data-js-validate=""
+                              data-js-warning-message="*Post Code isn’t valid"
                             >
                               <input
                                 class="rc-input__control shippingZipCode"
@@ -804,7 +754,8 @@ class Payment extends React.Component {
                             <span
                               class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
                               input-setup="true"
-                              data-js-validate="" data-js-warning-message="*Phone Number isn’t valid"
+                              data-js-validate=""
+                              data-js-warning-message="*Phone Number isn’t valid"
                             >
                               <input
                                 class="rc-input__control input__phoneField shippingPhoneNumber"
@@ -837,37 +788,35 @@ class Payment extends React.Component {
                     <fieldset class="shipping-method-block rc-fieldset">
                       <div class="card-header rc-margin-bottom--xs">
                         <h4>How to deliver :</h4>
-                        <div class="js-shipping-methods-list">
-                          <div class="leading-lines shipping-method-list rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
-                            <div class="row rc-padding-y--xs">
-                              <div class="col-8">
-                                <div class="form-check">
-                                  <span class="display-name">
-                                    Normal Delivery
-                                  </span>
-                                  <span class="text-muted arrival-time">
-                                    (1-4 days)
-                                  </span>
-                                </div>
-                              </div>
-                              <div class="col-4">
-                                <span class="shipping-method-pricing">
-                                  <span class="shipping-cost">For Free</span>
-                                  <span
-                                    class=" info-tooltip delivery-method-tooltip"
-                                    title="Top"
-                                    data-tooltip-placement="top"
-                                    data-tooltip="top-tooltip"
-                                  >
-                                    i
-                                  </span>
-                                  <div id="top-tooltip" class="rc-tooltip">
-                                    For any consumer making order in the
-                                    website, no matter the amount, he or she is
-                                    able to be provided free delivery service.
-                                  </div>
+                      </div>
+                      <div>
+                        <div class="leading-lines shipping-method-list rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
+                          <div class="row deliveryMethod">
+                            <div class="col-8">
+                              <span class="display-name pull-left">
+                                Normal Delivery
+                              </span>
+                              <span class="text-muted arrival-time">
+                                (1-4 days)
+                              </span>
+                            </div>
+                            <div class="col-4">
+                              <span class="shipping-method-pricing">
+                                <span class="shipping-cost">For Free</span>
+                                <span
+                                  class=" info-tooltip delivery-method-tooltip"
+                                  title="Top"
+                                  data-tooltip-placement="top"
+                                  data-tooltip="top-tooltip"
+                                >
+                                  i
                                 </span>
-                              </div>
+                                <div id="top-tooltip" class="rc-tooltip">
+                                  For any consumer making order in the website,
+                                  no matter the amount, he or she is able to be
+                                  provided free delivery service.
+                                </div>
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -878,7 +827,7 @@ class Payment extends React.Component {
                         <h4>Comment on delivery</h4>
                       </div>
                       <span
-                        class="rc-input nomaxwidth rc-margin-bottom--sm rc-border-all rc-border-colour--interface"
+                        class="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
                         input-setup="true"
                       >
                         <textarea
@@ -898,7 +847,7 @@ class Payment extends React.Component {
                   </div>
                   <p>
                     <button
-                      class="rc-btn rc-btn--one"
+                      class="rc-btn rc-btn--one pull-right rc-margin-bottom--sm"
                       onClick={() => this.ChoosePayment()}
                     >
                       Choose a payment
@@ -1213,7 +1162,8 @@ class Payment extends React.Component {
                                               <span
                                                 class="rc-input rc-input--full-width"
                                                 input-setup="true"
-                                                data-js-validate="" data-js-warning-message="*Phone Number isn’t valid"
+                                                data-js-validate=""
+                                                data-js-warning-message="*Phone Number isn’t valid"
                                               >
                                                 <input
                                                   type="tel"
@@ -1269,6 +1219,10 @@ class Payment extends React.Component {
                         </div>
                       </form>
                     </div>
+                  </div>
+                  <div class="rc-input rc-input--stacked">
+                    <input class="rc-input__checkbox" id="id-checkbox-cat-2" value="Cat" type="checkbox" name="checkbox-2" />
+                    <label class="rc-input__label--inline" for="id-checkbox-cat-2">Cat</label>
                   </div>
                   <div
                     id="capture_traditionalRegistration_form_item_ageIndicator"
@@ -1347,7 +1301,7 @@ class Payment extends React.Component {
                 <div class="product-summary__inner">
                   <div class="product-summary__recap">
                     <div class="product-summary__itemnbr checkout--padding rc-bg-colour--brand4">
-                      1 total product
+                      1 item total product
                     </div>
                     <div class="product-summary__recap__content">
                       <div class="rc-border-colour--interface rc-border-left rc-border-right checkout--padding">
@@ -1385,7 +1339,7 @@ class Payment extends React.Component {
                                         null
                                       </div>
                                       <b class="pricing line-item-total-price-amount item-total-3ab64fd26c17b64c44e4ba1a7e light">
-                                        ₽ 2 616
+                                        {/* $ 2616 */}
                                       </b>
                                     </div>
                                   </div>
@@ -1404,7 +1358,7 @@ class Payment extends React.Component {
                             </div>
                             <div class="col-4 end-lines">
                               <p class="text-right">
-                                <span class="sub-total">₽ 2 616</span>
+                                <span class="sub-total">$ 2616</span>
                               </p>
                             </div>
                           </div>
@@ -1451,7 +1405,7 @@ class Payment extends React.Component {
                     </div>
                     <div class="product-summary__total grand-total row leading-lines rc-bg-colour--brand4 checkout--padding">
                       <div class="col-6 start-lines order-receipt-label">
-                        <span>total cost</span>
+                        <span>Total cost</span>
                       </div>
                       <div class="col-6 end-lines text-right">
                         <span class="grand-total-sum">-</span>
