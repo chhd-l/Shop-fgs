@@ -1220,10 +1220,10 @@ class Payment extends React.Component {
                       </form>
                     </div>
                   </div>
-                  <div class="rc-input rc-input--stacked">
+                  {/* <div class="rc-input rc-input--stacked"> */}
                     <input class="rc-input__checkbox" id="id-checkbox-cat-2" value="Cat" type="checkbox" name="checkbox-2" />
                     <label class="rc-input__label--inline" for="id-checkbox-cat-2">Cat</label>
-                  </div>
+                  {/* </div> */}
                   <div
                     id="capture_traditionalRegistration_form_item_ageIndicator"
                     class="miaa_check form-check required capture_form_item capture_form_item_ageIndicator form-group"

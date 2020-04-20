@@ -98,6 +98,11 @@ class Cart extends React.Component {
     this.changeCache();
     this.closeModal();
   }
+  goBack(e) {
+    e.preventDefault();
+    const { history } = this.props
+    history.goBack()
+  }
   changeSize (pItem, sizeItem) {
     pItem.sizeList.map((el) => (el.selected = false));
     sizeItem.selected = true;
@@ -246,7 +251,7 @@ class Cart extends React.Component {
           <div class="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
             <div class="rc-layout-container rc-one-column">
               <div class="rc-column">
-                <a href="./boilerplate.html" title="Continue shopping">
+                <a href="#" onClick={(e) => this.goBack(e)} title="Continue shopping">
                   <span class="rc-header-with-icon rc-header-with-icon--gamma">
                     <span class="rc-icon rc-left rc-iconography"></span>
                     Continue shopping
