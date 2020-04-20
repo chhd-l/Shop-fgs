@@ -16982,7 +16982,7 @@ a.normal {
 }
 
 #tippy-1 .tippy-tooltip.brand4-theme .tippy-arrow {
-  left: 75%!important
+  /* left: 75%!important */
 }
 
 #tippy-1 .tippy-tooltip.brand4-theme #header__tooltip {
