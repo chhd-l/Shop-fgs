@@ -1,7 +1,7 @@
 {
   "dogs": [
     {
-      "name": "AGE",
+      "name": "Age",
       "list": [
         {
           "label": "Puppies (up to 10 months)",
@@ -18,105 +18,81 @@
       ]
     },
     {
-      "name": "Pet size",
+      "name": "Size",
       "list": [
         {
-          "label": "X-Small (up to 4 kg)",
-          "value": "X-Small (up to 4 kg)"
+          "label": "X-Small",
+          "value": "X-Small"
         },
         {
-          "label": "Mini (4-10 kg)",
-          "value": "Mini (4-10 kg)"
+          "label": "Small",
+          "value": "Small"
         },
         {
-          "label": "Medium (10-25 kg)",
-          "value": "Medium (10-25 kg)"
+          "label": "Medium",
+          "value": "Medium"
         },
         {
-          "label": "Maxi (25-45 kg)",
-          "value": "Maxi (25-45 kg)"
+          "label": "Large",
+          "value": "Large"
         },
         {
-          "label": "Giant (over 45 kg)",
-          "value": "Giant (over 45 kg)"
+          "label": "Giant",
+          "value": "Giant"
         }
       ]
     },
     {
-      "name": "Breed",
+      "name": "Special Needs",
       "list": [
         {
-          "label": "Bulldog",
-          "value": "Bulldog"
+          "label": "Diabetes support",
+          "value": "Diabetes support"
         },
         {
-          "label": "Beagle",
-          "value": "Beagle"
+          "label": "Digestive Health",
+          "value": "Digestive Health"
         },
         {
-          "label": "Boxer",
-          "value": "Boxer"
+          "label": "Food Elimination Trial",
+          "value": "Food Elimination Trial"
         },
         {
-          "label": "West Highland White Terrier",
-          "value": "West Highland White Terrier"
+          "label": "Healthy Weight",
+          "value": "Healthy Weight"
         },
         {
-          "label": "Dalmatian",
-          "value": "Dalmatian"
+          "label": "Healthy Energy Needs",
+          "value": "Healthy Energy Needs"
         },
         {
-          "label": "Jack Russell Terrier",
-          "value": "Jack Russell Terrier"
+          "label": "Kidney Health",
+          "value": "Kidney Health"
         },
         {
-          "label": "Golden retriever",
-          "value": "Golden retriever"
+          "label": "Oral Hygiene",
+          "value": "Oral Hygiene"
         },
         {
-          "label": "Labrador retriever",
-          "value": "Labrador retriever"
+          "label": "Skin and Coat",
+          "value": "Skin and Coat"
         },
         {
-          "label": "Pug",
-          "value": "Pug"
+          "label": "Stress Support",
+          "value": "Stress Support"
         },
         {
-          "label": "German Shepherd",
-          "value": "German Shepherd"
+          "label": "Urinary Health",
+          "value": "Urinary Health"
         },
         {
-          "label": "Rottweiler",
-          "value": "Rottweiler"
-        },
-        {
-          "label": "Dachshund standard smooth-haired",
-          "value": "Dachshund standard smooth-haired"
-        },
-        {
-          "label": "Shih Tzu",
-          "value": "Shih Tzu"
-        },
-        {
-          "label": "French Bulldog",
-          "value": "French Bulldog"
-        },
-        {
-          "label": "Yorkshire Terrier",
-          "value": "Yorkshire Terrier"
-        },
-        {
-          "label": "Chihuahua longhair",
-          "value": "Chihuahua longhair"
-        },
-        {
-          "label": "Mixed Breed or Outbred",
-          "value": "Mixed Breed or Outbred"
+          "label": "Weight management",
+          "value": "Weight management"
         }
       ]
     },
     {
-      "name": "Feed type",
+      "name": "Dry/Wet",
       "list": [
         {
           "label": "Dry",
@@ -127,24 +103,11 @@
           "value": "Wet"
         }
       ]
-    },
-    {
-      "name": "Sterilization",
-      "list": [
-        {
-          "label": "Yes",
-          "value": "Yes"
-        },
-        {
-          "label": "No",
-          "value": "No"
-        }
-      ]
     }
   ],
   "cats": [
     {
-      "name": "AGE",
+      "name": "Age",
       "list": [
         {
           "label": "Kittens (up to 1 year old)",
@@ -161,48 +124,81 @@
       ]
     },
     {
-      "name": "Breed",
+      "name": "Size",
       "list": [
         {
-          "label": "Bengal",
-          "value": "Bengal"
+          "label": "X-Small",
+          "value": "X-Small"
         },
         {
-          "label": "Norwegian Forest",
-          "value": "Norwegian Forest"
+          "label": "Small",
+          "value": "Small"
         },
         {
-          "label": "Siamese",
-          "value": "Siamese"
+          "label": "Medium",
+          "value": "Medium"
         },
         {
-          "label": "Siberian",
-          "value": "Siberian"
+          "label": "Large",
+          "value": "Large"
         },
         {
-          "label": "Canadian Sphinx",
-          "value": "Canadian Sphinx"
-        },
-        {
-          "label": "British Shorthair",
-          "value": "British Shorthair"
-        },
-        {
-          "label": "Persian",
-          "value": "Persian"
-        },
-        {
-          "label": "Maine coon",
-          "value": "Maine coon"
-        },
-        {
-          "label": "Mixed Breed or Outbred",
-          "value": "Mixed Breed or Outbred"
+          "label": "Giant",
+          "value": "Giant"
         }
       ]
     },
     {
-      "name": "Feed type",
+      "name": "Special Needs",
+      "list": [
+        {
+          "label": "Diabetes support",
+          "value": "Diabetes support"
+        },
+        {
+          "label": "Digestive Health",
+          "value": "Digestive Health"
+        },
+        {
+          "label": "Food Elimination Trial",
+          "value": "Food Elimination Trial"
+        },
+        {
+          "label": "Healthy Weight",
+          "value": "Healthy Weight"
+        },
+        {
+          "label": "Healthy Energy Needs",
+          "value": "Healthy Energy Needs"
+        },
+        {
+          "label": "Kidney Health",
+          "value": "Kidney Health"
+        },
+        {
+          "label": "Oral Hygiene",
+          "value": "Oral Hygiene"
+        },
+        {
+          "label": "Skin and Coat",
+          "value": "Skin and Coat"
+        },
+        {
+          "label": "Stress Support",
+          "value": "Stress Support"
+        },
+        {
+          "label": "Urinary Health",
+          "value": "Urinary Health"
+        },
+        {
+          "label": "Weight management",
+          "value": "Weight management"
+        }
+      ]
+    },
+    {
+      "name": "Dry/Wet",
       "list": [
         {
           "label": "Dry",
@@ -211,19 +207,6 @@
         {
           "label": "Wet",
           "value": "Wet"
-        }
-      ]
-    },
-    {
-      "name": "Sterilization",
-      "list": [
-        {
-          "label": "Yes",
-          "value": "Yes"
-        },
-        {
-          "label": "No",
-          "value": "No"
         }
       ]
     }

@@ -29,6 +29,13 @@ class Header extends React.Component {
     this.toggleMenu = this.toggleMenu.bind(this)
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
+    this.menuBtnRef = React.createRef();
+  }
+  componentDidMount () {
+    window.addEventListener('click', (e) => this.hideMenu(e))
+  }
+  componentWillUnmount () {
+    window.removeEventListener('click', this.hideMenu)
   }
   get totalNum () {
     return this.props.cartData.reduce((pre, cur) => { return pre + cur.quantity }, 0)
@@ -129,6 +136,13 @@ class Header extends React.Component {
       showMegaMenu: !this.state.showMegaMenu
     })
   }
+  hideMenu (e) {
+    if (e.target.id !== 'J-btn-menu' && getComputedStyle(this.menuBtnRef.current).display !== 'none') {
+      this.setState({
+        showMegaMenu: false
+      })
+    }
+  }
   renderResultJsx () {
     return this.state.result ?
       <div className="suggestions">
@@ -191,8 +205,12 @@ class Header extends React.Component {
           <ul className="rc-list rc-list--blank rc-list--inline rc-list--align" role="menubar">
             {this.props.showMiniIcons ?
               <li className="rc-list__item">
-                <button className="rc-btn rc-btn--icon-label rc-icon rc-menu--xs rc-iconography rc-md-up"
-                  aria-label="Menu" onClick={this.toggleMenu}>Menu</button>
+                <button
+                  className="rc-btn rc-btn--icon-label rc-icon rc-menu--xs rc-iconography rc-md-up"
+                  aria-label="Menu"
+                  id="J-btn-menu"
+                  ref={this.menuBtnRef}
+                  onClick={this.toggleMenu}>Menu</button>
                 <button className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-menu--xs', 'rc-iconography', 'rc-md-down', this.state.showMegaMenu ? 'btn-close' : ''].join(' ')}
                   aria-label="Menu" onClick={this.toggleMenu}>
                   <span className="rc-screen-reader-text">Menu</span>
