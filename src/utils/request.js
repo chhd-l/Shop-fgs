@@ -12,11 +12,12 @@ service.interceptors.response.use((response) => {
     return response
   }
   const res = response.data
-  if (res.code !== 200) {
-    return Promise.reject(new Error(res.msg || 'Error'))
-  } else {
-    return response.data
-  }
+  // if (res.code !== 200) {
+  //   return Promise.reject(new Error(res.msg || 'Error'))
+  // } else {
+  //   return response.data
+  // }
+  return response.data
 }, err => Promise.reject(err))
 
 export default service

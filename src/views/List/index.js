@@ -65,7 +65,7 @@ class List extends React.Component {
     })
   }
   getProductList () {
-    getList().then(res => {  }).catch(err => {  })
+    getList('ff8080817177b77c01717c19c3820008').then(res => {  }).catch(err => {  })
 
     // 搜索参数
     const { checkedList, current } = this.state;

@@ -6,6 +6,7 @@ import InterestedIn from '@/components/InterestedIn'
 import { createHashHistory } from 'history'
 import './index.css'
 import { cloneDeep } from 'lodash'
+import { getDetails } from '@/api/details'
 
 class Details extends React.Component {
   constructor(props) {
@@ -113,7 +114,7 @@ class Details extends React.Component {
     // script.src = 'http://localhost:3000/royal/royal-canin.js?V=2';
     // head.appendChild(script)
   }
-  getDetails () {
+  async getDetails () {
     const { id } = this.state
     let res = {
       id: id,
@@ -200,6 +201,8 @@ class Details extends React.Component {
         currentPrice: res.sizeList[1].price * this.state.quantity
       })
     }, 1000)
+    const res2 = await getDetails('ff8080817177b77c01717c19c3820008')
+    console.log(res2)
   }
   changeAmount (type) {
     if (!type) return
