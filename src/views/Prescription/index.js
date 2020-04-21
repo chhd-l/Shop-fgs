@@ -1,6 +1,7 @@
 import React from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { createHashHistory } from 'history'
 import './index.css'
 import GoogleMapReact from 'google-map-react';
 import { fitBounds } from 'google-map-react/utils';
@@ -98,10 +99,14 @@ class Prescription extends React.Component{
     }
   }
   handleInit=()=>{
+    this.setState({})
   }
   handleSearch(){
     console.log('search');
     
+  }
+  handleConfirm=()=>{
+    createHashHistory().push('/payment/shipping')
   }
   handleCurrentPageNumChange (e) {
     let tmp = parseInt(e.target.value)
@@ -175,7 +180,7 @@ class Prescription extends React.Component{
               <h1 class="rc-card__title rc-delta">{tempArr[i].title}</h1>
               <p>{tempArr[i].phone} </p>
               <p style={{display: "inline-block",width:"12rem"}}>{tempArr[i].desc} </p>
-              <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}}>comfirm</a>
+              <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} onClick={this.handleConfirm}>comfirm</a>
             </div>
           </article>)
       }
