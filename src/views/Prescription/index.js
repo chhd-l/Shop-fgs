@@ -18,11 +18,11 @@ const AnyReactComponent = ({ obj }) => {
   </div>
   <div id={obj.title+obj.id} class="rc-tooltip">
     <div class="rc-tooltip rc-text--left rc-padding--xs" id="map-tooltip" style={{ display:'block'}}>
-      <div class="rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop">
+      <div class="rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop" style={{marginBottom:"0"}}>
         <h1 class="rc-card__title rc-delta">{obj.title}</h1>
         <p>{obj.phone} </p>
-        <p style={{display: "inline-block",width:"12rem"}}>{obj.desc}</p>
-        <a class="rc-styled-link">comfirm</a>
+        <p style={{display: "inline-block",width:"10rem"}}>{obj.desc}</p>
+        <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}}>comfirm</a>
       </div>
     </div>
   </div>
@@ -48,33 +48,82 @@ const AnyReactComponent = ({ obj }) => {
 }
 
 class Prescription extends React.Component{
-  static defaultProps = {
-    center: {
-      lat: 39.9,
-      lng: 116.3
-    },
-    zoom: 11
-  };
+  // static defaultProps = {
+  //   center: {
+  //     lat: 39.9,
+  //     lng: 116.3
+  //   },
+  //   zoom: 15
+  // };
   constructor(props) {
     super(props)
     this.state = {
       key:'AIzaSyAon2T3c9-PS9lXxkAztfBZP5BWygtBTWE',
       type:'perscription',
       keywords:'',
-      selectedSort:1
+      selectedSort:1,
+      current: 1,
+      total: 6, // 总页数
+      center:{
+        lat: 39.9,
+        lng: 116.3
+      },
+      zoom: 11
     }
     this.headerRef = React.createRef();
     this.inputRef = React.createRef();
+    this.init()
   }
   inputSearchValue=(e)=>{
     this.setState({
       keywords: e.target.value
     })
-    
+  }
+  init=()=>{
+    if (navigator.geolocation) {
+      //获取当前地理位置信息 
+      navigator.geolocation.getCurrentPosition(position => {
+        debugger
+        this.setState({
+          center:{
+            lat:position.coords.latitude,
+            lng:position.coords.longitude
+          }
+        })
+      })
+   } else {
+        alert("你的浏览器不支持HTML5来获取地理位置信息。");
+  }
   }
   handleSearch(){
     console.log('search');
     
+  }
+  handleCurrentPageNumChange (e) {
+    let tmp = parseInt(e.target.value)
+    if (isNaN(tmp)) {
+      tmp = 1
+    }
+    if (tmp > this.state.total) {
+      tmp = this.state.total
+    }
+    this.setState({ current: tmp }, () => this.getProductList())
+  }
+  handlePrevOrNextPage (type) {
+    const { current, total } = this.state
+    let res
+    if (type === 'prev') {
+      if (current <= 1) {
+        return
+      }
+      res = current - 1
+    } else {
+      if (current >= total) {
+        return
+      }
+      res = current + 1
+    }
+    this.setState({ current: res }, () => this.getProductList())
   }
   render(h) {
     let tempArr=[
@@ -83,8 +132,8 @@ class Prescription extends React.Component{
         type:'customer',
         desc:'meda1',
         id:1001,
-        lat:39.912345,
-        lng:116.31,
+        lat:this.state.center.lat,
+        lng:this.state.center.lng,
       },
       {
       title:'clinic1',
@@ -92,24 +141,24 @@ class Prescription extends React.Component{
       phone:'023-12341231',
       desc:'meda1',
       id:1,
-      lat:39.99999,
-      lng:116.34,
+      lat:this.state.center.lat+0.1,
+        lng:this.state.center.lng+0.1,
     },{
       title:'clinic2',
       type:'clinic',
       phone:'023-12341232',
       desc:'meda2',
       id:2,
-      lat:39.97,
-      lng:116.37,
+      lat:this.state.center.lat+0.3,
+        lng:this.state.center.lng,
     },{
       title:'clinic3',
       type:'clinic',
       phone:'023-12341233',
       desc:'meda3',
       id:3,
-      lat:39.94,
-      lng:116.9,
+      lat:this.state.center.lat+0.3,
+        lng:this.state.center.lng+0.1,
     }]
     let items = [];
     let flags=[];
@@ -236,14 +285,34 @@ class Prescription extends React.Component{
                   <div class="rc-column" style={{padding:"0" }}>
                     {items}
                   </div>
+                  <div className="grid-footer rc-full-width">
+                    <nav className="rc-pagination" data-pagination="" data-pages={this.state.total}>
+                      <form className="rc-pagination__form">
+                        <button
+                          className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
+                          aria-label="Previous step" data-prev="" type="submit" onClick={this.handlePrevOrNextPage('prev')}></button>
+                        <div className="rc-pagination__steps">
+                          <input type="text" className="rc-pagination__step rc-pagination__step--current" value={this.state.current}
+                            aria-label="Current step" onChange={this.handleCurrentPageNumChange} />
+                          <div className="rc-pagination__step rc-pagination__step--of">
+                            of
+                            &nbsp;<span data-total-steps-label=""></span>
+                          </div>
+                        </div>
+                        <button
+                          className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
+                          aria-label="Previous step" data-next="" type="submit" onClick={() => this.handlePrevOrNextPage('next')}></button>
+                      </form>
+                    </nav>
+                  </div>
                 </form>
                 
               </div>
               <div style={{ height: '40rem', width: '70%' }}>
                 <GoogleMapReact
                   bootstrapURLKeys={{ key: this.state.key }}
-                  defaultCenter={this.props.center}
-                  defaultZoom={this.props.zoom}>
+                  defaultCenter={this.state.center}
+                  defaultZoom={this.state.zoom}>
                   {flags}
                 </GoogleMapReact>
               </div>
