@@ -267,7 +267,7 @@ class List extends React.Component {
                                 aria-label="Current step" onChange={this.handleCurrentPageNumChange} />
                               <div className="rc-pagination__step rc-pagination__step--of">
                                 of
-                              <span data-total-steps-label=""></span>
+                                &nbsp;<span data-total-steps-label=""></span>
                               </div>
                             </div>
                             <button

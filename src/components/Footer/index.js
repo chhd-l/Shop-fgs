@@ -87,17 +87,17 @@ function Footer () {
           <div className="mars-footer-container">
             <ul className="mars-footer-list-right" style={{ fontSize: '10px', fontFamily: 'Inherit' }}>
               <li>
-                <a target="_blank" href="https://www.mars.com/privacy-policy-russia">
+                <a target="_blank" href="https://www.mars.com/privacy-policy-mexico">
                   <span className="mars-footer-label">Confidentiality</span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/cookies-russia">
+                <a target="_blank" href="https://www.mars.com/cookies-spain">
                   <span className="mars-footer-label">Cookies</span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/legal-russia">
+                <a target="_blank" href="https://www.mars.com/legal-mexico">
                   <span className="mars-footer-label">Legal Terms</span>
                 </a>
               </li>
