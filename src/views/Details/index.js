@@ -313,7 +313,7 @@ class Details extends React.Component {
                        */}
                         <div data-js-carousel data-image-gallery="true" data-move-carousel-up='md'
                           data-move-carousel-to='#new-carousel-container'>
-                          <div class="rc-carousel rc-carousel__gallery-image" data-zoom-container="product-description-carousel"
+                          <div className="rc-carousel rc-carousel__gallery-image" data-zoom-container="product-description-carousel"
                             data-zoom-factor="3">
                             {details.pictureCfg.list.map((item, idx) => (
                               <div key={idx}>
@@ -336,13 +336,13 @@ class Details extends React.Component {
                               </div>
                             ))}
                           </div>
-                          <div class="rc-carousel__gallery-thumbnails-wrapper">
-                            <div class="rc-carousel rc-carousel__gallery-thumbnails">
+                          <div className="rc-carousel__gallery-thumbnails-wrapper">
+                            <div className="rc-carousel rc-carousel__gallery-thumbnails">
                               {details.pictureCfg.thumbnail.map((item, idx) => (
-                                <div class="rc-carousel__gallery-thumbnail" key={idx}>
-                                  <figure class="rc-img--square"
+                                <div className="rc-carousel__gallery-thumbnail" key={idx}>
+                                  <figure className="rc-img--square"
                                     style={{ backgroundImage: 'url(' + item + ')' }}>
-                                    <figcaption class="rc-screen-reader-text">Product caption text</figcaption>
+                                    <figcaption className="rc-screen-reader-text">Product caption text</figcaption>
                                   </figure>
                                 </div>
                               ))}
@@ -357,9 +357,9 @@ class Details extends React.Component {
                         <h1 className="rc-gamma wrap-short-des--heading">
                           {details.name}
                         </h1>
-                        <label>
-                          Reference: <span className="sku-value">{details.reference}</span>
-                        </label>
+                        {details.reference 
+                          ? <label> Reference: <span className="sku-value">{details.reference}</span></label> 
+                          : null}
                         <h3>
                           <div className="rating-stars hidden-lg-down">
                             <div className="product-number-rating clearfix">

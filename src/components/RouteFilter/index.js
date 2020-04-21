@@ -4,10 +4,11 @@ import { withRouter } from 'react-router-dom';
 import { createHashHistory } from 'history'
 
 class RouteFilter extends Component {
-  UNSAFE_componentWillUpdate (nextProps) {
+  shouldComponentUpdate (nextProps) {
     // 切换路由时，刷新下页面，解决外部组件无法初始化问题
     if (this.props.location !== nextProps.location) {
       createHashHistory().go(0)
+      return false
     }
   }
   getParaByName (search, name) {
