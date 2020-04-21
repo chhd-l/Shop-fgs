@@ -357,8 +357,8 @@ class Details extends React.Component {
                         <h1 className="rc-gamma wrap-short-des--heading">
                           {details.name}
                         </h1>
-                        {details.reference 
-                          ? <label> Reference: <span className="sku-value">{details.reference}</span></label> 
+                        {details.reference
+                          ? <label> Reference: <span className="sku-value">{details.reference}</span></label>
                           : null}
                         <h3>
                           <div className="rating-stars hidden-lg-down">
@@ -461,6 +461,7 @@ class Details extends React.Component {
                                   <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                     <div className="cart-and-ipay">
                                       <button className="add-to-cart rc-btn rc-btn--one rc-full-width" data-loc="addToCart" onClick={() => this.hanldeAddToCart({ redirect: true })}>
+                                        <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
                                         Checkout
                                       </button>
                                     </div>
@@ -477,7 +478,6 @@ class Details extends React.Component {
                 </div>
               </div>
             </div>
-
 
             <div className="rc-max-width--xl rc-padding-x--sm">
               <div className="rc-match-heights rc-content-h-middle rc-reverse-layout rc-padding-bottom--lg">
@@ -602,6 +602,18 @@ class Details extends React.Component {
                 </div>
               </div>
               <InterestedIn />
+            </div>
+          </div>
+          <div className="sticky-addtocart" style={{ transform: 'translateY(-80px)' }}>
+            <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
+              <button className="rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile" onClick={this.hanldeAddToCart}>
+                <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
+                <span className="default-txt">Add to Cart</span>
+              </button>
+              <button className="rc-btn rc-btn--one js-sticky-cta" onClick={() => this.hanldeAddToCart({ redirect: true })}>
+                <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                <span className="default-txt">Checkout</span>
+              </button>
             </div>
           </div>
         </main>

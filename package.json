@@ -139,6 +139,7 @@
     ]
   },
   "devDependencies": {
-    "react-router-dom": "^5.1.2"
+    "react-router-dom": "^5.1.2",
+    "vconsole": "^3.3.4"
   }
 }

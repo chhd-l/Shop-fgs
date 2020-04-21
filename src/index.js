@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import VConsole from 'VConsole'
+
+var vConsole = new VConsole();
+console.log('Hello world');
 
 ReactDOM.render(
   <React.StrictMode>
