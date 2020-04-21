@@ -70,7 +70,7 @@ class Prescription extends React.Component{
         lat: 39.9,
         lng: 116.3
       },
-      zoom: 13,
+      zoom: 11,
       map:''
     }
     this.headerRef = React.createRef();
@@ -211,7 +211,7 @@ class Prescription extends React.Component{
                       }`}
                       data-step="perscription">
                       <span class="rc-header-with-icon">
-                        <i class="icon icon-prescription"></i>
+                        <i class="rc-icon rc-health rc-iconography"></i>
                         Prescription
                       </span>
                     </li>
@@ -278,7 +278,7 @@ class Prescription extends React.Component{
                     <label className="rc-input__label" htmlFor="id-submit-2">
                       <span className="rc-input__label-text"></span>
                     </label>
-                    <i className="rc-icon rc-location2 rc-iconography  rc-vertical-align " 
+                    <i className="rc-icon rc-location2--xs rc-iconography rc-vertical-align " 
                       aria-label="location" onClick={this.handleInit}>
                     </i>
                   </span>
