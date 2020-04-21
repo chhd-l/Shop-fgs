@@ -8,19 +8,20 @@ const AnyReactComponent = ({ obj }) => {
   if(obj.type === 'clinic'){
     return (
       <div>
-  <div title="Top" data-tooltip-placement="top" data-tooltip={obj.title+obj.id} class="rc-margin-top--md rc-text--center">
+  <div data-tooltip-placement="top" data-tooltip={obj.title+obj.id} class="rc-margin-top--md rc-text--center">
     <div class="rc-map-location__icon">
       <svg width="24" height="32">
         <path d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0" fill="#E2001A" fill-rule="evenodd"></path>
       </svg>
+      {obj.title}
     </div>
   </div>
   <div id={obj.title+obj.id} class="rc-tooltip">
     <div class="rc-tooltip rc-text--left rc-padding--xs" id="map-tooltip" style={{ display:'block'}}>
       <div class="rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop">
-        <h1 class="rc-card__title rc-delta">123</h1>
-        <p>123 </p>
-        <p style={{display: "inline-block",width:"12rem"}}>123</p>
+        <h1 class="rc-card__title rc-delta">{obj.title}</h1>
+        <p>{obj.phone} </p>
+        <p style={{display: "inline-block",width:"12rem"}}>{obj.desc}</p>
         <a class="rc-styled-link">comfirm</a>
       </div>
     </div>
@@ -49,8 +50,8 @@ const AnyReactComponent = ({ obj }) => {
 class Prescription extends React.Component{
   static defaultProps = {
     center: {
-      lat: 59.95,
-      lng: 30.33
+      lat: 39.9,
+      lng: 116.3
     },
     zoom: 11
   };
@@ -82,8 +83,8 @@ class Prescription extends React.Component{
         type:'customer',
         desc:'meda1',
         id:1001,
-        lat:59.755413,
-        lng:30.737744,
+        lat:39.912345,
+        lng:116.31,
       },
       {
       title:'clinic1',
@@ -91,24 +92,24 @@ class Prescription extends React.Component{
       phone:'023-12341231',
       desc:'meda1',
       id:1,
-      lat:59.955413,
-      lng:30.337744,
+      lat:39.99999,
+      lng:116.34,
     },{
       title:'clinic2',
       type:'clinic',
       phone:'023-12341232',
       desc:'meda2',
       id:2,
-      lat:59.965413,
-      lng:30.337844,
+      lat:39.97,
+      lng:116.37,
     },{
       title:'clinic3',
       type:'clinic',
       phone:'023-12341233',
       desc:'meda3',
       id:3,
-      lat:59.958413,
-      lng:30.336844,
+      lat:39.94,
+      lng:116.9,
     }]
     let items = [];
     let flags=[];
@@ -121,29 +122,21 @@ class Prescription extends React.Component{
               <h1 class="rc-card__title rc-delta">{tempArr[i].title}</h1>
               <p>{tempArr[i].phone} </p>
               <p style={{display: "inline-block",width:"12rem"}}>{tempArr[i].desc} </p>
-              <a class="rc-styled-link">comfirm</a>
+              <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}}>comfirm</a>
             </div>
           </article>)
       }
         flags.push(<AnyReactComponent
-          onClick={() => console.log('test')}
           key={tempArr[i].id}
           lat={tempArr[i].lat}
           lng={tempArr[i].lng}
           obj={tempArr[i]}
         />)
     }
-    const handleApiLoaded = (map, maps) => {
-      console.log(map);
-      console.log(maps);
-      
-      
-      // use map and maps objects
-    };
 
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <main class="rc-content--fixed-header rc-bg-colour--brand3">
           <div
             id="checkout-main"
@@ -250,9 +243,7 @@ class Prescription extends React.Component{
                 <GoogleMapReact
                   bootstrapURLKeys={{ key: this.state.key }}
                   defaultCenter={this.props.center}
-                  defaultZoom={this.props.zoom}
-                  yesIWantToUseGoogleMapApiInternals
-                  onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}>
+                  defaultZoom={this.props.zoom}>
                   {flags}
                 </GoogleMapReact>
               </div>

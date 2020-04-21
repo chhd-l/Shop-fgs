@@ -13,3 +13,8 @@
 .modal-content {
   margin-top: 50%;
 }
+.confirm-clinic-btn{
+  background-color: red;
+  color: white;
+  padding: 5px;
+}
