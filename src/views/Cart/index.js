@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import InterestedIn from "@/components/InterestedIn";
+import { cloneDeep } from 'lodash'
 import "./index.css";
 
 class Cart extends React.Component {
@@ -48,10 +49,14 @@ class Cart extends React.Component {
         },
       ],
       currentProduct: null,
+      currentProductIdx: -1,
       loading: true,
       modalShow: false,
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     };
+  }
+  get totalNum () {
+    return this.state.productList.reduce((pre, cur) => { return pre + cur.quantity }, 0)
   }
   changeCache () {
     localStorage.setItem(
@@ -87,16 +92,20 @@ class Cart extends React.Component {
   closeModal () {
     this.setState({
       currentProduct: null,
+      currentProductIdx: -1,
       modalShow: false,
     });
   }
   deleteProduct () {
-    let { currentProduct, productList } = this.state;
-    this.state.productList = productList.filter(
-      (el) => el.id !== currentProduct.id
-    );
-    this.changeCache();
-    this.closeModal();
+    let { currentProductIdx, productList } = this.state;
+    let newProductList = cloneDeep(productList)
+    newProductList.splice(currentProductIdx, 1)
+    this.setState({
+      productList: newProductList
+    }, () => {
+      this.changeCache();
+      this.closeModal();
+    })
   }
   goBack (e) {
     e.preventDefault();
@@ -135,9 +144,9 @@ class Cart extends React.Component {
             </div>
             <div className="product-info__desc w-100 relative">
               <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
-                <a href="/ru/Sterilised%2037-2537_RU.html">
+                <Link to={`/details/${pitem.id}`}>
                   <h4 className="rc-gamma rc-margin--none">{pitem.name}</h4>
-                </a>
+                </Link>
               </div>
               <div className="cart-product-error-msg"></div>
               <span
@@ -145,7 +154,8 @@ class Cart extends React.Component {
                 onClick={() => {
                   this.setState({
                     currentProduct: pitem,
-                    modalShow: true,
+                    currentProductIdx: index,
+                    modalShow: true
                   });
                 }}
               ></span>
@@ -217,12 +227,49 @@ class Cart extends React.Component {
                           null
                         </div>
                         <b className="pricing line-item-total-price-amount item-total-3ab64fd26c17b64c44e4ba1a7e light">
-                          {pitem.quantity *
+                          $ {pitem.quantity *
                             pitem.sizeList.filter((el) => el.selected)[0].price}
                         </b>
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="rc-margin-bottom--sm rc-md-down">
+            <div className="product-card-footer product-card-price d-flex">
+              <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
+                <div className="rc-quantity d-flex">
+                  <span
+                    className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                    data-quantity-error-msg="Количество не может быть меньше 1"
+                    onClick={() => this.subQuantity(pitem)}></span>
+                  <input
+                    className="rc-quantity__input"
+                    disabled=""
+                    id="quantity"
+                    name="quantity"
+                    type="number"
+                    value={pitem.quantity}
+                    min="1"
+                    max="10" />
+                  <span
+                    className=" rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                    data-quantity-error-msg="Вы не можете заказать больше 10"
+                    onClick={() => this.addQuantity(pitem)}></span>
+                </div>
+              </div>
+              <div className="line-item-total-price d-flex justify-content-center">
+                <p className="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">=</p>
+                <div className="item-total-f6a6279ea1978964b8bf0e3524 price">
+                  <div className="strike-through non-adjusted-price">
+                    null
+                  </div>
+                  <b className="pricing line-item-total-price-amount item-total-f6a6279ea1978964b8bf0e3524 light">
+                    $ {pitem.quantity *
+                      pitem.sizeList.filter((el) => el.selected)[0].price}
+                  </b>
                 </div>
               </div>
             </div>
@@ -261,9 +308,9 @@ class Cart extends React.Component {
                 </div>
                 <div className="rc-layout-container rc-three-column cart cart-page">
                   <div className="rc-column rc-double-width">
-                    <div className="cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
+                    <div className="rc-padding-bottom--xs cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
                       <aside className="rc-alert rc-alert--error rc-alert--with-close" role="alert">
-                        <span>The number can't be less than 1</span>
+                        <span style={{ paddingLeft: 0 }}>The number can't be less than 1</span>
                       </aside>
                     </div>
                     <div className="rc-padding-bottom--xs">
@@ -277,13 +324,12 @@ class Cart extends React.Component {
                     <div className="rc-padding-bottom--xs">
                       <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
                         Total
-                  </h5>
+                      </h5>
                     </div>
                     <div className="group-order rc-border-all rc-border-colour--interface cart__total__content">
                       <div className="row">
                         <div className="col-12 total-items medium">
-                          <span id="items-number">{this.state.productList.length}</span>
-                      item in the basket
+                          <span>{this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item' } in the basket
                     </div>
                       </div>
                       <div className="row">
@@ -303,7 +349,7 @@ class Cart extends React.Component {
                       <div className="group-total">
                         <div className="row">
                           <div className="col-7 medium">
-                            <strong>total cost</strong>
+                            <strong>Total cost</strong>
                           </div>
                           <div className="col-5">
                             <p className="text-right grand-total-sum medium">$ {total}</p>
@@ -313,13 +359,10 @@ class Cart extends React.Component {
                           <div className="col-lg-12 checkout-continue">
                             <Link to="/payment/shipping">
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                                <miaaoauth
+                                <div
                                   data-oauthlogintargetendpoint="2"
                                   className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn "
-                                  aria-pressed="true"
-                                >
-                                  Checkout
-                            </miaaoauth>
+                                  aria-pressed="true">Checkout</div>
                               </div>
                             </Link>
                           </div>
@@ -383,7 +426,7 @@ class Cart extends React.Component {
         <div
           className={`modal fade ${this.state.modalShow ? "show" : ""}`}
           id="removeProductModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="removeProductLineItemModal"
           style={{ display: this.state.modalShow ? "block" : "none" }}
