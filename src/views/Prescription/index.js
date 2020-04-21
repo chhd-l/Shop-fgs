@@ -3,6 +3,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import './index.css'
 import GoogleMapReact from 'google-map-react';
+import { fitBounds } from 'google-map-react/utils';
 
 const AnyReactComponent = ({ obj }) => {
   if(obj.type === 'clinic'){
@@ -68,7 +69,8 @@ class Prescription extends React.Component{
         lat: 39.9,
         lng: 116.3
       },
-      zoom: 11
+      zoom: 13,
+      map:''
     }
     this.headerRef = React.createRef();
     this.inputRef = React.createRef();
@@ -87,12 +89,15 @@ class Prescription extends React.Component{
           center:{
             lat:position.coords.latitude,
             lng:position.coords.longitude
-          }
+          },
+          zoom:11
         })
       })
    } else {
-        alert("你的浏览器不支持HTML5来获取地理位置信息。");
+      alert("你的浏览器不支持HTML5来获取地理位置信息。");
+    }
   }
+  handleInit=()=>{
   }
   handleSearch(){
     console.log('search');
@@ -269,7 +274,7 @@ class Prescription extends React.Component{
                       <span className="rc-input__label-text"></span>
                     </label>
                     <i className="rc-icon rc-location2 rc-iconography  rc-vertical-align " 
-                      aria-label="location">
+                      aria-label="location" onClick={this.handleInit}>
                     </i>
                   </span>
                   <input type="hidden" value="null" name="lang" />
@@ -309,6 +314,7 @@ class Prescription extends React.Component{
               </div>
               <div style={{ height: '40rem', width: '70%' }}>
                 <GoogleMapReact
+                  ref={(ref) => { this.map = ref }}
                   bootstrapURLKeys={{ key: this.state.key }}
                   defaultCenter={this.state.center}
                   defaultZoom={this.state.zoom}>
