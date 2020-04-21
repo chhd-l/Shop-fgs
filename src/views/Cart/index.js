@@ -69,13 +69,14 @@ class Cart extends React.Component {
         productList: this.state.productList
       })
     } else {
-      const { quantityMaxLimit = 10, quantityMinLimit } = this.state
+      const { quantityMinLimit } = this.state
       let tmp = parseInt(val)
       if (isNaN(tmp)) {
         tmp = 1
       }
-      if (tmp > item.stock) {
-        tmp = item.stock
+      const stock = item.sizeList.find(s => s.selected).stock
+      if (tmp > stock) {
+        tmp = stock
       } else if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit
       }
@@ -95,7 +96,11 @@ class Cart extends React.Component {
     })
   }
   addQuantity (item) {
-    item.quantity++;
+    const stock = item.sizeList.find(s => s.selected).stock
+    item.quantity++
+    if (item.quantity > stock) {
+      item.quantity = stock
+    }
     this.setState({
       productList: this.state.productList,
     });
