@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import "./index.css";
+import successImg from "@/assets/images/credit-cards/success.png";
 
 class Confirmation extends React.Component {
   constructor(props) {
@@ -234,6 +235,7 @@ class Confirmation extends React.Component {
           <div class="rc-layout-container rc-three-column rc-max-width--xl">
             <div class="rc-column rc-double-width shipping__address">
               <div className="center">
+                <img src={successImg} alt=""/>
                 <h4>
                   <b>Thank you for your order.</b>
                 </h4>
