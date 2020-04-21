@@ -83,7 +83,6 @@ class Prescription extends React.Component{
     if (navigator.geolocation) {
       //获取当前地理位置信息 
       navigator.geolocation.getCurrentPosition(position => {
-        debugger
         this.setState({
           center:{
             lat:position.coords.latitude,
@@ -185,7 +184,7 @@ class Prescription extends React.Component{
 
     return (
       <div>
-        <Header />
+        <Header showMiniIcons={true}/>
         <main class="rc-content--fixed-header rc-bg-colour--brand3">
           <div
             id="checkout-main"
