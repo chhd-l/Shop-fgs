@@ -1,4 +1,7 @@
 /* details.css */
+.rc-icon[class*='--xs'].rc-brand3.no-icon:after {
+  width: 0;
+}
 .pull-left-xs {
   float: left
 }

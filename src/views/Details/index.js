@@ -6,6 +6,7 @@ import InterestedIn from '@/components/InterestedIn'
 import { createHashHistory } from 'history'
 import './index.css'
 import { cloneDeep } from 'lodash'
+import { getDetails } from '@/api/details'
 
 class Details extends React.Component {
   constructor(props) {
@@ -113,7 +114,7 @@ class Details extends React.Component {
     // script.src = 'http://localhost:3000/royal/royal-canin.js?V=2';
     // head.appendChild(script)
   }
-  getDetails () {
+  async getDetails () {
     const { id } = this.state
     let res = {
       id: id,
@@ -200,6 +201,8 @@ class Details extends React.Component {
         currentPrice: res.sizeList[1].price * this.state.quantity
       })
     }, 1000)
+    const res2 = await getDetails('ff8080817177b77c01717c19c3820008')
+    console.log(res2)
   }
   changeAmount (type) {
     if (!type) return
@@ -313,7 +316,7 @@ class Details extends React.Component {
                        */}
                         <div data-js-carousel data-image-gallery="true" data-move-carousel-up='md'
                           data-move-carousel-to='#new-carousel-container'>
-                          <div class="rc-carousel rc-carousel__gallery-image" data-zoom-container="product-description-carousel"
+                          <div className="rc-carousel rc-carousel__gallery-image" data-zoom-container="product-description-carousel"
                             data-zoom-factor="3">
                             {details.pictureCfg.list.map((item, idx) => (
                               <div key={idx}>
@@ -336,13 +339,13 @@ class Details extends React.Component {
                               </div>
                             ))}
                           </div>
-                          <div class="rc-carousel__gallery-thumbnails-wrapper">
-                            <div class="rc-carousel rc-carousel__gallery-thumbnails">
+                          <div className="rc-carousel__gallery-thumbnails-wrapper">
+                            <div className="rc-carousel rc-carousel__gallery-thumbnails">
                               {details.pictureCfg.thumbnail.map((item, idx) => (
-                                <div class="rc-carousel__gallery-thumbnail" key={idx}>
-                                  <figure class="rc-img--square"
+                                <div className="rc-carousel__gallery-thumbnail" key={idx}>
+                                  <figure className="rc-img--square"
                                     style={{ backgroundImage: 'url(' + item + ')' }}>
-                                    <figcaption class="rc-screen-reader-text">Product caption text</figcaption>
+                                    <figcaption className="rc-screen-reader-text">Product caption text</figcaption>
                                   </figure>
                                 </div>
                               ))}
@@ -357,9 +360,9 @@ class Details extends React.Component {
                         <h1 className="rc-gamma wrap-short-des--heading">
                           {details.name}
                         </h1>
-                        <label>
-                          Reference: <span className="sku-value">{details.reference}</span>
-                        </label>
+                        {details.reference
+                          ? <label> Reference: <span className="sku-value">{details.reference}</span></label>
+                          : null}
                         <h3>
                           <div className="rating-stars hidden-lg-down">
                             <div className="product-number-rating clearfix">
@@ -461,6 +464,7 @@ class Details extends React.Component {
                                   <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                     <div className="cart-and-ipay">
                                       <button className="add-to-cart rc-btn rc-btn--one rc-full-width" data-loc="addToCart" onClick={() => this.hanldeAddToCart({ redirect: true })}>
+                                        <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
                                         Checkout
                                       </button>
                                     </div>
@@ -477,7 +481,6 @@ class Details extends React.Component {
                 </div>
               </div>
             </div>
-
 
             <div className="rc-max-width--xl rc-padding-x--sm">
               <div className="rc-match-heights rc-content-h-middle rc-reverse-layout rc-padding-bottom--lg">
@@ -602,6 +605,18 @@ class Details extends React.Component {
                 </div>
               </div>
               <InterestedIn />
+            </div>
+          </div>
+          <div className="sticky-addtocart" style={{ transform: 'translateY(-80px)' }}>
+            <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
+              <button className="rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile" onClick={this.hanldeAddToCart}>
+                <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
+                <span className="default-txt">Add to Cart</span>
+              </button>
+              <button className="rc-btn rc-btn--one js-sticky-cta" onClick={() => this.hanldeAddToCart({ redirect: true })}>
+                <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                <span className="default-txt">Checkout</span>
+              </button>
             </div>
           </div>
         </main>

@@ -2,12 +2,16 @@ import React from 'react';
 import './index.css'
 
 function Footer () {
+  const scrollToTop = () => {
+    const widget = document.querySelector('#page-top')
+    widget && widget.scrollIntoView()
+  }
   return (
     <footer className="rc-bg-colour--interface-dark" id="footer">
       <div className="rc-max-width--lg rc-scroll--y">
         <div className="rc-layout-container rc-md-up">
           <div className="rc-column rc-text--right">
-            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3" role="menuitem" href="#">To the top</a>
+            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3" role="menuitem" onClick={scrollToTop} style={{ color: '#f6f6f6' }}>To the top</a>
           </div>
         </div>
         <div className="rc-divider rc-md-up"></div>
@@ -87,17 +91,17 @@ function Footer () {
           <div className="mars-footer-container">
             <ul className="mars-footer-list-right" style={{ fontSize: '10px', fontFamily: 'Inherit' }}>
               <li>
-                <a target="_blank" href="https://www.mars.com/privacy-policy-russia">
+                <a target="_blank" href="https://www.mars.com/privacy-policy-mexico">
                   <span className="mars-footer-label">Confidentiality</span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/cookies-russia">
+                <a target="_blank" href="https://www.mars.com/cookies-spain">
                   <span className="mars-footer-label">Cookies</span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/legal-russia">
+                <a target="_blank" href="https://www.mars.com/legal-mexico">
                   <span className="mars-footer-label">Legal Terms</span>
                 </a>
               </li>

@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import InterestedIn from "@/components/InterestedIn";
+import { cloneDeep } from 'lodash'
 import "./index.css";
 
 class Cart extends React.Component {
@@ -48,10 +49,14 @@ class Cart extends React.Component {
         },
       ],
       currentProduct: null,
+      currentProductIdx: -1,
       loading: true,
       modalShow: false,
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     };
+  }
+  get totalNum () {
+    return this.state.productList.reduce((pre, cur) => { return pre + cur.quantity }, 0)
   }
   changeCache () {
     localStorage.setItem(
@@ -87,18 +92,22 @@ class Cart extends React.Component {
   closeModal () {
     this.setState({
       currentProduct: null,
+      currentProductIdx: -1,
       modalShow: false,
     });
   }
   deleteProduct () {
-    let { currentProduct, productList } = this.state;
-    this.state.productList = productList.filter(
-      (el) => el.id !== currentProduct.id
-    );
-    this.changeCache();
-    this.closeModal();
+    let { currentProductIdx, productList } = this.state;
+    let newProductList = cloneDeep(productList)
+    newProductList.splice(currentProductIdx, 1)
+    this.setState({
+      productList: newProductList
+    }, () => {
+      this.changeCache();
+      this.closeModal();
+    })
   }
-  goBack(e) {
+  goBack (e) {
     e.preventDefault();
     const { history } = this.props
     history.goBack()
@@ -120,46 +129,47 @@ class Cart extends React.Component {
   getProducts (plist) {
     const Lists = plist.map((pitem, index) => (
       <div
-        class="rc-border-all rc-border-colour--interface product-info  uuid-3ab64fd26c17b64c44e4ba1a7e"
+        className="rc-border-all rc-border-colour--interface product-info  uuid-3ab64fd26c17b64c44e4ba1a7e"
         key={index}
       >
-        <div class="">
-          <div class="d-flex">
-            <div class="product-info__img w-100">
+        <div className="">
+          <div className="d-flex">
+            <div className="product-info__img w-100">
               <img
-                class="product-image"
+                className="product-image"
                 src={pitem.url}
                 alt="Sterilised 37"
                 title="Sterilised 37"
               />
             </div>
-            <div class="product-info__desc w-100 relative">
-              <div class="line-item-header rc-margin-top--xs rc-padding-right--sm">
-                <a href="/ru/Sterilised%2037-2537_RU.html">
-                  <h4 class="rc-gamma rc-margin--none">{pitem.name}</h4>
-                </a>
+            <div className="product-info__desc w-100 relative">
+              <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
+                <Link to={`/details/${pitem.id}`}>
+                  <h4 className="rc-gamma rc-margin--none">{pitem.name}</h4>
+                </Link>
               </div>
-              <div class="cart-product-error-msg"></div>
+              <div className="cart-product-error-msg"></div>
               <span
-                class="remove-product-btn js-remove-product rc-icon rc-close--sm rc-iconography"
+                className="remove-product-btn js-remove-product rc-icon rc-close--sm rc-iconography"
                 onClick={() => {
                   this.setState({
                     currentProduct: pitem,
-                    modalShow: true,
+                    currentProductIdx: index,
+                    modalShow: true
                   });
                 }}
               ></span>
-              <div class="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
+              <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
                 <div
-                  class="product-quickview product-null product-wrapper product-detail"
+                  className="product-quickview product-null product-wrapper product-detail"
                   data-pid="null"
                 >
-                  <div class="detail-panel">
-                    <section class="attributes">
-                      <div data-attr="size" class="swatch">
-                        <div class="cart-and-ipay">
+                  <div className="detail-panel">
+                    <section className="attributes">
+                      <div data-attr="size" className="swatch">
+                        <div className="cart-and-ipay">
                           <div
-                            class="rc-swatch __select-size"
+                            className="rc-swatch __select-size"
                             id="id-single-select-size"
                           >
                             {pitem.sizeList.map((sizeItem, i) => (
@@ -182,16 +192,16 @@ class Cart extends React.Component {
                     </section>
                   </div>
                 </div>
-                <div class="rc-md-up">
-                  <div class="product-card-footer product-card-price d-flex">
-                    <div class="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
-                      <div class="rc-quantity d-flex">
+                <div className="rc-md-up">
+                  <div className="product-card-footer product-card-price d-flex">
+                    <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
+                      <div className="rc-quantity d-flex">
                         <span
-                          class=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                          className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
                           onClick={() => this.subQuantity(pitem)}
                         ></span>
                         <input
-                          class="rc-quantity__input"
+                          className="rc-quantity__input"
                           disabled
                           id="quantity"
                           name="quantity"
@@ -201,30 +211,65 @@ class Cart extends React.Component {
                           max="10"
                         />
                         <span
-                          class="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                          className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                           data-quantity-error-msg="Вы не можете заказать больше 10"
                           onClick={() => this.addQuantity(pitem)}
                         ></span>
                       </div>
                     </div>
-                    <div class="line-item-total-price d-flex justify-content-center">
-                      <p class="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">
+                    <div className="line-item-total-price d-flex justify-content-center">
+                      <p className="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">
                         =
                       </p>
-                      <div class="item-total-3ab64fd26c17b64c44e4ba1a7e price">
+                      <div className="item-total-3ab64fd26c17b64c44e4ba1a7e price">
                         <div
-                          class="strike-through
-                      non-adjusted-price"
-                        >
+                          className="strike-through non-adjusted-price">
                           null
                         </div>
-                        <b class="pricing line-item-total-price-amount item-total-3ab64fd26c17b64c44e4ba1a7e light">
-                          {pitem.quantity *
+                        <b className="pricing line-item-total-price-amount item-total-3ab64fd26c17b64c44e4ba1a7e light">
+                          $ {pitem.quantity *
                             pitem.sizeList.filter((el) => el.selected)[0].price}
                         </b>
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="rc-margin-bottom--sm rc-md-down">
+            <div className="product-card-footer product-card-price d-flex">
+              <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
+                <div className="rc-quantity d-flex">
+                  <span
+                    className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                    data-quantity-error-msg="Количество не может быть меньше 1"
+                    onClick={() => this.subQuantity(pitem)}></span>
+                  <input
+                    className="rc-quantity__input"
+                    disabled=""
+                    id="quantity"
+                    name="quantity"
+                    type="number"
+                    value={pitem.quantity}
+                    min="1"
+                    max="10" />
+                  <span
+                    className=" rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                    data-quantity-error-msg="Вы не можете заказать больше 10"
+                    onClick={() => this.addQuantity(pitem)}></span>
+                </div>
+              </div>
+              <div className="line-item-total-price d-flex justify-content-center">
+                <p className="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">=</p>
+                <div className="item-total-f6a6279ea1978964b8bf0e3524 price">
+                  <div className="strike-through non-adjusted-price">
+                    null
+                  </div>
+                  <b className="pricing line-item-total-price-amount item-total-f6a6279ea1978964b8bf0e3524 light">
+                    $ {pitem.quantity *
+                      pitem.sizeList.filter((el) => el.selected)[0].price}
+                  </b>
                 </div>
               </div>
             </div>
@@ -247,110 +292,157 @@ class Cart extends React.Component {
     return (
       <div>
         <Header cartData={this.state.cartData} showMiniIcons={true} />
-        <main class="rc-content--fixed-header">
-          <div class="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
-            <div class="rc-layout-container rc-one-column">
-              <div class="rc-column">
-                <a href="#" onClick={(e) => this.goBack(e)} title="Continue shopping">
-                  <span class="rc-header-with-icon rc-header-with-icon--gamma">
-                    <span class="rc-icon rc-left rc-iconography"></span>
+        <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
+          <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
+            {productList.length
+              ? <React.Fragment>
+                <div className="rc-layout-container rc-one-column">
+                  <div className="rc-column">
+                    <a href="#" onClick={(e) => this.goBack(e)} title="Continue shopping">
+                      <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                        <span className="rc-icon rc-left rc-iconography"></span>
                     Continue shopping
                   </span>
-                </a>
-              </div>
-            </div>
-            <div class="rc-layout-container rc-three-column cart cart-page">
-              <div class="rc-column rc-double-width">
-                <div class="cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
-                  <aside class="rc-alert rc-alert--error rc-alert--with-close" role="alert">
-                    <span>The number can't be less than 1</span>
-                  </aside>
+                    </a>
+                  </div>
                 </div>
-                <div class="rc-padding-bottom--xs">
-                  <h5 class="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                    Your basket
+                <div className="rc-layout-container rc-three-column cart cart-page">
+                  <div className="rc-column rc-double-width">
+                    <div className="rc-padding-bottom--xs cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
+                      <aside className="rc-alert rc-alert--error rc-alert--with-close" role="alert">
+                        <span style={{ paddingLeft: 0 }}>The number can't be less than 1</span>
+                      </aside>
+                    </div>
+                    <div className="rc-padding-bottom--xs">
+                      <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
+                        Your basket
                   </h5>
-                </div>
-                <div id="product-cards-container">{List}</div>
-              </div>
-              <div class="rc-column totals cart__total">
-                <div class="rc-padding-bottom--xs">
-                  <h5 class="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                    Total
-                  </h5>
-                </div>
-                <div class="group-order rc-border-all rc-border-colour--interface cart__total__content">
-                  <div class="row">
-                    <div class="col-12 total-items medium">
-                      <span id="items-number">{this.state.productList.length}</span>
-                      item in the basket
                     </div>
+                    <div id="product-cards-container">{List}</div>
                   </div>
-                  <div class="row">
-                    <div class="col-8">Total</div>
-                    <div class="col-4 no-padding-left">
-                      <p class="text-right sub-total">$ {total}</p>
+                  <div className="rc-column totals cart__total">
+                    <div className="rc-padding-bottom--xs">
+                      <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
+                        Total
+                      </h5>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-8">
-                      <p>Delivery</p>
+                    <div className="group-order rc-border-all rc-border-colour--interface cart__total__content">
+                      <div className="row">
+                        <div className="col-12 total-items medium">
+                          <span>{this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item' } in the basket
                     </div>
-                    <div class="col-4">
-                      <p class="text-right shipping-cost">0</p>
-                    </div>
-                  </div>
-                  <div class="group-total">
-                    <div class="row">
-                      <div class="col-7 medium">
-                        <strong>total cost</strong>
                       </div>
-                      <div class="col-5">
-                        <p class="text-right grand-total-sum medium">$ {total}</p>
+                      <div className="row">
+                        <div className="col-8">Total</div>
+                        <div className="col-4 no-padding-left">
+                          <p className="text-right sub-total">$ {total}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div class="row checkout-proccess">
-                      <div class="col-lg-12 checkout-continue">
-                        <Link to="/payment/shipping">
-                          <div class="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                            <miaaoauth
-                              data-oauthlogintargetendpoint="2"
-                              class="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn "
-                              aria-pressed="true"
-                            >
-                              Checkout
-                            </miaaoauth>
+                      <div className="row">
+                        <div className="col-8">
+                          <p>Delivery</p>
+                        </div>
+                        <div className="col-4">
+                          <p className="text-right shipping-cost">0</p>
+                        </div>
+                      </div>
+                      <div className="group-total">
+                        <div className="row">
+                          <div className="col-7 medium">
+                            <strong>Total cost</strong>
                           </div>
-                        </Link>
+                          <div className="col-5">
+                            <p className="text-right grand-total-sum medium">$ {total}</p>
+                          </div>
+                        </div>
+                        <div className="row checkout-proccess">
+                          <div className="col-lg-12 checkout-continue">
+                            <Link to="/payment/shipping">
+                              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
+                                <div
+                                  data-oauthlogintargetendpoint="2"
+                                  className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn "
+                                  aria-pressed="true">Checkout</div>
+                              </div>
+                            </Link>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <InterestedIn />
+                <InterestedIn />
+              </React.Fragment>
+              : <React.Fragment>
+                <div className="rc-text-center">
+                  <div className="rc-beta rc-margin-bottom--sm">Your basket</div>
+                  <div className="rc-gamma title-empty">your basket is empty</div>
+                </div>
+                <div className="content-asset">
+                  <div className="rc-bg-colour--brand3 rc-padding--sm">
+                    <div className="rc-max-width--lg rc-padding-x--lg--mobile">
+                      <div>
+                        <div className="rc-alpha inherit-fontsize"><p style={{ textAlign: 'center' }}>FULL RICE FOR YOUR PET</p></div>
+                        <div className="rc-card-grid rc-match-heights rc-four-column">
+                          <div className="rc-grid">
+                            <article className="rc-card rc-card--a">
+                              <Link to="/list/dogs">
+                                <img className="card__image" src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw85b28211/New content/packshot_13.11.png?sw=498&amp;sh=281&amp;sm=fit&amp;cx=2&amp;cy=0&amp;cw=1996&amp;ch=1126&amp;sfrm=png" alt="Dog" />
+                              </Link>
+                              <div className="card__body">
+                                <header>
+                                  <Link to="/list/dogs">
+                                    <h1 className="card__title">Choose a diet for your dog</h1>
+                                  </Link>
+                                </header>
+                                <Link to="/list/dogs"></Link>
+                              </div>
+                            </article>
+                          </div>
+                          <div className="rc-grid">
+                            <article className="rc-card rc-card--a">
+                              <Link to="/list/cats">
+                                <img className="card__image" src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3b01991e/Bloc Cat.png?sw=1920&amp;sh=1080&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=498&amp;ch=280&amp;sfrm=png" alt="Cat" />
+                              </Link>
+                              <div className="card__body">
+                                <header>
+                                  <Link to="/list/cats">
+                                    <h4 className="card__title">Choose a diet for your cat</h4>
+                                  </Link>
+                                </header>
+                                <Link to="/list/cats"></Link>
+                              </div>
+                            </article>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </React.Fragment>
+            }
           </div>
         </main>
         <div
           className={`modal fade ${this.state.modalShow ? "show" : ""}`}
           id="removeProductModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="removeProductLineItemModal"
           style={{ display: this.state.modalShow ? "block" : "none" }}
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header delete-confirmation-header">
-                <h4 class="modal-title" id="removeProductLineItemModal">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header delete-confirmation-header">
+                <h4 className="modal-title" id="removeProductLineItemModal">
                   <font>
                     <font>Delete product?</font>
                   </font>
                 </h4>
                 <button
                   type="button"
-                  class="close"
+                  className="close"
                   data-dismiss="modal"
                   aria-label="Close"
                   onClick={() => this.closeModal()}
@@ -362,13 +454,13 @@ class Cart extends React.Component {
                   </span>
                 </button>
               </div>
-              <div class="modal-body delete-confirmation-body">
+              <div className="modal-body delete-confirmation-body">
                 <font>
                   <font>
                     Are you sure you want to remove this item from your cart?
                   </font>
                 </font>
-                <p class="product-to-remove">
+                <p className="product-to-remove">
                   <font>
                     <font>
                       {this.state.currentProduct
@@ -378,10 +470,10 @@ class Cart extends React.Component {
                   </font>
                 </p>
               </div>
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-outline-primary"
+                  className="btn btn-outline-primary"
                   data-dismiss="modal"
                   onClick={() => this.closeModal()}
                 >
@@ -391,7 +483,7 @@ class Cart extends React.Component {
                 </button>
                 <button
                   type="button"
-                  class="btn btn-primary cart-delete-confirmation-btn"
+                  className="btn btn-primary cart-delete-confirmation-btn"
                   data-dismiss="modal"
                   onClick={() => this.deleteProduct()}
                 >
