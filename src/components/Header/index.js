@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
 import { createHashHistory } from 'history'
+import { formatMoney } from "@/utils/utils.js";
 import './index.css'
 
 class Header extends React.Component {
@@ -47,7 +48,7 @@ class Header extends React.Component {
   get totalPrice () {
     let ret = 0
     this.props.cartData.map(item => {
-      return ret += item.quantity * item.sizeList.find(s => s.selected).price
+      return ret += item.quantity * item.sizeList.find(s => s.selected).salePrice
     })
     return ret
   }
@@ -302,7 +303,7 @@ class Header extends React.Component {
                                   </div>
                                 </div>
                                 <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
-                                  <span className="rc-body rc-margin--none">Total <b>$ {this.totalPrice}</b></span>
+                                  <span className="rc-body rc-margin--none">Total <b>$ {formatMoney(this.totalPrice)}</b></span>
                                   <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true">Change</Link>
                                 </div>
                                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
@@ -337,13 +338,13 @@ class Header extends React.Component {
                                                 </div>
                                                 <div className="line-item-total-price justify-content-start pull-left">
                                                   <div className="item-attributes">
-                                                    <p className="line-item-attributes">{item.sizeList.find(s => s.selected).label + item.sizeList.find(s => s.selected).unit} - {item.quantity > 1 ? `${item.quantity} products` : `${item.quantity} product`}</p>
+                                                    <p className="line-item-attributes">{item.sizeList.find(s => s.selected).detailName} - {item.quantity > 1 ? `${item.quantity} products` : `${item.quantity} product`}</p>
                                                   </div>
                                                 </div>
                                                 <div className="line-item-total-price justify-content-end pull-right">
                                                   <div className="item-total-07984de212e393df75a36856b6 price relative">
                                                     <div className="strike-through non-adjusted-price">null</div>
-                                                    <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">$ {item.sizeList.find(s => s.selected).price * item.quantity}</b>
+                                                    <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">$ {formatMoney(item.sizeList.find(s => s.selected).salePrice * item.quantity)}</b>
                                                   </div>
                                                 </div>
                                               </div>
