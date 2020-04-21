@@ -136,7 +136,7 @@ class Prescription extends React.Component{
 
     return (
       <div>
-        {/* <Header /> */}
+        <Header />
         <main class="rc-content--fixed-header rc-bg-colour--brand3">
           <div
             id="checkout-main"
