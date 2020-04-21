@@ -10,6 +10,7 @@ class RouteFilter extends Component {
     if (this.props.location !== nextProps.location) {
       console.log(222)
       // createHashHistory().go(0)
+      window.location.reload()
       return false
     }
   }
