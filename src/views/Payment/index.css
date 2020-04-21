@@ -1,27 +1,141 @@
 .miaa {
   font-size: 15px;
 }
-.billingCheckbox {
+
+.billingCheckbox,
+.footerCheckbox {
   padding-left: 1.5rem;
 }
+.footerCheckbox .warning {
+  font-size: 10px;
+  color: #c03344;
+}
+.footerCheckbox .rc-input__label--inline {
+  cursor: auto;
+}
+.footerCheckbox>.form-check-input {
+  width: 12px;
+  height: 12px;
+  font-size: 10px !important;
+  margin-top: 4px;
+}
+
+.footerCheckbox {
+  font-size: 14px !important;
+}
+
 .rc-input__validation-message {
   color: #c03344 !important;
   font-size: 80% !important;
 }
+
 .rc-input--warning>[class^=rc-input]:not([value=""]) {
   border-color: #c03344 !important;
 }
+
 .rc-input--warning>[class^=rc-input]:not([value=""])+.rc-input__label::after {
   background-color: #c03344 !important;
 }
+
 .rc-input--warning>[class^=rc-input] {
   color: #c03344 !important;
   border-color: #c03344 !important;
 }
+
 .rc-input--label {
   margin-top: 0 !important;
 }
 
+.rc-input__control:not([value=""])+.rc-input__label::after {
+  background-color: #d7d7d7 !important;
+}
+
 .deliveryMethod .col-8 {
   padding-left: 0 !important;
+}
+
+.logo-payment-card-list {
+  margin-left: .5rem;
+}
+.cardImage {
+  overflow: hidden;
+  display: inline-block;
+}
+.cardImage > img {
+  width: 40px;
+  height: 45px;
+  color: rgb(102, 102, 102);
+  font-weight: 300;
+  font-family: "RC TYPE", Roboto, Avenir, Helvetica, Arial, sans-serif;
+  margin-top: 25px;
+  margin-right: 20px;
+}
+
+.cardForm span, .cardForm input{
+  font-size: 14px;
+  color: rgb(102, 102, 102);
+  font-weight: 300;
+  font-family: "RC TYPE", Roboto, Avenir, Helvetica, Arial, sans-serif;
+}
+.cardFormBox {
+  position: relative;
+  border-bottom: 2px solid #d7d7d7;
+}
+.cardForm {
+  position: absolute;
+  top: 15px;
+}
+.cardForm .col-sm-6 {
+  padding: 0;
+}
+.cardForm .form-group {
+  margin-bottom: 0;
+}
+.cardForm .rc-input--inline {
+  margin-right: 0 !important;
+}
+.cardForm .rc-input__control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(236,0,26,.25);
+}
+.cardForm .focus-visible {
+  box-shadow: none;
+}
+.cardForm > .rc-input:nth-child(1) {
+  width: 54%;
+}
+.cardForm > .rc-input:nth-child(2) {
+  width: 28%;
+}
+.cardForm > .rc-input:nth-child(3) {
+  width: 18%;
+}
+.rc-baseline img {
+  display: inline-block !important;
+}
+.cardForm {
+  display: inline-block;
+  width: calc(100% - 60px);
+}
+
+.cardForm .rc-input__control+.rc-input__label::before, .rc-input__control+.rc-input__label::after, .cardForm .rc-input__label {
+  width: 0;
+  border: none !important;
+}
+.creditCompleteInfoBox {
+  background-color: #d7d7d7;
+  padding: 1rem 2rem 1.5rem 2rem;
+}
+.creditCompleteInfoBox img {
+  width: 100%;
+}
+.creditCompleteInfoBox > p {
+  height: 20px;
+  color: black;
+  cursor: pointer;
+}
+.creditCompleteInfoBox > p .pull-right {
+  text-decoration: underline;
+}
+.creditCompleteInfo {
+  color: black;
 }

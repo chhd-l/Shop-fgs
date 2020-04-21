@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import InterestedIn from "@/components/InterestedIn";
+import { formatMoney } from "@/utils/utils.js";
 import { cloneDeep } from 'lodash'
 import "./index.css";
 
@@ -52,20 +53,54 @@ class Cart extends React.Component {
       currentProductIdx: -1,
       loading: true,
       modalShow: false,
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
-    };
+      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
+      quantityMinLimit: 1
+    }
+    this.handleAmountChange = this.handleAmountChange.bind(this)
   }
   get totalNum () {
     return this.state.productList.reduce((pre, cur) => { return pre + cur.quantity }, 0)
+  }
+  handleAmountChange (e, item) {
+    const val = e.target.value
+    if (val === '') {
+      item.quantity = val
+      this.setState({
+        productList: this.state.productList
+      })
+    } else {
+      const { quantityMinLimit } = this.state
+      let tmp = parseInt(val)
+      if (isNaN(tmp)) {
+        tmp = 1
+      }
+      const stock = item.sizeList.find(s => s.selected).stock
+      if (tmp > stock) {
+        tmp = stock
+      } else if (tmp < quantityMinLimit) {
+        tmp = quantityMinLimit
+      }
+      item.quantity = tmp
+      this.setState({
+        productList: this.state.productList
+      })
+    }
   }
   changeCache () {
     localStorage.setItem(
       "rc-cart-data",
       JSON.stringify(this.state.productList)
-    );
+    )
+    this.setState({
+      cartData: this.state.productList
+    })
   }
   addQuantity (item) {
-    item.quantity++;
+    const stock = item.sizeList.find(s => s.selected).stock
+    item.quantity++
+    if (item.quantity > stock) {
+      item.quantity = stock
+    }
     this.setState({
       productList: this.state.productList,
     });
@@ -137,7 +172,7 @@ class Cart extends React.Component {
             <div className="product-info__img w-100">
               <img
                 className="product-image"
-                src={pitem.url}
+                src={pitem.goodsImg}
                 alt="Sterilised 37"
                 title="Sterilised 37"
               />
@@ -145,7 +180,7 @@ class Cart extends React.Component {
             <div className="product-info__desc w-100 relative">
               <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
                 <Link to={`/details/${pitem.id}`}>
-                  <h4 className="rc-gamma rc-margin--none">{pitem.name}</h4>
+                  <h4 className="rc-gamma rc-margin--none">{pitem.goodsName}</h4>
                 </Link>
               </div>
               <div className="cart-product-error-msg"></div>
@@ -181,7 +216,7 @@ class Cart extends React.Component {
                                 onClick={() => this.changeSize(pitem, sizeItem)}
                               >
                                 <span>
-                                  {sizeItem.label + " " + sizeItem.unit}
+                                  {sizeItem.detailName}
                                   <i></i>
                                 </span>
                               </div>
@@ -202,13 +237,11 @@ class Cart extends React.Component {
                         ></span>
                         <input
                           className="rc-quantity__input"
-                          disabled
-                          id="quantity"
-                          name="quantity"
                           type="number"
                           value={pitem.quantity}
                           min="1"
                           max="10"
+                          onChange={(e) => this.handleAmountChange(e, pitem)}
                         />
                         <span
                           className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
@@ -227,8 +260,7 @@ class Cart extends React.Component {
                           null
                         </div>
                         <b className="pricing line-item-total-price-amount item-total-3ab64fd26c17b64c44e4ba1a7e light">
-                          $ {pitem.quantity *
-                            pitem.sizeList.filter((el) => el.selected)[0].price}
+                          $ {formatMoney(pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice)}
                         </b>
                       </div>
                     </div>
@@ -247,11 +279,9 @@ class Cart extends React.Component {
                     onClick={() => this.subQuantity(pitem)}></span>
                   <input
                     className="rc-quantity__input"
-                    disabled=""
-                    id="quantity"
-                    name="quantity"
                     type="number"
                     value={pitem.quantity}
+                    onChange={() => this.handleAmountChange(pitem)}
                     min="1"
                     max="10" />
                   <span
@@ -267,8 +297,7 @@ class Cart extends React.Component {
                     null
                   </div>
                   <b className="pricing line-item-total-price-amount item-total-f6a6279ea1978964b8bf0e3524 light">
-                    $ {pitem.quantity *
-                      pitem.sizeList.filter((el) => el.selected)[0].price}
+                    $ {formatMoney(pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice)}
                   </b>
                 </div>
               </div>
@@ -287,7 +316,7 @@ class Cart extends React.Component {
     this.state.productList.map((pitem) => {
       total =
         total +
-        pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].price;
+        pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice;
     });
     return (
       <div>
@@ -301,8 +330,8 @@ class Cart extends React.Component {
                     <a href="#" onClick={(e) => this.goBack(e)} title="Continue shopping">
                       <span className="rc-header-with-icon rc-header-with-icon--gamma">
                         <span className="rc-icon rc-left rc-iconography"></span>
-                    Continue shopping
-                  </span>
+                        Continue shopping
+                      </span>
                     </a>
                   </div>
                 </div>
@@ -316,7 +345,7 @@ class Cart extends React.Component {
                     <div className="rc-padding-bottom--xs">
                       <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
                         Your basket
-                  </h5>
+                      </h5>
                     </div>
                     <div id="product-cards-container">{List}</div>
                   </div>
@@ -329,13 +358,13 @@ class Cart extends React.Component {
                     <div className="group-order rc-border-all rc-border-colour--interface cart__total__content">
                       <div className="row">
                         <div className="col-12 total-items medium">
-                          <span>{this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item' } in the basket
+                          <span>{this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
                     </div>
                       </div>
                       <div className="row">
                         <div className="col-8">Total</div>
                         <div className="col-4 no-padding-left">
-                          <p className="text-right sub-total">$ {total}</p>
+                          <p className="text-right sub-total">$ {formatMoney(total)}</p>
                         </div>
                       </div>
                       <div className="row">
@@ -352,7 +381,7 @@ class Cart extends React.Component {
                             <strong>Total cost</strong>
                           </div>
                           <div className="col-5">
-                            <p className="text-right grand-total-sum medium">$ {total}</p>
+                            <p className="text-right grand-total-sum medium">$ {formatMoney(total)}</p>
                           </div>
                         </div>
                         <div className="row checkout-proccess">
@@ -424,12 +453,18 @@ class Cart extends React.Component {
           </div>
         </main>
         <div
+          className={`modal-backdrop fade ${
+            this.state.modalShow ? "show" : ""
+            }`}
+          style={{ display: this.state.modalShow ? "block" : "none", zIndex: 59 }}
+        ></div>
+        <div
           className={`modal fade ${this.state.modalShow ? "show" : ""}`}
           id="removeProductModal"
           tabIndex="-1"
           role="dialog"
           aria-labelledby="removeProductLineItemModal"
-          style={{ display: this.state.modalShow ? "block" : "none" }}
+          style={{ display: this.state.modalShow ? "block" : "none", overflow: 'hidden' }}
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
@@ -495,12 +530,7 @@ class Cart extends React.Component {
             </div>
           </div>
         </div>
-        <div
-          className={`modal-backdrop fade ${
-            this.state.modalShow ? "show" : ""
-            }`}
-          style={{ display: this.state.modalShow ? "block" : "none" }}
-        ></div>
+
         <Footer />
       </div>
     );
