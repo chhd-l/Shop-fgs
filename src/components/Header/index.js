@@ -42,14 +42,10 @@ class Header extends React.Component {
   get totalNum () {
     return this.props.cartData.reduce((pre, cur) => { return pre + cur.quantity }, 0)
   }
-  get totalInfo () {
-    let num = this.props.cartData.length
-    return num > 1 ? `${num} items` : `${num} item`
-  }
   get totalPrice () {
     let ret = 0
     this.props.cartData.map(item => {
-      return ret += item.quantity * item.sizeList.find(s => s.selected).salePrice
+      return ret += item.currentAmount
     })
     return ret
   }
@@ -367,7 +363,7 @@ class Header extends React.Component {
                                                 <div className="line-item-total-price justify-content-end pull-right">
                                                   <div className="item-total-07984de212e393df75a36856b6 price relative">
                                                     <div className="strike-through non-adjusted-price">null</div>
-                                                    <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">$ {formatMoney(item.sizeList.find(s => s.selected).salePrice * item.quantity)}</b>
+                                                    <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">$ {formatMoney(item.currentAmount)}</b>
                                                   </div>
                                                 </div>
                                               </div>
