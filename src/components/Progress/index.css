@@ -1,0 +1,7 @@
+.rc-header-with-icon .rc-icon.rc-icon-less-scale::after {
+  transform: scale(.75);
+  opacity: .5;
+}
+.rc-header-with-icon .rc-icon.rc-brand1.rc-icon-less-scale::after {
+  opacity: 1;
+}

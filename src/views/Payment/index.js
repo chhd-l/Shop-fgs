@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import InterestedIn from "@/components/InterestedIn";
+import Progress from '@/components/Progress'
 import "./index.css";
 import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
@@ -207,49 +207,7 @@ class Payment extends React.Component {
             class="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
             data-checkout-stage="payment"
           >
-            <div class="rc-padding--sm rc-padding-top--none">
-              <div class="checkout-steps rc-layout-container rc-margin-top--lg--mobile">
-                <div class="rc-column rc-padding-x--none--mobile">
-                  <ul class="rc-list rc-list--inline rc-content-v-middle rc-padding--none">
-                    <li
-                      className={`checkout-steps__item ${
-                        this.state.type == "shipping" ? "active" : ""
-                      }`}
-                      data-step="shipping"
-                    >
-                      <span class="rc-header-with-icon">
-                        <i class="icon icon-delivery"></i>
-                        Delivery
-                      </span>
-                    </li>
-                    <li
-                      className={`checkout-steps__item ${
-                        this.state.type == "payment" ? "active" : ""
-                      }`}
-                      data-step="payment"
-                    >
-                      <span class="rc-header-with-icon">
-                        <hr />
-                        <i class="icon icon-payment"></i>
-                        Choose payment
-                      </span>
-                    </li>
-                    <li
-                      className={`checkout-steps__item ${
-                        this.state.type == "confirmation" ? "active" : ""
-                      }`}
-                      data-step="confirmation"
-                    >
-                      <span class="rc-header-with-icon">
-                        <hr />
-                        <i class="icon icon-validation"></i>
-                        the confirmation
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            <Progress type={this.state.type} />
             <div class="rc-layout-container rc-three-column rc-max-width--xl">
               <div class="rc-column rc-double-width shipping__address">
                 <div
