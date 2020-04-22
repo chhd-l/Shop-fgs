@@ -61,7 +61,7 @@ class Details extends React.Component {
   }
   async getDetails () {
     const { id } = this.state
-    const res = await getDetails('ff8080817177b77c01717c19c3820008')
+    const res = await getDetails(id)
     if (res && res.context) {
       let sizeList = []
       let goodsSpecDetails = res.context.goodsSpecDetails
@@ -77,7 +77,7 @@ class Details extends React.Component {
 
       const selectedSize = sizeList.find(s => s.selected)
       this.setState({
-        details: Object.assign({}, this.state.details, res.context.goods, { sizeList }),
+        details: Object.assign({}, this.state.details, res.context.goods, { sizeList }, { goodsInfoId: res.context.goodsInfos[0].goodsInfoId }),
         currentUnitPrice: selectedSize.salePrice,
         quantityMaxLimit: selectedSize.stock
       })

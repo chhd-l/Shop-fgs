@@ -1,6 +1,6 @@
-import React from 'react';
-import { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import { queryStoreCateIds } from "@/utils/utils.js"
 
 class RouteFilter extends Component {
   shouldComponentUpdate (nextProps) {
@@ -22,6 +22,9 @@ class RouteFilter extends Component {
       }
     }
     return ''
+  }
+  async componentDidMount () {
+    queryStoreCateIds()
   }
   render () {
     const { location } = this.props;

@@ -156,7 +156,7 @@ class Header extends React.Component {
                   <div className="col-12 item" key={item.id}>
                     <div className="row">
                       <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
-                        <Link to={`/details/${item.id}`}>
+                        <Link to={`/details/${item.goodsInfoId}`}>
                           <img
                             className="swatch__img"
                             alt={item.name}
@@ -166,7 +166,7 @@ class Header extends React.Component {
                       </div>
                       <div className="col-8 col-md-9 col-lg-10 rc-padding-top--xs">
                         <Link
-                          to={`/details/${item.id}`}
+                          to={`/details/${item.goodsInfoId}`}
                           className="productName"
                           alt={item.name}
                           title={item.name}
@@ -338,21 +338,21 @@ class Header extends React.Component {
                                 </div>
                                 <div className="product-summary limit">
                                   {cartData.map((item, idx) => (
-                                    <div className="minicart__product" key={item.id + idx}>
+                                    <div className="minicart__product" key={item.goodsInfoId + idx}>
                                       <div>
                                         <div className="product-summary__products__item">
                                           <div className="product-line-item">
                                             <div className="product-line-item-details d-flex flex-row">
                                               <div className="item-image">
                                                 <img className="product-image"
-                                                  src={item.url}
-                                                  alt={item.name}
-                                                  title={item.name} />
+                                                  src={item.goodsImg}
+                                                  alt={item.goodsName}
+                                                  title={item.goodsName} />
                                               </div>
                                               <div className="wrap-item-title">
                                                 <div className="item-title">
                                                   <div className="line-item-name capitalize">
-                                                    <span className="light">{item.name}</span>
+                                                    <span className="light">{item.goodsName}</span>
                                                   </div>
                                                 </div>
                                                 <div className="line-item-total-price justify-content-start pull-left">

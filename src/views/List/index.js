@@ -7,48 +7,62 @@ import Filters from '@/components/Filters'
 import Loading from '@/components/Loading'
 import './index.css'
 import { cloneDeep } from 'lodash'
-import filterData from './json/index.json'
 import titleCfg from './json/title.json'
-import { getList } from '@/api/list'
+import { getList, getProps } from '@/api/list'
+import { queryStoreCateIds, formatMoney } from "@/utils/utils.js"
 
 class List extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      storeCateId: '',
       category: '',
       titleData: null,
       productList: [
         // 占位用，不能删
         {
           id: '3003_RU',
-          name: 'Mini adult',
-          url: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-          img: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
-          description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-          price: 945
+          lowGoodsName: 'Mini adult',
+          goodsInfos: [
+            {
+              goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
+              specText: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
+              salePrice: 945
+            }
+          ]
         }
       ],
       loading: true,
       checkedList: [],
-      current: 1,
-      total: 6, // 总页数
-      results: 33, // 总数据条数
+      currentPage: 1,
+      totalPage: 6, // 总页数
+      results: 0, // 总数据条数
+      pageSize: 1,
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
-      keywords: ''
+      keywords: '',
+      filterList: []
     }
-    this.filterList = []
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
     this.handleCurrentPageNumChange = this.handleCurrentPageNumChange.bind(this)
     this.handlePrevOrNextPage = this.handlePrevOrNextPage.bind(this)
     this.hanldeItemClick = this.hanldeItemClick.bind(this)
   }
-  initData () {
+  async initData () {
     const { category } = this.state
-    this.filterList = filterData[category]
     this.setState({
       titleData: titleCfg[category]
     })
+
+    let storeIdList = await queryStoreCateIds()
+
+    let targetObj = storeIdList.find(s => s.cateName.toLocaleLowerCase() === category)
+    if (targetObj) {
+      this.setState({
+        storeCateId: targetObj.storeCateId
+      })
+    }
+
     this.getProductList()
   }
   componentDidMount () {
@@ -65,79 +79,79 @@ class List extends React.Component {
     })
   }
   getProductList () {
-    getList('ff8080817177b77c01717c19c3820008').then(res => {  }).catch(err => {  })
-
     // 搜索参数
-    const { checkedList, current } = this.state;
-    console.log('query getProductList interface', checkedList, current)
-    let res = [
-      {
-        id: '3003_RU',
-        name: 'Mini adult',
-        url: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-        img: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
-        description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-        price: 945
-      },
-      {
-        id: '3001_RU',
-        name: 'Mini adult',
-        url: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-        img: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
-        description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-        price: 33
-      },
-      {
-        id: '3005_RU',
-        name: 'Mini adult',
-        url: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-        img: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
-        description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-        price: 44
-      },
-      {
-        id: '3065_RU',
-        name: 'Mini adult',
-        url: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-        img: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
-        description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-        price: 66
-      },
-      {
-        id: '3075_RU',
-        name: 'Mini adult',
-        url: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-        img: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
-        description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-        price: 66
+    let { checkedList, currentPage, pageSize, storeCateId } = this.state;
+
+    this.setState({
+      loading: true
+    })
+
+    // todo... delete
+    storeCateId = '1129'
+
+    let params = {
+      cateId: storeCateId,
+      propDetails: [],
+      pageNum: currentPage - 1,
+      brandIds: [],
+      sortFlag: 0,
+      pageSize,
+      esGoodsInfoDTOList: [],
+      companyType: ''
+    }
+
+    for (let item of checkedList) {
+      let tmp = params.propDetails.find(p => p.propId === item.propId)
+      if (tmp) {
+        tmp.detailIds.push(item.detailId)
+      } else {
+        params.propDetails.push({ propId: item.propId, detailIds: [item.detailId] })
       }
-    ]
-    setTimeout(() => {
-      this.setState({
-        productList: res,
-        loading: false
+    }
+
+    getList(params)
+      .then(res => {
+        if (res && res.context) {
+          const esGoods = res.context.esGoods
+          if (esGoods && esGoods.content) {
+            this.setState({
+              productList: esGoods.content,
+              results: esGoods.totalElements,
+              currentPage: esGoods.number + 1,
+              totalPage: esGoods.totalPages,
+              loading: false
+            })
+          }
+        }
       })
-    }, 1000)
+    getProps(storeCateId)
+      .then(res => {
+        if (res && res.context) {
+          this.setState({
+            filterList: res.context
+          })
+        }
+      })
   }
-  handleFilterChange (value) {
+  handleFilterChange (item) {
     const { checkedList } = this.state;
     let checkedListCopy = cloneDeep(checkedList);
-    let index = checkedListCopy.indexOf(value);
+    let index = checkedListCopy.findIndex(c => c.detailId === item.detailId && c.propId === item.propId)
     if (index > -1) {
       checkedListCopy.splice(index, 1)
     } else {
-      checkedListCopy.push(value)
+      checkedListCopy.push(item)
     }
     this.setState({ checkedList: checkedListCopy }, () => this.getProductList())
   }
-  handleRemove (val) {
+  handleRemove (item) {
     const { checkedList } = this.state;
     let checkedListCopy = cloneDeep(checkedList);
     let res
-    if (val === 'all') {
+    if (item === 'all') {
       res = []
     } else {
-      checkedListCopy.splice(checkedListCopy.indexOf(val), 1)
+      checkedListCopy.splice(checkedListCopy.findIndex(c => c.detailId === item.detailId && c.propId === item.propId), 1)
       res = checkedListCopy
     }
     this.setState({ checkedList: res }, () => this.getProductList())
@@ -147,32 +161,32 @@ class List extends React.Component {
     if (isNaN(tmp)) {
       tmp = 1
     }
-    if (tmp > this.state.total) {
-      tmp = this.state.total
+    if (tmp > this.state.totalPage) {
+      tmp = this.state.totalPage
     }
-    this.setState({ current: tmp }, () => this.getProductList())
+    this.setState({ currentPage: tmp }, () => this.getProductList())
   }
   handlePrevOrNextPage (type) {
-    const { current, total } = this.state
+    const { currentPage, totalPage } = this.state
     let res
     if (type === 'prev') {
-      if (current <= 1) {
+      if (currentPage <= 1) {
         return
       }
-      res = current - 1
+      res = currentPage - 1
     } else {
-      if (current >= total) {
+      if (currentPage >= totalPage) {
         return
       }
-      res = current + 1
+      res = currentPage + 1
     }
-    this.setState({ current: res }, () => this.getProductList())
+    this.setState({ currentPage: res }, () => this.getProductList())
   }
   hanldeItemClick (item) {
-    createHashHistory().push('/details/' + item.id)
+    createHashHistory().push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   render () {
-    const { results, productList, loading, checkedList, current, total, titleData, cartData } = this.state
+    const { results, productList, loading, checkedList, currentPage, totalPage, titleData, cartData } = this.state
     return (
       <div>
         <Header cartData={cartData} showMiniIcons={true} />
@@ -214,7 +228,7 @@ class List extends React.Component {
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
                       data-filter-trigger="filter-example">Filters</button>
                     <aside className="rc-filters" data-filter-target="filter-example">
-                      <Filters onChange={this.handleFilterChange} onRemove={this.handleRemove} filterList={this.filterList} checkedList={checkedList} />
+                      <Filters onChange={this.handleFilterChange} onRemove={this.handleRemove} filterList={this.state.filterList} checkedList={checkedList} />
                     </aside>
                   </div>
                   <div className="rc-column rc-triple-width">
@@ -229,25 +243,26 @@ class List extends React.Component {
                                   <picture className="rc-card__image">
                                     <div className="rc-padding-bottom--xs">
                                       <img className=""
-                                        src={item.url}
-                                        srcSet={item.img}
-                                        alt={item.name} title={item.name} />
+                                        src={item.goodsInfos[0].goodsInfoImg}
+                                        srcSet={item.goodsInfos[0].goodsInfoImg}
+                                        alt={item.lowGoodsName}
+                                        title={item.lowGoodsName} />
                                     </div>
                                   </picture>
                                   <div className="rc-card__body rc-padding-top--none">
                                     <div className="height-product-tile-plpOnly height-product-tile">
                                       <header className="rc-text--center">
-                                        <h3 className="rc-card__title rc-gamma">{item.name}</h3>
+                                        <h3 className="rc-card__title rc-gamma">{item.lowGoodsName}</h3>
                                       </header>
                                       <div className="Product-Key-words rc-text--center"></div>
                                       <div className="rc-card__meta rc-margin-bottom--xs rc-text--center">
-                                        {item.description}
+                                        {item.goodsInfos[0].specText}
                                       </div>
                                     </div>
                                     <span className="rc-card__price rc-text--center">
                                       <span className="range">
-                                        From $ {item.price}
-                                    </span>
+                                        From $ {formatMoney(item.goodsInfos[0].salePrice)}
+                                      </span>
                                     </span>
                                   </div>
                                 </article>
@@ -257,23 +272,29 @@ class List extends React.Component {
                         </div>
                       ))}
                       <div className="grid-footer rc-full-width">
-                        <nav className="rc-pagination" data-pagination="" data-pages={total}>
-                          <form className="rc-pagination__form">
-                            <button
+                        <nav className="rc-pagination">
+                          <div className="rc-pagination__form">
+                            <div
                               className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-                              aria-label="Previous step" data-prev="" type="submit" onClick={this.handlePrevOrNextPage('prev')}></button>
+                              onClick={() => this.handlePrevOrNextPage('prev')}></div>
+                            {/* <div
+                              className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
+                              onClick={this.handlePrevOrNextPage('prev')}></div> */}
                             <div className="rc-pagination__steps">
-                              <input type="text" className="rc-pagination__step rc-pagination__step--current" value={current}
-                                aria-label="Current step" onChange={this.handleCurrentPageNumChange} />
+                              <input
+                                type="text"
+                                className="rc-pagination__step rc-pagination__step--current"
+                                value={currentPage}
+                                onChange={this.handleCurrentPageNumChange} />
                               <div className="rc-pagination__step rc-pagination__step--of">
-                                of
-                                &nbsp;<span data-total-steps-label=""></span>
+                                of <span>{totalPage}</span>
                               </div>
                             </div>
-                            <button
+
+                            <span
                               className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-                              aria-label="Previous step" data-next="" type="submit" onClick={() => this.handlePrevOrNextPage('next')}></button>
-                          </form>
+                              onClick={() => this.handlePrevOrNextPage('next')}></span>
+                          </div>
                         </nav>
                       </div>
                     </div>

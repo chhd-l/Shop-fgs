@@ -8,7 +8,9 @@ const en_US = {
   'itemsInCart2': 'You have {val} items in your cart',
   'total': 'Total',
   'cats': 'CATS',
+  'cats2': 'Cats',
   'dogs': 'DOGS',
+  'dogs2': 'Dogs',
   'aboutUs': 'ABOUT US',
   'aboutUs2': 'About Us',
   'close': 'Close',
@@ -17,6 +19,10 @@ const en_US = {
 
   'header.basketEmpty': 'your basket is empty',
   'header.startTypingToSearch': 'Start typing to search',
+  'header.VCN': 'VCN',
+  'header.VD': 'VD',
+
+  'home.productsCategory': 'Our products by category',
 
   'footer.toTheTop': 'To the top',
   'footer.aboutRoyalCanin': 'ABOUT ROYAL CANIN®',
