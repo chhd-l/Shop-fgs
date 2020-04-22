@@ -92,7 +92,7 @@ class Prescription extends React.Component{
   //     alert("你的浏览器不支持HTML5来获取地理位置信息。");
   //   }
   // }
-  handleInit=()=>{
+  handleInit=(e)=>{
     this.handldKey(this.state.key)
         //获取当前地理位置信息
       navigator.geolocation.getCurrentPosition(position => {
@@ -102,6 +102,7 @@ class Prescription extends React.Component{
             lat:position.coords.latitude,
             lng:position.coords.longitude
           },
+          zoom:11,
           meLocation:{
             lat:position.coords.latitude,
             lng:position.coords.longitude
@@ -141,9 +142,19 @@ class Prescription extends React.Component{
     this.setState({ current: res }, () => this.getProductList())
   }
   handldKey=(key)=>{
-    return this.setState({
+    this.setState({
       key: key + 1
     })
+  }
+  handleItem=(item)=>{
+    this.handldKey(this.state.key)
+    this.setState({
+      center:{
+        lat:item.lat,
+        lng:item.lng
+      }
+    })
+    
   }
 
 render(h) {
@@ -183,23 +194,12 @@ render(h) {
       obj={this.state.me}
     />)
     for (var i = 0; i < tempArr.length; i++) {
-      if(tempArr[i].type==='clinic'){
-        items.push(
-          <article class="rc-card rc-card--a" style={{width:"17rem",margin:"1rem 0 "}} key={tempArr[i].id}>
-            <div class="rc-card__body" style={{padding:"0 0 0 1rem"}}>
-              <h1 class="rc-card__title rc-delta">{tempArr[i].title}</h1>
-              <p>{tempArr[i].phone} </p>
-              <p style={{display: "inline-block",width:"11rem"}}>{tempArr[i].desc} </p>
-              <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} onClick={handleConfirm}>comfirm</a>
-            </div>
-          </article>)
-      }
-        flags.push(<AnyReactComponent
-          key={tempArr[i].id}
-          lat={tempArr[i].lat}
-          lng={tempArr[i].lng}
-          obj={tempArr[i]}
-        />)
+      flags.push(<AnyReactComponent
+        key={tempArr[i].id}
+        lat={tempArr[i].lat}
+        lng={tempArr[i].lng}
+        obj={tempArr[i]}
+      />)
     }
 
     return (
@@ -236,8 +236,8 @@ render(h) {
                     <label className="rc-input__label" htmlFor="id-submit-2">
                       <span className="rc-input__label-text"></span>
                     </label>
-                    <i className="rc-icon rc-location2--xs rc-iconography rc-vertical-align "
-                      aria-label="location" onClick={this.handleInit}>
+                    <i className="rc-icon rc-location2--xs rc-iconography rc-vertical-align click-btn"
+                      aria-label="location" onClick={(e)=> this.handleInit(e)}>
                     </i>
                   </span>
                   <input type="hidden" value="null" name="lang" />
@@ -250,7 +250,17 @@ render(h) {
                     </select>
                   </span>
                   <div className="rc-column" style={{padding:"0" }}>
-                    {items}
+                    { tempArr.map( item =>(
+                      <article class="rc-card rc-card--a" style={{width:"17rem",margin:"1rem 0 "}} key={item.id}>
+                        <div class="rc-card__body" style={{padding:"0 0 0 1rem"}}>
+                          <h1 class="rc-card__title rc-delta click-btn" onClick={()=> this.handleItem(item)}>{item.title}</h1>
+                          <p>{item.phone} </p>
+                          <p style={{display: "inline-block",width:"11rem"}}>{item.desc} </p>
+                          <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} 
+                          onClick={handleConfirm}>comfirm</a>
+                        </div>
+                      </article>))
+                      }
                   </div>
                   <div className="grid-footer rc-full-width">
                     <nav className="rc-pagination" data-pagination="" data-pages={this.state.total}>
