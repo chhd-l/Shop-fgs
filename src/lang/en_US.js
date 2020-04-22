@@ -43,5 +43,11 @@ const en_US = {
   'footer.cookies': 'Cookies',
   'footer.legalTerms': 'Legal Terms',
   'footer.copyrightInfo': 'Copyright © Mars 2020®, Trademark of Mars Incorporated and its affiliates',
+  'clinic.confirm':'Confirm',
+  'clinic.selectVetClinics':'Select Vet Clinics',
+  'clinic.sortResults':'Sort results',
+  'clinic.sortResultsByDistance':'Sort results by distance',
+  'clinic.SortResultsByStarRating':'Sort results by star rating',
+  
 }
 export default en_US;

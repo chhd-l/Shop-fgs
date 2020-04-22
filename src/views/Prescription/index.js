@@ -6,6 +6,7 @@ import { createHashHistory } from 'history'
 import './index.css'
 import MapFlag from '@/components/MapFlag'
 import GoogleMap from '@/components/GoogleMap'
+import { FormattedMessage } from 'react-intl'
 
 const handleConfirm=()=>{
   createHashHistory().push('/payment/shipping')
@@ -39,7 +40,7 @@ class Prescription extends React.Component{
     this.state = {
       type:'perscription',
       keywords:'',
-      selectedSort:1,
+      selectedSort:0,
       current: 1,
       total: 6, // 总页数
       center:{
@@ -244,7 +245,8 @@ render(h) {
 
                   <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
                     style={{width:'17rem',padding: "1rem 0 0 0"}}>
-                    <select data-js-select="" id="id-single-select" value={this.state.selectedSort} placeholder="Sort results">
+                    <select data-js-select="" id="id-single-select" value={this.state.selectedSort}>
+                      <option value="0" disabled>Sort results</option>
                       <option value="1">Sort results by distance</option>
                       <option value="2">Sort results by star rating</option>
                     </select>
@@ -257,7 +259,9 @@ render(h) {
                           <p>{item.phone} </p>
                           <p style={{display: "inline-block",width:"11rem"}}>{item.desc} </p>
                           <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} 
-                          onClick={handleConfirm}>comfirm</a>
+                          onClick={handleConfirm}>
+                          <FormattedMessage id="clinic.confirm"/>
+                          </a>
                         </div>
                       </article>))
                       }
