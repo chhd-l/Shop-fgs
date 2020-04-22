@@ -13,31 +13,31 @@ const AnyReactComponent = ({ obj }) => {
   if(obj.type === 'clinic'){
     return (
       <div>
-  <div data-tooltip-placement="top" data-tooltip={obj.title+obj.id} class="rc-margin-top--md rc-text--center">
-    <div class="rc-map-location__icon">
-      <svg width="24" height="32">
-        <path d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0" fill="#E2001A" fill-rule="evenodd"></path>
-      </svg>
+       <div data-tooltip-placement="top" data-tooltip={obj.title+obj.id} className="rc-margin-top--md rc-text--center">
+        <div className="rc-map-location__icon">
+         <svg width="24" height="32">
+            <path d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0" fill="#E2001A" fill-rule="evenodd"></path>
+         </svg>
       {obj.title}
     </div>
   </div>
-  <div id={obj.title + obj.id} class="rc-tooltip">
-    <div class="rc-tooltip rc-text--left rc-padding--xs" id="map-tooltip" style={{ display:'block'}}>
-      <div class="rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop" style={{marginBottom:"0"}}>
-        <h1 class="rc-card__title rc-delta">{obj.title}</h1>
+  <div id={obj.title+obj.id} className="gm-style-iw-c">
+    <div className="rc-tooltip rc-text--left rc-padding--xs" id="map-tooltip" style={{ display:'block'}}>
+      <div className="rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop" style={{marginBottom:"0"}}>
+        <h1 className="rc-card__title rc-delta">{obj.title}</h1>
         <p>{obj.phone} </p>
         <p style={{display: "inline-block",width:"10rem"}}>{obj.desc}</p>
-        <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} onClick={handleConfirm}>comfirm</a>
+        <a className="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} onClick={handleConfirm}>comfirm</a>
       </div>
     </div>
   </div>
 </div>
-      
+
       )
-  } 
+  }
   else {
     return (<div style={{
-      color: 'white', 
+      color: 'white',
       background: 'blue',
       padding: '5px 5px',
       display: 'inline-flex',
@@ -87,9 +87,16 @@ class Prescription extends React.Component{
   }
   init=()=>{
     if (navigator.geolocation) {
-      //获取当前地理位置信息 
+      //获取当前地理位置信息
       navigator.geolocation.getCurrentPosition(position => {
-        this.setState({
+        // this.setState({
+        //   center:{
+        //     lat:position.coords.latitude,
+        //     lng:position.coords.longitude
+        //   },
+        //   zoom:11
+        // })
+        this.state = ({
           center:{
             lat:position.coords.latitude,
             lng:position.coords.longitude
@@ -106,7 +113,7 @@ class Prescription extends React.Component{
   }
   handleSearch(){
     console.log('search');
-    
+
   }
   
   handleCurrentPageNumChange (e) {
@@ -135,7 +142,11 @@ class Prescription extends React.Component{
     }
     this.setState({ current: res }, () => this.getProductList())
   }
-  render(h) {
+  clickClinic=(key, childProps)=>{
+    console.log("click......")
+  }
+
+render(h) {
     let tempArr=[
       {
         title:'me',
@@ -146,7 +157,7 @@ class Prescription extends React.Component{
         lng:this.state.center.lng,
       },
       {
-      title:'clinic1',
+      title:'clinic11111',
       type:'clinic',
       phone:'023-12341231',
       desc:'meda1',
@@ -196,23 +207,23 @@ class Prescription extends React.Component{
     return (
       <div>
         <Header showMiniIcons={true}/>
-        <main class="rc-content--fixed-header rc-bg-colour--brand3">
+        <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <div
             id="checkout-main"
-            class="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
+            className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
             data-checkout-stage="prescription">
-            <div class="rc-padding--sm rc-padding-top--none">
+            <div className="rc-padding--sm rc-padding-top--none">
               <div
-                class="checkout-steps rc-layout-container rc-margin-top--lg--mobile"
+                  className="checkout-steps rc-layout-container rc-margin-top--lg--mobile"
                 data-loc="checkout-steps">
-                <div class="rc-column rc-padding-x--none--mobile">
-                  <ul class="rc-list rc-list--inline rc-content-v-middle rc-padding--none">
+                <div className="rc-column rc-padding-x--none--mobile">
+                  <ul className="rc-list rc-list--inline rc-content-v-middle rc-padding--none">
                   <li className={`checkout-steps__item ${
                         this.state.type === "perscription" ? "active" : ""
                       }`}
                       data-step="perscription">
-                      <span class="rc-header-with-icon">
-                        <i class="rc-icon rc-health rc-iconography"></i>
+                      <span className="rc-header-with-icon">
+                        <i className="rc-icon rc-health rc-iconography"></i>
                         Prescription
                       </span>
                     </li>
@@ -220,9 +231,9 @@ class Prescription extends React.Component{
                         this.state.type === "shipping" ? "active" : ""
                       }`}
                       data-step="shipping">
-                      <span class="rc-header-with-icon">
+                      <span className="rc-header-with-icon">
                         <hr />
-                        <i class="icon icon-delivery"></i>
+                        <i className="icon icon-delivery"></i>
                         Delivery
                       </span>
                     </li>
@@ -232,9 +243,9 @@ class Prescription extends React.Component{
                       }`}
                       data-step="payment"
                     >
-                      <span class="rc-header-with-icon">
+                      <span className="rc-header-with-icon">
                         <hr />
-                        <i class="icon icon-payment"></i>
+                        <i className="icon icon-payment"></i>
                         Choose payment
                       </span>
                     </li>
@@ -244,9 +255,9 @@ class Prescription extends React.Component{
                       }`}
                       data-step="confirmation"
                     >
-                      <span class="rc-header-with-icon">
+                      <span className="rc-header-with-icon">
                         <hr />
-                        <i class="icon icon-validation"></i>
+                        <i className="icon icon-validation"></i>
                         Confirmation
                       </span>
                     </li>
@@ -254,9 +265,9 @@ class Prescription extends React.Component{
                 </div>
               </div>
             </div>
-            <p>Select Vet Clinic</p> 
-            <div class="map-saerch">
-              
+            <p>Select Vet Clinic</p>
+            <div className="map-saerch">
+
               <div style={{ width: '30%' }}>
                 <form
                   className={['inlineblock', 'headerSearch', 'headerSearchDesktop', 'relative' ].join(' ')}
@@ -279,20 +290,20 @@ class Prescription extends React.Component{
                     <label className="rc-input__label" htmlFor="id-submit-2">
                       <span className="rc-input__label-text"></span>
                     </label>
-                    <i className="rc-icon rc-location2--xs rc-iconography rc-vertical-align " 
+                    <i className="rc-icon rc-location2--xs rc-iconography rc-vertical-align "
                       aria-label="location" onClick={this.handleInit}>
                     </i>
                   </span>
                   <input type="hidden" value="null" name="lang" />
-                  
-                  <span class="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
+
+                  <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
                     style={{width:'17rem',padding: "1rem 0 0 0"}}>
                     <select data-js-select="" id="id-single-select" value={this.state.selectedSort} placeholder="Sort results">
                       <option value="1">Sort results by distance</option>
                       <option value="2">Sort results by star rating</option>
                     </select>
                   </span>
-                  <div class="rc-column" style={{padding:"0" }}>
+                  <div className="rc-column" style={{padding:"0" }}>
                     {items}
                   </div>
                   <div className="grid-footer rc-full-width">
@@ -316,19 +327,21 @@ class Prescription extends React.Component{
                     </nav>
                   </div>
                 </form>
-                
+
               </div>
               <div style={{ height: '40rem', width: '70%' }}>
                 <GoogleMapReact
                   ref={(ref) => { this.map = ref }}
                   bootstrapURLKeys={{ key: this.state.key }}
                   defaultCenter={this.state.center}
-                  defaultZoom={this.state.zoom}>
+                  distanceToMouse={()=>{}}
+                  defaultZoom={this.state.zoom}
+                  onChildClick={this.clickClinic}>
                   {flags}
                 </GoogleMapReact>
               </div>
             </div>
-            
+
           </div>
         </main>
         <Footer />
