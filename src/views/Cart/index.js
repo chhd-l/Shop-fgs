@@ -386,7 +386,7 @@ class Cart extends React.Component {
                         </div>
                         <div className="row checkout-proccess">
                           <div className="col-lg-12 checkout-continue">
-                            <Link to="/payment/shipping">
+                            <Link to="/prescription">
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                                 <div
                                   data-oauthlogintargetendpoint="2"
