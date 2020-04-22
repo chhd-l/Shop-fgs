@@ -52,36 +52,36 @@ class Prescription extends React.Component{
     }
     this.headerRef = React.createRef();
     this.inputRef = React.createRef();
-    this.init()
+    // this.init()
   }
   inputSearchValue=(e)=>{
     this.setState({
       keywords: e.target.value
     })
   }
-  init=()=>{
-    if (navigator.geolocation) {
-      //获取当前地理位置信息
-      navigator.geolocation.getCurrentPosition(position => {
-        this.setState({
-          center:{
-            lat:position.coords.latitude,
-            lng:position.coords.longitude
-          },
-          zoom:11
-        })
-        // this.state = ({
-        //   center:{
-        //     lat:position.coords.latitude,
-        //     lng:position.coords.longitude
-        //   },
-        //   zoom:11
-        // })
-      })
-   } else {
-      alert("你的浏览器不支持HTML5来获取地理位置信息。");
-    }
-  }
+  // init=()=>{
+  //   if (navigator.geolocation) {
+  //     //获取当前地理位置信息
+  //     navigator.geolocation.getCurrentPosition(position => {
+  //       this.setState({
+  //         center:{
+  //           lat:position.coords.latitude,
+  //           lng:position.coords.longitude
+  //         },
+  //         zoom:11
+  //       })
+  //       // this.state = ({
+  //       //   center:{
+  //       //     lat:position.coords.latitude,
+  //       //     lng:position.coords.longitude
+  //       //   },
+  //       //   zoom:11
+  //       // })
+  //     })
+  //  } else {
+  //     alert("你的浏览器不支持HTML5来获取地理位置信息。");
+  //   }
+  // }
   handleInit=()=>{
     this.setState({})
   }
@@ -133,23 +133,23 @@ render(h) {
       phone:'023-12341231',
       desc:'meda1',
       id:1,
-      lat:this.state.center.lat+0.1,
-        lng:this.state.center.lng+0.1,
+      lat:this.state.center.lat+0.01,
+        lng:this.state.center.lng-0.10,
     },{
       title:'clinic2',
       type:'clinic',
       phone:'023-12341232',
       desc:'meda2',
       id:2,
-      lat:this.state.center.lat+0.3,
-        lng:this.state.center.lng,
+      lat:this.state.center.lat+0.03,
+      lng:this.state.center.lng+0.2,
     },{
       title:'clinic3',
       type:'clinic',
       phone:'023-12341233',
       desc:'meda3',
       id:3,
-      lat:this.state.center.lat+0.3,
+      lat:this.state.center.lat+0.03,
         lng:this.state.center.lng+0.1,
     }]
     let items = [];
