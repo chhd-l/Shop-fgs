@@ -141,9 +141,6 @@ class Prescription extends React.Component{
     }
     this.setState({ current: res }, () => this.getProductList())
   }
-  clickClinic=(key, childProps)=>{
-    console.log("click......")
-  }
 
 render(h) {
     let tempArr=[
@@ -334,8 +331,7 @@ render(h) {
                   bootstrapURLKeys={{ key: this.state.key }}
                   defaultCenter={this.state.center}
                   distanceToMouse={()=>{}}
-                  defaultZoom={this.state.zoom}
-                  onChildClick={this.clickClinic}>
+                  defaultZoom={this.state.zoom}>
                   {flags}
                 </GoogleMapReact>
               </div>
