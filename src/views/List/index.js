@@ -1,5 +1,6 @@
 import React from 'react';
 import { createHashHistory } from 'history'
+import { FormattedMessage } from 'react-intl'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -37,7 +38,7 @@ class List extends React.Component {
       currentPage: 1,
       totalPage: 6, // 总页数
       results: 0, // 总数据条数
-      pageSize: 1,
+      pageSize: 10,
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       keywords: '',
       filterList: []
@@ -78,7 +79,7 @@ class List extends React.Component {
       }
     })
   }
-  getProductList () {
+  async getProductList () {
     // 搜索参数
     let { checkedList, currentPage, pageSize, storeCateId } = this.state;
 
@@ -109,29 +110,31 @@ class List extends React.Component {
       }
     }
 
-    getList(params)
-      .then(res => {
-        if (res && res.context) {
-          const esGoods = res.context.esGoods
-          if (esGoods && esGoods.content) {
+    let res = await getList(params)
+    if (res && res.context) {
+      const esGoods = res.context.esGoods
+      if (esGoods && esGoods.content.length) {
+        this.setState({
+          productList: esGoods.content,
+          results: esGoods.totalElements,
+          currentPage: esGoods.number + 1,
+          totalPage: esGoods.totalPages,
+          loading: false
+        })
+        if (!this.state.filterList.length) {
+          let res2 = await getProps(esGoods.content[0].goodsCate.cateId)
+          if (res2 && res2.context) {
             this.setState({
-              productList: esGoods.content,
-              results: esGoods.totalElements,
-              currentPage: esGoods.number + 1,
-              totalPage: esGoods.totalPages,
-              loading: false
+              filterList: res2.context
             })
           }
         }
-      })
-    getProps(storeCateId)
-      .then(res => {
-        if (res && res.context) {
-          this.setState({
-            filterList: res.context
-          })
-        }
-      })
+      } else {
+        this.setState({
+          loading: false
+        })
+      }
+    }
   }
   handleFilterChange (item) {
     const { checkedList } = this.state;
@@ -214,14 +217,14 @@ class List extends React.Component {
             <div className="search-nav">
               {this.state.keywords ?
                 <div className="nav-tabs-wrapper rc-text--center">
-                  <div className="rc-intro">You searched for:</div>
-                  <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText"><b>"mini"</b>(Results {results})</div>
+                  <div className="rc-intro"><FormattedMessage id="list.youSearchedFor" />:</div>
+                  <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText"><b>"mini"</b>(<FormattedMessage id="results" /> {results})</div>
                 </div> : null}
             </div>
             <section className="rc-bg-colour--brand3">
               <div>
                 <div className="rc-text--right rc-meta rc-margin-bottom--none">
-                  {results} Results
+                  {results} <FormattedMessage id="results" />
                 </div>
                 <div className="rc-layout-container rc-four-column">
                   <div className="refinements rc-column js-filter-refinement">
@@ -242,7 +245,7 @@ class List extends React.Component {
                                 <article className="rc-card--a rc-text--center rc-padding-top--sm">
                                   <picture className="rc-card__image">
                                     <div className="rc-padding-bottom--xs">
-                                      <img className=""
+                                      <img
                                         src={item.goodsInfos[0].goodsInfoImg}
                                         srcSet={item.goodsInfos[0].goodsInfoImg}
                                         alt={item.lowGoodsName}
@@ -261,7 +264,7 @@ class List extends React.Component {
                                     </div>
                                     <span className="rc-card__price rc-text--center">
                                       <span className="range">
-                                        From $ {formatMoney(item.goodsInfos[0].salePrice)}
+                                        <FormattedMessage id="from" /> $ {formatMoney(item.goodsInfos[0].salePrice)}
                                       </span>
                                     </span>
                                   </div>
@@ -287,7 +290,7 @@ class List extends React.Component {
                                 value={currentPage}
                                 onChange={this.handleCurrentPageNumChange} />
                               <div className="rc-pagination__step rc-pagination__step--of">
-                                of <span>{totalPage}</span>
+                                <FormattedMessage id="of" /> <span>{totalPage}</span>
                               </div>
                             </div>
 

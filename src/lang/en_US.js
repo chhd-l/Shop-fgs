@@ -16,6 +16,11 @@ const en_US = {
   'close': 'Close',
   'goods': 'Goods',
   'viewAllResults': 'View all results',
+  'results': 'Results',
+  'from': 'From',
+  'of': 'of',
+  'freeShipping': 'Free shipping',
+  'amount': 'Amount',
 
   'header.basketEmpty': 'your basket is empty',
   'header.startTypingToSearch': 'Start typing to search',
@@ -23,6 +28,15 @@ const en_US = {
   'header.VD': 'VD',
 
   'home.productsCategory': 'Our products by category',
+
+  'list.youSearchedFor': 'You searched for',
+
+  'details.unitPrice': 'Unit price',
+  'details.theSize': 'The size',
+  'details.availability': 'Availability',
+  'details.inStock': 'In stock',
+  'details.outStock': 'Out stock',
+  'details.addToCart': 'Add to Cart',
 
   'footer.toTheTop': 'To the top',
   'footer.aboutRoyalCanin': 'ABOUT ROYAL CANIN®',
