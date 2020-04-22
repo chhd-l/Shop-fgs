@@ -44,7 +44,7 @@ class Prescription extends React.Component{
       current: 1,
       total: 6, // 总页数
       center:{
-        lat: 39.9,
+        lat: 39.99,
         lng: 116.3
       },
       zoom: 11,
@@ -83,7 +83,15 @@ class Prescription extends React.Component{
   //   }
   // }
   handleInit=()=>{
-    this.setState({})
+    this.setState({
+
+        center:{
+          lat:123,
+          lng:123
+        },
+        zoom:11
+        
+    })
   }
   handleSearch(){
     console.log('search');
@@ -124,8 +132,8 @@ render(h) {
         type:'customer',
         desc:'meda1',
         id:1001,
-        lat:this.state.center.lat,
-        lng:this.state.center.lng,
+        lat: 39.99,
+        lng: 116.3
       },
       {
       title:'clinic11111',
@@ -133,24 +141,24 @@ render(h) {
       phone:'023-12341231',
       desc:'meda1',
       id:1,
-      lat:this.state.center.lat+0.01,
-        lng:this.state.center.lng-0.10,
+      lat: 39.89,
+      lng: 116.13
     },{
       title:'clinic2',
       type:'clinic',
       phone:'023-12341232',
       desc:'meda2',
       id:2,
-      lat:this.state.center.lat+0.03,
-      lng:this.state.center.lng+0.2,
+      lat: 39.99,
+      lng: 116.33
     },{
       title:'clinic3',
       type:'clinic',
       phone:'023-12341233',
       desc:'meda3',
       id:3,
-      lat:this.state.center.lat+0.03,
-        lng:this.state.center.lng+0.1,
+      lat: 39.9,
+      lng: 116.43
     }]
     let items = [];
     let flags=[];
