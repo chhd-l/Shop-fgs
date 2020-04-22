@@ -217,6 +217,23 @@ class Payment extends React.Component {
                   }}
                 >
                   <div class="card">
+                  <div class="card-header rc-margin-bottom--xs">
+                      <h4 className="pull-left">Selected clinic</h4>
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          let history = this.props
+                          history.push('/prescription')
+                        }}
+                        class=" rc-styled-link rc-margin-top--xs pull-right"
+                      >
+                        Edit
+                      </a>
+                    </div>
+                    <div class="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
+                    121 Animal Hospital
+                    </div>
                     <div class="card-header rc-margin-bottom--xs">
                       <h4>Delivery address</h4>
                     </div>

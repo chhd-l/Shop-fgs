@@ -138,15 +138,11 @@ class Header extends React.Component {
     })
   }
   hideMenu (e) {
-    try {
-      const widget = this.menuBtnRef && getComputedStyle(this.menuBtnRef.current)
-      if (e.target.id !== 'J-btn-menu' && widget && widget.display !== 'none') {
-        this.setState({
-          showMegaMenu: false
-        })
-      }
-    } catch (e) {
-      throw new Error(e)
+    const widget = this.menuBtnRef.current && getComputedStyle(this.menuBtnRef.current)
+    if (e.target.id !== 'J-btn-menu' && widget && widget.display !== 'none') {
+      this.setState({
+        showMegaMenu: false
+      })
     }
   }
   renderResultJsx () {
