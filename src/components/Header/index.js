@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
@@ -41,14 +42,10 @@ class Header extends React.Component {
   get totalNum () {
     return this.props.cartData.reduce((pre, cur) => { return pre + cur.quantity }, 0)
   }
-  get totalInfo () {
-    let num = this.props.cartData.length
-    return num > 1 ? `${num} items` : `${num} item`
-  }
   get totalPrice () {
     let ret = 0
     this.props.cartData.map(item => {
-      return ret += item.quantity * item.sizeList.find(s => s.selected).salePrice
+      return ret += item.currentAmount
     })
     return ret
   }
@@ -151,7 +148,9 @@ class Header extends React.Component {
         <div className="container">
           <div className="row d-flex flex-column-reverse flex-sm-row">
             <div className="col-12 col-md-7 rc-column">
-              <div className="rc-padding-top--lg--mobile rc-large-intro">Goods</div>
+              <div className="rc-padding-top--lg--mobile rc-large-intro">
+                <FormattedMessage id="goods" />
+              </div>
               <div className="suggestions-items row justify-content-end items rc-padding-left--xs">
                 {this.state.result.productList.map(item => (
                   <div className="col-12 item" key={item.id}>
@@ -182,7 +181,7 @@ class Header extends React.Component {
               </div>
               <div className="rc-margin-top--xs">
                 <a className="productName rc-large-body ui-cursor-pointer" onClick={this.handleItemClick}>
-                  <b>View all results ({this.state.result.total})</b>
+                  <b><FormattedMessage id="viewAllResults" /> ({this.state.result.total})</b>
                 </a>
               </div>
             </div>
@@ -214,19 +213,23 @@ class Header extends React.Component {
                     aria-label="Menu"
                     id="J-btn-menu"
                     ref={this.menuBtnRef}
-                    onClick={this.toggleMenu}>Menu</button>
+                    onClick={this.toggleMenu}>
+                    <FormattedMessage id="menu" />
+                  </button>
                   <button className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-menu--xs', 'rc-iconography', 'rc-md-down', this.state.showMegaMenu ? 'btn-close' : ''].join(' ')}
                     aria-label="Menu" onClick={this.toggleMenu}>
-                    <span className="rc-screen-reader-text">Menu</span>
+                    <span className="rc-screen-reader-text">
+                      <FormattedMessage id="menu" />
+                    </span>
                   </button>
                 </li> : null}
             </ul>
 
             <Link to="/" className="header__nav__brand logo-home">
-              <span className="rc-screen-reader-text">Royal Canin Logo</span>
+              <span className="rc-screen-reader-text"></span>
               <object id="header__logo" className="rc-header__logo" type="image/svg+xml"
                 data="https://d1a19ys8w1wkc1.cloudfront.net/logo--animated.svg?v=8-7-8" data-js-import-interactive-svg>
-                <img alt="Royal Canin logo" height="100" src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
+                <img alt="Royal Canin" height="100" src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
                   style={{ backgroundImage: 'url(https://d1a19ys8w1wkc1.cloudfront.net/logo--animated.png?v=8-7-8)' }} width="135" />
               </object>
             </Link>
@@ -240,7 +243,9 @@ class Header extends React.Component {
                         className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-search--xs', 'rc-iconography', this.state.showSearchInput ? 'rc-hidden' : ''].join(' ')}
                         aria-label="Search"
                         onClick={this.hanldeSearchClick}>
-                        <span className="rc-screen-reader-text">Search</span>
+                        <span className="rc-screen-reader-text">
+                          <FormattedMessage id="search" />
+                        </span>
                       </button>
                       <div className="rc-sm-up">
                         <form
@@ -250,17 +255,20 @@ class Header extends React.Component {
                           onSubmit={e => { e.preventDefault() }}>
                           <span className="rc-input rc-input--full-width" input-setup="true">
                             <button className="rc-input__submit rc-input__submit--search" type="submit">
-                              <span className="rc-screen-reader-text">Submit</span>
+                              <span className="rc-screen-reader-text"></span>
                             </button>
-                            <input
-                              ref={this.inputRef}
-                              className="search-field"
-                              type="search"
-                              autoComplete="off"
-                              aria-label="Start typing to search"
-                              placeholder="Start typing to search"
-                              value={this.state.keywords}
-                              onChange={this.handleSearchInputChange} />
+                            <FormattedMessage id='header.startTypingToSearch'>
+                              {(txt) => (
+                                <input
+                                  ref={this.inputRef}
+                                  className="search-field"
+                                  type="search"
+                                  autoComplete="off"
+                                  placeholder={txt}
+                                  value={this.state.keywords}
+                                  onChange={this.handleSearchInputChange} />
+                              )}
+                            </FormattedMessage>
                             <label className="rc-input__label" htmlFor="id-submit-2">
                               <span className="rc-input__label-text"></span>
                             </label>
@@ -286,7 +294,7 @@ class Header extends React.Component {
                                 <span className="minicart__pointer"></span>
                                 <div className="minicart__empty">
                                   <img className="cart-img" src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwbedbf812/images/cart.png" alt="Интернет-магазин ROYAL CANIN®" />
-                                  <p className="rc-delta">your basket is empty</p>
+                                  <p className="rc-delta"><FormattedMessage id="header.basketEmpty" /></p>
                                 </div>
                               </div>
                             </div>
@@ -299,21 +307,32 @@ class Header extends React.Component {
                                   <span className="minicart__pointer"></span>
                                   <div className="d-flex minicart_freeshipping_info align-items-center">
                                     <i className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></i>
-                                    <p>Mini basket</p>
+                                    <p><FormattedMessage id="miniBasket" /></p>
                                   </div>
                                 </div>
                                 <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
-                                  <span className="rc-body rc-margin--none">Total <b>$ {formatMoney(this.totalPrice)}</b></span>
-                                  <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true">Change</Link>
+                                  <span className="rc-body rc-margin--none"><FormattedMessage id="total" /> <b>$ {formatMoney(this.totalPrice)}</b></span>
+                                  <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true"><FormattedMessage id="chang" /></Link>
                                 </div>
                                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                                   <Link to="/prescription" className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn">
-                                    Checkout
-                                </Link>
+                                    <FormattedMessage id="checkout" />
+                                  </Link>
                                 </div>
                                 <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                                   <span className="rc-meta">
-                                    You have <b>{this.totalInfo}</b> in your cart</span>
+                                    {
+                                      this.props.cartData.length > 1
+                                        ? <FormattedMessage
+                                          id="itemsInCart2"
+                                          values={{ val: <b>{this.props.cartData.length}</b> }}
+                                        />
+                                        : <FormattedMessage
+                                          id="itemsInCart"
+                                          values={{ val: <b>{this.props.cartData.length}</b> }}
+                                        />
+                                    }
+                                  </span>
                                 </div>
                                 <div className="minicart-error cart-error">
                                 </div>
@@ -344,7 +363,7 @@ class Header extends React.Component {
                                                 <div className="line-item-total-price justify-content-end pull-right">
                                                   <div className="item-total-07984de212e393df75a36856b6 price relative">
                                                     <div className="strike-through non-adjusted-price">null</div>
-                                                    <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">$ {formatMoney(item.sizeList.find(s => s.selected).salePrice * item.quantity)}</b>
+                                                    <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">$ {formatMoney(item.currentAmount)}</b>
                                                   </div>
                                                 </div>
                                               </div>
@@ -376,7 +395,9 @@ class Header extends React.Component {
               <li className="rc-list__item">
                 <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                   <li className="rc-list__item">
-                    <Link to="/list/cats" className="rc-list__header">CATS</Link>
+                    <Link to="/list/cats" className="rc-list__header">
+                      <FormattedMessage id="cats" />
+                    </Link>
                   </li>
                 </ul>
               </li>
@@ -384,7 +405,9 @@ class Header extends React.Component {
               <li className="rc-list__item">
                 <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                   <li className="rc-list__item">
-                    <Link className="rc-list__header" to="/list/dogs">DOGS</Link>
+                    <Link className="rc-list__header" to="/list/dogs">
+                      <FormattedMessage id="dogs" />
+                    </Link>
                   </li>
                 </ul>
               </li>
@@ -392,7 +415,9 @@ class Header extends React.Component {
               <li className="rc-list__item">
                 <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                   <li className="rc-list__item">
-                    <Link className="rc-list__header" to="/">ABOUT US</Link>
+                    <Link className="rc-list__header" to="/">
+                      <FormattedMessage id="aboutUs" />
+                    </Link>
                   </li>
                 </ul>
               </li>
@@ -406,22 +431,25 @@ class Header extends React.Component {
                 name="simpleSearch"
                 onSubmit={e => { e.preventDefault() }}>
                 <button className="rc-btn rc-btn--icon rc-icon search--xs iconography stick-left rc-vertical-align" type="submit" aria-label="Search">
-                  <span className="screen-reader-text">Search</span>
+                  <span className="screen-reader-text"><FormattedMessage id="search" /></span>
                 </button>
-                <input
-                  ref={this.inputRefMobile}
-                  type="search"
-                  className="form-control search-field rc-header__input"
-                  placeholder="Start typing to search"
-                  autoComplete="off"
-                  aria-label="Start typing to search"
-                  value={this.state.keywords}
-                  onChange={this.handleSearchInputChange}
-                  style={{ padding: '1rem 4rem' }} />
+                <FormattedMessage id='header.startTypingToSearch'>
+                  {(txt) => (
+                    <input
+                      ref={this.inputRefMobile}
+                      type="search"
+                      className="form-control search-field rc-header__input"
+                      placeholder={txt}
+                      autoComplete="off"
+                      aria-label="Start typing to search"
+                      value={this.state.keywords}
+                      onChange={this.handleSearchInputChange}
+                      style={{ padding: '1rem 4rem' }} />
+                  )}
+                </FormattedMessage>
                 <div className="suggestions-wrapper">{this.renderResultJsx()}</div>
-                <input type="hidden" value="ru_RU" name="lang" />
                 <button className="rc-btn rc-btn--icon rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle" type="button" aria-label="Close" onClick={this.hanldeSearchCloseClick}>
-                  <span className="screen-reader-text">Close</span>
+                  <span className="screen-reader-text"><FormattedMessage id="close" /></span>
                 </button>
               </form>
             </div>

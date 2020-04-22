@@ -56,28 +56,6 @@ function HeroCarousel () {
           </div>
           <div className="hero-carousel__slide">
             <div className="d-md-flex align-items-center hero-carousel__slide__inner">
-              <div className="hero-carousel__slide__img" style={{ background: 'url(https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6a8bf764/homepage/Slider03.jpg?sw=1020&amp;sfrm=png)' }}>
-                <picture>
-                  <source media="(max-width: 640px)" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6a8bf764/homepage/Slider03.jpg?sw=414&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6a8bf764/homepage/Slider03.jpg?sw=828&amp;sfrm=png 2x" />
-                  <source media="(min-width: 640px) and (max-width: 769px)" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6a8bf764/homepage/Slider03.jpg?sw=768&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6a8bf764/homepage/Slider03.jpg?sw=1536&amp;sfrm=png 2x" />
-                  <source media="(min-width: 769px)" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6a8bf764/homepage/Slider03.jpg?sw=1020&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6a8bf764/homepage/Slider03.jpg?sw=2040&amp;sfrm=png 2x" />
-                  <img src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6a8bf764/homepage/Slider03.jpg?sw=1020&amp;sfrm=png" alt="Subscription Delivery" title="Subscription Delivery" />
-                </picture>
-              </div>
-              <div className="hero-carousel__slide__text text-center d-md-flex align-items-center">
-                <div className="hero-carousel__slide__text__inner rc-padding-x--lg--mobile">
-                  <div className="rc-delta inherit-fontsize children-nomargin">
-                    <p>Subscription Delivery</p>
-                  </div>
-                  <img src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw1a3550d1/homepage/auto@2x.png?sw=80" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw1a3550d1/homepage/auto@2x.png?sw=80, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw1a3550d1/homepage/auto@2x.png?sw=160 2x" alt="null" className="mx-auto rc-margin-bottom--xs rc-margin-bottom--sm--mobile icon" />
-                  <div className="rc-hero__description rc-body inherit-fontsize children-nomargin"><p>Your pet will never run out of food!</p></div>
-                  <a href="#" className="rc-btn rc-btn--one rc-margin-bottom--lg--mobile rc-margin-top--xs gtm-hero-carousel-btn " data-gtm="{&quot;title&quot;:&quot;Доставка по подписке&quot;,&quot;img&quot;:&quot;https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6a8bf764/homepage/Slider03.jpg?sw=1020&amp;sfrm=png&quot;}">To learn more</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="hero-carousel__slide">
-            <div className="d-md-flex align-items-center hero-carousel__slide__inner">
               <div className="hero-carousel__slide__img" style={{ background: 'url(https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=1020&amp;sfrm=png)' }}>
                 <picture>
                   <source media="(max-width: 640px)" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=414&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=828&amp;sfrm=png 2x" />

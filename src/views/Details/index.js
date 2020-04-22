@@ -40,15 +40,18 @@ class Details extends React.Component {
       quantityMaxLimit: 10,
       quantityMinLimit: 1,
       instockStatus: true,
-      currentPrice: 0,
+      currentUnitPrice: 0,
       minImg: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress',
       maxImg: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=500&fm=jpg&auto=compress',
+      showImageMagnifier: false,
+      config: {},
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
     this.changeAmount = this.changeAmount.bind(this)
     this.handleAmountChange = this.handleAmountChange.bind(this)
     this.handleChooseSize = this.handleChooseSize.bind(this)
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this)
+    this.hanldeImgMouseEnter = this.hanldeImgMouseEnter.bind(this)
     this.headerRef = React.createRef();
   }
   componentDidMount () {
@@ -75,7 +78,7 @@ class Details extends React.Component {
       const selectedSize = sizeList.find(s => s.selected)
       this.setState({
         details: Object.assign({}, this.state.details, res.context.goods, { sizeList }),
-        currentPrice: selectedSize.salePrice * this.state.quantity,
+        currentUnitPrice: selectedSize.salePrice,
         quantityMaxLimit: selectedSize.stock
       })
     } else {
@@ -84,7 +87,7 @@ class Details extends React.Component {
   }
   changeAmount (type) {
     if (!type) return
-    const { quantity, quantityMaxLimit } = this.state
+    const { quantity } = this.state
     let res
     if (type === 'minus') {
       if (quantity <= 1) {
@@ -93,11 +96,7 @@ class Details extends React.Component {
         res = quantity - 1
       }
     } else {
-      if (quantity >= quantityMaxLimit) {
-        res = quantityMaxLimit
-      } else {
-        res = quantity + 1
-      }
+      res = quantity + 1
     }
     this.setState({
       quantity: res,
@@ -109,17 +108,14 @@ class Details extends React.Component {
     if (val === '') {
       this.setState({ quantity: val })
     } else {
-      const { quantityMaxLimit, quantityMinLimit } = this.state
       let tmp = parseInt(val)
       if (isNaN(tmp)) {
         tmp = 1
       }
-      if (tmp > quantityMaxLimit) {
-        tmp = quantityMaxLimit
-      } else if (tmp < quantityMinLimit) {
-        tmp = quantityMinLimit
-      }
-      this.setState({ quantity: tmp })
+      this.setState({
+        quantity: tmp,
+        instockStatus: tmp <= this.state.quantityMaxLimit
+      })
     }
   }
   handleChooseSize (data, index) {
@@ -134,15 +130,16 @@ class Details extends React.Component {
       return elem
     })
     this.setState({
-      currentPrice: data.salePrice,
+      currentUnitPrice: data.salePrice,
       details: Object.assign({}, this.state.details, { sizeList: ret }),
       quantityMaxLimit: data.stock,
       instockStatus: this.state.quantity <= data.stock
     })
   }
   hanldeAddToCart ({ redirect = false }) {
-    const { quantity, cartData } = this.state
+    const { currentUnitPrice, quantity, cartData } = this.state
     const { id, sizeList } = this.state.details
+    const tmpData = Object.assign({}, this.state.details, { quantity }, { currentAmount: currentUnitPrice * quantity })
     let newCartData
 
     if (cartData) {
@@ -151,13 +148,13 @@ class Details extends React.Component {
       if (targetData && (sizeList.findIndex(l => l.selected) === targetData.sizeList.findIndex(s => s.selected))) {
         targetData.quantity += quantity
       } else {
-        newCartData.push(Object.assign({}, this.state.details, { quantity: this.state.quantity }))
+        newCartData.push(tmpData)
       }
     } else {
       newCartData = []
-      newCartData.push(Object.assign({}, this.state.details, { quantity: this.state.quantity }))
+      newCartData.push(tmpData)
     }
-    
+
     localStorage.setItem('rc-cart-data', JSON.stringify(newCartData))
     this.setState({
       cartData: newCartData
@@ -170,9 +167,21 @@ class Details extends React.Component {
       this.headerRef.current.handleMouseOut()
     }, 1000)
   }
+  hanldeImgMouseEnter (item) {
+    this.setState({
+      showImageMagnifier: true,
+      minImg: item.source2,
+      maxImg: item.source1,
+      config: {
+        width: document.querySelector('#J-details-img').offsetWidth,
+        height: document.querySelector('#J-details-img').offsetHeight,
+        scale: 2
+      }
+    })
+  }
   render () {
     const createMarkup = text => ({ __html: text });
-    const { details, quantity, quantityMaxLimit, quantityMinLimit, instockStatus, currentPrice, cartData, minImg, maxImg } = this.state
+    const { details, quantity, quantityMaxLimit, quantityMinLimit, instockStatus, currentUnitPrice, cartData, minImg, maxImg } = this.state
     return (
       <div>
         <Header ref={this.headerRef} cartData={cartData} showMiniIcons={true} />
@@ -184,30 +193,34 @@ class Details extends React.Component {
                 <div className="rc-content-h-top">
                   <div className="rc-layout-container rc-six-column">
                     <div className="rc-column rc-double-width carousel-column">
-                      <div className="rc-full-width">
+                      <div className={['rc-full-width', this.state.showImageMagnifier ? 'show-image-magnifier' : ''].join(' ')}>
                         <div data-js-carousel data-image-gallery="true" data-move-carousel-up='md'
                           data-move-carousel-to='#new-carousel-container'>
                           <div className="rc-carousel rc-carousel__gallery-image" data-zoom-container="product-description-carousel"
                             data-zoom-factor="3">
                             {details.pictureCfg.list.map((item, idx) => (
-                              <div key={idx}>
-                                {/* <ImageMagnifier minImg={item.source2} maxImg={item.source1} /> */}
-                                <div>
-                                  <picture>
-                                    <source
-                                      srcSet={item.source1}
-                                      media="(min-width: 1500px)" />
-                                    <source
-                                      srcSet={item.source2}
-                                      media="(min-width: 1000px)" />
-                                    <source
-                                      srcSet={item.source3}
-                                      media="(min-width: 500px)" />
-                                    <img
-                                      src={item.img}
-                                      alt="Product alt text" />
-                                  </picture>
-                                </div>
+                              <div key={idx} onMouseEnter={() => this.hanldeImgMouseEnter(item)}>
+                                {this.state.showImageMagnifier ?
+                                  <div className="details-img-container">
+                                    <ImageMagnifier minImg={minImg} maxImg={maxImg} config={this.state.config} />
+                                  </div> : <div>
+                                    <picture>
+                                      <source
+                                        srcSet={item.source1}
+                                        media="(min-width: 1500px)" />
+                                      <source
+                                        srcSet={item.source2}
+                                        media="(min-width: 1000px)" />
+                                      <source
+                                        srcSet={item.source3}
+                                        media="(min-width: 500px)" />
+                                      <img
+                                        id="J-details-img"
+                                        src={item.img}
+                                        alt="Product alt text" />
+                                    </picture>
+                                  </div>}
+
                               </div>
                             ))}
                           </div>
@@ -261,7 +274,7 @@ class Details extends React.Component {
                                   <span>
                                     <span>
                                       <span className="sales">
-                                        <span className="value">$ {formatMoney(currentPrice)}</span>
+                                        <span className="value">$ {formatMoney(currentUnitPrice)}</span>
                                       </span>
                                     </span>
                                   </span>
@@ -294,7 +307,7 @@ class Details extends React.Component {
                                         <input type="hidden" id="invalid-quantity" value="Пожалуйста, введите правильный номер." />
                                         <div className="rc-quantity text-right d-flex justify-content-end">
                                           <span className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus" onClick={() => this.changeAmount('minus')}></span>
-                                          <input className="rc-quantity__input" id="quantity" name="quantity" type="number" value={quantity} min={quantityMinLimit} max={quantityMaxLimit} onChange={this.handleAmountChange} maxLength="2" />
+                                          <input className="rc-quantity__input" id="quantity" name="quantity" type="number" value={quantity} min={quantityMinLimit} max={quantityMaxLimit} onChange={this.handleAmountChange} maxLength="5" />
                                           <span className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus" onClick={() => this.changeAmount('plus')}></span>
                                         </div>
                                       </div>

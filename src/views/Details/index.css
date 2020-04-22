@@ -1535,3 +1535,9 @@ label.availability {
       margin: .25rem 0
   }
 }
+.details-img-container {
+  max-width: 250px;
+  max-height: 500px;
+}
+.show-image-magnifier #tns1-mw {overflow: visible;}
+.show-image-magnifier #tns1-ow{z-index: 1;}
