@@ -1,5 +1,6 @@
 import React from 'react';
 import './index.css'
+import { Link } from 'react-router-dom'
 
 function Footer () {
   const scrollToTop = () => {
@@ -35,8 +36,8 @@ function Footer () {
                     <h3 className="rc-padding-left--md--mobile">PRODUCTS</h3>
                   </button>
                   <ul className="list list--blank list--align" id="footer-list-158504765613561849" aria-labelledby="footer-head-158504765613561849" role="menu">
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/cats/" role="menuitem">Cats</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/dogs/" role="menuitem">Dogs</a></li>
+                    <li className="rc-list__item"><Link className="rc-list__link" to="/list/cats" role="menuitem">Cats</Link></li>
+                    <li className="rc-list__item"><Link className="rc-list__link" to="/list/dogs" role="menuitem">Dogs</Link></li>
                   </ul>
                 </li>
                 <li className="rc-list__item rc-list__item--group">
@@ -57,10 +58,10 @@ function Footer () {
                   </button>
                   <ul className="list list--blank list--align" id="footer-list-158504765613549553" aria-labelledby="footer-head-158504765613549553" role="menu">
                     <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html" role="menuitem">Terms of use</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.mars.com/global/policies/privacy/pp-russian" role="menuitem">privacy policy </a></li>
+                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.mars.com/privacy-policy-mexico" role="menuitem">privacy policy </a></li>
                     <li className="rc-list__item"><a className="rc-list__link" href="https://www.mars.com/global/policies/note-to-parents/np-russian" role="menuitem">Information for Parents</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.mars.com/global/policies/legal/ld-russian" role="menuitem">Website Terms of Use</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.mars.com/global/policies/cookie/cn-russian" role="menuitem">Cookie Collection Policy</a></li>
+                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.mars.com/legal-mexico" role="menuitem">Website Terms of Use</a></li>
+                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.mars.com/cookies-spain" role="menuitem">Cookie Collection Policy</a></li>
                   </ul></li>
               </ul>
             </nav>

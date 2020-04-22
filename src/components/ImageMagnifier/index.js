@@ -10,11 +10,11 @@ class ImageMagnifier extends Component {
        */
       params: {
         // 放大倍数
-        scale: 4,
+        scale: props.config && props.config.scale || 4,
         // 组件宽
-        width: "400",
+        width: props.config && props.config.width || "400",
         // 组件高
-        height: "400"
+        height: props.config && props.config.height || "400"
       },
       // 缩略图
       minImg: "",
@@ -133,21 +133,23 @@ class ImageMagnifier extends Component {
     if (offsetX < 50) {
       offsetX = 50;
     }
-    if (offsetX > 350) {
-      offsetX = 350;
+    const tmpWidth = parseInt(this.state.params.width)
+    if (offsetX > tmpWidth - 50) {
+      offsetX = tmpWidth - 50;
     }
     if (offsetY < 50) {
       offsetY = 50;
     }
-    if (offsetY > 350) {
-      offsetY = 350;
+    const tmpHeight = parseInt(this.state.params.height)
+    if (offsetY > tmpHeight - 50) {
+      offsetY = tmpHeight - 50;
     }
     cssStyle.mouseBlock.left = parseFloat(offsetX - 50) + "px";
     cssStyle.mouseBlock.top = parseFloat(offsetY - 50) + "px";
 
     /* 计算图片放大位置 */
-    cssStyle.imgStyle2.left = parseFloat(-(offsetX - 50) * 4) + "px";
-    cssStyle.imgStyle2.top = parseFloat(-(offsetY - 50) * 4) + "px";
+    cssStyle.imgStyle2.left = parseFloat(-offsetX) + "px";
+    cssStyle.imgStyle2.top = parseFloat(-offsetY) + "px";
 
     this.setState({
       cssStyle: cssStyle
