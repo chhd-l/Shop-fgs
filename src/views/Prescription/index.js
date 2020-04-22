@@ -63,20 +63,20 @@ class Prescription extends React.Component{
     if (navigator.geolocation) {
       //获取当前地理位置信息
       navigator.geolocation.getCurrentPosition(position => {
-        // this.setState({
-        //   center:{
-        //     lat:position.coords.latitude,
-        //     lng:position.coords.longitude
-        //   },
-        //   zoom:11
-        // })
-        this.state = ({
+        this.setState({
           center:{
             lat:position.coords.latitude,
             lng:position.coords.longitude
           },
           zoom:11
         })
+        // this.state = ({
+        //   center:{
+        //     lat:position.coords.latitude,
+        //     lng:position.coords.longitude
+        //   },
+        //   zoom:11
+        // })
       })
    } else {
       alert("你的浏览器不支持HTML5来获取地理位置信息。");
@@ -184,7 +184,7 @@ render(h) {
             className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
             data-checkout-stage="prescription">
             <Progress type="perscription" />
-            <p>Select Vet Clinic</p>
+            <p>Select Vet Clinics</p>
             <div className="map-saerch">
 
               <div style={{ width: '30%' }}>
