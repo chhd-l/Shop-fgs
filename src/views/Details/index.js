@@ -147,6 +147,7 @@ class Details extends React.Component {
       let targetData = newCartData.find(c => c.id === id)
       if (targetData && (sizeList.findIndex(l => l.selected) === targetData.sizeList.findIndex(s => s.selected))) {
         targetData.quantity += quantity
+        targetData.currentAmount += quantity * currentUnitPrice
       } else {
         newCartData.push(tmpData)
       }
@@ -168,16 +169,18 @@ class Details extends React.Component {
     }, 1000)
   }
   hanldeImgMouseEnter (item) {
-    this.setState({
-      showImageMagnifier: true,
-      minImg: item.source2,
-      maxImg: item.source1,
-      config: {
-        width: document.querySelector('#J-details-img').offsetWidth,
-        height: document.querySelector('#J-details-img').offsetHeight,
-        scale: 2
-      }
-    })
+    if (document.querySelector('#J-details-img')) {
+      this.setState({
+        showImageMagnifier: true,
+        minImg: item.source2,
+        maxImg: item.source1,
+        config: {
+          width: document.querySelector('#J-details-img').offsetWidth,
+          height: document.querySelector('#J-details-img').offsetHeight,
+          scale: 2
+        }
+      })
+    }
   }
   render () {
     const createMarkup = text => ({ __html: text });
