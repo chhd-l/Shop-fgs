@@ -1,6 +1,7 @@
 import React from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import Progress from '@/components/Progress'
 import { createHashHistory } from 'history'
 import './index.css'
 import GoogleMapReact from 'google-map-react';
@@ -210,59 +211,7 @@ render(h) {
             id="checkout-main"
             className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
             data-checkout-stage="prescription">
-            <div className="rc-padding--sm rc-padding-top--none">
-              <div
-                  className="checkout-steps rc-layout-container rc-margin-top--lg--mobile"
-                data-loc="checkout-steps">
-                <div className="rc-column rc-padding-x--none--mobile">
-                  <ul className="rc-list rc-list--inline rc-content-v-middle rc-padding--none">
-                  <li className={`checkout-steps__item ${
-                        this.state.type === "perscription" ? "active" : ""
-                      }`}
-                      data-step="perscription">
-                      <span className="rc-header-with-icon">
-                        <i className="rc-icon rc-health rc-iconography"></i>
-                        Prescription
-                      </span>
-                    </li>
-                    <li className={`checkout-steps__item ${
-                        this.state.type === "shipping" ? "active" : ""
-                      }`}
-                      data-step="shipping">
-                      <span className="rc-header-with-icon">
-                        <hr />
-                        <i className="icon icon-delivery"></i>
-                        Delivery
-                      </span>
-                    </li>
-                    <li
-                      className={`checkout-steps__item ${
-                        this.state.type === "payment" ? "active" : ""
-                      }`}
-                      data-step="payment"
-                    >
-                      <span className="rc-header-with-icon">
-                        <hr />
-                        <i className="icon icon-payment"></i>
-                        Choose payment
-                      </span>
-                    </li>
-                    <li
-                      className={`checkout-steps__item ${
-                        this.state.type === "confirmation" ? "active" : ""
-                      }`}
-                      data-step="confirmation"
-                    >
-                      <span className="rc-header-with-icon">
-                        <hr />
-                        <i className="icon icon-validation"></i>
-                        Confirmation
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            <Progress type="perscription" />
             <p>Select Vet Clinic</p>
             <div className="map-saerch">
 

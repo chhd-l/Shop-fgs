@@ -163,7 +163,7 @@ class Details extends React.Component {
       cartData: newCartData
     })
     if (redirect) {
-      createHashHistory().push('/payment/shipping')
+      createHashHistory().push('/prescription')
     }
     this.headerRef.current.handleMouseOver()
     setTimeout(() => {

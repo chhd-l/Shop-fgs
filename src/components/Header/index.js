@@ -138,11 +138,15 @@ class Header extends React.Component {
     })
   }
   hideMenu (e) {
-    const widget = getComputedStyle(this.menuBtnRef.current)
-    if (e.target.id !== 'J-btn-menu' && widget && widget.display !== 'none') {
-      this.setState({
-        showMegaMenu: false
-      })
+    try {
+      const widget = this.menuBtnRef && getComputedStyle(this.menuBtnRef.current)
+      if (e.target.id !== 'J-btn-menu' && widget && widget.display !== 'none') {
+        this.setState({
+          showMegaMenu: false
+        })
+      }
+    } catch (e) {
+      throw new Error(e)
     }
   }
   renderResultJsx () {
@@ -307,7 +311,7 @@ class Header extends React.Component {
                                   <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true">Change</Link>
                                 </div>
                                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                                  <Link to="/payment/shipping" className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn">
+                                  <Link to="/prescription" className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn">
                                     Checkout
                                 </Link>
                                 </div>
