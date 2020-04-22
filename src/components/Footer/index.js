@@ -79,25 +79,66 @@ function Footer () {
                   </button>
                   <ul className="list list--blank list--align" id="footer-list-158504765613551093" aria-labelledby="footer-head-158504765613551093" role="menu">
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/account" role="menuitem">My personal account</a>
+                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/account" role="menuitem">
+                        <FormattedMessage id="footer.myPersonalAccount" />
+                      </a>
                     </li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/help/contact" role="menuitem">Contacts</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor5" role="menuitem">Delivery terms</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor6" role="menuitem">Purchase returns</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/help/faq.html" role="menuitem">Frequently asked Questions</a></li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/help/contact" role="menuitem">
+                        <FormattedMessage id="footer.contacts" />
+                      </a>
+                    </li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor5" role="menuitem">
+                        <FormattedMessage id="footer.deliveryTerms" />
+                      </a>
+                    </li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor6" role="menuitem">
+                        <FormattedMessage id="footer.purchaseReturns" />
+                      </a>
+                    </li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/help/faq.html" role="menuitem">
+                        <FormattedMessage id="footer.frequentlyAskedQuestions" />
+                      </a>
+                    </li>
                   </ul>
                 </li>
                 <li className="rc-list__item rc-list__item--group">
                   <button className="rc-list__header" id="footer-head-158504765613549553" data-toggle="footer-list-158504765613549553" role="menuitem">
-                    <h3 className="rc-padding-left--md--mobile">ADDITIONALLY</h3>
+                    <h3 className="rc-padding-left--md--mobile">
+                      <FormattedMessage id="footer.Additionally" />
+                    </h3>
                   </button>
                   <ul className="list list--blank list--align" id="footer-list-158504765613549553" aria-labelledby="footer-head-158504765613549553" role="menu">
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html" role="menuitem">Terms of use</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.mars.com/privacy-policy-mexico" role="menuitem">privacy policy </a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.mars.com/global/policies/note-to-parents/np-russian" role="menuitem">Information for Parents</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.mars.com/legal-mexico" role="menuitem">Website Terms of Use</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.mars.com/cookies-spain" role="menuitem">Cookie Collection Policy</a></li>
-                  </ul></li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html" role="menuitem">
+                        <FormattedMessage id="footer.termsOfUse" />
+                      </a>
+                    </li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.mars.com/privacy-policy-mexico" role="menuitem">
+                        <FormattedMessage id="footer.privacyPolicy" />
+                      </a>
+                    </li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.mars.com/global/policies/note-to-parents/np-russian" role="menuitem">
+                        <FormattedMessage id="footer.informationForParents" />
+                      </a>
+                    </li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.mars.com/legal-mexico" role="menuitem">
+                        <FormattedMessage id="footer.websiteTermsOfUse" />
+                      </a>
+                    </li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.mars.com/cookies-spain" role="menuitem">
+                        <FormattedMessage id="footer.cookieCollectionPolicy" />
+                      </a>
+                    </li>
+                  </ul>
+                </li>
               </ul>
             </nav>
 
@@ -106,20 +147,22 @@ function Footer () {
         <div className="rc-divider rc-md-up"></div>
         <div className="rc-layout-container rc-one-column rc-padding-x--xs--desktop rc-margin-top--md--desktop rc-padding-x--none--mobile">
           <div className="rc-column rc-padding-bottom--none rc-padding-top--lg--mobile">
-            <p className="rc-espilon rc-text--inverse">Contact ROYAL CANIN®</p>
+            <p className="rc-espilon rc-text--inverse">
+              <FormattedMessage id="footer.contactRoyalCanin" />
+            </p>
             <div className="rc-text--inverse">
-              <p></p><p>You can contact us every day from 9:00 to 21:00</p><p></p>
+              <p><FormattedMessage id="footer.contactUsInfo" /></p>
             </div>
           </div>
         </div>
         <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
           <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
-            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3" role="menuitem" href="tel:88002003735">8-800-200-37-35 </a>
-            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" href="https://www.shop.royal-canin.ru/ru/help/contact">Contact us</a>
-          </div>
-          <div className="rc-column column-flag" style={{ display: 'none' }}>
-            <div>
-            </div>
+            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3" role="menuitem" href="tel:88002003735">
+              8-800-200-37-35
+            </a>
+            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" href="https://www.shop.royal-canin.ru/ru/help/contact">
+              <FormattedMessage id="footer.contactUs" />
+            </a>
           </div>
         </div>
         <div id="mars-footer-panel">
@@ -127,22 +170,28 @@ function Footer () {
             <ul className="mars-footer-list-right" style={{ fontSize: '10px', fontFamily: 'Inherit' }}>
               <li>
                 <a target="_blank" href="https://www.mars.com/privacy-policy-mexico">
-                  <span className="mars-footer-label">Confidentiality</span>
+                  <span className="mars-footer-label">
+                    <FormattedMessage id="footer.confidentiality" />
+                  </span>
                 </a>
               </li>
               <li>
                 <a target="_blank" href="https://www.mars.com/cookies-spain">
-                  <span className="mars-footer-label">Cookies</span>
+                  <span className="mars-footer-label">
+                    <FormattedMessage id="footer.cookies" />
+                  </span>
                 </a>
               </li>
               <li>
                 <a target="_blank" href="https://www.mars.com/legal-mexico">
-                  <span className="mars-footer-label">Legal Terms</span>
+                  <span className="mars-footer-label">
+                    <FormattedMessage id="footer.legalTerms" />
+                  </span>
                 </a>
               </li>
             </ul>
             <div className="mars-footer-legal" style={{ fontSize: '10px', fontFamily: 'Inherit' }}>
-              <p style={{ textAlign: 'center' }}>Copyright © Mars 2020®, Trademark of Mars Incorporated and its affiliates</p>
+              <p style={{ textAlign: 'center' }}><FormattedMessage id="footer.copyrightInfo" /></p>
             </div>
           </div>
         </div>
