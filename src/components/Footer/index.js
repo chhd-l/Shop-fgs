@@ -37,7 +37,6 @@ function Footer () {
                   <ul className="list list--blank list--align" id="footer-list-158504765613561849" aria-labelledby="footer-head-158504765613561849" role="menu">
                     <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/cats/" role="menuitem">Cats</a></li>
                     <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/dogs/" role="menuitem">Dogs</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/subscription-landing.html" role="menuitem">Feed subscription</a></li>
                   </ul>
                 </li>
                 <li className="rc-list__item rc-list__item--group">

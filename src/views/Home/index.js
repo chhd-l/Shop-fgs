@@ -67,33 +67,33 @@ class Home extends React.Component {
                       </div>
                       <div className="col-md-3 col-6">
                         <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                          to="/list/puppies" title="Puppies">
+                          to="/list/puppies" title="VCN">
                           <picture className="category-cards__card__img">
                             <source
                               srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw87e948c2/homepage/Puppy_categorie@2x.jpg?sw=144&sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw87e948c2/homepage/Puppy_categorie@2x.jpg?sw=288&sfrm=png 2x" />
                             <img
                               src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw87e948c2/homepage/Puppy_categorie@2x.jpg?sw=144&sfrm=png"
-                              alt="Products for puppies" title="Products for puppies" />
+                              alt="Products for VCN" title="Products for VCN" />
                           </picture>
                           <div
                             className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                            <h3 className="rc-margin--none">Puppies</h3>
+                            <h3 className="rc-margin--none">VCN</h3>
                           </div>
                         </Link>
                       </div>
                       <div className="col-md-3 col-6">
                         <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                          to="/list/kittens" title="Kittens">
+                          to="/list/kittens" title="VD">
                           <picture className="category-cards__card__img">
                             <source
                               srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwcfc83bc5/homepage/Kitten_categorie@2x.jpg?sw=144&sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwcfc83bc5/homepage/Kitten_categorie@2x.jpg?sw=288&sfrm=png 2x" />
                             <img
                               src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwcfc83bc5/homepage/Kitten_categorie@2x.jpg?sw=144&sfrm=png"
-                              alt="Products for kittens" title="Products for kittens" />
+                              alt="Products for VD" title="Products for VD" />
                           </picture>
                           <div
                             className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                            <h3 className="rc-margin--none">Kittens</h3>
+                            <h3 className="rc-margin--none">VD</h3>
                           </div>
                         </Link>
                       </div>
@@ -140,7 +140,7 @@ class Home extends React.Component {
                   <div className="value-proposition__container">
                     <div className="row mx-0">
                       <div
-                        className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                        className="col-12 col-md-6 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                         <div className="d-flex justify-content-center align-items-center w-100 value-proposition__content">
                           <img className="value-proposition__img"
                             src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3206e904/homepage/pack@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
@@ -151,18 +151,7 @@ class Home extends React.Component {
                         </div>
                       </div>
                       <div
-                        className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
-                        <div className="d-flex justify-content-center align-items-center w-100 value-proposition__content">
-                          <img className="value-proposition__img"
-                            src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwc850168b/homepage/autoship@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
-                            alt="  " title="  " />
-                          <div className="pl-3 d-flex align-items-center value-proposition__text">
-                            <p className="rc-margin-bottom--none rc-intro">Subscription delivery with a 10% discount on the amount of each order</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                        className="col-12 col-md-6 col-xxl-4 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                         <div className="d-flex justify-content-center align-items-center w-100 value-proposition__content">
                           <img className="value-proposition__img"
                             src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw0093423f/homepage/delivery@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
@@ -173,7 +162,7 @@ class Home extends React.Component {
                         </div>
                       </div>
                       <div
-                        className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
+                        className="col-12 col-md-6 col-xxl-4 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
                         <div className="d-flex justify-content-center align-items-center w-100 value-proposition__content">
                           <img className="value-proposition__img"
                             src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw91a30682/homepage/question@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"

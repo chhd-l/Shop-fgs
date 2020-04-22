@@ -1,37 +1,21 @@
 import React from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import Progress from '@/components/Progress'
 import { createHashHistory } from 'history'
 import './index.css'
 import GoogleMapReact from 'google-map-react';
-import { fitBounds } from 'google-map-react/utils';
+import MapFlag from '@/components/MapFlag'
+
+const handleConfirm=()=>{
+  createHashHistory().push('/payment/shipping')
+}
 
 const AnyReactComponent = ({ obj }) => {
   if(obj.type === 'clinic'){
     return (
-      <div>
-       <div data-tooltip-placement="top" data-tooltip={obj.title+obj.id} className="rc-margin-top--md rc-text--center">
-        <div className="rc-map-location__icon">
-         <svg width="24" height="32">
-            <path d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0" fill="#E2001A" fill-rule="evenodd"></path>
-         </svg>
-      {obj.title}
-    </div>
-  </div>
-  <div id={obj.title+obj.id} className="gm-style-iw-c">
-    <div className="rc-tooltip rc-text--left rc-padding--xs" id="map-tooltip" style={{ display:'block'}}>
-      <div className="rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop" style={{marginBottom:"0"}}>
-        <h1 className="rc-card__title rc-delta">{obj.title}</h1>
-        <p>{obj.phone} </p>
-        <p style={{display: "inline-block",width:"10rem"}}>{obj.desc}</p>
-        <a className="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}}>comfirm</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-      )
-  }
+      <MapFlag obj={obj}></MapFlag>
+  )}
   else {
     return (<div style={{
       color: 'white',
@@ -50,13 +34,6 @@ const AnyReactComponent = ({ obj }) => {
 }
 
 class Prescription extends React.Component{
-  // static defaultProps = {
-  //   center: {
-  //     lat: 39.9,
-  //     lng: 116.3
-  //   },
-  //   zoom: 15
-  // };
   constructor(props) {
     super(props)
     this.state = {
@@ -112,9 +89,7 @@ class Prescription extends React.Component{
     console.log('search');
 
   }
-  handleConfirm=()=>{
-    createHashHistory().push('/payment/shipping')
-  }
+  
   handleCurrentPageNumChange (e) {
     let tmp = parseInt(e.target.value)
     if (isNaN(tmp)) {
@@ -183,12 +158,12 @@ render(h) {
     for (var i = 0; i < tempArr.length; i++) {
       if(tempArr[i].type==='clinic'){
         items.push(
-          <article className="rc-card rc-card--a" style={{width:"17rem",margin:"1rem 0 "}} key={tempArr[i].id}>
-            <div className="rc-card__body" style={{padding:"0"}}>
-              <h1 className="rc-card__title rc-delta">{tempArr[i].title}</h1>
+          <article class="rc-card rc-card--a" style={{width:"17rem",margin:"1rem 0 "}} key={tempArr[i].id}>
+            <div class="rc-card__body" style={{padding:"0 0 0 1rem"}}>
+              <h1 class="rc-card__title rc-delta">{tempArr[i].title}</h1>
               <p>{tempArr[i].phone} </p>
-              <p style={{display: "inline-block",width:"12rem"}}>{tempArr[i].desc} </p>
-              <a className="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} onClick={this.handleConfirm}>comfirm</a>
+              <p style={{display: "inline-block",width:"11rem"}}>{tempArr[i].desc} </p>
+              <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} onClick={handleConfirm}>comfirm</a>
             </div>
           </article>)
       }
@@ -208,59 +183,7 @@ render(h) {
             id="checkout-main"
             className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
             data-checkout-stage="prescription">
-            <div className="rc-padding--sm rc-padding-top--none">
-              <div
-                  className="checkout-steps rc-layout-container rc-margin-top--lg--mobile"
-                data-loc="checkout-steps">
-                <div className="rc-column rc-padding-x--none--mobile">
-                  <ul className="rc-list rc-list--inline rc-content-v-middle rc-padding--none">
-                  <li className={`checkout-steps__item ${
-                        this.state.type === "perscription" ? "active" : ""
-                      }`}
-                      data-step="perscription">
-                      <span className="rc-header-with-icon">
-                        <i className="rc-icon rc-health rc-iconography"></i>
-                        Prescription
-                      </span>
-                    </li>
-                    <li className={`checkout-steps__item ${
-                        this.state.type === "shipping" ? "active" : ""
-                      }`}
-                      data-step="shipping">
-                      <span className="rc-header-with-icon">
-                        <hr />
-                        <i className="icon icon-delivery"></i>
-                        Delivery
-                      </span>
-                    </li>
-                    <li
-                      className={`checkout-steps__item ${
-                        this.state.type === "payment" ? "active" : ""
-                      }`}
-                      data-step="payment"
-                    >
-                      <span className="rc-header-with-icon">
-                        <hr />
-                        <i className="icon icon-payment"></i>
-                        Choose payment
-                      </span>
-                    </li>
-                    <li
-                      className={`checkout-steps__item ${
-                        this.state.type === "confirmation" ? "active" : ""
-                      }`}
-                      data-step="confirmation"
-                    >
-                      <span className="rc-header-with-icon">
-                        <hr />
-                        <i className="icon icon-validation"></i>
-                        Confirmation
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            <Progress type="perscription" />
             <p>Select Vet Clinic</p>
             <div className="map-saerch">
 
