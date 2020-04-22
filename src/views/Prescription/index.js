@@ -4,6 +4,7 @@ import Footer from '@/components/Footer'
 import { createHashHistory } from 'history'
 import './index.css'
 import GoogleMapReact from 'google-map-react';
+import MapFlag from '@/components/MapFlag'
 
 const handleConfirm=()=>{
   createHashHistory().push('/payment/shipping')
@@ -12,29 +13,29 @@ const handleConfirm=()=>{
 const AnyReactComponent = ({ obj }) => {
   if(obj.type === 'clinic'){
     return (
-      <div>
-       <div data-tooltip-placement="top" data-tooltip={obj.title+obj.id} className="rc-margin-top--md rc-text--center">
-        <div className="rc-map-location__icon">
-         <svg width="24" height="32">
-            <path d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0" fill="#E2001A" fill-rule="evenodd"></path>
-         </svg>
-      {obj.title}
-    </div>
-  </div>
-  <div id={obj.title+obj.id} className="gm-style-iw-c">
-    <div className="rc-tooltip rc-text--left rc-padding--xs" id="map-tooltip" style={{ display:'block'}}>
-      <div className="rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop" style={{marginBottom:"0"}}>
-        <h1 className="rc-card__title rc-delta">{obj.title}</h1>
-        <p>{obj.phone} </p>
-        <p style={{display: "inline-block",width:"10rem"}}>{obj.desc}</p>
-        <a className="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} onClick={handleConfirm}>comfirm</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-      )
-  }
+      <MapFlag obj={obj}></MapFlag>
+//       <div>
+//        <div data-tooltip-placement="top" data-tooltip={obj.title+obj.id} className="rc-margin-top--md rc-text--center" 
+//        onClick={openTooltip}>
+//         <div className="rc-map-location__icon">
+//          <svg width="24" height="32">
+//             <path d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0" fill="#E2001A" fill-rule="evenodd"></path>
+//          </svg>
+//       {obj.title}
+//     </div>
+//   </div>
+//   <div id={obj.title+obj.id} className="gm-style-iw-c" style={{ display: show === true? "block":"none"}}>
+//     <div className="rc-tooltip rc-text--left rc-padding--xs" id="map-tooltip" style={{ display:'block'}}>
+//       <div className="rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop" style={{marginBottom:"0"}}>
+//         <h1 className="rc-card__title rc-delta">{obj.title}</h1>
+//         <p>{obj.phone} </p>
+//         <p style={{display: "inline-block",width:"10rem"}}>{obj.desc}</p>
+//         <a className="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} onClick={handleConfirm}>comfirm</a>
+//       </div>
+//     </div>
+//   </div>
+// </div>
+  )}
   else {
     return (<div style={{
       color: 'white',
