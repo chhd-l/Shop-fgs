@@ -1,6 +1,7 @@
 import React from 'react';
-import './index.css'
 import { Link } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
+import './index.css'
 
 function Footer () {
   const scrollToTop = () => {
@@ -12,7 +13,9 @@ function Footer () {
       <div className="rc-max-width--lg rc-scroll--y">
         <div className="rc-layout-container rc-md-up">
           <div className="rc-column rc-text--right">
-            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3" role="menuitem" onClick={scrollToTop} style={{ color: '#f6f6f6' }}>To the top</a>
+            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3" role="menuitem" onClick={scrollToTop} style={{ color: '#f6f6f6' }}>
+              <FormattedMessage id="footer.toTheTop" />
+            </a>
           </div>
         </div>
         <div className="rc-divider rc-md-up"></div>
@@ -22,30 +25,62 @@ function Footer () {
               <ul className="rc-list rc-list--five-column rc-list--blank rc-list--align rc-list--inverse" role="menubar">
                 <li className="rc-list__item rc-list__item--group">
                   <button className="rc-list__header" id="footer-head-158504765613564650" data-toggle="footer-list-158504765613564650" role="menuitem">
-                    <h3 className="rc-padding-left--md--mobile">ABOUT ROYAL CANIN®</h3>
+                    <h3 className="rc-padding-left--md--mobile">
+                      <FormattedMessage id="footer.aboutRoyalCanin" />
+                    </h3>
                   </button>
                   <ul className="list list--blank list--align" id="footer-list-158504765613564650" aria-labelledby="footer-head-158504765613564650" role="menu">
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/About-Us.html" role="menuitem">About Us</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/Values.html" role="menuitem">Our values</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/Quality-safety.html" role="menuitem">Quality and safety</a></li>
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/Tailorednutrition.html" role="menuitem">Health and Nutrition</a></li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/About-Us.html" role="menuitem">
+                        <FormattedMessage id="aboutUs2" />
+                      </a>
+                    </li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/Values.html" role="menuitem">
+                        <FormattedMessage id="footer.ourValues" />
+                      </a>
+                    </li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/Quality-safety.html" role="menuitem">
+                        <FormattedMessage id="footer.qualityAndSafety" />
+                      </a>
+                    </li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/Tailorednutrition.html" role="menuitem">
+                        <FormattedMessage id="footer.healthAndNutrition" />
+                      </a>
+                    </li>
                   </ul>
                 </li>
                 <li className="rc-list__item rc-list__item--group">
                   <button className="rc-list__header" id="footer-head-158504765613561849" data-toggle="footer-list-158504765613561849" role="menuitem">
-                    <h3 className="rc-padding-left--md--mobile">PRODUCTS</h3>
+                    <h3 className="rc-padding-left--md--mobile">
+                      <FormattedMessage id="footer.products" />
+                    </h3>
                   </button>
                   <ul className="list list--blank list--align" id="footer-list-158504765613561849" aria-labelledby="footer-head-158504765613561849" role="menu">
-                    <li className="rc-list__item"><Link className="rc-list__link" to="/list/cats" role="menuitem">Cats</Link></li>
-                    <li className="rc-list__item"><Link className="rc-list__link" to="/list/dogs" role="menuitem">Dogs</Link></li>
+                    <li className="rc-list__item">
+                      <Link className="rc-list__link" to="/list/cats" role="menuitem">
+                        <FormattedMessage id="cats" />
+                      </Link>
+                    </li>
+                    <li className="rc-list__item">
+                      <Link className="rc-list__link" to="/list/dogs" role="menuitem">
+                        <FormattedMessage id="dogs" />
+                      </Link>
+                    </li>
                   </ul>
                 </li>
                 <li className="rc-list__item rc-list__item--group">
                   <button className="rc-list__header" id="footer-head-158504765613551093" data-toggle="footer-list-158504765613551093" role="menuitem">
-                    <h3 className="rc-padding-left--md--mobile">HELP</h3>
+                    <h3 className="rc-padding-left--md--mobile">
+                      <FormattedMessage id="footer.help" />
+                    </h3>
                   </button>
                   <ul className="list list--blank list--align" id="footer-list-158504765613551093" aria-labelledby="footer-head-158504765613551093" role="menu">
-                    <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/account" role="menuitem">My personal account</a></li>
+                    <li className="rc-list__item">
+                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/account" role="menuitem">My personal account</a>
+                    </li>
                     <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/help/contact" role="menuitem">Contacts</a></li>
                     <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor5" role="menuitem">Delivery terms</a></li>
                     <li className="rc-list__item"><a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor6" role="menuitem">Purchase returns</a></li>

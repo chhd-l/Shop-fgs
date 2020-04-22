@@ -40,7 +40,7 @@ class Details extends React.Component {
       quantityMaxLimit: 10,
       quantityMinLimit: 1,
       instockStatus: true,
-      currentPrice: 0,
+      currentUnitPrice: 0,
       minImg: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress',
       maxImg: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=500&fm=jpg&auto=compress',
       showImageMagnifier: false,
@@ -78,7 +78,7 @@ class Details extends React.Component {
       const selectedSize = sizeList.find(s => s.selected)
       this.setState({
         details: Object.assign({}, this.state.details, res.context.goods, { sizeList }),
-        currentPrice: selectedSize.salePrice * this.state.quantity,
+        currentUnitPrice: selectedSize.salePrice,
         quantityMaxLimit: selectedSize.stock
       })
     } else {
@@ -130,15 +130,16 @@ class Details extends React.Component {
       return elem
     })
     this.setState({
-      currentPrice: data.salePrice,
+      currentUnitPrice: data.salePrice,
       details: Object.assign({}, this.state.details, { sizeList: ret }),
       quantityMaxLimit: data.stock,
       instockStatus: this.state.quantity <= data.stock
     })
   }
   hanldeAddToCart ({ redirect = false }) {
-    const { quantity, cartData } = this.state
+    const { currentUnitPrice, quantity, cartData } = this.state
     const { id, sizeList } = this.state.details
+    const tmpData = Object.assign({}, this.state.details, { quantity }, { currentAmount: currentUnitPrice * quantity })
     let newCartData
 
     if (cartData) {
@@ -147,11 +148,11 @@ class Details extends React.Component {
       if (targetData && (sizeList.findIndex(l => l.selected) === targetData.sizeList.findIndex(s => s.selected))) {
         targetData.quantity += quantity
       } else {
-        newCartData.push(Object.assign({}, this.state.details, { quantity: this.state.quantity }))
+        newCartData.push(tmpData)
       }
     } else {
       newCartData = []
-      newCartData.push(Object.assign({}, this.state.details, { quantity: this.state.quantity }))
+      newCartData.push(tmpData)
     }
 
     localStorage.setItem('rc-cart-data', JSON.stringify(newCartData))
@@ -180,7 +181,7 @@ class Details extends React.Component {
   }
   render () {
     const createMarkup = text => ({ __html: text });
-    const { details, quantity, quantityMaxLimit, quantityMinLimit, instockStatus, currentPrice, cartData, minImg, maxImg } = this.state
+    const { details, quantity, quantityMaxLimit, quantityMinLimit, instockStatus, currentUnitPrice, cartData, minImg, maxImg } = this.state
     return (
       <div>
         <Header ref={this.headerRef} cartData={cartData} showMiniIcons={true} />
@@ -273,7 +274,7 @@ class Details extends React.Component {
                                   <span>
                                     <span>
                                       <span className="sales">
-                                        <span className="value">$ {formatMoney(currentPrice)}</span>
+                                        <span className="value">$ {formatMoney(currentUnitPrice)}</span>
                                       </span>
                                     </span>
                                   </span>

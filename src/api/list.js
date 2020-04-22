@@ -1,7 +1,7 @@
 import axios from '@/utils/request'
 
 const api = {
-  list: '/goods/unLogin/spu'
+  list: '/goods/spuListFront'
 }
 
 export default api
