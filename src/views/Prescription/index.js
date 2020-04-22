@@ -4,7 +4,10 @@ import Footer from '@/components/Footer'
 import { createHashHistory } from 'history'
 import './index.css'
 import GoogleMapReact from 'google-map-react';
-import { fitBounds } from 'google-map-react/utils';
+
+const handleConfirm=()=>{
+  createHashHistory().push('/payment/shipping')
+}
 
 const AnyReactComponent = ({ obj }) => {
   if(obj.type === 'clinic'){
@@ -18,13 +21,13 @@ const AnyReactComponent = ({ obj }) => {
       {obj.title}
     </div>
   </div>
-  <div id={obj.title+obj.id} class="rc-tooltip">
+  <div id={obj.title + obj.id} class="rc-tooltip">
     <div class="rc-tooltip rc-text--left rc-padding--xs" id="map-tooltip" style={{ display:'block'}}>
       <div class="rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop" style={{marginBottom:"0"}}>
         <h1 class="rc-card__title rc-delta">{obj.title}</h1>
         <p>{obj.phone} </p>
         <p style={{display: "inline-block",width:"10rem"}}>{obj.desc}</p>
-        <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}}>comfirm</a>
+        <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} onClick={handleConfirm}>comfirm</a>
       </div>
     </div>
   </div>
@@ -105,9 +108,7 @@ class Prescription extends React.Component{
     console.log('search');
     
   }
-  handleConfirm=()=>{
-    createHashHistory().push('/payment/shipping')
-  }
+  
   handleCurrentPageNumChange (e) {
     let tmp = parseInt(e.target.value)
     if (isNaN(tmp)) {
@@ -176,11 +177,11 @@ class Prescription extends React.Component{
       if(tempArr[i].type==='clinic'){
         items.push(
           <article class="rc-card rc-card--a" style={{width:"17rem",margin:"1rem 0 "}} key={tempArr[i].id}>
-            <div class="rc-card__body" style={{padding:"0"}}>
+            <div class="rc-card__body" style={{padding:"0 0 0 1rem"}}>
               <h1 class="rc-card__title rc-delta">{tempArr[i].title}</h1>
               <p>{tempArr[i].phone} </p>
-              <p style={{display: "inline-block",width:"12rem"}}>{tempArr[i].desc} </p>
-              <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} onClick={this.handleConfirm}>comfirm</a>
+              <p style={{display: "inline-block",width:"11rem"}}>{tempArr[i].desc} </p>
+              <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} onClick={handleConfirm}>comfirm</a>
             </div>
           </article>)
       }
