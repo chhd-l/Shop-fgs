@@ -4,8 +4,8 @@ import Footer from '@/components/Footer'
 import Progress from '@/components/Progress'
 import { createHashHistory } from 'history'
 import './index.css'
-import GoogleMapReact from 'google-map-react';
 import MapFlag from '@/components/MapFlag'
+import GoogleMap from '@/components/GoogleMap'
 
 const handleConfirm=()=>{
   createHashHistory().push('/payment/shipping')
@@ -37,7 +37,6 @@ class Prescription extends React.Component{
   constructor(props) {
     super(props)
     this.state = {
-      key:'AIzaSyAon2T3c9-PS9lXxkAztfBZP5BWygtBTWE',
       type:'perscription',
       keywords:'',
       selectedSort:1,
@@ -48,7 +47,18 @@ class Prescription extends React.Component{
         lng: 116.3
       },
       zoom: 11,
-      map:''
+      key:0,
+      me:{
+        id:1001,
+       
+        title:'me',
+        type:'customer'
+      },
+      meLocation:{
+        lat: 39.99,
+        lng: 116.3,
+      }
+
     }
     this.headerRef = React.createRef();
     this.inputRef = React.createRef();
@@ -83,15 +93,21 @@ class Prescription extends React.Component{
   //   }
   // }
   handleInit=()=>{
-    this.setState({
+    this.handldKey(this.state.key)
+        //获取当前地理位置信息
+      navigator.geolocation.getCurrentPosition(position => {
 
-        center:{
-          lat:123,
-          lng:123
-        },
-        zoom:11
-        
-    })
+        this.setState({
+          center:{
+            lat:position.coords.latitude,
+            lng:position.coords.longitude
+          },
+          meLocation:{
+            lat:position.coords.latitude,
+            lng:position.coords.longitude
+          },
+        })
+      })
   }
   handleSearch(){
     console.log('search');
@@ -124,17 +140,14 @@ class Prescription extends React.Component{
     }
     this.setState({ current: res }, () => this.getProductList())
   }
+  handldKey=(key)=>{
+    return this.setState({
+      key: key + 1
+    })
+  }
 
 render(h) {
     let tempArr=[
-      {
-        title:'me',
-        type:'customer',
-        desc:'meda1',
-        id:1001,
-        lat: 39.99,
-        lng: 116.3
-      },
       {
       title:'clinic11111',
       type:'clinic',
@@ -163,6 +176,12 @@ render(h) {
     let items = [];
     let flags=[];
 
+    flags.push(<AnyReactComponent
+      key={this.state.me.id}
+      lat={this.state.meLocation.lat}
+      lng={this.state.meLocation.lng}
+      obj={this.state.me}
+    />)
     for (var i = 0; i < tempArr.length; i++) {
       if(tempArr[i].type==='clinic'){
         items.push(
@@ -257,14 +276,8 @@ render(h) {
 
               </div>
               <div style={{ height: '40rem', width: '70%' }}>
-                <GoogleMapReact
-                  ref={(ref) => { this.map = ref }}
-                  bootstrapURLKeys={{ key: this.state.key }}
-                  defaultCenter={this.state.center}
-                  distanceToMouse={()=>{}}
-                  defaultZoom={this.state.zoom}>
-                  {flags}
-                </GoogleMapReact>
+                <GoogleMap center={this.state.center} zoom={this.state.zoom} flags={flags} key={this.state.key}>
+                </GoogleMap>
               </div>
             </div>
 
