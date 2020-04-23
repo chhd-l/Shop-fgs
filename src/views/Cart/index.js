@@ -173,8 +173,8 @@ class Cart extends React.Component {
               <img
                 className="product-image"
                 src={pitem.goodsImg}
-                alt="Sterilised 37"
-                title="Sterilised 37"
+                alt={pitem.goodsName}
+                title={pitem.goodsName}
               />
             </div>
             <div className="product-info__desc w-100 relative">

@@ -1,6 +1,7 @@
 import React from 'react'
 import { withRouter, Link } from 'react-router-dom';
 import BreadcrumbNameMap from './breadcrumbNameMap';
+import { FormattedMessage } from 'react-intl'
 
 const BreadCrumbs = withRouter(props => {
   const { location } = props;
@@ -16,7 +17,7 @@ const BreadCrumbs = withRouter(props => {
         <ul>
           <li>
             <Link to="/" className="rc-styled-link rc-progress__breadcrumb" aria-label="Links to home page">
-              Home Page
+              <FormattedMessage id="homePage" />
             </Link>
           </li>
           {mapData.map((item, index) => (

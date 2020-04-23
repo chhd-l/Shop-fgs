@@ -234,7 +234,7 @@ class Details extends React.Component {
                                 <div className="rc-carousel__gallery-thumbnail" key={idx}>
                                   <figure className="rc-img--square"
                                     style={{ backgroundImage: 'url(' + item + ')' }}>
-                                    <figcaption className="rc-screen-reader-text">Product caption text</figcaption>
+                                    {/* <figcaption className="rc-screen-reader-text">Product caption text</figcaption> */}
                                   </figure>
                                 </div>
                               ))}

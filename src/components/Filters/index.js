@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import '@/assets/css/search.css'
 
 class Filter extends React.Component {
@@ -29,21 +30,26 @@ class Filter extends React.Component {
             data-filter-trigger="filter-example" type="button"></button>
           <h1 className="rc-filters__heading rc-padding-top--sm rc-padding-bottom--xs rc-header-with-icon rc-header-with-icon--alpha">
             <span className="md-up rc-icon rc-filter--xs rc-iconography"></span>
-            Filters
+            <FormattedMessage id="filters" />
           </h1>
           <div className="filter-bar">
             <ul>
               {computedCheckList.map((v, i) => (
-                <li className="filter-value" title={`Sorted by ${v.parentCatogery}: ${v.detailName}`} key={v + i}>
-                  {v.detailName}
-                  <i className="filter-remove" onClick={onRemove.bind(this, v)}></i>
-                </li>
+                <FormattedMessage id='sortedBy'>
+                  {(txt) => (
+                    <li className="filter-value" title={`${txt} ${v.parentCatogery}: ${v.detailName}`} key={v + i}>
+                      {v.detailName}
+                      <i className="filter-remove" onClick={onRemove.bind(this, v)}></i>
+                    </li>
+                  )}
+                </FormattedMessage>
+
               ))}
             </ul>
           </div>
           {checkedList.length ?
             <div className="text-center rc-margin-y--xs rc-padding-bottom--xs">
-              <a className="rc-styled-link js-clear-filter" onClick={onRemove.bind(this, 'all')}>Remove all filters</a>
+              <a className="rc-styled-link js-clear-filter" onClick={onRemove.bind(this, 'all')}><FormattedMessage id="removeAllFilters" /></a>
             </div> : ''}
 
         </header>

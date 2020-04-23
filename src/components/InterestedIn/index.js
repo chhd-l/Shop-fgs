@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
+import { formatMoney } from "@/utils/utils.js"
 import './index.css'
 
 class InterestedIn extends React.Component {
@@ -53,7 +55,7 @@ class InterestedIn extends React.Component {
     const { productList, loading } = this.state
     return (
       <div className="rc-bottom-spacing rc-text-align-center">
-        <h2 className="title rc-margin-bottom--md rc-beta rc-text--center">You might also be interested in</h2>
+        <h2 className="title rc-margin-bottom--md rc-beta rc-text--center"><FormattedMessage id="home.interestedIn" /></h2>
         <div className="rc-card-grid rc-match-heights rc-card-grid--fixed rc-four-column rc-padding-bottom--lg">
           {productList.map(item => (
             <div className={['rc-grid rc-grid-custom', loading ? 'loading' : ''].join(' ')} key={item.id}>
@@ -63,7 +65,7 @@ class InterestedIn extends React.Component {
                     <article className="rc-card--product rc-text--center rc-padding-y--xs rc-column rc-padding-x--none">
                       <picture className="rc-card__image">
                         <div className="rc-padding-bottom--xs">
-                          <img className=""
+                          <img
                             src={item.url}
                             srcSet={item.img}
                             alt={item.name}
@@ -86,8 +88,8 @@ class InterestedIn extends React.Component {
                           <span>
                             <span>
                               <span className="sales">
-                                <span className="value" content={item.price}>
-                                  $ {item.price}
+                                <span className="value">
+                                  $ {formatMoney(item.price)}
                                 </span>
                               </span>
                             </span>

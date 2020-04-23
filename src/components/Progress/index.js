@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import './index.css'
 
 function Progress (props) {
@@ -13,7 +14,7 @@ function Progress (props) {
               data-step="perscription">
               <span class="rc-header-with-icon">
                 <i className={['rc-icon', 'rc-health', props.type === 'perscription' ? 'rc-brand1' : 'rc-iconography'].join(' ')}></i>
-                Prescription
+                <FormattedMessage id="prescription" />
               </span>
             </li>
             <li
@@ -22,8 +23,7 @@ function Progress (props) {
               <span class="rc-header-with-icon">
                 <hr />
                 <i className={['rc-icon', 'rc-icon-less-scale', 'rc-delivery--sm', props.type === 'shipping' ? 'rc-brand1' : 'rc-iconography'].join(' ')}></i>
-                {/* <i class="rc-icon rc-iconography rc-delivery--sm rc-icon-no-scale"></i> */}
-                  Delivery
+                <FormattedMessage id="delivery" />
               </span>
             </li>
             <li
@@ -33,8 +33,7 @@ function Progress (props) {
               <span class="rc-header-with-icon">
                 <hr />
                 <i className={['rc-icon', 'rc-icon-less-scale', 'rc-payment--sm', props.type === 'payment' ? 'rc-brand1' : 'rc-iconography'].join(' ')}></i>
-                {/* <i class="rc-icon rc-iconography rc-payment--sm rc-icon-no-scale"></i> */}
-                Choose payment
+                <FormattedMessage id="choosePayment" />
               </span>
             </li>
             <li
@@ -43,9 +42,8 @@ function Progress (props) {
             >
               <span class="rc-header-with-icon">
                 <hr />
-                {/* <i class="rc-icon rc-iconography rc-confirmation--sm rc-icon-no-scale"></i> */}
                 <i className={['rc-icon', 'rc-icon-less-scale', 'rc-confirmation--sm', props.type === 'confirmation' ? 'rc-brand1' : 'rc-iconography'].join(' ')}></i>
-                Confirmation
+                <FormattedMessage id="confirmation" />
               </span>
             </li>
           </ul>
