@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import InterestedIn from "@/components/InterestedIn";
 import { formatMoney } from "@/utils/utils.js";
 import { cloneDeep } from 'lodash'
 import "./index.css";
@@ -440,7 +439,6 @@ class Cart extends React.Component {
                     </div>
                   </div>
                 </div>
-                <InterestedIn />
               </React.Fragment>
               : <React.Fragment>
                 <div className="rc-text-center">

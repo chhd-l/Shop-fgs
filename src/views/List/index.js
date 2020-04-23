@@ -36,7 +36,7 @@ class List extends React.Component {
       loading: true,
       checkedList: [],
       currentPage: 1,
-      totalPage: 6, // 总页数
+      totalPage: 1, // 总页数
       results: 0, // 总数据条数
       pageSize: 10,
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
@@ -56,7 +56,6 @@ class List extends React.Component {
     })
 
     let storeIdList = await queryStoreCateIds()
-
     let targetObj = storeIdList.find(s => s.cateName.toLocaleLowerCase() === category)
     if (targetObj) {
       this.setState({
@@ -80,25 +79,27 @@ class List extends React.Component {
     })
   }
   async getProductList () {
-    // 搜索参数
-    let { checkedList, currentPage, pageSize, storeCateId } = this.state;
+    let { checkedList, currentPage, pageSize, storeCateId, keywords } = this.state;
+    const cateId = '1129'
 
     this.setState({
       loading: true
     })
 
-    // todo... delete
-    storeCateId = '1129'
-
     let params = {
-      cateId: storeCateId,
+      cateId,
       propDetails: [],
       pageNum: currentPage - 1,
       brandIds: [],
       sortFlag: 0,
       pageSize,
       esGoodsInfoDTOList: [],
-      companyType: ''
+      companyType: '',
+      keywords
+    }
+
+    if (storeCateId) {
+      params.storeCateIds = [storeCateId]
     }
 
     for (let item of checkedList) {
@@ -110,26 +111,38 @@ class List extends React.Component {
       }
     }
 
-    let res = await getList(params)
-    this.setState({ loading: false })
-    if (res && res.context) {
-      const esGoods = res.context.esGoods
-      if (esGoods && esGoods.content.length) {
-        this.setState({
-          productList: esGoods.content,
-          results: esGoods.totalElements,
-          currentPage: esGoods.number + 1,
-          totalPage: esGoods.totalPages
-        })
-        if (!this.state.filterList.length) {
-          let res2 = await getProps(esGoods.content[0].goodsCate.cateId)
-          if (res2 && res2.context) {
-            this.setState({
-              filterList: res2.context
+    getList(params)
+      .then(res => {
+        this.setState({ loading: false })
+        const esGoods = res.context.esGoods
+        if (esGoods && esGoods.content.length) {
+          let goodsContent = esGoods.content
+          if (res.context.goodsList) {
+            goodsContent = goodsContent.map(ele => {
+              let ret = { ...ele }
+              const tmpItem = res.context.goodsList.find(g => g.goodsId === ele.id)
+              if (tmpItem) {
+                ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName })
+              }
+              return ret
             })
           }
+          this.setState({
+            productList: goodsContent,
+            results: esGoods.totalElements,
+            currentPage: esGoods.number + 1,
+            totalPage: esGoods.totalPages
+          })
         }
-      }
+      })
+
+    if (!this.state.filterList.length) {
+      getProps(cateId)
+        .then(res => {
+          this.setState({
+            filterList: res.context
+          })
+        })
     }
   }
   handleFilterChange (item) {
@@ -182,6 +195,9 @@ class List extends React.Component {
     this.setState({ currentPage: res }, () => this.getProductList())
   }
   hanldeItemClick (item) {
+    if (item.goodsCateName) {
+      sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName)
+    }
     createHashHistory().push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   render () {
