@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PayProductInfo from "@/components/PayProductInfo";
 import { Link } from "react-router-dom";
 import "./index.css";
 import successImg from "@/assets/images/credit-cards/success.png";
@@ -9,6 +10,8 @@ class Confirmation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      deliveryAddress: {},
+      billingAddress: {},
       productList: [
         {
           id: "3003_RU",
@@ -49,6 +52,7 @@ class Confirmation extends React.Component {
       currentProduct: null,
       loading: true,
       modalShow: false,
+      commentOnDelivery: ''
     };
   }
   changeCache() {
@@ -56,28 +60,6 @@ class Confirmation extends React.Component {
       "rc-cart-data",
       JSON.stringify(this.state.productList)
     );
-  }
-  addQuantity(item) {
-    item.quantity++;
-    this.setState({
-      productList: this.state.productList,
-    });
-    this.changeCache();
-  }
-  subQuantity(item) {
-    if (item.quantity > 1) {
-      item.quantity--;
-      this.setState({
-        productList: this.state.productList,
-      });
-    }
-    this.changeCache();
-  }
-  closeModal() {
-    this.setState({
-      currentProduct: null,
-      modalShow: false,
-    });
   }
   deleteProduct() {
     let { currentProduct, productList } = this.state;
@@ -100,134 +82,23 @@ class Confirmation extends React.Component {
     this.setState({
       productList: productList,
     });
-  }
-  getProducts(plist) {
-    const Lists = plist.map((pitem, index) => (
-      <div
-        class="rc-border-all rc-border-colour--interface product-info  uuid-3ab64fd26c17b64c44e4ba1a7e"
-        key={index}
-      >
-        <div class="">
-          <div class="d-flex">
-            <div class="product-info__img w-100">
-              <img
-                class="product-image"
-                src={pitem.url}
-                alt="Sterilised 37"
-                title="Sterilised 37"
-              />
-            </div>
-            <div class="product-info__desc w-100 relative">
-              <div class="line-item-header rc-margin-top--xs rc-padding-right--sm">
-                <a href="/ru/Sterilised%2037-2537_RU.html">
-                  <h4 class="rc-gamma rc-margin--none">{pitem.name}</h4>
-                </a>
-              </div>
-              <div class="cart-product-error-msg"></div>
-              <span
-                class="remove-product-btn js-remove-product rc-icon rc-close--sm rc-iconography"
-                onClick={() => {
-                  this.setState({
-                    currentProduct: pitem,
-                    modalShow: true,
-                  });
-                }}
-              ></span>
-              <div class="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
-                <div
-                  class="product-quickview product-null product-wrapper product-detail"
-                  data-pid="null"
-                >
-                  <div class="detail-panel">
-                    <section class="attributes">
-                      <div data-attr="size" class="swatch">
-                        <div class="cart-and-ipay">
-                          <div
-                            class="rc-swatch __select-size"
-                            id="id-single-select-size"
-                          >
-                            {pitem.sizeList.map((sizeItem, i) => (
-                              <div
-                                key={i}
-                                className={`rc-swatch__item ${
-                                  sizeItem.selected ? "selected" : ""
-                                }`}
-                                onClick={() => this.changeSize(pitem, sizeItem)}
-                              >
-                                <span>
-                                  {sizeItem.label + " " + sizeItem.unit}
-                                  <i></i>
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </div>
-                <div class="rc-md-up">
-                  <div class="product-card-footer product-card-price d-flex">
-                    <div class="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
-                      <div class="rc-quantity d-flex">
-                        <span
-                          class=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                          onClick={() => this.subQuantity(pitem)}
-                        ></span>
-                        <input
-                          class="rc-quantity__input"
-                          disabled
-                          id="quantity"
-                          name="quantity"
-                          type="number"
-                          value={pitem.quantity}
-                          min="1"
-                          max="10"
-                        />
-                        <span
-                          class="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                          data-quantity-error-msg="Вы не можете заказать больше 10"
-                          onClick={() => this.addQuantity(pitem)}
-                        ></span>
-                      </div>
-                    </div>
-                    <div class="line-item-total-price d-flex justify-content-center">
-                      <p class="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">
-                        =
-                      </p>
-                      <div class="item-total-3ab64fd26c17b64c44e4ba1a7e price">
-                        <div
-                          class="strike-through
-                      non-adjusted-price"
-                        >
-                          null
-                        </div>
-                        <b class="pricing line-item-total-price-amount item-total-3ab64fd26c17b64c44e4ba1a7e light">
-                          {pitem.quantity *
-                            pitem.sizeList.filter((el) => el.selected)[0].price}
-                        </b>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    ));
-    return Lists;
+    let deliveryInfoStr = localStorage.getItem("deliveryInfo");
+    if (deliveryInfoStr) {
+      let deliveryInfo = JSON.parse(deliveryInfoStr);
+      this.setState({
+        deliveryAddress: deliveryInfo.deliveryAddress,
+        billingAddress: deliveryInfo.billingAddress,
+        commentOnDelivery: deliveryInfo.commentOnDelivery
+      });
+    }
   }
   render() {
-    const { results, productList, loading } = this.state;
+    const {
+      deliveryAddress,
+      billingAddress,
+      commentOnDelivery
+    } = this.state;
 
-    const List = this.getProducts(this.state.productList);
-    let total = 0;
-    this.state.productList.map((pitem) => {
-      total =
-        total +
-        pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].price;
-    });
     return (
       <div>
         <Header />
@@ -235,7 +106,7 @@ class Confirmation extends React.Component {
           <div class="rc-layout-container rc-three-column rc-max-width--xl">
             <div class="rc-column rc-double-width shipping__address">
               <div className="center">
-                <img src={successImg} alt=""/>
+                <img src={successImg} alt="" />
                 <h4>
                   <b>Thank you for your order.</b>
                 </h4>
@@ -252,127 +123,7 @@ class Confirmation extends React.Component {
                   <h5 class="product-summary__title rc-margin-bottom--xs center">
                     Total
                   </h5>
-                  <div class="product-summary__inner">
-                    <div
-                      class="product-summary__recap"
-                      data-loc="confirmOrderSummary"
-                    >
-                      <div class="product-summary__itemnbr checkout--padding rc-bg-colour--brand4">
-                        1 total product
-                      </div>
-                      <div class="product-summary__recap__content">
-                        <div class="rc-border-colour--interface rc-border-left rc-border-right checkout--padding">
-                          <div class="product-summary__products">
-                            <div
-                              class="product-summary__products__item uuid-3ab64fd26c17b64c44e4ba1a7e"
-                              data-product-line-item="3ab64fd26c17b64c44e4ba1a7e"
-                            >
-                              <div class="product-line-item">
-                                <div class="product-line-item-details d-flex flex-row">
-                                  <div class="item-image">
-                                    <img
-                                      class="product-image"
-                                      src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw2aa045b9/products/RU/packshot_2016_FHN_DRY_Sterilised_37_4.png?sw=250&amp;sh=380&amp;sm=fit"
-                                      alt="Sterilised 37"
-                                      title="Sterilised 37"
-                                    />
-                                  </div>
-                                  <div class="wrap-item-title">
-                                    <div class="item-title">
-                                      <div class="line-item-name capitalize">
-                                        <span class="light">sterilised 37</span>
-                                      </div>
-                                    </div>
-                                    <div class="line-item-total-price justify-content-start pull-left">
-                                      <div class="item-attributes">
-                                        <p class="line-item-attributes">
-                                          4.00kg - 1 item
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div class="line-item-total-price justify-content-end pull-right">
-                                      <div class="item-total-3ab64fd26c17b64c44e4ba1a7e price relative">
-                                        <div class="strike-through non-adjusted-price">
-                                          null
-                                        </div>
-                                        <b class="pricing line-item-total-price-amount item-total-3ab64fd26c17b64c44e4ba1a7e light">
-                                          ₽ 2 616
-                                        </b>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="item-options"></div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="product-summary__fees order-total-summary">
-                            <div class="row leading-lines subtotal-item">
-                              <div class="col-8 start-lines">
-                                <p class="order-receipt-label">
-                                  <span>Total</span>
-                                </p>
-                              </div>
-                              <div class="col-4 end-lines">
-                                <p class="text-right">
-                                  <span class="sub-total">₽ 2 616</span>
-                                </p>
-                              </div>
-                            </div>
-                            <div class="row leading-lines order-discount hide-order-discount">
-                              <div class="col-7 start-lines">
-                                <p class="order-receipt-label">
-                                  <span>Скидка на заказ</span>
-                                </p>
-                              </div>
-                              <div class="col-5 end-lines">
-                                <p class="text-right">
-                                  <span class="order-discount-total">
-                                    {" "}
-                                    - 0 ₽
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
-                            <div class="row leading-lines shipping-item">
-                              <div class="col-7 start-lines">
-                                <p class="order-receipt-label order-shipping-cost">
-                                  <span>Delivery</span>
-                                </p>
-                              </div>
-                              <div class="col-5 end-lines">
-                                <p class="text-right">
-                                  <span class="shipping-total-cost">-</span>
-                                </p>
-                              </div>
-                            </div>
-                            <div class="row leading-lines shipping-discount hide-shipping-discount">
-                              <div class="col-7 start-lines">
-                                <p class="order-receipt-label">
-                                  <span>Скидка на доставку</span>
-                                </p>
-                              </div>
-                              <div class="col-5 end-lines">
-                                <p class="text-right">
-                                  <span class="shipping-discount-total">
-                                    - N/A
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="product-summary__total grand-total row leading-lines rc-bg-colour--brand4 checkout--padding">
-                        <div class="col-6 start-lines order-receipt-label">
-                          <span>total cost</span>
-                        </div>
-                        <div class="col-6 end-lines text-right">
-                          <span class="grand-total-sum">-</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <PayProductInfo />
                 </div>
                 <div class="card shipping-summary">
                   <div class="card-header rc-margin-bottom--xs rc-padding-right--none clearfix center">
@@ -383,11 +134,104 @@ class Confirmation extends React.Component {
                       Addresses and shipping methods are indicated under your
                       goods.
                     </p>
-                    <div
-                      class="single-shipping"
-                      data-shipment-summary="8b50610f77571c1ac58b609278"
-                    >
-                      <div
+                    <div class="single-shipping">
+                    <div class="rc-border-all rc-border-colour--interface checkout--padding">
+                          <div class="summary-details shipping rc-margin-bottom--xs">
+                            <div class="address-summary row">
+                              <div class="col-md-12 deliveryAddress">
+                                <h5 className="center">Delivery Address</h5>
+                                <div className="row">
+                                  <div className="col-md-6">First Name</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.firstName}
+                                  </div>
+                                  <div className="col-md-6">Last Name</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.lastName}
+                                  </div>
+                                  <div className="col-md-6">Address 1</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.address1}
+                                  </div>
+                                  <div className="col-md-6">Address 2</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.address2}
+                                  </div>
+                                  <div className="col-md-6">Country</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.country}
+                                  </div>
+                                  <div className="col-md-6">City</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.city}
+                                  </div>
+                                  <div className="col-md-6">Post Code</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.postCode}
+                                  </div>
+                                  <div className="col-md-6">Phone Number</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.phoneNumber}
+                                  </div>
+                                  <div className="col-md-6">
+                                    Normal Delivery
+                                  </div>
+                                  <div className="col-md-6">For free</div>
+                                  <div className="col-md-6">
+                                    Comment on delivery
+                                  </div>
+                                  <div className="col-md-6">
+                                    &nbsp;{this.state.commentOnDelivery}
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-12 address-summary-left">
+                                <h5 className="center">Billing Address</h5>
+                                <div className="row">
+                                  <div className="col-md-6">First Name</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.firstName}
+                                  </div>
+                                  <div className="col-md-6">Last Name</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.lastName}
+                                  </div>
+                                  <div className="col-md-6">Address 1</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.address1}
+                                  </div>
+                                  <div className="col-md-6">Address 2</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.address2}
+                                  </div>
+                                  <div className="col-md-6">Country</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.country}
+                                  </div>
+                                  <div className="col-md-6">City</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.city}
+                                  </div>
+                                  <div className="col-md-6">Post Code</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.postCode}
+                                  </div>
+                                  <div className="col-md-6">Phone Number</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.phoneNumber}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="rc-margin-bottom--xs delivery-comment"
+                            style={{ display: "none" }}
+                          >
+                            <b>Delivery comment:</b> <span>null</span>
+                          </div>
+                        </div>
+                      {/* <div
                         class="rc-border-all rc-border-colour--interface checkout--padding"
                         data-loc="placeOrderBillingSummary"
                       >
@@ -456,7 +300,7 @@ class Confirmation extends React.Component {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

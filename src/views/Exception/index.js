@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -7,17 +8,6 @@ function HeroCarousel () {
   return (
     <React.Fragment>
       <Header showMiniIcons={true} />
-
-      {/* <div class="spacer-medium text--centered bg-colour--interface">
-
-        <object data-js-import-interactive-svg id="main-logo" data="/assets/kennel.svg" type="image/svg+xml" class="svg--animated">
-          <img src="/assets/1x1.gif?v=4-0-0" style="background-image: url(/assets/kennel.png)" alt="kennel" />
-        </object>
-
-        <h1 class="alpha">You seem to be lost...</h1>
-        <p>The page you're trying to access doesn't exist. <br /> To find what you're looking for, go to the homepage.</p>
-        <a href="index.html" class="button--medium">Take me home</a>
-      </div> */}
 
       <div class="page rc-content--fixed-header" data-action="RedirectURL-Start" data-querystring="">
         <div class="container full-vh">
@@ -75,8 +65,10 @@ function HeroCarousel () {
                 <div class="rc-layout-container rc-one-column rc-max-width--md">
                   <div class="rc-column">
                     <div class="rc-full-width rc-text--center rc-padding-x--sm">
-                      <div class="rc-alpha inherit-fontsize"><h1>Page not found…</h1></div>
-                      <div>Sorry, the page you are looking for does not exist.</div>
+                      <div class="rc-alpha inherit-fontsize">
+                        <h1><FormattedMessage id="home.pageNotFound" /></h1>
+                      </div>
+                      <div><FormattedMessage id="home.pageNotFoundInfo" /></div>
                     </div>
                   </div>
                 </div>
@@ -84,11 +76,11 @@ function HeroCarousel () {
                 <div class="rc-padding-y--md rc-md-down"></div>
               </div>
             </div>
-            <Link to="/" class="rc-btn rc-btn--two" role="button" aria-pressed="true">Continue shopping</Link>
+            <Link to="/" class="rc-btn rc-btn--two" role="button" aria-pressed="true"><FormattedMessage id="continueShopping" /></Link>
           </div>
         </div>
       </div>
-      
+
       <Footer />
     </React.Fragment >
   )

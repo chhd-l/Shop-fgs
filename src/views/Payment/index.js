@@ -1,7 +1,8 @@
 import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Progress from '@/components/Progress'
+import Progress from "@/components/Progress";
+import PayProductInfo from "@/components/PayProductInfo"
 import "./index.css";
 import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
@@ -95,16 +96,16 @@ class Payment extends React.Component {
   }
 
   ChoosePayment() {
-    const { deliveryAddress, billingAddress, billingChecked } = this.state;
+    const { deliveryAddress, billingAddress, billingChecked, commentOnDelivery } = this.state;
     if (billingChecked) {
       localStorage.setItem(
         "deliveryInfo",
-        JSON.stringify({ deliveryAddress, billingAddress: deliveryAddress })
+        JSON.stringify({ deliveryAddress, billingAddress: deliveryAddress, commentOnDelivery })
       );
     } else {
       localStorage.setItem(
         "deliveryInfo",
-        JSON.stringify({ deliveryAddress, billingAddress })
+        JSON.stringify({ deliveryAddress, billingAddress, commentOnDelivery })
       );
     }
 
@@ -116,7 +117,12 @@ class Payment extends React.Component {
   }
   goConfirmation() {
     const { history } = this.props;
-    history.push("/confirmation");
+    let { isEighteen, isReadPrivacyPolicy } = this.state;
+    if (isEighteen && isReadPrivacyPolicy) {
+      history.push("/confirmation");
+    } else {
+      this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
+    }
   }
   goDelivery(e) {
     e.preventDefault();
@@ -175,7 +181,6 @@ class Payment extends React.Component {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
   }
-
   componentDidMount() {
     let deliveryInfoStr = localStorage.getItem("deliveryInfo");
     if (deliveryInfoStr) {
@@ -183,14 +188,22 @@ class Payment extends React.Component {
       this.setState({
         deliveryAddress: deliveryInfo.deliveryAddress,
         billingAddress: deliveryInfo.billingAddress,
+        commentOnDelivery: deliveryInfo.commentOnDelivery
       });
     }
     this.setState({
       type: this.props.match.params.type,
     });
   }
+  
   render() {
-    const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
+    const {
+      deliveryAddress,
+      billingAddress,
+      creditCardInfo,
+      productList,
+      totalCount,
+    } = this.state;
     const CreditCardImg = (
       <span class="logo-payment-card-list">
         {this.state.creditCardImgUrl.map((el) => (
@@ -217,14 +230,14 @@ class Payment extends React.Component {
                   }}
                 >
                   <div class="card">
-                  <div class="card-header rc-margin-bottom--xs">
+                    <div class="card-header rc-margin-bottom--xs">
                       <h4 className="pull-left">Selected clinic</h4>
                       <a
                         href="#"
                         onClick={(e) => {
-                          e.preventDefault()
-                          let history = this.props
-                          history.push('/prescription')
+                          e.preventDefault();
+                          let { history } = this.props;
+                          history.push("/prescription");
                         }}
                         class=" rc-styled-link rc-margin-top--xs pull-right"
                       >
@@ -232,7 +245,7 @@ class Payment extends React.Component {
                       </a>
                     </div>
                     <div class="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
-                    121 Animal Hospital
+                      121 Animal Hospital
                     </div>
                     <div class="card-header rc-margin-bottom--xs">
                       <h4>Delivery address</h4>
@@ -482,7 +495,6 @@ class Payment extends React.Component {
                                 name="phoneNumber"
                                 maxlength="20"
                                 minlength="18"
-                                // inputmode="text"
                               />
                               <label
                                 class="rc-input__label"
@@ -761,7 +773,6 @@ class Payment extends React.Component {
                                 data-js-pattern="(^(\+?7|8)?9\d{9}$)"
                                 maxlength="20"
                                 minlength="18"
-                                // inputmode="text"
                               />
                               <label
                                 class="rc-input__label"
@@ -873,59 +884,87 @@ class Payment extends React.Component {
                         <div class="rc-border-all rc-border-colour--interface checkout--padding">
                           <div class="summary-details shipping rc-margin-bottom--xs">
                             <div class="address-summary row">
-                              <div class="col-md-6">
-                                <div className="center">Delivery Address</div>
+                              <div class="col-md-12 deliveryAddress">
+                                <h5 className="center">Delivery Address</h5>
                                 <div className="row">
+                                  <div className="col-md-6">First Name</div>
                                   <div className="col-md-6">
-                                    <div>First Name</div>
-                                    <div>Last Name</div>
-                                    <div>Address 1</div>
-                                    <div>Address 2</div>
-                                    <div>Country</div>
-                                    <div>City</div>
-                                    <div>Post Code</div>
-                                    <div>Phone Number</div>
-                                    <div>Normal Delivery</div>
+                                    &nbsp;{deliveryAddress.firstName}
+                                  </div>
+                                  <div className="col-md-6">Last Name</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.lastName}
+                                  </div>
+                                  <div className="col-md-6">Address 1</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.address1}
+                                  </div>
+                                  <div className="col-md-6">Address 2</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.address2}
+                                  </div>
+                                  <div className="col-md-6">Country</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.country}
+                                  </div>
+                                  <div className="col-md-6">City</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.city}
+                                  </div>
+                                  <div className="col-md-6">Post Code</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.postCode}
+                                  </div>
+                                  <div className="col-md-6">Phone Number</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.phoneNumber}
                                   </div>
                                   <div className="col-md-6">
-                                    <div>&nbsp;{deliveryAddress.firstName}</div>
-                                    <div>&nbsp;{deliveryAddress.lastName}</div>
-                                    <div>&nbsp;{deliveryAddress.address1}</div>
-                                    <div>&nbsp;{deliveryAddress.address2}</div>
-                                    <div>&nbsp;{deliveryAddress.country}</div>
-                                    <div>&nbsp;{deliveryAddress.city}</div>
-                                    <div>&nbsp;{deliveryAddress.postCode}</div>
-                                    <div>
-                                      &nbsp;{deliveryAddress.phoneNumber}
-                                    </div>
-                                    <div>For free</div>
+                                    Normal Delivery
+                                  </div>
+                                  <div className="col-md-6">For free</div>
+                                  <div className="col-md-6">
+                                    Comment on delivery
+                                  </div>
+                                  <div className="col-md-6">
+                                    &nbsp;{this.state.commentOnDelivery}
                                   </div>
                                 </div>
                               </div>
-                              <div class="col-md-6 address-summary-left">
-                                <div className="center">Billing Address</div>
+                              <div class="col-md-12 address-summary-left">
+                                <h5 className="center">Billing Address</h5>
                                 <div className="row">
+                                  <div className="col-md-6">First Name</div>
                                   <div className="col-md-6">
-                                    <div>First Name</div>
-                                    <div>Last Name</div>
-                                    <div>Address 1</div>
-                                    <div>Address 2</div>
-                                    <div>Country</div>
-                                    <div>City</div>
-                                    <div>Post Code</div>
-                                    <div>Phone Number</div>
+                                    &nbsp;{billingAddress.firstName}
                                   </div>
+                                  <div className="col-md-6">Last Name</div>
                                   <div className="col-md-6">
-                                    <div>&nbsp;{billingAddress.firstName}</div>
-                                    <div>&nbsp;{billingAddress.lastName}</div>
-                                    <div>&nbsp;{billingAddress.address1}</div>
-                                    <div>&nbsp;{billingAddress.address2}</div>
-                                    <div>&nbsp;{billingAddress.country}</div>
-                                    <div>&nbsp;{billingAddress.city}</div>
-                                    <div>&nbsp;{billingAddress.postCode}</div>
-                                    <div>
-                                      &nbsp;{billingAddress.phoneNumber}
-                                    </div>
+                                    &nbsp;{billingAddress.lastName}
+                                  </div>
+                                  <div className="col-md-6">Address 1</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.address1}
+                                  </div>
+                                  <div className="col-md-6">Address 2</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.address2}
+                                  </div>
+                                  <div className="col-md-6">Country</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.country}
+                                  </div>
+                                  <div className="col-md-6">City</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.city}
+                                  </div>
+                                  <div className="col-md-6">Post Code</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.postCode}
+                                  </div>
+                                  <div className="col-md-6">Phone Number</div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.phoneNumber}
                                   </div>
                                 </div>
                               </div>
@@ -953,398 +992,381 @@ class Payment extends React.Component {
                           <h4>Payment Information</h4>
                         </div>
                         <div class="billing-payment">
-                          <dl
-                            class="billing-nav payment-information"
-                            data-toggle-group=""
-                            data-toggle-effect="rc-expand--vertical"
-                            role="presentation"
-                            data-payment-method-id="false"
-                            data-is-new-payment="true"
-                          >
-                            <div className="form-group">
-                              <div class="rc-input rc-input--inline">
-                                <input
-                                  class="rc-input__radio"
-                                  id="id-radio-creditCard"
-                                  value="creditCard"
-                                  type="radio"
-                                  name="pay-method"
-                                  onChange={(e) => this.payMethodChange(e)}
-                                  checked={
-                                    this.state.payMethod === "creditCard"
-                                  }
-                                />
-                                <label
-                                  class="rc-input__label--inline"
-                                  for="id-radio-creditCard"
-                                >
-                                  Credit card
-                                  {CreditCardImg}
-                                </label>
+                          <div className="form-group rc-border-all rc-border-colour--interface checkout--padding">
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div class="rc-input rc-input--inline">
+                                  <input
+                                    class="rc-input__radio"
+                                    id="id-radio-creditCard"
+                                    value="creditCard"
+                                    type="radio"
+                                    name="pay-method"
+                                    onChange={(e) => this.payMethodChange(e)}
+                                    checked={
+                                      this.state.payMethod === "creditCard"
+                                    }
+                                  />
+                                  <label
+                                    class="rc-input__label--inline"
+                                    for="id-radio-creditCard"
+                                  >
+                                    Credit card
+                                    {CreditCardImg}
+                                  </label>
+                                </div>
                               </div>
-                              <div class="rc-input rc-input--inline">
-                                <input
-                                  class="rc-input__radio"
-                                  id="id-radio-payPal"
-                                  value="payPal"
-                                  type="radio"
-                                  name="pay-method"
-                                  onChange={(e) => this.payMethodChange(e)}
-                                  checked={this.state.payMethod === "payPal"}
-                                />
-                                <label
-                                  class="rc-input__label--inline"
-                                  for="id-radio-payPal"
-                                >
-                                  <span class="logo-payment-card-list">
-                                    <img
-                                      class="logo-payment-card"
-                                      style={{ height: "18px", width: "70px" }}
-                                      src={paypalImg}
-                                    />
-                                  </span>
-                                </label>
+                              <div className="col-md-6">
+                                <div class="rc-input rc-input--inline">
+                                  <input
+                                    class="rc-input__radio"
+                                    id="id-radio-payPal"
+                                    value="payPal"
+                                    type="radio"
+                                    name="pay-method"
+                                    onChange={(e) => this.payMethodChange(e)}
+                                    checked={this.state.payMethod === "payPal"}
+                                  />
+                                  <label
+                                    class="rc-input__label--inline"
+                                    for="id-radio-payPal"
+                                  >
+                                    <span class="logo-payment-card-list">
+                                      <img
+                                        class="logo-payment-card"
+                                        style={{
+                                          height: "18px",
+                                          width: "70px",
+                                        }}
+                                        src={paypalImg}
+                                      />
+                                    </span>
+                                  </label>
+                                </div>
                               </div>
                             </div>
-                            <div
-                              class="rc-list__accordion-item"
-                              data-method-id="CREDIT_CARD"
-                              style={{
-                                display:
-                                  this.state.payMethod == "creditCard"
+                          </div>
+                          <div
+                            class="rc-list__accordion-item"
+                            data-method-id="CREDIT_CARD"
+                            style={{
+                              display:
+                                this.state.payMethod == "creditCard"
+                                  ? "block"
+                                  : "none",
+                            }}
+                          >
+                            <div class="rc-border-all rc-border-colour--interface checkout--padding">
+                              <div
+                                class="credit-card-content"
+                                id="credit-card-content"
+                                style={{
+                                  display: !this.state.isCompleteCredit
                                     ? "block"
                                     : "none",
-                              }}
-                            >
-                              <div class="rc-border-all rc-border-colour--interface checkout--padding">
-                                <div
-                                  class="credit-card-content"
-                                  id="credit-card-content"
-                                  style={{
-                                    display: !this.state.isCompleteCredit
-                                      ? "block"
-                                      : "none",
-                                  }}
-                                >
-                                  <div class="credit-card-form ">
-                                    <div class="rc-margin-bottom--xs">
-                                      <div class="content-asset">
-                                        <p>We accept credit cards.</p>
-                                      </div>
-                                      <div class="row">
-                                        <div class="col-sm-12">
-                                          <div class="form-group">
-                                            <label
-                                              class="form-control-label"
-                                              for="cardNumber"
-                                            >
-                                              Card number*
-                                              {CreditCardImg}
-                                              <div className="cardFormBox">
-                                                <span class="cardImage">
-                                                  <img
-                                                    alt="Card"
-                                                    src="https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
-                                                  />
-                                                </span>
-                                                <span className="cardForm">
-                                                  <div class="row">
-                                                    <div class="col-sm-5">
-                                                      <div class="form-group required">
-                                                        <span
-                                                          class="rc-input rc-input--full-width"
-                                                          input-setup="true"
-                                                        >
-                                                          <input
-                                                            type="text"
-                                                            class="rc-input__control form-control email"
-                                                            id="email"
-                                                            value={
-                                                              creditCardInfo.cardNumber
-                                                            }
-                                                            onChange={(e) =>
-                                                              this.cardInfoInputChange(
-                                                                e
-                                                              )
-                                                            }
-                                                            onBlur={(e) =>
-                                                              this.inputBlur(e)
-                                                            }
-                                                            name="cardNumber"
-                                                            maxlength="254"
-                                                            placeholder="Card Number"
-                                                          />
-                                                        </span>
-                                                        <div class="invalid-feedback">
-                                                          This field is
-                                                          required.
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                      <div class="form-group required">
-                                                        <span
-                                                          class="rc-input rc-input--full-width"
-                                                          input-setup="true"
-                                                          data-js-validate=""
-                                                          data-js-warning-message="*Phone Number isn’t valid"
-                                                        >
-                                                          <input
-                                                            type="tel"
-                                                            class="rc-input__control form-control phone"
-                                                            min-lenght="18"
-                                                            max-length="18"
-                                                            data-phonelength="18"
-                                                            data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                                                            data-range-error="The phone number should contain 10 digits"
-                                                            value={
-                                                              creditCardInfo.cardDate
-                                                            }
-                                                            onChange={(e) =>
-                                                              this.cardInfoInputChange(
-                                                                e
-                                                              )
-                                                            }
-                                                            onBlur={(e) =>
-                                                              this.inputBlur(e)
-                                                            }
-                                                            name="cardDate"
-                                                            maxlength="2147483647"
-                                                            placeholder="MM/YY"
-                                                          />
-                                                        </span>
-                                                        <div class="invalid-feedback">
-                                                          The field is required.
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                    <div class="col-sm-3">
-                                                      <div class="form-group required">
-                                                        <span
-                                                          class="rc-input rc-input--full-width"
-                                                          input-setup="true"
-                                                          data-js-validate=""
-                                                          data-js-warning-message="*Phone Number isn’t valid"
-                                                        >
-                                                          <input
-                                                            type="tel"
-                                                            class="rc-input__control form-control phone"
-                                                            min-lenght="18"
-                                                            max-length="18"
-                                                            data-phonelength="18"
-                                                            data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                                                            data-range-error="The phone number should contain 10 digits"
-                                                            value={
-                                                              creditCardInfo.cardCVV
-                                                            }
-                                                            onChange={(e) =>
-                                                              this.cardInfoInputChange(
-                                                                e
-                                                              )
-                                                            }
-                                                            onBlur={(e) =>
-                                                              this.inputBlur(e)
-                                                            }
-                                                            name="cardCVV"
-                                                            maxlength="2147483647"
-                                                            placeholder="CVV"
-                                                            // inputmode="text"
-                                                          />
-                                                        </span>
-                                                        <div class="invalid-feedback">
-                                                          The field is required.
-                                                        </div>
+                                }}
+                              >
+                                <div class="credit-card-form ">
+                                  <div class="rc-margin-bottom--xs">
+                                    <div class="content-asset">
+                                      <p>We accept credit cards.</p>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-sm-12">
+                                        <div class="form-group">
+                                          <label
+                                            class="form-control-label"
+                                            for="cardNumber"
+                                          >
+                                            Card number*
+                                            {CreditCardImg}
+                                            <div className="cardFormBox">
+                                              <span class="cardImage">
+                                                <img
+                                                  alt="Card"
+                                                  src="https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
+                                                />
+                                              </span>
+                                              <span className="cardForm">
+                                                <div class="row">
+                                                  <div class="col-sm-5">
+                                                    <div class="form-group required">
+                                                      <span
+                                                        class="rc-input rc-input--full-width"
+                                                        input-setup="true"
+                                                      >
+                                                        <input
+                                                          type="text"
+                                                          class="rc-input__control form-control email"
+                                                          id="email"
+                                                          value={
+                                                            creditCardInfo.cardNumber
+                                                          }
+                                                          onChange={(e) =>
+                                                            this.cardInfoInputChange(
+                                                              e
+                                                            )
+                                                          }
+                                                          onBlur={(e) =>
+                                                            this.inputBlur(e)
+                                                          }
+                                                          name="cardNumber"
+                                                          maxlength="254"
+                                                          placeholder="Card Number"
+                                                        />
+                                                      </span>
+                                                      <div class="invalid-feedback">
+                                                        This field is required.
                                                       </div>
                                                     </div>
                                                   </div>
-                                                </span>
-                                              </div>
-                                            </label>
-                                          </div>
+                                                  <div class="col-sm-4">
+                                                    <div class="form-group required">
+                                                      <span
+                                                        class="rc-input rc-input--full-width"
+                                                        input-setup="true"
+                                                        data-js-validate=""
+                                                        data-js-warning-message="*Phone Number isn’t valid"
+                                                      >
+                                                        <input
+                                                          type="tel"
+                                                          class="rc-input__control form-control phone"
+                                                          min-lenght="18"
+                                                          max-length="18"
+                                                          data-phonelength="18"
+                                                          data-js-validate="(^(\+?7|8)?9\d{9}$)"
+                                                          data-range-error="The phone number should contain 10 digits"
+                                                          value={
+                                                            creditCardInfo.cardDate
+                                                          }
+                                                          onChange={(e) =>
+                                                            this.cardInfoInputChange(
+                                                              e
+                                                            )
+                                                          }
+                                                          onBlur={(e) =>
+                                                            this.inputBlur(e)
+                                                          }
+                                                          name="cardDate"
+                                                          maxlength="2147483647"
+                                                          placeholder="MM/YY"
+                                                        />
+                                                      </span>
+                                                      <div class="invalid-feedback">
+                                                        The field is required.
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div class="col-sm-3">
+                                                    <div class="form-group required">
+                                                      <span
+                                                        class="rc-input rc-input--full-width"
+                                                        input-setup="true"
+                                                        data-js-validate=""
+                                                        data-js-warning-message="*Phone Number isn’t valid"
+                                                      >
+                                                        <input
+                                                          type="tel"
+                                                          class="rc-input__control form-control phone"
+                                                          min-lenght="18"
+                                                          max-length="18"
+                                                          data-phonelength="18"
+                                                          data-js-validate="(^(\+?7|8)?9\d{9}$)"
+                                                          data-range-error="The phone number should contain 10 digits"
+                                                          value={
+                                                            creditCardInfo.cardCVV
+                                                          }
+                                                          onChange={(e) =>
+                                                            this.cardInfoInputChange(
+                                                              e
+                                                            )
+                                                          }
+                                                          onBlur={(e) =>
+                                                            this.inputBlur(e)
+                                                          }
+                                                          name="cardCVV"
+                                                          maxlength="2147483647"
+                                                          placeholder="CVV"
+                                                        />
+                                                      </span>
+                                                      <div class="invalid-feedback">
+                                                        The field is required.
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </span>
+                                            </div>
+                                          </label>
                                         </div>
                                       </div>
-                                      <div class="row overflow_visible">
-                                        <div class="col-sm-12">
-                                          <div class="form-group required">
-                                            <label class="form-control-label">
-                                              Cardowner
-                                            </label>
-                                            <span
-                                              class="rc-input rc-input--full-width"
-                                              input-setup="true"
-                                            >
-                                              <input
-                                                type="text"
-                                                class="rc-input__control form-control cardOwner"
-                                                name="cardOwner"
-                                                value={creditCardInfo.cardOwner}
-                                                onChange={(e) =>
-                                                  this.cardInfoInputChange(e)
-                                                }
-                                                onBlur={(e) =>
-                                                  this.inputBlur(e)
-                                                }
-                                                maxlength="40"
-                                              />
-                                              <label
-                                                class="rc-input__label"
-                                                for="cardOwner"
-                                              ></label>
-                                            </span>
-                                            <div class="invalid-feedback">
-                                              This field is required.
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="row">
-                                        <div class="col-sm-6">
-                                          <div class="form-group required">
-                                            <label class="form-control-label">
-                                              Email
-                                            </label>
-                                            <span
-                                              class="rc-input rc-input--full-width"
-                                              input-setup="true"
-                                            >
-                                              <input
-                                                type="text"
-                                                class="rc-input__control form-control email"
-                                                id="email"
-                                                value={creditCardInfo.email}
-                                                onChange={(e) =>
-                                                  this.cardInfoInputChange(e)
-                                                }
-                                                onBlur={(e) =>
-                                                  this.inputBlur(e)
-                                                }
-                                                name="email"
-                                                maxlength="254"
-                                              />
-                                              <label
-                                                class="rc-input__label"
-                                                for="email"
-                                              ></label>
-                                            </span>
-                                            <div class="invalid-feedback">
-                                              This field is required.
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                          <div class="form-group required">
-                                            <label
-                                              class="form-control-label"
-                                              for="phoneNumber"
-                                            >
-                                              Phone number
-                                            </label>
-                                            <span
-                                              class="rc-input rc-input--full-width"
-                                              input-setup="true"
-                                              data-js-validate=""
-                                              data-js-warning-message="*Phone Number isn’t valid"
-                                            >
-                                              <input
-                                                type="tel"
-                                                class="rc-input__control form-control phone"
-                                                min-lenght="18"
-                                                max-length="18"
-                                                data-phonelength="18"
-                                                data-js-validate="(^(\+?7|8)?9\d{9}$)"
-                                                data-range-error="The phone number should contain 10 digits"
-                                                value={
-                                                  creditCardInfo.phoneNumber
-                                                }
-                                                onChange={(e) =>
-                                                  this.cardInfoInputChange(e)
-                                                }
-                                                onBlur={(e) =>
-                                                  this.inputBlur(e)
-                                                }
-                                                name="phoneNumber"
-                                                maxlength="2147483647"
-
-                                                // inputmode="text"
-                                              />
-                                              <label
-                                                class="rc-input__label"
-                                                for="phoneNumber"
-                                              ></label>
-                                            </span>
-                                            <div class="invalid-feedback">
-                                              This field is required.
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="row">
-                                        <div class="col-sm-12 rc-margin-y--xs rc-text--center">
-                                          <button
-                                            class="rc-btn rc-btn--two card-confirm"
-                                            id="card-confirm"
-                                            type="button"
-                                            onClick={() => {
-                                              this.setState({
-                                                isCompleteCredit: true,
-                                              });
-                                            }}
+                                    </div>
+                                    <div class="row overflow_visible">
+                                      <div class="col-sm-12">
+                                        <div class="form-group required">
+                                          <label class="form-control-label">
+                                            Cardowner
+                                          </label>
+                                          <span
+                                            class="rc-input rc-input--full-width"
+                                            input-setup="true"
                                           >
-                                            Confirm Card
-                                          </button>
+                                            <input
+                                              type="text"
+                                              class="rc-input__control form-control cardOwner"
+                                              name="cardOwner"
+                                              value={creditCardInfo.cardOwner}
+                                              onChange={(e) =>
+                                                this.cardInfoInputChange(e)
+                                              }
+                                              onBlur={(e) => this.inputBlur(e)}
+                                              maxlength="40"
+                                            />
+                                            <label
+                                              class="rc-input__label"
+                                              for="cardOwner"
+                                            ></label>
+                                          </span>
+                                          <div class="invalid-feedback">
+                                            This field is required.
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </div>
-                                <div
-                                  className="creditCompleteInfoBox"
-                                  style={{
-                                    display: !this.state.isCompleteCredit
-                                      ? "none"
-                                      : "block",
-                                  }}
-                                >
-                                  <p>
-                                    <span
-                                      className="pull-right"
-                                      onClick={() => {
-                                        this.setState({
-                                          isCompleteCredit: false,
-                                        });
-                                      }}
-                                    >
-                                      Edit date
-                                    </span>
-                                  </p>
-                                  <div class="row">
-                                    <div class="col-sm-5">
-                                      <img src={visaImg} alt="" />
+                                    <div class="row">
+                                      <div class="col-sm-6">
+                                        <div class="form-group required">
+                                          <label class="form-control-label">
+                                            Email
+                                          </label>
+                                          <span
+                                            class="rc-input rc-input--full-width"
+                                            input-setup="true"
+                                          >
+                                            <input
+                                              type="text"
+                                              class="rc-input__control form-control email"
+                                              id="email"
+                                              value={creditCardInfo.email}
+                                              onChange={(e) =>
+                                                this.cardInfoInputChange(e)
+                                              }
+                                              onBlur={(e) => this.inputBlur(e)}
+                                              name="email"
+                                              maxlength="254"
+                                            />
+                                            <label
+                                              class="rc-input__label"
+                                              for="email"
+                                            ></label>
+                                          </span>
+                                          <div class="invalid-feedback">
+                                            This field is required.
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-6">
+                                        <div class="form-group required">
+                                          <label
+                                            class="form-control-label"
+                                            for="phoneNumber"
+                                          >
+                                            Phone number
+                                          </label>
+                                          <span
+                                            class="rc-input rc-input--full-width"
+                                            input-setup="true"
+                                            data-js-validate=""
+                                            data-js-warning-message="*Phone Number isn’t valid"
+                                          >
+                                            <input
+                                              type="tel"
+                                              class="rc-input__control form-control phone"
+                                              min-lenght="18"
+                                              max-length="18"
+                                              data-phonelength="18"
+                                              data-js-validate="(^(\+?7|8)?9\d{9}$)"
+                                              data-range-error="The phone number should contain 10 digits"
+                                              value={creditCardInfo.phoneNumber}
+                                              onChange={(e) =>
+                                                this.cardInfoInputChange(e)
+                                              }
+                                              onBlur={(e) => this.inputBlur(e)}
+                                              name="phoneNumber"
+                                              maxlength="2147483647"
+                                            />
+                                            <label
+                                              class="rc-input__label"
+                                              for="phoneNumber"
+                                            ></label>
+                                          </span>
+                                          <div class="invalid-feedback">
+                                            This field is required.
+                                          </div>
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div class="col-sm-7">
-                                      <div className="row creditCompleteInfo">
-                                        <div className="col-sm-6">
-                                          <p>Name</p>
-                                          <p>Card number</p>
-                                          <p>DEBIT</p>
-                                        </div>
-                                        <div className="col-sm-6">
-                                          <p>
-                                            &nbsp;{creditCardInfo.cardOwner}
-                                          </p>
-                                          <p>
-                                            &nbsp;{creditCardInfo.cardNumber}
-                                          </p>
-                                          <p>&nbsp;{creditCardInfo.cardCVV}</p>
-                                        </div>
+                                    <div class="row">
+                                      <div class="col-sm-12 rc-margin-y--xs rc-text--center">
+                                        <button
+                                          class="rc-btn rc-btn--two card-confirm"
+                                          id="card-confirm"
+                                          type="button"
+                                          onClick={() => {
+                                            this.setState({
+                                              isCompleteCredit: true,
+                                            });
+                                          }}
+                                        >
+                                          Confirm Card
+                                        </button>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              {/* </dd> */}
+                              <div
+                                className="creditCompleteInfoBox"
+                                style={{
+                                  display: !this.state.isCompleteCredit
+                                    ? "none"
+                                    : "block",
+                                }}
+                              >
+                                <p>
+                                  <span
+                                    className="pull-right"
+                                    onClick={() => {
+                                      this.setState({
+                                        isCompleteCredit: false,
+                                      });
+                                    }}
+                                  >
+                                    Edit date
+                                  </span>
+                                </p>
+                                <div class="row">
+                                  <div class="col-sm-5">
+                                    <img src={visaImg} alt="" />
+                                  </div>
+                                  <div class="col-sm-7">
+                                    <div className="row creditCompleteInfo">
+                                      <div className="col-sm-6">
+                                        <p>Name</p>
+                                        <p>Card number</p>
+                                        <p>DEBIT</p>
+                                      </div>
+                                      <div className="col-sm-6">
+                                        <p>&nbsp;{creditCardInfo.cardOwner}</p>
+                                        <p>&nbsp;{creditCardInfo.cardNumber}</p>
+                                        <p>&nbsp;{creditCardInfo.cardCVV}</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                          </dl>
+                          </div>
                         </div>
                       </form>
                     </div>
@@ -1357,17 +1379,32 @@ class Payment extends React.Component {
                       type="checkbox"
                       name="checkbox-2"
                       onChange={() => {
-                        this.setState({isReadPrivacyPolicy: !this.state.isReadPrivacyPolicy, isReadPrivacyPolicyInit: false})
+                        this.setState({
+                          isReadPrivacyPolicy: !this.state.isReadPrivacyPolicy,
+                          isReadPrivacyPolicyInit: false,
+                        });
                       }}
                       checked={this.state.isReadPrivacyPolicy}
                     />
-                    <label
-                      class="rc-input__label--inline"
-                    >
+                    <label class="rc-input__label--inline">
                       I have read the User Agreement and the Privacy Policy and
                       give my consent to the processing ot personal data,
                       including cross-border transfer
-                      <div class="warning" style={{display: this.state.isReadPrivacyPolicy || this.state.isReadPrivacyPolicyInit?'none': 'block'}}>You need to familiarize yourself with the User Agreement and the Privacy Policy and give your consent to the processing of personal data, including cross-border transfer.</div>
+                      <div
+                        class="warning"
+                        style={{
+                          display:
+                            this.state.isReadPrivacyPolicy ||
+                            this.state.isReadPrivacyPolicyInit
+                              ? "none"
+                              : "block",
+                        }}
+                      >
+                        You need to familiarize yourself with the User Agreement
+                        and the Privacy Policy and give your consent to the
+                        processing of personal data, including cross-border
+                        transfer.
+                      </div>
                     </label>
                   </div>
                   <div className="footerCheckbox">
@@ -1378,15 +1415,26 @@ class Payment extends React.Component {
                       type="checkbox"
                       name="checkbox-2"
                       onChange={() => {
-                        this.setState({isEighteen: !this.state.isEighteen, isEighteenInit: false})
+                        this.setState({
+                          isEighteen: !this.state.isEighteen,
+                          isEighteenInit: false,
+                        });
                       }}
                       checked={this.state.isEighteen}
                     />
-                    <label
-                      class="rc-input__label--inline"
-                    >
+                    <label class="rc-input__label--inline">
                       I confirm that I am 18 years old
-                      <div class="warning" style={{display: this.state.isEighteen || this.state.isEighteenInit?'none': 'block'}}>You must be 18 years or more to register on the site.</div>
+                      <div
+                        class="warning"
+                        style={{
+                          display:
+                            this.state.isEighteen || this.state.isEighteenInit
+                              ? "none"
+                              : "block",
+                        }}
+                      >
+                        You must be 18 years or more to register on the site.
+                      </div>
                     </label>
                   </div>
                   <div class="place_order-btn card">
@@ -1417,121 +1465,7 @@ class Payment extends React.Component {
                 >
                   Edit
                 </a>
-                <div class="product-summary__inner">
-                  <div class="product-summary__recap">
-                    <div class="product-summary__itemnbr checkout--padding rc-bg-colour--brand4">
-                      1 item total product
-                    </div>
-                    <div class="product-summary__recap__content">
-                      <div class="rc-border-colour--interface rc-border-left rc-border-right checkout--padding">
-                        <div class="product-summary__products">
-                          <div
-                            class="product-summary__products__item uuid-3ab64fd26c17b64c44e4ba1a7e"
-                            data-product-line-item="3ab64fd26c17b64c44e4ba1a7e"
-                          >
-                            <div class="product-line-item">
-                              <div class="product-line-item-details d-flex flex-row">
-                                <div class="item-image">
-                                  <img
-                                    class="product-image"
-                                    src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw2aa045b9/products/RU/packshot_2016_FHN_DRY_Sterilised_37_4.png?sw=250&amp;sh=380&amp;sm=fit"
-                                    alt="Sterilised 37"
-                                    title="Sterilised 37"
-                                  />
-                                </div>
-                                <div class="wrap-item-title">
-                                  <div class="item-title">
-                                    <div class="line-item-name capitalize">
-                                      <span class="light">sterilised 37</span>
-                                    </div>
-                                  </div>
-                                  <div class="line-item-total-price justify-content-start pull-left">
-                                    <div class="item-attributes">
-                                      <p class="line-item-attributes">
-                                        4.00kg - 1 item
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div class="line-item-total-price justify-content-end pull-right">
-                                    <div class="item-total-3ab64fd26c17b64c44e4ba1a7e price relative">
-                                      <div class="strike-through non-adjusted-price">
-                                        null
-                                      </div>
-                                      <b class="pricing line-item-total-price-amount item-total-3ab64fd26c17b64c44e4ba1a7e light">
-                                        {/* $ 2616 */}
-                                      </b>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="item-options"></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="product-summary__fees order-total-summary">
-                          <div class="row leading-lines subtotal-item">
-                            <div class="col-8 start-lines">
-                              <p class="order-receipt-label">
-                                <span>Total</span>
-                              </p>
-                            </div>
-                            <div class="col-4 end-lines">
-                              <p class="text-right">
-                                <span class="sub-total">$ 2616</span>
-                              </p>
-                            </div>
-                          </div>
-                          <div class="row leading-lines order-discount hide-order-discount">
-                            <div class="col-7 start-lines">
-                              <p class="order-receipt-label">
-                                <span>Скидка на заказ</span>
-                              </p>
-                            </div>
-                            <div class="col-5 end-lines">
-                              <p class="text-right">
-                                <span class="order-discount-total"> - 0 ₽</span>
-                              </p>
-                            </div>
-                          </div>
-                          <div class="row leading-lines shipping-item">
-                            <div class="col-7 start-lines">
-                              <p class="order-receipt-label order-shipping-cost">
-                                <span>Delivery</span>
-                              </p>
-                            </div>
-                            <div class="col-5 end-lines">
-                              <p class="text-right">
-                                <span class="shipping-total-cost">-</span>
-                              </p>
-                            </div>
-                          </div>
-                          <div class="row leading-lines shipping-discount hide-shipping-discount">
-                            <div class="col-7 start-lines">
-                              <p class="order-receipt-label">
-                                <span>Скидка на доставку</span>
-                              </p>
-                            </div>
-                            <div class="col-5 end-lines">
-                              <p class="text-right">
-                                <span class="shipping-discount-total">
-                                  - N/A
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="product-summary__total grand-total row leading-lines rc-bg-colour--brand4 checkout--padding">
-                      <div class="col-6 start-lines order-receipt-label">
-                        <span>Total cost</span>
-                      </div>
-                      <div class="col-6 end-lines text-right">
-                        <span class="grand-total-sum">-</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <PayProductInfo/>
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import InterestedIn from '@/components/InterestedIn'
 import ImageMagnifier from '@/components/ImageMagnifier'
 import { formatMoney } from "@/utils/utils.js";
+import { FormattedMessage } from 'react-intl'
 import { createHashHistory } from 'history'
 import './index.css'
 import { cloneDeep } from 'lodash'
@@ -37,9 +38,9 @@ class Details extends React.Component {
         sizeList: []
       },
       quantity: 1,
-      quantityMaxLimit: 10,
-      quantityMinLimit: 1,
+      stock: 0,
       instockStatus: true,
+      quantityMinLimit: 1,
       currentUnitPrice: 0,
       minImg: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress',
       maxImg: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=500&fm=jpg&auto=compress',
@@ -57,12 +58,12 @@ class Details extends React.Component {
   componentDidMount () {
     this.setState({
       id: this.props.match.params.id
-    }, () => this.getDetails())
+    }, () => this.queryDetails())
   }
-  async getDetails () {
+  async queryDetails () {
     const { id } = this.state
-    const res = await getDetails('ff8080817177b77c01717c19c3820008')
-    if (res && res.context) {
+    const res = await getDetails(id)
+    if (res && res.context && res.context.goodsSpecDetails) {
       let sizeList = []
       let goodsSpecDetails = res.context.goodsSpecDetails
       let goodsInfos = res.context.goodsInfos || []
@@ -77,13 +78,23 @@ class Details extends React.Component {
 
       const selectedSize = sizeList.find(s => s.selected)
       this.setState({
-        details: Object.assign({}, this.state.details, res.context.goods, { sizeList }),
+        details: Object.assign({},
+          this.state.details,
+          res.context.goods,
+          { sizeList },
+          { goodsInfoId: res.context.goodsInfos[0].goodsInfoId }
+        ),
+        stock: selectedSize.stock,
         currentUnitPrice: selectedSize.salePrice,
-        quantityMaxLimit: selectedSize.stock
-      })
+      }, () => this.updateInstockStatus())
     } else {
-      throw new Error(res && res.message || 'system is error, please try latter')
+      // throw new Error(res && res.message || 'system is error, please try latter')
     }
+  }
+  updateInstockStatus () {
+    this.setState({
+      instockStatus: this.state.quantity <= this.state.stock
+    })
   }
   changeAmount (type) {
     if (!type) return
@@ -99,9 +110,8 @@ class Details extends React.Component {
       res = quantity + 1
     }
     this.setState({
-      quantity: res,
-      instockStatus: res <= this.state.quantityMaxLimit
-    })
+      quantity: res
+    }, () => { this.updateInstockStatus() })
   }
   handleAmountChange (e) {
     const val = e.target.value
@@ -112,10 +122,7 @@ class Details extends React.Component {
       if (isNaN(tmp)) {
         tmp = 1
       }
-      this.setState({
-        quantity: tmp,
-        instockStatus: tmp <= this.state.quantityMaxLimit
-      })
+      this.setState({ quantity: tmp }, () => this.updateInstockStatus())
     }
   }
   handleChooseSize (data, index) {
@@ -132,9 +139,8 @@ class Details extends React.Component {
     this.setState({
       currentUnitPrice: data.salePrice,
       details: Object.assign({}, this.state.details, { sizeList: ret }),
-      quantityMaxLimit: data.stock,
-      instockStatus: this.state.quantity <= data.stock
-    })
+      stock: data.stock || 0
+    }, () => this.updateInstockStatus())
   }
   hanldeAddToCart ({ redirect = false }) {
     const { currentUnitPrice, quantity, cartData } = this.state
@@ -184,7 +190,7 @@ class Details extends React.Component {
   }
   render () {
     const createMarkup = text => ({ __html: text });
-    const { details, quantity, quantityMaxLimit, quantityMinLimit, instockStatus, currentUnitPrice, cartData, minImg, maxImg } = this.state
+    const { details, quantity, stock, quantityMinLimit, instockStatus, currentUnitPrice, cartData, minImg, maxImg } = this.state
     return (
       <div>
         <Header ref={this.headerRef} cartData={cartData} showMiniIcons={true} />
@@ -233,7 +239,7 @@ class Details extends React.Component {
                                 <div className="rc-carousel__gallery-thumbnail" key={idx}>
                                   <figure className="rc-img--square"
                                     style={{ backgroundImage: 'url(' + item + ')' }}>
-                                    <figcaption className="rc-screen-reader-text">Product caption text</figcaption>
+                                    {/* <figcaption className="rc-screen-reader-text">Product caption text</figcaption> */}
                                   </figure>
                                 </div>
                               ))}
@@ -270,7 +276,7 @@ class Details extends React.Component {
                             <div className="product-pricing__card singlepruchase selected" data-buybox="singlepruchase">
                               <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
                                 <div className="rc-input product-pricing__card__head__title">
-                                  <label className="rc-input__label--inline">Unit price</label>
+                                  <label className="rc-input__label--inline"><FormattedMessage id="details.unitPrice" /></label>
                                 </div>
 
                                 <b className="product-pricing__card__head__price rc-padding-y--none js-price">
@@ -284,11 +290,11 @@ class Details extends React.Component {
                                 </b>
                               </div>
                               <div className="product-pricing__card__body rc-margin-top--xs">
-                                <div>Free shipping</div>
+                                <div><FormattedMessage id="freeShipping" /></div>
                                 <div className="toggleVisibility">
                                   <div className="product-selectors rc-padding-top--xs">
                                     <div id="choose-select">
-                                      <div className="rc-margin-bottom--xs">The size:</div>
+                                      <div className="rc-margin-bottom--xs"><FormattedMessage id="details.theSize" />:</div>
                                       <div data-attr="size">
                                         <div>
                                           <div className="rc-swatch __select-size" id="id-single-select-size">
@@ -306,26 +312,28 @@ class Details extends React.Component {
 
                                     <div className="quantity-width start-lines" data-attr="size">
                                       <div className="quantity d-flex justify-content-between align-items-center">
-                                        <span>Amount:</span>
+                                        <span><FormattedMessage id="amount" />:</span>
                                         <input type="hidden" id="invalid-quantity" value="Пожалуйста, введите правильный номер." />
                                         <div className="rc-quantity text-right d-flex justify-content-end">
                                           <span className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus" onClick={() => this.changeAmount('minus')}></span>
-                                          <input className="rc-quantity__input" id="quantity" name="quantity" type="number" value={quantity} min={quantityMinLimit} max={quantityMaxLimit} onChange={this.handleAmountChange} maxLength="5" />
+                                          <input className="rc-quantity__input" id="quantity" name="quantity" type="number" value={quantity} min={quantityMinLimit} max={stock} onChange={this.handleAmountChange} maxLength="5" />
                                           <span className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus" onClick={() => this.changeAmount('plus')}></span>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="availability  product-availability" data-ready-to-order="false"
-                                    data-available="true">
+                                  <div className="availability  product-availability">
                                     <div className="align-left flex">
                                       <div className="stock__wrapper">
                                         <div className="stock">
                                           <label className={['availability', instockStatus ? 'instock' : 'outofstock'].join(' ')} >
-                                            <span className="title-select">Availability:</span>
+                                            <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
                                           </label>
                                           <span className="availability-msg" data-ready-to-order="true">
-                                            <div className={[instockStatus ? '' : 'out-stock'].join(' ')}>{instockStatus ? 'In stock' : 'Out stock'}</div>
+                                            <div
+                                              className={[instockStatus ? '' : 'out-stock'].join(' ')}>
+                                              {instockStatus ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
+                                            </div>
                                           </span>
                                         </div>
                                       </div>
@@ -335,7 +343,7 @@ class Details extends React.Component {
                                     <div className="cart-and-ipay">
                                       <button className="add-to-cart rc-btn rc-btn--one rc-full-width" data-loc="addToCart" onClick={this.hanldeAddToCart}>
                                         <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
-                                        Add to Cart
+                                        <FormattedMessage id="details.addToCart" />
                                       </button>
                                     </div>
                                   </div>
@@ -343,7 +351,7 @@ class Details extends React.Component {
                                     <div className="cart-and-ipay">
                                       <button className="add-to-cart rc-btn rc-btn--one rc-full-width" data-loc="addToCart" onClick={() => this.hanldeAddToCart({ redirect: true })}>
                                         <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
-                                        Checkout
+                                        <FormattedMessage id="checkout" />
                                       </button>
                                     </div>
                                   </div>
@@ -370,11 +378,11 @@ class Details extends React.Component {
             <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
               <button className="rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile" onClick={this.hanldeAddToCart}>
                 <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
-                <span className="default-txt">Add to Cart</span>
+                <span className="default-txt"><FormattedMessage id="details.addToCart" /></span>
               </button>
               <button className="rc-btn rc-btn--one js-sticky-cta" onClick={() => this.hanldeAddToCart({ redirect: true })}>
                 <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
-                <span className="default-txt">Checkout</span>
+                <span className="default-txt"><FormattedMessage id="checkout" /></span>
               </button>
             </div>
           </div>

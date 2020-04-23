@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from 'react-intl'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
@@ -74,10 +75,7 @@ class Cart extends React.Component {
       if (isNaN(tmp)) {
         tmp = 1
       }
-      const stock = item.sizeList.find(s => s.selected).stock
-      if (tmp > stock) {
-        tmp = stock
-      } else if (tmp < quantityMinLimit) {
+      if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit
       }
       item.quantity = tmp
@@ -96,11 +94,7 @@ class Cart extends React.Component {
     })
   }
   addQuantity (item) {
-    const stock = item.sizeList.find(s => s.selected).stock
     item.quantity++
-    if (item.quantity > stock) {
-      item.quantity = stock
-    }
     this.setState({
       productList: this.state.productList,
     });
@@ -158,7 +152,7 @@ class Cart extends React.Component {
   componentDidMount () {
     let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
     this.setState({
-      productList: productList,
+      productList: productList || []
     });
   }
   getProducts (plist) {
@@ -173,13 +167,13 @@ class Cart extends React.Component {
               <img
                 className="product-image"
                 src={pitem.goodsImg}
-                alt="Sterilised 37"
-                title="Sterilised 37"
+                alt={pitem.goodsName}
+                title={pitem.goodsName}
               />
             </div>
             <div className="product-info__desc w-100 relative">
               <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
-                <Link to={`/details/${pitem.id}`}>
+                <Link to={`/details/${pitem.goodsInfoId}`}>
                   <h4 className="rc-gamma rc-margin--none">{pitem.goodsName}</h4>
                 </Link>
               </div>
@@ -267,6 +261,23 @@ class Cart extends React.Component {
                   </div>
                 </div>
               </div>
+              <div className="availability  product-availability">
+                <div className="align-left flex rc-content-v-right rc-md-up">
+                  <div className="stock__wrapper">
+                    <div className="stock">
+                      <label className={['availability', pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
+                        <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
+                      </label>
+                      <span className="availability-msg">
+                        <div
+                          className={[pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? '' : 'out-stock'].join(' ')}>
+                          {pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="rc-margin-bottom--sm rc-md-down">
@@ -302,6 +313,23 @@ class Cart extends React.Component {
                 </div>
               </div>
             </div>
+            <div className="availability  product-availability">
+              <div className="align-left flex rc-content-v-right">
+                <div className="stock__wrapper">
+                  <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
+                    <label className={['availability', pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
+                      <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
+                    </label>
+                    <span className="availability-msg">
+                      <div
+                        className={[pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? '' : 'out-stock'].join(' ')}>
+                        {pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -327,24 +355,28 @@ class Cart extends React.Component {
               ? <React.Fragment>
                 <div className="rc-layout-container rc-one-column">
                   <div className="rc-column">
-                    <a href="#" onClick={(e) => this.goBack(e)} title="Continue shopping">
-                      <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                        <span className="rc-icon rc-left rc-iconography"></span>
-                        Continue shopping
-                      </span>
-                    </a>
+                    <FormattedMessage id="continueShopping">
+                      {txt => (
+                        <a href="#" onClick={(e) => this.goBack(e)} title={txt}>
+                          <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                            <span className="rc-icon rc-left rc-iconography"></span>
+                            {txt}
+                          </span>
+                        </a>
+                      )}
+                    </FormattedMessage>
                   </div>
                 </div>
                 <div className="rc-layout-container rc-three-column cart cart-page">
                   <div className="rc-column rc-double-width">
                     <div className="rc-padding-bottom--xs cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
                       <aside className="rc-alert rc-alert--error rc-alert--with-close" role="alert">
-                        <span style={{ paddingLeft: 0 }}>The number can't be less than 1</span>
+                        <span style={{ paddingLeft: 0 }}><FormattedMessage id="cart.errorInfo" /></span>
                       </aside>
                     </div>
                     <div className="rc-padding-bottom--xs">
                       <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                        Your basket
+                        <FormattedMessage id="cart.yourBasket" />
                       </h5>
                     </div>
                     <div id="product-cards-container">{List}</div>
@@ -352,7 +384,7 @@ class Cart extends React.Component {
                   <div className="rc-column totals cart__total">
                     <div className="rc-padding-bottom--xs">
                       <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                        Total
+                        <FormattedMessage id="total" />
                       </h5>
                     </div>
                     <div className="group-order rc-border-all rc-border-colour--interface cart__total__content">
@@ -362,14 +394,18 @@ class Cart extends React.Component {
                     </div>
                       </div>
                       <div className="row">
-                        <div className="col-8">Total</div>
+                        <div className="col-8">
+                          <FormattedMessage id="total" />
+                        </div>
                         <div className="col-4 no-padding-left">
                           <p className="text-right sub-total">$ {formatMoney(total)}</p>
                         </div>
                       </div>
                       <div className="row">
                         <div className="col-8">
-                          <p>Delivery</p>
+                          <p>
+                            <FormattedMessage id="delivery" />
+                          </p>
                         </div>
                         <div className="col-4">
                           <p className="text-right shipping-cost">0</p>
@@ -378,7 +414,9 @@ class Cart extends React.Component {
                       <div className="group-total">
                         <div className="row">
                           <div className="col-7 medium">
-                            <strong>Total cost</strong>
+                            <strong>
+                              <FormattedMessage id="totalCost" />
+                            </strong>
                           </div>
                           <div className="col-5">
                             <p className="text-right grand-total-sum medium">$ {formatMoney(total)}</p>
@@ -391,7 +429,9 @@ class Cart extends React.Component {
                                 <div
                                   data-oauthlogintargetendpoint="2"
                                   className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn "
-                                  aria-pressed="true">Checkout</div>
+                                  aria-pressed="true">
+                                  <FormattedMessage id="checkout" />
+                                </div>
                               </div>
                             </Link>
                           </div>
@@ -404,14 +444,22 @@ class Cart extends React.Component {
               </React.Fragment>
               : <React.Fragment>
                 <div className="rc-text-center">
-                  <div className="rc-beta rc-margin-bottom--sm">Your basket</div>
-                  <div className="rc-gamma title-empty">your basket is empty</div>
+                  <div className="rc-beta rc-margin-bottom--sm">
+                    <FormattedMessage id="cart.yourBasket" />
+                  </div>
+                  <div className="rc-gamma title-empty">
+                    <FormattedMessage id="header.basketEmpty" />
+                  </div>
                 </div>
                 <div className="content-asset">
                   <div className="rc-bg-colour--brand3 rc-padding--sm">
                     <div className="rc-max-width--lg rc-padding-x--lg--mobile">
                       <div>
-                        <div className="rc-alpha inherit-fontsize"><p style={{ textAlign: 'center' }}>FULL RICE FOR YOUR PET</p></div>
+                        <div className="rc-alpha inherit-fontsize">
+                          <p style={{ textAlign: 'center' }}>
+                            <FormattedMessage id="cart.fullPrice" />
+                          </p>
+                        </div>
                         <div className="rc-card-grid rc-match-heights rc-four-column">
                           <div className="rc-grid">
                             <article className="rc-card rc-card--a">
@@ -421,7 +469,9 @@ class Cart extends React.Component {
                               <div className="card__body">
                                 <header>
                                   <Link to="/list/dogs">
-                                    <h1 className="card__title">Choose a diet for your dog</h1>
+                                    <h1 className="card__title">
+                                      <FormattedMessage id="cart.dogDiet" />
+                                    </h1>
                                   </Link>
                                 </header>
                                 <Link to="/list/dogs"></Link>
@@ -436,7 +486,9 @@ class Cart extends React.Component {
                               <div className="card__body">
                                 <header>
                                   <Link to="/list/cats">
-                                    <h4 className="card__title">Choose a diet for your cat</h4>
+                                    <h4 className="card__title">
+                                      <FormattedMessage id="cart.cartDiet" />
+                                    </h4>
                                   </Link>
                                 </header>
                                 <Link to="/list/cats"></Link>
@@ -471,9 +523,7 @@ class Cart extends React.Component {
             <div className="modal-content">
               <div className="modal-header delete-confirmation-header">
                 <h4 className="modal-title" id="removeProductLineItemModal">
-                  <font>
-                    <font>Delete product?</font>
-                  </font>
+                  <FormattedMessage id="cart.deletInfo" />
                 </h4>
                 <button
                   type="button"
@@ -483,26 +533,14 @@ class Cart extends React.Component {
                   onClick={() => this.closeModal()}
                 >
                   <span aria-hidden="true">
-                    <font>
-                      <font>×</font>
-                    </font>
+                    ×
                   </span>
                 </button>
               </div>
               <div className="modal-body delete-confirmation-body">
-                <font>
-                  <font>
-                    Are you sure you want to remove this item from your cart?
-                  </font>
-                </font>
+                <FormattedMessage id="cart.deletInfo2" />
                 <p className="product-to-remove">
-                  <font>
-                    <font>
-                      {this.state.currentProduct
-                        ? this.state.currentProduct.name
-                        : ""}
-                    </font>
-                  </font>
+                  {this.state.currentProduct ? this.state.currentProduct.name : ""}
                 </p>
               </div>
               <div className="modal-footer">
@@ -512,9 +550,7 @@ class Cart extends React.Component {
                   data-dismiss="modal"
                   onClick={() => this.closeModal()}
                 >
-                  <font>
-                    <font>Cancel</font>
-                  </font>
+                  <FormattedMessage id="cancel" />
                 </button>
                 <button
                   type="button"
@@ -522,9 +558,7 @@ class Cart extends React.Component {
                   data-dismiss="modal"
                   onClick={() => this.deleteProduct()}
                 >
-                  <font>
-                    <font>Yes</font>
-                  </font>
+                  <FormattedMessage id="yes" />
                 </button>
               </div>
             </div>

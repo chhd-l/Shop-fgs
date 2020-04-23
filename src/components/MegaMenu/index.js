@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
 import './index.css'
 
@@ -11,9 +12,9 @@ function MegaMenu (props) {
             <div className="rc-layout-container rc-three-column">
               <div className="rc-column rc-double-width rc-padding-x--none--mobile rc-padding-right--none">
                 <ul className="rc-list rc-list--blank rc-list--align" role="menubar">
-                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/cats">CATS</Link></li>
-                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/dogs">DOGS</Link></li>
-                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/">ABOUT US</Link></li>
+                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/cats"><FormattedMessage id="cats" /></Link></li>
+                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/dogs"><FormattedMessage id="dogs" /></Link></li>
+                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/"><FormattedMessage id="aboutUs" /></Link></li>
                 </ul>
               </div>
             </div>
@@ -22,40 +23,15 @@ function MegaMenu (props) {
             <div className="rc-layout-container rc-three-column">
               <div className="rc-column rc-double-width rc-padding-x--none--mobile rc-padding-right--none">
                 <ul className="rc-list rc-list--blank rc-list--align" role="menubar">
-                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/cats">CATS</Link></li>
-                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/dogs">DOGS</Link></li>
-                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/">ABOUT US</Link></li>
+                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/cats"><FormattedMessage id="cats" /></Link></li>
+                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/dogs"><FormattedMessage id="dogs" /></Link></li>
+                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/"><FormattedMessage id="aboutUs" /></Link></li>
                 </ul>
               </div>
             </div>
           </nav>
         </section>
       </div>
-
-      {/* <div data-js-modal-menu>
-        <section className="rc-max-width--xl">
-          <nav className="rc-nav rc-hidden" data-toggle-group="mobile" data-toggle-effect="rc-expand--horizontal"
-            data-js-target="mobile-push-nav">
-            <div className="rc-layout-container rc-three-column">
-              <div className="rc-column rc-double-width rc-padding-x--none--mobile rc-padding-right--none">
-                <ul className="rc-list rc-list--blank rc-list--align" role="menubar">
-                  <li className="rc-list__item rc-list__item--group">
-                    <Link to="/list/cats" className="rc-list__header">CATS</Link>
-                  </li>
-                  <li className="rc-list__item rc-list__item--group">
-                    <Link to="/list/dogs" className="rc-list__header">DOGS</Link>
-                  </li>
-                  <li className="rc-list__item rc-list__item--group">
-                    <Link to="/" className="rc-list__header">ABOUT US</Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-        </section>
-      </div> */}
-
-      {/* <aside role="modal" className="rc-modal rc-hidden" data-modal-target="modal-register"></aside> */}
     </React.Fragment>
   )
 }
