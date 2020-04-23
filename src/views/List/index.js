@@ -197,6 +197,7 @@ class List extends React.Component {
   hanldeItemClick (item) {
     if (item.goodsCateName) {
       sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName)
+      sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
     }
     createHashHistory().push('/details/' + item.goodsInfos[0].goodsInfoId)
   }

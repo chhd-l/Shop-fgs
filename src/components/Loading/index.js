@@ -4,9 +4,6 @@ class Loading extends React.Component {
   static defaultProps = {
     noMask: false
   }
-  constructor (props) {
-    super(props)
-  }
   render () {
     return (
       <div className={['veil', this.props.noMask ? 'absolute' : ''].join(' ')}>
