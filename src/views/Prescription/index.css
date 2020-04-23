@@ -34,6 +34,9 @@
   width: 17rem;
   margin-top: 2rem;
 }
+.headerSearchDesktop:after {
+  background-color: #d7d7d7;
+}
 .modal-content {
   margin-top: 50%;
 }
@@ -56,4 +59,32 @@
 }
 .click-btn{
   cursor: pointer;
+}
+.clinic-info{
+  width:17rem;
+  padding:1rem 0 ;
+  border:0,;
+  border-bottom:1px solid #d7d7d7;
+}
+.clinic-title{
+  font-weight: 300;
+  font-size: 1.675rem !important;
+}
+.clinic-phone{
+  display: inline-block;
+  vertical-align: middle;
+  z-index: 2;
+  overflow: hidden;
+  margin-top: 1px;
+  padding-bottom: 4px;
+  line-height: .9em;
+  font-weight: 500;
+  color:#767676;
+}
+.clinic-address{
+  color: #666;
+}
+.clinic-tip{
+  color: #e2001a;
+  font-weight: 300;
 }

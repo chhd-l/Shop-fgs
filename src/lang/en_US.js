@@ -103,7 +103,9 @@ const en_US = {
   'clinic.selectVetClinics':'Select Vet Clinics',
   'clinic.sortResults':'Sort results',
   'clinic.sortResultsByDistance':'Sort results by distance',
-  'clinic.SortResultsByStarRating':'Sort results by star rating',
+  'clinic.sortResultsByStarRating':'Sort results by star rating',
+  'clinic.vet':'Vet',
+  'clinic.clinicTip':'Which clinics provided service for you?'
   
 }
 export default en_US;

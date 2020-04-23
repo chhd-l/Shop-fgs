@@ -63,36 +63,14 @@ class Prescription extends React.Component{
     }
     this.headerRef = React.createRef();
     this.inputRef = React.createRef();
-    // this.init()
+    this.handleInit()
   }
   inputSearchValue=(e)=>{
     this.setState({
       keywords: e.target.value
     })
   }
-  // init=()=>{
-  //   if (navigator.geolocation) {
-  //     //获取当前地理位置信息
-  //     navigator.geolocation.getCurrentPosition(position => {
-  //       this.setState({
-  //         center:{
-  //           lat:position.coords.latitude,
-  //           lng:position.coords.longitude
-  //         },
-  //         zoom:11
-  //       })
-  //       // this.state = ({
-  //       //   center:{
-  //       //     lat:position.coords.latitude,
-  //       //     lng:position.coords.longitude
-  //       //   },
-  //       //   zoom:11
-  //       // })
-  //     })
-  //  } else {
-  //     alert("你的浏览器不支持HTML5来获取地理位置信息。");
-  //   }
-  // }
+
   handleInit=(e)=>{
     this.handldKey(this.state.key)
         //获取当前地理位置信息
@@ -211,6 +189,8 @@ render(h) {
             className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
             data-checkout-stage="prescription">
             <Progress type="perscription" />
+            
+            <div class="clinic-tip"><FormattedMessage id="clinic.clinicTip"/></div>
             <p><FormattedMessage id="clinic.selectVetClinics"/></p>
             <div className="map-saerch">
 
@@ -248,7 +228,7 @@ render(h) {
 
                     <FormattedMessage id='clinic.sortResults'>
                         {(txt) => (
-                          <option value="0" disabled>{txt}</option>
+                          <option value="0" disabled style={{color:'#666'}}>{txt}</option>
                         )}
                     </FormattedMessage>
                     <FormattedMessage id='clinic.sortResultsByDistance'>
@@ -256,7 +236,7 @@ render(h) {
                           <option value="1">{txt}</option>
                         )}
                     </FormattedMessage>
-                    <FormattedMessage id='clinic.SortResultsByStarRating'>
+                    <FormattedMessage id='clinic.sortResultsByStarRating'>
                         {(txt) => (
                           <option value="2">{txt}</option>
                         )}
@@ -265,15 +245,13 @@ render(h) {
                   </span>
                   <div className="rc-column" style={{padding:"0" }}>
                     { tempArr.map( item =>(
-                      <article class="rc-card rc-card--a" style={{width:"17rem",margin:"1rem 0 "}} key={item.id}>
+                      <article class="rc-card rc-card--a clinic-info" key={item.id}>
                         <div class="rc-card__body" style={{padding:"0 0 0 1rem"}}>
-                          <h1 class="rc-card__title rc-delta click-btn" onClick={()=> this.handleItem(item)}>{item.title}</h1>
-                          <p>{item.phone} </p>
-                          <p style={{display: "inline-block",width:"11rem"}}>{item.desc} </p>
-                          <a class="rc-styled-link" style={{ backgroundColor: "red",color: "white",padding: "5px"}} 
-                          onClick={handleConfirm}>
-                          <FormattedMessage id="clinic.confirm"/>
-                          </a>
+                          <FormattedMessage id='clinic.vet'></FormattedMessage>
+                          <h3 class="rc-card__title rc-delta click-btn clinic-title" onClick={()=> this.handleItem(item)}>{item.title}</h3>
+                          <p class="clinic-phone">{item.phone} </p>
+                          <p class="clinic-address">{item.desc} </p>
+                          <button class="rc-btn rc-btn--sm rc-btn--one" style={{float:"right"}} onClick={handleConfirm}><FormattedMessage id="clinic.confirm" /></button>
                         </div>
                       </article>))
                       }
