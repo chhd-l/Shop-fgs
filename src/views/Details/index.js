@@ -34,7 +34,6 @@ class Details extends React.Component {
         },
         goodsDescription: '',
         goodsDetail: '',
-        reference: 0,
         sizeList: []
       },
       quantity: 1,
@@ -254,9 +253,6 @@ class Details extends React.Component {
                         <h1 className="rc-gamma wrap-short-des--heading">
                           {details.goodsName}
                         </h1>
-                        {details.reference
-                          ? <label> Reference: <span className="sku-value">{details.reference}</span></label>
-                          : null}
                         <h3>
                           <div className="rating-stars hidden-lg-down">
                             <div className="product-number-rating clearfix">

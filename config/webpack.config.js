@@ -261,8 +261,23 @@ module.exports = function(webpackEnv) {
       // https://twitter.com/wSokra/status/969633336732905474
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
       splitChunks: {
-        chunks: 'all',
-        name: false,
+        // chunks: 'all',
+        // name: false,
+        cacheGroups: {
+          vendor: {
+            chunks: 'async',
+            minChunks: 2,
+            name: 'vendor',
+            test: /node_modules/,
+          },
+          common: {
+            chunks: 'async',
+            minChunks: 2,
+            name: 'common',
+            reuseExistingChunk: true,
+            enforce: true, // 我们的公用代码小于 30kb，这里强制分离
+          }
+        },
       },
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
