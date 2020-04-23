@@ -11,6 +11,16 @@ const BreadCrumbs = withRouter(props => {
 
   const mapData = breadcrumbNameMap[url] || []
 
+  // specific for details page
+  if (url.substr(1, 7) === 'details' && !mapData.length) {
+    let cateName = sessionStorage.getItem('rc-goods-cate-name')
+    let goodsName = sessionStorage.getItem('rc-goods-name')
+    if (cateName && goodsName) {
+      const urlMap = { dogs: '/list/dogs', cats: '/list/cats' }
+      mapData.push({ name: cateName, href: urlMap[cateName.toLocaleLowerCase()] || '' }, { name: goodsName })
+    }
+  }
+
   return (
     <div className="rc-bg-colour--brand3 rc-md-up" style={{ paddingTop: '1px' }}>
       <nav className="rc-progress rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs">

@@ -98,6 +98,7 @@ class Header extends React.Component {
     this.setState({ loading: true })
 
     let params = {
+      cateId: '1129',
       keywords,
       propDetails: [],
       pageNum: 0,
