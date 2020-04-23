@@ -111,6 +111,7 @@ class List extends React.Component {
     }
 
     let res = await getList(params)
+    this.setState({ loading: false })
     if (res && res.context) {
       const esGoods = res.context.esGoods
       if (esGoods && esGoods.content.length) {
@@ -118,8 +119,7 @@ class List extends React.Component {
           productList: esGoods.content,
           results: esGoods.totalElements,
           currentPage: esGoods.number + 1,
-          totalPage: esGoods.totalPages,
-          loading: false
+          totalPage: esGoods.totalPages
         })
         if (!this.state.filterList.length) {
           let res2 = await getProps(esGoods.content[0].goodsCate.cateId)
@@ -129,10 +129,6 @@ class List extends React.Component {
             })
           }
         }
-      } else {
-        this.setState({
-          loading: false
-        })
       }
     }
   }

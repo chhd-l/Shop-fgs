@@ -6,6 +6,7 @@ import MegaMenu from '@/components/MegaMenu'
 import { createHashHistory } from 'history'
 import { formatMoney } from "@/utils/utils.js";
 import './index.css'
+import { getList } from '@/api/list'
 
 class Header extends React.Component {
   static defaultProps = {
@@ -92,38 +93,29 @@ class Header extends React.Component {
       }, 500)
     })
   }
-  getSearchData () {
+  async getSearchData () {
     const { keywords } = this.state
     this.setState({ loading: true })
-    console.log('query keywords search interface', keywords)
-    setTimeout(() => {
-      let res = {
-        total: 20,
-        productName: 'mini',
-        productList: [
-          {
-            id: '3003_RU',
-            name: 'Mini adult',
-            url: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-            img: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
-            description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-            price: 945
-          },
-          {
-            id: '3001_RU',
-            name: 'Mini adult',
-            url: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-            img: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x',
-            description: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-            price: 33
-          }
-        ]
+
+    let params = {
+      keywords,
+      propDetails: [],
+      pageNum: 0,
+      brandIds: [],
+      pageSize: 20,
+      esGoodsInfoDTOList: [],
+      companyType: ''
+    }
+    let res = await getList(params)
+    this.setState({ loading: false })
+    if (res && res.context) {
+      const esGoods = res.context.esGoods
+      if (esGoods && esGoods.content.length) {
+        this.setState({
+          result: Object.assign({}, { productList: esGoods.content, totalElements: esGoods.totalElements })
+        })
       }
-      this.setState({
-        result: res && res.productList.length ? res : null,
-        loading: false
-      })
-    }, 1000)
+    }
   }
   handleItemClick () {
     createHashHistory().push('/list/keywords')
@@ -152,26 +144,26 @@ class Header extends React.Component {
                 <FormattedMessage id="goods" />
               </div>
               <div className="suggestions-items row justify-content-end items rc-padding-left--xs">
-                {this.state.result.productList.map(item => (
+                {(this.state.result.productList || []).map(item => (
                   <div className="col-12 item" key={item.id}>
                     <div className="row">
                       <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
-                        <Link to={`/details/${item.goodsInfoId}`}>
+                        <Link to={`/details/${item.goodsInfos[0].goodsInfoId}`}>
                           <img
                             className="swatch__img"
-                            alt={item.name}
-                            title={item.name}
-                            src={item.url} />
+                            alt={item.lowGoodsName}
+                            title={item.lowGoodsName}
+                            src={item.goodsInfos[0].goodsInfoImg} />
                         </Link>
                       </div>
                       <div className="col-8 col-md-9 col-lg-10 rc-padding-top--xs">
                         <Link
-                          to={`/details/${item.goodsInfoId}`}
+                          to={`/details/${item.goodsInfos[0].goodsInfoId}`}
                           className="productName"
-                          alt={item.name}
-                          title={item.name}
+                          alt={item.lowGoodsName}
+                          title={item.lowGoodsName}
                         >
-                          {item.name}
+                          {item.lowGoodsName}
                         </Link>
                         <div className="rc-meta searchProductKeyword"></div>
                       </div>
@@ -181,14 +173,15 @@ class Header extends React.Component {
               </div>
               <div className="rc-margin-top--xs">
                 <a className="productName rc-large-body ui-cursor-pointer" onClick={this.handleItemClick}>
-                  <b><FormattedMessage id="viewAllResults" /> ({this.state.result.total})</b>
+                  <b><FormattedMessage id="viewAllResults" /> ({this.state.result.totalElements})</b>
                 </a>
               </div>
             </div>
             <div className="col-12 col-md-5 rc-bg-colour--brand4 rc-column d-flex flex-column rc-padding-top--md--mobile">
-              <a onClick={this.handleItemClick} className="productName ui-cursor-pointer" title={this.state.result.productName} alt={this.state.result.productName}>
+              {/* todo */}
+              {/* <a onClick={this.handleItemClick} className="productName ui-cursor-pointer" title={this.state.result.productName} alt={this.state.result.productName}>
                 {this.state.result.productName}
-              </a>
+              </a> */}
             </div>
           </div>
           <span className="d-sm-none_ more-below">

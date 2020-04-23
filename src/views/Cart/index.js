@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from 'react-intl'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
@@ -74,10 +75,7 @@ class Cart extends React.Component {
       if (isNaN(tmp)) {
         tmp = 1
       }
-      const stock = item.sizeList.find(s => s.selected).stock
-      if (tmp > stock) {
-        tmp = stock
-      } else if (tmp < quantityMinLimit) {
+      if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit
       }
       item.quantity = tmp
@@ -96,11 +94,7 @@ class Cart extends React.Component {
     })
   }
   addQuantity (item) {
-    const stock = item.sizeList.find(s => s.selected).stock
     item.quantity++
-    if (item.quantity > stock) {
-      item.quantity = stock
-    }
     this.setState({
       productList: this.state.productList,
     });
@@ -158,7 +152,7 @@ class Cart extends React.Component {
   componentDidMount () {
     let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
     this.setState({
-      productList: productList,
+      productList: productList || []
     });
   }
   getProducts (plist) {
@@ -267,6 +261,23 @@ class Cart extends React.Component {
                   </div>
                 </div>
               </div>
+              <div className="availability  product-availability">
+                <div className="align-left flex rc-content-v-right rc-md-up">
+                  <div className="stock__wrapper">
+                    <div className="stock">
+                      <label className={['availability', pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
+                        <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
+                      </label>
+                      <span className="availability-msg">
+                        <div
+                          className={[pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? '' : 'out-stock'].join(' ')}>
+                          {pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="rc-margin-bottom--sm rc-md-down">
@@ -299,6 +310,23 @@ class Cart extends React.Component {
                   <b className="pricing line-item-total-price-amount item-total-f6a6279ea1978964b8bf0e3524 light">
                     $ {formatMoney(pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice)}
                   </b>
+                </div>
+              </div>
+            </div>
+            <div className="availability  product-availability">
+              <div className="align-left flex rc-content-v-right">
+                <div className="stock__wrapper">
+                  <div className="stock" style={{margin: '.5rem 0 -.4rem'}}>
+                    <label className={['availability', pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
+                      <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
+                    </label>
+                    <span className="availability-msg">
+                      <div
+                        className={[pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? '' : 'out-stock'].join(' ')}>
+                        {pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
+                      </div>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

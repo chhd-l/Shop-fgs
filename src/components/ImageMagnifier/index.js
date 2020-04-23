@@ -10,11 +10,11 @@ class ImageMagnifier extends Component {
        */
       params: {
         // 放大倍数
-        scale: props.config && props.config.scale || 4,
+        scale: (props.config && props.config.scale) || 4,
         // 组件宽
-        width: props.config && props.config.width || "400",
+        width: (props.config && props.config.width) || "400",
         // 组件高
-        height: props.config && props.config.height || "400"
+        height: (props.config && props.config.height) || "400"
       },
       // 缩略图
       minImg: "",
