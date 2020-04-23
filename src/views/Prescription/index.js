@@ -7,13 +7,14 @@ import './index.css'
 import MapFlag from '@/components/MapFlag'
 import GoogleMap from '@/components/GoogleMap'
 import { FormattedMessage } from 'react-intl'
+import { getPrescription } from '@/api/clinic'
 
 const handleConfirm=()=>{
   createHashHistory().push('/payment/shipping')
 }
 
 const AnyReactComponent = ({ obj }) => {
-  if(obj.type === 'clinic'){
+  if(obj.type !== 'customer'){
     return (
       <MapFlag obj={obj}></MapFlag>
   )}
@@ -42,7 +43,7 @@ class Prescription extends React.Component{
       keywords:'',
       selectedSort:0,
       current: 1,
-      total: 6, // 总页数
+      total: 0, // 总页数
       center:{
         lat: 39.99,
         lng: 116.3
@@ -58,12 +59,14 @@ class Prescription extends React.Component{
       meLocation:{
         lat: 39.99,
         lng: 116.3,
-      }
+      },
+      clinicArr:[]
 
     }
     this.headerRef = React.createRef();
     this.inputRef = React.createRef();
     this.handleInit()
+    this.getPrescription()
   }
   inputSearchValue=(e)=>{
     this.setState({
@@ -71,23 +74,36 @@ class Prescription extends React.Component{
     })
   }
 
-  handleInit=(e)=>{
+   handleInit=(e)=>{
     this.handldKey(this.state.key)
+    
         //获取当前地理位置信息
-      navigator.geolocation.getCurrentPosition(position => {
-
-        this.setState({
-          center:{
-            lat:position.coords.latitude,
-            lng:position.coords.longitude
-          },
-          zoom:11,
-          meLocation:{
-            lat:position.coords.latitude,
-            lng:position.coords.longitude
-          },
-        })
+    navigator.geolocation.getCurrentPosition(position => {
+      this.handldKey(this.state.key)
+      this.setState({
+        center:{
+          lat:position.coords.latitude,
+          lng:position.coords.longitude
+        },
+        zoom:11,
+        meLocation:{
+          lat:position.coords.latitude,
+          lng:position.coords.longitude
+        },
       })
+    })
+  }
+
+  async getPrescription(){
+    const res = await getPrescription()
+    if(res.code === 'K-000000'){
+      this.setState({
+        clinicArr: res.context.context.clinicsVo,
+        total:res.context.context.clinicsVo.length
+      })
+      
+    }
+    
   }
   handleSearch(){
     console.log('search');
@@ -126,43 +142,20 @@ class Prescription extends React.Component{
     })
   }
   handleItem=(item)=>{
+    debugger
     this.handldKey(this.state.key)
+    item.latitude = +item.latitude
+    item.longitude = +item.longitude
     this.setState({
       center:{
-        lat:item.lat,
-        lng:item.lng
+        lat:item.latitude,
+        lng:item.longitude
       }
     })
     
   }
 
 render(h) {
-    let tempArr=[
-      {
-      title:'clinic11111',
-      type:'clinic',
-      phone:'023-12341231',
-      desc:'meda1',
-      id:1,
-      lat: 39.89,
-      lng: 116.13
-    },{
-      title:'clinic2',
-      type:'clinic',
-      phone:'023-12341232',
-      desc:'meda2',
-      id:2,
-      lat: 39.99,
-      lng: 116.33
-    },{
-      title:'clinic3',
-      type:'clinic',
-      phone:'023-12341233',
-      desc:'meda3',
-      id:3,
-      lat: 39.9,
-      lng: 116.43
-    }]
     let flags=[];
 
     flags.push(<AnyReactComponent
@@ -171,30 +164,32 @@ render(h) {
       lng={this.state.meLocation.lng}
       obj={this.state.me}
     />)
-    for (var i = 0; i < tempArr.length; i++) {
+    for (var i = 0; i < this.state.clinicArr.length; i++) {
       flags.push(<AnyReactComponent
-        key={tempArr[i].id}
-        lat={tempArr[i].lat}
-        lng={tempArr[i].lng}
-        obj={tempArr[i]}
+        key={this.state.clinicArr[i].clinicsId}
+        lat={this.state.clinicArr[i].latitude}
+        lng={this.state.clinicArr[i].longitude}
+        obj={this.state.clinicArr[i]}
       />)
     }
 
     return (
       <div>
         <Header showMiniIcons={true}/>
-        <main className="rc-content--fixed-header rc-bg-colour--brand3">
+        <main className="rc-content--fixed-header rc-bg-colour--brand3" >
           <div
             id="checkout-main"
+            style={{maxWidth:"90%"}}
             className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
             data-checkout-stage="prescription">
             <Progress type="perscription" />
             
             <div class="clinic-tip"><FormattedMessage id="clinic.clinicTip"/></div>
-            <p><FormattedMessage id="clinic.selectVetClinics"/></p>
+            
             <div className="map-saerch">
 
               <div class="clinic-search-list">
+                <div><FormattedMessage id="clinic.selectVetClinics"/></div>
                 <form
                   className={['inlineblock', 'headerSearch', 'headerSearchDesktop', 'relative' ].join(' ')}
                   role="search"
@@ -223,7 +218,7 @@ render(h) {
                   <input type="hidden" value="null" name="lang" />
 
                   <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
-                    style={{width:'17rem',padding: "1rem 0 0 0"}}>
+                    style={{width:'100%',maxWidth:'100%', padding: "1rem 0 0 0"}}>
                     <select data-js-select="" id="id-single-select" value={this.state.selectedSort}>
 
                     <FormattedMessage id='clinic.sortResults'>
@@ -243,15 +238,21 @@ render(h) {
                     </FormattedMessage>
                     </select>
                   </span>
-                  <div className="rc-column" style={{padding:"0" }}>
-                    { tempArr.map( item =>(
-                      <article class="rc-card rc-card--a clinic-info" key={item.id}>
-                        <div class="rc-card__body" style={{padding:"0 0 0 1rem"}}>
-                          <FormattedMessage id='clinic.vet'></FormattedMessage>
-                          <h3 class="rc-card__title rc-delta click-btn clinic-title" onClick={()=> this.handleItem(item)}>{item.title}</h3>
-                          <p class="clinic-phone">{item.phone} </p>
-                          <p class="clinic-address">{item.desc} </p>
-                          <button class="rc-btn rc-btn--sm rc-btn--one" style={{float:"right"}} onClick={handleConfirm}><FormattedMessage id="clinic.confirm" /></button>
+                  <div className="rc-column" style={{padding:"0", marginBottom:'2rem' }}>
+                    { this.state.clinicArr.map( item =>(
+                      <article class="rc-card rc-card--a clinic-card-boder" style={{width:'100%',margin:'1rem 0'}} 
+                        key={item.clinicsId}>
+                        <div class="rc-card__body" style={{padding:"0 0 0 1rem" ,}}>
+                          <p style={{marginTop:'1rem'}}><FormattedMessage id='clinic.vet' ></FormattedMessage></p>
+                          <h3 class="rc-card__title rc-delta click-btn clinic-title" onClick={()=> this.handleItem(item)}>{item.clinicsName}</h3>
+                          <p class="clinic-phone">{item.email} </p>
+                          <p class="clinic-address">{item.location} </p>
+                          <div style={{height: '3rem'}}>
+                            <button class="rc-btn rc-btn--sm rc-btn--one card-btn" onClick={handleConfirm}>
+                              <FormattedMessage id="clinic.confirm" />
+                            </button>
+                          </div>
+                          
                         </div>
                       </article>))
                       }

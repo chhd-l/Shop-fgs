@@ -12,3 +12,12 @@
   color: black;
   border-color: black; */
 }
+
+@media (max-width: 768.98px) {
+  .imformation {
+    width: 100%;
+  }
+  .col-md-6 {
+    width: 50%;
+  }
+}

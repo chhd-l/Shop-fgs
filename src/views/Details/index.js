@@ -2,7 +2,6 @@ import React from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
-import InterestedIn from '@/components/InterestedIn'
 import ImageMagnifier from '@/components/ImageMagnifier'
 import { formatMoney } from "@/utils/utils.js";
 import { FormattedMessage } from 'react-intl'
@@ -86,8 +85,6 @@ class Details extends React.Component {
         stock: selectedSize.stock,
         currentUnitPrice: selectedSize.salePrice,
       }, () => this.updateInstockStatus())
-    } else {
-      // throw new Error(res && res.message || 'system is error, please try latter')
     }
   }
   updateInstockStatus () {
@@ -367,7 +364,6 @@ class Details extends React.Component {
             <div className="rc-max-width--xl rc-padding-x--sm">
               <div className="rc-match-heights rc-content-h-middle rc-reverse-layout rc-padding-bottom--lg" dangerouslySetInnerHTML={createMarkup(details.goodsDetail)}>
               </div>
-              <InterestedIn />
             </div>
           </div>
           <div className="sticky-addtocart" style={{ transform: 'translateY(-80px)' }}>

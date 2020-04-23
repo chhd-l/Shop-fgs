@@ -102,33 +102,7 @@ const en_US = {
   'clinic.selectVetClinics':'Select Vet Clinics',
   'clinic.sortResults':'Sort results',
   'clinic.sortResultsByDistance':'Sort results by distance',
-  'clinic.sortResultsByStarRating':'Sort results by star rating',
-  'clinic.vet':'Vet',
-  'clinic.clinicTip':'Which clinics provided service for you?',
   'clinic.SortResultsByStarRating':'Sort results by star rating',
-
-  'payment.clinicTitle': 'Selected clinic',
-  'payment.deliveryTitle': 'Delivery address',
-  'payment.firstName': 'First Name',
-  'payment.lastName': 'Last Name',
-  'payment.address1': 'Address 1',
-  'payment.address2': 'Address 2',
-  'payment.country': 'Country',
-  'payment.city': 'City',
-  'payment.postCode': 'Post Code',
-  'payment.phoneNumber': 'Phone Number',
-  'payment.billTitle': 'Billing address',
-  'example': "Example",
-  'payment.useDeliveryAddress': 'Use delivery address',
-  'payment.howToDelivery': 'How to deliver',
-  'payment.forFree': 'For Free',
-  'payment.normalDelivery': 'Normal Delivery(1-4 days)',
-  'payment.commentOnDelivery': 'Comment on delivery',
-  'payment.forFreeTip': 'For any consumer making order in the website, no matter the amount, he or she is able to be provided free delivery service.',
-  'payment.choosePayment': 'Choose a payment',
-  'payment.yourOrder': 'Your order',
-  'edit': 'Edit',
-  'payment.itemTotalProduct': 'item total product'
   
 }
 export default en_US;

@@ -1,14 +1,14 @@
 import axios from '@/utils/request'
 
 const api = {
-  queryPrescription: '/goods/unLogin/spu'
+  queryPrescription: '/clinics/prescription'
 }
 
 export default api
 
-export function getDetails (parameter) {
+export function getPrescription () {
   return axios({
-    url: `${api.details}/${parameter}`,
-    method: 'get'
+    url: `${api.queryPrescription}`,
+    method: 'post'
   })
 }
