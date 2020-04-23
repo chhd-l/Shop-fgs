@@ -149,6 +149,7 @@ class Payment extends React.Component {
         useDeliveryAddress: true,
       }).then(res => {
         console.log(res, 'hahaha')
+        history.push('/confirmation')
       }).catch(err => console.log(err))
     } else {
       this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
