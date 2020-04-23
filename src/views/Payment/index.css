@@ -57,6 +57,11 @@
 .logo-payment-card-list {
   margin-left: .5rem;
 }
+
+
+
+
+
 .cardImage {
   overflow: hidden;
   display: inline-block;
@@ -139,10 +144,6 @@
 .creditCompleteInfo {
   color: black;
 }
-
-
-
-
 
 
 .deliveryAddress {

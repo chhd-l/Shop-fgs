@@ -847,14 +847,29 @@ class Payment extends React.Component {
                       </span>
                     </div>
                   </div>
-                  <p>
+                  <div class="place_order-btn card">
+                    <div class="next-step-button">
+                      <div class="rc-text--right">
+                        <button
+                          class="rc-btn rc-btn--one submit-payment"
+                          type="submit"
+                          name="submit"
+                          value="submit-shipping"
+                          onClick={() => this.ChoosePayment()}
+                        >
+                          Choose a payment
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  {/* <p>
                     <button
                       class="rc-btn rc-btn--one pull-right rc-margin-bottom--sm"
                       onClick={() => this.ChoosePayment()}
                     >
                       Choose a payment
                     </button>
-                  </p>
+                  </p> */}
                 </div>
                 <div
                   style={{
