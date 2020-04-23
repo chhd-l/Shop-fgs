@@ -2,13 +2,14 @@ import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Progress from "@/components/Progress";
-import PayProductInfo from "@/components/PayProductInfo"
+import PayProductInfo from "@/components/PayProductInfo";
 import "./index.css";
 import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import paypalImg from "@/assets/images/credit-cards/paypal.png";
+import { postVisitorRegisterAndLogin } from "@/api/payment";
 
 class Payment extends React.Component {
   constructor(props) {
@@ -96,11 +97,20 @@ class Payment extends React.Component {
   }
 
   ChoosePayment() {
-    const { deliveryAddress, billingAddress, billingChecked, commentOnDelivery } = this.state;
+    const {
+      deliveryAddress,
+      billingAddress,
+      billingChecked,
+      commentOnDelivery,
+    } = this.state;
     if (billingChecked) {
       localStorage.setItem(
         "deliveryInfo",
-        JSON.stringify({ deliveryAddress, billingAddress: deliveryAddress, commentOnDelivery })
+        JSON.stringify({
+          deliveryAddress,
+          billingAddress: deliveryAddress,
+          commentOnDelivery,
+        })
       );
     } else {
       localStorage.setItem(
@@ -119,7 +129,27 @@ class Payment extends React.Component {
     const { history } = this.props;
     let { isEighteen, isReadPrivacyPolicy } = this.state;
     if (isEighteen && isReadPrivacyPolicy) {
-      history.push("/confirmation");
+      postVisitorRegisterAndLogin({
+        address1: "add01",
+        address2: "add02",
+        billAddress1: "b",
+        billAddress2: "string",
+        billCity: 1,
+        billCountry: 2,
+        billFirstName: "string",
+        billLastName: "string",
+        billPhoneNumber: "string",
+        billPostCode: "string",
+        city: 1,
+        country: 1,
+        firstName: "d",
+        lastName: "xxx",
+        phoneNumber: "19009090909",
+        postCode: "123456",
+        useDeliveryAddress: true,
+      }).then(res => {
+        console.log(res, 'hahaha')
+      }).catch(err => console.log(err))
     } else {
       this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
     }
@@ -188,14 +218,14 @@ class Payment extends React.Component {
       this.setState({
         deliveryAddress: deliveryInfo.deliveryAddress,
         billingAddress: deliveryInfo.billingAddress,
-        commentOnDelivery: deliveryInfo.commentOnDelivery
+        commentOnDelivery: deliveryInfo.commentOnDelivery,
       });
     }
     this.setState({
       type: this.props.match.params.type,
     });
   }
-  
+
   render() {
     const {
       deliveryAddress,
@@ -1357,7 +1387,7 @@ class Payment extends React.Component {
                                       });
                                     }}
                                   >
-                                    Edit date
+                                    Edit
                                   </span>
                                 </p>
                                 <div class="row">
@@ -1386,7 +1416,7 @@ class Payment extends React.Component {
                       </form>
                     </div>
                   </div>
-                  <div class="footerCheckbox">
+                  <div class="footerCheckbox rc-margin-top--sm">
                     <input
                       class="form-check-input"
                       id="id-checkbox-cat-2"
@@ -1480,7 +1510,7 @@ class Payment extends React.Component {
                 >
                   Edit
                 </a>
-                <PayProductInfo/>
+                <PayProductInfo />
               </div>
             </div>
           </div>

@@ -7,10 +7,11 @@ const api = {
 
 export default api
 
-export function getProps (parameter) {
+export function postVisitorRegisterAndLogin (parameter) {
   return axios({
-    url: `${api.props}/${parameter}`,
-    method: 'get'
+    url: api.visitorRegisterAndLogin,
+    method: 'post',
+    data: parameter
   })
 }
 
