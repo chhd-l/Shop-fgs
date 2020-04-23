@@ -3,9 +3,33 @@
   border: 0;
   border-top: 1px solid #ccc;
 }
-.map-saerch{
-  display: flex;
+
+@media(max-width: 960px){
+  /* 手机 */
+  .clinic-search-list{
+    width:100%;
+    text-align: center;
+    
+  }
+  .clinic-map{
+    height: 40rem;
+    width: 100%; 
+  }
 }
+@media(min-width: 960px){
+  .map-saerch{
+    display: flex;
+  }
+  /* PC */
+  .clinic-search-list{
+    width:30%
+  }
+  .clinic-map{
+    height: 40rem;
+    width: 70%;
+  }
+}
+
 .headerSearchDesktop {
   width: 17rem;
   margin-top: 2rem;

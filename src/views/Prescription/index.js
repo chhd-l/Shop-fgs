@@ -185,7 +185,6 @@ render(h) {
       lat: 39.9,
       lng: 116.43
     }]
-    let items = [];
     let flags=[];
 
     flags.push(<AnyReactComponent
@@ -212,10 +211,10 @@ render(h) {
             className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
             data-checkout-stage="prescription">
             <Progress type="perscription" />
-            <p>Select Vet Clinics</p>
+            <p><FormattedMessage id="clinic.selectVetClinics"/></p>
             <div className="map-saerch">
 
-              <div style={{ width: '30%' }}>
+              <div class="clinic-search-list">
                 <form
                   className={['inlineblock', 'headerSearch', 'headerSearchDesktop', 'relative' ].join(' ')}
                   role="search"
@@ -246,9 +245,22 @@ render(h) {
                   <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
                     style={{width:'17rem',padding: "1rem 0 0 0"}}>
                     <select data-js-select="" id="id-single-select" value={this.state.selectedSort}>
-                      <option value="0" disabled>Sort results</option>
-                      <option value="1">Sort results by distance</option>
-                      <option value="2">Sort results by star rating</option>
+
+                    <FormattedMessage id='clinic.sortResults'>
+                        {(txt) => (
+                          <option value="0" disabled>{txt}</option>
+                        )}
+                    </FormattedMessage>
+                    <FormattedMessage id='clinic.sortResultsByDistance'>
+                        {(txt) => (
+                          <option value="1">{txt}</option>
+                        )}
+                    </FormattedMessage>
+                    <FormattedMessage id='clinic.SortResultsByStarRating'>
+                        {(txt) => (
+                          <option value="2">{txt}</option>
+                        )}
+                    </FormattedMessage>
                     </select>
                   </span>
                   <div className="rc-column" style={{padding:"0" }}>
@@ -289,7 +301,7 @@ render(h) {
                 </form>
 
               </div>
-              <div style={{ height: '40rem', width: '70%' }}>
+              <div class="clinic-map" >
                 <GoogleMap center={this.state.center} zoom={this.state.zoom} flags={flags} key={this.state.key}>
                 </GoogleMap>
               </div>
