@@ -63,7 +63,7 @@ class Details extends React.Component {
   async getDetails () {
     const { id } = this.state
     const res = await getDetails(id)
-    if (res && res.context) {
+    if (res && res.context && res.context.goodsSpecDetails) {
       let sizeList = []
       let goodsSpecDetails = res.context.goodsSpecDetails
       let goodsInfos = res.context.goodsInfos || []
@@ -83,7 +83,7 @@ class Details extends React.Component {
         quantityMaxLimit: selectedSize.stock
       })
     } else {
-      throw new Error(res && res.message || 'system is error, please try latter')
+      // throw new Error(res && res.message || 'system is error, please try latter')
     }
   }
   changeAmount (type) {
