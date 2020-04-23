@@ -140,7 +140,6 @@
     ]
   },
   "devDependencies": {
-    "react-loadable": "^5.5.0",
     "react-router-dom": "^5.1.2"
   }
 }
