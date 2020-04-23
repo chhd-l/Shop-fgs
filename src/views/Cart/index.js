@@ -316,7 +316,7 @@ class Cart extends React.Component {
             <div className="availability  product-availability">
               <div className="align-left flex rc-content-v-right">
                 <div className="stock__wrapper">
-                  <div className="stock" style={{margin: '.5rem 0 -.4rem'}}>
+                  <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
                     <label className={['availability', pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                       <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
                     </label>
@@ -355,12 +355,16 @@ class Cart extends React.Component {
               ? <React.Fragment>
                 <div className="rc-layout-container rc-one-column">
                   <div className="rc-column">
-                    <a href="#" onClick={(e) => this.goBack(e)} title="Continue shopping">
-                      <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                        <span className="rc-icon rc-left rc-iconography"></span>
-                        Continue shopping
-                      </span>
-                    </a>
+                    <FormattedMessage id="continueShopping">
+                      {txt => (
+                        <a href="#" onClick={(e) => this.goBack(e)} title={txt}>
+                          <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                            <span className="rc-icon rc-left rc-iconography"></span>
+                            {txt}
+                          </span>
+                        </a>
+                      )}
+                    </FormattedMessage>
                   </div>
                 </div>
                 <div className="rc-layout-container rc-three-column cart cart-page">

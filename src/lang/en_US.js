@@ -29,6 +29,7 @@ const en_US = {
   'delivery': 'Delivery',
   'choosePayment': 'Choose payment',
   'confirmation': 'Confirmation',
+  'continueShopping': 'Continue shopping',
 
   'header.basketEmpty': 'your basket is empty',
   'header.startTypingToSearch': 'Start typing to search',
@@ -50,6 +51,8 @@ const en_US = {
 
   'home.productsCategory': 'Our products by category',
   'home.interestedIn': 'You might also be interested in',
+  'home.pageNotFound': 'Page not found…',
+  'home.pageNotFoundInfo': 'Sorry, the page you are looking for does not exist.',
 
   'list.youSearchedFor': 'You searched for',
 
