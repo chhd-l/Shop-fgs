@@ -2,7 +2,7 @@ import React from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
-import loadable from '@/utils/loadable';
+import loadable from '@/utils/loadable.js';
 // import Home from '@/views/Home';
 // import List from '@/views/List';
 // import Details from '@/views/Details';
