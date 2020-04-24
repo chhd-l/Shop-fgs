@@ -341,7 +341,9 @@ class Details extends React.Component {
             </div>
 
             <div className="rc-max-width--xl rc-padding-x--sm">
-              <div className="rc-match-heights rc-content-h-middle rc-reverse-layout rc-padding-bottom--lg" dangerouslySetInnerHTML={createMarkup(details.goodsDetail)}>
+              <div
+                className="rc-match-heights rc-content-h-middle rc-reverse-layout rc-padding-bottom--lg"
+                dangerouslySetInnerHTML={createMarkup(details.goodsDetail)}>
               </div>
             </div>
           </div>

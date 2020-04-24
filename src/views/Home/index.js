@@ -19,6 +19,8 @@ class Home extends React.Component {
     const { location } = this.props;
     let clinicsId = getParaByName(location.search, 'clinics')
     sessionStorage.setItem('rc-clinics-id', clinicsId)
+    // todo... 联调接口
+    sessionStorage.setItem('rc-clinics-name', '')
     this.setState({
       clinicsId: clinicsId
     })

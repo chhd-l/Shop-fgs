@@ -121,7 +121,7 @@ class List extends React.Component {
               let ret = { ...ele }
               const tmpItem = res.context.goodsList.find(g => g.goodsId === ele.id)
               if (tmpItem) {
-                ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName })
+                ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
               }
               return ret
             })
@@ -291,7 +291,7 @@ class List extends React.Component {
                                         </header>
                                         <div className="Product-Key-words rc-text--center"></div>
                                         <div className="rc-card__meta rc-margin-bottom--xs rc-text--center">
-                                          {item.goodsInfos[0].specText}
+                                          {item.goodsSubtitle}
                                         </div>
                                       </div>
                                       <span className="rc-card__price rc-text--center">

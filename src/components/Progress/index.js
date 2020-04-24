@@ -8,7 +8,7 @@ function Progress (props) {
       <div
         className="checkout-steps rc-layout-container rc-margin-top--lg--mobile" data-loc="checkout-steps">
         <div className="rc-column rc-padding-x--none--mobile">
-          <ul className="rc-list rc-list--inline rc-content-v-middle rc-padding--none flex-wrap justify-content-start">
+          <ul className="rc-list rc-list--inline rc-content-v-middle rc-padding--none flex-wrap justify-content-start-md-down">
             <li
               className={['checkout-steps__item', props.type === 'perscription' ? 'active' : ''].join(' ')}
               data-step="perscription">

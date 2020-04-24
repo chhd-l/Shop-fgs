@@ -20,6 +20,7 @@ class Payment extends React.Component {
       payMethod: "",
       billingChecked: true,
       isCompleteCredit: false,
+      showPayMethodError: false,
       isReadPrivacyPolicyInit: true,
       isEighteenInit: true,
       isReadPrivacyPolicy: false,
@@ -67,8 +68,8 @@ class Payment extends React.Component {
         lastName: "",
         address1: "",
         address2: "",
-        country: "Russia",
-        city: "1st Worker",
+        country: "Mexico",
+        city: "Monterey",
         postCode: "",
         phoneNumber: "",
       },
@@ -77,8 +78,8 @@ class Payment extends React.Component {
         lastName: "",
         address1: "",
         address2: "",
-        country: "Russia",
-        city: "1st Worker",
+        country: "Mexico",
+        city: "Monterey",
         postCode: "",
         phoneNumber: "",
       },
@@ -95,8 +96,13 @@ class Payment extends React.Component {
       loading: true,
       modalShow: false,
     };
+    this.confirmCardInfo = this.confirmCardInfo.bind(this)
   }
-
+  confirmCardInfo () {
+    this.setState({
+      isCompleteCredit: true,
+    });
+  }
   ChoosePayment () {
     const {
       deliveryAddress,
@@ -104,40 +110,45 @@ class Payment extends React.Component {
       billingChecked,
       commentOnDelivery,
     } = this.state;
-    if (billingChecked) {
-      localStorage.setItem(
-        "deliveryInfo",
-        JSON.stringify({
-          deliveryAddress,
-          billingAddress: deliveryAddress,
-          commentOnDelivery,
-        })
-      );
-    } else {
-      localStorage.setItem(
-        "deliveryInfo",
-        JSON.stringify({ deliveryAddress, billingAddress, commentOnDelivery })
-      );
+    const param = {
+      billingChecked,
+      deliveryAddress,
+      commentOnDelivery
     }
+    if (billingChecked) {
+      param.billingAddress = deliveryAddress
+    } else {
+      param.billingAddress = billingAddress
+    }
+    localStorage.setItem("deliveryInfo", JSON.stringify(param));
 
     const { history } = this.props;
     history.push("/payment/payment");
   }
   payMethodChange (e) {
-    this.setState({ payMethod: e.target.value });
+    this.setState({ payMethod: e.target.value, showPayMethodError: false });
   }
   async goConfirmation () {
     const { history } = this.props;
-    let { isEighteen, isReadPrivacyPolicy, deliveryAddress, billingAddress, commentOnDelivery } = this.state;
+    let { isEighteen,
+      isReadPrivacyPolicy,
+      deliveryAddress,
+      billingAddress,
+      commentOnDelivery,
+      billingChecked,
+      payMethod } = this.state;
+    if (!payMethod) {
+      this.setState({ showPayMethodError: true });
+    }
     if (isEighteen && isReadPrivacyPolicy) {
-      let param = { useDeliveryAddress: true, ...deliveryAddress, ...{ city: 1, country: 1 } }
+      let param = { useDeliveryAddress: billingChecked, ...deliveryAddress, ...{ city: 1, country: 1, phoneNumber: '18883733998' } }
       param.billAddress1 = billingAddress.address1
       param.billAddress2 = billingAddress.address2
       param.billCity = 1
       param.billCountry = 1
       param.billFirstName = billingAddress.firstName
       param.billLastName = billingAddress.lastName
-      param.billPhoneNumber = billingAddress.phoneNumber
+      param.billPhoneNumber = '18883733998' || billingAddress.phoneNumber
       param.billPostCode = billingAddress.postCode
 
       let res = await postVisitorRegisterAndLogin(param)
@@ -159,7 +170,7 @@ class Payment extends React.Component {
         }
         )
         let res3 = confirmAndCommit({
-          "clinicsId": sessionStorage.getItem('rc-clinics-id'),
+          "clinicsId": sessionStorage.getItem('rc-clinics-id') || sessionStorage.getItem('rc-clinics-id2'),
           "remark": commentOnDelivery,
           "storeId": 123456861,
           "tradeItems": [
@@ -171,9 +182,7 @@ class Payment extends React.Component {
           "tradeMarketingList": []
         }
         )
-        // history.push('/confirmation')
-      } else {
-        console.log(res && res.message || 'system error')
+        history.push('/confirmation')
       }
     } else {
       this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
@@ -244,6 +253,7 @@ class Payment extends React.Component {
         deliveryAddress: deliveryInfo.deliveryAddress,
         billingAddress: deliveryInfo.billingAddress,
         commentOnDelivery: deliveryInfo.commentOnDelivery,
+        billingChecked: deliveryInfo.billingChecked
       });
     }
     this.setState({
@@ -300,7 +310,7 @@ class Payment extends React.Component {
                       </a>
                     </div>
                     <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
-                      121 Animal Hospital
+                      {sessionStorage.getItem('rc-clinics-name') || sessionStorage.getItem('rc-clinics-name2')}
                     </div>
                     <div className="card-header">
                       <h5><FormattedMessage id="payment.deliveryTitle" /></h5>
@@ -463,7 +473,7 @@ class Payment extends React.Component {
                                   onBlur={(e) => this.inputBlur(e)}
                                   name="country"
                                 >
-                                  <option>Russia</option>
+                                  <option>Mexico</option>
                                 </select>
                               </span>
                             </div>
@@ -486,9 +496,8 @@ class Payment extends React.Component {
                                 onBlur={(e) => this.inputBlur(e)}
                                 name="city"
                               >
-                                <option>1st Worker</option>
-                                <option>Ababurovo</option>
-                                <option>Akinshino</option>
+                                <option>Monterey</option>
+                                <option>Mexico City</option>
                               </select>
                             </span>
                           </div>
@@ -752,7 +761,7 @@ class Payment extends React.Component {
                               </label>
                               <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
                                 <select data-js-select="">
-                                  <option>Russia</option>
+                                  <option>Mexico</option>
                                 </select>
                               </span>
                             </div>
@@ -775,9 +784,8 @@ class Payment extends React.Component {
                                 onBlur={(e) => this.inputBlur(e)}
                                 name="city"
                               >
-                                <option>1st Worker</option>
-                                <option>Ababurovo</option>
-                                <option>Akinshino</option>
+                                <option>Monterey</option>
+                                <option>Mexico City</option>
                               </select>
                             </span>
                           </div>
@@ -1131,6 +1139,13 @@ class Payment extends React.Component {
                                 </div>
                               </div>
                             </div>
+                            <div className="row">
+                              {this.state.showPayMethodError ?
+                                <div className="ui-warning" style={{ paddingLeft: '20px' }}>
+                                  Payment method is required.
+                              </div>
+                                : null}
+                            </div>
                           </div>
                           <div
                             className="rc-list__accordion-item"
@@ -1201,7 +1216,7 @@ class Payment extends React.Component {
                                                           placeholder="Card Number"
                                                         />
                                                       </span>
-                                                      <div className="invalid-feedback">
+                                                      <div className="invalid-feedback ui-position-absolute">
                                                         <FormattedMessage id="payment.errorInfo2" />
                                                       </div>
                                                     </div>
@@ -1238,7 +1253,7 @@ class Payment extends React.Component {
                                                           placeholder="MM/YY"
                                                         />
                                                       </span>
-                                                      <div className="invalid-feedback">
+                                                      <div className="invalid-feedback ui-position-absolute">
                                                         The field is required.
                                                       </div>
                                                     </div>
@@ -1275,7 +1290,7 @@ class Payment extends React.Component {
                                                           placeholder="CVV"
                                                         />
                                                       </span>
-                                                      <div className="invalid-feedback">
+                                                      <div className="invalid-feedback ui-position-absolute">
                                                         The field is required.
                                                       </div>
                                                     </div>
@@ -1398,11 +1413,7 @@ class Payment extends React.Component {
                                           className="rc-btn rc-btn--two card-confirm"
                                           id="card-confirm"
                                           type="button"
-                                          onClick={() => {
-                                            this.setState({
-                                              isCompleteCredit: true,
-                                            });
-                                          }}
+                                          onClick={() => this.confirmCardInfo()}
                                         >
                                           <FormattedMessage id="payment.confirmCard" />
                                         </button>
