@@ -128,7 +128,7 @@ class Payment extends React.Component {
   }
   async goConfirmation () {
     const { history } = this.props;
-    let { isEighteen, isReadPrivacyPolicy, deliveryAddress, billingAddress } = this.state;
+    let { isEighteen, isReadPrivacyPolicy, deliveryAddress, billingAddress, commentOnDelivery } = this.state;
     if (isEighteen && isReadPrivacyPolicy) {
       let param = { useDeliveryAddress: true, ...deliveryAddress, ...{ city: 1, country: 1 } }
       param.billAddress1 = billingAddress.address1
@@ -159,9 +159,8 @@ class Payment extends React.Component {
         }
         )
         let res3 = confirmAndCommit({
-          "clinicsId": 0,
-          "clinicsName": 1,
-          "remark": "oooo",
+          "clinicsId": sessionStorage.getItem('rc-clinics-id'),
+          "remark": commentOnDelivery,
           "storeId": 123456861,
           "tradeItems": [
             {
@@ -261,7 +260,7 @@ class Payment extends React.Component {
       totalCount,
     } = this.state;
     const CreditCardImg = (
-      <span className="logo-payment-card-list">
+      <span className="logo-payment-card-list logo-credit-card">
         {this.state.creditCardImgUrl.map((el, idx) => (
           <img key={idx} className="logo-payment-card" src={el} />
         ))}
@@ -309,7 +308,7 @@ class Payment extends React.Component {
                     <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
                       <fieldset className="shipping-address-block rc-fieldset">
                         <div className="rc-layout-container">
-                          <div className="rc-column rc-padding-y--none">
+                          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
                               <label
                                 className="form-control-label"
@@ -345,7 +344,7 @@ class Payment extends React.Component {
                           </div>
                         </div>
                         <div className="rc-layout-container">
-                          <div className="rc-column rc-padding-y--none">
+                          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
                                 className="form-control-label"
@@ -380,7 +379,7 @@ class Payment extends React.Component {
                           </div>
                         </div>
                         <div className="rc-layout-container">
-                          <div className="rc-column rc-padding-y--none">
+                          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
                                 className="form-control-label"
@@ -416,7 +415,7 @@ class Payment extends React.Component {
                           </div>
                         </div>
                         <div className="rc-layout-container">
-                          <div className="rc-column rc-padding-y--none">
+                          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
                             <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
                                 className="form-control-label"
@@ -447,7 +446,7 @@ class Payment extends React.Component {
                           </div>
                         </div>
                         <div className="rc-layout-container">
-                          <div className="rc-column rc-padding-y--none">
+                          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
                               <label
                                 className="form-control-label"
@@ -471,7 +470,7 @@ class Payment extends React.Component {
                           </div>
                         </div>
                         <div className="rc-layout-container">
-                          <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_city">
+                          <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_city">
                             <label
                               className="form-control-label"
                               htmlFor="shippingAddressCity"
@@ -495,7 +494,7 @@ class Payment extends React.Component {
                           </div>
                         </div>
                         <div className="rc-layout-container">
-                          <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_postalCode">
+                          <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_postalCode">
                             <label
                               className="form-control-label"
                               htmlFor="shippingZipCode"
@@ -533,7 +532,7 @@ class Payment extends React.Component {
                             </div>
                             <div className="ui-lighter"><FormattedMessage id="example" />: 123456</div>
                           </div>
-                          <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_phone">
+                          <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_phone">
                             <label
                               className="form-control-label"
                               htmlFor="shippingPhoneNumber"
@@ -1076,12 +1075,12 @@ class Payment extends React.Component {
                         id="dwfrm_billing"
                       >
                         <div className="card-header with-tooltip-icon rc-margin-top--sm">
-                          <h5>Payment Information</h5>
+                          <h5><FormattedMessage id="payment.paymentInformation" /></h5>
                         </div>
                         <div className="billing-payment">
                           <div className="form-group rc-border-all rc-border-colour--interface checkout--padding">
                             <div className="row">
-                              <div className="col-md-6">
+                              <div className="col-md-12">
                                 <div className="rc-input rc-input--inline">
                                   <input
                                     className="rc-input__radio"
@@ -1103,7 +1102,7 @@ class Payment extends React.Component {
                                   </label>
                                 </div>
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-md-6" style={{ display: 'none' }}>
                                 <div className="rc-input rc-input--inline">
                                   <input
                                     className="rc-input__radio"
@@ -1167,7 +1166,7 @@ class Payment extends React.Component {
                                           >
                                             Card number*
                                             {CreditCardImg}
-                                            <div className="cardFormBox">
+                                            <div className="cardFormBox ui-border-bottom-none-md-down">
                                               <span className="cardImage">
                                                 <img
                                                   alt="Card"
@@ -1437,13 +1436,13 @@ class Payment extends React.Component {
                                     <img src={visaImg} alt="" />
                                   </div>
                                   <div className="col-sm-7">
-                                    <div className="row creditCompleteInfo">
-                                      <div className="col-sm-6">
+                                    <div className="row creditCompleteInfo ui-margin-top-1-md-down">
+                                      <div className="col-6">
                                         <p><FormattedMessage id="name" /></p>
                                         <p><FormattedMessage id="payment.cardNumber" /></p>
                                         <p><FormattedMessage id="payment.DEBIT" /></p>
                                       </div>
-                                      <div className="col-sm-6">
+                                      <div className="col-6">
                                         <p>&nbsp;{creditCardInfo.cardOwner}</p>
                                         <p>&nbsp;{creditCardInfo.cardNumber}</p>
                                         <p>&nbsp;{creditCardInfo.cardCVV}</p>
