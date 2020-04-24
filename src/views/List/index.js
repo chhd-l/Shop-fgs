@@ -81,7 +81,6 @@ class List extends React.Component {
   async getProductList () {
     let { checkedList, currentPage, pageSize, storeCateId, keywords } = this.state;
     const cateId = '1129'
-
     this.setState({
       loading: true
     })
@@ -133,7 +132,14 @@ class List extends React.Component {
             currentPage: esGoods.number + 1,
             totalPage: esGoods.totalPages
           })
+        } else {
+          this.setState({
+            productList: []
+          })
         }
+      })
+      .catch(() => {
+        this.setState({ loading: false, productList: [] })
       })
 
     if (!this.state.filterList.length) {
@@ -247,73 +253,87 @@ class List extends React.Component {
                       <Filters onChange={this.handleFilterChange} onRemove={this.handleRemove} filterList={this.state.filterList} checkedList={checkedList} />
                     </aside>
                   </div>
-                  <div className="rc-column rc-triple-width">
-                    <div className={['rc-match-heights', 'rc-layout-container', 'rc-event-card--sidebar-present', loading ? 'loading' : ''].join(' ')}>
-                      {loading ? <Loading noMask={true} /> : null}
-                      {productList.map(item => (
-                        <div className={['rc-column', loading ? 'loading' : ''].join(' ')} key={item.id}>
-                          <article className="rc-card rc-card--product">
-                            <div className="fullHeight">
-                              <a onClick={() => this.hanldeItemClick(item)} className="ui-cursor-pointer">
-                                <article className="rc-card--a rc-text--center rc-padding-top--sm">
-                                  <picture className="rc-card__image">
-                                    <div className="rc-padding-bottom--xs">
-                                      <img
-                                        src={item.goodsInfos[0].goodsInfoImg}
-                                        srcSet={item.goodsInfos[0].goodsInfoImg}
-                                        alt={item.lowGoodsName}
-                                        title={item.lowGoodsName} />
-                                    </div>
-                                  </picture>
-                                  <div className="rc-card__body rc-padding-top--none">
-                                    <div className="height-product-tile-plpOnly height-product-tile">
-                                      <header className="rc-text--center">
-                                        <h3 className="rc-card__title rc-gamma">{item.lowGoodsName}</h3>
-                                      </header>
-                                      <div className="Product-Key-words rc-text--center"></div>
-                                      <div className="rc-card__meta rc-margin-bottom--xs rc-text--center">
-                                        {item.goodsInfos[0].specText}
-                                      </div>
-                                    </div>
-                                    <span className="rc-card__price rc-text--center">
-                                      <span className="range">
-                                        <FormattedMessage id="from" /> $ {formatMoney(item.goodsInfos[0].salePrice)}
-                                      </span>
-                                    </span>
-                                  </div>
-                                </article>
-                              </a>
-                            </div>
-                          </article>
+                  <div className={['rc-column', 'rc-triple-width', !productList.length ? 'd-flex justify-content-center align-items-center' : ''].join(' ')}>
+                    {!productList.length
+                      ?
+                      <React.Fragment>
+                        <div className="ui-font-nothing rc-md-up">
+                          <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
+                          No products found, please change the search criteria and try again!
                         </div>
-                      ))}
-                      <div className="grid-footer rc-full-width">
-                        <nav className="rc-pagination">
-                          <div className="rc-pagination__form">
-                            <div
-                              className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-                              onClick={() => this.handlePrevOrNextPage('prev')}></div>
-                            {/* <div
+                        <div className="ui-font-nothing rc-md-down d-flex">
+                          <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
+                          No products found, please change the search criteria and try again!
+                        </div>
+                      </React.Fragment>
+                      :
+                      <div className={['rc-match-heights', 'rc-layout-container', 'rc-event-card--sidebar-present', loading ? 'loading' : ''].join(' ')}>
+                        {loading ? <Loading noMask={true} /> : null}
+                        {productList.map(item => (
+                          <div className={['rc-column', loading ? 'loading' : ''].join(' ')} key={item.id}>
+                            <article className="rc-card rc-card--product">
+                              <div className="fullHeight">
+                                <a onClick={() => this.hanldeItemClick(item)} className="ui-cursor-pointer">
+                                  <article className="rc-card--a rc-text--center rc-padding-top--sm">
+                                    <picture className="rc-card__image">
+                                      <div className="rc-padding-bottom--xs">
+                                        <img
+                                          src={item.goodsInfos[0].goodsInfoImg}
+                                          srcSet={item.goodsInfos[0].goodsInfoImg}
+                                          alt={item.lowGoodsName}
+                                          title={item.lowGoodsName} />
+                                      </div>
+                                    </picture>
+                                    <div className="rc-card__body rc-padding-top--none">
+                                      <div className="height-product-tile-plpOnly height-product-tile">
+                                        <header className="rc-text--center">
+                                          <h3 className="rc-card__title rc-gamma">{item.lowGoodsName}</h3>
+                                        </header>
+                                        <div className="Product-Key-words rc-text--center"></div>
+                                        <div className="rc-card__meta rc-margin-bottom--xs rc-text--center">
+                                          {item.goodsInfos[0].specText}
+                                        </div>
+                                      </div>
+                                      <span className="rc-card__price rc-text--center">
+                                        <span className="range">
+                                          <FormattedMessage id="from" /> $ {formatMoney(item.goodsInfos[0].salePrice)}
+                                        </span>
+                                      </span>
+                                    </div>
+                                  </article>
+                                </a>
+                              </div>
+                            </article>
+                          </div>
+                        ))}
+                        <div className="grid-footer rc-full-width">
+                          <nav className="rc-pagination">
+                            <div className="rc-pagination__form">
+                              <div
+                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
+                                onClick={() => this.handlePrevOrNextPage('prev')}></div>
+                              {/* <div
                               className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
                               onClick={this.handlePrevOrNextPage('prev')}></div> */}
-                            <div className="rc-pagination__steps">
-                              <input
-                                type="text"
-                                className="rc-pagination__step rc-pagination__step--current"
-                                value={currentPage}
-                                onChange={this.handleCurrentPageNumChange} />
-                              <div className="rc-pagination__step rc-pagination__step--of">
-                                <FormattedMessage id="of" /> <span>{totalPage}</span>
+                              <div className="rc-pagination__steps">
+                                <input
+                                  type="text"
+                                  className="rc-pagination__step rc-pagination__step--current"
+                                  value={currentPage}
+                                  onChange={this.handleCurrentPageNumChange} />
+                                <div className="rc-pagination__step rc-pagination__step--of">
+                                  <FormattedMessage id="of" /> <span>{totalPage}</span>
+                                </div>
                               </div>
-                            </div>
 
-                            <span
-                              className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-                              onClick={() => this.handlePrevOrNextPage('next')}></span>
-                          </div>
-                        </nav>
+                              <span
+                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
+                                onClick={() => this.handlePrevOrNextPage('next')}></span>
+                            </div>
+                          </nav>
+                        </div>
                       </div>
-                    </div>
+                    }
                   </div>
                 </div>
               </div>

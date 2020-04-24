@@ -17,20 +17,7 @@ class Details extends React.Component {
       details: {
         id: '',
         goodsName: '',
-        goodsImg: '',
-        pictureCfg: {
-          list: [
-            {
-              source1: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=500&fm=jpg&auto=compress',
-              source2: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress',
-              source3: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=150&fm=jpg&auto=compress',
-              img: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress'
-            }
-          ],
-          thumbnail: [
-            'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=64&fm=jpg&auto=compress'
-          ]
-        },
+        goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004232138238027.PNG',
         goodsDescription: '',
         goodsDetail: '',
         sizeList: []
@@ -40,11 +27,10 @@ class Details extends React.Component {
       instockStatus: true,
       quantityMinLimit: 1,
       currentUnitPrice: 0,
-      minImg: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=250&fm=jpg&auto=compress',
-      maxImg: 'https://cdn.royalcanin-weshare-online.io/m2kia2QBG95Xk-RBC8jn/v1/medium-maxi-giant-pos-2012-packshots-ma-ad-shn-packshot?w=500&fm=jpg&auto=compress',
       showImageMagnifier: false,
       config: {},
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
+      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
+      loading: true
     }
     this.changeAmount = this.changeAmount.bind(this)
     this.handleAmountChange = this.handleAmountChange.bind(this)
@@ -61,6 +47,7 @@ class Details extends React.Component {
   async queryDetails () {
     const { id } = this.state
     const res = await getDetails(id)
+    this.setState({ loading: false })
     if (res && res.context && res.context.goodsSpecDetails) {
       let sizeList = []
       let goodsSpecDetails = res.context.goodsSpecDetails
@@ -83,7 +70,7 @@ class Details extends React.Component {
           { goodsInfoId: res.context.goodsInfos[0].goodsInfoId }
         ),
         stock: selectedSize.stock,
-        currentUnitPrice: selectedSize.salePrice,
+        currentUnitPrice: selectedSize.salePrice
       }, () => this.updateInstockStatus())
     }
   }
@@ -170,12 +157,10 @@ class Details extends React.Component {
       this.headerRef.current.handleMouseOut()
     }, 1000)
   }
-  hanldeImgMouseEnter (item) {
+  hanldeImgMouseEnter () {
     if (document.querySelector('#J-details-img')) {
       this.setState({
         showImageMagnifier: true,
-        minImg: item.source2,
-        maxImg: item.source1,
         config: {
           width: document.querySelector('#J-details-img').offsetWidth,
           height: document.querySelector('#J-details-img').offsetHeight,
@@ -186,7 +171,7 @@ class Details extends React.Component {
   }
   render () {
     const createMarkup = text => ({ __html: text });
-    const { details, quantity, stock, quantityMinLimit, instockStatus, currentUnitPrice, cartData, minImg, maxImg } = this.state
+    const { details, quantity, stock, quantityMinLimit, instockStatus, currentUnitPrice, cartData } = this.state
     return (
       <div>
         <Header ref={this.headerRef} cartData={cartData} showMiniIcons={true} />
@@ -196,56 +181,50 @@ class Details extends React.Component {
               <BreadCrumbs />
               <div className="rc-padding--sm--desktop">
                 <div className="rc-content-h-top">
-                  <div className="rc-layout-container rc-six-column">
-                    <div className="rc-column rc-double-width carousel-column">
+                  <div className={['rc-layout-container', 'rc-six-column', this.state.loading ? 'skt-loading' : ''].join(' ')}>
+                    <div className="rc-column rc-double-width carousel-column skeleton">
                       <div className={['rc-full-width', this.state.showImageMagnifier ? 'show-image-magnifier' : ''].join(' ')}>
                         <div data-js-carousel data-image-gallery="true" data-move-carousel-up='md'
                           data-move-carousel-to='#new-carousel-container'>
                           <div className="rc-carousel rc-carousel__gallery-image" data-zoom-container="product-description-carousel"
                             data-zoom-factor="3">
-                            {details.pictureCfg.list.map((item, idx) => (
-                              <div key={idx} onMouseEnter={() => this.hanldeImgMouseEnter(item)}>
-                                {this.state.showImageMagnifier ?
-                                  <div className="details-img-container">
-                                    <ImageMagnifier minImg={minImg} maxImg={maxImg} config={this.state.config} />
-                                  </div> : <div>
-                                    <picture>
-                                      <source
-                                        srcSet={item.source1}
-                                        media="(min-width: 1500px)" />
-                                      <source
-                                        srcSet={item.source2}
-                                        media="(min-width: 1000px)" />
-                                      <source
-                                        srcSet={item.source3}
-                                        media="(min-width: 500px)" />
-                                      <img
-                                        id="J-details-img"
-                                        src={item.img}
-                                        alt="Product alt text" />
-                                    </picture>
-                                  </div>}
-
-                              </div>
-                            ))}
+                            <div onMouseEnter={() => this.hanldeImgMouseEnter(details.goodsImg)}>
+                              {this.state.showImageMagnifier ?
+                                <div className="details-img-container">
+                                  <ImageMagnifier minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.config} />
+                                </div> : <div>
+                                  <picture className="d-flex">
+                                    {/* <source
+                                      srcSet={item.source1}
+                                      media="(min-width: 1500px)" />
+                                    <source
+                                      srcSet={item.source2}
+                                      media="(min-width: 1000px)" />
+                                    <source
+                                      srcSet={item.source3}
+                                      media="(min-width: 500px)" /> */}
+                                    <img
+                                      id="J-details-img"
+                                      src={details.goodsImg}
+                                      alt="Product alt text" />
+                                  </picture>
+                                </div>}
+                            </div>
                           </div>
                           <div className="rc-carousel__gallery-thumbnails-wrapper">
                             <div className="rc-carousel rc-carousel__gallery-thumbnails">
-                              {details.pictureCfg.thumbnail.map((item, idx) => (
-                                <div className="rc-carousel__gallery-thumbnail" key={idx}>
-                                  <figure className="rc-img--square"
-                                    style={{ backgroundImage: 'url(' + item + ')' }}>
-                                    {/* <figcaption className="rc-screen-reader-text">Product caption text</figcaption> */}
-                                  </figure>
-                                </div>
-                              ))}
+                              <div className="rc-carousel__gallery-thumbnail">
+                                <figure className="rc-img--square"
+                                  style={{ backgroundImage: 'url(' + details.goodsImg + ')' }}>
+                                </figure>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                     {/* <!-- product details --> */}
-                    <div className="rc-column rc-triple-width product-column">
+                    <div className="rc-column rc-triple-width product-column skeleton">
                       <div className="wrap-short-des">
                         <h1 className="rc-gamma wrap-short-des--heading">
                           {details.goodsName}
@@ -269,7 +248,7 @@ class Details extends React.Component {
                             <div className="product-pricing__card singlepruchase selected" data-buybox="singlepruchase">
                               <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
                                 <div className="rc-input product-pricing__card__head__title">
-                                  <label className="rc-input__label--inline"><FormattedMessage id="details.unitPrice" /></label>
+                                  <label><FormattedMessage id="details.unitPrice" /></label>
                                 </div>
 
                                 <b className="product-pricing__card__head__price rc-padding-y--none js-price">

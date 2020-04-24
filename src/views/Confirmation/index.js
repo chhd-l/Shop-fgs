@@ -2,6 +2,7 @@ import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PayProductInfo from "@/components/PayProductInfo";
+import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom";
 import "./index.css";
 import successImg from "@/assets/images/credit-cards/success.png";
@@ -55,21 +56,23 @@ class Confirmation extends React.Component {
       commentOnDelivery: ''
     };
   }
-  changeCache() {
+  changeCache () {
     localStorage.setItem(
       "rc-cart-data",
       JSON.stringify(this.state.productList)
     );
   }
-  deleteProduct() {
+  deleteProduct () {
     let { currentProduct, productList } = this.state;
-    this.state.productList = productList.filter(
-      (el) => el.id !== currentProduct.id
-    );
+    this.setState({
+      productList: productList.filter(
+        (el) => el.id !== currentProduct.id
+      )
+    })
     this.changeCache();
     this.closeModal();
   }
-  changeSize(pItem, sizeItem) {
+  changeSize (pItem, sizeItem) {
     pItem.sizeList.map((el) => (el.selected = false));
     sizeItem.selected = true;
     this.setState({
@@ -77,7 +80,7 @@ class Confirmation extends React.Component {
     });
     this.changeCache();
   }
-  componentDidMount() {
+  componentDidMount () {
     let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
     this.setState({
       productList: productList,
@@ -92,7 +95,7 @@ class Confirmation extends React.Component {
       });
     }
   }
-  render() {
+  render () {
     const {
       deliveryAddress,
       billingAddress,
@@ -102,200 +105,198 @@ class Confirmation extends React.Component {
     return (
       <div>
         <Header />
-        <main class="rc-content--fixed-header">
-          <div class="rc-layout-container rc-three-column rc-max-width--xl">
-            <div class="rc-column rc-double-width shipping__address">
+        <main className="rc-content--fixed-header">
+          <div className="rc-layout-container rc-three-column rc-max-width--xl">
+            <div className="rc-column rc-double-width shipping__address">
               <div className="center">
                 <img src={successImg} alt="" />
                 <h4>
-                  <b>Thank you for your order.</b>
+                  <b><FormattedMessage id="confirmation.info1" /></b>
                 </h4>
-                <p class="rc-meta">
-                  In the near future, our staff will contact you to comfirm the
-                  order.
+                <p className="rc-meta">
+                  <FormattedMessage id="confirmation.info2" />
                 </p>
-                <a href="" class="rc-meta rc-styled-link backtohome">
-                  Visit online store
-                </a>
+                <Link to="/" className="rc-meta rc-styled-link backtohome">
+                  <FormattedMessage id="confirmation.visitOnlineStore" />
+                </Link>
               </div>
-              <div class="rc-bg-colour--brand3 rc-max-width--xl rc-bottom-spacing rc-padding--sm imformation">
-                <div class="product-summary rc-column">
-                  <h5 class="product-summary__title rc-margin-bottom--xs center">
-                    Total
+              <div className="rc-bg-colour--brand3 rc-max-width--xl rc-bottom-spacing rc-padding--sm imformation">
+                <div className="product-summary rc-column">
+                  <h5 className="product-summary__title rc-margin-bottom--xs center">
+                    <FormattedMessage id="total" />
                   </h5>
                   <PayProductInfo />
                 </div>
-                <div class="card shipping-summary">
-                  <div class="card-header rc-margin-bottom--xs rc-padding-right--none clearfix center">
-                    <h5>Buyer Imformation</h5>
+                <div className="card shipping-summary">
+                  <div className="card-header rc-margin-bottom--xs rc-padding-right--none clearfix center">
+                    <h5><FormattedMessage id="confirmation.customerInformation" /></h5>
                   </div>
-                  <div class="card-body rc-padding--none">
-                    <p class="shipping-addr-label multi-shipping padding-y--sm">
-                      Addresses and shipping methods are indicated under your
-                      goods.
+                  <div className="card-body rc-padding--none">
+                    <p className="shipping-addr-label multi-shipping padding-y--sm">
+                      <FormattedMessage id="confirmation.info3" />
                     </p>
-                    <div class="single-shipping">
-                    <div class="rc-border-all rc-border-colour--interface checkout--padding">
-                          <div class="summary-details shipping rc-margin-bottom--xs">
-                            <div class="address-summary row">
-                              <div class="col-md-12 deliveryAddress">
-                                <h5 className="center">Delivery Address</h5>
-                                <div className="row">
-                                  <div className="col-md-6">First Name</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.firstName}
-                                  </div>
-                                  <div className="col-md-6">Last Name</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.lastName}
-                                  </div>
-                                  <div className="col-md-6">Address 1</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.address1}
-                                  </div>
-                                  <div className="col-md-6">Address 2</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.address2}
-                                  </div>
-                                  <div className="col-md-6">Country</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.country}
-                                  </div>
-                                  <div className="col-md-6">City</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.city}
-                                  </div>
-                                  <div className="col-md-6">Post Code</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.postCode}
-                                  </div>
-                                  <div className="col-md-6">Phone Number</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.phoneNumber}
-                                  </div>
-                                  <div className="col-md-6">
-                                    Normal Delivery
-                                  </div>
-                                  <div className="col-md-6">For free</div>
-                                  <div className="col-md-6">
-                                    Comment on delivery
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.state.commentOnDelivery}
-                                  </div>
+                    <div className="single-shipping">
+                      <div className="rc-border-all rc-border-colour--interface checkout--padding">
+                        <div className="summary-details shipping rc-margin-bottom--xs">
+                          <div className="address-summary row">
+                            <div className="col-md-12 deliveryAddress">
+                              <h5 className="center"><FormattedMessage id="payment.deliveryTitle" /></h5>
+                              <div className="row">
+                                <div className="col-md-6"><FormattedMessage id="payment.firstName" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{deliveryAddress.firstName}
                                 </div>
-                              </div>
-                              <div class="col-md-12 address-summary-left">
-                                <h5 className="center">Billing Address</h5>
-                                <div className="row">
-                                  <div className="col-md-6">First Name</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.firstName}
-                                  </div>
-                                  <div className="col-md-6">Last Name</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.lastName}
-                                  </div>
-                                  <div className="col-md-6">Address 1</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.address1}
-                                  </div>
-                                  <div className="col-md-6">Address 2</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.address2}
-                                  </div>
-                                  <div className="col-md-6">Country</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.country}
-                                  </div>
-                                  <div className="col-md-6">City</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.city}
-                                  </div>
-                                  <div className="col-md-6">Post Code</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.postCode}
-                                  </div>
-                                  <div className="col-md-6">Phone Number</div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.phoneNumber}
-                                  </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.lastName" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{deliveryAddress.lastName}
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.address1" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{deliveryAddress.address1}
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.address2" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{deliveryAddress.address2}
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.country" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{deliveryAddress.country}
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.city" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{deliveryAddress.city}
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.postCode" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{deliveryAddress.postCode}
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.phoneNumber" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{deliveryAddress.phoneNumber}
+                                </div>
+                                <div className="col-md-6">
+                                  <FormattedMessage id="payment.normalDelivery2" />
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.forFree" /></div>
+                                <div className="col-md-6">
+                                  <FormattedMessage id="payment.commentOnDelivery" />
+                                </div>
+                                <div className="col-md-6">
+                                  &nbsp;{this.state.commentOnDelivery}
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div
-                            class="rc-margin-bottom--xs delivery-comment"
-                            style={{ display: "none" }}
-                          >
-                            <b>Delivery comment:</b> <span>null</span>
+                            <div className="col-md-12 address-summary-left">
+                              <h5 className="center"><FormattedMessage id="payment.billTitle" /></h5>
+                              <div className="row">
+                                <div className="col-md-6"><FormattedMessage id="payment.firstName" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{billingAddress.firstName}
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.lastName" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{billingAddress.lastName}
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.address1" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{billingAddress.address1}
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.address2" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{billingAddress.address2}
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.country" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{billingAddress.country}
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.city" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{billingAddress.city}
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.postCode" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{billingAddress.postCode}
+                                </div>
+                                <div className="col-md-6"><FormattedMessage id="payment.phoneNumber" /></div>
+                                <div className="col-md-6">
+                                  &nbsp;{billingAddress.phoneNumber}
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
+                        <div
+                          className="rc-margin-bottom--xs delivery-comment"
+                          style={{ display: "none" }}
+                        >
+                          <b>Delivery comment:</b> <span>null</span>
+                        </div>
+                      </div>
                       {/* <div
-                        class="rc-border-all rc-border-colour--interface checkout--padding"
+                        className="rc-border-all rc-border-colour--interface checkout--padding"
                         data-loc="placeOrderBillingSummary"
                       >
-                        <div class="summary-details shipping rc-margin-bottom--xs">
+                        <div className="summary-details shipping rc-margin-bottom--xs">
                           <div
-                            class="address-summary row"
+                            className="address-summary row"
                             data-loc="confirmOrderCustomerInfo"
                           >
-                            <div class="col-md-6">
+                            <div className="col-md-6">
                               <div>
-                                <span class="firstName">minya</span>
-                                <span class="lastName">tang</span>
+                                <span className="firstName">minya</span>
+                                <span className="lastName">tang</span>
                               </div>
-                              <div class="country">Russia</div>
-                              <div class="districtCode">Moscow</div>
-                              <div class="stateCode">Other</div>
+                              <div className="country">Russia</div>
+                              <div className="districtCode">Moscow</div>
+                              <div className="stateCode">Other</div>
                               <div>
-                                <span class="city">1st Worker</span>
-                                <span class="postalCode">123456</span>
+                                <span className="city">1st Worker</span>
+                                <span className="postalCode">123456</span>
                               </div>
                             </div>
-                            <div class="col-md-6 address-summary-left">
-                              <div class="address1">1-1</div>
+                            <div className="col-md-6 address-summary-left">
+                              <div className="address1">1-1</div>
                               <div>
-                                <span class="houselabel">House</span>
-                                <span class="house">1</span>
+                                <span className="houselabel">House</span>
+                                <span className="house">1</span>
                               </div>
                               <div>
-                                <span class="housinglabel">
+                                <span className="housinglabel">
                                   Building / Building
                                 </span>
-                                <span class="housing">1</span>
-                                <span class="housingdash">-</span>
-                                <span class="entrancelabel">Entrance</span>
-                                <span class="entrance">1</span>
-                                <span class="entrancedash">-</span>
-                                <span class="appartmentlabel">Apartment</span>
-                                <span class="appartment">1</span>
+                                <span className="housing">1</span>
+                                <span className="housingdash">-</span>
+                                <span className="entrancelabel">Entrance</span>
+                                <span className="entrance">1</span>
+                                <span className="entrancedash">-</span>
+                                <span className="appartmentlabel">Apartment</span>
+                                <span className="appartment">1</span>
                               </div>
-                              <div class="shipping-phone">
+                              <div className="shipping-phone">
                                 +7 (923) 456-78-90
                               </div>
                             </div>
                           </div>
                         </div>
                         <div
-                          class="rc-margin-bottom--xs delivery-comment"
+                          className="rc-margin-bottom--xs delivery-comment"
                           style={{ display: "none" }}
                         >
                           <b>Delivery comment:</b> <span>null</span>
                         </div>
-                        <div class="row summary-details leading-lines">
-                          <div class="col-6 start-lines">
-                            <div class="shipping-method">
-                              <span class="shipping-method-title">
+                        <div className="row summary-details leading-lines">
+                          <div className="col-6 start-lines">
+                            <div className="shipping-method">
+                              <span className="shipping-method-title">
                                 Moscow region and Moscow beyond the MKAD
                               </span>
-                              <span class="shipping-method-arrival-time">
+                              <span className="shipping-method-arrival-time">
                                 (1-4 days)
                               </span>
                             </div>
                           </div>
-                          <div class="col-6">
-                            <div class="pricing shipping-method-price">
+                          <div className="col-6">
+                            <div className="pricing shipping-method-price">
                               500 ₽
                             </div>
                           </div>

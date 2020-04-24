@@ -15,3 +15,17 @@ export async function queryStoreCateIds () {
   }
   return JSON.parse(sessionStorage.getItem('rc-storeId-list'))
 }
+
+export function getParaByName (search, name) {
+  search = search.substr(1);
+  if (typeof name === 'undefined') return search
+  let searchArr = search.split('&');
+  for (let i = 0; i < searchArr.length; i++) {
+    let searchStr = searchArr[i];
+    searchArr[i] = searchStr.split('=');
+    if (searchArr[i][0] === name) {
+      return searchStr.replace(name + '=', '');
+    }
+  }
+  return ''
+}
