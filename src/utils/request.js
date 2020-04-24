@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Alert from '@/components/Alert'
 
 // 创建 axios 实例
 const service = axios.create({
@@ -13,10 +14,12 @@ service.interceptors.response.use((response) => {
     return response
   }
   const res = response.data
-  if (res.context) {
+  if (res.code === 'K-000000') {
     return response.data
   } else {
-    return Promise.reject(new Error(res.message || 'Error'))
+    return Promise.reject(Alert.open({
+      alertTip:res.message
+  }))
   }
   // if (res.code !== 200) {
   //   return Promise.reject(new Error(res.msg || 'Error'))
