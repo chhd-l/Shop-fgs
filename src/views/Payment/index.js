@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from 'react-intl'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Progress from "@/components/Progress";
@@ -96,7 +97,7 @@ class Payment extends React.Component {
     };
   }
 
-  ChoosePayment() {
+  ChoosePayment () {
     const {
       deliveryAddress,
       billingAddress,
@@ -122,10 +123,10 @@ class Payment extends React.Component {
     const { history } = this.props;
     history.push("/payment/payment");
   }
-  payMethodChange(e) {
+  payMethodChange (e) {
     this.setState({ payMethod: e.target.value });
   }
-  goConfirmation() {
+  goConfirmation () {
     const { history } = this.props;
     let { isEighteen, isReadPrivacyPolicy } = this.state;
     if (isEighteen && isReadPrivacyPolicy) {
@@ -155,17 +156,17 @@ class Payment extends React.Component {
       this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
     }
   }
-  goDelivery(e) {
+  goDelivery (e) {
     e.preventDefault();
     const { history } = this.props;
     history.push("/payment/shipping");
   }
-  goCart(e) {
+  goCart (e) {
     e.preventDefault();
     const { history } = this.props;
     history.push("/cart");
   }
-  deliveryInputChange(e) {
+  deliveryInputChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -174,7 +175,7 @@ class Payment extends React.Component {
     this.inputBlur(e);
     this.setState({ deliveryAddress: deliveryAddress });
   }
-  cardInfoInputChange(e) {
+  cardInfoInputChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -183,7 +184,7 @@ class Payment extends React.Component {
     this.inputBlur(e);
     this.setState({ creditCardInfo: creditCardInfo });
   }
-  inputBlur(e) {
+  inputBlur (e) {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -196,7 +197,7 @@ class Payment extends React.Component {
       validDom.style.display = e.target.value ? "none" : "block";
     }
   }
-  billingInputChange(e) {
+  billingInputChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -205,14 +206,14 @@ class Payment extends React.Component {
     this.inputBlur(e);
     this.setState({ billingAddress: billingAddress });
   }
-  commentChange(e) {
+  commentChange (e) {
     this.setState({ commentOnDelivery: e.target.value });
   }
-  billingCheckedChange() {
+  billingCheckedChange () {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
   }
-  componentDidMount() {
+  componentDidMount () {
     let deliveryInfoStr = localStorage.getItem("deliveryInfo");
     if (deliveryInfoStr) {
       let deliveryInfo = JSON.parse(deliveryInfoStr);
@@ -227,7 +228,7 @@ class Payment extends React.Component {
     });
   }
 
-  render() {
+  render () {
     const {
       deliveryAddress,
       billingAddress,
@@ -236,33 +237,33 @@ class Payment extends React.Component {
       totalCount,
     } = this.state;
     const CreditCardImg = (
-      <span class="logo-payment-card-list">
+      <span className="logo-payment-card-list">
         {this.state.creditCardImgUrl.map((el) => (
-          <img class="logo-payment-card" src={el} />
+          <img className="logo-payment-card" src={el} />
         ))}
       </span>
     );
     return (
       <div>
         <Header />
-        <main class="rc-content--fixed-header rc-bg-colour--brand3">
+        <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <div
             id="checkout-main"
-            class="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
+            className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
             data-checkout-stage="payment"
           >
             <Progress type={this.state.type} />
-            <div class="rc-layout-container rc-three-column rc-max-width--xl">
-              <div class="rc-column rc-double-width shipping__address">
+            <div className="rc-layout-container rc-three-column rc-max-width--xl">
+              <div className="rc-column rc-double-width shipping__address">
                 <div
-                  class="shipping-form"
+                  className="shipping-form"
                   style={{
                     display: this.state.type == "shipping" ? "block" : "none",
                   }}
                 >
-                  <div class="card">
-                    <div class="card-header rc-margin-bottom--xs">
-                      <h4 className="pull-left">Selected clinic</h4>
+                  <div className="card">
+                    <div className="card-header">
+                      <h5 className="pull-left"><FormattedMessage id="payment.clinicTitle" /></h5>
                       <a
                         href="#"
                         onClick={(e) => {
@@ -270,34 +271,34 @@ class Payment extends React.Component {
                           let { history } = this.props;
                           history.push("/prescription");
                         }}
-                        class=" rc-styled-link rc-margin-top--xs pull-right"
+                        className=" rc-styled-link rc-margin-top--xs pull-right"
                       >
-                        Edit
+                        <FormattedMessage id="edit" />
                       </a>
                     </div>
-                    <div class="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
+                    <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
                       121 Animal Hospital
                     </div>
-                    <div class="card-header rc-margin-bottom--xs">
-                      <h4>Delivery address</h4>
+                    <div className="card-header">
+                      <h5><FormattedMessage id="payment.deliveryTitle" /></h5>
                     </div>
-                    <div class="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
-                      <fieldset class="shipping-address-block rc-fieldset">
-                        <div class="rc-layout-container">
-                          <div class="rc-column rc-padding-y--none">
-                            <div class="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
+                    <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
+                      <fieldset className="shipping-address-block rc-fieldset">
+                        <div className="rc-layout-container">
+                          <div className="rc-column rc-padding-y--none">
+                            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
                               <label
-                                class="form-control-label"
+                                className="form-control-label"
                                 for="shippingFirstName"
                               >
-                                First Name
+                                <FormattedMessage id="payment.firstName" />
                               </label>
                               <span
-                                class="rc-input rc-input--inline rc-full-width rc-input--full-width"
+                                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
                                 input-setup="true"
                               >
                                 <input
-                                  class="rc-input__control shippingFirstName"
+                                  className="rc-input__control shippingFirstName"
                                   id="shippingFirstName"
                                   type="text"
                                   value={deliveryAddress.firstName}
@@ -307,31 +308,37 @@ class Payment extends React.Component {
                                   maxlength="50"
                                 />
                                 <label
-                                  class="rc-input__label"
+                                  className="rc-input__label"
                                   for="id-text1"
                                 ></label>
                               </span>
-                              <div class="invalid-feedback">
-                                *First name must be filled
+                              <div className="invalid-feedback">
+                                <FormattedMessage
+                                  id="itemsInCart2"
+                                  values={{ val: <b>{this.props.cartData.length}</b> }}
+                                />
+                                <FormattedMessage
+                                  id="payment.errorInfo"
+                                  values={{ val: <FormattedMessage id="payment.firstName" /> }} />
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="rc-layout-container">
-                          <div class="rc-column rc-padding-y--none">
-                            <div class="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
+                        <div className="rc-layout-container">
+                          <div className="rc-column rc-padding-y--none">
+                            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
-                                class="form-control-label"
+                                className="form-control-label"
                                 for="shippingLastName"
                               >
-                                Last Name
+                                <FormattedMessage id="payment.lastName" />
                               </label>
                               <span
-                                class="rc-input rc-input--inline rc-full-width rc-input--full-width"
+                                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
                                 input-setup="true"
                               >
                                 <input
-                                  class="rc-input__control shippingLastName"
+                                  className="rc-input__control shippingLastName"
                                   id="shippingLastName"
                                   type="text"
                                   value={deliveryAddress.lastName}
@@ -341,31 +348,33 @@ class Payment extends React.Component {
                                   maxlength="50"
                                 />
                                 <label
-                                  class="rc-input__label"
+                                  className="rc-input__label"
                                   for="id-text1"
                                 ></label>
                               </span>
-                              <div class="invalid-feedback">
-                                *Last name must be filled
+                              <div className="invalid-feedback">
+                                <FormattedMessage
+                                  id="payment.errorInfo"
+                                  values={{ val: <FormattedMessage id="payment.lastName" /> }} />
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="rc-layout-container">
-                          <div class="rc-column rc-padding-y--none">
-                            <div class="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
+                        <div className="rc-layout-container">
+                          <div className="rc-column rc-padding-y--none">
+                            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
-                                class="form-control-label"
+                                className="form-control-label"
                                 for="shippingLastName"
                               >
-                                Address 1
+                                <FormattedMessage id="payment.address1" />
                               </label>
                               <span
-                                class="rc-input rc-input--inline rc-full-width rc-input--full-width"
+                                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
                                 input-setup="true"
                               >
                                 <input
-                                  class="rc-input__control shippingLastName"
+                                  className="rc-input__control shippingLastName"
                                   id="shippingLastName"
                                   type="text"
                                   value={deliveryAddress.address1}
@@ -375,31 +384,33 @@ class Payment extends React.Component {
                                   maxlength="50"
                                 />
                                 <label
-                                  class="rc-input__label"
+                                  className="rc-input__label"
                                   for="id-text1"
                                 ></label>
                               </span>
-                              <div class="invalid-feedback">
-                                *Address 1 must be filled
+                              <div className="invalid-feedback">
+                                <FormattedMessage
+                                  id="payment.errorInfo"
+                                  values={{ val: <FormattedMessage id="payment.address1" /> }} />
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="rc-layout-container">
-                          <div class="rc-column rc-padding-y--none">
-                            <div class="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
+                        <div className="rc-layout-container">
+                          <div className="rc-column rc-padding-y--none">
+                            <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
-                                class="form-control-label"
+                                className="form-control-label"
                                 for="shippingLastName"
                               >
-                                Address 2
+                                <FormattedMessage id="payment.address2" />
                               </label>
                               <span
-                                class="rc-input rc-input--inline rc-full-width rc-input--full-width"
+                                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
                                 input-setup="true"
                               >
                                 <input
-                                  class="rc-input__control shippingLastName"
+                                  className="rc-input__control shippingLastName"
                                   id="shippingLastName"
                                   type="text"
                                   value={deliveryAddress.address2}
@@ -409,23 +420,23 @@ class Payment extends React.Component {
                                   maxlength="50"
                                 />
                                 <label
-                                  class="rc-input__label"
+                                  className="rc-input__label"
                                   for="id-text1"
                                 ></label>
                               </span>
                             </div>
                           </div>
                         </div>
-                        <div class="rc-layout-container">
-                          <div class="rc-column rc-padding-y--none">
-                            <div class="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
+                        <div className="rc-layout-container">
+                          <div className="rc-column rc-padding-y--none">
+                            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
                               <label
-                                class="form-control-label"
+                                className="form-control-label"
                                 for="shippingCountry"
                               >
-                                Country
+                                <FormattedMessage id="payment.country" />
                               </label>
-                              <span class="rc-select rc-full-width rc-input--full-width rc-select-processed">
+                              <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
                                 <select
                                   data-js-select=""
                                   id="shippingCountry"
@@ -441,15 +452,15 @@ class Payment extends React.Component {
                             </div>
                           </div>
                         </div>
-                        <div class="rc-layout-container">
-                          <div class="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_city">
+                        <div className="rc-layout-container">
+                          <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_city">
                             <label
-                              class="form-control-label"
+                              className="form-control-label"
                               for="shippingAddressCity"
                             >
-                              City
+                              <FormattedMessage id="payment.city" />
                             </label>
-                            <span class="rc-select rc-full-width rc-input--full-width rc-select-processed">
+                            <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
                               <select
                                 data-js-select=""
                                 id="shippingCountry"
@@ -465,22 +476,22 @@ class Payment extends React.Component {
                             </span>
                           </div>
                         </div>
-                        <div class="rc-layout-container">
-                          <div class="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_postalCode">
+                        <div className="rc-layout-container">
+                          <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_postalCode">
                             <label
-                              class="form-control-label"
+                              className="form-control-label"
                               for="shippingZipCode"
                             >
-                              Post Code
+                              <FormattedMessage id="payment.postCode" />
                             </label>
                             <span
-                              class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+                              className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
                               input-setup="true"
                               data-js-validate=""
                               data-js-warning-message="*Post Code isn’t valid"
                             >
                               <input
-                                class="rc-input__control shippingZipCode"
+                                className="rc-input__control shippingZipCode"
                                 id="shippingZipCode"
                                 type="tel"
                                 required
@@ -493,30 +504,32 @@ class Payment extends React.Component {
                                 data-js-pattern="(^\d{6}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                               />
                               <label
-                                class="rc-input__label"
+                                className="rc-input__label"
                                 for="id-text1"
                               ></label>
                             </span>
-                            <div class="invalid-feedback">
-                              *Post code must be filled
+                            <div className="invalid-feedback">
+                              <FormattedMessage
+                                id="payment.errorInfo"
+                                values={{ val: <FormattedMessage id="payment.postCode" /> }} />
                             </div>
-                            <div>Example: 123456</div>
+                            <div className="ui-lighter"><FormattedMessage id="example" />: 123456</div>
                           </div>
-                          <div class="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_phone">
+                          <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_phone">
                             <label
-                              class="form-control-label"
+                              className="form-control-label"
                               for="shippingPhoneNumber"
                             >
-                              Phone number
+                              <FormattedMessage id="payment.phoneNumber" />
                             </label>
                             <span
-                              class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+                              className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
                               input-setup="true"
                               data-js-validate=""
                               data-js-warning-message="*Phone Number isn’t valid"
                             >
                               <input
-                                class="rc-input__control input__phoneField shippingPhoneNumber"
+                                className="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
                                 type="tel"
                                 value={deliveryAddress.phoneNumber}
@@ -528,23 +541,25 @@ class Payment extends React.Component {
                                 minlength="18"
                               />
                               <label
-                                class="rc-input__label"
+                                className="rc-input__label"
                                 for="shippingPhoneNumber"
                               ></label>
                             </span>
-                            <div class="invalid-feedback">
-                              *Phone number must be filled
+                            <div className="invalid-feedback">
+                              <FormattedMessage
+                                id="payment.errorInfo"
+                                values={{ val: <FormattedMessage id="payment.phoneNumber" /> }} />
                             </div>
-                            <span>Example: +7 (923) 456 78 90</span>
+                            <span className="ui-lighter"><FormattedMessage id="example" />: +7 (923) 456 78 90</span>
                           </div>
                         </div>
                       </fieldset>
                     </div>
-                    <div class="card-header rc-margin-bottom--xs">
-                      <h4>Billing address</h4>
+                    <div className="card-header">
+                      <h5><FormattedMessage id="payment.billTitle" /></h5>
                       <div className="billingCheckbox rc-margin-top--xs">
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           id="id-checkbox-billing"
                           value="Cat"
                           type="checkbox"
@@ -552,35 +567,35 @@ class Payment extends React.Component {
                           checked={this.state.billingChecked}
                         />
                         <label
-                          class="rc-input__label--inline"
+                          className="rc-input__label--inline"
                           for="id-checkbox-billing"
                         >
-                          Use delivery address
+                          <FormattedMessage id="payment.useDeliveryAddress" />
                         </label>
                       </div>
                     </div>
                     <div
-                      class="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm"
+                      className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm"
                       style={{
                         display: this.state.billingChecked ? "none" : "block",
                       }}
                     >
-                      <fieldset class="shipping-address-block rc-fieldset">
-                        <div class="rc-layout-container">
-                          <div class="rc-column rc-padding-y--none">
-                            <div class="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
+                      <fieldset className="shipping-address-block rc-fieldset">
+                        <div className="rc-layout-container">
+                          <div className="rc-column rc-padding-y--none">
+                            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
                               <label
-                                class="form-control-label"
+                                className="form-control-label"
                                 for="shippingFirstName"
                               >
-                                First Name
+                                <FormattedMessage id="payment.firstName" />
                               </label>
                               <span
-                                class="rc-input rc-input--inline rc-full-width rc-input--full-width"
+                                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
                                 input-setup="true"
                               >
                                 <input
-                                  class="rc-input__control shippingFirstName"
+                                  className="rc-input__control shippingFirstName"
                                   id="shippingFirstName"
                                   type="text"
                                   value={billingAddress.firstName}
@@ -590,31 +605,33 @@ class Payment extends React.Component {
                                   maxlength="50"
                                 />
                                 <label
-                                  class="rc-input__label"
+                                  className="rc-input__label"
                                   for="id-text1"
                                 ></label>
                               </span>
-                              <div class="invalid-feedback">
-                                *First name must be filled
+                              <div className="invalid-feedback">
+                                <FormattedMessage
+                                  id="payment.errorInfo"
+                                  values={{ val: <FormattedMessage id="payment.firstName" /> }} />
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="rc-layout-container">
-                          <div class="rc-column rc-padding-y--none">
-                            <div class="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
+                        <div className="rc-layout-container">
+                          <div className="rc-column rc-padding-y--none">
+                            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
-                                class="form-control-label"
+                                className="form-control-label"
                                 for="shippingLastName"
                               >
-                                Last Name
+                                <FormattedMessage id="payment.lastName" />
                               </label>
                               <span
-                                class="rc-input rc-input--inline rc-full-width rc-input--full-width"
+                                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
                                 input-setup="true"
                               >
                                 <input
-                                  class="rc-input__control shippingLastName"
+                                  className="rc-input__control shippingLastName"
                                   id="shippingLastName"
                                   type="text"
                                   value={billingAddress.lastName}
@@ -624,31 +641,33 @@ class Payment extends React.Component {
                                   maxlength="50"
                                 />
                                 <label
-                                  class="rc-input__label"
+                                  className="rc-input__label"
                                   for="id-text1"
                                 ></label>
                               </span>
-                              <div class="invalid-feedback">
-                                *Last name must be filled
+                              <div className="invalid-feedback">
+                                <FormattedMessage
+                                  id="payment.errorInfo"
+                                  values={{ val: <FormattedMessage id="payment.lastName" /> }} />
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="rc-layout-container">
-                          <div class="rc-column rc-padding-y--none">
-                            <div class="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
+                        <div className="rc-layout-container">
+                          <div className="rc-column rc-padding-y--none">
+                            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
-                                class="form-control-label"
+                                className="form-control-label"
                                 for="shippingLastName"
                               >
-                                Address 1
+                                <FormattedMessage id="payment.address1" />
                               </label>
                               <span
-                                class="rc-input rc-input--inline rc-full-width rc-input--full-width"
+                                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
                                 input-setup="true"
                               >
                                 <input
-                                  class="rc-input__control shippingLastName"
+                                  className="rc-input__control shippingLastName"
                                   id="shippingLastName"
                                   type="text"
                                   value={billingAddress.address1}
@@ -658,31 +677,33 @@ class Payment extends React.Component {
                                   maxlength="50"
                                 />
                                 <label
-                                  class="rc-input__label"
+                                  className="rc-input__label"
                                   for="id-text1"
                                 ></label>
                               </span>
-                              <div class="invalid-feedback">
-                                *Address 1 must be filled
+                              <div className="invalid-feedback">
+                                <FormattedMessage
+                                  id="payment.errorInfo"
+                                  values={{ val: <FormattedMessage id="payment.address1" /> }} />
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="rc-layout-container">
-                          <div class="rc-column rc-padding-y--none">
-                            <div class="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
+                        <div className="rc-layout-container">
+                          <div className="rc-column rc-padding-y--none">
+                            <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
-                                class="form-control-label"
+                                className="form-control-label"
                                 for="shippingLastName"
                               >
-                                Address 2
+                                <FormattedMessage id="payment.address2" />
                               </label>
                               <span
-                                class="rc-input rc-input--inline rc-full-width rc-input--full-width"
+                                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
                                 input-setup="true"
                               >
                                 <input
-                                  class="rc-input__control shippingLastName"
+                                  className="rc-input__control shippingLastName"
                                   id="shippingLastName"
                                   type="text"
                                   value={billingAddress.address2}
@@ -692,27 +713,27 @@ class Payment extends React.Component {
                                   maxlength="50"
                                 />
                                 <label
-                                  class="rc-input__label"
+                                  className="rc-input__label"
                                   for="id-text1"
                                 ></label>
                               </span>
                             </div>
                           </div>
                         </div>
-                        <div class="rc-layout-container">
-                          <div class="rc-column rc-padding-y--none">
-                            <div class="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
+                        <div className="rc-layout-container">
+                          <div className="rc-column rc-padding-y--none">
+                            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
                               <label
-                                class="form-control-label"
+                                className="form-control-label"
                                 for="shippingCountry"
                                 value={billingAddress.country}
                                 onChange={(e) => this.billingInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
                                 name="country"
                               >
-                                Country
+                                <FormattedMessage id="payment.country" />
                               </label>
-                              <span class="rc-select rc-full-width rc-input--full-width rc-select-processed">
+                              <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
                                 <select data-js-select="">
                                   <option>Russia</option>
                                 </select>
@@ -720,15 +741,15 @@ class Payment extends React.Component {
                             </div>
                           </div>
                         </div>
-                        <div class="rc-layout-container">
-                          <div class="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_city">
+                        <div className="rc-layout-container">
+                          <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_city">
                             <label
-                              class="form-control-label"
+                              className="form-control-label"
                               for="shippingAddressCity"
                             >
-                              City
+                              <FormattedMessage id="payment.city" />
                             </label>
-                            <span class="rc-select rc-full-width rc-input--full-width rc-select-processed">
+                            <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
                               <select
                                 data-js-select=""
                                 id="shippingCountry"
@@ -744,22 +765,22 @@ class Payment extends React.Component {
                             </span>
                           </div>
                         </div>
-                        <div class="rc-layout-container">
-                          <div class="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_postalCode">
+                        <div className="rc-layout-container">
+                          <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_postalCode">
                             <label
-                              class="form-control-label"
+                              className="form-control-label"
                               for="shippingZipCode"
                             >
-                              Post Code
+                              <FormattedMessage id="payment.postCode" />
                             </label>
                             <span
-                              class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+                              className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
                               input-setup="true"
                               data-js-validate=""
                               data-js-warning-message="*Post Code isn’t valid"
                             >
                               <input
-                                class="rc-input__control shippingZipCode"
+                                className="rc-input__control shippingZipCode"
                                 id="shippingZipCode"
                                 type="tel"
                                 value={billingAddress.postCode}
@@ -771,30 +792,32 @@ class Payment extends React.Component {
                                 data-js-pattern="(^\d{6}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                               />
                               <label
-                                class="rc-input__label"
+                                className="rc-input__label"
                                 for="id-text1"
                               ></label>
                             </span>
-                            <div class="invalid-feedback">
-                              *Post code must be filled
+                            <div className="invalid-feedback">
+                              <FormattedMessage
+                                id="payment.errorInfo"
+                                values={{ val: <FormattedMessage id="payment.postCode" /> }} />
                             </div>
-                            <div>Example: 123456</div>
+                            <div className="ui-lighter"><FormattedMessage id="example" />: 123456</div>
                           </div>
-                          <div class="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_phone">
+                          <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_phone">
                             <label
-                              class="form-control-label"
+                              className="form-control-label"
                               for="shippingPhoneNumber"
                             >
-                              Phone number
+                              <FormattedMessage id="payment.phoneNumber" />
                             </label>
                             <span
-                              class="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+                              className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
                               input-setup="true"
                               data-js-validate=""
                               data-js-warning-message="*Phone Number isn’t valid"
                             >
                               <input
-                                class="rc-input__control input__phoneField shippingPhoneNumber"
+                                className="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
                                 type="tel"
                                 value={billingAddress.phoneNumber}
@@ -806,48 +829,48 @@ class Payment extends React.Component {
                                 minlength="18"
                               />
                               <label
-                                class="rc-input__label"
+                                className="rc-input__label"
                                 for="shippingPhoneNumber"
                               ></label>
                             </span>
-                            <div class="invalid-feedback">
-                              *Phone number must be filled
+                            <div className="invalid-feedback">
+                              <FormattedMessage
+                                id="payment.errorInfo"
+                                values={{ val: <FormattedMessage id="payment.phoneNumber" /> }} />
                             </div>
-                            <span>Example: +7 (923) 456 78 90</span>
+                            <span className="ui-lighter"><FormattedMessage id="example" />: +7 (923) 456 78 90</span>
                           </div>
                         </div>
                       </fieldset>
                     </div>
-                    <fieldset class="shipping-method-block rc-fieldset">
-                      <div class="card-header rc-margin-bottom--xs">
-                        <h4>How to deliver :</h4>
+                    <fieldset className="shipping-method-block rc-fieldset">
+                      <div className="card-header">
+                        <h5><FormattedMessage id="payment.howToDelivery" /> :</h5>
                       </div>
                       <div>
-                        <div class="leading-lines shipping-method-list rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
-                          <div class="row deliveryMethod">
-                            <div class="col-8">
-                              <span class="display-name pull-left">
-                                Normal Delivery
+                        <div className="leading-lines shipping-method-list rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
+                          <div className="row deliveryMethod">
+                            <div className="col-8">
+                              <span className="display-name pull-left">
+                                <FormattedMessage id="payment.normalDelivery2" />
                               </span>
-                              <span class="text-muted arrival-time">
-                                (1-4 days)
+                              <span className="text-muted arrival-time">
+                                <FormattedMessage id="payment.normalDelivery3" />
                               </span>
                             </div>
-                            <div class="col-4">
-                              <span class="shipping-method-pricing">
-                                <span class="shipping-cost">For Free</span>
+                            <div className="col-4">
+                              <span className="shipping-method-pricing" style={{ whiteSpace: 'nowrap' }}>
+                                <span className="shipping-cost">For Free</span>
                                 <span
-                                  class=" info-tooltip delivery-method-tooltip"
+                                  className=" info-tooltip delivery-method-tooltip"
                                   title="Top"
                                   data-tooltip-placement="top"
                                   data-tooltip="top-tooltip"
                                 >
                                   i
                                 </span>
-                                <div id="top-tooltip" class="rc-tooltip">
-                                  For any consumer making order in the website,
-                                  no matter the amount, he or she is able to be
-                                  provided free delivery service.
+                                <div id="top-tooltip" className="rc-tooltip">
+                                  <FormattedMessage id="payment.forFreeTip" />
                                 </div>
                               </span>
                             </div>
@@ -855,16 +878,16 @@ class Payment extends React.Component {
                         </div>
                       </div>
                     </fieldset>
-                    <div class="card">
-                      <div class="card-header rc-margin-bottom--xs">
-                        <h4>Comment on delivery</h4>
+                    <div className="card">
+                      <div className="card-header">
+                        <h5><FormattedMessage id="payment.commentOnDelivery" /></h5>
                       </div>
                       <span
-                        class="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
+                        className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
                         input-setup="true"
                       >
                         <textarea
-                          class="rc-input__textarea noborder"
+                          className="rc-input__textarea noborder"
                           maxlength="1000"
                           name="dwfrm_shipping_shippingAddress_deliveryComment"
                           id="delivery-comment"
@@ -872,30 +895,30 @@ class Payment extends React.Component {
                           onChange={(e) => this.commentChange(e)}
                         ></textarea>
                         <label
-                          class="rc-input__label"
+                          className="rc-input__label"
                           for="delivery-comment"
                         ></label>
                       </span>
                     </div>
                   </div>
-                  <div class="place_order-btn card">
-                    <div class="next-step-button">
-                      <div class="rc-text--right">
+                  <div className="place_order-btn card">
+                    <div className="next-step-button">
+                      <div className="rc-text--right">
                         <button
-                          class="rc-btn rc-btn--one submit-payment"
+                          className="rc-btn rc-btn--one submit-payment"
                           type="submit"
                           name="submit"
                           value="submit-shipping"
                           onClick={() => this.ChoosePayment()}
                         >
-                          Choose a payment
+                          <FormattedMessage id="payment.choosePayment" />
                         </button>
                       </div>
                     </div>
                   </div>
                   {/* <p>
                     <button
-                      class="rc-btn rc-btn--one pull-right rc-margin-bottom--sm"
+                      className="rc-btn rc-btn--one pull-right rc-margin-bottom--sm"
                       onClick={() => this.ChoosePayment()}
                     >
                       Choose a payment
@@ -907,108 +930,108 @@ class Payment extends React.Component {
                     display: this.state.type == "payment" ? "block" : "none",
                   }}
                 >
-                  <div class="card shipping-summary">
-                    <div class="card-header rc-margin-bottom--xs rc-padding-right--none clearfix">
-                      <h4 class="pull-left">Address and Shipping Method</h4>
+                  <div className="card shipping-summary">
+                    <div className="card-header rc-padding-right--none clearfix">
+                      <h5 className="pull-left">Address and Shipping Method</h5>
                       <a
                         href="#"
                         onClick={(e) => this.goDelivery(e)}
-                        class=" rc-styled-link rc-margin-top--xs pull-right"
+                        className=" rc-styled-link rc-margin-top--xs pull-right"
                       >
                         Edit
                       </a>
                     </div>
-                    <div class="card-body rc-padding--none">
-                      <p class="shipping-addr-label multi-shipping padding-y--sm">
+                    <div className="card-body rc-padding--none">
+                      <p className="shipping-addr-label multi-shipping padding-y--sm">
                         Addresses and shipping methods are indicated under your
                         goods.
                       </p>
                       <div
-                        class="single-shipping"
+                        className="single-shipping"
                         data-shipment-summary="8b50610f77571c1ac58b609278"
                       >
-                        <div class="rc-border-all rc-border-colour--interface checkout--padding">
-                          <div class="summary-details shipping rc-margin-bottom--xs">
-                            <div class="address-summary row">
-                              <div class="col-md-12 deliveryAddress">
-                                <h5 className="center">Delivery Address</h5>
+                        <div className="rc-border-all rc-border-colour--interface checkout--padding">
+                          <div className="summary-details shipping rc-margin-bottom--xs">
+                            <div className="address-summary row">
+                              <div className="col-md-12 deliveryAddress">
+                                <h5 className="center"><FormattedMessage id="payment.deliveryTitle" /></h5>
                                 <div className="row">
-                                  <div className="col-md-6">First Name</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.firstName" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.firstName}
                                   </div>
-                                  <div className="col-md-6">Last Name</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.lastName" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.lastName}
                                   </div>
-                                  <div className="col-md-6">Address 1</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.address1" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.address1}
                                   </div>
-                                  <div className="col-md-6">Address 2</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.address2" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.address2}
                                   </div>
-                                  <div className="col-md-6">Country</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.country" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.country}
                                   </div>
-                                  <div className="col-md-6">City</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.city" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.city}
                                   </div>
-                                  <div className="col-md-6">Post Code</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.postCode" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.postCode}
                                   </div>
-                                  <div className="col-md-6">Phone Number</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.phoneNumber" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.phoneNumber}
                                   </div>
                                   <div className="col-md-6">
-                                    Normal Delivery
+                                    <FormattedMessage id="payment.normalDelivery2" />
                                   </div>
-                                  <div className="col-md-6">For free</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.forFree" /></div>
                                   <div className="col-md-6">
-                                    Comment on delivery
+                                    <FormattedMessage id="payment.commentOnDelivery" />
                                   </div>
                                   <div className="col-md-6">
                                     &nbsp;{this.state.commentOnDelivery}
                                   </div>
                                 </div>
                               </div>
-                              <div class="col-md-12 address-summary-left">
-                                <h5 className="center">Billing Address</h5>
+                              <div className="col-md-12 address-summary-left">
+                                <h5 className="center"><FormattedMessage id="payment.billTitle" /></h5>
                                 <div className="row">
-                                  <div className="col-md-6">First Name</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.firstName" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.firstName}
                                   </div>
-                                  <div className="col-md-6">Last Name</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.lastName" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.lastName}
                                   </div>
-                                  <div className="col-md-6">Address 1</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.address1" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.address1}
                                   </div>
-                                  <div className="col-md-6">Address 2</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.address2" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.address2}
                                   </div>
-                                  <div className="col-md-6">Country</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.country" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.country}
                                   </div>
-                                  <div className="col-md-6">City</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.city" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.city}
                                   </div>
-                                  <div className="col-md-6">Post Code</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.postCode" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.postCode}
                                   </div>
-                                  <div className="col-md-6">Phone Number</div>
+                                  <div className="col-md-6"><FormattedMessage id="payment.phoneNumber" /></div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.phoneNumber}
                                   </div>
@@ -1017,7 +1040,7 @@ class Payment extends React.Component {
                             </div>
                           </div>
                           <div
-                            class="rc-margin-bottom--xs delivery-comment"
+                            className="rc-margin-bottom--xs delivery-comment"
                             style={{ display: "none" }}
                           >
                             <b>Delivery comment:</b> <span>null</span>
@@ -1026,24 +1049,24 @@ class Payment extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div class="card payment-form">
-                    <div class="card-body rc-padding--none">
+                  <div className="card payment-form">
+                    <div className="card-body rc-padding--none">
                       <form
                         method="POST"
                         data-address-mode="new"
                         name="dwfrm_billing"
                         id="dwfrm_billing"
                       >
-                        <div class="card-header with-tooltip-icon rc-margin-top--sm">
-                          <h4>Payment Information</h4>
+                        <div className="card-header with-tooltip-icon rc-margin-top--sm">
+                          <h5>Payment Information</h5>
                         </div>
-                        <div class="billing-payment">
+                        <div className="billing-payment">
                           <div className="form-group rc-border-all rc-border-colour--interface checkout--padding">
                             <div className="row">
                               <div className="col-md-6">
-                                <div class="rc-input rc-input--inline">
+                                <div className="rc-input rc-input--inline">
                                   <input
-                                    class="rc-input__radio"
+                                    className="rc-input__radio"
                                     id="id-radio-creditCard"
                                     value="creditCard"
                                     type="radio"
@@ -1054,7 +1077,7 @@ class Payment extends React.Component {
                                     }
                                   />
                                   <label
-                                    class="rc-input__label--inline"
+                                    className="rc-input__label--inline"
                                     for="id-radio-creditCard"
                                   >
                                     Credit card
@@ -1063,9 +1086,9 @@ class Payment extends React.Component {
                                 </div>
                               </div>
                               <div className="col-md-6">
-                                <div class="rc-input rc-input--inline">
+                                <div className="rc-input rc-input--inline">
                                   <input
-                                    class="rc-input__radio"
+                                    className="rc-input__radio"
                                     id="id-radio-payPal"
                                     value="payPal"
                                     type="radio"
@@ -1074,12 +1097,12 @@ class Payment extends React.Component {
                                     checked={this.state.payMethod === "payPal"}
                                   />
                                   <label
-                                    class="rc-input__label--inline"
+                                    className="rc-input__label--inline"
                                     for="id-radio-payPal"
                                   >
-                                    <span class="logo-payment-card-list">
+                                    <span className="logo-payment-card-list">
                                       <img
-                                        class="logo-payment-card"
+                                        className="logo-payment-card"
                                         style={{
                                           height: "18px",
                                           width: "70px",
@@ -1093,7 +1116,7 @@ class Payment extends React.Component {
                             </div>
                           </div>
                           <div
-                            class="rc-list__accordion-item"
+                            className="rc-list__accordion-item"
                             data-method-id="CREDIT_CARD"
                             style={{
                               display:
@@ -1102,9 +1125,9 @@ class Payment extends React.Component {
                                   : "none",
                             }}
                           >
-                            <div class="rc-border-all rc-border-colour--interface checkout--padding">
+                            <div className="rc-border-all rc-border-colour--interface checkout--padding">
                               <div
-                                class="credit-card-content"
+                                className="credit-card-content"
                                 id="credit-card-content"
                                 style={{
                                   display: !this.state.isCompleteCredit
@@ -1112,38 +1135,38 @@ class Payment extends React.Component {
                                     : "none",
                                 }}
                               >
-                                <div class="credit-card-form ">
-                                  <div class="rc-margin-bottom--xs">
-                                    <div class="content-asset">
+                                <div className="credit-card-form ">
+                                  <div className="rc-margin-bottom--xs">
+                                    <div className="content-asset">
                                       <p>We accept credit cards.</p>
                                     </div>
-                                    <div class="row">
-                                      <div class="col-sm-12">
-                                        <div class="form-group">
+                                    <div className="row">
+                                      <div className="col-sm-12">
+                                        <div className="form-group">
                                           <label
-                                            class="form-control-label"
+                                            className="form-control-label"
                                             for="cardNumber"
                                           >
                                             Card number*
                                             {CreditCardImg}
                                             <div className="cardFormBox">
-                                              <span class="cardImage">
+                                              <span className="cardImage">
                                                 <img
                                                   alt="Card"
                                                   src="https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                                                 />
                                               </span>
                                               <span className="cardForm">
-                                                <div class="row">
-                                                  <div class="col-sm-5">
-                                                    <div class="form-group required">
+                                                <div className="row">
+                                                  <div className="col-sm-5">
+                                                    <div className="form-group required">
                                                       <span
-                                                        class="rc-input rc-input--full-width"
+                                                        className="rc-input rc-input--full-width"
                                                         input-setup="true"
                                                       >
                                                         <input
                                                           type="text"
-                                                          class="rc-input__control form-control email"
+                                                          className="rc-input__control form-control email"
                                                           id="email"
                                                           value={
                                                             creditCardInfo.cardNumber
@@ -1161,22 +1184,22 @@ class Payment extends React.Component {
                                                           placeholder="Card Number"
                                                         />
                                                       </span>
-                                                      <div class="invalid-feedback">
-                                                        This field is required.
+                                                      <div className="invalid-feedback">
+                                                        <FormattedMessage id="payment.errorInfo2" />
                                                       </div>
                                                     </div>
                                                   </div>
-                                                  <div class="col-sm-4">
-                                                    <div class="form-group required">
+                                                  <div className="col-sm-4">
+                                                    <div className="form-group required">
                                                       <span
-                                                        class="rc-input rc-input--full-width"
+                                                        className="rc-input rc-input--full-width"
                                                         input-setup="true"
                                                         data-js-validate=""
                                                         data-js-warning-message="*Phone Number isn’t valid"
                                                       >
                                                         <input
                                                           type="tel"
-                                                          class="rc-input__control form-control phone"
+                                                          className="rc-input__control form-control phone"
                                                           min-lenght="18"
                                                           max-length="18"
                                                           data-phonelength="18"
@@ -1198,22 +1221,22 @@ class Payment extends React.Component {
                                                           placeholder="MM/YY"
                                                         />
                                                       </span>
-                                                      <div class="invalid-feedback">
+                                                      <div className="invalid-feedback">
                                                         The field is required.
                                                       </div>
                                                     </div>
                                                   </div>
-                                                  <div class="col-sm-3">
-                                                    <div class="form-group required">
+                                                  <div className="col-sm-3">
+                                                    <div className="form-group required">
                                                       <span
-                                                        class="rc-input rc-input--full-width"
+                                                        className="rc-input rc-input--full-width"
                                                         input-setup="true"
                                                         data-js-validate=""
                                                         data-js-warning-message="*Phone Number isn’t valid"
                                                       >
                                                         <input
                                                           type="tel"
-                                                          class="rc-input__control form-control phone"
+                                                          className="rc-input__control form-control phone"
                                                           min-lenght="18"
                                                           max-length="18"
                                                           data-phonelength="18"
@@ -1235,7 +1258,7 @@ class Payment extends React.Component {
                                                           placeholder="CVV"
                                                         />
                                                       </span>
-                                                      <div class="invalid-feedback">
+                                                      <div className="invalid-feedback">
                                                         The field is required.
                                                       </div>
                                                     </div>
@@ -1247,19 +1270,19 @@ class Payment extends React.Component {
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="row overflow_visible">
-                                      <div class="col-sm-12">
-                                        <div class="form-group required">
-                                          <label class="form-control-label">
+                                    <div className="row overflow_visible">
+                                      <div className="col-sm-12">
+                                        <div className="form-group required">
+                                          <label className="form-control-label">
                                             Cardowner
                                           </label>
                                           <span
-                                            class="rc-input rc-input--full-width"
+                                            className="rc-input rc-input--full-width"
                                             input-setup="true"
                                           >
                                             <input
                                               type="text"
-                                              class="rc-input__control form-control cardOwner"
+                                              className="rc-input__control form-control cardOwner"
                                               name="cardOwner"
                                               value={creditCardInfo.cardOwner}
                                               onChange={(e) =>
@@ -1269,29 +1292,29 @@ class Payment extends React.Component {
                                               maxlength="40"
                                             />
                                             <label
-                                              class="rc-input__label"
+                                              className="rc-input__label"
                                               for="cardOwner"
                                             ></label>
                                           </span>
-                                          <div class="invalid-feedback">
-                                            This field is required.
+                                          <div className="invalid-feedback">
+                                            <FormattedMessage id="payment.errorInfo2" />
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="row">
-                                      <div class="col-sm-6">
-                                        <div class="form-group required">
-                                          <label class="form-control-label">
+                                    <div className="row">
+                                      <div className="col-sm-6">
+                                        <div className="form-group required">
+                                          <label className="form-control-label">
                                             Email
                                           </label>
                                           <span
-                                            class="rc-input rc-input--full-width"
+                                            className="rc-input rc-input--full-width"
                                             input-setup="true"
                                           >
                                             <input
                                               type="text"
-                                              class="rc-input__control form-control email"
+                                              className="rc-input__control form-control email"
                                               id="email"
                                               value={creditCardInfo.email}
                                               onChange={(e) =>
@@ -1302,32 +1325,32 @@ class Payment extends React.Component {
                                               maxlength="254"
                                             />
                                             <label
-                                              class="rc-input__label"
+                                              className="rc-input__label"
                                               for="email"
                                             ></label>
                                           </span>
-                                          <div class="invalid-feedback">
-                                            This field is required.
+                                          <div className="invalid-feedback">
+                                            <FormattedMessage id="payment.errorInfo2" />
                                           </div>
                                         </div>
                                       </div>
-                                      <div class="col-sm-6">
-                                        <div class="form-group required">
+                                      <div className="col-sm-6">
+                                        <div className="form-group required">
                                           <label
-                                            class="form-control-label"
+                                            className="form-control-label"
                                             for="phoneNumber"
                                           >
-                                            Phone number
+                                            <FormattedMessage id="payment.phoneNumber" />
                                           </label>
                                           <span
-                                            class="rc-input rc-input--full-width"
+                                            className="rc-input rc-input--full-width"
                                             input-setup="true"
                                             data-js-validate=""
                                             data-js-warning-message="*Phone Number isn’t valid"
                                           >
                                             <input
                                               type="tel"
-                                              class="rc-input__control form-control phone"
+                                              className="rc-input__control form-control phone"
                                               min-lenght="18"
                                               max-length="18"
                                               data-phonelength="18"
@@ -1342,20 +1365,20 @@ class Payment extends React.Component {
                                               maxlength="2147483647"
                                             />
                                             <label
-                                              class="rc-input__label"
+                                              className="rc-input__label"
                                               for="phoneNumber"
                                             ></label>
                                           </span>
-                                          <div class="invalid-feedback">
-                                            This field is required.
+                                          <div className="invalid-feedback">
+                                            <FormattedMessage id="payment.errorInfo2" />
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="row">
-                                      <div class="col-sm-12 rc-margin-y--xs rc-text--center">
+                                    <div className="row">
+                                      <div className="col-sm-12 rc-margin-y--xs rc-text--center">
                                         <button
-                                          class="rc-btn rc-btn--two card-confirm"
+                                          className="rc-btn rc-btn--two card-confirm"
                                           id="card-confirm"
                                           type="button"
                                           onClick={() => {
@@ -1364,7 +1387,7 @@ class Payment extends React.Component {
                                             });
                                           }}
                                         >
-                                          Confirm Card
+                                          <FormattedMessage id="payment.confirmCard" />
                                         </button>
                                       </div>
                                     </div>
@@ -1388,19 +1411,19 @@ class Payment extends React.Component {
                                       });
                                     }}
                                   >
-                                    Edit
+                                    <FormattedMessage id="edit" />
                                   </span>
                                 </p>
-                                <div class="row">
-                                  <div class="col-sm-5">
+                                <div className="row">
+                                  <div className="col-sm-5">
                                     <img src={visaImg} alt="" />
                                   </div>
-                                  <div class="col-sm-7">
+                                  <div className="col-sm-7">
                                     <div className="row creditCompleteInfo">
                                       <div className="col-sm-6">
-                                        <p>Name</p>
-                                        <p>Card number</p>
-                                        <p>DEBIT</p>
+                                        <p><FormattedMessage id="name" /></p>
+                                        <p><FormattedMessage id="payment.cardNumber" /></p>
+                                        <p><FormattedMessage id="payment.DEBIT" /></p>
                                       </div>
                                       <div className="col-sm-6">
                                         <p>&nbsp;{creditCardInfo.cardOwner}</p>
@@ -1417,9 +1440,9 @@ class Payment extends React.Component {
                       </form>
                     </div>
                   </div>
-                  <div class="footerCheckbox rc-margin-top--sm">
+                  <div className="footerCheckbox rc-margin-top--sm">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       id="id-checkbox-cat-2"
                       value=""
                       type="checkbox"
@@ -1432,30 +1455,25 @@ class Payment extends React.Component {
                       }}
                       checked={this.state.isReadPrivacyPolicy}
                     />
-                    <label class="rc-input__label--inline">
-                      I have read the User Agreement and the Privacy Policy and
-                      give my consent to the processing ot personal data,
-                      including cross-border transfer
+                    <label className="rc-input__label--inline">
+                      <FormattedMessage id="payment.confirmInfo3" />
                       <div
-                        class="warning"
+                        className="warning"
                         style={{
                           display:
                             this.state.isReadPrivacyPolicy ||
-                            this.state.isReadPrivacyPolicyInit
+                              this.state.isReadPrivacyPolicyInit
                               ? "none"
                               : "block",
                         }}
                       >
-                        You need to familiarize yourself with the User Agreement
-                        and the Privacy Policy and give your consent to the
-                        processing of personal data, including cross-border
-                        transfer.
+                        <FormattedMessage id="payment.confirmInfo4" />
                       </div>
                     </label>
                   </div>
                   <div className="footerCheckbox">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       id="id-checkbox-cat-2"
                       value="Cat"
                       type="checkbox"
@@ -1468,10 +1486,10 @@ class Payment extends React.Component {
                       }}
                       checked={this.state.isEighteen}
                     />
-                    <label class="rc-input__label--inline">
-                      I confirm that I am 18 years old
+                    <label className="rc-input__label--inline">
+                      <FormattedMessage id="payment.confirmInfo1" />
                       <div
-                        class="warning"
+                        className="warning"
                         style={{
                           display:
                             this.state.isEighteen || this.state.isEighteenInit
@@ -1479,37 +1497,37 @@ class Payment extends React.Component {
                               : "block",
                         }}
                       >
-                        You must be 18 years or more to register on the site.
+                        <FormattedMessage id="payment.confirmInfo2" />
                       </div>
                     </label>
                   </div>
-                  <div class="place_order-btn card">
-                    <div class="next-step-button">
-                      <div class="rc-text--right">
+                  <div className="place_order-btn card">
+                    <div className="next-step-button">
+                      <div className="rc-text--right">
                         <button
-                          class="rc-btn rc-btn--one submit-payment"
+                          className="rc-btn rc-btn--one submit-payment"
                           type="submit"
                           name="submit"
                           value="submit-shipping"
                           onClick={() => this.goConfirmation()}
                         >
-                          Further
+                          <FormattedMessage id="payment.further" />
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="product-summary rc-column">
-                <h5 class="product-summary__title rc-margin-bottom--xs">
-                  Your order
+              <div className="product-summary rc-column">
+                <h5 className="product-summary__title rc-margin-bottom--xs">
+                  <FormattedMessage id="payment.yourOrder" />
                 </h5>
                 <a
                   href="#"
                   onClick={(e) => this.goCart(e)}
-                  class="product-summary__cartlink rc-styled-link"
+                  className="product-summary__cartlink rc-styled-link"
                 >
-                  Edit
+                  <FormattedMessage id="edit" />
                 </a>
                 <PayProductInfo />
               </div>

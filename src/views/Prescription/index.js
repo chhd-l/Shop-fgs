@@ -183,11 +183,11 @@ render(h) {
             data-checkout-stage="prescription">
             <Progress type="perscription" />
             
-            <div class="clinic-tip"><FormattedMessage id="clinic.clinicTip"/></div>
+            <div className="clinic-tip"><FormattedMessage id="clinic.clinicTip"/></div>
             
             <div className="map-saerch">
 
-              <div class="clinic-search-list">
+              <div className="clinic-search-list">
                 <div><FormattedMessage id="clinic.selectVetClinics"/></div>
                 <form
                   className={['inlineblock', 'headerSearch', 'headerSearchDesktop', 'relative' ].join(' ')}
@@ -233,15 +233,15 @@ render(h) {
                   </span>
                   <div className="rc-column" style={{padding:"0", marginBottom:'2rem' }}>
                     { this.state.clinicArr.map( item =>(
-                      <article class="rc-card rc-card--a clinic-card-boder" style={{width:'100%',margin:'1rem 0'}} 
+                      <article className="rc-card rc-card--a clinic-card-boder" style={{width:'100%',margin:'1rem 0'}} 
                         key={item.clinicsId}>
-                        <div class="rc-card__body" style={{padding:"0 0 0 1rem" ,}}>
+                        <div className="rc-card__body" style={{padding:"0 0 0 1rem" ,}}>
                           <p style={{marginTop:'1rem'}}><FormattedMessage id='clinic.vet' ></FormattedMessage></p>
-                          <h3 class="rc-card__title rc-delta click-btn clinic-title" onClick={()=> this.handleItem(item)}>{item.clinicsName}</h3>
-                          <p class="clinic-phone">{item.email} </p>
-                          <p class="clinic-address">{item.location} </p>
+                          <h3 className="rc-card__title rc-delta click-btn clinic-title" onClick={()=> this.handleItem(item)}>{item.clinicsName}</h3>
+                          <p className="clinic-phone">{item.email} </p>
+                          <p className="clinic-address">{item.location} </p>
                           <div style={{height: '3rem'}}>
-                            <button class="rc-btn rc-btn--sm rc-btn--one card-btn" onClick={handleConfirm}>
+                            <button className="rc-btn rc-btn--sm rc-btn--one card-btn" onClick={handleConfirm}>
                               <FormattedMessage id="clinic.confirm" />
                             </button>
                           </div>
@@ -273,7 +273,7 @@ render(h) {
                 </form>
 
               </div>
-              <div class="clinic-map" >
+              <div className="clinic-map" >
                 <GoogleMap center={this.state.center} zoom={this.state.zoom} flags={flags} key={this.state.key}>
                 </GoogleMap>
               </div>

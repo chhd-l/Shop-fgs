@@ -81,7 +81,6 @@ class List extends React.Component {
   async getProductList () {
     let { checkedList, currentPage, pageSize, storeCateId, keywords } = this.state;
     const cateId = '1129'
-
     this.setState({
       loading: true
     })
@@ -133,7 +132,14 @@ class List extends React.Component {
             currentPage: esGoods.number + 1,
             totalPage: esGoods.totalPages
           })
+        } else {
+          this.setState({
+            productList: []
+          })
         }
+      })
+      .catch(() => {
+        this.setState({ loading: false, productList: [] })
       })
 
     if (!this.state.filterList.length) {

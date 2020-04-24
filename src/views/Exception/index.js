@@ -9,10 +9,10 @@ function HeroCarousel () {
     <React.Fragment>
       <Header showMiniIcons={true} />
 
-      <div class="page rc-content--fixed-header" data-action="RedirectURL-Start" data-querystring="">
-        <div class="container full-vh">
-          <div class="rc-padding--md rc-text--center rc-bg-colour--interface">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 260 265" xmlSpace="preserve" class="rc-svg--animated rc-padding-bottom--none" data-js-import-interactive-svg="" svg-animate-processed="true">
+      <div className="page rc-content--fixed-header" data-action="RedirectURL-Start" data-querystring="">
+        <div className="container full-vh">
+          <div className="rc-padding--md rc-text--center rc-bg-colour--interface">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 260 265" xmlSpace="preserve" className="rc-svg--animated rc-padding-bottom--none" data-js-import-interactive-svg="" svg-animate-processed="true">
               <g id="kennel">
                 <polygon style={{ fill: '#E2001A' }} points="234.7,265 25.3,265 25.3,90 130.3,13.3 234.7,90"></polygon>
                 <g>
@@ -56,16 +56,16 @@ function HeroCarousel () {
               </g>
             </svg>
 
-            <div class="rc-bg-colour--brand3">
+            <div className="rc-bg-colour--brand3">
 
-              <div class="rc-padding--sm rc-margin-bottom--xs">
+              <div className="rc-padding--sm rc-margin-bottom--xs">
 
-                <div class="rc-padding-y--md rc-md-down"></div>
+                <div className="rc-padding-y--md rc-md-down"></div>
 
-                <div class="rc-layout-container rc-one-column rc-max-width--md">
-                  <div class="rc-column">
-                    <div class="rc-full-width rc-text--center rc-padding-x--sm">
-                      <div class="rc-alpha inherit-fontsize">
+                <div className="rc-layout-container rc-one-column rc-max-width--md">
+                  <div className="rc-column">
+                    <div className="rc-full-width rc-text--center rc-padding-x--sm">
+                      <div className="rc-alpha inherit-fontsize">
                         <h1><FormattedMessage id="home.pageNotFound" /></h1>
                       </div>
                       <div><FormattedMessage id="home.pageNotFoundInfo" /></div>
@@ -73,10 +73,10 @@ function HeroCarousel () {
                   </div>
                 </div>
 
-                <div class="rc-padding-y--md rc-md-down"></div>
+                <div className="rc-padding-y--md rc-md-down"></div>
               </div>
             </div>
-            <Link to="/" class="rc-btn rc-btn--two" role="button" aria-pressed="true"><FormattedMessage id="continueShopping" /></Link>
+            <Link to="/" className="rc-btn rc-btn--two" role="button" aria-pressed="true"><FormattedMessage id="continueShopping" /></Link>
           </div>
         </div>
       </div>

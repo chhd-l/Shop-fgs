@@ -126,7 +126,7 @@ class Home extends React.Component {
             <div className="rc-bg-colour--brand3">
               <div className="rc-full-width">
                 <div className="rc-max-width--xl rc-padding-x--sm portfolio-content">
-                  <a href="#">
+                  <a href="#/">
                     <picture>
                       <source media="(max-width: 640px)"
                         srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw765f871e/homepage/banner-mob-CLUB@2x.jpg?sw=400&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw765f871e/homepage/banner-mob-CLUB@2x.jpg?sw=800&amp;sfrm=png 2x" />
@@ -155,7 +155,9 @@ class Home extends React.Component {
               <div className="rc-full-width">
                 <div
                   className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
-                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">Why is it convenient to shop with ROYAL CANIN®?</h4>
+                  <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
+                    <FormattedMessage id="home.convenientTitle" />
+                  </h4>
                   <div className="value-proposition__container">
                     <div className="row mx-0">
                       <div
@@ -165,7 +167,9 @@ class Home extends React.Component {
                             src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3206e904/homepage/pack@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
                             alt="  " title="  " />
                           <div className="pl-3 d-flex align-items-center value-proposition__text">
-                            <p className="rc-margin-bottom--none rc-intro">Selection of a diet according to the needs of your pet</p>
+                            <p className="rc-margin-bottom--none rc-intro">
+                              <FormattedMessage id="home.convenientTip1" />
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -176,7 +180,9 @@ class Home extends React.Component {
                             src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw0093423f/homepage/delivery@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
                             alt="  " title="  " />
                           <div className="pl-3 d-flex align-items-center value-proposition__text">
-                            <p className="rc-margin-bottom--none rc-intro">Fast free shipping when ordering from 2000 rubles.</p>
+                            <p className="rc-margin-bottom--none rc-intro">
+                              <FormattedMessage id="home.convenientTip2" />
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -187,7 +193,9 @@ class Home extends React.Component {
                             src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw91a30682/homepage/question@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
                             alt="  " title="  " />
                           <div className="pl-3 d-flex align-items-center value-proposition__text">
-                            <p className="rc-margin-bottom--none rc-intro">Support service: ask a question about your pet to a specialist</p>
+                            <p className="rc-margin-bottom--none rc-intro">
+                              <FormattedMessage id="home.convenientTip3" />
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -209,21 +217,20 @@ class Home extends React.Component {
                         <div data-thumb="interactive--pager" className="rc-hero rc-hero__layout--3">
                           <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
                             <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
-                              <a href="#"
-                                title="View Products">
+                              <a href="#/" title="View Products">
                                 <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
-                                  <p>The splendor of each breed is</p>
-                                  <p>in its uniqueness.</p>
+                                  <p><FormattedMessage id="home.specialInfo1" /></p>
+                                  <p><FormattedMessage id="home.specialInfo2" /></p>
                                 </div>
-                                <p className="rc-body">Find out what makes them unique!</p>
+                                <p className="rc-body"><FormattedMessage id="home.specialInfo3" /></p>
                               </a>
-                              <a href="#"
+                              <a
+                                href="#/"
                                 className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
                                 data-gtm="{&quot;title&quot;:&quot;Специально разработанный продукт Royal Canin®  для собак определенных пород &quot;,&quot;img&quot;:&quot;[object Object]&quot;}"
-                                title="View Products">View Products</a>
+                                title="View Products"><FormattedMessage id="home.viewProducts" /></a>
                             </div>
-                            <a href="#"
-                              title="View Products">
+                            <a href="#/" title="View Products">
                               <div className="rc-hero__section rc-hero__section--img">
                                 <picture>
                                   <source media="(max-width: 640px)"
@@ -244,20 +251,19 @@ class Home extends React.Component {
                         <div data-thumb="interactive--pager" className="rc-hero rc-hero__layout--3">
                           <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
                             <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
-                              <a href="#"
+                              <a href="#/"
                                 title="View Products">
                                 <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
-                                  <p>The splendor of each breed is</p>
-                                  <p>in its uniqueness.</p>
+                                  <p><FormattedMessage id="home.specialInfo1" /></p>
+                                  <p><FormattedMessage id="home.specialInfo2" /></p>
                                 </div>
-                                <p className="rc-body">Find out what makes them unique!</p>
+                                <p className="rc-body"><FormattedMessage id="home.specialInfo3" /></p>
                               </a>
-                              <a href="#"
+                              <a href="#/"
                                 className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
-                                title="View Products">View Products</a>
+                                title="View Products"><FormattedMessage id="home.viewProducts" /></a>
                             </div>
-                            <a href="#"
-                              title="View Products">
+                            <a href="#/" title="View Products">
                               <div className="rc-hero__section rc-hero__section--img">
                                 <picture>
                                   <source media="(max-width: 640px)"
@@ -298,12 +304,15 @@ class Home extends React.Component {
                             </div>
                             <div className=" col-12 col-lg-6">
                               <div className=" text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                                <h5 className="rc-beta markup-text">Special animal nutrition</h5>
+                                <h5 className="rc-beta markup-text"><FormattedMessage id="home.specialAnimalNutrition" /></h5>
                                 <p>
-                                  For more than 50 years, we have been following the principle of “Well-being for dogs and cats, above all.” We create adapted food for animals according to their special needs.
+                                  <FormattedMessage id="home.specialInfo4" />
                                 </p>
-                                <a className="rc-btn rc-btn--two gtm-content-block-btn"
-                                  href="#" title="To learn more">To learn more</a>
+                                <FormattedMessage id="header.toLearnMore">
+                                  {txt => (
+                                    <a className="rc-btn rc-btn--two gtm-content-block-btn" href="#/" title={txt}>{txt}</a>
+                                  )}
+                                </FormattedMessage>
                               </div>
                             </div>
                           </div>
@@ -326,37 +335,53 @@ class Home extends React.Component {
                     <div className="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list rc-sm-down mx-auto">
                       <div className="col-6 centered-icon-list__icon">
                         <img src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x" className="mx-auto" alt="Secure payments" title="Secure payments" />
-                        <p className="rc-meta text-center markup-text">Secure payments</p>
+                        <p className="rc-meta text-center markup-text">
+                          <FormattedMessage id="home.point1" />
+                        </p>
                       </div>
                       <div className="col-6 centered-icon-list__icon">
                         <img src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x" className="mx-auto" alt="Quality assurance" title="Quality assurance" />
-                        <p className="rc-meta text-center markup-text">Quality assurance</p>
+                        <p className="rc-meta text-center markup-text">
+                          <FormattedMessage id="home.point2" />
+                        </p>
                       </div>
                       <div className="col-6 centered-icon-list__icon">
                         <img src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x" className="mx-auto" alt="Premium service" title="Premium service" />
-                        <p className="rc-meta text-center markup-text">Premium service</p>
+                        <p className="rc-meta text-center markup-text">
+                          <FormattedMessage id="home.point3" />
+                        </p>
                       </div>
                       <div className="col-6 centered-icon-list__icon">
                         <img src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e4c369e/homepage/shippment@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e4c369e/homepage/shippment@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e4c369e/homepage/shippment@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x" className="mx-auto" alt="Fast shipping" title="Fast shipping" />
-                        <p className="rc-meta text-center markup-text">Fast shipping</p>
+                        <p className="rc-meta text-center markup-text">
+                          <FormattedMessage id="home.point4" />
+                        </p>
                       </div>
                     </div>
                     <div className="rc-sm-up d-flex justify-content-center bottom-content__icon-list">
-                      <div className="centered-icon-list__icon">
+                      <div className="centered-icon-list__icon text-center">
                         <img src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x" className="mx-auto" alt="Secure payments" title="Secure payments" />
-                        <p className="rc-meta text-center markup-text">Secure payments</p>
+                        <p className="rc-meta text-center markup-text">
+                          <FormattedMessage id="home.point1" />
+                        </p>
                       </div>
-                      <div className="centered-icon-list__icon">
+                      <div className="centered-icon-list__icon text-center">
                         <img src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x" className="mx-auto" alt="Quality assurance" title="Quality assurance" />
-                        <p className="rc-meta text-center markup-text">Quality assurance</p>
+                        <p className="rc-meta text-center markup-text">
+                          <FormattedMessage id="home.point2" />
+                        </p>
                       </div>
-                      <div className="centered-icon-list__icon">
+                      <div className="centered-icon-list__icon text-center">
                         <img src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x" className="mx-auto" alt="Premium service" title="Premium service" />
-                        <p className="rc-meta text-center markup-text">Premium service</p>
+                        <p className="rc-meta text-center markup-text">
+                          <FormattedMessage id="home.point3" />
+                        </p>
                       </div>
-                      <div className="centered-icon-list__icon">
+                      <div className="centered-icon-list__icon text-center">
                         <img src="https://www.shop.royal-canin.ru/dw/image/v2/BCM/K_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e4c369e/homepage/shippment@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e4c369e/homepage/shippment@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e4c369e/homepage/shippment@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x" className="mx-auto" alt="Fast shipping" title="Fast shipping" />
-                        <p className="rc-meta text-center markup-text">Fast shipping</p>
+                        <p className="rc-meta text-center markup-text">
+                          <FormattedMessage id="home.point4" />
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -379,13 +404,15 @@ class Home extends React.Component {
                         </picture>
                       </div>
                       <div className="col-12 col-lg-4 d-flex align-items-center order-0 order-lg-1 justify-content-center rc-margin-bottom--sm">
-                        <div className="rc-alpha text-center uppercase inherit-fontsize markup-text children-nomargin rc-margin--none"><p>CARE FOR THE HEALTH OF DOGS AND CATS SINCE 1968</p></div>
+                        <div className="rc-alpha text-center uppercase inherit-fontsize markup-text children-nomargin rc-margin--none">
+                          <p><FormattedMessage id="home.point5" /></p>
+                        </div>
                       </div>
                       <div className="col-6 col-lg-4 d-flex align-items-center order-2 justify-content-center flex-column flex-lg-row">
                         <div className="image-container rc-padding-bottom--xs rc-margin-right--xs--desktop">
                           <img src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=58&amp;sfrm=png" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=58&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=116&amp;sfrm=png 2x" width="58" alt="together with you" title="together with you" />
                         </div>
-                        <h5 className="rc-epsilon rc-text-colour--brand1"><b>TOGETHER WITH YOU</b></h5>
+                        <h5 className="rc-epsilon rc-text-colour--brand1"><b><FormattedMessage id="home.point6" /></b></h5>
                       </div>
                     </div>
                   </div>

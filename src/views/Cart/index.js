@@ -485,7 +485,7 @@ class Cart extends React.Component {
                                 <header>
                                   <Link to="/list/cats">
                                     <h4 className="card__title">
-                                      <FormattedMessage id="cart.cartDiet" />
+                                      <FormattedMessage id="cart.catDiet" />
                                     </h4>
                                   </Link>
                                 </header>

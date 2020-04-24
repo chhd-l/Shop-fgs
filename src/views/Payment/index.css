@@ -154,3 +154,8 @@
     margin-bottom: 1rem;
   border-bottom: 1px solid #d7d7d7;
 }
+
+.ui-lighter {
+  opacity: .7;
+  font-size: .95em;
+}

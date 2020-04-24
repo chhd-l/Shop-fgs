@@ -382,6 +382,7 @@ class Header extends React.Component {
                 </React.Fragment>
                 : null}
             </ul>
+            <div className="tip-clinics">Selected clinic: 121 Animal Hospital</div>
           </nav>
 
           <nav className="rc-header__nav rc-header__nav--secondary rc-md-up ">
