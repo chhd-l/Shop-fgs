@@ -41,7 +41,7 @@ class Prescription extends React.Component{
     this.state = {
       type:'perscription',
       keywords:'',
-      selectedSort:0,
+      selectedSort:1,
       current: 1,
       total: 0, // 总页数
       center:{
@@ -220,12 +220,6 @@ render(h) {
                   <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
                     style={{width:'100%',maxWidth:'100%', padding: "1rem 0 0 0"}}>
                     <select data-js-select="" id="id-single-select" value={this.state.selectedSort}>
-
-                    <FormattedMessage id='clinic.sortResults'>
-                        {(txt) => (
-                          <option value="0" disabled style={{color:'#666'}}>{txt}</option>
-                        )}
-                    </FormattedMessage>
                     <FormattedMessage id='clinic.sortResultsByDistance'>
                         {(txt) => (
                           <option value="1">{txt}</option>
