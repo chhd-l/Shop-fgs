@@ -4,18 +4,30 @@ import { FormattedMessage } from 'react-intl'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import HeroCarousel from '@/components/HeroCarousel'
+import { getParaByName } from "@/utils/utils"
+import './index.css'
 
 class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
+      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
+      clinicsId: sessionStorage.getItem('rc-clinics-id')
     }
+  }
+  componentDidMount () {
+    const { location } = this.props;
+    let clinicsId = getParaByName(location.search, 'clinics')
+    sessionStorage.setItem('rc-clinics-id', clinicsId)
+    this.setState({
+      clinicsId: clinicsId
+    })
   }
   render () {
     return (
       <div>
         <Header cartData={this.state.cartData} showMiniIcons={true} />
+        {this.state.clinicsId ? <div className="tip-clinics">Selected clinic: {this.state.clinicsId} Animal Hospital</div> : null}
         <main className="rc-content--fixed-header rc-main-content__wrapper ">
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">

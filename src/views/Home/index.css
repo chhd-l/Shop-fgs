@@ -1,0 +1,13 @@
+.tip-clinics {
+  position: fixed;
+  left: 14px;
+  padding: 5px;
+  font-size: .8em;
+  border-radius: 5px;
+  writing-mode: vertical-rl;
+  color: #fff;
+  background: #e2001a;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  z-index: 2;
+}
