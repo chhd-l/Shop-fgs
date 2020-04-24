@@ -113,7 +113,7 @@ class Confirmation extends React.Component {
                 <h4>
                   <b><FormattedMessage id="confirmation.info1" /></b>
                 </h4>
-                <p className="rc-meta">
+                <p style={{marginBottom: '5px'}}>
                   <FormattedMessage id="confirmation.info2" />
                 </p>
                 <Link to="/" className="rc-meta rc-styled-link backtohome">

@@ -162,6 +162,7 @@ const en_US = {
   'payment.cardNumber': 'Card number',
   'payment.DEBIT': 'DEBIT',
   'payment.confirmCard': 'Confirm Card',
+  'payment.paymentInformation': 'Payment Information',
 
   'confirmation.info1': 'Thank you for your order.',
   'confirmation.info2': 'In the near future, our staff will contact you to comfirm the order.',
