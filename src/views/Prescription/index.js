@@ -9,9 +9,7 @@ import GoogleMap from '@/components/GoogleMap'
 import { FormattedMessage } from 'react-intl'
 import { getPrescription } from '@/api/clinic'
 
-const handleConfirm=()=>{
-  createHashHistory().push('/payment/shipping')
-}
+
 
 const AnyReactComponent = ({ obj }) => {
   if(obj.type !== 'customer'){
@@ -153,6 +151,12 @@ class Prescription extends React.Component{
     })
     
   }
+  handleConfirm=(item)=>{
+    sessionStorage.setItem('rc-clinics-id2', item.clinicsId)
+    sessionStorage.setItem('rc-clinics-name2',item.clinicsName)
+    
+    createHashHistory().push('/payment/shipping')
+  }
 
 render(h) {
     let flags=[];
@@ -224,11 +228,11 @@ render(h) {
                           <option value="1">{txt}</option>
                         )}
                     </FormattedMessage>
-                    <FormattedMessage id='clinic.sortResultsByStarRating'>
+                    {/* <FormattedMessage id='clinic.sortResultsByStarRating'>
                         {(txt) => (
                           <option value="2">{txt}</option>
                         )}
-                    </FormattedMessage>
+                    </FormattedMessage> */}
                     </select>
                   </span>
                   <div className="rc-column" style={{padding:"0", marginBottom:'2rem' }}>
@@ -236,12 +240,12 @@ render(h) {
                       <article className="rc-card rc-card--a clinic-card-boder" style={{width:'100%',margin:'1rem 0'}} 
                         key={item.clinicsId}>
                         <div className="rc-card__body" style={{padding:"0 0 0 1rem" ,}}>
-                          <p style={{marginTop:'1rem'}}><FormattedMessage id='clinic.vet' ></FormattedMessage></p>
+                          <p style={{margin:'.5rem 0 0 0'}}><FormattedMessage id='clinic.vet' ></FormattedMessage></p>
                           <h3 className="rc-card__title rc-delta click-btn clinic-title" onClick={()=> this.handleItem(item)}>{item.clinicsName}</h3>
-                          <p className="clinic-phone">{item.email} </p>
-                          <p className="clinic-address">{item.location} </p>
+                          <div className="clinic-phone">{item.email} </div>
+                          <div className="clinic-address">{item.location} </div>
                           <div style={{height: '3rem'}}>
-                            <button className="rc-btn rc-btn--sm rc-btn--one card-btn" onClick={handleConfirm}>
+                            <button className="rc-btn rc-btn--sm rc-btn--one card-btn" onClick={()=>this.handleConfirm(item)}>
                               <FormattedMessage id="clinic.confirm" />
                             </button>
                           </div>

@@ -65,7 +65,7 @@
 .clinic-title{
   font-weight: 300;
   font-size: 1.625rem !important;
-  line-height:2.5rem !important;
+  margin-bottom: 0 !important;
 }
 .clinic-phone{
   display: inline-block;

@@ -15,7 +15,9 @@ class MapFlag extends React.Component {
       show:true
     })
   }
-  handleConfirm=()=>{
+  handleConfirm=(item)=>{
+    sessionStorage.setItem('rc-clinics-name2',item.clinicsName)
+    sessionStorage.setItem('rc-clinics-id2', item.clinicsId)
     createHashHistory().push('/payment/shipping')
   }
   handleClose=()=>{
@@ -50,7 +52,7 @@ class MapFlag extends React.Component {
             <button class="rc-btn rc-btn--two rc-btn--sm"  onClick={this.handleClose}>
               <FormattedMessage id='clinic.cancel' ></FormattedMessage>
             </button>
-            <button class="rc-btn rc-btn--one rc-btn--sm"  onClick={this.handleConfirm}>
+            <button class="rc-btn rc-btn--one rc-btn--sm"  onClick={()=>this.handleConfirm(this.props.obj)}>
               <FormattedMessage id='clinic.confirm' ></FormattedMessage>
             </button>
           </div>
