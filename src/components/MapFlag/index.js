@@ -1,5 +1,7 @@
 import React from 'react'
 import { createHashHistory } from 'history'
+import { FormattedMessage } from 'react-intl'
+import './index.css'
 
 class MapFlag extends React.Component {
   constructor(props) {
@@ -38,17 +40,28 @@ class MapFlag extends React.Component {
       style={{ display: this.state.show === true? "block":"none"}}>
         <div className="rc-tooltip rc-text--left rc-padding--xs" id="map-tooltip" style={{ display:'block'}}>
           <div className="rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop" style={{marginBottom:"0"}}>
-            <h1 className="rc-card__title rc-delta">{this.props.obj.clinicsName}</h1>
-            <p>{this.props.obj.email} </p>
-            <p style={{display: "inline-block",width:"10rem"}}>{this.props.obj.location}</p>
-            <div style={{marginTop:"1rem"}}>
+            <p><FormattedMessage id='clinic.vet' ></FormattedMessage></p>
+            <h4 class="rc-card__title rc-delta click-btn map-flag-title" >{this.props.obj.clinicsName}</h4>
+            
+            <div class="map-flag-address">{this.props.obj.location} </div>
+
+            <div class="map-flag-phone">{this.props.obj.email} </div>
+            <div class="rc-button-link-group rc-padding-right--md--desktop" style={{marginTop:"1rem"}}>
+            <button class="rc-btn rc-btn--two rc-btn--sm"  onClick={this.handleClose}>
+              <FormattedMessage id='clinic.cancel' ></FormattedMessage>
+            </button>
+            <button class="rc-btn rc-btn--one rc-btn--sm"  onClick={this.handleConfirm}>
+              <FormattedMessage id='clinic.confirm' ></FormattedMessage>
+            </button>
+          </div>
+            {/* <div style={{marginTop:"1rem"}}>
               <a className="rc-styled-link" 
                 style={{ backgroundColor: "gray",color: "white",padding: "5px",marginRight:"1rem"}} 
                 onClick={this.handleClose}>Close</a>
               <a className="rc-styled-link" 
                 style={{ backgroundColor: "red",color: "white",padding: "5px"}} 
                 onClick={this.handleConfirm}>Comfirm</a>
-            </div>
+            </div> */}
             
           </div>
         </div>

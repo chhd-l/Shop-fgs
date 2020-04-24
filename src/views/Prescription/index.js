@@ -142,7 +142,6 @@ class Prescription extends React.Component{
     })
   }
   handleItem=(item)=>{
-    debugger
     this.handldKey(this.state.key)
     item.latitude = +item.latitude
     item.longitude = +item.longitude

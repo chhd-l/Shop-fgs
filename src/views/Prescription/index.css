@@ -47,6 +47,7 @@
   padding: 5px;
 }
 .gm-style-iw-c{
+  min-width: 17rem;
   position: absolute;
   box-sizing: border-box;
   overflow: hidden;
