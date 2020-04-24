@@ -10,7 +10,7 @@ import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import paypalImg from "@/assets/images/credit-cards/paypal.png";
-import { postVisitorRegisterAndLogin } from "@/api/payment";
+import { postVisitorRegisterAndLogin, batchAdd, confirmAndCommit } from "@/api/payment";
 
 class Payment extends React.Component {
   constructor(props) {
@@ -126,32 +126,56 @@ class Payment extends React.Component {
   payMethodChange (e) {
     this.setState({ payMethod: e.target.value });
   }
-  goConfirmation () {
+  async goConfirmation () {
     const { history } = this.props;
-    let { isEighteen, isReadPrivacyPolicy } = this.state;
+    let { isEighteen, isReadPrivacyPolicy, deliveryAddress, billingAddress } = this.state;
     if (isEighteen && isReadPrivacyPolicy) {
-      postVisitorRegisterAndLogin({
-        address1: "add01",
-        address2: "add02",
-        billAddress1: "b",
-        billAddress2: "string",
-        billCity: 1,
-        billCountry: 2,
-        billFirstName: "string",
-        billLastName: "string",
-        billPhoneNumber: "string",
-        billPostCode: "string",
-        city: 1,
-        country: 1,
-        firstName: "d",
-        lastName: "xxx",
-        phoneNumber: "19009090909",
-        postCode: "123456",
-        useDeliveryAddress: true,
-      }).then(res => {
-        console.log(res, 'hahaha')
-        history.push('/confirmation')
-      }).catch(err => console.log(err))
+      let param = { useDeliveryAddress: true, ...deliveryAddress, ...{ city: 1, country: 1 } }
+      param.billAddress1 = billingAddress.address1
+      param.billAddress2 = billingAddress.address2
+      param.billCity = 1
+      param.billCountry = 1
+      param.billFirstName = billingAddress.firstName
+      param.billLastName = billingAddress.lastName
+      param.billPhoneNumber = billingAddress.phoneNumber
+      param.billPostCode = billingAddress.postCode
+
+      let res = await postVisitorRegisterAndLogin(param)
+      if (res.context && res.context.token) {
+        sessionStorage.setItem('rc-token', res.context.token)
+        let batchAddRes = await batchAdd({
+          "goodsInfos": [
+            {
+              "buyCount": 1,
+              "goodsInfoId": "8a9bc76c6bd699cb016c187b187009d0",
+              "verifyStock": false
+            },
+            {
+              "buyCount": 1,
+              "goodsInfoId": "8a9bc76c65ea68480165f00b93340038",
+              "verifyStock": false
+            }
+          ]
+        }
+        )
+        let res3 = confirmAndCommit({
+          "clinicsId": 0,
+          "clinicsName": 1,
+          "remark": "oooo",
+          "storeId": 123456861,
+          "tradeItems": [
+            {
+              "num": 1,
+              "skuId": "8a9bc76c65ea68480165f00b93340038"
+            }
+          ],
+          "tradeMarketingList": []
+        }
+        )
+        // history.push('/confirmation')
+      } else {
+        console.log(res && res.message || 'system error')
+      }
     } else {
       this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
     }
@@ -238,8 +262,8 @@ class Payment extends React.Component {
     } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list">
-        {this.state.creditCardImgUrl.map((el) => (
-          <img className="logo-payment-card" src={el} />
+        {this.state.creditCardImgUrl.map((el, idx) => (
+          <img key={idx} className="logo-payment-card" src={el} />
         ))}
       </span>
     );
@@ -289,7 +313,7 @@ class Payment extends React.Component {
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
                               <label
                                 className="form-control-label"
-                                for="shippingFirstName"
+                                htmlFor="shippingFirstName"
                               >
                                 <FormattedMessage id="payment.firstName" />
                               </label>
@@ -305,18 +329,14 @@ class Payment extends React.Component {
                                   onChange={(e) => this.deliveryInputChange(e)}
                                   onBlur={(e) => this.inputBlur(e)}
                                   name="firstName"
-                                  maxlength="50"
+                                  maxLength="50"
                                 />
                                 <label
                                   className="rc-input__label"
-                                  for="id-text1"
+                                  htmlFor="id-text1"
                                 ></label>
                               </span>
                               <div className="invalid-feedback">
-                                <FormattedMessage
-                                  id="itemsInCart2"
-                                  values={{ val: <b>{this.props.cartData.length}</b> }}
-                                />
                                 <FormattedMessage
                                   id="payment.errorInfo"
                                   values={{ val: <FormattedMessage id="payment.firstName" /> }} />
@@ -329,7 +349,7 @@ class Payment extends React.Component {
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
                                 className="form-control-label"
-                                for="shippingLastName"
+                                htmlFor="shippingLastName"
                               >
                                 <FormattedMessage id="payment.lastName" />
                               </label>
@@ -345,12 +365,11 @@ class Payment extends React.Component {
                                   onChange={(e) => this.deliveryInputChange(e)}
                                   onBlur={(e) => this.inputBlur(e)}
                                   name="lastName"
-                                  maxlength="50"
+                                  maxLength="50"
                                 />
                                 <label
                                   className="rc-input__label"
-                                  for="id-text1"
-                                ></label>
+                                  htmlFor="id-text1"></label>
                               </span>
                               <div className="invalid-feedback">
                                 <FormattedMessage
@@ -365,7 +384,7 @@ class Payment extends React.Component {
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
                                 className="form-control-label"
-                                for="shippingLastName"
+                                htmlFor="shippingLastName"
                               >
                                 <FormattedMessage id="payment.address1" />
                               </label>
@@ -381,11 +400,11 @@ class Payment extends React.Component {
                                   onChange={(e) => this.deliveryInputChange(e)}
                                   onBlur={(e) => this.inputBlur(e)}
                                   name="address1"
-                                  maxlength="50"
+                                  maxLength="50"
                                 />
                                 <label
                                   className="rc-input__label"
-                                  for="id-text1"
+                                  htmlFor="id-text1"
                                 ></label>
                               </span>
                               <div className="invalid-feedback">
@@ -401,7 +420,7 @@ class Payment extends React.Component {
                             <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
                                 className="form-control-label"
-                                for="shippingLastName"
+                                htmlFor="shippingLastName"
                               >
                                 <FormattedMessage id="payment.address2" />
                               </label>
@@ -417,11 +436,11 @@ class Payment extends React.Component {
                                   onChange={(e) => this.deliveryInputChange(e)}
                                   onBlur={(e) => this.inputBlur(e)}
                                   name="address2"
-                                  maxlength="50"
+                                  maxLength="50"
                                 />
                                 <label
                                   className="rc-input__label"
-                                  for="id-text1"
+                                  htmlFor="id-text1"
                                 ></label>
                               </span>
                             </div>
@@ -432,7 +451,7 @@ class Payment extends React.Component {
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
                               <label
                                 className="form-control-label"
-                                for="shippingCountry"
+                                htmlFor="shippingCountry"
                               >
                                 <FormattedMessage id="payment.country" />
                               </label>
@@ -444,7 +463,6 @@ class Payment extends React.Component {
                                   onChange={(e) => this.deliveryInputChange(e)}
                                   onBlur={(e) => this.inputBlur(e)}
                                   name="country"
-                                  placeholder="please cho"
                                 >
                                   <option>Russia</option>
                                 </select>
@@ -456,7 +474,7 @@ class Payment extends React.Component {
                           <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_city">
                             <label
                               className="form-control-label"
-                              for="shippingAddressCity"
+                              htmlFor="shippingAddressCity"
                             >
                               <FormattedMessage id="payment.city" />
                             </label>
@@ -480,7 +498,7 @@ class Payment extends React.Component {
                           <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_postalCode">
                             <label
                               className="form-control-label"
-                              for="shippingZipCode"
+                              htmlFor="shippingZipCode"
                             >
                               <FormattedMessage id="payment.postCode" />
                             </label>
@@ -499,13 +517,13 @@ class Payment extends React.Component {
                                 onChange={(e) => this.deliveryInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
                                 name="postCode"
-                                maxlength="6"
-                                minlength="6"
+                                maxLength="6"
+                                minLength="6"
                                 data-js-pattern="(^\d{6}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                               />
                               <label
                                 className="rc-input__label"
-                                for="id-text1"
+                                htmlFor="id-text1"
                               ></label>
                             </span>
                             <div className="invalid-feedback">
@@ -518,7 +536,7 @@ class Payment extends React.Component {
                           <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_phone">
                             <label
                               className="form-control-label"
-                              for="shippingPhoneNumber"
+                              htmlFor="shippingPhoneNumber"
                             >
                               <FormattedMessage id="payment.phoneNumber" />
                             </label>
@@ -537,12 +555,12 @@ class Payment extends React.Component {
                                 onBlur={(e) => this.inputBlur(e)}
                                 data-js-pattern="(^(\+?7|8)?9\d{9}$)"
                                 name="phoneNumber"
-                                maxlength="20"
-                                minlength="18"
+                                maxLength="20"
+                                minLength="18"
                               />
                               <label
                                 className="rc-input__label"
-                                for="shippingPhoneNumber"
+                                htmlFor="shippingPhoneNumber"
                               ></label>
                             </span>
                             <div className="invalid-feedback">
@@ -568,7 +586,7 @@ class Payment extends React.Component {
                         />
                         <label
                           className="rc-input__label--inline"
-                          for="id-checkbox-billing"
+                          htmlFor="id-checkbox-billing"
                         >
                           <FormattedMessage id="payment.useDeliveryAddress" />
                         </label>
@@ -586,7 +604,7 @@ class Payment extends React.Component {
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
                               <label
                                 className="form-control-label"
-                                for="shippingFirstName"
+                                htmlFor="shippingFirstName"
                               >
                                 <FormattedMessage id="payment.firstName" />
                               </label>
@@ -602,11 +620,11 @@ class Payment extends React.Component {
                                   onChange={(e) => this.billingInputChange(e)}
                                   onBlur={(e) => this.inputBlur(e)}
                                   name="firstName"
-                                  maxlength="50"
+                                  maxLength="50"
                                 />
                                 <label
                                   className="rc-input__label"
-                                  for="id-text1"
+                                  htmlFor="id-text1"
                                 ></label>
                               </span>
                               <div className="invalid-feedback">
@@ -622,7 +640,7 @@ class Payment extends React.Component {
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
                                 className="form-control-label"
-                                for="shippingLastName"
+                                htmlFor="shippingLastName"
                               >
                                 <FormattedMessage id="payment.lastName" />
                               </label>
@@ -638,11 +656,11 @@ class Payment extends React.Component {
                                   onChange={(e) => this.billingInputChange(e)}
                                   onBlur={(e) => this.inputBlur(e)}
                                   name="lastName"
-                                  maxlength="50"
+                                  maxLength="50"
                                 />
                                 <label
                                   className="rc-input__label"
-                                  for="id-text1"
+                                  htmlFor="id-text1"
                                 ></label>
                               </span>
                               <div className="invalid-feedback">
@@ -658,7 +676,7 @@ class Payment extends React.Component {
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
                                 className="form-control-label"
-                                for="shippingLastName"
+                                htmlFor="shippingLastName"
                               >
                                 <FormattedMessage id="payment.address1" />
                               </label>
@@ -674,11 +692,11 @@ class Payment extends React.Component {
                                   onChange={(e) => this.billingInputChange(e)}
                                   onBlur={(e) => this.inputBlur(e)}
                                   name="address1"
-                                  maxlength="50"
+                                  maxLength="50"
                                 />
                                 <label
                                   className="rc-input__label"
-                                  for="id-text1"
+                                  htmlFor="id-text1"
                                 ></label>
                               </span>
                               <div className="invalid-feedback">
@@ -694,7 +712,7 @@ class Payment extends React.Component {
                             <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
                               <label
                                 className="form-control-label"
-                                for="shippingLastName"
+                                htmlFor="shippingLastName"
                               >
                                 <FormattedMessage id="payment.address2" />
                               </label>
@@ -710,11 +728,11 @@ class Payment extends React.Component {
                                   onChange={(e) => this.billingInputChange(e)}
                                   onBlur={(e) => this.inputBlur(e)}
                                   name="address2"
-                                  maxlength="50"
+                                  maxLength="50"
                                 />
                                 <label
                                   className="rc-input__label"
-                                  for="id-text1"
+                                  htmlFor="id-text1"
                                 ></label>
                               </span>
                             </div>
@@ -725,7 +743,7 @@ class Payment extends React.Component {
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
                               <label
                                 className="form-control-label"
-                                for="shippingCountry"
+                                htmlFor="shippingCountry"
                                 value={billingAddress.country}
                                 onChange={(e) => this.billingInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
@@ -745,7 +763,7 @@ class Payment extends React.Component {
                           <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_city">
                             <label
                               className="form-control-label"
-                              for="shippingAddressCity"
+                              htmlFor="shippingAddressCity"
                             >
                               <FormattedMessage id="payment.city" />
                             </label>
@@ -769,7 +787,7 @@ class Payment extends React.Component {
                           <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_postalCode">
                             <label
                               className="form-control-label"
-                              for="shippingZipCode"
+                              htmlFor="shippingZipCode"
                             >
                               <FormattedMessage id="payment.postCode" />
                             </label>
@@ -787,13 +805,13 @@ class Payment extends React.Component {
                                 onChange={(e) => this.billingInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
                                 name="postCode"
-                                maxlength="6"
-                                minlength="6"
+                                maxLength="6"
+                                minLength="6"
                                 data-js-pattern="(^\d{6}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                               />
                               <label
                                 className="rc-input__label"
-                                for="id-text1"
+                                htmlFor="id-text1"
                               ></label>
                             </span>
                             <div className="invalid-feedback">
@@ -806,7 +824,7 @@ class Payment extends React.Component {
                           <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_phone">
                             <label
                               className="form-control-label"
-                              for="shippingPhoneNumber"
+                              htmlFor="shippingPhoneNumber"
                             >
                               <FormattedMessage id="payment.phoneNumber" />
                             </label>
@@ -825,12 +843,12 @@ class Payment extends React.Component {
                                 onBlur={(e) => this.inputBlur(e)}
                                 name="phoneNumber"
                                 data-js-pattern="(^(\+?7|8)?9\d{9}$)"
-                                maxlength="20"
-                                minlength="18"
+                                maxLength="20"
+                                minLength="18"
                               />
                               <label
                                 className="rc-input__label"
-                                for="shippingPhoneNumber"
+                                htmlFor="shippingPhoneNumber"
                               ></label>
                             </span>
                             <div className="invalid-feedback">
@@ -888,7 +906,7 @@ class Payment extends React.Component {
                       >
                         <textarea
                           className="rc-input__textarea noborder"
-                          maxlength="1000"
+                          maxLength="1000"
                           name="dwfrm_shipping_shippingAddress_deliveryComment"
                           id="delivery-comment"
                           value={this.state.commentOnDelivery}
@@ -896,7 +914,7 @@ class Payment extends React.Component {
                         ></textarea>
                         <label
                           className="rc-input__label"
-                          for="delivery-comment"
+                          htmlFor="delivery-comment"
                         ></label>
                       </span>
                     </div>
@@ -1078,7 +1096,7 @@ class Payment extends React.Component {
                                   />
                                   <label
                                     className="rc-input__label--inline"
-                                    for="id-radio-creditCard"
+                                    htmlFor="id-radio-creditCard"
                                   >
                                     Credit card
                                     {CreditCardImg}
@@ -1098,7 +1116,7 @@ class Payment extends React.Component {
                                   />
                                   <label
                                     className="rc-input__label--inline"
-                                    for="id-radio-payPal"
+                                    htmlFor="id-radio-payPal"
                                   >
                                     <span className="logo-payment-card-list">
                                       <img
@@ -1145,7 +1163,7 @@ class Payment extends React.Component {
                                         <div className="form-group">
                                           <label
                                             className="form-control-label"
-                                            for="cardNumber"
+                                            htmlFor="cardNumber"
                                           >
                                             Card number*
                                             {CreditCardImg}
@@ -1180,7 +1198,7 @@ class Payment extends React.Component {
                                                             this.inputBlur(e)
                                                           }
                                                           name="cardNumber"
-                                                          maxlength="254"
+                                                          maxLength="254"
                                                           placeholder="Card Number"
                                                         />
                                                       </span>
@@ -1217,7 +1235,7 @@ class Payment extends React.Component {
                                                             this.inputBlur(e)
                                                           }
                                                           name="cardDate"
-                                                          maxlength="2147483647"
+                                                          maxLength="2147483647"
                                                           placeholder="MM/YY"
                                                         />
                                                       </span>
@@ -1254,7 +1272,7 @@ class Payment extends React.Component {
                                                             this.inputBlur(e)
                                                           }
                                                           name="cardCVV"
-                                                          maxlength="2147483647"
+                                                          maxLength="2147483647"
                                                           placeholder="CVV"
                                                         />
                                                       </span>
@@ -1289,11 +1307,11 @@ class Payment extends React.Component {
                                                 this.cardInfoInputChange(e)
                                               }
                                               onBlur={(e) => this.inputBlur(e)}
-                                              maxlength="40"
+                                              maxLength="40"
                                             />
                                             <label
                                               className="rc-input__label"
-                                              for="cardOwner"
+                                              htmlFor="cardOwner"
                                             ></label>
                                           </span>
                                           <div className="invalid-feedback">
@@ -1322,11 +1340,11 @@ class Payment extends React.Component {
                                               }
                                               onBlur={(e) => this.inputBlur(e)}
                                               name="email"
-                                              maxlength="254"
+                                              maxLength="254"
                                             />
                                             <label
                                               className="rc-input__label"
-                                              for="email"
+                                              htmlFor="email"
                                             ></label>
                                           </span>
                                           <div className="invalid-feedback">
@@ -1338,7 +1356,7 @@ class Payment extends React.Component {
                                         <div className="form-group required">
                                           <label
                                             className="form-control-label"
-                                            for="phoneNumber"
+                                            htmlFor="phoneNumber"
                                           >
                                             <FormattedMessage id="payment.phoneNumber" />
                                           </label>
@@ -1362,11 +1380,11 @@ class Payment extends React.Component {
                                               }
                                               onBlur={(e) => this.inputBlur(e)}
                                               name="phoneNumber"
-                                              maxlength="2147483647"
+                                              maxLength="2147483647"
                                             />
                                             <label
                                               className="rc-input__label"
-                                              for="phoneNumber"
+                                              htmlFor="phoneNumber"
                                             ></label>
                                           </span>
                                           <div className="invalid-feedback">
@@ -1455,7 +1473,7 @@ class Payment extends React.Component {
                       }}
                       checked={this.state.isReadPrivacyPolicy}
                     />
-                    <label className="rc-input__label--inline">
+                    <label htmlFor="id-checkbox-cat-2" className="rc-input__label--inline">
                       <FormattedMessage id="payment.confirmInfo3" />
                       <div
                         className="warning"
@@ -1474,7 +1492,7 @@ class Payment extends React.Component {
                   <div className="footerCheckbox">
                     <input
                       className="form-check-input"
-                      id="id-checkbox-cat-2"
+                      id="id-checkbox-cat-1"
                       value="Cat"
                       type="checkbox"
                       name="checkbox-2"
@@ -1486,7 +1504,7 @@ class Payment extends React.Component {
                       }}
                       checked={this.state.isEighteen}
                     />
-                    <label className="rc-input__label--inline">
+                    <label htmlFor="id-checkbox-cat-1" className="rc-input__label--inline">
                       <FormattedMessage id="payment.confirmInfo1" />
                       <div
                         className="warning"

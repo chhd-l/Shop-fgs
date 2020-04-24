@@ -64,9 +64,11 @@ class Confirmation extends React.Component {
   }
   deleteProduct () {
     let { currentProduct, productList } = this.state;
-    this.state.productList = productList.filter(
-      (el) => el.id !== currentProduct.id
-    );
+    this.setState({
+      productList: productList.filter(
+        (el) => el.id !== currentProduct.id
+      )
+    })
     this.changeCache();
     this.closeModal();
   }

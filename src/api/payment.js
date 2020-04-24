@@ -2,7 +2,9 @@ import axios from '@/utils/request'
 import { register } from '../serviceWorker'
 
 const api = {
-  visitorRegisterAndLogin: 'visitorRegisterAndLogin'
+  visitorRegisterAndLogin: 'visitorRegisterAndLogin',
+  batchAdd: '/site/batchAdd',
+  confirmAndCommit: '/tradeCustom/confirmAndCommit'
 }
 
 export default api
@@ -15,9 +17,17 @@ export function postVisitorRegisterAndLogin (parameter) {
   })
 }
 
-export function getList (parameter) {
+export function batchAdd (parameter) {
   return axios({
-    url: api.list,
+    url: api.batchAdd,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function confirmAndCommit (parameter) {
+  return axios({
+    url: api.confirmAndCommit,
     method: 'post',
     data: parameter
   })

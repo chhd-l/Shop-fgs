@@ -66,7 +66,7 @@ class PayProductInfo extends React.Component {
         <div className="product-summary__recap">
           <div className="product-summary__itemnbr checkout--padding rc-bg-colour--brand4">
             {productList.reduce((total, item) => total + item.quantity, 0)}&nbsp;
-            {productList.reduce((total, item) => total + item.quantity, 0) > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}
+            {productList.reduce((total, item) => total + item.quantity, 0) > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}&nbsp;
             <FormattedMessage id="payment.totalProduct" />
           </div>
           <div className="product-summary__recap__content">

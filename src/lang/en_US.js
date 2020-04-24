@@ -129,7 +129,7 @@ const en_US = {
   'clinic.clinicTip':'Which clinic provided service for you?',
   'clinic.SortResultsByStarRating':'Sort results by star rating',
 
-  'payment.clinicTitle': 'Selected Clinic',
+  'payment.clinicTitle': 'Selected clinic',
   'payment.deliveryTitle': 'Delivery Address',
   'payment.firstName': 'First Name',
   'payment.lastName': 'Last Name',

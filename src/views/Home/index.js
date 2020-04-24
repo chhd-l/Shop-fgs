@@ -27,7 +27,7 @@ class Home extends React.Component {
     return (
       <div>
         <Header cartData={this.state.cartData} showMiniIcons={true} />
-        {this.state.clinicsId ? <div className="tip-clinics">Selected clinic: {this.state.clinicsId} Animal Hospital</div> : null}
+        {this.state.clinicsId ? <div className="tip-clinics"><FormattedMessage id="payment.clinicTitle" />: {this.state.clinicsId} Animal Hospital</div> : null}
         <main className="rc-content--fixed-header rc-main-content__wrapper ">
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
