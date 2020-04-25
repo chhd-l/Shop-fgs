@@ -58,13 +58,20 @@ class Prescription extends React.Component{
         lat: 39.99,
         lng: 116.3,
       },
-      clinicArr:[]
+      clinicArr:[],
+      params:{
+        input:"",
+        pageNum:1,
+        pageSize:1,
+        sortord:"",
+        sortFlag:0
+      }
 
     }
     this.headerRef = React.createRef();
     this.inputRef = React.createRef();
     this.handleInit()
-    this.getPrescription()
+    this.getPrescription(this.state.params)
   }
   inputSearchValue=(e)=>{
     this.setState({
@@ -92,8 +99,8 @@ class Prescription extends React.Component{
     })
   }
 
-  async getPrescription(){
-    const res = await getPrescription()
+  async getPrescription(params){
+    const res = await getPrescription(params)
     if(res.code === 'K-000000'){
       this.setState({
         clinicArr: res.context.context.clinicsVo,
@@ -220,7 +227,7 @@ render(h) {
                   </span>
                   <input type="hidden" value="null" name="lang" />
 
-                  <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
+                  {/* <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
                     style={{width:'100%',maxWidth:'100%', padding: "1rem 0 0 0"}}>
                     <select data-js-select="" id="id-single-select" value={this.state.selectedSort}>
                     <FormattedMessage id='clinic.sortResultsByDistance'>
@@ -228,13 +235,13 @@ render(h) {
                           <option value="1">{txt}</option>
                         )}
                     </FormattedMessage>
-                    {/* <FormattedMessage id='clinic.sortResultsByStarRating'>
+                    <FormattedMessage id='clinic.sortResultsByStarRating'>
                         {(txt) => (
                           <option value="2">{txt}</option>
                         )}
-                    </FormattedMessage> */}
+                    </FormattedMessage>
                     </select>
-                  </span>
+                  </span> */}
                   <div className="rc-column" style={{padding:"0", marginBottom:'2rem' }}>
                     { this.state.clinicArr.map( item =>(
                       <article className="rc-card rc-card--a clinic-card-boder" style={{width:'100%',margin:'1rem 0'}} 

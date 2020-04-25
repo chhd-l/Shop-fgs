@@ -6,9 +6,10 @@ const api = {
 
 export default api
 
-export function getPrescription () {
+export function getPrescription (parameter) {
   return axios({
     url: `${api.queryPrescription}`,
-    method: 'post'
+    method: 'post',
+    data:parameter
   })
 }
