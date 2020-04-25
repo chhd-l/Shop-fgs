@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
-function HeroCarousel () {
+function Exception () {
   return (
     <React.Fragment>
       <Header showMiniIcons={true} />
@@ -86,4 +86,4 @@ function HeroCarousel () {
   )
 }
 
-export default HeroCarousel
+export default Exception
