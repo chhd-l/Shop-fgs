@@ -9,7 +9,11 @@ class Filter extends React.Component {
   }
   get computedCheckList () {
     return this.props.checkedList.map(v => {
-      return { parentCatogery: this.matchParentCatogery(v), ...v }
+      let parentCatogery = this.matchParentCatogery(v)
+      console.log(parentCatogery);
+      
+    return Object.assign({}, {parentCatogery:this.matchParentCatogery(v)}, v) 
+      // return { parentCatogery: this.matchParentCatogery(v), ...v }
     })
   }
   matchParentCatogery (data) {

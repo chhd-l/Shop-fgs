@@ -141,7 +141,8 @@ class Payment extends React.Component {
       this.setState({ showPayMethodError: true });
     }
     if (isEighteen && isReadPrivacyPolicy) {
-      let param = { useDeliveryAddress: billingChecked, ...deliveryAddress, ...{ city: 1, country: 1, phoneNumber: '18883733998' } }
+      let param = Object.assign({},{useDeliveryAddress: billingChecked},deliveryAddress,{ city: 1, country: 1, phoneNumber: '18883733998' } )
+      // let param = { useDeliveryAddress: billingChecked, ...deliveryAddress, ...{ city: 1, country: 1, phoneNumber: '18883733998' } }
       param.billAddress1 = billingAddress.address1
       param.billAddress2 = billingAddress.address2
       param.billCity = 1

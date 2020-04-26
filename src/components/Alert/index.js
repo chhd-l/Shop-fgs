@@ -13,10 +13,12 @@ let defaultState = {
 }
  
 class Alert extends Component{
- 
-  state = {
-    ...defaultState,
-  };
+  
+  constructor () {
+    super()
+    this.state = Object.assign({}, defaultState)
+  }
+  // state = Object.assign({}, defaultState)
   componentDidMount() {
     this.timer = setTimeout(
       () => {
@@ -43,16 +45,12 @@ class Alert extends Component{
   open =(options)=>{
     options = options || {};
     options.alertStatus = true;
-    this.setState({
-      ...defaultState,
-      ...options
-    })
+    let allState = Object.assign({}, defaultState, options)
+    this.setState(allState)
   }
   close(){
     this.state.closeAlert();
-    this.setState({
-      ...defaultState
-    })
+    this.setState(defaultState)
   }
   shouldComponentUpdate(nextProps, nextState){
     return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state), fromJS(nextState))

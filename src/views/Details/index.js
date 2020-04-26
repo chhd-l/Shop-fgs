@@ -157,9 +157,11 @@ class Details extends React.Component {
     let list = cloneDeep(sizeList)
     let ret = list.map((elem, indx) => {
       if (indx === index) {
-        elem = { ...elem, selected: true }
+        elem = Object.assign({}, elem, {selected: true})  
+        // elem = { ...elem, selected: true }
       } else {
-        elem = { ...elem, selected: false }
+        elem = Object.assign({}, elem, {selected: false})  
+        // elem = { ...elem, selected: false }
       }
       return elem
     })

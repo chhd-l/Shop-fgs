@@ -116,7 +116,8 @@ class Header extends React.Component {
         let goodsContent = esGoods.content
         if (res.context.goodsList) {
           goodsContent = goodsContent.map(ele => {
-            let ret = { ...ele }
+            let ret = Object.assign({}, ele)  
+            // let ret = { ...ele }
             const tmpItem = res.context.goodsList.find(g => g.goodsId === ele.id)
             if (tmpItem) {
               ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
