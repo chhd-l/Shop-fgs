@@ -172,7 +172,7 @@ class Cart extends React.Component {
             </div>
             <div className="product-info__desc w-100 relative">
               <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
-                <Link to={`/details/${pitem.goodsInfoId}`}>
+                <Link to={`/details/${pitem.sizeList[0].goodsInfoId}`}>
                   <h4 className="rc-gamma rc-margin--none">{pitem.goodsName}</h4>
                 </Link>
               </div>

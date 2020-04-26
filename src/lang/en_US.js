@@ -83,7 +83,7 @@ const en_US = {
   'details.theSize': 'The size',
   'details.availability': 'Availability',
   'details.inStock': 'In stock',
-  'details.outStock': 'Out stock',
+  'details.outStock': 'Out of stock',
   'details.addToCart': 'Add to Cart',
 
   'cart.errorInfo': 'The number can\'t be less than 1',
