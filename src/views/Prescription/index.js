@@ -41,7 +41,8 @@ class Prescription extends React.Component{
       keywords:'',
       selectedSort:1,
       current: 1,
-      total: 0, // 总页数
+      total: 0, // 总数
+      totalPage: 1,
       center:{
         lat: 39.99,
         lng: 116.3
@@ -61,10 +62,8 @@ class Prescription extends React.Component{
       clinicArr:[],
       params:{
         input:"",
-        pageNum:1,
+        pageNum:0,
         pageSize:1,
-        sortord:"",
-        sortFlag:0
       }
 
     }
@@ -102,31 +101,37 @@ class Prescription extends React.Component{
   async getPrescription(params){
     const res = await getPrescription(params)
     if(res.code === 'K-000000'){
+      let totalPage = res.context.total/this.state.params.pageSize
       this.setState({
-        clinicArr: res.context.context.clinicsVo,
-        total:res.context.context.clinicsVo.length
+        clinicArr: res.context.content,
+        totalPage:totalPage
       })
       
     }
     
   }
-  handleSearch(){
-    console.log('search');
+  handleSearch=()=>{
+    const { params } = this.state
+    params.input = this.state.keywords
+    this.getPrescription(params)
 
   }
   
-  handleCurrentPageNumChange (e) {
+  handleCurrentPageNumChange = (e)=> {
+    const { params } = this.state
     let tmp = parseInt(e.target.value)
     if (isNaN(tmp)) {
       tmp = 1
     }
-    if (tmp > this.state.total) {
-      tmp = this.state.total
+    if (tmp > this.state.totalPage) {
+      tmp = this.state.totalPage
     }
-    this.setState({ current: tmp }, () => this.getProductList())
+    params.pageNum = tmp-1
+    this.setState({ current: tmp })
+    this.getPrescription(params)
   }
-  handlePrevOrNextPage (type) {
-    const { current, total } = this.state
+  handlePrevOrNextPage = (type)=> {
+    const { current, totalPage,params } = this.state
     let res
     if (type === 'prev') {
       if (current <= 1) {
@@ -134,12 +139,14 @@ class Prescription extends React.Component{
       }
       res = current - 1
     } else {
-      if (current >= total) {
+      if (current >= totalPage) {
         return
       }
       res = current + 1
     }
-    this.setState({ current: res }, () => this.getProductList())
+    params.pageNum = res-1
+    this.setState({ current: res })
+    this.getPrescription(params)
   }
   handldKey=(key)=>{
     this.setState({
@@ -262,17 +269,17 @@ render(h) {
                       }
                   </div>
                   <div className="grid-footer rc-full-width">
-                    <nav className="rc-pagination" data-pagination="" data-pages={this.state.total}>
+                    <nav className="rc-pagination" data-pagination="" data-pages={this.state.totalPage}>
                       <form className="rc-pagination__form">
                         <button
                           className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-                          aria-label="Previous step" data-prev="" type="submit" onClick={this.handlePrevOrNextPage('prev')}></button>
+                          aria-label="Previous step" data-prev="" type="submit" onClick={()=>this.handlePrevOrNextPage('prev')}></button>
                         <div className="rc-pagination__steps">
                           <input type="text" className="rc-pagination__step rc-pagination__step--current" value={this.state.current}
-                            aria-label="Current step" onChange={this.handleCurrentPageNumChange} />
+                            aria-label="Current step" onChange={(e)=>this.handleCurrentPageNumChange(e)} />
                           <div className="rc-pagination__step rc-pagination__step--of">
                             of
-                            &nbsp;<span data-total-steps-label=""></span>
+                            &nbsp;<span data-total-steps-label="">{this.state.totalPage}</span>
                           </div>
                         </div>
                         <button

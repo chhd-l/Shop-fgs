@@ -126,7 +126,7 @@ const en_US = {
   'clinic.sortResultsByDistance':'Sort results by distance',
   'clinic.sortResultsByStarRating':'Sort results by star rating',
   'clinic.vet':'Vet',
-  'clinic.clinicTip':'Which clinic has provided for you',
+  'clinic.clinicTip':'Which clinic has provided service for you？',
   'clinic.SortResultsByStarRating':'Sort results by star rating',
 
   'payment.clinicTitle': 'Selected clinic',
