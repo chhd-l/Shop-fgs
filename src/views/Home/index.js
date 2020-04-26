@@ -5,6 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import HeroCarousel from '@/components/HeroCarousel'
 import { getParaByName } from "@/utils/utils"
+import { getPrescriptionById } from '@/api/clinic'
 import './index.css'
 
 class Home extends React.Component {
@@ -12,24 +13,31 @@ class Home extends React.Component {
     super(props)
     this.state = {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
-      clinicsId: sessionStorage.getItem('rc-clinics-id')
+      clinicsId: sessionStorage.getItem('rc-clinics-id'),
+      clinicsName: sessionStorage.getItem('rc-clinics-name')
     }
   }
-  componentDidMount () {
+  async componentDidMount () {
     const { location } = this.props;
     let clinicsId = getParaByName(location.search, 'clinics')
     sessionStorage.setItem('rc-clinics-id', clinicsId)
-    // todo... 联调接口
-    sessionStorage.setItem('rc-clinics-name', '')
     this.setState({
       clinicsId: clinicsId
     })
+    if (clinicsId) {
+      let res = await getPrescriptionById({ clinicsId })
+      let tmpName = res.context.clinicsName
+      sessionStorage.setItem('rc-clinics-name', tmpName)
+      this.setState({
+        clinicsName: tmpName
+      })
+    }
   }
   render () {
     return (
       <div>
         <Header cartData={this.state.cartData} showMiniIcons={true} />
-        {this.state.clinicsId ? <div className="tip-clinics"><FormattedMessage id="payment.clinicTitle" />: {this.state.clinicsId} Animal Hospital</div> : null}
+        {this.state.clinicsId ? <div className="tip-clinics"><FormattedMessage id="payment.clinicTitle" />: {this.state.clinicsName}</div> : null}
         <main className="rc-content--fixed-header rc-main-content__wrapper ">
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">

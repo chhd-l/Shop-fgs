@@ -8,6 +8,6 @@
   color: #fff;
   background: #e2001a;
   top: 50%;
-  transform: translateY(-50%) rotate(180deg);
-  z-index: 2;
+  transform: translateY(-50%);
+  z-index: 3;
 }

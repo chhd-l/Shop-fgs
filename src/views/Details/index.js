@@ -30,7 +30,8 @@ class Details extends React.Component {
       instockStatus: true,
       quantityMinLimit: 1,
       currentUnitPrice: 0,
-      showOneTab: false,
+      showOnlyoneTab: false,
+      showDescriptionTab: true,
       imageMagnifierCfg: {
         show: false,
         config: {}
@@ -86,7 +87,8 @@ class Details extends React.Component {
         ),
         stock: selectedSize.stock,
         currentUnitPrice: selectedSize.salePrice,
-        showOneTab: goodsDetailList.length === 1
+        showOnlyoneTab: goodsDetailList.length === 1,
+        showDescriptionTab: goodsDetailList.length === 1
       }, () => this.updateInstockStatus())
     }
   }
@@ -390,88 +392,115 @@ class Details extends React.Component {
 
             <div className="rc-max-width--xl rc-padding-x--sm">
               <div className="rc-match-heights rc-content-h-middle rc-reverse-layout rc-padding-bottom--lg">
-                <div className="rc-border-bottom rc-border-colour--interface ">
-                  <nav className="rc-fade--x" data-toggle-group="">
-                    <ul className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist">
-                      <li>
+
+                <div style={{ display: this.state.showOnlyoneTab ? 'none' : 'block' }}>
+                  <div className="rc-border-bottom rc-border-colour--interface">
+                    <nav className="rc-fade--x" data-toggle-group="">
+                      <ul className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist">
+                        {/* <li>
                         <button
                           className="rc-tab rc-btn"
-                          data-toggle="tab__panel-1--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
+                          data-toggle="tab__panel-1"
                           role="tab">
                           <FormattedMessage id="details.description" />
                         </button>
-                      </li>
-                      <li style={{ display: this.state.showOneTab ? 'none' : 'list-item' }}>
-                        <button
-                          className="rc-tab rc-btn"
-                          data-toggle="tab__panel-2--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
-                          role="tab">
-                          <FormattedMessage id="details.beneficialFeatures" />
-                        </button>
-                      </li>
-                      <li style={{ display: this.state.showOneTab ? 'none' : 'list-item' }}>
-                        <button
-                          className="rc-tab rc-btn"
-                          data-toggle="tab__panel-3--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
-                          role="tab">
-                          <FormattedMessage id="details.ingredients" />
-                        </button>
-                      </li>
-                      <li style={{ display: this.state.showOneTab ? 'none' : 'list-item' }}>
-                        <button
-                          className="rc-tab rc-btn"
-                          data-toggle="tab__panel-4--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
-                          role="tab">
-                          <FormattedMessage id="details.feedingRecommendations" />
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
-                {/* <!-- tabs --> */}
-                <div className="rc-tabs" style={{ marginTop: '40px' }}>
-                  <div id="tab__panel-1--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
+                      </li> */}
+                        <li>
+                          <button
+                            className="rc-tab rc-btn"
+                            data-toggle="tab__panel-2"
+                            role="tab">
+                            <FormattedMessage id="details.beneficialFeatures" />
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className="rc-tab rc-btn"
+                            data-toggle="tab__panel-3"
+                            role="tab">
+                            <FormattedMessage id="details.ingredients" />
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className="rc-tab rc-btn"
+                            data-toggle="tab__panel-4"
+                            role="tab">
+                            <FormattedMessage id="details.feedingRecommendations" />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                  <div className="rc-tabs" style={{ marginTop: '40px' }}>
+                    {/* <div id="tab__panel-1"
                     className="rc-tabs__content__single clearfix">
                     <div className="block">
                       <p className="content" dangerouslySetInnerHTML={createMarkup(this.state.goodsDetail1)}></p>
                     </div>
-                  </div>
-                  <div
-                    id="tab__panel-2--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
-                    className="clearfix benefit flex">
-                    <div class="d-flex flex-wrap">
-                      {this.state.goodsDetail2.map((item, idx) => (
-                        <div class="col-12 col-md-6" key={idx}>
-                          <div class="block-with-icon">
-                            <span class="rc-icon rc-rate-fill rc-iconography"></span>
-                            <div class="block-with-icon__content">
-                              <h5 class="block-with-icon__title">{item.length && item[0]}</h5>
-                              <p>{item.length && item.length > 1 && item[1]}</p>
+                  </div> */}
+                    <div
+                      id="tab__panel-2"
+                      className="clearfix benefit flex">
+                      <div class="d-flex flex-wrap">
+                        {this.state.goodsDetail2.map((item, idx) => (
+                          <div class="col-12 col-md-6" key={idx}>
+                            <div class="block-with-icon">
+                              <span class="rc-icon rc-rate-fill rc-iconography"></span>
+                              <div class="block-with-icon__content">
+                                <h5 class="block-with-icon__title">{item.length && item[0]}</h5>
+                                <p>{item.length && item.length > 1 && item[1]}</p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  <div id="tab__panel-3--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
-                    className="rc-tabs__content__single clearfix benefits ingredients">
-                    <div className="block">
-                      <p className="content" dangerouslySetInnerHTML={createMarkup(this.state.goodsDetail3)}></p>
+                    <div id="tab__panel-3"
+                      className="rc-tabs__content__single clearfix benefits ingredients">
+                      <div className="block">
+                        <p className="content" dangerouslySetInnerHTML={createMarkup(this.state.goodsDetail3)}></p>
+                      </div>
                     </div>
-                  </div>
-                  <div id="tab__panel-4--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
-                    className="rc-tabs__content__single clearfix benefits ingredients">
-                    <div className="block">
-                      <div className="rc-table">
-                        <div className="rc-scroll--x">
-                          <table className="rc-table__table" data-js-table="" dangerouslySetInnerHTML={createMarkup(this.state.goodsDetail4)}></table>
+                    <div id="tab__panel-4"
+                      className="rc-tabs__content__single clearfix benefits ingredients">
+                      <div className="block">
+                        <div className="rc-table">
+                          <div className="rc-scroll--x">
+                            <table className="rc-table__table" data-js-table="" dangerouslySetInnerHTML={createMarkup(this.state.goodsDetail4)}></table>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
+                <div style={{ display: !this.state.showDescriptionTab ? 'none' : 'block' }}>
+                  <div className="rc-border-bottom rc-border-colour--interface ">
+                    <nav className="rc-fade--x" data-toggle-group="">
+                      <ul className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist">
+                        <li>
+                          <button
+                            className="rc-tab rc-btn"
+                            data-toggle="tab__panel-1-1"
+                            role="tab">
+                            <FormattedMessage id="details.description" />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                  <div className="rc-tabs" style={{ marginTop: '40px' }}>
+                    <div id="tab__panel-1-1"
+                      className="rc-tabs__content__single clearfix">
+                      <div className="block">
+                        <p className="content" dangerouslySetInnerHTML={createMarkup(this.state.goodsDetail1)}></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
           <div className="sticky-addtocart" style={{ transform: 'translateY(-80px)' }}>

@@ -5,6 +5,8 @@ import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
 import { createHashHistory } from 'history'
 import { formatMoney } from "@/utils/utils.js";
+import logoAnimatedPng from "@/assets/images/logo--animated.png";
+import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import './index.css'
 import { getList } from '@/api/list'
 
@@ -234,9 +236,9 @@ class Header extends React.Component {
             <Link to="/" className="header__nav__brand logo-home">
               <span className="rc-screen-reader-text"></span>
               <object id="header__logo" className="rc-header__logo" type="image/svg+xml"
-                data="https://d1a19ys8w1wkc1.cloudfront.net/logo--animated.svg?v=8-7-8" data-js-import-interactive-svg>
+                data={logoAnimatedSvg} data-js-import-interactive-svg>
                 <img alt="Royal Canin" height="100" src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
-                  style={{ backgroundImage: 'url(https://d1a19ys8w1wkc1.cloudfront.net/logo--animated.png?v=8-7-8)' }} width="135" />
+                  style={{ backgroundImage: 'url(' + logoAnimatedPng + ')' }} width="135" />
               </object>
             </Link>
 
