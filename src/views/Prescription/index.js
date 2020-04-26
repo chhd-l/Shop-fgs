@@ -7,7 +7,7 @@ import './index.css'
 import MapFlag from '@/components/MapFlag'
 import GoogleMap from '@/components/GoogleMap'
 import { FormattedMessage } from 'react-intl'
-import { getPrescription } from '@/api/clinic'
+import { getPrescription,getAllPrescription } from '@/api/clinic'
 
 
 
@@ -60,10 +60,11 @@ class Prescription extends React.Component{
         lng: 116.3,
       },
       clinicArr:[],
+      currentClinicArr:[],
       params:{
         input:"",
         pageNum:0,
-        pageSize:1,
+        pageSize:3,
       }
 
     }
@@ -71,6 +72,7 @@ class Prescription extends React.Component{
     this.inputRef = React.createRef();
     this.handleInit()
     this.getPrescription(this.state.params)
+    this.getAllPrescription()
   }
   inputSearchValue=(e)=>{
     this.setState({
@@ -103,10 +105,24 @@ class Prescription extends React.Component{
     if(res.code === 'K-000000'){
       let totalPage = res.context.total/this.state.params.pageSize
       this.setState({
-        clinicArr: res.context.content,
+        currentClinicArr: res.context.content,
         totalPage:totalPage
       })
       
+    }
+    
+  }
+  async getAllPrescription(){
+    let params = {
+      "filterField": "string",
+      "filteringStr": "string"
+    }
+    const res = await getAllPrescription(params)
+    console.log(res);
+    if(res.code === 'K-000000'){
+      this.setState({
+        clinicArr: res.context
+      })
     }
     
   }
@@ -249,8 +265,8 @@ render(h) {
                     </FormattedMessage>
                     </select>
                   </span> */}
-                  <div className="rc-column" style={{padding:"0", marginBottom:'2rem' }}>
-                    { this.state.clinicArr.map( item =>(
+                  <div className="rc-column" style={{padding:"0", margin:'1rem 0 2rem' }}>
+                    { this.state.currentClinicArr.map( item =>(
                       <article className="rc-card rc-card--a clinic-card-boder" style={{width:'100%',margin:'1rem 0'}} 
                         key={item.clinicsId}>
                         <div className="rc-card__body" style={{padding:"0 0 0 1rem" ,}}>
