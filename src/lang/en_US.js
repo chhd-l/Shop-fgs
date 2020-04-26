@@ -89,6 +89,7 @@ const en_US = {
   'details.beneficialFeatures': 'Beneficial features',
   'details.ingredients': 'Ingredients',
   'details.feedingRecommendations': 'Feeding recommendations',
+  'details.errMsg': 'the product has no specs, please try again later.',
 
   'cart.errorInfo': 'The number can\'t be less than 1',
   'cart.yourBasket': 'Your basket',

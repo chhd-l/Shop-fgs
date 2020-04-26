@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
+import Skeleton from 'react-skeleton-loader'
 import { createHashHistory } from 'history'
 import { FormattedMessage } from 'react-intl'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import Filters from '@/components/Filters'
-import Loading from '@/components/Loading'
 import './index.css'
 import { cloneDeep } from 'lodash'
 import titleCfg from './json/title.json'
@@ -23,6 +23,28 @@ class List extends React.Component {
         // 占位用，不能删
         {
           id: '3003_RU',
+          lowGoodsName: 'Mini adult',
+          goodsInfos: [
+            {
+              goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
+              specText: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
+              salePrice: 945
+            }
+          ]
+        },
+        {
+          id: '3004_RU',
+          lowGoodsName: 'Mini adult',
+          goodsInfos: [
+            {
+              goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
+              specText: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
+              salePrice: 945
+            }
+          ]
+        },
+        {
+          id: '3005_RU',
           lowGoodsName: 'Mini adult',
           goodsInfos: [
             {
@@ -118,8 +140,7 @@ class List extends React.Component {
           let goodsContent = esGoods.content
           if (res.context.goodsList) {
             goodsContent = goodsContent.map(ele => {
-              let ret = Object.assign({}, ele)  
-              // let ret = { ...ele }
+              let ret = Object.assign({}, ele)
               const tmpItem = res.context.goodsList.find(g => g.goodsId === ele.id)
               if (tmpItem) {
                 ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
@@ -249,7 +270,12 @@ class List extends React.Component {
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
                       data-filter-trigger="filter-example">Filters</button>
                     <aside className="rc-filters" data-filter-target="filter-example">
-                      <Filters onChange={this.handleFilterChange} onRemove={this.handleRemove} filterList={this.state.filterList} checkedList={checkedList} />
+                      <Filters
+                        loading={loading}
+                        onChange={this.handleFilterChange}
+                        onRemove={this.handleRemove}
+                        filterList={this.state.filterList}
+                        checkedList={checkedList} />
                     </aside>
                   </div>
                   <div className={['rc-column', 'rc-triple-width', !productList.length ? 'd-flex justify-content-center align-items-center' : ''].join(' ')}>
@@ -266,39 +292,45 @@ class List extends React.Component {
                         </div>
                       </React.Fragment>
                       :
-                      <div className={['rc-match-heights', 'rc-layout-container', 'rc-event-card--sidebar-present', loading ? 'loading' : ''].join(' ')}>
-                        {loading ? <Loading noMask={true} /> : null}
+                      <div className={['rc-match-heights', 'rc-layout-container', 'rc-event-card--sidebar-present'].join(' ')}>
                         {productList.map(item => (
-                          <div className={['rc-column', loading ? 'loading' : ''].join(' ')} key={item.id}>
-                            <article className="rc-card rc-card--product">
+                          <div className={['rc-column'].join(' ')} key={item.id}>
+
+                            <article className="rc-card rc-card--product" style={{ minHeight: '120px' }}>
                               <div className="fullHeight">
                                 <a onClick={() => this.hanldeItemClick(item)} className="ui-cursor-pointer">
                                   <article className="rc-card--a rc-text--center rc-padding-top--sm">
-                                    <picture className="rc-card__image">
-                                      <div className="rc-padding-bottom--xs">
-                                        <img
-                                          src={item.goodsInfos[0].goodsInfoImg}
-                                          srcSet={item.goodsInfos[0].goodsInfoImg}
-                                          alt={item.lowGoodsName}
-                                          title={item.lowGoodsName} />
-                                      </div>
-                                    </picture>
-                                    <div className="rc-card__body rc-padding-top--none">
-                                      <div className="height-product-tile-plpOnly height-product-tile">
-                                        <header className="rc-text--center">
-                                          <h3 className="rc-card__title rc-gamma">{item.lowGoodsName}</h3>
-                                        </header>
-                                        <div className="Product-Key-words rc-text--center"></div>
-                                        <div className="rc-card__meta rc-margin-bottom--xs rc-text--center">
-                                          {item.goodsSubtitle}
-                                        </div>
-                                      </div>
-                                      <span className="rc-card__price rc-text--center">
-                                        <span className="range">
-                                          <FormattedMessage id="from" /> $ {formatMoney(item.goodsInfos[0].salePrice)}
-                                        </span>
-                                      </span>
-                                    </div>
+                                    {
+                                      loading
+                                        ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
+                                        : <React.Fragment>
+                                          <picture className="rc-card__image">
+                                            <div className="rc-padding-bottom--xs">
+                                              <img
+                                                src={item.goodsInfos[0].goodsInfoImg}
+                                                srcSet={item.goodsInfos[0].goodsInfoImg}
+                                                alt={item.lowGoodsName}
+                                                title={item.lowGoodsName} />
+                                            </div>
+                                          </picture>
+                                          <div className="rc-card__body rc-padding-top--none">
+                                            <div className="height-product-tile-plpOnly height-product-tile">
+                                              <header className="rc-text--center">
+                                                <h3 className="rc-card__title rc-gamma">{item.lowGoodsName}</h3>
+                                              </header>
+                                              <div className="Product-Key-words rc-text--center"></div>
+                                              <div className="rc-card__meta rc-margin-bottom--xs rc-text--center">
+                                                {item.goodsSubtitle}
+                                              </div>
+                                            </div>
+                                            <span className="rc-card__price rc-text--center">
+                                              <span className="range">
+                                                <FormattedMessage id="from" /> $ {formatMoney(item.goodsInfos[0].salePrice)}
+                                              </span>
+                                            </span>
+                                          </div>
+                                        </React.Fragment>
+                                    }
                                   </article>
                                 </a>
                               </div>
