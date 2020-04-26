@@ -215,7 +215,7 @@ class Home extends React.Component {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-centeredIconList">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile centered-icon-list">
-                    <div className="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list rc-sm-down mx-auto">
+                    <div className="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list rc-sm-down mx-auto text-center">
                       <div className="col-6 centered-icon-list__icon">
                         <img src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png" srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x" className="mx-auto" alt="Secure payments" title="Secure payments" />
                         <p className="rc-meta text-center markup-text">

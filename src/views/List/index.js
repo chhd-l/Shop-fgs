@@ -10,7 +10,8 @@ import './index.css'
 import { cloneDeep } from 'lodash'
 import titleCfg from './json/title.json'
 import { getList, getProps } from '@/api/list'
-import { queryStoreCateIds, formatMoney } from "@/utils/utils.js"
+import { queryStoreCateIds, formatMoney } from "@/utils/utils"
+import { STOREID } from '@/utils/constant'
 
 class List extends React.Component {
   constructor(props) {
@@ -108,6 +109,7 @@ class List extends React.Component {
     })
 
     let params = {
+      storeId: STOREID,
       cateId,
       propDetails: [],
       pageNum: currentPage - 1,

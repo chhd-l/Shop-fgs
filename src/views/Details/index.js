@@ -238,8 +238,8 @@ class Details extends React.Component {
           errMsg
             ? <main className="rc-content--fixed-header">
               <div className="product-detail product-wrapper rc-bg-colour--brand3">
-                <div className="rc-max-width--xl" style={{ margin: '50px 0', textAlign: 'center' }}>
-                  <div className="ui-font-nothing rc-md-up">
+                <div className="rc-max-width--xl" style={{ margin: '50px 0' }}>
+                  <div className="ui-font-nothing text-center">
                     <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
                     {errMsg}
                   </div>
