@@ -145,8 +145,8 @@ class Header extends React.Component {
                 <FormattedMessage id="goods" />
               </div>
               <div className="suggestions-items row justify-content-end items rc-padding-left--xs">
-                {(this.state.result.productList || []).map(item => (
-                  <div className="col-12 item" key={item.id}>
+                {(this.state.result.productList || []).map((item, idx) => (
+                  <div className="col-12 item" key={item.id + idx}>
                     <div className="row">
                       <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
                         <Link to={`/details/${item.goodsInfos[0].goodsInfoId}`}>
@@ -332,7 +332,7 @@ class Header extends React.Component {
                                 </div>
                                 <div className="product-summary limit">
                                   {cartData.map((item, idx) => (
-                                    <div className="minicart__product" key={item.goodsInfoId + idx}>
+                                    <div className="minicart__product" key={item.goodsId + idx}>
                                       <div>
                                         <div className="product-summary__products__item">
                                           <div className="product-line-item">
