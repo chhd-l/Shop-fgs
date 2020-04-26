@@ -31,7 +31,7 @@ function Footer () {
                   </button>
                   <ul className="list list--blank list--align" id="footer-list-158504765613564650" aria-labelledby="footer-head-158504765613564650" role="menu">
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/About-Us.html" role="menuitem">
+                      <a className="rc-list__link" href="https://www.royalcanin.com/mx/about-us" role="menuitem">
                         <FormattedMessage id="aboutUs2" />
                       </a>
                     </li>
@@ -78,11 +78,6 @@ function Footer () {
                     </h3>
                   </button>
                   <ul className="list list--blank list--align" id="footer-list-158504765613551093" aria-labelledby="footer-head-158504765613551093" role="menu">
-                    <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/account" role="menuitem">
-                        <FormattedMessage id="footer.myPersonalAccount" />
-                      </a>
-                    </li>
                     <li className="rc-list__item">
                       <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/help/contact" role="menuitem">
                         <FormattedMessage id="footer.contacts" />

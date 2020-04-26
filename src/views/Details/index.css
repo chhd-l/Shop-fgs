@@ -1583,3 +1583,10 @@ label.availability {
 .skt-loading .skeleton.badge::after {
     background-color: #F8FAFC;
   }	
+
+  .add-to-cart.disabled {
+    opacity: .5;
+    background: grey;
+    border-color: grey;
+    cursor: not-allowed;
+  }

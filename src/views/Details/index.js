@@ -159,10 +159,10 @@ class Details extends React.Component {
     let list = cloneDeep(sizeList)
     let ret = list.map((elem, indx) => {
       if (indx === index) {
-        elem = Object.assign({}, elem, {selected: true})  
+        elem = Object.assign({}, elem, { selected: true })
         // elem = { ...elem, selected: true }
       } else {
-        elem = Object.assign({}, elem, {selected: false})  
+        elem = Object.assign({}, elem, { selected: false })
         // elem = { ...elem, selected: false }
       }
       return elem
@@ -174,10 +174,14 @@ class Details extends React.Component {
     }, () => this.updateInstockStatus())
   }
   hanldeAddToCart ({ redirect = false }) {
-    const { currentUnitPrice, quantity, cartData } = this.state
+    const { currentUnitPrice, quantity, cartData, instockStatus } = this.state
     const { id, sizeList } = this.state.details
     const tmpData = Object.assign({}, this.state.details, { quantity }, { currentAmount: currentUnitPrice * quantity })
     let newCartData
+
+    if (!instockStatus || !quantity) {
+      return
+    }
 
     if (cartData) {
       newCartData = cloneDeep(cartData)
@@ -363,7 +367,7 @@ class Details extends React.Component {
                                   </div>
                                   <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                     <div className="cart-and-ipay">
-                                      <button className="add-to-cart rc-btn rc-btn--one rc-full-width" data-loc="addToCart" onClick={this.hanldeAddToCart}>
+                                      <button className={['add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', (this.state.instockStatus && this.state.quantity) ? '' : 'disabled'].join(' ')} data-loc="addToCart" onClick={this.hanldeAddToCart}>
                                         <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
                                         <FormattedMessage id="details.addToCart" />
                                       </button>
@@ -371,7 +375,7 @@ class Details extends React.Component {
                                   </div>
                                   <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                     <div className="cart-and-ipay">
-                                      <button className="add-to-cart rc-btn rc-btn--one rc-full-width" data-loc="addToCart" onClick={() => this.hanldeAddToCart({ redirect: true })}>
+                                      <button className={['add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', this.state.instockStatus && this.state.quantity ? '' : 'disabled'].join(' ')} data-loc="addToCart" onClick={() => this.hanldeAddToCart({ redirect: true })}>
                                         <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
                                         <FormattedMessage id="checkout" />
                                       </button>
