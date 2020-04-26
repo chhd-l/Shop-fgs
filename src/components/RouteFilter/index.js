@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { createHashHistory } from 'history'
-import { queryStoreCateIds } from "@/utils/utils.js"
+import { queryStoreCateIds } from "@/utils/utils"
 
 class RouteFilter extends Component {
   shouldComponentUpdate (nextProps) {

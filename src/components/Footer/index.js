@@ -84,18 +84,8 @@ function Footer () {
                       </a>
                     </li>
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor5" role="menuitem">
-                        <FormattedMessage id="footer.deliveryTerms" />
-                      </a>
-                    </li>
-                    <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor6" role="menuitem">
-                        <FormattedMessage id="footer.purchaseReturns" />
-                      </a>
-                    </li>
-                    <li className="rc-list__item">
                       <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/help/faq.html" role="menuitem">
-                        <FormattedMessage id="footer.frequentlyAskedQuestions" />
+                        <FormattedMessage id="footer.FAQ" />
                       </a>
                     </li>
                   </ul>

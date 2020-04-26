@@ -11,7 +11,7 @@ import { cloneDeep } from 'lodash'
 import titleCfg from './json/title.json'
 import { getList, getProps } from '@/api/list'
 import { queryStoreCateIds, formatMoney } from "@/utils/utils"
-import { STOREID } from '@/utils/constant'
+import { STOREID, CATEID } from '@/utils/constant'
 
 class List extends React.Component {
   constructor(props) {
@@ -64,7 +64,8 @@ class List extends React.Component {
       pageSize: 10,
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       keywords: '',
-      filterList: []
+      filterList: [],
+      initingFilter: true
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
@@ -103,14 +104,13 @@ class List extends React.Component {
   }
   async getProductList () {
     let { checkedList, currentPage, pageSize, storeCateId, keywords } = this.state;
-    const cateId = '1129'
     this.setState({
       loading: true
     })
 
     let params = {
       storeId: STOREID,
-      cateId,
+      cateId: CATEID,
       propDetails: [],
       pageNum: currentPage - 1,
       brandIds: [],
@@ -167,10 +167,11 @@ class List extends React.Component {
       })
 
     if (!this.state.filterList.length) {
-      getProps(cateId)
+      getProps(CATEID)
         .then(res => {
           this.setState({
-            filterList: res.context
+            filterList: res.context,
+            initingFilter: false
           })
         })
     }
@@ -233,7 +234,7 @@ class List extends React.Component {
     const { results, productList, loading, checkedList, currentPage, totalPage, titleData, cartData } = this.state
     return (
       <div>
-        <Header cartData={cartData} showMiniIcons={true} />
+        <Header cartData={cartData} showMiniIcons={true} location={this.props.location} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           {titleData ?
@@ -273,7 +274,7 @@ class List extends React.Component {
                       data-filter-trigger="filter-example">Filters</button>
                     <aside className="rc-filters" data-filter-target="filter-example">
                       <Filters
-                        loading={loading}
+                        initing={this.state.initingFilter}
                         onChange={this.handleFilterChange}
                         onRemove={this.handleRemove}
                         filterList={this.state.filterList}
