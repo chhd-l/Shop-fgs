@@ -304,6 +304,9 @@ class Payment extends React.Component {
                           let { history } = this.props;
                           history.push("/prescription");
                         }}
+                        style={{
+                          display: sessionStorage.getItem('rc-clinics-name') ? "none" : "inline",
+                        }}
                         className=" rc-styled-link rc-margin-top--xs pull-right"
                       >
                         <FormattedMessage id="edit" />

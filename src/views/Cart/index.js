@@ -172,6 +172,7 @@ class Cart extends React.Component {
             <div className="product-info__img w-100">
               <img
                 className="product-image"
+                style={{ maxWidth: '100px' }}
                 src={pitem.goodsImg}
                 alt={pitem.goodsName}
                 title={pitem.goodsName}
