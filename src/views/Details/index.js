@@ -96,7 +96,6 @@ class Details extends React.Component {
     let div = document.createElement('div');
     div.innerHTML = details;
     fragment.appendChild(div);
-    console.log(details);
 
     if (fragment.querySelector('.rc_proudct')) {
       res.push(fragment.querySelector('.rc_proudct_html_tab1').innerHTML)

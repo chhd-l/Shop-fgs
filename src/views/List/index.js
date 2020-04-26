@@ -201,10 +201,8 @@ class List extends React.Component {
     this.setState({ currentPage: res }, () => this.getProductList())
   }
   hanldeItemClick (item) {
-    if (item.goodsCateName) {
-      sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName)
-      sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
-    }
+    sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
+    sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
     createHashHistory().push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   render () {
@@ -237,7 +235,7 @@ class List extends React.Component {
               {this.state.keywords ?
                 <div className="nav-tabs-wrapper rc-text--center">
                   <div className="rc-intro"><FormattedMessage id="list.youSearchedFor" />:</div>
-                  <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText"><b>"mini"</b>(<FormattedMessage id="results" /> {results})</div>
+                  <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText"><b>"{this.state.keywords}"</b>(<FormattedMessage id="results" /> {results})</div>
                 </div> : null}
             </div>
             <section className="rc-bg-colour--brand3">

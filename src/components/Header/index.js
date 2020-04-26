@@ -30,6 +30,7 @@ class Header extends React.Component {
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this)
     this.handleItemClick = this.handleItemClick.bind(this)
     this.toggleMenu = this.toggleMenu.bind(this)
+    this.gotoDetails = this.gotoDetails.bind(this)
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
     this.menuBtnRef = React.createRef();
@@ -112,8 +113,19 @@ class Header extends React.Component {
     if (res && res.context) {
       const esGoods = res.context.esGoods
       if (esGoods && esGoods.content.length) {
+        let goodsContent = esGoods.content
+        if (res.context.goodsList) {
+          goodsContent = goodsContent.map(ele => {
+            let ret = { ...ele }
+            const tmpItem = res.context.goodsList.find(g => g.goodsId === ele.id)
+            if (tmpItem) {
+              ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
+            }
+            return ret
+          })
+        }
         this.setState({
-          result: Object.assign({}, { productList: esGoods.content, totalElements: esGoods.totalElements })
+          result: Object.assign({}, { productList: goodsContent, totalElements: esGoods.totalElements })
         })
       }
     }
@@ -121,6 +133,11 @@ class Header extends React.Component {
   handleItemClick () {
     createHashHistory().push('/list/keywords')
     localStorage.setItem('rc-search-keywords', this.state.keywords)
+  }
+  gotoDetails (item) {
+    sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
+    sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
+    createHashHistory().push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   toggleMenu () {
     this.setState({
@@ -140,7 +157,7 @@ class Header extends React.Component {
       <div className="suggestions">
         <div className="container">
           <div className="row d-flex flex-column-reverse flex-sm-row">
-            <div className="col-12 col-md-7 rc-column">
+            <div className="col-12 rc-column">
               <div className="rc-padding-top--lg--mobile rc-large-intro">
                 <FormattedMessage id="goods" />
               </div>
@@ -149,23 +166,23 @@ class Header extends React.Component {
                   <div className="col-12 item" key={item.id + idx}>
                     <div className="row">
                       <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
-                        <Link to={`/details/${item.goodsInfos[0].goodsInfoId}`}>
+                        <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(item)}>
                           <img
                             className="swatch__img"
                             alt={item.lowGoodsName}
                             title={item.lowGoodsName}
                             src={item.goodsInfos[0].goodsInfoImg} />
-                        </Link>
+                        </a>
                       </div>
                       <div className="col-8 col-md-9 col-lg-10 rc-padding-top--xs">
-                        <Link
-                          to={`/details/${item.goodsInfos[0].goodsInfoId}`}
-                          className="productName"
+                        <a
+                          onClick={() => this.gotoDetails(item)}
+                          className="productName ui-cursor-pointer"
                           alt={item.lowGoodsName}
                           title={item.lowGoodsName}
                         >
                           {item.lowGoodsName}
-                        </Link>
+                        </a>
                         <div className="rc-meta searchProductKeyword"></div>
                       </div>
                     </div>
@@ -177,12 +194,6 @@ class Header extends React.Component {
                   <b><FormattedMessage id="viewAllResults" /> ({this.state.result.totalElements})</b>
                 </a>
               </div>
-            </div>
-            <div className="col-12 col-md-5 rc-bg-colour--brand4 rc-column d-flex flex-column rc-padding-top--md--mobile">
-              {/* todo */}
-              {/* <a onClick={this.handleItemClick} className="productName ui-cursor-pointer" title={this.state.result.productName} alt={this.state.result.productName}>
-                {this.state.result.productName}
-              </a> */}
             </div>
           </div>
           <span className="d-sm-none_ more-below">
