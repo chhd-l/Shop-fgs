@@ -1,5 +1,6 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl'
+import { createHashHistory } from 'history'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
@@ -57,6 +58,7 @@ class Cart extends React.Component {
       quantityMinLimit: 1
     }
     this.handleAmountChange = this.handleAmountChange.bind(this)
+    this.gotoDetails = this.gotoDetails.bind(this)
   }
   get totalNum () {
     return this.state.productList.reduce((pre, cur) => { return pre + cur.quantity }, 0)
@@ -154,6 +156,11 @@ class Cart extends React.Component {
       productList: productList || []
     });
   }
+  gotoDetails (pitem) {
+    sessionStorage.setItem('rc-goods-cate-name', pitem.goodsCateName || '')
+    sessionStorage.setItem('rc-goods-name', pitem.goodsName)
+    createHashHistory().push('/details/' + pitem.sizeList[0].goodsInfoId)
+  }
   getProducts (plist) {
     const Lists = plist.map((pitem, index) => (
       <div
@@ -172,9 +179,9 @@ class Cart extends React.Component {
             </div>
             <div className="product-info__desc w-100 relative">
               <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
-                <Link to={`/details/${pitem.sizeList[0].goodsInfoId}`}>
+                <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(pitem)}>
                   <h4 className="rc-gamma rc-margin--none">{pitem.goodsName}</h4>
-                </Link>
+                </a>
               </div>
               <div className="cart-product-error-msg"></div>
               <span

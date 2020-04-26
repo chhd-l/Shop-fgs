@@ -17,18 +17,24 @@ class Details extends React.Component {
       details: {
         id: '',
         goodsName: '',
-        goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004232138238027.PNG',
+        goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004142026536251.jpg',
         goodsDescription: '',
-        goodsDetail: '',
         sizeList: []
       },
+      goodsDetail1: '',
+      goodsDetail2: [],
+      goodsDetail3: '',
+      goodsDetail4: '',
       quantity: 1,
       stock: 0,
       instockStatus: true,
       quantityMinLimit: 1,
       currentUnitPrice: 0,
-      showImageMagnifier: false,
-      config: {},
+      showOneTab: false,
+      imageMagnifierCfg: {
+        show: false,
+        config: {}
+      },
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       loading: true
     }
@@ -62,17 +68,55 @@ class Details extends React.Component {
       })
 
       const selectedSize = sizeList.find(s => s.selected)
+
+      const goodsDetailList = this.handleDetails(res.context.goods.goodsDetail)
+      goodsDetailList.map((item, i) => {
+        this.setState({
+          [`goodsDetail${i + 1}`]: item
+        })
+        return item
+      })
+
       this.setState({
-        details: Object.assign({},
+        details: Object.assign(
+          {},
           this.state.details,
           res.context.goods,
-          { sizeList },
-          { goodsInfoId: res.context.goodsInfos[0].goodsInfoId }
+          { sizeList }
         ),
         stock: selectedSize.stock,
-        currentUnitPrice: selectedSize.salePrice
+        currentUnitPrice: selectedSize.salePrice,
+        showOneTab: goodsDetailList.length === 1
       }, () => this.updateInstockStatus())
     }
+  }
+  handleDetails (details) {
+    let res = []
+    let fragment = document.createDocumentFragment();
+    let div = document.createElement('div');
+    div.innerHTML = details;
+    fragment.appendChild(div);
+
+    if (fragment.querySelector('.rc_proudct')) {
+      res.push(fragment.querySelector('.rc_proudct_html_tab1').innerHTML)
+
+      let tmpRes = []
+      let tmpLiList = fragment.querySelector('.rc_proudct_html_tab2').querySelectorAll('li')
+      tmpLiList.forEach(item => {
+        let tmpPList = []
+        item.querySelectorAll('p').forEach(n => {
+          tmpPList.push(n.innerHTML)
+        })
+        tmpRes.push(tmpPList)
+      })
+      res.push(tmpRes)
+
+      res.push(fragment.querySelector('.rc_proudct_html_tab3').innerHTML)
+      res.push(fragment.querySelector('.rc_proudct_html_tab4').innerHTML)
+    } else {
+      res.push(details)
+    }
+    return res
   }
   updateInstockStatus () {
     this.setState({
@@ -160,12 +204,14 @@ class Details extends React.Component {
   hanldeImgMouseEnter () {
     if (document.querySelector('#J-details-img')) {
       this.setState({
-        showImageMagnifier: true,
-        config: {
-          width: document.querySelector('#J-details-img').offsetWidth,
-          height: document.querySelector('#J-details-img').offsetHeight,
-          scale: 2
-        }
+        imageMagnifierCfg: Object.assign(this.state.imageMagnifierCfg, {
+          show: true,
+          config: {
+            width: document.querySelector('#J-details-img').offsetWidth,
+            height: document.querySelector('#J-details-img').offsetHeight,
+            scale: 2
+          }
+        })
       })
     }
   }
@@ -183,15 +229,15 @@ class Details extends React.Component {
                 <div className="rc-content-h-top">
                   <div className={['rc-layout-container', 'rc-six-column', this.state.loading ? 'skt-loading' : ''].join(' ')}>
                     <div className="rc-column rc-double-width carousel-column skeleton">
-                      <div className={['rc-full-width', this.state.showImageMagnifier ? 'show-image-magnifier' : ''].join(' ')}>
+                      <div className={['rc-full-width', this.state.imageMagnifierCfg.show ? 'show-image-magnifier' : ''].join(' ')}>
                         <div data-js-carousel data-image-gallery="true" data-move-carousel-up='md'
                           data-move-carousel-to='#new-carousel-container'>
                           <div className="rc-carousel rc-carousel__gallery-image" data-zoom-container="product-description-carousel"
                             data-zoom-factor="3">
                             <div onMouseEnter={() => this.hanldeImgMouseEnter(details.goodsImg)}>
-                              {this.state.showImageMagnifier ?
+                              {this.state.imageMagnifierCfg.show ?
                                 <div className="details-img-container">
-                                  <ImageMagnifier minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.config} />
+                                  <ImageMagnifier minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.imageMagnifierCfg.config} />
                                 </div> : <div>
                                   <picture className="d-flex">
                                     {/* <source
@@ -341,10 +387,89 @@ class Details extends React.Component {
             </div>
 
             <div className="rc-max-width--xl rc-padding-x--sm">
-              <div
-                className="rc-match-heights rc-content-h-middle rc-reverse-layout rc-padding-bottom--lg"
-                dangerouslySetInnerHTML={createMarkup(details.goodsDetail)}>
+              <div className="rc-match-heights rc-content-h-middle rc-reverse-layout rc-padding-bottom--lg">
+                <div className="rc-border-bottom rc-border-colour--interface ">
+                  <nav className="rc-fade--x" data-toggle-group="">
+                    <ul className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist">
+                      <li>
+                        <button
+                          className="rc-tab rc-btn"
+                          data-toggle="tab__panel-1--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
+                          role="tab">
+                          <FormattedMessage id="details.description" />
+                        </button>
+                      </li>
+                      <li style={{ display: this.state.showOneTab ? 'none' : 'list-item' }}>
+                        <button
+                          className="rc-tab rc-btn"
+                          data-toggle="tab__panel-2--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
+                          role="tab">
+                          <FormattedMessage id="details.beneficialFeatures" />
+                        </button>
+                      </li>
+                      <li style={{ display: this.state.showOneTab ? 'none' : 'list-item' }}>
+                        <button
+                          className="rc-tab rc-btn"
+                          data-toggle="tab__panel-3--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
+                          role="tab">
+                          <FormattedMessage id="details.ingredients" />
+                        </button>
+                      </li>
+                      <li style={{ display: this.state.showOneTab ? 'none' : 'list-item' }}>
+                        <button
+                          className="rc-tab rc-btn"
+                          data-toggle="tab__panel-4--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
+                          role="tab">
+                          <FormattedMessage id="details.feedingRecommendations" />
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+                {/* <!-- tabs --> */}
+                <div className="rc-tabs" style={{ marginTop: '40px' }}>
+                  <div id="tab__panel-1--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
+                    className="rc-tabs__content__single clearfix">
+                    <div className="block">
+                      <p className="content" dangerouslySetInnerHTML={createMarkup(this.state.goodsDetail1)}></p>
+                    </div>
+                  </div>
+                  <div
+                    id="tab__panel-2--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
+                    className="clearfix benefit flex">
+                    <div class="d-flex flex-wrap">
+                      {this.state.goodsDetail2.map((item, idx) => (
+                        <div class="col-12 col-md-6" key={idx}>
+                          <div class="block-with-icon">
+                            <span class="rc-icon rc-rate-fill rc-iconography"></span>
+                            <div class="block-with-icon__content">
+                              <h5 class="block-with-icon__title">{item.length && item[0]}</h5>
+                              <p>{item.length && item.length > 1 && item[1]}</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div id="tab__panel-3--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
+                    className="rc-tabs__content__single clearfix benefits ingredients">
+                    <div className="block">
+                      <p className="content" dangerouslySetInnerHTML={createMarkup(this.state.goodsDetail3)}></p>
+                    </div>
+                  </div>
+                  <div id="tab__panel-4--single-b3c23a4b-28f7-442d-a45f-0d62fc6a951a"
+                    className="rc-tabs__content__single clearfix benefits ingredients">
+                    <div className="block">
+                      <div className="rc-table">
+                        <div className="rc-scroll--x">
+                          <table className="rc-table__table" data-js-table="" dangerouslySetInnerHTML={createMarkup(this.state.goodsDetail4)}></table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+
             </div>
           </div>
           <div className="sticky-addtocart" style={{ transform: 'translateY(-80px)' }}>
@@ -359,9 +484,9 @@ class Details extends React.Component {
               </button>
             </div>
           </div>
-        </main>
+        </main >
         <Footer />
-      </div>
+      </div >
     )
   }
 }
