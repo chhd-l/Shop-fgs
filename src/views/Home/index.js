@@ -19,7 +19,7 @@ class Home extends React.Component {
   }
   async componentDidMount () {
     const { location } = this.props;
-    let clinicsId = getParaByName(location.search, 'clinics')
+    let clinicsId = getParaByName(window.location.search || location.search, 'clinics')
     sessionStorage.setItem('rc-clinics-id', clinicsId)
     this.setState({
       clinicsId: clinicsId
@@ -144,7 +144,7 @@ class Home extends React.Component {
               </div>
             </div>
           </section>
-          
+
           {/* <!-- divider --> */}
           <section>
             <div className="rc-border-bottom rc-border-colour--brand4" style={{ borderBottomWidth: '1px' }}> </div>
