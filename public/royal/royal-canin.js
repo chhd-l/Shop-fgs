@@ -26,7 +26,8 @@
       62: 0
   };
   function jsonpScriptSrc(e) {
-      return __webpack_require__.p + "" + ({
+    //   return __webpack_require__.p + "" + ({
+    return './royal/royal-assets1/' + "" + ({
           0: "jsSupport",
           1: "cssImport",
           2: "style-loader",
@@ -100,7 +101,9 @@
           78: "tslib",
           79: "util",
           80: "util-deprecate"
-      }[e] || e) + ".rcdl.bundle.js?v=8-7-8"
+    //   }[e] || e) + ".rcdl.bundle.js?v=8-7-8"
+
+      }[e] || e) + ".rcdl.bundle.js"
   }
   function __webpack_require__(r) {
       if (t[r]) {
@@ -135,6 +138,7 @@
                   a.setAttribute("nonce", __webpack_require__.nc)
               }
               a.src = jsonpScriptSrc(e);
+              console.log(jsonpScriptSrc(e))
               var s = new Error;
               o = function(t) {
                   a.onerror = a.onload = null;
@@ -1168,6 +1172,7 @@
               if (!t.tagName) {
                   r = document.createDocumentFragment()
               } else {
+                  console.log(1175)
                   r = document.createElement(t.tagName);
                   if (t.className) {
                       r.className = t.className
@@ -2538,6 +2543,11 @@
                       document.addEventListener("DOMContentLoaded", function() {
                           t.assets[e].elements = RCDL.utilities.queryDOM(t.assets[e].selector, null, t.assets[e].exclude);
                           var r = t.assets[e].elements.length !== 0 ? "preload" : "prefetch";
+                        //   打标记
+                          console.log(t.assets[e].url, '11')
+                          t.assets[e].url = t.assets[e].url.replace(/https:\/\/d1a19ys8w1wkc1.cloudfront.net/, './royal/royal-assets1')
+                          t.assets[e].url = t.assets[e].url.replace(/\?v=8-7-8/, '')
+                          console.log(t.assets[e].url, '11')
                           var i = document.createElement("link");
                           i.href = t.assets[e].url;
                           i.as = "style";
@@ -2557,6 +2567,8 @@
                       this.assets[e].elements = RCDL.utilities.queryDOM(this.assets[e].selector, null, this.assets[e].exclude)
                   }
                   if (this.assets[e].elements.length !== 0) {
+                    console.log(this.assets[e].url, '22')
+                    //   打标记
                       var r = document.createElement("link");
                       r.href = this.assets[e].url;
                       r.type = "text/css";
@@ -2631,6 +2643,10 @@
                       window.RCDL.breakpointData[l].mediaQuery = n()(c = "(".concat(e === "up" ? "min" : "max", "-width: ")).call(c, t.breakpoints[r], "px)");
                       if (window.matchMedia(window.RCDL.breakpointData[l].mediaQuery).matches) {
                           var u = document.createElement("link");
+                          
+                          window.RCDL.breakpointData[l].url = window.RCDL.breakpointData[l].url.replace(/https:\/\/d1a19ys8w1wkc1.cloudfront.net/, './royal/royal-assets1')
+                          window.RCDL.breakpointData[l].url = window.RCDL.breakpointData[l].url.replace(/\?v=8-7-8/, '')
+                          console.log(window.RCDL.breakpointData[l].url, 333)
                           u.href = window.RCDL.breakpointData[l].url;
                           u.as = "style";
                           u.type = "text/css";
@@ -2648,6 +2664,7 @@
               var i = n()(r = "".concat(t, "-")).call(r, e);
               if (window.RCDL.breakpointData[i].state !== "loaded") {
                   var a = document.createElement("link");
+                  console.log(window.RCDL.breakpointData[i].url, 444)
                   a.href = window.RCDL.breakpointData[i].url;
                   a.type = "text/css";
                   a.rel = "stylesheet";
@@ -8631,6 +8648,7 @@
           }
       }
       Object.keys(e.attributes).forEach(function(r) {
+          console.log(r, e.attributes[r], 'attributes')
           t.setAttribute(r, e.attributes[r])
       });
       if (typeof e.insert === "function") {

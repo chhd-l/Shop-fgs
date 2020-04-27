@@ -154,3 +154,7 @@
     margin-bottom: 1rem;
   border-bottom: 1px solid #d7d7d7;
 }
+
+#card-secure-fields {
+  border-color: #d7d7d7 !important;
+}
