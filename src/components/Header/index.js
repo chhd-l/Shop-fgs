@@ -221,7 +221,7 @@ class Header extends React.Component {
                         </div>
                       </div>
                     )) :
-                    <p className="">
+                    <p className="d-flex">
                       <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
                       <FormattedMessage id="list.errMsg2" />
                     </p>
