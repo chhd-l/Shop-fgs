@@ -104,7 +104,7 @@ const style = {
     POS.createToken(additionalData, function(result) {
       console.log(result, 'result')
       // Grab the token here
-
+      localStorage.setItem('payosdata', result)
     });
   });
 
