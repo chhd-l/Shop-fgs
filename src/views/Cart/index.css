@@ -1,3 +1,6 @@
+.ui-pet-item .ui-item {
+  width: 48%;
+}
 .checkout-continue {
   position: fixed;
   bottom: 0;
@@ -137,6 +140,10 @@ div.product-info .hnc-club-logo img {
 @media (max-width: 991.98px) {
   div.product-info:not(.hnc-product) {
       margin-bottom:20px
+  }
+  .ui-pet-item .ui-item {
+    width: 100%;
+    margin-bottom: 1rem;
   }
 }
 

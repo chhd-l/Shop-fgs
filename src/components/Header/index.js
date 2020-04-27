@@ -463,7 +463,7 @@ class Header extends React.Component {
               <li className="rc-list__item">
                 <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                   <li className="rc-list__item">
-                    <a className="rc-list__header" href="https://www.royalcanin.com/mx/about-us">
+                    <a className="rc-list__header" href="https://www.royalcanin.com/mx/about-us" target="_blank">
                       <FormattedMessage id="aboutUs" />
                     </a>
                   </li>
