@@ -233,7 +233,7 @@ class Details extends React.Component {
     const { details, quantity, stock, quantityMinLimit, instockStatus, currentUnitPrice, cartData, errMsg } = this.state
     return (
       <div>
-        <Header ref={this.headerRef} cartData={cartData} showMiniIcons={true} location={this.props.location} />
+        <Header ref={this.headerRef} cartData={cartData} showMiniIcons={true} />
         {
           errMsg
             ? <main className="rc-content--fixed-header">

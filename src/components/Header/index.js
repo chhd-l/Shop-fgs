@@ -1,14 +1,16 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Link } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
 import { createHashHistory } from 'history'
-import { formatMoney } from "@/utils/utils.js";
+import { formatMoney, getParaByName } from "@/utils/utils";
 import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import './index.css'
 import { getList } from '@/api/list'
+import { CATEID } from '@/utils/constant'
+import { getPrescriptionById } from '@/api/clinic'
 
 class Header extends React.Component {
   static defaultProps = {
@@ -23,7 +25,9 @@ class Header extends React.Component {
       keywords: '',
       loading: false,
       result: null,
-      showMegaMenu: false
+      showMegaMenu: false,
+      clinicsId: sessionStorage.getItem('rc-clinics-id'),
+      clinicsName: sessionStorage.getItem('rc-clinics-name')
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -37,8 +41,27 @@ class Header extends React.Component {
     this.inputRefMobile = React.createRef();
     this.menuBtnRef = React.createRef();
   }
-  componentDidMount () {
+  async componentDidMount () {
     window.addEventListener('click', (e) => this.hideMenu(e))
+    const { location } = this.props;
+    let clinicsId = getParaByName(window.location.search || location.search, 'clinics')
+    if (location.pathname === '/') {
+      sessionStorage.setItem('rc-clinics-id', clinicsId)
+      this.setState({
+        clinicsId: clinicsId
+      })
+      let tmpName
+      if (clinicsId) {
+        let res = await getPrescriptionById({ clinicsId })
+        tmpName = res.context.clinicsName
+      } else {
+        tmpName = null
+      }
+      sessionStorage.setItem('rc-clinics-name', tmpName)
+      this.setState({
+        clinicsName: tmpName
+      })
+    }
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
@@ -101,7 +124,7 @@ class Header extends React.Component {
     this.setState({ loading: true })
 
     let params = {
-      cateId: '1129',
+      cateId: CATEID,
       keywords,
       propDetails: [],
       pageNum: 0,
@@ -118,8 +141,7 @@ class Header extends React.Component {
         let goodsContent = esGoods.content
         if (res.context.goodsList) {
           goodsContent = goodsContent.map(ele => {
-            let ret = Object.assign({}, ele)  
-            // let ret = { ...ele }
+            let ret = Object.assign({}, ele)
             const tmpItem = res.context.goodsList.find(g => g.goodsId === ele.id)
             if (tmpItem) {
               ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
@@ -465,9 +487,10 @@ class Header extends React.Component {
           {this.state.loading ? <Loading /> : null}
           <MegaMenu show={this.state.showMegaMenu} />
         </header>
+        {this.state.clinicsId && this.state.showMiniIcons ? <div className="tip-clinics"><FormattedMessage id="clinic.clinic" />: {this.state.clinicsName}</div> : null}
       </React.Fragment>
     )
   }
 }
 
-export default Header;
+export default withRouter(Header)

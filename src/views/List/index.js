@@ -234,7 +234,7 @@ class List extends React.Component {
     const { results, productList, loading, checkedList, currentPage, totalPage, titleData, cartData } = this.state
     return (
       <div>
-        <Header cartData={cartData} showMiniIcons={true} location={this.props.location} />
+        <Header cartData={cartData} showMiniIcons={true} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           {titleData ?
