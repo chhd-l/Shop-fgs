@@ -1,5 +1,5 @@
 .icon[class*='--xs'].rc-brand1:after,.rc-btn--icon--xs:active::after,.rc-btn--two::after {
-  background-image: url(https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--brand1--xs.svg?v=8-7-8)
+  background-image: url(./royal-assets1/royal-canin.sprite--brand1--xs.svg)
 }
 
 html:not(.rc-loaded--final) * {
@@ -202,12 +202,12 @@ body {
 }
 
 .icon[class*='--xs'].rc-brand3:after,.rc-btn--one::after,.rc-navigation--next::after,.rc-navigation--prev::after {
-  background-image: url(https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--brand3--xs.svg?v=8-7-8);
+  background-image: url(./royal-assets1/royal-canin.sprite--brand3--xs.svg);
   width: 24px
 }
 
 .rc-btn--icon:active::after {
-  background-image: url(https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--brand1.svg?v=8-7-8)
+  background-image: url(./royal-assets1/royal-canin.sprite--brand1.svg)
 }
 
 .rc-main-content__wrapper {
