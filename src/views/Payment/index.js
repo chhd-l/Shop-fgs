@@ -13,6 +13,7 @@ import paypalImg from "@/assets/images/credit-cards/paypal.png";
 import { STOREID } from '@/utils/constant'
 import { postVisitorRegisterAndLogin, batchAdd, confirmAndCommit } from "@/api/payment";
 
+
 class Payment extends React.Component {
   constructor(props) {
     super(props);
@@ -162,7 +163,11 @@ class Payment extends React.Component {
           }
         })
       }
+      let payosdata = JSON.parse(localStorage.getItem('payosdata'))
+      // console.log(payosdata, 'payosdata')
       let param3 = {
+        token: payosdata.token,
+        creditDardCvv: payosdata.encrypted_cvv,
         clinicsId: sessionStorage.getItem('rc-clinics-id') || sessionStorage.getItem('rc-clinics-id2'),
         remark: commentOnDelivery,
         storeId: STOREID,
@@ -249,7 +254,61 @@ class Payment extends React.Component {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
   }
+  loadJs(url,callback){
+    // var script=document.createElement('script');
+    // script.type="text/javascript";
+    // if(typeof(callback)!="undefined"){
+    // if(script.readyState){
+    //   script.onreadystatechange=function(){
+    //     if(script.readyState == "loaded" || script.readyState == "complete"){
+    //       script.onreadystatechange=null;
+    //       callback();
+    //     }
+    //   }
+    // }else{
+    //   script.onload=function(){
+    //     callback();
+    //   }
+    // }
+    // }
+    // script.src=url;
+    // document.body.appendChild(script);
+    var head= document.getElementsByTagName('head')[0];
+
+      var script= document.createElement('script');
+
+      script.src= url;
+
+      head.appendChild(script);
+  }
   componentDidMount () {
+    // let urls = [process.env.PUBLIC_URL + '/royal/royal-assets1/webpack.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/sentry.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/tslib.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/jsSupport.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/37.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/polyfills.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/fontFallback.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/41.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/feature.selects_js.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/feature.forms_js.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/feature.toggle-group_js.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/feature.alerts_js.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/feature.tooltip_js.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/feature.svgAnimation_js.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/36.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/cssrcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/style-loader.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/choices_js.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/popper_js.rcdl.bundle.js',
+    //   process.env.PUBLIC_URL + '/royal/royal-assets1/tippy_js.rcdl.bundle.js'
+    // ]
+    // urls.map(el => {
+    //   this.loadJs(el, function () {
+    //     // alert('done');
+    //     console.log(el, '212121',process.env.PUBLIC_URL,'elllll')
+    //   });
+    // })
     let deliveryInfoStr = localStorage.getItem("deliveryInfo");
     if (deliveryInfoStr) {
       let deliveryInfo = JSON.parse(deliveryInfoStr);
