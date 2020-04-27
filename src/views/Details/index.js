@@ -263,12 +263,12 @@ class Details extends React.Component {
                           {this.state.loading
                             ? <Skeleton color="#f5f5f5" width="100%" height="100%" />
                             : <div className={['rc-full-width', this.state.imageMagnifierCfg.show ? 'show-image-magnifier' : ''].join(' ')}>
-                              <div className="d-flex justify-content-center" onMouseEnter={() => this.hanldeImgMouseEnter(details.goodsImg)}>
+                              <div className="d-flex justify-content-center ui-margin-top-1-md-down" onMouseEnter={() => this.hanldeImgMouseEnter(details.goodsImg)}>
                                 {
                                   this.state.imageMagnifierCfg.show ?
                                     <div className="details-img-container">
                                       <ImageMagnifier minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.imageMagnifierCfg.config} />
-                                    </div> : <div className="ui-margin-top-1-md-down" style={{ height: 354 }}>
+                                    </div> : <div style={{ height: 354 }}>
                                       <img
                                         id="J-details-img"
                                         src={details.goodsImg}
