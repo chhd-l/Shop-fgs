@@ -7,6 +7,130 @@ class Help extends React.Component{
     return(
       <div>
         <Header/>
+        <main className="rc-content--fixed-header rc-bg-colour--brand3" >
+          <div class="rc-bg-colour--brand4 text-center" >
+            <div class="rc-layout-container rc-content-h-middle">
+              <div class="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
+                <span class="rc-icon rc-icon rc-delivery--sm rc-brand1 rc-iconography"></span>
+                <div class="d-flex align-items-center">
+                  <span class="rc-margin-right--xs rc-margin-left--xs">
+                    <font style={{verticalAlign: "inherit"}}>
+                      <font style={{verticalAlign: "inherit"}}>FREE home delivery! </font>
+                      <font style={{verticalAlign: "inherit"}}>(allow a delay of 5 to 7 days due to the exceptional context)</font>
+                    </font>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="help-page">
+            <div class="experience-region experience-main">
+              <div class="experience-region experience-main">
+                <div class="experience-component experience-layouts-1column">
+                  <div class="row rc-margin-x--none">
+                    <div class="rc-full-width">
+                      <div class="experience-component experience-assets-contactUsBlock">
+                        <div class="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+                          <div class="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
+                            <div class="rc-column rc-padding-bottom--none--mobile">
+                              <h1 class="rc-beta">
+                                <font style={{verticalAlign: "inherit"}}>
+                                  <font style={{verticalAlign: "inherit"}}>Need help ?</font>
+                                </font>
+                              </h1>
+                            </div>
+                            <div class="rc-column">
+                            <div class="rc-large-body inherit-fontsize children-nomargin">
+                            <p>
+                              <font style={{verticalAlign: "inherit"}}>
+                                <font style={{verticalAlign: "inherit"}}>Our advisers are real experts and enthusiasts. </font>
+                                <font style={{verticalAlign: "inherit"}}>They are at your disposal to answer any request.</font>
+                              </font>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
+                        <div class="rc-column rc-double-width rc-padding--none">
+                          <article class="rc-full-width rc-column rc-margin-top--md--mobile">
+                            <div class="rc-border-all rc-border-colour--interface fullHeight">
+                              <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
+                                <div class="rc-column rc-double-width rc-padding-top--md--mobile">
+                                  <div class="w-100">
+                                    <b style={{color:"#00BCA3"}}>
+                                      <font style={{verticalAlign: "inherit"}}>
+                                        <font style={{verticalAlign: "inherit"}}>By telephone</font>
+                                      </font>
+                                    </b>
+                                    <p>
+                                      <font style={{verticalAlign: "inherit"}}>
+                                        <font style={{verticalAlign: "inherit"}}>Free Call (from a landline) Monday to Friday from 8h to 20h.</font>
+                                      </font>
+                                    </p>
+                                    <div class="rc-margin-top--xs">
+                                      <p style={{color:"#00BCA3"}} class="rc-numeric rc-md-up">
+                                        <font style={{verticalAlign: "inherit"}}>
+                                          <font style={{verticalAlign: "inherit"}}>8-800-200-37-35</font>
+                                        </font>
+                                      </p>
+                                    </div>
+                                    <div class="rc-margin-top--xs">
+                                      <p style={{color:"#00BCA3"}} class="rc-alpha rc-border--none rc-md-down">
+                                        <font style={{verticalAlign: "inherit"}}>
+                                          <font style={{verticalAlign: "inherit"}}>8-800-200-37-35</font>
+                                        </font>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="rc-column rc-content-v-middle">
+                                    <img class="align-self-center widthAuto" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw5e5788cf/customer-service@2x.jpg?sw=90&amp;sfrm=png" 
+                                    srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw5e5788cf/customer-service@2x.jpg?sw=90&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw5e5788cf/customer-service@2x.jpg?sw=180&amp;sfrm=png 2x" alt="By telephone" title="By telephone"/>
+                                </div>
+                              </div>
+                            </div>
+                          </article>
+                          <article class="rc-full-width rc-column">
+                            <div class="rc-border-all rc-border-colour--interface fullHeight">
+                              <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
+                                <div class="rc-column rc-double-width rc-padding-top--md--mobile">
+                                  <div class="w-100">
+                                  <b style={{color:"#0087BD"}}><font style={{verticalAlign: "inherit"}}><font style={{verticalAlign: "inherit"}}>By email</font></font></b>
+                                  <p><span style={{color:"rgb(0, 0, 0)"}}><font style={{verticalAlign: "inherit"}}><font style={{verticalAlign: "inherit"}}>We will reply to you within a maximum of 12 hours.</font></font></span></p>
+                                  <div class="rc-margin-top--xs">
+                                    <p class="rc-numeric rc-md-up" style={{color: "rgb(0, 135, 189)"}}>
+                                      <font style={{verticalAlign: "inherit"}}>
+                                        <font style={{verticalAlign: "inherit"}}>Test@test.com.cn</font>
+                                      </font>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="rc-column rc-content-v-middle">
+                                <img class="align-self-center widthAuto" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw8b95741c/help/emailus_icon@1x.jpg?sw=90&amp;sfrm=png" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw8b95741c/help/emailus_icon@1x.jpg?sw=90&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw8b95741c/help/emailus_icon@1x.jpg?sw=180&amp;sfrm=png 2x" alt="By email" title="By email"/>
+                              </div>
+                            </div>
+                          </div>
+                        </article>
+                      </div>
+                      <div class="rc-column rc-triple-width">
+                        <div class="background-cover" style={{backgroundImage:"url(https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png)"}}>
+                          <picture class="rc-card__image">
+                            <img src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=1604&amp;sh=672&amp;sm=cut&amp;sfrm=png 2x" alt=" " title=" "/>
+                          </picture>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+              </div>
+            </div>
+          </div>
+        </main>
+          
         <Footer/>
       </div>
     )
