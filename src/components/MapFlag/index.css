@@ -1,0 +1,17 @@
+.map-flag-title{
+  font-size: 1.25rem;
+  line-height: 2rem;
+  font-weight: 300;
+}
+.map-flag-phone{
+  margin-top: 25px;
+  font-size: 14px;
+  line-height: .9em;
+  font-weight: 500;
+  color:#666;
+}
+.map-flag-address{
+  font-size: 14px;
+  font-weight: 300;
+  color:#666;
+}

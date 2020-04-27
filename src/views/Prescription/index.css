@@ -8,8 +8,7 @@
   /* 手机 */
   .clinic-search-list{
     width:100%;
-    text-align: center;
-    
+    margin-left: 1rem;
   }
   .clinic-map{
     height: 40rem;
@@ -29,10 +28,15 @@
     width: 70%;
   }
 }
-
+.clinic-card-boder{
+  border: 1px solid #d7d7d7;
+}
 .headerSearchDesktop {
-  width: 17rem;
+  width: 90%;
   margin-top: 2rem;
+}
+.headerSearchDesktop:after {
+  background-color: #d7d7d7;
 }
 .modal-content {
   margin-top: 50%;
@@ -43,6 +47,7 @@
   padding: 5px;
 }
 .gm-style-iw-c{
+  min-width: 17rem;
   position: absolute;
   box-sizing: border-box;
   overflow: hidden;
@@ -56,4 +61,39 @@
 }
 .click-btn{
   cursor: pointer;
+}
+.clinic-title{
+  font-weight: 300;
+  font-size: 1.625rem !important;
+  margin-bottom: 0 !important;
+}
+.clinic-phone{
+  display: inline-block;
+  vertical-align: middle;
+  z-index: 2;
+  overflow: hidden;
+  margin-top: 1px;
+  padding-bottom: 4px;
+  line-height: .9em;
+  font-weight: 500;
+  color:#666;
+  font-size: 1em;
+}
+.clinic-address{
+  color: #666;
+  font-weight: 300;
+  font-size: 1em;
+  line-height: 1.5;
+}
+.clinic-tip{
+  color: #e2001a;
+  font-weight: 300;
+  margin-bottom: 1rem;
+  font-size: 1.625rem;
+  text-align: center;
+}
+.card-btn{
+  float: right;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
 }

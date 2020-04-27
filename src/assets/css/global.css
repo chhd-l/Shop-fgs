@@ -18054,7 +18054,6 @@ div.quantity {
   padding: 24px;
   border: 1px solid;
   border-color: #f6f6f6;
-  cursor: pointer;
   margin-bottom: 8px
 }
 
@@ -19986,7 +19985,7 @@ input.search-field {
 .suggestions-wrapper {
   top: 45px;
   right: 0;
-  width: 700px;
+  width: 408px;
   position: absolute
 }
 

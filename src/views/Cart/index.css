@@ -644,7 +644,7 @@ div.product-info .strike-through {
 
 @media (max-width: 768.98px) {
   .cart .line-item-total-price-amount {
-      font-size:1.5rem;
+      font-size:1.3rem;
       font-weight: 500
   }
 }

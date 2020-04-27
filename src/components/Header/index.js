@@ -4,9 +4,13 @@ import { Link } from "react-router-dom"
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
 import { createHashHistory } from 'history'
-import { formatMoney } from "@/utils/utils.js";
+import { formatMoney, getParaByName } from "@/utils/utils";
+import logoAnimatedPng from "@/assets/images/logo--animated.png";
+import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import './index.css'
 import { getList } from '@/api/list'
+import { CATEID } from '@/utils/constant'
+import { getPrescriptionById } from '@/api/clinic'
 
 class Header extends React.Component {
   static defaultProps = {
@@ -21,7 +25,9 @@ class Header extends React.Component {
       keywords: '',
       loading: false,
       result: null,
-      showMegaMenu: false
+      showMegaMenu: false,
+      clinicsId: sessionStorage.getItem('rc-clinics-id'),
+      clinicsName: sessionStorage.getItem('rc-clinics-name')
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -30,12 +36,32 @@ class Header extends React.Component {
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this)
     this.handleItemClick = this.handleItemClick.bind(this)
     this.toggleMenu = this.toggleMenu.bind(this)
+    this.gotoDetails = this.gotoDetails.bind(this)
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
     this.menuBtnRef = React.createRef();
   }
-  componentDidMount () {
+  async componentDidMount () {
     window.addEventListener('click', (e) => this.hideMenu(e))
+    const { location } = this.props
+    let clinicsId = getParaByName(window.location.search || (location ? location.search : ''), 'clinics')
+    if (location.pathname === '/') {
+      sessionStorage.setItem('rc-clinics-id', clinicsId)
+      this.setState({
+        clinicsId: clinicsId
+      })
+      let tmpName
+      if (clinicsId) {
+        let res = await getPrescriptionById({ clinicsId })
+        tmpName = res.context.clinicsName
+      } else {
+        tmpName = null
+      }
+      sessionStorage.setItem('rc-clinics-name', tmpName)
+      this.setState({
+        clinicsName: tmpName
+      })
+    }
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
@@ -98,7 +124,7 @@ class Header extends React.Component {
     this.setState({ loading: true })
 
     let params = {
-      cateId: '1129',
+      cateId: CATEID,
       keywords,
       propDetails: [],
       pageNum: 0,
@@ -112,8 +138,19 @@ class Header extends React.Component {
     if (res && res.context) {
       const esGoods = res.context.esGoods
       if (esGoods && esGoods.content.length) {
+        let goodsContent = esGoods.content
+        if (res.context.goodsList) {
+          goodsContent = goodsContent.map(ele => {
+            let ret = Object.assign({}, ele)
+            const tmpItem = res.context.goodsList.find(g => g.goodsId === ele.id)
+            if (tmpItem) {
+              ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
+            }
+            return ret
+          })
+        }
         this.setState({
-          result: Object.assign({}, { productList: esGoods.content, totalElements: esGoods.totalElements })
+          result: Object.assign({}, { productList: goodsContent, totalElements: esGoods.totalElements })
         })
       }
     }
@@ -121,6 +158,11 @@ class Header extends React.Component {
   handleItemClick () {
     createHashHistory().push('/list/keywords')
     localStorage.setItem('rc-search-keywords', this.state.keywords)
+  }
+  gotoDetails (item) {
+    sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
+    sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
+    createHashHistory().push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   toggleMenu () {
     this.setState({
@@ -140,32 +182,32 @@ class Header extends React.Component {
       <div className="suggestions">
         <div className="container">
           <div className="row d-flex flex-column-reverse flex-sm-row">
-            <div className="col-12 col-md-7 rc-column">
+            <div className="col-12 rc-column">
               <div className="rc-padding-top--lg--mobile rc-large-intro">
                 <FormattedMessage id="goods" />
               </div>
               <div className="suggestions-items row justify-content-end items rc-padding-left--xs">
-                {(this.state.result.productList || []).map(item => (
-                  <div className="col-12 item" key={item.id}>
+                {(this.state.result.productList || []).map((item, idx) => (
+                  <div className="col-12 item" key={item.id + idx}>
                     <div className="row">
                       <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
-                        <Link to={`/details/${item.goodsInfos[0].goodsInfoId}`}>
+                        <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(item)}>
                           <img
                             className="swatch__img"
                             alt={item.lowGoodsName}
                             title={item.lowGoodsName}
                             src={item.goodsInfos[0].goodsInfoImg} />
-                        </Link>
+                        </a>
                       </div>
                       <div className="col-8 col-md-9 col-lg-10 rc-padding-top--xs">
-                        <Link
-                          to={`/details/${item.goodsInfos[0].goodsInfoId}`}
-                          className="productName"
+                        <a
+                          onClick={() => this.gotoDetails(item)}
+                          className="productName ui-cursor-pointer"
                           alt={item.lowGoodsName}
                           title={item.lowGoodsName}
                         >
                           {item.lowGoodsName}
-                        </Link>
+                        </a>
                         <div className="rc-meta searchProductKeyword"></div>
                       </div>
                     </div>
@@ -177,12 +219,6 @@ class Header extends React.Component {
                   <b><FormattedMessage id="viewAllResults" /> ({this.state.result.totalElements})</b>
                 </a>
               </div>
-            </div>
-            <div className="col-12 col-md-5 rc-bg-colour--brand4 rc-column d-flex flex-column rc-padding-top--md--mobile">
-              {/* todo */}
-              {/* <a onClick={this.handleItemClick} className="productName ui-cursor-pointer" title={this.state.result.productName} alt={this.state.result.productName}>
-                {this.state.result.productName}
-              </a> */}
             </div>
           </div>
           <span className="d-sm-none_ more-below">
@@ -222,9 +258,9 @@ class Header extends React.Component {
             <Link to="/" className="header__nav__brand logo-home">
               <span className="rc-screen-reader-text"></span>
               <object id="header__logo" className="rc-header__logo" type="image/svg+xml"
-                data="https://d1a19ys8w1wkc1.cloudfront.net/logo--animated.svg?v=8-7-8" data-js-import-interactive-svg>
+                data={logoAnimatedSvg} data-js-import-interactive-svg>
                 <img alt="Royal Canin" height="100" src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
-                  style={{ backgroundImage: 'url(https://d1a19ys8w1wkc1.cloudfront.net/logo--animated.png?v=8-7-8)' }} width="135" />
+                  style={{ backgroundImage: 'url(' + logoAnimatedPng + ')' }} width="135" />
               </object>
             </Link>
 
@@ -332,7 +368,7 @@ class Header extends React.Component {
                                 </div>
                                 <div className="product-summary limit">
                                   {cartData.map((item, idx) => (
-                                    <div className="minicart__product" key={item.goodsInfoId + idx}>
+                                    <div className="minicart__product" key={item.goodsId + idx}>
                                       <div>
                                         <div className="product-summary__products__item">
                                           <div className="product-line-item">
@@ -409,9 +445,9 @@ class Header extends React.Component {
               <li className="rc-list__item">
                 <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                   <li className="rc-list__item">
-                    <Link className="rc-list__header" to="/">
+                    <a className="rc-list__header" href="https://www.royalcanin.com/mx/about-us">
                       <FormattedMessage id="aboutUs" />
-                    </Link>
+                    </a>
                   </li>
                 </ul>
               </li>
@@ -451,9 +487,10 @@ class Header extends React.Component {
           {this.state.loading ? <Loading /> : null}
           <MegaMenu show={this.state.showMegaMenu} />
         </header>
+        {this.state.clinicsId && this.props.showMiniIcons ? <div className="tip-clinics"><FormattedMessage id="clinic.clinic" />: {this.state.clinicsName}</div> : null}
       </React.Fragment>
     )
   }
 }
 
-export default Header;
+export default Header

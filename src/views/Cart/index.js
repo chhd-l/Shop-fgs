@@ -1,9 +1,10 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl'
+import { createHashHistory } from 'history'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { formatMoney } from "@/utils/utils.js";
+import { formatMoney } from "@/utils/utils";
 import { cloneDeep } from 'lodash'
 import "./index.css";
 
@@ -49,6 +50,7 @@ class Cart extends React.Component {
           quantity: 1,
         },
       ],
+      productListCopy: [],
       currentProduct: null,
       currentProductIdx: -1,
       loading: true,
@@ -57,6 +59,7 @@ class Cart extends React.Component {
       quantityMinLimit: 1
     }
     this.handleAmountChange = this.handleAmountChange.bind(this)
+    this.gotoDetails = this.gotoDetails.bind(this)
   }
   get totalNum () {
     return this.state.productList.reduce((pre, cur) => { return pre + cur.quantity }, 0)
@@ -79,8 +82,13 @@ class Cart extends React.Component {
       }
       item.quantity = tmp
       this.setState({
-        productList: this.state.productList
+        productListCopy: this.state.productListCopy
       })
+      if (item.quantity <= item.sizeList.find(s => s.selected).stock) {
+        this.setState({
+          productList: cloneDeep(this.state.productListCopy)
+        });
+      }
     }
   }
   changeCache () {
@@ -95,16 +103,26 @@ class Cart extends React.Component {
   addQuantity (item) {
     item.quantity++
     this.setState({
-      productList: this.state.productList,
+      productListCopy: this.state.productListCopy
     });
+    if (item.quantity <= item.sizeList.find(s => s.selected).stock) {
+      this.setState({
+        productList: cloneDeep(this.state.productListCopy)
+      });
+    }
     this.changeCache();
   }
   subQuantity (item) {
     if (item.quantity > 1) {
-      item.quantity--;
+      item.quantity--
       this.setState({
-        productList: this.state.productList,
-      });
+        productListCopy: this.state.productListCopy
+      })
+      if (item.quantity <= item.sizeList.find(s => s.selected).stock) {
+        this.setState({
+          productList: cloneDeep(this.state.productListCopy)
+        });
+      }
     } else {
       this.setState({
         errorShow: true,
@@ -129,6 +147,7 @@ class Cart extends React.Component {
     let newProductList = cloneDeep(productList)
     newProductList.splice(currentProductIdx, 1)
     this.setState({
+      productListCopy: newProductList,
       productList: newProductList
     }, () => {
       this.changeCache();
@@ -151,8 +170,14 @@ class Cart extends React.Component {
   componentDidMount () {
     let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
     this.setState({
-      productList: productList || []
+      productList: productList || [],
+      productListCopy: cloneDeep(productList || [])
     });
+  }
+  gotoDetails (pitem) {
+    sessionStorage.setItem('rc-goods-cate-name', pitem.goodsCateName || '')
+    sessionStorage.setItem('rc-goods-name', pitem.goodsName)
+    createHashHistory().push('/details/' + pitem.sizeList[0].goodsInfoId)
   }
   getProducts (plist) {
     const Lists = plist.map((pitem, index) => (
@@ -165,6 +190,7 @@ class Cart extends React.Component {
             <div className="product-info__img w-100">
               <img
                 className="product-image"
+                style={{ maxWidth: '100px' }}
                 src={pitem.goodsImg}
                 alt={pitem.goodsName}
                 title={pitem.goodsName}
@@ -172,9 +198,9 @@ class Cart extends React.Component {
             </div>
             <div className="product-info__desc w-100 relative">
               <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
-                <Link to={`/details/${pitem.goodsInfoId}`}>
+                <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(pitem)}>
                   <h4 className="rc-gamma rc-margin--none">{pitem.goodsName}</h4>
-                </Link>
+                </a>
               </div>
               <div className="cart-product-error-msg"></div>
               <span
@@ -336,9 +362,9 @@ class Cart extends React.Component {
     return Lists;
   }
   render () {
-    const { results, productList, loading } = this.state;
+    const { results, productList, productListCopy, loading } = this.state;
 
-    const List = this.getProducts(this.state.productList);
+    const List = this.getProducts(this.state.productListCopy);
     let total = 0;
     this.state.productList.map((pitem) => {
       total =
@@ -347,7 +373,7 @@ class Cart extends React.Component {
     });
     return (
       <div>
-        <Header cartData={this.state.cartData} showMiniIcons={true} />
+        <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
             {productList.length
@@ -485,7 +511,7 @@ class Cart extends React.Component {
                                 <header>
                                   <Link to="/list/cats">
                                     <h4 className="card__title">
-                                      <FormattedMessage id="cart.cartDiet" />
+                                      <FormattedMessage id="cart.catDiet" />
                                     </h4>
                                   </Link>
                                 </header>

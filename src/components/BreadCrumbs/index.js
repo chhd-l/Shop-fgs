@@ -15,9 +15,12 @@ const BreadCrumbs = withRouter(props => {
   if (url.substr(1, 7) === 'details' && !mapData.length) {
     let cateName = sessionStorage.getItem('rc-goods-cate-name')
     let goodsName = sessionStorage.getItem('rc-goods-name')
-    if (cateName && goodsName) {
-      const urlMap = { dogs: '/list/dogs', cats: '/list/cats' }
-      mapData.push({ name: cateName, href: urlMap[cateName.toLocaleLowerCase()] || '' }, { name: goodsName })
+    const urlMap = { dogs: '/list/dogs', cats: '/list/cats' }
+    if (cateName) {
+      mapData.push({ name: cateName, href: urlMap[cateName.toLocaleLowerCase()] || '' })
+    }
+    if (goodsName) {
+      mapData.push({ name: goodsName })
     }
   }
 

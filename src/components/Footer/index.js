@@ -31,7 +31,7 @@ function Footer () {
                   </button>
                   <ul className="list list--blank list--align" id="footer-list-158504765613564650" aria-labelledby="footer-head-158504765613564650" role="menu">
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/About-Us.html" role="menuitem">
+                      <a className="rc-list__link" href="https://www.royalcanin.com/mx/about-us" role="menuitem">
                         <FormattedMessage id="aboutUs2" />
                       </a>
                     </li>
@@ -79,28 +79,13 @@ function Footer () {
                   </button>
                   <ul className="list list--blank list--align" id="footer-list-158504765613551093" aria-labelledby="footer-head-158504765613551093" role="menu">
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/account" role="menuitem">
-                        <FormattedMessage id="footer.myPersonalAccount" />
-                      </a>
-                    </li>
-                    <li className="rc-list__item">
                       <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/help/contact" role="menuitem">
                         <FormattedMessage id="footer.contacts" />
                       </a>
                     </li>
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor5" role="menuitem">
-                        <FormattedMessage id="footer.deliveryTerms" />
-                      </a>
-                    </li>
-                    <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor6" role="menuitem">
-                        <FormattedMessage id="footer.purchaseReturns" />
-                      </a>
-                    </li>
-                    <li className="rc-list__item">
                       <a className="rc-list__link" href="https://www.shop.royal-canin.ru/ru/help/faq.html" role="menuitem">
-                        <FormattedMessage id="footer.frequentlyAskedQuestions" />
+                        <FormattedMessage id="footer.FAQ" />
                       </a>
                     </li>
                   </ul>

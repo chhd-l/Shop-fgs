@@ -1541,3 +1541,10 @@ label.availability {
 }
 .show-image-magnifier #tns1-mw {overflow: visible;}
 .show-image-magnifier #tns1-ow{z-index: 1;}
+
+.add-to-cart.disabled {
+  opacity: .5;
+  background: grey;
+  border-color: grey;
+  cursor: not-allowed;
+}
