@@ -180,7 +180,7 @@ class Details extends React.Component {
   }
   hanldeAddToCart ({ redirect = false }) {
     const { currentUnitPrice, quantity, cartData, instockStatus } = this.state
-    const { id, sizeList } = this.state.details
+    const { goodsId, sizeList } = this.state.details
     const tmpData = Object.assign({}, this.state.details, { quantity }, { currentAmount: currentUnitPrice * quantity })
     let newCartData
 
@@ -190,7 +190,7 @@ class Details extends React.Component {
 
     if (cartData) {
       newCartData = cloneDeep(cartData)
-      let targetData = newCartData.find(c => c.id === id)
+      let targetData = newCartData.find(c => c.goodsId === goodsId)
       if (targetData && (sizeList.findIndex(l => l.selected) === targetData.sizeList.findIndex(s => s.selected))) {
         targetData.quantity += quantity
         targetData.currentAmount += quantity * currentUnitPrice
