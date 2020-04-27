@@ -44,18 +44,20 @@ class Header extends React.Component {
   async componentDidMount () {
     window.addEventListener('click', (e) => this.hideMenu(e))
     const { location } = this.props
-    let clinicsId = getParaByName(window.location.search || (location ? location.search : ''), 'clinics')
     if (location.pathname === '/') {
+      let clinicsId = getParaByName(window.location.search || (location ? location.search : ''), 'clinics')
       sessionStorage.setItem('rc-clinics-id', clinicsId)
       this.setState({
         clinicsId: clinicsId
       })
-      let tmpName
+      let tmpName = null
       if (clinicsId) {
-        let res = await getPrescriptionById({ clinicsId })
-        tmpName = res.context.clinicsName
-      } else {
-        tmpName = null
+        try {
+          let res = await getPrescriptionById({ clinicsId })
+          if (res.context) {
+            tmpName = res.context.clinicsName
+          }
+        } catch (e) { }
       }
       sessionStorage.setItem('rc-clinics-name', tmpName)
       this.setState({
@@ -487,7 +489,7 @@ class Header extends React.Component {
           {this.state.loading ? <Loading /> : null}
           <MegaMenu show={this.state.showMegaMenu} />
         </header>
-        {this.state.clinicsId && this.props.showMiniIcons ? <div className="tip-clinics"><FormattedMessage id="clinic.clinic" />: {this.state.clinicsName}</div> : null}
+        {this.state.clinicsId && this.state.clinicsName && this.props.showMiniIcons ? <div className="tip-clinics"><FormattedMessage id="clinic.clinic" />: {this.state.clinicsName}</div> : null}
       </React.Fragment>
     )
   }
