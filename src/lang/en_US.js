@@ -38,6 +38,7 @@ const en_US = {
   'items': 'items',
   'edit': 'Edit',
   'example': "Example",
+  'contactUs':'Contact Us',
 
   'header.basketEmpty': 'your basket is empty',
   'header.startTypingToSearch': 'Start typing to search',
@@ -78,6 +79,8 @@ const en_US = {
   'home.specialAnimalNutrition': 'Special animal nutrition',
 
   'list.youSearchedFor': 'You searched for',
+  'list.errMsg': 'No products found, please change the search criteria and try again!',
+  'list.errMsg2': 'No products found, please change the keywords and try again!',
 
   'details.unitPrice': 'Unit price',
   'details.theSize': 'The size',
@@ -131,7 +134,7 @@ const en_US = {
   'clinic.sortResultsByDistance': 'Sort results by distance',
   'clinic.sortResultsByStarRating': 'Sort results by star rating',
   'clinic.vet': 'Vet',
-  'clinic.clinicTip': 'Which clinic has provided service for you？',
+  'clinic.clinicTip': 'Which clinic has provided prescription for you？',
   'clinic.SortResultsByStarRating': 'Sort results by star rating',
 
   'payment.clinicTitle': 'Selected clinic',
@@ -174,6 +177,5 @@ const en_US = {
   'confirmation.info3': ' Addresses and shipping methods are indicated under your goods.',
   'confirmation.visitOnlineStore': 'Visit online store',
   'confirmation.customerInformation': 'customer information',
-
 }
 export default en_US;

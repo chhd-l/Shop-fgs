@@ -65,13 +65,19 @@ class List extends React.Component {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       keywords: '',
       filterList: [],
-      initingFilter: true
+      initingFilter: true,
+      initingList: true,
+      filterModalVisible: false
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
     this.handleCurrentPageNumChange = this.handleCurrentPageNumChange.bind(this)
     this.handlePrevOrNextPage = this.handlePrevOrNextPage.bind(this)
     this.hanldeItemClick = this.hanldeItemClick.bind(this)
+    this.toggleFilterModal = this.toggleFilterModal.bind(this)
+  }
+  toggleFilterModal (status) {
+    this.setState({ filterModalVisible: status })
   }
   async initData () {
     const { category } = this.state
@@ -103,10 +109,20 @@ class List extends React.Component {
     })
   }
   async getProductList () {
-    let { checkedList, currentPage, pageSize, storeCateId, keywords } = this.state;
+    let { checkedList, currentPage, pageSize, storeCateId, keywords, initingList } = this.state;
     this.setState({
       loading: true
     })
+
+    if (!initingList) {
+      const widget = document.querySelector('#J-product-list')
+      if (widget) {
+        setTimeout(() => {
+          console.log(widget.offsetTop)
+          window.scrollTo(0, widget.offsetTop - 100);
+        }, 0)
+      }
+    }
 
     let params = {
       storeId: STOREID,
@@ -136,7 +152,7 @@ class List extends React.Component {
 
     getList(params)
       .then(res => {
-        this.setState({ loading: false })
+        this.setState({ loading: false, initingList: false })
         const esGoods = res.context.esGoods
         if (esGoods && esGoods.content.length) {
           let goodsContent = esGoods.content
@@ -166,6 +182,7 @@ class List extends React.Component {
         this.setState({ loading: false, productList: [] })
       })
 
+
     if (!this.state.filterList.length) {
       getProps(CATEID)
         .then(res => {
@@ -185,7 +202,7 @@ class List extends React.Component {
     } else {
       checkedListCopy.push(item)
     }
-    this.setState({ checkedList: checkedListCopy }, () => this.getProductList())
+    this.setState({ checkedList: checkedListCopy, currentPage: 1 }, () => this.getProductList())
   }
   handleRemove (item) {
     const { checkedList } = this.state;
@@ -197,17 +214,24 @@ class List extends React.Component {
       checkedListCopy.splice(checkedListCopy.findIndex(c => c.detailId === item.detailId && c.propId === item.propId), 1)
       res = checkedListCopy
     }
-    this.setState({ checkedList: res }, () => this.getProductList())
+    this.setState({ checkedList: res, currentPage: 1 }, () => this.getProductList())
   }
   handleCurrentPageNumChange (e) {
-    let tmp = parseInt(e.target.value)
-    if (isNaN(tmp)) {
-      tmp = 1
+    const val = e.target.value
+    if (val === '') {
+      this.setState({ currentPage: val })
+    } else {
+      let tmp = parseInt(val)
+      if (isNaN(tmp)) {
+        tmp = 1
+      }
+      if (tmp > this.state.totalPage) {
+        tmp = this.state.totalPage
+      }
+      if (tmp !== this.state.currentPage) {
+        this.setState({ currentPage: tmp }, () => this.getProductList())
+      }
     }
-    if (tmp > this.state.totalPage) {
-      tmp = this.state.totalPage
-    }
-    this.setState({ currentPage: tmp }, () => this.getProductList())
   }
   handlePrevOrNextPage (type) {
     const { currentPage, totalPage } = this.state
@@ -248,13 +272,14 @@ class List extends React.Component {
                 </div>
                 <div className="rc-column ">
                   <img
+                    className="mw-100"
                     src={titleData.img}
                     alt={titleData.imgAlt} />
                 </div>
               </div>
             </div>
             : ''}
-
+          <div id="J-product-list"></div>
           <div className="search-results rc-padding--sm rc-max-width--xl">
             <div className="search-nav">
               {this.state.keywords ?
@@ -269,14 +294,15 @@ class List extends React.Component {
                   {results} <FormattedMessage id="results" />
                 </div>
                 <div className="rc-layout-container rc-four-column">
-                  <div className="refinements rc-column js-filter-refinement">
+                  <div className="refinements rc-column">
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
-                      data-filter-trigger="filter-example">Filters</button>
-                    <aside className="rc-filters" data-filter-target="filter-example">
+                      data-filter-trigger="filter-example" onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
+                    <aside className={['rc-filters', this.state.filterModalVisible ? 'active' : ''].join(' ')}>
                       <Filters
                         initing={this.state.initingFilter}
                         onChange={this.handleFilterChange}
                         onRemove={this.handleRemove}
+                        onToggleFilterModal={this.toggleFilterModal}
                         filterList={this.state.filterList}
                         checkedList={checkedList} />
                     </aside>
@@ -287,11 +313,11 @@ class List extends React.Component {
                       <React.Fragment>
                         <div className="ui-font-nothing rc-md-up">
                           <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
-                          No products found, please change the search criteria and try again!
+                          <FormattedMessage id="list.errMsg" />
                         </div>
                         <div className="ui-font-nothing rc-md-down d-flex">
                           <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
-                          No products found, please change the search criteria and try again!
+                          <FormattedMessage id="list.errMsg" />
                         </div>
                       </React.Fragment>
                       :

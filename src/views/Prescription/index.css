@@ -24,8 +24,9 @@
     width:30%
   }
   .clinic-map{
-    height: 40rem;
+    height: 50rem;
     width: 70%;
+    margin-bottom: 1rem;
   }
 }
 .clinic-card-boder{

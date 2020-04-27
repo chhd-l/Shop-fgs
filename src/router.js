@@ -10,6 +10,7 @@ import Payment from '@/views/Payment'
 import Confirmation from '@/views/Confirmation'
 import Prescription from '@/views/Prescription'
 import Exception from '@/views/Exception'
+import Help from '@/views/Help'
 
 const BasicRoute = () => (
   <HashRouter>
@@ -33,7 +34,9 @@ const BasicRoute = () => (
           render={(props) => <Payment key={props.match.params.type} {...props} />} />
         <Route exact path="/confirmation" component={Confirmation} />
         <Route exact path="/prescription" component={Prescription} />
+        <Route exact path="/help" component={Help} />
         <Route component={Exception} />
+        
       </Switch>
     </ScrollToTop>
   </HashRouter>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Link } from 'react-router-dom'
 import '@/assets/css/heroCarousel.css'
 
 function HeroCarousel () {
@@ -64,9 +65,9 @@ function HeroCarousel () {
                   <div className="rc-hero__description rc-body inherit-fontsize children-nomargin">
                     <p><FormattedMessage id="header.carouselInfo9" /></p>
                   </div>
-                  <a href="#" className="rc-btn rc-btn--one rc-margin-bottom--lg--mobile rc-margin-top--xs gtm-hero-carousel-btn">
+                  <Link to="/help" className="rc-btn rc-btn--one rc-margin-bottom--lg--mobile rc-margin-top--xs gtm-hero-carousel-btn">
                     <FormattedMessage id="header.toLearnMore" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

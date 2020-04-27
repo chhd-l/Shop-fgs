@@ -244,7 +244,7 @@ class Details extends React.Component {
           errMsg
             ? <main className="rc-content--fixed-header">
               <div className="product-detail product-wrapper rc-bg-colour--brand3">
-                <div className="rc-max-width--xl" style={{ margin: '50px 0' }}>
+                <div className="rc-max-width--xl d-flex" style={{ margin: '50px 0' }}>
                   <div className="ui-font-nothing text-center">
                     <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
                     {errMsg}
@@ -263,12 +263,12 @@ class Details extends React.Component {
                           {this.state.loading
                             ? <Skeleton color="#f5f5f5" width="100%" height="100%" />
                             : <div className={['rc-full-width', this.state.imageMagnifierCfg.show ? 'show-image-magnifier' : ''].join(' ')}>
-                              <div className="d-flex justify-content-center" onMouseEnter={() => this.hanldeImgMouseEnter(details.goodsImg)}>
+                              <div className="d-flex justify-content-center ui-margin-top-1-md-down" onMouseEnter={() => this.hanldeImgMouseEnter(details.goodsImg)}>
                                 {
                                   this.state.imageMagnifierCfg.show ?
                                     <div className="details-img-container">
                                       <ImageMagnifier minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.imageMagnifierCfg.config} />
-                                    </div> : <div className="ui-margin-top-1-md-down" style={{ height: 354 }}>
+                                    </div> : <div style={{ height: 354 }}>
                                       <img
                                         id="J-details-img"
                                         src={details.goodsImg}

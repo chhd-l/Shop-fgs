@@ -154,6 +154,10 @@ class Header extends React.Component {
         this.setState({
           result: Object.assign({}, { productList: goodsContent, totalElements: esGoods.totalElements })
         })
+      } else {
+        this.setState({
+          result: Object.assign({}, { productList: [], totalElements: 0 })
+        })
       }
     }
   }
@@ -189,38 +193,50 @@ class Header extends React.Component {
                 <FormattedMessage id="goods" />
               </div>
               <div className="suggestions-items row justify-content-end items rc-padding-left--xs">
-                {(this.state.result.productList || []).map((item, idx) => (
-                  <div className="col-12 item" key={item.id + idx}>
-                    <div className="row">
-                      <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
-                        <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(item)}>
-                          <img
-                            className="swatch__img"
-                            alt={item.lowGoodsName}
-                            title={item.lowGoodsName}
-                            src={item.goodsInfos[0].goodsInfoImg} />
-                        </a>
+                {
+                  this.state.result.productList.length ?
+                    this.state.result.productList.map((item, idx) => (
+                      <div className="col-12 item" key={item.id + idx}>
+                        <div className="row">
+                          <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
+                            <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(item)}>
+                              <img
+                                className="swatch__img"
+                                alt={item.lowGoodsName}
+                                title={item.lowGoodsName}
+                                src={item.goodsInfos[0].goodsInfoImg} />
+                            </a>
+                          </div>
+                          <div className="col-8 col-md-9 col-lg-10 rc-padding-top--xs">
+                            <a
+                              onClick={() => this.gotoDetails(item)}
+                              className="productName ui-cursor-pointer"
+                              alt={item.lowGoodsName}
+                              title={item.lowGoodsName}
+                            >
+                              {item.lowGoodsName}
+                            </a>
+                            <div className="rc-meta searchProductKeyword"></div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="col-8 col-md-9 col-lg-10 rc-padding-top--xs">
-                        <a
-                          onClick={() => this.gotoDetails(item)}
-                          className="productName ui-cursor-pointer"
-                          alt={item.lowGoodsName}
-                          title={item.lowGoodsName}
-                        >
-                          {item.lowGoodsName}
-                        </a>
-                        <div className="rc-meta searchProductKeyword"></div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                    )) :
+                    <p className="d-flex">
+                      <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
+                      <FormattedMessage id="list.errMsg2" />
+                    </p>
+                }
               </div>
-              <div className="rc-margin-top--xs">
-                <a className="productName rc-large-body ui-cursor-pointer" onClick={this.handleItemClick}>
-                  <b><FormattedMessage id="viewAllResults" /> ({this.state.result.totalElements})</b>
-                </a>
-              </div>
+              {
+                this.state.result.totalElements ?
+                  <div className="rc-margin-top--xs">
+                    <a className="productName rc-large-body ui-cursor-pointer" onClick={this.handleItemClick}>
+                      <b><FormattedMessage id="viewAllResults" /> ({this.state.result.totalElements})</b>
+                    </a>
+                  </div> :
+                  null
+              }
+
             </div>
           </div>
           <span className="d-sm-none_ more-below">
@@ -450,6 +466,16 @@ class Header extends React.Component {
                     <a className="rc-list__header" href="https://www.royalcanin.com/mx/about-us">
                       <FormattedMessage id="aboutUs" />
                     </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li className="rc-list__item">
+                <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
+                  <li className="rc-list__item">
+                  <Link className="rc-list__header" to="/help">
+                      <FormattedMessage id="contactUs" />
+                    </Link>
                   </li>
                 </ul>
               </li>
