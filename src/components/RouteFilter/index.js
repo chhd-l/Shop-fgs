@@ -5,7 +5,7 @@ import { queryStoreCateIds } from "@/utils/utils"
 
 class RouteFilter extends Component {
   shouldComponentUpdate (nextProps) {
-    if (nextProps.location.pathname === '/prescription' && sessionStorage.getItem('rc-clinics-id')) {
+    if (nextProps.location.pathname === '/prescription' && sessionStorage.getItem('rc-clinics-id') && sessionStorage.getItem('rc-clinics-name')) {
       createHashHistory().push('/payment/shipping')
     }
     // 切换路由时，刷新下页面，解决外部组件无法初始化问题

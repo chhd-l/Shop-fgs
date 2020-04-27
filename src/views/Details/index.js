@@ -55,45 +55,51 @@ class Details extends React.Component {
   }
   async queryDetails () {
     const { id } = this.state
-    const res = await getDetails(id)
-    this.setState({ loading: false })
-    if (res && res.context && res.context.goodsSpecDetails) {
-      let sizeList = []
-      let goodsSpecDetails = res.context.goodsSpecDetails
-      let goodsInfos = res.context.goodsInfos || []
+    try {
+      const res = await getDetails(id)
+      this.setState({ loading: false })
+      if (res && res.context && res.context.goodsSpecDetails) {
+        let sizeList = []
+        let goodsSpecDetails = res.context.goodsSpecDetails
+        let goodsInfos = res.context.goodsInfos || []
 
-      sizeList = goodsSpecDetails.map((g, idx) => {
-        const targetInfo = goodsInfos.find(info => info.mockSpecDetailIds.includes(g.specDetailId))
-        if (targetInfo) {
-          g = Object.assign({}, g, targetInfo, { selected: idx ? false : true })
-        }
-        return g
-      })
-
-      const selectedSize = sizeList.find(s => s.selected)
-
-      const goodsDetailList = this.handleDetails(res.context.goods.goodsDetail)
-      goodsDetailList.map((item, i) => {
-        this.setState({
-          [`goodsDetail${i + 1}`]: item
+        sizeList = goodsSpecDetails.map((g, idx) => {
+          const targetInfo = goodsInfos.find(info => info.mockSpecDetailIds.includes(g.specDetailId))
+          if (targetInfo) {
+            g = Object.assign({}, g, targetInfo, { selected: idx ? false : true })
+          }
+          return g
         })
-        return item
-      })
 
-      this.setState({
-        details: Object.assign(
-          {},
-          this.state.details,
-          res.context.goods,
-          { sizeList }
-        ),
-        stock: selectedSize.stock,
-        currentUnitPrice: selectedSize.salePrice,
-        showOnlyoneTab: goodsDetailList.length === 1,
-        showDescriptionTab: goodsDetailList.length === 1
-      }, () => this.updateInstockStatus())
-    } else {
-      // 没有规格的情况
+        const selectedSize = sizeList.find(s => s.selected)
+
+        const goodsDetailList = this.handleDetails(res.context.goods.goodsDetail)
+        goodsDetailList.map((item, i) => {
+          this.setState({
+            [`goodsDetail${i + 1}`]: item
+          })
+          return item
+        })
+
+        this.setState({
+          details: Object.assign(
+            {},
+            this.state.details,
+            res.context.goods,
+            { sizeList }
+          ),
+          stock: selectedSize.stock,
+          currentUnitPrice: selectedSize.salePrice,
+          showOnlyoneTab: goodsDetailList.length === 1,
+          showDescriptionTab: goodsDetailList.length === 1
+        }, () => this.updateInstockStatus())
+      } else {
+        // 没有规格的情况
+        this.setState({
+          errMsg: <FormattedMessage id="details.errMsg" />
+        })
+      }
+    } catch (e) {
       this.setState({
         errMsg: <FormattedMessage id="details.errMsg" />
       })
@@ -143,7 +149,7 @@ class Details extends React.Component {
         res = quantity - 1
       }
     } else {
-      res = quantity + 1
+      res = (quantity || 0) + 1
     }
     this.setState({
       quantity: res
@@ -389,7 +395,7 @@ class Details extends React.Component {
                                       </div>
                                       <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                         <div className="cart-and-ipay">
-                                          <button className={['add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', (this.state.instockStatus && this.state.quantity) ? '' : 'disabled'].join(' ')} data-loc="addToCart" onClick={this.hanldeAddToCart}>
+                                          <button className={['btn-add-to-cart', 'add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', (instockStatus && quantity) ? '' : 'disabled'].join(' ')} data-loc="addToCart" onClick={this.hanldeAddToCart}>
                                             <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
                                             <FormattedMessage id="details.addToCart" />
                                           </button>
@@ -397,7 +403,7 @@ class Details extends React.Component {
                                       </div>
                                       <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                         <div className="cart-and-ipay">
-                                          <button className={['add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', this.state.instockStatus && this.state.quantity ? '' : 'disabled'].join(' ')} data-loc="addToCart" onClick={() => this.hanldeAddToCart({ redirect: true })}>
+                                          <button className={['btn-add-to-cart', 'add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', instockStatus && quantity ? '' : 'disabled'].join(' ')} data-loc="addToCart" onClick={() => this.hanldeAddToCart({ redirect: true })}>
                                             <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
                                             <FormattedMessage id="checkout" />
                                           </button>
@@ -531,11 +537,11 @@ class Details extends React.Component {
               </div>
               <div className="sticky-addtocart" style={{ transform: 'translateY(-80px)' }}>
                 <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
-                  <button className="rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile" onClick={this.hanldeAddToCart}>
+                  <button className={['sss', 'rc-btn', 'rc-btn--one', 'js-sticky-cta', 'rc-margin-right--xs--mobile', 'btn-add-to-cart', instockStatus && quantity ? '' : 'disabled'].join(' ')} onClick={this.hanldeAddToCart}>
                     <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
                     <span className="default-txt"><FormattedMessage id="details.addToCart" /></span>
                   </button>
-                  <button className="rc-btn rc-btn--one js-sticky-cta" onClick={() => this.hanldeAddToCart({ redirect: true })}>
+                  <button className={['rc-btn', 'rc-btn--one', 'js-sticky-cta', 'btn-add-to-cart', instockStatus && quantity ? '' : 'disabled'].join(' ')} onClick={() => this.hanldeAddToCart({ redirect: true })}>
                     <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
                     <span className="default-txt"><FormattedMessage id="checkout" /></span>
                   </button>
