@@ -1172,7 +1172,7 @@
               if (!t.tagName) {
                   r = document.createDocumentFragment()
               } else {
-                  console.log(1175)
+                  console.log(t.tagName, t, 'tagname')
                   r = document.createElement(t.tagName);
                   if (t.className) {
                       r.className = t.className
@@ -2181,10 +2181,11 @@
                     , n = r.version;
                   if (i === "ie" && n === 11 || i === "firefox") {
                       var a, o;
+                      // 标记
                       var l = RCDL.utilities.createElement({
                           tagName: "link",
                           attributes: {
-                              href: s()(a = s()(o = "".concat(window.RCDL.config.assets, "royal-canin.styles.")).call(o, e.name, ".min.css?v=")).call(a, window.RCDL.config.version.release),
+                              href: s()(a = s()(o = "".concat('./royal/royal-assets1/', "royal-canin.styles.")).call(o, e.name, ".min.css?v=")).call(a, window.RCDL.config.version.release),
                               type: "text/css",
                               rel: "stylesheet"
                           }
@@ -2200,7 +2201,7 @@
                   var v = RCDL.utilities.createElement({
                       tagName: "link",
                       attributes: {
-                          href: s()(d = s()(p = "".concat(window.RCDL.config.assets, "royal-canin.styles.")).call(p, e.name, ".min.css?v=")).call(d, window.RCDL.config.version.release),
+                          href: s()(d = s()(p = "".concat('./royal/royal-assets1/', "royal-canin.styles.")).call(p, e.name, ".min.css?v=")).call(d, window.RCDL.config.version.release),
                           as: "style",
                           type: "text/css",
                           rel: "preload"
