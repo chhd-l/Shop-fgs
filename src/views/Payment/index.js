@@ -1188,7 +1188,6 @@ class Payment extends React.Component {
                                           >
                                             Card number*
                                             {CreditCardImg}
-<<<<<<< HEAD
                                             <form id="payment-form">
                                               <div id="card-secure-fields">
                                                 
@@ -1197,10 +1196,6 @@ class Payment extends React.Component {
                                             </form>
                                             {/* <div className="cardFormBox">
                                               <span class="cardImage">
-=======
-                                            <div className="cardFormBox ui-border-bottom-none-md-down">
-                                              <span className="cardImage">
->>>>>>> 4431b6e9d0bd1d3390b9330a1236bf80b1050506
                                                 <img
                                                   alt="Card"
                                                   src="https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
@@ -1332,12 +1327,8 @@ class Payment extends React.Component {
                                           >
                                             <input
                                               type="text"
-<<<<<<< HEAD
                                               id="cardholder-name"
                                               class="rc-input__control form-control cardOwner"
-=======
-                                              className="rc-input__control form-control cardOwner"
->>>>>>> 4431b6e9d0bd1d3390b9330a1236bf80b1050506
                                               name="cardOwner"
                                               value={creditCardInfo.cardOwner}
                                               onChange={(e) =>
@@ -1436,11 +1427,7 @@ class Payment extends React.Component {
                                           className="rc-btn rc-btn--two card-confirm"
                                           id="card-confirm"
                                           type="button"
-<<<<<<< HEAD
                                           onClick={() => this.cardConfirm()}
-=======
-                                          onClick={() => this.confirmCardInfo()}
->>>>>>> 4431b6e9d0bd1d3390b9330a1236bf80b1050506
                                         >
                                           <FormattedMessage id="payment.confirmCard" />
                                         </button>
