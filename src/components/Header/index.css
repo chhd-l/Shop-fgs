@@ -1,5 +1,5 @@
 .rc-menu--xs.btn-close::after {
-  background-image: url(https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--iconography--xs.svg?v=8-7-9)!important;
+  background-image: url(%PUBLIC_URL%/royal/royal-assets1/royal-canin.sprite--iconography--xs.svg)!important;
   background-position: 38% 0!important;
 }
 .minicart__product:last-child .product-summary__products__item {
