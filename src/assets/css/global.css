@@ -19279,7 +19279,7 @@ header .popover {
 .minicart .popover {
   top: 100%;
   left: auto;
-  right: 0;
+  right: 1%;
   min-width: 19.25rem;
   max-width: 19.25rem;
   display: none
