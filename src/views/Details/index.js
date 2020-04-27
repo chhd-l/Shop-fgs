@@ -156,6 +156,7 @@ class Details extends React.Component {
     }, () => { this.updateInstockStatus() })
   }
   handleAmountChange (e) {
+    const { quantityMinLimit } = this.state
     const val = e.target.value
     if (val === '') {
       this.setState({ quantity: val })
@@ -163,6 +164,9 @@ class Details extends React.Component {
       let tmp = parseInt(val)
       if (isNaN(tmp)) {
         tmp = 1
+      }
+      if (tmp < quantityMinLimit) {
+        tmp = quantityMinLimit
       }
       this.setState({ quantity: tmp }, () => this.updateInstockStatus())
     }
