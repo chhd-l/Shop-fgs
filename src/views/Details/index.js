@@ -263,42 +263,21 @@ class Details extends React.Component {
                           {this.state.loading
                             ? <Skeleton color="#f5f5f5" width="100%" height="100%" />
                             : <div className={['rc-full-width', this.state.imageMagnifierCfg.show ? 'show-image-magnifier' : ''].join(' ')}>
-                              <div data-js-carousel data-image-gallery="true" data-move-carousel-up='md'
-                                data-move-carousel-to='#new-carousel-container'>
-                                <div className="rc-carousel rc-carousel__gallery-image" data-zoom-container="product-description-carousel"
-                                  data-zoom-factor="3">
-                                  <div onMouseEnter={() => this.hanldeImgMouseEnter(details.goodsImg)}>
-                                    {this.state.imageMagnifierCfg.show ?
-                                      <div className="details-img-container">
-                                        <ImageMagnifier minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.imageMagnifierCfg.config} />
-                                      </div> : <div>
-                                        <picture className="d-flex">
-                                          {/* <source
-                                      srcSet={item.source1}
-                                      media="(min-width: 1500px)" />
-                                    <source
-                                      srcSet={item.source2}
-                                      media="(min-width: 1000px)" />
-                                    <source
-                                      srcSet={item.source3}
-                                      media="(min-width: 500px)" /> */}
-                                          <img
-                                            id="J-details-img"
-                                            src={details.goodsImg}
-                                            alt="Product alt text" />
-                                        </picture>
-                                      </div>}
-                                  </div>
-                                </div>
-                                <div className="rc-carousel__gallery-thumbnails-wrapper">
-                                  <div className="rc-carousel rc-carousel__gallery-thumbnails">
-                                    <div className="rc-carousel__gallery-thumbnail">
-                                      <figure className="rc-img--square"
-                                        style={{ backgroundImage: 'url(' + details.goodsImg + ')' }}>
-                                      </figure>
-                                    </div>
-                                  </div>
-                                </div>
+                              <div className="d-flex justify-content-center" onMouseEnter={() => this.hanldeImgMouseEnter(details.goodsImg)}>
+                                {
+                                  this.state.imageMagnifierCfg.show ?
+                                    <div className="details-img-container">
+                                      <ImageMagnifier minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.imageMagnifierCfg.config} />
+                                    </div> : <div className="ui-margin-top-1-md-down" style={{ height: 354 }}>
+                                      <img
+                                        id="J-details-img"
+                                        src={details.goodsImg}
+                                        alt={details.goodsName}
+                                        style={{ maxHeight: '100%' }} />
+                                    </div>}
+                              </div>
+                              <div className="d-flex justify-content-center">
+                                <div className="rc-img--square rc-img--square-custom" style={{ backgroundImage: 'url(' + details.goodsImg + ')' }}></div>
                               </div>
                             </div>}
                         </div>

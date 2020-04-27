@@ -1534,6 +1534,9 @@ label.availability {
       width: 100%;
       margin: .25rem 0
   }
+  .ui-margin-top-1-md-down {
+    margin-top: 1rem;
+  }
 }
 .details-img-container {
   max-width: 250px;
@@ -1547,4 +1550,9 @@ label.availability {
   background: grey;
   border-color: grey;
   cursor: not-allowed;
+}
+.rc-img--square.rc-img--square-custom {
+  margin-top: 2rem;
+  border: 1px solid #e2001a;
+  background-size: contain;
 }
