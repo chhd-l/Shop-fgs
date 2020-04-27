@@ -44,7 +44,7 @@ class Header extends React.Component {
   async componentDidMount () {
     window.addEventListener('click', (e) => this.hideMenu(e))
     const { location } = this.props
-    if (location.pathname === '/') {
+    if (location && location.pathname === '/') {
       let clinicsId = getParaByName(window.location.search || (location ? location.search : ''), 'clinics')
       sessionStorage.setItem('rc-clinics-id', clinicsId)
       this.setState({
