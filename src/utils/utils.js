@@ -1,4 +1,5 @@
 import { getStoreCate } from '@/api'
+import { STOREID } from '@/utils/constant'
 
 export function formatMoney (val) {
   val = val + ''
@@ -8,7 +9,7 @@ export function formatMoney (val) {
 export async function queryStoreCateIds () {
   let tmp = sessionStorage.getItem('rc-storeId-list')
   if (!tmp) {
-    let res = await getStoreCate({ storeId: '123456858' })
+    let res = await getStoreCate({ storeId: STOREID })
     if (res.context && res.context.length) {
       sessionStorage.setItem('rc-storeId-list', JSON.stringify(res.context))
     }

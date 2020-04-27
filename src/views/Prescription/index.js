@@ -203,7 +203,7 @@ render(h) {
 
     return (
       <div>
-        <Header showMiniIcons={true}/>
+        <Header showMiniIcons={true} location={this.props.location}/>
         <main className="rc-content--fixed-header rc-bg-colour--brand3" >
           <div
             id="checkout-main"

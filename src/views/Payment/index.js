@@ -10,6 +10,7 @@ import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import paypalImg from "@/assets/images/credit-cards/paypal.png";
+import { STOREID } from '@/utils/constant'
 import { postVisitorRegisterAndLogin, batchAdd, confirmAndCommit } from "@/api/payment";
 
 class Payment extends React.Component {
@@ -137,11 +138,12 @@ class Payment extends React.Component {
       commentOnDelivery,
       billingChecked,
       payMethod } = this.state;
+    const cartData = localStorage.getItem("rc-cart-data") ? JSON.parse(localStorage.getItem("rc-cart-data")) : []
     if (!payMethod) {
       this.setState({ showPayMethodError: true });
     }
     if (isEighteen && isReadPrivacyPolicy) {
-      let param = Object.assign({},{useDeliveryAddress: billingChecked},deliveryAddress,{ city: 1, country: 1, phoneNumber: '18883733998' } )
+      let param = Object.assign({}, { useDeliveryAddress: billingChecked }, deliveryAddress, { city: 1, country: 1 })
       // let param = { useDeliveryAddress: billingChecked, ...deliveryAddress, ...{ city: 1, country: 1, phoneNumber: '18883733998' } }
       param.billAddress1 = billingAddress.address1
       param.billAddress2 = billingAddress.address2
@@ -149,40 +151,34 @@ class Payment extends React.Component {
       param.billCountry = 1
       param.billFirstName = billingAddress.firstName
       param.billLastName = billingAddress.lastName
-      param.billPhoneNumber = '18883733998' || billingAddress.phoneNumber
+      param.billPhoneNumber = billingAddress.phoneNumber
       param.billPostCode = billingAddress.postCode
-
+      let param2 = {
+        goodsInfos: cartData.map(ele => {
+          return {
+            verifyStock: false,
+            buyCount: ele.quantity,
+            goodsInfoId: ele.sizeList.find(s => s.selected).goodsInfoId
+          }
+        })
+      }
+      let param3 = {
+        clinicsId: sessionStorage.getItem('rc-clinics-id') || sessionStorage.getItem('rc-clinics-id2'),
+        remark: commentOnDelivery,
+        storeId: STOREID,
+        tradeItems: param2.goodsInfos.map(g => {
+          return {
+            num: g.buyCount,
+            skuId: g.goodsInfoId
+          }
+        }),
+        tradeMarketingList: []
+      }
       let res = await postVisitorRegisterAndLogin(param)
       if (res.context && res.context.token) {
         sessionStorage.setItem('rc-token', res.context.token)
-        let batchAddRes = await batchAdd({
-          "goodsInfos": [
-            {
-              "buyCount": 1,
-              "goodsInfoId": "8a9bc76c6bd699cb016c187b187009d0",
-              "verifyStock": false
-            },
-            {
-              "buyCount": 1,
-              "goodsInfoId": "8a9bc76c65ea68480165f00b93340038",
-              "verifyStock": false
-            }
-          ]
-        }
-        )
-        let res3 = confirmAndCommit({
-          "clinicsId": sessionStorage.getItem('rc-clinics-id') || sessionStorage.getItem('rc-clinics-id2'),
-          "remark": commentOnDelivery,
-          "storeId": 123456861,
-          "tradeItems": [
-            {
-              "num": 1,
-              "skuId": "8a9bc76c65ea68480165f00b93340038"
-            }
-          ],
-          "tradeMarketingList": []
-        }
-        )
+        await batchAdd(param2)
+        await confirmAndCommit(param3)
         history.push('/confirmation')
       }
     } else {
@@ -242,7 +238,14 @@ class Payment extends React.Component {
   commentChange (e) {
     this.setState({ commentOnDelivery: e.target.value });
   }
-  billingCheckedChange () {
+  cardConfirm() {
+    document.getElementById('payment-form').submit.click()
+    console.log(document.getElementById('payment-form').submit)
+      this.setState({
+        isCompleteCredit: true,
+      });
+  }
+  billingCheckedChange() {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
   }
@@ -1185,8 +1188,14 @@ class Payment extends React.Component {
                                           >
                                             Card number*
                                             {CreditCardImg}
-                                            <div className="cardFormBox ui-border-bottom-none-md-down">
-                                              <span className="cardImage">
+                                            <form id="payment-form">
+                                              <div id="card-secure-fields">
+                                                
+                                              </div>
+                                              <button id="submit" name="submit" class="creadit" type="submit">Pay</button>
+                                            </form>
+                                            {/* <div className="cardFormBox">
+                                              <span class="cardImage">
                                                 <img
                                                   alt="Card"
                                                   src="https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
@@ -1301,7 +1310,7 @@ class Payment extends React.Component {
                                                   </div>
                                                 </div>
                                               </span>
-                                            </div>
+                                            </div> */}
                                           </label>
                                         </div>
                                       </div>
@@ -1318,7 +1327,8 @@ class Payment extends React.Component {
                                           >
                                             <input
                                               type="text"
-                                              className="rc-input__control form-control cardOwner"
+                                              id="cardholder-name"
+                                              class="rc-input__control form-control cardOwner"
                                               name="cardOwner"
                                               value={creditCardInfo.cardOwner}
                                               onChange={(e) =>
@@ -1417,7 +1427,7 @@ class Payment extends React.Component {
                                           className="rc-btn rc-btn--two card-confirm"
                                           id="card-confirm"
                                           type="button"
-                                          onClick={() => this.confirmCardInfo()}
+                                          onClick={() => this.cardConfirm()}
                                         >
                                           <FormattedMessage id="payment.confirmCard" />
                                         </button>

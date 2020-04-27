@@ -71,5 +71,42 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 </body>
+<script language="JavaScript" type="text/javascript" src="https://js.paymentsos.com/v2/latest/secure-fields.min.js"></script>
+<script>
+POS.setPublicKey("2eb9405a-b76c-41dc-b025-3db58d743a88");
+POS.setEnvironment("test");
+const style = {
+  base: {
+    secureFields: {
+      width: '100%'
+    },
+    pan: {
+      display: 'inline-block',
+      width: '50%'
+    },
+    expirationDate: {
+      display: 'inline-block',
+      width: '30%'
+    },
+    cvv: {
+      display: 'inline-block',
+      width: '20%'
+    }
+  }    
+};
+  POS.setStyle(style);
+  POS.initSecureFields('card-secure-fields');
+  document.getElementById('payment-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const additionalData = {
+      holder_name: document.getElementById('cardholder-name').value // This field is mandatory
+    }
+    POS.createToken(additionalData, function(result) {
+      console.log(result, 'result')
+      // Grab the token here
 
+    });
+  });
+
+</script>
 </html>

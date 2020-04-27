@@ -20022,7 +20022,7 @@ input.search-field {
   box-shadow: 0 6px 9px rgba(0,0,0,.24);
   border-radius: 3px;
   overflow: auto;
-  max-height: 100vh
+  max-height: calc(100vh - 150px)
 }
 
 @media(max-width: 639.98px) {
@@ -20035,7 +20035,8 @@ input.search-field {
       top: -1px;
       -webkit-box-shadow: none;
       box-shadow: none;
-      border-top: none
+      border-top: none;
+      max-height: calc(100vh - 5rem)
   }
 }
 

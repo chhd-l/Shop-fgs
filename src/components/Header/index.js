@@ -4,11 +4,13 @@ import { Link } from "react-router-dom"
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
 import { createHashHistory } from 'history'
-import { formatMoney } from "@/utils/utils.js";
+import { formatMoney, getParaByName } from "@/utils/utils";
 import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import './index.css'
 import { getList } from '@/api/list'
+import { CATEID } from '@/utils/constant'
+import { getPrescriptionById } from '@/api/clinic'
 
 class Header extends React.Component {
   static defaultProps = {
@@ -23,7 +25,9 @@ class Header extends React.Component {
       keywords: '',
       loading: false,
       result: null,
-      showMegaMenu: false
+      showMegaMenu: false,
+      clinicsId: sessionStorage.getItem('rc-clinics-id'),
+      clinicsName: sessionStorage.getItem('rc-clinics-name')
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -37,8 +41,29 @@ class Header extends React.Component {
     this.inputRefMobile = React.createRef();
     this.menuBtnRef = React.createRef();
   }
-  componentDidMount () {
+  async componentDidMount () {
     window.addEventListener('click', (e) => this.hideMenu(e))
+    const { location } = this.props
+    if (location && location.pathname === '/') {
+      let clinicsId = getParaByName(window.location.search || (location ? location.search : ''), 'clinics')
+      sessionStorage.setItem('rc-clinics-id', clinicsId)
+      this.setState({
+        clinicsId: clinicsId
+      })
+      let tmpName = null
+      if (clinicsId) {
+        try {
+          let res = await getPrescriptionById({ clinicsId })
+          if (res.context) {
+            tmpName = res.context.clinicsName
+          }
+        } catch (e) { }
+      }
+      sessionStorage.setItem('rc-clinics-name', tmpName)
+      this.setState({
+        clinicsName: tmpName
+      })
+    }
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
@@ -101,7 +126,7 @@ class Header extends React.Component {
     this.setState({ loading: true })
 
     let params = {
-      cateId: '1129',
+      cateId: CATEID,
       keywords,
       propDetails: [],
       pageNum: 0,
@@ -118,8 +143,7 @@ class Header extends React.Component {
         let goodsContent = esGoods.content
         if (res.context.goodsList) {
           goodsContent = goodsContent.map(ele => {
-            let ret = Object.assign({}, ele)  
-            // let ret = { ...ele }
+            let ret = Object.assign({}, ele)
             const tmpItem = res.context.goodsList.find(g => g.goodsId === ele.id)
             if (tmpItem) {
               ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
@@ -129,6 +153,10 @@ class Header extends React.Component {
         }
         this.setState({
           result: Object.assign({}, { productList: goodsContent, totalElements: esGoods.totalElements })
+        })
+      } else {
+        this.setState({
+          result: Object.assign({}, { productList: [], totalElements: 0 })
         })
       }
     }
@@ -165,38 +193,50 @@ class Header extends React.Component {
                 <FormattedMessage id="goods" />
               </div>
               <div className="suggestions-items row justify-content-end items rc-padding-left--xs">
-                {(this.state.result.productList || []).map((item, idx) => (
-                  <div className="col-12 item" key={item.id + idx}>
-                    <div className="row">
-                      <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
-                        <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(item)}>
-                          <img
-                            className="swatch__img"
-                            alt={item.lowGoodsName}
-                            title={item.lowGoodsName}
-                            src={item.goodsInfos[0].goodsInfoImg} />
-                        </a>
+                {
+                  this.state.result.productList.length ?
+                    this.state.result.productList.map((item, idx) => (
+                      <div className="col-12 item" key={item.id + idx}>
+                        <div className="row">
+                          <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
+                            <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(item)}>
+                              <img
+                                className="swatch__img"
+                                alt={item.lowGoodsName}
+                                title={item.lowGoodsName}
+                                src={item.goodsInfos[0].goodsInfoImg} />
+                            </a>
+                          </div>
+                          <div className="col-8 col-md-9 col-lg-10 rc-padding-top--xs">
+                            <a
+                              onClick={() => this.gotoDetails(item)}
+                              className="productName ui-cursor-pointer"
+                              alt={item.lowGoodsName}
+                              title={item.lowGoodsName}
+                            >
+                              {item.lowGoodsName}
+                            </a>
+                            <div className="rc-meta searchProductKeyword"></div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="col-8 col-md-9 col-lg-10 rc-padding-top--xs">
-                        <a
-                          onClick={() => this.gotoDetails(item)}
-                          className="productName ui-cursor-pointer"
-                          alt={item.lowGoodsName}
-                          title={item.lowGoodsName}
-                        >
-                          {item.lowGoodsName}
-                        </a>
-                        <div className="rc-meta searchProductKeyword"></div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                    )) :
+                    <p className="">
+                      <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
+                      <FormattedMessage id="list.errMsg2" />
+                    </p>
+                }
               </div>
-              <div className="rc-margin-top--xs">
-                <a className="productName rc-large-body ui-cursor-pointer" onClick={this.handleItemClick}>
-                  <b><FormattedMessage id="viewAllResults" /> ({this.state.result.totalElements})</b>
-                </a>
-              </div>
+              {
+                this.state.result.totalElements ?
+                  <div className="rc-margin-top--xs">
+                    <a className="productName rc-large-body ui-cursor-pointer" onClick={this.handleItemClick}>
+                      <b><FormattedMessage id="viewAllResults" /> ({this.state.result.totalElements})</b>
+                    </a>
+                  </div> :
+                  null
+              }
+
             </div>
           </div>
           <span className="d-sm-none_ more-below">
@@ -423,9 +463,9 @@ class Header extends React.Component {
               <li className="rc-list__item">
                 <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                   <li className="rc-list__item">
-                    <Link className="rc-list__header" to="/">
+                    <a className="rc-list__header" href="https://www.royalcanin.com/mx/about-us">
                       <FormattedMessage id="aboutUs" />
-                    </Link>
+                    </a>
                   </li>
                 </ul>
               </li>
@@ -465,9 +505,10 @@ class Header extends React.Component {
           {this.state.loading ? <Loading /> : null}
           <MegaMenu show={this.state.showMegaMenu} />
         </header>
+        {this.state.clinicsId && this.state.clinicsName && this.props.showMiniIcons ? <div className="tip-clinics"><FormattedMessage id="clinic.clinic" />: {this.state.clinicsName}</div> : null}
       </React.Fragment>
     )
   }
 }
 
-export default Header;
+export default Header

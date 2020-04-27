@@ -142,6 +142,7 @@
     ]
   },
   "devDependencies": {
-    "react-router-dom": "^5.1.2"
+    "react-router-dom": "^5.1.2",
+    "react-skeleton-loader": "^1.0.4"
   }
 }

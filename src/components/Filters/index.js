@@ -1,87 +1,134 @@
 import React from 'react'
+import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from 'react-intl'
 import '@/assets/css/search.css'
+import './index.css'
 
 class Filter extends React.Component {
+  static defaultProps = {
+    initing: true,
+    filterList: []
+  }
   constructor(props) {
     super(props)
+    this.state = {
+      initing: props.initing,
+      prevIniting: props.initing,
+      filterListCopy: props.filterList
+    }
     this.matchParentCatogery = this.matchParentCatogery.bind(this)
+    this.toggleContent = this.toggleContent.bind(this)
+    this.hanldeRemove = this.hanldeRemove.bind(this)
+    this.contentRef = React.createRef();
   }
   get computedCheckList () {
     return this.props.checkedList.map(v => {
-      let parentCatogery = this.matchParentCatogery(v)
-      console.log(parentCatogery);
-      
-    return Object.assign({}, {parentCatogery:this.matchParentCatogery(v)}, v) 
-      // return { parentCatogery: this.matchParentCatogery(v), ...v }
+      return Object.assign({}, { parentCatogery: this.matchParentCatogery(v) }, v)
     })
   }
   matchParentCatogery (data) {
     let res = ''
-    let tmp = this.props.filterList.find(l => l.propId === data.propId)
+    let tmp = this.state.filterListCopy.find(l => l.propId === data.propId)
     if (tmp) {
       res = tmp.propName.toLocaleLowerCase()
     }
     return res
   }
+  toggleContent (idx) {
+    let { filterListCopy } = this.state
+    filterListCopy.map((f, i) => {
+      if (i === idx) {
+        f.expand = !f.expand
+      } else {
+        f.expand = false
+      }
+    })
+    this.setState({
+      filterListCopy: filterListCopy
+    })
+  }
+  hanldeRemove (data) {
+    this.props.onRemove(data)
+    if (data === 'all') {
+      let { filterListCopy } = this.state
+      filterListCopy.map(f => f.expand = false)
+      this.setState({
+        filterListCopy: filterListCopy
+      })
+      this.props.onToggleFilterModal(false)
+    }
+  }
+  static getDerivedStateFromProps (props, state) {
+    if (props.initing !== state.prevIniting) {
+      return {
+        filterListCopy: props.filterList
+      }
+    }
+    return null
+  }
   render () {
     const { computedCheckList } = this
-    const { onChange, onRemove, filterList, checkedList } = this.props
+    const { filterListCopy } = this.state
+    const { onChange, filterList, checkedList, initing } = this.props
     return (
-      <form className="rc-filters__form" action="" name="example-filter">
-        <header className="rc-filters__header">
-          <button className="rc-md-down rc-stick-left rc-btn rc-btn--icon rc-icon rc-close--xs rc-iconography"
-            data-filter-trigger="filter-example" type="button"></button>
-          <h1 className="rc-filters__heading rc-padding-top--sm rc-padding-bottom--xs rc-header-with-icon rc-header-with-icon--alpha">
-            <span className="md-up rc-icon rc-filter--xs rc-iconography"></span>
-            <FormattedMessage id="filters" />
-          </h1>
-          <div className="filter-bar">
-            <ul>
-              {computedCheckList.map((v, i) => (
-                <FormattedMessage id='sortedBy'>
-                  {(txt) => (
-                    <li className="filter-value" title={`${txt} ${v.parentCatogery}: ${v.detailName}`} key={v + i}>
-                      {v.detailName}
-                      <i className="filter-remove" onClick={onRemove.bind(this, v)}></i>
-                    </li>
-                  )}
-                </FormattedMessage>
+      <div className="rc-filters__form" name="example-filter">
+        {
+          initing
+            ? <div style={{ marginTop: '10px' }}><Skeleton color="#f5f5f5" width="100%" height="100%" count={7} /></div>
+            : <React.Fragment>
+              <header className="rc-filters__header">
+                <button className="rc-md-down rc-stick-left rc-btn rc-btn--icon rc-icon rc-close--xs rc-iconography"
+                  type="button" onClick={() => this.props.onToggleFilterModal(false)}></button>
+                <div className="rc-filters__heading rc-padding-top--sm rc-padding-bottom--xs rc-header-with-icon rc-header-with-icon--alpha">
+                  <span className="md-up rc-icon rc-filter--xs rc-iconography"></span>
+                  <FormattedMessage id="filters" />
+                </div>
+                <div className="filter-bar">
+                  <ul>
+                    {computedCheckList.map((v, i) => (
+                      <FormattedMessage id='sortedBy' key={i}>
+                        {(txt) => (
+                          <li className="filter-value" title={`${txt} ${v.parentCatogery}: ${v.detailName}`} key={v + i}>
+                            {v.detailName}
+                            <i className="filter-remove" onClick={() => this.hanldeRemove(v)}></i>
+                          </li>
+                        )}
+                      </FormattedMessage>
+                    ))}
+                  </ul>
+                </div>
+                {checkedList.length ?
+                  <div className="text-center rc-margin-y--xs rc-padding-bottom--xs">
+                    <a className="rc-styled-link js-clear-filter" onClick={() => this.hanldeRemove('all')}><FormattedMessage id="removeAllFilters" /></a>
+                  </div> : ''}
+              </header>
 
-              ))}
-            </ul>
-          </div>
-          {checkedList.length ?
-            <div className="text-center rc-margin-y--xs rc-padding-bottom--xs">
-              <a className="rc-styled-link js-clear-filter" onClick={onRemove.bind(this, 'all')}><FormattedMessage id="removeAllFilters" /></a>
-            </div> : ''}
-
-        </header>
-
-        <dl data-toggle-group="" data-toggle-effect="rc-expand--vertical" role="presentation" className="rc-margin--none">
-          {filterList.map((f, index) => (
-            <React.Fragment key={index}>
-              <dt role="heading">
-                <button className="rc-list__header" id={`accordion-header-${index}`} data-toggle={`accordion-content-${index}`} role="button">{f.propName}</button>
-              </dt>
-              <dd className="rc-list__content rc-expand--vertical" id={`accordion-content-${index}`}>
-                {f.goodsPropDetails.map((l, i) => (
-                  <li title={`Sort by ${f.propName.toLocaleLowerCase()}: ${l.detailName}`} className="rc-list__item" key={index + '-' + i}>
-                    <div className="rc-input rc-input--stacked">
-                      <input className="rc-input__checkbox" id={`input-${index}-${i}`} type="checkbox" name="checkbox"
-                        checked={checkedList.findIndex(c => c.detailId === l.detailId && c.propId === l.propId) > -1}
-                        value={l.propName} onChange={onChange.bind(this, l)} />
-                      <label className="rc-input__label--inline" htmlFor={`input-${index}-${i}`}>
-                        {l.detailName}
-                      </label>
+              <div className="rc-margin--none" ref={this.contentRef}>
+                {filterListCopy.map((f, index) => (
+                  <React.Fragment key={index}>
+                    <div role="heading">
+                      <div className="rc-list__header" id={`accordion-header-${index}`} onClick={() => this.toggleContent(index)}>{f.propName}</div>
                     </div>
-                  </li>
+                    <ul className={['rc-list__content', 'rc-expand--vertical', f.expand ? 'expand' : ''].join(' ')} id={`accordion-content-${index}`}>
+                      {f.goodsPropDetails.map((l, i) => (
+                        <li title={`Sort by ${f.propName.toLocaleLowerCase()}: ${l.detailName}`} className="rc-list__item" key={index + '-' + i}>
+                          <div className="rc-input rc-input--stacked">
+                            <input className="rc-input__checkbox" id={`input-${index}-${i}`} type="checkbox" name="checkbox"
+                              checked={checkedList.findIndex(c => c.detailId === l.detailId && c.propId === l.propId) > -1}
+                              value={l.propName} onChange={onChange.bind(this, l)} />
+                            <label className="rc-input__label--inline" htmlFor={`input-${index}-${i}`}>
+                              {l.detailName}
+                            </label>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </React.Fragment>
                 ))}
-              </dd>
+              </div>
             </React.Fragment>
-          ))}
-        </dl>
-      </form>
+        }
+      </div>
     )
   }
 }

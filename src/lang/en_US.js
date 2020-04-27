@@ -78,6 +78,8 @@ const en_US = {
   'home.specialAnimalNutrition': 'Special animal nutrition',
 
   'list.youSearchedFor': 'You searched for',
+  'list.errMsg': 'No products found, please change the search criteria and try again!',
+  'list.errMsg2': 'No products found, please change the keywords and try again!',
 
   'details.unitPrice': 'Unit price',
   'details.theSize': 'The size',
@@ -89,6 +91,7 @@ const en_US = {
   'details.beneficialFeatures': 'Beneficial features',
   'details.ingredients': 'Ingredients',
   'details.feedingRecommendations': 'Feeding recommendations',
+  'details.errMsg': 'the product has no specs, please try again later.',
 
   'cart.errorInfo': 'The number can\'t be less than 1',
   'cart.yourBasket': 'Your basket',
@@ -108,9 +111,7 @@ const en_US = {
   'footer.help': 'HELP',
   'footer.myPersonalAccount': 'My personal account',
   'footer.contacts': 'Contacts',
-  'footer.deliveryTerms': 'Delivery terms',
-  'footer.purchaseReturns': 'Purchase returns',
-  'footer.frequentlyAskedQuestions': 'Frequently asked Questions',
+  'footer.FAQ': 'FAQ',
   'footer.Additionally': 'ADDITIONALLY',
   'footer.termsOfUse': 'Terms of use',
   'footer.privacyPolicy': 'privacy policy',
@@ -123,6 +124,8 @@ const en_US = {
   'footer.cookies': 'Cookies',
   'footer.legalTerms': 'Legal Terms',
   'footer.copyrightInfo': 'Copyright © Mars 2020®, Trademark of Mars Incorporated and its affiliates',
+
+  'clinic.clinic': 'clinic',
   'clinic.confirm': 'Confirm',
   'clinic.cancel': 'Cancel',
   'clinic.selectVetClinics': 'Select Vet Clinics',

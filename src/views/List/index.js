@@ -1,16 +1,17 @@
-import React from 'react';
+import React from 'react'
+import Skeleton from 'react-skeleton-loader'
 import { createHashHistory } from 'history'
 import { FormattedMessage } from 'react-intl'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import Filters from '@/components/Filters'
-import Loading from '@/components/Loading'
 import './index.css'
 import { cloneDeep } from 'lodash'
 import titleCfg from './json/title.json'
 import { getList, getProps } from '@/api/list'
-import { queryStoreCateIds, formatMoney } from "@/utils/utils.js"
+import { queryStoreCateIds, formatMoney } from "@/utils/utils"
+import { STOREID, CATEID } from '@/utils/constant'
 
 class List extends React.Component {
   constructor(props) {
@@ -31,6 +32,28 @@ class List extends React.Component {
               salePrice: 945
             }
           ]
+        },
+        {
+          id: '3004_RU',
+          lowGoodsName: 'Mini adult',
+          goodsInfos: [
+            {
+              goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
+              specText: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
+              salePrice: 945
+            }
+          ]
+        },
+        {
+          id: '3005_RU',
+          lowGoodsName: 'Mini adult',
+          goodsInfos: [
+            {
+              goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
+              specText: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
+              salePrice: 945
+            }
+          ]
         }
       ],
       loading: true,
@@ -41,13 +64,20 @@ class List extends React.Component {
       pageSize: 10,
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       keywords: '',
-      filterList: []
+      filterList: [],
+      initingFilter: true,
+      initingList: true,
+      filterModalVisible: false
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
     this.handleCurrentPageNumChange = this.handleCurrentPageNumChange.bind(this)
     this.handlePrevOrNextPage = this.handlePrevOrNextPage.bind(this)
     this.hanldeItemClick = this.hanldeItemClick.bind(this)
+    this.toggleFilterModal = this.toggleFilterModal.bind(this)
+  }
+  toggleFilterModal (status) {
+    this.setState({ filterModalVisible: status })
   }
   async initData () {
     const { category } = this.state
@@ -79,14 +109,24 @@ class List extends React.Component {
     })
   }
   async getProductList () {
-    let { checkedList, currentPage, pageSize, storeCateId, keywords } = this.state;
-    const cateId = '1129'
+    let { checkedList, currentPage, pageSize, storeCateId, keywords, initingList } = this.state;
     this.setState({
       loading: true
     })
 
+    if (!initingList) {
+      const widget = document.querySelector('#J-product-list')
+      if (widget) {
+        setTimeout(() => {
+          console.log(widget.offsetTop)
+          window.scrollTo(0, widget.offsetTop - 100);
+        }, 0)
+      }
+    }
+
     let params = {
-      cateId,
+      storeId: STOREID,
+      cateId: CATEID,
       propDetails: [],
       pageNum: currentPage - 1,
       brandIds: [],
@@ -112,14 +152,13 @@ class List extends React.Component {
 
     getList(params)
       .then(res => {
-        this.setState({ loading: false })
+        this.setState({ loading: false, initingList: false })
         const esGoods = res.context.esGoods
         if (esGoods && esGoods.content.length) {
           let goodsContent = esGoods.content
           if (res.context.goodsList) {
             goodsContent = goodsContent.map(ele => {
-              let ret = Object.assign({}, ele)  
-              // let ret = { ...ele }
+              let ret = Object.assign({}, ele)
               const tmpItem = res.context.goodsList.find(g => g.goodsId === ele.id)
               if (tmpItem) {
                 ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
@@ -143,11 +182,13 @@ class List extends React.Component {
         this.setState({ loading: false, productList: [] })
       })
 
+
     if (!this.state.filterList.length) {
-      getProps(cateId)
+      getProps(CATEID)
         .then(res => {
           this.setState({
-            filterList: res.context
+            filterList: res.context,
+            initingFilter: false
           })
         })
     }
@@ -161,7 +202,7 @@ class List extends React.Component {
     } else {
       checkedListCopy.push(item)
     }
-    this.setState({ checkedList: checkedListCopy }, () => this.getProductList())
+    this.setState({ checkedList: checkedListCopy, currentPage: 1 }, () => this.getProductList())
   }
   handleRemove (item) {
     const { checkedList } = this.state;
@@ -173,17 +214,24 @@ class List extends React.Component {
       checkedListCopy.splice(checkedListCopy.findIndex(c => c.detailId === item.detailId && c.propId === item.propId), 1)
       res = checkedListCopy
     }
-    this.setState({ checkedList: res }, () => this.getProductList())
+    this.setState({ checkedList: res, currentPage: 1 }, () => this.getProductList())
   }
   handleCurrentPageNumChange (e) {
-    let tmp = parseInt(e.target.value)
-    if (isNaN(tmp)) {
-      tmp = 1
+    const val = e.target.value
+    if (val === '') {
+      this.setState({ currentPage: val })
+    } else {
+      let tmp = parseInt(val)
+      if (isNaN(tmp)) {
+        tmp = 1
+      }
+      if (tmp > this.state.totalPage) {
+        tmp = this.state.totalPage
+      }
+      if (tmp !== this.state.currentPage) {
+        this.setState({ currentPage: tmp }, () => this.getProductList())
+      }
     }
-    if (tmp > this.state.totalPage) {
-      tmp = this.state.totalPage
-    }
-    this.setState({ currentPage: tmp }, () => this.getProductList())
   }
   handlePrevOrNextPage (type) {
     const { currentPage, totalPage } = this.state
@@ -210,7 +258,7 @@ class List extends React.Component {
     const { results, productList, loading, checkedList, currentPage, totalPage, titleData, cartData } = this.state
     return (
       <div>
-        <Header cartData={cartData} showMiniIcons={true} />
+        <Header cartData={cartData} showMiniIcons={true} location={this.props.location} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           {titleData ?
@@ -224,13 +272,14 @@ class List extends React.Component {
                 </div>
                 <div className="rc-column ">
                   <img
+                    className="mw-100"
                     src={titleData.img}
                     alt={titleData.imgAlt} />
                 </div>
               </div>
             </div>
             : ''}
-
+          <div id="J-product-list"></div>
           <div className="search-results rc-padding--sm rc-max-width--xl">
             <div className="search-nav">
               {this.state.keywords ?
@@ -245,11 +294,17 @@ class List extends React.Component {
                   {results} <FormattedMessage id="results" />
                 </div>
                 <div className="rc-layout-container rc-four-column">
-                  <div className="refinements rc-column js-filter-refinement">
+                  <div className="refinements rc-column">
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
-                      data-filter-trigger="filter-example">Filters</button>
-                    <aside className="rc-filters" data-filter-target="filter-example">
-                      <Filters onChange={this.handleFilterChange} onRemove={this.handleRemove} filterList={this.state.filterList} checkedList={checkedList} />
+                      data-filter-trigger="filter-example" onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
+                    <aside className={['rc-filters', this.state.filterModalVisible ? 'active' : ''].join(' ')}>
+                      <Filters
+                        initing={this.state.initingFilter}
+                        onChange={this.handleFilterChange}
+                        onRemove={this.handleRemove}
+                        onToggleFilterModal={this.toggleFilterModal}
+                        filterList={this.state.filterList}
+                        checkedList={checkedList} />
                     </aside>
                   </div>
                   <div className={['rc-column', 'rc-triple-width', !productList.length ? 'd-flex justify-content-center align-items-center' : ''].join(' ')}>
@@ -258,47 +313,53 @@ class List extends React.Component {
                       <React.Fragment>
                         <div className="ui-font-nothing rc-md-up">
                           <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
-                          No products found, please change the search criteria and try again!
+                          <FormattedMessage id="list.errMsg" />
                         </div>
                         <div className="ui-font-nothing rc-md-down d-flex">
                           <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
-                          No products found, please change the search criteria and try again!
+                          <FormattedMessage id="list.errMsg" />
                         </div>
                       </React.Fragment>
                       :
-                      <div className={['rc-match-heights', 'rc-layout-container', 'rc-event-card--sidebar-present', loading ? 'loading' : ''].join(' ')}>
-                        {loading ? <Loading noMask={true} /> : null}
+                      <div className={['rc-match-heights', 'rc-layout-container', 'rc-event-card--sidebar-present'].join(' ')}>
                         {productList.map(item => (
-                          <div className={['rc-column', loading ? 'loading' : ''].join(' ')} key={item.id}>
-                            <article className="rc-card rc-card--product">
+                          <div className={['rc-column'].join(' ')} key={item.id}>
+
+                            <article className="rc-card rc-card--product" style={{ minHeight: '120px' }}>
                               <div className="fullHeight">
                                 <a onClick={() => this.hanldeItemClick(item)} className="ui-cursor-pointer">
                                   <article className="rc-card--a rc-text--center rc-padding-top--sm">
-                                    <picture className="rc-card__image">
-                                      <div className="rc-padding-bottom--xs">
-                                        <img
-                                          src={item.goodsInfos[0].goodsInfoImg}
-                                          srcSet={item.goodsInfos[0].goodsInfoImg}
-                                          alt={item.lowGoodsName}
-                                          title={item.lowGoodsName} />
-                                      </div>
-                                    </picture>
-                                    <div className="rc-card__body rc-padding-top--none">
-                                      <div className="height-product-tile-plpOnly height-product-tile">
-                                        <header className="rc-text--center">
-                                          <h3 className="rc-card__title rc-gamma">{item.lowGoodsName}</h3>
-                                        </header>
-                                        <div className="Product-Key-words rc-text--center"></div>
-                                        <div className="rc-card__meta rc-margin-bottom--xs rc-text--center">
-                                          {item.goodsSubtitle}
-                                        </div>
-                                      </div>
-                                      <span className="rc-card__price rc-text--center">
-                                        <span className="range">
-                                          <FormattedMessage id="from" /> $ {formatMoney(item.goodsInfos[0].salePrice)}
-                                        </span>
-                                      </span>
-                                    </div>
+                                    {
+                                      loading
+                                        ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
+                                        : <React.Fragment>
+                                          <picture className="rc-card__image">
+                                            <div className="rc-padding-bottom--xs">
+                                              <img
+                                                src={item.goodsInfos[0].goodsInfoImg}
+                                                srcSet={item.goodsInfos[0].goodsInfoImg}
+                                                alt={item.lowGoodsName}
+                                                title={item.lowGoodsName} />
+                                            </div>
+                                          </picture>
+                                          <div className="rc-card__body rc-padding-top--none">
+                                            <div className="height-product-tile-plpOnly height-product-tile">
+                                              <header className="rc-text--center">
+                                                <h3 className="rc-card__title rc-gamma">{item.lowGoodsName}</h3>
+                                              </header>
+                                              <div className="Product-Key-words rc-text--center"></div>
+                                              <div className="rc-card__meta rc-margin-bottom--xs rc-text--center">
+                                                {item.goodsSubtitle}
+                                              </div>
+                                            </div>
+                                            <span className="rc-card__price rc-text--center">
+                                              <span className="range">
+                                                <FormattedMessage id="from" /> $ {formatMoney(item.goodsInfos[0].salePrice)}
+                                              </span>
+                                            </span>
+                                          </div>
+                                        </React.Fragment>
+                                    }
                                   </article>
                                 </a>
                               </div>

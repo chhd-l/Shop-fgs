@@ -1,6 +1,6 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl'
-import { formatMoney } from "@/utils/utils.js"
+import { formatMoney } from "@/utils/utils"
 
 class PayProductInfo extends React.Component {
   constructor(props) {

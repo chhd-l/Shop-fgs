@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 function Exception () {
   return (
     <React.Fragment>
-      <Header showMiniIcons={true} />
+      <Header showMiniIcons={true} location={this.props.location} />
 
       <div className="page rc-content--fixed-header" data-action="RedirectURL-Start" data-querystring="">
         <div className="container full-vh">

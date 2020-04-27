@@ -4,7 +4,7 @@ import { createHashHistory } from 'history'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { formatMoney } from "@/utils/utils.js";
+import { formatMoney } from "@/utils/utils";
 import { cloneDeep } from 'lodash'
 import "./index.css";
 
@@ -50,6 +50,7 @@ class Cart extends React.Component {
           quantity: 1,
         },
       ],
+      productListCopy: [],
       currentProduct: null,
       currentProductIdx: -1,
       loading: true,
@@ -81,8 +82,13 @@ class Cart extends React.Component {
       }
       item.quantity = tmp
       this.setState({
-        productList: this.state.productList
+        productListCopy: this.state.productListCopy
       })
+      if (item.quantity <= item.sizeList.find(s => s.selected).stock) {
+        this.setState({
+          productList: cloneDeep(this.state.productListCopy)
+        });
+      }
     }
   }
   changeCache () {
@@ -97,16 +103,26 @@ class Cart extends React.Component {
   addQuantity (item) {
     item.quantity++
     this.setState({
-      productList: this.state.productList,
+      productListCopy: this.state.productListCopy
     });
+    if (item.quantity <= item.sizeList.find(s => s.selected).stock) {
+      this.setState({
+        productList: cloneDeep(this.state.productListCopy)
+      });
+    }
     this.changeCache();
   }
   subQuantity (item) {
     if (item.quantity > 1) {
-      item.quantity--;
+      item.quantity--
       this.setState({
-        productList: this.state.productList,
-      });
+        productListCopy: this.state.productListCopy
+      })
+      if (item.quantity <= item.sizeList.find(s => s.selected).stock) {
+        this.setState({
+          productList: cloneDeep(this.state.productListCopy)
+        });
+      }
     } else {
       this.setState({
         errorShow: true,
@@ -131,6 +147,7 @@ class Cart extends React.Component {
     let newProductList = cloneDeep(productList)
     newProductList.splice(currentProductIdx, 1)
     this.setState({
+      productListCopy: newProductList,
       productList: newProductList
     }, () => {
       this.changeCache();
@@ -153,7 +170,8 @@ class Cart extends React.Component {
   componentDidMount () {
     let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
     this.setState({
-      productList: productList || []
+      productList: productList || [],
+      productListCopy: cloneDeep(productList || [])
     });
   }
   gotoDetails (pitem) {
@@ -344,9 +362,9 @@ class Cart extends React.Component {
     return Lists;
   }
   render () {
-    const { results, productList, loading } = this.state;
+    const { results, productList, productListCopy, loading } = this.state;
 
-    const List = this.getProducts(this.state.productList);
+    const List = this.getProducts(this.state.productListCopy);
     let total = 0;
     this.state.productList.map((pitem) => {
       total =
@@ -355,7 +373,7 @@ class Cart extends React.Component {
     });
     return (
       <div>
-        <Header cartData={this.state.cartData} showMiniIcons={true} />
+        <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
             {productList.length

@@ -14,7 +14,7 @@ function MegaMenu (props) {
                 <ul className="rc-list rc-list--blank rc-list--align" role="menubar">
                   <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/cats"><FormattedMessage id="cats" /></Link></li>
                   <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/dogs"><FormattedMessage id="dogs" /></Link></li>
-                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/"><FormattedMessage id="aboutUs" /></Link></li>
+                  <li className="rc-list__item rc-list__item--group"><a className="rc-list__header" href="https://www.royalcanin.com/mx/about-us"><FormattedMessage id="aboutUs" /></a></li>
                 </ul>
               </div>
             </div>
@@ -25,7 +25,7 @@ function MegaMenu (props) {
                 <ul className="rc-list rc-list--blank rc-list--align" role="menubar">
                   <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/cats"><FormattedMessage id="cats" /></Link></li>
                   <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/dogs"><FormattedMessage id="dogs" /></Link></li>
-                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/"><FormattedMessage id="aboutUs" /></Link></li>
+                  <li className="rc-list__item rc-list__item--group"><a className="rc-list__header" href="https://www.royalcanin.com/mx/about-us"><FormattedMessage id="aboutUs" /></a></li>
                 </ul>
               </div>
             </div>

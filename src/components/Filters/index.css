@@ -1,0 +1,38 @@
+.rc-filters__form .rc-list__header {
+  padding: 1.5rem .5rem;
+}
+.rc-filters__form .rc-list__header::after {
+  content: '';
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: 0 42.86%;
+  width: 24px;
+  background-image: url(https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--iconography--xs.svg?v=8-7-8);
+  height: 32px;
+  overflow: hidden;
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  margin-top: -16px;  
+}
+.rc-list__content.expand {
+  max-height: 300px;
+}
+@media (max-width: 769px) {
+  .rc-filters {
+    display: none;
+  }
+  .rc-filters.active {
+    display: block;
+    position: fixed;
+    top: 4.167rem;
+    height: calc(100% - 4.167rem);
+    width: 100%;
+    left: 0;
+    background: #fff;
+    z-index: 58;
+    max-height: none!important;
+  }
+}
