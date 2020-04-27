@@ -484,40 +484,22 @@ class Cart extends React.Component {
                             <FormattedMessage id="cart.fullPrice" />
                           </p>
                         </div>
-                        <div className="rc-card-grid rc-match-heights rc-four-column">
-                          <div className="rc-grid">
-                            <article className="rc-card rc-card--a">
-                              <Link to="/list/dogs">
-                                <img className="card__image" src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw85b28211/New content/packshot_13.11.png?sw=498&amp;sh=281&amp;sm=fit&amp;cx=2&amp;cy=0&amp;cw=1996&amp;ch=1126&amp;sfrm=png" alt="Dog" />
-                              </Link>
-                              <div className="card__body">
-                                <header>
-                                  <Link to="/list/dogs">
-                                    <h1 className="card__title">
-                                      <FormattedMessage id="cart.dogDiet" />
-                                    </h1>
-                                  </Link>
-                                </header>
-                                <Link to="/list/dogs"></Link>
-                              </div>
-                            </article>
+                        <div className="d-flex justify-content-between flex-wrap ui-pet-item text-center">
+                          <div className="ui-item border radius-3">
+                            <Link to="/list/dogs">
+                              <img className="w-100" src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw85b28211/New content/packshot_13.11.png?sw=498&amp;sh=281&amp;sm=fit&amp;cx=2&amp;cy=0&amp;cw=1996&amp;ch=1126&amp;sfrm=png" alt="Dog" />
+                              <br /><h4 className="card__title red">
+                                <FormattedMessage id="cart.dogDiet" />
+                              </h4>
+                            </Link>
                           </div>
-                          <div className="rc-grid">
-                            <article className="rc-card rc-card--a">
-                              <Link to="/list/cats">
-                                <img className="card__image" src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3b01991e/Bloc Cat.png?sw=1920&amp;sh=1080&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=498&amp;ch=280&amp;sfrm=png" alt="Cat" />
-                              </Link>
-                              <div className="card__body">
-                                <header>
-                                  <Link to="/list/cats">
-                                    <h4 className="card__title">
-                                      <FormattedMessage id="cart.catDiet" />
-                                    </h4>
-                                  </Link>
-                                </header>
-                                <Link to="/list/cats"></Link>
-                              </div>
-                            </article>
+                          <div className="ui-item border radius-3">
+                            <Link to="/list/cats">
+                              <img className="w-100" src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3b01991e/Bloc Cat.png?sw=1920&amp;sh=1080&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=498&amp;ch=280&amp;sfrm=png" alt="Cat" />
+                              <br /><h4 className="card__title red">
+                                <FormattedMessage id="cart.catDiet" />
+                              </h4>
+                            </Link>
                           </div>
                         </div>
                       </div>
