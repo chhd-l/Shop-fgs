@@ -47,7 +47,7 @@ class MapFlag extends React.Component {
             
             <div class="map-flag-address">{this.props.obj.location} </div>
 
-            <div class="map-flag-phone">{this.props.obj.email} </div>
+            <div class="map-flag-phone">{this.props.obj.preferredChannel ==='phone'? this.props.obj.phone:this.props.obj.email} </div>
             <div class="rc-button-link-group rc-padding-right--md--desktop" style={{marginTop:"1rem"}}>
             <button class="rc-btn rc-btn--two rc-btn--sm" style={{marginRight:"1rem"}}  onClick={this.handleClose}>
               <FormattedMessage id='clinic.cancel' ></FormattedMessage>
