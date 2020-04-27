@@ -373,7 +373,7 @@ class Cart extends React.Component {
     });
     return (
       <div>
-        <Header cartData={this.state.cartData} showMiniIcons={true} />
+        <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
             {productList.length

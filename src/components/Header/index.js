@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Link, withRouter } from "react-router-dom"
+import { Link } from "react-router-dom"
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
 import { createHashHistory } from 'history'
@@ -43,8 +43,8 @@ class Header extends React.Component {
   }
   async componentDidMount () {
     window.addEventListener('click', (e) => this.hideMenu(e))
-    const { location } = this.props;
-    let clinicsId = getParaByName(window.location.search || location.search, 'clinics')
+    const { location } = this.props
+    let clinicsId = getParaByName(window.location.search || (location ? location.search : ''), 'clinics')
     if (location.pathname === '/') {
       sessionStorage.setItem('rc-clinics-id', clinicsId)
       this.setState({
@@ -487,10 +487,10 @@ class Header extends React.Component {
           {this.state.loading ? <Loading /> : null}
           <MegaMenu show={this.state.showMegaMenu} />
         </header>
-        {this.state.clinicsId && this.state.showMiniIcons ? <div className="tip-clinics"><FormattedMessage id="clinic.clinic" />: {this.state.clinicsName}</div> : null}
+        {this.state.clinicsId && this.props.showMiniIcons ? <div className="tip-clinics"><FormattedMessage id="clinic.clinic" />: {this.state.clinicsName}</div> : null}
       </React.Fragment>
     )
   }
 }
 
-export default withRouter(Header)
+export default Header

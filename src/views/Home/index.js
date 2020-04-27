@@ -16,7 +16,7 @@ class Home extends React.Component {
   render () {
     return (
       <div>
-        <Header cartData={this.state.cartData} showMiniIcons={true} />
+        <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
         
         <main className="rc-content--fixed-header rc-main-content__wrapper ">
           <div className="rc-full-width">
