@@ -86,7 +86,7 @@ class Filter extends React.Component {
                 <div className="filter-bar">
                   <ul>
                     {computedCheckList.map((v, i) => (
-                      <FormattedMessage id='sortedBy'>
+                      <FormattedMessage id='sortedBy' key={i}>
                         {(txt) => (
                           <li className="filter-value" title={`${txt} ${v.parentCatogery}: ${v.detailName}`} key={v + i}>
                             {v.detailName}

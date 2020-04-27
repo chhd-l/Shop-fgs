@@ -66,6 +66,7 @@ class List extends React.Component {
       keywords: '',
       filterList: [],
       initingFilter: true,
+      initingList: true,
       filterModalVisible: false
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
@@ -108,10 +109,20 @@ class List extends React.Component {
     })
   }
   async getProductList () {
-    let { checkedList, currentPage, pageSize, storeCateId, keywords } = this.state;
+    let { checkedList, currentPage, pageSize, storeCateId, keywords, initingList } = this.state;
     this.setState({
       loading: true
     })
+
+    if (!initingList) {
+      const widget = document.querySelector('#J-product-list')
+      if (widget) {
+        setTimeout(() => {
+          console.log(widget.offsetTop)
+          window.scrollTo(0, widget.offsetTop - 100);
+        }, 0)
+      }
+    }
 
     let params = {
       storeId: STOREID,
@@ -141,7 +152,7 @@ class List extends React.Component {
 
     getList(params)
       .then(res => {
-        this.setState({ loading: false })
+        this.setState({ loading: false, initingList: false })
         const esGoods = res.context.esGoods
         if (esGoods && esGoods.content.length) {
           let goodsContent = esGoods.content
@@ -170,6 +181,7 @@ class List extends React.Component {
       .catch(() => {
         this.setState({ loading: false, productList: [] })
       })
+
 
     if (!this.state.filterList.length) {
       getProps(CATEID)
@@ -205,14 +217,21 @@ class List extends React.Component {
     this.setState({ checkedList: res, currentPage: 1 }, () => this.getProductList())
   }
   handleCurrentPageNumChange (e) {
-    let tmp = parseInt(e.target.value)
-    if (isNaN(tmp)) {
-      tmp = 1
+    const val = e.target.value
+    if (val === '') {
+      this.setState({ currentPage: val })
+    } else {
+      let tmp = parseInt(val)
+      if (isNaN(tmp)) {
+        tmp = 1
+      }
+      if (tmp > this.state.totalPage) {
+        tmp = this.state.totalPage
+      }
+      if (tmp !== this.state.currentPage) {
+        this.setState({ currentPage: tmp }, () => this.getProductList())
+      }
     }
-    if (tmp > this.state.totalPage) {
-      tmp = this.state.totalPage
-    }
-    this.setState({ currentPage: tmp }, () => this.getProductList())
   }
   handlePrevOrNextPage (type) {
     const { currentPage, totalPage } = this.state
@@ -260,7 +279,7 @@ class List extends React.Component {
               </div>
             </div>
             : ''}
-
+          <div id="J-product-list"></div>
           <div className="search-results rc-padding--sm rc-max-width--xl">
             <div className="search-nav">
               {this.state.keywords ?
