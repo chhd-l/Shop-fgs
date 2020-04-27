@@ -185,7 +185,7 @@ class List extends React.Component {
     } else {
       checkedListCopy.push(item)
     }
-    this.setState({ checkedList: checkedListCopy }, () => this.getProductList())
+    this.setState({ checkedList: checkedListCopy, currentPage: 1 }, () => this.getProductList())
   }
   handleRemove (item) {
     const { checkedList } = this.state;
@@ -197,7 +197,7 @@ class List extends React.Component {
       checkedListCopy.splice(checkedListCopy.findIndex(c => c.detailId === item.detailId && c.propId === item.propId), 1)
       res = checkedListCopy
     }
-    this.setState({ checkedList: res }, () => this.getProductList())
+    this.setState({ checkedList: res, currentPage: 1 }, () => this.getProductList())
   }
   handleCurrentPageNumChange (e) {
     let tmp = parseInt(e.target.value)
