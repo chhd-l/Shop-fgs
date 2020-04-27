@@ -130,7 +130,7 @@ const en_US = {
   'clinic.sortResultsByDistance': 'Sort results by distance',
   'clinic.sortResultsByStarRating': 'Sort results by star rating',
   'clinic.vet': 'Vet',
-  'clinic.clinicTip': 'Which clinic has provided service for you？',
+  'clinic.clinicTip': 'Which clinic has provided prescription for you？',
   'clinic.SortResultsByStarRating': 'Sort results by star rating',
 
   'payment.clinicTitle': 'Selected clinic',
@@ -173,6 +173,5 @@ const en_US = {
   'confirmation.info3': ' Addresses and shipping methods are indicated under your goods.',
   'confirmation.visitOnlineStore': 'Visit online store',
   'confirmation.customerInformation': 'customer information',
-
 }
 export default en_US;

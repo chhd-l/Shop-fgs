@@ -78,8 +78,8 @@ class Alert extends Component{
           </aside> */}
           <div className="alert-context rc-alert rc-alert--error rc-alert--with-close" style={{width: "50%",height: "4rem"}}>
             <div>{this.state.alertTip}</div>
-            <button class="rc-alert__close rc-icon rc-icon rc-close-error--xs" data-close="">
-              <span class="rc-screen-reader-text" onClick={this.confirm}>Close</span>
+            <button className="rc-alert__close rc-icon rc-icon rc-close-error--xs" data-close="">
+              <span className="rc-screen-reader-text" onClick={this.confirm}>Close</span>
             </button>
           </div>
         </div>

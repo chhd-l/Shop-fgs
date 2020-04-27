@@ -8,6 +8,7 @@ import MapFlag from '@/components/MapFlag'
 import GoogleMap from '@/components/GoogleMap'
 import { FormattedMessage } from 'react-intl'
 import { getPrescription,getAllPrescription } from '@/api/clinic'
+import meImg from "@/assets/images/map-default-marker.png"
 
 
 
@@ -17,18 +18,13 @@ const AnyReactComponent = ({ obj }) => {
       <MapFlag obj={obj}></MapFlag>
   )}
   else {
-    return (<div style={{
-      color: 'white',
-      background: 'blue',
-      padding: '5px 5px',
-      display: 'inline-flex',
-      textAlign: 'center',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: '100%',
-      transform: 'translate(-50%, -50%)'
-    }}>
-      {obj.title}
+    return (
+    <div>
+      
+      <img alt="" src={meImg} 
+      draggable="false" 
+      style={{position: 'absolute', left: '0px', top: '0px', width: '1.5rem', height: '1.5rem',
+       userSelect: 'none', border: '0px', padding: '0px', margin: '0px', maxWidth: 'none'}} />
     </div>)
   }
 }
@@ -47,7 +43,7 @@ class Prescription extends React.Component{
         lat: 39.99,
         lng: 116.3
       },
-      zoom: 11,
+      zoom: 12,
       key:0,
       me:{
         id:1001,
@@ -82,7 +78,6 @@ class Prescription extends React.Component{
 
    handleInit=(e)=>{
     this.handldKey(this.state.key)
-    
         //获取当前地理位置信息
     navigator.geolocation.getCurrentPosition(position => {
       this.handldKey(this.state.key)
@@ -91,7 +86,7 @@ class Prescription extends React.Component{
           lat:position.coords.latitude,
           lng:position.coords.longitude
         },
-        zoom:11,
+        zoom:12,
         meLocation:{
           lat:position.coords.latitude,
           lng:position.coords.longitude
@@ -103,7 +98,7 @@ class Prescription extends React.Component{
   async getPrescription(params){
     const res = await getPrescription(params)
     if(res.code === 'K-000000'){
-      let totalPage = res.context.total/this.state.params.pageSize
+      let totalPage = Math.ceil(res.context.total/this.state.params.pageSize) 
       this.setState({
         currentClinicArr: res.context.content,
         totalPage:totalPage
@@ -270,10 +265,13 @@ render(h) {
                       <article className="rc-card rc-card--a clinic-card-boder" style={{width:'100%',margin:'1rem 0'}} 
                         key={item.clinicsId}>
                         <div className="rc-card__body" style={{padding:"0 0 0 1rem" ,}}>
-                          <p style={{margin:'.5rem 0 0 0'}}><FormattedMessage id='clinic.vet' ></FormattedMessage></p>
-                          <h3 className="rc-card__title rc-delta click-btn clinic-title" onClick={()=> this.handleItem(item)}>{item.clinicsName}</h3>
-                          <div className="clinic-phone">{item.email} </div>
-                          <div className="clinic-address">{item.location} </div>
+                          <div onClick={()=> this.handleItem(item)}>
+                            <p style={{margin:'.5rem 0 0 0'}}><FormattedMessage id='clinic.vet' ></FormattedMessage></p>
+                            <h3 className="rc-card__title rc-delta click-btn clinic-title" >{item.clinicsName}</h3>
+                            <div className="clinic-phone">{item.email} </div>
+                            <div className="clinic-address">{item.location} </div>
+                          </div>
+                          
                           <div style={{height: '3rem'}}>
                             <button className="rc-btn rc-btn--sm rc-btn--one card-btn" onClick={()=>this.handleConfirm(item)}>
                               <FormattedMessage id="clinic.confirm" />

@@ -49,13 +49,27 @@ class MapFlag extends React.Component {
 
             <div class="map-flag-phone">{this.props.obj.email} </div>
             <div class="rc-button-link-group rc-padding-right--md--desktop" style={{marginTop:"1rem"}}>
-            <button class="rc-btn rc-btn--two rc-btn--sm"  onClick={this.handleClose}>
+            <button class="rc-btn rc-btn--two rc-btn--sm" style={{marginRight:"1rem"}}  onClick={this.handleClose}>
               <FormattedMessage id='clinic.cancel' ></FormattedMessage>
             </button>
             <button class="rc-btn rc-btn--one rc-btn--sm"  onClick={()=>this.handleConfirm(this.props.obj)}>
               <FormattedMessage id='clinic.confirm' ></FormattedMessage>
             </button>
+            <button
+                  type="button"
+                  className="close map-flag-close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                  onClick={()=>this.handleClose()}
+                >
+                  <span aria-hidden="true">
+                    <font>
+                      <font>×</font>
+                    </font>
+                  </span>
+                </button>
           </div>
+
             {/* <div style={{marginTop:"1rem"}}>
               <a className="rc-styled-link" 
                 style={{ backgroundColor: "gray",color: "white",padding: "5px",marginRight:"1rem"}} 
