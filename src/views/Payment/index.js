@@ -208,6 +208,13 @@ class Payment extends React.Component {
   commentChange(e) {
     this.setState({ commentOnDelivery: e.target.value });
   }
+  cardConfirm() {
+    document.getElementById('payment-form').submit.click()
+    console.log(document.getElementById('payment-form').submit)
+      this.setState({
+        isCompleteCredit: true,
+      });
+  }
   billingCheckedChange() {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
@@ -1126,7 +1133,13 @@ class Payment extends React.Component {
                                           >
                                             Card number*
                                             {CreditCardImg}
-                                            <div className="cardFormBox">
+                                            <form id="payment-form">
+                                              <div id="card-secure-fields">
+                                                
+                                              </div>
+                                              <button id="submit" name="submit" class="creadit" type="submit">Pay</button>
+                                            </form>
+                                            {/* <div className="cardFormBox">
                                               <span class="cardImage">
                                                 <img
                                                   alt="Card"
@@ -1242,7 +1255,7 @@ class Payment extends React.Component {
                                                   </div>
                                                 </div>
                                               </span>
-                                            </div>
+                                            </div> */}
                                           </label>
                                         </div>
                                       </div>
@@ -1259,6 +1272,7 @@ class Payment extends React.Component {
                                           >
                                             <input
                                               type="text"
+                                              id="cardholder-name"
                                               class="rc-input__control form-control cardOwner"
                                               name="cardOwner"
                                               value={creditCardInfo.cardOwner}
@@ -1358,11 +1372,7 @@ class Payment extends React.Component {
                                           class="rc-btn rc-btn--two card-confirm"
                                           id="card-confirm"
                                           type="button"
-                                          onClick={() => {
-                                            this.setState({
-                                              isCompleteCredit: true,
-                                            });
-                                          }}
+                                          onClick={() => this.cardConfirm()}
                                         >
                                           Confirm Card
                                         </button>
