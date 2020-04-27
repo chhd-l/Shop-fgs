@@ -65,13 +65,18 @@ class List extends React.Component {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       keywords: '',
       filterList: [],
-      initingFilter: true
+      initingFilter: true,
+      filterModalVisible: false
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
     this.handleCurrentPageNumChange = this.handleCurrentPageNumChange.bind(this)
     this.handlePrevOrNextPage = this.handlePrevOrNextPage.bind(this)
     this.hanldeItemClick = this.hanldeItemClick.bind(this)
+    this.toggleFilterModal = this.toggleFilterModal.bind(this)
+  }
+  toggleFilterModal (status) {
+    this.setState({ filterModalVisible: status })
   }
   async initData () {
     const { category } = this.state
@@ -248,6 +253,7 @@ class List extends React.Component {
                 </div>
                 <div className="rc-column ">
                   <img
+                    className="mw-100"
                     src={titleData.img}
                     alt={titleData.imgAlt} />
                 </div>
@@ -269,14 +275,15 @@ class List extends React.Component {
                   {results} <FormattedMessage id="results" />
                 </div>
                 <div className="rc-layout-container rc-four-column">
-                  <div className="refinements rc-column js-filter-refinement">
+                  <div className="refinements rc-column">
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
-                      data-filter-trigger="filter-example">Filters</button>
-                    <aside className="rc-filters" data-filter-target="filter-example">
+                      data-filter-trigger="filter-example" onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
+                    <aside className={['rc-filters', this.state.filterModalVisible ? 'active' : ''].join(' ')}>
                       <Filters
                         initing={this.state.initingFilter}
                         onChange={this.handleFilterChange}
                         onRemove={this.handleRemove}
+                        onToggleFilterModal={this.toggleFilterModal}
                         filterList={this.state.filterList}
                         checkedList={checkedList} />
                     </aside>
@@ -287,11 +294,11 @@ class List extends React.Component {
                       <React.Fragment>
                         <div className="ui-font-nothing rc-md-up">
                           <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
-                          No products found, please change the search criteria and try again!
+                          <FormattedMessage id="list.errMsg" />
                         </div>
                         <div className="ui-font-nothing rc-md-down d-flex">
                           <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
-                          No products found, please change the search criteria and try again!
+                          <FormattedMessage id="list.errMsg" />
                         </div>
                       </React.Fragment>
                       :

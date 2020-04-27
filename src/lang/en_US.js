@@ -78,6 +78,8 @@ const en_US = {
   'home.specialAnimalNutrition': 'Special animal nutrition',
 
   'list.youSearchedFor': 'You searched for',
+  'list.errMsg': 'No products found, please change the search criteria and try again!',
+  'list.errMsg2': 'No products found, please change the keywords and try again!',
 
   'details.unitPrice': 'Unit price',
   'details.theSize': 'The size',
