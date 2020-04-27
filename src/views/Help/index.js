@@ -8,7 +8,7 @@ class Help extends React.Component{
       <div>
         <Header/>
         <main className="rc-content--fixed-header rc-bg-colour--brand3" >
-          <div class="rc-bg-colour--brand4 text-center" >
+          {/* <div class="rc-bg-colour--brand4 text-center" >
             <div class="rc-layout-container rc-content-h-middle">
               <div class="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
                 <span class="rc-icon rc-icon rc-delivery--sm rc-brand1 rc-iconography"></span>
@@ -22,8 +22,8 @@ class Help extends React.Component{
                 </div>
               </div>
             </div>
-          </div>
-          <div class="help-page">
+          </div> */}
+          <div class="help-page" style={{marginBottom:'1rem'}}>
             <div class="experience-region experience-main">
               <div class="experience-region experience-main">
                 <div class="experience-component experience-layouts-1column">
@@ -32,24 +32,24 @@ class Help extends React.Component{
                       <div class="experience-component experience-assets-contactUsBlock">
                         <div class="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                           <div class="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
-                            <div class="rc-column rc-padding-bottom--none--mobile">
-                              <h1 class="rc-beta">
+                            <div class="rc-padding-bottom--none--mobile" style={{width:'40%'}}>
+                              <h1 class="rc-beta" style={{margin:'0 0 0 1rem'}}>
                                 <font style={{verticalAlign: "inherit"}}>
                                   <font style={{verticalAlign: "inherit"}}>Need help ?</font>
                                 </font>
                               </h1>
                             </div>
-                            <div class="rc-column">
-                            <div class="rc-large-body inherit-fontsize children-nomargin">
-                            <p>
-                              <font style={{verticalAlign: "inherit"}}>
-                                <font style={{verticalAlign: "inherit"}}>Our advisers are real experts and enthusiasts. </font>
-                                <font style={{verticalAlign: "inherit"}}>They are at your disposal to answer any request.</font>
-                              </font>
-                            </p>
+                            <div style={{width:'60%'}}>
+                              <div class="rc-large-body inherit-fontsize children-nomargin">
+                              <p>
+                                <font style={{verticalAlign: "inherit"}}>
+                                  <font style={{verticalAlign: "inherit"}}>Our advisers are real experts and enthusiasts. </font>
+                                  <font style={{verticalAlign: "inherit"}}>They are at your disposal to answer any request.</font>
+                                </font>
+                              </p>
+                            </div>
                           </div>
                         </div>
-                      </div>
                       <div class="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
                         <div class="rc-column rc-double-width rc-padding--none">
                           <article class="rc-full-width rc-column rc-margin-top--md--mobile">
