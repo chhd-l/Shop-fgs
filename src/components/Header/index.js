@@ -469,6 +469,16 @@ class Header extends React.Component {
                   </li>
                 </ul>
               </li>
+
+              <li className="rc-list__item">
+                <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
+                  <li className="rc-list__item">
+                  <Link className="rc-list__header" to="/help">
+                      <FormattedMessage id="contactUs" />
+                    </Link>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </nav>
           <div className="search">

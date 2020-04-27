@@ -38,6 +38,7 @@ const en_US = {
   'items': 'items',
   'edit': 'Edit',
   'example': "Example",
+  'contactUs':'Contact Us',
 
   'header.basketEmpty': 'your basket is empty',
   'header.startTypingToSearch': 'Start typing to search',
