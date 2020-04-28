@@ -15,6 +15,7 @@ function MegaMenu (props) {
                   <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/cats"><FormattedMessage id="cats" /></Link></li>
                   <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/dogs"><FormattedMessage id="dogs" /></Link></li>
                   <li className="rc-list__item rc-list__item--group"><a className="rc-list__header" href="https://www.royalcanin.com/mx/about-us" target="_blank"><FormattedMessage id="aboutUs" /></a></li>
+                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/help"><FormattedMessage id="contactUs" /></Link></li>             
                 </ul>
               </div>
             </div>
@@ -26,6 +27,7 @@ function MegaMenu (props) {
                   <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/cats"><FormattedMessage id="cats" /></Link></li>
                   <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/list/dogs"><FormattedMessage id="dogs" /></Link></li>
                   <li className="rc-list__item rc-list__item--group"><a className="rc-list__header" href="https://www.royalcanin.com/mx/about-us" target="_blank"><FormattedMessage id="aboutUs" /></a></li>
+                  <li className="rc-list__item rc-list__item--group"><Link className="rc-list__header" to="/help"><FormattedMessage id="contactUs" /></Link></li>
                 </ul>
               </div>
             </div>

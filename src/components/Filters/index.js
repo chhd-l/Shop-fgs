@@ -69,7 +69,7 @@ class Filter extends React.Component {
   render () {
     const { computedCheckList } = this
     const { filterListCopy } = this.state
-    const { onChange, filterList, checkedList, initing } = this.props
+    const { onChange, checkedList, initing } = this.props
     return (
       <div className="rc-filters__form" name="example-filter">
         {
@@ -104,27 +104,34 @@ class Filter extends React.Component {
               </header>
 
               <div className="rc-margin--none" ref={this.contentRef}>
-                {filterListCopy.map((f, index) => (
-                  <React.Fragment key={index}>
-                    <div role="heading">
-                      <div className="rc-list__header" id={`accordion-header-${index}`} onClick={() => this.toggleContent(index)}>{f.propName}</div>
+                {
+                  filterListCopy.length
+                    ? filterListCopy.map((f, index) => (
+                      <React.Fragment key={index}>
+                        <div role="heading">
+                          <div className="rc-list__header" id={`accordion-header-${index}`} onClick={() => this.toggleContent(index)}>{f.propName}</div>
+                        </div>
+                        <ul className={['rc-list__content', 'rc-expand--vertical', f.expand ? 'expand' : ''].join(' ')} id={`accordion-content-${index}`}>
+                          {f.goodsPropDetails.map((l, i) => (
+                            <li title={`Sort by ${f.propName.toLocaleLowerCase()}: ${l.detailName}`} className="rc-list__item" key={index + '-' + i}>
+                              <div className="rc-input rc-input--stacked">
+                                <input className="rc-input__checkbox" id={`input-${index}-${i}`} type="checkbox" name="checkbox"
+                                  checked={checkedList.findIndex(c => c.detailId === l.detailId && c.propId === l.propId) > -1}
+                                  value={l.propName} onChange={onChange.bind(this, l)} />
+                                <label className="rc-input__label--inline" htmlFor={`input-${index}-${i}`}>
+                                  {l.detailName}
+                                </label>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </React.Fragment>
+                    ))
+                    : <div className="ui-font-nothing">
+                      <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
+                      <FormattedMessage id="list.errMsg3" />
                     </div>
-                    <ul className={['rc-list__content', 'rc-expand--vertical', f.expand ? 'expand' : ''].join(' ')} id={`accordion-content-${index}`}>
-                      {f.goodsPropDetails.map((l, i) => (
-                        <li title={`Sort by ${f.propName.toLocaleLowerCase()}: ${l.detailName}`} className="rc-list__item" key={index + '-' + i}>
-                          <div className="rc-input rc-input--stacked">
-                            <input className="rc-input__checkbox" id={`input-${index}-${i}`} type="checkbox" name="checkbox"
-                              checked={checkedList.findIndex(c => c.detailId === l.detailId && c.propId === l.propId) > -1}
-                              value={l.propName} onChange={onChange.bind(this, l)} />
-                            <label className="rc-input__label--inline" htmlFor={`input-${index}-${i}`}>
-                              {l.detailName}
-                            </label>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </React.Fragment>
-                ))}
+                }
               </div>
             </React.Fragment>
         }

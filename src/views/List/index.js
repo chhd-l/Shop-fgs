@@ -191,6 +191,9 @@ class List extends React.Component {
             initingFilter: false
           })
         })
+        .catch(() => {
+          this.setState({ initingFilter: false })
+        })
     }
   }
   handleFilterChange (item) {
