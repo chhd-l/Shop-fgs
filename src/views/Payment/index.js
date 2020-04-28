@@ -1,26 +1,29 @@
 import React from "react";
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage } from "react-intl";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Progress from "@/components/Progress";
 import PayProductInfo from "@/components/PayProductInfo";
 import "./index.css";
-import Loading from '@/components/Loading'
+import Loading from "@/components/Loading";
 import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import paypalImg from "@/assets/images/credit-cards/paypal.png";
-import { STOREID } from '@/utils/constant'
-import { postVisitorRegisterAndLogin, batchAdd, confirmAndCommit } from "@/api/payment";
-
+import { STOREID } from "@/utils/constant";
+import {
+  postVisitorRegisterAndLogin,
+  batchAdd,
+  confirmAndCommit,
+} from "@/api/payment";
 
 class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       type: "",
-      payMethod: "",
+      payMethod: "creditCard",
       billingChecked: true,
       isCompleteCredit: false,
       showPayMethodError: false,
@@ -28,44 +31,12 @@ class Payment extends React.Component {
       isEighteenInit: true,
       isReadPrivacyPolicy: false,
       isEighteen: false,
-      productList: [
-        {
-          id: "3003_RU",
-          name: "Miniddd adult",
-          url:
-            "https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png",
-          img:
-            "https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x",
-          description:
-            "Mini Edalt: dry food for dogs aged 10 months to 8 years. MINI Adult is specially designed for dogs of small breeds (weighing from 4 to 10 kg). In the nutrition of dogs of small breeds, not only the adapted croquet size is important. They need more energy than large dogs, their growth period is shorter and their growth is more intense. As a rule, they live longer than large dogs, and are more picky in their diet.<ul><li>dsdsds</li></ul>",
-          reference: 2323,
-          sizeList: [
-            {
-              label: "2.00",
-              price: 100,
-              originalPrice: 120,
-              unit: "kg",
-              selected: true,
-            },
-            {
-              label: "4.00",
-              price: 300,
-              originalPrice: 320,
-              unit: "kg",
-              selected: false,
-            },
-            {
-              label: "6.00",
-              price: 500,
-              originalPrice: 530,
-              unit: "kg",
-              selected: false,
-            },
-          ],
-          quantity: 1,
-        },
-      ],
       creditCardImgUrl: [visaImg, amexImg, mastercardImg, discoverImg],
+      creditCardImgObj: {
+        VISA: visaImg,
+        MASTERCARD: mastercardImg,
+        "AMERICAN EXPRESS": amexImg,
+      },
       deliveryAddress: {
         firstName: "",
         lastName: "",
@@ -87,128 +58,201 @@ class Payment extends React.Component {
         phoneNumber: "",
       },
       creditCardInfo: {
-        cardNumber: "",
-        cardDate: "",
-        cardCVV: "",
+        // cardNumber: "",
+        // cardDate: "",
+        // cardCVV: "",
         cardOwner: "",
         email: "",
         phoneNumber: "",
       },
+      errorShow: false,
+      errorMsg: '',
       commentOnDelivery: "",
       currentProduct: null,
       loading: false,
       modalShow: false,
+      payosdata: {},
     };
-    this.confirmCardInfo = this.confirmCardInfo.bind(this)
+    this.confirmCardInfo = this.confirmCardInfo.bind(this);
   }
-  confirmCardInfo () {
+  confirmCardInfo() {
     this.setState({
       isCompleteCredit: true,
     });
   }
-  ChoosePayment () {
+  ChoosePayment() {
     const {
       deliveryAddress,
       billingAddress,
       billingChecked,
       commentOnDelivery,
+      creditCardInfo,
     } = this.state;
     const param = {
       billingChecked,
       deliveryAddress,
-      commentOnDelivery
-    }
+      commentOnDelivery,
+    };
+
     if (billingChecked) {
-      param.billingAddress = deliveryAddress
+      param.billingAddress = deliveryAddress;
     } else {
-      param.billingAddress = billingAddress
+      param.billingAddress = billingAddress;
     }
     localStorage.setItem("deliveryInfo", JSON.stringify(param));
-
+    for (let k in deliveryAddress) {
+      if (deliveryAddress[k] === "" && k !== "address2") {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please complete the required items'
+        })
+        window.scrollTo(0,0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false
+          })
+        }, 2000)
+        return;
+      }
+    }
+    for (let k in billingAddress) {
+      if (deliveryAddress[k] === "" && k !== "address2") {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please complete the required items'
+        })
+        window.scrollTo(0,0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false
+          })
+        }, 2000)
+        return;
+      }
+    }
+    
+    this.setState({
+      creditCardInfo: creditCardInfo
+    })
     const { history } = this.props;
     history.push("/payment/payment");
   }
-  payMethodChange (e) {
+  payMethodChange(e) {
     this.setState({ payMethod: e.target.value, showPayMethodError: false });
   }
-  async goConfirmation () {
+  async goConfirmation() {
     const { history } = this.props;
-    let { isEighteen,
+    let {
+      isEighteen,
       isReadPrivacyPolicy,
       deliveryAddress,
       billingAddress,
       commentOnDelivery,
       billingChecked,
-      payMethod } = this.state;
-    const cartData = localStorage.getItem("rc-cart-data") ? JSON.parse(localStorage.getItem("rc-cart-data")) : []
+      payMethod,
+    } = this.state;
+    const cartData = localStorage.getItem("rc-cart-data")
+      ? JSON.parse(localStorage.getItem("rc-cart-data"))
+      : [];
     if (!payMethod) {
       this.setState({ showPayMethodError: true });
     }
     if (isEighteen && isReadPrivacyPolicy) {
       this.setState({
-        loading: true
-      })
-      let param = Object.assign({}, { useDeliveryAddress: billingChecked }, deliveryAddress, { city: 1, country: 1 })
+        loading: true,
+      });
+      let param = Object.assign(
+        {},
+        { useDeliveryAddress: billingChecked },
+        deliveryAddress,
+        { city: 1, country: 1 }
+      );
       // let param = { useDeliveryAddress: billingChecked, ...deliveryAddress, ...{ city: 1, country: 1, phoneNumber: '18883733998' } }
-      param.billAddress1 = billingAddress.address1
-      param.billAddress2 = billingAddress.address2
-      param.billCity = 1
-      param.billCountry = 1
-      param.billFirstName = billingAddress.firstName
-      param.billLastName = billingAddress.lastName
-      param.billPhoneNumber = billingAddress.phoneNumber
-      param.billPostCode = billingAddress.postCode
+      param.billAddress1 = billingAddress.address1;
+      param.billAddress2 = billingAddress.address2;
+      param.billCity = 1;
+      param.billCountry = 1;
+      param.billFirstName = billingAddress.firstName;
+      param.billLastName = billingAddress.lastName;
+      param.billPhoneNumber = billingAddress.phoneNumber;
+      param.billPostCode = billingAddress.postCode;
       let param2 = {
-        goodsInfos: cartData.map(ele => {
+        goodsInfos: cartData.map((ele) => {
           return {
             verifyStock: false,
             buyCount: ele.quantity,
-            goodsInfoId: ele.sizeList.find(s => s.selected).goodsInfoId
-          }
-        })
-      }
-      let payosdata = JSON.parse(localStorage.getItem('payosdata'))
-      // console.log(payosdata, 'payosdata')
+            goodsInfoId: ele.sizeList.find((s) => s.selected).goodsInfoId,
+          };
+        }),
+      };
+      let payosdata = this.state.payosdata;
       let param3 = {
         token: payosdata.token,
         creditDardCvv: payosdata.encrypted_cvv,
-        clinicsId: sessionStorage.getItem('rc-clinics-id') || sessionStorage.getItem('rc-clinics-id2'),
+        clinicsId:
+          sessionStorage.getItem("rc-clinics-id") ||
+          sessionStorage.getItem("rc-clinics-id2"),
         remark: commentOnDelivery,
         storeId: STOREID,
-        tradeItems: param2.goodsInfos.map(g => {
+        tradeItems: param2.goodsInfos.map((g) => {
           return {
             num: g.buyCount,
-            skuId: g.goodsInfoId
-          }
+            skuId: g.goodsInfoId,
+          };
         }),
-        tradeMarketingList: []
-      }
-      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(param)
-      console.log(postVisitorRegisterAndLoginRes)
-      if (postVisitorRegisterAndLoginRes.context && postVisitorRegisterAndLoginRes.context.token) {
-        sessionStorage.setItem('rc-token', postVisitorRegisterAndLoginRes.context.token)
-        let batchAddRes = await batchAdd(param2)
-        let confirmAndCommitRes = await confirmAndCommit(param3)
-        this.setState({loading: false})
-        history.push('/confirmation')
-      }else if( postVisitorRegisterAndLoginRes.code !== 'K-000000'|| batchAddRes.code !== 'K-000000' || confirmAndCommitRes.code !== 'K-000000') {
-        this.setState({loading: false})
+        tradeMarketingList: [],
+      };
+      try {
+        let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
+          param
+        );
+        if (
+          postVisitorRegisterAndLoginRes.context &&
+          postVisitorRegisterAndLoginRes.context.token
+        ) {
+          sessionStorage.setItem(
+            "rc-token",
+            postVisitorRegisterAndLoginRes.context.token
+          );
+          let batchAddRes = await batchAdd(param2);
+          let confirmAndCommitRes = await confirmAndCommit(param3);
+          localStorage.setItem('orderNumber', '2b8af046-dd7d-4a68-8be6-420a45f5bce0')
+          this.setState({ loading: false });
+          sessionStorage.clear("payosdata");
+          localStorage.clear('rc-cart-data')
+          history.push("/confirmation");
+        }
+      } catch (e) {
+        console.log(e)
+        this.setState({
+          errorShow: true,
+          errorMsg: e
+        })
+        window.scrollTo(0,0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false
+          })
+        }, 2000)
+      } finally {
+        this.setState({ loading: false });
+        
       }
     } else {
       this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
     }
   }
-  goDelivery (e) {
+  goDelivery(e) {
     e.preventDefault();
     const { history } = this.props;
     history.push("/payment/shipping");
   }
-  goCart (e) {
+  goCart(e) {
     e.preventDefault();
     const { history } = this.props;
     history.push("/cart");
   }
-  deliveryInputChange (e) {
+  deliveryInputChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -217,7 +261,7 @@ class Payment extends React.Component {
     this.inputBlur(e);
     this.setState({ deliveryAddress: deliveryAddress });
   }
-  cardInfoInputChange (e) {
+  cardInfoInputChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -226,7 +270,7 @@ class Payment extends React.Component {
     this.inputBlur(e);
     this.setState({ creditCardInfo: creditCardInfo });
   }
-  inputBlur (e) {
+  inputBlur(e) {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -239,7 +283,7 @@ class Payment extends React.Component {
       validDom.style.display = e.target.value ? "none" : "block";
     }
   }
-  billingInputChange (e) {
+  billingInputChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -248,21 +292,46 @@ class Payment extends React.Component {
     this.inputBlur(e);
     this.setState({ billingAddress: billingAddress });
   }
-  commentChange (e) {
+  commentChange(e) {
     this.setState({ commentOnDelivery: e.target.value });
   }
   cardConfirm() {
-    document.getElementById('payment-form').submit.click()
-    console.log(document.getElementById('payment-form').submit)
-      this.setState({
-        isCompleteCredit: true,
-      });
+    for(let k in this.state.creditCardInfo) {
+      if (this.state.creditCardInfo[k] === "") {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please complete the required items'
+        })
+        window.scrollTo(0,0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false
+          })
+        }, 2000)
+        return;
+      }
+    }
+    this.setState({
+      loading: true,
+    });
+    document.getElementById("payment-form").submit.click();
+    let timer = setInterval(() => {
+      let payosdata = JSON.parse(sessionStorage.getItem("payosdata"));
+      if (payosdata) {
+        clearInterval(timer);
+        this.setState({
+          isCompleteCredit: true,
+          payosdata: payosdata,
+          loading: false,
+        });
+      }
+    }, 1000);
   }
   billingCheckedChange() {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
   }
-  loadJs(url,callback){
+  loadJs(url, callback) {
     // var script=document.createElement('script');
     // script.type="text/javascript";
     // if(typeof(callback)!="undefined"){
@@ -281,15 +350,16 @@ class Payment extends React.Component {
     // }
     // script.src=url;
     // document.body.appendChild(script);
-    var head= document.getElementsByTagName('head')[0];
+    var head = document.getElementsByTagName("head")[0];
 
-      var script= document.createElement('script');
+    var script = document.createElement("script");
 
-      script.src= url;
+    script.src = url;
 
-      head.appendChild(script);
+    head.appendChild(script);
   }
-  componentDidMount () {
+  componentDidMount() {
+    console.log(window.POS, "POS");
     // let urls = [process.env.PUBLIC_URL + '/royal/royal-assets1/webpack.rcdl.bundle.js',
     //   process.env.PUBLIC_URL + '/royal/royal-assets1/sentry.rcdl.bundle.js',
     //   process.env.PUBLIC_URL + '/royal/royal-assets1/tslib.rcdl.bundle.js',
@@ -318,13 +388,19 @@ class Payment extends React.Component {
     //   });
     // })
     let deliveryInfoStr = localStorage.getItem("deliveryInfo");
+    const { creditCardInfo } = this.state
+    
     if (deliveryInfoStr) {
       let deliveryInfo = JSON.parse(deliveryInfoStr);
+      creditCardInfo.cardOwner =
+      deliveryInfo.deliveryAddress.firstName + deliveryInfo.deliveryAddress.lastName;
+    creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
       this.setState({
         deliveryAddress: deliveryInfo.deliveryAddress,
         billingAddress: deliveryInfo.billingAddress,
         commentOnDelivery: deliveryInfo.commentOnDelivery,
-        billingChecked: deliveryInfo.billingChecked
+        billingChecked: deliveryInfo.billingChecked,
+        creditCardInfo: creditCardInfo
       });
     }
     this.setState({
@@ -332,12 +408,11 @@ class Payment extends React.Component {
     });
   }
 
-  render () {
+  render() {
     const {
       deliveryAddress,
       billingAddress,
       creditCardInfo,
-      productList,
       totalCount,
     } = this.state;
     const CreditCardImg = (
@@ -361,6 +436,17 @@ class Payment extends React.Component {
             <div className="rc-layout-container rc-three-column rc-max-width--xl">
               <div className="rc-column rc-double-width shipping__address">
                 <div
+                  className="rc-padding-bottom--xs cart-error-messaging cart-error"
+                  style={{ display: this.state.errorShow ? "block" : "none" }}
+                >
+                  <aside
+                    className="rc-alert rc-alert--error rc-alert--with-close"
+                    role="alert"
+                  >
+                    <span style={{ paddingLeft: 0 }}>{this.state.errorMsg}</span>
+                  </aside>
+                </div>
+                <div
                   className="shipping-form"
                   style={{
                     display: this.state.type == "shipping" ? "block" : "none",
@@ -368,7 +454,9 @@ class Payment extends React.Component {
                 >
                   <div className="card">
                     <div className="card-header">
-                      <h5 className="pull-left"><FormattedMessage id="payment.clinicTitle" /></h5>
+                      <h5 className="pull-left">
+                        <FormattedMessage id="payment.clinicTitle" />
+                      </h5>
                       <a
                         href="#"
                         onClick={(e) => {
@@ -377,7 +465,9 @@ class Payment extends React.Component {
                           history.push("/prescription");
                         }}
                         style={{
-                          display: sessionStorage.getItem('rc-clinics-name') ? "none" : "inline",
+                          display: sessionStorage.getItem("rc-clinics-name")
+                            ? "none"
+                            : "inline",
                         }}
                         className=" rc-styled-link rc-margin-top--xs pull-right"
                       >
@@ -385,10 +475,13 @@ class Payment extends React.Component {
                       </a>
                     </div>
                     <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
-                      {sessionStorage.getItem('rc-clinics-name') || sessionStorage.getItem('rc-clinics-name2')}
+                      {sessionStorage.getItem("rc-clinics-name") ||
+                        sessionStorage.getItem("rc-clinics-name2")}
                     </div>
                     <div className="card-header">
-                      <h5><FormattedMessage id="payment.deliveryTitle" /></h5>
+                      <h5>
+                        <FormattedMessage id="payment.deliveryTitle" />
+                      </h5>
                     </div>
                     <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
                       <fieldset className="shipping-address-block rc-fieldset">
@@ -423,7 +516,12 @@ class Payment extends React.Component {
                               <div className="invalid-feedback">
                                 <FormattedMessage
                                   id="payment.errorInfo"
-                                  values={{ val: <FormattedMessage id="payment.firstName" /> }} />
+                                  values={{
+                                    val: (
+                                      <FormattedMessage id="payment.firstName" />
+                                    ),
+                                  }}
+                                />
                               </div>
                             </div>
                           </div>
@@ -453,12 +551,18 @@ class Payment extends React.Component {
                                 />
                                 <label
                                   className="rc-input__label"
-                                  htmlFor="id-text1"></label>
+                                  htmlFor="id-text1"
+                                ></label>
                               </span>
                               <div className="invalid-feedback">
                                 <FormattedMessage
                                   id="payment.errorInfo"
-                                  values={{ val: <FormattedMessage id="payment.lastName" /> }} />
+                                  values={{
+                                    val: (
+                                      <FormattedMessage id="payment.lastName" />
+                                    ),
+                                  }}
+                                />
                               </div>
                             </div>
                           </div>
@@ -494,7 +598,12 @@ class Payment extends React.Component {
                               <div className="invalid-feedback">
                                 <FormattedMessage
                                   id="payment.errorInfo"
-                                  values={{ val: <FormattedMessage id="payment.address1" /> }} />
+                                  values={{
+                                    val: (
+                                      <FormattedMessage id="payment.address1" />
+                                    ),
+                                  }}
+                                />
                               </div>
                             </div>
                           </div>
@@ -612,9 +721,16 @@ class Payment extends React.Component {
                             <div className="invalid-feedback">
                               <FormattedMessage
                                 id="payment.errorInfo"
-                                values={{ val: <FormattedMessage id="payment.postCode" /> }} />
+                                values={{
+                                  val: (
+                                    <FormattedMessage id="payment.postCode" />
+                                  ),
+                                }}
+                              />
                             </div>
-                            <div className="ui-lighter"><FormattedMessage id="example" />: 123456</div>
+                            <div className="ui-lighter">
+                              <FormattedMessage id="example" />: 123456
+                            </div>
                           </div>
                           <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_phone">
                             <label
@@ -649,15 +765,25 @@ class Payment extends React.Component {
                             <div className="invalid-feedback">
                               <FormattedMessage
                                 id="payment.errorInfo"
-                                values={{ val: <FormattedMessage id="payment.phoneNumber" /> }} />
+                                values={{
+                                  val: (
+                                    <FormattedMessage id="payment.phoneNumber" />
+                                  ),
+                                }}
+                              />
                             </div>
-                            <span className="ui-lighter"><FormattedMessage id="example" />: +7 (923) 456 78 90</span>
+                            <span className="ui-lighter">
+                              <FormattedMessage id="example" />: +7 (923) 456 78
+                              90
+                            </span>
                           </div>
                         </div>
                       </fieldset>
                     </div>
                     <div className="card-header">
-                      <h5><FormattedMessage id="payment.billTitle" /></h5>
+                      <h5>
+                        <FormattedMessage id="payment.billTitle" />
+                      </h5>
                       <div className="billingCheckbox rc-margin-top--xs">
                         <input
                           className="form-check-input"
@@ -713,7 +839,12 @@ class Payment extends React.Component {
                               <div className="invalid-feedback">
                                 <FormattedMessage
                                   id="payment.errorInfo"
-                                  values={{ val: <FormattedMessage id="payment.firstName" /> }} />
+                                  values={{
+                                    val: (
+                                      <FormattedMessage id="payment.firstName" />
+                                    ),
+                                  }}
+                                />
                               </div>
                             </div>
                           </div>
@@ -749,7 +880,12 @@ class Payment extends React.Component {
                               <div className="invalid-feedback">
                                 <FormattedMessage
                                   id="payment.errorInfo"
-                                  values={{ val: <FormattedMessage id="payment.lastName" /> }} />
+                                  values={{
+                                    val: (
+                                      <FormattedMessage id="payment.lastName" />
+                                    ),
+                                  }}
+                                />
                               </div>
                             </div>
                           </div>
@@ -785,7 +921,12 @@ class Payment extends React.Component {
                               <div className="invalid-feedback">
                                 <FormattedMessage
                                   id="payment.errorInfo"
-                                  values={{ val: <FormattedMessage id="payment.address1" /> }} />
+                                  values={{
+                                    val: (
+                                      <FormattedMessage id="payment.address1" />
+                                    ),
+                                  }}
+                                />
                               </div>
                             </div>
                           </div>
@@ -899,9 +1040,16 @@ class Payment extends React.Component {
                             <div className="invalid-feedback">
                               <FormattedMessage
                                 id="payment.errorInfo"
-                                values={{ val: <FormattedMessage id="payment.postCode" /> }} />
+                                values={{
+                                  val: (
+                                    <FormattedMessage id="payment.postCode" />
+                                  ),
+                                }}
+                              />
                             </div>
-                            <div className="ui-lighter"><FormattedMessage id="example" />: 123456</div>
+                            <div className="ui-lighter">
+                              <FormattedMessage id="example" />: 123456
+                            </div>
                           </div>
                           <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_phone">
                             <label
@@ -936,16 +1084,26 @@ class Payment extends React.Component {
                             <div className="invalid-feedback">
                               <FormattedMessage
                                 id="payment.errorInfo"
-                                values={{ val: <FormattedMessage id="payment.phoneNumber" /> }} />
+                                values={{
+                                  val: (
+                                    <FormattedMessage id="payment.phoneNumber" />
+                                  ),
+                                }}
+                              />
                             </div>
-                            <span className="ui-lighter"><FormattedMessage id="example" />: +7 (923) 456 78 90</span>
+                            <span className="ui-lighter">
+                              <FormattedMessage id="example" />: +7 (923) 456 78
+                              90
+                            </span>
                           </div>
                         </div>
                       </fieldset>
                     </div>
                     <fieldset className="shipping-method-block rc-fieldset">
                       <div className="card-header">
-                        <h5><FormattedMessage id="payment.howToDelivery" /> :</h5>
+                        <h5>
+                          <FormattedMessage id="payment.howToDelivery" /> :
+                        </h5>
                       </div>
                       <div>
                         <div className="leading-lines shipping-method-list rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
@@ -959,7 +1117,10 @@ class Payment extends React.Component {
                               </span>
                             </div>
                             <div className="col-4">
-                              <span className="shipping-method-pricing" style={{ whiteSpace: 'nowrap' }}>
+                              <span
+                                className="shipping-method-pricing"
+                                style={{ whiteSpace: "nowrap" }}
+                              >
                                 <span className="shipping-cost">For Free</span>
                                 <span
                                   className=" info-tooltip delivery-method-tooltip"
@@ -980,7 +1141,9 @@ class Payment extends React.Component {
                     </fieldset>
                     <div className="card">
                       <div className="card-header">
-                        <h5><FormattedMessage id="payment.commentOnDelivery" /></h5>
+                        <h5>
+                          <FormattedMessage id="payment.commentOnDelivery" />
+                        </h5>
                       </div>
                       <span
                         className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
@@ -1054,44 +1217,64 @@ class Payment extends React.Component {
                           <div className="summary-details shipping rc-margin-bottom--xs">
                             <div className="address-summary row">
                               <div className="col-md-12 deliveryAddress">
-                                <h5 className="center"><FormattedMessage id="payment.deliveryTitle" /></h5>
+                                <h5 className="center">
+                                  <FormattedMessage id="payment.deliveryTitle" />
+                                </h5>
                                 <div className="row">
-                                  <div className="col-md-6"><FormattedMessage id="payment.firstName" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.firstName" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.firstName}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.lastName" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.lastName" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.lastName}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.address1" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.address1" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.address1}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.address2" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.address2" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.address2}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.country" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.country" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.country}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.city" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.city" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.city}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.postCode" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.postCode" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.postCode}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.phoneNumber" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.phoneNumber" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{deliveryAddress.phoneNumber}
                                   </div>
                                   <div className="col-md-6">
                                     <FormattedMessage id="payment.normalDelivery2" />
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.forFree" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.forFree" />
+                                  </div>
                                   <div className="col-md-6">
                                     <FormattedMessage id="payment.commentOnDelivery" />
                                   </div>
@@ -1101,37 +1284,55 @@ class Payment extends React.Component {
                                 </div>
                               </div>
                               <div className="col-md-12 address-summary-left">
-                                <h5 className="center"><FormattedMessage id="payment.billTitle" /></h5>
+                                <h5 className="center">
+                                  <FormattedMessage id="payment.billTitle" />
+                                </h5>
                                 <div className="row">
-                                  <div className="col-md-6"><FormattedMessage id="payment.firstName" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.firstName" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.firstName}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.lastName" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.lastName" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.lastName}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.address1" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.address1" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.address1}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.address2" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.address2" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.address2}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.country" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.country" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.country}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.city" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.city" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.city}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.postCode" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.postCode" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.postCode}
                                   </div>
-                                  <div className="col-md-6"><FormattedMessage id="payment.phoneNumber" /></div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.phoneNumber" />
+                                  </div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.phoneNumber}
                                   </div>
@@ -1158,10 +1359,12 @@ class Payment extends React.Component {
                         id="dwfrm_billing"
                       >
                         <div className="card-header with-tooltip-icon rc-margin-top--sm">
-                          <h5><FormattedMessage id="payment.paymentInformation" /></h5>
+                          <h5>
+                            <FormattedMessage id="payment.paymentInformation" />
+                          </h5>
                         </div>
                         <div className="billing-payment">
-                          <div className="form-group rc-border-all rc-border-colour--interface checkout--padding">
+                          {/* <div className="form-group rc-border-all rc-border-colour--interface checkout--padding">
                             <div className="row">
                               <div className="col-md-12">
                                 <div className="rc-input rc-input--inline">
@@ -1221,7 +1424,7 @@ class Payment extends React.Component {
                               </div>
                                 : null}
                             </div>
-                          </div>
+                          </div> */}
                           <div
                             className="rc-list__accordion-item"
                             data-method-id="CREDIT_CARD"
@@ -1257,10 +1460,15 @@ class Payment extends React.Component {
                                             Card number*
                                             {CreditCardImg}
                                             <form id="payment-form">
-                                              <div id="card-secure-fields">
-                                                
-                                              </div>
-                                              <button id="submit" name="submit" class="creadit" type="submit">Pay</button>
+                                              <div id="card-secure-fields"></div>
+                                              <button
+                                                id="submit"
+                                                name="submit"
+                                                class="creadit"
+                                                type="submit"
+                                              >
+                                                Pay
+                                              </button>
                                             </form>
                                             {/* <div className="cardFormBox">
                                               <span class="cardImage">
@@ -1526,19 +1734,40 @@ class Payment extends React.Component {
                                 </p>
                                 <div className="row">
                                   <div className="col-sm-5">
-                                    <img src={visaImg} alt="" />
+                                    <img
+                                      src={
+                                        this.state.creditCardImgObj[
+                                          this.state.payosdata.vendor
+                                        ]
+                                          ? this.state.creditCardImgObj[
+                                              this.state.payosdata.vendor
+                                            ]
+                                          : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
+                                      }
+                                      alt=""
+                                    />
                                   </div>
                                   <div className="col-sm-7">
                                     <div className="row creditCompleteInfo ui-margin-top-1-md-down">
                                       <div className="col-6">
-                                        <p><FormattedMessage id="name" /></p>
-                                        <p><FormattedMessage id="payment.cardNumber" /></p>
-                                        <p><FormattedMessage id="payment.DEBIT" /></p>
+                                        <p>
+                                          <FormattedMessage id="name" />
+                                        </p>
+                                        <p>
+                                          <FormattedMessage id="payment.cardNumber" />
+                                        </p>
+                                        {/* <p><FormattedMessage id="payment.DEBIT" /></p> */}
+                                        <p>{this.state.payosdata.card_type}</p>
                                       </div>
                                       <div className="col-6">
                                         <p>&nbsp;{creditCardInfo.cardOwner}</p>
-                                        <p>&nbsp;{creditCardInfo.cardNumber}</p>
-                                        <p>&nbsp;{creditCardInfo.cardCVV}</p>
+                                        <p>
+                                          &nbsp;xxxx xxxx xxxx{" "}
+                                          {this.state.payosdata
+                                            ? this.state.payosdata.last_4_digits
+                                            : ""}
+                                        </p>
+                                        <p>&nbsp;</p>
                                       </div>
                                     </div>
                                   </div>
@@ -1565,14 +1794,17 @@ class Payment extends React.Component {
                       }}
                       checked={this.state.isReadPrivacyPolicy}
                     />
-                    <label htmlFor="id-checkbox-cat-2" className="rc-input__label--inline">
+                    <label
+                      htmlFor="id-checkbox-cat-2"
+                      className="rc-input__label--inline"
+                    >
                       <FormattedMessage id="payment.confirmInfo3" />
                       <div
                         className="warning"
                         style={{
                           display:
                             this.state.isReadPrivacyPolicy ||
-                              this.state.isReadPrivacyPolicyInit
+                            this.state.isReadPrivacyPolicyInit
                               ? "none"
                               : "block",
                         }}
@@ -1596,7 +1828,10 @@ class Payment extends React.Component {
                       }}
                       checked={this.state.isEighteen}
                     />
-                    <label htmlFor="id-checkbox-cat-1" className="rc-input__label--inline">
+                    <label
+                      htmlFor="id-checkbox-cat-1"
+                      className="rc-input__label--inline"
+                    >
                       <FormattedMessage id="payment.confirmInfo1" />
                       <div
                         className="warning"

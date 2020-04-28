@@ -79,8 +79,9 @@ const en_US = {
   'home.specialAnimalNutrition': 'Special animal nutrition',
 
   'list.youSearchedFor': 'You searched for',
-  'list.errMsg': 'No products found, please change the search criteria and try again!',
-  'list.errMsg2': 'No products found, please change the keywords and try again!',
+  'list.errMsg': 'No products found, please change the search criteria and try again.',
+  'list.errMsg2': 'No products found, please change the keywords and try again.',
+  'list.errMsg3': 'No filters found, please try again later.',
 
   'details.unitPrice': 'Unit price',
   'details.theSize': 'The size',
@@ -92,7 +93,8 @@ const en_US = {
   'details.beneficialFeatures': 'Beneficial features',
   'details.ingredients': 'Ingredients',
   'details.feedingRecommendations': 'Feeding recommendations',
-  'details.errMsg': 'the product has no specs, please try again later.',
+  'details.errMsg': 'The product has no specs, please try again later.',
+  'details.errMsg2': 'No details found, please try again later.',
 
   'cart.errorInfo': 'The number can\'t be less than 1',
   'cart.yourBasket': 'Your basket',
@@ -176,6 +178,7 @@ const en_US = {
   'confirmation.info2': 'In the near future, our staff will contact you to comfirm the order.',
   'confirmation.info3': ' Addresses and shipping methods are indicated under your goods.',
   'confirmation.visitOnlineStore': 'Visit online store',
-  'confirmation.customerInformation': 'customer information',
+  'confirmation.customerInformation': 'Customer Information',
+  'confirmation.orderNumber': 'Order number'
 }
 export default en_US;

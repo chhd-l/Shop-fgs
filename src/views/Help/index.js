@@ -43,8 +43,7 @@ class Help extends React.Component{
                               <div class="rc-large-body inherit-fontsize children-nomargin">
                               <p>
                                 <font style={{verticalAlign: "inherit"}}>
-                                  <font style={{verticalAlign: "inherit"}}>Our advisers are real experts and enthusiasts. </font>
-                                  <font style={{verticalAlign: "inherit"}}>They are at your disposal to answer any request.</font>
+                                  <font style={{verticalAlign: "inherit"}}>Our customer service staff is professional and enthusiam. They can answer any problems at any time. </font>
                                 </font>
                               </p>
                             </div>

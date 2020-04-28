@@ -94,6 +94,8 @@ class Confirmation extends React.Component {
         commentOnDelivery: deliveryInfo.commentOnDelivery
       });
     }
+    localStorage.clear('rc-cart-data')
+    localStorage.clear('orderNumber')
   }
   render () {
     const {
@@ -101,7 +103,6 @@ class Confirmation extends React.Component {
       billingAddress,
       commentOnDelivery
     } = this.state;
-
     return (
       <div>
         <Header />
@@ -119,6 +120,10 @@ class Confirmation extends React.Component {
                 <Link to="/" className="rc-meta rc-styled-link backtohome">
                   <FormattedMessage id="confirmation.visitOnlineStore" />
                 </Link>
+                <p>
+                <FormattedMessage id="confirmation.orderNumber" />
+                  ：{localStorage.getItem('orderNumber')}
+                </p>
               </div>
               <div className="rc-bg-colour--brand3 rc-max-width--xl rc-bottom-spacing rc-padding--sm imformation">
                 <div className="product-summary rc-column">

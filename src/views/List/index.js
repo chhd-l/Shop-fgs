@@ -61,7 +61,7 @@ class List extends React.Component {
       currentPage: 1,
       totalPage: 1, // 总页数
       results: 0, // 总数据条数
-      pageSize: 10,
+      pageSize: 9,
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       keywords: '',
       filterList: [],
@@ -191,6 +191,9 @@ class List extends React.Component {
             initingFilter: false
           })
         })
+        .catch(() => {
+          this.setState({ initingFilter: false })
+        })
     }
   }
   handleFilterChange (item) {
@@ -227,6 +230,8 @@ class List extends React.Component {
       }
       if (tmp > this.state.totalPage) {
         tmp = this.state.totalPage
+      } else if (tmp < 1) {
+        tmp = 1
       }
       if (tmp !== this.state.currentPage) {
         this.setState({ currentPage: tmp }, () => this.getProductList())

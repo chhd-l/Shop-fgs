@@ -69,7 +69,7 @@ class Cart extends React.Component {
     if (val === '') {
       item.quantity = val
       this.setState({
-        productList: this.state.productList
+        productListCopy: this.state.productListCopy
       })
     } else {
       const { quantityMinLimit } = this.state
@@ -87,11 +87,16 @@ class Cart extends React.Component {
       if (item.quantity <= item.sizeList.find(s => s.selected).stock) {
         this.setState({
           productList: cloneDeep(this.state.productListCopy)
+        }, () => {
+          this.changeCache()
         });
       }
     }
   }
   changeCache () {
+    this.state.productList.map(item => {
+      item.currentAmount = item.quantity * item.sizeList.find(s => s.selected).salePrice
+    })
     localStorage.setItem(
       "rc-cart-data",
       JSON.stringify(this.state.productList)
@@ -108,9 +113,10 @@ class Cart extends React.Component {
     if (item.quantity <= item.sizeList.find(s => s.selected).stock) {
       this.setState({
         productList: cloneDeep(this.state.productListCopy)
+      }, () => {
+        this.changeCache();
       });
     }
-    this.changeCache();
   }
   subQuantity (item) {
     if (item.quantity > 1) {
@@ -121,6 +127,8 @@ class Cart extends React.Component {
       if (item.quantity <= item.sizeList.find(s => s.selected).stock) {
         this.setState({
           productList: cloneDeep(this.state.productListCopy)
+        }, () => {
+          this.changeCache();
         });
       }
     } else {
@@ -133,7 +141,6 @@ class Cart extends React.Component {
         });
       }, 2000)
     }
-    this.changeCache();
   }
   closeModal () {
     this.setState({
