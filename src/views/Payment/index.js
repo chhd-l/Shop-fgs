@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Progress from "@/components/Progress";
 import PayProductInfo from "@/components/PayProductInfo";
 import "./index.css";
+import Loading from '@/components/Loading'
 import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
@@ -95,7 +96,7 @@ class Payment extends React.Component {
       },
       commentOnDelivery: "",
       currentProduct: null,
-      loading: true,
+      loading: false,
       modalShow: false,
     };
     this.confirmCardInfo = this.confirmCardInfo.bind(this)
@@ -144,6 +145,9 @@ class Payment extends React.Component {
       this.setState({ showPayMethodError: true });
     }
     if (isEighteen && isReadPrivacyPolicy) {
+      this.setState({
+        loading: true
+      })
       let param = Object.assign({}, { useDeliveryAddress: billingChecked }, deliveryAddress, { city: 1, country: 1 })
       // let param = { useDeliveryAddress: billingChecked, ...deliveryAddress, ...{ city: 1, country: 1, phoneNumber: '18883733998' } }
       param.billAddress1 = billingAddress.address1
@@ -179,12 +183,16 @@ class Payment extends React.Component {
         }),
         tradeMarketingList: []
       }
-      let res = await postVisitorRegisterAndLogin(param)
-      if (res.context && res.context.token) {
-        sessionStorage.setItem('rc-token', res.context.token)
-        await batchAdd(param2)
-        await confirmAndCommit(param3)
+      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(param)
+      console.log(postVisitorRegisterAndLoginRes)
+      if (postVisitorRegisterAndLoginRes.context && postVisitorRegisterAndLoginRes.context.token) {
+        sessionStorage.setItem('rc-token', postVisitorRegisterAndLoginRes.context.token)
+        let batchAddRes = await batchAdd(param2)
+        let confirmAndCommitRes = await confirmAndCommit(param3)
+        this.setState({loading: false})
         history.push('/confirmation')
+      }else if( postVisitorRegisterAndLoginRes.code !== 'K-000000'|| batchAddRes.code !== 'K-000000' || confirmAndCommitRes.code !== 'K-000000') {
+        this.setState({loading: false})
       }
     } else {
       this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
@@ -342,6 +350,7 @@ class Payment extends React.Component {
     return (
       <div>
         <Header />
+        {this.state.loading ? <Loading /> : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <div
             id="checkout-main"

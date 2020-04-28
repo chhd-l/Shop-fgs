@@ -903,11 +903,11 @@
   t["default"] = {
       load: function load() {
           Promise.all([r.e(4), r.e(72), r.e(78)]).then(r.bind(null, 412)).then(function(e) {
-              e.init({
-                  dsn: "https://cc8f718a699245fbbb9892179e4a34cf@sentry.io/1362362",
-                  whitelistUrls: [/d3moonnr9fkxfg\.cloudfront\.net/, /localhost:3500/],
-                  release: RCDL.config.version.release
-              })
+            //   e.init({
+            //       dsn: "https://cc8f718a699245fbbb9892179e4a34cf@sentry.io/1362362",
+            //       whitelistUrls: [/d3moonnr9fkxfg\.cloudfront\.net/, /localhost:3500/],
+            //       release: RCDL.config.version.release
+            //   })
           })
       },
       basics: function basics(e) {
