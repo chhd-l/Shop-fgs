@@ -101,10 +101,9 @@ class Details extends React.Component {
       }
     } catch (e) {
       console.log(e)
-      console.table(e); 
+      console.table(e);
       this.setState({
-        // errMsg: <FormattedMessage id="details.errMsg2" />
-        errMsg: e.toString()
+        errMsg: <FormattedMessage id="details.errMsg2" />
       })
     }
   }
@@ -120,9 +119,9 @@ class Details extends React.Component {
 
       let tmpRes = []
       let tmpLiList = fragment.querySelector('.rc_proudct_html_tab2').querySelectorAll('li')
-      tmpLiList.forEach(item => {
+      Array.from(tmpLiList).map(item => {
         let tmpPList = []
-        item.querySelectorAll('p').forEach(n => {
+        Array.from(item.querySelectorAll('p')).map(n => {
           tmpPList.push(n.innerHTML)
         })
         tmpRes.push(tmpPList)
