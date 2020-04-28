@@ -130,16 +130,23 @@ class Prescription extends React.Component{
   
   handleCurrentPageNumChange = (e)=> {
     const { params } = this.state
-    let tmp = parseInt(e.target.value)
-    if (isNaN(tmp)) {
-      tmp = 1
+    
+    if(e.target.value){
+      let tmp = parseInt(e.target.value)
+      if (isNaN(tmp)) {
+        tmp = 1
+      }
+      if (tmp > this.state.totalPage) {
+        tmp = this.state.totalPage
+      }
+      params.pageNum = tmp-1
+      this.setState({ current: tmp })
+      this.getPrescription(params)
     }
-    if (tmp > this.state.totalPage) {
-      tmp = this.state.totalPage
+    else{
+      this.setState({ current: e.target.value })
     }
-    params.pageNum = tmp-1
-    this.setState({ current: tmp })
-    this.getPrescription(params)
+    
   }
   handlePrevOrNextPage = (type)=> {
     const { current, totalPage,params } = this.state
