@@ -1,7 +1,7 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from 'react-intl'
-import { findIndex } from 'lodash'
+import { findIndex, find } from 'lodash'
 import '@/assets/css/search.css'
 import './index.css'
 
@@ -29,7 +29,7 @@ class Filter extends React.Component {
   }
   matchParentCatogery (data) {
     let res = ''
-    let tmp = this.state.filterListCopy.find(l => l.propId === data.propId)
+    let tmp = find(this.state.filterListCopy, l => l.propId === data.propId)
     if (tmp) {
       res = tmp.propName.toLocaleLowerCase()
     }

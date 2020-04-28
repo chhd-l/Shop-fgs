@@ -8,7 +8,7 @@ import { formatMoney } from "@/utils/utils"
 import { FormattedMessage } from 'react-intl'
 import { createHashHistory } from 'history'
 import './index.css'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, findIndex, find } from 'lodash'
 import { getDetails } from '@/api/details'
 
 class Details extends React.Component {
@@ -64,14 +64,14 @@ class Details extends React.Component {
         let goodsInfos = res.context.goodsInfos || []
 
         sizeList = goodsSpecDetails.map((g, idx) => {
-          const targetInfo = goodsInfos.find(info => info.mockSpecDetailIds.includes(g.specDetailId))
+          const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
           if (targetInfo) {
             g = Object.assign({}, g, targetInfo, { selected: idx ? false : true })
           }
           return g
         })
 
-        const selectedSize = sizeList.find(s => s.selected)
+        const selectedSize = find(sizeList, s => s.selected)
 
         const goodsDetailList = this.handleDetails(res.context.goods.goodsDetail)
         goodsDetailList.map((item, i) => {
@@ -200,8 +200,8 @@ class Details extends React.Component {
 
     if (cartData) {
       newCartData = cloneDeep(cartData)
-      let targetData = newCartData.find(c => c.goodsId === goodsId)
-      if (targetData && (sizeList.findIndex(l => l.selected) === targetData.sizeList.findIndex(s => s.selected))) {
+      let targetData = find(newCartData, c => c.goodsId === goodsId)
+      if (targetData && (findIndex(sizeList, l => l.selected) === findIndex(targetData.sizeList, s => s.selected))) {
         targetData.quantity += quantity
         targetData.currentAmount += quantity * currentUnitPrice
       } else {
