@@ -179,6 +179,14 @@ const en_US = {
   'confirmation.info3': ' Addresses and shipping methods are indicated under your goods.',
   'confirmation.visitOnlineStore': 'Visit online store',
   'confirmation.customerInformation': 'Customer Information',
-  'confirmation.orderNumber': 'Order number'
+  'confirmation.orderNumber': 'Order number',
+
+  'help.needHelp':'Need help ?',
+  'help.tip1':'Our customer service staff is professional and enthusiam. They can answer any problems at any time.',
+  'help.tip2':'Free Call (from a landline) Monday to Friday from 8h to 20h.',
+  'help.tip3':'We will reply to you within a maximum of 12 hours.',
+  'help.byTelephone':'By telephone',
+  'help.byEmail':'By email',
+
 }
 export default en_US;

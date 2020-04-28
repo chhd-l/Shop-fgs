@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { find } from 'lodash'
 import { Link } from "react-router-dom"
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
@@ -145,7 +146,7 @@ class Header extends React.Component {
           if (res.context.goodsList) {
             goodsContent = goodsContent.map(ele => {
               let ret = Object.assign({}, ele)
-              const tmpItem = res.context.goodsList.find(g => g.goodsId === ele.id)
+              const tmpItem = find(res.context.goodsList, g => g.goodsId === ele.id)
               if (tmpItem) {
                 ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
               }
@@ -169,8 +170,7 @@ class Header extends React.Component {
     }
   }
   handleItemClick () {
-    createHashHistory().push('/list/keywords')
-    localStorage.setItem('rc-search-keywords', this.state.keywords)
+    createHashHistory().push('/list/keywords/' + this.state.keywords)
   }
   gotoDetails (item) {
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
@@ -412,7 +412,7 @@ class Header extends React.Component {
                                                 </div>
                                                 <div className="line-item-total-price justify-content-start pull-left">
                                                   <div className="item-attributes">
-                                                    <p className="line-item-attributes">{item.sizeList.find(s => s.selected).detailName} - {item.quantity > 1 ? `${item.quantity} products` : `${item.quantity} product`}</p>
+                                                    <p className="line-item-attributes">{find(item.sizeList, s => s.selected).detailName} - {item.quantity > 1 ? `${item.quantity} products` : `${item.quantity} product`}</p>
                                                   </div>
                                                 </div>
                                                 <div className="line-item-total-price justify-content-end pull-right">

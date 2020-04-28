@@ -7,7 +7,8 @@ class MapFlag extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      show:false
+      show:false,
+      isPassive:true
     }
   }
   openTooltip = () =>{
@@ -22,8 +23,17 @@ class MapFlag extends React.Component {
   }
   handleClose=()=>{
     this.setState({
-      show:false
+      show:false,
+      isPassive:false
     })
+  }
+  componentWillReceiveProps(nextProps){
+    if(nextProps.show && this.state.show === false &&this.state.isPassive){
+      this.setState({
+        show:nextProps.show
+      })
+    }
+    
   }
 
 
@@ -39,20 +49,20 @@ class MapFlag extends React.Component {
         </div>
       </div>
       <div className="gm-style-iw-c" 
-      style={{ display: this.state.show === true? "block":"none"}}>
+      style={{ display: this.state.show === true? "block":"none" , zIndex:1}}>
         <div className="rc-tooltip rc-text--left rc-padding--xs" id="map-tooltip" style={{ display:'block'}}>
           <div className="rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop" style={{marginBottom:"0"}}>
             <p><FormattedMessage id='clinic.vet' ></FormattedMessage></p>
-            <h4 class="rc-card__title rc-delta click-btn map-flag-title" >{this.props.obj.clinicsName}</h4>
+            <h4 className="rc-card__title rc-delta click-btn map-flag-title" >{this.props.obj.clinicsName}</h4>
             
-            <div class="map-flag-address">{this.props.obj.location} </div>
+            <div className="map-flag-address">{this.props.obj.location} </div>
 
-            <div class="map-flag-phone">{this.props.obj.preferredChannel ==='phone'? this.props.obj.phone:this.props.obj.email} </div>
-            <div class="rc-button-link-group rc-padding-right--md--desktop" style={{marginTop:"1rem"}}>
-            <button class="rc-btn rc-btn--two rc-btn--sm" style={{marginRight:"1rem"}}  onClick={this.handleClose}>
+            <div className="map-flag-phone">{this.props.obj.preferredChannel ==='phone'? this.props.obj.phone:this.props.obj.email} </div>
+            <div className="rc-button-link-group rc-padding-right--md--desktop" style={{marginTop:"1rem"}}>
+            {/* <button className="rc-btn rc-btn--two rc-btn--sm" style={{marginRight:"1rem"}}  onClick={this.handleClose}>
               <FormattedMessage id='clinic.cancel' ></FormattedMessage>
-            </button>
-            <button class="rc-btn rc-btn--one rc-btn--sm"  onClick={()=>this.handleConfirm(this.props.obj)}>
+            </button> */}
+            <button className="rc-btn rc-btn--one rc-btn--sm"  onClick={()=>this.handleConfirm(this.props.obj)}>
               <FormattedMessage id='clinic.confirm' ></FormattedMessage>
             </button>
             <button

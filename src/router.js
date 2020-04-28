@@ -25,6 +25,11 @@ const BasicRoute = () => (
         />
         <Route
           exact
+          path="/list/:category/:keywords"
+          render={(props) => <List key={props.match.params.category + props.match.params.keywords} {...props} />}
+        />
+        <Route
+          exact
           path="/details/:id"
           render={(props) => <Details key={props.match.params.id} {...props} />} />
         <Route exact path="/cart" component={Cart} />
@@ -36,7 +41,7 @@ const BasicRoute = () => (
         <Route exact path="/prescription" component={Prescription} />
         <Route exact path="/help" component={Help} />
         <Route component={Exception} />
-        
+
       </Switch>
     </ScrollToTop>
   </HashRouter>

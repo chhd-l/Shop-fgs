@@ -1,5 +1,4 @@
 import axios from 'axios'
-import Alert from '@/components/Alert'
 
 // 创建 axios 实例
 const service = axios.create({

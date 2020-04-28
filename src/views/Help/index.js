@@ -1,6 +1,7 @@
 import React from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { FormattedMessage } from 'react-intl'
 class Help extends React.Component{
 
   render(h) {
@@ -35,7 +36,7 @@ class Help extends React.Component{
                             <div class="rc-padding-bottom--none--mobile" style={{width:'40%'}}>
                               <h1 class="rc-beta" style={{margin:'0 0 0 1rem'}}>
                                 <font style={{verticalAlign: "inherit"}}>
-                                  <font style={{verticalAlign: "inherit"}}>Need help ?</font>
+                                  <font style={{verticalAlign: "inherit"}}><FormattedMessage id="help.needHelp"/></font>
                                 </font>
                               </h1>
                             </div>
@@ -43,7 +44,7 @@ class Help extends React.Component{
                               <div class="rc-large-body inherit-fontsize children-nomargin">
                               <p>
                                 <font style={{verticalAlign: "inherit"}}>
-                                  <font style={{verticalAlign: "inherit"}}>Our customer service staff is professional and enthusiam. They can answer any problems at any time. </font>
+                                  <font style={{verticalAlign: "inherit"}}><FormattedMessage id="help.tip1"/></font>
                                 </font>
                               </p>
                             </div>
@@ -58,12 +59,12 @@ class Help extends React.Component{
                                   <div class="w-100">
                                     <b style={{color:"#00BCA3"}}>
                                       <font style={{verticalAlign: "inherit"}}>
-                                        <font style={{verticalAlign: "inherit"}}>By telephone</font>
+                                        <font style={{verticalAlign: "inherit"}}><FormattedMessage id="help.byTelephone"/></font>
                                       </font>
                                     </b>
                                     <p>
                                       <font style={{verticalAlign: "inherit"}}>
-                                        <font style={{verticalAlign: "inherit"}}>Free Call (from a landline) Monday to Friday from 8h to 20h.</font>
+                                        <font style={{verticalAlign: "inherit"}}><FormattedMessage id="help.tip2"/></font>
                                       </font>
                                     </p>
                                     <div class="rc-margin-top--xs">
@@ -94,8 +95,14 @@ class Help extends React.Component{
                               <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                                 <div class="rc-column rc-double-width rc-padding-top--md--mobile">
                                   <div class="w-100">
-                                  <b style={{color:"#0087BD"}}><font style={{verticalAlign: "inherit"}}><font style={{verticalAlign: "inherit"}}>By email</font></font></b>
-                                  <p><span style={{color:"rgb(0, 0, 0)"}}><font style={{verticalAlign: "inherit"}}><font style={{verticalAlign: "inherit"}}>We will reply to you within a maximum of 12 hours.</font></font></span></p>
+                                  <b style={{color:"#0087BD"}}><font style={{verticalAlign: "inherit"}}><font style={{verticalAlign: "inherit"}}><FormattedMessage id="help.byEmail"/></font></font></b>
+                                  <p>
+                                    <span style={{color:"rgb(0, 0, 0)"}}>
+                                      <font style={{verticalAlign: "inherit"}}>
+                                        <font style={{verticalAlign: "inherit"}}><FormattedMessage id="help.tip3"/></font>
+                                      </font>
+                                    </span>
+                                  </p>
                                   <div class="rc-margin-top--xs">
                                     <p class="rc-numeric rc-md-up" style={{color: "rgb(0, 135, 189)"}}>
                                       <font style={{verticalAlign: "inherit"}}>
