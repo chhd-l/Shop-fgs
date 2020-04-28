@@ -112,7 +112,7 @@ class Payment extends React.Component {
           this.setState({
             errorShow: false
           })
-        }, 2000)
+        }, 5000)
         return;
       }
     }
@@ -127,7 +127,7 @@ class Payment extends React.Component {
           this.setState({
             errorShow: false
           })
-        }, 2000)
+        }, 5000)
         return;
       }
     }
@@ -159,6 +159,20 @@ class Payment extends React.Component {
       this.setState({ showPayMethodError: true });
     }
     if (isEighteen && isReadPrivacyPolicy) {
+      let payosdata = this.state.payosdata;
+      if(!payosdata.token) {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please click the confirm card button'
+        })
+        window.scrollTo(0,0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false
+          })
+        }, 5000)
+        return
+      }
       this.setState({
         loading: true,
       });
@@ -186,7 +200,6 @@ class Payment extends React.Component {
           };
         }),
       };
-      let payosdata = this.state.payosdata;
       // console.log(payosdata, 'payosdata')
       let param3 = {
         token: payosdata.token,
@@ -218,10 +231,10 @@ class Payment extends React.Component {
           );
           let batchAddRes = await batchAdd(param2);
           let confirmAndCommitRes = await confirmAndCommit(param3);
-          localStorage.setItem('orderNumber', '2b8af046-dd7d-4a68-8be6-420a45f5bce0')
+            console.log(confirmAndCommitRes)
+          localStorage.setItem('orderNumber', confirmAndCommitRes.context[0]['tid'])
           this.setState({ loading: false });
           sessionStorage.clear("payosdata");
-          // localStorage.clear('rc-cart-data')
           history.push("/confirmation");
         }
       } catch (e) {
@@ -235,7 +248,7 @@ class Payment extends React.Component {
           this.setState({
             errorShow: false
           })
-        }, 2000)
+        }, 5000)
       } finally {
         this.setState({ loading: false });
         
@@ -309,7 +322,7 @@ class Payment extends React.Component {
           this.setState({
             errorShow: false
           })
-        }, 2000)
+        }, 5000)
         return;
       }
     }
@@ -322,10 +335,26 @@ class Payment extends React.Component {
       if (payosdata) {
         clearInterval(timer);
         this.setState({
-          isCompleteCredit: true,
           payosdata: payosdata,
           loading: false,
         });
+        if(payosdata.category === 'client_validation_error') {
+          this.setState({
+            errorShow: true,
+            errorMsg: payosdata.more_info
+          })
+          window.scrollTo(0,0)
+          setTimeout(() => {
+            this.setState({
+              errorShow: false
+            })
+          }, 5000)
+          return;
+        }else {
+          this.setState({
+            isCompleteCredit: true,
+          })
+        }
       }
     }, 1000);
   }
