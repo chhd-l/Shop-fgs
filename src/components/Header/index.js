@@ -50,7 +50,7 @@ class Header extends React.Component {
       this.setState({
         clinicsId: clinicsId
       })
-      let tmpName = null
+      let tmpName = ''
       if (clinicsId) {
         try {
           let res = await getPrescriptionById({ clinicsId })

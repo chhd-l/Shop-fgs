@@ -96,7 +96,7 @@ class Payment extends React.Component {
       commentOnDelivery: "",
       currentProduct: null,
       loading: true,
-      modalShow: false,
+      modalShow: false
     };
     this.confirmCardInfo = this.confirmCardInfo.bind(this)
   }

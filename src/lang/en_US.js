@@ -176,6 +176,6 @@ const en_US = {
   'confirmation.info2': 'In the near future, our staff will contact you to comfirm the order.',
   'confirmation.info3': ' Addresses and shipping methods are indicated under your goods.',
   'confirmation.visitOnlineStore': 'Visit online store',
-  'confirmation.customerInformation': 'customer information',
+  'confirmation.customerInformation': 'Customer Information',
 }
 export default en_US;
