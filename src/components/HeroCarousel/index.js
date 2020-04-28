@@ -27,7 +27,7 @@ function HeroCarousel () {
                   <p><FormattedMessage id="header.carouselInfo2" /></p>
                 </div>
                 <div className="hero-carousel__slide__content__btn text-center">
-                  <a className="rc-btn rc-btn--one gtm-hero-carousel-btn" href="#"><FormattedMessage id="header.toBegin" /></a>
+                  <Link className="rc-btn rc-btn--one gtm-hero-carousel-btn" to="/list/keywords"><FormattedMessage id="header.toBegin" /></Link>
                 </div>
               </div>
             </div>
