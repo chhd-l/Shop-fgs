@@ -113,24 +113,28 @@ class Details extends React.Component {
     let div = document.createElement('div');
     div.innerHTML = details;
     fragment.appendChild(div);
-
-    if (fragment.querySelector('.rc_proudct')) {
-      res.push(fragment.querySelector('.rc_proudct_html_tab1').innerHTML)
-
-      let tmpRes = []
-      let tmpLiList = fragment.querySelector('.rc_proudct_html_tab2').querySelectorAll('li')
-      Array.from(tmpLiList).map(item => {
-        let tmpPList = []
-        Array.from(item.querySelectorAll('p')).map(n => {
-          tmpPList.push(n.innerHTML)
+    try {
+      if (fragment.querySelector('.rc_proudct')) {
+        res.push(fragment.querySelector('.rc_proudct_html_tab1').innerHTML)
+  
+        let tmpRes = []
+        let tmpLiList = fragment.querySelector('.rc_proudct_html_tab2').querySelectorAll('li')
+        Array.from(tmpLiList).map(item => {
+          let tmpPList = []
+          Array.from(item.querySelectorAll('p')).map(n => {
+            tmpPList.push(n.innerHTML)
+          })
+          tmpRes.push(tmpPList)
         })
-        tmpRes.push(tmpPList)
-      })
-      res.push(tmpRes)
-
-      res.push(fragment.querySelector('.rc_proudct_html_tab3').innerHTML)
-      res.push(fragment.querySelector('.rc_proudct_html_tab4').innerHTML)
-    } else {
+        res.push(tmpRes)
+  
+        res.push(fragment.querySelector('.rc_proudct_html_tab3').innerHTML)
+        res.push(fragment.querySelector('.rc_proudct_html_tab4').innerHTML)
+      } else {
+        res.push(details)
+      }
+    } catch (e) {
+      res = []
       res.push(details)
     }
     return res
