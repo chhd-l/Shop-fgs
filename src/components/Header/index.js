@@ -135,30 +135,37 @@ class Header extends React.Component {
       esGoodsInfoDTOList: [],
       companyType: ''
     }
-    let res = await getList(params)
-    this.setState({ loading: false })
-    if (res && res.context) {
-      const esGoods = res.context.esGoods
-      if (esGoods && esGoods.content.length) {
-        let goodsContent = esGoods.content
-        if (res.context.goodsList) {
-          goodsContent = goodsContent.map(ele => {
-            let ret = Object.assign({}, ele)
-            const tmpItem = res.context.goodsList.find(g => g.goodsId === ele.id)
-            if (tmpItem) {
-              ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
-            }
-            return ret
+    try {
+      let res = await getList(params)
+      this.setState({ loading: false })
+      if (res && res.context) {
+        const esGoods = res.context.esGoods
+        if (esGoods && esGoods.content.length) {
+          let goodsContent = esGoods.content
+          if (res.context.goodsList) {
+            goodsContent = goodsContent.map(ele => {
+              let ret = Object.assign({}, ele)
+              const tmpItem = res.context.goodsList.find(g => g.goodsId === ele.id)
+              if (tmpItem) {
+                ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
+              }
+              return ret
+            })
+          }
+          this.setState({
+            result: Object.assign({}, { productList: goodsContent, totalElements: esGoods.totalElements })
+          })
+        } else {
+          this.setState({
+            result: Object.assign({}, { productList: [], totalElements: 0 })
           })
         }
-        this.setState({
-          result: Object.assign({}, { productList: goodsContent, totalElements: esGoods.totalElements })
-        })
-      } else {
-        this.setState({
-          result: Object.assign({}, { productList: [], totalElements: 0 })
-        })
       }
+    } catch (err) {
+      this.setState({
+        loading: false,
+        result: Object.assign({}, { productList: [], totalElements: 0 })
+      })
     }
   }
   handleItemClick () {
@@ -221,7 +228,7 @@ class Header extends React.Component {
                         </div>
                       </div>
                     )) :
-                    <p className="d-flex">
+                    <p className="d-flex" style={{ margin: '0 2%' }}>
                       <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
                       <FormattedMessage id="list.errMsg2" />
                     </p>
@@ -473,7 +480,7 @@ class Header extends React.Component {
               <li className="rc-list__item">
                 <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                   <li className="rc-list__item">
-                  <Link className="rc-list__header" to="/help">
+                    <Link className="rc-list__header" to="/help">
                       <FormattedMessage id="contactUs" />
                     </Link>
                   </li>

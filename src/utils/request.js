@@ -23,16 +23,11 @@ service.interceptors.response.use((response) => {
   if (response.data instanceof Blob) {
     return response
   }
-  if (response.status === 200 && response.data && response.data.code === 'K-000000') {
+  if (response.status === 200 && response.data && response.data.code === 'K-0000001') {
     return response.data
   } else {
     return Promise.reject(response.data && response.data.msg ? response.data.msg : 'Error')
   }
-  // if (res.code !== 200) {
-  //   return Promise.reject(new Error(res.msg || 'Error'))
-  // } else {
-  //   return response.data
-  // }
 }, err => Promise.reject(err))
 
 export default service
