@@ -23,7 +23,7 @@ service.interceptors.response.use((response) => {
   if (response.data instanceof Blob) {
     return response
   }
-  if (response.status === 200 && response.data && response.data.code === 'K-0000001') {
+  if (response.status === 200 && response.data && response.data.code === 'K-000000') {
     return response.data
   } else {
     return Promise.reject(response.data && response.data.msg ? response.data.msg : 'Error')
