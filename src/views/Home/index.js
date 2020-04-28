@@ -21,7 +21,7 @@ class Home extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper ">
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
-              <HeroCarousel />
+              <HeroCarousel history={this.props.history} />
             </div>
           </div>
 

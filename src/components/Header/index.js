@@ -170,8 +170,7 @@ class Header extends React.Component {
     }
   }
   handleItemClick () {
-    createHashHistory().push('/list/keywords')
-    localStorage.setItem('rc-search-keywords', this.state.keywords)
+    createHashHistory().push('/list/keywords/' + this.state.keywords)
   }
   gotoDetails (item) {
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')

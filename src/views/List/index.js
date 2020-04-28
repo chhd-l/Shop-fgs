@@ -103,7 +103,7 @@ class List extends React.Component {
       this.initData()
       if (category.toLocaleLowerCase() === 'keywords') {
         this.setState({
-          keywords: localStorage.getItem('rc-search-keywords')
+          keywords: this.props.match.params.keywords
         })
       }
     })
