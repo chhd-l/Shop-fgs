@@ -1,6 +1,7 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from 'react-intl'
+import { findIndex, find } from 'lodash'
 import '@/assets/css/search.css'
 import './index.css'
 
@@ -28,7 +29,7 @@ class Filter extends React.Component {
   }
   matchParentCatogery (data) {
     let res = ''
-    let tmp = this.state.filterListCopy.find(l => l.propId === data.propId)
+    let tmp = find(this.state.filterListCopy, l => l.propId === data.propId)
     if (tmp) {
       res = tmp.propName.toLocaleLowerCase()
     }
@@ -116,7 +117,7 @@ class Filter extends React.Component {
                             <li title={`Sort by ${f.propName.toLocaleLowerCase()}: ${l.detailName}`} className="rc-list__item" key={index + '-' + i}>
                               <div className="rc-input rc-input--stacked">
                                 <input className="rc-input__checkbox" id={`input-${index}-${i}`} type="checkbox" name="checkbox"
-                                  checked={checkedList.findIndex(c => c.detailId === l.detailId && c.propId === l.propId) > -1}
+                                  checked={findIndex(checkedList, c => c.detailId === l.detailId && c.propId === l.propId) > -1}
                                   value={l.propName} onChange={onChange.bind(this, l)} />
                                 <label className="rc-input__label--inline" htmlFor={`input-${index}-${i}`}>
                                   {l.detailName}

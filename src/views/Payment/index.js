@@ -1,5 +1,6 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl'
+import { findIndex, find } from 'lodash'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Progress from "@/components/Progress";
@@ -159,7 +160,7 @@ class Payment extends React.Component {
           return {
             verifyStock: false,
             buyCount: ele.quantity,
-            goodsInfoId: ele.sizeList.find(s => s.selected).goodsInfoId
+            goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId
           }
         })
       }
@@ -222,7 +223,7 @@ class Payment extends React.Component {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
-      let i = Array.from(el.classList).findIndex((classItem) => {
+      let i = findIndex(Array.from(el.classList), (classItem) => {
         return classItem === "invalid-feedback";
       });
       return i > -1;

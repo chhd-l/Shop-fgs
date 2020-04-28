@@ -1,6 +1,7 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl'
 import { createHashHistory } from 'history'
+import { find } from 'lodash'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
@@ -84,7 +85,7 @@ class Cart extends React.Component {
       this.setState({
         productListCopy: this.state.productListCopy
       })
-      if (item.quantity <= item.sizeList.find(s => s.selected).stock) {
+      if (item.quantity <= find(item.sizeList, s => s.selected).stock) {
         this.setState({
           productList: cloneDeep(this.state.productListCopy)
         }, () => {
@@ -95,7 +96,7 @@ class Cart extends React.Component {
   }
   changeCache () {
     this.state.productList.map(item => {
-      item.currentAmount = item.quantity * item.sizeList.find(s => s.selected).salePrice
+      item.currentAmount = item.quantity * find(item.sizeList, s => s.selected).salePrice
     })
     localStorage.setItem(
       "rc-cart-data",
@@ -110,7 +111,7 @@ class Cart extends React.Component {
     this.setState({
       productListCopy: this.state.productListCopy
     });
-    if (item.quantity <= item.sizeList.find(s => s.selected).stock) {
+    if (item.quantity <= find(item.sizeList, s => s.selected).stock) {
       this.setState({
         productList: cloneDeep(this.state.productListCopy)
       }, () => {
@@ -124,7 +125,7 @@ class Cart extends React.Component {
       this.setState({
         productListCopy: this.state.productListCopy
       })
-      if (item.quantity <= item.sizeList.find(s => s.selected).stock) {
+      if (item.quantity <= find(item.sizeList, s => s.selected).stock) {
         this.setState({
           productList: cloneDeep(this.state.productListCopy)
         }, () => {
@@ -297,13 +298,13 @@ class Cart extends React.Component {
                 <div className="align-left flex rc-content-v-right rc-md-up">
                   <div className="stock__wrapper">
                     <div className="stock">
-                      <label className={['availability', pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
+                      <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                         <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
                       </label>
                       <span className="availability-msg">
                         <div
-                          className={[pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? '' : 'out-stock'].join(' ')}>
-                          {pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
+                          className={[pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? '' : 'out-stock'].join(' ')}>
+                          {pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
                         </div>
                       </span>
                     </div>
@@ -349,13 +350,13 @@ class Cart extends React.Component {
               <div className="align-left flex rc-content-v-right">
                 <div className="stock__wrapper">
                   <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
-                    <label className={['availability', pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
+                    <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                       <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
                     </label>
                     <span className="availability-msg">
                       <div
-                        className={[pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? '' : 'out-stock'].join(' ')}>
-                        {pitem.quantity <= pitem.sizeList.find(s => s.selected).stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
+                        className={[pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? '' : 'out-stock'].join(' ')}>
+                        {pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
                       </div>
                     </span>
                   </div>
@@ -369,7 +370,7 @@ class Cart extends React.Component {
     return Lists;
   }
   render () {
-    const { results, productList, productListCopy, loading } = this.state;
+    const { productList } = this.state;
 
     const List = this.getProducts(this.state.productListCopy);
     let total = 0;

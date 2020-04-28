@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import Filters from '@/components/Filters'
 import './index.css'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, find, findIndex } from 'lodash'
 import titleCfg from './json/title.json'
 import { getList, getProps } from '@/api/list'
 import { queryStoreCateIds, formatMoney } from "@/utils/utils"
@@ -86,7 +86,7 @@ class List extends React.Component {
     })
 
     let storeIdList = await queryStoreCateIds()
-    let targetObj = storeIdList.find(s => s.cateName.toLocaleLowerCase() === category)
+    let targetObj = find(storeIdList, s => s.cateName.toLocaleLowerCase() === category)
     if (targetObj) {
       this.setState({
         storeCateId: targetObj.storeCateId
@@ -142,7 +142,7 @@ class List extends React.Component {
     }
 
     for (let item of checkedList) {
-      let tmp = params.propDetails.find(p => p.propId === item.propId)
+      let tmp = find(params.propDetails, p => p.propId === item.propId)
       if (tmp) {
         tmp.detailIds.push(item.detailId)
       } else {
@@ -159,7 +159,7 @@ class List extends React.Component {
           if (res.context.goodsList) {
             goodsContent = goodsContent.map(ele => {
               let ret = Object.assign({}, ele)
-              const tmpItem = res.context.goodsList.find(g => g.goodsId === ele.id)
+              const tmpItem = find(res.context.goodsList, g => g.goodsId === ele.id)
               if (tmpItem) {
                 ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
               }
@@ -199,7 +199,7 @@ class List extends React.Component {
   handleFilterChange (item) {
     const { checkedList } = this.state;
     let checkedListCopy = cloneDeep(checkedList);
-    let index = checkedListCopy.findIndex(c => c.detailId === item.detailId && c.propId === item.propId)
+    let index = findIndex(checkedListCopy, c => c.detailId === item.detailId && c.propId === item.propId)
     if (index > -1) {
       checkedListCopy.splice(index, 1)
     } else {
@@ -214,7 +214,7 @@ class List extends React.Component {
     if (item === 'all') {
       res = []
     } else {
-      checkedListCopy.splice(checkedListCopy.findIndex(c => c.detailId === item.detailId && c.propId === item.propId), 1)
+      checkedListCopy.splice(findIndex(checkedListCopy, c => c.detailId === item.detailId && c.propId === item.propId), 1)
       res = checkedListCopy
     }
     this.setState({ checkedList: res, currentPage: 1 }, () => this.getProductList())
@@ -230,6 +230,8 @@ class List extends React.Component {
       }
       if (tmp > this.state.totalPage) {
         tmp = this.state.totalPage
+      } else if (tmp < 1) {
+        tmp = 1
       }
       if (tmp !== this.state.currentPage) {
         this.setState({ currentPage: tmp }, () => this.getProductList())
