@@ -221,7 +221,7 @@ class Payment extends React.Component {
           localStorage.setItem('orderNumber', '2b8af046-dd7d-4a68-8be6-420a45f5bce0')
           this.setState({ loading: false });
           sessionStorage.clear("payosdata");
-          localStorage.clear('rc-cart-data')
+          // localStorage.clear('rc-cart-data')
           history.push("/confirmation");
         }
       } catch (e) {
