@@ -230,6 +230,8 @@ class List extends React.Component {
       }
       if (tmp > this.state.totalPage) {
         tmp = this.state.totalPage
+      } else if (tmp < 1) {
+        tmp = 1
       }
       if (tmp !== this.state.currentPage) {
         this.setState({ currentPage: tmp }, () => this.getProductList())
