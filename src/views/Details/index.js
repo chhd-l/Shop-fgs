@@ -291,7 +291,7 @@ class Details extends React.Component {
                           {this.state.loading
                             ? <div><Skeleton color="#f5f5f5" width="100%" count={7} /></div>
                             : <div className="wrap-short-des">
-                              <h1 className="rc-gamma wrap-short-des--heading">
+                              <h1 className="rc-gamma">
                                 {details.goodsName}
                               </h1>
                               <h3>
