@@ -100,8 +100,11 @@ class Details extends React.Component {
         })
       }
     } catch (e) {
+      console.log(e)
+      console.table(e); 
       this.setState({
-        errMsg: <FormattedMessage id="details.errMsg2" />
+        // errMsg: <FormattedMessage id="details.errMsg2" />
+        errMsg: e.toString()
       })
     }
   }
