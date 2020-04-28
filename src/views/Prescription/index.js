@@ -12,10 +12,10 @@ import meImg from "@/assets/images/map-default-marker.png"
 
 
 
-const AnyReactComponent = ({ obj }) => {
+const AnyReactComponent = ({ obj,show }) => {
   if(obj.type !== 'customer'){
     return (
-      <MapFlag obj={obj}></MapFlag>
+      <MapFlag obj={obj} show={show}></MapFlag>
   )}
   else {
     return (
@@ -132,16 +132,21 @@ class Prescription extends React.Component{
     const { params } = this.state
     
     if(e.target.value){
-      let tmp = parseInt(e.target.value)
-      if (isNaN(tmp)) {
-        tmp = 1
+      if(e.target.value === "0"){
+        this.setState({ current: 1 })
+      }else{
+        let tmp = parseInt(e.target.value)
+        if (isNaN(tmp)) {
+          tmp = 1
+        }
+        if (tmp > this.state.totalPage) {
+          tmp = this.state.totalPage
+        }
+        params.pageNum = tmp-1
+        this.setState({ current: tmp })
+        this.getPrescription(params)
       }
-      if (tmp > this.state.totalPage) {
-        tmp = this.state.totalPage
-      }
-      params.pageNum = tmp-1
-      this.setState({ current: tmp })
-      this.getPrescription(params)
+      
     }
     else{
       this.setState({ current: e.target.value })
@@ -198,6 +203,7 @@ render(h) {
       lat={this.state.meLocation.lat}
       lng={this.state.meLocation.lng}
       obj={this.state.me}
+      show={false}
     />)
     for (var i = 0; i < this.state.clinicArr.length; i++) {
       flags.push(<AnyReactComponent
@@ -205,6 +211,8 @@ render(h) {
         lat={this.state.clinicArr[i].latitude}
         lng={this.state.clinicArr[i].longitude}
         obj={this.state.clinicArr[i]}
+        show={+(this.state.clinicArr[i].longitude)===+(this.state.center.lng)
+        && +(this.state.clinicArr[i].latitude)===+(this.state.center.lat)}
       />)
     }
 
