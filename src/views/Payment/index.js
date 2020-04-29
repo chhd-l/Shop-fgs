@@ -1306,12 +1306,6 @@ class Payment extends React.Component {
                                   <div className="col-md-6">
                                     <FormattedMessage id="payment.forFree" />
                                   </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.commentOnDelivery" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.state.commentOnDelivery}
-                                  </div>
                                 </div>
                               </div>
                               <div className="col-md-12 address-summary-left">
@@ -1366,6 +1360,12 @@ class Payment extends React.Component {
                                   </div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.phoneNumber}
+                                  </div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.commentOnDelivery" />
+                                  </div>
+                                  <div className="col-md-6">
+                                    &nbsp;{this.state.commentOnDelivery}
                                   </div>
                                 </div>
                               </div>
