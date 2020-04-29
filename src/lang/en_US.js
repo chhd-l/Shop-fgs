@@ -97,6 +97,8 @@ const en_US = {
   'details.errMsg2': 'No details found, please try again later.',
 
   'cart.errorInfo': 'The number can\'t be less than 1',
+  'cart.errorInfo2': '库存不足，不能checkout',
+  'cart.errorInfo3': '*Your order amount has not yet reached the minimum amount for free shipping （＄100）',
   'cart.yourBasket': 'Your basket',
   'cart.fullPrice': 'FULL RICE FOR YOUR PET',
   'cart.dogDiet': 'Choose a diet for your dog',

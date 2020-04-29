@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
 import { createHashHistory } from 'history'
-import { formatMoney, getParaByName } from "@/utils/utils";
+import { formatMoney, getParaByName, hanldePurchases } from "@/utils/utils";
 import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import './index.css'
@@ -27,6 +27,9 @@ class Header extends React.Component {
       loading: false,
       result: null,
       showMegaMenu: false,
+      checkoutLoading: false,
+      validateAllItemsStock: true,
+      errMsg: '',
       clinicsId: sessionStorage.getItem('rc-clinics-id'),
       clinicsName: sessionStorage.getItem('rc-clinics-name')
     }
@@ -38,6 +41,7 @@ class Header extends React.Component {
     this.handleItemClick = this.handleItemClick.bind(this)
     this.toggleMenu = this.toggleMenu.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
+    this.handleCheckout = this.handleCheckout.bind(this)
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
     this.menuBtnRef = React.createRef();
@@ -79,6 +83,52 @@ class Header extends React.Component {
     })
     return ret
   }
+  async handleCheckout () {
+    if (this.totalPrice < 100) {
+      this.setState({
+        errMsg: <FormattedMessage id="cart.errorInfo3" />
+      })
+      return false
+    }
+    const { cartData } = this.props
+    let tmpValidateAllItemsStock = true
+    this.setState({ checkoutLoading: true })
+    if (cartData.length) {
+      let productList = cartData
+      let param = productList.map(ele => {
+        return {
+          goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId,
+          goodsNum: ele.quantity,
+          invalid: false
+        }
+      })
+      let latestGoodsInfos = await hanldePurchases(param)
+      productList.map(item => {
+        let selectedSize = find(item.sizeList, s => s.selected)
+        const tmpObj = find(latestGoodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
+        if (tmpObj) {
+          selectedSize.stock = tmpObj.stock
+          if (item.quantity > tmpObj.stock) {
+            tmpValidateAllItemsStock = false
+          }
+        }
+      })
+
+      this.setState({
+        checkoutLoading: false,
+        validateAllItemsStock: tmpValidateAllItemsStock
+      }, () => {
+        const { validateAllItemsStock } = this.state
+        if (!validateAllItemsStock) {
+          this.setState({
+            errMsg: <FormattedMessage id="cart.errorInfo2" />
+          })
+        } else {
+          createHashHistory().push('/prescription')
+        }
+      })
+    }
+  }
   handleMouseOver () {
     this.flag = 1
     this.setState({
@@ -90,7 +140,8 @@ class Header extends React.Component {
     setTimeout(() => {
       if (!this.flag) {
         this.setState({
-          showCart: false
+          showCart: false,
+          errMsg: ''
         })
       }
     }, 500)
@@ -369,10 +420,18 @@ class Header extends React.Component {
                                   <span className="rc-body rc-margin--none"><FormattedMessage id="total" /> <b>$ {formatMoney(this.totalPrice)}</b></span>
                                   <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true"><FormattedMessage id="chang" /></Link>
                                 </div>
+                                <div style={{ margin: '0 2%', display: this.state.errMsg ? 'block' : 'none' }}>
+                                  <aside class="rc-alert rc-alert--error rc-alert--with-close" role="alert" style={{ padding: '.5rem' }}>
+                                    <span style={{ paddingLeft: '0' }}>{this.state.errMsg}</span>
+                                  </aside>
+                                </div>
                                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                                  <Link to="/prescription" className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn">
+                                  <a
+                                    onClick={this.handleCheckout}
+                                    className={['rc-btn', 'rc-btn--one', 'rc-btn--sm', 'btn-block', 'cart__checkout-btn', 'checkout-btn', this.state.checkoutLoading ? 'ui-btn-loading' : ''].join(' ')}
+                                    style={{ color: '#fff' }}>
                                     <FormattedMessage id="checkout" />
-                                  </Link>
+                                  </a>
                                 </div>
                                 <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                                   <span className="rc-meta">

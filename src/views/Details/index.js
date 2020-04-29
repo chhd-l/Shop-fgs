@@ -196,22 +196,47 @@ class Details extends React.Component {
       stock: data.stock || 0
     }, () => this.updateInstockStatus())
   }
-  hanldeAddToCart ({ redirect = false }) {
+  async hanldeAddToCart ({ redirect = false }) {
+    debugger
     const { currentUnitPrice, quantity, cartData, instockStatus } = this.state
     const { goodsId, sizeList } = this.state.details
-    const tmpData = Object.assign({}, this.state.details, { quantity }, { currentAmount: currentUnitPrice * quantity })
+    const selectedSize = find(sizeList, s => s.selected)
+    let quantityNew = quantity
+    const tmpData = Object.assign({}, this.state.details, { quantity: quantityNew }, { currentAmount: currentUnitPrice * quantityNew })
     let newCartData
 
-    if (!instockStatus || !quantity) {
+    if (!instockStatus || !quantityNew) {
       return
+    }
+
+    this.setState({ addToCartLoading: true })
+
+    try {
+      let res = await miniPurchases({ goodsInfoDTOList: [{ goodsInfoId: selectedSize.goodsInfoId, goodsNum: quantityNew }] })
+      let tmpObj = find(res.context.goodsList, ele => ele.goodsInfoId === selectedSize.goodsInfoId)
+      if (tmpObj) {
+        if (quantityNew > tmpObj.stock) {
+          quantityNew = tmpObj.stock
+          this.setState({
+            quantity: quantityNew
+          })
+          tmpData = Object.assign(tmpData, { quantity: quantityNew })
+        }
+      }
+    } catch (e) {
+
+    } finally {
+      this.setState({ addToCartLoading: false })
     }
 
     if (cartData) {
       newCartData = cloneDeep(cartData)
       let targetData = find(newCartData, c => c.goodsId === goodsId)
       if (targetData && (findIndex(sizeList, l => l.selected) === findIndex(targetData.sizeList, s => s.selected))) {
-        targetData.quantity += quantity
-        targetData.currentAmount += quantity * currentUnitPrice
+        // targetData.quantity += quantityNew // 累加
+        // targetData.currentAmount += quantityNew * currentUnitPrice
+        targetData.quantity = quantityNew // 更新为最新数量
+        targetData.currentAmount = quantityNew * currentUnitPrice
       } else {
         newCartData.push(tmpData)
       }
@@ -471,13 +496,13 @@ class Details extends React.Component {
                         <div
                           id="tab__panel-2"
                           className="clearfix benefit flex">
-                          <div class="d-flex flex-wrap">
+                          <div className="d-flex flex-wrap">
                             {this.state.goodsDetail2.map((item, idx) => (
-                              <div class="col-12 col-md-6" key={idx}>
-                                <div class="block-with-icon">
-                                  <span class="rc-icon rc-rate-fill rc-iconography"></span>
-                                  <div class="block-with-icon__content">
-                                    <h5 class="block-with-icon__title">{item.length && item[0]}</h5>
+                              <div className="col-12 col-md-6" key={idx}>
+                                <div className="block-with-icon">
+                                  <span className="rc-icon rc-rate-fill rc-iconography"></span>
+                                  <div className="block-with-icon__content">
+                                    <h5 className="block-with-icon__title">{item.length && item[0]}</h5>
                                     <p>{item.length && item.length > 1 && item[1]}</p>
                                   </div>
                                 </div>
