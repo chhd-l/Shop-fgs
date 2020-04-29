@@ -20,6 +20,7 @@ const en_US = {
   'close': 'Cerrar',
   'goods': 'Productos',
   'viewAllResults': 'Vea todos los resultados',
+  'viewResults': 'Ver resultados',
   'results': 'Resultados',
   'from': 'De',
   'of': 'a',
@@ -39,6 +40,9 @@ const en_US = {
   'edit': 'Corrija',
   'example': "Ejemplo",
   'contactUs':'Contáctanos',
+  'age':'Años',
+  'puppy': 'Cachorro (0-1 años)',
+  'kitten': 'Gatito (0-1 años)',
 
   'header.basketEmpty': 'su cesta es vacía',
   'header.startTypingToSearch': 'Empieza a escribir para buscar',

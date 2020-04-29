@@ -20,6 +20,7 @@ const en_US = {
   'close': 'Close',
   'goods': 'Goods',
   'viewAllResults': 'View all results',
+  'viewResults': 'View results',
   'results': 'Results',
   'from': 'From',
   'of': 'of',
@@ -39,6 +40,9 @@ const en_US = {
   'edit': 'Edit',
   'example': "Example",
   'contactUs':'Contact Us',
+  'age':'Age',
+  'puppy': 'Puppy (0-1 year old)',
+  'kitten': 'Kitten (0-1 year old)',
 
   'header.basketEmpty': 'your basket is empty',
   'header.startTypingToSearch': 'Start typing to search',
