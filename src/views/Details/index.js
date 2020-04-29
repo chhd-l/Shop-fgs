@@ -201,21 +201,21 @@ class Details extends React.Component {
     const { goodsId, sizeList } = this.state.details
     const currentSelectedSize = find(sizeList, s => s.selected)
     let quantityNew = quantity
-    const tmpData = Object.assign({}, this.state.details, { quantity: quantityNew }, { currentAmount: currentUnitPrice * quantityNew })
-    let newCartData // 购物车历史数据
+    let tmpData = Object.assign({}, this.state.details, { quantity: quantityNew }, { currentAmount: currentUnitPrice * quantityNew })
+    let cartDataCopy = cloneDeep(cartData)
 
     if (!instockStatus || !quantityNew) {
       return
     }
 
     this.setState({ addToCartLoading: true })
-
-    if (cartData && cartData.length) {
-      newCartData = cloneDeep(cartData)
-      let targetData = find(newCartData, c => c.goodsId === goodsId)
-      if (targetData && (findIndex(sizeList, l => l.selected) === findIndex(targetData.sizeList, s => s.selected))) {
-        targetData.quantity += quantityNew // 累加
-        targetData.currentAmount += quantityNew * currentUnitPrice
+    let flag = true
+    if (cartDataCopy && cartDataCopy.length) {
+      const historyItem = find(cartDataCopy, c => c.goodsId === goodsId)
+      if (historyItem) {
+        flag = false
+        quantityNew += historyItem.quantity
+        tmpData = Object.assign(tmpData, { quantity: quantityNew })
       }
     }
 
@@ -225,19 +225,12 @@ class Details extends React.Component {
       if (tmpObj) {
         if (quantityNew > tmpObj.stock) {
           quantityNew = tmpObj.stock
-          this.setState({
-            quantity: quantityNew
-          })
-          tmpData = Object.assign(tmpData, { quantity: quantityNew })
-        }
-        if (newCartData.length) {
-          let tmpObj2 = find(newCartData, n => n.goodsId === tmpObj.goodsId && find(n.sizeList, s => s.selected).goodsInfoId === tmpObj.goodsInfoId)
-          if (tmpObj2) {
-            if (tmpObj2.quantity > tmpObj.stock) {
-              tmpObj2.quantity = tmpObj.stock
-              tmpObj2.currentAmount = tmpObj.stock * currentUnitPrice
-            }
+          if (flag) {
+            this.setState({
+              quantity: quantityNew
+            })
           }
+          tmpData = Object.assign(tmpData, { quantity: quantityNew })
         }
       }
     } catch (e) {
@@ -246,20 +239,16 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: false })
     }
 
-    if (!newCartData) {
-      newCartData = []
-      newCartData.push(tmpData)
+    const idx = findIndex(cartDataCopy, c => c.goodsId === goodsId)
+    tmpData = Object.assign(tmpData, { currentAmount: currentUnitPrice * quantityNew })
+    if (idx > -1) {
+      cartDataCopy.splice(idx, 1, tmpData)
     } else {
-      let targetData = find(newCartData, c => c.goodsId === goodsId)
-      if (!targetData || (findIndex(currentSelectedSize, l => l.selected) !== findIndex(targetData.sizeList, s => s.selected))) {
-        newCartData.push(tmpData)
-      }
+      cartDataCopy.push(tmpData)
     }
 
-    localStorage.setItem('rc-cart-data', JSON.stringify(newCartData))
-    this.setState({
-      cartData: newCartData
-    })
+    localStorage.setItem('rc-cart-data', JSON.stringify(cartDataCopy))
+    this.setState({ cartData: cartDataCopy })
     if (redirect) {
       createHashHistory().push('/prescription')
     }
