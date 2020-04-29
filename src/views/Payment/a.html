@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="txt1" value="+(52) ___-___-__" maxlength="17" onclick="">
+</body>
+<script>
+  let insertStr = (soure,start, newStr) => {
+    return soure.slice(0, start) + newStr + soure.slice(start)
+  }
+  let retextStr = (soure,start, newStr) => {
+    return soure.slice(0, start) + newStr + soure.slice(start + 1)
+  }
+  // function getTxt1CursorPosition(){
+  // var oTxt1 = document.getElementById("txt1");
+  // var cursurPosition=-1;
+  // if(oTxt1.selectionStart){//非IE浏览器
+  // cursurPosition= oTxt1.selectionStart;
+  // }else{//IE
+  // var range = document.selection.createRange();
+  // range.moveStart("character",-oTxt1.value.length);
+  // cursurPosition=range.text.length;
+  // }
+  // // alert(cursurPosition);
+  // }
+  // function getCursorPosition(e) {
+    
+  // }
+  document.getElementById('txt1').onclick = (e) => {
+    console.log(e.target.value.indexOf('_'))
+    let index = e.target.value.indexOf('_')
+    e.target.selectionStart = index
+    e.target.selectionEnd = index
+  }
+  document.getElementById('txt1').oninput = (e) => {
+    
+    console.log(e.target.selectionStart,e.target.selectionEnd)
+    let target = e.target
+    let oldSelectionStart = target.selectionStart
+    let oldSelectionEnd = target.selectionEnd
+    // if(target.)
+    bitArr = [10, 14]
+    // if()
+    if(e.inputType === 'deleteContentBackward') {
+      console.log('进来')
+      if(bitArr.indexOf(oldSelectionStart) !== -1  && bitArr.indexOf(oldSelectionEnd) !== -1) {
+        e.target.value = insertStr(target.value, target.selectionStart, '_')
+        target.selectionStart = oldSelectionStart -1
+        target.selectionEnd = oldSelectionEnd-1
+      }else if(oldSelectionStart === 5 && oldSelectionEnd === 5) {
+        e.target.value = insertStr(target.value, target.selectionStart, ' ')
+        target.selectionStart = oldSelectionStart + 1
+        target.selectionEnd = oldSelectionEnd + 1
+      }else {
+        e.target.value = insertStr(target.value, target.selectionStart, '_')
+        target.selectionStart = oldSelectionStart
+        target.selectionEnd = oldSelectionEnd
+      }
+    }else if(e.inputType === 'insertText') {
+      if([9, 13].indexOf(oldSelectionStart) !== -1  && [9, 13].indexOf(oldSelectionEnd) !== -1) {
+        e.target.value = retextStr(target.value, target.selectionStart, '')
+        target.selectionStart = oldSelectionStart + 1
+        target.selectionEnd = oldSelectionEnd + 1
+      // }else if(oldSelectionStart >= 16 && oldSelectionEnd >= 16) {
+      //   e.target.value = retextStr(target.value, target.selectionStart, '')
+      //   target.selectionStart = oldSelectionStart
+      //   target.selectionEnd = oldSelectionEnd
+      }else {
+        e.target.value = retextStr(target.value, target.selectionStart, '')
+        target.selectionStart = oldSelectionStart
+        target.selectionEnd = oldSelectionEnd
+      }
+      target.value = target.value.slice(0,16)
+      // target.value = target.value.slice(oldSelectionStart, 1)
+
+
+      // e.target.value = retextStr(target.value, target.selectionStart, '')
+      // target.selectionStart = oldSelectionStart
+      //   target.selectionEnd = oldSelectionEnd
+
+
+      // if(bitArr.indexOf(oldSelectionStart) !== -1  && bitArr.indexOf(oldSelectionEnd) !== -1) {
+      //   e.target.value = insertStr(target.value, target.selectionStart, '_')
+      //   target.selectionStart = oldSelectionStart -1
+      //   target.selectionEnd = oldSelectionEnd-1
+      // }else if(oldSelectionStart === 5 && oldSelectionEnd === 5) {
+      //   e.target.value = insertStr(target.value, target.selectionStart, ' ')
+      //   target.selectionStart = oldSelectionStart + 1
+      //   target.selectionEnd = oldSelectionEnd + 1
+      // }else {
+      //   e.target.value = insertStr(target.value, target.selectionStart, '')
+      //   target.selectionStart = oldSelectionStart
+      //   target.selectionEnd = oldSelectionEnd
+      // }
+    }
+    
+    
+    
+
+    // if(deleteContentBackward)
+    console.log(e, target)
+  }
+ 
+</script>
+</html>
