@@ -471,13 +471,13 @@ class Details extends React.Component {
                         <div
                           id="tab__panel-2"
                           className="clearfix benefit flex">
-                          <div class="d-flex flex-wrap">
+                          <div className="d-flex flex-wrap">
                             {this.state.goodsDetail2.map((item, idx) => (
-                              <div class="col-12 col-md-6" key={idx}>
-                                <div class="block-with-icon">
-                                  <span class="rc-icon rc-rate-fill rc-iconography"></span>
-                                  <div class="block-with-icon__content">
-                                    <h5 class="block-with-icon__title">{item.length && item[0]}</h5>
+                              <div className="col-12 col-md-6" key={idx}>
+                                <div className="block-with-icon">
+                                  <span className="rc-icon rc-rate-fill rc-iconography"></span>
+                                  <div className="block-with-icon__content">
+                                    <h5 className="block-with-icon__title">{item.length && item[0]}</h5>
                                     <p>{item.length && item.length > 1 && item[1]}</p>
                                   </div>
                                 </div>

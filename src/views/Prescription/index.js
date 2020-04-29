@@ -44,7 +44,7 @@ class Prescription extends React.Component{
         lng: 116.3
       },
       zoom: 12,
-      key:0,
+      mapKey:0,
       me:{
         id:1001,
        
@@ -77,7 +77,6 @@ class Prescription extends React.Component{
   }
 
    handleInit=(e)=>{
-    this.handldKey(this.state.key)
         //获取当前地理位置信息
     navigator.geolocation.getCurrentPosition(position => {
       this.handldKey(this.state.key)
@@ -173,7 +172,7 @@ class Prescription extends React.Component{
   }
   handldKey=(key)=>{
     this.setState({
-      key: key + 1
+      mapKey: key + 1
     })
   }
   handleItem=(item)=>{
@@ -299,7 +298,7 @@ render(h) {
                   </div>
                   <div className="grid-footer rc-full-width">
                     <nav className="rc-pagination" data-pagination="" data-pages={this.state.totalPage}>
-                      <form className="rc-pagination__form">
+                      <div className="rc-pagination__form">
                         <button
                           className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
                           aria-label="Previous step" data-prev="" type="submit" onClick={()=>this.handlePrevOrNextPage('prev')}></button>
@@ -314,14 +313,14 @@ render(h) {
                         <button
                           className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
                           aria-label="Previous step" data-next="" type="submit" onClick={() => this.handlePrevOrNextPage('next')}></button>
-                      </form>
+                      </div>
                     </nav>
                   </div>
                 </form>
 
               </div>
               <div className="clinic-map" >
-                <GoogleMap center={this.state.center} zoom={this.state.zoom} flags={flags} key={this.state.key}>
+                <GoogleMap center={this.state.center} zoom={this.state.zoom} flags={flags} key={this.state.mapKey}>
                 </GoogleMap>
               </div>
             </div>
