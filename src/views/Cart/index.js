@@ -372,7 +372,7 @@ class Cart extends React.Component {
                     className="rc-quantity__input"
                     type="number"
                     value={pitem.quantity}
-                    onChange={() => this.handleAmountChange(pitem)}
+                    onChange={(e) => this.handleAmountChange(e, pitem)}
                     min="1"
                     max="10" />
                   <span
