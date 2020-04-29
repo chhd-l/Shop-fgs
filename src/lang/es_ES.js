@@ -39,8 +39,8 @@ const en_US = {
   'items': 'artículos',
   'edit': 'Corrija',
   'example': "Ejemplo",
-  'contactUs':'Contáctanos',
-  'age':'Años',
+  'contactUs': 'Contáctanos',
+  'age': 'Años',
   'puppy': 'Cachorro (0-1 años)',
   'kitten': 'Gatito (0-1 años)',
 
@@ -81,9 +81,12 @@ const en_US = {
   'home.specialInfo4': 'Por más de 50 años, hemos estado siguiendo el principio del “bienestar para los perros y los gatos, sobretodo.” Creamos el alimento adaptado para los animales según sus necesidades especiales.',
   'home.viewProducts': 'Productos de la visión',
   'home.specialAnimalNutrition': 'Nutrición animal especial',
+  'home.catogery1': 'Dietas Veterinarias Perros',
+  'home.catogery2': 'Dietas Veterinarias Gatos',
+  'home.catogery3': 'Dietas de Prescripción Veterinaria Perros',
+  'home.catogery4': 'Dietas de Prescripción Veterinaria Gatos',
 
-
-'list.youSearchedFor': 'Has buscado',
+  'list.youSearchedFor': 'Has buscado',
   'list.errMsg': 'No se encontraron productos, cambie los criterios de búsqueda e intente nuevamente.',
   'list.errMsg2': 'No se encontraron productos, cambie las palabras clave y vuelva a intentarlo.',
   'list.errMsg3': 'No se encontraron filtros, intente más tarde',
@@ -105,9 +108,9 @@ const en_US = {
   'cart.errorInfo2': 'No puede realizar su pedido, ya que el producto elegido está agotado.',
   'cart.errorInfo3': '*El monto de su pedido aún no ha alcanzado el monto mínimo para envío gratuito ($ 100)',
   'cart.yourBasket': 'Tu canasta',
-  'cart.fullPrice': 'ARROZ COMPLETO PARA TU MASCOTA',
-  'cart.dogDiet': 'Elige una dieta para tu perro',
-  'cart.catDiet': 'Elige una dieta para tu gato',
+  'cart.fullPrice': 'Descubre nuestras dietas veterinarias',
+  'cart.dogDiet': 'Dietas de veterinaria para perros',
+  'cart.catDiet': 'Dietas de veterinaria para gatos',
   'cart.deletInfo': '¿Eliminar producto?',
   'cart.deletInfo2': '¿Estás seguro de que deseas eliminar este artículo de tu carrito?',
 
@@ -188,13 +191,13 @@ const en_US = {
   'confirmation.customerInformation': 'Información del cliente',
   'confirmation.orderNumber': 'Número de orden',
 
-  'help.needHelp':'Necesidad de ayuda ?',
-  'help.tip1':'Nuestro personal de servicio al cliente es profesional y entusiasmado.',
-  'help.tip4':'Pueden responder cualquier problema en cualquier momento.',
-  'help.tip2':'Llamada gratuita (desde un teléfono fijo) de lunes a viernes de 8h a 20h.',
-  'help.tip3':'Le responderemos dentro de un máximo de 12 horas.',
-  'help.byTelephone':'Por teléfono',
-  'help.byEmail':'Por correo',
-  
+  'help.needHelp': 'Necesidad de ayuda ?',
+  'help.tip1': 'Nuestro personal de servicio al cliente es profesional y entusiasmado.',
+  'help.tip4': 'Pueden responder cualquier problema en cualquier momento.',
+  'help.tip2': 'Llamada gratuita (desde un teléfono fijo) de lunes a viernes de 8h a 20h.',
+  'help.tip3': 'Le responderemos dentro de un máximo de 12 horas.',
+  'help.byTelephone': 'Por teléfono',
+  'help.byEmail': 'Por correo',
+
 }
 export default en_US;

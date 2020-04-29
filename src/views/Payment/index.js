@@ -346,7 +346,6 @@ class Payment extends React.Component {
             errorShow: true,
             errorMsg: payosdata.more_info
           })
-          // todo 
           sessionStorage.clear("payosdata");
           window.scrollTo(0, 0)
           setTimeout(() => {
@@ -1159,7 +1158,7 @@ class Payment extends React.Component {
                                 className="shipping-method-pricing"
                                 style={{ whiteSpace: "nowrap" }}
                               >
-                                <span className="shipping-cost">For Free</span>
+                                <span className="shipping-cost"><FormattedMessage id="payment.forFree" /></span>
                                 <span
                                   className=" info-tooltip delivery-method-tooltip"
                                   title="Top"
