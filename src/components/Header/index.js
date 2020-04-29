@@ -421,7 +421,7 @@ class Header extends React.Component {
                                   <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true"><FormattedMessage id="chang" /></Link>
                                 </div>
                                 <div style={{ margin: '0 2%', display: this.state.errMsg ? 'block' : 'none' }}>
-                                  <aside class="rc-alert rc-alert--error rc-alert--with-close" role="alert" style={{ padding: '.5rem' }}>
+                                  <aside className="rc-alert rc-alert--error rc-alert--with-close" role="alert" style={{ padding: '.5rem' }}>
                                     <span style={{ paddingLeft: '0' }}>{this.state.errMsg}</span>
                                   </aside>
                                 </div>

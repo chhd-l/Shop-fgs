@@ -197,13 +197,12 @@ class Details extends React.Component {
     }, () => this.updateInstockStatus())
   }
   async hanldeAddToCart ({ redirect = false }) {
-    debugger
     const { currentUnitPrice, quantity, cartData, instockStatus } = this.state
     const { goodsId, sizeList } = this.state.details
-    const selectedSize = find(sizeList, s => s.selected)
+    const currentSelectedSize = find(sizeList, s => s.selected)
     let quantityNew = quantity
     const tmpData = Object.assign({}, this.state.details, { quantity: quantityNew }, { currentAmount: currentUnitPrice * quantityNew })
-    let newCartData
+    let newCartData // 购物车历史数据
 
     if (!instockStatus || !quantityNew) {
       return
@@ -211,9 +210,18 @@ class Details extends React.Component {
 
     this.setState({ addToCartLoading: true })
 
+    if (cartData && cartData.length) {
+      newCartData = cloneDeep(cartData)
+      let targetData = find(newCartData, c => c.goodsId === goodsId)
+      if (targetData && (findIndex(sizeList, l => l.selected) === findIndex(targetData.sizeList, s => s.selected))) {
+        targetData.quantity += quantityNew // 累加
+        targetData.currentAmount += quantityNew * currentUnitPrice
+      }
+    }
+
     try {
-      let res = await miniPurchases({ goodsInfoDTOList: [{ goodsInfoId: selectedSize.goodsInfoId, goodsNum: quantityNew }] })
-      let tmpObj = find(res.context.goodsList, ele => ele.goodsInfoId === selectedSize.goodsInfoId)
+      let res = await miniPurchases({ goodsInfoDTOList: [{ goodsInfoId: currentSelectedSize.goodsInfoId, goodsNum: quantityNew }] })
+      let tmpObj = find(res.context.goodsList, ele => ele.goodsInfoId === currentSelectedSize.goodsInfoId)
       if (tmpObj) {
         if (quantityNew > tmpObj.stock) {
           quantityNew = tmpObj.stock
@@ -222,6 +230,15 @@ class Details extends React.Component {
           })
           tmpData = Object.assign(tmpData, { quantity: quantityNew })
         }
+        if (newCartData.length) {
+          let tmpObj2 = find(newCartData, n => n.goodsId === tmpObj.goodsId && find(n.sizeList, s => s.selected).goodsInfoId === tmpObj.goodsInfoId)
+          if (tmpObj2) {
+            if (tmpObj2.quantity > tmpObj.stock) {
+              tmpObj2.quantity = tmpObj.stock
+              tmpObj2.currentAmount = tmpObj.stock * currentUnitPrice
+            }
+          }
+        }
       }
     } catch (e) {
 
@@ -229,18 +246,7 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: false })
     }
 
-    if (cartData) {
-      newCartData = cloneDeep(cartData)
-      let targetData = find(newCartData, c => c.goodsId === goodsId)
-      if (targetData && (findIndex(sizeList, l => l.selected) === findIndex(targetData.sizeList, s => s.selected))) {
-        // targetData.quantity += quantityNew // 累加
-        // targetData.currentAmount += quantityNew * currentUnitPrice
-        targetData.quantity = quantityNew // 更新为最新数量
-        targetData.currentAmount = quantityNew * currentUnitPrice
-      } else {
-        newCartData.push(tmpData)
-      }
-    } else {
+    if (!newCartData) {
       newCartData = []
       newCartData.push(tmpData)
     }
