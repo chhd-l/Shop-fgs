@@ -76,12 +76,12 @@ class Payment extends React.Component {
     };
     this.confirmCardInfo = this.confirmCardInfo.bind(this);
   }
-  confirmCardInfo() {
+  confirmCardInfo () {
     this.setState({
       isCompleteCredit: true,
     });
   }
-  ChoosePayment() {
+  ChoosePayment () {
     const {
       deliveryAddress,
       billingAddress,
@@ -107,7 +107,7 @@ class Payment extends React.Component {
           errorShow: true,
           errorMsg: 'Please complete the required items'
         })
-        window.scrollTo(0,0)
+        window.scrollTo(0, 0)
         setTimeout(() => {
           this.setState({
             errorShow: false
@@ -122,7 +122,7 @@ class Payment extends React.Component {
           errorShow: true,
           errorMsg: 'Please complete the required items'
         })
-        window.scrollTo(0,0)
+        window.scrollTo(0, 0)
         setTimeout(() => {
           this.setState({
             errorShow: false
@@ -131,17 +131,17 @@ class Payment extends React.Component {
         return;
       }
     }
-    
+
     this.setState({
       creditCardInfo: creditCardInfo
     })
     const { history } = this.props;
     history.push("/payment/payment");
   }
-  payMethodChange(e) {
+  payMethodChange (e) {
     this.setState({ payMethod: e.target.value, showPayMethodError: false });
   }
-  async goConfirmation() {
+  async goConfirmation () {
     const { history } = this.props;
     let {
       isEighteen,
@@ -160,12 +160,12 @@ class Payment extends React.Component {
     }
     if (isEighteen && isReadPrivacyPolicy) {
       let payosdata = this.state.payosdata;
-      if(!payosdata.token) {
+      if (!payosdata.token) {
         this.setState({
           errorShow: true,
           errorMsg: 'Please click the confirm card button'
         })
-        window.scrollTo(0,0)
+        window.scrollTo(0, 0)
         setTimeout(() => {
           this.setState({
             errorShow: false
@@ -231,7 +231,7 @@ class Payment extends React.Component {
           );
           let batchAddRes = await batchAdd(param2);
           let confirmAndCommitRes = await confirmAndCommit(param3);
-            console.log(confirmAndCommitRes)
+          console.log(confirmAndCommitRes)
           localStorage.setItem('orderNumber', confirmAndCommitRes.context[0]['tid'])
           this.setState({ loading: false });
           sessionStorage.clear("payosdata");
@@ -243,7 +243,7 @@ class Payment extends React.Component {
           errorShow: true,
           errorMsg: e
         })
-        window.scrollTo(0,0)
+        window.scrollTo(0, 0)
         setTimeout(() => {
           this.setState({
             errorShow: false
@@ -251,23 +251,23 @@ class Payment extends React.Component {
         }, 5000)
       } finally {
         this.setState({ loading: false });
-        
+
       }
     } else {
       this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
     }
   }
-  goDelivery(e) {
+  goDelivery (e) {
     e.preventDefault();
     const { history } = this.props;
     history.push("/payment/shipping");
   }
-  goCart(e) {
+  goCart (e) {
     e.preventDefault();
     const { history } = this.props;
     history.push("/cart");
   }
-  deliveryInputChange(e) {
+  deliveryInputChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -276,7 +276,7 @@ class Payment extends React.Component {
     this.inputBlur(e);
     this.setState({ deliveryAddress: deliveryAddress });
   }
-  cardInfoInputChange(e) {
+  cardInfoInputChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -285,7 +285,7 @@ class Payment extends React.Component {
     this.inputBlur(e);
     this.setState({ creditCardInfo: creditCardInfo });
   }
-  inputBlur(e) {
+  inputBlur (e) {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -298,7 +298,7 @@ class Payment extends React.Component {
       validDom.style.display = e.target.value ? "none" : "block";
     }
   }
-  billingInputChange(e) {
+  billingInputChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -307,17 +307,17 @@ class Payment extends React.Component {
     this.inputBlur(e);
     this.setState({ billingAddress: billingAddress });
   }
-  commentChange(e) {
+  commentChange (e) {
     this.setState({ commentOnDelivery: e.target.value });
   }
-  cardConfirm() {
-    for(let k in this.state.creditCardInfo) {
+  cardConfirm () {
+    for (let k in this.state.creditCardInfo) {
       if (this.state.creditCardInfo[k] === "") {
         this.setState({
           errorShow: true,
           errorMsg: 'Please complete the required items'
         })
-        window.scrollTo(0,0)
+        window.scrollTo(0, 0)
         setTimeout(() => {
           this.setState({
             errorShow: false
@@ -338,19 +338,21 @@ class Payment extends React.Component {
           payosdata: payosdata,
           loading: false,
         });
-        if(payosdata.category === 'client_validation_error') {
+        if (payosdata.category === 'client_validation_error') {
           this.setState({
             errorShow: true,
             errorMsg: payosdata.more_info
           })
-          window.scrollTo(0,0)
+          // todo debugger
+          sessionStorage.clear("payosdata");
+          window.scrollTo(0, 0)
           setTimeout(() => {
             this.setState({
               errorShow: false
             })
           }, 5000)
           return;
-        }else {
+        } else {
           this.setState({
             isCompleteCredit: true,
           })
@@ -358,11 +360,11 @@ class Payment extends React.Component {
       }
     }, 1000);
   }
-  billingCheckedChange() {
+  billingCheckedChange () {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
   }
-  loadJs(url, callback) {
+  loadJs (url, callback) {
     // var script=document.createElement('script');
     // script.type="text/javascript";
     // if(typeof(callback)!="undefined"){
@@ -389,7 +391,7 @@ class Payment extends React.Component {
 
     head.appendChild(script);
   }
-  componentDidMount() {
+  componentDidMount () {
     console.log(window.POS, "POS");
     // let urls = [process.env.PUBLIC_URL + '/royal/royal-assets1/webpack.rcdl.bundle.js',
     //   process.env.PUBLIC_URL + '/royal/royal-assets1/sentry.rcdl.bundle.js',
@@ -420,12 +422,12 @@ class Payment extends React.Component {
     // })
     let deliveryInfoStr = localStorage.getItem("deliveryInfo");
     const { creditCardInfo } = this.state
-    
+
     if (deliveryInfoStr) {
       let deliveryInfo = JSON.parse(deliveryInfoStr);
       creditCardInfo.cardOwner =
-      deliveryInfo.deliveryAddress.firstName + deliveryInfo.deliveryAddress.lastName;
-    creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
+        deliveryInfo.deliveryAddress.firstName + deliveryInfo.deliveryAddress.lastName;
+      creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
       this.setState({
         deliveryAddress: deliveryInfo.deliveryAddress,
         billingAddress: deliveryInfo.billingAddress,
@@ -439,7 +441,7 @@ class Payment extends React.Component {
     });
   }
 
-  render() {
+  render () {
     const {
       deliveryAddress,
       billingAddress,
@@ -489,7 +491,7 @@ class Payment extends React.Component {
                         <FormattedMessage id="payment.clinicTitle" />
                       </h5>
                       <p
-                        
+
                         onClick={(e) => {
                           e.preventDefault();
                           let { history } = this.props;
@@ -1769,8 +1771,8 @@ class Payment extends React.Component {
                                           this.state.payosdata.vendor
                                         ]
                                           ? this.state.creditCardImgObj[
-                                              this.state.payosdata.vendor
-                                            ]
+                                          this.state.payosdata.vendor
+                                          ]
                                           : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                                       }
                                       alt=""
@@ -1833,7 +1835,7 @@ class Payment extends React.Component {
                         style={{
                           display:
                             this.state.isReadPrivacyPolicy ||
-                            this.state.isReadPrivacyPolicyInit
+                              this.state.isReadPrivacyPolicyInit
                               ? "none"
                               : "block",
                         }}

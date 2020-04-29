@@ -9,7 +9,12 @@ const BreadCrumbs = withRouter(props => {
 
   const url = location.pathname
 
-  const mapData = breadcrumbNameMap[url] || []
+  let mapData = breadcrumbNameMap[url] || []
+
+  // specific for keywords search
+  if (url.indexOf('/list/keywords') > -1 && !mapData.length) {
+    mapData = breadcrumbNameMap['/list/keywords']
+  }
 
   // specific for details page
   if (url.substr(1, 7) === 'details' && !mapData.length) {
@@ -35,7 +40,11 @@ const BreadCrumbs = withRouter(props => {
           </li>
           {mapData.map((item, index) => (
             <li key={index}>
-              {item.href ? <Link className="rc-styled-link rc-progress__breadcrumb" to={item.href}><FormattedMessage id={item.name.toLocaleLowerCase()} /></Link> : <FormattedMessage id={item.name.toLocaleLowerCase()} />}
+              {
+                item.href
+                  ? <Link className="rc-styled-link rc-progress__breadcrumb" to={item.href}><FormattedMessage id={`${item.name}`} /></Link>
+                  : <FormattedMessage id={`${item.name}`} />
+              }
             </li>
           ))}
         </ul>

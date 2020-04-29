@@ -105,9 +105,7 @@ class Help extends React.Component{
                                   </p>
                                   <div class="rc-margin-top--xs">
                                     <p class="rc-numeric rc-md-up" style={{color: "rgb(0, 135, 189)"}}>
-                                      <font style={{verticalAlign: "inherit"}}>
-                                        <font style={{verticalAlign: "inherit"}}>Test@test.com.cn</font>
-                                      </font>
+                                      contacto.mex@royalcanin.com
                                     </p>
                                   </div>
                                 </div>
