@@ -5,6 +5,7 @@ import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
 import { formatMoney, translateHtmlCharater } from "@/utils/utils"
+import { MINIMUM_AMOUNT } from "@/utils/constant"
 import { FormattedMessage } from 'react-intl'
 import { createHashHistory } from 'history'
 import './index.css'
@@ -41,6 +42,7 @@ class Details extends React.Component {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       loading: true,
       errMsg: '',
+      checkOutErrMsg: '',
       addToCartLoading: false
     }
     this.changeAmount = this.changeAmount.bind(this)
@@ -250,7 +252,11 @@ class Details extends React.Component {
     localStorage.setItem('rc-cart-data', JSON.stringify(cartDataCopy))
     this.setState({ cartData: cartDataCopy })
     if (redirect) {
-      createHashHistory().push('/prescription')
+      if (cartDataCopy.reduce((prev, cur) => { return prev + cur.currentAmount }, 0) < MINIMUM_AMOUNT) {
+        this.setState({ checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" /> })
+      } else {
+        createHashHistory().push('/prescription')
+      }
     }
     this.headerRef.current.handleMouseOver()
     setTimeout(() => {
@@ -433,6 +439,11 @@ class Details extends React.Component {
                                       </div>
                                     </div>
                                   </div>
+                                </div>
+                                <div style={{ display: this.state.checkOutErrMsg ? 'block' : 'none' }}>
+                                  <aside className="rc-alert rc-alert--error rc-alert--with-close" role="alert" style={{ padding: '.5rem' }}>
+                                    <span style={{ paddingLeft: '0' }}>{this.state.checkOutErrMsg}</span>
+                                  </aside>
                                 </div>
                               </div>
                               <div className="product-pricing__warranty rc-text--center"></div>

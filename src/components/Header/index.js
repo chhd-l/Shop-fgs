@@ -10,7 +10,7 @@ import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import './index.css'
 import { getList } from '@/api/list'
-import { CATEID } from '@/utils/constant'
+import { CATEID, MINIMUM_AMOUNT } from '@/utils/constant'
 import { getPrescriptionById } from '@/api/clinic'
 
 class Header extends React.Component {
@@ -84,7 +84,7 @@ class Header extends React.Component {
     return ret
   }
   async handleCheckout () {
-    if (this.totalPrice < 100) {
+    if (this.totalPrice < MINIMUM_AMOUNT) {
       this.setState({
         errMsg: <FormattedMessage id="cart.errorInfo3" />
       })

@@ -4,7 +4,8 @@ import { createHashHistory } from 'history'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { formatMoney, hanldePurchases } from "@/utils/utils";
+import { formatMoney, hanldePurchases } from "@/utils/utils"
+import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { cloneDeep, find } from 'lodash'
 import "./index.css";
 
@@ -71,7 +72,7 @@ class Cart extends React.Component {
     const { history } = this.props;
 
     // 价格未达到底限，不能下单
-    if (this.total < 100) {
+    if (this.total < MINIMUM_AMOUNT) {
       this.setState({
         errorShow: true,
         errorMsg: <FormattedMessage id="cart.errorInfo3" />
