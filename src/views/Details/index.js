@@ -77,7 +77,7 @@ class Details extends React.Component {
 
         const selectedSize = find(sizeList, s => s.selected)
 
-        const goodsDetailList = this.handleDetails(res.context.goods.goodsDetail)
+        const goodsDetailList = this.handleDetailsHtml(res.context.goods.goodsDetail)
         goodsDetailList.map((item, i) => {
           this.setState({
             [`goodsDetail${i + 1}`]: item
@@ -111,7 +111,7 @@ class Details extends React.Component {
       })
     }
   }
-  handleDetails (details) {
+  handleDetailsHtml (details) {
     let res = []
     let fragment = document.createDocumentFragment();
     let div = document.createElement('div');
@@ -149,6 +149,7 @@ class Details extends React.Component {
     })
   }
   changeAmount (type) {
+    this.setState({ checkOutErrMsg: '' })
     if (!type) return
     const { quantity } = this.state
     let res
@@ -166,6 +167,7 @@ class Details extends React.Component {
     }, () => { this.updateInstockStatus() })
   }
   handleAmountChange (e) {
+    this.setState({ checkOutErrMsg: '' })
     const { quantityMinLimit } = this.state
     const val = e.target.value
     if (val === '') {
@@ -182,6 +184,7 @@ class Details extends React.Component {
     }
   }
   handleChooseSize (data, index) {
+    this.setState({ checkOutErrMsg: '' })
     const { sizeList } = this.state.details
     let list = cloneDeep(sizeList)
     let ret = list.map((elem, indx) => {
