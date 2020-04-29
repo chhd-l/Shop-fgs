@@ -5,6 +5,10 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import HeroCarousel from '@/components/HeroCarousel'
 import './index.css'
+import CARECAT from "@/assets/images/MX-L-VET-CARE-CAT.jpg";
+import CAREDOG from "@/assets/images/MX-L-VET-CARE-DOG.jpg";
+import DIETCAT from "@/assets/images/MX-L-VET-DIET-CAT.jpg";
+import DIETDOG from "@/assets/images/MX-L-VET-DIET-DOG.jpg";
 
 class Home extends React.Component {
   constructor(props) {
@@ -17,7 +21,7 @@ class Home extends React.Component {
     return (
       <div>
         <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
-        
+
         <main className="rc-content--fixed-header rc-main-content__wrapper ">
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
@@ -43,9 +47,9 @@ class Home extends React.Component {
                               to="/list/dogs" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
-                                  srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw96967667/Dog_categorie-RU@2x.jpg?sw=144&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw96967667/Dog_categorie-RU@2x.jpg?sw=288&amp;sfrm=png 2x" />
+                                  srcSet={DIETDOG} />
                                 <img
-                                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw96967667/Dog_categorie-RU@2x.jpg?sw=144&amp;sfrm=png"
+                                  src={DIETDOG}
                                   alt={txt}
                                   title={txt} />
                               </picture>
@@ -65,9 +69,9 @@ class Home extends React.Component {
                               to="/list/cats" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
-                                  srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw9266069c/homepage/Cat_categorie@2x.jpg?sw=144&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw9266069c/homepage/Cat_categorie@2x.jpg?sw=288&amp;sfrm=png 2x" />
+                                  srcSet={DIETCAT} />
                                 <img
-                                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw9266069c/homepage/Cat_categorie@2x.jpg?sw=144&amp;sfrm=png"
+                                  src={DIETCAT}
                                   alt={txt} title={txt} />
                               </picture>
                               <div
@@ -85,10 +89,11 @@ class Home extends React.Component {
                               to="/list/vcn" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
-                                  srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw87e948c2/homepage/Puppy_categorie@2x.jpg?sw=144&sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw87e948c2/homepage/Puppy_categorie@2x.jpg?sw=288&sfrm=png 2x" />
+                                  srcSet={CAREDOG} />
                                 <img
-                                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw87e948c2/homepage/Puppy_categorie@2x.jpg?sw=144&sfrm=png"
-                                  alt={txt} title={txt} />
+                                  src={CAREDOG}
+                                  alt={txt}
+                                  title={txt} />
                               </picture>
                               <div
                                 className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
@@ -105,10 +110,11 @@ class Home extends React.Component {
                               to="/list/vd" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
-                                  srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwcfc83bc5/homepage/Kitten_categorie@2x.jpg?sw=144&sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwcfc83bc5/homepage/Kitten_categorie@2x.jpg?sw=288&sfrm=png 2x" />
+                                  srcSet={CARECAT} />
                                 <img
-                                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwcfc83bc5/homepage/Kitten_categorie@2x.jpg?sw=144&sfrm=png"
-                                  alt={txt} title={txt} />
+                                  src={CARECAT}
+                                  alt={txt}
+                                  title={txt} />
                               </picture>
                               <div
                                 className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">

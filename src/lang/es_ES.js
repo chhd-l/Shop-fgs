@@ -105,9 +105,9 @@ const en_US = {
   'cart.errorInfo2': 'No puede realizar su pedido, ya que el producto elegido está agotado.',
   'cart.errorInfo3': '*El monto de su pedido aún no ha alcanzado el monto mínimo para envío gratuito ($ 100)',
   'cart.yourBasket': 'Tu canasta',
-  'cart.fullPrice': 'ARROZ COMPLETO PARA TU MASCOTA',
-  'cart.dogDiet': 'Elige una dieta para tu perro',
-  'cart.catDiet': 'Elige una dieta para tu gato',
+  'cart.fullPrice': 'Descubre nuestras dietas veterinarias',
+  'cart.dogDiet': 'Dietas de veterinaria para perros',
+  'cart.catDiet': 'Dietas de veterinaria para gatos',
   'cart.deletInfo': '¿Eliminar producto?',
   'cart.deletInfo2': '¿Estás seguro de que deseas eliminar este artículo de tu carrito?',
 
