@@ -42,8 +42,8 @@ const en_US = {
 
   'header.basketEmpty': 'su cesta es vacía',
   'header.startTypingToSearch': 'Empieza a escribir para buscar',
-  'header.VCN': 'VCN',
-  'header.VD': 'VD',
+  'header.VCN': 'Dietas Veterinarias',
+  'header.VD': 'Dietas de Prescripción Veterinaria',
   'header.carouselInfo1': 'Mantenga la salud de su mascota con una nutrición adecuada',
   'header.carouselInfo2': 'Elija el alimento derecho para su animal doméstico',
   'header.carouselInfo3': 'Nutrición de mascotas',
@@ -98,6 +98,8 @@ const en_US = {
   'details.errMsg2': 'No se encontraron detalles, intente nuevamente más tarde.',
 
   'cart.errorInfo': 'El número no puede ser inferior a 1',
+  'cart.errorInfo2': 'No puede realizar su pedido, ya que el producto elegido está agotado.',
+  'cart.errorInfo3': '*El monto de su pedido aún no ha alcanzado el monto mínimo para envío gratuito ($ 100)',
   'cart.yourBasket': 'Tu canasta',
   'cart.fullPrice': 'ARROZ COMPLETO PARA TU MASCOTA',
   'cart.dogDiet': 'Elige una dieta para tu perro',
