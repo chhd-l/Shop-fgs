@@ -20888,16 +20888,13 @@ body {
 }
 
 .category-cards__card {
-  padding: 15px 0 25px
+  padding: 7px 0 10px
 }
 
 .category-cards__card .category-cards__card__img {
   margin: 0 auto
 }
 
-.category-cards__card .category-cards__card__img img {
-  width: 144px
-}
 
 .category-cards__card:hover {
   border-color: #ec001a

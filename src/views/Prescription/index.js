@@ -12,10 +12,10 @@ import meImg from "@/assets/images/map-default-marker.png"
 
 
 
-const AnyReactComponent = ({ obj,show }) => {
+const AnyReactComponent = ({ obj,show,sonMess }) => {
   if(obj.type !== 'customer'){
     return (
-      <MapFlag obj={obj} show={show}></MapFlag>
+      <MapFlag obj={obj} show={show} sonMess={sonMess}></MapFlag>
   )}
   else {
     return (
@@ -44,7 +44,7 @@ class Prescription extends React.Component{
         lng: 116.3
       },
       zoom: 12,
-      key:0,
+      mapKey:0,
       me:{
         id:1001,
        
@@ -77,10 +77,9 @@ class Prescription extends React.Component{
   }
 
    handleInit=(e)=>{
-    this.handldKey(this.state.key)
         //获取当前地理位置信息
     navigator.geolocation.getCurrentPosition(position => {
-      this.handldKey(this.state.key)
+      this.handldKey(this.state.mapKey)
       this.setState({
         center:{
           lat:position.coords.latitude,
@@ -173,11 +172,11 @@ class Prescription extends React.Component{
   }
   handldKey=(key)=>{
     this.setState({
-      key: key + 1
+      mapKey: key + 1
     })
   }
   handleItem=(item)=>{
-    this.handldKey(this.state.key)
+    this.handldKey(this.state.mapKey)
     item.latitude = +item.latitude
     item.longitude = +item.longitude
     this.setState({
@@ -193,6 +192,9 @@ class Prescription extends React.Component{
     sessionStorage.setItem('rc-clinics-name2',item.clinicsName)
     
     createHashHistory().push('/payment/shipping')
+  }
+  getSonMess(center){
+    this.handleItem(center)
   }
 
 render(h) {
@@ -211,6 +213,7 @@ render(h) {
         lat={this.state.clinicArr[i].latitude}
         lng={this.state.clinicArr[i].longitude}
         obj={this.state.clinicArr[i]}
+        sonMess={this.getSonMess.bind(this)}
         show={+(this.state.clinicArr[i].longitude)===+(this.state.center.lng)
         && +(this.state.clinicArr[i].latitude)===+(this.state.center.lat)}
       />)
@@ -248,7 +251,7 @@ render(h) {
                       type="search"
                       autoComplete="off"
                       aria-label="Search location"
-                      placeholder="Search location"
+                      placeholder="Buscar ubicación"
                       value={this.state.keywords}
                       onChange={this.inputSearchValue} />
                     <label className="rc-input__label" htmlFor="id-submit-2">
@@ -299,7 +302,7 @@ render(h) {
                   </div>
                   <div className="grid-footer rc-full-width">
                     <nav className="rc-pagination" data-pagination="" data-pages={this.state.totalPage}>
-                      <form className="rc-pagination__form">
+                      <div className="rc-pagination__form">
                         <button
                           className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
                           aria-label="Previous step" data-prev="" type="submit" onClick={()=>this.handlePrevOrNextPage('prev')}></button>
@@ -314,14 +317,14 @@ render(h) {
                         <button
                           className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
                           aria-label="Previous step" data-next="" type="submit" onClick={() => this.handlePrevOrNextPage('next')}></button>
-                      </form>
+                      </div>
                     </nav>
                   </div>
                 </form>
 
               </div>
               <div className="clinic-map" >
-                <GoogleMap center={this.state.center} zoom={this.state.zoom} flags={flags} key={this.state.key}>
+                <GoogleMap center={this.state.center} zoom={this.state.zoom} flags={flags} key={this.state.mapKey}>
                 </GoogleMap>
               </div>
             </div>

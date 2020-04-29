@@ -1,13 +1,13 @@
 {
   "dogs": {
-    "title": "Specialized healthy nutrition for your dog",
-    "description": "In dogs of different sizes (for example, chihuahua and rottweiler), physiological needs are completely different. Because of this, choosing the right food can be difficult. That's why ROYAL CANIN® offers food that takes into account the unique characteristics of each dog: size, age, health, lifestyle and breed. Use the filters below to make the best choice for your dog.",
+    "title": "Dietas de prescripción veterinaria para perros ",
+    "description": "Dietas terapéuticas que ayudan a mantener la salud de los perros con problemas diagnosticados.",
     "img": "https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwd94da11c/ENGLISH_COCKER_SPANIEL_ADULT__DERMATOLOGY_EMBLEMATIC_High_Res.___Print.png?sw=500&sh=385&sm=fit&cx=356&cy=161&cw=2088&ch=1608&sfrm=png",
     "imgAlt": "dog category"
   },
   "cats": {
-    "title": "Individual healthy nutrition for your cat",
-    "description": "Each cat is unique. This also applies to her physiological needs. Lifestyle, breed, age, health features are the most important criteria that will help you choose the right food. Use the filters below to make the best choice for your cat.",
+    "title": "Dietas de prescripción veterinaria para gatos",
+    "description": "Dietas terapéuticas que ayudan a mantener la salud de los gatos con problemas diagnosticados.",
     "img": "https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwf417a5f2/RUSSIAN_BLUE_ADULT___VHN_DERMATOLOGY_EMBLEMATIC_High_Res.___Print.png?sw=550&sh=300&sm=fit&cx=0&cy=268&cw=2642&ch=1441&sfrm=png",
     "imgAlt": "cat banner"
   }

@@ -4,7 +4,8 @@ import { createHashHistory } from 'history'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { formatMoney, hanldePurchases } from "@/utils/utils";
+import { formatMoney, hanldePurchases } from "@/utils/utils"
+import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { cloneDeep, find } from 'lodash'
 import "./index.css";
 
@@ -71,7 +72,7 @@ class Cart extends React.Component {
     const { history } = this.props;
 
     // 价格未达到底限，不能下单
-    if (this.total < 100) {
+    if (this.total < MINIMUM_AMOUNT) {
       this.setState({
         errorShow: true,
         errorMsg: <FormattedMessage id="cart.errorInfo3" />
@@ -371,7 +372,7 @@ class Cart extends React.Component {
                     className="rc-quantity__input"
                     type="number"
                     value={pitem.quantity}
-                    onChange={() => this.handleAmountChange(pitem)}
+                    onChange={(e) => this.handleAmountChange(e, pitem)}
                     min="1"
                     max="10" />
                   <span
@@ -544,7 +545,10 @@ class Cart extends React.Component {
                         <div className="d-flex justify-content-between flex-wrap ui-pet-item text-center">
                           <div className="ui-item border radius-3">
                             <Link to="/list/dogs">
-                              <img className="w-100" src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw85b28211/New content/packshot_13.11.png?sw=498&amp;sh=281&amp;sm=fit&amp;cx=2&amp;cy=0&amp;cw=1996&amp;ch=1126&amp;sfrm=png" alt="Dog" />
+                              <img
+                                className="w-100"
+                                style={{ transform: 'scale(.8)' }}
+                                src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwd94da11c/ENGLISH_COCKER_SPANIEL_ADULT__DERMATOLOGY_EMBLEMATIC_High_Res.___Print.png?sw=500&amp;sh=385&amp;sm=fit&amp;cx=356&amp;cy=161&amp;cw=2088&amp;ch=1608&amp;sfrm=png" alt="Dog" />
                               <br /><h4 className="card__title red">
                                 <FormattedMessage id="cart.dogDiet" />
                               </h4>
@@ -552,7 +556,10 @@ class Cart extends React.Component {
                           </div>
                           <div className="ui-item border radius-3">
                             <Link to="/list/cats">
-                              <img className="w-100" src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3b01991e/Bloc Cat.png?sw=1920&amp;sh=1080&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=498&amp;ch=280&amp;sfrm=png" alt="Cat" />
+                              <img
+                                className="w-100"
+                                style={{ padding: '3rem 0 4rem' }}
+                                src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwf417a5f2/RUSSIAN_BLUE_ADULT___VHN_DERMATOLOGY_EMBLEMATIC_High_Res.___Print.png?sw=550&amp;sh=300&amp;sm=fit&amp;cx=0&amp;cy=268&amp;cw=2642&amp;ch=1441&amp;sfrm=png" alt="Cat" />
                               <br /><h4 className="card__title red">
                                 <FormattedMessage id="cart.catDiet" />
                               </h4>

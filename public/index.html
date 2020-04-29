@@ -96,6 +96,9 @@ const style = {
 };
   POS.setStyle(style);
   POS.initSecureFields('card-secure-fields');
+  try {
+    document.getElementById('zoozIframe').setAttribute("scrolling","no")
+  } catch (e) {}
   document.getElementById('payment-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const additionalData = {

@@ -5,6 +5,7 @@ import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
 import { formatMoney, translateHtmlCharater } from "@/utils/utils"
+import { MINIMUM_AMOUNT } from "@/utils/constant"
 import { FormattedMessage } from 'react-intl'
 import { createHashHistory } from 'history'
 import './index.css'
@@ -41,10 +42,11 @@ class Details extends React.Component {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       loading: true,
       errMsg: '',
+      checkOutErrMsg: '',
       addToCartLoading: false
     }
-    this.changeAmount = this.changeAmount.bind(this)
-    this.handleAmountChange = this.handleAmountChange.bind(this)
+    this.hanldeAmountChange = this.hanldeAmountChange.bind(this)
+    this.handleAmountInput = this.handleAmountInput.bind(this)
     this.handleChooseSize = this.handleChooseSize.bind(this)
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this)
     this.hanldeImgMouseEnter = this.hanldeImgMouseEnter.bind(this)
@@ -75,7 +77,7 @@ class Details extends React.Component {
 
         const selectedSize = find(sizeList, s => s.selected)
 
-        const goodsDetailList = this.handleDetails(res.context.goods.goodsDetail)
+        const goodsDetailList = this.handleDetailsHtml(res.context.goods.goodsDetail)
         goodsDetailList.map((item, i) => {
           this.setState({
             [`goodsDetail${i + 1}`]: item
@@ -109,7 +111,7 @@ class Details extends React.Component {
       })
     }
   }
-  handleDetails (details) {
+  handleDetailsHtml (details) {
     let res = []
     let fragment = document.createDocumentFragment();
     let div = document.createElement('div');
@@ -131,7 +133,7 @@ class Details extends React.Component {
         res.push(tmpRes)
 
         res.push(translateHtmlCharater(fragment.querySelector('.rc_proudct_html_tab3').innerHTML))
-        res.push(translateHtmlCharater(fragment.querySelector('.rc_proudct_html_tab4').innerHTML))
+        res.push(fragment.querySelector('.rc_proudct_html_tab4').innerHTML)
       } else {
         res.push(details)
       }
@@ -146,7 +148,8 @@ class Details extends React.Component {
       instockStatus: this.state.quantity <= this.state.stock
     })
   }
-  changeAmount (type) {
+  hanldeAmountChange (type) {
+    this.setState({ checkOutErrMsg: '' })
     if (!type) return
     const { quantity } = this.state
     let res
@@ -163,7 +166,8 @@ class Details extends React.Component {
       quantity: res
     }, () => { this.updateInstockStatus() })
   }
-  handleAmountChange (e) {
+  handleAmountInput (e) {
+    this.setState({ checkOutErrMsg: '' })
     const { quantityMinLimit } = this.state
     const val = e.target.value
     if (val === '') {
@@ -180,6 +184,7 @@ class Details extends React.Component {
     }
   }
   handleChooseSize (data, index) {
+    this.setState({ checkOutErrMsg: '' })
     const { sizeList } = this.state.details
     let list = cloneDeep(sizeList)
     let ret = list.map((elem, indx) => {
@@ -201,21 +206,21 @@ class Details extends React.Component {
     const { goodsId, sizeList } = this.state.details
     const currentSelectedSize = find(sizeList, s => s.selected)
     let quantityNew = quantity
-    const tmpData = Object.assign({}, this.state.details, { quantity: quantityNew }, { currentAmount: currentUnitPrice * quantityNew })
-    let newCartData // 购物车历史数据
+    let tmpData = Object.assign({}, this.state.details, { quantity: quantityNew }, { currentAmount: currentUnitPrice * quantityNew })
+    let cartDataCopy = cloneDeep(cartData)
 
     if (!instockStatus || !quantityNew) {
       return
     }
 
     this.setState({ addToCartLoading: true })
-
-    if (cartData && cartData.length) {
-      newCartData = cloneDeep(cartData)
-      let targetData = find(newCartData, c => c.goodsId === goodsId)
-      if (targetData && (findIndex(sizeList, l => l.selected) === findIndex(targetData.sizeList, s => s.selected))) {
-        targetData.quantity += quantityNew // 累加
-        targetData.currentAmount += quantityNew * currentUnitPrice
+    let flag = true
+    if (cartDataCopy && cartDataCopy.length) {
+      const historyItem = find(cartDataCopy, c => c.goodsId === goodsId && currentSelectedSize.goodsInfoId === find(c.sizeList, s => s.selected).goodsInfoId)
+      if (historyItem) {
+        flag = false
+        quantityNew += historyItem.quantity
+        tmpData = Object.assign(tmpData, { quantity: quantityNew })
       }
     }
 
@@ -225,19 +230,12 @@ class Details extends React.Component {
       if (tmpObj) {
         if (quantityNew > tmpObj.stock) {
           quantityNew = tmpObj.stock
-          this.setState({
-            quantity: quantityNew
-          })
-          tmpData = Object.assign(tmpData, { quantity: quantityNew })
-        }
-        if (newCartData.length) {
-          let tmpObj2 = find(newCartData, n => n.goodsId === tmpObj.goodsId && find(n.sizeList, s => s.selected).goodsInfoId === tmpObj.goodsInfoId)
-          if (tmpObj2) {
-            if (tmpObj2.quantity > tmpObj.stock) {
-              tmpObj2.quantity = tmpObj.stock
-              tmpObj2.currentAmount = tmpObj.stock * currentUnitPrice
-            }
+          if (flag) {
+            this.setState({
+              quantity: quantityNew
+            })
           }
+          tmpData = Object.assign(tmpData, { quantity: quantityNew })
         }
       }
     } catch (e) {
@@ -246,17 +244,22 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: false })
     }
 
-    if (!newCartData) {
-      newCartData = []
-      newCartData.push(tmpData)
+    const idx = findIndex(cartDataCopy, c => c.goodsId === goodsId && currentSelectedSize.goodsInfoId === find(c.sizeList, s => s.selected).goodsInfoId)
+    tmpData = Object.assign(tmpData, { currentAmount: currentUnitPrice * quantityNew })
+    if (idx > -1) {
+      cartDataCopy.splice(idx, 1, tmpData)
+    } else {
+      cartDataCopy.push(tmpData)
     }
 
-    localStorage.setItem('rc-cart-data', JSON.stringify(newCartData))
-    this.setState({
-      cartData: newCartData
-    })
+    localStorage.setItem('rc-cart-data', JSON.stringify(cartDataCopy))
+    this.setState({ cartData: cartDataCopy })
     if (redirect) {
-      createHashHistory().push('/prescription')
+      if (cartDataCopy.reduce((prev, cur) => { return prev + cur.currentAmount }, 0) < MINIMUM_AMOUNT) {
+        this.setState({ checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" /> })
+      } else {
+        createHashHistory().push('/prescription')
+      }
     }
     this.headerRef.current.handleMouseOver()
     setTimeout(() => {
@@ -391,9 +394,9 @@ class Details extends React.Component {
                                             <span><FormattedMessage id="amount" />:</span>
                                             <input type="hidden" id="invalid-quantity" value="Пожалуйста, введите правильный номер." />
                                             <div className="rc-quantity text-right d-flex justify-content-end">
-                                              <span className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus" onClick={() => this.changeAmount('minus')}></span>
-                                              <input className="rc-quantity__input" id="quantity" name="quantity" type="number" value={quantity} min={quantityMinLimit} max={stock} onChange={this.handleAmountChange} maxLength="5" />
-                                              <span className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus" onClick={() => this.changeAmount('plus')}></span>
+                                              <span className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus" onClick={() => this.hanldeAmountChange('minus')}></span>
+                                              <input className="rc-quantity__input" id="quantity" name="quantity" type="number" value={quantity} min={quantityMinLimit} max={stock} onChange={this.handleAmountInput} maxLength="5" />
+                                              <span className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus" onClick={() => this.hanldeAmountChange('plus')}></span>
                                             </div>
                                           </div>
                                         </div>
@@ -439,6 +442,11 @@ class Details extends React.Component {
                                       </div>
                                     </div>
                                   </div>
+                                </div>
+                                <div style={{ display: this.state.checkOutErrMsg ? 'block' : 'none' }}>
+                                  <aside className="rc-alert rc-alert--error rc-alert--with-close" role="alert" style={{ padding: '.5rem' }}>
+                                    <span style={{ paddingLeft: '0' }}>{this.state.checkOutErrMsg}</span>
+                                  </aside>
                                 </div>
                               </div>
                               <div className="product-pricing__warranty rc-text--center"></div>

@@ -2,12 +2,12 @@ import React from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { FormattedMessage } from 'react-intl'
-class Help extends React.Component{
+class Help extends React.Component {
 
-  render(h) {
-    return(
+  render (h) {
+    return (
       <div>
-        <Header/>
+        <Header />
         <main className="rc-content--fixed-header rc-bg-colour--brand3" >
           {/* <div class="rc-bg-colour--brand4 text-center" >
             <div class="rc-layout-container rc-content-h-middle">
@@ -24,7 +24,7 @@ class Help extends React.Component{
               </div>
             </div>
           </div> */}
-          <div class="help-page" style={{marginBottom:'1rem'}}>
+          <div class="help-page" style={{ marginBottom: '1rem' }}>
             <div class="experience-region experience-main">
               <div class="experience-region experience-main">
                 <div class="experience-component experience-layouts-1column">
@@ -33,97 +33,92 @@ class Help extends React.Component{
                       <div class="experience-component experience-assets-contactUsBlock">
                         <div class="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                           <div class="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
-                            <div class="rc-padding-bottom--none--mobile" style={{width:'40%'}}>
-                              <h1 class="rc-beta" style={{margin:'0 0 0 1rem'}}>
-                                <font style={{verticalAlign: "inherit"}}>
-                                  <font style={{verticalAlign: "inherit"}}><FormattedMessage id="help.needHelp"/></font>
+                            <div class="rc-padding-bottom--none--mobile" style={{ width: '40%' }}>
+                              <h1 class="rc-beta" style={{ margin: '0 0 0 1rem' }}>
+                                <font style={{ verticalAlign: "inherit" }}>
+                                  <font style={{ verticalAlign: "inherit" }}><FormattedMessage id="help.needHelp" /></font>
                                 </font>
                               </h1>
                             </div>
-                            <div style={{width:'60%'}}>
+                            <div style={{ width: '60%' }}>
                               <div class="rc-large-body inherit-fontsize children-nomargin">
-                              <p>
-                                <font style={{verticalAlign: "inherit"}}>
-                                  <font style={{verticalAlign: "inherit"}}><FormattedMessage id="help.tip1"/></font>
-                                </font>
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      <div class="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
-                        <div class="rc-column rc-double-width rc-padding--none">
-                          <article class="rc-full-width rc-column rc-margin-top--md--mobile">
-                            <div class="rc-border-all rc-border-colour--interface fullHeight">
-                              <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
-                                <div class="rc-column rc-double-width rc-padding-top--md--mobile">
-                                  <div class="w-100">
-                                    <b style={{color:"#00BCA3"}}>
-                                      <font style={{verticalAlign: "inherit"}}>
-                                        <font style={{verticalAlign: "inherit"}}><FormattedMessage id="help.byTelephone"/></font>
-                                      </font>
-                                    </b>
-                                    <p>
-                                      <font style={{verticalAlign: "inherit"}}>
-                                        <font style={{verticalAlign: "inherit"}}><FormattedMessage id="help.tip2"/></font>
-                                      </font>
-                                    </p>
-                                    <div class="rc-margin-top--xs">
-                                      <p style={{color:"#00BCA3"}} class="rc-numeric rc-md-up">
-                                        <font style={{verticalAlign: "inherit"}}>
-                                          <font style={{verticalAlign: "inherit"}}>8-800-200-37-35</font>
-                                        </font>
-                                      </p>
-                                    </div>
-                                    <div class="rc-margin-top--xs">
-                                      <p style={{color:"#00BCA3"}} class="rc-alpha rc-border--none rc-md-down">
-                                        <font style={{verticalAlign: "inherit"}}>
-                                          <font style={{verticalAlign: "inherit"}}>8-800-200-37-35</font>
-                                        </font>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="rc-column rc-content-v-middle">
-                                    <img class="align-self-center widthAuto" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw5e5788cf/customer-service@2x.jpg?sw=90&amp;sfrm=png" 
-                                    srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw5e5788cf/customer-service@2x.jpg?sw=90&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw5e5788cf/customer-service@2x.jpg?sw=180&amp;sfrm=png 2x" alt="By telephone" title="By telephone"/>
-                                </div>
-                              </div>
-                            </div>
-                          </article>
-                          <article class="rc-full-width rc-column">
-                            <div class="rc-border-all rc-border-colour--interface fullHeight">
-                              <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
-                                <div class="rc-column rc-double-width rc-padding-top--md--mobile">
-                                  <div class="w-100">
-                                  <b style={{color:"#0087BD"}}><font style={{verticalAlign: "inherit"}}><font style={{verticalAlign: "inherit"}}><FormattedMessage id="help.byEmail"/></font></font></b>
-                                  <p>
-                                    <span style={{color:"rgb(0, 0, 0)"}}>
-                                      <font style={{verticalAlign: "inherit"}}>
-                                        <font style={{verticalAlign: "inherit"}}><FormattedMessage id="help.tip3"/></font>
-                                      </font>
-                                    </span>
-                                  </p>
-                                  <div class="rc-margin-top--xs">
-                                    <p class="rc-numeric rc-md-up" style={{color: "rgb(0, 135, 189)"}}>
-                                      <font style={{verticalAlign: "inherit"}}>
-                                        <font style={{verticalAlign: "inherit"}}>Test@test.com.cn</font>
-                                      </font>
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="rc-column rc-content-v-middle">
-                                <img class="align-self-center widthAuto" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw8b95741c/help/emailus_icon@1x.jpg?sw=90&amp;sfrm=png" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw8b95741c/help/emailus_icon@1x.jpg?sw=90&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw8b95741c/help/emailus_icon@1x.jpg?sw=180&amp;sfrm=png 2x" alt="By email" title="By email"/>
+                                <p>
+                                  <FormattedMessage id="help.tip1" /><br /><FormattedMessage id="help.tip4" />
+                                </p>
                               </div>
                             </div>
                           </div>
-                        </article>
-                      </div>
-                      <div class="rc-column rc-triple-width">
-                        <div class="background-cover" style={{backgroundImage:"url(https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png)"}}>
-                          <picture class="rc-card__image">
-                            <img src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=1604&amp;sh=672&amp;sm=cut&amp;sfrm=png 2x" alt=" " title=" "/>
-                          </picture>
+                          <div class="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
+                            <div class="rc-column rc-double-width rc-padding--none">
+                              <article class="rc-full-width rc-column rc-margin-top--md--mobile">
+                                <div class="rc-border-all rc-border-colour--interface fullHeight">
+                                  <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
+                                    <div class="rc-column rc-double-width rc-padding-top--md--mobile">
+                                      <div class="w-100">
+                                        <b style={{ color: "#00BCA3" }}>
+                                          <font style={{ verticalAlign: "inherit" }}>
+                                            <font style={{ verticalAlign: "inherit" }}><FormattedMessage id="help.byTelephone" /></font>
+                                          </font>
+                                        </b>
+                                        <p>
+                                          <font style={{ verticalAlign: "inherit" }}>
+                                            <font style={{ verticalAlign: "inherit" }}><FormattedMessage id="help.tip2" /></font>
+                                          </font>
+                                        </p>
+                                        <div class="rc-margin-top--xs">
+                                          <p style={{ color: "#00BCA3" }} class="rc-numeric rc-md-up">
+                                            800 024 77 64
+                                      </p>
+                                        </div>
+                                        <div class="rc-margin-top--xs">
+                                          <p style={{ color: "#00BCA3" }} class="rc-alpha rc-border--none rc-md-down">
+                                            800 024 77 64
+                                      </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="rc-column rc-content-v-middle">
+                                      <img class="align-self-center widthAuto" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw5e5788cf/customer-service@2x.jpg?sw=90&amp;sfrm=png"
+                                        srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw5e5788cf/customer-service@2x.jpg?sw=90&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw5e5788cf/customer-service@2x.jpg?sw=180&amp;sfrm=png 2x" alt="By telephone" title="By telephone" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </article>
+                              <article class="rc-full-width rc-column">
+                                <div class="rc-border-all rc-border-colour--interface fullHeight">
+                                  <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
+                                    <div class="rc-column rc-double-width rc-padding-top--md--mobile">
+                                      <div class="w-100">
+                                        <b style={{ color: "#0087BD" }}><font style={{ verticalAlign: "inherit" }}><font style={{ verticalAlign: "inherit" }}><FormattedMessage id="help.byEmail" /></font></font></b>
+                                        <p>
+                                          <span style={{ color: "rgb(0, 0, 0)" }}>
+                                            <font style={{ verticalAlign: "inherit" }}>
+                                              <font style={{ verticalAlign: "inherit" }}><FormattedMessage id="help.tip3" /></font>
+                                            </font>
+                                          </span>
+                                        </p>
+                                        <div class="rc-margin-top--xs">
+                                          <p class="rc-numeric rc-md-up" style={{ color: "rgb(0, 135, 189)" }}>
+                                            contacto.mex@royalcanin.com
+                                    </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="rc-column rc-content-v-middle">
+                                      <img class="align-self-center widthAuto" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw8b95741c/help/emailus_icon@1x.jpg?sw=90&amp;sfrm=png" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw8b95741c/help/emailus_icon@1x.jpg?sw=90&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw8b95741c/help/emailus_icon@1x.jpg?sw=180&amp;sfrm=png 2x" alt="By email" title="By email" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </article>
+                            </div>
+                            <div class="rc-column rc-triple-width">
+                              <div class="background-cover" style={{ backgroundImage: "url(https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png)" }}>
+                                <picture class="rc-card__image">
+                                  <img src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=1604&amp;sh=672&amp;sm=cut&amp;sfrm=png 2x" alt=" " title=" " />
+                                </picture>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -132,12 +127,9 @@ class Help extends React.Component{
               </div>
             </div>
           </div>
-              </div>
-            </div>
-          </div>
         </main>
-          
-        <Footer/>
+
+        <Footer />
       </div>
     )
   }

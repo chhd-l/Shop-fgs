@@ -12,6 +12,7 @@ class MapFlag extends React.Component {
     }
   }
   openTooltip = () =>{
+    this.props.sonMess(this.props.obj)
     this.setState({
       show:true
     })
@@ -45,7 +46,6 @@ class MapFlag extends React.Component {
             <svg width="24" height="32">
               <path d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0" fill="#E2001A" fillRule="evenodd"></path>
             </svg>
-          {this.props.obj.clinicsName}
         </div>
       </div>
       <div className="gm-style-iw-c" 
@@ -63,7 +63,7 @@ class MapFlag extends React.Component {
               <FormattedMessage id='clinic.cancel' ></FormattedMessage>
             </button> */}
             <button className="rc-btn rc-btn--one rc-btn--sm"  onClick={()=>this.handleConfirm(this.props.obj)}>
-              <FormattedMessage id='clinic.confirm' ></FormattedMessage>
+              <FormattedMessage id='clinic.confirm'></FormattedMessage>
             </button>
             <button
                   type="button"
