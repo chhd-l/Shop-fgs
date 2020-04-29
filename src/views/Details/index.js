@@ -249,6 +249,11 @@ class Details extends React.Component {
     if (!newCartData) {
       newCartData = []
       newCartData.push(tmpData)
+    } else {
+      let targetData = find(newCartData, c => c.goodsId === goodsId)
+      if (!targetData || (findIndex(currentSelectedSize, l => l.selected) !== findIndex(targetData.sizeList, s => s.selected))) {
+        newCartData.push(tmpData)
+      }
     }
 
     localStorage.setItem('rc-cart-data', JSON.stringify(newCartData))
