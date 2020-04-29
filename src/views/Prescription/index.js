@@ -251,7 +251,7 @@ render(h) {
                       type="search"
                       autoComplete="off"
                       aria-label="Search location"
-                      placeholder="Search location"
+                      placeholder="Buscar ubicación"
                       value={this.state.keywords}
                       onChange={this.inputSearchValue} />
                     <label className="rc-input__label" htmlFor="id-submit-2">
