@@ -12,10 +12,10 @@ import meImg from "@/assets/images/map-default-marker.png"
 
 
 
-const AnyReactComponent = ({ obj,show }) => {
+const AnyReactComponent = ({ obj,show,sonMess }) => {
   if(obj.type !== 'customer'){
     return (
-      <MapFlag obj={obj} show={show}></MapFlag>
+      <MapFlag obj={obj} show={show} sonMess={sonMess}></MapFlag>
   )}
   else {
     return (
@@ -79,7 +79,7 @@ class Prescription extends React.Component{
    handleInit=(e)=>{
         //获取当前地理位置信息
     navigator.geolocation.getCurrentPosition(position => {
-      this.handldKey(this.state.key)
+      this.handldKey(this.state.mapKey)
       this.setState({
         center:{
           lat:position.coords.latitude,
@@ -176,7 +176,7 @@ class Prescription extends React.Component{
     })
   }
   handleItem=(item)=>{
-    this.handldKey(this.state.key)
+    this.handldKey(this.state.mapKey)
     item.latitude = +item.latitude
     item.longitude = +item.longitude
     this.setState({
@@ -192,6 +192,9 @@ class Prescription extends React.Component{
     sessionStorage.setItem('rc-clinics-name2',item.clinicsName)
     
     createHashHistory().push('/payment/shipping')
+  }
+  getSonMess(center){
+    this.handleItem(center)
   }
 
 render(h) {
@@ -210,6 +213,7 @@ render(h) {
         lat={this.state.clinicArr[i].latitude}
         lng={this.state.clinicArr[i].longitude}
         obj={this.state.clinicArr[i]}
+        sonMess={this.getSonMess.bind(this)}
         show={+(this.state.clinicArr[i].longitude)===+(this.state.center.lng)
         && +(this.state.clinicArr[i].latitude)===+(this.state.center.lat)}
       />)
