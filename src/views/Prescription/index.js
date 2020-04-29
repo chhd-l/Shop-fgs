@@ -61,6 +61,10 @@ class Prescription extends React.Component{
         input:"",
         pageNum:0,
         pageSize:3,
+      },
+      currentSelectClinic:{
+        lat:0,
+        lng:0
       }
 
     }
@@ -183,6 +187,10 @@ class Prescription extends React.Component{
       center:{
         lat:item.latitude,
         lng:item.longitude
+      },
+      currentSelectClinic:{
+        lat:+item.latitude,
+        lng:+item.longitude
       }
     })
     
@@ -194,7 +202,12 @@ class Prescription extends React.Component{
     createHashHistory().push('/payment/shipping')
   }
   getSonMess(center){
-    this.handleItem(center)
+    this.setState({
+      currentSelectClinic:{
+        lat:+center.latitude,
+        lng:+center.longitude
+      }
+    })
   }
 
 render(h) {
@@ -214,8 +227,8 @@ render(h) {
         lng={this.state.clinicArr[i].longitude}
         obj={this.state.clinicArr[i]}
         sonMess={this.getSonMess.bind(this)}
-        show={+(this.state.clinicArr[i].longitude)===+(this.state.center.lng)
-        && +(this.state.clinicArr[i].latitude)===+(this.state.center.lat)}
+        show={+(this.state.clinicArr[i].longitude)===+(this.state.currentSelectClinic.lng)
+        && +(this.state.clinicArr[i].latitude)===+(this.state.currentSelectClinic.lat)}
       />)
     }
 

@@ -44,7 +44,7 @@ class Payment extends React.Component {
         address1: "",
         address2: "",
         country: "Mexico",
-        city: "Monterey",
+        city: "",
         postCode: "",
         phoneNumber: "",
       },
@@ -54,7 +54,7 @@ class Payment extends React.Component {
         address1: "",
         address2: "",
         country: "Mexico",
-        city: "Monterey",
+        city: "",
         postCode: "",
         phoneNumber: "",
       },
@@ -100,6 +100,7 @@ class Payment extends React.Component {
     } else {
       param.billingAddress = billingAddress;
     }
+    
     localStorage.setItem("deliveryInfo", JSON.stringify(param));
     for (let k in deliveryAddress) {
       if (deliveryAddress[k] === "" && k !== "address2") {
@@ -142,6 +143,7 @@ class Payment extends React.Component {
     this.setState({ payMethod: e.target.value, showPayMethodError: false });
   }
   async goConfirmation () {
+    
     const { history } = this.props;
     let {
       isEighteen,
@@ -268,6 +270,7 @@ class Payment extends React.Component {
     history.push("/cart");
   }
   deliveryInputChange (e) {
+    
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -343,7 +346,7 @@ class Payment extends React.Component {
             errorShow: true,
             errorMsg: payosdata.more_info
           })
-          // todo debugger
+          // todo 
           sessionStorage.clear("payosdata");
           window.scrollTo(0, 0)
           setTimeout(() => {
@@ -392,7 +395,6 @@ class Payment extends React.Component {
     head.appendChild(script);
   }
   componentDidMount () {
-    console.log(window.POS, "POS");
     // let urls = [process.env.PUBLIC_URL + '/royal/royal-assets1/webpack.rcdl.bundle.js',
     //   process.env.PUBLIC_URL + '/royal/royal-assets1/sentry.rcdl.bundle.js',
     //   process.env.PUBLIC_URL + '/royal/royal-assets1/tslib.rcdl.bundle.js',
@@ -420,6 +422,7 @@ class Payment extends React.Component {
     //     console.log(el, '212121',process.env.PUBLIC_URL,'elllll')
     //   });
     // })
+    
     let deliveryInfoStr = localStorage.getItem("deliveryInfo");
     const { creditCardInfo } = this.state
 
@@ -442,12 +445,14 @@ class Payment extends React.Component {
   }
 
   render () {
+    
     const {
       deliveryAddress,
       billingAddress,
-      creditCardInfo,
-      totalCount,
+      creditCardInfo
     } = this.state;
+    console.log(deliveryAddress.city);
+    
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {this.state.creditCardImgUrl.map((el, idx) => (
@@ -711,6 +716,7 @@ class Payment extends React.Component {
                                 onBlur={(e) => this.inputBlur(e)}
                                 name="city"
                               >
+                                <option value=""></option>
                                 <option>Monterey</option>
                                 <option>Mexico City</option>
                               </select>
@@ -1031,6 +1037,7 @@ class Payment extends React.Component {
                                 onBlur={(e) => this.inputBlur(e)}
                                 name="city"
                               >
+                                <option value=""></option>
                                 <option>Monterey</option>
                                 <option>Mexico City</option>
                               </select>
@@ -1461,7 +1468,7 @@ class Payment extends React.Component {
                             data-method-id="CREDIT_CARD"
                             style={{
                               display:
-                                this.state.payMethod == "creditCard"
+                                this.state.payMethod === "creditCard"
                                   ? "block"
                                   : "none",
                             }}
@@ -1495,7 +1502,7 @@ class Payment extends React.Component {
                                               <button
                                                 id="submit"
                                                 name="submit"
-                                                class="creadit"
+                                                className="creadit"
                                                 type="submit"
                                               >
                                                 Pay
@@ -1635,7 +1642,7 @@ class Payment extends React.Component {
                                             <input
                                               type="text"
                                               id="cardholder-name"
-                                              class="rc-input__control form-control cardOwner"
+                                              className="rc-input__control form-control cardOwner"
                                               name="cardOwner"
                                               value={creditCardInfo.cardOwner}
                                               onChange={(e) =>
