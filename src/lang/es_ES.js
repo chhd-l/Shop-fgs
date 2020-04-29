@@ -22,7 +22,6 @@ const en_US = {
   'viewAllResults': 'Vea todos los resultados',
   'viewResults': 'Ver resultados',
   'results': 'Resultados',
-  'from': 'De',
   'of': 'a',
   'freeShipping': 'Envío libre',
   'amount': 'cantidad',
