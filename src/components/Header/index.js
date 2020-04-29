@@ -581,7 +581,13 @@ class Header extends React.Component {
           {this.state.loading ? <Loading /> : null}
           <MegaMenu show={this.state.showMegaMenu} />
         </header>
-        {this.state.clinicsId && this.state.clinicsName && this.props.showMiniIcons ? <div className="tip-clinics"><FormattedMessage id="clinic.clinic" />: {this.state.clinicsName}</div> : null}
+        {
+          this.state.clinicsId && this.state.clinicsName && this.props.showMiniIcons
+            ? <div className="tip-clinics" title={this.state.clinicsName}>
+              <FormattedMessage id="clinic.clinic" /> : {this.state.clinicsName}
+            </div>
+            : null
+        }
       </React.Fragment>
     )
   }
