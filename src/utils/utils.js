@@ -30,3 +30,9 @@ export function getParaByName (search, name) {
   }
   return ''
 }
+
+export function translateHtmlCharater(html) {
+  var div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent;
+}
