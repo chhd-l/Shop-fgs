@@ -35,7 +35,7 @@ const BreadCrumbs = withRouter(props => {
           </li>
           {mapData.map((item, index) => (
             <li key={index}>
-              {item.href ? <Link className="rc-styled-link rc-progress__breadcrumb" to={item.href}>{item.name}</Link> : item.name}
+              {item.href ? <Link className="rc-styled-link rc-progress__breadcrumb" to={item.href}><FormattedMessage id={item.name.toLocaleLowerCase()} /></Link> : <FormattedMessage id={item.name.toLocaleLowerCase()} />}
             </li>
           ))}
         </ul>
