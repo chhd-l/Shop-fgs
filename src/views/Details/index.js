@@ -45,8 +45,8 @@ class Details extends React.Component {
       checkOutErrMsg: '',
       addToCartLoading: false
     }
-    this.changeAmount = this.changeAmount.bind(this)
-    this.handleAmountChange = this.handleAmountChange.bind(this)
+    this.hanldeAmountChange = this.hanldeAmountChange.bind(this)
+    this.handleAmountInput = this.handleAmountInput.bind(this)
     this.handleChooseSize = this.handleChooseSize.bind(this)
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this)
     this.hanldeImgMouseEnter = this.hanldeImgMouseEnter.bind(this)
@@ -133,7 +133,7 @@ class Details extends React.Component {
         res.push(tmpRes)
 
         res.push(translateHtmlCharater(fragment.querySelector('.rc_proudct_html_tab3').innerHTML))
-        res.push(translateHtmlCharater(fragment.querySelector('.rc_proudct_html_tab4').innerHTML))
+        res.push(fragment.querySelector('.rc_proudct_html_tab4').innerHTML)
       } else {
         res.push(details)
       }
@@ -148,7 +148,7 @@ class Details extends React.Component {
       instockStatus: this.state.quantity <= this.state.stock
     })
   }
-  changeAmount (type) {
+  hanldeAmountChange (type) {
     this.setState({ checkOutErrMsg: '' })
     if (!type) return
     const { quantity } = this.state
@@ -166,7 +166,7 @@ class Details extends React.Component {
       quantity: res
     }, () => { this.updateInstockStatus() })
   }
-  handleAmountChange (e) {
+  handleAmountInput (e) {
     this.setState({ checkOutErrMsg: '' })
     const { quantityMinLimit } = this.state
     const val = e.target.value
@@ -216,7 +216,7 @@ class Details extends React.Component {
     this.setState({ addToCartLoading: true })
     let flag = true
     if (cartDataCopy && cartDataCopy.length) {
-      const historyItem = find(cartDataCopy, c => c.goodsId === goodsId)
+      const historyItem = find(cartDataCopy, c => c.goodsId === goodsId && currentSelectedSize.goodsInfoId === find(c.sizeList, s => s.selected).goodsInfoId)
       if (historyItem) {
         flag = false
         quantityNew += historyItem.quantity
@@ -244,7 +244,7 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: false })
     }
 
-    const idx = findIndex(cartDataCopy, c => c.goodsId === goodsId)
+    const idx = findIndex(cartDataCopy, c => c.goodsId === goodsId && currentSelectedSize.goodsInfoId === find(c.sizeList, s => s.selected).goodsInfoId)
     tmpData = Object.assign(tmpData, { currentAmount: currentUnitPrice * quantityNew })
     if (idx > -1) {
       cartDataCopy.splice(idx, 1, tmpData)
@@ -394,9 +394,9 @@ class Details extends React.Component {
                                             <span><FormattedMessage id="amount" />:</span>
                                             <input type="hidden" id="invalid-quantity" value="Пожалуйста, введите правильный номер." />
                                             <div className="rc-quantity text-right d-flex justify-content-end">
-                                              <span className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus" onClick={() => this.changeAmount('minus')}></span>
-                                              <input className="rc-quantity__input" id="quantity" name="quantity" type="number" value={quantity} min={quantityMinLimit} max={stock} onChange={this.handleAmountChange} maxLength="5" />
-                                              <span className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus" onClick={() => this.changeAmount('plus')}></span>
+                                              <span className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus" onClick={() => this.hanldeAmountChange('minus')}></span>
+                                              <input className="rc-quantity__input" id="quantity" name="quantity" type="number" value={quantity} min={quantityMinLimit} max={stock} onChange={this.handleAmountInput} maxLength="5" />
+                                              <span className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus" onClick={() => this.hanldeAmountChange('plus')}></span>
                                             </div>
                                           </div>
                                         </div>
