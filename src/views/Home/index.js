@@ -41,7 +41,7 @@ class Home extends React.Component {
                   <div className="col-lg-9">
                     <div className="row custom-gutter">
                       <div className="col-md-3 col-6">
-                        <FormattedMessage id='dogs2'>
+                        <FormattedMessage id="home.catogery1">
                           {(txt) => (
                             <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
                               to="/list/dogs" title={txt}>
@@ -63,7 +63,7 @@ class Home extends React.Component {
                         </FormattedMessage>
                       </div>
                       <div className="col-md-3 col-6">
-                        <FormattedMessage id='cats2'>
+                        <FormattedMessage id="home.catogery2">
                           {(txt) => (
                             <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
                               to="/list/cats" title={txt}>
@@ -83,7 +83,7 @@ class Home extends React.Component {
                         </FormattedMessage>
                       </div>
                       <div className="col-md-3 col-6">
-                        <FormattedMessage id='header.VCN'>
+                        <FormattedMessage id="home.catogery3">
                           {txt => (
                             <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
                               to="/list/vcn" title={txt}>
@@ -104,7 +104,7 @@ class Home extends React.Component {
                         </FormattedMessage>
                       </div>
                       <div className="col-md-3 col-6">
-                        <FormattedMessage id='header.VD'>
+                        <FormattedMessage id="home.catogery4">
                           {txt => (
                             <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
                               to="/list/vd" title={txt}>
