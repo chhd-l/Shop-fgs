@@ -1,12 +1,12 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl'
 import { createHashHistory } from 'history'
-import { find } from 'lodash'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { formatMoney } from "@/utils/utils";
-import { cloneDeep } from 'lodash'
+import { formatMoney, hanldePurchases } from "@/utils/utils"
+import { MINIMUM_AMOUNT } from '@/utils/constant'
+import { cloneDeep, find } from 'lodash'
 import "./index.css";
 
 class Cart extends React.Component {
@@ -14,6 +14,7 @@ class Cart extends React.Component {
     super(props);
     this.state = {
       errorShow: false,
+      errorMsg: '',
       productList: [
         {
           id: "3003_RU",
@@ -51,26 +52,59 @@ class Cart extends React.Component {
           quantity: 1,
         },
       ],
-      productListCopy: [],
       currentProduct: null,
       currentProductIdx: -1,
       loading: true,
       modalShow: false,
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
-      quantityMinLimit: 1
+      quantityMinLimit: 1,
+      checkoutLoading: false,
+      validateAllItemsStock: true
     }
     this.handleAmountChange = this.handleAmountChange.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
+    this.handleCheckout = this.handleCheckout.bind(this)
   }
   get totalNum () {
     return this.state.productList.reduce((pre, cur) => { return pre + cur.quantity }, 0)
   }
+  async handleCheckout () {
+    const { history } = this.props;
+
+    // 价格未达到底限，不能下单
+    if (this.total < MINIMUM_AMOUNT) {
+      this.setState({
+        errorShow: true,
+        errorMsg: <FormattedMessage id="cart.errorInfo3" />
+      })
+      return false
+    }
+
+    this.setState({ checkoutLoading: true })
+    try {
+      await this.updateStock()
+      // 库存不够，不能下单
+      if (!this.state.validateAllItemsStock) {
+        this.setState({
+          errorShow: true,
+          errorMsg: <FormattedMessage id="cart.errorInfo2" />
+        })
+      } else {
+        history.push('/prescription')
+      }
+    } catch (e) {
+      history.push('/prescription')
+    } finally {
+      this.setState({ checkoutLoading: false })
+    }
+  }
   handleAmountChange (e, item) {
+    this.setState({ errorShow: false })
     const val = e.target.value
     if (val === '') {
       item.quantity = val
       this.setState({
-        productListCopy: this.state.productListCopy
+        productList: this.state.productList
       })
     } else {
       const { quantityMinLimit } = this.state
@@ -83,15 +117,8 @@ class Cart extends React.Component {
       }
       item.quantity = tmp
       this.setState({
-        productListCopy: this.state.productListCopy
-      })
-      if (item.quantity <= find(item.sizeList, s => s.selected).stock) {
-        this.setState({
-          productList: cloneDeep(this.state.productListCopy)
-        }, () => {
-          this.changeCache()
-        });
-      }
+        productList: this.state.productList
+      }, () => this.changeCache())
     }
   }
   changeCache () {
@@ -107,38 +134,33 @@ class Cart extends React.Component {
     })
   }
   addQuantity (item) {
+    this.setState({ errorShow: false })
     item.quantity++
     this.setState({
-      productListCopy: this.state.productListCopy
-    });
-    if (item.quantity <= find(item.sizeList, s => s.selected).stock) {
-      this.setState({
-        productList: cloneDeep(this.state.productListCopy)
-      }, () => {
-        this.changeCache();
-      });
-    }
+      productList: this.state.productList
+    }, () => {
+      this.changeCache()
+      this.updateStock()
+    })
   }
   subQuantity (item) {
+    this.setState({ errorShow: false })
     if (item.quantity > 1) {
       item.quantity--
       this.setState({
-        productListCopy: this.state.productListCopy
+        productList: this.state.productList
+      }, () => {
+        this.changeCache()
+        this.updateStock()
       })
-      if (item.quantity <= find(item.sizeList, s => s.selected).stock) {
-        this.setState({
-          productList: cloneDeep(this.state.productListCopy)
-        }, () => {
-          this.changeCache();
-        });
-      }
     } else {
       this.setState({
         errorShow: true,
+        errorMsg: <FormattedMessage id="cart.errorInfo" />
       });
       setTimeout(() => {
         this.setState({
-          errorShow: false,
+          errorShow: false
         });
       }, 2000)
     }
@@ -155,7 +177,6 @@ class Cart extends React.Component {
     let newProductList = cloneDeep(productList)
     newProductList.splice(currentProductIdx, 1)
     this.setState({
-      productListCopy: newProductList,
       productList: newProductList
     }, () => {
       this.changeCache();
@@ -178,9 +199,35 @@ class Cart extends React.Component {
   componentDidMount () {
     let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
     this.setState({
-      productList: productList || [],
-      productListCopy: cloneDeep(productList || [])
-    });
+      productList: productList || []
+    }, () => this.updateStock());
+  }
+  async updateStock () {
+    const { productList } = this.state
+    this.setState({ validateAllItemsStock: true })
+    let param = productList.map(ele => {
+      return {
+        goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId,
+        goodsNum: ele.quantity,
+        invalid: false
+      }
+    })
+    let latestGoodsInfos = await hanldePurchases(param)
+    productList.map(item => {
+      let selectedSize = find(item.sizeList, s => s.selected)
+      const tmpObj = find(latestGoodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
+      if (tmpObj) {
+        selectedSize.stock = tmpObj.stock
+        if (item.quantity > tmpObj.stock) {
+          this.setState({
+            validateAllItemsStock: false
+          })
+        }
+      }
+    })
+    this.setState({
+      productList: productList
+    }, () => this.changeCache());
   }
   gotoDetails (pitem) {
     sessionStorage.setItem('rc-goods-cate-name', pitem.goodsCateName || '')
@@ -325,7 +372,7 @@ class Cart extends React.Component {
                     className="rc-quantity__input"
                     type="number"
                     value={pitem.quantity}
-                    onChange={() => this.handleAmountChange(pitem)}
+                    onChange={(e) => this.handleAmountChange(e, pitem)}
                     min="1"
                     max="10" />
                   <span
@@ -369,16 +416,19 @@ class Cart extends React.Component {
     ));
     return Lists;
   }
-  render () {
-    const { productList } = this.state;
-
-    const List = this.getProducts(this.state.productListCopy);
+  get total () {
     let total = 0;
     this.state.productList.map((pitem) => {
       total =
         total +
         pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice;
     });
+    return total
+  }
+  render () {
+    const { productList } = this.state;
+
+    const List = this.getProducts(this.state.productList);
     return (
       <div>
         <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
@@ -404,7 +454,7 @@ class Cart extends React.Component {
                   <div className="rc-column rc-double-width">
                     <div className="rc-padding-bottom--xs cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
                       <aside className="rc-alert rc-alert--error rc-alert--with-close" role="alert">
-                        <span style={{ paddingLeft: 0 }}><FormattedMessage id="cart.errorInfo" /></span>
+                        <span style={{ paddingLeft: 0 }}>{this.state.errorMsg}</span>
                       </aside>
                     </div>
                     <div className="rc-padding-bottom--xs">
@@ -431,7 +481,7 @@ class Cart extends React.Component {
                           <FormattedMessage id="total" />
                         </div>
                         <div className="col-4 no-padding-left">
-                          <p className="text-right sub-total">$ {formatMoney(total)}</p>
+                          <p className="text-right sub-total">$ {formatMoney(this.total)}</p>
                         </div>
                       </div>
                       <div className="row">
@@ -452,12 +502,12 @@ class Cart extends React.Component {
                             </strong>
                           </div>
                           <div className="col-5">
-                            <p className="text-right grand-total-sum medium">$ {formatMoney(total)}</p>
+                            <p className="text-right grand-total-sum medium">$ {formatMoney(this.total)}</p>
                           </div>
                         </div>
                         <div className="row checkout-proccess">
                           <div className="col-lg-12 checkout-continue">
-                            <Link to="/prescription">
+                            <a className={[this.state.checkoutLoading ? 'ui-btn-loading' : ''].join(' ')} onClick={this.handleCheckout}>
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                                 <div
                                   data-oauthlogintargetendpoint="2"
@@ -466,7 +516,7 @@ class Cart extends React.Component {
                                   <FormattedMessage id="checkout" />
                                 </div>
                               </div>
-                            </Link>
+                            </a>
                           </div>
                         </div>
                       </div>

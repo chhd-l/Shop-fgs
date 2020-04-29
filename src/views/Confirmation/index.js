@@ -120,9 +120,12 @@ class Confirmation extends React.Component {
                 <Link to="/" className="rc-meta rc-styled-link backtohome">
                   <FormattedMessage id="confirmation.visitOnlineStore" />
                 </Link>
-                <p>
-                <FormattedMessage id="confirmation.orderNumber" />
+                <p className="rc-margin-top--sm">
+                  <b>
+                  <FormattedMessage id="confirmation.orderNumber" />
                   ：{localStorage.getItem('orderNumber')}
+                  </b>
+                
                 </p>
               </div>
               <div className="rc-bg-colour--brand3 rc-max-width--xl rc-bottom-spacing rc-padding--sm imformation">

@@ -22338,3 +22338,29 @@ tr.rc-table__row.inactive td:after {
 .ui-cursor-pointer:hover {
   color: #ec001a!important;
 }
+.ui-btn-loading {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+.ui-btn-loading:before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.5em;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  vertical-align: -10%;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 30%, 0% 30%);
+  animation: rotate 1s linear infinite;
+}
+@keyframes rotate {
+  from {
+      transform: rotatez(0deg);
+  }
+
+  to {
+      transform: rotatez(360deg);
+  }
+}
