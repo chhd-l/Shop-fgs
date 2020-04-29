@@ -488,8 +488,8 @@ class Payment extends React.Component {
                       <h5 className="pull-left">
                         <FormattedMessage id="payment.clinicTitle" />
                       </h5>
-                      <a
-                        href="#"
+                      <p
+                        
                         onClick={(e) => {
                           e.preventDefault();
                           let { history } = this.props;
@@ -497,13 +497,12 @@ class Payment extends React.Component {
                         }}
                         style={{
                           display: sessionStorage.getItem("rc-clinics-name")
-                            ? "none"
-                            : "inline",
+                            ? "none" : "inline", margin: 0,
                         }}
-                        className=" rc-styled-link rc-margin-top--xs pull-right"
+                        className="rc-styled-link rc-margin-top--xs pull-right"
                       >
                         <FormattedMessage id="edit" />
-                      </a>
+                      </p>
                     </div>
                     <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
                       {sessionStorage.getItem("rc-clinics-name") ||
@@ -521,8 +520,7 @@ class Payment extends React.Component {
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
                               <label
                                 className="form-control-label"
-                                htmlFor="shippingFirstName"
-                              >
+                                htmlFor="shippingFirstName">
                                 <FormattedMessage id="payment.firstName" />
                               </label>
                               <span
