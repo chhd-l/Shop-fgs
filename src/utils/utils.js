@@ -1,5 +1,6 @@
 import { getStoreCate } from '@/api'
 import { STOREID } from '@/utils/constant'
+import { purchases } from '@/api/cart'
 
 export function formatMoney (val) {
   val = val + ''
@@ -29,4 +30,26 @@ export function getParaByName (search, name) {
     }
   }
   return ''
+}
+
+export function translateHtmlCharater(html) {
+  var div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent;
+}
+
+export async function hanldePurchases (goodsInfoDTOList) {
+  let ret = []
+  try {
+    let res = await purchases({
+      goodsInfoDTOList,
+      goodsInfoIds: [],
+      goodsMarketingDTOList: []
+    })
+    ret = res.context.goodsInfos
+  } catch (e) {
+
+  } finally {
+    return ret
+  }
 }

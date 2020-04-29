@@ -4,12 +4,13 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
-import { formatMoney } from "@/utils/utils"
+import { formatMoney, translateHtmlCharater } from "@/utils/utils"
 import { FormattedMessage } from 'react-intl'
 import { createHashHistory } from 'history'
 import './index.css'
 import { cloneDeep, findIndex, find } from 'lodash'
 import { getDetails } from '@/api/details'
+import { miniPurchases } from '@/api/cart'
 
 class Details extends React.Component {
   constructor(props) {
@@ -39,7 +40,8 @@ class Details extends React.Component {
       },
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       loading: true,
-      errMsg: ''
+      errMsg: '',
+      addToCartLoading: false
     }
     this.changeAmount = this.changeAmount.bind(this)
     this.handleAmountChange = this.handleAmountChange.bind(this)
@@ -115,21 +117,21 @@ class Details extends React.Component {
     fragment.appendChild(div);
     try {
       if (fragment.querySelector('.rc_proudct')) {
-        res.push(fragment.querySelector('.rc_proudct_html_tab1').innerHTML)
-  
+        res.push(translateHtmlCharater(fragment.querySelector('.rc_proudct_html_tab1').innerHTML))
+
         let tmpRes = []
         let tmpLiList = fragment.querySelector('.rc_proudct_html_tab2').querySelectorAll('li')
         Array.from(tmpLiList).map(item => {
           let tmpPList = []
           Array.from(item.querySelectorAll('p')).map(n => {
-            tmpPList.push(n.innerHTML)
+            tmpPList.push(translateHtmlCharater(n.innerHTML))
           })
           tmpRes.push(tmpPList)
         })
         res.push(tmpRes)
-  
-        res.push(fragment.querySelector('.rc_proudct_html_tab3').innerHTML)
-        res.push(fragment.querySelector('.rc_proudct_html_tab4').innerHTML)
+
+        res.push(translateHtmlCharater(fragment.querySelector('.rc_proudct_html_tab3').innerHTML))
+        res.push(translateHtmlCharater(fragment.querySelector('.rc_proudct_html_tab4').innerHTML))
       } else {
         res.push(details)
       }
@@ -194,26 +196,57 @@ class Details extends React.Component {
       stock: data.stock || 0
     }, () => this.updateInstockStatus())
   }
-  hanldeAddToCart ({ redirect = false }) {
+  async hanldeAddToCart ({ redirect = false }) {
     const { currentUnitPrice, quantity, cartData, instockStatus } = this.state
     const { goodsId, sizeList } = this.state.details
-    const tmpData = Object.assign({}, this.state.details, { quantity }, { currentAmount: currentUnitPrice * quantity })
-    let newCartData
+    const currentSelectedSize = find(sizeList, s => s.selected)
+    let quantityNew = quantity
+    const tmpData = Object.assign({}, this.state.details, { quantity: quantityNew }, { currentAmount: currentUnitPrice * quantityNew })
+    let newCartData // 购物车历史数据
 
-    if (!instockStatus || !quantity) {
+    if (!instockStatus || !quantityNew) {
       return
     }
 
-    if (cartData) {
+    this.setState({ addToCartLoading: true })
+
+    if (cartData && cartData.length) {
       newCartData = cloneDeep(cartData)
       let targetData = find(newCartData, c => c.goodsId === goodsId)
       if (targetData && (findIndex(sizeList, l => l.selected) === findIndex(targetData.sizeList, s => s.selected))) {
-        targetData.quantity += quantity
-        targetData.currentAmount += quantity * currentUnitPrice
-      } else {
-        newCartData.push(tmpData)
+        targetData.quantity += quantityNew // 累加
+        targetData.currentAmount += quantityNew * currentUnitPrice
       }
-    } else {
+    }
+
+    try {
+      let res = await miniPurchases({ goodsInfoDTOList: [{ goodsInfoId: currentSelectedSize.goodsInfoId, goodsNum: quantityNew }] })
+      let tmpObj = find(res.context.goodsList, ele => ele.goodsInfoId === currentSelectedSize.goodsInfoId)
+      if (tmpObj) {
+        if (quantityNew > tmpObj.stock) {
+          quantityNew = tmpObj.stock
+          this.setState({
+            quantity: quantityNew
+          })
+          tmpData = Object.assign(tmpData, { quantity: quantityNew })
+        }
+        if (newCartData.length) {
+          let tmpObj2 = find(newCartData, n => n.goodsId === tmpObj.goodsId && find(n.sizeList, s => s.selected).goodsInfoId === tmpObj.goodsInfoId)
+          if (tmpObj2) {
+            if (tmpObj2.quantity > tmpObj.stock) {
+              tmpObj2.quantity = tmpObj.stock
+              tmpObj2.currentAmount = tmpObj.stock * currentUnitPrice
+            }
+          }
+        }
+      }
+    } catch (e) {
+
+    } finally {
+      this.setState({ addToCartLoading: false })
+    }
+
+    if (!newCartData) {
       newCartData = []
       newCartData.push(tmpData)
     }
@@ -246,7 +279,7 @@ class Details extends React.Component {
   }
   render () {
     const createMarkup = text => ({ __html: text });
-    const { details, quantity, stock, quantityMinLimit, instockStatus, currentUnitPrice, cartData, errMsg } = this.state
+    const { details, quantity, stock, quantityMinLimit, instockStatus, currentUnitPrice, cartData, errMsg, addToCartLoading } = this.state
     return (
       <div>
         <Header ref={this.headerRef} cartData={cartData} showMiniIcons={true} location={this.props.location} />
@@ -384,7 +417,10 @@ class Details extends React.Component {
                                       </div>
                                       <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                         <div className="cart-and-ipay">
-                                          <button className={['btn-add-to-cart', 'add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', (instockStatus && quantity) ? '' : 'disabled'].join(' ')} data-loc="addToCart" onClick={this.hanldeAddToCart}>
+                                          <button
+                                            className={['btn-add-to-cart', 'add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', addToCartLoading ? 'ui-btn-loading' : '', (instockStatus && quantity) ? '' : 'disabled'].join(' ')}
+                                            data-loc="addToCart"
+                                            onClick={this.hanldeAddToCart}>
                                             <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
                                             <FormattedMessage id="details.addToCart" />
                                           </button>
@@ -392,7 +428,10 @@ class Details extends React.Component {
                                       </div>
                                       <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                         <div className="cart-and-ipay">
-                                          <button className={['btn-add-to-cart', 'add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', instockStatus && quantity ? '' : 'disabled'].join(' ')} data-loc="addToCart" onClick={() => this.hanldeAddToCart({ redirect: true })}>
+                                          <button
+                                            className={['btn-add-to-cart', 'add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', addToCartLoading ? 'ui-btn-loading' : '', instockStatus && quantity ? '' : 'disabled'].join(' ')}
+                                            data-loc="addToCart"
+                                            onClick={() => this.hanldeAddToCart({ redirect: true })}>
                                             <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
                                             <FormattedMessage id="checkout" />
                                           </button>
@@ -463,13 +502,13 @@ class Details extends React.Component {
                         <div
                           id="tab__panel-2"
                           className="clearfix benefit flex">
-                          <div class="d-flex flex-wrap">
+                          <div className="d-flex flex-wrap">
                             {this.state.goodsDetail2.map((item, idx) => (
-                              <div class="col-12 col-md-6" key={idx}>
-                                <div class="block-with-icon">
-                                  <span class="rc-icon rc-rate-fill rc-iconography"></span>
-                                  <div class="block-with-icon__content">
-                                    <h5 class="block-with-icon__title">{item.length && item[0]}</h5>
+                              <div className="col-12 col-md-6" key={idx}>
+                                <div className="block-with-icon">
+                                  <span className="rc-icon rc-rate-fill rc-iconography"></span>
+                                  <div className="block-with-icon__content">
+                                    <h5 className="block-with-icon__title">{item.length && item[0]}</h5>
                                     <p>{item.length && item.length > 1 && item[1]}</p>
                                   </div>
                                 </div>
@@ -526,11 +565,15 @@ class Details extends React.Component {
               </div>
               <div className="sticky-addtocart" style={{ transform: 'translateY(-80px)' }}>
                 <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
-                  <button className={['sss', 'rc-btn', 'rc-btn--one', 'js-sticky-cta', 'rc-margin-right--xs--mobile', 'btn-add-to-cart', instockStatus && quantity ? '' : 'disabled'].join(' ')} onClick={this.hanldeAddToCart}>
+                  <button
+                    className={['rc-btn', 'rc-btn--one', 'js-sticky-cta', 'rc-margin-right--xs--mobile', 'btn-add-to-cart', addToCartLoading ? 'ui-btn-loading' : '', instockStatus && quantity ? '' : 'disabled'].join(' ')}
+                    onClick={this.hanldeAddToCart}>
                     <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
                     <span className="default-txt"><FormattedMessage id="details.addToCart" /></span>
                   </button>
-                  <button className={['rc-btn', 'rc-btn--one', 'js-sticky-cta', 'btn-add-to-cart', instockStatus && quantity ? '' : 'disabled'].join(' ')} onClick={() => this.hanldeAddToCart({ redirect: true })}>
+                  <button
+                    className={['rc-btn', 'rc-btn--one', 'js-sticky-cta', 'btn-add-to-cart', addToCartLoading ? 'ui-btn-loading' : '', instockStatus && quantity ? '' : 'disabled'].join(' ')}
+                    onClick={() => this.hanldeAddToCart({ redirect: true })}>
                     <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
                     <span className="default-txt"><FormattedMessage id="checkout" /></span>
                   </button>
