@@ -67,7 +67,7 @@ const en_US = {
   'home.pageNotFoundInfo': 'Sorry, the page you are looking for does not exist.',
   'home.convenientTitle': 'Why is it convenient to shop with ROYAL CANIN®?',
   'home.convenientTip1': 'Selection of a diet according to the needs of your pet',
-  'home.convenientTip2': 'Fast free shipping when ordering from 2000 rubles.',
+  'home.convenientTip2': 'Fast free shipping when ordering from XXX Mex$.',
   'home.convenientTip3': 'Support service: ask a question about your pet to a specialist',
   'home.point1': 'Secure payments',
   'home.point2': 'Quality assurance',
@@ -188,7 +188,8 @@ const en_US = {
   'confirmation.orderNumber': 'Order number',
 
   'help.needHelp':'Need help ?',
-  'help.tip1':'Our customer service staff is professional and enthusiam. They can answer any problems at any time.',
+  'help.tip1':'Our customer service staff is professional and enthusiam.',
+  'help.tip4':'They can answer any problems at any time.',
   'help.tip2':'Free Call (from a landline) Monday to Friday from 8h to 20h.',
   'help.tip3':'We will reply to you within a maximum of 12 hours.',
   'help.byTelephone':'By telephone',

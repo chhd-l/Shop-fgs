@@ -67,7 +67,7 @@ const en_US = {
   'home.pageNotFoundInfo': 'Apesadumbrada, la página que usted está buscando no existe.',
   'home.convenientTitle': '¿Por qué es conveniente hacer compras con ROYAL CANIN®?',
   'home.convenientTip1': 'Selección de una dieta según las necesidades de su animal doméstico',
-  'home.convenientTip2': 'Ayuna el envío libre al ordenar a partir de 2000 rublos.',
+  'home.convenientTip2': 'Ayuna el envío libre al ordenar a partir de XXX Mex$.',
   'home.convenientTip3': 'Servicio de ayuda: haga una pregunta acerca de su animal doméstico a un especialista',
   'home.point1': 'Asegure los pagos',
   'home.point2': 'Garantía de calidad',
@@ -189,7 +189,8 @@ const en_US = {
   'confirmation.orderNumber': 'Número de orden',
 
   'help.needHelp':'Necesidad de ayuda ?',
-  'help.tip1':'Nuestro personal de servicio al cliente es profesional y entusiasmado. Pueden responder cualquier problema en cualquier momento.',
+  'help.tip1':'Nuestro personal de servicio al cliente es profesional y entusiasmado.',
+  'help.tip4':'Pueden responder cualquier problema en cualquier momento.',
   'help.tip2':'Llamada gratuita (desde un teléfono fijo) de lunes a viernes de 8h a 20h.',
   'help.tip3':'Le responderemos dentro de un máximo de 12 horas.',
   'help.byTelephone':'Por teléfono',
