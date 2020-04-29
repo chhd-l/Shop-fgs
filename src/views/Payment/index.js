@@ -480,7 +480,7 @@ class Payment extends React.Component {
                 <div
                   className="shipping-form"
                   style={{
-                    display: this.state.type == "shipping" ? "block" : "none",
+                    display: this.state.type === "shipping" ? "block" : "none",
                   }}
                 >
                   <div className="card">
@@ -738,9 +738,9 @@ class Payment extends React.Component {
                                 onChange={(e) => this.deliveryInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
                                 name="postCode"
-                                maxLength="6"
-                                minLength="6"
-                                data-js-pattern="(^\d{6}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
+                                maxLength="5"
+                                minLength="5"
+                                data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                               />
                               <label
                                 className="rc-input__label"
@@ -758,7 +758,7 @@ class Payment extends React.Component {
                               />
                             </div>
                             <div className="ui-lighter">
-                              <FormattedMessage id="example" />: 123456
+                              <FormattedMessage id="example" />: 02860
                             </div>
                           </div>
                           <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_phone">
