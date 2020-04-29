@@ -125,7 +125,7 @@ const en_US = {
   'footer.websiteTermsOfUse': 'Términos de uso del sitio web',
   'footer.cookieCollectionPolicy': 'Política de recopilación de cookies',
   'footer.contactUs': 'Contáctenos',
-  'footer.contactUsInfo': 'Puedes contactar con nosotros todos los días de 9:00 a 21:00',
+  'footer.contactUsInfo': 'Puede contactarnos de lunes a viernes de 9:00 a.m. a 6:00 p.m.',
   'footer.confidentiality': 'Privacidad',
   'footer.cookies': 'Cookie Notice',
   'footer.legalTerms': 'Legal',

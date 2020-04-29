@@ -84,7 +84,7 @@ function Footer () {
                       </a>
                     </li>
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.royalcanin.com/mx/about-us/faqs" role="menuitem">
+                      <a className="rc-list__link" href="https://mydrive.effem.com/:w:/g/personal/israel_garcia_royalcanin_com/EVRUIA-SMqdInMzsGIht2UoBYIBnKqzjYGhhQlk6LGuRJA?e=QH6lK6" role="menuitem">
                         <FormattedMessage id="footer.FAQ" />
                       </a>
                     </li>
@@ -137,8 +137,8 @@ function Footer () {
         </div>
         <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
           <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
-            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3" role="menuitem" href="tel:88002003735">
-              8-800-200-37-35
+            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3" role="menuitem" href="tel:8000247764">
+              800 024 77 64
             </a>
             <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" href="https://www.royalcanin.com/mx/contact-us">
               <FormattedMessage id="footer.contactUs" />
