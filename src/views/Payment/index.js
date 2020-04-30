@@ -103,90 +103,92 @@ class Payment extends React.Component {
       param.billingAddress = billingAddress;
     }
     
+    
+    for (let k in param.billingAddress) {
+      if (param.billingAddress[k] === "" && k !== "address2") {
+        console.log('delivery', k)
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please complete the required items'
+        })
+        window.scrollTo(0, 0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false,
+          });
+        }, 5000);
+        return;
+      }
+      if(k === 'postCode' && !(/\d{5}/.test(param.billingAddress[k]))) {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please enter the correct post code'
+        })
+        window.scrollTo(0, 0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false,
+          });
+        }, 5000);
+        return
+      }
+      if(k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(param.billingAddress[k].replace(/\s*/g,"")))) {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please enter the correct phone number'
+        })
+        window.scrollTo(0, 0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false,
+          });
+        }, 5000);
+        return 
+      }
+    }
+    for (let k in param.billingAddress) {
+      if (param.billingAddress[k] === "" && k !== "address2") {
+        console.log('billing', k)
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please complete the required items'
+        })
+        window.scrollTo(0, 0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false,
+          });
+        }, 5000);
+        return;
+      }
+      if(k === 'postCode' && !(/\d{5}/.test(param.billingAddress[k]))) {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please enter the correct post code'
+        })
+        window.scrollTo(0, 0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false,
+          });
+        }, 5000);
+        return
+      }
+      if(k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(param.billingAddress[k].replace(/\s*/g,"")))) {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please enter the correct phone number'
+        })
+        window.scrollTo(0, 0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false,
+          });
+        }, 5000);
+        return 
+      }
+    }
     localStorage.setItem("deliveryInfo", JSON.stringify(param));
-    for (let k in deliveryAddress) {
-      if (deliveryAddress[k] === "" && k !== "address2") {
-        this.setState({
-          errorShow: true,
-          errorMsg: 'Please complete the required items'
-        })
-        window.scrollTo(0, 0)
-        setTimeout(() => {
-          this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return;
-      }
-      if(k === 'postCode' && !(/\d{5}/.test(deliveryAddress[k]))) {
-        this.setState({
-          errorShow: true,
-          errorMsg: 'Please enter the correct post code'
-        })
-        window.scrollTo(0, 0)
-        setTimeout(() => {
-          this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return
-      }
-      if(k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(deliveryAddress[k].replace(/\s*/g,"")))) {
-        this.setState({
-          errorShow: true,
-          errorMsg: 'Please enter the correct phone number'
-        })
-        window.scrollTo(0, 0)
-        setTimeout(() => {
-          this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return 
-      }
-    }
-    for (let k in billingAddress) {
-      if (billingAddress[k] === "" && k !== "address2") {
-        this.setState({
-          errorShow: true,
-          errorMsg: 'Please complete the required items'
-        })
-        window.scrollTo(0, 0)
-        setTimeout(() => {
-          this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return;
-      }
-      if(k === 'postCode' && !(/\d{5}/.test(billingAddress[k]))) {
-        this.setState({
-          errorShow: true,
-          errorMsg: 'Please enter the correct post code'
-        })
-        window.scrollTo(0, 0)
-        setTimeout(() => {
-          this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return
-      }
-      if(k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(billingAddress[k].replace(/\s*/g,"")))) {
-        this.setState({
-          errorShow: true,
-          errorMsg: 'Please enter the correct phone number'
-        })
-        window.scrollTo(0, 0)
-        setTimeout(() => {
-          this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return 
-      }
-    }
-
     this.setState({
       creditCardInfo: creditCardInfo,
     });
