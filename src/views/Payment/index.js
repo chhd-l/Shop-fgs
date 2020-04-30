@@ -37,6 +37,7 @@ class Payment extends React.Component {
         VISA: visaImg,
         MASTERCARD: mastercardImg,
         "AMERICAN EXPRESS": amexImg,
+        DISCOVER: discoverImg
       },
       deliveryAddress: {
         firstName: "",
@@ -1771,7 +1772,7 @@ class Payment extends React.Component {
                                           >
                                             <input
                                               type="text"
-                                              className="rc-input__control form-control email"
+                                              className="rc-input__control email"
                                               id="email"
                                               value={creditCardInfo.email}
                                               onChange={(e) =>

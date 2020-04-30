@@ -99,17 +99,20 @@ const style = {
   try {
     document.getElementById('zoozIframe').setAttribute("scrolling","no")
   } catch (e) {}
-  document.getElementById('payment-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const additionalData = {
-      holder_name: document.getElementById('cardholder-name').value // This field is mandatory
-    }
-    POS.createToken(additionalData, function(result) {
-      console.log(result, 'result')
-      // Grab the token here
-      sessionStorage.setItem('payosdata', result)
+  if(document.getElementById('payment-form')) {
+    document.getElementById('payment-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const additionalData = {
+        holder_name: document.getElementById('cardholder-name').value // This field is mandatory
+      }
+      POS.createToken(additionalData, function(result) {
+        console.log(result, 'result')
+        // Grab the token here
+        sessionStorage.setItem('payosdata', result)
+      });
     });
-  });
+  }
+  
 
 </script>
 </html>
