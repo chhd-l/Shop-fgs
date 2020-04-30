@@ -77,8 +77,9 @@ POS.setPublicKey("fd931719-5733-4b77-b146-2fd22f9ad2e3");
 POS.setEnvironment("test");
 const style = {
   base: {
+    
     secureFields: {
-      width: '100%'
+      width: 'calc(100% - 40px)'
     },
     pan: {
       display: 'inline-block',
@@ -92,7 +93,7 @@ const style = {
       display: 'inline-block',
       width: '20%'
     }
-  }    
+  }
 };
   POS.setStyle(style);
   POS.initSecureFields('card-secure-fields');
