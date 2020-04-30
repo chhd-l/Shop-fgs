@@ -206,6 +206,7 @@ class Payment extends React.Component {
       billingAddress,
       commentOnDelivery,
       billingChecked,
+      creditCardInfo,
       payMethod,
     } = this.state;
     const cartData = localStorage.getItem("rc-cart-data")
@@ -260,6 +261,8 @@ class Payment extends React.Component {
       let param3 = {
         token: payosdata.token,
         creditDardCvv: payosdata.encrypted_cvv,
+        phone: creditCardInfo.phoneNumber,
+        email: creditCardInfo.email,
         clinicsId:
           sessionStorage.getItem("rc-clinics-id") ||
           sessionStorage.getItem("rc-clinics-id2"),

@@ -2,10 +2,10 @@ import axios from '@/utils/request'
 import { register } from '../serviceWorker'
 
 const api = {
-  visitorRegisterAndLogin: 'visitorRegisterAndLogin',
+  visitorRegisterAndLogin: '/visitorRegisterAndLogin',
   batchAdd: '/site/batchAdd',
-  // confirmAndCommit: '/tradeCustom/confirmcommitAndPay'
-  confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
+  confirmAndCommit: '/tradeCustom/confirmcommitAndPay'
+  // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
   
 }
 
