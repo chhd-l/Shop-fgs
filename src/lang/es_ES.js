@@ -66,7 +66,7 @@ const en_US = {
   'home.pageNotFoundInfo': 'Apesadumbrada, la página que usted está buscando no existe.',
   'home.convenientTitle': '¿Por qué es conveniente hacer compras con ROYAL CANIN®?',
   'home.convenientTip1': 'Selección de una dieta según las necesidades de su animal doméstico',
-  'home.convenientTip2': 'Ayuna el envío libre al ordenar a partir de XXX Mex$.',
+  'home.convenientTip2': 'Ayuna el envío libre al ordenar a partir de 499 Mex$.',
   'home.convenientTip3': 'Servicio de ayuda: haga una pregunta acerca de su animal doméstico a un especialista',
   'home.point1': 'Asegure los pagos',
   'home.point2': 'Garantía de calidad',
