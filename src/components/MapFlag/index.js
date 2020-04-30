@@ -29,7 +29,7 @@ class MapFlag extends React.Component {
     })
   }
   componentWillReceiveProps(nextProps){
-    if(nextProps.show && this.state.show === false &&this.state.isPassive){
+    if(this.state.isPassive){
       this.setState({
         show:nextProps.show
       })
