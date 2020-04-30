@@ -118,9 +118,35 @@ class Payment extends React.Component {
         }, 5000);
         return;
       }
+      if(k === 'postCode' && !(/\d{5}/.test(deliveryAddress[k]))) {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please enter the correct post code'
+        })
+        window.scrollTo(0, 0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false,
+          });
+        }, 5000);
+        return
+      }
+      if(k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(deliveryAddress[k].replace(/\s*/g,"")))) {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please enter the correct phone number'
+        })
+        window.scrollTo(0, 0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false,
+          });
+        }, 5000);
+        return 
+      }
     }
     for (let k in billingAddress) {
-      if (deliveryAddress[k] === "" && k !== "address2") {
+      if (billingAddress[k] === "" && k !== "address2") {
         this.setState({
           errorShow: true,
           errorMsg: 'Please complete the required items'
@@ -132,6 +158,32 @@ class Payment extends React.Component {
           });
         }, 5000);
         return;
+      }
+      if(k === 'postCode' && !(/\d{5}/.test(billingAddress[k]))) {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please enter the correct post code'
+        })
+        window.scrollTo(0, 0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false,
+          });
+        }, 5000);
+        return
+      }
+      if(k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(billingAddress[k].replace(/\s*/g,"")))) {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please enter the correct phone number'
+        })
+        window.scrollTo(0, 0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false,
+          });
+        }, 5000);
+        return 
       }
     }
 
@@ -342,6 +394,33 @@ class Payment extends React.Component {
         }, 5000);
         return;
       }
+      if(k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(this.state.creditCardInfo[k].replace(/\s*/g,"")))) {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please enter the correct phone number'
+        })
+        window.scrollTo(0, 0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false,
+          });
+        }, 5000);
+        return 
+      }
+      if(k === 'email' && !(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(this.state.creditCardInfo[k].replace(/\s*/g,"")))) {
+        this.setState({
+          errorShow: true,
+          errorMsg: 'Please enter the correct email'
+        })
+        window.scrollTo(0, 0)
+        setTimeout(() => {
+          this.setState({
+            errorShow: false,
+          });
+        }, 5000);
+        return 
+      }
+      
     }
     this.setState({
       loading: true,
@@ -525,7 +604,6 @@ class Payment extends React.Component {
       billingAddress,
       creditCardInfo
     } = this.state;
-    console.log(deliveryAddress.city);
     
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
@@ -903,8 +981,7 @@ class Payment extends React.Component {
                               />
                             </div>
                             <span className="ui-lighter">
-                              <FormattedMessage id="example" />: +7 (923) 456 78
-                              90
+                              <FormattedMessage id="example" />: +(52) 559 801 65
                             </span>
                           </div>
                         </div>
@@ -1235,8 +1312,7 @@ class Payment extends React.Component {
                               />
                             </div>
                             <span className="ui-lighter">
-                              <FormattedMessage id="example" />: +7 (923) 456 78
-                              90
+                              <FormattedMessage id="example" />: +(52) 559 801 65
                             </span>
                           </div>
                         </div>
@@ -1778,7 +1854,7 @@ class Payment extends React.Component {
                                             input-setup="true"
                                           >
                                             <input
-                                              type="text"
+                                              type="email"
                                               className="rc-input__control email"
                                               id="email"
                                               value={creditCardInfo.email}
