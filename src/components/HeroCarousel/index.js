@@ -27,9 +27,11 @@ class HeroCarousel extends React.Component {
         <div className="rc-max-width--xl">
           {
             this.state.noticeVisible
-              ? <div className="red text-center font-weight-normal p-1 position-relative" style={{ background: '#f6f6f6' }}>
-                <span className="rc-icon rc-close--xs rc-iconography searchBtnToggle rc-stick-right" onClick={this.hideNotice}></span>
-                <FormattedMessage id="home.note1" /><br />
+              ? <div className="red text-center font-weight-normal p-1 position-relative pr-4 pl-4" style={{ background: '#f6f6f6' }}>
+                <span
+                  className="rc-icon rc-close--xs rc-iconography searchBtnToggle rc-stick-right rc-vertical-align"
+                  style={{ transform: 'translateY(-40%)' }} onClick={this.hideNotice}></span>
+                <FormattedMessage id="home.note1" />&nbsp;
                 <FormattedMessage id="home.note2" />
               </div>
               : null
