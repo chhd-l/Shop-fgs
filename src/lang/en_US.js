@@ -102,7 +102,7 @@ const en_US = {
 
   'cart.errorInfo': 'The number can\'t be less than 1',
   'cart.errorInfo2': 'You cannot place your order, since the chosen product is out of stock.',
-  'cart.errorInfo3': '*Your order amount has not yet reached the minimum amount for free shipping （$100）',
+  'cart.errorInfo3': '*Your order amount has not yet reached the minimum amount for free shipping （$499）',
   'cart.yourBasket': 'Your basket',
   'cart.fullPrice': 'FULL RICE FOR YOUR PET',
   'cart.dogDiet': 'Choose a diet for your dog',
