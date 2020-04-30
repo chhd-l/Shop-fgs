@@ -84,9 +84,9 @@ function Footer () {
                       </a>
                     </li>
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://mydrive.effem.com/:w:/g/personal/israel_garcia_royalcanin_com/EVRUIA-SMqdInMzsGIht2UoBYIBnKqzjYGhhQlk6LGuRJA?e=QH6lK6" role="menuitem">
+                      <Link className="rc-list__link" to="/FAQ" role="menuitem">
                         <FormattedMessage id="footer.FAQ" />
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </li>
