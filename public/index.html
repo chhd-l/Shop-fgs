@@ -77,8 +77,9 @@ POS.setPublicKey("fd931719-5733-4b77-b146-2fd22f9ad2e3");
 POS.setEnvironment("test");
 const style = {
   base: {
+    
     secureFields: {
-      width: '100%'
+      width: 'calc(100% - 45px)'
     },
     pan: {
       display: 'inline-block',
@@ -92,24 +93,27 @@ const style = {
       display: 'inline-block',
       width: '20%'
     }
-  }    
+  }
 };
   POS.setStyle(style);
   POS.initSecureFields('card-secure-fields');
   try {
     document.getElementById('zoozIframe').setAttribute("scrolling","no")
   } catch (e) {}
-  document.getElementById('payment-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const additionalData = {
-      holder_name: document.getElementById('cardholder-name').value // This field is mandatory
-    }
-    POS.createToken(additionalData, function(result) {
-      console.log(result, 'result')
-      // Grab the token here
-      sessionStorage.setItem('payosdata', result)
+  if(document.getElementById('payment-form')) {
+    document.getElementById('payment-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const additionalData = {
+        holder_name: document.getElementById('cardholder-name').value // This field is mandatory
+      }
+      POS.createToken(additionalData, function(result) {
+        console.log(result, 'result')
+        // Grab the token here
+        sessionStorage.setItem('payosdata', result)
+      });
     });
-  });
+  }
+  
 
 </script>
 </html>

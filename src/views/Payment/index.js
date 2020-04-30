@@ -1,6 +1,6 @@
 import React from "react";
-import { FormattedMessage } from 'react-intl'
-import { findIndex, find } from 'lodash'
+import { FormattedMessage } from "react-intl";
+import { findIndex, find } from "lodash";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Progress from "@/components/Progress";
@@ -37,6 +37,7 @@ class Payment extends React.Component {
         VISA: visaImg,
         MASTERCARD: mastercardImg,
         "AMERICAN EXPRESS": amexImg,
+        DISCOVER: discoverImg
       },
       deliveryAddress: {
         firstName: "",
@@ -46,7 +47,7 @@ class Payment extends React.Component {
         country: "Mexico",
         city: "",
         postCode: "",
-        phoneNumber: "",
+        phoneNumber: "+(52) ___ ___ __",
       },
       billingAddress: {
         firstName: "",
@@ -67,7 +68,7 @@ class Payment extends React.Component {
         phoneNumber: "",
       },
       errorShow: false,
-      errorMsg: '',
+      errorMsg: "",
       commentOnDelivery: "",
       currentProduct: null,
       loading: false,
@@ -75,6 +76,7 @@ class Payment extends React.Component {
       payosdata: {},
     };
     this.confirmCardInfo = this.confirmCardInfo.bind(this);
+    this.timer = null;
   }
   confirmCardInfo () {
     this.setState({
@@ -111,9 +113,9 @@ class Payment extends React.Component {
         window.scrollTo(0, 0)
         setTimeout(() => {
           this.setState({
-            errorShow: false
-          })
-        }, 5000)
+            errorShow: false,
+          });
+        }, 5000);
         return;
       }
     }
@@ -126,16 +128,16 @@ class Payment extends React.Component {
         window.scrollTo(0, 0)
         setTimeout(() => {
           this.setState({
-            errorShow: false
-          })
-        }, 5000)
+            errorShow: false,
+          });
+        }, 5000);
         return;
       }
     }
 
     this.setState({
-      creditCardInfo: creditCardInfo
-    })
+      creditCardInfo: creditCardInfo,
+    });
     const { history } = this.props;
     history.push("/payment/payment");
   }
@@ -170,10 +172,10 @@ class Payment extends React.Component {
         window.scrollTo(0, 0)
         setTimeout(() => {
           this.setState({
-            errorShow: false
-          })
-        }, 5000)
-        return
+            errorShow: false,
+          });
+        }, 5000);
+        return;
       }
       this.setState({
         loading: true,
@@ -198,7 +200,7 @@ class Payment extends React.Component {
           return {
             verifyStock: false,
             buyCount: ele.quantity,
-            goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId
+            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           };
         }),
       };
@@ -240,7 +242,7 @@ class Payment extends React.Component {
           history.push("/confirmation");
         }
       } catch (e) {
-        console.log(e)
+        console.log(e);
         this.setState({
           errorShow: true,
           errorMsg: e
@@ -248,12 +250,11 @@ class Payment extends React.Component {
         window.scrollTo(0, 0)
         setTimeout(() => {
           this.setState({
-            errorShow: false
-          })
-        }, 5000)
+            errorShow: false,
+          });
+        }, 5000);
       } finally {
         this.setState({ loading: false });
-
       }
     } else {
       this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
@@ -275,7 +276,12 @@ class Payment extends React.Component {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { deliveryAddress } = this.state;
-    deliveryAddress[name] = value;
+    if (name === "phoneNumber") {
+      this.phoneNumberInput(e, deliveryAddress, name);
+    } else {
+      deliveryAddress[name] = value;
+    }
+    // deliveryAddress[name] = value;
     this.inputBlur(e);
     this.setState({ deliveryAddress: deliveryAddress });
   }
@@ -284,7 +290,11 @@ class Payment extends React.Component {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { creditCardInfo } = this.state;
-    creditCardInfo[name] = value;
+    if (name === "phoneNumber") {
+      this.phoneNumberInput(e, creditCardInfo, name);
+    } else {
+      creditCardInfo[name] = value;
+    }
     this.inputBlur(e);
     this.setState({ creditCardInfo: creditCardInfo });
   }
@@ -306,7 +316,11 @@ class Payment extends React.Component {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { billingAddress } = this.state;
-    billingAddress[name] = value;
+    if (name === "phoneNumber") {
+      this.phoneNumberInput(e, billingAddress, name);
+    } else {
+      billingAddress[name] = value;
+    }
     this.inputBlur(e);
     this.setState({ billingAddress: billingAddress });
   }
@@ -323,9 +337,9 @@ class Payment extends React.Component {
         window.scrollTo(0, 0)
         setTimeout(() => {
           this.setState({
-            errorShow: false
-          })
-        }, 5000)
+            errorShow: false,
+          });
+        }, 5000);
         return;
       }
     }
@@ -350,19 +364,80 @@ class Payment extends React.Component {
           window.scrollTo(0, 0)
           setTimeout(() => {
             this.setState({
-              errorShow: false
-            })
-          }, 5000)
+              errorShow: false,
+            });
+          }, 5000);
           return;
         } else {
           this.setState({
             isCompleteCredit: true,
-          })
+          });
         }
       }
     }, 1000);
   }
-  billingCheckedChange () {
+  insertStr(soure, start, newStr) {
+    return soure.slice(0, start) + newStr + soure.slice(start);
+  }
+  retextStr(soure, start, newStr) {
+    return soure.slice(0, start) + newStr + soure.slice(start + 1);
+  }
+  phoneNumberClick(e) {
+    let index = e.target.value.indexOf("_");
+    e.target.selectionStart = index;
+    e.target.selectionEnd = index;
+  }
+  phoneNumberInput(e, obj, k) {
+    let target = e.target;
+    let textVal = target.value;
+    let oldSelectionStart = target.selectionStart;
+    let oldSelectionEnd = target.selectionEnd;
+    if (target.value.length < 16) {
+      console.log(target.selectionStart, target.selectionEnd);
+      if (
+        [9, 13].indexOf(oldSelectionStart) !== -1 &&
+        [9, 13].indexOf(oldSelectionEnd) !== -1
+      ) {
+        
+        target.value = this.retextStr(target.value, oldSelectionStart - 1, "")
+        console.log(target.value, target.selectionStart - 1)
+        target.value = this.insertStr(target.value, oldSelectionStart - 1, "_");
+        console.log(target.value, target.selectionStart - 1)
+        target.value = this.insertStr(target.value, oldSelectionStart, " ");
+        
+        target.selectionStart = oldSelectionStart - 1;
+        target.selectionEnd = oldSelectionEnd - 1;
+      } else if (oldSelectionStart === 5 && oldSelectionEnd === 5) {
+        target.value = this.insertStr(target.value, target.selectionStart, " ");
+        target.selectionStart = oldSelectionStart + 1;
+        target.selectionEnd = oldSelectionEnd + 1;
+      } else {
+        target.value = this.insertStr(target.value, target.selectionStart, "_");
+        target.selectionStart = oldSelectionStart;
+        target.selectionEnd = oldSelectionEnd;
+      }
+      console.log(target.selectionStart, target.selectionEnd);
+    } else if (target.value.length > 16) {
+      console.log(target.selectionStart, target.selectionEnd);
+      // messageDom.style.display = 'none'
+      if (
+        [9, 13].indexOf(oldSelectionStart) !== -1 &&
+        [9, 13].indexOf(oldSelectionEnd) !== -1
+      ) {
+        target.value = this.retextStr(target.value, target.selectionStart, "");
+        target.selectionStart = oldSelectionStart + 1;
+        target.selectionEnd = oldSelectionEnd + 1;
+      } else {
+        target.value = this.retextStr(target.value, target.selectionStart, "");
+        target.selectionStart = oldSelectionStart;
+        target.selectionEnd = oldSelectionEnd;
+      }
+      console.log(target.selectionStart, target.selectionEnd);
+    }
+    target.value = target.value.slice(0, 16);
+    obj[k] = target.value;
+  }
+  billingCheckedChange() {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
   }
@@ -435,7 +510,7 @@ class Payment extends React.Component {
         billingAddress: deliveryInfo.billingAddress,
         commentOnDelivery: deliveryInfo.commentOnDelivery,
         billingChecked: deliveryInfo.billingChecked,
-        creditCardInfo: creditCardInfo
+        creditCardInfo: creditCardInfo,
       });
     }
     this.setState({
@@ -480,7 +555,9 @@ class Payment extends React.Component {
                     className="rc-alert rc-alert--error rc-alert--with-close"
                     role="alert"
                   >
-                    <span style={{ paddingLeft: 0 }}>{this.state.errorMsg}</span>
+                    <span style={{ paddingLeft: 0 }}>
+                      {this.state.errorMsg}
+                    </span>
                   </aside>
                 </div>
                 <div
@@ -495,7 +572,6 @@ class Payment extends React.Component {
                         <FormattedMessage id="payment.clinicTitle" />
                       </h5>
                       <p
-
                         onClick={(e) => {
                           e.preventDefault();
                           let { history } = this.props;
@@ -503,7 +579,9 @@ class Payment extends React.Component {
                         }}
                         style={{
                           display: sessionStorage.getItem("rc-clinics-name")
-                            ? "none" : "inline", margin: 0,
+                            ? "none"
+                            : "inline",
+                          margin: 0,
                         }}
                         className="rc-styled-link rc-margin-top--xs pull-right"
                       >
@@ -526,7 +604,8 @@ class Payment extends React.Component {
                             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
                               <label
                                 className="form-control-label"
-                                htmlFor="shippingFirstName">
+                                htmlFor="shippingFirstName"
+                              >
                                 <FormattedMessage id="payment.firstName" />
                               </label>
                               <span
@@ -781,7 +860,7 @@ class Payment extends React.Component {
                               data-js-validate=""
                               data-js-warning-message="*Phone Number isn’t valid"
                             >
-                              <input
+                              {/* <input
                                 className="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
                                 type="tel"
@@ -792,7 +871,22 @@ class Payment extends React.Component {
                                 name="phoneNumber"
                                 maxLength="20"
                                 minLength="18"
-                              />
+                              /> */}
+                              <input
+                                className="rc-input__control input__phoneField shippingPhoneNumber"
+                                id="shippingPhoneNumber"
+                                type="tel"
+                                value={deliveryAddress.phoneNumber}
+                                onChange={(e) => {
+                                  this.deliveryInputChange(e);
+                                }}
+                                onBlur={(e) => this.inputBlur(e)}
+                                onClick={(e) => this.phoneNumberClick(e)}
+                                data-js-pattern="(^(\+52)\d{8}$)"
+                                name="phoneNumber"
+                                maxlength="17"
+                                minLength="16"
+                              ></input>
                               <label
                                 className="rc-input__label"
                                 htmlFor="shippingPhoneNumber"
@@ -1101,7 +1195,7 @@ class Payment extends React.Component {
                               data-js-validate=""
                               data-js-warning-message="*Phone Number isn’t valid"
                             >
-                              <input
+                              {/* <input
                                 className="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
                                 type="tel"
@@ -1112,7 +1206,19 @@ class Payment extends React.Component {
                                 data-js-pattern="(^(\+?7|8)?9\d{9}$)"
                                 maxLength="20"
                                 minLength="18"
-                              />
+                              /> */}
+                              <input
+                                className="rc-input__control input__phoneField shippingPhoneNumber"
+                                type="tel"
+                                value={billingAddress.phoneNumber}
+                                onChange={(e) => this.billingInputChange(e)}
+                                onBlur={(e) => this.inputBlur(e)}
+                                onClick={(e) => this.phoneNumberClick(e)}
+                                data-js-pattern="(^(\+52)\d{8}$)"
+                                name="phoneNumber"
+                                maxlength="17"
+                                minLength="16"
+                              ></input>
                               <label
                                 className="rc-input__label"
                                 htmlFor="shippingPhoneNumber"
@@ -1673,7 +1779,7 @@ class Payment extends React.Component {
                                           >
                                             <input
                                               type="text"
-                                              className="rc-input__control form-control email"
+                                              className="rc-input__control email"
                                               id="email"
                                               value={creditCardInfo.email}
                                               onChange={(e) =>
@@ -1707,7 +1813,7 @@ class Payment extends React.Component {
                                             data-js-validate=""
                                             data-js-warning-message="*Phone Number isn’t valid"
                                           >
-                                            <input
+                                            {/* <input
                                               type="tel"
                                               className="rc-input__control form-control phone"
                                               min-lenght="18"
@@ -1722,7 +1828,23 @@ class Payment extends React.Component {
                                               onBlur={(e) => this.inputBlur(e)}
                                               name="phoneNumber"
                                               maxLength="2147483647"
-                                            />
+                                            /> */}
+                                            <input
+                                              className="rc-input__control input__phoneField shippingPhoneNumber"
+                                              type="tel"
+                                              value={creditCardInfo.phoneNumber}
+                                              onChange={(e) =>
+                                                this.cardInfoInputChange(e)
+                                              }
+                                              onBlur={(e) => this.inputBlur(e)}
+                                              onClick={(e) =>
+                                                this.phoneNumberClick(e)
+                                              }
+                                              data-js-pattern="(^(\+52)\d{8}$)"
+                                              name="phoneNumber"
+                                              maxlength="17"
+                                              minLength="16"
+                                            ></input>
                                             <label
                                               className="rc-input__label"
                                               htmlFor="phoneNumber"

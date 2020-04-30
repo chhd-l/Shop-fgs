@@ -4,7 +4,9 @@ import { register } from '../serviceWorker'
 const api = {
   visitorRegisterAndLogin: 'visitorRegisterAndLogin',
   batchAdd: '/site/batchAdd',
-  confirmAndCommit: '/tradeCustom/confirmcommitAndPay'
+  // confirmAndCommit: '/tradeCustom/confirmcommitAndPay'
+  confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
+  
 }
 
 export default api

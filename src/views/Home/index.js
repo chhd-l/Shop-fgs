@@ -49,6 +49,7 @@ class Home extends React.Component {
                                 <source
                                   srcSet={DIETDOG} />
                                 <img
+                                  className="w-100"
                                   src={DIETDOG}
                                   alt={txt}
                                   title={txt} />
@@ -71,6 +72,7 @@ class Home extends React.Component {
                                 <source
                                   srcSet={DIETCAT} />
                                 <img
+                                  className="w-100"
                                   src={DIETCAT}
                                   alt={txt} title={txt} />
                               </picture>
@@ -91,6 +93,7 @@ class Home extends React.Component {
                                 <source
                                   srcSet={CAREDOG} />
                                 <img
+                                  className="w-100"
                                   src={CAREDOG}
                                   alt={txt}
                                   title={txt} />
@@ -112,6 +115,7 @@ class Home extends React.Component {
                                 <source
                                   srcSet={CARECAT} />
                                 <img
+                                  className="w-100"
                                   src={CARECAT}
                                   alt={txt}
                                   title={txt} />
