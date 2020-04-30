@@ -48,7 +48,7 @@ const en_US = {
   'header.VCN': 'Dietas Veterinarias',
   'header.VD': 'Dietas de Prescripción Veterinaria',
   'header.carouselInfo1': 'Mantenga la salud de su mascota con una nutrición adecuada',
-  'header.carouselInfo2': 'Elija el alimento derecho para su animal doméstico',
+  'header.carouselInfo2': 'Elja la dieta de prescripción recomendada por su veterinario',
   'header.carouselInfo3': 'Nutrición de mascotas',
   'header.carouselInfo4': 'Consultor personal',
   'header.carouselInfo5': 'Examinaciones veterinarias lIBRES',
@@ -84,6 +84,8 @@ const en_US = {
   'home.catogery2': 'Dietas Veterinarias Gatos',
   'home.catogery3': 'Dietas de Prescripción Veterinaria Perros',
   'home.catogery4': 'Dietas de Prescripción Veterinaria Gatos',
+  'home.note1': 'Afectado por la epidemia, el tiempo de entrega puede extenderse',
+  'home.note2': 'Nuestra área de distribución se limita a la Ciudad de México y Monterrey',
 
   'list.youSearchedFor': 'Has buscado',
   'list.errMsg': 'No se encontraron productos, cambie los criterios de búsqueda e intente nuevamente.',
