@@ -1,13 +1,21 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
-import { createHashHistory } from 'history'
 import '@/assets/css/heroCarousel.css'
 
 class HeroCarousel extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
+    this.state = {
+      noticeVisible: true
+    }
     this.hanldeClick = this.hanldeClick.bind(this)
+    this.hideNotice = this.hideNotice.bind(this)
+  }
+  hideNotice () {
+    this.setState({
+      noticeVisible: false
+    })
   }
   hanldeClick () {
     const { history } = this.props;
@@ -17,6 +25,16 @@ class HeroCarousel extends React.Component {
     return (
       <div className="hero-carousel with-shadow">
         <div className="rc-max-width--xl">
+          {
+            this.state.noticeVisible
+              ? <div className="red text-center font-weight-normal p-1 position-relative" style={{ background: '#f6f6f6' }}>
+                <span className="rc-icon rc-close--xs rc-iconography searchBtnToggle rc-stick-right" onClick={this.hideNotice}></span>
+                <FormattedMessage id="home.note1" /><br />
+                <FormattedMessage id="home.note2" />
+              </div>
+              : null
+          }
+
           <div data-js-carousel="" className="rc-carousel js-hero-carousel">
             <div className="hero-carousel__slide">
               <div className="d-flex align-items-center hero-carousel__slide__inner flex-column-reverse flex-column flex-md-row">
