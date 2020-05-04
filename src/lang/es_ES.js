@@ -58,7 +58,7 @@ const en_US = {
   'header.carouselInfo9': 'Su consultor personal en el tacto diario a partir del 9.00 a 21.00',
   'header.carouselInfo10': 'CLUB del consultor personal ROYAL CANIN®',
   'header.carouselInfo11': 'CLUB de ROYAL CANIN® para los gatitos',
-  'header.toBegin': 'Para comenzar',
+  'header.toBegin': 'Comenzar',
   'header.toLearnMore': 'Para aprender más',
 
   'home.productsCategory': 'Nuestros productos por categoria',
