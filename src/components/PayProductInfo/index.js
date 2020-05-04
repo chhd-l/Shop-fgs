@@ -46,7 +46,7 @@ class PayProductInfo extends React.Component {
                 </div>
                 <div className="line-item-total-price justify-content-end pull-right">
                   <div>
-                    $ {formatMoney(el.currentAmount)}
+                    {formatMoney(el.currentAmount)}
                   </div>
                 </div>
               </div>
@@ -82,7 +82,7 @@ class PayProductInfo extends React.Component {
                   <div className="col-4 end-lines">
                     <p className="text-right">
                       <span className="sub-total">
-                        $ {this.totalCount}
+                        {this.totalCount}
                       </span>
                     </p>
                   </div>
@@ -108,7 +108,7 @@ class PayProductInfo extends React.Component {
             </div>
             <div className="col-6 end-lines text-right">
               <span className="grand-total-sum">
-                $ {this.totalCount}
+                {this.totalCount}
               </span>
             </div>
           </div>

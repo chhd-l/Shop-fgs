@@ -417,7 +417,7 @@ class Header extends React.Component {
                                   </div>
                                 </div>
                                 <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
-                                  <span className="rc-body rc-margin--none"><FormattedMessage id="total" /> <b>$ {formatMoney(this.totalPrice)}</b></span>
+                                  <span className="rc-body rc-margin--none"><FormattedMessage id="total" /> <b>{formatMoney(this.totalPrice)}</b></span>
                                   <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true"><FormattedMessage id="chang" /></Link>
                                 </div>
                                 <div style={{ margin: '0 2%', display: this.state.errMsg ? 'block' : 'none' }}>
@@ -477,7 +477,7 @@ class Header extends React.Component {
                                                 <div className="line-item-total-price justify-content-end pull-right">
                                                   <div className="item-total-07984de212e393df75a36856b6 price relative">
                                                     <div className="strike-through non-adjusted-price">null</div>
-                                                    <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">$ {formatMoney(item.currentAmount)}</b>
+                                                    <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">{formatMoney(item.currentAmount)}</b>
                                                   </div>
                                                 </div>
                                               </div>

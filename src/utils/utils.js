@@ -2,9 +2,16 @@ import { getStoreCate } from '@/api'
 import { STOREID } from '@/utils/constant'
 import { purchases } from '@/api/cart'
 
-export function formatMoney (val) {
+/**
+ * 
+ * @param {*} val 
+ * @param {*} currency 1-$ 2-₱
+ */
+export function formatMoney (val, currency = 2) {
   val = val + ''
-  return val.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+  let ret = val.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+  const mapEnum = { 1: '$', 2: 'Mex$' }
+  return `${mapEnum[currency]} ${ret}`
 }
 
 export async function queryStoreCateIds () {
@@ -32,7 +39,7 @@ export function getParaByName (search, name) {
   return ''
 }
 
-export function translateHtmlCharater(html) {
+export function translateHtmlCharater (html) {
   var div = document.createElement("div");
   div.innerHTML = html;
   return div.textContent;

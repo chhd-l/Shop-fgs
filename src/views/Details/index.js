@@ -362,7 +362,7 @@ class Details extends React.Component {
                                       <span>
                                         <span>
                                           <span className="sales">
-                                            <span className="value">$ {formatMoney(currentUnitPrice)}</span>
+                                            <span className="value">{formatMoney(currentUnitPrice)}</span>
                                           </span>
                                         </span>
                                       </span>

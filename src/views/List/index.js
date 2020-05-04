@@ -362,7 +362,7 @@ class List extends React.Component {
                                             </div>
                                             <span className="rc-card__price rc-text--center">
                                               <span className="range">
-                                                $ {formatMoney(item.goodsInfos[0].salePrice)}
+                                                {formatMoney(item.goodsInfos[0].salePrice)}
                                               </span>
                                             </span>
                                           </div>

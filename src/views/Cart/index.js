@@ -334,7 +334,7 @@ class Cart extends React.Component {
                           null
                         </div>
                         <b className="pricing line-item-total-price-amount item-total-3ab64fd26c17b64c44e4ba1a7e light">
-                          $ {formatMoney(pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice)}
+                          {formatMoney(pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice)}
                         </b>
                       </div>
                     </div>
@@ -388,7 +388,7 @@ class Cart extends React.Component {
                     null
                   </div>
                   <b className="pricing line-item-total-price-amount item-total-f6a6279ea1978964b8bf0e3524 light">
-                    $ {formatMoney(pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice)}
+                    {formatMoney(pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice)}
                   </b>
                 </div>
               </div>
@@ -481,7 +481,7 @@ class Cart extends React.Component {
                           <FormattedMessage id="total" />
                         </div>
                         <div className="col-4 no-padding-left">
-                          <p className="text-right sub-total">$ {formatMoney(this.total)}</p>
+                          <p className="text-right sub-total">{formatMoney(this.total)}</p>
                         </div>
                       </div>
                       <div className="row">
@@ -502,7 +502,7 @@ class Cart extends React.Component {
                             </strong>
                           </div>
                           <div className="col-5">
-                            <p className="text-right grand-total-sum medium">$ {formatMoney(this.total)}</p>
+                            <p className="text-right grand-total-sum medium">{formatMoney(this.total)}</p>
                           </div>
                         </div>
                         <div className="row checkout-proccess">

@@ -4,7 +4,7 @@ import { createHashHistory } from "history";
 import { queryStoreCateIds } from "@/utils/utils";
 
 class RouteFilter extends Component {
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate (nextProps) {
     if (
       nextProps.location.pathname === "/prescription" &&
       sessionStorage.getItem("rc-clinics-id") &&
@@ -12,13 +12,14 @@ class RouteFilter extends Component {
     ) {
       createHashHistory().push("/payment/shipping");
     }
+
     // 切换路由时，刷新下页面，解决外部组件无法初始化问题
     if (this.props.location !== nextProps.location) {
       window.location.reload();
       return false;
     }
   }
-  async componentDidMount() {
+  async componentDidMount () {
     if (this.props.location.pathname === "/payment/payment") {
       loadJS(
         "https://js.paymentsos.com/v2/latest/secure-fields.min.js",
@@ -50,7 +51,7 @@ class RouteFilter extends Component {
             document
               .getElementById("zoozIframe")
               .setAttribute("scrolling", "no");
-          } catch (e) {}
+          } catch (e) { }
           if (document.getElementById("payment-form")) {
             document
               .getElementById("payment-form")
@@ -69,16 +70,19 @@ class RouteFilter extends Component {
         }
       );
     }
+    if (this.props.location.pathname === "/confirmation" && !sessionStorage.getItem("rc-token")) {
+      createHashHistory().push("/");
+    }
     queryStoreCateIds();
   }
-  render() {
+  render () {
     return <React.Fragment />;
   }
 }
 
-function loadJS(url, callback) {
+function loadJS (url, callback) {
   var script = document.createElement("script"),
-    fn = callback || function () {};
+    fn = callback || function () { };
   script.type = "text/javascript";
   //IE
   if (script.readyState) {
