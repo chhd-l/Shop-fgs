@@ -255,6 +255,9 @@ class List extends React.Component {
     this.setState({ currentPage: res }, () => this.getProductList())
   }
   hanldeItemClick (item) {
+    if (this.state.loading) {
+      return false
+    }
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
     sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
     createHashHistory().push('/details/' + item.goodsInfos[0].goodsInfoId)
