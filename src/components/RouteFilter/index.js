@@ -70,7 +70,7 @@ class RouteFilter extends Component {
         }
       );
     }
-    if (this.props.location.pathname === "/confirmation" && !sessionStorage.getItem("rc-token")) {
+    if (this.props.location.pathname === "/confirmation" && !localStorage.getItem('orderNumber')) {
       createHashHistory().push("/");
     }
     queryStoreCateIds();
