@@ -108,9 +108,9 @@ function Footer () {
                       </a>
                     </li>
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.mars.com/legal-mexico" role="menuitem">
+                      <Link className="rc-list__link" to="/termuse" role="menuitem">
                         <FormattedMessage id="footer.websiteTermsOfUse" />
-                      </a>
+                      </Link>
                     </li>
                     <li className="rc-list__item">
                       <a className="rc-list__link" href="https://www.mars.com/cookies-spain" role="menuitem">

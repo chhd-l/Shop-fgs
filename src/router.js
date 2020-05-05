@@ -12,6 +12,7 @@ import Prescription from '@/views/Prescription'
 import Exception from '@/views/Exception'
 import Help from '@/views/Help'
 import FAQ from '@/views/FAQ'
+import TermUse from '@/views/TermUse'
 
 const BasicRoute = () => (
   <HashRouter>
@@ -42,6 +43,7 @@ const BasicRoute = () => (
         <Route exact path="/prescription" component={Prescription} />
         <Route exact path="/help" component={Help} />
         <Route exact path="/FAQ" component={FAQ} />
+        <Route exact path="/termuse" component={TermUse} />
         <Route component={Exception} />
 
       </Switch>
