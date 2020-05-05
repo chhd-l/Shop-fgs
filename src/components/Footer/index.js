@@ -98,9 +98,9 @@ function Footer () {
                   </button>
                   <ul className="list list--blank list--align" id="footer-list-158504765613549553" aria-labelledby="footer-head-158504765613549553" role="menu">
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.mars.com/privacy-policy-mexico" role="menuitem">
+                      <Link className="rc-list__link" to="/privacypolicy" role="menuitem">
                         <FormattedMessage id="footer.privacyPolicy" />
-                      </a>
+                      </Link>
                     </li>
                     <li className="rc-list__item">
                       <a className="rc-list__link" href="https://www.mars.com/global/policies/note-to-parents/np-russian" role="menuitem">
@@ -149,11 +149,11 @@ function Footer () {
           <div className="mars-footer-container">
             <ul className="mars-footer-list-right" style={{ fontSize: '10px', fontFamily: 'Inherit' }}>
               <li>
-                <a target="_blank" href="https://www.mars.com/privacy-policy-mexico">
+                <Link target="_blank" to="/privacypolicy">
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.confidentiality" />
                   </span>
-                </a>
+                </Link>
               </li>
               <li>
                 <a target="_blank" href="https://www.mars.com/cookies-spain">
@@ -176,6 +176,9 @@ function Footer () {
           </div>
         </div>
       </div>
+      {/* <!-- OneTrust Cookies Settings button start --> */}
+      <a class="optanon-show-settings">Cookie Settings</a>
+      {/* <!-- OneTrust Cookies Settings button end --> */}
     </footer>
   )
 }

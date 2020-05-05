@@ -13,6 +13,7 @@ import Exception from '@/views/Exception'
 import Help from '@/views/Help'
 import FAQ from '@/views/FAQ'
 import TermUse from '@/views/TermUse'
+import PrivacyPolicy from '@/views/PrivacyPolicy'
 
 const BasicRoute = () => (
   <HashRouter>
@@ -44,6 +45,7 @@ const BasicRoute = () => (
         <Route exact path="/help" component={Help} />
         <Route exact path="/FAQ" component={FAQ} />
         <Route exact path="/termuse" component={TermUse} />
+        <Route exact path="/privacypolicy" component={PrivacyPolicy} />
         <Route component={Exception} />
 
       </Switch>

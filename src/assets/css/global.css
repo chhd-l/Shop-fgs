@@ -15624,6 +15624,11 @@ ul li:not(.rc-list__item) {
   background-color: #fff!important
 }
 
+.optanon-alert-box-wrapper {
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
 .optanon-alert-box-wrapper .optanon-alert-box-body {
   padding-right: 12%
 }
