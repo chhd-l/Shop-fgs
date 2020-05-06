@@ -2047,8 +2047,8 @@ class Payment extends React.Component {
                       <FormattedMessage
                         id="payment.confirmInfo3"
                         values={{
-                          val1: <Link target="_blank" to="/privacypolicy">Política de privacidad</Link>,
-                          val2: <Link target="_blank" to="/termuse">la transferencia transfronteriza</Link>
+                          val1: <Link style={{ color: '#3a8ce1' }} target="_blank" to="/privacypolicy">Política de privacidad</Link>,
+                          val2: <Link style={{ color: '#3a8ce1' }} target="_blank" to="/termuse">la transferencia transfronteriza</Link>
                         }}
                       />
                       <div
