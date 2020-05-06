@@ -15,19 +15,15 @@ import FAQ from "@/views/FAQ";
 import TermUse from "@/views/TermUse";
 import PrivacyPolicy from "@/views/PrivacyPolicy";
 
-// let enterRoute = () => {
-//   console.log(111);
-//   console.log(localStorage.getItem("isRefresh"));
-//   if (localStorage.getItem("isRefresh")) {
-//     localStorage.removeItem("isRefresh");
-//     window.location.reload();
-//   }
-// };
-// let leaveRoute = () => {
-
-//   localStorage.setItem("isRefresh", true);
-//   console.log(localStorage.getItem("isRefresh"));
-// };
+let enterRoute = () => {
+  // if (localStorage.getItem("isRefresh")) {
+  //   localStorage.removeItem("isRefresh");
+  //   window.location.reload();
+  // }
+};
+let leaveRoute = () => {
+  // localStorage.setItem("isRefresh", true);
+};
 
 const BasicRoute = () => (
   <HashRouter>
