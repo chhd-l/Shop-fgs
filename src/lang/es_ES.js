@@ -23,7 +23,7 @@ const en_US = {
   'viewResults': 'Ver resultados',
   'results': 'Resultados',
   'of': 'a',
-  'freeShipping': 'Envío libre',
+  'freeShipping': 'Envío gratis',
   'amount': 'cantidad',
   'homePage': 'Página de inicio',
   'filters': 'Filtros',
@@ -43,7 +43,7 @@ const en_US = {
   'puppy': 'Cachorro (0-1 años)',
   'kitten': 'Gatito (0-1 años)',
 
-  'header.basketEmpty': 'su cesta es vacía',
+  'header.basketEmpty': 'Tú carrito esta vacío',
   'header.startTypingToSearch': 'Empieza a escribir para buscar',
   'header.VCN': 'Dietas Veterinarias',
   'header.VD': 'Dietas de Prescripción Veterinaria',
@@ -94,7 +94,7 @@ const en_US = {
   'list.errMsg3': 'No se encontraron filtros, intente más tarde',
 
   'details.unitPrice': 'Precio unitario',
-  'details.theSize': 'El tamaño',
+  'details.theSize': 'El presentación',
   'details.availability': 'Disponibilidad',
   'details.inStock': 'En stock',
   'details.outStock': 'Agotado',
@@ -102,7 +102,7 @@ const en_US = {
   'details.description': 'Descripción',
   'details.beneficialFeatures': 'Características beneficiosas',
   'details.ingredients': 'Ingredientes',
-  'details.feedingRecommendations': 'Recomendaciones de alimentación',
+  'details.feedingRecommendations': 'Guía de alimentación',
   'details.errMsg': 'El producto no tiene especificaciones, intente nuevamente más tarde.',
   'details.errMsg2': 'No se encontraron detalles, intente nuevamente más tarde.',
 
@@ -193,10 +193,10 @@ const en_US = {
   'confirmation.customerInformation': 'Información del cliente',
   'confirmation.orderNumber': 'Número de orden',
 
-  'help.needHelp': 'Necesidad de ayuda ?',
+  'help.needHelp': '¿Necesita ayuda?',
   'help.tip1': 'Nuestro personal de servicio al cliente es profesional y entusiasmado.',
   'help.tip4': 'Pueden responder cualquier problema en cualquier momento.',
-  'help.tip2': 'Llamada gratuita (desde un teléfono fijo) de lunes a viernes de 8h a 20h.',
+  'help.tip2': 'Llamada gratuita (desde un teléfono fijo) de lunes a viernes de 8h a 18h.',
   'help.tip3': 'Le responderemos dentro de un máximo de 12 horas.',
   'help.byTelephone': 'Por teléfono',
   'help.byEmail': 'Por correo',
