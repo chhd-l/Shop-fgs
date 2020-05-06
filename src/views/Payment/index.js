@@ -958,7 +958,11 @@ class Payment extends React.Component {
                               <input
                                 className="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
+                                unselectable="on"
+                                onSelect={() => {return false}}
+                                onContextMenu={() => {return false}}
                                 type="tel"
+                                // type="text"
                                 value={deliveryAddress.phoneNumber}
                                 onCopy= {() => {
                                   return false
