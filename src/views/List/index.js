@@ -93,11 +93,13 @@ class List extends React.Component {
       vd: 'VD cats'
     }
     let res = map[category]
-    let targetObj = find(storeIdList, s => s.cateName.toLocaleLowerCase() === res.toLocaleLowerCase())
-    if (targetObj) {
-      this.setState({
-        storeCateId: targetObj.storeCateId
-      })
+    if (res) {
+      let targetObj = find(storeIdList, s => s.cateName.toLocaleLowerCase() === res.toLocaleLowerCase())
+      if (targetObj) {
+        this.setState({
+          storeCateId: targetObj.storeCateId
+        })
+      }
     }
 
     this.getProductList()
