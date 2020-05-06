@@ -1,5 +1,6 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
+import { Link } from "react-router-dom"
 import { findIndex, find } from "lodash";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -102,8 +103,8 @@ class Payment extends React.Component {
     } else {
       param.billingAddress = billingAddress;
     }
-    
-    
+
+
     for (let k in param.billingAddress) {
       if (param.billingAddress[k] === "" && k !== "address2") {
         console.log('delivery', k)
@@ -119,7 +120,7 @@ class Payment extends React.Component {
         }, 5000);
         return;
       }
-      if(k === 'postCode' && !(/\d{5}/.test(param.billingAddress[k]))) {
+      if (k === 'postCode' && !(/\d{5}/.test(param.billingAddress[k]))) {
         this.setState({
           errorShow: true,
           errorMsg: 'Please enter the correct post code'
@@ -132,7 +133,7 @@ class Payment extends React.Component {
         }, 5000);
         return
       }
-      if(k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(param.billingAddress[k].replace(/\s*/g,"")))) {
+      if (k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
         this.setState({
           errorShow: true,
           errorMsg: 'Please enter the correct phone number'
@@ -143,7 +144,7 @@ class Payment extends React.Component {
             errorShow: false,
           });
         }, 5000);
-        return 
+        return
       }
     }
     for (let k in param.billingAddress) {
@@ -161,7 +162,7 @@ class Payment extends React.Component {
         }, 5000);
         return;
       }
-      if(k === 'postCode' && !(/\d{5}/.test(param.billingAddress[k]))) {
+      if (k === 'postCode' && !(/\d{5}/.test(param.billingAddress[k]))) {
         this.setState({
           errorShow: true,
           errorMsg: 'Please enter the correct post code'
@@ -174,7 +175,7 @@ class Payment extends React.Component {
         }, 5000);
         return
       }
-      if(k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(param.billingAddress[k].replace(/\s*/g,"")))) {
+      if (k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
         this.setState({
           errorShow: true,
           errorMsg: 'Please enter the correct phone number'
@@ -185,7 +186,7 @@ class Payment extends React.Component {
             errorShow: false,
           });
         }, 5000);
-        return 
+        return
       }
     }
     localStorage.setItem("deliveryInfo", JSON.stringify(param));
@@ -199,7 +200,7 @@ class Payment extends React.Component {
     this.setState({ payMethod: e.target.value, showPayMethodError: false });
   }
   async goConfirmation () {
-    
+
     const { history } = this.props;
     let {
       isEighteen,
@@ -328,7 +329,7 @@ class Payment extends React.Component {
     history.push("/cart");
   }
   deliveryInputChange (e) {
-    
+
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -399,7 +400,7 @@ class Payment extends React.Component {
         }, 5000);
         return;
       }
-      if(k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(this.state.creditCardInfo[k].replace(/\s*/g,"")))) {
+      if (k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(this.state.creditCardInfo[k].replace(/\s*/g, "")))) {
         this.setState({
           errorShow: true,
           errorMsg: 'Please enter the correct phone number'
@@ -410,9 +411,9 @@ class Payment extends React.Component {
             errorShow: false,
           });
         }, 5000);
-        return 
+        return
       }
-      if(k === 'email' && !(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(this.state.creditCardInfo[k].replace(/\s*/g,"")))) {
+      if (k === 'email' && !(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(this.state.creditCardInfo[k].replace(/\s*/g, "")))) {
         this.setState({
           errorShow: true,
           errorMsg: 'Please enter the correct email'
@@ -423,9 +424,9 @@ class Payment extends React.Component {
             errorShow: false,
           });
         }, 5000);
-        return 
+        return
       }
-      
+
     }
     this.setState({
       loading: true,
@@ -460,18 +461,18 @@ class Payment extends React.Component {
       }
     }, 1000);
   }
-  insertStr(soure, start, newStr) {
+  insertStr (soure, start, newStr) {
     return soure.slice(0, start) + newStr + soure.slice(start);
   }
-  retextStr(soure, start, newStr) {
+  retextStr (soure, start, newStr) {
     return soure.slice(0, start) + newStr + soure.slice(start + 1);
   }
-  phoneNumberClick(e) {
+  phoneNumberClick (e) {
     let index = e.target.value.indexOf("_");
     e.target.selectionStart = index;
     e.target.selectionEnd = index;
   }
-  phoneNumberInput(e, obj, k) {
+  phoneNumberInput (e, obj, k) {
     let target = e.target;
     let textVal = target.value;
     let oldSelectionStart = target.selectionStart;
@@ -482,13 +483,13 @@ class Payment extends React.Component {
         [9, 13].indexOf(oldSelectionStart) !== -1 &&
         [9, 13].indexOf(oldSelectionEnd) !== -1
       ) {
-        
+
         target.value = this.retextStr(target.value, oldSelectionStart - 1, "")
         console.log(target.value, target.selectionStart - 1)
         target.value = this.insertStr(target.value, oldSelectionStart - 1, "_");
         console.log(target.value, target.selectionStart - 1)
         target.value = this.insertStr(target.value, oldSelectionStart, " ");
-        
+
         target.selectionStart = oldSelectionStart - 1;
         target.selectionEnd = oldSelectionEnd - 1;
       } else if (oldSelectionStart === 5 && oldSelectionEnd === 5) {
@@ -521,7 +522,7 @@ class Payment extends React.Component {
     target.value = target.value.slice(0, 16);
     obj[k] = target.value;
   }
-  billingCheckedChange() {
+  billingCheckedChange () {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
   }
@@ -580,7 +581,7 @@ class Payment extends React.Component {
     //     console.log(el, '212121',process.env.PUBLIC_URL,'elllll')
     //   });
     // })
-    
+
     let deliveryInfoStr = localStorage.getItem("deliveryInfo");
     const { creditCardInfo } = this.state
 
@@ -603,13 +604,13 @@ class Payment extends React.Component {
   }
 
   render () {
-    
+
     const {
       deliveryAddress,
       billingAddress,
       creditCardInfo
     } = this.state;
-    
+
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {this.state.creditCardImgUrl.map((el, idx) => (
@@ -960,11 +961,11 @@ class Payment extends React.Component {
                                 id="shippingPhoneNumber"
                                 type="tel"
                                 value={deliveryAddress.phoneNumber}
-                                onCopy= {() => {
+                                onCopy={() => {
                                   return false
                                 }}
                                 unselectable
-                                onSelectCapture={() => {return false}}
+                                onSelectCapture={() => { return false }}
                                 onChange={(e) => {
                                   this.deliveryInputChange(e);
                                 }}
@@ -2043,7 +2044,13 @@ class Payment extends React.Component {
                       htmlFor="id-checkbox-cat-2"
                       className="rc-input__label--inline"
                     >
-                      <FormattedMessage id="payment.confirmInfo3" />
+                      <FormattedMessage
+                        id="payment.confirmInfo3"
+                        values={{
+                          val1: <Link target="_blank" to="/privacypolicy">Política de privacidad</Link>,
+                          val2: <Link target="_blank" to="/termuse">la transferencia transfronteriza</Link>
+                        }}
+                      />
                       <div
                         className="warning"
                         style={{
