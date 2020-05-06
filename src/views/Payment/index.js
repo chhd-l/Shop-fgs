@@ -334,11 +334,11 @@ class Payment extends React.Component {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { deliveryAddress } = this.state;
-    if (name === "phoneNumber") {
-      this.phoneNumberInput(e, deliveryAddress, name);
-    } else {
+    // if (name === "phoneNumber") {
+    //   this.phoneNumberInput(e, deliveryAddress, name);
+    // } else {
       deliveryAddress[name] = value;
-    }
+    // }
     // deliveryAddress[name] = value;
     this.inputBlur(e);
     this.setState({ deliveryAddress: deliveryAddress });
@@ -348,11 +348,11 @@ class Payment extends React.Component {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { creditCardInfo } = this.state;
-    if (name === "phoneNumber") {
-      this.phoneNumberInput(e, creditCardInfo, name);
-    } else {
+    // if (name === "phoneNumber") {
+    //   this.phoneNumberInput(e, creditCardInfo, name);
+    // } else {
       creditCardInfo[name] = value;
-    }
+    // }
     this.inputBlur(e);
     this.setState({ creditCardInfo: creditCardInfo });
   }
@@ -374,11 +374,11 @@ class Payment extends React.Component {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { billingAddress } = this.state;
-    if (name === "phoneNumber") {
-      this.phoneNumberInput(e, billingAddress, name);
-    } else {
+    // if (name === "phoneNumber") {
+    //   this.phoneNumberInput(e, billingAddress, name);
+    // } else {
       billingAddress[name] = value;
-    }
+    // }
     this.inputBlur(e);
     this.setState({ billingAddress: billingAddress });
   }
@@ -944,19 +944,20 @@ class Payment extends React.Component {
                               data-js-validate=""
                               data-js-warning-message="*Phone Number isn’t valid"
                             >
-                              {/* <input
+                              <input
                                 className="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
                                 type="tel"
                                 value={deliveryAddress.phoneNumber}
                                 onChange={(e) => this.deliveryInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
-                                data-js-pattern="(^(\+?7|8)?9\d{9}$)"
+                                // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
+                                data-js-pattern="(^(\+52)\d{8})"
                                 name="phoneNumber"
                                 maxLength="20"
                                 minLength="18"
-                              /> */}
-                              <input
+                              />
+                              {/* <input
                                 className="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
                                 unselectable="on"
@@ -979,7 +980,7 @@ class Payment extends React.Component {
                                 name="phoneNumber"
                                 maxlength="17"
                                 minLength="16"
-                              ></input>
+                              ></input> */}
                               <label
                                 className="rc-input__label"
                                 htmlFor="shippingPhoneNumber"
@@ -996,7 +997,7 @@ class Payment extends React.Component {
                               />
                             </div>
                             <span className="ui-lighter">
-                              <FormattedMessage id="example" />: +(52) 559 801 6511
+                              <FormattedMessage id="example" />: +(52) 559 801 65
                             </span>
                           </div>
                         </div>
@@ -1287,7 +1288,7 @@ class Payment extends React.Component {
                               data-js-validate=""
                               data-js-warning-message="*Phone Number isn’t valid"
                             >
-                              {/* <input
+                              <input
                                 className="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
                                 type="tel"
@@ -1298,8 +1299,8 @@ class Payment extends React.Component {
                                 data-js-pattern="(^(\+?7|8)?9\d{9}$)"
                                 maxLength="20"
                                 minLength="18"
-                              /> */}
-                              <input
+                              />
+                              {/* <input
                                 className="rc-input__control input__phoneField shippingPhoneNumber"
                                 type="tel"
                                 value={billingAddress.phoneNumber}
@@ -1310,7 +1311,7 @@ class Payment extends React.Component {
                                 name="phoneNumber"
                                 maxlength="17"
                                 minLength="16"
-                              ></input>
+                              ></input> */}
                               <label
                                 className="rc-input__label"
                                 htmlFor="shippingPhoneNumber"
@@ -1904,7 +1905,7 @@ class Payment extends React.Component {
                                             data-js-validate=""
                                             data-js-warning-message="*Phone Number isn’t valid"
                                           >
-                                            {/* <input
+                                            <input
                                               type="tel"
                                               className="rc-input__control form-control phone"
                                               min-lenght="18"
@@ -1919,8 +1920,8 @@ class Payment extends React.Component {
                                               onBlur={(e) => this.inputBlur(e)}
                                               name="phoneNumber"
                                               maxLength="2147483647"
-                                            /> */}
-                                            <input
+                                            />
+                                            {/* <input
                                               className="rc-input__control input__phoneField shippingPhoneNumber"
                                               type="tel"
                                               value={creditCardInfo.phoneNumber}
@@ -1935,7 +1936,7 @@ class Payment extends React.Component {
                                               name="phoneNumber"
                                               maxlength="17"
                                               minLength="16"
-                                            ></input>
+                                            ></input> */}
                                             <label
                                               className="rc-input__label"
                                               htmlFor="phoneNumber"
