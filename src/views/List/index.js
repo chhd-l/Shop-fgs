@@ -86,7 +86,14 @@ class List extends React.Component {
     })
 
     let storeIdList = await queryStoreCateIds()
-    let targetObj = find(storeIdList, s => s.cateName.toLocaleLowerCase() === category)
+    let map = {
+      dogs: 'Prescription dogs',
+      cats: 'Prescription cats',
+      vcn: 'VD dogs',
+      vd: 'VD cats'
+    }
+    let res = map[category]
+    let targetObj = find(storeIdList, s => s.cateName.toLocaleLowerCase() === res.toLocaleLowerCase())
     if (targetObj) {
       this.setState({
         storeCateId: targetObj.storeCateId
