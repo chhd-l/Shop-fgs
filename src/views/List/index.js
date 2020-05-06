@@ -351,7 +351,7 @@ class List extends React.Component {
                                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
                                         : <React.Fragment>
                                           <picture className="rc-card__image">
-                                            <div className="rc-padding-bottom--xs">
+                                            <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center" style={{minHeight: '202px'}}>
                                               <img
                                                 src={item.goodsInfos[0].goodsInfoImg}
                                                 srcSet={item.goodsInfos[0].goodsInfoImg}

@@ -1539,7 +1539,7 @@ label.availability {
   }
 }
 .details-img-container {
-  max-width: 250px;
+  /* max-width: 250px; */
   max-height: 500px;
 }
 .show-image-magnifier #tns1-mw {overflow: visible;}
