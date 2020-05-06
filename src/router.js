@@ -15,15 +15,6 @@ import FAQ from "@/views/FAQ";
 import TermUse from "@/views/TermUse";
 import PrivacyPolicy from "@/views/PrivacyPolicy";
 
-let enterRoute = () => {
-  // if (localStorage.getItem("isRefresh")) {
-  //   localStorage.removeItem("isRefresh");
-  //   window.location.reload();
-  // }
-};
-let leaveRoute = () => {
-  // localStorage.setItem("isRefresh", true);
-};
 
 const BasicRoute = () => (
   <HashRouter>

@@ -52,7 +52,27 @@ class Details extends React.Component {
     this.hanldeImgMouseEnter = this.hanldeImgMouseEnter.bind(this)
     this.headerRef = React.createRef();
   }
+  // componentWillMount() {
+  //   console.log(1)
+  //   console.log(localStorage.getItem("isRefresh"))
+  //   if (localStorage.getItem("isRefresh")) {
+  //     localStorage.removeItem("isRefresh");
+  //     window.location.reload();
+  //     return false
+  //   }
+  // }
+  componentWillUnmount() {
+    console.log(2)
+    localStorage.setItem("isRefresh", true);
+  }
   componentDidMount () {
+    console.log(1)
+    console.log(localStorage.getItem("isRefresh"))
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
     this.setState({
       id: this.props.match.params.id
     }, () => this.queryDetails())

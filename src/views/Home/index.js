@@ -17,6 +17,16 @@ class Home extends React.Component {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
   }
+  componentDidMount() {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
+  }
+  componentWillUnmount() {
+    localStorage.setItem("isRefresh", true);
+  }
   render () {
     return (
       <div>

@@ -15,24 +15,10 @@ class RouteFilter extends Component {
 
     // 切换路由时，刷新下页面，解决外部组件无法初始化问题
     if (this.props.location !== nextProps.location) {
-      window.location.reload();
+      // window.location.reload();
       return false;
     }
   }
-  // componentWillMount() {
-  //   console.log(localStorage.getItem("isRefresh"))
-  //   if (localStorage.getItem("isRefresh")) {
-  //     // localStorage.removeItem("isRefresh");
-  //     window.location.reload();
-  //   }
-  // }
-  // componentWillUnmount() {
-    
-  //   console.log(2)
-  // localStorage.setItem("isRefresh", true);
-  // // console.log(localStorage.getItem("isRefresh"));
-
-  // }
   async componentDidMount () {
     if (this.props.location.pathname === "/payment/payment") {
       loadJS(

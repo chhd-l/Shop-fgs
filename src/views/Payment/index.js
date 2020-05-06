@@ -48,7 +48,7 @@ class Payment extends React.Component {
         country: "Mexico",
         city: "",
         postCode: "",
-        phoneNumber: "+(52) ___ ___ __",
+        phoneNumber: "",
       },
       billingAddress: {
         firstName: "",
@@ -79,19 +79,9 @@ class Payment extends React.Component {
     this.confirmCardInfo = this.confirmCardInfo.bind(this);
     this.timer = null;
   }
-
-  // componentWillMount() {
-  //   console.log(1)
-  //   if (localStorage.getItem("isRefresh")) {
-  //     localStorage.removeItem("isRefresh");
-  //     window.location.reload();
-  //     return false
-  //   }
-  // }
-  // componentWillUnmount() {
-  //   console.log(2)
-  //   localStorage.setItem("isRefresh", true);
-  // }
+  componentWillUnmount() {
+    localStorage.setItem("isRefresh", true);
+  }
   confirmCardInfo () {
     this.setState({
       isCompleteCredit: true,
@@ -576,6 +566,11 @@ class Payment extends React.Component {
     head.appendChild(script);
   }
   componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
     // let urls = [process.env.PUBLIC_URL + '/royal/royal-assets1/webpack.rcdl.bundle.js',
     //   process.env.PUBLIC_URL + '/royal/royal-assets1/sentry.rcdl.bundle.js',
     //   process.env.PUBLIC_URL + '/royal/royal-assets1/tslib.rcdl.bundle.js',
