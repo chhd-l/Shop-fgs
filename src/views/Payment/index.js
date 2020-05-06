@@ -952,7 +952,7 @@ class Payment extends React.Component {
                                 onChange={(e) => this.deliveryInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
                                 // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
-                                data-js-pattern="(^(\+52)\d{8})"
+                                data-js-pattern="(^(\+52)\d{8}$)"
                                 name="phoneNumber"
                                 maxLength="20"
                                 minLength="18"
@@ -1296,7 +1296,8 @@ class Payment extends React.Component {
                                 onChange={(e) => this.billingInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
                                 name="phoneNumber"
-                                data-js-pattern="(^(\+?7|8)?9\d{9}$)"
+                                // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
+                                data-js-pattern="(^(\+52)\d{8}$)"
                                 maxLength="20"
                                 minLength="18"
                               />
