@@ -106,8 +106,6 @@ class Payment extends React.Component {
     } else {
       param.billingAddress = billingAddress;
     }
-
-
     for (let k in param.billingAddress) {
       if (param.billingAddress[k] === "" && k !== "address2") {
         console.log('delivery', k)
@@ -136,7 +134,7 @@ class Payment extends React.Component {
         }, 5000);
         return
       }
-      if (k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
+      if (k === 'phoneNumber' && !(/^\d{10}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
         this.setState({
           errorShow: true,
           errorMsg: 'Please enter the correct phone number'
@@ -178,7 +176,7 @@ class Payment extends React.Component {
         }, 5000);
         return
       }
-      if (k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
+      if (k === 'phoneNumber' && !(/^\d{10}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
         this.setState({
           errorShow: true,
           errorMsg: 'Please enter the correct phone number'
@@ -412,7 +410,7 @@ class Payment extends React.Component {
         }, 5000);
         return;
       }
-      if (k === 'phoneNumber' && !(/^(\+\(52\))\d{8}$/.test(this.state.creditCardInfo[k].replace(/\s*/g, "")))) {
+      if (k === 'phoneNumber' && !(/^\d{10}$/.test(this.state.creditCardInfo[k].replace(/\s*/g, "")))) {
         this.setState({
           errorShow: true,
           errorMsg: 'Please enter the correct phone number'
@@ -969,7 +967,8 @@ class Payment extends React.Component {
                                 onChange={(e) => this.deliveryInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
                                 // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
-                                data-js-pattern="(^(\+52)\d{8}$)"
+                                // data-js-pattern="(^(\+52)\d{8}$)"
+                                data-js-pattern="(^\d{10}$)"
                                 name="phoneNumber"
                                 maxLength="20"
                                 minLength="18"
@@ -1314,7 +1313,8 @@ class Payment extends React.Component {
                                 onBlur={(e) => this.inputBlur(e)}
                                 name="phoneNumber"
                                 // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
-                                data-js-pattern="(^(\+52)\d{8}$)"
+                                // data-js-pattern="(^(\+52)\d{8}$)"
+                                data-js-pattern="(^\d{10}$)"
                                 maxLength="20"
                                 minLength="18"
                               />
@@ -1929,7 +1929,8 @@ class Payment extends React.Component {
                                               min-lenght="18"
                                               max-length="18"
                                               data-phonelength="18"
-                                              data-js-validate="(^(\+?7|8)?9\d{9}$)"
+                                              // data-js-validate="(^(\+?7|8)?9\d{9}$)"
+                                              data-js-pattern="(^\d{10}$)"
                                               data-range-error="The phone number should contain 10 digits"
                                               value={creditCardInfo.phoneNumber}
                                               onChange={(e) =>
