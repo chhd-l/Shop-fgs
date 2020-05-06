@@ -134,19 +134,19 @@ class Payment extends React.Component {
         }, 5000);
         return
       }
-      if (k === 'phoneNumber' && !(/^\d{10}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
-        this.setState({
-          errorShow: true,
-          errorMsg: 'Please enter the correct phone number'
-        })
-        window.scrollTo(0, 0)
-        setTimeout(() => {
-          this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return
-      }
+      // if (k === 'phoneNumber' && !(/^\d{10}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
+      //   this.setState({
+      //     errorShow: true,
+      //     errorMsg: 'Please enter the correct phone number'
+      //   })
+      //   window.scrollTo(0, 0)
+      //   setTimeout(() => {
+      //     this.setState({
+      //       errorShow: false,
+      //     });
+      //   }, 5000);
+      //   return
+      // }
     }
     for (let k in param.billingAddress) {
       if (param.billingAddress[k] === "" && k !== "address2") {
@@ -176,19 +176,19 @@ class Payment extends React.Component {
         }, 5000);
         return
       }
-      if (k === 'phoneNumber' && !(/^\d{10}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
-        this.setState({
-          errorShow: true,
-          errorMsg: 'Please enter the correct phone number'
-        })
-        window.scrollTo(0, 0)
-        setTimeout(() => {
-          this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return
-      }
+      // if (k === 'phoneNumber' && !(/^\d{10}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
+      //   this.setState({
+      //     errorShow: true,
+      //     errorMsg: 'Please enter the correct phone number'
+      //   })
+      //   window.scrollTo(0, 0)
+      //   setTimeout(() => {
+      //     this.setState({
+      //       errorShow: false,
+      //     });
+      //   }, 5000);
+      //   return
+      // }
     }
     localStorage.setItem("deliveryInfo", JSON.stringify(param));
     this.setState({
@@ -410,19 +410,19 @@ class Payment extends React.Component {
         }, 5000);
         return;
       }
-      if (k === 'phoneNumber' && !(/^\d{10}$/.test(this.state.creditCardInfo[k].replace(/\s*/g, "")))) {
-        this.setState({
-          errorShow: true,
-          errorMsg: 'Please enter the correct phone number'
-        })
-        window.scrollTo(0, 0)
-        setTimeout(() => {
-          this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return
-      }
+      // if (k === 'phoneNumber' && !(/^\d{10}$/.test(this.state.creditCardInfo[k].replace(/\s*/g, "")))) {
+      //   this.setState({
+      //     errorShow: true,
+      //     errorMsg: 'Please enter the correct phone number'
+      //   })
+      //   window.scrollTo(0, 0)
+      //   setTimeout(() => {
+      //     this.setState({
+      //       errorShow: false,
+      //     });
+      //   }, 5000);
+      //   return
+      // }
       if (k === 'email' && !(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(this.state.creditCardInfo[k].replace(/\s*/g, "")))) {
         this.setState({
           errorShow: true,
@@ -962,13 +962,13 @@ class Payment extends React.Component {
                               <input
                                 className="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
-                                type="tel"
+                                type="number"
                                 value={deliveryAddress.phoneNumber}
                                 onChange={(e) => this.deliveryInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
                                 // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
                                 // data-js-pattern="(^(\+52)\d{8}$)"
-                                data-js-pattern="(^\d{10}$)"
+                                // data-js-pattern="(^(((\\+\\d{2}-)?0\\d{2,3}-\\d{7,8})|((\\+\\d{2}-)?(\\d{2,3}-)?([1][3,4,5,7,8][0-9]\\d{8})))$)"
                                 name="phoneNumber"
                                 maxLength="20"
                                 minLength="18"
@@ -1307,14 +1307,14 @@ class Payment extends React.Component {
                               <input
                                 className="rc-input__control input__phoneField shippingPhoneNumber"
                                 id="shippingPhoneNumber"
-                                type="tel"
+                                type="number"
                                 value={billingAddress.phoneNumber}
                                 onChange={(e) => this.billingInputChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
                                 name="phoneNumber"
                                 // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
                                 // data-js-pattern="(^(\+52)\d{8}$)"
-                                data-js-pattern="(^\d{10}$)"
+                                // data-js-pattern="(^\d{10}$)"
                                 maxLength="20"
                                 minLength="18"
                               />
@@ -1924,7 +1924,7 @@ class Payment extends React.Component {
                                             data-js-warning-message="*Phone Number isn’t valid"
                                           >
                                             <input
-                                              type="tel"
+                                              type="number"
                                               className="rc-input__control input__phoneField shippingPhoneNumber"
                                               min-lenght="18"
                                               max-length="18"
