@@ -40,8 +40,8 @@ class Prescription extends React.Component{
       total: 0, // 总数
       totalPage: 1,
       center:{
-        lat: 39.99,
-        lng: 116.3
+        lat: 19.3,
+        lng: -99.1,
       },
       zoom: 12,
       mapKey:0,
@@ -52,8 +52,8 @@ class Prescription extends React.Component{
         type:'customer'
       },
       meLocation:{
-        lat: 39.99,
-        lng: 116.3,
+        lat: 19.3,
+        lng: -99.1,
       },
       clinicArr:[],
       currentClinicArr:[],
@@ -70,7 +70,7 @@ class Prescription extends React.Component{
     }
     this.headerRef = React.createRef();
     this.inputRef = React.createRef();
-    this.handleInit()
+    // this.handleInit()
     this.getPrescription(this.state.params)
     this.getAllPrescription()
   }
