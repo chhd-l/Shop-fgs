@@ -79,6 +79,19 @@ class Payment extends React.Component {
     this.confirmCardInfo = this.confirmCardInfo.bind(this);
     this.timer = null;
   }
+
+  // componentWillMount() {
+  //   console.log(1)
+  //   if (localStorage.getItem("isRefresh")) {
+  //     localStorage.removeItem("isRefresh");
+  //     window.location.reload();
+  //     return false
+  //   }
+  // }
+  // componentWillUnmount() {
+  //   console.log(2)
+  //   localStorage.setItem("isRefresh", true);
+  // }
   confirmCardInfo () {
     this.setState({
       isCompleteCredit: true,
@@ -262,10 +275,19 @@ class Payment extends React.Component {
       };
       // console.log(payosdata, 'payosdata')
       let param3 = {
+        birthday: '1990-01-01',
+        identifyNumber: '430702199001011111',
+        firstName: deliveryAddress.firstName,
+        lastName: deliveryAddress.lastName,
+        zipcode: deliveryAddress.postCode,
+        city: deliveryAddress.city,
+        country: payosdata.country_code,
         token: payosdata.token,
         creditDardCvv: payosdata.encrypted_cvv,
         phone: creditCardInfo.phoneNumber,
         email: creditCardInfo.email,
+        line1: deliveryAddress.address1,
+        line2: deliveryAddress.address2,
         clinicsId:
           sessionStorage.getItem("rc-clinics-id") ||
           sessionStorage.getItem("rc-clinics-id2"),
@@ -1908,7 +1930,7 @@ class Payment extends React.Component {
                                           >
                                             <input
                                               type="tel"
-                                              className="rc-input__control form-control phone"
+                                              className="rc-input__control input__phoneField shippingPhoneNumber"
                                               min-lenght="18"
                                               max-length="18"
                                               data-phonelength="18"
