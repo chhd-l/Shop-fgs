@@ -960,6 +960,11 @@ class Payment extends React.Component {
                                 id="shippingPhoneNumber"
                                 type="tel"
                                 value={deliveryAddress.phoneNumber}
+                                onCopy= {() => {
+                                  return false
+                                }}
+                                unselectable
+                                onSelectCapture={() => {return false}}
                                 onChange={(e) => {
                                   this.deliveryInputChange(e);
                                 }}
@@ -986,7 +991,7 @@ class Payment extends React.Component {
                               />
                             </div>
                             <span className="ui-lighter">
-                              <FormattedMessage id="example" />: +(52) 559 801 65
+                              <FormattedMessage id="example" />: +(52) 559 801 6511
                             </span>
                           </div>
                         </div>
