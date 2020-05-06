@@ -16,13 +16,13 @@ import TermUse from "@/views/TermUse";
 import PrivacyPolicy from "@/views/PrivacyPolicy";
 
 let enterRoute = () => {
-  if (localStorage.getItem("isRefresh")) {
-    localStorage.removeItem("isRefresh");
-    window.location.reload();
-  }
+  // if (localStorage.getItem("isRefresh")) {
+  //   localStorage.removeItem("isRefresh");
+  //   window.location.reload();
+  // }
 };
 let leaveRoute = () => {
-  localStorage.setItem("isRefresh", true);
+  // localStorage.setItem("isRefresh", true);
 };
 
 const BasicRoute = () => (
@@ -30,16 +30,8 @@ const BasicRoute = () => (
     <RouteFilter />
     <ScrollToTop>
       <Switch>
+        <Route exact path="/" component={Home} />
         <Route
-          onEnter={enterRoute.bind(this)}
-          onLeave={leaveRoute.bind(this)}
-          exact
-          path="/"
-          component={Home}
-        />
-        <Route
-          onEnter={enterRoute.bind(this)}
-          onLeave={leaveRoute.bind(this)}
           exact
           path="/list/:category"
           render={(props) => (
@@ -47,8 +39,6 @@ const BasicRoute = () => (
           )}
         />
         <Route
-          onEnter={enterRoute.bind(this)}
-          onLeave={leaveRoute.bind(this)}
           exact
           path="/list/:category/:keywords"
           render={(props) => (
@@ -59,69 +49,25 @@ const BasicRoute = () => (
           )}
         />
         <Route
-          onEnter={enterRoute.bind(this)}
-          onLeave={leaveRoute.bind(this)}
           exact
           path="/details/:id"
           render={(props) => <Details key={props.match.params.id} {...props} />}
         />
         <Route exact path="/cart" component={Cart} />
         <Route
-          onEnter={enterRoute.bind(this)}
-          onLeave={leaveRoute.bind(this)}
           exact
           path="/payment/:type"
           render={(props) => (
             <Payment key={props.match.params.type} {...props} />
           )}
         />
-        <Route
-          exact
-          path="/confirmation"
-          onEnter={enterRoute.bind(this)}
-          onLeave={leaveRoute.bind(this)}
-          component={Confirmation}
-        />
-        <Route
-          exact
-          path="/prescription"
-          onEnter={enterRoute.bind(this)}
-          onLeave={leaveRoute.bind(this)}
-          component={Prescription}
-        />
-        <Route
-          exact
-          path="/help"
-          onEnter={enterRoute.bind(this)}
-          onLeave={leaveRoute.bind(this)}
-          component={Help}
-        />
-        <Route
-          exact
-          path="/FAQ"
-          onEnter={enterRoute.bind(this)}
-          onLeave={leaveRoute.bind(this)}
-          component={FAQ}
-        />
-        <Route
-          exact
-          path="/termuse"
-          onEnter={enterRoute.bind(this)}
-          onLeave={leaveRoute.bind(this)}
-          component={TermUse}
-        />
-        <Route
-          exact
-          path="/privacypolicy"
-          onEnter={enterRoute.bind(this)}
-          onLeave={leaveRoute.bind(this)}
-          component={PrivacyPolicy}
-        />
-        <Route
-          onEnter={enterRoute.bind(this)}
-          onLeave={leaveRoute.bind(this)}
-          component={Exception}
-        />
+        <Route exact path="/confirmation" component={Confirmation} />
+        <Route exact path="/prescription" component={Prescription} />
+        <Route exact path="/help" component={Help} />
+        <Route exact path="/FAQ" component={FAQ} />
+        <Route exact path="/termuse" component={TermUse} />
+        <Route exact path="/privacypolicy" component={PrivacyPolicy} />
+        <Route component={Exception} />
       </Switch>
     </ScrollToTop>
   </HashRouter>
