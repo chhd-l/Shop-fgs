@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { FormattedMessage } from 'react-intl'
+import { Link } from 'react-router-dom'
 class Help extends React.Component {
 
   render (h) {
@@ -100,7 +101,7 @@ class Help extends React.Component {
                                         <div class="rc-margin-top--xs">
                                           <p class="rc-numeric rc-md-up" style={{ color: "rgb(0, 135, 189)" }}>
                                             contacto.mex@royalcanin.com
-                                    </p>
+                                          </p>
                                         </div>
                                       </div>
                                     </div>
@@ -110,6 +111,13 @@ class Help extends React.Component {
                                   </div>
                                 </div>
                               </article>
+                              <h1 class="rc-beta" style={{ margin: '0 0 0 1rem' }}>
+                                <font style={{ verticalAlign: "inherit" }}>
+                                    <Link className="rc-list__link" style={{color:'#e2001a'}} to="/FAQ" role="menuitem">
+                                      <FormattedMessage id="footer.FAQ" />
+                                    </Link>
+                                </font>
+                              </h1>
                             </div>
                             <div class="rc-column rc-triple-width">
                               <div class="background-cover" style={{ backgroundImage: "url(https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png)" }}>
