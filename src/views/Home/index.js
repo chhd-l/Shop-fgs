@@ -17,14 +17,14 @@ class Home extends React.Component {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
   }
-  componentDidMount() {
+  componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
       return false
     }
   }
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
   render () {
@@ -57,9 +57,9 @@ class Home extends React.Component {
                               to="/list/dogs" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
-                                  srcSet={DIETDOG} />
+                                  srcSet={CAREDOG} />
                                 <img
-                                  src={DIETDOG}
+                                  src={CAREDOG}
                                   alt={txt}
                                   title={txt} />
                               </picture>
@@ -79,10 +79,11 @@ class Home extends React.Component {
                               to="/list/cats" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
-                                  srcSet={DIETCAT} />
+                                  srcSet={CARECAT} />
                                 <img
-                                  src={DIETCAT}
-                                  alt={txt} title={txt} />
+                                  src={CARECAT}
+                                  alt={txt}
+                                  title={txt} />
                               </picture>
                               <div
                                 className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
@@ -99,9 +100,9 @@ class Home extends React.Component {
                               to="/list/vcn" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
-                                  srcSet={CAREDOG} />
+                                  srcSet={DIETDOG} />
                                 <img
-                                  src={CAREDOG}
+                                  src={DIETDOG}
                                   alt={txt}
                                   title={txt} />
                               </picture>
@@ -120,9 +121,9 @@ class Home extends React.Component {
                               to="/list/vd" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
-                                  srcSet={CARECAT} />
+                                  srcSet={DIETCAT} />
                                 <img
-                                  src={CARECAT}
+                                  src={DIETCAT}
                                   alt={txt}
                                   title={txt} />
                               </picture>

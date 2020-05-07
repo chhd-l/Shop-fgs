@@ -896,7 +896,7 @@ class Payment extends React.Component {
                                 name="city"
                               >
                                 <option value=""></option>
-                                <option>Monterey</option>
+                                <option>Monterrey</option>
                                 <option>Mexico City</option>
                               </select>
                             </span>
@@ -1242,7 +1242,7 @@ class Payment extends React.Component {
                                 name="city"
                               >
                                 <option value=""></option>
-                                <option>Monterey</option>
+                                <option>Monterrey</option>
                                 <option>Mexico City</option>
                               </select>
                             </span>
