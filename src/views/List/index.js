@@ -76,7 +76,7 @@ class List extends React.Component {
     this.hanldeItemClick = this.hanldeItemClick.bind(this)
     this.toggleFilterModal = this.toggleFilterModal.bind(this)
   }
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
   toggleFilterModal (status) {
@@ -127,7 +127,7 @@ class List extends React.Component {
     })
   }
   async getProductList () {
-    let { checkedList, currentPage, pageSize, storeCateId, keywords, initingList } = this.state;
+    let { checkedList, currentPage, pageSize, storeCateId, keywords, initingList, category } = this.state;
     this.setState({
       loading: true
     })
@@ -204,8 +204,20 @@ class List extends React.Component {
     if (!this.state.filterList.length) {
       getProps(CATEID)
         .then(res => {
+          let tmpList = res.context
+          let tmpItem = find(tmpList, v => v.propName === 'Años')
+          if (category === 'cats' || category === 'vd') {
+            tmpList = res.context.filter(v => v.propName !== 'Talla')
+            if (tmpItem) {
+              tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(v => v.detailName !== 'Cachorro')
+            }
+          }
+          if ((category === 'dogs' || category === 'vcn') && tmpItem) {
+            tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(v => v.detailName !== 'Gatito')
+          }
+
           this.setState({
-            filterList: res.context,
+            filterList: tmpList,
             initingFilter: false
           })
         })
@@ -360,7 +372,7 @@ class List extends React.Component {
                                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
                                         : <React.Fragment>
                                           <picture className="rc-card__image">
-                                            <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center" style={{minHeight: '202px'}}>
+                                            <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center" style={{ minHeight: '202px' }}>
                                               <img
                                                 src={item.goodsInfos[0].goodsInfoImg}
                                                 srcSet={item.goodsInfos[0].goodsInfoImg}
