@@ -54,7 +54,7 @@ class Home extends React.Component {
                         <FormattedMessage id="home.catogery1">
                           {(txt) => (
                             <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                              to="/list/dogs" title={txt}>
+                              to="/list/vcn" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
                                   srcSet={CAREDOG} />
@@ -76,7 +76,7 @@ class Home extends React.Component {
                         <FormattedMessage id="home.catogery2">
                           {(txt) => (
                             <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                              to="/list/cats" title={txt}>
+                              to="/list/vd" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
                                   srcSet={CARECAT} />
@@ -97,7 +97,7 @@ class Home extends React.Component {
                         <FormattedMessage id="home.catogery3">
                           {txt => (
                             <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                              to="/list/vcn" title={txt}>
+                              to="/list/dogs" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
                                   srcSet={DIETDOG} />
@@ -118,7 +118,7 @@ class Home extends React.Component {
                         <FormattedMessage id="home.catogery4">
                           {txt => (
                             <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                              to="/list/vd" title={txt}>
+                              to="/list/cats" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
                                   srcSet={DIETCAT} />

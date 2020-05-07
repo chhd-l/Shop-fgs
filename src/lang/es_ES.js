@@ -153,7 +153,7 @@ const en_US = {
 
   'payment.clinicTitle': 'Clínica seleccionada',
   'payment.deliveryTitle': 'Dirección de entrega',
-  'payment.firstName': 'Nombre de pila',
+  'payment.firstName': 'Nombre',
   'payment.lastName': 'Apellido',
   'payment.address1': 'Dirección 1',
   'payment.address2': 'Dirección 2',
