@@ -60,7 +60,7 @@ const en_US = {
   'header.carouselInfo10': 'CLUB del consultor personal ROYAL CANIN®',
   'header.carouselInfo11': 'CLUB de ROYAL CANIN® para los gatitos',
   'header.toBegin': 'Empezar',
-  'header.toLearnMore': 'Para aprender más',
+  'header.toLearnMore': 'Saber más',
 
   'home.productsCategory': 'Nuestros productos por categoría',
   'home.pageNotFound': 'Página no encontrada…',
@@ -186,6 +186,11 @@ const en_US = {
   'payment.DEBIT': 'DÉBITO',
   'payment.confirmCard': 'Confirmar tarjeta',
   'payment.paymentInformation': 'Información del pago',
+
+  'payment.cardOwner': 'Nombre en la tarjeta',
+  'payment.socialId': 'Identificación social',
+  'payment.email': 'Correo electrónico',
+  'payment.acceptCards': 'Aceptamos tarjetas de crédito.',
 
   'confirmation.info1': 'Gracias por su orden.',
   'confirmation.info2': 'En un futuro cercano, nuestro personal se comunicará con usted para confirmar el pedido.',

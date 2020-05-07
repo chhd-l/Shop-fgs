@@ -179,6 +179,11 @@ const en_US = {
   'payment.DEBIT': 'DEBIT',
   'payment.confirmCard': 'Confirm Card',
   'payment.paymentInformation': 'Payment Information',
+  
+  'payment.cardOwner': 'Cardowner'
+  'payment.socialId': 'Social id',
+  'payment.email': 'Email',
+  'payment.acceptCards': 'We accept credit cards.',
 
   'confirmation.info1': 'Thank you for your order.',
   'confirmation.info2': 'In the near future, our staff will contact you to comfirm the order.',

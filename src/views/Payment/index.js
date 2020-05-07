@@ -67,6 +67,7 @@ class Payment extends React.Component {
         cardOwner: "",
         email: "",
         phoneNumber: "",
+        identifyNumber: ''
       },
       errorShow: false,
       errorMsg: "",
@@ -274,6 +275,7 @@ class Payment extends React.Component {
         creditDardCvv: payosdata.encrypted_cvv,
         phone: creditCardInfo.phoneNumber,
         email: creditCardInfo.email,
+        identifyNumber: creditCardInfo.identifyNumber,
         line1: deliveryAddress.address1,
         line2: deliveryAddress.address2,
         clinicsId:
@@ -894,7 +896,7 @@ class Payment extends React.Component {
                                 name="city"
                               >
                                 <option value=""></option>
-                                <option>Monterey</option>
+                                <option>Monterrey</option>
                                 <option>Mexico City</option>
                               </select>
                             </span>
@@ -1240,7 +1242,7 @@ class Payment extends React.Component {
                                 name="city"
                               >
                                 <option value=""></option>
-                                <option>Monterey</option>
+                                <option>Monterrey</option>
                                 <option>Mexico City</option>
                               </select>
                             </span>
@@ -1701,7 +1703,10 @@ class Payment extends React.Component {
                                 <div className="credit-card-form ">
                                   <div className="rc-margin-bottom--xs">
                                     <div className="content-asset">
-                                      <p>We accept credit cards.</p>
+                                      <p>
+                                      <FormattedMessage id="payment.acceptCards" />
+                                      </p>
+                                      {/* <p>We accept credit cards.</p> */}
                                     </div>
                                     <div className="row">
                                       <div className="col-sm-12">
@@ -1710,7 +1715,7 @@ class Payment extends React.Component {
                                             className="form-control-label"
                                             htmlFor="cardNumber"
                                           >
-                                            Card number*
+                                            <FormattedMessage id="payment.cardNumber" />*
                                             {CreditCardImg}
                                             <form id="payment-form">
                                               <div id="card-secure-fields"></div>
@@ -1848,7 +1853,7 @@ class Payment extends React.Component {
                                       <div className="col-sm-12">
                                         <div className="form-group required">
                                           <label className="form-control-label">
-                                            Cardowner
+                                          <FormattedMessage id="payment.cardOwner" />
                                           </label>
                                           <span
                                             className="rc-input rc-input--full-width"
@@ -1877,11 +1882,43 @@ class Payment extends React.Component {
                                         </div>
                                       </div>
                                     </div>
+                                    <div className="row overflow_visible">
+                                      <div className="col-sm-12">
+                                        <div className="form-group required">
+                                          <label className="form-control-label">
+                                          <FormattedMessage id="payment.socialId" />
+                                          </label>
+                                          <span
+                                            className="rc-input rc-input--full-width"
+                                            input-setup="true"
+                                          >
+                                            <input
+                                              type="text"
+                                              className="rc-input__control form-control cardOwner"
+                                              name="identifyNumber"
+                                              value={creditCardInfo.identifyNumber}
+                                              onChange={(e) =>
+                                                this.cardInfoInputChange(e)
+                                              }
+                                              onBlur={(e) => this.inputBlur(e)}
+                                              maxLength="40"
+                                            />
+                                            <label
+                                              className="rc-input__label"
+                                              htmlFor="cardOwner"
+                                            ></label>
+                                          </span>
+                                          <div className="invalid-feedback">
+                                            <FormattedMessage id="payment.errorInfo2" />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                     <div className="row">
                                       <div className="col-sm-6">
                                         <div className="form-group required">
                                           <label className="form-control-label">
-                                            Email
+                                          <FormattedMessage id="payment.email" />
                                           </label>
                                           <span
                                             className="rc-input rc-input--full-width"

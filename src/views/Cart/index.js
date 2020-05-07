@@ -111,9 +111,27 @@ class Cart extends React.Component {
       let tmp = parseInt(val)
       if (isNaN(tmp)) {
         tmp = 1
+        this.setState({
+          errorShow: true,
+          errorMsg: <FormattedMessage id="cart.errorInfo" />
+        });
+        setTimeout(() => {
+          this.setState({
+            errorShow: false
+          });
+        }, 2000)
       }
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit
+        this.setState({
+          errorShow: true,
+          errorMsg: <FormattedMessage id="cart.errorInfo" />
+        });
+        setTimeout(() => {
+          this.setState({
+            errorShow: false
+          });
+        }, 2000)
       }
       item.quantity = tmp
       this.setState({
