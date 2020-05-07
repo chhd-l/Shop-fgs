@@ -187,6 +187,11 @@ const en_US = {
   'payment.confirmCard': 'Confirmar tarjeta',
   'payment.paymentInformation': 'Información del pago',
 
+  'payment.cardOwner': 'Nombre en la tarjeta',
+  'payment.socialId': 'Identificación social',
+  'payment.email': 'Correo electrónico',
+  'payment.acceptCards': 'Aceptamos tarjetas de crédito.',
+
   'confirmation.info1': 'Gracias por su orden.',
   'confirmation.info2': 'En un futuro cercano, nuestro personal se comunicará con usted para confirmar el pedido.',
   'confirmation.info3': 'La dirección y el modo de transporte se enumeran debajo de sus productos.',

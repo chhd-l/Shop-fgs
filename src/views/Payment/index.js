@@ -1703,7 +1703,10 @@ class Payment extends React.Component {
                                 <div className="credit-card-form ">
                                   <div className="rc-margin-bottom--xs">
                                     <div className="content-asset">
-                                      <p>We accept credit cards.</p>
+                                      <p>
+                                      <FormattedMessage id="payment.acceptCards" />
+                                      </p>
+                                      {/* <p>We accept credit cards.</p> */}
                                     </div>
                                     <div className="row">
                                       <div className="col-sm-12">
@@ -1712,7 +1715,7 @@ class Payment extends React.Component {
                                             className="form-control-label"
                                             htmlFor="cardNumber"
                                           >
-                                            Card number*
+                                            <FormattedMessage id="payment.cardNumber" />*
                                             {CreditCardImg}
                                             <form id="payment-form">
                                               <div id="card-secure-fields"></div>
@@ -1850,7 +1853,7 @@ class Payment extends React.Component {
                                       <div className="col-sm-12">
                                         <div className="form-group required">
                                           <label className="form-control-label">
-                                            Cardowner
+                                          <FormattedMessage id="payment.cardOwner" />
                                           </label>
                                           <span
                                             className="rc-input rc-input--full-width"
@@ -1883,7 +1886,7 @@ class Payment extends React.Component {
                                       <div className="col-sm-12">
                                         <div className="form-group required">
                                           <label className="form-control-label">
-                                            Social id
+                                          <FormattedMessage id="payment.socialId" />
                                           </label>
                                           <span
                                             className="rc-input rc-input--full-width"
@@ -1915,7 +1918,7 @@ class Payment extends React.Component {
                                       <div className="col-sm-6">
                                         <div className="form-group required">
                                           <label className="form-control-label">
-                                            Email
+                                          <FormattedMessage id="payment.email" />
                                           </label>
                                           <span
                                             className="rc-input rc-input--full-width"
