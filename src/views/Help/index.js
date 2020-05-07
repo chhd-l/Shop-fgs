@@ -123,7 +123,7 @@ class Help extends React.Component {
                               </h1>
                             </div>
                             <div class="rc-column rc-triple-width">
-                              <div class="background-cover" style={{ backgroundImage: "url(https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png)" }}>
+                              <div class="background-cover" style={{ backgroundImage: `url(${require("@/assets/images/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png")})` }}>
                                 <picture class="rc-card__image">
                                   <img src={helpImg} alt=" " title=" " />
                                 </picture>
