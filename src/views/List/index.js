@@ -205,7 +205,7 @@ class List extends React.Component {
       getProps(CATEID)
         .then(res => {
           let tmpList = res.context
-          let tmpItem = find(tmpList, v => v.propName === 'Años')
+          let tmpItem = find(tmpList, v => v.propName === 'Etapa de Vida')
           if (category === 'cats' || category === 'vd') {
             tmpList = res.context.filter(v => v.propName !== 'Talla')
             if (tmpItem) {
