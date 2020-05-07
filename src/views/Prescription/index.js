@@ -126,7 +126,6 @@ class Prescription extends React.Component{
       "filteringStr": "string"
     }
     const res = await getAllPrescription(params)
-    console.log(res);
     if(res.code === 'K-000000'){
       this.setState({
         clinicArr: res.context
@@ -137,6 +136,8 @@ class Prescription extends React.Component{
   handleSearch=()=>{
     const { params } = this.state
     params.input = this.state.keywords
+    params.pageNum = 0
+    this.setState({ current: 1 })
     this.getPrescription(params)
 
   }
@@ -170,15 +171,15 @@ class Prescription extends React.Component{
     const { current, totalPage,params } = this.state
     let res
     if (type === 'prev') {
-      if (current <= 1) {
+      if (+current <= 1) {
         return
       }
-      res = current - 1
+      res = +current - 1
     } else {
-      if (current >= totalPage) {
+      if (+current >= totalPage) {
         return
       }
-      res = current + 1
+      res = +current + 1
     }
     params.pageNum = res-1
     this.setState({ current: res })
