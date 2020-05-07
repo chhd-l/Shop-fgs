@@ -70,7 +70,7 @@ class Prescription extends React.Component{
     }
     this.headerRef = React.createRef();
     this.inputRef = React.createRef();
-    // this.handleInit()
+    this.handleInit()
     this.getPrescription(this.state.params)
     this.getAllPrescription()
   }
