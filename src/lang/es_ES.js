@@ -60,7 +60,7 @@ const en_US = {
   'header.carouselInfo10': 'CLUB del consultor personal ROYAL CANIN®',
   'header.carouselInfo11': 'CLUB de ROYAL CANIN® para los gatitos',
   'header.toBegin': 'Empezar',
-  'header.toLearnMore': 'Para aprender más',
+  'header.toLearnMore': 'Saber más',
 
   'home.productsCategory': 'Nuestros productos por categoría',
   'home.pageNotFound': 'Página no encontrada…',
