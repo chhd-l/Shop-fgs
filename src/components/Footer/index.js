@@ -79,9 +79,9 @@ function Footer () {
                   </button>
                   <ul className="list list--blank list--align" id="footer-list-158504765613551093" aria-labelledby="footer-head-158504765613551093" role="menu">
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.royalcanin.com/mx/contact-us" role="menuitem">
+                      <Link className="rc-list__link" to="/help" role="menuitem">
                         <FormattedMessage id="footer.contacts" />
-                      </a>
+                      </Link>
                     </li>
                     <li className="rc-list__item">
                       <Link className="rc-list__link" to="/FAQ" role="menuitem">
@@ -140,9 +140,9 @@ function Footer () {
             <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3" role="menuitem" href="tel:8000247764">
               800 024 77 64
             </a>
-            <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" href="https://www.royalcanin.com/mx/contact-us">
+            <Link className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" to="/help">
               <FormattedMessage id="footer.contactUs" />
-            </a>
+            </Link>
           </div>
         </div>
         <div id="mars-footer-panel">
