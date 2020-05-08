@@ -557,8 +557,7 @@ class Details extends React.Component {
                           </div>
                         </div>
                         <div id="tab__panel-4"
-                          className="rc-tabs__content__single clearfix benefits ingredients"
-                          style={{ display: this.state.showGoodsDetail4 ? 'block' : 'none' }}>
+                          className="rc-tabs__content__single clearfix benefits ingredients">
                           <div className="block">
                             <div className="rc-table">
                               <div className="rc-scroll--x">
