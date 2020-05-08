@@ -268,8 +268,8 @@ class Payment extends React.Component {
       };
       // console.log(payosdata, 'payosdata')
       let param3 = {
-        birthday: '1990-01-01',
-        identifyNumber: '430702199001011111',
+        // birthday: '1990-01-01',
+        // identifyNumber: '430702199001011111',
         firstName: deliveryAddress.firstName,
         lastName: deliveryAddress.lastName,
         zipcode: deliveryAddress.postCode,
@@ -279,7 +279,7 @@ class Payment extends React.Component {
         creditDardCvv: payosdata.encrypted_cvv,
         phone: creditCardInfo.phoneNumber,
         email: creditCardInfo.email,
-        identifyNumber: creditCardInfo.identifyNumber,
+        // identifyNumber: creditCardInfo.identifyNumber,
         line1: deliveryAddress.address1,
         line2: deliveryAddress.address2,
         clinicsId:
