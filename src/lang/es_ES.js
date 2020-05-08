@@ -6,7 +6,7 @@ const en_US = {
   'search': 'Buscar',
   'miniBasket': 'Mini basket',
   'chang': 'Cambio',
-  'checkout': 'Comprobación',
+  'checkout': 'Comprar',
   'itemsInCart': 'Usted tiene {val} artículo en su carro',
   'itemsInCart2': 'Usted tiene {val} artículos en su carro',
   'total': 'Total',

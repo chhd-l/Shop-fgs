@@ -67,7 +67,7 @@ const en_US = {
   'home.pageNotFoundInfo': 'Sorry, the page you are looking for does not exist.',
   'home.convenientTitle': 'Why is it convenient to shop with ROYAL CANIN®?',
   'home.convenientTip1': 'Selection of a diet according to the needs of your pet',
-  'home.convenientTip2': 'Fast free shipping when ordering from 499 Mex$.',
+  'home.convenientTip2': 'Fast free shipping when ordering from $499.',
   'home.convenientTip3': 'Support service: ask a question about your pet to a specialist',
   'home.point1': 'Secure payments',
   'home.point2': 'Quality assurance',
