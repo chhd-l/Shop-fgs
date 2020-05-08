@@ -169,7 +169,7 @@ const en_US = {
   'payment.normalDelivery2': 'Entrega normal',
   'payment.normalDelivery3': '(1-4 días)',
   'payment.commentOnDelivery': 'Comentario de entrega',
-  'payment.forFreeTip': 'Para cualquier consumidor que haga un pedido en el sitio web, independientemente de la cantidad, se puede proporcionar un servicio de entrega gratuito.',
+  'payment.forFreeTip': 'Para los consumidores que hacen pedidos en el sitio web, siempre que el monto alcance ciertos $ 499, pueden proporcionar un servicio de entrega gratuito.',
   'payment.choosePayment': 'Elige un pago',
   'payment.yourOrder': 'Su pedido',
   'payment.itemTotalProduct': 'artículo producto total',
