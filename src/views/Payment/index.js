@@ -110,7 +110,7 @@ class Payment extends React.Component {
       param.billingAddress = billingAddress;
     }
     for (let k in param.billingAddress) {
-      if (param.billingAddress[k] === "" && k !== "address2") {
+      if (param.billingAddress[k] === "" && k !== "address2" && k !== "rfc") {
         console.log('delivery', k)
         this.setState({
           errorShow: true,
@@ -152,7 +152,7 @@ class Payment extends React.Component {
       // }
     }
     for (let k in param.billingAddress) {
-      if (param.billingAddress[k] === "" && k !== "address2") {
+      if (param.billingAddress[k] === "" && k !== "address2" && k !== "rfc") {
         console.log('billing', k)
         this.setState({
           errorShow: true,
