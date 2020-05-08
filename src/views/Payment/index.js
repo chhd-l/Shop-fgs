@@ -69,7 +69,7 @@ class Payment extends React.Component {
         cardOwner: "",
         email: "",
         phoneNumber: "",
-        identifyNumber: ''
+        identifyNumber: '111'
       },
       errorShow: false,
       errorMsg: "",
@@ -429,7 +429,7 @@ class Payment extends React.Component {
       //   }, 5000);
       //   return
       // }
-      if (k === 'email' && !(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(this.state.creditCardInfo[k].replace(/\s*/g, "")))) {
+      if (k === 'email' && !(/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(this.state.creditCardInfo[k].replace(/\s*/g, "")))) {
         this.setState({
           errorShow: true,
           errorMsg: 'Please enter the correct email'
@@ -1956,7 +1956,7 @@ class Payment extends React.Component {
                                         </div>
                                       </div>
                                     </div>
-                                    <div className="row overflow_visible">
+                                    {/* <div className="row overflow_visible">
                                       <div className="col-sm-12">
                                         <div className="form-group required">
                                           <label className="form-control-label">
@@ -1987,7 +1987,7 @@ class Payment extends React.Component {
                                           </div>
                                         </div>
                                       </div>
-                                    </div>
+                                    </div> */}
                                     <div className="row">
                                       <div className="col-sm-6">
                                         <div className="form-group required">
