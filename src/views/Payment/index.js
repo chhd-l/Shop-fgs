@@ -1,6 +1,6 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { findIndex, find } from "lodash";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -38,14 +38,14 @@ class Payment extends React.Component {
         VISA: visaImg,
         MASTERCARD: mastercardImg,
         "AMERICAN EXPRESS": amexImg,
-        DISCOVER: discoverImg
+        DISCOVER: discoverImg,
       },
       deliveryAddress: {
         firstName: "",
         lastName: "",
         address1: "",
         address2: "",
-        rfc: '',
+        rfc: "",
         country: "Mexico",
         city: "",
         postCode: "",
@@ -56,7 +56,7 @@ class Payment extends React.Component {
         lastName: "",
         address1: "",
         address2: "",
-        rfc: '',
+        rfc: "",
         country: "Mexico",
         city: "",
         postCode: "",
@@ -66,10 +66,11 @@ class Payment extends React.Component {
         // cardNumber: "",
         // cardDate: "",
         // cardCVV: "",
+        rfc: "",
         cardOwner: "",
         email: "",
         phoneNumber: "",
-        identifyNumber: ''
+        identifyNumber: "111",
       },
       errorShow: false,
       errorMsg: "",
@@ -85,12 +86,12 @@ class Payment extends React.Component {
   componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
   }
-  confirmCardInfo () {
+  confirmCardInfo() {
     this.setState({
       isCompleteCredit: true,
     });
   }
-  ChoosePayment () {
+  ChoosePayment() {
     const {
       deliveryAddress,
       billingAddress,
@@ -111,12 +112,12 @@ class Payment extends React.Component {
     }
     for (let k in param.billingAddress) {
       if (param.billingAddress[k] === "" && k !== "address2" && k !== "rfc") {
-        console.log('delivery', k)
+        console.log("delivery", k);
         this.setState({
           errorShow: true,
-          errorMsg: 'Please complete the required items'
-        })
-        window.scrollTo(0, 0)
+          errorMsg: "Please complete the required items",
+        });
+        window.scrollTo(0, 0);
         setTimeout(() => {
           this.setState({
             errorShow: false,
@@ -124,18 +125,18 @@ class Payment extends React.Component {
         }, 5000);
         return;
       }
-      if (k === 'postCode' && !(/\d{5}/.test(param.billingAddress[k]))) {
+      if (k === "postCode" && !/\d{5}/.test(param.billingAddress[k])) {
         this.setState({
           errorShow: true,
-          errorMsg: 'Please enter the correct post code'
-        })
-        window.scrollTo(0, 0)
+          errorMsg: "Please enter the correct post code",
+        });
+        window.scrollTo(0, 0);
         setTimeout(() => {
           this.setState({
             errorShow: false,
           });
         }, 5000);
-        return
+        return;
       }
       // if (k === 'phoneNumber' && !(/^\d{10}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
       //   this.setState({
@@ -153,12 +154,12 @@ class Payment extends React.Component {
     }
     for (let k in param.billingAddress) {
       if (param.billingAddress[k] === "" && k !== "address2" && k !== "rfc") {
-        console.log('billing', k)
+        console.log("billing", k);
         this.setState({
           errorShow: true,
-          errorMsg: 'Please complete the required items'
-        })
-        window.scrollTo(0, 0)
+          errorMsg: "Please complete the required items",
+        });
+        window.scrollTo(0, 0);
         setTimeout(() => {
           this.setState({
             errorShow: false,
@@ -166,18 +167,18 @@ class Payment extends React.Component {
         }, 5000);
         return;
       }
-      if (k === 'postCode' && !(/\d{5}/.test(param.billingAddress[k]))) {
+      if (k === "postCode" && !/\d{5}/.test(param.billingAddress[k])) {
         this.setState({
           errorShow: true,
-          errorMsg: 'Please enter the correct post code'
-        })
-        window.scrollTo(0, 0)
+          errorMsg: "Please enter the correct post code",
+        });
+        window.scrollTo(0, 0);
         setTimeout(() => {
           this.setState({
             errorShow: false,
           });
         }, 5000);
-        return
+        return;
       }
       // if (k === 'phoneNumber' && !(/^\d{10}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
       //   this.setState({
@@ -200,11 +201,10 @@ class Payment extends React.Component {
     const { history } = this.props;
     history.push("/payment/payment");
   }
-  payMethodChange (e) {
+  payMethodChange(e) {
     this.setState({ payMethod: e.target.value, showPayMethodError: false });
   }
-  async goConfirmation () {
-
+  async goConfirmation() {
     const { history } = this.props;
     let {
       isEighteen,
@@ -227,9 +227,9 @@ class Payment extends React.Component {
       if (!payosdata.token) {
         this.setState({
           errorShow: true,
-          errorMsg: 'Please click the confirm card button'
-        })
-        window.scrollTo(0, 0)
+          errorMsg: "Please click the confirm card button",
+        });
+        window.scrollTo(0, 0);
         setTimeout(() => {
           this.setState({
             errorShow: false,
@@ -255,8 +255,8 @@ class Payment extends React.Component {
       param.billLastName = billingAddress.lastName;
       param.billPhoneNumber = billingAddress.phoneNumber;
       param.billPostCode = billingAddress.postCode;
-      param.rfc = deliveryAddress.rfc
-      param.billRfc = billingAddress.rfc
+      param.rfc = deliveryAddress.rfc;
+      param.billRfc = billingAddress.rfc;
       let param2 = {
         goodsInfos: cartData.map((ele) => {
           return {
@@ -268,8 +268,8 @@ class Payment extends React.Component {
       };
       // console.log(payosdata, 'payosdata')
       let param3 = {
-        birthday: '1990-01-01',
-        identifyNumber: '430702199001011111',
+        birthday: "1990-01-01",
+        identifyNumber: "430702199001011111",
         firstName: deliveryAddress.firstName,
         lastName: deliveryAddress.lastName,
         zipcode: deliveryAddress.postCode,
@@ -309,8 +309,11 @@ class Payment extends React.Component {
           );
           let batchAddRes = await batchAdd(param2);
           let confirmAndCommitRes = await confirmAndCommit(param3);
-          console.log(confirmAndCommitRes)
-          localStorage.setItem('orderNumber', confirmAndCommitRes.context[0]['tid'])
+          console.log(confirmAndCommitRes);
+          localStorage.setItem(
+            "orderNumber",
+            confirmAndCommitRes.context[0]["tid"]
+          );
           this.setState({ loading: false });
           sessionStorage.clear("payosdata");
           history.push("/confirmation");
@@ -319,9 +322,9 @@ class Payment extends React.Component {
         console.log(e);
         this.setState({
           errorShow: true,
-          errorMsg: e
-        })
-        window.scrollTo(0, 0)
+          errorMsg: e,
+        });
+        window.scrollTo(0, 0);
         setTimeout(() => {
           this.setState({
             errorShow: false,
@@ -334,18 +337,17 @@ class Payment extends React.Component {
       this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
     }
   }
-  goDelivery (e) {
+  goDelivery(e) {
     e.preventDefault();
     const { history } = this.props;
     history.push("/payment/shipping");
   }
-  goCart (e) {
+  goCart(e) {
     e.preventDefault();
     const { history } = this.props;
     history.push("/cart");
   }
-  deliveryInputChange (e) {
-
+  deliveryInputChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -353,13 +355,13 @@ class Payment extends React.Component {
     // if (name === "phoneNumber") {
     //   this.phoneNumberInput(e, deliveryAddress, name);
     // } else {
-      deliveryAddress[name] = value;
+    deliveryAddress[name] = value;
     // }
     // deliveryAddress[name] = value;
     this.inputBlur(e);
     this.setState({ deliveryAddress: deliveryAddress });
   }
-  cardInfoInputChange (e) {
+  cardInfoInputChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -367,12 +369,12 @@ class Payment extends React.Component {
     // if (name === "phoneNumber") {
     //   this.phoneNumberInput(e, creditCardInfo, name);
     // } else {
-      creditCardInfo[name] = value;
+    creditCardInfo[name] = value;
     // }
     this.inputBlur(e);
     this.setState({ creditCardInfo: creditCardInfo });
   }
-  inputBlur (e) {
+  inputBlur(e) {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -385,7 +387,7 @@ class Payment extends React.Component {
       validDom.style.display = e.target.value ? "none" : "block";
     }
   }
-  billingInputChange (e) {
+  billingInputChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -393,22 +395,22 @@ class Payment extends React.Component {
     // if (name === "phoneNumber") {
     //   this.phoneNumberInput(e, billingAddress, name);
     // } else {
-      billingAddress[name] = value;
+    billingAddress[name] = value;
     // }
     this.inputBlur(e);
     this.setState({ billingAddress: billingAddress });
   }
-  commentChange (e) {
+  commentChange(e) {
     this.setState({ commentOnDelivery: e.target.value });
   }
-  cardConfirm () {
+  cardConfirm() {
     for (let k in this.state.creditCardInfo) {
-      if (this.state.creditCardInfo[k] === "") {
+      if (this.state.creditCardInfo[k] === "" && k !== "rfc") {
         this.setState({
           errorShow: true,
-          errorMsg: 'Please complete the required items'
-        })
-        window.scrollTo(0, 0)
+          errorMsg: "Please complete the required items",
+        });
+        window.scrollTo(0, 0);
         setTimeout(() => {
           this.setState({
             errorShow: false,
@@ -429,20 +431,24 @@ class Payment extends React.Component {
       //   }, 5000);
       //   return
       // }
-      if (k === 'email' && !(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(this.state.creditCardInfo[k].replace(/\s*/g, "")))) {
+      if (
+        k === "email" &&
+        !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(
+          this.state.creditCardInfo[k].replace(/\s*/g, "")
+        )
+      ) {
         this.setState({
           errorShow: true,
-          errorMsg: 'Please enter the correct email'
-        })
-        window.scrollTo(0, 0)
+          errorMsg: "Please enter the correct email",
+        });
+        window.scrollTo(0, 0);
         setTimeout(() => {
           this.setState({
             errorShow: false,
           });
         }, 5000);
-        return
+        return;
       }
-
     }
     this.setState({
       loading: true,
@@ -456,13 +462,13 @@ class Payment extends React.Component {
           payosdata: payosdata,
           loading: false,
         });
-        if (payosdata.category === 'client_validation_error') {
+        if (payosdata.category === "client_validation_error") {
           this.setState({
             errorShow: true,
-            errorMsg: payosdata.more_info
-          })
+            errorMsg: payosdata.more_info,
+          });
           sessionStorage.clear("payosdata");
-          window.scrollTo(0, 0)
+          window.scrollTo(0, 0);
           setTimeout(() => {
             this.setState({
               errorShow: false,
@@ -477,18 +483,18 @@ class Payment extends React.Component {
       }
     }, 1000);
   }
-  insertStr (soure, start, newStr) {
+  insertStr(soure, start, newStr) {
     return soure.slice(0, start) + newStr + soure.slice(start);
   }
-  retextStr (soure, start, newStr) {
+  retextStr(soure, start, newStr) {
     return soure.slice(0, start) + newStr + soure.slice(start + 1);
   }
-  phoneNumberClick (e) {
+  phoneNumberClick(e) {
     let index = e.target.value.indexOf("_");
     e.target.selectionStart = index;
     e.target.selectionEnd = index;
   }
-  phoneNumberInput (e, obj, k) {
+  phoneNumberInput(e, obj, k) {
     let target = e.target;
     let textVal = target.value;
     let oldSelectionStart = target.selectionStart;
@@ -499,11 +505,10 @@ class Payment extends React.Component {
         [9, 13].indexOf(oldSelectionStart) !== -1 &&
         [9, 13].indexOf(oldSelectionEnd) !== -1
       ) {
-
-        target.value = this.retextStr(target.value, oldSelectionStart - 1, "")
-        console.log(target.value, target.selectionStart - 1)
+        target.value = this.retextStr(target.value, oldSelectionStart - 1, "");
+        console.log(target.value, target.selectionStart - 1);
         target.value = this.insertStr(target.value, oldSelectionStart - 1, "_");
-        console.log(target.value, target.selectionStart - 1)
+        console.log(target.value, target.selectionStart - 1);
         target.value = this.insertStr(target.value, oldSelectionStart, " ");
 
         target.selectionStart = oldSelectionStart - 1;
@@ -538,11 +543,11 @@ class Payment extends React.Component {
     target.value = target.value.slice(0, 16);
     obj[k] = target.value;
   }
-  billingCheckedChange () {
+  billingCheckedChange() {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
   }
-  loadJs (url, callback) {
+  loadJs(url, callback) {
     // var script=document.createElement('script');
     // script.type="text/javascript";
     // if(typeof(callback)!="undefined"){
@@ -569,11 +574,11 @@ class Payment extends React.Component {
 
     head.appendChild(script);
   }
-  componentDidMount () {
+  componentDidMount() {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
-      return false
+      return false;
     }
     // let urls = [process.env.PUBLIC_URL + '/royal/royal-assets1/webpack.rcdl.bundle.js',
     //   process.env.PUBLIC_URL + '/royal/royal-assets1/sentry.rcdl.bundle.js',
@@ -604,12 +609,13 @@ class Payment extends React.Component {
     // })
 
     let deliveryInfoStr = localStorage.getItem("deliveryInfo");
-    const { creditCardInfo } = this.state
+    const { creditCardInfo } = this.state;
 
     if (deliveryInfoStr) {
       let deliveryInfo = JSON.parse(deliveryInfoStr);
       creditCardInfo.cardOwner =
-        deliveryInfo.deliveryAddress.firstName + deliveryInfo.deliveryAddress.lastName;
+        deliveryInfo.deliveryAddress.firstName +
+        deliveryInfo.deliveryAddress.lastName;
       creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
       this.setState({
         deliveryAddress: deliveryInfo.deliveryAddress,
@@ -624,13 +630,8 @@ class Payment extends React.Component {
     });
   }
 
-  render () {
-
-    const {
-      deliveryAddress,
-      billingAddress,
-      creditCardInfo
-    } = this.state;
+  render() {
+    const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
 
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
@@ -1019,7 +1020,8 @@ class Payment extends React.Component {
                               />
                             </div>
                             <span className="ui-lighter">
-                              <FormattedMessage id="example" />: +(52) 559 801 65
+                              <FormattedMessage id="example" />: +(52) 559 801
+                              65
                             </span>
                           </div>
                         </div>
@@ -1045,9 +1047,7 @@ class Payment extends React.Component {
                                   name="rfc"
                                   maxLength="50"
                                 />
-                                <label
-                                  className="rc-input__label"
-                                ></label>
+                                <label className="rc-input__label"></label>
                               </span>
                             </div>
                           </div>
@@ -1381,7 +1381,8 @@ class Payment extends React.Component {
                               />
                             </div>
                             <span className="ui-lighter">
-                              <FormattedMessage id="example" />: +(52) 559 801 65
+                              <FormattedMessage id="example" />: +(52) 559 801
+                              65
                             </span>
                           </div>
                         </div>
@@ -1407,9 +1408,7 @@ class Payment extends React.Component {
                                   name="rfc"
                                   maxLength="50"
                                 />
-                                <label
-                                  className="rc-input__label"
-                                ></label>
+                                <label className="rc-input__label"></label>
                               </span>
                             </div>
                           </div>
@@ -1438,7 +1437,9 @@ class Payment extends React.Component {
                                 className="shipping-method-pricing"
                                 style={{ whiteSpace: "nowrap" }}
                               >
-                                <span className="shipping-cost"><FormattedMessage id="payment.forFree" /></span>
+                                <span className="shipping-cost">
+                                  <FormattedMessage id="payment.forFree" />
+                                </span>
                                 <span
                                   className=" info-tooltip delivery-method-tooltip"
                                   title="Top"
@@ -1778,7 +1779,7 @@ class Payment extends React.Component {
                                   <div className="rc-margin-bottom--xs">
                                     <div className="content-asset">
                                       <p>
-                                      <FormattedMessage id="payment.acceptCards" />
+                                        <FormattedMessage id="payment.acceptCards" />
                                       </p>
                                       {/* <p>We accept credit cards.</p> */}
                                     </div>
@@ -1789,8 +1790,8 @@ class Payment extends React.Component {
                                             className="form-control-label"
                                             htmlFor="cardNumber"
                                           >
-                                            <FormattedMessage id="payment.cardNumber" />*
-                                            {CreditCardImg}
+                                            <FormattedMessage id="payment.cardNumber" />
+                                            *{CreditCardImg}
                                             <form id="payment-form">
                                               <div id="card-secure-fields"></div>
                                               <button
@@ -1927,7 +1928,7 @@ class Payment extends React.Component {
                                       <div className="col-sm-12">
                                         <div className="form-group required">
                                           <label className="form-control-label">
-                                          <FormattedMessage id="payment.cardOwner" />
+                                            <FormattedMessage id="payment.cardOwner" />
                                           </label>
                                           <span
                                             className="rc-input rc-input--full-width"
@@ -1956,7 +1957,7 @@ class Payment extends React.Component {
                                         </div>
                                       </div>
                                     </div>
-                                    <div className="row overflow_visible">
+                                    {/* <div className="row overflow_visible">
                                       <div className="col-sm-12">
                                         <div className="form-group required">
                                           <label className="form-control-label">
@@ -1987,12 +1988,12 @@ class Payment extends React.Component {
                                           </div>
                                         </div>
                                       </div>
-                                    </div>
+                                    </div> */}
                                     <div className="row">
                                       <div className="col-sm-6">
                                         <div className="form-group required">
                                           <label className="form-control-label">
-                                          <FormattedMessage id="payment.email" />
+                                            <FormattedMessage id="payment.email" />
                                           </label>
                                           <span
                                             className="rc-input rc-input--full-width"
@@ -2078,6 +2079,39 @@ class Payment extends React.Component {
                                         </div>
                                       </div>
                                     </div>
+                                    <div className="row overflow_visible">
+                                      <div className="col-sm-12">
+                                        <div className="form-group">
+                                          <label className="form-control-label">
+                                            <FormattedMessage id="payment.rfc" />
+                                          </label>
+                                          <span
+                                            className="rc-input rc-input--full-width"
+                                            input-setup="true"
+                                          >
+                                            <input
+                                              type="text"
+                                              id="cardholder-name"
+                                              className="rc-input__control form-control"
+                                              name="rfc"
+                                              value={creditCardInfo.rfc}
+                                              onChange={(e) =>
+                                                this.cardInfoInputChange(e)
+                                              }
+                                              onBlur={(e) => this.inputBlur(e)}
+                                              maxLength="40"
+                                            />
+                                            <label
+                                              className="rc-input__label"
+                                              htmlFor="rfc"
+                                            ></label>
+                                          </span>
+                                          <div className="invalid-feedback">
+                                            <FormattedMessage id="payment.errorInfo2" />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                     <div className="row">
                                       <div className="col-sm-12 rc-margin-y--xs rc-text--center">
                                         <button
@@ -2121,8 +2155,8 @@ class Payment extends React.Component {
                                           this.state.payosdata.vendor
                                         ]
                                           ? this.state.creditCardImgObj[
-                                          this.state.payosdata.vendor
-                                          ]
+                                              this.state.payosdata.vendor
+                                            ]
                                           : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                                       }
                                       alt=""
@@ -2182,8 +2216,20 @@ class Payment extends React.Component {
                       <FormattedMessage
                         id="payment.confirmInfo3"
                         values={{
-                          val1: <Link className="red" target="_blank" to="/privacypolicy">Política de privacidad</Link>,
-                          val2: <Link className="red" target="_blank" to="/termuse">la transferencia transfronteriza</Link>
+                          val1: (
+                            <Link
+                              className="red"
+                              target="_blank"
+                              to="/privacypolicy"
+                            >
+                              Política de privacidad
+                            </Link>
+                          ),
+                          val2: (
+                            <Link className="red" target="_blank" to="/termuse">
+                              la transferencia transfronteriza
+                            </Link>
+                          ),
                         }}
                       />
                       <div
@@ -2191,7 +2237,7 @@ class Payment extends React.Component {
                         style={{
                           display:
                             this.state.isReadPrivacyPolicy ||
-                              this.state.isReadPrivacyPolicyInit
+                            this.state.isReadPrivacyPolicyInit
                               ? "none"
                               : "block",
                         }}
