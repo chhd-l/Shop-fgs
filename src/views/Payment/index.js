@@ -45,6 +45,7 @@ class Payment extends React.Component {
         lastName: "",
         address1: "",
         address2: "",
+        rfc: '',
         country: "Mexico",
         city: "",
         postCode: "",
@@ -55,6 +56,7 @@ class Payment extends React.Component {
         lastName: "",
         address1: "",
         address2: "",
+        rfc: '',
         country: "Mexico",
         city: "",
         postCode: "",
@@ -253,6 +255,8 @@ class Payment extends React.Component {
       param.billLastName = billingAddress.lastName;
       param.billPhoneNumber = billingAddress.phoneNumber;
       param.billPostCode = billingAddress.postCode;
+      param.rfc = deliveryAddress.rfc
+      param.billRfc = billingAddress.rfc
       let param2 = {
         goodsInfos: cartData.map((ele) => {
           return {
@@ -1019,6 +1023,35 @@ class Payment extends React.Component {
                             </span>
                           </div>
                         </div>
+                        <div className="rc-layout-container">
+                          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
+                            <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
+                              <label
+                                className="form-control-label"
+                                htmlFor="shippingLastName"
+                              >
+                                <FormattedMessage id="payment.rfc" />
+                              </label>
+                              <span
+                                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
+                                input-setup="true"
+                              >
+                                <input
+                                  className="rc-input__control shippingLastName"
+                                  type="text"
+                                  value={deliveryAddress.rfc}
+                                  onChange={(e) => this.deliveryInputChange(e)}
+                                  onBlur={(e) => this.inputBlur(e)}
+                                  name="rfc"
+                                  maxLength="50"
+                                />
+                                <label
+                                  className="rc-input__label"
+                                ></label>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       </fieldset>
                     </div>
                     <div className="card-header">
@@ -1352,6 +1385,35 @@ class Payment extends React.Component {
                             </span>
                           </div>
                         </div>
+                        <div className="rc-layout-container">
+                          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
+                            <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
+                              <label
+                                className="form-control-label"
+                                htmlFor="shippingLastName"
+                              >
+                                <FormattedMessage id="payment.rfc" />
+                              </label>
+                              <span
+                                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
+                                input-setup="true"
+                              >
+                                <input
+                                  className="rc-input__control shippingLastName"
+                                  type="text"
+                                  value={billingAddress.rfc}
+                                  onChange={(e) => this.billingInputChange(e)}
+                                  onBlur={(e) => this.inputBlur(e)}
+                                  name="rfc"
+                                  maxLength="50"
+                                />
+                                <label
+                                  className="rc-input__label"
+                                ></label>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       </fieldset>
                     </div>
                     <fieldset className="shipping-method-block rc-fieldset">
@@ -1525,6 +1587,12 @@ class Payment extends React.Component {
                                     &nbsp;{deliveryAddress.phoneNumber}
                                   </div>
                                   <div className="col-md-6">
+                                    <FormattedMessage id="payment.rfc" />
+                                  </div>
+                                  <div className="col-md-6">
+                                    &nbsp;{deliveryAddress.rfc}
+                                  </div>
+                                  <div className="col-md-6">
                                     <FormattedMessage id="payment.normalDelivery2" />
                                   </div>
                                   <div className="col-md-6">
@@ -1584,6 +1652,12 @@ class Payment extends React.Component {
                                   </div>
                                   <div className="col-md-6">
                                     &nbsp;{billingAddress.phoneNumber}
+                                  </div>
+                                  <div className="col-md-6">
+                                    <FormattedMessage id="payment.rfc" />
+                                  </div>
+                                  <div className="col-md-6">
+                                    &nbsp;{billingAddress.rfc}
                                   </div>
                                   <div className="col-md-6">
                                     <FormattedMessage id="payment.commentOnDelivery" />

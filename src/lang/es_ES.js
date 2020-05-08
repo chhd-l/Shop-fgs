@@ -191,6 +191,7 @@ const en_US = {
   'payment.socialId': 'Identificación social',
   'payment.email': 'Correo electrónico',
   'payment.acceptCards': 'Aceptamos tarjetas de crédito.',
+  'payment.rfc': 'Referencia',
 
   'confirmation.info1': 'Gracias por su orden.',
   'confirmation.info2': 'En un futuro cercano, nuestro personal se comunicará con usted para confirmar el pedido.',
