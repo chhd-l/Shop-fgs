@@ -176,7 +176,7 @@ const en_US = {
   'payment.totalProduct': 'producto total',
   'payment.errorInfo': '*{val} debe ser llenado',
   'payment.errorInfo2': 'Este campo es requerido.',
-  'payment.further': 'Más lejos',
+  'payment.further': 'Confirmar',
   'payment.confirmInfo1': 'Confirmo que tengo 18 años',
   'payment.confirmInfo2': 'Debe tener 18 años o más para registrarse en el sitio.',
   // 'payment.confirmInfo3': 'He leído el Acuerdo de usuario y la <a href="/">Política de privacidad</a> y acepto el procesamiento de datos personales, incluida la transferencia transfronteriza',
