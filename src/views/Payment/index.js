@@ -33,7 +33,7 @@ class Payment extends React.Component {
       isEighteenInit: true,
       isReadPrivacyPolicy: false,
       isEighteen: false,
-      creditCardImgUrl: [visaImg, amexImg, mastercardImg, discoverImg],
+      creditCardImgUrl: [visaImg, amexImg, mastercardImg],
       creditCardImgObj: {
         VISA: visaImg,
         MASTERCARD: mastercardImg,
