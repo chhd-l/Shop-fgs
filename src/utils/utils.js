@@ -7,7 +7,7 @@ import { purchases } from '@/api/cart'
  * @param {*} val 
  * @param {*} currency 1-$ 2-₱
  */
-export function formatMoney (val, currency = 2) {
+export function formatMoney (val, currency = 1) {
   val = val + ''
   let ret = val.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
   const mapEnum = { 1: '$', 2: 'Mex$' }
