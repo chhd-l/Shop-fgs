@@ -24,8 +24,8 @@ class RouteFilter extends Component {
       loadJS(
         "https://js.paymentsos.com/v2/latest/secure-fields.min.js",
         function () {
-          // window.POS.setPublicKey("fd931719-5733-4b77-b146-2fd22f9ad2e3");
-          window.POS.setPublicKey("e13025c1-e45e-4ead-a18b-782efcee5250");
+          window.POS.setPublicKey("fd931719-5733-4b77-b146-2fd22f9ad2e3");
+          // window.POS.setPublicKey("e13025c1-e45e-4ead-a18b-782efcee5250");
           window.POS.setEnvironment("test");
           const style = {
             base: {

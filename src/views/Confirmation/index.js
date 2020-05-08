@@ -82,6 +82,8 @@ class Confirmation extends React.Component {
   }
   componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
+    localStorage.removeItem('rc-cart-data')
+    localStorage.removeItem('orderNumber')
   }
   componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
@@ -102,8 +104,6 @@ class Confirmation extends React.Component {
         commentOnDelivery: deliveryInfo.commentOnDelivery
       });
     }
-    localStorage.removeItem('rc-cart-data')
-    localStorage.removeItem('orderNumber')
   }
   render () {
     const {
