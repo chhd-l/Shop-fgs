@@ -3,6 +3,10 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
+import emailImg from "@/assets/images/emailus_icon@1x.jpg"
+import callImg from "@/assets/images/customer-service@2x.jpg"
+import helpImg from "@/assets/images/slider-img-help.jpg"
+
 class Help extends React.Component {
 
   render (h) {
@@ -79,8 +83,7 @@ class Help extends React.Component {
                                       </div>
                                     </div>
                                     <div class="rc-column rc-content-v-middle">
-                                      <img class="align-self-center widthAuto" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw5e5788cf/customer-service@2x.jpg?sw=90&amp;sfrm=png"
-                                        srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw5e5788cf/customer-service@2x.jpg?sw=90&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw5e5788cf/customer-service@2x.jpg?sw=180&amp;sfrm=png 2x" alt="By telephone" title="By telephone" />
+                                      <img class="align-self-center widthAuto" src={callImg} alt="By telephone" title="By telephone" />
                                     </div>
                                   </div>
                                 </div>
@@ -106,7 +109,7 @@ class Help extends React.Component {
                                       </div>
                                     </div>
                                     <div class="rc-column rc-content-v-middle">
-                                      <img class="align-self-center widthAuto" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw8b95741c/help/emailus_icon@1x.jpg?sw=90&amp;sfrm=png" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw8b95741c/help/emailus_icon@1x.jpg?sw=90&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw8b95741c/help/emailus_icon@1x.jpg?sw=180&amp;sfrm=png 2x" alt="By email" title="By email" />
+                                      <img class="align-self-center widthAuto" src={emailImg} alt="By email" title="By email" />
                                     </div>
                                   </div>
                                 </div>
@@ -120,9 +123,9 @@ class Help extends React.Component {
                               </h1>
                             </div>
                             <div class="rc-column rc-triple-width">
-                              <div class="background-cover" style={{ backgroundImage: "url(https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png)" }}>
+                              <div class="background-cover" style={{ backgroundImage: `url(${require("@/assets/images/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png")})` }}>
                                 <picture class="rc-card__image">
-                                  <img src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e497bea/homepage/slider-img-help.jpg?sw=1604&amp;sh=672&amp;sm=cut&amp;sfrm=png 2x" alt=" " title=" " />
+                                  <img src={helpImg} alt=" " title=" " />
                                 </picture>
                               </div>
                             </div>

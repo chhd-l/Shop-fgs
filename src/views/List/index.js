@@ -192,7 +192,8 @@ class List extends React.Component {
           })
         } else {
           this.setState({
-            productList: []
+            productList: [],
+            results: 0
           })
         }
       })
