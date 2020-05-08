@@ -35,6 +35,7 @@ class Details extends React.Component {
       currentUnitPrice: 0,
       showOnlyoneTab: false,
       showDescriptionTab: true,
+      showGoodsDetail4: true,
       imageMagnifierCfg: {
         show: false,
         config: {}
@@ -61,7 +62,7 @@ class Details extends React.Component {
   //     return false
   //   }
   // }
-  componentWillUnmount() {
+  componentWillUnmount () {
     console.log(2)
     localStorage.setItem("isRefresh", true);
   }
@@ -153,7 +154,12 @@ class Details extends React.Component {
         res.push(tmpRes)
 
         res.push(translateHtmlCharater(fragment.querySelector('.rc_proudct_html_tab3').innerHTML))
-        res.push(fragment.querySelector('.rc_proudct_html_tab4').innerHTML)
+        const tab4Element = fragment.querySelector('.rc_proudct_html_tab4')
+        if (tab4Element) {
+          res.push(tab4Element.innerHTML)
+        } else {
+          this.setState({ showGoodsDetail4: false })
+        }
       } else {
         res.push(details)
       }
@@ -509,7 +515,7 @@ class Details extends React.Component {
                                 <FormattedMessage id="details.ingredients" />
                               </button>
                             </li>
-                            <li>
+                            <li style={{ display: this.state.showGoodsDetail4 ? 'block' : 'none' }}>
                               <button
                                 className="rc-tab rc-btn"
                                 data-toggle="tab__panel-4"
