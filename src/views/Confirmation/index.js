@@ -102,8 +102,8 @@ class Confirmation extends React.Component {
         commentOnDelivery: deliveryInfo.commentOnDelivery
       });
     }
-    // localStorage.clear('rc-cart-data')
-    // localStorage.clear('orderNumber')
+    localStorage.removeItem('rc-cart-data')
+    localStorage.removeItem('orderNumber')
   }
   render () {
     const {
