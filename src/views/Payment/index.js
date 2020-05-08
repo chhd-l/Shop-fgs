@@ -255,7 +255,7 @@ class Payment extends React.Component {
       param.billLastName = billingAddress.lastName;
       param.billPhoneNumber = billingAddress.phoneNumber;
       param.billPostCode = billingAddress.postCode;
-      param.rfc = deliveryAddress.rfc;
+      param.rfc = creditCardInfo.rfc;
       param.billRfc = billingAddress.rfc;
       let param2 = {
         goodsInfos: cartData.map((ele) => {
@@ -617,6 +617,7 @@ class Payment extends React.Component {
         deliveryInfo.deliveryAddress.firstName +
         deliveryInfo.deliveryAddress.lastName;
       creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
+      creditCardInfo.rfc = deliveryInfo.deliveryAddress.rfc
       this.setState({
         deliveryAddress: deliveryInfo.deliveryAddress,
         billingAddress: deliveryInfo.billingAddress,
