@@ -33,7 +33,7 @@ class Payment extends React.Component {
       isEighteenInit: true,
       isReadPrivacyPolicy: false,
       isEighteen: false,
-      creditCardImgUrl: [visaImg, amexImg, mastercardImg, discoverImg],
+      creditCardImgUrl: [visaImg, amexImg, mastercardImg],
       creditCardImgObj: {
         VISA: visaImg,
         MASTERCARD: mastercardImg,
@@ -609,7 +609,7 @@ class Payment extends React.Component {
     if (deliveryInfoStr) {
       let deliveryInfo = JSON.parse(deliveryInfoStr);
       creditCardInfo.cardOwner =
-        deliveryInfo.deliveryAddress.firstName + deliveryInfo.deliveryAddress.lastName;
+        deliveryInfo.deliveryAddress.firstName + ' ' + deliveryInfo.deliveryAddress.lastName;
       creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
       this.setState({
         deliveryAddress: deliveryInfo.deliveryAddress,
