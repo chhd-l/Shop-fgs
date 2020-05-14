@@ -15,6 +15,8 @@ import Help from "@/views/Help";
 import FAQ from "@/views/FAQ";
 import TermUse from "@/views/TermUse";
 import PrivacyPolicy from "@/views/PrivacyPolicy";
+import AccountHome from "@/views/Account/Home";
+import AccountProfile from "@/views/Account/Profile";
 
 
 const BasicRoute = () => (
@@ -60,6 +62,10 @@ const BasicRoute = () => (
         <Route exact path="/FAQ" component={FAQ} />
         <Route exact path="/termuse" component={TermUse} />
         <Route exact path="/privacypolicy" component={PrivacyPolicy} />
+
+        <Route path='/account' exact component={AccountHome}/>
+        <Route path='/account/information' exact component={AccountProfile}/>
+
         <Route component={Exception} />
       </Switch>
     </ScrollToTop>

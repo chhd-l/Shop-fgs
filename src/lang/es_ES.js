@@ -42,6 +42,13 @@ const en_US = {
   'age': 'Años',
   'puppy': 'Cachorro (0-1 años)',
   'kitten': 'Gatito (0-1 años)',
+  'pets': 'Mascotas',
+  'orders': 'Pedidos',
+  'help': 'Ayuda',
+  'phone': 'Teléfono',
+  'email': 'Correo electrónico',
+  'address': 'Habla a',
+  'welcome': 'Bienvenidos',
 
   'header.basketEmpty': 'Tú carrito esta vacío',
   'header.startTypingToSearch': 'Empieza a escribir para buscar',
@@ -49,7 +56,7 @@ const en_US = {
   'header.VD': 'Dietas de Prescripción Veterinaria',
   'header.carouselInfo1': 'Mantenga la salud de su mascota con una nutrición adecuada',
   'header.carouselInfo2': 'Elije el alimento de prescripción recomendado por tu veterinario',
-                            
+
   'header.carouselInfo3': 'Nutrición de mascotas',
   'header.carouselInfo4': 'Consultor personal',
   'header.carouselInfo5': 'Examinaciones veterinarias lIBRES',
@@ -207,6 +214,22 @@ const en_US = {
   'help.tip3': 'Le responderemos dentro de un máximo de 12 horas.',
   'help.byTelephone': 'Por teléfono',
   'help.byEmail': 'Por correo',
+
+  'account.personalArea': 'Area personal',
+  'account.profile': 'Perfil',
+  'account.profileTip': 'Ver y editar su información personal.',
+  'account.petsTip': 'Crea y administra tus perfiles de mascotas.',
+  'account.ordersTip': 'Verifique el estado de los pedidos actuales y vea el historial de los anteriores.',
+  'account.feedSubscription': 'Suscripción de feeds',
+  'account.feedSubscriptionTip': 'Ver y cambiar la configuración de suscripción.',
+  'account.paymentMethod': 'Método de pago',
+  'account.paymentMethodTip': 'Ver y actualizar la información de pago',
+  'account.helpTip': 'Si tiene preguntas, siempre estamos listos para ayudarlo a usted y a su mascota.',
+  'account.personalData': 'Información personal',
+  'account.TheAddressBook': 'La libreta de direcciones',
+  'account.preferredMmethodsOfCommunication': 'Métodos preferidos de comunicación.',
+  'account.preferredContactMethod': 'Método de Contacto Preferido',
+  'account.warmNotice': 'Aquí puede administrar su perfil, editar información sobre mascotas, verificar el estado de los pedidos y suscripciones.'
 
 }
 export default en_US;
