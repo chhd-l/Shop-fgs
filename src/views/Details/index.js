@@ -449,6 +449,7 @@ class Details extends React.Component {
                                           <button
                                             className={['btn-add-to-cart', 'add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', addToCartLoading ? 'ui-btn-loading' : '', (instockStatus && quantity) ? '' : 'disabled'].join(' ')}
                                             data-loc="addToCart"
+                                            style={{lineHeight: '30px'}}
                                             onClick={this.hanldeAddToCart}>
                                             <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
                                             <FormattedMessage id="details.addToCart" />
@@ -460,6 +461,7 @@ class Details extends React.Component {
                                           <button
                                             className={['btn-add-to-cart', 'add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', addToCartLoading ? 'ui-btn-loading' : '', instockStatus && quantity ? '' : 'disabled'].join(' ')}
                                             data-loc="addToCart"
+                                            style={{lineHeight: '30px'}}
                                             onClick={() => this.hanldeAddToCart({ redirect: true })}>
                                             <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
                                             <FormattedMessage id="checkout" />

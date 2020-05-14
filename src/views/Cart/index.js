@@ -537,7 +537,7 @@ class Cart extends React.Component {
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                                 <div
                                   data-oauthlogintargetendpoint="2"
-                                  className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn "
+                                  className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
                                   aria-pressed="true">
                                   <FormattedMessage id="checkout" />
                                 </div>

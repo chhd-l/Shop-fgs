@@ -84,7 +84,7 @@
   .hero-carousel__slide .hero-carousel__slide__img img {
       width:auto;
       max-height: 377px;
-      display: none;
+      display: none!important;
       max-width: none
   }
 }
