@@ -22,6 +22,7 @@ class Header extends React.Component {
     super(props)
     this.state = {
       showCart: false,
+      showCenter:false,
       showSearchInput: false,
       keywords: '',
       loading: false,
@@ -31,7 +32,8 @@ class Header extends React.Component {
       validateAllItemsStock: true,
       errMsg: '',
       clinicsId: sessionStorage.getItem('rc-clinics-id'),
-      clinicsName: sessionStorage.getItem('rc-clinics-name')
+      clinicsName: sessionStorage.getItem('rc-clinics-name'),
+      isLogin:false
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -42,9 +44,15 @@ class Header extends React.Component {
     this.toggleMenu = this.toggleMenu.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
     this.handleCheckout = this.handleCheckout.bind(this)
+    this.getIsLogin = this.getIsLogin.bind(this)
+    this.clickLogin = this.clickLogin.bind(this)
+    this.clickLogoff = this.clickLogoff.bind(this)
+    
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
     this.menuBtnRef = React.createRef();
+    this.handleCenterMouseOver = this.handleCenterMouseOver.bind(this)
+    this.handleCenterMouseOut = this.handleCenterMouseOut.bind(this)
   }
   async componentDidMount () {
     window.addEventListener('click', (e) => this.hideMenu(e))
@@ -146,6 +154,17 @@ class Header extends React.Component {
       }
     }, 500)
   }
+
+  handleCenterMouseOver(){
+    this.setState({
+      showCenter:true
+    })
+  }
+  handleCenterMouseOut(){
+    this.setState({
+      showCenter:false
+    })
+  }
   hanldeSearchClick () {
     this.setState({
       showSearchInput: true
@@ -240,6 +259,22 @@ class Header extends React.Component {
         showMegaMenu: false
       })
     }
+  }
+  getIsLogin(){
+    return this.state.isLogin
+  }
+  clickLogin(){
+    this.setState({
+      isLogin:true
+    })
+    console.log(this.state.isLogin);
+    
+  }
+  clickLogoff(){
+    this.setState({
+      isLogin:false
+    })
+    console.log(this.state.isLogin);
   }
   renderResultJsx () {
     return this.state.result ?
@@ -494,6 +529,83 @@ class Header extends React.Component {
                                   ))}
                                 </div>
                               </div>
+                            </div>
+                          </div>
+                      }
+                    </span>
+                    <span className="minicart inlineblock" style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }} 
+                      onMouseOver={this.handleCenterMouseOver} onMouseOut={this.handleCenterMouseOut}>
+                      <Link to="/account" className="minicart-link" data-loc="miniCartOrderBtn" title="Presonal">
+                        <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-user--xs rc-iconography"></i>
+                      </Link>
+                      {
+                        !this.state.isLogin
+                          ?
+                          <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{minWidth:"13rem"}}>
+                            <div className="container cart" >
+                                <div className="login-style">
+                                  <button className="rc-btn rc-btn--one" style={{width:"11rem",margin:"2rem 0"}} 
+                                    onClick={this.clickLogin}>To come in</button>
+                                  <div>You are not registred?</div>
+                                  <a className="rc-styled-link" onClick={this.clickLogin}>Sign up</a>
+                                </div>
+                                
+                                <div className="link-group">
+                                  <div className="link-style" >
+                                    <Link to="/list/cats" >
+                                      My account
+                                    </Link>
+                                  </div>
+                                  <div className="link-style" >
+                                    <Link to="/list/cats" >
+                                      Orders
+                                    </Link>
+                                  </div>
+                                  <div className="link-style" >
+                                    <Link to="/list/cats" >
+                                      Payment methods
+                                    </Link>
+                                  </div>
+                                  <div className="link-style" >
+                                    <Link to="/list/cats" >
+                                      My pets
+                                    </Link>
+                                  </div>
+                                
+                                </div>
+                              </div>
+                          </div>
+                          :
+                          <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{minWidth:"13rem"}}
+                          onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
+                            <div className="container cart">
+                              <div className="link-group">
+                                <div className="link-style" >
+                                  <Link to="/list/cats" >
+                                    My account
+                                  </Link>
+                                </div>
+                                <div className="link-style" >
+                                  <Link to="/list/cats" >
+                                    Orders
+                                  </Link>
+                                </div>
+                                <div className="link-style" >
+                                  <Link to="/list/cats" >
+                                    Payment methods
+                                  </Link>
+                                </div>
+                                <div className="link-style" >
+                                  <Link to="/list/cats" >
+                                    My pets
+                                  </Link>
+                                </div>
+                              
+                              </div>
+                              <div className="logoff-style">
+                                <a class="rc-styled-link--external" onClick={this.clickLogoff}> Log off</a>
+                              </div>
+                              
                             </div>
                           </div>
                       }

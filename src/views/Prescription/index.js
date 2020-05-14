@@ -127,6 +127,10 @@ class Prescription extends React.Component{
     }
     const res = await getAllPrescription(params)
     if(res.code === 'K-000000'){
+      res.context.forEach(element => {
+        console.log(element.latitude,element.longitude);
+        
+      });
       this.setState({
         clinicArr: res.context
       })

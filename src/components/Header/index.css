@@ -5,3 +5,22 @@
 .minicart__product:last-child .product-summary__products__item {
   border-bottom: none;
 }
+.login-style{
+  background-color: #f6f6f6;
+  height: 11rem;
+  text-align: center;
+}
+.link-group{
+  margin: 1rem 0;
+}
+.link-style{
+  height: 2rem;
+  line-height: 2rem;
+  margin-left: 1rem;
+}
+.logoff-style{
+  background-color: #f6f6f6;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+}
