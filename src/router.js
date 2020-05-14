@@ -4,6 +4,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import RouteFilter from "@/components/RouteFilter";
 import Home from "@/views/Home";
 import List from "@/views/List";
+import Login from "@/views/Login";
 import Details from "@/views/Details";
 import Cart from "@/views/Cart";
 import Payment from "@/views/Payment";
@@ -22,6 +23,7 @@ const BasicRoute = () => (
     <ScrollToTop>
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
         <Route
           exact
           path="/list/:category"

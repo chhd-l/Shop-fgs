@@ -71,6 +71,14 @@ class RouteFilter extends Component {
         }
       );
     }
+    if (this.props.location.pathname !== "/login") {
+      loadJS(
+        "https://optanon.blob.core.windows.net/consent/cdfcc414-1ef9-4d1d-82d5-6b85fb8958cb.js",
+        function () {
+
+        }
+      )
+    }
     if (this.props.location.pathname === "/confirmation" && !localStorage.getItem('orderNumber')) {
       createHashHistory().push("/");
     }
