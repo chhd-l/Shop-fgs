@@ -13,8 +13,15 @@ const breadcrumbNameMap = {
     // { name: 'age', href: '/list/cats' },
     // { name: 'kitten' }
   ],
-  '/list/keywords': [{ name: 'viewResults' }]
+  '/list/keywords': [{ name: 'viewResults' }],
   // '/details': [{ name: '' }, { name: '' }]
+  '/account': [
+    { name: 'Personal Area' }
+  ],
+  '/account/information': [
+    { name: 'Personal Area', href: '/account' },
+    { name: 'Profile' }
+  ]
 };
 
 export default breadcrumbNameMap
