@@ -43,6 +43,13 @@ const en_US = {
   'age':'Age',
   'puppy': 'Puppy (0-1 year old)',
   'kitten': 'Kitten (0-1 year old)',
+  'pets': 'Pets',
+  'orders': 'Orders',
+  'help': 'Help',
+  'phone': 'Phone',
+  'email': 'Email',
+  'address': 'Address',
+  'welcome': 'Welcome',
 
   'header.basketEmpty': 'your basket is empty',
   'header.startTypingToSearch': 'Start typing to search',
@@ -200,6 +207,22 @@ const en_US = {
   'help.tip3':'We will reply to you within a maximum of 12 hours.',
   'help.byTelephone':'By telephone',
   'help.byEmail':'By email',
+
+  'account.personalArea': 'Personal Area',
+  'account.profile': 'Profile',
+  'account.profileTip': 'View and edit your personal information.',
+  'account.petsTip': 'Create and manage your pet profiles.',
+  'account.ordersTip': 'Check the status of current orders and see the history of previous ones.',
+  'account.feedSubscription': 'Feed subscription',
+  'account.feedSubscriptionTip': 'View and change your Subscription settings.',
+  'account.paymentMethod': 'Payment method',
+  'account.paymentMethodTip': 'View and update payment information',
+  'account.helpTip': 'If you have questions, we are always ready to help you and your pet.',
+  'account.personalData': 'Personal data',
+  'account.TheAddressBook': 'The address book',
+  'account.preferredMmethodsOfCommunication': 'Preferred methods of communication',
+  'account.preferredContactMethod': 'Preferred Contact Method',
+  'account.warmNotice': 'Here you can manage your profile, edit pet information, check status on orders and subscriptions.'
 
 }
 export default en_US;

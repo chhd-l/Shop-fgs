@@ -3,7 +3,9 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
-// import './index.css'
+import { FormattedMessage } from 'react-intl'
+import { Link } from 'react-router-dom';
+import './index.css'
 
 export default class AccountHome extends React.Component {
   constructor(props) {
@@ -16,105 +18,179 @@ export default class AccountHome extends React.Component {
     return (
       <div>
         <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
-        <main class="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
-          <div class="rc-padding--sm rc-max-width--xl">
-            <div class="rc-layout-container rc-five-column">
+          <div className="rc-padding--sm rc-max-width--xl">
+            <div className="rc-layout-container rc-five-column">
               <SideMenu />
-              <div class="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <h4>Welcome Ken</h4>
-                <p>Here you can manage your profile, edit pet information, check status on orders and subscriptions.</p>
-                <div class="clearfix"></div>
-                <div class="dashboard__profile-cards">
-                  <div class="my__account-navigation row rc-padding-top--xs--desktop rc-padding-bottom--none">
-                    <div class="col-12 col-md-4">
-                      <div class="profileDashboardImage">
-                        <a href="/ru/account/information">
-                          <img src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwdb6e2062/images/dashboard/My profile.jpg" alt="Profile" title="Profile" />
-                        </a>
+              <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
+                <h4><FormattedMessage id="welcome" /> Ken</h4>
+                <p><FormattedMessage id="account.warmNotice" /></p>
+                <div className="clearfix"></div>
+                <div className="dashboard__profile-cards">
+                  <div className="my__account-navigation row rc-padding-top--xs--desktop rc-padding-bottom--none">
+                    <div className="col-12 col-md-4">
+                      <div className="profileDashboardImage">
+                        <Link to="/account/information">
+                          <FormattedMessage id="account.profile">
+                            {txt => (
+                              <img
+                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwdb6e2062/images/dashboard/My profile.jpg"
+                                alt={txt}
+                                title={txt} />
+                            )}
+                          </FormattedMessage>
+                        </Link>
                       </div>
                       <div>
-                        <h3 class="rc-delta profileTextColor">
-                          <a href="/ru/account/information" title="Profile" alt="Profile">
-                            <b>Profile</b>
-                          </a>
+                        <h3 className="rc-delta profileTextColor">
+                          <FormattedMessage id="account.profile">
+                            {txt => (
+                              <Link
+                                to="/account/information"
+                                title={txt}
+                                alt={txt}>
+                                <b>txt</b>
+                              </Link>
+                            )}
+                          </FormattedMessage>
                         </h3>
-                        <p>View and edit your personal information.</p>
+                        <p><FormattedMessage id="account.profileTip" /></p>
                       </div>
                     </div>
-                    <div class="col-12 col-md-4">
-                      <div class="profileDashboardImage">
+                    <div className="col-12 col-md-4">
+                      <div className="profileDashboardImage">
                         <a href="/ru/account/pet-carnet">
-                          <img src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwa1d75ed1/images/dashboard/My pet.jpg" alt="Pets" title="Pets" />
+                          <FormattedMessage id="pets">
+                            {txt => (
+                              <img
+                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwa1d75ed1/images/dashboard/My pet.jpg"
+                                alt={txt}
+                                title={txt} />
+                            )}
+                          </FormattedMessage>
                         </a>
                       </div>
                       <div>
-                        <h3 class="rc-delta profileTextColor">
-                          <a href="/ru/account/pet-carnet" title="Pets" alt="Pets">
-                            <b>Pets</b>
-                          </a>
+                        <h3 className="rc-delta profileTextColor">
+                          <FormattedMessage id="pets">
+                            {txt => (
+                              <a href="/ru/account/pet-carnet" title={txt} alt={txt}>
+                                <b>txt</b>
+                              </a>
+                            )}
+                          </FormattedMessage>
+
                         </h3>
-                        <p>Create and manage your pet profiles.</p>
+                        <p><FormattedMessage id="account.petsTip" /></p>
                       </div>
                     </div>
-                    <div class="col-12 col-md-4">
-                      <div class="profileDashboardImage">
-                        <a href="/ru/account/orders" title="Orders">
-                          <img src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwb0f9538d/images/dashboard/My%20Order.jpg" alt="Orders" />
-                        </a>
+                    <div className="col-12 col-md-4">
+                      <div className="profileDashboardImage">
+                        <FormattedMessage id="orders">
+                          {txt => (
+                            <a href="/ru/account/orders" title={txt}>
+                              <img
+                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwb0f9538d/images/dashboard/My%20Order.jpg"
+                                alt={txt} />
+                            </a>
+                          )}
+                        </FormattedMessage>
                       </div>
                       <div>
-                        <h3 class="rc-delta profileTextColor">
-                          <a href="/ru/account/orders" title="Orders" alt="Orders">
-                            <b>Orders</b>
-                          </a>
+                        <h3 className="rc-delta profileTextColor">
+                          <FormattedMessage id="orders">
+                            {txt => (
+                              <a href="/ru/account/orders" title={txt} alt={txt}>
+                                <b>txt</b>
+                              </a>
+                            )}
+                          </FormattedMessage>
                         </h3>
-                        <p>Check the status of current orders and see the history of previous ones.</p>
+                        <p><FormattedMessage id="account.ordersTip" /></p>
                       </div>
                     </div>
-                    <div class="col-12 col-md-4">
-                      <div class="profileDashboardImage">
-                        <a href="/ru/account/subscription" title="Feed subscription">
-                          <img src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dw6082c6cd/images/dashboard/Autoship.jpg" alt="Feed subscription" />
-                        </a>
+                    <div className="col-12 col-md-4">
+                      <div className="profileDashboardImage">
+                        <FormattedMessage id="account.feedSubscription">
+                          {txt => (
+                            <a href="/ru/account/subscription" title={txt}>
+                              <img
+                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dw6082c6cd/images/dashboard/Autoship.jpg"
+                                alt={txt} />
+                            </a>
+                          )}
+                        </FormattedMessage>
                       </div>
                       <div>
-                        <h3 class="rc-delta profileTextColor">
-                          <a href="/ru/account/subscription" title="Feed subscription" alt="Feed subscription">
-                            <b>Feed subscription</b>
-                          </a>
+                        <h3 className="rc-delta profileTextColor">
+                          <FormattedMessage id="account.feedSubscription">
+                            {txt => (
+                              <a href="/ru/account/subscription" title={txt} alt={txt}>
+                                <b>txt</b>
+                              </a>
+                            )}
+                          </FormattedMessage>
                         </h3>
-                        <p>View and change your Subscription settings.</p>
+                        <p><FormattedMessage id="account.feedSubscriptionTip" /></p>
                       </div>
                     </div>
-                    <div class="col-12 col-md-4">
-                      <div class="profileDashboardImage">
-                        <a href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List" title="Payment method">
-                          <img src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwf7c65124/images/dashboard/Payment.jpg" alt="Payment method" />
-                        </a>
+                    <div className="col-12 col-md-4">
+                      <div className="profileDashboardImage">
+                        <FormattedMessage id="account.paymentMethod">
+                          {txt => (
+                            <a
+                              href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List"
+                              title={txt}>
+                              <img
+                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwf7c65124/images/dashboard/Payment.jpg"
+                                alt={txt} />
+                            </a>
+                          )}
+                        </FormattedMessage>
                       </div>
                       <div>
-                        <h3 class="rc-delta profileTextColor">
-                          <a href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List" title="Payment method" alt="Payment method">
-                            <b>Payment method</b>
-                          </a>
+                        <h3 className="rc-delta profileTextColor">
+                          <FormattedMessage id="account.paymentMethod">
+                            {txt => (
+                              <a
+                                href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List"
+                                title={txt}
+                                alt={txt}>
+                                <b>txt</b>
+                              </a>
+                            )}
+                          </FormattedMessage>
                         </h3>
-                        <p>View and update payment information</p>
+                        <p><FormattedMessage id="account.paymentMethodTip" /></p>
                       </div>
                     </div>
-                    <div class="col-12 col-md-4">
-                      <div class="profileDashboardImage">
-                        <a href="/ru/help/faq.html" title="Help">
-                          <img src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dweb723ffe/images/dashboard/Help.jpg" alt="Help" />
-                        </a>
+                    <div className="col-12 col-md-4">
+                      <div className="profileDashboardImage">
+                        <FormattedMessage id="help">
+                          {txt => (
+                            <Link to="/help" title={txt}>
+                              <img
+                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dweb723ffe/images/dashboard/Help.jpg"
+                                alt={txt} />
+                            </Link>
+                          )}
+                        </FormattedMessage>
                       </div>
                       <div>
-                        <h3 class="rc-delta profileTextColor">
-                          <a href="/ru/help/faq.html" title="Help" alt="Help">
-                            <b>Help</b>
-                          </a>
+                        <h3 className="rc-delta profileTextColor">
+                          <FormattedMessage id="help">
+                            {txt => (
+                              <Link
+                                to="/help"
+                                title={txt}
+                                alt={txt}>
+                                <b>txt</b>
+                              </Link>
+                            )}
+                          </FormattedMessage>
                         </h3>
-                        <p>If you have questions, we are always ready to help you and your pet.</p>
+                        <p><FormattedMessage id="account.helpTip" /></p>
                       </div>
                     </div>
                   </div>

@@ -1,4 +1,5 @@
 import React from "react"
+import { FormattedMessage } from 'react-intl'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -16,38 +17,60 @@ export default class AccountProfile extends React.Component {
     return (
       <div>
         <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
-        <main class="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
-          <div class="rc-padding--sm rc-max-width--xl">
-            <div class="rc-layout-container rc-five-column">
+          <div className="rc-padding--sm rc-max-width--xl">
+            <div className="rc-layout-container rc-five-column">
               <SideMenu type="Profile" />
-              <div class="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div class="card-body_">
-                  <div class="rc-layout-container rc-two-column">
-                    <div class="rc-column rc-padding-x--none--mobile">
-                      <div class="personalInfo">
-                        <div class="profileSubFormTitle">
-                          <h5 class="rc-espilon rc-margin--none">Personal data</h5>
-                          <button class="editPersonalInfoBtn rc-styled-link" name="personalInformation" id="personalInfoEditBtn" title="Edit" alt="Edit">Edit</button>
+              <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
+                <div className="card-body_">
+                  <div className="rc-layout-container rc-two-column">
+                    <div className="rc-column rc-padding-x--none--mobile">
+                      <div className="personalInfo">
+                        <div className="profileSubFormTitle">
+                          <h5 className="rc-espilon rc-margin--none">
+                            <FormattedMessage id="account.personalData" />
+                          </h5>
+                          <button
+                            className="editPersonalInfoBtn rc-styled-link"
+                            name="personalInformation"
+                            id="personalInfoEditBtn"
+                            title={<FormattedMessage id="edit" />}
+                            alt={<FormattedMessage id="edit" />}>
+                            <FormattedMessage id="edit" />
+                          </button>
                         </div>
                         <hr />
-                        <div class="userProfileInfo address">
+                        <div className="userProfileInfo address">
                           <span id="userFullName">Ken yang</span>
                           <span id="userBirthDate"></span>
                           <span id="userEmail">1411211848@qq.com</span>
                         </div>
                       </div>
                     </div>
-                    <div class="rc-column rc-padding-x--none--mobile">
-                      <div class="contactInfo">
-                        <div class="profileSubFormTitle">
-                          <h5 class="rc-espilon rc-margin--none">The address book</h5>
-                          <button class="editPersonalInfoBtn rc-styled-link" name="contactInformation" id="contactInfoEditBtn" title="Edit" alt="Edit">Edit</button>
+                    <div className="rc-column rc-padding-x--none--mobile">
+                      <div className="contactInfo">
+                        <div className="profileSubFormTitle">
+                          <h5 className="rc-espilon rc-margin--none">
+                            <FormattedMessage id="account.TheAddressBook" />
+                          </h5>
+                          <button
+                            className="editPersonalInfoBtn rc-styled-link"
+                            name="contactInformation"
+                            id="contactInfoEditBtn"
+                            title={<FormattedMessage id="edit" />}
+                            alt={<FormattedMessage id="edit" />}>
+                            <FormattedMessage id="edit" />
+                          </button>
                         </div>
                         <hr />
-                        <div class="row userContactInfo">
-                          <div class="col-lg-6 address">
-                            <span class="rc-meta"><b>Address</b></span>
+                        <div className="row userContactInfo">
+                          <div className="col-lg-6 address">
+                            <span className="rc-meta">
+                              <b>
+                                <FormattedMessage id="address" />
+                              </b>
+                            </span>
                             <span id="userCountryDist">Russia</span><span id="userAdd1" data-address2="false">
                             </span>
                             <span id="userCountryDist"></span>
@@ -60,8 +83,12 @@ export default class AccountProfile extends React.Component {
                             <span id="userZipcode">
                             </span>
                           </div>
-                          <div class="col-lg-6 address">
-                            <span class="rc-meta"><b>Phone</b></span>
+                          <div className="col-lg-6 address">
+                            <span className="rc-meta">
+                              <b>
+                                <FormattedMessage id="phone" />
+                              </b>
+                            </span>
                             <span></span>
                             <span></span>
                           </div>
@@ -69,27 +96,43 @@ export default class AccountProfile extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="rc-column col-lg-6">
-                      <div class="userContactPreferenceInfo">
-                        <div class="profileSubFormTitle">
-                          <h5 class="rc-espilon rc-margin--none">Preferred methods of communication</h5>
-                          <button class="editPersonalInfoBtn rc-styled-link" name="contactPreference" id="contactPrefEditBtn" title="Edit" alt="Edit">Edit</button>
+                  <div className="row">
+                    <div className="rc-column col-lg-6">
+                      <div className="userContactPreferenceInfo">
+                        <div className="profileSubFormTitle">
+                          <h5 className="rc-espilon rc-margin--none">
+                            <FormattedMessage id="account.preferredMmethodsOfCommunication" />
+                          </h5>
+                          <button className="editPersonalInfoBtn rc-styled-link" name="contactPreference" id="contactPrefEditBtn"
+                            title={<FormattedMessage id="edit" />}
+                            alt={<FormattedMessage id="edit" />}>
+                            <FormattedMessage id="edit" />
+                          </button>
                         </div>
                         <hr />
-                        <span class="rc-meta"><b>Preferred Contact Method</b></span>
-                        <div class="row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer">
-                          <div class="rc-input rc-input--inline rc-margin-y--xs">
-                            <input class="rc-input__checkbox" id="optsmobile" type="checkbox" disabled="" alt="Phone" name="dwfrm_profile_customer_optsmobile" value="true" />
-                            <label class="rc-input__label--inline" for="optsmobile">
-                              Phone
-                                </label>
+                        <span className="rc-meta">
+                          <b>
+                            <FormattedMessage id="account.preferredContactMethod" />
+                          </b>
+                        </span>
+                        <div className="row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer">
+                          <div className="rc-input rc-input--inline rc-margin-y--xs">
+                            <input className="rc-input__checkbox"
+                              id="optsmobile"
+                              type="checkbox"
+                              disabled=""
+                              alt={<FormattedMessage id="phone" />}
+                              name="dwfrm_profile_customer_optsmobile"
+                              value="true" />
+                            <label className="rc-input__label--inline" for="optsmobile">
+                              <FormattedMessage id="phone" />
+                            </label>
                           </div>
-                          <div class="rc-input rc-input--inline rc-margin-y--xs">
-                            <input class="rc-input__checkbox" id="optsemail" type="checkbox" disabled="" alt="Email" name="dwfrm_profile_customer_optsemail" checked="true" value="true" />
-                            <label class="rc-input__label--inline" for="optsemail">
-                              Email
-                              </label>
+                          <div className="rc-input rc-input--inline rc-margin-y--xs">
+                            <input className="rc-input__checkbox" id="optsemail" type="checkbox" disabled="" alt="Email" name="dwfrm_profile_customer_optsemail" checked="true" value="true" />
+                            <label className="rc-input__label--inline" for="optsemail">
+                              <FormattedMessage id="email" />
+                            </label>
                           </div>
                         </div>
                       </div>
