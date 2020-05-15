@@ -157,7 +157,7 @@ export default class PersonalDataEditForm extends React.Component {
               <div className="form-group col-lg-6 pull-left required">
                 <label className="form-control-label rc-full-width" for="lastname">
                   Surname
-              </label>
+                </label>
                 <span className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width" input-setup="true">
                   <input
                     type="text"
@@ -184,7 +184,7 @@ export default class PersonalDataEditForm extends React.Component {
               <div className="form-group col-lg-6 required">
                 <label className="form-control-label rc-full-width" for="birthdate">
                   Date of Birth
-              </label>
+                </label>
                 <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
                   <input
                     className="rc-input__date rc-js-custom"
@@ -203,7 +203,7 @@ export default class PersonalDataEditForm extends React.Component {
               <div className="form-group col-lg-6 required">
                 <label className="form-control-label rc-full-width" for="email">
                   E-mail
-              </label>
+                </label>
                 <span className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width" input-setup="true">
                   <input
                     type="email"
@@ -235,7 +235,10 @@ export default class PersonalDataEditForm extends React.Component {
                 name="personalInformation"
                 onClick={() => { this.setState({ editFormVisible: false }) }}>Cancel</a>
             &nbsp;or&nbsp;
-            <button className="rc-btn rc-btn--one submitBtn" name="personalInformation" type="submit"
+            <button
+                className="rc-btn rc-btn--one submitBtn"
+                name="personalInformation"
+                type="submit"
                 onClick={() => this.handleSave()}>Save</button>
             </div>
           </div>

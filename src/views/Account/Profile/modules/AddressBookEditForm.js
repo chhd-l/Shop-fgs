@@ -7,7 +7,7 @@ export default class AddressBookEditForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      editFormVisible: true,
+      editFormVisible: false,
       loading: false,
       successTipVisible: false,
       form: {
@@ -230,6 +230,23 @@ export default class AddressBookEditForm extends React.Component {
               <span>Example: +7 (923) 456 78 90</span>
             </div>
           </div>
+          <span class="rc-meta mandatoryField">Required fields</span>
+          <div class="text-right">
+            <a
+              class="rc-styled-link editPersonalInfoBtn"
+              name="contactInformation"
+              onClick={() => { this.setState({ editFormVisible: false }) }}>Cancel</a>
+              &nbsp;or&nbsp;
+              <button
+              class="rc-btn rc-btn--one submitBtn editAddress"
+              data-sav="false"
+              name="contactInformation"
+              type="submit"
+              onClick={() => this.handleSave()}>
+              Save
+              </button>
+          </div>
+
         </div>
       </div>
     )
