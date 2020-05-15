@@ -53,15 +53,6 @@ export default class SideMenu extends React.Component {
               )}
             </FormattedMessage>
           </h2>
-          <h2 className={['nav_item', 'medium', type === 'FeedSubscription' ? 'active' : ''].join(' ')}>
-            <FormattedMessage id="account.feedSubscription">
-              {txt => (
-                <a href="/ru/account/subscription" title={txt} alt={txt}>
-                  {txt}
-                </a>
-              )}
-            </FormattedMessage>
-          </h2>
           <h2 className={['nav_item', 'medium', type === 'PaymentMethod' ? 'active' : ''].join(' ')}>
             <FormattedMessage id="account.paymentMethod">
               {txt => (

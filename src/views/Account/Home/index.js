@@ -112,31 +112,6 @@ export default class AccountHome extends React.Component {
                     </div>
                     <div className="col-12 col-md-4">
                       <div className="profileDashboardImage">
-                        <FormattedMessage id="account.feedSubscription">
-                          {txt => (
-                            <a href="/ru/account/subscription" title={txt}>
-                              <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dw6082c6cd/images/dashboard/Autoship.jpg"
-                                alt={txt} />
-                            </a>
-                          )}
-                        </FormattedMessage>
-                      </div>
-                      <div>
-                        <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="account.feedSubscription">
-                            {txt => (
-                              <a href="/ru/account/subscription" title={txt} alt={txt}>
-                                <b>{txt}</b>
-                              </a>
-                            )}
-                          </FormattedMessage>
-                        </h3>
-                        <p><FormattedMessage id="account.feedSubscriptionTip" /></p>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="profileDashboardImage">
                         <FormattedMessage id="account.paymentMethod">
                           {txt => (
                             <a
