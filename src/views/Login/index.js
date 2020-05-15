@@ -354,7 +354,7 @@ class Login extends React.Component {
                         >
                           <label for="capture_traditionalRegistration_newPassword">
                             <font>
-                              <font>Desired Password</font>
+                              <font>Password</font>
                             </font>
                           </label>
                           <div class="input-append input-group">
@@ -364,7 +364,7 @@ class Login extends React.Component {
                               data-capturefield="newPassword"
                               type="password"
                               class="capture_newPassword capture_required capture_text_input form-control"
-                              placeholder="Desired password *"
+                              placeholder="Password *"
                               name="newPassword"
                             />
                             <span
@@ -460,57 +460,6 @@ class Login extends React.Component {
                           class="miaa_radio required capture_form_collection capture_elementCollection capture_form_collection_salutation form-group row align-items-center no-gutters"
                           data-capturefield="undefined"
                         >
-                          <label>
-                            <font>
-                              <font>Appeal</font>
-                            </font>
-                          </label>
-                          <div class="col-12 d-flex align-items-center">
-                            <div
-                              id="capture_traditionalRegistration_form_item_salutation_male_0"
-                              class="capture_form_item capture_form_item_salutation capture_form_item_salutation_male_0 form-check form-check-inline"
-                              data-capturefield="undefined"
-                            >
-                              <label
-                                for="capture_traditionalRegistration_salutation_male_0"
-                                class="m-0 mr-3"
-                              >
-                                <input
-                                  id="capture_traditionalRegistration_salutation_male_0"
-                                  data-capturefield="salutation"
-                                  data-capturecollection="true"
-                                  value="male"
-                                  type="radio"
-                                  class="capture_salutation_male_0 capture_input_radio form-check-input"
-                                  name="salutation"
-                                  placeholder="undefined *"
-                                />
-                                Dear
-                              </label>
-                            </div>
-                            <div
-                              id="capture_traditionalRegistration_form_item_salutation_female_1"
-                              class="capture_form_item capture_form_item_salutation capture_form_item_salutation_female_1 form-check form-check-inline"
-                              data-capturefield="undefined"
-                            >
-                              <label
-                                for="capture_traditionalRegistration_salutation_female_1"
-                                class="m-0 mr-3"
-                              >
-                                <input
-                                  id="capture_traditionalRegistration_salutation_female_1"
-                                  data-capturefield="salutation"
-                                  data-capturecollection="true"
-                                  value="female"
-                                  type="radio"
-                                  class="capture_salutation_female_1 capture_input_radio form-check-input"
-                                  name="salutation"
-                                  placeholder="undefined *"
-                                />
-                                Respected
-                              </label>
-                            </div>
-                          </div>
                           <div
                             class="capture_tip_validating"
                             data-elementname="salutation"
@@ -579,6 +528,32 @@ class Login extends React.Component {
                           <div
                             class="capture_tip_error"
                             data-elementname="lastName"
+                          ></div>
+                        </div>
+                        <div
+                          id="capture_traditionalRegistration_form_item_firstName"
+                          class="miaa_input required capture_form_item capture_text capture_form_item_firstName form-group row align-items-center no-gutters"
+                          data-capturefield="undefined"
+                        >
+                          <input
+                            id="capture_traditionalRegistration_firstName"
+                            data-capturefield="firstName"
+                            type="text"
+                            class="capture_firstName capture_required capture_text_input form-control"
+                            placeholder="Phone *"
+                            name="firstName"
+                          />
+                          <div
+                            class="capture_tip_validating"
+                            data-elementname="firstName"
+                          >
+                            <font>
+                              <font>Check</font>
+                            </font>
+                          </div>
+                          <div
+                            class="capture_tip_error"
+                            data-elementname="firstName"
                           ></div>
                         </div>
                         <div
@@ -865,7 +840,7 @@ class Login extends React.Component {
                       >
                         <span data-i18n="signIn_Submit">
                           <font>
-                            <font>To come in</font>
+                            <font>Log in</font>
                           </font>
                         </span>
                       </button>
