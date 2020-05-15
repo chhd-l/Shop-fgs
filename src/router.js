@@ -17,6 +17,7 @@ import TermUse from "@/views/TermUse";
 import PrivacyPolicy from "@/views/PrivacyPolicy";
 import AccountHome from "@/views/Account/Home";
 import AccountProfile from "@/views/Account/Profile";
+import AccountOrders from "@/views/Account/Orders";
 
 
 const BasicRoute = () => (
@@ -64,7 +65,8 @@ const BasicRoute = () => (
         <Route exact path="/privacypolicy" component={PrivacyPolicy} />
 
         <Route path='/account' exact component={AccountHome}/>
-        <Route path='/account/information' exact component={AccountProfile}/>
+        <Route path='/account/information' component={AccountProfile}/>
+        <Route path='/account/orders' component={AccountOrders}/>
 
         <Route component={Exception} />
       </Switch>
