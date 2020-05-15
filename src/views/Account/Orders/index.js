@@ -5,9 +5,9 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom';
-import './index.css'
+// import './index.css'
 
-export default class AccountHome extends React.Component {
+export default class AccountOrders extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -22,7 +22,7 @@ export default class AccountHome extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu />
+              <SideMenu type="Orders" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <h4><FormattedMessage id="welcome" /> Ken</h4>
                 <p><FormattedMessage id="account.warmNotice" /></p>

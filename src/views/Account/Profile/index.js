@@ -31,14 +31,19 @@ export default class AccountProfile extends React.Component {
                           <h5 className="rc-espilon rc-margin--none">
                             <FormattedMessage id="account.personalData" />
                           </h5>
-                          <button
-                            className="editPersonalInfoBtn rc-styled-link"
-                            name="personalInformation"
-                            id="personalInfoEditBtn"
-                            title={<FormattedMessage id="edit" />}
-                            alt={<FormattedMessage id="edit" />}>
-                            <FormattedMessage id="edit" />
-                          </button>
+                          <FormattedMessage id="edit">
+                            {txt => (
+                              <button
+                                className="editPersonalInfoBtn rc-styled-link"
+                                name="personalInformation"
+                                id="personalInfoEditBtn"
+                                title={txt}
+                                alt={txt}>
+                                {txt}
+                              </button>
+                            )}
+                          </FormattedMessage>
+
                         </div>
                         <hr />
                         <div className="userProfileInfo address">
@@ -54,14 +59,18 @@ export default class AccountProfile extends React.Component {
                           <h5 className="rc-espilon rc-margin--none">
                             <FormattedMessage id="account.TheAddressBook" />
                           </h5>
-                          <button
-                            className="editPersonalInfoBtn rc-styled-link"
-                            name="contactInformation"
-                            id="contactInfoEditBtn"
-                            title={<FormattedMessage id="edit" />}
-                            alt={<FormattedMessage id="edit" />}>
-                            <FormattedMessage id="edit" />
-                          </button>
+                          <FormattedMessage id="edit">
+                            {txt => (
+                              <button
+                                className="editPersonalInfoBtn rc-styled-link"
+                                name="contactInformation"
+                                id="contactInfoEditBtn"
+                                title={txt}
+                                alt={txt}>
+                                {txt}
+                              </button>
+                            )}
+                          </FormattedMessage>
                         </div>
                         <hr />
                         <div className="row userContactInfo">
@@ -103,11 +112,15 @@ export default class AccountProfile extends React.Component {
                           <h5 className="rc-espilon rc-margin--none">
                             <FormattedMessage id="account.preferredMmethodsOfCommunication" />
                           </h5>
-                          <button className="editPersonalInfoBtn rc-styled-link" name="contactPreference" id="contactPrefEditBtn"
-                            title={<FormattedMessage id="edit" />}
-                            alt={<FormattedMessage id="edit" />}>
-                            <FormattedMessage id="edit" />
-                          </button>
+                          <FormattedMessage id="edit">
+                            {txt => (
+                              <button className="editPersonalInfoBtn rc-styled-link" name="contactPreference" id="contactPrefEditBtn"
+                                title={txt}
+                                alt={txt}>
+                                {txt}
+                              </button>
+                            )}
+                          </FormattedMessage>
                         </div>
                         <hr />
                         <span className="rc-meta">
@@ -117,13 +130,17 @@ export default class AccountProfile extends React.Component {
                         </span>
                         <div className="row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer">
                           <div className="rc-input rc-input--inline rc-margin-y--xs">
-                            <input className="rc-input__checkbox"
-                              id="optsmobile"
-                              type="checkbox"
-                              disabled=""
-                              alt={<FormattedMessage id="phone" />}
-                              name="dwfrm_profile_customer_optsmobile"
-                              value="true" />
+                            <FormattedMessage id="phone">
+                              {txt => (
+                                <input className="rc-input__checkbox"
+                                  id="optsmobile"
+                                  type="checkbox"
+                                  disabled=""
+                                  alt={txt}
+                                  name="dwfrm_profile_customer_optsmobile"
+                                  value="true" />
+                              )}
+                            </FormattedMessage>
                             <label className="rc-input__label--inline" for="optsmobile">
                               <FormattedMessage id="phone" />
                             </label>
