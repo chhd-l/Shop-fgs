@@ -25,12 +25,12 @@ export default class SideMenu extends React.Component {
             </Link>
           </h2>
           <h2 className={['nav_item', 'medium', type === 'Pets' ? 'active' : ''].join(' ')}>
-            <a
-              href="/ru/account/pet-carnet"
+            <Link
+              to="/account/pets"
               title={<FormattedMessage id="pets" />}
               alt={<FormattedMessage id="pets" />}>
               <FormattedMessage id="pets" />
-            </a>
+            </Link>
           </h2>
           <h2 className={['nav_item', 'medium', type === 'Orders' ? 'active' : ''].join(' ')}>
             <a
