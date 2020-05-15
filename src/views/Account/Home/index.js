@@ -89,11 +89,11 @@ export default class AccountHome extends React.Component {
                       <div className="profileDashboardImage">
                         <FormattedMessage id="orders">
                           {txt => (
-                            <a href="/ru/account/orders" title={txt}>
+                            <Link to="/account/orders" title={txt}>
                               <img
                                 src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwb0f9538d/images/dashboard/My%20Order.jpg"
                                 alt={txt} />
-                            </a>
+                            </Link>
                           )}
                         </FormattedMessage>
                       </div>
@@ -101,9 +101,9 @@ export default class AccountHome extends React.Component {
                         <h3 className="rc-delta profileTextColor">
                           <FormattedMessage id="orders">
                             {txt => (
-                              <a href="/ru/account/orders" title={txt} alt={txt}>
+                              <Link to="/account/orders" title={txt} alt={txt}>
                                 <b>{txt}</b>
-                              </a>
+                              </Link>
                             )}
                           </FormattedMessage>
                         </h3>

@@ -8,61 +8,77 @@ export default class SideMenu extends React.Component {
     return (
       <div class="my__account-navigation rc-column rc-padding-top--xs--desktop rc-padding-bottom--none">
         <h1 class="my__account-header rc-alpha">
-          <Link
-            to="/account"
-            title={<FormattedMessage id="account.personalArea" />}
-            alt={<FormattedMessage id="account.personalArea" />}>
-            <FormattedMessage id="account.personalArea" />
-          </Link>
+          <FormattedMessage id="account.personalArea">
+            {txt => (
+              <Link
+                to="/account"
+                title={txt}
+                alt={txt}>
+                {txt}
+              </Link>
+            )}
+          </FormattedMessage>
         </h1>
         <div>
           <h2 className={['nav_item', 'medium', type === 'Profile' ? 'active' : ''].join(' ')}>
-            <Link
-              to="/account/information"
-              title={<FormattedMessage id="account.profile" />}
-              alt={<FormattedMessage id="account.profile" />}>
-              <FormattedMessage id="account.profile" />
-            </Link>
+            <FormattedMessage id="account.profile">
+              {txt => (
+                <Link
+                  to="/account/information"
+                  title={txt}
+                  alt={txt}>
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
           </h2>
           <h2 className={['nav_item', 'medium', type === 'Pets' ? 'active' : ''].join(' ')}>
-            <a
-              href="/ru/account/pet-carnet"
-              title={<FormattedMessage id="pets" />}
-              alt={<FormattedMessage id="pets" />}>
-              <FormattedMessage id="pets" />
-            </a>
+            <FormattedMessage id="pets">
+              {txt => (
+                <a
+                  href="/ru/account/pet-carnet"
+                  title={txt}
+                  alt={txt}>
+                  {txt}
+                </a>
+              )}
+            </FormattedMessage>
           </h2>
           <h2 className={['nav_item', 'medium', type === 'Orders' ? 'active' : ''].join(' ')}>
-            <a
-              href="/ru/account/orders"
-              title={<FormattedMessage id="orders" />}
-              alt={<FormattedMessage id="orders" />}>
-              <FormattedMessage id="orders" />
-            </a>
+            <FormattedMessage id="orders">
+              {txt => (
+                <Link to="/account/orders" title={txt} alt={txt}>
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
           </h2>
           <h2 className={['nav_item', 'medium', type === 'FeedSubscription' ? 'active' : ''].join(' ')}>
-            <a
-              href="/ru/account/subscription"
-              title={<FormattedMessage id="account.feedSubscription" />}
-              alt={<FormattedMessage id="account.feedSubscription" />}>
-              <FormattedMessage id="account.feedSubscription" />
-            </a>
+            <FormattedMessage id="account.feedSubscription">
+              {txt => (
+                <a href="/ru/account/subscription" title={txt} alt={txt}>
+                  {txt}
+                </a>
+              )}
+            </FormattedMessage>
           </h2>
           <h2 className={['nav_item', 'medium', type === 'PaymentMethod' ? 'active' : ''].join(' ')}>
-            <a
-              href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List"
-              title={<FormattedMessage id="account.paymentMethod" />}
-              alt={<FormattedMessage id="account.paymentMethod" />}>
-              <FormattedMessage id="account.paymentMethod" />
-            </a>
+            <FormattedMessage id="account.paymentMethod">
+              {txt => (
+                <a href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List" title={txt} alt={txt}>
+                  {txt}
+                </a>
+              )}
+            </FormattedMessage>
           </h2>
           <h2 className={['nav_item', 'medium', type === 'Help' ? 'active' : ''].join(' ')}>
-            <Link
-              to="/help"
-              title={<FormattedMessage id="help" />}
-              alt={<FormattedMessage id="help" />}>
-              <FormattedMessage id="help" />
-            </Link>
+            <FormattedMessage id="help">
+              {txt => (
+                <Link to="/help" title={txt} alt={txt}>
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
           </h2>
           <hr />
         </div>

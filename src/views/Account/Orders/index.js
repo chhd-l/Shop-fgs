@@ -5,13 +5,37 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom';
+import { formatMoney } from "@/utils/utils"
 // import './index.css'
 
 export default class AccountOrders extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
+      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
+      orderList: [
+        {
+          orderDate: '05/14/2020',
+          orderNumber: '000053310',
+          totalAmount: 2339,
+          status: 'Not done',
+          goodsName: 'Mini Adult',
+          goodsImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw1e081197/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.png?sw=250&amp;sh=380&amp;sm=fit',
+          amount: 1839,
+          size: '4.00kg',
+          quantity: '1.0'
+        }
+      ]
+    }
+  }
+  componentWillUnmount () {
+    localStorage.setItem("isRefresh", true);
+  }
+  componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
     }
   }
   render () {
@@ -24,175 +48,74 @@ export default class AccountOrders extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <h4><FormattedMessage id="welcome" /> Ken</h4>
-                <p><FormattedMessage id="account.warmNotice" /></p>
-                <div className="clearfix"></div>
-                <div className="dashboard__profile-cards">
-                  <div className="my__account-navigation row rc-padding-top--xs--desktop rc-padding-bottom--none">
-                    <div className="col-12 col-md-4">
-                      <div className="profileDashboardImage">
-                        <Link to="/account/information">
-                          <FormattedMessage id="account.profile">
-                            {txt => (
-                              <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwdb6e2062/images/dashboard/My profile.jpg"
-                                alt={txt}
-                                title={txt} />
-                            )}
-                          </FormattedMessage>
-                        </Link>
-                      </div>
-                      <div>
-                        <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="account.profile">
-                            {txt => (
-                              <Link
-                                to="/account/information"
-                                title={txt}
-                                alt={txt}>
-                                <b>{txt}</b>
-                              </Link>
-                            )}
-                          </FormattedMessage>
-                        </h3>
-                        <p><FormattedMessage id="account.profileTip" /></p>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="profileDashboardImage">
-                        <a href="/ru/account/pet-carnet">
-                          <FormattedMessage id="pets">
-                            {txt => (
-                              <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwa1d75ed1/images/dashboard/My pet.jpg"
-                                alt={txt}
-                                title={txt} />
-                            )}
-                          </FormattedMessage>
-                        </a>
-                      </div>
-                      <div>
-                        <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="pets">
-                            {txt => (
-                              <a href="/ru/account/pet-carnet" title={txt} alt={txt}>
-                                <b>{txt}</b>
-                              </a>
-                            )}
-                          </FormattedMessage>
+                <div class="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
+                  <h4 class="rc-delta rc-margin--none">History of orders</h4>
+                </div>
+                <div>
+                  <div class="form-group rc-select-processed">
+                    <select data-js-select="">
+                      <option>Last 6 months</option>
+                      <option>Last 12 months</option>
+                      <option>2020</option>
+                    </select>
+                  </div>
+                </div>
 
-                        </h3>
-                        <p><FormattedMessage id="account.petsTip" /></p>
+                <div class="order__listing">
+                  <div class="order-list-container">
+                    {this.state.orderList.map(order => (
+                      <div class="card-container" key={order.orderNumber}>
+                        <div class="card rc-margin-y--none">
+                          <div class="card-header row rc-margin-x--none">
+                            <div class="col-12 col-md-3">
+                              <p>Order Date: <br class="d-none d-md-block" /> <span class="medium orderHeaderTextColor">{order.orderDate}</span></p>
+                            </div>
+                            <div class="col-12 col-md-3">
+                              <p>Order Number: <br class="d-none d-md-block" /> <span class="medium orderHeaderTextColor">{order.orderNumber}</span></p>
+                            </div>
+                            <div class="col-12 col-md-2">
+                              <p>Only <br class="d-none d-md-block" /> <span class="medium orderHeaderTextColor price-symbol">{formatMoney(order.totalAmount)}</span></p>
+                            </div>
+                            <div class="col-12 col-md-4 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
+                              <button class="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
+                                <Link
+                                  class="medium pull-right--desktop rc-styled-link rc-padding-top--xs"
+                                  to={`/account/orders/detail/${order.orderNumber}`}>
+                                  Order Details
+                                </Link>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-between rc-column flex-column flex-md-row">
+                          <span class="rc-padding-top--xs medium">{order.status}</span>
+                        </div>
+                        <div class="row rc-margin-x--none">
+                          <div class="col-12 col-md-8 rc-column rc-padding-top--none">
+                            <div class="row">
+                              <div class="col-3">
+                                <img
+                                  class="img-fluid"
+                                  src={order.goodsImg}
+                                  alt={order.goodsName}
+                                  title={order.goodsName} />
+                              </div>
+                              <div class="col-9 order-item-detail">
+                                <span class="medium title_product text_content">{order.goodsName}</span><br />
+                                <span>
+                                  {order.size} - Amount {order.quantity}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-4">
+                            <div class="col-7 offset-md-5 rc-padding-bottom--sm--mobile">
+                              <div class="rc-text--right medium price-symbol">{formatMoney(order.amount)}</div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="profileDashboardImage">
-                        <FormattedMessage id="orders">
-                          {txt => (
-                            <a href="/ru/account/orders" title={txt}>
-                              <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwb0f9538d/images/dashboard/My%20Order.jpg"
-                                alt={txt} />
-                            </a>
-                          )}
-                        </FormattedMessage>
-                      </div>
-                      <div>
-                        <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="orders">
-                            {txt => (
-                              <a href="/ru/account/orders" title={txt} alt={txt}>
-                                <b>{txt}</b>
-                              </a>
-                            )}
-                          </FormattedMessage>
-                        </h3>
-                        <p><FormattedMessage id="account.ordersTip" /></p>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="profileDashboardImage">
-                        <FormattedMessage id="account.feedSubscription">
-                          {txt => (
-                            <a href="/ru/account/subscription" title={txt}>
-                              <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dw6082c6cd/images/dashboard/Autoship.jpg"
-                                alt={txt} />
-                            </a>
-                          )}
-                        </FormattedMessage>
-                      </div>
-                      <div>
-                        <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="account.feedSubscription">
-                            {txt => (
-                              <a href="/ru/account/subscription" title={txt} alt={txt}>
-                                <b>{txt}</b>
-                              </a>
-                            )}
-                          </FormattedMessage>
-                        </h3>
-                        <p><FormattedMessage id="account.feedSubscriptionTip" /></p>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="profileDashboardImage">
-                        <FormattedMessage id="account.paymentMethod">
-                          {txt => (
-                            <a
-                              href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List"
-                              title={txt}>
-                              <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwf7c65124/images/dashboard/Payment.jpg"
-                                alt={txt} />
-                            </a>
-                          )}
-                        </FormattedMessage>
-                      </div>
-                      <div>
-                        <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="account.paymentMethod">
-                            {txt => (
-                              <a
-                                href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List"
-                                title={txt}
-                                alt={txt}>
-                                <b>{txt}</b>
-                              </a>
-                            )}
-                          </FormattedMessage>
-                        </h3>
-                        <p><FormattedMessage id="account.paymentMethodTip" /></p>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="profileDashboardImage">
-                        <FormattedMessage id="help">
-                          {txt => (
-                            <Link to="/help" title={txt}>
-                              <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dweb723ffe/images/dashboard/Help.jpg"
-                                alt={txt} />
-                            </Link>
-                          )}
-                        </FormattedMessage>
-                      </div>
-                      <div>
-                        <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="help">
-                            {txt => (
-                              <Link
-                                to="/help"
-                                title={txt}
-                                alt={txt}>
-                                <b>{txt}</b>
-                              </Link>
-                            )}
-                          </FormattedMessage>
-                        </h3>
-                        <p><FormattedMessage id="account.helpTip" /></p>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
