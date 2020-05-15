@@ -12,8 +12,12 @@ const breadcrumbNameMap = {
     { name: 'account.personalArea' }
   ],
   '/account/information': [
-    { name: 'account.personalArea', href: '/account' },
-    { name: 'account.profile' }
+    { name: 'Personal Area', href: '/account' },
+    { name: 'Profile' }
+  ],
+  '/account/pets': [
+    { name: 'Personal Area', href: '/account' },
+    { name: 'Pets' }
   ],
   '/account/orders': [
     { name: 'account.personalArea', href: '/account' },

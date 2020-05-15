@@ -552,7 +552,7 @@ class Header extends React.Component {
                                 
                                 <div className="link-group">
                                   <div className="link-style" >
-                                    <Link to="/list/cats" >
+                                    <Link to="/account" >
                                       My account
                                     </Link>
                                   </div>
@@ -581,7 +581,7 @@ class Header extends React.Component {
                             <div className="container cart">
                               <div className="link-group">
                                 <div className="link-style" >
-                                  <Link to="/list/cats" >
+                                  <Link to="/account" >
                                     My account
                                   </Link>
                                 </div>

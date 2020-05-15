@@ -33,16 +33,12 @@ export default class SideMenu extends React.Component {
             </FormattedMessage>
           </h2>
           <h2 className={['nav_item', 'medium', type === 'Pets' ? 'active' : ''].join(' ')}>
-            <FormattedMessage id="pets">
-              {txt => (
-                <a
-                  href="/ru/account/pet-carnet"
-                  title={txt}
-                  alt={txt}>
-                  {txt}
-                </a>
-              )}
-            </FormattedMessage>
+            <Link
+              to="/account/pets"
+              title={<FormattedMessage id="pets" />}
+              alt={<FormattedMessage id="pets" />}>
+              <FormattedMessage id="pets" />
+            </Link>
           </h2>
           <h2 className={['nav_item', 'medium', type === 'Orders' ? 'active' : ''].join(' ')}>
             <FormattedMessage id="orders">
