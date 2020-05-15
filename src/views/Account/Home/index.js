@@ -50,7 +50,7 @@ export default class AccountHome extends React.Component {
                                 to="/account/information"
                                 title={txt}
                                 alt={txt}>
-                                <b>txt</b>
+                                <b>{txt}</b>
                               </Link>
                             )}
                           </FormattedMessage>
@@ -76,7 +76,7 @@ export default class AccountHome extends React.Component {
                           <FormattedMessage id="pets">
                             {txt => (
                               <a href="/ru/account/pet-carnet" title={txt} alt={txt}>
-                                <b>txt</b>
+                                <b>{txt}</b>
                               </a>
                             )}
                           </FormattedMessage>
@@ -102,7 +102,7 @@ export default class AccountHome extends React.Component {
                           <FormattedMessage id="orders">
                             {txt => (
                               <a href="/ru/account/orders" title={txt} alt={txt}>
-                                <b>txt</b>
+                                <b>{txt}</b>
                               </a>
                             )}
                           </FormattedMessage>
@@ -127,7 +127,7 @@ export default class AccountHome extends React.Component {
                           <FormattedMessage id="account.feedSubscription">
                             {txt => (
                               <a href="/ru/account/subscription" title={txt} alt={txt}>
-                                <b>txt</b>
+                                <b>{txt}</b>
                               </a>
                             )}
                           </FormattedMessage>
@@ -157,7 +157,7 @@ export default class AccountHome extends React.Component {
                                 href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List"
                                 title={txt}
                                 alt={txt}>
-                                <b>txt</b>
+                                <b>{txt}</b>
                               </a>
                             )}
                           </FormattedMessage>
@@ -185,7 +185,7 @@ export default class AccountHome extends React.Component {
                                 to="/help"
                                 title={txt}
                                 alt={txt}>
-                                <b>txt</b>
+                                <b>{txt}</b>
                               </Link>
                             )}
                           </FormattedMessage>
