@@ -10,6 +10,7 @@ export default class PersonalDataEditForm extends React.Component {
       editFormVisible: false,
       loading: false,
       successTipVisible: false,
+      errorMsg: '',
       form: {
         firstName: '',
         lastName: '',
@@ -41,6 +42,13 @@ export default class PersonalDataEditForm extends React.Component {
     // } catch (e) {
     //   console.log(e)
     // }
+  }
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.data !== this.state.form) {
+      this.setState({
+        form: Object.assign({}, nextProps.data)
+      })
+    }
   }
   componentWillMount () {
     // window.addEventListener("load", function () {
@@ -74,7 +82,38 @@ export default class PersonalDataEditForm extends React.Component {
     this.setState({ form: form })
     this.inputBlur(e);
   }
+  showErrMsg (msg) {
+    this.setState({
+      errorMsg: msg
+    })
+    window.scrollTo(0, 0)
+    setTimeout(() => {
+      this.setState({
+        errorMsg: ''
+      })
+    }, 5000)
+  }
+  handleCancel () {
+    this.setState({
+      editFormVisible: false,
+      errorMsg: ''
+    })
+    window.scrollTo(0, 0)
+  }
   async handleSave () {
+    const { form } = this.state
+    for (let key in form) {
+      const value = form[key]
+      if (!value) {
+        this.showErrMsg('Please complete the required items')
+        return
+      }
+      if (key === 'email' && value && !(/^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/.test(value))) {
+        this.showErrMsg('Please enter the correct email')
+        return
+      }
+    }
+
     this.setState({ loading: true })
     setTimeout(() => {
       this.props.updateData(this.state.form)
@@ -104,7 +143,7 @@ export default class PersonalDataEditForm extends React.Component {
             <FormattedMessage id="edit">
               {txt => (
                 <button
-                  className={['editPersonalInfoBtn', 'rc-styled-link', editFormVisible ? 'hidden' : ''].join(' ')}
+                  className={`editPersonalInfoBtn rc-styled-link ${editFormVisible ? 'hidden' : ''}`}
                   name="personalInformation"
                   id="personalInfoEditBtn"
                   title={txt}
@@ -116,21 +155,59 @@ export default class PersonalDataEditForm extends React.Component {
             </FormattedMessage>
           </div>
           <hr />
+          <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
+            <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+              <span>{this.state.errorMsg}</span>
+              <button
+                className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                aria-label="Close"
+                onClick={() => { this.setState({ errorMsg: '' }) }}>
+                <span className="rc-screen-reader-text">
+                  <FormattedMessage id="close" />
+                </span>
+              </button>
+            </aside>
+          </div>
           <aside
             className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
             role="alert">
-            <p class="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Ваша информация была правильно сохранена</p>
+            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Ваша информация была правильно сохранена</p>
           </aside>
-          <div className={['userProfileInfo', 'address', editFormVisible ? 'hidden' : ''].join(' ')}>
-            <span id="userFullName">{data.firstName + ' ' + data.lastName}</span>
+          <div className={`row userProfileInfo text-break ${editFormVisible ? 'hidden' : ''}`}>
+            {/* <span id="userFullName">{data.firstName + ' ' + data.lastName}</span>
             <span id="userBirthDate">{data.birthdate}</span>
-            <span id="userEmail">{data.email}</span>
+            <span id="userEmail">{data.email}</span> */}
+
+            <div className="col-lg-6">
+              <FormattedMessage id="payment.firstName" />
+            </div>
+            <div className="col-lg-6">
+              {data.firstName}
+            </div>
+            <div className="col-lg-6">
+              <FormattedMessage id="payment.lastName" />
+            </div>
+            <div className="col-lg-6">
+              {data.lastName}
+            </div>
+            <div className="col-lg-6">
+              <FormattedMessage id="account.birthDate" />
+            </div>
+            <div className="col-lg-6">
+              {data.birthdate}
+            </div>
+            <div className="col-lg-6">
+              <FormattedMessage id="account.Email" />
+            </div>
+            <div className="col-lg-6">
+              {data.email}
+            </div>
           </div>
           <div className={['userProfileInfoEdit', editFormVisible ? '' : 'hidden'].join(' ')}>
             <div className="row">
               <div className="form-group col-lg-6 pull-left required">
-                <label className="form-control-label rc-full-width" for="firstName">
-                  Name
+                <label className="form-control-label rc-full-width" htmlFor="firstName">
+                  <FormattedMessage id="payment.firstName" />
                 </label>
                 <span className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width" input-setup="true">
                   <input
@@ -147,16 +224,16 @@ export default class PersonalDataEditForm extends React.Component {
                     value={form.firstName}
                     onChange={e => this.handleInputChange(e)}
                     onBlur={e => this.inputBlur(e)}
-                    maxlength="50" />
-                  <label className="rc-input__label" for="firstName"></label>
+                    maxLength="50" />
+                  <label className="rc-input__label" htmlFor="firstName"></label>
                 </span>
                 <div className="invalid-feedback" style={{ display: 'none' }}>
                   <FormattedMessage id="payment.errorInfo2" />
                 </div>
               </div>
               <div className="form-group col-lg-6 pull-left required">
-                <label className="form-control-label rc-full-width" for="lastname">
-                  Surname
+                <label className="form-control-label rc-full-width" htmlFor="lastname">
+                  <FormattedMessage id="payment.lastName" />
                 </label>
                 <span className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width" input-setup="true">
                   <input
@@ -172,8 +249,8 @@ export default class PersonalDataEditForm extends React.Component {
                     value={form.lastName}
                     onChange={e => this.handleInputChange(e)}
                     onBlur={e => this.inputBlur(e)}
-                    maxlength="50" />
-                  <label className="rc-input__label" for="lastname"></label>
+                    maxLength="50" />
+                  <label className="rc-input__label" htmlFor="lastname"></label>
                 </span>
                 <div className="invalid-feedback" style={{ display: 'none' }}>
                   <FormattedMessage id="payment.errorInfo2" />
@@ -182,12 +259,12 @@ export default class PersonalDataEditForm extends React.Component {
             </div>
             <div className="row">
               <div className="form-group col-lg-6 required">
-                <label className="form-control-label rc-full-width" for="birthdate">
-                  Date of Birth
+                <label className="form-control-label rc-full-width" htmlFor="birthdate">
+                  <FormattedMessage id="account.birthDate" />
                 </label>
                 <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
                   <input
-                    className="rc-input__date rc-js-custom"
+                    className="rc-input__date rc-js-custom rc-input__control"
                     id="birthdate"
                     data-js-dateformat="DD/MM/YYYY"
                     name="birthdate"
@@ -195,14 +272,14 @@ export default class PersonalDataEditForm extends React.Component {
                     value={form.birthdate}
                     onChange={e => this.handleInputChange(e)}
                     onBlur={e => this.inputBlur(e)} />
-                  <label className="rc-input__label" for="birthdate"></label>
+                  <label className="rc-input__label" htmlFor="birthdate"></label>
                 </span>
                 <div className="invalid-feedback" style={{ display: 'none' }}>This field is required.</div>
                 <div className="invalid-birthdate invalid-feedback" style={{ display: 'none' }}>This field is required.</div>
               </div>
               <div className="form-group col-lg-6 required">
-                <label className="form-control-label rc-full-width" for="email">
-                  E-mail
+                <label className="form-control-label rc-full-width" htmlFor="email">
+                  <FormattedMessage id="account.Email" />
                 </label>
                 <span className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width" input-setup="true">
                   <input
@@ -219,27 +296,33 @@ export default class PersonalDataEditForm extends React.Component {
                     value={form.email}
                     onChange={e => this.handleInputChange(e)}
                     onBlur={e => this.inputBlur(e)}
-                    maxlength="50"
+                    maxLength="50"
                     pattern="^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$" />
-                  <label className="rc-input__label" for="email"></label>
+                  <label className="rc-input__label" htmlFor="email"></label>
                 </span>
                 <div className="invalid-feedback" style={{ display: 'none' }}>
                   <FormattedMessage id="payment.errorInfo2" />
                 </div>
               </div>
             </div>
-            <span className="rc-meta mandatoryField">Required fields</span>
+            <span className="rc-meta mandatoryField">
+              <FormattedMessage id="account.requiredFields" />
+            </span>
             <div className="text-right">
               <a
                 className="rc-styled-link editPersonalInfoBtn"
                 name="personalInformation"
-                onClick={() => { this.setState({ editFormVisible: false }) }}>Cancel</a>
-            &nbsp;or&nbsp;
+                onClick={() => this.handleCancel()}>
+                <FormattedMessage id="cancel" />
+              </a>
+            &nbsp;<FormattedMessage id="or" />&nbsp;
             <button
                 className="rc-btn rc-btn--one submitBtn"
                 name="personalInformation"
                 type="submit"
-                onClick={() => this.handleSave()}>Save</button>
+                onClick={() => this.handleSave()}>
+                <FormattedMessage id="save" />
+              </button>
             </div>
           </div>
         </div>

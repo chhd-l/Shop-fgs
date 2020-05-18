@@ -177,7 +177,7 @@ function Footer () {
         </div>
       </div>
       {/* <!-- OneTrust Cookies Settings button start --> */}
-      <a class="optanon-show-settings">Cookie Settings</a>
+      <a className="optanon-show-settings">Cookie Settings</a>
       {/* <!-- OneTrust Cookies Settings button end --> */}
     </footer>
   )

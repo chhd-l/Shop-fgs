@@ -6,6 +6,7 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import PersonalDataEditForm from './modules/PersonalDataEditForm'
 import AddressBookEditForm from './modules/AddressBookEditForm'
+import CommunicationDataEditForm from './modules/CommunicationDataEditForm'
 import './index.css'
 
 export default class AccountProfile extends React.Component {
@@ -20,16 +21,17 @@ export default class AccountProfile extends React.Component {
         email: '1411211848@qq.com'
       },
       addressBookData: {
-        street: '',
+        address1: '',
+        address2: '',
         country: "Mexico",
         city: '',
-        house: '',
-        caseBuilding: '',
-        porch: '',
-        flat: '',
         postCode: '',
-        phone: '',
-        phone2: ''
+        phoneNumber: '',
+        rfc: ''
+      },
+      communicationData: {
+        phone: true,
+        email: false
       }
     }
   }
@@ -43,7 +45,7 @@ export default class AccountProfile extends React.Component {
       return false
     }
   }
-  updatePersonlData (key, form) {
+  updateFormData (key, form) {
     this.setState({
       [key]: Object.assign({}, form)
     })
@@ -74,52 +76,9 @@ export default class AccountProfile extends React.Component {
                   </div>
                   <div className="row">
                     <div className="rc-column col-lg-6">
-                      <div className="userContactPreferenceInfo">
-                        <div className="profileSubFormTitle">
-                          <h5 className="rc-espilon rc-margin--none">
-                            <FormattedMessage id="account.preferredMmethodsOfCommunication" />
-                          </h5>
-                          <FormattedMessage id="edit">
-                            {txt => (
-                              <button className="editPersonalInfoBtn rc-styled-link" name="contactPreference" id="contactPrefEditBtn"
-                                title={txt}
-                                alt={txt}>
-                                {txt}
-                              </button>
-                            )}
-                          </FormattedMessage>
-                        </div>
-                        <hr />
-                        <span className="rc-meta">
-                          <b>
-                            <FormattedMessage id="account.preferredContactMethod" />
-                          </b>
-                        </span>
-                        <div className="row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer">
-                          <div className="rc-input rc-input--inline rc-margin-y--xs">
-                            <FormattedMessage id="phone">
-                              {txt => (
-                                <input className="rc-input__checkbox"
-                                  id="optsmobile"
-                                  type="checkbox"
-                                  disabled=""
-                                  alt={txt}
-                                  name="dwfrm_profile_customer_optsmobile"
-                                  value="true" />
-                              )}
-                            </FormattedMessage>
-                            <label className="rc-input__label--inline" for="optsmobile">
-                              <FormattedMessage id="phone" />
-                            </label>
-                          </div>
-                          <div className="rc-input rc-input--inline rc-margin-y--xs">
-                            <input className="rc-input__checkbox" id="optsemail" type="checkbox" disabled="" alt="Email" name="dwfrm_profile_customer_optsemail" checked="true" value="true" />
-                            <label className="rc-input__label--inline" for="optsemail">
-                              <FormattedMessage id="email" />
-                            </label>
-                          </div>
-                        </div>
-                      </div>
+                      <CommunicationDataEditForm
+                        data={this.state.communicationData}
+                        updateData={form => this.updateFormData('addressBookData', form)} />
                     </div>
                   </div>
                 </div>

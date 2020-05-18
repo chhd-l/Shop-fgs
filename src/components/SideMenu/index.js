@@ -6,8 +6,8 @@ export default class SideMenu extends React.Component {
   render () {
     const { type } = this.props
     return (
-      <div class="my__account-navigation rc-column rc-padding-top--xs--desktop rc-padding-bottom--none">
-        <h1 class="my__account-header rc-alpha">
+      <div className="my__account-navigation rc-column rc-padding-top--xs--desktop rc-padding-bottom--none">
+        <h1 className="my__account-header rc-alpha">
           <FormattedMessage id="account.personalArea">
             {txt => (
               <Link
@@ -46,15 +46,6 @@ export default class SideMenu extends React.Component {
                 <Link to="/account/orders" title={txt} alt={txt}>
                   {txt}
                 </Link>
-              )}
-            </FormattedMessage>
-          </h2>
-          <h2 className={['nav_item', 'medium', type === 'PaymentMethod' ? 'active' : ''].join(' ')}>
-            <FormattedMessage id="account.paymentMethod">
-              {txt => (
-                <a href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List" title={txt} alt={txt}>
-                  {txt}
-                </a>
               )}
             </FormattedMessage>
           </h2>
