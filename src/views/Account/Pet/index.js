@@ -6,6 +6,7 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import './index.css'
 import noPet from "@/assets/images/noPet.jpg"
+import { Link } from 'react-router-dom';
 
 export default class AccountProfile extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ export default class AccountProfile extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu type="Profile" />
+              <SideMenu type="Pets" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div class="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
                   <h4 class="rc-delta rc-margin--none">
@@ -38,17 +39,14 @@ export default class AccountProfile extends React.Component {
                           <div class="children-nomargin">
                             <p>
                               <font style={{verticalAlign: 'inherit',}}>
-                                <font style={{verticalAlign: 'inherit',}}>Create your pet profile today! </font>
-                                <font style={{verticalAlign: 'inherit',}}>Fill in the information and choose the most suitable diet</font>
+                                Create your pet profile today! Fill in the information and choose the most suitable diet
                               </font>
                             </p>
                           </div>
                           <div class="rc-margin-top--sm">
-                            <a class="rc-btn rc-btn--one" href="https://www.shop.royal-canin.ru/ru/account/pet-carnet?editForm=newPet">
-                              <font style={{verticalAlign: 'inherit',}}>
-                                <font style={{verticalAlign: 'inherit',}}>Add pet</font>
-                              </font>
-                            </a>
+                            <Link class="rc-btn rc-btn--one" to="/account/pets/petForm">
+                              <font style={{verticalAlign: 'inherit',}}>Add pet</font>
+                            </Link>
                           </div>
                         </div>
                       </div>

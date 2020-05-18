@@ -1,0 +1,170 @@
+
+.section-form-group {
+  background-color: #f0f0f0;
+  margin-top: 1rem;
+}
+h2{
+  margin-bottom: 30px;
+}
+.add_pet {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f6f6f6;
+}
+.tab-add {
+  padding: .375rem .75rem;
+  overflow: hidden;
+  display: inline-block;
+}
+.bar-progress {
+  background-color: #ebb8be;
+}
+.bar-progress .progress-child {
+  height: 5px;
+  background-color: #e2001a;
+}
+.step-progress {
+  text-align: center;
+}
+
+.animal-select {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.pet-form-create{
+  text-align: center;
+  background-color: #f0f0f0;
+}
+.section{
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.pet-select-control {
+  position: relative;
+  width: 134px;
+  height: 134px;
+  background: #d7d7d7;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+}
+.select-gender-1:before, .select-gender-2:before {
+  content: "";
+  background-image: url(./../../../assets/images/royal-canin-sprite.svg);
+  -webkit-transform: scale(1.6);
+  transform: scale(1.6);
+  width: 31px;
+  margin: 0 auto;
+}
+
+.label--inline:before {
+  content: "";
+  display: inline-block;
+  border: 1px solid #d7d7d7;
+  background-color: #fff;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 3px;
+  position: absolute;
+  left: 0;
+}
+
+.select-gender-2:before {
+  background-position: 31% 50%;
+  height: 32px;
+}
+
+.select-gender-1:before {
+  background-position: 69% 25%;
+  height: 31px;
+}
+.pet-form-create .input-pet {
+  max-width: 310px;
+  margin: 0 auto;
+}
+.pet-form-create .label-unknown {
+  text-align: left;
+}
+.custom-control {
+  position: relative;
+  display: block;
+  min-height: 1.5rem;
+  padding-left: 0;
+}
+.label-unknown{
+  max-width: 310px;
+  margin: 0 auto;
+}
+
+.group-size {
+  overflow: hidden;
+  margin: 0 auto;
+  display: inline-flex;
+}
+.wrap__input {
+  position: relative;
+}
+.pet-form-create input.radio {
+  display: block;
+  margin: 0 auto;
+  height: 40px;
+}
+
+
+.pet-form-create .wrap-size {
+  width: 20%;
+  text-align: center;
+}
+
+.label__input {
+  margin-top: 30px;
+  display: inline-block;
+  cursor: pointer;
+}
+.group-size .label__input:before {
+  content: "";
+  display: inline-block;
+  border: 1px solid #d7d7d7;
+  background-color: #fff;
+  width: 1.5rem;
+  height: 1.5rem;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 12px);
+  border-radius: 999px;
+}
+.group-size .input__radio:checked+.label__input:after {
+  content: "";
+  position: absolute;
+  background-color: #e2001a;
+  border-radius: 999px;
+  width: .6rem;
+  height: .6rem;
+  top: 7px;
+  left: calc(50% - 5px);
+  padding: 5px;
+}
+.add-pet-success {
+  text-align: center;
+  padding: 30px 20px;
+}
+.text-done {
+  font-size: 1.5rem;
+}
