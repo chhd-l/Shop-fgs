@@ -77,7 +77,7 @@ export default class AccountOrders extends React.Component {
                             <p className="rc-padding-left--xs--mobile">
                               Just
                             <br className="d-none d-md-block" />
-                              <span className="medium price-symbol">2 616 ₽</span>
+                              <span className="medium price-symbol">$ 2 616</span>
                             </p>
                           </div>
                         </div>
@@ -95,13 +95,13 @@ export default class AccountOrders extends React.Component {
                               <div className="col-6 col-sm-8 order-item-detail rc-padding-top--sm">
                                 <span className="medium title_product text_content">Sterilised 37 </span><br />
                                 <span>4.00 kg</span>
-                                <div className="rc-text--left medium d-block d-md-none rc-padding-top--sm price-symbol">₽ 2 616</div>
+                                <div className="rc-text--left medium d-block d-md-none rc-padding-top--sm price-symbol">$ 2 616</div>
                               </div>
                             </div>
                           </div>
                           <div className="col-12 col-md-4 d-none d-md-block">
                             <div className="col-7 offset-md-5 rc-padding-top--sm">
-                              <div className="rc-text--right medium price-symbol">₽ 2 616</div>
+                              <div className="rc-text--right medium price-symbol">$ 2 616</div>
                             </div>
                           </div>
                         </div>
@@ -115,12 +115,12 @@ export default class AccountOrders extends React.Component {
                           </div>
                           <div className="d-flex flex-column rc-padding-right--xs rc-padding-left--lg--mobile">
                             <span className="textColor rc-padding-bottom--xs price-symbol">
-                              ₽ 2 616</span>
+                              $ 2 616</span>
                             <span className="textColor rc-padding-bottom--xs">
                               Is free
                             </span>
-                            <span className="textColor rc-padding-bottom--xs price-symbol">₽ 436</span>
-                            <span className="rc-delta textColor price-symbol"><b>₽ 2 616</b></span>
+                            <span className="textColor rc-padding-bottom--xs price-symbol">$ 436</span>
+                            <span className="rc-delta textColor price-symbol"><b>$ 2 616</b></span>
                           </div>
                         </div>
                         <hr className="rc-margin-top--xs" />

@@ -12,11 +12,11 @@ const breadcrumbNameMap = {
     { name: 'account.personalArea' }
   ],
   '/account/information': [
-    { name: 'Personal Area', href: '/account' },
-    { name: 'Profile' }
+    { name: 'account.personalArea', href: '/account' },
+    { name: 'account.profile' }
   ],
   '/account/pets': [
-    { name: 'Personal Area', href: '/account' },
+    { name: 'account.personalArea', href: '/account' },
     { name: 'Pets' }
   ],
   '/account/orders': [
