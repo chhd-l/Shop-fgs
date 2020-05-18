@@ -1,10 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import HeroCarousel from '@/components/HeroCarousel'
 import './index.css'
+import { GTMID } from '@/utils/constant'
 import CARECAT from "@/assets/images/MX-L-VET-CARE-CAT.jpg";
 import CAREDOG from "@/assets/images/MX-L-VET-CARE-DOG.jpg";
 import DIETCAT from "@/assets/images/MX-L-VET-DIET-CAT.jpg";
@@ -28,8 +30,17 @@ class Home extends React.Component {
     localStorage.setItem("isRefresh", true);
   }
   render () {
+    const event = {
+      "page": {
+        "type": "Homepage",
+        "hitTimestamp": new Date().toISOString(),
+        "theme": ""
+      }
+    }
     return (
       <div>
+        <GoogleTagManager additionalEvents={event} />
+
         <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
 
         <main className="rc-content--fixed-header rc-main-content__wrapper ">

@@ -17,7 +17,11 @@ import TermUse from "@/views/TermUse";
 import PrivacyPolicy from "@/views/PrivacyPolicy";
 import AccountHome from "@/views/Account/Home";
 import AccountProfile from "@/views/Account/Profile";
+import AccountPets from "@/views/Account/Pet";
 import AccountOrders from "@/views/Account/Orders";
+import AccountOrdersDetail from "@/views/Account/OrdersDetail";
+import AccountPetForm from "@/views/Account/PetForm";
+import AccountPetList from "@/views/Account/PetList";
 
 
 const BasicRoute = () => (
@@ -65,9 +69,12 @@ const BasicRoute = () => (
         <Route exact path="/privacypolicy" component={PrivacyPolicy} />
 
         <Route path='/account' exact component={AccountHome}/>
-        <Route path='/account/information' component={AccountProfile}/>
-        <Route path='/account/orders' component={AccountOrders}/>
-
+        <Route path='/account/information' exact component={AccountProfile}/>
+        <Route path='/account/pets' exact component={AccountPets}/>
+        <Route path='/account/orders' exact component={AccountOrders} />
+        <Route path='/account/orders/detail/:orderNumber' component={AccountOrdersDetail} />
+        <Route path='/account/pets/petForm' exact component={AccountPetForm}/>
+        <Route path='/account/pets/petList' exact component={AccountPetList}/>
         <Route component={Exception} />
       </Switch>
     </ScrollToTop>
