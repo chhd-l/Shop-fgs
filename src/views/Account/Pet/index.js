@@ -8,7 +8,7 @@ import './index.css'
 import noPet from "@/assets/images/noPet.jpg"
 import { Link } from 'react-router-dom';
 
-export default class AccountProfile extends React.Component {
+export default class Pet extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -27,9 +27,7 @@ export default class AccountProfile extends React.Component {
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div class="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
                   <h4 class="rc-delta rc-margin--none">
-                    <font style={{verticalAlign: 'inherit',}}>
-                      <font style={{verticalAlign: 'inherit',}}>Pets</font>
-                    </font>
+                      Pets
                   </h4>
                 </div>
                 <div class="content-asset">
@@ -38,14 +36,14 @@ export default class AccountProfile extends React.Component {
                       <div class="rc-padding-right-lg rc-padding-y--sm ">
                           <div class="children-nomargin">
                             <p>
-                              <font style={{verticalAlign: 'inherit',}}>
+                              
                                 Create your pet profile today! Fill in the information and choose the most suitable diet
-                              </font>
+                              
                             </p>
                           </div>
                           <div class="rc-margin-top--sm">
                             <Link class="rc-btn rc-btn--one" to="/account/pets/petForm">
-                              <font style={{verticalAlign: 'inherit',}}>Add pet</font>
+                              Add pet
                             </Link>
                           </div>
                         </div>

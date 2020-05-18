@@ -17,15 +17,15 @@ const selectedPet = {
 const noSelect ={
   border: "3px solid #d7d7d7",
 }
-export default class AccountProfile extends React.Component {
+export default class PetForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       precent:12.5,
-      step:7,
+      step:8,
       isCat:null,
       isMale:null,
-      currentStep:'step7',
+      currentStep:'step8',
       isDisabled:true,
       nickname:"",
       isUnknown:false,
@@ -33,6 +33,14 @@ export default class AccountProfile extends React.Component {
       isUnknownDisabled:false,
       weight:"",
       isSterilized:null,
+      features:{
+        appetize:false,
+        irritations:false,
+        joint:false,
+        digestive:false,
+        overweight:false,
+        noneeds:false
+      },
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
     this.nextStep = this.nextStep.bind(this)
@@ -40,21 +48,25 @@ export default class AccountProfile extends React.Component {
     this.selectSex = this.selectSex.bind(this)
     this.selectWeight = this.selectWeight.bind(this)
     this.setSterilized = this.setSterilized.bind(this)
-    
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.inputBlur = this.inputBlur.bind(this)
+    this.selectFeatures = this.selectFeatures.bind(this)
 
   }
   nextStep(){
-    let step=this.state.step + 1
-    if(this.state.isCat&& step=== 5){
-      step+=1
-    }
-    let currentStep = 'step' + step
+    let step=this.state.step
+    let currentStep
     if(step>8){
       currentStep = "success"
     }
+    else{
+      step+= 1
+      if(this.state.isCat&& step=== 5){
+        step+=1
+      }
+      currentStep = 'step' + step
+    }
 
-    
-    
     this.setState({
       step:step,
       currentStep:currentStep,
@@ -151,6 +163,43 @@ export default class AccountProfile extends React.Component {
       isSterilized:val,
       isDisabled:false
     }) 
+  }
+  handleInputChange(e){
+
+    console.log(this.state.birthdate);
+    
+    console.log(e.target.value);
+    
+  }
+  inputBlur(e){
+    if(e.target.value&&e.target.value!==""){
+      this.setState({
+        birthdate:e.target.value,
+        isDisabled: false
+      })
+    }
+  }
+  selectFeatures=(e)=>{
+    const target = e.target
+    const { features } = this.state
+    features[target.id] = (target.value==="false")
+    this.setState({ features: features })
+    if(this.state.features.appetize ||
+      this.state.features.digestive ||
+      this.state.features.irritations ||
+      this.state.features.joint ||
+      this.state.features.noneeds ||
+      this.state.features.overweight  ){
+        this.setState({
+          isDisabled:false
+        })
+      }
+      else{
+        this.setState({
+          isDisabled:true
+        })
+      }
+    
   }
   render () {
     return (
@@ -349,7 +398,7 @@ export default class AccountProfile extends React.Component {
                         <div className="wrap__input col-6 pull-left text-center">
                           <input id="is-true" type="radio" className="radio input__radio" 
                           name="dwfrm_miaaPet_neuteredPet" 
-                          value="true"
+                          value=""
                           onClick={()=>this.setSterilized(true)}/>
                           <label className="label label__input" for="is-true">Sterilized</label>
                         </div>
@@ -369,10 +418,17 @@ export default class AccountProfile extends React.Component {
                     this.state.currentStep === 'step7'?
                     <div id="step-7" className="section next-step">
                       <h2>Enter the date of birth of your pet.</h2>
-                      <span className="rc-input rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop">
-                        <input className="rc-input__date" id="id-date" data-js-dateformat="DD/MM/YYYY" name="example-date-input" type="date" />
-                        <label className="rc-input__label" for="id-date">
-                        </label>
+                      <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
+                        <input
+                          className="rc-input__date rc-js-custom rc-input__control"
+                          id="birthdate"
+                          data-js-dateformat="DD/MM/YYYY"
+                          name="birthdate"
+                          type="date"
+                          value={this.state.birthdate}
+                          onChange={e => this.handleInputChange(e)} 
+                          onBlur={e => this.inputBlur(e)}/>
+                        <label className="rc-input__label" htmlFor="birthdate"></label>
                       </span>
                       <div className="invalid-birthdate invalid-feedback">Please select a past date.</div>
                       </div>:null
@@ -383,49 +439,72 @@ export default class AccountProfile extends React.Component {
                       <h2>What features does your pet have?</h2>
                       <div>
                         <div className="rc-input rc-input--inline rc-margin-bottom--xs">
-                        <input type="checkbox" className="rc-input__checkbox" id="appetize" value="true" name="dwfrm_miaaPet_appetize"/>
-                        <label className="rc-input__label--inline" for="appetize">
-                        Pickiness in food
-                        </label>
+                          <input type="checkbox" 
+                          className="rc-input__checkbox" 
+                          id="appetize"
+                          value={this.state.features.appetize} 
+                           name="dwfrm_miaaPet_appetize"
+                           onClick={(e)=>this.selectFeatures(e)}/>
+                          <label className="rc-input__label--inline" for="appetize">
+                            Pickiness in food
+                          </label>
                         </div>
                         <div className="rc-input rc-input--inline rc-margin-bottom--xs">
                           <input type="checkbox" 
                             className="rc-input__checkbox" 
                             id="irritations" 
-                            value="true" 
-                            name="dwfrm_miaaPet_irritations"/>
+                            value={this.state.features.irritations}  
+                            name="dwfrm_miaaPet_irritations"
+                            onClick={(e)=>this.selectFeatures(e)}/>
                           <label className="rc-input__label--inline" for="irritations">
-                          Skin and Wool Care
+                            Skin and Wool Care
                           </label>
                         </div>
                         <div className="rc-input rc-input--inline rc-margin-bottom--xs">
                           <input type="checkbox" 
-                          className="rc-input__checkbox" id="joint" 
-                          value="true" name="dwfrm_miaaPet_joint"/>
+                            className="rc-input__checkbox" id="joint" 
+                            value={this.state.features.joint}  
+                            name="dwfrm_miaaPet_joint"
+                            onClick={(e)=>this.selectFeatures(e)}/>
                           <label className="rc-input__label--inline" for="joint">
-                          Increased joint sensitivity
+                            Increased joint sensitivity
                           </label>
                         </div>
                         <div className="rc-input rc-input--inline rc-margin-bottom--xs">
-                          <input type="checkbox" className="rc-input__checkbox" id="digestive" value="true" name="dwfrm_miaaPet_digestive"/>
+                          <input type="checkbox" 
+                            className="rc-input__checkbox" 
+                            id="digestive" 
+                            value={this.state.features.digestive} 
+                            name="dwfrm_miaaPet_digestive"
+                            onClick={(e)=>this.selectFeatures(e)}/>
                           <label className="rc-input__label--inline" for="digestive">
-                          Sensitive digestive system
+                            Sensitive digestive system
                           </label>
                         </div>
                         <div className="rc-input rc-input--inline rc-margin-bottom--xs">
-                          <input type="checkbox" className="rc-input__checkbox" id="overweight" value="true" name="dwfrm_miaaPet_overweight"/>
+                          <input type="checkbox" 
+                            className="rc-input__checkbox" 
+                            id="overweight" 
+                            value={this.state.features.overweight} 
+                            name="dwfrm_miaaPet_overweight"
+                            onClick={(e)=>this.selectFeatures(e)}/>
                           <label className="rc-input__label--inline" for="overweight">
-                          Weight gain
+                            Weight gain
                           </label>
                         </div>
                         <div className="rc-input rc-input--inline rc-margin-bottom--xs">
-                          <input type="checkbox" className="rc-input__checkbox" id="noneeds" value="true" name="dwfrm_miaaPet_noneeds"/>
+                          <input type="checkbox" 
+                            className="rc-input__checkbox" 
+                            id="noneeds" 
+                            value={this.state.features.noneeds}  
+                            name="dwfrm_miaaPet_noneeds"
+                            onClick={(e)=>this.selectFeatures(e)}/>
                           <label className="rc-input__label--inline" for="noneeds">
-                          No special needs
+                            No special needs
                           </label>
                         </div>
-                        </div>
-                      </div>:null
+                      </div>
+                    </div>:null
                   }
                   {
                     this.state.currentStep !== 'success'?
@@ -435,7 +514,7 @@ export default class AccountProfile extends React.Component {
                         className="rc-btn rc-btn--one btn-next btn-block js-btn-next" 
                         disabled={this.state.isDisabled?"disabled":null}
                         onClick={this.nextStep}>
-                        Farther
+                         { this.state.step === 8?'Save':'Farther'}
                       </button>
                     </div>:null
                   }
