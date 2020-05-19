@@ -1,4 +1,5 @@
 import React from 'react'
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Progress from '@/components/Progress'
@@ -9,8 +10,6 @@ import GoogleMap from '@/components/GoogleMap'
 import { FormattedMessage } from 'react-intl'
 import { getPrescription,getAllPrescription } from '@/api/clinic'
 import meImg from "@/assets/images/map-default-marker.png"
-
-
 
 const AnyReactComponent = ({ obj,show,sonMess }) => {
   if(obj.type !== 'customer'){
@@ -246,9 +245,17 @@ render(h) {
         && +(this.state.clinicArr[i].latitude)===+(this.state.currentSelectClinic.lat)}
       />)
     }
-
+    const event = {
+      "page": {
+        "type": "Checkout",
+        "hitTimestamp": new Date().toISOString(),
+        "theme": ""
+      }
+    }
+    
     return (
       <div>
+        <GoogleTagManager additionalEvents={event} />
         <Header showMiniIcons={true} location={this.props.location}/>
         <main className="rc-content--fixed-header rc-bg-colour--brand3" >
           <div

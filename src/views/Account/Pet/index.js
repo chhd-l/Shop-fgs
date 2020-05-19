@@ -1,5 +1,6 @@
 import React from "react"
 import { FormattedMessage } from 'react-intl'
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -16,8 +17,16 @@ export default class Pet extends React.Component {
     }
   }
   render () {
+    const event = {
+      "page": {
+        "type": "Account",
+        "hitTimestamp": new Date().toISOString(),
+        "theme": ""
+      }
+    }
     return (
       <div>
+        <GoogleTagManager additionalEvents={event} />
         <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />

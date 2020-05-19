@@ -1,4 +1,5 @@
 import React from "react";
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PayProductInfo from "@/components/PayProductInfo";
@@ -80,7 +81,7 @@ class Confirmation extends React.Component {
     });
     this.changeCache();
   }
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
     localStorage.removeItem('rc-cart-data')
     localStorage.removeItem('orderNumber')
@@ -94,6 +95,7 @@ class Confirmation extends React.Component {
     let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
     this.setState({
       productList: productList,
+      loading: false
     });
     let deliveryInfoStr = localStorage.getItem("deliveryInfo");
     if (deliveryInfoStr) {
@@ -109,10 +111,51 @@ class Confirmation extends React.Component {
     const {
       deliveryAddress,
       billingAddress,
-      commentOnDelivery
+      commentOnDelivery,
+      productList,
+      loading
     } = this.state;
+
+    let event
+    if (!loading) {
+      const products = productList.map(item => {
+        const selectedSize = item.sizeList.filter(s => s.selected)[0]
+        return {
+          id: item.goodsId,
+          name: item.goodsName,
+          price: selectedSize.salePrice,
+          brand: "Royal Canin",
+          category: item.goodsCateName,
+          quantity: item.quantity,
+          variant: selectedSize.detailName
+        }
+      })
+      event = {
+        "page": {
+          "type": "Order Confirmation",
+          "hitTimestamp": new Date().toISOString(),
+          "theme": ""
+        },
+        "event": `${localStorage.getItem('orderNumber')}eComTransaction`,
+        "ecommerce": {
+          "currencyCode": "EUR",
+          "purchase": {
+            "actionField": {
+              "id": localStorage.getItem('orderNumber'),
+              "revenue": productList.reduce(
+                (total, item) => total + item.currentAmount,
+                0
+              ).toString()
+            },
+            "products": products
+          }
+        }
+      }
+    }
+
     return (
       <div>
+        {event ? <GoogleTagManager additionalEvents={event} /> : null}
         <Header />
         <main className="rc-content--fixed-header">
           <div className="rc-layout-container rc-three-column rc-max-width--xl">
@@ -122,7 +165,7 @@ class Confirmation extends React.Component {
                 <h4>
                   <b><FormattedMessage id="confirmation.info1" /></b>
                 </h4>
-                <p style={{marginBottom: '5px'}}>
+                <p style={{ marginBottom: '5px' }}>
                   <FormattedMessage id="confirmation.info2" />
                 </p>
                 <Link to="/" className="rc-meta rc-styled-link backtohome">
@@ -130,10 +173,10 @@ class Confirmation extends React.Component {
                 </Link>
                 <p className="rc-margin-top--sm">
                   <b>
-                  <FormattedMessage id="confirmation.orderNumber" />
+                    <FormattedMessage id="confirmation.orderNumber" />
                   ：{localStorage.getItem('orderNumber')}
                   </b>
-                
+
                 </p>
               </div>
               <div className="rc-bg-colour--brand3 rc-max-width--xl rc-bottom-spacing rc-padding--sm imformation">

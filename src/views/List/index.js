@@ -2,6 +2,7 @@ import React from 'react'
 import Skeleton from 'react-skeleton-loader'
 import { createHashHistory } from 'history'
 import { FormattedMessage } from 'react-intl'
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -294,9 +295,35 @@ class List extends React.Component {
     createHashHistory().push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   render () {
-    const { results, productList, loading, checkedList, currentPage, totalPage, titleData, cartData } = this.state
+    const { category, results, productList, loading, checkedList, currentPage, totalPage, titleData, cartData } = this.state
+    let event
+    if (category) {
+      let theme
+      switch (category) {
+        case 'dogs':
+          theme = 'Dog'
+          break
+        case 'cats':
+          theme = 'Cat'
+          break
+        case 'vcn':
+        case 'vd':
+          theme = 'Cat or Dog'
+          break
+        default:
+          theme = 'Search Results'
+      }
+      event = {
+        "page": {
+          "type": "Product Catalogue",
+          "hitTimestamp": new Date().toISOString(),
+          "theme": theme
+        }
+      }
+    }
     return (
       <div>
+        {event ? <GoogleTagManager additionalEvents={event} /> : null}
         <Header cartData={cartData} showMiniIcons={true} location={this.props.location} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />

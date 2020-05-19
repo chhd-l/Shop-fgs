@@ -1,6 +1,9 @@
 const en_US = {
+  'just': 'Just',
+  'or': 'or',
   'yes': 'Yes',
   'cancel': 'Cancel',
+  'save': 'Save',
   'name': 'Name',
   'menu': 'Menu',
   'search': 'Search',
@@ -226,7 +229,16 @@ const en_US = {
   'account.TheAddressBook': 'The address book',
   'account.preferredMmethodsOfCommunication': 'Preferred methods of communication',
   'account.preferredContactMethod': 'Preferred Contact Method',
-  'account.warmNotice': 'Here you can manage your profile, edit pet information, check status on orders.'
+  'account.warmNotice': 'Here you can manage your profile, edit pet information, check status on orders.',
+  'account.requiredFields': 'Required fields',
+  'account.Email': 'E-mail',
+  'account.birthDate': 'Date of Birth',
+
+  'order.historyOfOrders': 'History of orders',
+  'order.lastXMonths': 'Last {val} months',
+  'order.orderDate': 'Order Date',
+  'order.orderNumber': 'Order Number',
+  'order.orderDetails': 'Order Details',
 
 }
 export default en_US;

@@ -28,6 +28,10 @@ const BreadCrumbs = withRouter(props => {
       mapData.push({ name: goodsName })
     }
   }
+  // specific for order details page
+  if (url.indexOf('/account/orders/detail') > -1 && !mapData.length) {
+    mapData = breadcrumbNameMap['/account/orders']
+  }
 
   return (
     <div className="rc-bg-colour--brand3 rc-md-up" style={{ paddingTop: '1px' }}>

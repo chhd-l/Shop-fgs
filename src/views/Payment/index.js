@@ -2,6 +2,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom"
 import { findIndex, find } from "lodash";
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Progress from "@/components/Progress";
@@ -639,8 +640,17 @@ class Payment extends React.Component {
         ))}
       </span>
     );
+    const event = {
+      "page": {
+        "type": "Checkout",
+        "hitTimestamp": new Date().toISOString(),
+        "theme": ""
+      }
+    }
+
     return (
       <div>
+        <GoogleTagManager additionalEvents={event} />
         <Header />
         {this.state.loading ? <Loading /> : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand3">

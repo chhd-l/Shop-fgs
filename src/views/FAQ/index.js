@@ -1,4 +1,5 @@
 import React from 'react'
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import dataFAQ from './FAQ.json'
@@ -8,9 +9,17 @@ import FAQ1 from "@/assets/images/FAQ1.jpg"
 class FAQ extends React.Component {
   render(h) {
     console.log(dataFAQ);
+    const event = {
+      "page": {
+        "type": "Content",
+        "hitTimestamp": new Date().toISOString(),
+        "theme": ""
+      }
+    }    
     
     return (
       <div>
+        <GoogleTagManager additionalEvents={event} />
         <Header />
         <main className="rc-content--fixed-header rc-bg-colour--brand3"  >
           <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
