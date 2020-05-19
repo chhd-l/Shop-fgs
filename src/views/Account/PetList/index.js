@@ -45,43 +45,43 @@ export default class PetForm extends React.Component {
                   </ul>
                 </div>
                 <div class="pet-information js-pet-information rc-margin-bottom--md">
-                <h2 class="name-pet">Rita</h2>
-                <div class="rc-layout-container">
-                <div class="rc-column">
-                <ul class="pet-data">
-                <li class="breed dog">
-                <span class="">Unknown breed</span>
-                </li>
-                <li class="birth">
-                <span class="">2020-05-05</span>
-                </li>
-                <li class="gender male sprite-pet">
-                <span class="">male</span>
-                </li>
-                <li class="weight">
-                <span class="">Mini</span>
-                </li>
-                </ul>
-                </div>
-                <div class="rc-column">
-                <div class="pet-special-need">Special needs</div>
-                <ul class="list-special-need">
-                <li class="">Skin and Wool Care</li>
-                <li class="">Increased joint sensitivity</li>
-                <li class="">Sensitive digestive system</li>
-                </ul>
-                </div>
-                <div class="edit js-edit-pet">
-                <a href="" class="tab--img" data-toggle="">
-                  <img src={edit} class="img-success" alt=""/>
-                </a>
-                </div>
-                <div class="delete">
-                <a href="/on/demandware.store/Sites-RU-Site/ru_RU/Account-DeletePet?petId=fc076b5d-3ad8-4157-b678-39efa950390a" class="tab--img" data-toggle="image__panel-1">
-                X
-                </a>
-                </div>
-                </div>
+                  <h2 class="name-pet">Rita</h2>
+                  <div class="rc-layout-container">
+                    <div class="rc-column">
+                    <ul class="pet-data">
+                      <li class="breed dog">
+                        <span class="">Unknown breed</span>
+                      </li>
+                      <li class="birth">
+                        <span class="">2020-05-05</span>
+                      </li>
+                      <li class="gender male sprite-pet">
+                        <span class="">male</span>
+                      </li>
+                      <li class="weight">
+                        <span class="">Mini</span>
+                      </li>
+                    </ul>
+                    </div>
+                    <div class="rc-column">
+                    <div class="pet-special-need">Special needs</div>
+                    <ul class="list-special-need">
+                      <li class="">Skin and Wool Care</li>
+                      <li class="">Increased joint sensitivity</li>
+                      <li class="">Sensitive digestive system</li>
+                    </ul>
+                    </div>
+                    <div class="edit js-edit-pet">
+                      <a href="#" class="tab--img" data-toggle="">
+                        <img src={edit} class="img-success" alt=""/>
+                      </a>
+                    </div>
+                    <div class="delete">
+                      <a href="#">
+                      X
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -226,7 +226,29 @@ const en_US = {
   'account.TheAddressBook': 'The address book',
   'account.preferredMmethodsOfCommunication': 'Preferred methods of communication',
   'account.preferredContactMethod': 'Preferred Contact Method',
-  'account.warmNotice': 'Here you can manage your profile, edit pet information, check status on orders.'
+  'account.warmNotice': 'Here you can manage your profile, edit pet information, check status on orders.',
 
+  'account.pets':'Pets',
+  'account.noPet':'Create your pet profile today! Fill in the information and choose the most suitable diet',
+  'account.addPet':'Add Pet',
+  'account.step':'Step',
+  'account.of':'of',
+  'account.catOrDog':'Do you have a cat or dog?',
+  'account.cat':'Cat',
+  'account.dog':'Dog',
+  'account.nickname':"What is your pet's nickname?",
+  'account.gender':'What gender is your pet?',
+  'account.male':'Male',
+  'account.female':'Female',
+  'account.breed':'What breed',
+  'account.unknownBreed':'Unknown breed',
+  'account.weight':'What is the weight of an adult dog of your breed',
+  'account.sterilized':'Is your pet sterilized?',
+  'account.enterBirthDare':'Enter the date of birth of your pet.',
+  'account.features':'What features does your pet have?',
+  'account.fine':'Fine!',
+  'account.welcome':'Welcome to the ROYAL CANIN® family!',
+
+  
 }
 export default en_US;
