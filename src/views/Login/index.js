@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import "./index.css";
 import Loading from "@/components/Loading";
-import { login } from "@/api/login"
+import { login } from "@/api/login";
 
 class Login extends React.Component {
   constructor(props) {
@@ -11,12 +11,12 @@ class Login extends React.Component {
     this.state = {
       tabIndex: "0",
       loginForm: {
-        customerAccount: '',
-        customerPassword: ''
-      }
+        customerAccount: "",
+        customerPassword: "",
+      },
     };
   }
-  loginFormChange (e) {
+  loginFormChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -26,14 +26,12 @@ class Login extends React.Component {
     this.setState({ loginForm: loginForm });
   }
   async loginClick() {
-    const { history } = this.props
-    let res = await login(this.state.loginForm)
-    console.log(this.state.loginForm, res, 'haha')
-    if(res.code === 'K-000000') {
-      sessionStorage.setItem(
-        "rc-token",
-        res.context.token
-      );
+    const { history } = this.props;
+    let res = await login(this.state.loginForm);
+    console.log(this.state.loginForm, res, "haha");
+    if (res.code === "K-000000") {
+      sessionStorage.setItem("rc-token", res.context.token);
+      history.push('/account')
     }
   }
   render() {

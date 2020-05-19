@@ -8,8 +8,12 @@ const api = {
 export default api
 
 export function login (parameter) {
-  parameter.customerAccount = base64.encode(parameter.customerAccount)
-  parameter.customerPassword = base64.encode(parameter.customerPassword)
+  let form =  {
+    customerAccount: '',
+    customerPassword: ''
+  }
+  form.customerAccount = base64.encode(parameter.customerAccount)
+  form.customerPassword = base64.encode(parameter.customerPassword)
   return axios({
     url: api.login,
     method: 'post',
