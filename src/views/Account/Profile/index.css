@@ -661,10 +661,11 @@
 }
 
 .order__listing .card {
-  border: 0;
+  border: 0!important;
   width: 100%;
   min-width: 100%;
-  margin-top: 2rem
+  margin:0;
+  padding: 0
 }
 
 @media (max-width: 768.98px) {
@@ -734,8 +735,8 @@
 }
 
 .order__listing .order-list-container .img-fluid {
-  max-width: 40%;
-  margin: auto
+  max-width: 15%;
+  margin: .2rem 0
 }
 
 @media (max-width: 768.98px) {
@@ -1115,7 +1116,7 @@
 }
 
 .orderDetailsPage.card .img-fluid {
-  max-width: 40%
+  max-width: 26%
 }
 
 @media (max-width: 768.98px) {

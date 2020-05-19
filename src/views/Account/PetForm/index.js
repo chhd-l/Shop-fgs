@@ -8,7 +8,9 @@ import './index.css'
 import dog from '@/assets/images/animal-1.jpg'
 import cat from '@/assets/images/animal-2.jpg'
 import success from '@/assets/images/check-success.svg'
+import { createHashHistory } from 'history'
 import { Link } from 'react-router-dom';
+import edit from "@/assets/images/edit.svg"
 
 
 const selectedPet = {
@@ -22,15 +24,16 @@ export default class PetForm extends React.Component {
     super(props)
     this.state = {
       precent:12.5,
-      step:8,
+      step:4,
       isCat:null,
       isMale:null,
-      currentStep:'step8',
+      currentStep:'step4',
       isDisabled:true,
       nickname:"",
       isUnknown:false,
       isInputDisabled:false,
       isUnknownDisabled:false,
+      breed:"",
       weight:"",
       isSterilized:null,
       features:{
@@ -41,6 +44,22 @@ export default class PetForm extends React.Component {
         overweight:false,
         noneeds:false
       },
+      showList:false,
+      showBreedList:false,
+      breedList:[
+        {name:'boston terrier',value:1},
+        {name:'boston terrier',value:2},
+        {name:'boston terrier',value:3},
+        {name:'boston terrier',value:4},
+        {name:'boston terrier',value:5},
+        {name:'boston terrier',value:6},
+        {name:'boston terrier',value:7},
+        {name:'boston terrier',value:8},
+        {name:'boston terrier',value:9},
+        {name:'boston terrier',value:10},
+        {name:'boston terrier',value:11},
+        {name:'boston terrier',value:12},
+      ],
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
     this.nextStep = this.nextStep.bind(this)
@@ -56,8 +75,14 @@ export default class PetForm extends React.Component {
   nextStep(){
     let step=this.state.step
     let currentStep
-    if(step>8){
+    if(step>=8){
       currentStep = "success"
+
+      setTimeout(() => {
+        
+        createHashHistory().push('/account/pets/petList')
+        
+      }, 10000);
     }
     else{
       step+= 1
@@ -138,18 +163,22 @@ export default class PetForm extends React.Component {
   inputBreed=(e) => {
     let isDisabled = true
     let isUnknownDisabled = false
+    let showBreedList = false
     if (e.target.value !=="") {
       isDisabled = false
       isUnknownDisabled = true
+      showBreedList = true
     }
     else{
       isDisabled = true
       isUnknownDisabled = false
+      showBreedList = false
     }
     this.setState({
-      nickname: e.target.value,
+      breed: e.target.value,
       isDisabled:isDisabled,
-      isUnknownDisabled: isUnknownDisabled
+      isUnknownDisabled: isUnknownDisabled,
+      showBreedList:showBreedList
     })
   };
   selectWeight(val){
@@ -201,6 +230,13 @@ export default class PetForm extends React.Component {
       }
     
   }
+  selectedBreed=(item)=>{
+    this.setState({
+      breed:item.name,
+      showBreedList:false
+    })
+    
+  }
   render () {
     return (
       <div>
@@ -211,42 +247,106 @@ export default class PetForm extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Pets" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div className="list-select-pet js-list-pet" data-toggle-group="">
-                  <ul className="scroll--x list list--inline list--align list--blank flex--middle" role="tablist">
-                    <li className="pet-element">
-                      <a href="/ru/account/pet-carnet?editForm=newPet" className="tab-add tab--img" role="tab">
-                        <span className="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="group-progress js-group-progress section-form-group">
+
+                {
+                  this.state.showList?
+                  
+                  <div class="list-select-pet js-list-pet" data-toggle-group="">
+                    <ul class="scroll--x list list--inline list--align list--blank flex--middle" role="tablist">
+                      <li class="pet-element">
+                        <a href="/ru/account/" class="tab-add tab--img" role="tab">
+                          <span class="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
+                        </a>
+                      </li>
+                      <li class="rc-margin-x--xs pet-element">
+                        <a href="/on/demandware.store">
+                          <div class="tab__img img--round img--round--md name--select text-center active">
+                            Rita
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>:
+                  <div className="list-select-pet js-list-pet" data-toggle-group="">
+                    <ul className="scroll--x list list--inline list--align list--blank flex--middle" role="tablist">
+                      <li className="pet-element">
+                        <a href="/ru/account/pet-carnet?editForm=newPet" className="tab-add tab--img" role="tab">
+                          <span className="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                }
+                {
+                  this.state.showList?<div class="pet-information js-pet-information rc-margin-bottom--md">
+                    <h2 class="name-pet">Rita</h2>
+                    <div class="rc-layout-container">
+                      <div class="rc-column">
+                      <ul class="pet-data">
+                        <li class="breed dog">
+                          <span class="">Unknown breed</span>
+                        </li>
+                        <li class="birth">
+                          <span class="">2020-05-05</span>
+                        </li>
+                        <li class="gender male sprite-pet">
+                          <span class="">male</span>
+                        </li>
+                        <li class="weight">
+                          <span class="">Mini</span>
+                        </li>
+                      </ul>
+                      </div>
+                      <div class="rc-column">
+                      <div class="pet-special-need">Special needs</div>
+                      <ul class="list-special-need">
+                        <li class="">Skin and Wool Care</li>
+                        <li class="">Increased joint sensitivity</li>
+                        <li class="">Sensitive digestive system</li>
+                      </ul>
+                      </div>
+                      <div class="edit js-edit-pet">
+                        <a href="#" >
+                          <img src={edit} class="img-success" alt=""/>
+                        </a>
+                      </div>
+                      <div class="delete">
+                        <a href="#">
+                        X
+                        </a>
+                      </div>
+                    </div>
+                  </div>:null
+                }
+                <div className="group-progress js-group-progress section-form-group" style={{display:!this.state.showList?'block':'none'}}>
                   <div className="bar-progress">
                     <div className="progress-child red js-percent-step" style={{ width:((this.state.precent*this.state.step) + '%') }}>  
                     </div>
                   </div>
                   <div className="step-progress">
-                      Step 
+                    <FormattedMessage id="account.step"></FormattedMessage>
+                       
                     <span className="js-step-number">
                       {this.state.step}
                     </span>
-                       of 8
+                    <FormattedMessage id="account.of"></FormattedMessage>
+                        8
                   </div>
                 </div>
-                <div className="pet-form-create">
+                <div className="pet-form-create" style={{display:!this.state.showList?'block':'none'}}>
                   {
                     this.state.currentStep === 'step1'?
                     <div id="step-1" className="section col-lg-9 col-12">
 
                       <h2>
-                        Do you have a cat or dog?
+                      <FormattedMessage id="account.catOrDog"></FormattedMessage>
                       </h2>
                       <div className="form-group  custom-checkbox col-lg-6">
                         <img src={cat} className="animal-select" alt="" title="" 
                         onClick={()=>this.selectPetType('cat')}
                         style={this.state.isCat===true? selectedPet:noSelect } />
                         <div className="label-option">
-                          Cat
+                        <FormattedMessage id="account.cat"></FormattedMessage>
                         </div>
                       </div>
 
@@ -255,7 +355,7 @@ export default class PetForm extends React.Component {
                         onClick={()=>this.selectPetType('dog')}
                         style={ this.state.isCat===false? selectedPet:noSelect } />
                         <div className="label-option">
-                              Dog                      
+                        <FormattedMessage id="account.dog"></FormattedMessage>             
                         </div>
                       </div>
                     </div>
@@ -264,7 +364,7 @@ export default class PetForm extends React.Component {
                   {
                     this.state.currentStep === 'step2'?
                       <div id="step-2" className="section col-lg-9 col-12 next-step">
-                        <h2>What is your pet's nickname?</h2>
+                        <h2><FormattedMessage id="account.nickname"></FormattedMessage></h2>
                         <div className="form-group">
                         <input type="text" placeholder="Enter your pet's nickname" className="form-control input-pet" 
                           name="dwfrm_miaaPet_petName" 
@@ -282,14 +382,14 @@ export default class PetForm extends React.Component {
                     this.state.currentStep === 'step3'?
                     
                     <div id="step-3" className="section next-step">
-                      <h2>What gender is your pet?</h2>
+                      <h2><FormattedMessage id="account.gender"></FormattedMessage></h2>
                       <div className="form-group custom-control custom-checkbox col-lg-6 ">
                         <label className="pet-select-control select-gender-1 icon-rc" 
                           onClick={()=>this.selectSex('male')} 
                           style={ this.state.isMale === true? selectedPet:noSelect }>
                         </label>
                         <div className="label-option">
-                          Male
+                        <FormattedMessage id="account.male"></FormattedMessage>
                         </div>
                       </div>
                       <div className="form-group custom-control custom-checkbox col-lg-6 ">
@@ -298,7 +398,7 @@ export default class PetForm extends React.Component {
                         onClick={()=>this.selectSex('female')} 
                         style={this.state.isMale === false? selectedPet:noSelect }></label>
                         <div className="label-option">
-                          Female
+                        <FormattedMessage id="account.female"></FormattedMessage>
                         </div>
                       </div>
                     </div>:null
@@ -306,7 +406,7 @@ export default class PetForm extends React.Component {
                   {
                     this.state.currentStep === 'step4'?
                     <div id="step-4" className="section next-step not-hidden col-lg-9 col-12">
-                      <h2>What breed Rita?</h2>
+                      <h2><FormattedMessage id="account.breed"></FormattedMessage> {this.state.nickname}?</h2>
                       <div className="content-section">
                         <div className="form-group relative">
                           <input id="breedPetName" type="hidden" name="dwfrm_miaaPet_breed" data-name="" value=""/>
@@ -315,18 +415,26 @@ export default class PetForm extends React.Component {
                             className="form-control input-pet breed" 
                             value={this.state.breed}
                             onChange={this.inputBreed}  
-                            autocomplete="nope" 
                             style={{display: (this.state.isCat?"none":null)}}
-                            disabled={this.state.isInputDisabled?"disabled":null}/>
+                            disabled={this.state.isInputDisabled?"disabled":null}/> 
+                            <div className="select-breed" style={{display:(this.state.showBreedList?'block':'none')}}>
+                              {
+                                this.state.breedList.map(item=>(
+                                  <option value={item.value} key={item.value} onClick={()=>this.selectedBreed(item)}>{item.name}</option>
+                                ))
+                              }
+                            </div>
                           <input type="text" id="cat-breed" 
                             placeholder="Enter the breed of your cat" 
                             className="form-control input-pet breed" 
                             value={this.state.breed}
                             onChange={this.inputBreed}  
-                            autocomplete="nope" 
                             style={{display: (!this.state.isCat?"none":null)}}
                             disabled={this.state.isInputDisabled?"disabled":null}/>
                         </div>
+
+
+                       
                         <div className="form-group custom-control label-unknown">
                           <div className="rc-input rc-input--inline rc-margin-bottom--xs">
                             <input type="checkbox" 
@@ -337,7 +445,7 @@ export default class PetForm extends React.Component {
                               disabled={this.state.isUnknownDisabled?"disabled":null}
                               name="dwfrm_miaaPet_overweight"/>
                             <label className="rc-input__label--inline" for="overweight">
-                              Unknown breed
+                            <FormattedMessage id="account.unknownBreed"></FormattedMessage>
                             </label>
                           </div>
                         </div>
@@ -347,7 +455,7 @@ export default class PetForm extends React.Component {
                   {
                     this.state.currentStep === 'step5'?
                     <div id="step-5" className="section next-step">
-                      <h2>What is the weight of an adult dog of your breed Rita?</h2>
+                      <h2><FormattedMessage id="account.weight"></FormattedMessage> {this.state.nickname} ?</h2>
                       <div className="group-size">
                         <div className="wrap__input wrap-size pull-left col-3">
                           <input id="is-X-Small" 
@@ -393,7 +501,7 @@ export default class PetForm extends React.Component {
                   {
                     this.state.currentStep === 'step6'?
                     <div id="step-6" className="section next-step">
-                      <h2>Is your pet sterilized?</h2>
+                      <h2><FormattedMessage id="account.sterilized"></FormattedMessage></h2>
                       <div className="group-size">
                         <div className="wrap__input col-6 pull-left text-center">
                           <input id="is-true" type="radio" className="radio input__radio" 
@@ -415,9 +523,9 @@ export default class PetForm extends React.Component {
                     </div>:null
                   }
                   {
-                    this.state.currentStep === 'step7'?
-                    <div id="step-7" className="section next-step">
-                      <h2>Enter the date of birth of your pet.</h2>
+                    
+                    <div id="step-7" className="section next-step" style={{display:this.state.currentStep === 'step7'?'block':'none'}}>
+                      <h2><FormattedMessage id="account.enterBirthDare"></FormattedMessage></h2>
                       <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
                         <input
                           className="rc-input__date rc-js-custom rc-input__control"
@@ -431,12 +539,12 @@ export default class PetForm extends React.Component {
                         <label className="rc-input__label" htmlFor="birthdate"></label>
                       </span>
                       <div className="invalid-birthdate invalid-feedback">Please select a past date.</div>
-                      </div>:null
+                      </div>
                   }
                   {
                     this.state.currentStep === 'step8'?
                     <div id="step-8" className="section next-step not-hidden">
-                      <h2>What features does your pet have?</h2>
+                      <h2><FormattedMessage id="account.features"></FormattedMessage></h2>
                       <div>
                         <div className="rc-input rc-input--inline rc-margin-bottom--xs">
                           <input type="checkbox" 
@@ -522,8 +630,8 @@ export default class PetForm extends React.Component {
                     this.state.currentStep === 'success'?
                     <div className="add-pet-success js-add-pet-success" >
                       <img src={success} className="img-success" alt="" title=""/>
-                      <div className="text-done">Fine!</div>
-                      <div className="text-done">Welcome to the ROYAL CANIN® family!</div>
+                      <div className="text-done"><FormattedMessage id="account.fine"></FormattedMessage> </div>
+                      <div className="text-done"><FormattedMessage id="account.welcome"></FormattedMessage> </div>
                     </div>:null
                   }
                   

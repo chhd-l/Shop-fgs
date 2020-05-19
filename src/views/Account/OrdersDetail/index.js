@@ -1,11 +1,15 @@
 import React from "react"
+import Skeleton from 'react-skeleton-loader'
+import { createHashHistory } from 'history'
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import { FormattedMessage } from 'react-intl'
 import { formatMoney } from "@/utils/utils"
-// import './index.css'
+import { getOrderDetails, cancelOrder } from "@/api/order"
+import './index.css'
 
 export default class AccountOrders extends React.Component {
   constructor(props) {
@@ -13,40 +17,93 @@ export default class AccountOrders extends React.Component {
     this.state = {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       orderNumber: '',
-      details: null
+      details: null,
+      loading: true,
+      modalShow: false,
+      cancelOrderLoading: false
     }
   }
   componentDidMount () {
-    const res = {
-      orderDate: '05/14/2020',
-      orderNumber: '000053310',
-      totalAmount: 2339,
-      status: 'Not done',
-      goodsName: 'Mini Adult',
-      goodsImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw1e081197/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.png?sw=250&amp;sh=380&amp;sm=fit',
-      amount: 1839,
-      size: '4.00kg',
-      quantity: '1.0',
-
-      name: 'Ken',
-      surName: 'Yang',
-      country: 'Russia',
-      region: 'Moscow',
-      city: '',
-      area: 'Other',
-      street: '1',
-      paymentMethod: '************* 0008'
-    }
-    console.log(this.props.match.params.orderNumber)
-    setTimeout(() => {
-      this.setState({
-        details: res
+    this.setState({
+      orderNumber: this.props.match.params.orderNumber
+    }, () => {
+      getOrderDetails(this.state.orderNumber)
+        .then(res => {
+          this.setState({
+            details: res.context,
+            loading: false
+          })
+        })
+        .catch(err => {
+          this.setState({
+            loading: false
+          })
+        })
+    })
+  }
+  hanldeItemClick (afterSaleType) {
+    sessionStorage.setItem('rc-after-sale-type', afterSaleType)
+    createHashHistory().push(`/account/orders/aftersale/${this.state.orderNumber}`)
+  }
+  handleCancelOrder () {
+    this.setState({ cancelOrderLoading: true })
+    cancelOrder(this.state.orderNumber)
+      .then(res => {
+        this.setState({ cancelOrderLoading: false })
+        createHashHistory().push('/account/orders')
       })
-    }, 1000)
+      .catch(err => {
+        console.log(err)
+        this.setState({ cancelOrderLoading: false })
+      })
+  }
+  returnOrExchangeBtnJSX () {
+    const { details } = this.state
+    let ret = null
+    if (new Date().getTime() > new Date(details.orderTimeOut).getTime()
+      && details.tradeState.deliverStatus === 'SHIPPED'
+      && details.tradeState.flowState === 'COMPLETED') {
+      return <React.Fragment>
+        <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
+          <a onClick={() => this.hanldeItemClick('exchange')} className="ui-cursor-pointer">
+            Exchange
+          </a>
+        </button>
+        <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
+          <a onClick={() => this.hanldeItemClick('return')} className="ui-cursor-pointer">
+            Return
+          </a>
+        </button>
+      </React.Fragment>
+    }
+    return ret
+  }
+  cancelOrderBtnJSX () {
+    const { details } = this.state
+    let ret = null
+    if (new Date().getTime() < new Date(details.orderTimeOut).getTime()) {
+      ret = <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
+        <span
+          className="mr-2 rc-styled-link"
+          onClick={() => {
+            this.setState({ modalShow: true })
+          }}>Cancel order</span>
+      </button>
+    }
+    return ret
   }
   render () {
+    const event = {
+      "page": {
+        "type": "Account",
+        "hitTimestamp": new Date().toISOString(),
+        "theme": ""
+      }
+    }
+    const { details } = this.state
     return (
       <div>
+        <GoogleTagManager additionalEvents={event} />
         <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
@@ -56,103 +113,250 @@ export default class AccountOrders extends React.Component {
               <div className="my__account-content rc-column rc-quad-width">
                 <div className="row justify-content-center">
                   <div className="order_listing_details col-12 no-padding">
-                    <div className="card confirm-details orderDetailsPage">
-                      <div className="card-body">
-                        <div className="d-flex justify-content-between row rc-padding-x--sm flex-column flex-md-row">
-                          <div className="rc-padding-left--xs--mobile">
-                            <p className="rc-padding-left--xs--mobile">
-                              Order Date:
-                              <br className="d-none d-md-block" />
-                              <span className="medium">05/15/2020</span>
-                            </p>
+                    <div
+                      className="card confirm-details orderDetailsPage ml-0 mr-0"
+                      ref={(node) => {
+                        if (node) {
+                          node.style.setProperty('padding', '0', 'important');
+                          node.style.setProperty('border', '0', 'important');
+                        }
+                      }}>
+                      {this.state.loading
+                        ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
+                        : details
+                          ? <div className="card-body p-0">
+                            <div className="ui-order-title d-flex justify-content-between">
+                              <div>
+                                <span className="inlineblock">Order number:{this.state.orderNumber}</span>&nbsp;&nbsp;
+                                <span className="inlineblock">Order time:{details.tradeState.createTime.substr(0, 19)}</span>&nbsp;&nbsp;
+                                <span className="inlineblock">Order status:{details.tradeState.flowState}</span>
+                              </div>
+                              <div className="details-btn-group d-flex">
+                                {this.returnOrExchangeBtnJSX()}
+                                {this.cancelOrderBtnJSX()}
+                              </div>
+                            </div>
+                            <div className="detail-title">
+                              Order information
                           </div>
-                          <div className="rc-padding-left--xs--mobile">
-                            <p className="rc-padding-left--xs--mobile">
-                              Your order number:
-                              <br className="d-none d-md-block" />
-                              <span className="medium">000053423</span>
-                            </p>
-                          </div>
-                          <div className="rc-padding-left--xs--mobile">
-                            <p className="rc-padding-left--xs--mobile">
-                              Just
-                            <br className="d-none d-md-block" />
-                              <span className="medium price-symbol">$ 2 616</span>
-                            </p>
-                          </div>
-                        </div>
-                        <hr className="rc-margin-top---none" />
-                        <div className="d-flex justify-content-between rc-column flex-column flex-md-row">
-                          <span className="rc-padding-top--xs medium">Not done</span>
-                        </div>
-                        <div className="row rc-margin-x--none">
-                          <div className="col-12 col-md-8 rc-column rc-padding-top--none">
                             <div className="row">
-                              <div className="col-6 col-sm-4 d-flex align-items-center rc-padding-left--sm rc-padding-left--lg--mobile">
-                                <span className="rc-padding-right--sm rc-padding-right--lg--mobile">1 x</span>
-                                <img className="img-fluid" src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw3d4a98fb/products/RU/packshot_2016_FHN_DRY_Sterilised_37_4.png?sw=500" alt="Sterilised 37" title="Sterilised 37" />
+                              <div className="col-12 col-md-6">
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Shipping address:
+                                </div>
+                                  <div className="col-12 col-md-8">
+                                    echo 12 18983292983
+                                </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Delivery method:
+                                </div>
+                                  <div className="col-12 col-md-8">
+                                    express delivery
+                                </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Invoice Information:
+                                </div>
+                                  <div className="col-12 col-md-8">
+                                    General Invoice Details Individual
+                                </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Invoice receiving address:
+                                </div>
+                                  <div className="col-12 col-md-8">
+                                    {[details.invoice.contacts, details.invoice.phone, details.invoice.address].join(' ')}
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Attachment information:
+                                </div>
+                                  <div className="col-12 col-md-8">
+                                    no
+                                </div>
+                                </div>
                               </div>
-                              <div className="col-6 col-sm-8 order-item-detail rc-padding-top--sm">
-                                <span className="medium title_product text_content">Sterilised 37 </span><br />
-                                <span>4.00 kg</span>
-                                <div className="rc-text--left medium d-block d-md-none rc-padding-top--sm price-symbol">$ 2 616</div>
+                              <div className="col-12 col-md-6">
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Payment method:
+                                </div>
+                                  <div className="col-12 col-md-8">
+                                    Online payment paid&nbsp;
+                                    <span className="red" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">payment record</span>
+                                    <div id="bottom-tooltip" class="rc-tooltip p-2" style={{ width: 200 }}>
+                                      <div className="row">
+                                        <div className="col-6 text-right">收款账户:</div>
+                                        <div className="col-6 text-left">无</div>
+                                      </div>
+                                      <div className="row">
+                                        <div className="col-6 text-right">付款金额:</div>
+                                        <div className="col-6 text-left">{formatMoney(400)}</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    order notes:
+                                </div>
+                                  <div className="col-12 col-md-8">
+                                    no
+                                </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Seller notes:
+                                </div>
+                                  <div className="col-12 col-md-8">
+                                    no
+                                </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="col-12 col-md-4 d-none d-md-block">
-                            <div className="col-7 offset-md-5 rc-padding-top--sm">
-                              <div className="rc-text--right medium price-symbol">$ 2 616</div>
+                            <div className="detail-title">
+                              Product information
                             </div>
-                          </div>
-                        </div>
-                        <hr className="rc-margin-top--none" />
-                        <div className="paymentDesc d-flex justify-content-sm-end">
-                          <div className="d-flex flex-column rc-padding-right--sm align-items-end">
-                            <span className="textColor rc-padding-left--sm rc-padding-bottom--xs">Total</span>
-                            <span className="textColor rc-padding-left--sm rc-padding-bottom--xs">Delivery</span>
-                            <span className="textColor rc-padding-left--sm rc-padding-bottom--xs">Including VAT</span>
-                            <span className="rc-delta textColor rc-padding-left--sm"><b>Total</b></span>
-                          </div>
-                          <div className="d-flex flex-column rc-padding-right--xs rc-padding-left--lg--mobile">
-                            <span className="textColor rc-padding-bottom--xs price-symbol">
-                              $ 2 616</span>
-                            <span className="textColor rc-padding-bottom--xs">
-                              Is free
-                            </span>
-                            <span className="textColor rc-padding-bottom--xs price-symbol">$ 436</span>
-                            <span className="rc-delta textColor price-symbol"><b>$ 2 616</b></span>
-                          </div>
-                        </div>
-                        <hr className="rc-margin-top--xs" />
-                        <div className="orderDetailFooter d-flex justify-content-between rc-padding-x--sm flex-column flex-sm-row rc-three-column">
-                          <div className="rc-column rc-double-width">
-                            <h5 className="rc-large-body"><b>Delivery Addresses</b></h5>
-                            <div className="row">
-                              <div className="col-12 col-sm-4">
-                                <p className="rc-margin-bottom--none">Ken yang</p>
-                                <p className="rc-margin-bottom--none">Russia</p>
-                                <p className="rc-margin-bottom--none">Moscow</p>
-                                <p className="rc-margin-bottom--none">Other</p>
-                                <p className="rc-margin-bottom--none">Ababurovo 123456</p>
+                            <div class="order__listing">
+                              <div className="order-list-container">
+                                <div className="card-container mt-0 border-0">
+                                  <div className="card rc-margin-y--none">
+                                    <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 border-0">
+                                      <div className="col-12 col-md-4">
+                                        <p>Product</p>
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        <p>Unit</p>
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        <p>Price</p>
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        <p>Quantity</p>
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        <p>Subtotal</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  {details.tradeItems.map((item, i) => (
+                                    <div className="row rc-margin-x--none row align-items-center pt-2 pb-2 border-bottom" key={i}>
+                                      <div className="col-12 col-md-4 d-flex pl-0 pr-0">
+                                        <img
+                                          className="img-fluid border"
+                                          src={item.pic}
+                                          alt={item.spuName}
+                                          title={item.spuName} />
+                                        <div className="m-1">
+                                          {item.spuName}<br />
+                                          <span className="color-999">{item.specDetails}</span>
+                                        </div>
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        {item.unit}
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        {formatMoney(item.price)}
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        {item.num}
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        {formatMoney(item.price * item.num)}
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
-                              <div className="col-12 col-sm-4">
-                                <p className="rc-margin-bottom--none">1</p>
-                                <p className="rc-margin-bottom--none">House number 1</p>
-                                <p className="rc-margin-bottom--none">+7 (923) 456-78-90</p>
+                            </div>
+                            <div className="row pt-2 pb-2 border-bottom" style={{ lineHeight: 1.7 }}>
+                              <div className="col-9 text-right color-999">
+                                Total:
                               </div>
+                              <div className="col-2 text-right">{formatMoney(details.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}</div>
+                              <div className="col-9 text-right color-999">
+                                Shipping:
+                              </div>
+                              <div className="col-2 text-right">{formatMoney(0)}</div>
+                              <div className="col-9 text-right color-999">
+                                Total(Including VAT):
+                              </div>
+                              <div className="col-2 text-right">{formatMoney(details.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}</div>
                             </div>
-                          </div>
-                          <div className="rc-column">
-                            <h6 className="rc-large-body"><b>Payment method</b></h6>
-                            <div className="d-flex">
-                              <img src="/on/demandware.static/-/Sites/default/dwc6f3441f/visa-dark.svg" alt="image" style={{ maxWidth: '14%' }} />
-                              <span className="rc-padding-left--sm">************* 0008</span>
+                            <div className="detail-title">
+                              Delivery Record
                             </div>
+                            <div className="text-center">No data</div>
                           </div>
-                        </div>
-                      </div>
+                          : null
+                      }
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* modal */}
+          <div
+            className={`modal-backdrop fade ${
+              this.state.modalShow ? "show" : ""
+              }`}
+            style={{ display: this.state.modalShow ? "block" : "none", zIndex: 59 }}
+          ></div>
+          <div
+            className={`modal fade ${this.state.modalShow ? "show" : ""}`}
+            id="removeProductModal"
+            tabIndex="-1"
+            role="dialog"
+            aria-labelledby="removeProductLineItemModal"
+            style={{ display: this.state.modalShow ? "block" : "none", overflow: 'hidden' }}
+            aria-hidden="true"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header delete-confirmation-header">
+                  <h4 className="modal-title" id="removeProductLineItemModal">
+                    Cancel Order?
+                  </h4>
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    onClick={() => { this.setState({ modalShow: false }) }}
+                  >
+                    <span aria-hidden="true">
+                      ×
+                  </span>
+                  </button>
+                </div>
+                <div className="modal-body delete-confirmation-body">
+                  Do you really want to cancel the order?
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    data-dismiss="modal"
+                    onClick={() => { this.setState({ modalShow: false }) }}
+                  >
+                    <FormattedMessage id="cancel" />
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn btn-primary cart-delete-confirmation-btn ${this.state.cancelOrderLoading ? 'ui-btn-loading' : ''}`}
+                    data-dismiss="modal"
+                    onClick={() => this.handleCancelOrder()}
+                  >
+                    <FormattedMessage id="yes" />
+                  </button>
                 </div>
               </div>
             </div>

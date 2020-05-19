@@ -8,6 +8,7 @@ import SideMenu from '@/components/SideMenu'
 import './index.css'
 import noPet from "@/assets/images/noPet.jpg"
 import { Link } from 'react-router-dom';
+import { createHashHistory } from 'history'
 
 export default class Pet extends React.Component {
   constructor(props) {
@@ -15,6 +16,10 @@ export default class Pet extends React.Component {
     this.state = {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
+    this.isHavePet()
+  }
+  isHavePet(){
+    createHashHistory().push('/account/pets/petList')
   }
   render () {
     const event = {
@@ -36,7 +41,7 @@ export default class Pet extends React.Component {
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div class="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
                   <h4 class="rc-delta rc-margin--none">
-                      Pets
+                    <FormattedMessage id="account.pets"></FormattedMessage>
                   </h4>
                 </div>
                 <div class="content-asset">
@@ -45,14 +50,13 @@ export default class Pet extends React.Component {
                       <div class="rc-padding-right-lg rc-padding-y--sm ">
                           <div class="children-nomargin">
                             <p>
-                              
-                                Create your pet profile today! Fill in the information and choose the most suitable diet
+                              <FormattedMessage id="account.noPet"></FormattedMessage>
                               
                             </p>
                           </div>
                           <div class="rc-margin-top--sm">
                             <Link class="rc-btn rc-btn--one" to="/account/pets/petForm">
-                              Add pet
+                              <FormattedMessage id="account.addPet"></FormattedMessage>
                             </Link>
                           </div>
                         </div>

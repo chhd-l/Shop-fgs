@@ -11,7 +11,9 @@ const service = axios.create({
 service.interceptors.request.use(config => {
   const token = sessionStorage.getItem('rc-token')
   if (token) {
-    config.headers['Authorization'] = 'Bearer ' + token // 让每个请求携带自定义 token 请根据实际情况自行修改
+    config.headers['Authorization'] = 'Bearer ' 
+    + token
+    // 'eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNpkjsEKgzAQRP9lzyJZa7JZbz320l-QmKwg1CrGSEH898ZD6UHmMsw8mNkhpg4aQGtuZFCxRihgcCs0qC2zYVPbAnyK6zTK8giZ7XurspCQyAmjOl3Qna9qUooE_vzd-ym918vAr3-6Ua7r8xlVWN6oxIpLUjnc3CtJ60KQ0EZZtsFLzNh-5E4-83mXFVWGWB9fAAAA__8.TYxu5WgeM298vPLLUVi3iDHgwRmJudEcESxOTbGEWWw' // 让每个请求携带自定义 token 请根据实际情况自行修改
   }
   return config
 })
