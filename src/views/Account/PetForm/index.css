@@ -168,3 +168,15 @@ h2{
 .text-done {
   font-size: 1.5rem;
 }
+.select-breed{
+  width: 310px;
+  max-height: 100px;
+  margin: 0 auto;
+  text-align: left;
+  position: absolute;
+  z-index: 100;
+  background-color: #ffffff;
+  left: 0;
+  right: 0;
+  overflow-y: scroll;
+}

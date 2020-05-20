@@ -24,15 +24,16 @@ export default class PetForm extends React.Component {
     super(props)
     this.state = {
       precent:12.5,
-      step:1,
+      step:4,
       isCat:null,
       isMale:null,
-      currentStep:'step1',
+      currentStep:'step4',
       isDisabled:true,
       nickname:"",
       isUnknown:false,
       isInputDisabled:false,
       isUnknownDisabled:false,
+      breed:"",
       weight:"",
       isSterilized:null,
       features:{
@@ -43,7 +44,22 @@ export default class PetForm extends React.Component {
         overweight:false,
         noneeds:false
       },
-      showList:true,
+      showList:false,
+      showBreedList:false,
+      breedList:[
+        {name:'boston terrier',value:1},
+        {name:'boston terrier',value:2},
+        {name:'boston terrier',value:3},
+        {name:'boston terrier',value:4},
+        {name:'boston terrier',value:5},
+        {name:'boston terrier',value:6},
+        {name:'boston terrier',value:7},
+        {name:'boston terrier',value:8},
+        {name:'boston terrier',value:9},
+        {name:'boston terrier',value:10},
+        {name:'boston terrier',value:11},
+        {name:'boston terrier',value:12},
+      ],
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
     this.nextStep = this.nextStep.bind(this)
@@ -147,18 +163,22 @@ export default class PetForm extends React.Component {
   inputBreed=(e) => {
     let isDisabled = true
     let isUnknownDisabled = false
+    let showBreedList = false
     if (e.target.value !=="") {
       isDisabled = false
       isUnknownDisabled = true
+      showBreedList = true
     }
     else{
       isDisabled = true
       isUnknownDisabled = false
+      showBreedList = false
     }
     this.setState({
-      nickname: e.target.value,
+      breed: e.target.value,
       isDisabled:isDisabled,
-      isUnknownDisabled: isUnknownDisabled
+      isUnknownDisabled: isUnknownDisabled,
+      showBreedList:showBreedList
     })
   };
   selectWeight(val){
@@ -208,6 +228,13 @@ export default class PetForm extends React.Component {
           isDisabled:true
         })
       }
+    
+  }
+  selectedBreed=(item)=>{
+    this.setState({
+      breed:item.name,
+      showBreedList:false
+    })
     
   }
   render () {
@@ -389,7 +416,14 @@ export default class PetForm extends React.Component {
                             value={this.state.breed}
                             onChange={this.inputBreed}  
                             style={{display: (this.state.isCat?"none":null)}}
-                            disabled={this.state.isInputDisabled?"disabled":null}/>
+                            disabled={this.state.isInputDisabled?"disabled":null}/> 
+                            <div className="select-breed" style={{display:(this.state.showBreedList?'block':'none')}}>
+                              {
+                                this.state.breedList.map(item=>(
+                                  <option value={item.value} key={item.value} onClick={()=>this.selectedBreed(item)}>{item.name}</option>
+                                ))
+                              }
+                            </div>
                           <input type="text" id="cat-breed" 
                             placeholder="Enter the breed of your cat" 
                             className="form-control input-pet breed" 
@@ -398,6 +432,9 @@ export default class PetForm extends React.Component {
                             style={{display: (!this.state.isCat?"none":null)}}
                             disabled={this.state.isInputDisabled?"disabled":null}/>
                         </div>
+
+
+                       
                         <div className="form-group custom-control label-unknown">
                           <div className="rc-input rc-input--inline rc-margin-bottom--xs">
                             <input type="checkbox" 

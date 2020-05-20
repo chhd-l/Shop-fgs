@@ -260,7 +260,16 @@ const en_US = {
   'account.features':'What features does your pet have?',
   'account.fine':'Fine!',
   'account.welcome':'Welcome to the ROYAL CANIN® family!',
+  'shippingAddress':'Shipping Address',
+  'addShippingAddress':'Add Shipping Address',
+  'editShippingAddress':'Edit Shipping Address',
+  'addressTip':'You have created {number} shipping addresses, up to 20',
+  'consignee':'Consignee',
+  'defaultAddress':'default address',
+  'setDefaultAddress':'set as the default address',
+  'consigneeNumber':'Consignee Number',
+  'area':'Area',
+  'deliveryAddress':'Delivery Address'
 
-  
 }
 export default en_US;

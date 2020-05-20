@@ -22,6 +22,7 @@ import AccountOrders from "@/views/Account/Orders";
 import AccountOrdersDetail from "@/views/Account/OrdersDetail";
 import AccountPetForm from "@/views/Account/PetForm";
 import AccountPetList from "@/views/Account/PetList";
+import AccountShippingAddress from "@/views/Account/ShippingAddress";
 
 
 const BasicRoute = () => (
@@ -75,6 +76,8 @@ const BasicRoute = () => (
         <Route path='/account/orders/detail/:orderNumber' component={AccountOrdersDetail} />
         <Route path='/account/pets/petForm' exact component={AccountPetForm}/>
         <Route path='/account/pets/petList' exact component={AccountPetList}/>
+        <Route path='/account/shippingAddress' exact component={AccountShippingAddress}/>
+
         <Route component={Exception} />
       </Switch>
     </ScrollToTop>
