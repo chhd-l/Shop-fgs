@@ -239,6 +239,13 @@ const en_US = {
   'order.orderDate': 'Order Date',
   'order.orderNumber': 'Order Number',
   'order.orderDetails': 'Order Details',
+  'order.noDataTip': 'No ordres found, please change the criteria and try again.',
+
+  'datePicker.previousMonth': 'previous Month',
+  'datePicker.nextMonth': 'next Month',
+  'datePicker.months': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  'datePicker.weekdays': ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  'datePicker.weekdaysShort': ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'],
 
 }
 export default en_US;
