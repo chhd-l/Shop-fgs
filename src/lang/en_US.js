@@ -239,7 +239,9 @@ const en_US = {
   'order.orderDate': 'Order Date',
   'order.orderNumber': 'Order Number',
   'order.orderDetails': 'Order Details',
-  'order.noDataTip': 'No ordres found, please change the criteria and try again.',
+  'order.noDataTip': 'No data',
+  'order.orderStatus': 'Order Status',
+  'order.shippingStatus': 'Shipping Status',
 
   'datePicker.previousMonth': 'previous Month',
   'datePicker.nextMonth': 'next Month',

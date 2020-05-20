@@ -20,6 +20,7 @@ import AccountProfile from "@/views/Account/Profile";
 import AccountPets from "@/views/Account/Pet";
 import AccountOrders from "@/views/Account/Orders";
 import AccountOrdersDetail from "@/views/Account/OrdersDetail";
+import AccountOrdersAfterSale from "@/views/Account/OrdersAfterSale";
 import AccountPetForm from "@/views/Account/PetForm";
 import AccountPetList from "@/views/Account/PetList";
 
@@ -68,13 +69,14 @@ const BasicRoute = () => (
         <Route exact path="/termuse" component={TermUse} />
         <Route exact path="/privacypolicy" component={PrivacyPolicy} />
 
-        <Route path='/account' exact component={AccountHome}/>
-        <Route path='/account/information' exact component={AccountProfile}/>
-        <Route path='/account/pets' exact component={AccountPets}/>
+        <Route path='/account' exact component={AccountHome} />
+        <Route path='/account/information' exact component={AccountProfile} />
+        <Route path='/account/pets' exact component={AccountPets} />
         <Route path='/account/orders' exact component={AccountOrders} />
         <Route path='/account/orders/detail/:orderNumber' component={AccountOrdersDetail} />
-        <Route path='/account/pets/petForm' exact component={AccountPetForm}/>
-        <Route path='/account/pets/petList' exact component={AccountPetList}/>
+        <Route path='/account/orders/aftersale/:orderNumber' component={AccountOrdersAfterSale} />
+        <Route path='/account/pets/petForm' exact component={AccountPetForm} />
+        <Route path='/account/pets/petList' exact component={AccountPetList} />
         <Route component={Exception} />
       </Switch>
     </ScrollToTop>
