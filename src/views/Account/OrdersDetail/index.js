@@ -67,12 +67,12 @@ export default class AccountOrders extends React.Component {
                     <div className="card confirm-details orderDetailsPage">
                       {this.state.loading
                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
-                        : this.state.details
+                        : details
                           ? <div className="card-body">
                             <div className="ui-order-title">
                               <span>Order number:{this.state.orderNumber}</span>&nbsp;&nbsp;
-                            <span>Order time:05/15/2020 20:00:00</span>&nbsp;&nbsp;
-                            <span>Order status:To be shipped</span>
+                              <span>Order time:{details.orderTimeOut.substr(0, 19)}</span>&nbsp;&nbsp;
+                              <span>Order status:To be shipped</span>
                               <div className="details-btn-group d-flex">
                                 <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
                                   <a onClick={() => this.hanldeItemClick('exchange')} className="ui-cursor-pointer">
@@ -202,8 +202,8 @@ export default class AccountOrders extends React.Component {
                                       </div>
                                     </div>
                                   </div>
-                                  {details.tradeItems.map(item => (
-                                    <div className="row rc-margin-x--none row align-items-center pt-2 pb-2 border-bottom">
+                                  {details.tradeItems.map((item, i) => (
+                                    <div className="row rc-margin-x--none row align-items-center pt-2 pb-2 border-bottom" key={i}>
                                       <div className="col-12 col-md-4 d-flex pl-0 pr-0">
                                         <img
                                           className="img-fluid border"
