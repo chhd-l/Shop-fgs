@@ -1,6 +1,7 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl'
 import { createHashHistory } from 'history'
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
@@ -214,7 +215,7 @@ class Cart extends React.Component {
     });
     this.changeCache();
   }
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
@@ -453,10 +454,17 @@ class Cart extends React.Component {
   }
   render () {
     const { productList } = this.state;
-
     const List = this.getProducts(this.state.productList);
+    const event = {
+      "page": {
+        "type": "Cart",
+        "hitTimestamp": new Date().toISOString(),
+        "theme": ""
+      }
+    }
     return (
       <div>
+        <GoogleTagManager additionalEvents={event} />
         <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">

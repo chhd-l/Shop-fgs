@@ -1,4 +1,5 @@
 import React from 'react'
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { FormattedMessage } from 'react-intl'
@@ -8,10 +9,18 @@ import callImg from "@/assets/images/customer-service@2x.jpg"
 import helpImg from "@/assets/images/slider-img-help.jpg"
 
 class Help extends React.Component {
-
   render (h) {
+    const event = {
+      "page": {
+        "type": "Content",
+        "hitTimestamp": new Date().toISOString(),
+        "theme": ""
+      }
+    }
+
     return (
       <div>
+        <GoogleTagManager additionalEvents={event} />
         <Header />
         <main className="rc-content--fixed-header rc-bg-colour--brand3" >
           {/* <div class="rc-bg-colour--brand4 text-center" >
@@ -116,9 +125,9 @@ class Help extends React.Component {
                               </article>
                               <h1 class="rc-beta" style={{ margin: '0 0 0 1rem' }}>
                                 <font style={{ verticalAlign: "inherit" }}>
-                                    <Link className="rc-list__link" style={{color:'#e2001a'}} to="/FAQ" role="menuitem">
-                                      <FormattedMessage id="footer.FAQ" />
-                                    </Link>
+                                  <Link className="rc-list__link" style={{ color: '#e2001a' }} to="/FAQ" role="menuitem">
+                                    <FormattedMessage id="footer.FAQ" />
+                                  </Link>
                                 </font>
                               </h1>
                             </div>
