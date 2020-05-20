@@ -30,3 +30,16 @@ export function setDefaltAddress (parameter) {
     data: parameter
   })
 }
+export function deleteAddress (parameter) {
+  return axios({
+    url: `${api.saveAddress}/${parameter.id}`,
+    method: 'delete'
+  })
+}
+export function editAddress (parameter) {
+  return axios({
+    url: `${api.saveAddress}`,
+    method: 'put',
+    data: parameter
+  })
+}

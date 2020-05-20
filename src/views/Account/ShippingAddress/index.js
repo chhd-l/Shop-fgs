@@ -7,7 +7,9 @@ import SideMenu from '@/components/SideMenu'
 import './index.css'
 import {  getAddressList,
 saveAddress,
-setDefaltAddress} from '@/api/address'
+setDefaltAddress,
+deleteAddress,
+editAddress} from '@/api/address'
 import { Link } from 'react-router-dom';
 
 
@@ -24,11 +26,12 @@ export default class ShippingAddress extends React.Component {
         lastName:"",
         address1:"",
         address2:"",
-        country:"",
-        city:"",
+        country:"1",
+        city:"1",
         postCode:"",
         phoneNumber:"",
-        rfc:""
+        rfc:"",
+        isDefalt:false
       }
       
     }
@@ -67,6 +70,62 @@ export default class ShippingAddress extends React.Component {
       showModal:false
     })
   }
+  onFormChange = ({ field, value }) => {
+    let data = this.state.addressForm;
+    data[field] = value;
+    this.setState({
+      addressForm: data
+    });
+  };
+  isDefalt = ()=>{
+    let data = this.state.addressForm;
+    data.isDefalt = !data.isDefalt
+    this.setState({
+      addressForm: data
+    });
+  }
+  saveAddress = async ()=>{
+    let data = this.state.addressForm;
+    let params = {
+      "areaId":+data.country,
+      "cityId": +data.city,
+      "consigneeName": data.firstName+data.lastName,
+      "consigneeNumber": data.phoneNumber,
+      "deliveryAddress": data.address1+data.address2,
+      "isDefaltAddress": data.isDefalt?1:0,
+      "postCode": data.postCode,
+      "rfc": data.rfc,
+    }
+    const res = await saveAddress(params)
+    if(res.code === 'K-000000'){
+      console.log(res);
+      this.closeModal()
+      
+    }
+    
+  }
+  setDefaltAddress = async (id)=>{
+    debugger
+    let params = {
+      "deliveryAddressId": id,
+    }
+    const res = await setDefaltAddress(params)
+    if(res.code === 'K-000000'){
+      console.log(res);
+      this.closeModal()  
+    }
+  }
+  deleteAddress = async (id)=>{
+    debugger
+    let params = {
+      "id": id,
+    }
+    const res = await deleteAddress(params)
+    if(res.code === 'K-000000'){
+      console.log(res);
+    }
+  }
+
   
   render () {
     const { addressForm } = this.state 
@@ -141,11 +200,12 @@ export default class ShippingAddress extends React.Component {
                             </form>
                           </div>
                           <div className="ant-col-4 card-action">
-                            <a className="card-action-delete">×</a>
+                            <a className="card-action-delete" onClick={()=>this.deleteAddress(item.deliveryAddressId)}>×</a>
                           <div className="card-action-link">
                             { item.isDefaltAddress ===1?
                             <span><FormattedMessage id="defaultAddress"></FormattedMessage></span>:
-                            <a onClick={()=>this.setDefaltAddress(item.deliveryAddressId)}> <FormattedMessage id="setDefaultAddress"></FormattedMessage></a>}
+                            <a onClick={()=>this.setDefaltAddress(item.deliveryAddressId)}>
+                               <FormattedMessage id="setDefaultAddress"></FormattedMessage></a>}
                             <a> <FormattedMessage id="edit" onClick={()=>this.openEditModal()}></FormattedMessage></a>
                           </div>
                         </div>
@@ -181,7 +241,14 @@ export default class ShippingAddress extends React.Component {
                           </div>
                           <div className="ant-form-item-control-wrapper">
                             <div className="ant-form-item-control address-input">
-                              <input type="text" value={addressForm.firstName}  
+                              <input type="text" value={addressForm.firstName} 
+                              onChange={(e) => {
+                                const value =  e.target.value;
+                                this.onFormChange({
+                                  field: 'firstName',
+                                  value
+                                });
+                              }}
                               className="ant-input ant-input-lg" style={{width: "256px"}}/>
                             </div>
                           </div>
@@ -201,6 +268,13 @@ export default class ShippingAddress extends React.Component {
                           <div className="ant-form-item-control-wrapper">
                             <div className="ant-form-item-control address-input">
                               <input type="text" value={addressForm.lastName}  
+                              onChange={(e) => {
+                                const value =  e.target.value;
+                                this.onFormChange({
+                                  field: 'lastName',
+                                  value
+                                });
+                              }}
                               className="ant-input ant-input-lg" style={{width: "256px"}}/>
                             </div>
                           </div>
@@ -218,8 +292,19 @@ export default class ShippingAddress extends React.Component {
                           
                           <div className="ant-form-item-control-wrapper">
                             <div className="ant-form-item-control address-input">
-                              <input type="text" value={addressForm.country}  
-                              className="ant-input ant-input-lg" style={{width: "256px"}}/>
+                            <select
+                                className="ant-input ant-input-lg" 
+                                style={{width: "256px",fontSize: "13px",fontWeight: 400}}
+                                value={addressForm.country}  
+                                onChange={(e) => {
+                                  const value =  e.target.value;
+                                  this.onFormChange({
+                                    field: 'country',
+                                    value
+                                  });
+                                }} >
+                                  <option value="1">Mexico</option>
+                              </select>
                             </div>
                           </div>
                         </div>
@@ -237,8 +322,21 @@ export default class ShippingAddress extends React.Component {
                           
                           <div className="ant-form-item-control-wrapper">
                             <div className="ant-form-item-control address-input">
-                              <input type="text" value={addressForm.city}  
-                              className="ant-input ant-input-lg" style={{width: "256px"}}/>
+                              <select
+                                value={addressForm.city}  
+                                onChange={(e) => {
+                                  const value =  e.target.value;
+                                  this.onFormChange({
+                                    field: 'city',
+                                    value
+                                  });
+                                }}
+                                className="ant-input ant-input-lg" 
+                                style={{width: "256px",fontSize: "13px",fontWeight: 400}}
+                                >
+                                <option value="1">Monterrey</option>
+                                <option value="2">Mexico City</option>
+                              </select>
                             </div>
                           </div>
                         </div>
@@ -257,6 +355,13 @@ export default class ShippingAddress extends React.Component {
                           <div className="ant-form-item-control-wrapper">
                             <div className="ant-form-item-control address-input">
                               <input type="text" value={addressForm.address1}  
+                              onChange={(e) => {
+                                const value =  e.target.value;
+                                this.onFormChange({
+                                  field: 'address1',
+                                  value
+                                });
+                              }}
                               className="ant-input ant-input-lg" style={{width: "256px"}}/>
                             </div>
                           </div>
@@ -275,7 +380,14 @@ export default class ShippingAddress extends React.Component {
                           
                           <div className="ant-form-item-control-wrapper">
                             <div className="ant-form-item-control address-input">
-                              <input type="text" value={addressForm.address2}  
+                              <input type="text" value={addressForm.address2} 
+                              onChange={(e) => {
+                                const value =  e.target.value;
+                                this.onFormChange({
+                                  field: 'address2',
+                                  value
+                                });
+                              }} 
                               className="ant-input ant-input-lg" style={{width: "256px"}}/>
                             </div>
                           </div>
@@ -294,6 +406,13 @@ export default class ShippingAddress extends React.Component {
                           <div className="ant-form-item-control-wrapper">
                             <div className="ant-form-item-control address-input">
                               <input type="text" value={addressForm.postCode}  
+                              onChange={(e) => {
+                                const value =  e.target.value;
+                                this.onFormChange({
+                                  field: 'postCode',
+                                  value
+                                });
+                              }}
                               className="ant-input ant-input-lg" style={{width: "256px"}}/>
                             </div>
                           </div>
@@ -312,6 +431,13 @@ export default class ShippingAddress extends React.Component {
                           <div className="ant-form-item-control-wrapper">
                             <div className="ant-form-item-control address-input">
                               <input type="text" value={addressForm.phoneNumber}  
+                              onChange={(e) => {
+                                const value =  e.target.value;
+                                this.onFormChange({
+                                  field: 'phoneNumber',
+                                  value
+                                });
+                              }}
                               className="ant-input ant-input-lg" style={{width: "256px"}}/>
                             </div>
                           </div>
@@ -331,6 +457,13 @@ export default class ShippingAddress extends React.Component {
                           <div className="ant-form-item-control-wrapper">
                             <div className="ant-form-item-control address-input">
                               <input type="text" value={addressForm.rfc}  
+                              onChange={(e) => {
+                                const value =  e.target.value;
+                                this.onFormChange({
+                                  field: 'rfc',
+                                  value
+                                });
+                              }}
                               className="ant-input ant-input-lg" style={{width: "256px"}}/>
                             </div>
                           </div>
@@ -341,7 +474,7 @@ export default class ShippingAddress extends React.Component {
                             <div className="ant-form-item-control has-success address-input">
                               <label className="ant-checkbox-wrapper">
                                 <span className="ant-checkbox">
-                                <input type="checkbox" className="ant-checkbox-input"  value="on"/>
+                                <input type="checkbox" className="ant-checkbox-input" onClick={()=>this.isDefalt()} value={addressForm.isDefalt}/>
                                 <span className="ant-checkbox-inner"></span>
                                 </span>
                                 <span><FormattedMessage id="setDefaultAddress"></FormattedMessage></span>
@@ -356,7 +489,7 @@ export default class ShippingAddress extends React.Component {
                       <button type="button" className="ant-btn ant-btn-lg" onClick={()=>this.closeModal()}>
                         <span><FormattedMessage id="cancle"></FormattedMessage></span>
                       </button>
-                      <button type="button" className="ant-btn ant-btn-primary ant-btn-lg" onClick={()=>this.closeModal()}>
+                      <button type="button" className="ant-btn ant-btn-primary ant-btn-lg" onClick={()=>this.saveAddress()}>
                         <span><FormattedMessage id="confirm"></FormattedMessage></span>
                       </button>
                     </div>
