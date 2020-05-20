@@ -229,7 +229,12 @@ const en_US = {
   'account.TheAddressBook': 'La libreta de direcciones',
   'account.preferredMmethodsOfCommunication': 'Métodos preferidos de comunicación.',
   'account.preferredContactMethod': 'Método de Contacto Preferido',
-  'account.warmNotice': 'Aquí puede administrar su perfil, editar información sobre mascotas, verificar el estado de los pedidos y suscripciones.'
+  'account.warmNotice': 'Aquí puede administrar su perfil, editar información sobre mascotas, verificar el estado de los pedidos y suscripciones.',
 
+  'datePicker.previousMonth': 'Poprzedni miesiąc',
+  'datePicker.nextMonth': 'Następny miesiąc',
+  'datePicker.months': ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
+  'datePicker.weekdays': ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwaretk', 'Piątek', 'Sobota'],
+  'datePicker.weekdaysShort': ['Nd', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb'],
 }
 export default en_US;

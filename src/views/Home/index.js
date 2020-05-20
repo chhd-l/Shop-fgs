@@ -6,7 +6,6 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import HeroCarousel from '@/components/HeroCarousel'
 import './index.css'
-import { GTMID } from '@/utils/constant'
 import CARECAT from "@/assets/images/MX-L-VET-CARE-CAT.jpg";
 import CAREDOG from "@/assets/images/MX-L-VET-CARE-DOG.jpg";
 import DIETCAT from "@/assets/images/MX-L-VET-DIET-CAT.jpg";

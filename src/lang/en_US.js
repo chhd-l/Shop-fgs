@@ -239,6 +239,15 @@ const en_US = {
   'order.orderDate': 'Order Date',
   'order.orderNumber': 'Order Number',
   'order.orderDetails': 'Order Details',
+  'order.noDataTip': 'No data',
+  'order.orderStatus': 'Order Status',
+  'order.shippingStatus': 'Shipping Status',
+
+  'datePicker.previousMonth': 'previous Month',
+  'datePicker.nextMonth': 'next Month',
+  'datePicker.months': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  'datePicker.weekdays': ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  'datePicker.weekdaysShort': ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'],
 
   'account.pets':'Pets',
   'account.noPet':'Create your pet profile today! Fill in the information and choose the most suitable diet',

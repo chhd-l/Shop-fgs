@@ -733,8 +733,8 @@
 }
 
 .order__listing .order-list-container .img-fluid {
-  max-width: 40%;
-  margin: auto
+  max-width: 15%;
+  margin: .2rem 0
 }
 
 @media (max-width: 768.98px) {

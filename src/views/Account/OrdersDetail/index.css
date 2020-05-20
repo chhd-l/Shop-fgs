@@ -1,0 +1,19 @@
+.ui-order-title {
+  position: relative;
+  color: #333;
+  padding: 1rem;
+  border: 1px solid #d7d7d7;
+  background-color: #f6f6f6;
+  border-radius: 5px;
+}
+.details-btn-group {
+  position: absolute;
+  right: 1%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.detail-title {
+  display: inline-block;
+  padding: 10px 10px 6px;
+  color: #333;
+}

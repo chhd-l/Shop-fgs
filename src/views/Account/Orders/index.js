@@ -1,29 +1,29 @@
 import React from "react"
 import Skeleton from 'react-skeleton-loader'
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
+import OrderFilters from './modules/filters'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
 import { getOrderList } from "@/api/order"
-// import './index.css'
 
 export default class AccountOrders extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
-      orderList: [
-
-      ],
+      orderList: [],
       form: {
         duringTime: '6',
-        pageNum: 1,
-        pageSize: 10
+        pageSize: 6
       },
-      loading: false
+      loading: false,
+      currentPage: 1,
+      totalPage: 1
     }
   }
   componentWillUnmount () {
@@ -38,29 +38,53 @@ export default class AccountOrders extends React.Component {
 
     this.queryOrderList()
   }
+  handlePrevOrNextPage (type) {
+    const { currentPage, totalPage } = this.state
+    let res
+    if (type === 'prev') {
+      if (currentPage <= 1) {
+        return
+      }
+      res = currentPage - 1
+    } else {
+      if (currentPage >= totalPage) {
+        return
+      }
+      res = currentPage + 1
+    }
+    this.setState({ currentPage: res }, () => this.queryOrderList())
+  }
+  handleCurrentPageNumChange (e) {
+    const val = e.target.value
+    if (val === '') {
+      this.setState({ currentPage: val })
+    } else {
+      let tmp = parseInt(val)
+      if (isNaN(tmp)) {
+        tmp = 1
+      }
+      if (tmp > this.state.totalPage) {
+        tmp = this.state.totalPage
+      } else if (tmp < 1) {
+        tmp = 1
+      }
+      if (tmp !== this.state.currentPage) {
+        this.setState({ currentPage: tmp }, () => this.queryOrderList())
+      }
+    }
+  }
   handleDuringTimeChange (e) {
     const { form } = this.state
     form.duringTime = e.target.value
     this.setState({
-      form: form
+      form: form,
+      currentPage: 1,
     }, () => this.queryOrderList())
   }
   queryOrderList () {
     const { form } = this.state
-    let createdFrom
-    const res = [
-      {
-        orderDate: '05/14/2020',
-        orderNumber: '000053310',
-        totalAmount: 2339,
-        status: 'Not done',
-        goodsName: 'Mini Adult',
-        goodsImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw1e081197/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.png?sw=250&amp;sh=380&amp;sm=fit',
-        amount: 1839,
-        size: '4.00kg',
-        quantity: '1.0'
-      }
-    ]
+    const { currentPage } = this.state
+    let createdFrom = ''
     this.setState({ loading: true })
     let now = dateFormat('YYYY-mm-dd', new Date())
     if (form.duringTime === '13') {
@@ -74,29 +98,36 @@ export default class AccountOrders extends React.Component {
     let param = {
       createdFrom,
       createdTo: now,
-      pageNum: form.pageNum - 1,
+      pageNum: currentPage - 1,
       pageSize: form.pageSize
     }
     getOrderList(param)
       .then(res => {
-
+        this.setState({
+          orderList: res.context.content,
+          currentPage: res.context.pageable.pageNumber + 1,
+          totalPage: res.context.totalElements,
+          loading: false
+        })
       })
       .catch(err => {
         this.setState({
           loading: false
         })
       })
-    setTimeout(() => {
-      this.setState({
-        orderList: res,
-        loading: false
-      })
-    }, 2000)
   }
   render () {
-    sessionStorage.setItem('rc-token', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNpkjr0Kg0AQhF8lbG1x62nu1i6lTV5B7mcVIcbgeZIgvns2RUgRphn4PpjZIWUPDaC1VhutiSwUMLoVGqwtGdJWlQWEnNZ54qWN4va9VRI06GpyEZU0Xxuvz9orJIKffwlhzvf1b-DLr25igQPPy8Cn6Mb0Erq5W-bOxcixS7xsY-Ak1n4I4-fjc43KyiBV6ngDAAD__w.-Ue6zzkw6wD_oDRz93xDbs3gQO3w7L_TDN_YrOx4bE0')
+    const event = {
+      "page": {
+        "type": "Account",
+        "hitTimestamp": new Date().toISOString(),
+        "theme": ""
+      }
+    }
+    sessionStorage.setItem('rc-token', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNpkjs0KgzAQhN9lzyLZTcyPtx576StITFYQapXGSEF898ZD6UHmMsx8MLNDyj20gI1Aa4x2WkMFo1-hxcY6p6SyuoKQ0zpP_L7Hwg6DFUVoCK1Q7EVx1GMTA2uBvYE_fwthzq_1MvDrH37i6_pyRoS1NDWSq40o4eafmTsfI8cu8XsbA6eC7Ufp-LOcdx1pklLR8QUAAP__.X3LQwtSBKGdCU8BvzIxJNxZ9b-XidSFcLYhl3YmIe2M')
     return (
       <div>
+        <GoogleTagManager additionalEvents={event} />
         <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
@@ -104,78 +135,124 @@ export default class AccountOrders extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div class="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
-                  <h4 class="rc-delta rc-margin--none">History of orders</h4>
+                <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
+                  <h4 className="rc-delta rc-margin--none">
+                    <FormattedMessage id="order.historyOfOrders" />
+                  </h4>
                 </div>
-                <div>
-                  <div class="form-group rc-select-processed">
+                <OrderFilters />
+                {/* <div>
+                  <div className="form-group rc-select-processed">
                     <select
                       data-js-select=""
                       value={this.state.form.duringTime}
                       onChange={(e) => this.handleDuringTimeChange(e)}>
-                      <option value="6">Last 6 months</option>
-                      <option value="12">Last 12 months</option>
+                      <FormattedMessage id="order.lastXMonths" values={{ val: 6 }}>
+                        {txt => (
+                          <option value="6">
+                            {txt}
+                          </option>
+                        )}
+                      </FormattedMessage>
+                      <FormattedMessage id="order.lastXMonths" values={{ val: 12 }}>
+                        {txt => (
+                          <option value="6">
+                            {txt}
+                          </option>
+                        )}
+                      </FormattedMessage>
                       <option value="13">{new Date().getFullYear()}</option>
                     </select>
                   </div>
-                </div>
+                </div> */}
 
-                <div class="order__listing">
-                  <div class="order-list-container">
-                    {this.state.loading ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} /> : null}
-                    {!this.state.loading && this.state.orderList.map(order => (
-                      <div class="card-container" key={order.orderNumber}>
-                        <div class="card rc-margin-y--none">
-                          <div class="card-header row rc-margin-x--none">
-                            <div class="col-12 col-md-3">
-                              <p>Order Date: <br class="d-none d-md-block" /> <span class="medium orderHeaderTextColor">{order.orderDate}</span></p>
-                            </div>
-                            <div class="col-12 col-md-3">
-                              <p>Order Number: <br class="d-none d-md-block" /> <span class="medium orderHeaderTextColor">{order.orderNumber}</span></p>
-                            </div>
-                            <div class="col-12 col-md-2">
-                              <p>Only <br class="d-none d-md-block" /> <span class="medium orderHeaderTextColor price-symbol">{formatMoney(order.totalAmount)}</span></p>
-                            </div>
-                            <div class="col-12 col-md-4 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
-                              <button class="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
-                                <Link
-                                  class="medium pull-right--desktop rc-styled-link rc-padding-top--xs"
-                                  to={`/account/orders/detail/${order.orderNumber}`}>
-                                  Order Details
-                                </Link>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="d-flex justify-content-between rc-column flex-column flex-md-row">
-                          <span class="rc-padding-top--xs medium">{order.status}</span>
-                        </div>
-                        <div class="row rc-margin-x--none">
-                          <div class="col-12 col-md-8 rc-column rc-padding-top--none">
-                            <div class="row">
-                              <div class="col-3">
-                                <img
-                                  class="img-fluid"
-                                  src={order.goodsImg}
-                                  alt={order.goodsName}
-                                  title={order.goodsName} />
+                <div className="order__listing">
+                  <div className="order-list-container">
+                    {
+                      this.state.loading
+                        ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
+                        : this.state.orderList.length
+                          ? <React.Fragment>
+                            {this.state.orderList.map(order => (
+                              <div className="card-container" key={order.id}>
+                                <div className="card rc-margin-y--none">
+                                  <div className="card-header row rc-margin-x--none align-items-center">
+                                    <div className="col-12 col-md-3">
+                                      <p><FormattedMessage id="order.orderDate" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.orderTimeOut.substr(0, 10)}</span></p>
+                                    </div>
+                                    <div className="col-12 col-md-3">
+                                      <p><FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.id}</span></p>
+                                    </div>
+                                    <div className="col-12 col-md-2">
+                                      <p><FormattedMessage id="order.orderStatus" /></p>
+                                    </div>
+                                    <div className="col-12 col-md-2">
+                                      <p><FormattedMessage id="order.shippingStatus" /></p>
+                                    </div>
+                                    <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
+                                      <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
+                                        <Link
+                                          className="medium pull-right--desktop rc-styled-link rc-padding-top--xs"
+                                          to={`/account/orders/detail/${order.id}`}>
+                                          <FormattedMessage id="order.orderDetails" />
+                                        </Link>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
+                                  <div className="col-12 col-md-6">
+                                    {order.tradeItems.map(item => (
+                                      <img
+                                        className="img-fluid"
+                                        src={item.pic}
+                                        alt={item.spuName}
+                                        title={item.spuName} />
+                                    ))}
+                                  </div>
+                                  <div className="col-12 col-md-2">
+                                    Received
+                                  </div>
+                                  <div className="col-12 col-md-2">
+                                    All shipped
+                                  </div>
+                                  <div className="col-12 col-md-1 text-right">
+                                    {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
+                                  </div>
+                                </div>
                               </div>
-                              <div class="col-9 order-item-detail">
-                                <span class="medium title_product text_content">{order.goodsName}</span><br />
-                                <span>
-                                  {order.size} - Amount {order.quantity}
-                                </span>
-                              </div>
+                            ))}
+                            <div className="grid-footer rc-full-width">
+                              <nav className="rc-pagination rc-padding--s no-padding-left no-padding-right">
+                                <div className="rc-pagination__form">
+                                  <div
+                                    className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
+                                    onClick={() => this.handlePrevOrNextPage('prev')}></div>
+                                  {/* <div
+                              className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
+                              onClick={this.handlePrevOrNextPage('prev')}></div> */}
+                                  <div className="rc-pagination__steps">
+                                    <input
+                                      type="text"
+                                      className="rc-pagination__step rc-pagination__step--current"
+                                      value={this.state.currentPage}
+                                      onChange={() => this.handleCurrentPageNumChange()} />
+                                    <div className="rc-pagination__step rc-pagination__step--of">
+                                      <FormattedMessage id="of" /> <span>{this.state.totalPage}</span>
+                                    </div>
+                                  </div>
+
+                                  <span
+                                    className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
+                                    onClick={() => this.handlePrevOrNextPage('next')}></span>
+                                </div>
+                              </nav>
                             </div>
+                          </React.Fragment>
+                          : <div className="text-center">
+                            <FormattedMessage id="order.noDataTip" />
                           </div>
-                          <div class="col-12 col-md-4">
-                            <div class="col-7 offset-md-5 rc-padding-bottom--sm--mobile">
-                              <div class="rc-text--right medium price-symbol">{formatMoney(order.amount)}</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                    }
                   </div>
                 </div>
               </div>
