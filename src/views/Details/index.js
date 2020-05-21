@@ -106,7 +106,7 @@ class Details extends React.Component {
           })
           return item
         })
-        
+
         this.setState({
           details: Object.assign(
             {},
@@ -201,10 +201,12 @@ class Details extends React.Component {
   }
   async hanldePurchases () {
     const { sizeList } = this.state.details
+    const { cartData } = this.state
     const currentSelectedSize = find(sizeList, s => s.selected)
+    let preNum = cartData.reduce((total, item) => total + item.quantity, 0)
     let res = await hanldePurchases([{
       goodsInfoId: currentSelectedSize.goodsInfoId,
-      goodsNum: this.state.quantity,
+      goodsNum: this.state.quantity + preNum,
       invalid: false
     }])
     // let latestGoodsInfos = res.goodsInfos
