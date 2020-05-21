@@ -40,7 +40,7 @@ class Cart extends React.Component {
     const { history } = this.props;
 
     // 价格未达到底限，不能下单
-    if (this.total < MINIMUM_AMOUNT) {
+    if (this.state.tradePrice < MINIMUM_AMOUNT) {
       this.setState({
         errorShow: true,
         errorMsg: <FormattedMessage id="cart.errorInfo3" />
@@ -166,6 +166,7 @@ class Cart extends React.Component {
       productList: newProductList
     }, () => {
       this.changeCache();
+      this.updateStock()
       this.closeModal();
     })
   }
