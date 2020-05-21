@@ -85,12 +85,12 @@ class Header extends React.Component {
     return ret
   }
   async handleCheckout () {
-    if (this.state.tradePrice < MINIMUM_AMOUNT) {
-      this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo3" />
-      })
-      return false
-    }
+    // if (this.state.tradePrice < MINIMUM_AMOUNT) {
+    //   this.setState({
+    //     errMsg: <FormattedMessage id="cart.errorInfo3" />
+    //   })
+    //   return false
+    // }
     const { cartData } = this.props
     let tmpValidateAllItemsStock = true
     this.setState({ checkoutLoading: true })
@@ -126,6 +126,12 @@ class Header extends React.Component {
         validateAllItemsStock: tmpValidateAllItemsStock,
         tradePrice: res.tradePrice
       }, () => {
+        if (this.state.tradePrice < MINIMUM_AMOUNT) {
+          this.setState({
+            errMsg: <FormattedMessage id="cart.errorInfo3" />
+          })
+          return false
+        }
         const { validateAllItemsStock } = this.state
         if (!validateAllItemsStock) {
           this.setState({
