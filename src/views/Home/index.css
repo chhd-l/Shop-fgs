@@ -23,7 +23,7 @@
   z-index: 99;
 }
 .ui-pop .img-container {
-  width: 45%;
+  width: 35%;
   position: absolute;
   left: 50%;
   transform: translate(-50%, -50%);

@@ -27,13 +27,13 @@ class HeroCarousel extends React.Component {
         <div className="rc-max-width--xl">
           {
             this.state.noticeVisible
-              ? <div className="red font-weight-normal p-1 position-relative pr-4 pl-4" style={{ background: '#f6f6f6' }}>
+              ? <div className="red font-weight-normal p-1 position-relative text-center pr-4 pl-4" style={{ background: '#f6f6f6' }}>
                 <span
                   className="rc-icon rc-close--xs rc-iconography searchBtnToggle rc-stick-right rc-vertical-align"
                   style={{ transform: 'translateY(-40%)' }} onClick={this.hideNotice}></span>
                 {
                   new Date().getTime() < new Date('2020/6/2').getTime()
-                    ? <div className="text-center" style={{ fontSize: '1.1em' }}>
+                    ? <div className="text-center" style={{ fontSize: '1.15em' }}>
                       <span className="pr-2 pl-2" style={{ background: '#ec001a', color: '#fff', borderRadius: '.3rem' }}>25% OFF</span> Tiempo de promoción: 5.22-6.1
                 </div>
                     : null
