@@ -27,9 +27,14 @@ class Home extends React.Component {
     }
     if (new Date().getTime() < new Date('2020/6/2').getTime()) {
       this.setState({
-        promotionVisible: true
+        // promotionVisible: true
+        promotionVisible: false
       })
     }
+  }
+  closePromotionPop () {
+    this.setState({ promotionVisible: false })
+    sessionStorage.setItem('rc-promotion-pop-close', true)
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
@@ -39,11 +44,11 @@ class Home extends React.Component {
       <div>
         <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
         {
-          this.state.promotionVisible
-            ? <div className="ui-pop">
-              <div className="img-container">
-                <span className="pop-close" onClick={() => { this.setState({ promotionVisible: false }) }}>X</span>
-                <span className="btn-cheat" onClick={() => { this.setState({ promotionVisible: false }) }}></span>
+          this.state.promotionVisible && !sessionStorage.getItem('rc-promotion-pop-close')
+            ? <div className="ui-pop" onClick={() => this.closePromotionPop()}>
+              <div className="img-container" onClick={e => { e.stopPropagation() }}>
+                <span className="pop-close" onClick={() => this.closePromotionPop()}>X</span>
+                <span className="btn-cheat" onClick={() => this.closePromotionPop()}></span>
                 <img src={Pomotion25offImg} style={{ width: '100%' }} />
               </div>
             </div>
