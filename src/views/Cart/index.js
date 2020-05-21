@@ -368,7 +368,8 @@ class Cart extends React.Component {
                         {/* {console.log(find(pitem.sizeList, s => s.selected).marketingLabels, 'find(pitem.sizeList, s => s.selected)')} */}
                         <div style={{display: find(pitem.sizeList, s => s.selected).marketingLabels.length?'inline-block': 'none'}}>
                           {/* <FormattedMessage id="25% OFF" /> */}
-                          {find(pitem.sizeList, s => s.selected).marketingLabels[0].marketingDesc}
+                          {/* {find(pitem.sizeList, s => s.selected).marketingLabels[0].marketingDesc} */}
+                          25% OFF
                         </div>
                       </span>
                     </div>

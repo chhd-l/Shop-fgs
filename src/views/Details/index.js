@@ -399,7 +399,7 @@ class Details extends React.Component {
                                       ? <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
                                         <div className="rc-input product-pricing__card__head__title red d-flex justify-content-between">
                                           <span><FormattedMessage id="promotion" /> </span>
-                                          <span>{details && find(details.sizeList, s => s.selected) && find(details.sizeList, s => s.selected).marketingLabels[0].marketingDesc}</span>
+                                          <span>25% OFF</span>
                                         </div>
                                       </div>
                                       : null
