@@ -1,12 +1,13 @@
 import React from "react"
 import Skeleton from 'react-skeleton-loader'
+import { FormattedMessage } from 'react-intl'
+import { Link } from 'react-router-dom'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
-import { FormattedMessage } from 'react-intl'
-import { Link } from 'react-router-dom'
+import ImgUpload from '@/components/FileUpload'
 import { formatMoney } from "@/utils/utils"
 import { getOrderReturnDetails } from "@/api/order"
 import './index.css'
@@ -20,7 +21,14 @@ export default class OrdersAfterSale extends React.Component {
       orderNumber: '',
       details: null,
       loading: true,
-      selectedIdx: -1
+      selectedIdx: -1,
+      errorMsg: '',
+      form: {
+        reason: '',
+        method: '',
+        instructions: '',
+        attachment: '',
+      }
     }
   }
   componentDidMount () {
@@ -36,9 +44,13 @@ export default class OrdersAfterSale extends React.Component {
         orderNumber: this.props.match.params.orderNumber
       }, () => this.queryDetails())
     } else {
-      const { history } = this.props
-      history.goBack()
+      this.goBack()
     }
+  }
+  goBack (e) {
+    e.preventDefault();
+    const { history } = this.props
+    history.goBack()
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
@@ -97,6 +109,27 @@ export default class OrdersAfterSale extends React.Component {
   handleSelectedItemChange (idx) {
     this.setState({ selectedIdx: idx })
   }
+  handleFormChange (e) {
+    const target = e.target
+    const { form } = this.state
+    form[target.name] = target.value
+    this.setState({ form: form })
+  }
+  handleConfirm () {
+    const { form } = this.state
+    for (let key in form) {
+      const value = form[key]
+      if (!value && (key === 'reason' || key === 'method' || key === 'instructions')) {
+        this.setState({ errorMsg: 'Please complete the required items' })
+        setTimeout(() => {
+          this.setState({
+            errorMsg: ''
+          })
+        }, 5000)
+        return
+      }
+    }
+  }
   render () {
     const event = {
       "page": {
@@ -105,7 +138,7 @@ export default class OrdersAfterSale extends React.Component {
         "theme": ""
       }
     }
-    const { afterSaleType, details, selectedIdx } = this.state
+    const { afterSaleType, details, selectedIdx, form } = this.state
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -118,7 +151,14 @@ export default class OrdersAfterSale extends React.Component {
               <div className="my__account-content rc-column rc-quad-width">
                 <div className="row justify-content-center">
                   <div className="order_listing_details col-12 no-padding">
-                    <div className="card confirm-details orderDetailsPage">
+                    <div
+                      className="card confirm-details orderDetailsPage ml-0 mr-0"
+                      ref={(node) => {
+                        if (node) {
+                          node.style.setProperty('padding', '0', 'important');
+                          node.style.setProperty('border', '0', 'important');
+                        }
+                      }}>
                       {
                         this.state.loading
                           ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
@@ -241,14 +281,32 @@ export default class OrdersAfterSale extends React.Component {
                                 : null}
                               <div className="mt-3">
                                 <div className="row form-reason align-items-center mb-3">
+                                  <div className="col-7">
+                                    <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
+                                      <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+                                        <span>{this.state.errorMsg}</span>
+                                        <button
+                                          className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                                          onClick={() => { this.setState({ errorMsg: '' }) }}
+                                          aria-label="Close">
+                                          <span className="rc-screen-reader-text">
+                                            <FormattedMessage id="close" />
+                                          </span>
+                                        </button>
+                                      </aside>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="row form-reason align-items-center mb-3">
                                   <label className="col-3 required">reasons for return:</label>
                                   <div className="col-4">
                                     <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
                                       <select
                                         data-js-select=""
-                                        id="shippingCountry"
-                                        value=""
-                                        name="country"
+                                        id="reason"
+                                        value={form.reason}
+                                        name="reason"
+                                        onChange={e => this.handleFormChange(e)}
                                       >
                                         <option>Please select a reason for return</option>
                                         <option>退货原因1</option>
@@ -263,9 +321,10 @@ export default class OrdersAfterSale extends React.Component {
                                     <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
                                       <select
                                         data-js-select=""
-                                        id="shippingCountry"
-                                        value=""
-                                        name="country"
+                                        id="method"
+                                        value={form.method}
+                                        name="method"
+                                        onChange={e => this.handleFormChange(e)}
                                       >
                                         <option>Please select a return method</option>
                                         <option>退货方式1</option>
@@ -284,14 +343,15 @@ export default class OrdersAfterSale extends React.Component {
                                       <textarea
                                         className="rc-input__textarea noborder"
                                         maxLength="1000"
-                                        name="dwfrm_shipping_shippingAddress_deliveryComment"
-                                        id="delivery-comment"
-                                        value=""
+                                        name="instructions"
+                                        id="instructions"
+                                        value={form.instructions}
+                                        onChange={e => this.handleFormChange(e)}
                                         placeholder="Please fill in the return instructions"
                                       ></textarea>
                                       <label
                                         className="rc-input__label"
-                                        htmlFor="delivery-comment"
+                                        htmlFor="instructions"
                                       ></label>
                                     </span>
                                   </div>
@@ -299,6 +359,14 @@ export default class OrdersAfterSale extends React.Component {
                                 <div className="row form-reason align-items-center mb-3">
                                   <label className="col-3">Chargeback attachment:</label>
                                   <div className="col-4">
+                                    {/* <ImgUpload
+                                      imgTitle="国家首页配图(1920*470)"
+                                      height="320px"
+                                      id="1"
+                                      // imgSrc={this.props.countryInfo.bannerPath}
+                                      ref="bannerPath"
+                                      // renderState={this.props.countryState == "add" ? "init" : "upload"} 
+                                      /> */}
                                     <span
                                       className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
                                       input-setup="true"
@@ -320,8 +388,8 @@ export default class OrdersAfterSale extends React.Component {
                                 <div className="row form-reason align-items-center">
                                   <label className="col-3"></label>
                                   <div className="col-4">
-                                    <button class="rc-btn rc-btn--one">Confirm</button>
-                                    <button class="rc-btn rc-btn--two">Cancel</button>
+                                    <button class="rc-btn rc-btn--one" onClick={() => this.handleConfirm()}>Confirm</button>
+                                    <button class="rc-btn rc-btn--two" onClick={e => this.goBack(e)}>Cancel</button>
                                   </div>
                                 </div>
                               </div>

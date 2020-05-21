@@ -238,10 +238,12 @@ const en_US = {
   'order.lastXMonths': 'Last {val} months',
   'order.orderDate': 'Order Date',
   'order.orderNumber': 'Order Number',
+  'order.inputOrderNumberTip': 'Please input order number',
   'order.orderDetails': 'Order Details',
   'order.noDataTip': 'No data',
   'order.orderStatus': 'Order Status',
   'order.shippingStatus': 'Shipping Status',
+  'order.dealDatePeriod': 'Deal Date Period',
 
   'datePicker.previousMonth': 'previous Month',
   'datePicker.nextMonth': 'next Month',

@@ -4,6 +4,7 @@ const api = {
   list: '/trade/page',
   details: '/trade',
   returnDetails: '/return/trade',
+  cancelOrder: '/tradeCustom/cancelAndRefund'
 }
 
 export default api
@@ -26,6 +27,13 @@ export function getOrderDetails (parameter) {
 export function getOrderReturnDetails (parameter) {
   return axios({
     url: `${api.returnDetails}/${parameter}`,
+    method: 'get'
+  })
+}
+
+export function cancelOrder (parameter) {
+  return axios({
+    url: `${api.cancelOrder}/${parameter}`,
     method: 'get'
   })
 }

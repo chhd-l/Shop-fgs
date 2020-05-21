@@ -3,13 +3,36 @@ import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import "./index.css";
 import Loading from "@/components/Loading";
+import { login } from "@/api/login";
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tabIndex: "0",
+      loginForm: {
+        customerAccount: "",
+        customerPassword: "",
+      },
     };
+  }
+  loginFormChange(e) {
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+    const { loginForm } = this.state;
+    loginForm[name] = value;
+    // this.inputBlur(e);
+    this.setState({ loginForm: loginForm });
+  }
+  async loginClick() {
+    const { history } = this.props;
+    let res = await login(this.state.loginForm);
+    console.log(this.state.loginForm, res, "haha");
+    if (res.code === "K-000000") {
+      sessionStorage.setItem("rc-token", res.context.token);
+      history.push('/account')
+    }
   }
   render() {
     return (
@@ -79,13 +102,13 @@ class Login extends React.Component {
                   </div>
                 </div>
               </div>
-              <form
+              <div
                 id="capture_signIn_signInForm"
                 name="signInForm"
                 data-capturefield="signInForm"
-                action="https://royalcanin.eu.janraincapture.com/widget/traditional_signin.jsonp"
+                // action="https://royalcanin.eu.janraincapture.com/widget/traditional_signin.jsonp"
                 class="capture_form capture_signInForm"
-                method="POST"
+                // method="POST"
                 novalidate="novalidate"
                 data-transactionid="u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
                 target="captureIFrame_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
@@ -236,7 +259,9 @@ class Login extends React.Component {
                             type="email"
                             class="capture_signInEmailAddress capture_required capture_text_input form-control"
                             placeholder="Email Address *"
-                            name="signInEmailAddress"
+                            name="customerAccount"
+                            value={this.state.loginForm.customerAccount}
+                            onChange={(e) => this.loginFormChange(e)}
                           />
                           <div
                             class="capture_tip_validating"
@@ -268,7 +293,9 @@ class Login extends React.Component {
                               type="password"
                               class="capture_currentPassword capture_required capture_text_input form-control"
                               placeholder="Password *"
-                              name="currentPassword"
+                              name="customerPassword"
+                              value={this.state.loginForm.customerPassword}
+                              onChange={(e) => this.loginFormChange(e)}
                             />
                             <span
                               tabindex="100"
@@ -833,21 +860,18 @@ class Login extends React.Component {
                   >
                     <div class="text-center">
                       <button
-                        id="signInSubmit"
+                        // id="signInSubmit"
                         class="btn btn-primary"
-                        type="submit"
+                        // type="submit"
                         // disabled="disabled"
+                        onClick={() => this.loginClick()}
                       >
-                        <span data-i18n="signIn_Submit">
-                          <font>
-                            <font>Log in</font>
-                          </font>
-                        </span>
+                        Log in
                       </button>
                     </div>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>

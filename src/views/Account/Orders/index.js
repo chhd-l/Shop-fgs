@@ -19,7 +19,10 @@ export default class AccountOrders extends React.Component {
       orderList: [],
       form: {
         duringTime: '6',
-        pageSize: 6
+        pageSize: 6,
+        orderNumber: '',
+        startdate: '',
+        enddate: ''
       },
       loading: false,
       currentPage: 1,
@@ -96,8 +99,11 @@ export default class AccountOrders extends React.Component {
       createdFrom = getPreMonthDay(now, parseInt(form.duringTime))
     }
     let param = {
-      createdFrom,
-      createdTo: now,
+      // createdFrom,
+      // createdTo: now,
+      keywords: form.orderNumber,
+      createdFrom: form.startdate,
+      createdTo: form.enddate || dateFormat('YYYY-mm-dd', new Date()),
       pageNum: currentPage - 1,
       pageSize: form.pageSize
     }
@@ -106,7 +112,7 @@ export default class AccountOrders extends React.Component {
         this.setState({
           orderList: res.context.content,
           currentPage: res.context.pageable.pageNumber + 1,
-          totalPage: res.context.totalElements,
+          totalPage: res.context.totalPages,
           loading: false
         })
       })
@@ -115,6 +121,12 @@ export default class AccountOrders extends React.Component {
           loading: false
         })
       })
+  }
+  updateFilterData (form) {
+    this.setState({
+      form: Object.assign({}, this.state.form, form),
+      currentPage: 1
+    }, () => this.queryOrderList())
   }
   render () {
     const event = {
@@ -140,7 +152,7 @@ export default class AccountOrders extends React.Component {
                     <FormattedMessage id="order.historyOfOrders" />
                   </h4>
                 </div>
-                <OrderFilters />
+                <OrderFilters updateFilterData={form => this.updateFilterData(form)} />
                 {/* <div>
                   <div className="form-group rc-select-processed">
                     <select
@@ -175,10 +187,10 @@ export default class AccountOrders extends React.Component {
                           ? <React.Fragment>
                             {this.state.orderList.map(order => (
                               <div className="card-container" key={order.id}>
-                                <div className="card rc-margin-y--none">
+                                <div className="card rc-margin-y--none ml-0" style={{ border: '0!important', padding: 0 }}>
                                   <div className="card-header row rc-margin-x--none align-items-center">
                                     <div className="col-12 col-md-3">
-                                      <p><FormattedMessage id="order.orderDate" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.orderTimeOut.substr(0, 10)}</span></p>
+                                      <p><FormattedMessage id="order.orderDate" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.tradeState.createTime.substr(0, 10)}</span></p>
                                     </div>
                                     <div className="col-12 col-md-3">
                                       <p><FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.id}</span></p>
@@ -211,10 +223,10 @@ export default class AccountOrders extends React.Component {
                                     ))}
                                   </div>
                                   <div className="col-12 col-md-2">
-                                    Received
+                                    {order.tradeState.flowState}
                                   </div>
                                   <div className="col-12 col-md-2">
-                                    All shipped
+                                    {order.tradeState.deliverStatus}
                                   </div>
                                   <div className="col-12 col-md-1 text-right">
                                     {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
@@ -249,7 +261,8 @@ export default class AccountOrders extends React.Component {
                               </nav>
                             </div>
                           </React.Fragment>
-                          : <div className="text-center">
+                          : <div className="text-center mt-5">
+                            <span class="rc-icon rc-incompatible--xs rc-iconography"></span>
                             <FormattedMessage id="order.noDataTip" />
                           </div>
                     }

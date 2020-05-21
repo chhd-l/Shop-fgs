@@ -661,10 +661,11 @@
 }
 
 .order__listing .card {
-  border: 0;
+  border: 0!important;
   width: 100%;
   min-width: 100%;
-  margin-top: 2rem
+  margin:0;
+  padding: 0
 }
 
 @media (max-width: 768.98px) {
