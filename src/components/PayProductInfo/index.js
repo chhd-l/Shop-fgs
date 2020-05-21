@@ -93,18 +93,6 @@ class PayProductInfo extends React.Component {
                 </div>
                 <div className="row leading-lines shipping-item">
                   <div className="col-7 start-lines">
-                    <p className="order-receipt-label order-shipping-cost">
-                      <span><FormattedMessage id="delivery" /></span>
-                    </p>
-                  </div>
-                  <div className="col-5 end-lines">
-                    <p className="text-right">
-                      <span className="shipping-total-cost">0</span>
-                    </p>
-                  </div>
-                </div>
-                <div className="row leading-lines shipping-item">
-                  <div className="col-7 start-lines">
                     <p className="order-receipt-label order-shipping-cost" style={{color: '#ec001a'}}>
                       <span><FormattedMessage id="promotion" /></span>
                     </p>
@@ -112,6 +100,18 @@ class PayProductInfo extends React.Component {
                   <div className="col-5 end-lines">
                     <p className="text-right">
                       <span className="shipping-total-cost" style={{color: '#ec001a'}}>- {formatMoney(this.state.discountPrice)}</span>
+                    </p>
+                  </div>
+                </div>
+                <div className="row leading-lines shipping-item">
+                  <div className="col-7 start-lines">
+                    <p className="order-receipt-label order-shipping-cost">
+                      <span><FormattedMessage id="delivery" /></span>
+                    </p>
+                  </div>
+                  <div className="col-5 end-lines">
+                    <p className="text-right">
+                      <span className="shipping-total-cost">0</span>
                     </p>
                   </div>
                 </div>
