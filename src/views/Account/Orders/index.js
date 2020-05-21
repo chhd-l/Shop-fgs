@@ -205,7 +205,7 @@ export default class AccountOrders extends React.Component {
                                       <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
                                         <Link
                                           className="medium pull-right--desktop rc-styled-link rc-padding-top--xs"
-                                          to={`/account/orders/detail/${order.id}`}>
+                                          to={`/account/orders-detail/${order.id}`}>
                                           <FormattedMessage id="order.orderDetails" />
                                         </Link>
                                       </button>
@@ -217,6 +217,7 @@ export default class AccountOrders extends React.Component {
                                     {order.tradeItems.map(item => (
                                       <img
                                         className="img-fluid"
+                                        key={item.oid}
                                         src={item.pic}
                                         alt={item.spuName}
                                         title={item.spuName} />

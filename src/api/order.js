@@ -4,7 +4,10 @@ const api = {
   list: '/trade/page',
   details: '/trade',
   returnDetails: '/return/trade',
-  cancelOrder: '/tradeCustom/cancelAndRefund'
+  returnAdd: '/return/add',
+  cancelOrder: '/tradeCustom/cancelAndRefund',
+  returnReason: '/return/reasons',
+  returnWays: '/return/ways'
 }
 
 export default api
@@ -34,6 +37,28 @@ export function getOrderReturnDetails (parameter) {
 export function cancelOrder (parameter) {
   return axios({
     url: `${api.cancelOrder}/${parameter}`,
+    method: 'get'
+  })
+}
+
+export function returnAdd (parameter) {
+  return axios({
+    url: api.returnAdd,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getReturnReasons (parameter) {
+  return axios({
+    url: `${api.returnReason}`,
+    method: 'get'
+  })
+}
+
+export function getReturnWays (parameter) {
+  return axios({
+    url: `${api.returnWays}`,
     method: 'get'
   })
 }
