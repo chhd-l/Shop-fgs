@@ -120,7 +120,7 @@ class Details extends React.Component {
           showDescriptionTab: goodsDetailList.length === 1
         }, () => {
           this.updateInstockStatus()
-          this.hanldePurchases()
+          // this.hanldePurchases()
         })
       } else {
         // 没有规格的情况
@@ -196,7 +196,7 @@ class Details extends React.Component {
       quantity: res
     }, () => {
       this.updateInstockStatus()
-      this.hanldePurchases()
+      // this.hanldePurchases()
     })
   }
   async hanldePurchasesForCheckout (data) {
