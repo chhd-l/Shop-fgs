@@ -199,14 +199,34 @@ class Details extends React.Component {
       this.hanldePurchases()
     })
   }
+  async hanldePurchasesForCheckout (data) {
+    let param = data.map(ele => {
+      return {
+        goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId,
+        goodsNum: ele.quantity,
+        invalid: false
+      }
+    })
+    let res = await hanldePurchases(param)
+    // let latestGoodsInfos = res.goodsInfos
+    sessionStorage.setItem('goodsMarketingMap', JSON.stringify(res.goodsMarketingMap))
+    sessionStorage.setItem('rc-totalInfo', JSON.stringify({
+      totalPrice: res.totalPrice,
+      tradePrice: res.tradePrice,
+      discountPrice: res.discountPrice
+    }))
+    this.setState({
+      tradePrice: res.tradePrice
+    })
+  }
   async hanldePurchases () {
     const { sizeList } = this.state.details
     const { cartData } = this.state
     const currentSelectedSize = find(sizeList, s => s.selected)
-    let preNum = cartData.reduce((total, item) => total + item.quantity, 0)
+    // let preNum = cartData.reduce((total, item) => total + item.quantity, 0)
     let res = await hanldePurchases([{
       goodsInfoId: currentSelectedSize.goodsInfoId,
-      goodsNum: this.state.quantity + preNum,
+      goodsNum: this.state.quantity,
       invalid: false
     }])
     // let latestGoodsInfos = res.goodsInfos
@@ -268,7 +288,7 @@ class Details extends React.Component {
     }
 
     this.setState({ addToCartLoading: true })
-    this.hanldePurchases()
+    // this.hanldePurchases()
     let flag = true
     if (cartDataCopy && cartDataCopy.length) {
       const historyItem = find(cartDataCopy, c => c.goodsId === goodsId && currentSelectedSize.goodsInfoId === find(c.sizeList, s => s.selected).goodsInfoId)
@@ -309,11 +329,14 @@ class Details extends React.Component {
     localStorage.setItem('rc-cart-data', JSON.stringify(cartDataCopy))
     this.setState({ cartData: cartDataCopy })
     if (redirect) {
-      if (this.state.tradePrice < MINIMUM_AMOUNT) {
-        this.setState({ checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" /> })
-      } else {
-        createHashHistory().push('/prescription')
-      }
+      await this.hanldePurchasesForCheckout(cartDataCopy)
+      setTimeout(() => {
+        if (this.state.tradePrice < MINIMUM_AMOUNT) {
+          this.setState({ checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" /> })
+        } else {
+          createHashHistory().push('/prescription')
+        }
+      })
     }
     this.headerRef.current.handleMouseOver()
     setTimeout(() => {
