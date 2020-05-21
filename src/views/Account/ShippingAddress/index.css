@@ -114,6 +114,7 @@
   color: #999;
   line-height: 5px;
   font-size: 30px;
+  cursor: pointer;
 }
 .card-action-link {
   position: absolute;
@@ -126,6 +127,7 @@
 }
 .card-action-link a{
   color: #ff1f4e !important;
+  cursor: pointer;
 }
 .card-action-link a:last-child {
   margin-left: 30px;
