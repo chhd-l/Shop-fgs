@@ -331,7 +331,7 @@ class Payment extends React.Component {
           console.log(confirmAndCommitRes)
           localStorage.setItem('orderNumber', confirmAndCommitRes.context[0]['tid'])
           this.setState({ loading: false });
-          sessionStorage.clear("payosdata");
+          sessionStorage.removeItem("payosdata");
           history.push("/confirmation");
         }
       } catch (e) {
