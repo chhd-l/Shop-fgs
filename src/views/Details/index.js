@@ -268,6 +268,7 @@ class Details extends React.Component {
     }
 
     this.setState({ addToCartLoading: true })
+    this.hanldePurchases()
     let flag = true
     if (cartDataCopy && cartDataCopy.length) {
       const historyItem = find(cartDataCopy, c => c.goodsId === goodsId && currentSelectedSize.goodsInfoId === find(c.sizeList, s => s.selected).goodsInfoId)
