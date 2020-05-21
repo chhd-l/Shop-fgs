@@ -11,6 +11,7 @@ import success from '@/assets/images/check-success.svg'
 import { createHashHistory } from 'history'
 import { Link } from 'react-router-dom';
 import edit from "@/assets/images/edit.svg"
+import {  getPetList,addPet,petsById } from '@/api/pet'
 
 
 const selectedPet = {
@@ -24,10 +25,10 @@ export default class PetForm extends React.Component {
     super(props)
     this.state = {
       precent:12.5,
-      step:4,
+      step:1,
       isCat:null,
       isMale:null,
-      currentStep:'step4',
+      currentStep:'step1',
       isDisabled:true,
       nickname:"",
       isUnknown:false,
@@ -36,6 +37,7 @@ export default class PetForm extends React.Component {
       breed:"",
       weight:"",
       isSterilized:null,
+      birthOfPets:'',
       features:{
         appetize:false,
         irritations:false,
@@ -47,18 +49,12 @@ export default class PetForm extends React.Component {
       showList:false,
       showBreedList:false,
       breedList:[
-        {name:'boston terrier',value:1},
-        {name:'boston terrier',value:2},
-        {name:'boston terrier',value:3},
-        {name:'boston terrier',value:4},
-        {name:'boston terrier',value:5},
-        {name:'boston terrier',value:6},
-        {name:'boston terrier',value:7},
-        {name:'boston terrier',value:8},
-        {name:'boston terrier',value:9},
-        {name:'boston terrier',value:10},
-        {name:'boston terrier',value:11},
-        {name:'boston terrier',value:12},
+        {name:'test breed',value:1},
+        {name:'test breed2',value:2},
+        {name:'test breed3',value:3},
+        {name:'test breed4',value:4},
+        {name:'test breed5',value:5},
+        {name:'test breed6',value:6},
       ],
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
@@ -70,19 +66,70 @@ export default class PetForm extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.inputBlur = this.inputBlur.bind(this)
     this.selectFeatures = this.selectFeatures.bind(this)
-
+    this.getPetList()
   }
-  nextStep(){
-    let step=this.state.step
-    let currentStep
-    if(step>=8){
-      currentStep = "success"
-
+  getPetList = async ()=>{
+    const res = await getPetList()
+    if(res.code === 'K-000000'){
+      console.log(res);
+      
+    }
+    
+  }
+  addPet = async ()=>{
+    const { features } = this.state
+    let specialNeeds =[] 
+    let petsPropRelations=[]
+    let propId = 100
+    for(let name in features){
+      if(features[name]){
+        
+        specialNeeds.push(name)
+        let prop ={
+          propId:propId,
+          propName:name
+        }
+        petsPropRelations.push(prop)
+        propId +=1
+      }
+    }
+    
+    
+    let pets={
+      petsType:this.state.isCat?'cat':'dog',
+      petsName:this.state.nickname,
+      petsSex:this.state.isMale?"0":"1",
+      petsBrend:this.state.isUnknown?"unknown Breed":this.state.breed,
+      sterilized:this.state.isSterilized?"0":"1",
+      birthOfPets:this.state.birthdate,
+      specialNeeds:specialNeeds
+    }
+    console.log(pets);
+    
+    let param = {
+      pets:pets,
+      petsPropRelations:petsPropRelations
+    }
+    const res = await addPet(param)
+    if(res.code === 'K-000000'){
+      let currentStep = "success"
+      this.setState({
+        currentStep:currentStep,
+      })
       setTimeout(() => {
         
         createHashHistory().push('/account/pets/petList')
         
       }, 10000);
+      
+    }
+    
+  }
+  nextStep(){
+    let step=this.state.step
+    let currentStep
+    if(step>=8){
+      this.addPet()
     }
     else{
       step+= 1
@@ -409,7 +456,6 @@ export default class PetForm extends React.Component {
                       <h2><FormattedMessage id="account.breed"></FormattedMessage> {this.state.nickname}?</h2>
                       <div className="content-section">
                         <div className="form-group relative">
-                          <input id="breedPetName" type="hidden" name="dwfrm_miaaPet_breed" data-name="" value=""/>
                           <input type="text" id="dog-breed" 
                             placeholder="Enter your dog's breed" 
                             className="form-control input-pet breed" 
@@ -417,13 +463,7 @@ export default class PetForm extends React.Component {
                             onChange={this.inputBreed}  
                             style={{display: (this.state.isCat?"none":null)}}
                             disabled={this.state.isInputDisabled?"disabled":null}/> 
-                            <div className="select-breed" style={{display:(this.state.showBreedList?'block':'none')}}>
-                              {
-                                this.state.breedList.map(item=>(
-                                  <option value={item.value} key={item.value} onClick={()=>this.selectedBreed(item)}>{item.name}</option>
-                                ))
-                              }
-                            </div>
+                            
                           <input type="text" id="cat-breed" 
                             placeholder="Enter the breed of your cat" 
                             className="form-control input-pet breed" 
@@ -431,6 +471,14 @@ export default class PetForm extends React.Component {
                             onChange={this.inputBreed}  
                             style={{display: (!this.state.isCat?"none":null)}}
                             disabled={this.state.isInputDisabled?"disabled":null}/>
+
+                          <div className="select-breed" style={{display:(this.state.showBreedList?'block':'none')}}>
+                            {
+                              this.state.breedList.map(item=>(
+                                <option value={item.value} key={item.value} onClick={()=>this.selectedBreed(item)}>{item.name}</option>
+                              ))
+                            }
+                          </div>
                         </div>
 
 

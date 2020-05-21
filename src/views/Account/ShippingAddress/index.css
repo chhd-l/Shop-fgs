@@ -29,7 +29,7 @@
   font-size: 12px;
   line-height: 1.5;
 }
-.card {
+.card-address {
   position: relative;
   margin: 0 10px 20px;
   padding: 30px 25px 25px;
@@ -95,7 +95,7 @@
   padding-left: 71px;
   word-break: break-word;
 }
-.card .card-action {
+.card-address .card-action {
   min-height: 99px;
 }
 .ant-col-4 {

@@ -157,7 +157,7 @@ export default class ShippingAddress extends React.Component {
                   </div>
                   {
                     this.state.addressList.map(item=>(
-                      <div className="card" key={item.deliveryAddressId}>
+                      <div className="card-address" key={item.deliveryAddressId}>
                         <div className="addr-line"></div>
                         <div className="ant-row">
                           <div className="ant-col-20 form-info">

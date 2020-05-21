@@ -9,6 +9,7 @@ import './index.css'
 import noPet from "@/assets/images/noPet.jpg"
 import { Link } from 'react-router-dom';
 import { createHashHistory } from 'history'
+import {  getPetList } from '@/api/pet'
 
 export default class Pet extends React.Component {
   constructor(props) {
@@ -16,10 +17,18 @@ export default class Pet extends React.Component {
     this.state = {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
-    this.isHavePet()
+    this.getPetList()
   }
   isHavePet(){
     createHashHistory().push('/account/pets/petList')
+  }
+  getPetList = async ()=>{
+    const res = await getPetList()
+    if(res.code === 'K-000000'){
+      console.log(res);
+      
+    }
+    
   }
   render () {
     const event = {
