@@ -53,7 +53,7 @@ export async function hanldePurchases (goodsInfoDTOList) {
       goodsInfoIds: [],
       goodsMarketingDTOList: []
     })
-    ret = res.context.goodsInfos
+    ret = res.context
   } catch (e) {
 
   } finally {

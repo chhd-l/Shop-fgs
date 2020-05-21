@@ -267,6 +267,25 @@ class Payment extends React.Component {
         }),
       };
       // console.log(payosdata, 'payosdata')
+      
+      let tradeMarketingList = [
+        {
+          "marketingId": 401,
+          "marketingLevelId": 95,
+          "skuIds": [],
+          "giftSkuIds": []
+        }    
+      ]
+      let goodsMarketingMap = JSON.parse(sessionStorage.getItem('goodsMarketingMap'))
+      for(let k in  goodsMarketingMap) {
+        tradeMarketingList[0].skuIds.push(k)
+        if(!tradeMarketingList[0].marketingLevelId) {
+          tradeMarketingList[0].marketingLevelId = goodsMarketingMap[k][0]['fullDiscountLevelList'][0]['discountLevelId']
+        }
+        if(!tradeMarketingList[0].marketingId) {
+          tradeMarketingList[0].marketingId = goodsMarketingMap[k][0]['fullDiscountLevelList'][0]['marketingId']
+        }
+      }
       let param3 = {
         // birthday: '1990-01-01',
         // identifyNumber: '430702199001011111',
@@ -293,7 +312,7 @@ class Payment extends React.Component {
             skuId: g.goodsInfoId,
           };
         }),
-        tradeMarketingList: [],
+        tradeMarketingList: tradeMarketingList,
       };
       try {
         let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(

@@ -16,6 +16,25 @@ export function miniPurchases (parameter) {
 }
 
 export function purchases (parameter) {
+  // let goodsMarketingDTOList = {
+  //   "id": null,
+  //   "goodsInfoId": "ff80808171621c9f0172179136b70454",
+  //   "customerId": null,
+  //   "marketingId": 443
+  // }
+  let goodsMarketingDTOList = []
+  let goodsInfoIds = []
+  parameter.goodsInfoDTOList.map(el => {
+    goodsInfoIds.push(el.goodsInfoId)
+    goodsMarketingDTOList.push({
+      "id": null,
+      "goodsInfoId": el.goodsInfoId,
+      "customerId": null,
+      "marketingId": 401
+    })
+  })
+  parameter.goodsMarketingDTOList = goodsMarketingDTOList
+  parameter.goodsInfoIds = goodsInfoIds
   return axios({
     url: `${api.purchases}`,
     method: 'post',

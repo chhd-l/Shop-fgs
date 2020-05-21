@@ -207,6 +207,7 @@ const en_US = {
   'help.tip3': 'Le responderemos dentro de un máximo de 12 horas.',
   'help.byTelephone': 'Por teléfono',
   'help.byEmail': 'Por correo',
+  'promotion': 'Promoción'
 
 }
 export default en_US;

@@ -200,6 +200,7 @@ const en_US = {
   'help.tip3':'We will reply to you within a maximum of 12 hours.',
   'help.byTelephone':'By telephone',
   'help.byEmail':'By email',
+  'promotion': 'Promotion'
 
 }
 export default en_US;
