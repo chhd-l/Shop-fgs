@@ -7,10 +7,6 @@
   border-radius: 5px;
 }
 .details-btn-group {
-  position: absolute;
-  right: 1%;
-  top: 50%;
-  transform: translateY(-50%);
 }
 .detail-title {
   display: inline-block;

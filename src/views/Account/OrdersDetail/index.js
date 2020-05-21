@@ -8,7 +8,7 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import { FormattedMessage } from 'react-intl'
 import { formatMoney } from "@/utils/utils"
-import { getOrderDetails } from "@/api/order"
+import { getOrderDetails, cancelOrder } from "@/api/order"
 import './index.css'
 
 export default class AccountOrders extends React.Component {
@@ -18,7 +18,9 @@ export default class AccountOrders extends React.Component {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       orderNumber: '',
       details: null,
-      loading: true
+      loading: true,
+      modalShow: false,
+      cancelOrderLoading: false
     }
   }
   componentDidMount () {
@@ -43,6 +45,53 @@ export default class AccountOrders extends React.Component {
     sessionStorage.setItem('rc-after-sale-type', afterSaleType)
     createHashHistory().push(`/account/orders/aftersale/${this.state.orderNumber}`)
   }
+  handleCancelOrder () {
+    this.setState({ cancelOrderLoading: true })
+    cancelOrder(this.state.orderNumber)
+      .then(res => {
+        this.setState({ cancelOrderLoading: false })
+        createHashHistory().push('/account/orders')
+      })
+      .catch(err => {
+        console.log(err)
+        this.setState({ cancelOrderLoading: false })
+      })
+  }
+  returnOrExchangeBtnJSX () {
+    const { details } = this.state
+    let ret = null
+    if (new Date().getTime() > new Date(details.orderTimeOut).getTime()
+      && details.tradeState.deliverStatus === 'SHIPPED'
+      && details.tradeState.flowState === 'COMPLETED') {
+      return <React.Fragment>
+        <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
+          <a onClick={() => this.hanldeItemClick('exchange')} className="ui-cursor-pointer">
+            Exchange
+          </a>
+        </button>
+        <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
+          <a onClick={() => this.hanldeItemClick('return')} className="ui-cursor-pointer">
+            Return
+          </a>
+        </button>
+      </React.Fragment>
+    }
+    return ret
+  }
+  cancelOrderBtnJSX () {
+    const { details } = this.state
+    let ret = null
+    if (new Date().getTime() < new Date(details.orderTimeOut).getTime()) {
+      ret = <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
+        <span
+          className="mr-2 rc-styled-link"
+          onClick={() => {
+            this.setState({ modalShow: true })
+          }}>Cancel order</span>
+      </button>
+    }
+    return ret
+  }
   render () {
     const event = {
       "page": {
@@ -64,33 +113,27 @@ export default class AccountOrders extends React.Component {
               <div className="my__account-content rc-column rc-quad-width">
                 <div className="row justify-content-center">
                   <div className="order_listing_details col-12 no-padding">
-                    <div className="card confirm-details orderDetailsPage">
+                    <div
+                      className="card confirm-details orderDetailsPage ml-0 mr-0"
+                      ref={(node) => {
+                        if (node) {
+                          node.style.setProperty('padding', '0', 'important');
+                          node.style.setProperty('border', '0', 'important');
+                        }
+                      }}>
                       {this.state.loading
                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
                         : details
-                          ? <div className="card-body">
-                            <div className="ui-order-title">
-                              <span>Order number:{this.state.orderNumber}</span>&nbsp;&nbsp;
-                              <span>Order time:{details.orderTimeOut.substr(0, 19)}</span>&nbsp;&nbsp;
-                              <span>Order status:To be shipped</span>
+                          ? <div className="card-body p-0">
+                            <div className="ui-order-title d-flex justify-content-between">
+                              <div>
+                                <span className="inlineblock">Order number:{this.state.orderNumber}</span>&nbsp;&nbsp;
+                                <span className="inlineblock">Order time:{details.tradeState.createTime.substr(0, 19)}</span>&nbsp;&nbsp;
+                                <span className="inlineblock">Order status:{details.tradeState.flowState}</span>
+                              </div>
                               <div className="details-btn-group d-flex">
-                                <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
-                                  <a onClick={() => this.hanldeItemClick('exchange')} className="ui-cursor-pointer">
-                                    Exchange
-                                </a>
-                                </button>
-                                <button
-                                  className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
-                                  style={{ marginLeft: '-1rem' }}>
-                                  <a onClick={() => this.hanldeItemClick('return')} className="ui-cursor-pointer">
-                                    Return
-                                </a>
-                                </button>
-                                <button
-                                  className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
-                                  style={{ marginLeft: '-1rem' }}>
-                                  <span className="mr-2 rc-styled-link">Cancel order</span>
-                                </button>
+                                {this.returnOrExchangeBtnJSX()}
+                                {this.cancelOrderBtnJSX()}
                               </div>
                             </div>
                             <div className="detail-title">
@@ -255,6 +298,65 @@ export default class AccountOrders extends React.Component {
                       }
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* modal */}
+          <div
+            className={`modal-backdrop fade ${
+              this.state.modalShow ? "show" : ""
+              }`}
+            style={{ display: this.state.modalShow ? "block" : "none", zIndex: 59 }}
+          ></div>
+          <div
+            className={`modal fade ${this.state.modalShow ? "show" : ""}`}
+            id="removeProductModal"
+            tabIndex="-1"
+            role="dialog"
+            aria-labelledby="removeProductLineItemModal"
+            style={{ display: this.state.modalShow ? "block" : "none", overflow: 'hidden' }}
+            aria-hidden="true"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header delete-confirmation-header">
+                  <h4 className="modal-title" id="removeProductLineItemModal">
+                    Cancel Order?
+                  </h4>
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    onClick={() => { this.setState({ modalShow: false }) }}
+                  >
+                    <span aria-hidden="true">
+                      ×
+                  </span>
+                  </button>
+                </div>
+                <div className="modal-body delete-confirmation-body">
+                  Do you really want to cancel the order?
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    data-dismiss="modal"
+                    onClick={() => { this.setState({ modalShow: false }) }}
+                  >
+                    <FormattedMessage id="cancel" />
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn btn-primary cart-delete-confirmation-btn ${this.state.cancelOrderLoading ? 'ui-btn-loading' : ''}`}
+                    data-dismiss="modal"
+                    onClick={() => this.handleCancelOrder()}
+                  >
+                    <FormattedMessage id="yes" />
+                  </button>
                 </div>
               </div>
             </div>
