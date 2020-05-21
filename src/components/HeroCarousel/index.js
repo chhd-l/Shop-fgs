@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
 import '@/assets/css/heroCarousel.css'
+import Banner_Horizontal_Hot_Sale from "@/assets/images/Banner_Horizontal_Hot_Sale.jpg";
 
 class HeroCarousel extends React.Component {
   constructor(props) {
@@ -45,6 +46,11 @@ class HeroCarousel extends React.Component {
           }
 
           <div data-js-carousel="" className="rc-carousel js-hero-carousel">
+            <div className="hero-carousel__slide">
+              <div className="d-md-flex align-items-center hero-carousel__slide__inner">
+                <img src={Banner_Horizontal_Hot_Sale} />
+              </div>
+            </div>
             <div className="hero-carousel__slide">
               <div className="d-flex align-items-center hero-carousel__slide__inner flex-column-reverse flex-column flex-md-row">
                 <div className="hero-carousel__slide__video">
