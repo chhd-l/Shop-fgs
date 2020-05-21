@@ -394,6 +394,15 @@ class Details extends React.Component {
                                       </span>
                                     </b>
                                   </div>
+                                  {
+                                    details && find(details.sizeList, s => s.selected) && find(details.sizeList, s => s.selected).marketingLabels[0].marketingDesc
+                                      ? <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
+                                        <div className="rc-input product-pricing__card__head__title red">
+                                          <FormattedMessage id="promotion" />: {details && find(details.sizeList, s => s.selected) && find(details.sizeList, s => s.selected).marketingLabels[0].marketingDesc}
+                                        </div>
+                                      </div>
+                                      : null
+                                  }
                                   <div className="product-pricing__card__body rc-margin-top--xs">
                                     <div><FormattedMessage id="freeShipping" /></div>
                                     <div className="toggleVisibility">
@@ -449,7 +458,7 @@ class Details extends React.Component {
                                           <button
                                             className={['btn-add-to-cart', 'add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', addToCartLoading ? 'ui-btn-loading' : '', (instockStatus && quantity) ? '' : 'disabled'].join(' ')}
                                             data-loc="addToCart"
-                                            style={{lineHeight: '30px'}}
+                                            style={{ lineHeight: '30px' }}
                                             onClick={this.hanldeAddToCart}>
                                             <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
                                             <FormattedMessage id="details.addToCart" />
@@ -461,7 +470,7 @@ class Details extends React.Component {
                                           <button
                                             className={['btn-add-to-cart', 'add-to-cart', 'rc-btn', 'rc-btn--one', 'rc-full-width', addToCartLoading ? 'ui-btn-loading' : '', instockStatus && quantity ? '' : 'disabled'].join(' ')}
                                             data-loc="addToCart"
-                                            style={{lineHeight: '30px'}}
+                                            style={{ lineHeight: '30px' }}
                                             onClick={() => this.hanldeAddToCart({ redirect: true })}>
                                             <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
                                             <FormattedMessage id="checkout" />

@@ -9,12 +9,14 @@ import CARECAT from "@/assets/images/MX-L-VET-CARE-CAT.jpg";
 import CAREDOG from "@/assets/images/MX-L-VET-CARE-DOG.jpg";
 import DIETCAT from "@/assets/images/MX-L-VET-DIET-CAT.jpg";
 import DIETDOG from "@/assets/images/MX-L-VET-DIET-DOG.jpg";
+import Pomotion25offImg from "@/assets/images/pomotion_25off.png";
 
 class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
+      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
+      promotionVisible: false
     }
   }
   componentDidMount () {
@@ -22,6 +24,11 @@ class Home extends React.Component {
       localStorage.removeItem("isRefresh");
       window.location.reload();
       return false
+    }
+    if (new Date().getTime() < new Date('2020/6/1').getTime()) {
+      this.setState({
+        promotionVisible: true
+      })
     }
   }
   componentWillUnmount () {
@@ -31,7 +38,17 @@ class Home extends React.Component {
     return (
       <div>
         <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
-
+        {
+          this.state.promotionVisible
+            ? <div className="ui-pop">
+              <div className="img-container">
+                <span className="pop-close" onClick={() => { this.setState({ promotionVisible: false }) }}>X</span>
+                <span className="btn-cheat" onClick={() => { this.setState({ promotionVisible: false }) }}></span>
+                <img src={Pomotion25offImg} style={{ width: '100%' }} />
+              </div>
+            </div>
+            : null
+        }
         <main className="rc-content--fixed-header rc-main-content__wrapper ">
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">

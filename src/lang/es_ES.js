@@ -1,4 +1,5 @@
 const en_US = {
+  'promotion': 'Promoción',
   'yes': 'sí',
   'cancel': 'cancelación',
   'name': 'nombre',
