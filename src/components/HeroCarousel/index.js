@@ -31,6 +31,13 @@ class HeroCarousel extends React.Component {
                 <span
                   className="rc-icon rc-close--xs rc-iconography searchBtnToggle rc-stick-right rc-vertical-align"
                   style={{ transform: 'translateY(-40%)' }} onClick={this.hideNotice}></span>
+                {
+                  new Date().getTime() < new Date('2020/6/2').getTime()
+                    ? <div className="text-center" style={{ fontSize: '1.1em' }}>
+                      <span className="pr-2 pl-2" style={{ background: '#ec001a', color: '#fff', borderRadius: '.3rem' }}>25% OFF</span> Tiempo de promoción: 5.22-6.1
+                </div>
+                    : null
+                }
                 <FormattedMessage id="home.note1" />&nbsp;
                 <FormattedMessage id="home.note2" />
               </div>
