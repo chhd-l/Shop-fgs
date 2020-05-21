@@ -27,7 +27,8 @@ class Home extends React.Component {
     }
     if (new Date().getTime() < new Date('2020/6/2').getTime()) {
       this.setState({
-        promotionVisible: true
+        // promotionVisible: true
+        promotionVisible: false
       })
     }
   }
