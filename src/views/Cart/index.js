@@ -513,12 +513,12 @@ class Cart extends React.Component {
                       </div>
                       <div className="row">
                         <div className="col-8">
-                          <p>
+                          <p style={{color: '#ec001a'}}>
                             <FormattedMessage id="promotion" />
                           </p>
                         </div>
                         <div className="col-4">
-                          <p className="text-right shipping-cost">{formatMoney(this.state.discountPrice)}</p>
+                          <p className="text-right shipping-cost" style={{color: '#ec001a'}}>- {formatMoney(this.state.discountPrice)}</p>
                         </div>
                       </div>
                       <div className="group-total">
