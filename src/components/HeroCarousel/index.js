@@ -37,7 +37,7 @@ class HeroCarousel extends React.Component {
                 {
                   new Date().getTime() < new Date('2020/6/2').getTime()
                     ? <div className="text-center" style={{ fontSize: '1.15em' }}>
-                      <span className="pr-2 pl-2" style={{ background: '#ec001a', color: '#fff', borderRadius: '.3rem' }}>25% OFF</span> Tiempo de promoción: 5.22-6.1
+                      <span className="pr-2 pl-2" style={{ background: '#ec001a', color: '#fff', borderRadius: '.3rem' }}>25% OFF</span> Hasta el 1ero de Junio 2020 o agotar existencias
                 </div>
                     : null
                 }
@@ -51,6 +51,8 @@ class HeroCarousel extends React.Component {
             <div className="hero-carousel__slide">
               <div className="d-md-flex align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
                 <img src={Banner_Horizontal_Hot_Sale} className="rc-md-up" />
+                <span className="btn-cheat-md-down" onClick={this.hanldeClick}></span>
+                <span className="btn-cheat-md-up" onClick={this.hanldeClick}></span>
                 <img src={Pomotion25offImg} className="rc-md-down" />
               </div>
             </div>
