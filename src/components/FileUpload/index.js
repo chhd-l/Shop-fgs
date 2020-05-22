@@ -139,22 +139,35 @@ export default class ImgUpload extends React.Component {
   cancelModal () {//关闭弹窗
     this.setState({ isPreview: false })
   }
+  handleChange (e) {
+    let filePath = e.target.value
+    let fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase()
+    let src = window.URL.createObjectURL(this.files[0]); //转成可以在本地预览的格式
 
+    if (!fileFormat.match(/.png|.jpg|.jpeg/)) {
+      console.log('上传错误,文件格式必须为：png/jpg/jpeg');
+      return;
+    } else {
+      // $('#cropedBigImg').css('display', 'block');
+      // $('#cropedBigImg').attr('src', src);
+    }
+  }
   render () {
     return (
-      <div id="imgPreview">
-        <div id="prompt3">
-          <span id="imgSpan">
-            点击上传
-            <br />
-            <i class="aui-iconfont aui-icon-plus"></i>
-            {/* <!--AUI框架中的图标--> */}
-          </span>
-          <input type="file" id="file" class="filepath" onchange="changepic(this)" accept="image/jpg,image/jpeg,image/png,image/PNG" />
-          {/* <!--当vaule值改变时执行changepic函数，规定上传的文件只能是图片--> */}
+      <div class="aui-col-xs-3" id="img">
+        +
+        {/* <svg class="icon bigIcon" aria-hidden="true">
+          <use xlink:href="#icon-msnui-add"></use>
+ </svg> */}
+        {/* <!--阿里巴巴矢量图标，就是最后效果图中的“+”图标-- > */}
+        <div class="aui-grid-label">添加图片</div>
+        <div id="upImg">
+          <input type="file" name="file" id="chooseImage" onChange={e => this.handleChange(e)} />
         </div>
-        <img src="#" id="img3" />
-      </div>
+        <div id="imgPreview">
+          <img src="#" id="cropedBigImg" />
+        </div>
+      </div >
     )
   }
 }

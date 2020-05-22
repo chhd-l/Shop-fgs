@@ -43,7 +43,7 @@ export default class AccountOrders extends React.Component {
   }
   hanldeItemClick (afterSaleType) {
     sessionStorage.setItem('rc-after-sale-type', afterSaleType)
-    createHashHistory().push(`/account/orders/aftersale/${this.state.orderNumber}`)
+    createHashHistory().push(`/account/orders-aftersale/${this.state.orderNumber}`)
   }
   handleCancelOrder () {
     this.setState({ cancelOrderLoading: true })
@@ -64,13 +64,17 @@ export default class AccountOrders extends React.Component {
       && details.tradeState.deliverStatus === 'SHIPPED'
       && details.tradeState.flowState === 'COMPLETED') {
       return <React.Fragment>
-        <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
-          <a onClick={() => this.hanldeItemClick('exchange')} className="ui-cursor-pointer">
+        <button
+          className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
+          onClick={() => this.hanldeItemClick('exchange')}>
+          <a className="ui-cursor-pointer">
             Exchange
           </a>
         </button>
-        <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
-          <a onClick={() => this.hanldeItemClick('return')} className="ui-cursor-pointer">
+        <button
+          className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
+          onClick={() => this.hanldeItemClick('return')}>
+          <a className="ui-cursor-pointer">
             Return
           </a>
         </button>

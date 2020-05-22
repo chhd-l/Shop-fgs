@@ -1,6 +1,7 @@
 import React from "react"
 import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from 'react-intl'
+import { createHashHistory } from 'history'
 import { Link } from 'react-router-dom'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
@@ -9,7 +10,12 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import ImgUpload from '@/components/FileUpload'
 import { formatMoney } from "@/utils/utils"
-import { getOrderReturnDetails } from "@/api/order"
+import {
+  getOrderReturnDetails,
+  getReturnReasons,
+  getReturnWays,
+  returnAdd
+} from "@/api/order"
 import './index.css'
 
 export default class OrdersAfterSale extends React.Component {
@@ -23,12 +29,16 @@ export default class OrdersAfterSale extends React.Component {
       loading: true,
       selectedIdx: -1,
       errorMsg: '',
+      errorMsgTop: '',
       form: {
         reason: '',
         method: '',
         instructions: '',
         attachment: '',
-      }
+      },
+      returnReasonList: [],
+      returnWayList: [],
+      confirmLoading: false
     }
   }
   componentDidMount () {
@@ -43,12 +53,24 @@ export default class OrdersAfterSale extends React.Component {
         afterSaleType: afterSaleType,
         orderNumber: this.props.match.params.orderNumber
       }, () => this.queryDetails())
+      getReturnReasons()
+        .then(res => {
+          this.setState({
+            returnReasonList: res.context
+          })
+        })
+      getReturnWays()
+        .then(res => {
+          this.setState({
+            returnWayList: res.context
+          })
+        })
     } else {
       this.goBack()
     }
   }
   goBack (e) {
-    e.preventDefault();
+    e && e.preventDefault();
     const { history } = this.props
     history.goBack()
   }
@@ -115,8 +137,23 @@ export default class OrdersAfterSale extends React.Component {
     form[target.name] = target.value
     this.setState({ form: form })
   }
+  showTopErrMsg (msg) {
+    this.setState({
+      errorMsgTop: msg
+    })
+    window.scrollTo(0, 0)
+    setTimeout(() => {
+      this.setState({
+        errorMsgTop: ''
+      })
+    }, 5000)
+  }
   handleConfirm () {
-    const { form } = this.state
+    const { form, orderNumber, selectedIdx, details } = this.state
+    if (selectedIdx === -1) {
+      this.showTopErrMsg('please select product')
+      return
+    }
     for (let key in form) {
       const value = form[key]
       if (!value && (key === 'reason' || key === 'method' || key === 'instructions')) {
@@ -129,6 +166,39 @@ export default class OrdersAfterSale extends React.Component {
         return
       }
     }
+    this.setState({ confirmLoading: true })
+
+    const reasonArr = form.reason.split('-')
+    const methodArr = form.method.split('-')
+    const selectTradeItem = details.tradeItems[selectedIdx]
+    // {"tid":"O202005191208578980","returnReason":{"0":0},"description":"sdffds","images":[],"returnWay":{"0":0},"returnItems":[{"settlementPrice":null,"deliveredNum":5,"spuName":"Satiety Support Feline","points":null,"couponSettlements":[],"unit":"kg","marketingSettlements":null,"levelPrice":100,"goodsCubage":20,"pointsPrice":null,"canReturnNum":5,"num":5,"specDetails":"3.5kg","brand":400,"skuName":"Satiety Support Feline","enterPrisePrice":null,"isFlashSaleGoods":null,"price":"100.00","distributionGoodsAudit":0,"cateId":1129,"adminId":"2","pic":"https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004271507544701.png","oid":"OD202005191208572573","skuChecked":true,"commissionRate":null,"bn":null,"cost":null,"pointsGoodsId":null,"goodsWeight":20,"cateRate":0,"splitPrice":500,"distributionCommission":0,"freightTempId":199,"marketingIds":[],"spuId":"ff808081719c5f020171ba797d970060","skuPoint":"0.00","isAccountStatus":null,"deliverStatus":"SHIPPED","enterPriseAuditState":null,"originalPrice":100,"skuId":"ff808081719c5f020171ba797d9a0061","supplierCode":null,"cateName":"宠物高端粮食","flashSaleGoodsId":null,"storeId":123456858,"skuBuyNum":5,"skuNo":"8971288355"}],"returnPrice":{"applyStatus":false,"applyPrice":0,"totalPrice":500}}
+    returnAdd({
+      description: form.instructions,
+      images: [],
+      returnItems: [selectTradeItem],
+      returnPrice: {
+        applyPrice: 0,
+        applyStatus: false,
+        totalPrice: selectTradeItem.num * selectTradeItem.price
+      },
+      returnReason: {
+        [reasonArr[0]]: reasonArr[1]
+      },
+      returnWay: {
+        [methodArr[0]]: methodArr[1]
+      },
+      tid: orderNumber
+    })
+      .then(res => {
+        this.setState({
+          confirmLoading: false
+        })
+        sessionStorage.setItem('rc-after-sale-type', this.state.afterSaleType)
+        createHashHistory().push(`/account/orders-aftersale/success/${res.context}`)
+      })
+      .catch(err => {
+        this.showTopErrMsg(err || 'system error')
+      })
   }
   render () {
     const event = {
@@ -164,6 +234,19 @@ export default class OrdersAfterSale extends React.Component {
                           ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
                           : details
                             ? <div className="card-body">
+                              <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsgTop ? '' : 'hidden'}`}>
+                                <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+                                  <span>{this.state.errorMsgTop}</span>
+                                  <button
+                                    className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                                    onClick={() => { this.setState({ errorMsgTop: '' }) }}
+                                    aria-label="Close">
+                                    <span className="rc-screen-reader-text">
+                                      <FormattedMessage id="close" />
+                                    </span>
+                                  </button>
+                                </aside>
+                              </div>
                               <div className="ui-order-title">
                                 <span>Order number:{this.state.orderNumber}</span>&nbsp;&nbsp;
                                 <span>
@@ -174,7 +257,7 @@ export default class OrdersAfterSale extends React.Component {
                               <div className="detail-title">
                                 {afterSaleType === 'exchange' ? 'Exchange Product' : 'Return Product'}
                               </div>
-                              <div class="order__listing">
+                              <div className="order__listing">
                                 <div className="order-list-container">
                                   <div className="card-container mt-0 border-0">
                                     <div className="card rc-margin-y--none">
@@ -204,9 +287,9 @@ export default class OrdersAfterSale extends React.Component {
                                         <div className="col-12 col-md-4 pl-0 pr-0">
                                           <div className="row">
                                             <div className="col-12 col-md-2 d-flex align-items-center justify-content-center">
-                                              <div class="rc-input rc-input--inline mr-0">
-                                                <input class="rc-input__radio" id={`id-radio-${i}`} value={i} type="radio" name="radio" onChange={e => this.handleSelectedItemChange(i)} />
-                                                <label class="rc-input__label--inline ml-0" for={`id-radio-${i}`}>&nbsp;</label>
+                                              <div className="rc-input rc-input--inline mr-0">
+                                                <input className="rc-input__radio" id={`id-radio-${i}`} value={i} type="radio" name="radio" onChange={e => this.handleSelectedItemChange(i)} />
+                                                <label className="rc-input__label--inline ml-0" htmlFor={`id-radio-${i}`}>&nbsp;</label>
                                               </div>
                                             </div>
                                             <div className="col-12 col-md-10 d-flex">
@@ -309,8 +392,11 @@ export default class OrdersAfterSale extends React.Component {
                                         onChange={e => this.handleFormChange(e)}
                                       >
                                         <option>Please select a reason for return</option>
-                                        <option>退货原因1</option>
-                                        <option>退货原因2</option>
+                                        {this.state.returnReasonList.map((item, i) => (
+                                          Object.keys(item).map(key => (
+                                            <option key={`${i}-${key}`} value={`${i}-${key}`}>{item[key]}</option>
+                                          ))
+                                        ))}
                                       </select>
                                     </span>
                                   </div>
@@ -327,8 +413,12 @@ export default class OrdersAfterSale extends React.Component {
                                         onChange={e => this.handleFormChange(e)}
                                       >
                                         <option>Please select a return method</option>
-                                        <option>退货方式1</option>
-                                        <option>退货方式2</option>
+                                        {this.state.returnWayList.map((item, i) => (
+                                          // <option key={i}>{item[i.toString()]}</option>
+                                          Object.keys(item).map(key => (
+                                            <option key={`${i}-${key}`} value={`${i}-${key}`}>{item[key]}</option>
+                                          ))
+                                        ))}
                                       </select>
                                     </span>
                                   </div>
@@ -359,15 +449,8 @@ export default class OrdersAfterSale extends React.Component {
                                 <div className="row form-reason align-items-center mb-3">
                                   <label className="col-3">Chargeback attachment:</label>
                                   <div className="col-4">
-                                    {/* <ImgUpload
-                                      imgTitle="国家首页配图(1920*470)"
-                                      height="320px"
-                                      id="1"
-                                      // imgSrc={this.props.countryInfo.bannerPath}
-                                      ref="bannerPath"
-                                      // renderState={this.props.countryState == "add" ? "init" : "upload"} 
-                                      /> */}
-                                    <span
+                                    {/* <ImgUpload /> */}
+                                    {/* <span
                                       className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
                                       input-setup="true"
                                     >
@@ -382,14 +465,14 @@ export default class OrdersAfterSale extends React.Component {
                                         className="rc-input__label"
                                         htmlFor="delivery-comment"
                                       ></label>
-                                    </span>
+                                    </span> */}
                                   </div>
                                 </div>
                                 <div className="row form-reason align-items-center">
                                   <label className="col-3"></label>
                                   <div className="col-4">
-                                    <button class="rc-btn rc-btn--one" onClick={() => this.handleConfirm()}>Confirm</button>
-                                    <button class="rc-btn rc-btn--two" onClick={e => this.goBack(e)}>Cancel</button>
+                                    <button className={`rc-btn rc-btn--one ${this.state.confirmLoading ? 'ui-btn-loading' : ''}`} onClick={() => this.handleConfirm()}>Confirm</button>
+                                    <button className="rc-btn rc-btn--two" onClick={e => this.goBack(e)}>Cancel</button>
                                   </div>
                                 </div>
                               </div>
