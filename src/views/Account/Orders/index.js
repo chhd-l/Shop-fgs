@@ -102,8 +102,8 @@ export default class AccountOrders extends React.Component {
       // createdFrom,
       // createdTo: now,
       keywords: form.orderNumber,
-      createdFrom: form.startdate,
-      createdTo: form.enddate || dateFormat('YYYY-mm-dd', new Date()),
+      createdFrom: form.startdate ? form.startdate.split('/').join('-') : '',
+      createdTo: form.enddate ? form.enddate.split('/').join('-') : dateFormat('YYYY-mm-dd', new Date()),
       pageNum: currentPage - 1,
       pageSize: form.pageSize
     }
