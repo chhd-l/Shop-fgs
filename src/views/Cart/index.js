@@ -27,7 +27,8 @@ class Cart extends React.Component {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       quantityMinLimit: 1,
       checkoutLoading: false,
-      validateAllItemsStock: true
+      validateAllItemsStock: true,
+      isPromote: false
     }
     this.handleAmountChange = this.handleAmountChange.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
@@ -213,7 +214,17 @@ class Cart extends React.Component {
     let res = await hanldePurchases(param)
     let latestGoodsInfos = res.goodsInfos
     console.log(res, 'latestGoodsInfos')
-    sessionStorage.setItem('goodsMarketingMap', JSON.stringify(res.goodsMarketingMap))
+    let goodsMarketingMapStr = JSON.stringify(res.goodsMarketingMap)
+    if(goodsMarketingMapStr === "{}") {
+      this.setState({
+        isPromote: false
+      })
+    }else {
+      this.setState({
+        isPromote: true
+      })
+    }
+    sessionStorage.setItem('goodsMarketingMap', goodsMarketingMapStr)
     productList.map(item => {
       let selectedSize = find(item.sizeList, s => s.selected)
       const tmpObj = find(latestGoodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
@@ -365,7 +376,7 @@ class Cart extends React.Component {
                         </div>
                       </span>
                     </div>
-                    <div className="promotion stock" style={{display: find(pitem.sizeList, s => s.selected).marketingLabels.length?'inline-block': 'none'}}>
+                    <div className="promotion stock" style={{display: !find(pitem.sizeList, s => s.selected).marketingLabels.length?'inline-block': 'none'}}>
                       <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                         <span><FormattedMessage id="promotion" /> :</span>
                       </label>
@@ -430,7 +441,7 @@ class Cart extends React.Component {
                       </div>
                     </span>
                   </div>
-                  <div className="promotion stock" style={{marginTop: '7px', display: find(pitem.sizeList, s => s.selected).marketingLabels.length?'inline-block': 'none'}}>
+                  <div className="promotion stock" style={{marginTop: '7px', display: !find(pitem.sizeList, s => s.selected).marketingLabels.length?'inline-block': 'none'}}>
                       <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                         <span className=""><FormattedMessage id="promotion" /> :</span>
                       </label>
@@ -520,7 +531,7 @@ class Cart extends React.Component {
                           <p className="text-right sub-total">{formatMoney(this.state.totalPrice)}</p>
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row" style={{display: this.state.isPromote? 'flex': 'none'}}>
                         <div className="col-4">
                           <p style={{color: '#ec001a'}}>
                             <FormattedMessage id="promotion" />
