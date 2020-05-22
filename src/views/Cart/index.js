@@ -429,6 +429,19 @@ class Cart extends React.Component {
                       </div>
                     </span>
                   </div>
+                  <div className="promotion stock" style={{marginTop: '7px'}}>
+                      <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
+                        <span className=""><FormattedMessage id="promotion" /> :</span>
+                      </label>
+                      <span className="availability-msg">
+                        {/* {console.log(find(pitem.sizeList, s => s.selected).marketingLabels, 'find(pitem.sizeList, s => s.selected)')} */}
+                        <div style={{display: find(pitem.sizeList, s => s.selected).marketingLabels.length?'inline-block': 'none'}}>
+                          {/* <FormattedMessage id="25% OFF" /> */}
+                          {/* {find(pitem.sizeList, s => s.selected).marketingLabels[0].marketingDesc} */}
+                          25% OFF
+                        </div>
+                      </span>
+                    </div>
                 </div>
               </div>
             </div>
