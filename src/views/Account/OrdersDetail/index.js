@@ -142,85 +142,139 @@ export default class AccountOrders extends React.Component {
                             </div>
                             <div className="detail-title">
                               Order information
-                          </div>
+                            </div>
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="row">
                                   <div className="col-12 col-md-4 text-right color-999">
-                                    Shipping address:
-                                </div>
+                                    Receiver:
+                                  </div>
                                   <div className="col-12 col-md-8">
-                                    echo 12 18983292983
-                                </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Delivery method:
-                                </div>
-                                  <div className="col-12 col-md-8">
-                                    express delivery
-                                </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Invoice Information:
-                                </div>
-                                  <div className="col-12 col-md-8">
-                                    General Invoice Details Individual
-                                </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Invoice receiving address:
-                                </div>
-                                  <div className="col-12 col-md-8">
-                                    {[details.invoice.contacts, details.invoice.phone, details.invoice.address].join(' ')}
+                                    {details.consignee.name}
                                   </div>
                                 </div>
                                 <div className="row">
                                   <div className="col-12 col-md-4 text-right color-999">
-                                    Attachment information:
-                                </div>
+                                    Phone number:
+                                  </div>
                                   <div className="col-12 col-md-8">
-                                    no
+                                    {details.consignee.phone}
+                                  </div>
                                 </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Postal code:
+                                  </div>
+                                  <div className="col-12 col-md-8">
+                                    {details.consignee.postCode}
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Delivery address:
+                                  </div>
+                                  <div className="col-12 col-md-8">
+                                    {details.consignee.address}
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Billing address:
+                                  </div>
+                                  <div className="col-12 col-md-8">
+                                    {details.invoice.address}
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Delivery comment:
+                                  </div>
+                                  <div className="col-12 col-md-8">
+                                    {details.buyerRemark}
+                                  </div>
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="row">
                                   <div className="col-12 col-md-4 text-right color-999">
-                                    Payment method:
-                                </div>
+                                    Reference:
+                                  </div>
                                   <div className="col-12 col-md-8">
-                                    Online payment paid&nbsp;
-                                    <span className="red" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">payment record</span>
-                                    <div id="bottom-tooltip" class="rc-tooltip p-2" style={{ width: 200 }}>
-                                      <div className="row">
-                                        <div className="col-6 text-right">收款账户:</div>
-                                        <div className="col-6 text-left">无</div>
-                                      </div>
-                                      <div className="row">
-                                        <div className="col-6 text-right">付款金额:</div>
-                                        <div className="col-6 text-left">{formatMoney(400)}</div>
-                                      </div>
-                                    </div>
+                                    {details.consignee.rfc}
                                   </div>
                                 </div>
                                 <div className="row">
                                   <div className="col-12 col-md-4 text-right color-999">
-                                    order notes:
+                                    Selected Clinic:
                                 </div>
                                   <div className="col-12 col-md-8">
-                                    no
-                                </div>
+                                    {details.clinicsId}
+                                  </div>
                                 </div>
                                 <div className="row">
                                   <div className="col-12 col-md-4 text-right color-999">
-                                    Seller notes:
-                                </div>
+                                    Express method:
+                                  </div>
                                   <div className="col-12 col-md-8">
-                                    no
+                                    {details.deliverWay}
+                                  </div>
                                 </div>
+                              </div>
+                            </div>
+                            <div className="detail-title">
+                              Payment information
+                            </div>
+                            <div className="row">
+                              <div className="col-12 col-md-6">
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Payment time:
+                                  </div>
+                                  <div className="col-12 col-md-8">
+                                    {details.tradeState.createTime}
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Payment status:
+                                  </div>
+                                  <div className="col-12 col-md-8">
+                                    {details.tradeState.payState}
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Payment number:
+                                  </div>
+                                  <div className="col-12 col-md-8">
+                                    {/* General Invoice Details Individual */}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Payment name:
+                                  </div>
+                                  <div className="col-12 col-md-8">
+                                    {/* {details.payInfo.payTypeName} */}
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Payment email:
+                                  </div>
+                                  <div className="col-12 col-md-8">
+                                    {/* no */}
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Payment phone number :
+                                  </div>
+                                  <div className="col-12 col-md-8">
+                                    {/* no */}
+                                  </div>
                                 </div>
                               </div>
                             </div>

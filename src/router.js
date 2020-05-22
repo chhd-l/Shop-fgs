@@ -22,6 +22,7 @@ import AccountOrders from "@/views/Account/Orders";
 import AccountOrdersDetail from "@/views/Account/OrdersDetail";
 import AccountOrdersAfterSale from "@/views/Account/OrdersAfterSale";
 import AccountOrdersAfterSaleSuccess from "@/views/Account/OrdersAfterSaleSuccess";
+import AccountOrdersAfterSaleDetail from "@/views/Account/OrdersAfterSaleDetail";
 import AccountPetForm from "@/views/Account/PetForm";
 import AccountPetList from "@/views/Account/PetList";
 import AccountShippingAddress from "@/views/Account/ShippingAddress";
@@ -81,7 +82,8 @@ const BasicRoute = () => (
         <Route path='/account/shippingAddress' exact component={AccountShippingAddress}/>
 
         <Route path='/account/orders-aftersale/:orderNumber' exact component={AccountOrdersAfterSale} />
-        <Route path='/account/orders-aftersale/success/:orderNumber' component={AccountOrdersAfterSaleSuccess} />
+        <Route path='/account/orders-aftersale/success/:returnNumber' component={AccountOrdersAfterSaleSuccess} />
+        <Route path='/account/orders-aftersale/detail/:returnNumber' component={AccountOrdersAfterSaleDetail} />
 
         <Route component={Exception} />
       </Switch>

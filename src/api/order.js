@@ -3,11 +3,12 @@ import axios from '@/utils/request'
 const api = {
   list: '/trade/page',
   details: '/trade',
-  returnDetails: '/return/trade',
+  returnTrade: '/return/trade',
+  return: '/return',
   returnAdd: '/return/add',
   cancelOrder: '/tradeCustom/cancelAndRefund',
   returnReason: '/return/reasons',
-  returnWays: '/return/ways'
+  returnWays: '/return/ways',
 }
 
 export default api
@@ -29,8 +30,15 @@ export function getOrderDetails (parameter) {
 
 export function getOrderReturnDetails (parameter) {
   return axios({
-    url: `${api.returnDetails}/${parameter}`,
+    url: `${api.returnTrade}/${parameter}`,
     method: 'get'
+  })
+}
+
+export function getReturnDetails (parameter) {
+  return axios({
+    url: `${api.return}/${parameter}`,
+    method: 'post'
   })
 }
 

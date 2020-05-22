@@ -8,7 +8,7 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
-import ImgUpload from '@/components/FileUpload'
+import ImgUpload from '@/components/ImgUpload'
 import { formatMoney } from "@/utils/utils"
 import {
   getOrderReturnDetails,
@@ -40,6 +40,7 @@ export default class OrdersAfterSale extends React.Component {
       returnWayList: [],
       confirmLoading: false
     }
+    this.imgUploaderRef = React.createRef();
   }
   componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
@@ -171,10 +172,16 @@ export default class OrdersAfterSale extends React.Component {
     const reasonArr = form.reason.split('-')
     const methodArr = form.method.split('-')
     const selectTradeItem = details.tradeItems[selectedIdx]
-    // {"tid":"O202005191208578980","returnReason":{"0":0},"description":"sdffds","images":[],"returnWay":{"0":0},"returnItems":[{"settlementPrice":null,"deliveredNum":5,"spuName":"Satiety Support Feline","points":null,"couponSettlements":[],"unit":"kg","marketingSettlements":null,"levelPrice":100,"goodsCubage":20,"pointsPrice":null,"canReturnNum":5,"num":5,"specDetails":"3.5kg","brand":400,"skuName":"Satiety Support Feline","enterPrisePrice":null,"isFlashSaleGoods":null,"price":"100.00","distributionGoodsAudit":0,"cateId":1129,"adminId":"2","pic":"https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004271507544701.png","oid":"OD202005191208572573","skuChecked":true,"commissionRate":null,"bn":null,"cost":null,"pointsGoodsId":null,"goodsWeight":20,"cateRate":0,"splitPrice":500,"distributionCommission":0,"freightTempId":199,"marketingIds":[],"spuId":"ff808081719c5f020171ba797d970060","skuPoint":"0.00","isAccountStatus":null,"deliverStatus":"SHIPPED","enterPriseAuditState":null,"originalPrice":100,"skuId":"ff808081719c5f020171ba797d9a0061","supplierCode":null,"cateName":"宠物高端粮食","flashSaleGoodsId":null,"storeId":123456858,"skuBuyNum":5,"skuNo":"8971288355"}],"returnPrice":{"applyStatus":false,"applyPrice":0,"totalPrice":500}}
+    let imgsParam = this.imgUploaderRef.current.state.imgList.map((item, i) => {
+      return JSON.stringify({
+        uid: i + 1,
+        status: 'done',
+        url: item
+      })
+    })
     returnAdd({
       description: form.instructions,
-      images: [],
+      images: imgsParam,
       returnItems: [selectTradeItem],
       returnPrice: {
         applyPrice: 0,
@@ -197,6 +204,9 @@ export default class OrdersAfterSale extends React.Component {
         createHashHistory().push(`/account/orders-aftersale/success/${res.context}`)
       })
       .catch(err => {
+        this.setState({
+          confirmLoading: false
+        })
         this.showTopErrMsg(err || 'system error')
       })
   }
@@ -354,14 +364,6 @@ export default class OrdersAfterSale extends React.Component {
                                   </div>
                                 </div>
                               </div>
-                              {afterSaleType !== 'exchange'
-                                ? <div className="row pt-4 pb-4 border-bottom" style={{ lineHeight: 1.7 }}>
-                                  <div className="col-9 text-right">
-                                    Refundable amount:
-                                </div>
-                                  <div className="col-2 text-right">{formatMoney(selectedIdx > -1 ? details.tradeItems[selectedIdx].num * details.tradeItems[selectedIdx].price : 0)}</div>
-                                </div>
-                                : null}
                               <div className="mt-3">
                                 <div className="row form-reason align-items-center mb-3">
                                   <div className="col-7">
@@ -449,7 +451,7 @@ export default class OrdersAfterSale extends React.Component {
                                 <div className="row form-reason align-items-center mb-3">
                                   <label className="col-3">Chargeback attachment:</label>
                                   <div className="col-4">
-                                    {/* <ImgUpload /> */}
+                                    <ImgUpload ref={this.imgUploaderRef} />
                                     {/* <span
                                       className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
                                       input-setup="true"
