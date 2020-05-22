@@ -104,7 +104,10 @@ class Cart extends React.Component {
       item.quantity = tmp
       this.setState({
         productList: this.state.productList
-      }, () => this.changeCache())
+      }, () => {
+        this.changeCache()
+        this.updateStock()
+      })
     }
   }
   changeCache () {
