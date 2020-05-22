@@ -270,8 +270,8 @@ class Payment extends React.Component {
       
       let tradeMarketingList = [
         {
-          "marketingId": 401,
-          "marketingLevelId": 95,
+          "marketingId": '',
+          "marketingLevelId": '',
           "skuIds": [],
           "giftSkuIds": []
         }    
