@@ -100,6 +100,7 @@ export default class PetForm extends React.Component {
       petsName:this.state.nickname,
       petsSex:this.state.isMale?"0":"1",
       petsBrend:this.state.isUnknown?"unknown Breed":this.state.breed,
+      petsSize:this.state.weight,
       sterilized:this.state.isSterilized?"0":"1",
       birthOfPets:this.state.birthdate,
       specialNeeds:specialNeeds
