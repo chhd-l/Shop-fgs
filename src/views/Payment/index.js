@@ -276,16 +276,22 @@ class Payment extends React.Component {
           "giftSkuIds": []
         }    
       ]
-      let goodsMarketingMap = JSON.parse(sessionStorage.getItem('goodsMarketingMap'))
-      for(let k in  goodsMarketingMap) {
-        tradeMarketingList[0].skuIds.push(k)
-        if(!tradeMarketingList[0].marketingLevelId) {
-          tradeMarketingList[0].marketingLevelId = goodsMarketingMap[k][0]['fullDiscountLevelList'][0]['discountLevelId']
-        }
-        if(!tradeMarketingList[0].marketingId) {
-          tradeMarketingList[0].marketingId = goodsMarketingMap[k][0]['fullDiscountLevelList'][0]['marketingId']
+      let goodsMarketingMapStr = sessionStorage.getItem('goodsMarketingMap')
+      let goodsMarketingMap = JSON.parse(goodsMarketingMapStr)
+      if(goodsMarketingMapStr === "{}") {
+        tradeMarketingList = []
+      }else {
+        for(let k in  goodsMarketingMap) {
+          tradeMarketingList[0].skuIds.push(k)
+          if(!tradeMarketingList[0].marketingLevelId) {
+            tradeMarketingList[0].marketingLevelId = goodsMarketingMap[k][0]['fullDiscountLevelList'][0]['discountLevelId']
+          }
+          if(!tradeMarketingList[0].marketingId) {
+            tradeMarketingList[0].marketingId = goodsMarketingMap[k][0]['fullDiscountLevelList'][0]['marketingId']
+          }
         }
       }
+      
       let param3 = {
         // birthday: '1990-01-01',
         // identifyNumber: '430702199001011111',
