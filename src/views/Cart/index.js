@@ -376,7 +376,7 @@ class Cart extends React.Component {
                         </div>
                       </span>
                     </div>
-                    <div className="promotion stock" style={{display: !find(pitem.sizeList, s => s.selected).marketingLabels.length?'inline-block': 'none'}}>
+                    <div className="promotion stock" style={{display: this.state.isPromote?'inline-block': 'none'}}>
                       <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                         <span><FormattedMessage id="promotion" /> :</span>
                       </label>
@@ -441,7 +441,7 @@ class Cart extends React.Component {
                       </div>
                     </span>
                   </div>
-                  <div className="promotion stock" style={{marginTop: '7px', display: !find(pitem.sizeList, s => s.selected).marketingLabels.length?'inline-block': 'none'}}>
+                  <div className="promotion stock" style={{marginTop: '7px', display: this.state.isPromote?'inline-block': 'none'}}>
                       <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                         <span className=""><FormattedMessage id="promotion" /> :</span>
                       </label>
