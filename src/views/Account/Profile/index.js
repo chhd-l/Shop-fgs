@@ -8,6 +8,7 @@ import SideMenu from '@/components/SideMenu'
 import PersonalDataEditForm from './modules/PersonalDataEditForm'
 import AddressBookEditForm from './modules/AddressBookEditForm'
 import CommunicationDataEditForm from './modules/CommunicationDataEditForm'
+import { getCustomerInfoById } from "@/api/user"
 import './index.css'
 
 export default class AccountProfile extends React.Component {
@@ -19,7 +20,7 @@ export default class AccountProfile extends React.Component {
         firstName: 'Ken',
         lastName: 'yang',
         birthdate: '01/01/2020',
-        email: '1411211848@qq.com'
+        email: '1411211848@qq.com' 
       },
       addressBookData: {
         address1: '',
@@ -45,6 +46,10 @@ export default class AccountProfile extends React.Component {
       window.location.reload();
       return false
     }
+    getCustomerInfoById('ff808081721804ea01722b15dce601b7')
+      .then(res => {
+        // debugger
+      })
   }
   updateFormData (key, form) {
     this.setState({
@@ -52,7 +57,6 @@ export default class AccountProfile extends React.Component {
     })
   }
   render () {
-    // const { personalDataEditFormVisible } = this.state
     const event = {
       "page": {
         "type": "Account",

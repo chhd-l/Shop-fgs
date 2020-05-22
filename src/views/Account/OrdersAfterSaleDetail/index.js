@@ -111,9 +111,6 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div className="detail-title">
-                              Product information
-                            </div>
                             <div class="order__listing">
                               <div className="order-list-container">
                                 <div className="card-container mt-0 border-0">

@@ -278,9 +278,6 @@ export default class AccountOrders extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div className="detail-title">
-                              Product information
-                            </div>
                             <div class="order__listing">
                               <div className="order-list-container">
                                 <div className="card-container mt-0 border-0">
@@ -343,7 +340,7 @@ export default class AccountOrders extends React.Component {
                               </div>
                               <div className="col-2 text-right">{formatMoney(0)}</div>
                               <div className="col-9 text-right color-999">
-                                Total(Including VAT):
+                                Total (Inclu IVA):
                               </div>
                               <div className="col-2 text-right">{formatMoney(details.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}</div>
                             </div>
