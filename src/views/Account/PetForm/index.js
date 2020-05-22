@@ -585,6 +585,7 @@ export default class PetForm extends React.Component {
                           value={this.state.birthdate}
                           onChange={e => this.handleInputChange(e)} 
                           onBlur={e => this.inputBlur(e)}/>
+                          
                         <label className="rc-input__label" htmlFor="birthdate"></label>
                       </span>
                       <div className="invalid-birthdate invalid-feedback">Please select a past date.</div>

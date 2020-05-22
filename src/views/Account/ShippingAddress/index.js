@@ -87,42 +87,44 @@ export default class ShippingAddress extends React.Component {
   saveAddress = async ()=>{
     let data = this.state.addressForm;
     let params = {
-      "areaId":+data.country,
+      "areaId": +data.country,
       "cityId": +data.city,
       "consigneeName": data.firstName+data.lastName,
       "consigneeNumber": data.phoneNumber,
+      "customerId": "string",
       "deliveryAddress": data.address1+data.address2,
+      "deliveryAddressId": "string",
+      "employeeId": "string",
       "isDefaltAddress": data.isDefalt?1:0,
       "postCode": data.postCode,
+      "provinceId": 0,
       "rfc": data.rfc,
+      "type": "string"
     }
     const res = await saveAddress(params)
     if(res.code === 'K-000000'){
-      console.log(res);
+      this.getAddressList()
       this.closeModal()
       
     }
     
   }
-  setDefaltAddress = async (id)=>{
-    debugger
+  setDefaltAddress = async (item)=>{
     let params = {
-      "deliveryAddressId": id,
+      "deliveryAddressId": item.deliveryAddressId,
     }
     const res = await setDefaltAddress(params)
     if(res.code === 'K-000000'){
-      console.log(res);
-      this.closeModal()  
+      this.getAddressList()
     }
   }
   deleteAddress = async (id)=>{
-    debugger
     let params = {
       "id": id,
     }
     const res = await deleteAddress(params)
     if(res.code === 'K-000000'){
-      console.log(res);
+      this.getAddressList()
     }
   }
 
@@ -204,9 +206,11 @@ export default class ShippingAddress extends React.Component {
                           <div className="card-action-link">
                             { item.isDefaltAddress ===1?
                             <span><FormattedMessage id="defaultAddress"></FormattedMessage></span>:
-                            <a onClick={()=>this.setDefaltAddress(item.deliveryAddressId)}>
+                            <a onClick={()=>this.setDefaltAddress(item)}>
                                <FormattedMessage id="setDefaultAddress"></FormattedMessage></a>}
-                            <a> <FormattedMessage id="edit" onClick={()=>this.openEditModal()}></FormattedMessage></a>
+                            <a onClick={()=>this.openEditModal()}> 
+                              <FormattedMessage id="edit" ></FormattedMessage>
+                            </a>
                           </div>
                         </div>
                       </div>
