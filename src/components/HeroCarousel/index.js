@@ -3,6 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
 import '@/assets/css/heroCarousel.css'
 import Banner_Horizontal_Hot_Sale from "@/assets/images/Banner_Horizontal_Hot_Sale.jpg";
+import Pomotion25offImg from "@/assets/images/pomotion_25off.png";
+import './index.css'
 
 class HeroCarousel extends React.Component {
   constructor(props) {
@@ -47,8 +49,9 @@ class HeroCarousel extends React.Component {
 
           <div data-js-carousel="" className="rc-carousel js-hero-carousel">
             <div className="hero-carousel__slide">
-              <div className="d-md-flex align-items-center hero-carousel__slide__inner">
-                <img src={Banner_Horizontal_Hot_Sale} />
+              <div className="d-md-flex align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
+                <img src={Banner_Horizontal_Hot_Sale} className="rc-md-up" />
+                <img src={Pomotion25offImg} className="rc-md-down" />
               </div>
             </div>
             <div className="hero-carousel__slide">

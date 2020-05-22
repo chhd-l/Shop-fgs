@@ -1,0 +1,10 @@
+@media (min-width: 769px) {
+  .hero-carousel__slide__inner-custom .rc-md-down {
+      display: none!important;
+  }
+}
+@media (max-width: 769px){
+  .hero-carousel__slide__inner-custom .rc-md-up {
+    display: none!important;
+  }
+}
