@@ -219,6 +219,7 @@ class Cart extends React.Component {
       const tmpObj = find(latestGoodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
       if (tmpObj) {
         selectedSize.stock = tmpObj.stock
+        selectedSize.marketingLabels = tmpObj.marketingLabels
         if (item.quantity > tmpObj.stock) {
           this.setState({
             validateAllItemsStock: false
@@ -364,13 +365,13 @@ class Cart extends React.Component {
                         </div>
                       </span>
                     </div>
-                    <div className="promotion stock">
+                    <div className="promotion stock" style={{display: find(pitem.sizeList, s => s.selected).marketingLabels.length?'inline-block': 'none'}}>
                       <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
-                        <span className=""><FormattedMessage id="promotion" /> :</span>
+                        <span><FormattedMessage id="promotion" /> :</span>
                       </label>
                       <span className="availability-msg">
                         {/* {console.log(find(pitem.sizeList, s => s.selected).marketingLabels, 'find(pitem.sizeList, s => s.selected)')} */}
-                        <div style={{display: find(pitem.sizeList, s => s.selected).marketingLabels.length?'inline-block': 'none'}}>
+                        <div>
                           {/* <FormattedMessage id="25% OFF" /> */}
                           {/* {find(pitem.sizeList, s => s.selected).marketingLabels[0].marketingDesc} */}
                           25% OFF
@@ -429,13 +430,13 @@ class Cart extends React.Component {
                       </div>
                     </span>
                   </div>
-                  <div className="promotion stock" style={{marginTop: '7px'}}>
+                  <div className="promotion stock" style={{marginTop: '7px', display: find(pitem.sizeList, s => s.selected).marketingLabels.length?'inline-block': 'none'}}>
                       <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                         <span className=""><FormattedMessage id="promotion" /> :</span>
                       </label>
                       <span className="availability-msg">
                         {/* {console.log(find(pitem.sizeList, s => s.selected).marketingLabels, 'find(pitem.sizeList, s => s.selected)')} */}
-                        <div style={{display: find(pitem.sizeList, s => s.selected).marketingLabels.length?'inline-block': 'none'}}>
+                        <div>
                           {/* <FormattedMessage id="25% OFF" /> */}
                           {/* {find(pitem.sizeList, s => s.selected).marketingLabels[0].marketingDesc} */}
                           25% OFF
