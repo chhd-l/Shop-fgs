@@ -217,3 +217,18 @@
   bottom: 0;
   z-index: 10000000000;
 }
+
+.defaultAddressChecked:after {
+  background-position: 18.18% 100%;
+  background-image: url(./../../../assets/images/royal-canin.sprite--brand1--xs.svg);
+  top: -4px;
+  left: 0;
+  width: 24px;
+  content: '';
+  display: inline-block;
+  background-repeat: no-repeat;
+  height: 32px;
+  overflow: hidden;
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+}

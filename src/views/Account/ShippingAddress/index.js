@@ -9,6 +9,7 @@ import {  getAddressList,
 saveAddress,
 setDefaltAddress,
 deleteAddress,
+getAddressById,
 editAddress} from '@/api/address'
 import { Link } from 'react-router-dom';
 
@@ -31,7 +32,9 @@ export default class ShippingAddress extends React.Component {
         postCode:"",
         phoneNumber:"",
         rfc:"",
-        isDefalt:false
+        isDefalt:false,
+        deliveryAddressId:"",
+        customerId:""
       }
       
     }
@@ -53,17 +56,48 @@ export default class ShippingAddress extends React.Component {
     }
     
   }
+  getAddressById = async (id)=>{
+    let params ={
+      id:id
+    }
+    const res = await getAddressById(params)
+    if(res.code === 'K-000000'){
+      console.log(res);
+      let data = res.context
+      let nameArr = data.consigneeName.split(' ')
+      let addressArr = data.deliveryAddress.split(' ')
+      let addressForm={
+        firstName:nameArr[0],
+        lastName:nameArr[1],
+        address1:addressArr[0],
+        address2:addressArr[1],
+        country:data.areaId,
+        city:data.cityId,
+        postCode:data.postCode,
+        phoneNumber:data.consigneeNumber,
+        rfc:data.rfc,
+        isDefalt:data.isDefaltAddress===1?true:false,
+        deliveryAddressId:data.deliveryAddressId,
+        customerId:data.customerId
+      }
+
+      this.setState({
+        addressForm:addressForm,
+        showModal:true,
+        isAdd:false
+      })
+    }
+    
+  }
   openAddModal(){
     this.setState({
       showModal:true,
       isAdd:true
     })
   }
-  openEditModal(){
-    this.setState({
-      showModal:true,
-      isAdd:false
-    })
+  openEditModal(id){
+    this.getAddressById(id)
+    
   }
   closeModal(){
     this.setState({
@@ -89,29 +123,37 @@ export default class ShippingAddress extends React.Component {
     let params = {
       "areaId": +data.country,
       "cityId": +data.city,
-      "consigneeName": data.firstName+data.lastName,
+      "consigneeName": data.firstName+" "+data.lastName,
       "consigneeNumber": data.phoneNumber,
-      "customerId": "string",
-      "deliveryAddress": data.address1+data.address2,
-      "deliveryAddressId": "string",
-      "employeeId": "string",
+      "customerId": data.customerId,
+      "deliveryAddress": data.address1+" "+data.address2,
+      "deliveryAddressId": data.deliveryAddressId,
       "isDefaltAddress": data.isDefalt?1:0,
       "postCode": data.postCode,
       "provinceId": 0,
       "rfc": data.rfc,
-      "type": "string"
     }
-    const res = await saveAddress(params)
-    if(res.code === 'K-000000'){
-      this.getAddressList()
-      this.closeModal()
-      
+    if(this.state.isAdd){
+      const res = await saveAddress(params)
+      if(res.code === 'K-000000'){
+        this.getAddressList()
+        this.closeModal()
+        
+      }
+    }else{
+      const res = await editAddress(params)
+      if(res.code === 'K-000000'){
+        this.getAddressList()
+        this.closeModal()
+        
+      }
     }
     
+    
   }
-  setDefaltAddress = async (item)=>{
+  setDefaltAddress = async (id)=>{
     let params = {
-      "deliveryAddressId": item.deliveryAddressId,
+      "deliveryAddressId": id,
     }
     const res = await setDefaltAddress(params)
     if(res.code === 'K-000000'){
@@ -206,9 +248,9 @@ export default class ShippingAddress extends React.Component {
                           <div className="card-action-link">
                             { item.isDefaltAddress ===1?
                             <span><FormattedMessage id="defaultAddress"></FormattedMessage></span>:
-                            <a onClick={()=>this.setDefaltAddress(item)}>
+                            <a onClick={()=>this.setDefaltAddress(item.deliveryAddressId)}>
                                <FormattedMessage id="setDefaultAddress"></FormattedMessage></a>}
-                            <a onClick={()=>this.openEditModal()}> 
+                            <a onClick={()=>this.openEditModal(item.deliveryAddressId)}> 
                               <FormattedMessage id="edit" ></FormattedMessage>
                             </a>
                           </div>
@@ -475,7 +517,21 @@ export default class ShippingAddress extends React.Component {
 
                         <div className="ant-row ant-form-item">
                           <div className="ant-form-item-control-wrapper">
-                            <div className="ant-form-item-control has-success address-input">
+                            <div className="rc-input rc-input--inline" style={{margin: "15px 0 0 0"}} onClick={()=>this.isDefalt()}>
+                              <input type="checkbox" 
+                                id="defaultAddress"
+                                className="rc-input__checkbox" 
+                                 
+                                value={addressForm.isDefalt}/>
+                                {
+                                  !addressForm.isDefalt?<label className="rc-input__label--inline" >
+                                  <FormattedMessage id="setDefaultAddress"></FormattedMessage>
+                                </label>:<label className="rc-input__label--inline defaultAddressChecked">
+                                <FormattedMessage id="setDefaultAddress"></FormattedMessage>
+                              </label>
+                                }
+                            </div>
+                            {/* <div className="ant-form-item-control has-success address-input">
                               <label className="ant-checkbox-wrapper">
                                 <span className="ant-checkbox">
                                 <input type="checkbox" className="ant-checkbox-input" onClick={()=>this.isDefalt()} value={addressForm.isDefalt}/>
@@ -484,7 +540,7 @@ export default class ShippingAddress extends React.Component {
                                 <span><FormattedMessage id="setDefaultAddress"></FormattedMessage></span>
                               </label>
                               
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </form>

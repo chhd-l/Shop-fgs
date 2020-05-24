@@ -68,6 +68,17 @@ export default class PetForm extends React.Component {
     this.selectFeatures = this.selectFeatures.bind(this)
     this.getPetList()
   }
+
+  componentWillUnmount () {
+    localStorage.setItem("isRefresh", true);
+  }
+  componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
+  }
   getPetList = async ()=>{
     const res = await getPetList()
     if(res.code === 'K-000000'){
@@ -78,16 +89,21 @@ export default class PetForm extends React.Component {
   }
   addPet = async ()=>{
     const { features } = this.state
-    let specialNeeds =[] 
     let petsPropRelations=[]
     let propId = 100
     for(let name in features){
       if(features[name]){
-        
-        specialNeeds.push(name)
         let prop ={
-          propId:propId,
-          propName:name
+          "createTime": "2020-05-22T02:36:38.079Z",
+          "delFlag": 0,
+          "detailId": 0,
+          "indexFlag": 0,
+          "petsId": "10086",
+          "propId": propId,
+          "propName": name,
+          "relationId": "10086",
+          "sort": 0,
+          "updateTime": "2020-05-22T02:36:38.079Z"
         }
         petsPropRelations.push(prop)
         propId +=1
@@ -96,20 +112,31 @@ export default class PetForm extends React.Component {
     
     
     let pets={
-      petsType:this.state.isCat?'cat':'dog',
-      petsName:this.state.nickname,
-      petsSex:this.state.isMale?"0":"1",
-      petsBrend:this.state.isUnknown?"unknown Breed":this.state.breed,
-      petsSize:this.state.weight,
-      sterilized:this.state.isSterilized?"0":"1",
-      birthOfPets:this.state.birthdate,
-      specialNeeds:specialNeeds
+        "birthOfPets": this.state.birthdate,
+
+        "updateTime": "2020-05-22T08:38:21.753Z",
+        "updator": "10086",
+        "createTime": "2020-05-22T08:38:21.753Z",
+        "creator": "10086",
+
+        "petsBreed": this.state.isUnknown?"unknown Breed":this.state.breed,
+        "petsId": "10086",
+        "petsImg": "10086",
+        "petsName": this.state.nickname,
+        "petsSex": this.state.isMale?"0":"1",
+        "petsSizeValueId": "10086",
+        "petsSizeValueName": "10086",
+        "petsType": this.state.isCat?'cat':'dog',
+        "sterilized":this.state.isSterilized?"0":"1",
     }
+    
     console.log(pets);
     
     let param = {
-      pets:pets,
-      petsPropRelations:petsPropRelations
+      "pets":pets,
+      "petsPropRelations":petsPropRelations,
+      "storeId": 10086,
+      "userId": "10086"
     }
     const res = await addPet(param)
     if(res.code === 'K-000000'){
