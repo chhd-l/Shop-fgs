@@ -12,7 +12,17 @@ export default class OrderFilters extends React.Component {
       }
     }
   }
-  handleInputChange (e) {debugger
+  handleInputChange (e) {
+    const target = e.target
+    const { form } = this.state
+    form[target.name] = target.value
+    this.setState({ form: form })
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.props.updateFilterData(this.state.form)
+    }, 500)
+  }
+  handleDateBlur (e) {
     const target = e.target
     const { form } = this.state
     form[target.name] = target.value
@@ -60,7 +70,7 @@ export default class OrderFilters extends React.Component {
                 data-js-dateformat="DD/MM/YYYY"
                 name="startdate"
                 value={form.startdate}
-                onChange={e => this.handleInputChange(e)}
+                onBlur={e => this.handleDateBlur(e)}
                 type="date" />
               <label className="rc-input__label" htmlFor="startdate"></label>
             </span>
@@ -74,7 +84,7 @@ export default class OrderFilters extends React.Component {
                 data-js-dateformat="DD/MM/YYYY"
                 name="enddate"
                 value={form.enddate}
-                onChange={e => this.handleInputChange(e)}
+                onBlur={e => this.handleDateBlur(e)}
                 type="date" />
               <label className="rc-input__label" htmlFor="enddate"></label>
             </span>
