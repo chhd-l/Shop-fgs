@@ -7,11 +7,13 @@ export default {
     clientId: CLIENT_ID,
     issuer: ISSUER,
     redirectUri: 'https://shopuat.466920.com/implicit/callback',
+    // redirectUri: 'https://localhost:3000/api/messages',
     scopes: ['openid', 'profile', 'email'],
     pkce: true,
     disableHttpsCheck: OKTA_TESTING_DISABLEHTTPSCHECK,
   },
   resourceServer: {
     messagesUrl: 'https://shopuat.466920.com/api/messages',
+    // messagesUrl: 'https://localhost:3000/api/messages',
   },
 };
