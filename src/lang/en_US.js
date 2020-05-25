@@ -77,7 +77,7 @@ const en_US = {
   'home.pageNotFoundInfo': 'Sorry, the page you are looking for does not exist.',
   'home.convenientTitle': 'Why is it convenient to shop with ROYAL CANIN®?',
   'home.convenientTip1': 'Selection of a diet according to the needs of your pet',
-  'home.convenientTip2': 'Fast free shipping when ordering from $499.',
+  'home.convenientTip2': 'Fast free shipping when ordering from $400.',
   'home.convenientTip3': 'Support service: ask a question about your pet to a specialist',
   'home.point1': 'Secure payments',
   'home.point2': 'Quality assurance',
@@ -118,7 +118,7 @@ const en_US = {
 
   'cart.errorInfo': 'The number can\'t be less than 1',
   'cart.errorInfo2': 'You cannot place your order, since the chosen product is out of stock.',
-  'cart.errorInfo3': '*Your order amount has not yet reached the minimum amount for free shipping （$499）',
+  'cart.errorInfo3': '*Your order amount has not yet reached the minimum amount for free shipping （$400）',
   'cart.yourBasket': 'Your basket',
   'cart.fullPrice': 'FULL RICE FOR YOUR PET',
   'cart.dogDiet': 'Choose a diet for your dog',
@@ -280,7 +280,9 @@ const en_US = {
   'setDefaultAddress':'set as the default address',
   'consigneeNumber':'Consignee Number',
   'area':'Area',
-  'deliveryAddress':'Delivery Address'
+  'deliveryAddress':'Delivery Address',
+  
+  'promotion': 'Promotion'
 
 }
 export default en_US;

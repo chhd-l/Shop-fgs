@@ -31,6 +31,7 @@ class Header extends React.Component {
       checkoutLoading: false,
       validateAllItemsStock: true,
       errMsg: '',
+      tradePrice: '',
       clinicsId: sessionStorage.getItem('rc-clinics-id'),
       clinicsName: sessionStorage.getItem('rc-clinics-name'),
       isLogin:false
@@ -92,12 +93,12 @@ class Header extends React.Component {
     return ret
   }
   async handleCheckout () {
-    if (this.totalPrice < MINIMUM_AMOUNT) {
-      this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo3" />
-      })
-      return false
-    }
+    // if (this.state.tradePrice < MINIMUM_AMOUNT) {
+    //   this.setState({
+    //     errMsg: <FormattedMessage id="cart.errorInfo3" />
+    //   })
+    //   return false
+    // }
     const { cartData } = this.props
     let tmpValidateAllItemsStock = true
     this.setState({ checkoutLoading: true })
@@ -110,7 +111,8 @@ class Header extends React.Component {
           invalid: false
         }
       })
-      let latestGoodsInfos = await hanldePurchases(param)
+      let res = await hanldePurchases(param)
+      let latestGoodsInfos = res.goodsInfos
       productList.map(item => {
         let selectedSize = find(item.sizeList, s => s.selected)
         const tmpObj = find(latestGoodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
@@ -122,10 +124,22 @@ class Header extends React.Component {
         }
       })
 
+      sessionStorage.setItem('rc-totalInfo', JSON.stringify({
+        totalPrice: res.totalPrice,
+        tradePrice: res.tradePrice,
+        discountPrice: res.discountPrice
+      }))
       this.setState({
         checkoutLoading: false,
-        validateAllItemsStock: tmpValidateAllItemsStock
+        validateAllItemsStock: tmpValidateAllItemsStock,
+        tradePrice: res.tradePrice
       }, () => {
+        if (this.state.tradePrice < MINIMUM_AMOUNT) {
+          this.setState({
+            errMsg: <FormattedMessage id="cart.errorInfo3" />
+          })
+          return false
+        }
         const { validateAllItemsStock } = this.state
         if (!validateAllItemsStock) {
           this.setState({
