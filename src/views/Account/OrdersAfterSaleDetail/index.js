@@ -47,14 +47,7 @@ export default class OrdersAfterSaleDetail extends React.Component {
               <div className="my__account-content rc-column rc-quad-width">
                 <div className="row justify-content-center">
                   <div className="order_listing_details col-12 no-padding">
-                    <div
-                      className="card confirm-details orderDetailsPage ml-0 mr-0"
-                      ref={(node) => {
-                        if (node) {
-                          node.style.setProperty('padding', '0', 'important');
-                          node.style.setProperty('border', '0', 'important');
-                        }
-                      }}>
+                    <div className="card confirm-details orderDetailsPage ml-0 mr-0">
                       {this.state.loading
                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
                         : details
@@ -111,7 +104,7 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div class="order__listing">
+                            <div class="order__listing mt-4">
                               <div className="order-list-container">
                                 <div className="card-container mt-0 border-0">
                                   <div className="card rc-margin-y--none">
@@ -120,13 +113,13 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                         <p>Returned goods</p>
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        <p>Unit</p>
+                                        <p>Weight</p>
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        <p>Return unit price</p>
+                                        <p>Price</p>
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        <p>Quantity returned</p>
+                                        <p>Quantity</p>
                                       </div>
                                       <div className="col-12 col-md-2">
                                         <p>Subtotal</p>
@@ -139,15 +132,14 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                         <img
                                           className="img-fluid border"
                                           src={item.pic}
-                                          alt={item.spuName}
-                                          title={item.spuName} />
-                                        <div className="m-1">
-                                          {item.spuName}<br />
-                                          <span className="color-999">{item.specDetails}</span>
+                                          alt={item.skuName}
+                                          title={item.skuName} />
+                                        <div className="m-1 color-999">
+                                          {item.skuName}
                                         </div>
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        {item.unit}
+                                        {item.specDetails}
                                       </div>
                                       <div className="col-12 col-md-2">
                                         {formatMoney(item.price)}
