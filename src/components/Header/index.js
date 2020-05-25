@@ -12,6 +12,8 @@ import './index.css'
 import { getList } from '@/api/list'
 import { CATEID, MINIMUM_AMOUNT } from '@/utils/constant'
 import { getPrescriptionById } from '@/api/clinic'
+import { useOktaAuth } from '@okta/okta-react';
+import LoginButton from '@/components/test'
 
 class Header extends React.Component {
   static defaultProps = {
@@ -544,6 +546,7 @@ class Header extends React.Component {
                           <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{minWidth:"13rem"}}>
                             <div className="container cart" >
                                 <div className="login-style">
+                                  <LoginButton/>
                                   <button className="rc-btn rc-btn--one" style={{width:"11rem",margin:"2rem 0"}} 
                                     onClick={this.clickLogin}>To come in</button>
                                   <div>You are not registred?</div>

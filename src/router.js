@@ -27,13 +27,22 @@ import AccountPetForm from "@/views/Account/PetForm";
 import AccountPetList from "@/views/Account/PetList";
 import AccountShippingAddress from "@/views/Account/ShippingAddress";
 
+import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
+import { Container } from 'semantic-ui-react';
+import config from './config';
 
 const BasicRoute = () => (
   <HashRouter>
     <RouteFilter />
     <ScrollToTop>
+      <Security {...config.oidc}>
+        <Container text style={{ marginTop: '7em' }}>
+          <Route path="/" exact component={Home} />
+          <Route path="/implicit/callback" component={LoginCallback} />
+        </Container>
+      </Security>
       <Switch>
-        <Route exact path="/" component={Home} />
+        {/* <Route exact path="/" component={Home} /> */}
         <Route exact path="/login" component={Login} />
         <Route
           exact
