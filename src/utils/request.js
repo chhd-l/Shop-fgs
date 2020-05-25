@@ -3,7 +3,7 @@ import axios from 'axios'
 // 创建 axios 实例
 const service = axios.create({
   // baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'https://121.37.129.70:8090/', // api base_url
-  baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'https://shopuat.466920.com/', // api base_url
+  baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'https://shopuat.466920.com/api/', // api base_url
   // baseURL: process.env.VUE_APP_URL,
   timeout: 60000 // 请求超时时间
 })
