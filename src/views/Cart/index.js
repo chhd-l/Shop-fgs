@@ -17,42 +17,10 @@ class Cart extends React.Component {
       errorShow: false,
       errorMsg: '',
       productList: [
-        {
-          id: "3003_RU",
-          name: "Miniddd adult",
-          url:
-            "https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png",
-          img:
-            "https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x",
-          description:
-            "Mini Edalt: dry food for dogs aged 10 months to 8 years. MINI Adult is specially designed for dogs of small breeds (weighing from 4 to 10 kg). In the nutrition of dogs of small breeds, not only the adapted croquet size is important. They need more energy than large dogs, their growth period is shorter and their growth is more intense. As a rule, they live longer than large dogs, and are more picky in their diet.<ul><li>dsdsds</li></ul>",
-          reference: 2323,
-          sizeList: [
-            {
-              label: "2.00",
-              price: 100,
-              originalPrice: 120,
-              unit: "kg",
-              selected: true,
-            },
-            {
-              label: "4.00",
-              price: 300,
-              originalPrice: 320,
-              unit: "kg",
-              selected: false,
-            },
-            {
-              label: "6.00",
-              price: 500,
-              originalPrice: 530,
-              unit: "kg",
-              selected: false,
-            },
-          ],
-          quantity: 1,
-        },
       ],
+      totalPrice: '',
+      tradePrice: '',
+      discountPrice: '',
       currentProduct: null,
       currentProductIdx: -1,
       loading: true,
@@ -60,7 +28,8 @@ class Cart extends React.Component {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       quantityMinLimit: 1,
       checkoutLoading: false,
-      validateAllItemsStock: true
+      validateAllItemsStock: true,
+      isPromote: false
     }
     this.handleAmountChange = this.handleAmountChange.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
@@ -73,7 +42,7 @@ class Cart extends React.Component {
     const { history } = this.props;
 
     // 价格未达到底限，不能下单
-    if (this.total < MINIMUM_AMOUNT) {
+    if (this.state.tradePrice < MINIMUM_AMOUNT) {
       this.setState({
         errorShow: true,
         errorMsg: <FormattedMessage id="cart.errorInfo3" />
@@ -137,7 +106,10 @@ class Cart extends React.Component {
       item.quantity = tmp
       this.setState({
         productList: this.state.productList
-      }, () => this.changeCache())
+      }, () => {
+        this.changeCache()
+        this.updateStock()
+      })
     }
   }
   changeCache () {
@@ -199,6 +171,7 @@ class Cart extends React.Component {
       productList: newProductList
     }, () => {
       this.changeCache();
+      this.updateStock()
       this.closeModal();
     })
   }
@@ -239,12 +212,26 @@ class Cart extends React.Component {
         invalid: false
       }
     })
-    let latestGoodsInfos = await hanldePurchases(param)
+    let res = await hanldePurchases(param)
+    let latestGoodsInfos = res.goodsInfos
+    console.log(res, 'latestGoodsInfos')
+    let goodsMarketingMapStr = JSON.stringify(res.goodsMarketingMap)
+    if(goodsMarketingMapStr === "{}") {
+      this.setState({
+        isPromote: false
+      })
+    }else {
+      this.setState({
+        isPromote: true
+      })
+    }
+    sessionStorage.setItem('goodsMarketingMap', goodsMarketingMapStr)
     productList.map(item => {
       let selectedSize = find(item.sizeList, s => s.selected)
       const tmpObj = find(latestGoodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
       if (tmpObj) {
         selectedSize.stock = tmpObj.stock
+        selectedSize.marketingLabels = tmpObj.marketingLabels
         if (item.quantity > tmpObj.stock) {
           this.setState({
             validateAllItemsStock: false
@@ -252,8 +239,16 @@ class Cart extends React.Component {
         }
       }
     })
+    sessionStorage.setItem('rc-totalInfo', JSON.stringify({
+      totalPrice: res.totalPrice,
+      tradePrice: res.tradePrice,
+      discountPrice: res.discountPrice
+    }))
     this.setState({
-      productList: productList
+      productList: productList,
+      totalPrice: res.totalPrice,
+      tradePrice: res.tradePrice,
+      discountPrice: res.discountPrice
     }, () => this.changeCache());
   }
   gotoDetails (pitem) {
@@ -382,6 +377,19 @@ class Cart extends React.Component {
                         </div>
                       </span>
                     </div>
+                    <div className="promotion stock" style={{display: this.state.isPromote?'inline-block': 'none'}}>
+                      <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
+                        <span><FormattedMessage id="promotion" /> :</span>
+                      </label>
+                      <span className="availability-msg">
+                        {/* {console.log(find(pitem.sizeList, s => s.selected).marketingLabels, 'find(pitem.sizeList, s => s.selected)')} */}
+                        <div>
+                          {/* <FormattedMessage id="25% OFF" /> */}
+                          {/* {find(pitem.sizeList, s => s.selected).marketingLabels[0].marketingDesc} */}
+                          25% OFF
+                        </div>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -434,6 +442,19 @@ class Cart extends React.Component {
                       </div>
                     </span>
                   </div>
+                  <div className="promotion stock" style={{marginTop: '7px', display: this.state.isPromote?'inline-block': 'none'}}>
+                      <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
+                        <span className=""><FormattedMessage id="promotion" /> :</span>
+                      </label>
+                      <span className="availability-msg">
+                        {/* {console.log(find(pitem.sizeList, s => s.selected).marketingLabels, 'find(pitem.sizeList, s => s.selected)')} */}
+                        <div>
+                          {/* <FormattedMessage id="25% OFF" /> */}
+                          {/* {find(pitem.sizeList, s => s.selected).marketingLabels[0].marketingDesc} */}
+                          25% OFF
+                        </div>
+                      </span>
+                    </div>
                 </div>
               </div>
             </div>
@@ -515,7 +536,17 @@ class Cart extends React.Component {
                           <FormattedMessage id="total" />
                         </div>
                         <div className="col-4 no-padding-left">
-                          <p className="text-right sub-total">{formatMoney(this.total)}</p>
+                          <p className="text-right sub-total">{formatMoney(this.state.totalPrice)}</p>
+                        </div>
+                      </div>
+                      <div className="row" style={{display: this.state.isPromote? 'flex': 'none'}}>
+                        <div className="col-4">
+                          <p style={{color: '#ec001a'}}>
+                            <FormattedMessage id="promotion" />
+                          </p>
+                        </div>
+                        <div className="col-8">
+                          <p className="text-right shipping-cost" style={{color: '#ec001a'}}>- {formatMoney(this.state.discountPrice)}</p>
                         </div>
                       </div>
                       <div className="row">
@@ -536,7 +567,7 @@ class Cart extends React.Component {
                             </strong>
                           </div>
                           <div className="col-5">
-                            <p className="text-right grand-total-sum medium">{formatMoney(this.total)}</p>
+                            <p className="text-right grand-total-sum medium">{formatMoney(this.state.tradePrice)}</p>
                           </div>
                         </div>
                         <div className="row checkout-proccess">

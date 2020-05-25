@@ -1,4 +1,5 @@
 const en_US = {
+  'promotion': 'Promoción',
   'yes': 'sí',
   'cancel': 'cancelación',
   'name': 'nombre',
@@ -74,7 +75,7 @@ const en_US = {
   'home.pageNotFoundInfo': 'Apesadumbrada, la página que usted está buscando no existe.',
   'home.convenientTitle': '¿Por qué es conveniente hacer compras con ROYAL CANIN®?',
   'home.convenientTip1': 'Selección de una dieta específica, según las necesidades de tu perro o gato.',
-  'home.convenientTip2': 'Envío gratis a partir de ordenes de $499 mxn.',
+  'home.convenientTip2': 'Envío gratis a partir de ordenes de $400 mxn.',
   'home.convenientTip3': 'Atención personalizada: Haz una pregunta acerca de tu mascota a nuestros especialistas.',
   'home.point1': 'Pagos seguros',
   'home.point2': 'Garantía de calidad',
@@ -115,7 +116,7 @@ const en_US = {
 
   'cart.errorInfo': 'El número no puede ser inferior a 1',
   'cart.errorInfo2': 'No puede realizar su pedido, ya que el producto elegido está agotado.',
-  'cart.errorInfo3': '*El monto de su pedido aún no ha alcanzado el monto mínimo para envío gratuito ($499)',
+  'cart.errorInfo3': '*El monto de su pedido aún no ha alcanzado el monto mínimo para envío gratuito ($400)',
   'cart.yourBasket': 'Tu canasta',
   'cart.fullPrice': 'Descubre nuestras dietas veterinarias',
   'cart.dogDiet': 'Dietas de veterinaria para perros',
@@ -176,7 +177,7 @@ const en_US = {
   'payment.normalDelivery2': 'Entrega normal',
   'payment.normalDelivery3': '(1-4 días)',
   'payment.commentOnDelivery': 'Comentario de entrega',
-  'payment.forFreeTip': 'Para los consumidores que hacen pedidos en el sitio web, siempre que el monto alcance ciertos $ 499, pueden proporcionar un servicio de entrega gratuito.',
+  'payment.forFreeTip': 'Para los consumidores que hacen pedidos en el sitio web, siempre que el monto alcance ciertos $ 400, pueden proporcionar un servicio de entrega gratuito.',
   'payment.choosePayment': 'Elige un pago',
   'payment.yourOrder': 'Su pedido',
   'payment.itemTotalProduct': 'artículo producto total',
@@ -214,6 +215,7 @@ const en_US = {
   'help.tip3': 'Le responderemos dentro de un máximo de 12 horas.',
   'help.byTelephone': 'Por teléfono',
   'help.byEmail': 'Por correo',
+  'promotion': 'Promoción'
 
   'account.personalArea': 'Area personal',
   'account.profile': 'Perfil',

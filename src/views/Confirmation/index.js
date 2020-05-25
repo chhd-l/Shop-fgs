@@ -54,7 +54,10 @@ class Confirmation extends React.Component {
       currentProduct: null,
       loading: true,
       modalShow: false,
-      commentOnDelivery: ''
+      commentOnDelivery: '',
+      totalPrice: '',
+      tradePrice: '',
+      discountPrice: ''
     };
   }
   changeCache () {

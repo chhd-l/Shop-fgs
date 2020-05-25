@@ -1,0 +1,28 @@
+@media (min-width: 769px) {
+  .hero-carousel__slide__inner-custom .rc-md-down {
+      display: none!important;
+  }
+  .btn-cheat-md-down {
+    position: absolute;
+    width: 194px;
+    height: 47px;
+    z-index: 3;
+    left: 43%;
+    bottom: 15%;
+    cursor: pointer;    
+  }
+}
+@media (max-width: 769px){
+  .hero-carousel__slide__inner-custom .rc-md-up {
+    display: none!important;
+  }
+  .btn-cheat-md-up {
+    position: absolute;
+    width: 27%;
+    height: 6%;
+    z-index: 3;
+    left: 36%;
+    bottom: 47%;
+    cursor: pointer; 
+  }  
+}
