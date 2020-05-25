@@ -273,10 +273,10 @@ export default class OrdersAfterSale extends React.Component {
                                     <div className="card rc-margin-y--none">
                                       <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 border-0">
                                         <div className="col-12 col-md-4">
-                                          <p>product name</p>
+                                          <p>Product</p>
                                         </div>
                                         <div className="col-12 col-md-1">
-                                          <p>unit</p>
+                                          <p>Weight</p>
                                         </div>
                                         <div className="col-12 col-md-2">
                                           <p>{afterSaleType === 'exchange' ? 'Exchange Price' : 'Return Price'}</p>
@@ -308,15 +308,14 @@ export default class OrdersAfterSale extends React.Component {
                                                 src={item.pic}
                                                 alt={item.spuName}
                                                 title={item.spuName} />
-                                              <div className="m-1">
-                                                {item.spuName}<br />
-                                                <span className="color-999">{item.specDetails}</span>
+                                              <div className="m-1 color-999">
+                                                {item.spuName}
                                               </div>
                                             </div>
                                           </div>
                                         </div>
                                         <div className="col-12 col-md-1">
-                                          {item.unit}
+                                          {item.specDetails}
                                         </div>
                                         <div className="col-12 col-md-2">
                                           {formatMoney(item.price)}
@@ -352,9 +351,7 @@ export default class OrdersAfterSale extends React.Component {
                                                   className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus rc-btn--increment"
                                                   onClick={() => this.addQuantity(item)}></span>
                                             }
-
                                           </div>
-
                                         </div>
                                         <div className="col-12 col-md-2">
                                           {formatMoney(item.num * item.price)}

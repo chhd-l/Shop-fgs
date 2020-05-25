@@ -250,11 +250,19 @@ export default class AccountOrders extends React.Component {
                                     {/* General Invoice Details Individual */}
                                   </div>
                                 </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Payment method:
+                                  </div>
+                                  <div className="col-12 col-md-8">
+                                    {/* General Invoice Details Individual */}
+                                  </div>
+                                </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="row">
                                   <div className="col-12 col-md-4 text-right color-999">
-                                    Payment name:
+                                    Name:
                                   </div>
                                   <div className="col-12 col-md-8">
                                     {/* {details.payInfo.payTypeName} */}
@@ -262,7 +270,7 @@ export default class AccountOrders extends React.Component {
                                 </div>
                                 <div className="row">
                                   <div className="col-12 col-md-4 text-right color-999">
-                                    Payment email:
+                                    Email:
                                   </div>
                                   <div className="col-12 col-md-8">
                                     {/* no */}
@@ -270,7 +278,15 @@ export default class AccountOrders extends React.Component {
                                 </div>
                                 <div className="row">
                                   <div className="col-12 col-md-4 text-right color-999">
-                                    Payment phone number :
+                                    Phone number :
+                                  </div>
+                                  <div className="col-12 col-md-8">
+                                    {/* no */}
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="col-12 col-md-4 text-right color-999">
+                                    Card number:
                                   </div>
                                   <div className="col-12 col-md-8">
                                     {/* no */}
@@ -278,7 +294,7 @@ export default class AccountOrders extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div class="order__listing">
+                            <div class="order__listing mt-4">
                               <div className="order-list-container">
                                 <div className="card-container mt-0 border-0">
                                   <div className="card rc-margin-y--none">
@@ -287,7 +303,7 @@ export default class AccountOrders extends React.Component {
                                         <p>Product</p>
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        <p>Unit</p>
+                                        <p>Weight</p>
                                       </div>
                                       <div className="col-12 col-md-2">
                                         <p>Price</p>
@@ -308,13 +324,12 @@ export default class AccountOrders extends React.Component {
                                           src={item.pic}
                                           alt={item.spuName}
                                           title={item.spuName} />
-                                        <div className="m-1">
-                                          {item.spuName}<br />
-                                          <span className="color-999">{item.specDetails}</span>
+                                        <div className="m-1 color-999">
+                                          {item.spuName}
                                         </div>
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        {item.unit}
+                                        {item.specDetails}
                                       </div>
                                       <div className="col-12 col-md-2">
                                         {formatMoney(item.price)}

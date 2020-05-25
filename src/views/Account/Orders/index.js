@@ -18,7 +18,6 @@ export default class AccountOrders extends React.Component {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       orderList: [],
       form: {
-        duringTime: '6',
         pageSize: 6,
         orderNumber: '',
         startdate: '',
@@ -26,7 +25,8 @@ export default class AccountOrders extends React.Component {
       },
       loading: false,
       currentPage: 1,
-      totalPage: 1
+      totalPage: 1,
+      initing: true
     }
   }
   componentWillUnmount () {
@@ -76,31 +76,19 @@ export default class AccountOrders extends React.Component {
       }
     }
   }
-  handleDuringTimeChange (e) {
-    const { form } = this.state
-    form.duringTime = e.target.value
-    this.setState({
-      form: form,
-      currentPage: 1,
-    }, () => this.queryOrderList())
-  }
   queryOrderList () {
-    const { form } = this.state
-    const { currentPage } = this.state
-    let createdFrom = ''
-    this.setState({ loading: true })
-    let now = dateFormat('YYYY-mm-dd', new Date())
-    if (form.duringTime === '13') {
-      let now2 = new Date()
-      now2.setDate(1)
-      now2.setMonth(0)
-      createdFrom = dateFormat('YYYY-mm-dd', now2)
-    } else {
-      createdFrom = getPreMonthDay(now, parseInt(form.duringTime))
+    const { form, initing, currentPage } = this.state
+
+    if (!initing) {
+      const widget = document.querySelector('#J_order_list')
+      if (widget) {
+        setTimeout(() => {
+          window.scrollTo(0, widget.offsetTop);
+        }, 0)
+      }
     }
+
     let param = {
-      // createdFrom,
-      // createdTo: now,
       keywords: form.orderNumber,
       createdFrom: form.startdate ? form.startdate.split('/').join('-') : '',
       createdTo: form.enddate ? form.enddate.split('/').join('-') : dateFormat('YYYY-mm-dd', new Date()),
@@ -113,7 +101,8 @@ export default class AccountOrders extends React.Component {
           orderList: res.context.content,
           currentPage: res.context.pageable.pageNumber + 1,
           totalPage: res.context.totalPages,
-          loading: false
+          loading: false,
+          initing: false
         })
       })
       .catch(err => {
@@ -153,32 +142,7 @@ export default class AccountOrders extends React.Component {
                   </h4>
                 </div>
                 <OrderFilters updateFilterData={form => this.updateFilterData(form)} />
-                {/* <div>
-                  <div className="form-group rc-select-processed">
-                    <select
-                      data-js-select=""
-                      value={this.state.form.duringTime}
-                      onChange={(e) => this.handleDuringTimeChange(e)}>
-                      <FormattedMessage id="order.lastXMonths" values={{ val: 6 }}>
-                        {txt => (
-                          <option value="6">
-                            {txt}
-                          </option>
-                        )}
-                      </FormattedMessage>
-                      <FormattedMessage id="order.lastXMonths" values={{ val: 12 }}>
-                        {txt => (
-                          <option value="6">
-                            {txt}
-                          </option>
-                        )}
-                      </FormattedMessage>
-                      <option value="13">{new Date().getFullYear()}</option>
-                    </select>
-                  </div>
-                </div> */}
-
-                <div className="order__listing">
+                <div className="order__listing" id="J_order_list">
                   <div className="order-list-container">
                     {
                       this.state.loading
