@@ -296,7 +296,8 @@ class List extends React.Component {
     }
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
     sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
-    createHashHistory().push('/details/' + item.goodsInfos[0].goodsInfoId)
+    const { history } = this.props
+    history.push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   render () {
     const { category, results, productList, loading, checkedList, currentPage, totalPage, titleData } = this.state
