@@ -1,6 +1,6 @@
 import React from "react"
 import Skeleton from 'react-skeleton-loader'
-import { createHashHistory } from 'history'
+import { withRouter } from 'react-router-dom'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -11,7 +11,7 @@ import { formatMoney } from "@/utils/utils"
 import { getOrderDetails, cancelOrder } from "@/api/order"
 import './index.css'
 
-export default class AccountOrders extends React.Component {
+class AccountOrders extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -42,14 +42,14 @@ export default class AccountOrders extends React.Component {
   }
   hanldeItemClick (afterSaleType) {
     sessionStorage.setItem('rc-after-sale-type', afterSaleType)
-    createHashHistory().push(`/account/orders-aftersale/${this.state.orderNumber}`)
+    this.props.history.push(`/account/orders-aftersale/${this.state.orderNumber}`)
   }
   handleCancelOrder () {
     this.setState({ cancelOrderLoading: true })
     cancelOrder(this.state.orderNumber)
       .then(res => {
         this.setState({ cancelOrderLoading: false })
-        createHashHistory().push('/account/orders')
+        this.props.history.push('/account/orders')
       })
       .catch(err => {
         console.log(err)
@@ -436,3 +436,5 @@ export default class AccountOrders extends React.Component {
     )
   }
 }
+
+export default withRouter(AccountOrders)

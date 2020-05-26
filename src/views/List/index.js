@@ -1,6 +1,5 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
-import { createHashHistory } from 'history'
 import { FormattedMessage } from 'react-intl'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'

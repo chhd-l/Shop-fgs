@@ -1,15 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Link } from "react-router-dom"
+import { withRouter, Link } from "react-router-dom"
 import {
   formatMoney,
   hanldePurchases
 } from '@/utils/utils'
 import { find } from 'lodash'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
-import { createHashHistory } from 'history'
 
-export default class UnloginCart extends React.Component {
+class UnloginCart extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -100,7 +99,7 @@ export default class UnloginCart extends React.Component {
             errMsg: <FormattedMessage id="cart.errorInfo2" />
           })
         } else {
-          createHashHistory().push('/prescription')
+          this.props.history.push('/prescription')
         }
       })
     }
@@ -227,3 +226,5 @@ export default class UnloginCart extends React.Component {
     )
   }
 }
+
+export default withRouter(UnloginCart)

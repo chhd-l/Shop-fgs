@@ -8,25 +8,52 @@ import SideMenu from '@/components/SideMenu'
 import './index.css'
 import noPet from "@/assets/images/noPet.jpg"
 import { Link } from 'react-router-dom';
-import { createHashHistory } from 'history'
 import {  getPetList } from '@/api/pet'
+import Loading from "@/components/Loading"
 
 export default class Pet extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      loading:true,
+      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
+    
+  }
+  componentDidMount(){
     this.getPetList()
   }
   isHavePet(){
-    createHashHistory().push('/account/pets/petList')
+    const { history } = this.props
+    history.push('/account/pets/petForm')
   }
   getPetList = async ()=>{
-    const res = await getPetList()
-    if(res.code === 'K-000000'){
-      console.log(res);
-      
-    }
+    let params = {
+        "consumerAccount": "10086"
+      }
+    await getPetList(params).then( res =>{
+      if(res.code === 'K-000000'){
+        let petList = res.context.context
+        if(petList.length>0){
+          this.setState({
+            loading:false
+          })
+          this.isHavePet()
+        }
+        
+      }
+      else{
+        this.setState({
+          loading:false
+        })
+      }
+    }).catch(err => {
+      this.setState({
+        loading: false
+      })
+    })
+    
+    
     
   }
   render () {
@@ -46,6 +73,7 @@ export default class Pet extends React.Component {
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Pets" />
+              {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div class="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
                   <h4 class="rc-delta rc-margin--none">

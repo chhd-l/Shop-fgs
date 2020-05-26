@@ -1,22 +1,22 @@
-import React from "react";
-import Skeleton from "react-skeleton-loader";
-import GoogleTagManager from "@/components/GoogleTagManager";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import BreadCrumbs from "@/components/BreadCrumbs";
-import ImageMagnifier from "@/components/ImageMagnifier";
+import React from 'react'
+import Skeleton from 'react-skeleton-loader'
+import { withRouter } from 'react-router-dom';
+import GoogleTagManager from '@/components/GoogleTagManager'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import BreadCrumbs from '@/components/BreadCrumbs'
+import ImageMagnifier from '@/components/ImageMagnifier'
 import {
   formatMoney,
   translateHtmlCharater,
   hanldePurchases,
-  jugeLoginStatus,
-} from "@/utils/utils";
-import { MINIMUM_AMOUNT } from "@/utils/constant";
-import { FormattedMessage } from "react-intl";
-import { createHashHistory } from "history";
-import "./index.css";
-import { cloneDeep, findIndex, find } from "lodash";
-import { getDetails, getLoginDetails } from "@/api/details";
+  jugeLoginStatus
+} from "@/utils/utils"
+import { MINIMUM_AMOUNT } from "@/utils/constant"
+import { FormattedMessage } from 'react-intl'
+import './index.css'
+import { cloneDeep, findIndex, find } from 'lodash'
+import { getDetails, getLoginDetails } from '@/api/details'
 import {
   miniPurchases,
   sitePurchase,
@@ -416,11 +416,8 @@ class Details extends React.Component {
           })
         );
 
-        localStorage.setItem(
-          "rc-cart-data-login",
-          JSON.stringify(siteMiniPurchasesRes.goodsList)
-        );
-        createHashHistory().push("/prescription");
+        localStorage.setItem('rc-cart-data-login', JSON.stringify(siteMiniPurchasesRes.goodsList))
+        this.props.history.push('/prescription')
       }
     } catch (err) {
       console.log(err);
@@ -515,7 +512,7 @@ class Details extends React.Component {
             checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />,
           });
         } else {
-          createHashHistory().push("/prescription");
+          this.props.history.push('/prescription')
         }
       });
     }
@@ -933,44 +930,35 @@ class Details extends React.Component {
                           <FormattedMessage id="details.description" />
                         </button>
                       </li> */}
-                          <li>
-                            <button
-                              className="rc-tab rc-btn"
-                              data-toggle="tab__panel-2"
-                              role="tab"
-                            >
-                              <FormattedMessage id="details.beneficialFeatures" />
-                            </button>
-                          </li>
-                          <li>
-                            <button
-                              className="rc-tab rc-btn"
-                              data-toggle="tab__panel-3"
-                              role="tab"
-                            >
-                              <FormattedMessage id="details.ingredients" />
-                            </button>
-                          </li>
-                          <li
-                            style={{
-                              display: this.state.showGoodsDetail4
-                                ? "block"
-                                : "none",
-                            }}
-                          >
-                            <button
-                              className="rc-tab rc-btn"
-                              data-toggle="tab__panel-4"
-                              role="tab"
-                            >
-                              <FormattedMessage id="details.feedingRecommendations" />
-                            </button>
-                          </li>
-                        </ul>
-                      </nav>
-                    </div>
-                    <div className="rc-tabs" style={{ marginTop: "40px" }}>
-                      {/* <div id="tab__panel-1"
+                            <li>
+                              <button
+                                className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                                data-toggle="tab__panel-2"
+                                role="tab">
+                                <FormattedMessage id="details.beneficialFeatures" />
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                                data-toggle="tab__panel-3"
+                                role="tab">
+                                <FormattedMessage id="details.ingredients" />
+                              </button>
+                            </li>
+                            <li style={{ display: this.state.showGoodsDetail4 ? 'block' : 'none' }}>
+                              <button
+                                className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                                data-toggle="tab__panel-4"
+                                role="tab">
+                                <FormattedMessage id="details.feedingRecommendations" />
+                              </button>
+                            </li>
+                          </ul>
+                        </nav>
+                      </div>
+                      <div className="rc-tabs" style={{ marginTop: '40px' }}>
+                        {/* <div id="tab__panel-1"
                     className="rc-tabs__content__single clearfix">
                     <div className="block">
                       <p className="content" dangerouslySetInnerHTML={createMarkup(this.state.goodsDetail1)}></p>
@@ -1029,44 +1017,27 @@ class Details extends React.Component {
                     </div>
                   </div>
 
-                  <div
-                    style={{
-                      display: !this.state.showDescriptionTab
-                        ? "none"
-                        : "block",
-                    }}
-                  >
-                    <div className="rc-border-bottom rc-border-colour--interface ">
-                      <nav className="rc-fade--x" data-toggle-group="">
-                        <ul
-                          className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
-                          role="tablist"
-                        >
-                          <li>
-                            <button
-                              className="rc-tab rc-btn"
-                              data-toggle="tab__panel-1-1"
-                              role="tab"
-                            >
-                              <FormattedMessage id="details.description" />
-                            </button>
-                          </li>
-                        </ul>
-                      </nav>
-                    </div>
-                    <div className="rc-tabs" style={{ marginTop: "40px" }}>
-                      <div
-                        id="tab__panel-1-1"
-                        className="rc-tabs__content__single clearfix"
-                      >
-                        <div className="block">
-                          <p
-                            className="content"
-                            dangerouslySetInnerHTML={createMarkup(
-                              this.state.goodsDetail1
-                            )}
-                          ></p>
-                        </div>
+                    <div style={{ display: !this.state.showDescriptionTab ? 'none' : 'block' }}>
+                      <div className="rc-border-bottom rc-border-colour--interface ">
+                        <nav className="rc-fade--x" data-toggle-group="">
+                          <ul className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist">
+                            <li>
+                              <button
+                                className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                                data-toggle="tab__panel-1-1"
+                                role="tab">
+                                <FormattedMessage id="details.description" />
+                              </button>
+                            </li>
+                          </ul>
+                        </nav>
+                      </div>
+                      <div className="rc-tabs" style={{ marginTop: '40px' }}>
+                        <div id="tab__panel-1-1"
+                          className="rc-tabs__content__single clearfix">
+                          <div className="block">
+                            <p className="content" dangerouslySetInnerHTML={createMarkup(this.state.goodsDetail1)}></p>
+                          </div>
                       </div>
                     </div>
                   </div>
@@ -1121,4 +1092,4 @@ class Details extends React.Component {
   }
 }
 
-export default Details;
+export default withRouter(Details)

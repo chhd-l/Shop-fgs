@@ -1,11 +1,10 @@
 
 import React from "react";
 import { FormattedMessage } from 'react-intl'
-import { createHashHistory } from 'history'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { formatMoney, hanldePurchases } from "@/utils/utils"
 import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { find } from 'lodash'
@@ -16,7 +15,7 @@ import {
   siteMiniPurchases
 } from '@/api/cart'
 
-export default class LoginCart extends React.Component {
+class LoginCart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -118,7 +117,7 @@ export default class LoginCart extends React.Component {
     }
 
     localStorage.setItem('rc-cart-data-login', JSON.stringify(productList))
-    createHashHistory().push('/prescription')
+    this.props.history.push('/prescription')
   }
   handleAmountChange (e, item) {
     this.setState({ errorShow: false })
@@ -207,12 +206,12 @@ export default class LoginCart extends React.Component {
   }
   goBack (e) {
     e.preventDefault();
-    createHashHistory().goBack()
+    this.props.history.goBack()
   }
   gotoDetails (pitem) {
     sessionStorage.setItem('rc-goods-cate-name', pitem.goodsCateName || '')
     sessionStorage.setItem('rc-goods-name', pitem.goodsName)
-    createHashHistory().push('/details/' + pitem.goodsInfoId)
+    this.props.history.push('/details/' + pitem.goodsInfoId)
   }
   getProducts (plist) {
     const Lists = plist.map((pitem, index) => (
@@ -658,3 +657,5 @@ export default class LoginCart extends React.Component {
     );
   }
 }
+
+export default withRouter(LoginCart)
