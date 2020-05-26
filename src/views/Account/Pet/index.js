@@ -8,7 +8,6 @@ import SideMenu from '@/components/SideMenu'
 import './index.css'
 import noPet from "@/assets/images/noPet.jpg"
 import { Link } from 'react-router-dom';
-import { createHashHistory } from 'history'
 import {  getPetList } from '@/api/pet'
 import Loading from "@/components/Loading"
 
@@ -19,27 +18,42 @@ export default class Pet extends React.Component {
       loading:true,
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
+    
+  }
+  componentDidMount(){
     this.getPetList()
   }
   isHavePet(){
-    createHashHistory().push('/account/pets/petForm')
+    const { history } = this.props
+    history.push('/account/pets/petForm')
   }
   getPetList = async ()=>{
     let params = {
         "consumerAccount": "10086"
       }
-    
-    const res = await getPetList(params)
-    if(res.code === 'K-000000'){
-      let petList = res.context.context
-      if(petList.length>0){
+    await getPetList(params).then( res =>{
+      if(res.code === 'K-000000'){
+        let petList = res.context.context
+        if(petList.length>0){
+          this.setState({
+            loading:false
+          })
+          this.isHavePet()
+        }
+        
+      }
+      else{
         this.setState({
           loading:false
         })
-        this.isHavePet()
       }
-      
-    }
+    }).catch(err => {
+      this.setState({
+        loading: false
+      })
+    })
+    
+    
     
   }
   render () {

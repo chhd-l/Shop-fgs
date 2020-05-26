@@ -8,10 +8,9 @@ import './index.css'
 import dog from '@/assets/images/animal-1.jpg'
 import cat from '@/assets/images/animal-2.jpg'
 import success from '@/assets/images/check-success.svg'
-import { createHashHistory } from 'history'
 import { Link } from 'react-router-dom';
 import edit from "@/assets/images/edit.svg"
-import {  getPetList,addPet,petsById } from '@/api/pet'
+import {  getPetList,addPet,petsById,delPets,editPets } from '@/api/pet'
 import Loading from "@/components/Loading"
 
 
@@ -31,6 +30,7 @@ export default class PetForm extends React.Component {
       isCat:null,
       isMale:null,
       currentStep:'step1',
+      currentPetId:'',
       isDisabled:true,
       nickname:"",
       isUnknown:false,
@@ -70,13 +70,14 @@ export default class PetForm extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.inputBlur = this.inputBlur.bind(this)
     this.selectFeatures = this.selectFeatures.bind(this)
-    this.getPetList()
+    
   }
 
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
+    this.getPetList()
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -84,31 +85,37 @@ export default class PetForm extends React.Component {
     }
   }
   getPetList = async ()=>{
+
     let params = {
       "consumerAccount": "10086"
     }
-    const res = await getPetList(params)
-    if(res.code === 'K-000000'){
-      let petList = res.context.context
-      if(petList.length>0){
-        let currentPet = petList[0]
-        this.setState({
-          loading:false,
-          showList:true,
-          petList:petList,
-          currentPet:currentPet
-        })
+    await getPetList(params).then( res =>{
+      if(res.code === 'K-000000'){
+        let petList = res.context.context
+        if(petList.length>0){
+          let currentPet = petList[0]
+          this.setState({
+            loading:false,
+            showList:true,
+            petList:petList,
+            currentPet:currentPet
+          })
+        }
+        else{
+          this.setState({
+            showList:false,
+            petList:petList
+          })
+        }
       }
-      else{
-        this.setState({
-          showList:false,
-          petList:petList
-        })
-      }
-      
+    }).catch(err => {
+      this.setState({
+        loading: false
+      })
+    }) 
     }
     
-  }
+  
   petsById= async(id)=>{
     let params = {
       "petsId": id
@@ -124,11 +131,26 @@ export default class PetForm extends React.Component {
         showList:true,
         loading:false,
       })
-      
-      
     }
   }
-  addPet = async ()=>{
+  delPets= async(id)=>{
+    let params = {
+      "petsIds": [
+        id
+      ]
+    }
+    this.setState({
+      loading:true
+    })
+    const res = await delPets(params)
+    if(res.code === 'K-000000'){
+      this.getPetList()
+    }
+  }
+  savePet = async ()=>{
+    this.setState({
+      loading:true
+    })
     const { features } = this.state
     let petsPropRelations=[]
     let propId = 100
@@ -138,7 +160,7 @@ export default class PetForm extends React.Component {
           "delFlag": 0,
           "detailId": 0,
           "indexFlag": 0,
-          "petsId": "10086",
+          "petsId": this.state.currentPetId,
           "propId": propId,
           "propName": name,
           "relationId": "10086",
@@ -153,7 +175,7 @@ export default class PetForm extends React.Component {
     let pets={
         "birthOfPets": this.state.birthdate,
         "petsBreed": this.state.isUnknown?"unknown Breed":this.state.breed,
-        "petsId": "10086",
+        "petsId": this.state.currentPetId,
         "petsImg": "10086",
         "petsName": this.state.nickname,
         "petsSex": this.state.isMale?"0":"1",
@@ -169,26 +191,40 @@ export default class PetForm extends React.Component {
       "storeId": 10086,
       "userId": "10086"
     }
-    const res = await addPet(param)
-    if(res.code === 'K-000000'){
-      let currentStep = "success"
-      this.setState({
-        currentStep:currentStep,
-      })
-      setTimeout(() => {
+    if(pets.petsId){
+      const res = await editPets(param)
+      if(res.code === 'K-000000'){
+        let currentStep = "success"
+        this.setState({
+          currentStep:currentStep,
+        })
+        setTimeout(() => {
+          this.getPetList()
+        }, 5000);
         
-        
-        
-      }, 10000);
-      
+      }
     }
+    else{
+      const res = await addPet(param)
+      if(res.code === 'K-000000'){
+        let currentStep = "success"
+        this.setState({
+          currentStep:currentStep,
+        })
+        setTimeout(() => {
+          this.getPetList()
+        }, 5000);
+        
+      }
+    }
+    
     
   }
   nextStep(){
     let step=this.state.step
     let currentStep
     if(step>=8){
-      this.addPet()
+      this.savePet()
     }
     else{
       step+= 1
@@ -345,7 +381,18 @@ export default class PetForm extends React.Component {
   }
   add=()=>{
     this.setState({
-      showList:false
+      step:1,
+      currentStep:'step1',
+      showList:false,
+      currentPetId:''
+    })
+  }
+  edit=(id)=>{
+    this.setState({
+      step:1,
+      currentStep:'step1',
+      showList:false,
+      currentPetId:id
     })
   }
   render () {
@@ -373,7 +420,7 @@ export default class PetForm extends React.Component {
                     petList.map(item=>(
                       <li class="rc-margin-x--xs pet-element">
                         <a onClick={ () => this.petsById(item.petsId)}>
-                          <div class="tab__img img--round img--round--md name--select text-center active">
+                          <div className={"tab__img img--round img--round--md name--select text-center " + (item.petsId ===currentPet.petsId? "active":"")}>
                             {item.petsName}
                           </div>
                         </a>
@@ -414,12 +461,12 @@ export default class PetForm extends React.Component {
                       </ul>
                       </div>
                       <div class="edit js-edit-pet">
-                        <a href="#" >
+                        <a onClick={()=>this.edit(currentPet.petsId)} >
                           <img src={edit} class="img-success" alt=""/>
                         </a>
                       </div>
                       <div class="delete">
-                        <a href="#">
+                        <a onClick={()=>this.delPets(currentPet.petsId)}>
                         X
                         </a>
                       </div>

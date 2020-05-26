@@ -20,7 +20,8 @@ class MapFlag extends React.Component {
   handleConfirm=(item)=>{
     sessionStorage.setItem('rc-clinics-name2',item.clinicsName)
     sessionStorage.setItem('rc-clinics-id2', item.clinicsId)
-    createHashHistory().push('/payment/shipping')
+    const { history } = this.props
+    history.push('/payment/shipping')
   }
   handleClose=()=>{
     this.setState({

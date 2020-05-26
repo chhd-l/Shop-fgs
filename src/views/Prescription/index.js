@@ -3,7 +3,6 @@ import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Progress from '@/components/Progress'
-import { createHashHistory } from 'history'
 import './index.css'
 import MapFlag from '@/components/MapFlag'
 import GoogleMap from '@/components/GoogleMap'
@@ -213,7 +212,8 @@ class Prescription extends React.Component{
     sessionStorage.setItem('rc-clinics-id2', item.clinicsId)
     sessionStorage.setItem('rc-clinics-name2',item.clinicsName)
     
-    createHashHistory().push('/payment/shipping')
+    const { history } = this.props
+    history.push('/payment/shipping')
   }
   getSonMess(center){
     this.setState({

@@ -4,7 +4,9 @@ import axios from '@/utils/request'
 const api = {
   getPetList: '/pets/petsByConsumer',
   addPet: '/pets/addPets',
-  petsById:'/pets/petsById'
+  petsById:'/pets/petsById',
+  delPets:'/pets/delPets',
+  editPets:'/pets/editPets'
 }
 
 export default api
@@ -31,3 +33,18 @@ export function petsById (parameter) {
     data: parameter
   })
 }
+export function delPets (parameter) {
+  return axios({
+    url: `${api.delPets}`,
+    method: 'post',
+    data: parameter
+  })
+}
+export function editPets (parameter) {
+  return axios({
+    url: `${api.editPets}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
