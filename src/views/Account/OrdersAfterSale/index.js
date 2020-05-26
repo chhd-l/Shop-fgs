@@ -1,8 +1,7 @@
 import React from "react"
 import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from 'react-intl'
-import { createHashHistory } from 'history'
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -18,7 +17,7 @@ import {
 } from "@/api/order"
 import './index.css'
 
-export default class OrdersAfterSale extends React.Component {
+class OrdersAfterSale extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -200,7 +199,7 @@ export default class OrdersAfterSale extends React.Component {
           confirmLoading: false
         })
         sessionStorage.setItem('rc-after-sale-type', this.state.afterSaleType)
-        createHashHistory().push(`/account/orders-aftersale/success/${res.context}`)
+        this.props.history.push(`/account/orders-aftersale/success/${res.context}`)
       })
       .catch(err => {
         this.setState({
@@ -489,3 +488,5 @@ export default class OrdersAfterSale extends React.Component {
     )
   }
 }
+
+export default withRouter(OrdersAfterSale)
