@@ -34,6 +34,7 @@ class ImageMagnifier extends Component {
           // width: "400px",
           // height: "400px",
           // border: "1px solid #ccc",
+          margin: '0 auto',
           cursor: "move",
           position: "relative"
         },
@@ -85,7 +86,8 @@ class ImageMagnifier extends Component {
           transform: "scale(4)",
           transformOrigin: "top left"
         }
-      }
+      },
+      videoShow: false
     };
   }
 
@@ -193,7 +195,8 @@ class ImageMagnifier extends Component {
   imageChange(e, image) {
     // e.target
     this.setState({
-      currentImg: image
+      currentImg: image,
+      videoShow: false
     })
   }
   // 图片加载情况
@@ -208,22 +211,23 @@ class ImageMagnifier extends Component {
   }
 
   render () {
-    const { cssStyle, magnifierOff, minImg, maxImg, imgLoad, currentImg } = this.state;
+    const { cssStyle, magnifierOff, minImg, maxImg, imgLoad, currentImg, videoShow } = this.state;
     const { images, video } = this.props
     return (
       <div>
       <div style={{ position: 'relative' }}>
         <div style={cssStyle.imgContainer}>
-          <img style={cssStyle.imgStyle} src={currentImg} alt="" />
-          <div
+          {!videoShow && <img style={cssStyle.imgStyle} src={currentImg} alt="" />}
+          {videoShow && <video style={cssStyle.imgStyle} src={video? video: ''} controls></video>}
+          {!videoShow && <div
             style={cssStyle.maskBlock}
             onMouseEnter={this.mouseEnter}
             onMouseLeave={this.mouseLeave}
             onMouseMove={this.mouseMove}
-          />
-          {magnifierOff && <div style={cssStyle.mouseBlock} />}
+          />}
+          {!videoShow && magnifierOff && <div style={cssStyle.mouseBlock} />}
         </div>
-        {magnifierOff && (
+        {magnifierOff && !videoShow && (
           <div style={cssStyle.magnifierContainer}>
             <img
               style={cssStyle.imgStyle2}
@@ -242,9 +246,9 @@ class ImageMagnifier extends Component {
             <div className="rc-img--square rc-img--square-custom" onMouseEnter={(e) => this.imageChange(e, el.artworkUrl)} style={{ backgroundImage: 'url(' + el.artworkUrl + ')' }}></div>
           ))
         }
-        {/* <div className="rc-img--square rc-img--square-custom" style={{ backgroundImage: 'url(' + minImg + ')' }}></div>
-        <div className="rc-img--square rc-img--square-custom" style={{ backgroundImage: 'url(' + minImg + ')' }}></div>
-        <div className="rc-img--square rc-img--square-custom" style={{ backgroundImage: 'url(' + minImg + ')' }}></div> */}
+        <video className="rc-img--square rc-img--square-custom" onMouseEnter={() => {
+          this.setState({videoShow: true})
+        }} src={video? video: ''}></video>
       </div>
       </div>
     );
