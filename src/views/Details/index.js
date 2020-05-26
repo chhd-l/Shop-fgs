@@ -23,7 +23,8 @@ class Details extends React.Component {
         goodsName: '',
         goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004142026536251.jpg',
         goodsDescription: '',
-        sizeList: []
+        sizeList: [],
+        images: [],
       },
       goodsDetail1: '',
       goodsDetail2: [],
@@ -115,6 +116,7 @@ class Details extends React.Component {
             res.context.goods,
             { sizeList }
           ),
+          images: res.context.images,
           stock: selectedSize.stock,
           currentUnitPrice: selectedSize.salePrice,
           showOnlyoneTab: goodsDetailList.length === 1,
@@ -360,7 +362,8 @@ class Details extends React.Component {
   }
   render () {
     const createMarkup = text => ({ __html: text });
-    const { details, quantity, stock, quantityMinLimit, instockStatus, currentUnitPrice, cartData, errMsg, addToCartLoading } = this.state
+    const { details, images, quantity, stock, quantityMinLimit, instockStatus, currentUnitPrice, cartData, errMsg, addToCartLoading } = this.state
+    console.log(details, 'detail')
     const event = {
       "page": {
         "type": "Product",
@@ -397,20 +400,17 @@ class Details extends React.Component {
                             : <div className={['rc-full-width', this.state.imageMagnifierCfg.show ? 'show-image-magnifier' : ''].join(' ')}>
                               <div className="d-flex justify-content-center ui-margin-top-1-md-down" onMouseEnter={() => this.hanldeImgMouseEnter(details.goodsImg)}>
                                 {
-                                  this.state.imageMagnifierCfg.show ?
+                                  // this.state.imageMagnifierCfg.show ?
+                                  
                                     <div className="details-img-container">
-                                      <ImageMagnifier minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.imageMagnifierCfg.config} />
-                                    </div> : <div style={{ height: 354 }}>
-                                      <img
-                                        id="J-details-img"
-                                        src={details.goodsImg}
-                                        alt={details.goodsName}
-                                        style={{ maxHeight: '100%' }} />
-                                    </div>}
+                                      <ImageMagnifier images={images} minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.imageMagnifierCfg.config} />
+                                    </div> 
+                                    
+                                }
                               </div>
-                              <div className="d-flex justify-content-center">
+                              {/* <div className="d-flex justify-content-center">
                                 <div className="rc-img--square rc-img--square-custom" style={{ backgroundImage: 'url(' + details.goodsImg + ')' }}></div>
-                              </div>
+                              </div> */}
                             </div>}
                         </div>
                         <div className="rc-column rc-triple-width product-column">
@@ -420,6 +420,7 @@ class Details extends React.Component {
                               <h1 className="rc-gamma">
                                 {details.goodsName}
                               </h1>
+                              <h3>{details.goodsSubtitle}</h3>
                               <h3>
                                 <div className="rating-stars hidden-lg-down">
                                   <div className="product-number-rating clearfix">
@@ -469,7 +470,10 @@ class Details extends React.Component {
                                     <div className="toggleVisibility">
                                       <div className="product-selectors rc-padding-top--xs">
                                         <div id="choose-select">
-                                          <div className="rc-margin-bottom--xs"><FormattedMessage id="details.theSize" />:</div>
+                                          <div className="rc-margin-bottom--xs">
+                                            
+                                            {/* <FormattedMessage id="details.theSize" /> */}
+                                            :</div>
                                           <div data-attr="size">
                                             <div>
                                               <div className="rc-swatch __select-size" id="id-single-select-size">

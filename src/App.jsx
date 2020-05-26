@@ -115,7 +115,7 @@ const App = () => (
       </Switch>
     </ScrollToTop>
   </HashRouter> */}
-    {/* <Router> */}
+    {/* <Router path="/"> */}
     <HashRouter>
     <RouteFilter />
     <ScrollToTop>

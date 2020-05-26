@@ -27,7 +27,7 @@ const Home = () => {
   //       setUserInfo(info);
   //     });
   const { accessToken } = authState;
-  console.log(accessToken ,'accessToken')
+  // console.log(accessToken ,'accessToken')
   useEffect(() => {
     if (!authState.isAuthenticated) {
       console.log(1)

@@ -20,7 +20,7 @@ class ImageMagnifier extends Component {
       minImg: "",
       // 大图
       maxImg: "",
-
+      currentImg: '',
       // 开关
       magnifierOff: false,
       // 图片加载情况
@@ -100,6 +100,14 @@ class ImageMagnifier extends Component {
 
   // props 变化时更新
   componentWillReceiveProps (nextProps) {
+    let { currentImg } = this.state
+    let { images } = this.props
+    if(!currentImg && images && images.length > 0) {
+      currentImg = images[0].artworkUrl
+    }
+    this.setState({
+      currentImg: currentImg
+    })
     this.updataImg(nextProps);
   }
 
@@ -182,7 +190,12 @@ class ImageMagnifier extends Component {
       maxImg: props.maxImg
     });
   }
-
+  imageChange(e, image) {
+    // e.target
+    this.setState({
+      currentImg: image
+    })
+  }
   // 图片加载情况
   handleImageLoaded (e) {
     // console.log(e);
@@ -195,11 +208,14 @@ class ImageMagnifier extends Component {
   }
 
   render () {
-    const { cssStyle, magnifierOff, minImg, maxImg, imgLoad } = this.state;
+    const { cssStyle, magnifierOff, minImg, maxImg, imgLoad, currentImg } = this.state;
+    const { images } = this.props
+    console.log(images, 'iamges')
     return (
+      <div>
       <div style={{ position: 'relative' }}>
         <div style={cssStyle.imgContainer}>
-          <img style={cssStyle.imgStyle} src={minImg} alt="" />
+          <img style={cssStyle.imgStyle} src={currentImg} alt="" />
           <div
             style={cssStyle.maskBlock}
             onMouseEnter={this.mouseEnter}
@@ -212,7 +228,7 @@ class ImageMagnifier extends Component {
           <div style={cssStyle.magnifierContainer}>
             <img
               style={cssStyle.imgStyle2}
-              src={maxImg}
+              src={currentImg}
               onLoad={this.handleImageLoaded.bind(this)}
               onError={this.handleImageErrored.bind(this)}
               alt=""
@@ -220,6 +236,17 @@ class ImageMagnifier extends Component {
             {!imgLoad && "failed to load"}
           </div>
         )}
+      </div>
+      <div className="d-flex justify-content-center">
+        {
+          images && images.map(el => (
+            <div className="rc-img--square rc-img--square-custom" onMouseEnter={(e) => this.imageChange(e, el.artworkUrl)} style={{ backgroundImage: 'url(' + el.artworkUrl + ')' }}></div>
+          ))
+        }
+        {/* <div className="rc-img--square rc-img--square-custom" style={{ backgroundImage: 'url(' + minImg + ')' }}></div>
+        <div className="rc-img--square rc-img--square-custom" style={{ backgroundImage: 'url(' + minImg + ')' }}></div>
+        <div className="rc-img--square rc-img--square-custom" style={{ backgroundImage: 'url(' + minImg + ')' }}></div> */}
+      </div>
       </div>
     );
   }
