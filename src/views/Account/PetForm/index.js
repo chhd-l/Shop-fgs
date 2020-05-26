@@ -135,7 +135,6 @@ export default class PetForm extends React.Component {
     for(let name in features){
       if(features[name]){
         let prop ={
-          "createTime": "2020-05-22T02:36:38.079Z",
           "delFlag": 0,
           "detailId": 0,
           "indexFlag": 0,
@@ -144,7 +143,6 @@ export default class PetForm extends React.Component {
           "propName": name,
           "relationId": "10086",
           "sort": 0,
-          "updateTime": "2020-05-22T02:36:38.079Z"
         }
         petsPropRelations.push(prop)
         propId +=1
@@ -154,12 +152,6 @@ export default class PetForm extends React.Component {
     
     let pets={
         "birthOfPets": this.state.birthdate,
-
-        "updateTime": "2020-05-22T08:38:21.753Z",
-        "updator": "10086",
-        "createTime": "2020-05-22T08:38:21.753Z",
-        "creator": "10086",
-
         "petsBreed": this.state.isUnknown?"unknown Breed":this.state.breed,
         "petsId": "10086",
         "petsImg": "10086",
@@ -169,9 +161,8 @@ export default class PetForm extends React.Component {
         "petsSizeValueName": "10086",
         "petsType": this.state.isCat?'cat':'dog',
         "sterilized":this.state.isSterilized?"0":"1",
+        "storeId": 0
     }
-    
-    
     let param = {
       "pets":pets,
       "petsPropRelations":petsPropRelations,
