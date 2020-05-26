@@ -1553,6 +1553,11 @@ label.availability {
 }
 .rc-img--square.rc-img--square-custom {
   margin-top: 2rem;
-  border: 1px solid #e2001a;
+  border: 1px solid #999;
   background-size: contain;
+  margin-left: 5px;
+}
+
+.rc-img--square.rc-img--square-custom:hover {
+  border-color: #e2001a;
 }

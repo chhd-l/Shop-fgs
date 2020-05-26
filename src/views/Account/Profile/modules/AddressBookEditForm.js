@@ -2,6 +2,7 @@ import React from "react"
 import { FormattedMessage } from 'react-intl'
 import { findIndex } from "lodash"
 import Loading from "@/components/Loading"
+import { updateCustomerBaseInfo } from "@/api/user"
 
 export default class AddressBookEditForm extends React.Component {
   constructor(props) {
@@ -12,8 +13,7 @@ export default class AddressBookEditForm extends React.Component {
       successTipVisible: false,
       errorMsg: '',
       form: {
-        address1: '',
-        address2: '',
+        address: '',
         country: "Mexico",
         city: '',
         postCode: '',
@@ -91,7 +91,7 @@ export default class AddressBookEditForm extends React.Component {
     const { form } = this.state
     for (let key in form) {
       const value = form[key]
-      if (!value && (key === 'address1' || key === 'address2' || key === 'country' || key === 'city')) {
+      if (!value && (key === 'address' || key === 'country' || key === 'city')) {
         this.showErrMsg('Please complete the required items')
         return
       }
@@ -102,11 +102,18 @@ export default class AddressBookEditForm extends React.Component {
     }
 
     this.setState({ loading: true })
-    setTimeout(() => {
+    let param = Object.assign({}, this.props.originData, {
+      customerAddress: form.address,
+      country: form.country,
+      city: form.city,
+      postCode: form.postCode,
+      contactPhone: form.phoneNumber,
+      reference: form.rfc
+    })
+    try {
+      await updateCustomerBaseInfo(param)
       this.props.updateData(this.state.form)
       this.setState({
-        editFormVisible: false,
-        loading: false,
         successTipVisible: true
       })
       this.scrollToErrorMsg()
@@ -115,7 +122,22 @@ export default class AddressBookEditForm extends React.Component {
           successTipVisible: false
         })
       }, 2000)
-    }, 2000)
+    } catch (err) {
+      this.setState({
+        errorMsg: err
+      })
+      this.scrollToErrorMsg()
+      setTimeout(() => {
+        this.setState({
+          errorMsg: ''
+        })
+      }, 5000)
+    } finally {
+      this.setState({
+        editFormVisible: false,
+        loading: false
+      })
+    }
   }
   render () {
     const { editFormVisible, form } = this.state
@@ -159,20 +181,14 @@ export default class AddressBookEditForm extends React.Component {
           <aside
             className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
             role="alert">
-            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Ваша информация была правильно сохранена</p>
+            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Save successfullly</p>
           </aside>
           <div className={`row userContactInfo text-break ${editFormVisible ? 'hidden' : ''}`}>
             <div className="col-lg-6">
-              <FormattedMessage id="payment.address1" />
+              <FormattedMessage id="address" />
             </div>
             <div className="col-lg-6">
-              {data.address1}
-            </div>
-            <div className="col-lg-6">
-              <FormattedMessage id="payment.address2" />
-            </div>
-            <div className="col-lg-6">
-              {data.address2}
+              {data.address}
             </div>
             <div className="col-md-6">
               <FormattedMessage id="payment.country" />
@@ -209,25 +225,25 @@ export default class AddressBookEditForm extends React.Component {
         <div className={`userContactInfoEdit ${editFormVisible ? '' : 'hidden'}`}>
           <div className="row">
             <div className="form-group col-lg-12 pull-left required">
-              <label className="form-control-label rc-full-width" htmlFor="address1">
-                <FormattedMessage id="payment.address1" />
+              <label className="form-control-label rc-full-width" htmlFor="address">
+                <FormattedMessage id="address" />
               </label>
               <span className="rc-input rc-input--label rc-margin--none rc-input--full-width" input-setup="true">
                 <input
                   type="text"
                   className="rc-input__control"
-                  id="address1"
+                  id="address"
                   data-pattern-mismatch="Please match the requested format"
                   data-missing-error="Это поле обязательно для заполнения."
-                  name="address1"
+                  name="address"
                   required=""
                   aria-required="true"
                   value={form.address1}
                   onChange={e => this.handleInputChange(e)}
                   onBlur={e => this.inputBlur(e)}
                   maxLength="50"
-                  autoComplete="address-line1" />
-                <label className="rc-input__label" htmlFor="address1"></label>
+                  autoComplete="address-line" />
+                <label className="rc-input__label" htmlFor="address"></label>
               </span>
               <div className="invalid-feedback" style={{ display: 'none' }}>
                 <FormattedMessage
@@ -235,40 +251,6 @@ export default class AddressBookEditForm extends React.Component {
                   values={{
                     val: (
                       <FormattedMessage id="payment.address1" />
-                    ),
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="form-group col-lg-12 pull-left required">
-              <label className="form-control-label rc-full-width" htmlFor="address2">
-                <FormattedMessage id="payment.address2" />
-              </label>
-              <span className="rc-input rc-input--label rc-margin--none rc-input--full-width" input-setup="true">
-                <input
-                  type="text"
-                  className="rc-input__control"
-                  id="address2"
-                  data-pattern-mismatch="Please match the requested format"
-                  data-missing-error="Это поле обязательно для заполнения."
-                  name="address2"
-                  required=""
-                  aria-required="true"
-                  value={form.address2}
-                  onChange={e => this.handleInputChange(e)}
-                  onBlur={e => this.inputBlur(e)}
-                  maxLength="50"
-                  autoComplete="address-line1" />
-                <label className="rc-input__label" htmlFor="address2"></label>
-              </span>
-              <div className="invalid-feedback" style={{ display: 'none' }}>
-                <FormattedMessage
-                  id="payment.errorInfo"
-                  values={{
-                    val: (
-                      <FormattedMessage id="payment.address2" />
                     ),
                   }}
                 />

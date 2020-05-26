@@ -85,8 +85,12 @@ class Confirmation extends React.Component {
     this.changeCache();
   }
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
-    localStorage.removeItem('rc-cart-data')
+    localStorage.setItem("isRefresh", true)
+    if (sessionStorage.getItem("rc-paywith-login")) {
+      localStorage.removeItem('rc-cart-data-login')
+    } else {
+      localStorage.removeItem('rc-cart-data')
+    }
     localStorage.removeItem('orderNumber')
   }
   componentDidMount () {

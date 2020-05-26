@@ -5,14 +5,24 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
-import { formatMoney, translateHtmlCharater, hanldePurchases } from "@/utils/utils"
+import {
+  formatMoney,
+  translateHtmlCharater,
+  hanldePurchases,
+  jugeLoginStatus
+} from "@/utils/utils"
 import { MINIMUM_AMOUNT } from "@/utils/constant"
 import { FormattedMessage } from 'react-intl'
 import { createHashHistory } from 'history'
 import './index.css'
 import { cloneDeep, findIndex, find } from 'lodash'
-import { getDetails } from '@/api/details'
-import { miniPurchases } from '@/api/cart'
+import { getDetails, getLoginDetails } from '@/api/details'
+import {
+  miniPurchases,
+  sitePurchase,
+  sitePurchases,
+  siteMiniPurchases
+} from '@/api/cart'
 
 class Details extends React.Component {
   constructor(props) {
@@ -23,7 +33,8 @@ class Details extends React.Component {
         goodsName: '',
         goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004142026536251.jpg',
         goodsDescription: '',
-        sizeList: []
+        sizeList: [],
+        images: [],
       },
       goodsDetail1: '',
       goodsDetail2: [],
@@ -83,7 +94,12 @@ class Details extends React.Component {
   async queryDetails () {
     const { id } = this.state
     try {
-      const res = await getDetails(id)
+      let res
+      if (jugeLoginStatus()) {
+        res = await getLoginDetails(id)
+      } else {
+        res = await getDetails(id)
+      }
       this.setState({ loading: false })
       if (res && res.context && res.context.goodsSpecDetails) {
         let sizeList = []
@@ -115,6 +131,7 @@ class Details extends React.Component {
             res.context.goods,
             { sizeList }
           ),
+          images: res.context.images,
           stock: selectedSize.stock,
           currentUnitPrice: selectedSize.salePrice,
           showOnlyoneTab: goodsDetailList.length === 1,
@@ -197,7 +214,6 @@ class Details extends React.Component {
       quantity: res
     }, () => {
       this.updateInstockStatus()
-      // this.hanldePurchases()
     })
   }
   async hanldePurchasesForCheckout (data) {
@@ -209,7 +225,6 @@ class Details extends React.Component {
       }
     })
     let res = await hanldePurchases(param)
-    // let latestGoodsInfos = res.goodsInfos
     sessionStorage.setItem('goodsMarketingMap', JSON.stringify(res.goodsMarketingMap))
     sessionStorage.setItem('rc-totalInfo', JSON.stringify({
       totalPrice: res.totalPrice,
@@ -224,13 +239,11 @@ class Details extends React.Component {
     const { sizeList } = this.state.details
     const { cartData } = this.state
     const currentSelectedSize = find(sizeList, s => s.selected)
-    // let preNum = cartData.reduce((total, item) => total + item.quantity, 0)
     let res = await hanldePurchases([{
       goodsInfoId: currentSelectedSize.goodsInfoId,
       goodsNum: this.state.quantity,
       invalid: false
     }])
-    // let latestGoodsInfos = res.goodsInfos
     sessionStorage.setItem('goodsMarketingMap', JSON.stringify(res.goodsMarketingMap))
     sessionStorage.setItem('rc-totalInfo', JSON.stringify({
       totalPrice: res.totalPrice,
@@ -277,6 +290,60 @@ class Details extends React.Component {
     }, () => this.updateInstockStatus())
   }
   async hanldeAddToCart ({ redirect = false }) {
+    if (jugeLoginStatus()) {
+      this.hanldeLoginAddToCart({ redirect })
+    } else {
+      this.hanldeUnloginAddToCart({ redirect })
+    }
+  }
+  async hanldeLoginAddToCart ({ redirect }) {
+    const { quantity, cartData } = this.state
+    const { goodsId, sizeList } = this.state.details
+    const currentSelectedSize = find(sizeList, s => s.selected)
+    try {
+      await sitePurchase({ goodsInfoId: currentSelectedSize.goodsInfoId, goodsNum: quantity })
+      this.headerRef.current.updateCartCache()
+      this.headerRef.current.handleCartMouseOver()
+      setTimeout(() => {
+        this.headerRef.current.handleCartMouseOut()
+      }, 1000)
+      if (redirect) {
+        // 获取购物车列表
+        let siteMiniPurchasesRes = await siteMiniPurchases()
+        siteMiniPurchasesRes = siteMiniPurchasesRes.context
+        // 获取总价
+        let sitePurchasesRes = await sitePurchases({ goodsInfoIds: siteMiniPurchasesRes.goodsList.map(ele => ele.goodsInfoId) })
+        sitePurchasesRes = sitePurchasesRes.context
+        if (sitePurchasesRes.tradePrice < MINIMUM_AMOUNT) {
+          this.setState({ checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" /> })
+          return false
+        }
+
+        // 库存不够，不能下单
+        if (find(cartData, ele => ele.buyCount > ele.stock)) {
+          this.setState({
+            errorShow: true,
+            errorMsg: <FormattedMessage id="cart.errorInfo2" />
+          })
+          return false
+        }
+
+        // promotion相关
+        sessionStorage.setItem('goodsMarketingMap', JSON.stringify(sitePurchasesRes.goodsMarketingMap))
+        sessionStorage.setItem('rc-totalInfo', JSON.stringify({
+          totalPrice: sitePurchasesRes.totalPrice,
+          tradePrice: sitePurchasesRes.tradePrice,
+          discountPrice: sitePurchasesRes.discountPrice
+        }))
+
+        localStorage.setItem('rc-cart-data-login', JSON.stringify(siteMiniPurchasesRes.goodsList))
+        createHashHistory().push('/prescription')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  async hanldeUnloginAddToCart ({ redirect = false }) {
     const { currentUnitPrice, quantity, cartData, instockStatus } = this.state
     const { goodsId, sizeList } = this.state.details
     const currentSelectedSize = find(sizeList, s => s.selected)
@@ -289,7 +356,6 @@ class Details extends React.Component {
     }
 
     this.setState({ addToCartLoading: true })
-    // this.hanldePurchases()
     let flag = true
     if (cartDataCopy && cartDataCopy.length) {
       const historyItem = find(cartDataCopy, c => c.goodsId === goodsId && currentSelectedSize.goodsInfoId === find(c.sizeList, s => s.selected).goodsInfoId)
@@ -329,6 +395,7 @@ class Details extends React.Component {
     }
     localStorage.setItem('rc-cart-data', JSON.stringify(cartDataCopy))
     this.setState({ cartData: cartDataCopy })
+    this.headerRef.current.updateCartCache()
     if (redirect) {
       await this.hanldePurchasesForCheckout(cartDataCopy)
       setTimeout(() => {
@@ -339,9 +406,9 @@ class Details extends React.Component {
         }
       })
     }
-    this.headerRef.current.handleMouseOver()
+    this.headerRef.current.handleCartMouseOver()
     setTimeout(() => {
-      this.headerRef.current.handleMouseOut()
+      this.headerRef.current.handleCartMouseOut()
     }, 1000)
   }
   hanldeImgMouseEnter () {
@@ -360,7 +427,8 @@ class Details extends React.Component {
   }
   render () {
     const createMarkup = text => ({ __html: text });
-    const { details, quantity, stock, quantityMinLimit, instockStatus, currentUnitPrice, cartData, errMsg, addToCartLoading } = this.state
+    const { details, images, quantity, stock, quantityMinLimit, instockStatus, currentUnitPrice, cartData, errMsg, addToCartLoading } = this.state
+    console.log(details, 'detail')
     const event = {
       "page": {
         "type": "Product",
@@ -371,7 +439,7 @@ class Details extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header ref={this.headerRef} cartData={cartData} showMiniIcons={true} location={this.props.location} />
+        <Header ref={this.headerRef} showMiniIcons={true} location={this.props.location} />
         {
           errMsg
             ? <main className="rc-content--fixed-header">
@@ -397,20 +465,17 @@ class Details extends React.Component {
                             : <div className={['rc-full-width', this.state.imageMagnifierCfg.show ? 'show-image-magnifier' : ''].join(' ')}>
                               <div className="d-flex justify-content-center ui-margin-top-1-md-down" onMouseEnter={() => this.hanldeImgMouseEnter(details.goodsImg)}>
                                 {
-                                  this.state.imageMagnifierCfg.show ?
+                                  // this.state.imageMagnifierCfg.show ?
+                                  
                                     <div className="details-img-container">
-                                      <ImageMagnifier minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.imageMagnifierCfg.config} />
-                                    </div> : <div style={{ height: 354 }}>
-                                      <img
-                                        id="J-details-img"
-                                        src={details.goodsImg}
-                                        alt={details.goodsName}
-                                        style={{ maxHeight: '100%' }} />
-                                    </div>}
+                                      <ImageMagnifier images={images} minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.imageMagnifierCfg.config} />
+                                    </div> 
+                                    
+                                }
                               </div>
-                              <div className="d-flex justify-content-center">
+                              {/* <div className="d-flex justify-content-center">
                                 <div className="rc-img--square rc-img--square-custom" style={{ backgroundImage: 'url(' + details.goodsImg + ')' }}></div>
-                              </div>
+                              </div> */}
                             </div>}
                         </div>
                         <div className="rc-column rc-triple-width product-column">
@@ -420,6 +485,7 @@ class Details extends React.Component {
                               <h1 className="rc-gamma">
                                 {details.goodsName}
                               </h1>
+                              <h3>{details.goodsSubtitle}</h3>
                               <h3>
                                 <div className="rating-stars hidden-lg-down">
                                   <div className="product-number-rating clearfix">
@@ -469,7 +535,10 @@ class Details extends React.Component {
                                     <div className="toggleVisibility">
                                       <div className="product-selectors rc-padding-top--xs">
                                         <div id="choose-select">
-                                          <div className="rc-margin-bottom--xs"><FormattedMessage id="details.theSize" />:</div>
+                                          <div className="rc-margin-bottom--xs">
+                                            
+                                            {/* <FormattedMessage id="details.theSize" /> */}
+                                            :</div>
                                           <div data-attr="size">
                                             <div>
                                               <div className="rc-swatch __select-size" id="id-single-select-size">

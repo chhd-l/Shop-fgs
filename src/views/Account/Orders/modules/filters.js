@@ -67,7 +67,7 @@ export default class OrderFilters extends React.Component {
               <input
                 className="rc-input__date rc-input__control"
                 id="startdate"
-                data-js-dateformat="DD/MM/YYYY"
+                data-js-dateformat="YYYY/MM/DD"
                 name="startdate"
                 value={form.startdate}
                 onBlur={e => this.handleDateBlur(e)}
@@ -81,7 +81,7 @@ export default class OrderFilters extends React.Component {
               <input
                 className="rc-input__date rc-input__control"
                 id="enddate"
-                data-js-dateformat="DD/MM/YYYY"
+                data-js-dateformat="YYYY/MM/DD"
                 name="enddate"
                 value={form.enddate}
                 onBlur={e => this.handleDateBlur(e)}

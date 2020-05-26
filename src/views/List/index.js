@@ -10,8 +10,8 @@ import Filters from '@/components/Filters'
 import './index.css'
 import { cloneDeep, find, findIndex } from 'lodash'
 import titleCfg from './json/title.json'
-import { getList, getProps } from '@/api/list'
-import { queryStoreCateIds, formatMoney } from "@/utils/utils"
+import { getList, getProps, getLoginList } from '@/api/list'
+import { queryStoreCateIds, formatMoney, jugeLoginStatus } from "@/utils/utils"
 import { STOREID, CATEID } from '@/utils/constant'
 
 class List extends React.Component {
@@ -63,7 +63,6 @@ class List extends React.Component {
       totalPage: 1, // 总页数
       results: 0, // 总数据条数
       pageSize: 9,
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       keywords: '',
       filterList: [],
       initingFilter: true,
@@ -168,8 +167,13 @@ class List extends React.Component {
         params.propDetails.push({ propId: item.propId, detailIds: [item.detailId] })
       }
     }
-
-    getList(params)
+    let tmpList
+    if (jugeLoginStatus()) {
+      tmpList = getLoginList
+    } else {
+      tmpList = getList
+    }
+    tmpList(params)
       .then(res => {
         this.setState({ loading: false, initingList: false })
         const esGoods = res.context.esGoods
@@ -295,7 +299,7 @@ class List extends React.Component {
     createHashHistory().push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   render () {
-    const { category, results, productList, loading, checkedList, currentPage, totalPage, titleData, cartData } = this.state
+    const { category, results, productList, loading, checkedList, currentPage, totalPage, titleData } = this.state
     let event
     if (category) {
       let theme
@@ -324,7 +328,7 @@ class List extends React.Component {
     return (
       <div>
         {event ? <GoogleTagManager additionalEvents={event} /> : null}
-        <Header cartData={cartData} showMiniIcons={true} location={this.props.location} />
+        <Header showMiniIcons={true} location={this.props.location} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           {titleData ?
