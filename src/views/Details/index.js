@@ -642,7 +642,7 @@ class Details extends React.Component {
                       </li> */}
                             <li>
                               <button
-                                className="rc-tab rc-btn"
+                                className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
                                 data-toggle="tab__panel-2"
                                 role="tab">
                                 <FormattedMessage id="details.beneficialFeatures" />
@@ -650,7 +650,7 @@ class Details extends React.Component {
                             </li>
                             <li>
                               <button
-                                className="rc-tab rc-btn"
+                                className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
                                 data-toggle="tab__panel-3"
                                 role="tab">
                                 <FormattedMessage id="details.ingredients" />
@@ -658,7 +658,7 @@ class Details extends React.Component {
                             </li>
                             <li style={{ display: this.state.showGoodsDetail4 ? 'block' : 'none' }}>
                               <button
-                                className="rc-tab rc-btn"
+                                className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
                                 data-toggle="tab__panel-4"
                                 role="tab">
                                 <FormattedMessage id="details.feedingRecommendations" />
@@ -716,7 +716,7 @@ class Details extends React.Component {
                           <ul className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist">
                             <li>
                               <button
-                                className="rc-tab rc-btn"
+                                className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
                                 data-toggle="tab__panel-1-1"
                                 role="tab">
                                 <FormattedMessage id="details.description" />
