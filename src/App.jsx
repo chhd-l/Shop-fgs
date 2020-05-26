@@ -115,8 +115,8 @@ const App = () => (
       </Switch>
     </ScrollToTop>
   </HashRouter> */}
-    {/* <Router path="/"> */}
-    <HashRouter>
+    <Router path="/">
+    {/* <HashRouter> */}
     <RouteFilter />
     <ScrollToTop>
       <Switch>
@@ -180,8 +180,8 @@ const App = () => (
 
       </Switch>
     </ScrollToTop>
-  </HashRouter>
-    {/* </Router> */}
+  {/* </HashRouter> */}
+    </Router>
   </IntlProvider>
 );
 export default App;

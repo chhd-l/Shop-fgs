@@ -12,9 +12,9 @@ class ImageMagnifier extends Component {
         // 放大倍数
         scale: (props.config && props.config.scale) || 4,
         // 组件宽
-        width: (props.config && props.config.width) || "400",
+        width: (props.config && props.config.width) || "200",
         // 组件高
-        height: (props.config && props.config.height) || "400"
+        height: (props.config && props.config.height) || "250"
       },
       // 缩略图
       minImg: "",
@@ -209,8 +209,7 @@ class ImageMagnifier extends Component {
 
   render () {
     const { cssStyle, magnifierOff, minImg, maxImg, imgLoad, currentImg } = this.state;
-    const { images } = this.props
-    console.log(images, 'iamges')
+    const { images, video } = this.props
     return (
       <div>
       <div style={{ position: 'relative' }}>

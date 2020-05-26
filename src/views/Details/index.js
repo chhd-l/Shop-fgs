@@ -468,7 +468,7 @@ class Details extends React.Component {
                                   // this.state.imageMagnifierCfg.show ?
                                   
                                     <div className="details-img-container">
-                                      <ImageMagnifier images={images} minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.imageMagnifierCfg.config} />
+                                      <ImageMagnifier video={details.goodsVideo} images={images} minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.imageMagnifierCfg.config} />
                                     </div> 
                                     
                                 }
