@@ -12,6 +12,7 @@ import { createHashHistory } from 'history'
 import { Link } from 'react-router-dom';
 import edit from "@/assets/images/edit.svg"
 import {  getPetList,addPet,petsById } from '@/api/pet'
+import Loading from "@/components/Loading"
 
 
 const selectedPet = {
@@ -24,6 +25,7 @@ export default class PetForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      loading:true,
       precent:12.5,
       step:1,
       isCat:null,
@@ -56,6 +58,8 @@ export default class PetForm extends React.Component {
         {name:'test breed5',value:5},
         {name:'test breed6',value:6},
       ],
+      petList:[],
+      currentPet:{},
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
     this.nextStep = this.nextStep.bind(this)
@@ -80,12 +84,49 @@ export default class PetForm extends React.Component {
     }
   }
   getPetList = async ()=>{
-    const res = await getPetList()
+    let params = {
+      "consumerAccount": "10086"
+    }
+    const res = await getPetList(params)
     if(res.code === 'K-000000'){
-      console.log(res);
+      let petList = res.context.context
+      if(petList.length>0){
+        let currentPet = petList[0]
+        this.setState({
+          loading:false,
+          showList:true,
+          petList:petList,
+          currentPet:currentPet
+        })
+      }
+      else{
+        this.setState({
+          showList:false,
+          petList:petList
+        })
+      }
       
     }
     
+  }
+  petsById= async(id)=>{
+    let params = {
+      "petsId": id
+    }
+    this.setState({
+      loading:true
+    })
+    const res = await petsById(params)
+    if(res.code === 'K-000000'){
+      let currentPet = res.context.context
+      this.setState({
+        currentPet:currentPet,
+        showList:true,
+        loading:false,
+      })
+      
+      
+    }
   }
   addPet = async ()=>{
     const { features } = this.state
@@ -130,7 +171,6 @@ export default class PetForm extends React.Component {
         "sterilized":this.state.isSterilized?"0":"1",
     }
     
-    console.log(pets);
     
     let param = {
       "pets":pets,
@@ -146,7 +186,7 @@ export default class PetForm extends React.Component {
       })
       setTimeout(() => {
         
-        createHashHistory().push('/account/pets/petList')
+        
         
       }, 10000);
       
@@ -312,7 +352,13 @@ export default class PetForm extends React.Component {
     })
     
   }
+  add=()=>{
+    this.setState({
+      showList:false
+    })
+  }
   render () {
+    const { petList,currentPet } = this.state
     return (
       <div>
         <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
@@ -321,54 +367,50 @@ export default class PetForm extends React.Component {
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Pets" />
+              {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
 
-                {
-                  this.state.showList?
-                  
-                  <div class="list-select-pet js-list-pet" data-toggle-group="">
-                    <ul class="scroll--x list list--inline list--align list--blank flex--middle" role="tablist">
-                      <li class="pet-element">
-                        <a href="/ru/account/" class="tab-add tab--img" role="tab">
-                          <span class="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
-                        </a>
-                      </li>
+                <div class="list-select-pet js-list-pet" data-toggle-group="">
+                  <ul class="scroll--x list list--inline list--align list--blank flex--middle" role="tablist">
+                    <li class="pet-element">
+                      <a onClick={ ()=>this.add()} class="tab-add tab--img" role="tab">
+                        <span class="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
+                      </a>
+                    </li>
+                    
+                    {
+                    petList.map(item=>(
                       <li class="rc-margin-x--xs pet-element">
-                        <a href="/on/demandware.store">
+                        <a onClick={ () => this.petsById(item.petsId)}>
                           <div class="tab__img img--round img--round--md name--select text-center active">
-                            Rita
+                            {item.petsName}
                           </div>
                         </a>
                       </li>
-                    </ul>
-                  </div>:
-                  <div className="list-select-pet js-list-pet" data-toggle-group="">
-                    <ul className="scroll--x list list--inline list--align list--blank flex--middle" role="tablist">
-                      <li className="pet-element">
-                        <a href="/ru/account/pet-carnet?editForm=newPet" className="tab-add tab--img" role="tab">
-                          <span className="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                }
+                      )
+                    )}
+                    
+                  </ul>
+                </div>
+                
                 {
-                  this.state.showList?<div class="pet-information js-pet-information rc-margin-bottom--md">
-                    <h2 class="name-pet">Rita</h2>
+                  this.state.showList?( 
+                  <div class="pet-information js-pet-information rc-margin-bottom--md">
+                    <h2 class="name-pet">{currentPet.petsName}</h2>
                     <div class="rc-layout-container">
                       <div class="rc-column">
                       <ul class="pet-data">
                         <li class="breed dog">
-                          <span class="">Unknown breed</span>
+                          <span class="">{currentPet.petsBreed}</span>
                         </li>
                         <li class="birth">
-                          <span class="">2020-05-05</span>
+                          <span class="">{currentPet.birthOfPets}</span>
                         </li>
                         <li class="gender male sprite-pet">
-                          <span class="">male</span>
+                          <span class=""> {currentPet.petsSex === 0 ?'Male':'Female'}</span>
                         </li>
                         <li class="weight">
-                          <span class="">Mini</span>
+                          <span class="">{currentPet.petsSizeValueName}</span>
                         </li>
                       </ul>
                       </div>
@@ -391,7 +433,8 @@ export default class PetForm extends React.Component {
                         </a>
                       </div>
                     </div>
-                  </div>:null
+                  </div>
+    ):null
                 }
                 <div className="group-progress js-group-progress section-form-group" style={{display:!this.state.showList?'block':'none'}}>
                   <div className="bar-progress">
