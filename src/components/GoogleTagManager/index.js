@@ -29,7 +29,7 @@ class GoogleTagManager extends React.Component {
       },
       "site": {
         "id": "RCMXPCO1",
-        "environment": "prd",
+        "environment": "uat", // prd
         "country": "FR"
       }
     }
