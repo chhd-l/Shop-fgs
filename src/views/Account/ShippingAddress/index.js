@@ -175,7 +175,7 @@ export default class ShippingAddress extends React.Component {
     const { addressForm } = this.state 
     return (
       <div>
-        <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
+        <Header showMiniIcons={true} location={this.props.location} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">

@@ -2,14 +2,22 @@
 import axios from '@/utils/request'
 
 const api = {
-  customerInfoById: '/customer/customerInfoById/',
+  customerBase: '/customer/customerBase'
 }
 
 export default api
 
-export function getCustomerInfoById (parameter) {
+export function getCustomerInfo (parameter) {
   return axios({
-    url: `${api.customerInfoById}/${parameter}`,
+    url: `${api.customerBase}`,
     method: 'get'
+  })
+}
+
+export function updateCustomerBaseInfo (parameter) {
+  return axios({
+    url: `${api.customerBase}`,
+    method: 'put',
+    data: parameter
   })
 }

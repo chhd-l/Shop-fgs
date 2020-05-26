@@ -1,6 +1,7 @@
 import React from "react"
 import { FormattedMessage } from 'react-intl'
 import Loading from "@/components/Loading"
+import { updateCustomerBaseInfo } from "@/api/user"
 
 export default class CommunicationDataEditForm extends React.Component {
   constructor(props) {
@@ -11,8 +12,7 @@ export default class CommunicationDataEditForm extends React.Component {
       successTipVisible: false,
       errorMsg: '',
       form: {
-        phone: false,
-        email: false
+        contactMethod: ''
       }
     }
   }
@@ -32,16 +32,16 @@ export default class CommunicationDataEditForm extends React.Component {
   handleInputChange (e) {
     const target = e.target
     const { form } = this.state
-    form[target.name] = !form[target.name]
+    form[target.name] = target.value
     this.setState({ form: form })
   }
   async handleSave () {
+    const { form } = this.state
     this.setState({ loading: true })
-    setTimeout(() => {
+    try {
+      await updateCustomerBaseInfo(Object.assign({}, this.props.originData, { contactMethod: form.contactMethod }))
       this.props.updateData(this.state.form)
       this.setState({
-        editFormVisible: false,
-        loading: false,
         successTipVisible: true
       })
       setTimeout(() => {
@@ -49,7 +49,21 @@ export default class CommunicationDataEditForm extends React.Component {
           successTipVisible: false
         })
       }, 2000)
-    }, 2000)
+    } catch (err) {
+      this.setState({
+        errorMsg: err
+      })
+      setTimeout(() => {
+        this.setState({
+          errorMsg: ''
+        })
+      }, 5000)
+    } finally {
+      this.setState({
+        editFormVisible: false,
+        loading: false
+      })
+    }
   }
   render () {
     const { editFormVisible, form } = this.state
@@ -80,7 +94,7 @@ export default class CommunicationDataEditForm extends React.Component {
           <aside
             className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
             role="alert">
-            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Ваша информация была правильно сохранена</p>
+            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Save successfullly</p>
           </aside>
           <span className="rc-meta">
             <b>
@@ -97,7 +111,7 @@ export default class CommunicationDataEditForm extends React.Component {
                     disabled="disabled"
                     alt={txt}
                     name="phone"
-                    checked={data.phone}
+                    checked={data.contactMethod === 'phone'}
                     readOnly
                   />
                 )}
@@ -115,7 +129,7 @@ export default class CommunicationDataEditForm extends React.Component {
                     disabled="disabled"
                     alt={txt}
                     name="email"
-                    checked={data.email}
+                    checked={data.contactMethod === 'email'}
                     readOnly
                   />
                 )}
@@ -131,11 +145,11 @@ export default class CommunicationDataEditForm extends React.Component {
                 <input
                   className="rc-input__checkbox"
                   id="optsmobile"
-                  type="checkbox"
-                  name="phone"
+                  type="radio"
+                  name="contactMethod"
                   value="phone"
                   onChange={event => this.handleInputChange(event)}
-                  checked={this.state.form.phone}
+                  checked={this.state.form.contactMethod === 'phone'}
                 />
                 <label className="rc-input__label--inline" htmlFor="optsmobile">
                   <FormattedMessage id="phone" />
@@ -147,12 +161,12 @@ export default class CommunicationDataEditForm extends React.Component {
                     <input
                       className="rc-input__checkbox"
                       id="optsemail"
-                      type="checkbox"
+                      type="radio"
                       alt={txt}
-                      name="email"
+                      name="contactMethod"
                       value="email"
                       onChange={event => this.handleInputChange(event)}
-                      checked={this.state.form.email} />
+                      checked={this.state.form.contactMethod === 'email'} />
                   )}
                 </FormattedMessage>
                 <label className="rc-input__label--inline" htmlFor="optsemail">

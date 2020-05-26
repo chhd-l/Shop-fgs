@@ -2,6 +2,7 @@ import React from "react"
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { findIndex } from "lodash"
 import Loading from "@/components/Loading"
+import { updateCustomerBaseInfo } from "@/api/user"
 
 class PersonalDataEditForm extends React.Component {
   constructor(props) {
@@ -28,20 +29,23 @@ class PersonalDataEditForm extends React.Component {
       intl, // Injected by `injectIntl`
     } = this.props;
     try {
-      setTimeout(() => {
-        const datePickerOptions = {
-          i18n: {
-            previousMonth: intl.messages['datePicker.previousMonth'],
-            nextMonth: intl.messages['datePicker.nextMonth'],
-            months: intl.messages['datePicker.months'],
-            weekdays: intl.messages['datePicker.weekdays'],
-            weekdaysShort: intl.messages['datePicker.weekdaysShort']
-          },
-          maxDate: new Date
-        };
-        document.querySelector('.rc-input__date.rc-js-custom').setAttribute("datepicker-setup", "false")
-        window.RCDL.features.Datepickers.init('.rc-input__date.rc-js-custom', null, datePickerOptions);
-      }, 1000)
+      // let timer = setInterval(() => {
+      //   const datePickerOptions = {
+      //     i18n: {
+      //       previousMonth: intl.messages['datePicker.previousMonth'],
+      //       nextMonth: intl.messages['datePicker.nextMonth'],
+      //       months: intl.messages['datePicker.months'],
+      //       weekdays: intl.messages['datePicker.weekdays'],
+      //       weekdaysShort: intl.messages['datePicker.weekdaysShort']
+      //     },
+      //     maxDate: new Date
+      //   }
+      //   if (window.RCDL.features.Datepickers && document.querySelector('.rc-input__date.rc-js-custom')) {
+      //     document.querySelector('.rc-input__date.rc-js-custom').setAttribute("datepicker-setup", "false")
+      //     window.RCDL.features.Datepickers.init('.rc-input__date.rc-js-custom', null, datePickerOptions)
+      //     clearInterval(timer)
+      //   }
+      // }, 1000)
     } catch (e) {
       console.log(e)
     }
@@ -106,11 +110,18 @@ class PersonalDataEditForm extends React.Component {
     }
 
     this.setState({ loading: true })
-    setTimeout(() => {
+    // this.props.handleEditCustomerBaseInfoForPersonalData(form)
+    // return
+    let param = Object.assign({}, this.props.originData, {
+      firstName: form.firstName,
+      lastName: form.lastName,
+      email: form.email,
+      birthDay: form.birthdate.split('/').join('-')
+    })
+    try {
+      await updateCustomerBaseInfo(param)
       this.props.updateData(this.state.form)
       this.setState({
-        editFormVisible: false,
-        loading: false,
         successTipVisible: true
       })
       setTimeout(() => {
@@ -118,7 +129,21 @@ class PersonalDataEditForm extends React.Component {
           successTipVisible: false
         })
       }, 2000)
-    }, 2000)
+    } catch (err) {
+      this.setState({
+        errorMsg: err
+      })
+      setTimeout(() => {
+        this.setState({
+          errorMsg: ''
+        })
+      }, 5000)
+    } finally {
+      this.setState({
+        editFormVisible: false,
+        loading: false
+      })
+    }
   }
   render () {
     const { editFormVisible, form } = this.state
@@ -162,13 +187,9 @@ class PersonalDataEditForm extends React.Component {
           <aside
             className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
             role="alert">
-            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Ваша информация была правильно сохранена</p>
+            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Save successfullly</p>
           </aside>
           <div className={`row userProfileInfo text-break ${editFormVisible ? 'hidden' : ''}`}>
-            {/* <span id="userFullName">{data.firstName + ' ' + data.lastName}</span>
-            <span id="userBirthDate">{data.birthdate}</span>
-            <span id="userEmail">{data.email}</span> */}
-
             <div className="col-lg-6">
               <FormattedMessage id="payment.firstName" />
             </div>
@@ -257,12 +278,12 @@ class PersonalDataEditForm extends React.Component {
                   <input
                     className="rc-input__date rc-js-custom rc-input__control"
                     id="birthdate"
-                    data-js-dateformat="DD/MM/YYYY"
+                    data-js-dateformat="YYYY/MM/DD"
                     name="birthdate"
                     type="date"
                     value={form.birthdate}
-                    onChange={e => this.handleInputChange(e)}
-                    onBlur={e => this.inputBlur(e)} />
+                    onBlur={e => this.handleInputChange(e)}
+                  />
                   <label className="rc-input__label" htmlFor="birthdate"></label>
                 </span>
                 <div className="invalid-feedback" style={{ display: 'none' }}>This field is required.</div>
