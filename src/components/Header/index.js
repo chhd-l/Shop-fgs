@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { find } from 'lodash'
-import { Link } from "react-router-dom"
+import { withRouter, Link } from 'react-router-dom';
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
 import { createHashHistory } from 'history'
@@ -208,12 +208,14 @@ class Header extends React.Component {
     }
   }
   handleItemClick () {
-    createHashHistory().push('/list/keywords/' + this.state.keywords)
+    const { history } = this.props
+    history.push('/list/keywords/' + this.state.keywords)
   }
   gotoDetails (item) {
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
     sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
-    createHashHistory().push('/details/' + item.goodsInfos[0].goodsInfoId)
+    const { history } = this.props
+    history.push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   toggleMenu () {
     this.setState({
@@ -565,4 +567,4 @@ class Header extends React.Component {
   }
 }
 
-export default Header
+export default withRouter(Header)
