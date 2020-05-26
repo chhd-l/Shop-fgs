@@ -15,6 +15,7 @@ import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import paypalImg from "@/assets/images/credit-cards/paypal.png";
 import { STOREID } from "@/utils/constant";
+import { jugeLoginStatus } from "@/utils/utils"
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -83,7 +84,7 @@ class Payment extends React.Component {
     this.confirmCardInfo = this.confirmCardInfo.bind(this);
     this.timer = null;
   }
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
   confirmCardInfo () {
@@ -247,7 +248,6 @@ class Payment extends React.Component {
         deliveryAddress,
         { city: 1, country: 1 }
       );
-      // let param = { useDeliveryAddress: billingChecked, ...deliveryAddress, ...{ city: 1, country: 1, phoneNumber: '18883733998' } }
       param.billAddress1 = billingAddress.address1;
       param.billAddress2 = billingAddress.address2;
       param.billCity = 1;
@@ -259,40 +259,49 @@ class Payment extends React.Component {
       param.rfc = deliveryAddress.rfc
       param.billRfc = billingAddress.rfc
       let param2 = {
-        goodsInfos: cartData.map((ele) => {
+        goodsInfos: cartData.map(ele => {
           return {
             verifyStock: false,
             buyCount: ele.quantity,
-            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
+            goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId,
           };
         }),
       };
-      // console.log(payosdata, 'payosdata')
-      
+      if (jugeLoginStatus()) {
+        const loginCartData = localStorage.getItem("rc-cart-data-login") ? JSON.parse(localStorage.getItem("rc-cart-data-login")) : []
+        param2.goodsInfos = loginCartData.map(ele => {
+          return {
+            verifyStock: false,
+            buyCount: ele.buyCount,
+            goodsInfoId: ele.goodsInfoId
+          }
+        })
+      }
+
       let tradeMarketingList = [
         {
           "marketingId": '',
           "marketingLevelId": '',
           "skuIds": [],
           "giftSkuIds": []
-        }    
+        }
       ]
       let goodsMarketingMapStr = sessionStorage.getItem('goodsMarketingMap')
       let goodsMarketingMap = JSON.parse(goodsMarketingMapStr)
-      if(goodsMarketingMapStr === "{}") {
+      if (goodsMarketingMapStr === "{}") {
         tradeMarketingList = []
-      }else {
-        for(let k in  goodsMarketingMap) {
+      } else {
+        for (let k in goodsMarketingMap) {
           tradeMarketingList[0].skuIds.push(k)
-          if(!tradeMarketingList[0].marketingLevelId) {
+          if (!tradeMarketingList[0].marketingLevelId) {
             tradeMarketingList[0].marketingLevelId = goodsMarketingMap[k][0]['fullDiscountLevelList'][0]['discountLevelId']
           }
-          if(!tradeMarketingList[0].marketingId) {
+          if (!tradeMarketingList[0].marketingId) {
             tradeMarketingList[0].marketingId = goodsMarketingMap[k][0]['fullDiscountLevelList'][0]['marketingId']
           }
         }
       }
-      
+
       let param3 = {
         // birthday: '1990-01-01',
         // identifyNumber: '430702199001011111',
@@ -319,28 +328,26 @@ class Payment extends React.Component {
             skuId: g.goodsInfoId,
           };
         }),
-        tradeMarketingList: tradeMarketingList,
+        tradeMarketingList
       };
       try {
-        let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
-          param
-        );
-        if (
-          postVisitorRegisterAndLoginRes.context &&
-          postVisitorRegisterAndLoginRes.context.token
-        ) {
-          sessionStorage.setItem(
-            "rc-token",
-            postVisitorRegisterAndLoginRes.context.token
-          );
-          let batchAddRes = await batchAdd(param2);
-          let confirmAndCommitRes = await confirmAndCommit(param3);
-          console.log(confirmAndCommitRes)
-          localStorage.setItem('orderNumber', confirmAndCommitRes.context[0]['tid'])
-          this.setState({ loading: false });
-          sessionStorage.removeItem("payosdata");
-          history.push("/confirmation");
+        sessionStorage.setItem("rc-paywith-login", jugeLoginStatus())
+        if (!jugeLoginStatus()) {
+          // 登录状态，不需要调用两个接口
+          let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(param);
+          sessionStorage.setItem("rc-token", postVisitorRegisterAndLoginRes.context.token);
+          await batchAdd(param2);
+        } else {
+          param3.payAccountName = creditCardInfo.cardOwner
+          param3.payPhoneNumber = creditCardInfo.phoneNumber
         }
+
+        let confirmAndCommitRes = await confirmAndCommit(param3);
+        console.log(confirmAndCommitRes)
+        localStorage.setItem('orderNumber', confirmAndCommitRes.context[0]['tid'])
+        this.setState({ loading: false });
+        sessionStorage.removeItem("payosdata");
+        history.push("/confirmation");
       } catch (e) {
         console.log(e);
         this.setState({
@@ -379,7 +386,7 @@ class Payment extends React.Component {
     // if (name === "phoneNumber") {
     //   this.phoneNumberInput(e, deliveryAddress, name);
     // } else {
-      deliveryAddress[name] = value;
+    deliveryAddress[name] = value;
     // }
     // deliveryAddress[name] = value;
     this.inputBlur(e);
@@ -393,7 +400,7 @@ class Payment extends React.Component {
     // if (name === "phoneNumber") {
     //   this.phoneNumberInput(e, creditCardInfo, name);
     // } else {
-      creditCardInfo[name] = value;
+    creditCardInfo[name] = value;
     // }
     this.inputBlur(e);
     this.setState({ creditCardInfo: creditCardInfo });
@@ -419,7 +426,7 @@ class Payment extends React.Component {
     // if (name === "phoneNumber") {
     //   this.phoneNumberInput(e, billingAddress, name);
     // } else {
-      billingAddress[name] = value;
+    billingAddress[name] = value;
     // }
     this.inputBlur(e);
     this.setState({ billingAddress: billingAddress });
@@ -1813,7 +1820,7 @@ class Payment extends React.Component {
                                   <div className="rc-margin-bottom--xs">
                                     <div className="content-asset">
                                       <p>
-                                      <FormattedMessage id="payment.acceptCards" />
+                                        <FormattedMessage id="payment.acceptCards" />
                                       </p>
                                       {/* <p>We accept credit cards.</p> */}
                                     </div>
@@ -1962,7 +1969,7 @@ class Payment extends React.Component {
                                       <div className="col-sm-12">
                                         <div className="form-group required">
                                           <label className="form-control-label">
-                                          <FormattedMessage id="payment.cardOwner" />
+                                            <FormattedMessage id="payment.cardOwner" />
                                           </label>
                                           <span
                                             className="rc-input rc-input--full-width"
@@ -2027,7 +2034,7 @@ class Payment extends React.Component {
                                       <div className="col-sm-6">
                                         <div className="form-group required">
                                           <label className="form-control-label">
-                                          <FormattedMessage id="payment.email" />
+                                            <FormattedMessage id="payment.email" />
                                           </label>
                                           <span
                                             className="rc-input rc-input--full-width"

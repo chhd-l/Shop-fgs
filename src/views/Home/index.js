@@ -16,7 +16,6 @@ class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       promotionVisible: false
     }
   }
@@ -52,7 +51,7 @@ class Home extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
 
-        <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
+        <Header showMiniIcons={true} location={this.props.location} />
         {
           this.state.promotionVisible && !sessionStorage.getItem('rc-promotion-pop-close')
             ? <div className="ui-pop" onClick={() => this.closePromotionPop()}>

@@ -15,7 +15,6 @@ export default class AccountOrders extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       orderList: [],
       form: {
         pageSize: 6,
@@ -129,7 +128,7 @@ export default class AccountOrders extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
+        <Header showMiniIcons={true} location={this.props.location} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">

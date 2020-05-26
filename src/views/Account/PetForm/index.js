@@ -56,7 +56,6 @@ export default class PetForm extends React.Component {
         {name:'test breed5',value:5},
         {name:'test breed6',value:6},
       ],
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
     this.nextStep = this.nextStep.bind(this)
     this.selectPetType = this.selectPetType.bind(this)
@@ -315,7 +314,7 @@ export default class PetForm extends React.Component {
   render () {
     return (
       <div>
-        <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
+        <Header showMiniIcons={true} location={this.props.location} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">

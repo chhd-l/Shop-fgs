@@ -3,6 +3,11 @@ import axios from '@/utils/request'
 const api = {
   miniPurchases: '/site/front/miniPurchases',
   purchases: '/site/front/purchases',
+
+  sitePurchase: '/site/purchase', // 加入后台购物车
+  siteMiniPurchases: '/site/miniPurchases', // 查询后台购物车
+  sitePurchases: '/site/purchases', // 计算价格
+  mergePurchase: '/site/mergePurchase' // 合并前后台购物车
 }
 
 export default api
@@ -37,6 +42,54 @@ export function purchases (parameter) {
   parameter.goodsInfoIds = goodsInfoIds
   return axios({
     url: `${api.purchases}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function sitePurchase (parameter) {
+  return axios({
+    url: `${api.sitePurchase}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function updateBackendCart (parameter) {
+  return axios({
+    url: `${api.sitePurchase}`,
+    method: 'put',
+    data: parameter
+  })
+}
+
+export function deleteItemFromBackendCart (parameter) {
+  return axios({
+    url: `${api.sitePurchase}`,
+    method: 'delete',
+    data: parameter
+  })
+}
+
+export function siteMiniPurchases (parameter) {
+  return axios({
+    url: `${api.siteMiniPurchases}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function sitePurchases (parameter) {
+  return axios({
+    url: `${api.sitePurchases}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function mergePurchase (parameter) {
+  return axios({
+    url: `${api.mergePurchase}`,
     method: 'post',
     data: parameter
   })

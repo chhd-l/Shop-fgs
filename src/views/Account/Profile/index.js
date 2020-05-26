@@ -8,23 +8,21 @@ import SideMenu from '@/components/SideMenu'
 import PersonalDataEditForm from './modules/PersonalDataEditForm'
 import AddressBookEditForm from './modules/AddressBookEditForm'
 import CommunicationDataEditForm from './modules/CommunicationDataEditForm'
-import { getCustomerInfoById } from "@/api/user"
+import { getCustomerInfo } from "@/api/user"
 import './index.css'
 
 export default class AccountProfile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       personalData: {
-        firstName: 'Ken',
-        lastName: 'yang',
-        birthdate: '01/01/2020',
-        email: '1411211848@qq.com' 
+        firstName: '',
+        lastName: '',
+        birthdate: '',
+        email: ''
       },
       addressBookData: {
-        address1: '',
-        address2: '',
+        address: '',
         country: "Mexico",
         city: '',
         postCode: '',
@@ -32,10 +30,13 @@ export default class AccountProfile extends React.Component {
         rfc: ''
       },
       communicationData: {
-        phone: true,
-        email: false
-      }
+        contactMethod: ''
+      },
+      originData: null
     }
+    this.personalDataEditFormRef = React.createRef();
+    this.addressBookEditFormRef = React.createRef();
+    this.communicationDataEditFormRef = React.createRef();
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
@@ -46,15 +47,33 @@ export default class AccountProfile extends React.Component {
       window.location.reload();
       return false
     }
-    getCustomerInfoById('ff808081721804ea01722b15dce601b7')
-      .then(res => {
-        // debugger
-      })
+    this.queryCustomerBaseInfo()
   }
-  updateFormData (key, form) {
-    this.setState({
-      [key]: Object.assign({}, form)
-    })
+  queryCustomerBaseInfo () {
+    getCustomerInfo()
+      .then(res => {
+        const context = res.context
+        this.setState({
+          originData: context,
+          personalData: {
+            firstName: context.firstName,
+            lastName: context.lastName,
+            email: context.email,
+            birthdate: context.birthDay ? context.birthDay.split('-').join('/') : context.birthDay
+          },
+          addressBookData: {
+            address: context.customerAddress,
+            country: context.country || 'Mexico',
+            city: context.city,
+            postCode: context.postCode,
+            phoneNumber: context.contactPhone,
+            rfc: context.reference
+          },
+          communicationData: {
+            contactMethod: context.contactMethod
+          }
+        })
+      })
   }
   render () {
     const event = {
@@ -67,7 +86,7 @@ export default class AccountProfile extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
+        <Header showMiniIcons={true} location={this.props.location} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
@@ -78,20 +97,23 @@ export default class AccountProfile extends React.Component {
                   <div className="rc-layout-container rc-two-column">
                     <div className="rc-column rc-padding-x--none--mobile">
                       <PersonalDataEditForm
+                        originData={this.state.originData}
                         data={this.state.personalData}
-                        updateData={form => this.updateFormData('personalData', form)} />
+                        updateData={() => this.queryCustomerBaseInfo()} />
                     </div>
                     <div className="rc-column rc-padding-x--none--mobile">
                       <AddressBookEditForm
+                        originData={this.state.originData}
                         data={this.state.addressBookData}
-                        updateData={form => this.updateFormData('addressBookData', form)} />
+                        updateData={() => this.queryCustomerBaseInfo()} />
                     </div>
                   </div>
                   <div className="row">
                     <div className="rc-column col-lg-6">
                       <CommunicationDataEditForm
+                        originData={this.state.originData}
                         data={this.state.communicationData}
-                        updateData={form => this.updateFormData('addressBookData', form)} />
+                        updateData={() => this.queryCustomerBaseInfo()} />
                     </div>
                   </div>
                 </div>
