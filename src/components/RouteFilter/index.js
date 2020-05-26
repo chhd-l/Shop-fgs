@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { createHashHistory } from "history";
 import { queryStoreCateIds } from "@/utils/utils";
 
 class RouteFilter extends Component {
@@ -10,7 +9,7 @@ class RouteFilter extends Component {
       sessionStorage.getItem("rc-clinics-id") &&
       sessionStorage.getItem("rc-clinics-name")
     ) {
-      createHashHistory().push("/payment/shipping");
+      this.props.history.push("/payment/shipping");
     }
 
     // 切换路由时，刷新下页面，解决外部组件无法初始化问题
@@ -80,7 +79,7 @@ class RouteFilter extends Component {
       )
     }
     if (this.props.location.pathname === "/confirmation" && !localStorage.getItem('orderNumber')) {
-      createHashHistory().push("/");
+      this.props.history.push("/");
     }
     queryStoreCateIds();
   }

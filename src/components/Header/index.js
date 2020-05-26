@@ -4,7 +4,6 @@ import { find } from 'lodash'
 import { withRouter, Link } from 'react-router-dom';
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
-import { createHashHistory } from 'history'
 import { getParaByName, jugeLoginStatus } from '@/utils/utils';
 import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";

@@ -1,5 +1,6 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
+import { withRouter } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -13,7 +14,6 @@ import {
 } from "@/utils/utils"
 import { MINIMUM_AMOUNT } from "@/utils/constant"
 import { FormattedMessage } from 'react-intl'
-import { createHashHistory } from 'history'
 import './index.css'
 import { cloneDeep, findIndex, find } from 'lodash'
 import { getDetails, getLoginDetails } from '@/api/details'
@@ -337,7 +337,7 @@ class Details extends React.Component {
         }))
 
         localStorage.setItem('rc-cart-data-login', JSON.stringify(siteMiniPurchasesRes.goodsList))
-        createHashHistory().push('/prescription')
+        this.props.history.push('/prescription')
       }
     } catch (err) {
       console.log(err)
@@ -402,7 +402,7 @@ class Details extends React.Component {
         if (this.state.tradePrice < MINIMUM_AMOUNT) {
           this.setState({ checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" /> })
         } else {
-          createHashHistory().push('/prescription')
+          this.props.history.push('/prescription')
         }
       })
     }
@@ -466,11 +466,11 @@ class Details extends React.Component {
                               <div className="d-flex justify-content-center ui-margin-top-1-md-down" onMouseEnter={() => this.hanldeImgMouseEnter(details.goodsImg)}>
                                 {
                                   // this.state.imageMagnifierCfg.show ?
-                                  
-                                    <div className="details-img-container">
-                                      <ImageMagnifier video={details.goodsVideo} images={images} minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.imageMagnifierCfg.config} />
-                                    </div> 
-                                    
+
+                                  <div className="details-img-container">
+                                    <ImageMagnifier video={details.goodsVideo} images={images} minImg={details.goodsImg} maxImg={details.goodsImg} config={this.state.imageMagnifierCfg.config} />
+                                  </div>
+
                                 }
                               </div>
                               {/* <div className="d-flex justify-content-center">
@@ -536,7 +536,7 @@ class Details extends React.Component {
                                       <div className="product-selectors rc-padding-top--xs">
                                         <div id="choose-select">
                                           <div className="rc-margin-bottom--xs">
-                                            
+
                                             {/* <FormattedMessage id="details.theSize" /> */}
                                             :</div>
                                           <div data-attr="size">
@@ -762,4 +762,4 @@ class Details extends React.Component {
   }
 }
 
-export default Details
+export default withRouter(Details)

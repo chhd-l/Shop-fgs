@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Link } from "react-router-dom"
+import { withRouter, Link } from "react-router-dom"
 import { formatMoney } from '@/utils/utils'
 import { find } from 'lodash'
 import {
@@ -9,9 +9,8 @@ import {
   mergePurchase
 } from '@/api/cart'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
-import { createHashHistory } from 'history'
 
-export default class LoginCart extends React.Component {
+class LoginCart extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -25,7 +24,7 @@ export default class LoginCart extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this)
     this.handleCheckout = this.handleCheckout.bind(this)
   }
-  async componentDidMount () {
+  async componentDidMount () {debugger
     // 合并购物车(登录后合并非登录态的购物车数据)
     const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     if (unloginCartData.length) {
@@ -111,7 +110,7 @@ export default class LoginCart extends React.Component {
       }))
 
       localStorage.setItem('rc-cart-data-login', JSON.stringify(cartData))
-      createHashHistory().push('/prescription')
+      this.props.history.push('/prescription')
     })
   }
   render () {
@@ -235,3 +234,5 @@ export default class LoginCart extends React.Component {
     )
   }
 }
+
+export default withRouter(LoginCart)

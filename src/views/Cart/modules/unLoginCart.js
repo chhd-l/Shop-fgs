@@ -1,16 +1,15 @@
 
 import React from "react";
 import { FormattedMessage } from 'react-intl'
-import { createHashHistory } from 'history'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { formatMoney, hanldePurchases } from "@/utils/utils"
 import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { cloneDeep, find } from 'lodash'
 
-export default class UnLoginCart extends React.Component {
+class UnLoginCart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -204,11 +203,11 @@ export default class UnLoginCart extends React.Component {
     let res = await hanldePurchases(param)
     let latestGoodsInfos = res.goodsInfos
     let goodsMarketingMapStr = JSON.stringify(res.goodsMarketingMap)
-    if(goodsMarketingMapStr === "{}") {
+    if (goodsMarketingMapStr === "{}") {
       this.setState({
         isPromote: false
       })
-    }else {
+    } else {
       this.setState({
         isPromote: true
       })
@@ -242,7 +241,7 @@ export default class UnLoginCart extends React.Component {
   gotoDetails (pitem) {
     sessionStorage.setItem('rc-goods-cate-name', pitem.goodsCateName || '')
     sessionStorage.setItem('rc-goods-name', pitem.goodsName)
-    createHashHistory().push('/details/' + pitem.sizeList[0].goodsInfoId)
+    this.props.history.push('/details/' + pitem.sizeList[0].goodsInfoId)
   }
   getProducts (plist) {
     const Lists = plist.map((pitem, index) => (
@@ -364,7 +363,7 @@ export default class UnLoginCart extends React.Component {
                         </div>
                       </span>
                     </div>
-                    <div className="promotion stock" style={{display: this.state.isPromote?'inline-block': 'none'}}>
+                    <div className="promotion stock" style={{ display: this.state.isPromote ? 'inline-block' : 'none' }}>
                       <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                         <span><FormattedMessage id="promotion" /> :</span>
                       </label>
@@ -429,19 +428,19 @@ export default class UnLoginCart extends React.Component {
                       </div>
                     </span>
                   </div>
-                  <div className="promotion stock" style={{marginTop: '7px', display: this.state.isPromote?'inline-block': 'none'}}>
-                      <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
-                        <span className=""><FormattedMessage id="promotion" /> :</span>
-                      </label>
-                      <span className="availability-msg">
-                        {/* {console.log(find(pitem.sizeList, s => s.selected).marketingLabels, 'find(pitem.sizeList, s => s.selected)')} */}
-                        <div>
-                          {/* <FormattedMessage id="25% OFF" /> */}
-                          {/* {find(pitem.sizeList, s => s.selected).marketingLabels[0].marketingDesc} */}
+                  <div className="promotion stock" style={{ marginTop: '7px', display: this.state.isPromote ? 'inline-block' : 'none' }}>
+                    <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
+                      <span className=""><FormattedMessage id="promotion" /> :</span>
+                    </label>
+                    <span className="availability-msg">
+                      {/* {console.log(find(pitem.sizeList, s => s.selected).marketingLabels, 'find(pitem.sizeList, s => s.selected)')} */}
+                      <div>
+                        {/* <FormattedMessage id="25% OFF" /> */}
+                        {/* {find(pitem.sizeList, s => s.selected).marketingLabels[0].marketingDesc} */}
                           25% OFF
                         </div>
-                      </span>
-                    </div>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -526,14 +525,14 @@ export default class UnLoginCart extends React.Component {
                           <p className="text-right sub-total">{formatMoney(this.state.totalPrice)}</p>
                         </div>
                       </div>
-                      <div className="row" style={{display: this.state.isPromote? 'flex': 'none'}}>
+                      <div className="row" style={{ display: this.state.isPromote ? 'flex' : 'none' }}>
                         <div className="col-4">
-                          <p style={{color: '#ec001a'}}>
+                          <p style={{ color: '#ec001a' }}>
                             <FormattedMessage id="promotion" />
                           </p>
                         </div>
                         <div className="col-8">
-                          <p className="text-right shipping-cost" style={{color: '#ec001a'}}>- {formatMoney(this.state.discountPrice)}</p>
+                          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.state.discountPrice)}</p>
                         </div>
                       </div>
                       <div className="row">
@@ -691,3 +690,5 @@ export default class UnLoginCart extends React.Component {
     );
   }
 }
+
+export default withRouter(UnLoginCart)
