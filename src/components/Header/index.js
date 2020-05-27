@@ -33,7 +33,7 @@ class Header extends React.Component {
       tradePrice: '',
       clinicsId: sessionStorage.getItem('rc-clinics-id'),
       clinicsName: sessionStorage.getItem('rc-clinics-name'),
-      isLogin: sessionStorage.getItem("is-login") ==="true"?true:false
+      isLogin: sessionStorage.getItem("rc-token")?true:false
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -397,13 +397,14 @@ class Header extends React.Component {
                           <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{ minWidth: "13rem" }}>
                             <div className="container cart" >
                               <div className="login-style">
-                                <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
-                                  onClick={this.clickLogin}> <FormattedMessage id="account.toComeIn" /></button>
-                                <div> <FormattedMessage id="account.notRegistred" /></div>
-                                <a className="rc-styled-link" onClick={this.clickLogin}> <FormattedMessage id="signUp" />Sign up</a>
+                                <LoginButton />
+                                {/* <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
+                                  onClick={this.clickLogin}>To come in</button> */}
+                                {/* <div>You are not registred?</div>
+                                <a className="rc-styled-link" onClick={this.clickLogin}>Sign up</a> */}
                               </div>
 
-                              <div className="link-group">
+                              {/* <div className="link-group">
                                 <div className="link-style" >
                                   <Link to="/account" >
                                     <FormattedMessage id="account.myAccount" />
@@ -430,7 +431,7 @@ class Header extends React.Component {
                                   </Link>
                                 </div>
 
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           :
