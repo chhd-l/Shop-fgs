@@ -10,7 +10,7 @@ import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import { getList } from '@/api/list'
 import { CATEID } from '@/utils/constant'
 import { getPrescriptionById } from '@/api/clinic'
-import LoginButton from '@/components/test'
+import LoginButton from '@/components/LoginButton'
 import UnloginCart from './modules/unLoginCart'
 import LoginCart from './modules/loginCart'
 import './index.css'
@@ -406,8 +406,8 @@ class Header extends React.Component {
                             <div className="container cart" >
                               <div className="login-style">
                                 <LoginButton />
-                                <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
-                                  onClick={this.clickLogin}>To come in</button>
+                                {/* <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
+                                  onClick={this.clickLogin}>To come in</button> */}
                                 <div>You are not registred?</div>
                                 <a className="rc-styled-link" onClick={this.clickLogin}>Sign up</a>
                               </div>

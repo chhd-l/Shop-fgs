@@ -39,13 +39,15 @@ const Home = () => {
         setUserInfo(info);
         authService.getUser().then((info) => {
           setUserInfo(info);
-          getToken({oktaToken: `Bearer ${accessToken}`}).then(res => {
-            console.log(res)
-            sessionStorage.setItem(
-              "rc-token",
-              res.context.token
-            );
-          })
+          if(!sessionStorage.getItem('rc-token')) {
+            getToken({oktaToken: `Bearer ${accessToken}`}).then(res => {
+              console.log(res)
+              sessionStorage.setItem(
+                "rc-token",
+                res.context.token
+              );
+            })
+          }
         });
       });
     }
@@ -73,7 +75,7 @@ const Home = () => {
   // }
 
   return (
-    <Button id="login-button" primary onClick={login}>Login</Button>
+    <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }} onClick={login}>Log in</button>
   );
 };
 export default Home;
