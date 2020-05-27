@@ -172,9 +172,9 @@ class Details extends React.Component {
         this.setState({
           goodsDetailTab: goodsDetailTab
         })
-        const goodsDetailList = this.handleDetailsHtml(
-          res.context.goods.goodsDetail
-        );
+        // const goodsDetailList = this.handleDetailsHtml(
+        //   res.context.goods.goodsDetail
+        // );
 
         this.setState(
           {
