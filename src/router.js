@@ -26,7 +26,7 @@ import AccountOrdersAfterSaleDetail from "@/views/Account/OrdersAfterSaleDetail"
 import AccountPetForm from "@/views/Account/PetForm";
 import AccountPetList from "@/views/Account/PetList";
 import AccountShippingAddress from "@/views/Account/ShippingAddress";
-import AccountReturnOrder from "@/views/Account/Refunds";
+import AccountReturnOrder from "@/views/Account/ReturnOrder";
 
 import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';

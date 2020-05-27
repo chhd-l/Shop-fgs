@@ -49,7 +49,7 @@ import AccountOrdersAfterSaleDetail from "@/views/Account/OrdersAfterSaleDetail"
 import AccountPetForm from "@/views/Account/PetForm";
 import AccountPetList from "@/views/Account/PetList";
 import AccountShippingAddress from "@/views/Account/ShippingAddress";
-import AccountReturnOrder from "@/views/Account/Refunds";
+import AccountReturnOrder from "@/views/Account/ReturnOrder";
 
 const App = () => (
   <IntlProvider locale="en" messages={en_US}>
