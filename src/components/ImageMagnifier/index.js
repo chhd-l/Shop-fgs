@@ -13,7 +13,7 @@ class ImageMagnifier extends Component {
         // 放大倍数
         scale: (props.config && props.config.scale) || 4,
         // 组件宽
-        width: (props.config && props.config.width) || "100%",
+        width: (props.config && props.config.width) || "200",
         // 组件高
         height: (props.config && props.config.height) || "250"
       },
@@ -90,7 +90,9 @@ class ImageMagnifier extends Component {
           transformOrigin: "top left"
         }
       },
-      videoShow: false
+      videoShow: false,
+      videoModalShow: true,
+      listenerCount: 1
     };
   }
 
@@ -105,6 +107,7 @@ class ImageMagnifier extends Component {
 
   // props 变化时更新
   componentWillReceiveProps (nextProps) {
+    
     let { currentImg } = this.state
     let { images } = this.props
     if(!currentImg && images && images.length > 0) {
@@ -114,6 +117,12 @@ class ImageMagnifier extends Component {
       currentImg: currentImg
     })
     this.updataImg(nextProps);
+    const { sizeList } = nextProps
+    console.log(sizeList.filter(item => item.selected))
+    let selectedSizeInfo = sizeList.filter(item => item.selected)
+    if(selectedSizeInfo.length) {
+      this.setState({currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false})
+    }
   }
 
   /**
@@ -187,7 +196,7 @@ class ImageMagnifier extends Component {
       cssStyle: cssStyle
     });
   }
-
+  
   // 更新图片
   updataImg (props) {
     this.setState({
@@ -196,10 +205,12 @@ class ImageMagnifier extends Component {
     });
   }
   imageChange(e, image) {
-    // e.target
+    let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
+    cssStyle.imgContainer.cursor = 'move'
     this.setState({
       currentImg: image,
-      videoShow: false
+      videoShow: false,
+      cssStyle
     })
   }
   // 图片加载情况
@@ -212,17 +223,35 @@ class ImageMagnifier extends Component {
   handleImageErrored () {
     this.setState({ imgLoad: false });
   }
-
+  componentDidUpdate() {
+    if(this.refs.video) {
+      this.refs.video['disablePictureInPicture'] = true
+      this.refs.video.addEventListener('play', () => {
+        console.log(false)
+        this.setState({videoModalShow: false})
+      })
+      this.refs.video.addEventListener('pause', () => {
+        console.log(true)
+        this.setState({videoModalShow: true})
+      })
+    }
+  }
+  // closeVideoModal() {
+  //   this.setState()
+  // }
   render () {
-    const { cssStyle, magnifierOff, minImg, maxImg, imgLoad, currentImg, videoShow } = this.state;
+    const { cssStyle, magnifierOff, minImg, maxImg, imgLoad, currentImg, videoShow, videoModalShow } = this.state;
     const { images, video } = this.props
     return (
       <div>
       <div style={{ position: 'relative' }}>
         <div style={cssStyle.imgContainer}>
-          {videoShow && <div className="videoModal"></div>}
+          {videoShow && videoModalShow && <div className="videoModal" onClick={() => {
+            this.refs.video.play()
+            this.setState({videoModalShow: false})
+          }}></div>}
           {!videoShow && <img style={cssStyle.imgStyle} src={currentImg} alt="" />}
-          {videoShow && <video style={cssStyle.imgStyle} src={video? video: ''} controls></video>}
+          {videoShow && <video ref="video" style={cssStyle.imgStyle} src={video? video: ''} controlslist="nodownload" oncontextmenu="return false;" controls></video>}
           {!videoShow && <div
             style={cssStyle.maskBlock}
             onMouseEnter={this.mouseEnter}
@@ -251,6 +280,8 @@ class ImageMagnifier extends Component {
           ))
         }
         <video className="rc-img--square rc-img--square-custom" onMouseEnter={() => {
+          let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
+          cssStyle.imgContainer.cursor = 'pointer'
           this.setState({videoShow: true, cssStyle})
         }} src={video? video: ''}></video>
       </div>

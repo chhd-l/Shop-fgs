@@ -418,7 +418,7 @@ class List extends React.Component {
                                                 <h3 className="rc-card__title rc-gamma">{item.lowGoodsName}</h3>
                                               </header>
                                               <div className="Product-Key-words rc-text--center"></div>
-                                              <div className="rc-card__meta rc-margin-bottom--xs rc-text--center">
+                                              <div className="goodsSubtitle">
                                                 {item.goodsSubtitle}
                                               </div>
                                             </div>
