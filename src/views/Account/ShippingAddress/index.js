@@ -744,16 +744,7 @@ export default class ShippingAddress extends React.Component {
                                   </label>
                                     }
                                 </div>
-                                {/* <div className="ant-form-item-control has-success address-input">
-                                  <label className="ant-checkbox-wrapper">
-                                    <span className="ant-checkbox">
-                                    <input type="checkbox" className="ant-checkbox-input" onClick={()=>this.isDefalt()} value={addressForm.isDefalt}/>
-                                    <span className="ant-checkbox-inner"></span>
-                                    </span>
-                                    <span><FormattedMessage id="setDefaultAddress"></FormattedMessage></span>
-                                  </label>
-                                  
-                                </div> */}
+                        
                               </div>
                             </div>
                           </form>
