@@ -398,7 +398,7 @@ export default class AddressBookEditForm extends React.Component {
             </div>
           </div>
           <span className="rc-meta mandatoryField">
-            <FormattedMessage id="account.requiredFields" />
+            * <FormattedMessage id="account.requiredFields" />
           </span>
           <div className="text-right">
             <a

@@ -12,6 +12,7 @@ export default class AccountHome extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      userInfo: sessionStorage.getItem("rc-userinfo") ? JSON.parse(sessionStorage.getItem("rc-userinfo")) : null
     }
   }
   render () {
@@ -32,7 +33,7 @@ export default class AccountHome extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <h4><FormattedMessage id="welcome" /> Ken</h4>
+                <h4><FormattedMessage id="welcome" /> {this.state.userInfo && this.state.userInfo.firstName}</h4>
                 <p><FormattedMessage id="account.warmNotice" /></p>
                 <div className="clearfix"></div>
                 <div className="dashboard__profile-cards">
