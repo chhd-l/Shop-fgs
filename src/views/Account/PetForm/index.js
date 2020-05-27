@@ -26,9 +26,9 @@ export default class PetForm extends React.Component {
     this.state = {
       loading:true,
       precent:12.5,
-      step:6,
+      step:1,
       
-      currentStep:'step6',
+      currentStep:'step1',
       showList:false,
       isDisabled:true,
       isInputDisabled:false,
@@ -102,7 +102,7 @@ export default class PetForm extends React.Component {
           let currentPet = petList[0]
           this.setState({
             loading:false,
-            showList:false,
+            showList:true,
             petList:petList,
             currentPet:currentPet
           })
@@ -828,7 +828,7 @@ export default class PetForm extends React.Component {
                       <button type="button" name="next" 
                         style = {{marginBottom:'20px'}}
                         className="rc-btn rc-btn--one btn-next btn-block js-btn-next" 
-                        disabled={(this.state.isDisabled || !this.state.isEdit)?"disabled":null}
+                        disabled={(this.state.isDisabled)?"disabled":null}
                         onClick={this.nextStep}>
                          { this.state.step === 8?'Save':'Further'}
                       </button>
