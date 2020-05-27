@@ -314,12 +314,16 @@ class Payment extends React.Component {
         creditDardCvv: payosdata.encrypted_cvv,
         phone: creditCardInfo.phoneNumber,
         email: creditCardInfo.email,
+        last4Digits: payosdata.last_4_digits,
         // identifyNumber: creditCardInfo.identifyNumber,
         line1: deliveryAddress.address1,
         line2: deliveryAddress.address2,
         clinicsId:
           sessionStorage.getItem("rc-clinics-id") ||
           sessionStorage.getItem("rc-clinics-id2"),
+        clinicsName:
+          sessionStorage.getItem("rc-clinics-name2") ||
+          sessionStorage.getItem("rc-clinics-name2"),
         remark: commentOnDelivery,
         storeId: STOREID,
         tradeItems: param2.goodsInfos.map((g) => {
