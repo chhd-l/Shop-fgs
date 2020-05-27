@@ -6,6 +6,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
+import { flat } from '@/utils/utils'
 import {
   formatMoney,
   translateHtmlCharater,
@@ -62,6 +63,7 @@ class Details extends React.Component {
       addToCartLoading: false,
       tradePrice: "",
       specList: [],
+      tabsValue: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -98,6 +100,30 @@ class Details extends React.Component {
       () => this.queryDetails()
     );
   }
+  matchGoods() {
+    let { specList, details, currentUnitPrice, stock } = this.state
+    let arr = []
+    console.log(specList, details.sizeList, 'listaaa')
+    specList.map(el => {
+      if(el.chidren.filter(item => item.selected).length) {
+        arr.push(el.chidren.filter(item => item.selected)[0]['specDetailId'])
+      }
+    })
+    let arrStr = arr.sort((a, b) => a - b).join(',')
+    details.sizeList.map(item => {
+      if(item.mockSpecDetailIds.join(',') === arrStr) {
+        item.selected = true
+        currentUnitPrice = item.salePrice
+        stock = item.stock
+      }else {
+        item.selected = false
+      }
+    })
+    console.log(details.sizeList, 'sizeList')
+    this.setState({ details, currentUnitPrice, stock }, () => {
+      this.updateInstockStatus();
+    })
+  }
   async queryDetails() {
     const { id } = this.state;
     try {
@@ -114,17 +140,21 @@ class Details extends React.Component {
         specList.map((sItem) => {
           sItem.chidren = specDetailList.filter(
             (sdItem) => {
-              sdItem.selected = true
+              if(sItem.chidren && sItem.chidren.length === 1) {
+                sdItem.selected = true
+              }else {
+                sdItem.selected = false
+              }
               return sdItem.specId === sItem.specId
             }
           );
         });
-        console.log(specList, "specList");
-        this.setState({ specList });
+        
+        // this.setState({ specList });
         let sizeList = [];
         let goodsSpecDetails = res.context.goodsSpecDetails;
         let goodsInfos = res.context.goodsInfos || [];
-
+        
         sizeList = goodsInfos.map((g, idx) => {
           // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
           // console.log(targetInfo, 'target')
@@ -146,21 +176,19 @@ class Details extends React.Component {
           });
           return item;
         });
-        console.log(sizeList, "sizeList");
+        
         this.setState(
           {
             details: Object.assign({}, this.state.details, res.context.goods, {
-              sizeList,
+              sizeList
             }),
             images: res.context.images,
-            // stock: selectedSize.stock,
-            // currentUnitPrice: selectedSize.salePrice,
             showOnlyoneTab: goodsDetailList.length === 1,
             showDescriptionTab: goodsDetailList.length === 1,
+            specList,
           },
           () => {
-            this.updateInstockStatus();
-            // this.hanldePurchases()
+            this.matchGoods()
           }
         );
       } else {
@@ -330,8 +358,10 @@ class Details extends React.Component {
         item.selected = false
       }
     })
-    this.setState({specList})
     console.log(specList, 'sss')
+    this.setState({specList}, () => {
+      this.matchGoods()
+    })
     // this.setState
     // console.log(sItem, 'sItem')
     // this.setState({ checkOutErrMsg: "" });
