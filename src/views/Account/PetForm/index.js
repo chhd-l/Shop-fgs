@@ -26,9 +26,9 @@ export default class PetForm extends React.Component {
     this.state = {
       loading:true,
       precent:12.5,
-      step:6,
+      step:1,
       
-      currentStep:'step6',
+      currentStep:'step1',
       showList:false,
       isDisabled:true,
       isInputDisabled:false,
@@ -102,7 +102,7 @@ export default class PetForm extends React.Component {
           let currentPet = petList[0]
           this.setState({
             loading:false,
-            showList:false,
+            showList:true,
             petList:petList,
             currentPet:currentPet
           })
