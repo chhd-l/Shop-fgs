@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { find } from 'lodash'
-import { withRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
 import { getParaByName, jugeLoginStatus } from '@/utils/utils';
@@ -10,7 +10,7 @@ import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import { getList } from '@/api/list'
 import { CATEID } from '@/utils/constant'
 import { getPrescriptionById } from '@/api/clinic'
-import LoginButton from '@/components/test'
+import LoginButton from '@/components/LoginButton'
 import UnloginCart from './modules/unLoginCart'
 import LoginCart from './modules/loginCart'
 import './index.css'
@@ -207,14 +207,12 @@ class Header extends React.Component {
     }
   }
   handleItemClick () {
-    const { history } = this.props
-    history.push('/list/keywords/' + this.state.keywords)
+    this.props.history.push('/list/keywords/' + this.state.keywords)
   }
   gotoDetails (item) {
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
     sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
-    const { history } = this.props
-    history.push('/details/' + item.goodsInfos[0].goodsInfoId)
+    this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   toggleMenu () {
     this.setState({
@@ -385,8 +383,8 @@ class Header extends React.Component {
                     </div>
                     {
                       jugeLoginStatus()
-                        ? <LoginCart ref={this.loginCartRef} />
-                        : <UnloginCart ref={this.unloginCartRef} showSearchInput={this.state.showSearchInput} />
+                        ? <LoginCart ref={this.loginCartRef} history={this.props.history} />
+                        : <UnloginCart ref={this.unloginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
                     }
                     <span className="minicart inlineblock" style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }}
                       onMouseOver={this.handleCenterMouseOver} onMouseOut={this.handleCenterMouseOut}>
@@ -571,4 +569,4 @@ class Header extends React.Component {
   }
 }
 
-export default withRouter(Header)
+export default Header

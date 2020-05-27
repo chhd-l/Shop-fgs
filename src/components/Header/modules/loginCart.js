@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { withRouter, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { formatMoney } from '@/utils/utils'
 import { find } from 'lodash'
 import {
@@ -235,4 +235,4 @@ class LoginCart extends React.Component {
   }
 }
 
-export default withRouter(LoginCart)
+export default LoginCart

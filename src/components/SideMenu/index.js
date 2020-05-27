@@ -49,6 +49,15 @@ export default class SideMenu extends React.Component {
               )}
             </FormattedMessage>
           </h2>
+          <h2 className={['nav_item', 'medium', type === 'Refunds' ? 'active' : ''].join(' ')}>
+            <FormattedMessage id="order.refunds">
+              {txt => (
+                <Link to="/account/refunds" title={txt} alt={txt}>
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
+          </h2>
           <h2 className={['nav_item', 'medium', type === 'ShippingAddress' ? 'active' : ''].join(' ')}>
             <Link
               to="/account/shippingAddress"

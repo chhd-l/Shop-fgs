@@ -99,7 +99,7 @@ class PersonalDataEditForm extends React.Component {
     const { form } = this.state
     for (let key in form) {
       const value = form[key]
-      if (!value) {
+      if (!value && key !== 'birthdate') {
         this.showErrMsg('Please complete the required items')
         return
       }
@@ -110,8 +110,6 @@ class PersonalDataEditForm extends React.Component {
     }
 
     this.setState({ loading: true })
-    // this.props.handleEditCustomerBaseInfoForPersonalData(form)
-    // return
     let param = Object.assign({}, this.props.originData, {
       firstName: form.firstName,
       lastName: form.lastName,
@@ -270,7 +268,7 @@ class PersonalDataEditForm extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="form-group col-lg-6 required">
+              <div className="form-group col-lg-6">
                 <label className="form-control-label rc-full-width" htmlFor="birthdate">
                   <FormattedMessage id="account.birthDate" />
                 </label>
@@ -318,7 +316,7 @@ class PersonalDataEditForm extends React.Component {
               </div>
             </div>
             <span className="rc-meta mandatoryField">
-              <FormattedMessage id="account.requiredFields" />
+              * <FormattedMessage id="account.requiredFields" />
             </span>
             <div className="text-right">
               <a

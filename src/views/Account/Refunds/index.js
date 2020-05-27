@@ -7,10 +7,10 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import { FormattedMessage } from 'react-intl'
 import { formatMoney } from "@/utils/utils"
-import { getOrderDetails, cancelOrder } from "@/api/order"
-import './index.css'
+import { getReturnList } from "@/api/order"
+// import './index.css'
 
-class AccountOrders extends React.Component {
+class AccountRefunds extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -18,26 +18,38 @@ class AccountOrders extends React.Component {
       details: null,
       loading: true,
       modalShow: false,
-      cancelOrderLoading: false
+      cancelOrderLoading: false,
+
+      list: [],
+      form: {
+        dateRangeKey: '',
+        pageSize: 6,
+      },
+      currentPage: 1,
+      totalPage: 1,
     }
   }
   componentDidMount () {
-    this.setState({
-      orderNumber: this.props.match.params.orderNumber
-    }, () => {
-      getOrderDetails(this.state.orderNumber)
-        .then(res => {
-          this.setState({
-            details: res.context,
-            loading: false
-          })
-        })
-        .catch(err => {
-          this.setState({
-            loading: false
-          })
-        })
-    })
+    this.queryList()
+  }
+  async queryList () {
+    const { form, currentPage } = this.state
+    try {
+      const res = await getReturnList({
+        dateRangeKey: form.dateRangeKey,
+        pageSize: form.pageSize,
+        pageNum: currentPage - 1
+      })
+      debugger
+      this.setState({
+        list: res.context,
+        loading: false
+      })
+    } catch (err) {
+      this.setState({
+        loading: false
+      })
+    }
   }
   hanldeItemClick (afterSaleType) {
     sessionStorage.setItem('rc-after-sale-type', afterSaleType)
@@ -45,15 +57,15 @@ class AccountOrders extends React.Component {
   }
   handleCancelOrder () {
     this.setState({ cancelOrderLoading: true })
-    cancelOrder(this.state.orderNumber)
-      .then(res => {
-        this.setState({ cancelOrderLoading: false })
-        this.props.history.push('/account/orders')
-      })
-      .catch(err => {
-        console.log(err)
-        this.setState({ cancelOrderLoading: false })
-      })
+    // cancelOrder(this.state.orderNumber)
+    //   .then(res => {
+    //     this.setState({ cancelOrderLoading: false })
+    //     this.props.history.push('/account/orders')
+    //   })
+    //   .catch(err => {
+    //     console.log(err)
+    //     this.setState({ cancelOrderLoading: false })
+    //   })
   }
   returnOrExchangeBtnJSX () {
     const { details } = this.state
@@ -116,13 +128,7 @@ class AccountOrders extends React.Component {
                 <div className="row justify-content-center">
                   <div className="order_listing_details col-12 no-padding">
                     <div
-                      className="card confirm-details orderDetailsPage ml-0 mr-0"
-                      ref={(node) => {
-                        if (node) {
-                          node.style.setProperty('padding', '0', 'important');
-                          node.style.setProperty('border', '0', 'important');
-                        }
-                      }}>
+                      className="card confirm-details orderDetailsPage ml-0 mr-0">
                       {this.state.loading
                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
                         : details
@@ -436,4 +442,4 @@ class AccountOrders extends React.Component {
   }
 }
 
-export default AccountOrders
+export default AccountRefunds

@@ -91,7 +91,7 @@ export default class AddressBookEditForm extends React.Component {
     const { form } = this.state
     for (let key in form) {
       const value = form[key]
-      if (!value && (key === 'address' || key === 'country' || key === 'city')) {
+      if (!value && (key === 'address' || key === 'country' || key === 'city' || key === 'postCode' || key === 'phoneNumber')) {
         this.showErrMsg('Please complete the required items')
         return
       }
@@ -304,7 +304,7 @@ export default class AddressBookEditForm extends React.Component {
             </div>
           </div>
           <div className="row">
-            <div className="form-group col-6">
+            <div className="form-group col-6 required">
               <div className="no-padding">
                 <label className="form-control-label rc-full-width" htmlFor="zipCode">
                   <FormattedMessage id="payment.postCode" />
@@ -346,7 +346,7 @@ export default class AddressBookEditForm extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="form-group col-6">
+            <div className="form-group col-6 required">
               <label className="form-control-label rc-full-width" htmlFor="phone">
                 <FormattedMessage id="payment.phoneNumber" />
               </label>
@@ -398,7 +398,7 @@ export default class AddressBookEditForm extends React.Component {
             </div>
           </div>
           <span className="rc-meta mandatoryField">
-            <FormattedMessage id="account.requiredFields" />
+            * <FormattedMessage id="account.requiredFields" />
           </span>
           <div className="text-right">
             <a

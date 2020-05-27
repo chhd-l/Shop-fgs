@@ -9,6 +9,7 @@ const api = {
   cancelOrder: '/tradeCustom/cancelAndRefund',
   returnReason: '/return/reasons',
   returnWays: '/return/ways',
+  returnList: 'return/page'
 }
 
 export default api
@@ -68,5 +69,13 @@ export function getReturnWays (parameter) {
   return axios({
     url: `${api.returnWays}`,
     method: 'get'
+  })
+}
+
+export function getReturnList (parameter) {
+  return axios({
+    url: api.returnList,
+    method: 'post',
+    data: parameter
   })
 }

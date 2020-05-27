@@ -314,12 +314,16 @@ class Payment extends React.Component {
         creditDardCvv: payosdata.encrypted_cvv,
         phone: creditCardInfo.phoneNumber,
         email: creditCardInfo.email,
+        last4Digits: payosdata.last_4_digits,
         // identifyNumber: creditCardInfo.identifyNumber,
         line1: deliveryAddress.address1,
         line2: deliveryAddress.address2,
         clinicsId:
           sessionStorage.getItem("rc-clinics-id") ||
           sessionStorage.getItem("rc-clinics-id2"),
+        clinicsName:
+          sessionStorage.getItem("rc-clinics-name2") ||
+          sessionStorage.getItem("rc-clinics-name2"),
         remark: commentOnDelivery,
         storeId: STOREID,
         tradeItems: param2.goodsInfos.map((g) => {
@@ -685,7 +689,7 @@ class Payment extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Header />
         {this.state.loading ? <Loading /> : null}
-        <main className="rc-content--fixed-header rc-bg-colour--brand3">
+        <main className="rc-content--fixed-header rc-bg-colour--brand3" id="payment">
           <div
             id="checkout-main"
             className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"

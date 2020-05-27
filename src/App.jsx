@@ -49,6 +49,7 @@ import AccountOrdersAfterSaleDetail from "@/views/Account/OrdersAfterSaleDetail"
 import AccountPetForm from "@/views/Account/PetForm";
 import AccountPetList from "@/views/Account/PetList";
 import AccountShippingAddress from "@/views/Account/ShippingAddress";
+import AccountRefunds from "@/views/Account/Refunds";
 
 const App = () => (
   <IntlProvider locale="en" messages={en_US}>
@@ -170,6 +171,7 @@ const App = () => (
         <Route path='/account/pets/petForm' exact component={AccountPetForm}/>
         <Route path='/account/pets/petList' exact component={AccountPetList}/>
         <Route path='/account/shippingAddress' exact component={AccountShippingAddress}/>
+        <Route path='/account/refunds' exact component={AccountRefunds} />
 
         <Route path='/account/orders-aftersale/:orderNumber' exact component={AccountOrdersAfterSale} />
         <Route path='/account/orders-aftersale/success/:returnNumber' exact component={AccountOrdersAfterSaleSuccess} />
