@@ -693,18 +693,18 @@ export default class PetForm extends React.Component {
                     <div id="step-6" className="section next-step">
                       <h2><FormattedMessage id="account.sterilized"></FormattedMessage></h2>
                       <div className="group-size">
-                        <div className="wrap__input col-6 pull-left text-center">
+                        {/* <div className="wrap__input col-6 pull-left text-center">
                           <input id="is-true" type="radio" className="radio input__radio" 
                           name="dwfrm_miaaPet_neuteredPet" 
                           value=""
                           onClick={()=>this.setSterilized(true)}/>
                           <label className="label label__input" for="is-true">Sterilized</label>
-                        </div>
+                        </div> */}
 
-                        {/* <div className="wrap__input col-6 pull-left text-center" onClick={()=>this.setSterilized(true)}>
+                        <div className="wrap__input col-6 pull-left text-center" onClick={()=>this.setSterilized(true)}>
                           <input id="is-true" type="radio" className="radio input__radio" 
                             name="dwfrm_miaaPet_neuteredPet" 
-                            value={this.state.isSterilized}
+                            value="true"
                             />
                           {
                             this.state.isSterilized?
@@ -715,9 +715,25 @@ export default class PetForm extends React.Component {
                               <FormattedMessage id="sterilized"></FormattedMessage>
                             </label>
                           }
-                        </div> */}
+                        </div>
 
-                        <div className="wrap__input col-6 pull-left text-center">
+                        <div className="wrap__input col-6 pull-left text-center" onClick={()=>this.setSterilized(true)}>
+                          <input id="is-true" type="radio" className="radio input__radio" 
+                            name="dwfrm_miaaPet_neuteredPet" 
+                            value="false"
+                            />
+                          {
+                            !this.state.isSterilized?
+                            <label className="label label__input sterilizedChecked" >
+                              <FormattedMessage id="notSterilized"></FormattedMessage>
+                            </label>:
+                            <label className="label label__input">
+                              <FormattedMessage id="notSterilized"></FormattedMessage>
+                            </label>
+                          }
+                        </div>
+
+                        {/* <div className="wrap__input col-6 pull-left text-center">
                           <input id="is-false" 
                           type="radio" 
                           className="radio input__radio" 
@@ -725,7 +741,7 @@ export default class PetForm extends React.Component {
                           value="false" 
                           onClick={()=>this.setSterilized(false)}/>
                           <label className="label label__input" for="is-false">Not sterilized</label>
-                        </div>
+                        </div> */}
                       </div>
                     </div>:null
                   }

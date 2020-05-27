@@ -470,7 +470,7 @@ class Header extends React.Component {
                                 </div>
                               </div>
                               <div className="logoff-style">
-                                <a class="rc-styled-link--external" onClick={this.clickLogoff}>
+                                <a className="rc-styled-link--external" onClick={this.clickLogoff}>
                                   <FormattedMessage id="logOff" />
                                 </a>
                               </div>
