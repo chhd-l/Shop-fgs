@@ -828,7 +828,7 @@ export default class PetForm extends React.Component {
                       <button type="button" name="next" 
                         style = {{marginBottom:'20px'}}
                         className="rc-btn rc-btn--one btn-next btn-block js-btn-next" 
-                        disabled={(this.state.isDisabled || !this.state.isEdit)?"disabled":null}
+                        disabled={(this.state.isDisabled)?"disabled":null}
                         onClick={this.nextStep}>
                          { this.state.step === 8?'Save':'Further'}
                       </button>
