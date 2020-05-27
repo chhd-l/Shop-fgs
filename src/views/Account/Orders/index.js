@@ -17,15 +17,18 @@ export default class AccountOrders extends React.Component {
     this.state = {
       orderList: [],
       form: {
+        duringTime: '7d',
         pageSize: 6,
         orderNumber: '',
         startdate: '',
-        enddate: ''
+        enddate: '',
+        orderNumber: ''
       },
       loading: false,
       currentPage: 1,
       totalPage: 1,
-      initing: true
+      initing: true,
+      errMsg: ''
     }
   }
   componentWillUnmount () {
@@ -75,6 +78,24 @@ export default class AccountOrders extends React.Component {
       }
     }
   }
+  handleDuringTimeChange (e) {
+    const { form } = this.state
+    form.duringTime = e.target.value
+    this.setState({
+      form: form,
+      currentPage: 1,
+    }, () => this.queryOrderList())
+  }
+  handleInputChange (e) {
+    const target = e.target
+    const { form } = this.state
+    form[target.name] = target.value
+    this.setState({ form: form })
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.queryOrderList()
+    }, 500)
+  }
   queryOrderList () {
     const { form, initing, currentPage } = this.state
 
@@ -86,11 +107,22 @@ export default class AccountOrders extends React.Component {
         }, 0)
       }
     }
-
+    let createdFrom = ''
+    this.setState({ loading: true })
+    let now = dateFormat('YYYY-mm-dd', new Date())
+    if (form.duringTime.includes('d')) {
+      let now2 = new Date()
+      now2.setDate(now2.getDate() - parseInt(form.duringTime))
+      createdFrom = dateFormat('YYYY-mm-dd', now2)
+    } else if (form.duringTime.includes('m')) {
+      createdFrom = getPreMonthDay(now, parseInt(form.duringTime))
+    }
     let param = {
+      createdFrom,
+      createdTo: now,
       keywords: form.orderNumber,
-      createdFrom: form.startdate ? form.startdate.split('/').join('-') : '',
-      createdTo: form.enddate ? form.enddate.split('/').join('-') : dateFormat('YYYY-mm-dd', new Date()),
+      // createdFrom: form.startdate ? form.startdate.split('/').join('-') : '',
+      // createdTo: form.enddate ? form.enddate.split('/').join('-') : dateFormat('YYYY-mm-dd', new Date()),
       pageNum: currentPage - 1,
       pageSize: form.pageSize
     }
@@ -106,7 +138,8 @@ export default class AccountOrders extends React.Component {
       })
       .catch(err => {
         this.setState({
-          loading: false
+          loading: false,
+          errMsg: err
         })
       })
   }
@@ -124,7 +157,6 @@ export default class AccountOrders extends React.Component {
         "theme": ""
       }
     }
-    sessionStorage.setItem('rc-token', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNpkjs0KgzAQhN9lzyLZTcyPtx576StITFYQapXGSEF898ZD6UHmMsx8MLNDyj20gI1Aa4x2WkMFo1-hxcY6p6SyuoKQ0zpP_L7Hwg6DFUVoCK1Q7EVx1GMTA2uBvYE_fwthzq_1MvDrH37i6_pyRoS1NDWSq40o4eafmTsfI8cu8XsbA6eC7Ufp-LOcdx1pklLR8QUAAP__.X3LQwtSBKGdCU8BvzIxJNxZ9b-XidSFcLYhl3YmIe2M')
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -140,95 +172,162 @@ export default class AccountOrders extends React.Component {
                     <FormattedMessage id="order.historyOfOrders" />
                   </h4>
                 </div>
-                <OrderFilters updateFilterData={form => this.updateFilterData(form)} />
-                <div className="order__listing" id="J_order_list">
+                {/* <OrderFilters updateFilterData={form => this.updateFilterData(form)} /> */}
+                <div className="row justify-content-around">
+                  <div className="col-12 col-md-5 row align-items-center">
+                    <div className="col-md-4">
+                      <FormattedMessage id="order.orderNumber" />
+                    </div>
+                    <div className="col-md-8">
+                      <span class="rc-input rc-input--inline rc-full-width">
+                        <input
+                          class="rc-input__control"
+                          id="id-text8"
+                          type="text"
+                          name="orderNumber"
+                          maxLength="20"
+                          value={this.state.form.orderNumber}
+                          onChange={e => this.handleInputChange(e)} />
+                        <label class="rc-input__label" htmlFor="id-text8">
+                          <span class="rc-input__label-text">
+                            <FormattedMessage id="order.inputOrderNumberTip" />
+                          </span>
+                        </label>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-5 row align-items-center">
+                    <div className="rc-full-width rc-select-processed">
+                      <select
+                        data-js-select=""
+                        value={this.state.form.duringTime}
+                        onChange={(e) => this.handleDuringTimeChange(e)}>
+                        <FormattedMessage id="order.lastXDays" values={{ val: 7 }}>
+                          {txt => (
+                            <option value="7d">
+                              {txt}
+                            </option>
+                          )}
+                        </FormattedMessage>
+                        <FormattedMessage id="order.lastXDays" values={{ val: 30 }}>
+                          {txt => (
+                            <option value="30d">
+                              {txt}
+                            </option>
+                          )}
+                        </FormattedMessage>
+                        <FormattedMessage id="order.lastXMonths" values={{ val: 3 }}>
+                          {txt => (
+                            <option value="3m">
+                              {txt}
+                            </option>
+                          )}
+                        </FormattedMessage>
+                        <FormattedMessage id="order.lastXMonths" values={{ val: 6 }}>
+                          {txt => (
+                            <option value="6m">
+                              {txt}
+                            </option>
+                          )}
+                        </FormattedMessage>
+                      </select>
+                    </div>
+
+                  </div>
+                </div>
+                <div className="order__listing">
                   <div className="order-list-container">
                     {
                       this.state.loading
                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
-                        : this.state.orderList.length
-                          ? <React.Fragment>
-                            {this.state.orderList.map(order => (
-                              <div className="card-container" key={order.id}>
-                                <div className="card rc-margin-y--none ml-0" style={{ border: '0!important', padding: 0 }}>
-                                  <div className="card-header row rc-margin-x--none align-items-center">
-                                    <div className="col-12 col-md-3">
-                                      <p><FormattedMessage id="order.orderDate" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.tradeState.createTime.substr(0, 10)}</span></p>
+                        : this.state.errMsg
+                          ? <div className="text-center mt-5">
+                            <span class="rc-icon rc-incompatible--xs rc-iconography"></span>
+                            {this.state.errMsg}
+                          </div>
+                          : this.state.orderList.length
+                            ? <React.Fragment>
+                              {this.state.orderList.map(order => (
+                                <div className="card-container" key={order.id}>
+                                  <div className="card rc-margin-y--none ml-0" style={{ border: '0!important', padding: 0 }}>
+                                    <div className="card-header row rc-margin-x--none align-items-center">
+                                      <div className="col-12 col-md-3">
+                                        <p><FormattedMessage id="order.orderDate" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.tradeState.createTime.substr(0, 10)}</span></p>
+                                      </div>
+                                      <div className="col-12 col-md-3">
+                                        <p><FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.id}</span></p>
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        <p><FormattedMessage id="order.orderStatus" /></p>
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        <p><FormattedMessage id="order.shippingStatus" /></p>
+                                      </div>
+                                      <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
+                                        <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
+                                          <Link
+                                            className="medium pull-right--desktop rc-styled-link rc-padding-top--xs"
+                                            to={`/account/orders-detail/${order.id}`}>
+                                            <FormattedMessage id="order.orderDetails" />
+                                          </Link>
+                                        </button>
+                                      </div>
                                     </div>
-                                    <div className="col-12 col-md-3">
-                                      <p><FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.id}</span></p>
+                                  </div>
+                                  <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
+                                    <div className="col-12 col-md-6 d-flex flex-wrap">
+                                      {order.tradeItems.map(item => (
+                                        <img
+                                          className="img-fluid"
+                                          key={item.oid}
+                                          src={item.pic}
+                                          alt={item.spuName}
+                                          title={item.spuName} />
+                                      ))}
                                     </div>
                                     <div className="col-12 col-md-2">
-                                      <p><FormattedMessage id="order.orderStatus" /></p>
+                                      {order.tradeState.flowState}
                                     </div>
                                     <div className="col-12 col-md-2">
-                                      <p><FormattedMessage id="order.shippingStatus" /></p>
+                                      {order.tradeState.deliverStatus}
                                     </div>
-                                    <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
-                                      <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
-                                        <Link
-                                          className="medium pull-right--desktop rc-styled-link rc-padding-top--xs"
-                                          to={`/account/orders-detail/${order.id}`}>
-                                          <FormattedMessage id="order.orderDetails" />
-                                        </Link>
-                                      </button>
+                                    <div className="col-12 col-md-1 text-right">
+                                      {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
                                     </div>
                                   </div>
                                 </div>
-                                <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
-                                  <div className="col-12 col-md-6">
-                                    {order.tradeItems.map(item => (
-                                      <img
-                                        className="img-fluid"
-                                        key={item.oid}
-                                        src={item.pic}
-                                        alt={item.spuName}
-                                        title={item.spuName} />
-                                    ))}
-                                  </div>
-                                  <div className="col-12 col-md-2">
-                                    {order.tradeState.flowState}
-                                  </div>
-                                  <div className="col-12 col-md-2">
-                                    {order.tradeState.deliverStatus}
-                                  </div>
-                                  <div className="col-12 col-md-1 text-right">
-                                    {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                            <div className="grid-footer rc-full-width">
-                              <nav className="rc-pagination rc-padding--s no-padding-left no-padding-right">
-                                <div className="rc-pagination__form">
-                                  <div
-                                    className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-                                    onClick={() => this.handlePrevOrNextPage('prev')}></div>
-                                  {/* <div
+                              ))}
+                              <div className="grid-footer rc-full-width">
+                                <nav className="rc-pagination rc-padding--s no-padding-left no-padding-right">
+                                  <div className="rc-pagination__form">
+                                    <div
+                                      className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
+                                      onClick={() => this.handlePrevOrNextPage('prev')}></div>
+                                    {/* <div
                               className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
                               onClick={this.handlePrevOrNextPage('prev')}></div> */}
-                                  <div className="rc-pagination__steps">
-                                    <input
-                                      type="text"
-                                      className="rc-pagination__step rc-pagination__step--current"
-                                      value={this.state.currentPage}
-                                      onChange={() => this.handleCurrentPageNumChange()} />
-                                    <div className="rc-pagination__step rc-pagination__step--of">
-                                      <FormattedMessage id="of" /> <span>{this.state.totalPage}</span>
+                                    <div className="rc-pagination__steps">
+                                      <input
+                                        type="text"
+                                        className="rc-pagination__step rc-pagination__step--current"
+                                        value={this.state.currentPage}
+                                        onChange={() => this.handleCurrentPageNumChange()} />
+                                      <div className="rc-pagination__step rc-pagination__step--of">
+                                        <FormattedMessage id="of" /> <span>{this.state.totalPage}</span>
+                                      </div>
                                     </div>
-                                  </div>
 
-                                  <span
-                                    className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-                                    onClick={() => this.handlePrevOrNextPage('next')}></span>
-                                </div>
-                              </nav>
+                                    <span
+                                      className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
+                                      onClick={() => this.handlePrevOrNextPage('next')}></span>
+                                  </div>
+                                </nav>
+                              </div>
+                            </React.Fragment>
+                            : <div className="text-center mt-5">
+                              <span class="rc-icon rc-incompatible--xs rc-iconography"></span>
+                              <FormattedMessage id="order.noDataTip" />
                             </div>
-                          </React.Fragment>
-                          : <div className="text-center mt-5">
-                            <span class="rc-icon rc-incompatible--xs rc-iconography"></span>
-                            <FormattedMessage id="order.noDataTip" />
-                          </div>
                     }
                   </div>
                 </div>
@@ -237,7 +336,7 @@ export default class AccountOrders extends React.Component {
           </div>
         </main>
         <Footer />
-      </div>
+      </div >
     )
   }
 }

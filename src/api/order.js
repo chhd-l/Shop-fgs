@@ -9,7 +9,8 @@ const api = {
   cancelOrder: '/tradeCustom/cancelAndRefund',
   returnReason: '/return/reasons',
   returnWays: '/return/ways',
-  returnList: 'return/page'
+  returnList: 'return/page',
+  payRecord: '/pay/record'
 }
 
 export default api
@@ -77,5 +78,12 @@ export function getReturnList (parameter) {
     url: api.returnList,
     method: 'post',
     data: parameter
+  })
+}
+
+export function getPayRecord (parameter) {
+  return axios({
+    url: `${api.payRecord}/${parameter}`,
+    method: 'get'
   })
 }
