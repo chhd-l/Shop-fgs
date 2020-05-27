@@ -166,7 +166,7 @@ class Details extends React.Component {
           tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
           for (let key in tmpGoodsDetail) {
             goodsDetailTab.tabName.push(key)
-            goodsDetailTab.tabContent.push(this.translateHtmlCharater(tmpGoodsDetail[key]))
+            goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
           }
         }
         this.setState({
