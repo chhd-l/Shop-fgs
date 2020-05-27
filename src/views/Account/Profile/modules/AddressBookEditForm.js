@@ -238,7 +238,7 @@ export default class AddressBookEditForm extends React.Component {
                   name="address"
                   required=""
                   aria-required="true"
-                  value={form.address1}
+                  value={form.address}
                   onChange={e => this.handleInputChange(e)}
                   onBlur={e => this.inputBlur(e)}
                   maxLength="50"
@@ -250,7 +250,7 @@ export default class AddressBookEditForm extends React.Component {
                   id="payment.errorInfo"
                   values={{
                     val: (
-                      <FormattedMessage id="payment.address1" />
+                      <FormattedMessage id="address" />
                     ),
                   }}
                 />

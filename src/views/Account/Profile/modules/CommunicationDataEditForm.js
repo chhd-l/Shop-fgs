@@ -106,7 +106,7 @@ export default class CommunicationDataEditForm extends React.Component {
               <FormattedMessage id="phone">
                 {txt => (
                   <input
-                    className="rc-input__checkbox"
+                    className="rc-input__radio"
                     type="checkbox"
                     disabled="disabled"
                     alt={txt}
@@ -124,7 +124,7 @@ export default class CommunicationDataEditForm extends React.Component {
               <FormattedMessage id="email">
                 {txt => (
                   <input
-                    className="rc-input__checkbox"
+                    className="rc-input__radio"
                     type="checkbox"
                     disabled="disabled"
                     alt={txt}
@@ -143,7 +143,7 @@ export default class CommunicationDataEditForm extends React.Component {
             <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
               <div className="rc-input rc-input--inline rc-margin-y--xs">
                 <input
-                  className="rc-input__checkbox"
+                  className="rc-input__radio"
                   id="optsmobile"
                   type="radio"
                   name="contactMethod"
@@ -159,7 +159,7 @@ export default class CommunicationDataEditForm extends React.Component {
                 <FormattedMessage id="email">
                   {txt => (
                     <input
-                      className="rc-input__checkbox"
+                      className="rc-input__radio"
                       id="optsemail"
                       type="radio"
                       alt={txt}
