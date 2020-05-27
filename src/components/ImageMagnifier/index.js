@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import './index.css'
 
 class ImageMagnifier extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class ImageMagnifier extends Component {
         // 放大倍数
         scale: (props.config && props.config.scale) || 4,
         // 组件宽
-        width: (props.config && props.config.width) || "200",
+        width: (props.config && props.config.width) || "100%",
         // 组件高
         height: (props.config && props.config.height) || "250"
       },
@@ -72,8 +73,10 @@ class ImageMagnifier extends Component {
         },
         // 图片样式
         imgStyle: {
-          width: "100%",
-          height: "100%"
+          width: "200",
+          height: "100%",
+          margin: "0 auto",
+          display: 'block'
         },
         // 图片放大样式
         // 此处图片宽高不能设置为百分比，在scale的作用下，放大的只是图片初始的宽高 ！！！
@@ -217,6 +220,7 @@ class ImageMagnifier extends Component {
       <div>
       <div style={{ position: 'relative' }}>
         <div style={cssStyle.imgContainer}>
+          {videoShow && <div className="videoModal"></div>}
           {!videoShow && <img style={cssStyle.imgStyle} src={currentImg} alt="" />}
           {videoShow && <video style={cssStyle.imgStyle} src={video? video: ''} controls></video>}
           {!videoShow && <div
@@ -247,7 +251,7 @@ class ImageMagnifier extends Component {
           ))
         }
         <video className="rc-img--square rc-img--square-custom" onMouseEnter={() => {
-          this.setState({videoShow: true})
+          this.setState({videoShow: true, cssStyle})
         }} src={video? video: ''}></video>
       </div>
       </div>

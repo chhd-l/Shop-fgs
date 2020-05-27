@@ -685,7 +685,7 @@ class Payment extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Header />
         {this.state.loading ? <Loading /> : null}
-        <main className="rc-content--fixed-header rc-bg-colour--brand3">
+        <main className="rc-content--fixed-header rc-bg-colour--brand3" id="payment">
           <div
             id="checkout-main"
             className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
