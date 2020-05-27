@@ -33,7 +33,7 @@ class Header extends React.Component {
       tradePrice: '',
       clinicsId: sessionStorage.getItem('rc-clinics-id'),
       clinicsName: sessionStorage.getItem('rc-clinics-name'),
-      isLogin: sessionStorage.getItem("is-login") ==="true"?true:false
+      isLogin: sessionStorage.getItem("rc-token")?true:false
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
