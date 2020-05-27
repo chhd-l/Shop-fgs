@@ -26,9 +26,10 @@ export default class PetForm extends React.Component {
     this.state = {
       loading:true,
       precent:12.5,
-      step:1,
+      step:6,
       
-      currentStep:'step1',
+      currentStep:'step6',
+      showList:false,
       isDisabled:true,
       isInputDisabled:false,
       isUnknownDisabled:false,
@@ -52,7 +53,7 @@ export default class PetForm extends React.Component {
         overweight:false,
         noneeds:false
       },
-      showList:false,
+      
       showBreedList:false,
       breedList:[
         {name:'test breed',value:1},
@@ -101,7 +102,7 @@ export default class PetForm extends React.Component {
           let currentPet = petList[0]
           this.setState({
             loading:false,
-            showList:true,
+            showList:false,
             petList:petList,
             currentPet:currentPet
           })
@@ -498,7 +499,7 @@ export default class PetForm extends React.Component {
                       </div>
                     </div>
                   </div>
-    ):null
+                  ):null
                 }
                 <div className="group-progress js-group-progress section-form-group" style={{display:!this.state.showList?'block':'none'}}>
                   <div className="bar-progress">
@@ -631,7 +632,7 @@ export default class PetForm extends React.Component {
                                 <label className="rc-input__label--inline" >
                                   <FormattedMessage id="account.unknownBreed"></FormattedMessage>
                                 </label>:
-                                <label className="rc-input__label--inline defaultAddressChecked">
+                                <label className="rc-input__label--inline petPropChecked">
                                   <FormattedMessage id="account.unknownBreed"></FormattedMessage>
                                 </label>
                               }
@@ -699,6 +700,23 @@ export default class PetForm extends React.Component {
                           onClick={()=>this.setSterilized(true)}/>
                           <label className="label label__input" for="is-true">Sterilized</label>
                         </div>
+
+                        {/* <div className="wrap__input col-6 pull-left text-center" onClick={()=>this.setSterilized(true)}>
+                          <input id="is-true" type="radio" className="radio input__radio" 
+                            name="dwfrm_miaaPet_neuteredPet" 
+                            value={this.state.isSterilized}
+                            />
+                          {
+                            this.state.isSterilized?
+                            <label className="label label__input sterilizedChecked" >
+                              <FormattedMessage id="sterilized"></FormattedMessage>
+                            </label>:
+                            <label className="label label__input">
+                              <FormattedMessage id="sterilized"></FormattedMessage>
+                            </label>
+                          }
+                        </div> */}
+
                         <div className="wrap__input col-6 pull-left text-center">
                           <input id="is-false" 
                           type="radio" 

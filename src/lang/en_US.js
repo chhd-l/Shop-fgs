@@ -291,6 +291,9 @@ const en_US = {
   "account.basicInfomation":'Basic Infomation',
   'account.orders':'Orders',
 
+  "sterilized":"Sterilized",
+  "notSterilized":"Not sterilized"
+
   
 
 }
