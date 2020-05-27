@@ -26,6 +26,7 @@ import AccountOrdersAfterSaleDetail from "@/views/Account/OrdersAfterSaleDetail"
 import AccountPetForm from "@/views/Account/PetForm";
 import AccountPetList from "@/views/Account/PetList";
 import AccountShippingAddress from "@/views/Account/ShippingAddress";
+import AccountShippingAddressForm from "@/views/Account/ShippingAddressForm";
 import AccountRefunds from "@/views/Account/Refunds";
 
 import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
@@ -90,6 +91,8 @@ const BasicRoute = () => (
         <Route path='/account/pets/petForm' exact component={AccountPetForm} />
         <Route path='/account/pets/petList' exact component={AccountPetList} />
         <Route path='/account/shippingAddress' exact component={AccountShippingAddress} />
+        <Route path='/account/shippingAddress/create' exact component={AccountShippingAddressForm} />
+        <Route path='/account/shippingAddress/:addressId' exact component={AccountShippingAddressForm} />
         <Route path='/account/refunds' exact component={AccountRefunds} />
 
         <Route path='/account/orders-aftersale/:orderNumber' exact component={AccountOrdersAfterSale} />
