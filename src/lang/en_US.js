@@ -268,7 +268,7 @@ const en_US = {
   'account.weight':'What is the weight of an adult dog of your breed',
   'account.sterilized':'Is your pet sterilized?',
   'account.enterBirthDare':'Enter the date of birth of your pet.',
-  'account.features':'What features does your pet have?',
+  'account.features':'What special needs does your pet have?',
   'account.fine':'Fine!',
   'account.welcome':'Welcome to the ROYAL CANIN® family!',
   'shippingAddress':'Shipping Address',
@@ -282,7 +282,15 @@ const en_US = {
   'area':'Area',
   'deliveryAddress':'Delivery Address',
   
-  'promotion': 'Promotion'
+  'promotion': 'Promotion',
+  'account.toComeIn':'To come in',
+  'account.notRegistred':'You are not registred?',
+  'signUp':'Sign up',
+  'logOff':"Log off",
+  'account.myAccount':'My account',
+  "account.basicInfomation":'Basic Infomation',
+  'account.orders':'Orders',
+
 
 }
 export default en_US;

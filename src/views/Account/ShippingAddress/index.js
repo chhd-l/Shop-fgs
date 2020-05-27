@@ -24,6 +24,8 @@ export default class ShippingAddress extends React.Component {
       isAdd:true,
       addressList:[],
       total:0,
+      errorMsg:"",
+      successMsg:"",
       addressForm:{
         firstName:"",
         lastName:"",
@@ -47,16 +49,25 @@ export default class ShippingAddress extends React.Component {
     this.getAddressList()
   }
    getAddressList = async ()=>{
-    const res = await getAddressList()
-    if(res.code === 'K-000000'){
-      let addressList = res.context 
-      let total = addressList.length
+    await getAddressList().then( res =>{
+      if(res.code === 'K-000000'){
+        let addressList = res.context 
+        let total = addressList.length
+        this.setState({
+          addressList:addressList,
+          total:total,
+          loading:false,
+        })
+      }else{
+        this.showErrorMsg(res.msg ||"Query Data Failed")
+      }
+    }).catch(err =>{
+      this.showErrorMsg("Query Data Failed")
       this.setState({
-        addressList:addressList,
-        total:total,
-        loading:false,
+        loading:false
       })
-    }
+    })
+
     
   }
   getAddressById = async (id)=>{
@@ -169,8 +180,6 @@ export default class ShippingAddress extends React.Component {
         
       }
     }
-    
-    
   }
   setDefaltAddress = async (id)=>{
     this.setState({
@@ -179,10 +188,24 @@ export default class ShippingAddress extends React.Component {
     let params = {
       "deliveryAddressId": id,
     }
-    const res = await setDefaltAddress(params)
-    if(res.code === 'K-000000'){
-      this.getAddressList()
-    }
+    await setDefaltAddress(params).then( res =>{
+      if(res.code === 'K-000000'){
+        this.showSuccessMsg(res.msg||'Set Defalt Address Success')
+        this.getAddressList()
+      }
+      else{
+        this.showErrorMsg(res.msg||'Set Defalt Address Failed')
+        this.setState({
+          loading:false
+        })
+      }
+    }).catch(err =>{
+      this.showErrorMsg('Set Defalt Address Failed')
+      this.setState({
+        loading:false
+      })
+    })
+    
   }
   deleteAddress = async (id)=>{
     this.setState({
@@ -191,10 +214,63 @@ export default class ShippingAddress extends React.Component {
     let params = {
       "id": id,
     }
-    const res = await deleteAddress(params)
-    if(res.code === 'K-000000'){
-      this.getAddressList()
+    await deleteAddress(params).then(res=>{
+      if(res.code === 'K-000000'){
+        this.showSuccessMsg(res.msg||'Delete Address Success')
+        this.getAddressList()
+      }
+      else{
+        this.showErrorMsg(res.msg||'Delete Address Failed')
+        this.setState({
+          loading:false
+        })
+      }
+    }).catch(err => {
+      this.showErrorMsg('Delete Address Failed')
+        this.setState({
+          loading:false
+        })
+    })
+    
+  }
+  showErrorMsg=(msg)=>{
+    this.setState({
+      errorMsg: msg
+    })
+    this.scrollToErrorMsg()
+    setTimeout(() => {
+      this.setState({
+        errorMsg: ''
+      })
+    }, 3000)
+  }
+
+  showSuccessMsg=(msg)=>{
+    this.setState({
+      successMsg: msg
+    })
+    this.scrollToErrorMsg()
+    setTimeout(() => {
+      this.setState({
+        successMsg: ''
+      })
+    }, 2000)
+  }
+
+  //定位
+  scrollToErrorMsg () {
+    const widget = document.querySelector('.content-asset')
+    // widget && widget.scrollIntoView()
+    // console.log(this.getElementToPageTop(widget))
+    if (widget) {
+      window.scrollTo(this.getElementToPageTop(widget), 0)
     }
+  }
+  getElementToPageTop (el) {
+    if (el.parentElement) {
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop
+    }
+    return el.offsetTop
   }
 
   
@@ -216,6 +292,24 @@ export default class ShippingAddress extends React.Component {
                   </h4>
                 </div>
                 <div className="content-asset">
+                <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
+                  <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+                    <span>{this.state.errorMsg}</span>
+                    <button
+                      className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                      onClick={() => { this.setState({ errorMsg: '' }) }}
+                      aria-label="Close">
+                      <span className="rc-screen-reader-text">
+                        <FormattedMessage id="close" />
+                      </span>
+                    </button>
+                  </aside>
+                </div>
+                <aside
+                  className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successMsg ? '' : 'hidden'}`}
+                  role="alert">
+                  <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
+                </aside>
                   <div className="table-toolbar">
                     <button type="button" className="ant-btn" onClick={()=>this.openAddModal()}>
                       <span> <FormattedMessage id="addShippingAddress"></FormattedMessage></span>
