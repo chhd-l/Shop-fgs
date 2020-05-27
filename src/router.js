@@ -26,7 +26,7 @@ import AccountOrdersAfterSaleDetail from "@/views/Account/OrdersAfterSaleDetail"
 import AccountPetForm from "@/views/Account/PetForm";
 import AccountPetList from "@/views/Account/PetList";
 import AccountShippingAddress from "@/views/Account/ShippingAddress";
-import AccountRefunds from "@/views/Account/Refunds";
+import AccountReturnOrder from "@/views/Account/ReturnOrder";
 
 import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
@@ -90,7 +90,7 @@ const BasicRoute = () => (
         <Route path='/account/pets/petForm' exact component={AccountPetForm} />
         <Route path='/account/pets/petList' exact component={AccountPetList} />
         <Route path='/account/shippingAddress' exact component={AccountShippingAddress} />
-        <Route path='/account/refunds' exact component={AccountRefunds} />
+        <Route path='/account/return-order' exact component={AccountReturnOrder} />
 
         <Route path='/account/orders-aftersale/:orderNumber' exact component={AccountOrdersAfterSale} />
         <Route path='/account/orders-aftersale/success/:returnNumber' component={AccountOrdersAfterSaleSuccess} />

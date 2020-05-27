@@ -166,7 +166,7 @@ class Details extends React.Component {
           tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
           for (let key in tmpGoodsDetail) {
             goodsDetailTab.tabName.push(key)
-            goodsDetailTab.tabContent.push(tmpGoodsDetail[key])
+            goodsDetailTab.tabContent.push(this.translateHtmlCharater(tmpGoodsDetail[key]))
           }
         }
         this.setState({
@@ -601,7 +601,7 @@ class Details extends React.Component {
 
                                     <div className="details-img-container">
                                       <ImageMagnifier
-                                      sizeList={details.sizeList}
+                                        sizeList={details.sizeList}
                                         video={details.goodsVideo}
                                         images={images}
                                         minImg={details.goodsImg}
@@ -893,45 +893,49 @@ class Details extends React.Component {
                   </div>
                 </div>
 
-                <div className="rc-max-width--xl rc-padding-x--sm">
-                  <div className="rc-match-heights rc-content-h-middle rc-reverse-layout rc-padding-bottom--lg">
-                    <div>
-                      <div className="rc-border-bottom rc-border-colour--interface">
-                        <nav className="rc-fade--x">
-                          <ul className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist">
-                            {this.state.goodsDetailTab.tabName.map((ele, index) => (
-                              <li>
-                                <button
-                                  className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
-                                  data-toggle={`tab__panel-${index}`}
-                                  aria-selected={this.state.activeTabIdx === index ? 'true' : 'false'}
-                                  role="tab"
-                                  onClick={e => this.changeTab(e, index)}>
-                                  {ele}
-                                </button>
-                              </li>
-                            ))}
-                          </ul>
-                        </nav>
-                      </div>
-                      <div className="rc-tabs" style={{ marginTop: '40px' }}>
-                        {this.state.goodsDetailTab.tabContent.map((ele, i) => (
-                          <div
-                            id={`tab__panel-${i}`}
-                            className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
-                            aria-expanded={this.state.activeTabIdx === i ? 'true' : 'false'}
-                          >
-                            <div className="block">
-                              <p
-                                className="content"
-                                dangerouslySetInnerHTML={createMarkup(ele)} />
-                            </div>
+                {
+                  this.state.goodsDetailTab.tabName.length
+                    ? <div className="rc-max-width--xl rc-padding-x--sm">
+                      <div className="rc-match-heights rc-content-h-middle rc-reverse-layout rc-padding-bottom--lg">
+                        <div>
+                          <div className="rc-border-bottom rc-border-colour--interface">
+                            <nav className="rc-fade--x">
+                              <ul className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist">
+                                {this.state.goodsDetailTab.tabName.map((ele, index) => (
+                                  <li>
+                                    <button
+                                      className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                                      data-toggle={`tab__panel-${index}`}
+                                      aria-selected={this.state.activeTabIdx === index ? 'true' : 'false'}
+                                      role="tab"
+                                      onClick={e => this.changeTab(e, index)}>
+                                      {ele}
+                                    </button>
+                                  </li>
+                                ))}
+                              </ul>
+                            </nav>
                           </div>
-                        ))}
+                          <div className="rc-tabs" style={{ marginTop: '40px' }}>
+                            {this.state.goodsDetailTab.tabContent.map((ele, i) => (
+                              <div
+                                id={`tab__panel-${i}`}
+                                className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
+                                aria-expanded={this.state.activeTabIdx === i ? 'true' : 'false'}
+                              >
+                                <div className="block">
+                                  <p
+                                    className="content"
+                                    dangerouslySetInnerHTML={createMarkup(ele)} />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                    : null
+                }
               </div>
               <div
                 className="sticky-addtocart"

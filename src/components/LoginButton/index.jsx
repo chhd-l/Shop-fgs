@@ -40,13 +40,11 @@ const Home = () => {
         setUserInfo(info);
         authService.getUser().then((info) => {
           setUserInfo(info);
-          if(!sessionStorage.getItem('rc-token')) {
-            getToken({oktaToken: `Bearer ${accessToken}`}).then(res => {
+          if (!sessionStorage.getItem('rc-token')) {
+            getToken({ oktaToken: `Bearer ${accessToken}` }).then(res => {
               console.log(res)
-              sessionStorage.setItem(
-                "rc-token",
-                res.context.token
-              );
+              sessionStorage.setItem("rc-token", res.context.token);
+              sessionStorage.setItem("rc-userinfo", JSON.stringify(res.context.customerDetail));
             })
           }
         });
