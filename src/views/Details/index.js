@@ -599,15 +599,17 @@ class Details extends React.Component {
                                   {
                                     // this.state.imageMagnifierCfg.show ?
 
-                                <div className="details-img-container">
-                                  <ImageMagnifier
-                                    sizeList={details.sizeList}
-                                    video={details.goodsVideo}
-                                    images={images}
-                                    minImg={details.goodsImg}
-                                    maxImg={details.goodsImg}
-                                    config={this.state.imageMagnifierCfg.config}
-                                  />
+                                    <div className="details-img-container">
+                                      <ImageMagnifier
+                                      sizeList={details.sizeList}
+                                        video={details.goodsVideo}
+                                        images={images}
+                                        minImg={details.goodsImg}
+                                        maxImg={details.goodsImg}
+                                        config={this.state.imageMagnifierCfg.config}
+                                      />
+                                    </div>
+                                  }
                                 </div>
                                 {/* <div className="d-flex justify-content-center">
                                 <div className="rc-img--square rc-img--square-custom" style={{ backgroundImage: 'url(' + details.goodsImg + ')' }}></div>
