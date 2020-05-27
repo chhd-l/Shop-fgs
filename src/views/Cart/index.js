@@ -13,8 +13,8 @@ export default class Cart extends React.Component {
       <React.Fragment>
         {
           jugeLoginStatus()
-            ? <LoginCart />
-            : <UnloginCart />
+            ? <LoginCart history={this.props.history} />
+            : <UnloginCart history={this.props.history} />
         }
       </React.Fragment>
     )

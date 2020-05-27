@@ -25,7 +25,7 @@ export default class AccountHome extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header showMiniIcons={true} location={this.props.location} />
+        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
@@ -120,32 +120,32 @@ export default class AccountHome extends React.Component {
                     </div>
                     <div className="col-12 col-md-4">
                       <div className="profileDashboardImage">
-                        <FormattedMessage id="account.paymentMethod">
+                        <FormattedMessage id="shippingAddress">
                           {txt => (
-                            <a
-                              href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List"
+                            <Link
+                              to="/account/shippingAddress"
                               title={txt}>
                               <img
                                 src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwf7c65124/images/dashboard/Payment.jpg"
                                 alt={txt} />
-                            </a>
+                            </Link>
                           )}
                         </FormattedMessage>
                       </div>
                       <div>
                         <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="account.paymentMethod">
+                          <FormattedMessage id="shippingAddress">
                             {txt => (
-                              <a
-                                href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List"
+                              <Link
+                                to="/account/shippingAddress"
                                 title={txt}
                                 alt={txt}>
                                 <b>{txt}</b>
-                              </a>
+                              </Link>
                             )}
                           </FormattedMessage>
                         </h3>
-                        <p><FormattedMessage id="account.paymentMethodTip" /></p>
+                        <p><FormattedMessage id="account.shippingAddressTip" /></p>
                       </div>
                     </div>
                     <div className="col-12 col-md-4">

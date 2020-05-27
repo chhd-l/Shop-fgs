@@ -1,6 +1,5 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
-import { withRouter } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -82,12 +81,9 @@ class Details extends React.Component {
   //   }
   // }
   componentWillUnmount() {
-    console.log(2);
     localStorage.setItem("isRefresh", true);
   }
   componentDidMount() {
-    console.log(1);
-    console.log(localStorage.getItem("isRefresh"));
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -1122,4 +1118,4 @@ class Details extends React.Component {
   }
 }
 
-export default withRouter(Details)
+export default Details

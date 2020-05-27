@@ -1,6 +1,5 @@
 import React from "react"
 import Skeleton from 'react-skeleton-loader'
-import { withRouter } from 'react-router-dom'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -437,4 +436,4 @@ class AccountOrders extends React.Component {
   }
 }
 
-export default withRouter(AccountOrders)
+export default AccountOrders

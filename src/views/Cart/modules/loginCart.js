@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { withRouter, Link } from "react-router-dom";
-import { formatMoney, hanldePurchases } from "@/utils/utils"
+import { Link } from "react-router-dom";
+import { formatMoney } from "@/utils/utils"
 import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { find } from 'lodash'
 import {
@@ -658,4 +658,4 @@ class LoginCart extends React.Component {
   }
 }
 
-export default withRouter(LoginCart)
+export default LoginCart

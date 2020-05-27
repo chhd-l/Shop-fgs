@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { find } from 'lodash'
-import { withRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
 import { getParaByName, jugeLoginStatus } from '@/utils/utils';
@@ -207,14 +207,12 @@ class Header extends React.Component {
     }
   }
   handleItemClick () {
-    const { history } = this.props
-    history.push('/list/keywords/' + this.state.keywords)
+    this.props.history.push('/list/keywords/' + this.state.keywords)
   }
   gotoDetails (item) {
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
     sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
-    const { history } = this.props
-    history.push('/details/' + item.goodsInfos[0].goodsInfoId)
+    this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   toggleMenu () {
     this.setState({
@@ -391,8 +389,8 @@ class Header extends React.Component {
                     </div>
                     {
                       jugeLoginStatus()
-                        ? <LoginCart ref={this.loginCartRef} />
-                        : <UnloginCart ref={this.unloginCartRef} showSearchInput={this.state.showSearchInput} />
+                        ? <LoginCart ref={this.loginCartRef} history={this.props.history} />
+                        : <UnloginCart ref={this.unloginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
                     }
                     <span className="minicart inlineblock" style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }}
                       onMouseOver={this.handleCenterMouseOver} onMouseOut={this.handleCenterMouseOut}>
@@ -416,22 +414,22 @@ class Header extends React.Component {
                                 <div className="link-style" >
                                   <Link to="/account" >
                                     My account
-                                    </Link>
+                                  </Link>
                                 </div>
                                 <div className="link-style" >
                                   <Link to="/list/cats" >
                                     Orders
-                                    </Link>
+                                  </Link>
                                 </div>
                                 <div className="link-style" >
                                   <Link to="/list/cats" >
                                     Payment methods
-                                    </Link>
+                                  </Link>
                                 </div>
                                 <div className="link-style" >
                                   <Link to="/list/cats" >
                                     My pets
-                                    </Link>
+                                  </Link>
                                 </div>
 
                               </div>
@@ -566,4 +564,4 @@ class Header extends React.Component {
   }
 }
 
-export default withRouter(Header)
+export default Header

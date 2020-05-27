@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { withRouter, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { formatMoney } from '@/utils/utils'
 import { find } from 'lodash'
 import {
@@ -24,7 +24,7 @@ class LoginCart extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this)
     this.handleCheckout = this.handleCheckout.bind(this)
   }
-  async componentDidMount () {debugger
+  async componentDidMount () {
     // 合并购物车(登录后合并非登录态的购物车数据)
     const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     if (unloginCartData.length) {
@@ -235,4 +235,4 @@ class LoginCart extends React.Component {
   }
 }
 
-export default withRouter(LoginCart)
+export default LoginCart
