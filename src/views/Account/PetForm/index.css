@@ -180,3 +180,29 @@ h2{
   right: 0;
   overflow-y: scroll;
 }
+.petPropChecked:after {
+  background-position: 18.18% 100%;
+  background-image: url(./../../../assets/images/royal-canin.sprite--brand1--xs.svg);
+  top: -4px;
+  left: 0;
+  width: 24px;
+  content: '';
+  display: inline-block;
+  background-repeat: no-repeat;
+  height: 32px;
+  overflow: hidden;
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+}
+
+.sterilizedChecked:after {
+  content: "";
+  position: absolute;
+  background-color: #e2001a;
+  border-radius: 999px;
+  width: .6rem;
+  height: .6rem;
+  top: 7px;
+  left: calc(50% - 5px);
+  padding: 5px;
+}

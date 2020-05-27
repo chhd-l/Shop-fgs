@@ -1599,3 +1599,42 @@ video::-webkit-media-controls-volume-slider {
 video::-webkit-media-controls-enclosure{ 
   /* display: none; */
 }
+
+ul.ui-star-list {
+  padding-inline-start: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+ul.ui-star-list li {
+  width: 50%;
+  padding: 0 1%;
+  padding-left: 51px;
+  position: relative;
+}
+ul.ui-star-list li:before {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);  
+  /* background-image: url(https://shopuat.466920.com/royal/royal-assets1/royal-canin.sprite--iconography.svg); */
+  background-image: url(../../../public/royal/royal-assets1/royal-canin.sprite--iconography.svg);
+  background-position: 39.99% 88.89%;
+  content: '';
+  display: inline-block;
+  background-repeat: no-repeat;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+}
+ul.ui-star-list .list_title {
+  font-weight: 300;
+  color: #666;
+  font-size: 1.25rem;
+}
+@media (max-width: 991.98px) {
+  ul.ui-star-list li {
+    width: 100%;
+  }
+}

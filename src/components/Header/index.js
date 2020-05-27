@@ -33,7 +33,7 @@ class Header extends React.Component {
       tradePrice: '',
       clinicsId: sessionStorage.getItem('rc-clinics-id'),
       clinicsName: sessionStorage.getItem('rc-clinics-name'),
-      isLogin: false
+      isLogin: sessionStorage.getItem("rc-token")?true:false
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -43,7 +43,6 @@ class Header extends React.Component {
     this.handleItemClick = this.handleItemClick.bind(this)
     this.toggleMenu = this.toggleMenu.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
-    this.getIsLogin = this.getIsLogin.bind(this)
     this.clickLogin = this.clickLogin.bind(this)
     this.clickLogoff = this.clickLogoff.bind(this)
 
@@ -79,6 +78,7 @@ class Header extends React.Component {
         clinicsName: tmpName
       })
     }
+    
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
@@ -227,21 +227,15 @@ class Header extends React.Component {
       })
     }
   }
-  getIsLogin () {
-    return this.state.isLogin
-  }
   clickLogin () {
-    this.setState({
-      isLogin: true
-    })
-    console.log(this.state.isLogin);
-
+    const { history } = this.props
+    history.push('/login')
   }
   clickLogoff () {
+    sessionStorage.setItem("is-login", false);
     this.setState({
       isLogin: false
     })
-    console.log(this.state.isLogin);
   }
   renderResultJsx () {
     return this.state.result ?
@@ -406,33 +400,38 @@ class Header extends React.Component {
                                 <LoginButton />
                                 {/* <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
                                   onClick={this.clickLogin}>To come in</button> */}
-                                <div>You are not registred?</div>
-                                <a className="rc-styled-link" onClick={this.clickLogin}>Sign up</a>
+                                {/* <div>You are not registred?</div>
+                                <a className="rc-styled-link" onClick={this.clickLogin}>Sign up</a> */}
                               </div>
 
-                              <div className="link-group">
+                              {/* <div className="link-group">
                                 <div className="link-style" >
                                   <Link to="/account" >
-                                    My account
+                                    <FormattedMessage id="account.myAccount" />
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/list/cats" >
-                                    Orders
+                                  <Link to="/account/information" >
+                                    <FormattedMessage id="account.basicInfomation" />
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/list/cats" >
-                                    Payment methods
+                                  <Link to="/account/pets" >
+                                    <FormattedMessage id="account.pets" />
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/list/cats" >
-                                    My pets
+                                  <Link to="/account/orders" >
+                                  <FormattedMessage id="account.orders" />
+                                  </Link>
+                                </div>
+                                <div className="link-style" >
+                                  <Link to="/account/orders" >
+                                    <FormattedMessage id="shippingAddress" />
                                   </Link>
                                 </div>
 
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           :
@@ -440,29 +439,36 @@ class Header extends React.Component {
                             onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
                             <div className="container cart">
                               <div className="link-group">
-                                <div className="link-style" >
+                              <div className="link-style" >
                                   <Link to="/account" >
-                                    My account
+                                    <FormattedMessage id="account.myAccount" />
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/list/cats" >
-                                    Orders
+                                  <Link to="/account/information" >
+                                    <FormattedMessage id="account.basicInfomation" />
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/list/cats" >
-                                    Payment methods
+                                  <Link to="/account/pets" >
+                                    <FormattedMessage id="account.pets" />
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/list/cats" >
-                                    My pets
+                                  <Link to="/account/orders" >
+                                  <FormattedMessage id="account.orders" />
+                                  </Link>
+                                </div>
+                                <div className="link-style" >
+                                  <Link to="/account/orders" >
+                                    <FormattedMessage id="shippingAddress" />
                                   </Link>
                                 </div>
                               </div>
                               <div className="logoff-style">
-                                <a class="rc-styled-link--external" onClick={this.clickLogoff}> Log off</a>
+                                <a class="rc-styled-link--external" onClick={this.clickLogoff}>
+                                  <FormattedMessage id="logOff" />
+                                </a>
                               </div>
 
                             </div>

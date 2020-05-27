@@ -26,20 +26,25 @@ export default class PetForm extends React.Component {
     this.state = {
       loading:true,
       precent:12.5,
-      step:1,
-      isCat:null,
-      isMale:null,
-      currentStep:'step1',
-      currentPetId:'',
+      step:6,
+      
+      currentStep:'step6',
+      showList:false,
       isDisabled:true,
-      nickname:"",
-      isUnknown:false,
       isInputDisabled:false,
       isUnknownDisabled:false,
+      //pet 
+      currentPetId:'',
+      isCat:null,
+      isMale:null,
+      nickname:"",
+      isUnknown:false,
       breed:"",
       weight:"",
       isSterilized:null,
-      birthOfPets:'',
+      birthdate:'',
+
+
       features:{
         appetize:false,
         irritations:false,
@@ -48,7 +53,7 @@ export default class PetForm extends React.Component {
         overweight:false,
         noneeds:false
       },
-      showList:false,
+      
       showBreedList:false,
       breedList:[
         {name:'test breed',value:1},
@@ -60,6 +65,7 @@ export default class PetForm extends React.Component {
       ],
       petList:[],
       currentPet:{},
+      isEdit:false,
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
     this.nextStep = this.nextStep.bind(this)
@@ -96,7 +102,7 @@ export default class PetForm extends React.Component {
           let currentPet = petList[0]
           this.setState({
             loading:false,
-            showList:true,
+            showList:false,
             petList:petList,
             currentPet:currentPet
           })
@@ -222,6 +228,7 @@ export default class PetForm extends React.Component {
   }
   nextStep(){
     let step=this.state.step
+    let isEdit = this.state.isEdit
     let currentStep
     if(step>=8){
       this.savePet()
@@ -233,11 +240,10 @@ export default class PetForm extends React.Component {
       }
       currentStep = 'step' + step
     }
-
     this.setState({
       step:step,
       currentStep:currentStep,
-      isDisabled:true,
+      isDisabled: isEdit?false:true,
     })
   };
   selectPetType(type){
@@ -384,15 +390,36 @@ export default class PetForm extends React.Component {
       step:1,
       currentStep:'step1',
       showList:false,
-      currentPetId:''
+      isEdit:false,
+
+      currentPetId:'',
+      isCat:null,
+      isMale:null,
+      nickname:"",
+      isUnknown:false,
+      breed:"",
+      weight:"",
+      isSterilized:null,
+      birthdate:'',
     })
   }
-  edit=(id)=>{
+  edit=(currentPet)=>{
     this.setState({
+      isEdit:true,
       step:1,
       currentStep:'step1',
+      isDisabled:false,
       showList:false,
-      currentPetId:id
+      currentPetId:currentPet.id,
+      isCat:currentPet.petsType ==='dog'?false:true,
+      isMale:currentPet.petsSex ===0?true:false,
+      nickname:currentPet.petsName,
+      isUnknown:currentPet.petsBreed ==="unknown Breed"?true:false,
+      breed:currentPet.petsBreed ==="unknown Breed"?"":currentPet.petsBreed,
+      weight:"",
+      isSterilized: currentPet.sterilized ===0?true:false,
+      birthdate:currentPet.birthOfPets,
+
     })
   }
   render () {
@@ -447,7 +474,7 @@ export default class PetForm extends React.Component {
                         <li class="gender male sprite-pet">
                           <span class=""> {currentPet.petsSex === 0 ?'Male':'Female'}</span>
                         </li>
-                        <li class="weight">
+                        <li class="weight" style={{display:(currentPet.petsType === 'dog'?'block':'none')}}>
                           <span class="">{currentPet.petsSizeValueName}</span>
                         </li>
                       </ul>
@@ -461,7 +488,7 @@ export default class PetForm extends React.Component {
                       </ul>
                       </div>
                       <div class="edit js-edit-pet">
-                        <a onClick={()=>this.edit(currentPet.petsId)} >
+                        <a onClick={()=>this.edit(currentPet)} >
                           <img src={edit} class="img-success" alt=""/>
                         </a>
                       </div>
@@ -472,7 +499,7 @@ export default class PetForm extends React.Component {
                       </div>
                     </div>
                   </div>
-    ):null
+                  ):null
                 }
                 <div className="group-progress js-group-progress section-form-group" style={{display:!this.state.showList?'block':'none'}}>
                   <div className="bar-progress">
@@ -511,7 +538,7 @@ export default class PetForm extends React.Component {
                         onClick={()=>this.selectPetType('dog')}
                         style={ this.state.isCat===false? selectedPet:noSelect } />
                         <div className="label-option">
-                        <FormattedMessage id="account.dog"></FormattedMessage>             
+                        <FormattedMessage id="account.dog"></FormattedMessage>
                         </div>
                       </div>
                     </div>
@@ -593,18 +620,24 @@ export default class PetForm extends React.Component {
 
                        
                         <div className="form-group custom-control label-unknown">
-                          <div className="rc-input rc-input--inline rc-margin-bottom--xs">
+
+                        <div className="rc-input rc-input--inline" style={{margin: "15px 0 0 0"}} onClick={()=>this.setUnknown()}>
                             <input type="checkbox" 
+                              id="defaultAddress"
                               className="rc-input__checkbox" 
-                              id="overweight" 
-                              value={this.state.isUnknown} 
-                              onClick={()=>this.setUnknown()} 
-                              disabled={this.state.isUnknownDisabled?"disabled":null}
-                              name="dwfrm_miaaPet_overweight"/>
-                            <label className="rc-input__label--inline" for="overweight">
-                            <FormattedMessage id="account.unknownBreed"></FormattedMessage>
-                            </label>
+                              
+                              value={this.state.isUnknown}/>
+                              {
+                                !this.state.isUnknown?
+                                <label className="rc-input__label--inline" >
+                                  <FormattedMessage id="account.unknownBreed"></FormattedMessage>
+                                </label>:
+                                <label className="rc-input__label--inline petPropChecked">
+                                  <FormattedMessage id="account.unknownBreed"></FormattedMessage>
+                                </label>
+                              }
                           </div>
+
                         </div>
                       </div>
                     </div>:null
@@ -667,6 +700,23 @@ export default class PetForm extends React.Component {
                           onClick={()=>this.setSterilized(true)}/>
                           <label className="label label__input" for="is-true">Sterilized</label>
                         </div>
+
+                        {/* <div className="wrap__input col-6 pull-left text-center" onClick={()=>this.setSterilized(true)}>
+                          <input id="is-true" type="radio" className="radio input__radio" 
+                            name="dwfrm_miaaPet_neuteredPet" 
+                            value={this.state.isSterilized}
+                            />
+                          {
+                            this.state.isSterilized?
+                            <label className="label label__input sterilizedChecked" >
+                              <FormattedMessage id="sterilized"></FormattedMessage>
+                            </label>:
+                            <label className="label label__input">
+                              <FormattedMessage id="sterilized"></FormattedMessage>
+                            </label>
+                          }
+                        </div> */}
+
                         <div className="wrap__input col-6 pull-left text-center">
                           <input id="is-false" 
                           type="radio" 
@@ -778,9 +828,9 @@ export default class PetForm extends React.Component {
                       <button type="button" name="next" 
                         style = {{marginBottom:'20px'}}
                         className="rc-btn rc-btn--one btn-next btn-block js-btn-next" 
-                        disabled={this.state.isDisabled?"disabled":null}
+                        disabled={(this.state.isDisabled || !this.state.isEdit)?"disabled":null}
                         onClick={this.nextStep}>
-                         { this.state.step === 8?'Save':'Farther'}
+                         { this.state.step === 8?'Save':'Further'}
                       </button>
                     </div>:null
                   }
