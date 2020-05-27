@@ -17,10 +17,12 @@ export default class AccountOrders extends React.Component {
     this.state = {
       orderList: [],
       form: {
+        duringTime: '7d',
         pageSize: 6,
         orderNumber: '',
         startdate: '',
-        enddate: ''
+        enddate: '',
+        orderNumber: ''
       },
       loading: false,
       currentPage: 1,
@@ -76,6 +78,24 @@ export default class AccountOrders extends React.Component {
       }
     }
   }
+  handleDuringTimeChange (e) {
+    const { form } = this.state
+    form.duringTime = e.target.value
+    this.setState({
+      form: form,
+      currentPage: 1,
+    }, () => this.queryOrderList())
+  }
+  handleInputChange (e) {
+    const target = e.target
+    const { form } = this.state
+    form[target.name] = target.value
+    this.setState({ form: form })
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.queryOrderList()
+    }, 500)
+  }
   queryOrderList () {
     const { form, initing, currentPage } = this.state
 
@@ -87,11 +107,22 @@ export default class AccountOrders extends React.Component {
         }, 0)
       }
     }
-
+    let createdFrom = ''
+    this.setState({ loading: true })
+    let now = dateFormat('YYYY-mm-dd', new Date())
+    if (form.duringTime.includes('d')) {
+      let now2 = new Date()
+      now2.setDate(now2.getDate() - parseInt(form.duringTime))
+      createdFrom = dateFormat('YYYY-mm-dd', now2)
+    } else if (form.duringTime.includes('m')) {
+      createdFrom = getPreMonthDay(now, parseInt(form.duringTime))
+    }
     let param = {
+      createdFrom,
+      createdTo: now,
       keywords: form.orderNumber,
-      createdFrom: form.startdate ? form.startdate.split('/').join('-') : '',
-      createdTo: form.enddate ? form.enddate.split('/').join('-') : dateFormat('YYYY-mm-dd', new Date()),
+      // createdFrom: form.startdate ? form.startdate.split('/').join('-') : '',
+      // createdTo: form.enddate ? form.enddate.split('/').join('-') : dateFormat('YYYY-mm-dd', new Date()),
       pageNum: currentPage - 1,
       pageSize: form.pageSize
     }
@@ -141,8 +172,70 @@ export default class AccountOrders extends React.Component {
                     <FormattedMessage id="order.historyOfOrders" />
                   </h4>
                 </div>
-                <OrderFilters updateFilterData={form => this.updateFilterData(form)} />
-                <div className="order__listing" id="J_order_list">
+                {/* <OrderFilters updateFilterData={form => this.updateFilterData(form)} /> */}
+                <div className="row justify-content-around">
+                  <div className="col-12 col-md-5 row align-items-center">
+                    <div className="col-md-4">
+                      <FormattedMessage id="order.orderNumber" />
+                    </div>
+                    <div className="col-md-8">
+                      <span class="rc-input rc-input--inline rc-full-width">
+                        <input
+                          class="rc-input__control"
+                          id="id-text8"
+                          type="text"
+                          name="orderNumber"
+                          maxLength="20"
+                          value={this.state.form.orderNumber}
+                          onChange={e => this.handleInputChange(e)} />
+                        <label class="rc-input__label" htmlFor="id-text8">
+                          <span class="rc-input__label-text">
+                            <FormattedMessage id="order.inputOrderNumberTip" />
+                          </span>
+                        </label>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-5 row align-items-center">
+                    <div className="rc-full-width rc-select-processed">
+                      <select
+                        data-js-select=""
+                        value={this.state.form.duringTime}
+                        onChange={(e) => this.handleDuringTimeChange(e)}>
+                        <FormattedMessage id="order.lastXDays" values={{ val: 7 }}>
+                          {txt => (
+                            <option value="7d">
+                              {txt}
+                            </option>
+                          )}
+                        </FormattedMessage>
+                        <FormattedMessage id="order.lastXDays" values={{ val: 30 }}>
+                          {txt => (
+                            <option value="30d">
+                              {txt}
+                            </option>
+                          )}
+                        </FormattedMessage>
+                        <FormattedMessage id="order.lastXMonths" values={{ val: 3 }}>
+                          {txt => (
+                            <option value="3m">
+                              {txt}
+                            </option>
+                          )}
+                        </FormattedMessage>
+                        <FormattedMessage id="order.lastXMonths" values={{ val: 6 }}>
+                          {txt => (
+                            <option value="6m">
+                              {txt}
+                            </option>
+                          )}
+                        </FormattedMessage>
+                      </select>
+                    </div>
+
+                  </div>
+                </div>
+                <div className="order__listing">
                   <div className="order-list-container">
                     {
                       this.state.loading
@@ -182,7 +275,7 @@ export default class AccountOrders extends React.Component {
                                     </div>
                                   </div>
                                   <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
-                                    <div className="col-12 col-md-6">
+                                    <div className="col-12 col-md-6 d-flex flex-wrap">
                                       {order.tradeItems.map(item => (
                                         <img
                                           className="img-fluid"
@@ -243,7 +336,7 @@ export default class AccountOrders extends React.Component {
           </div>
         </main>
         <Footer />
-      </div>
+      </div >
     )
   }
 }

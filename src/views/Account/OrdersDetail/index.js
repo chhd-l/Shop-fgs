@@ -7,7 +7,7 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import { FormattedMessage } from 'react-intl'
 import { formatMoney } from "@/utils/utils"
-import { getOrderDetails, cancelOrder } from "@/api/order"
+import { getOrderDetails, cancelOrder, getPayRecord } from "@/api/order"
 import './index.css'
 
 class AccountOrders extends React.Component {
@@ -16,6 +16,7 @@ class AccountOrders extends React.Component {
     this.state = {
       orderNumber: '',
       details: null,
+      payRecord: null,
       loading: true,
       modalShow: false,
       cancelOrderLoading: false
@@ -25,18 +26,22 @@ class AccountOrders extends React.Component {
     this.setState({
       orderNumber: this.props.match.params.orderNumber
     }, () => {
-      getOrderDetails(this.state.orderNumber)
-        .then(res => {
-          this.setState({
-            details: res.context,
-            loading: false
-          })
+      const { orderNumber } = this.state
+      Promise.all([
+        getOrderDetails(orderNumber),
+        getPayRecord(orderNumber)
+      ]).then(res => {
+        debugger
+        this.setState({
+          details: res[0].context,
+          payRecord: res[1] && res[1].context,
+          loading: false
         })
-        .catch(err => {
-          this.setState({
-            loading: false
-          })
+      }).catch(err => {
+        this.setState({
+          loading: false
         })
+      })
     })
   }
   hanldeItemClick (afterSaleType) {
@@ -102,7 +107,7 @@ class AccountOrders extends React.Component {
         "theme": ""
       }
     }
-    const { details } = this.state
+    const { details, payRecord } = this.state
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -219,79 +224,85 @@ class AccountOrders extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div className="detail-title">
-                              Payment information
-                            </div>
-                            <div className="row">
-                              <div className="col-12 col-md-6">
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Payment time:
+                            {
+                              payRecord
+                                ? <React.Fragment>
+                                  <div className="detail-title">
+                                    Payment information
                                   </div>
-                                  <div className="col-12 col-md-8">
-                                    {details.tradeState.createTime}
+                                  <div className="row">
+                                    <div className="col-12 col-md-6">
+                                      <div className="row">
+                                        <div className="col-12 col-md-4 text-right color-999">
+                                          Payment time:
+                                      </div>
+                                        <div className="col-12 col-md-8">
+                                          {details.tradeState.createTime}
+                                        </div>
+                                      </div>
+                                      <div className="row">
+                                        <div className="col-12 col-md-4 text-right color-999">
+                                          Payment status:
+                                      </div>
+                                        <div className="col-12 col-md-8">
+                                          {details.tradeState.payState}
+                                        </div>
+                                      </div>
+                                      <div className="row">
+                                        <div className="col-12 col-md-4 text-right color-999">
+                                          Payment number:
+                                        </div>
+                                        <div className="col-12 col-md-8">
+                                          {payRecord.chargeId}
+                                        </div>
+                                      </div>
+                                      <div className="row">
+                                        <div className="col-12 col-md-4 text-right color-999">
+                                          Payment method:
+                                        </div>
+                                        <div className="col-12 col-md-8">
+                                          {payRecord.paymentMethod}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-12 col-md-6">
+                                      <div className="row">
+                                        <div className="col-12 col-md-4 text-right color-999">
+                                          Name:
+                                        </div>
+                                        <div className="col-12 col-md-8">
+                                          {payRecord.accountName}
+                                        </div>
+                                      </div>
+                                      <div className="row">
+                                        <div className="col-12 col-md-4 text-right color-999">
+                                          Email:
+                                        </div>
+                                        <div className="col-12 col-md-8">
+                                          {payRecord.email}
+                                        </div>
+                                      </div>
+                                      <div className="row">
+                                        <div className="col-12 col-md-4 text-right color-999">
+                                          Phone number :
+                                        </div>
+                                        <div className="col-12 col-md-8">
+                                          {payRecord.phone}
+                                        </div>
+                                      </div>
+                                      <div className="row">
+                                        <div className="col-12 col-md-4 text-right color-999">
+                                          Card number:
+                                        </div>
+                                        <div className="col-12 col-md-8">
+                                          {payRecord.last4Digits}
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Payment status:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {details.tradeState.payState}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Payment number:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {/* General Invoice Details Individual */}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Payment method:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {/* General Invoice Details Individual */}
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Name:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {/* {details.payInfo.payTypeName} */}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Email:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {/* no */}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Phone number :
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {/* no */}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Card number:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {/* no */}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                                </React.Fragment>
+                                : null
+                            }
                             <div class="order__listing mt-4">
                               <div className="order-list-container">
                                 <div className="card-container mt-0 border-0">
