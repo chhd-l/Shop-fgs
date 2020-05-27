@@ -99,13 +99,14 @@ class Details extends React.Component {
   matchGoods() {
     let { specList, details, currentUnitPrice, stock } = this.state
     let arr = []
-    console.log(specList, details.sizeList, 'listaaa')
+    console.log(specList, details, 'listaaa')
     specList.map(el => {
       if(el.chidren.filter(item => item.selected).length) {
         arr.push(el.chidren.filter(item => item.selected)[0]['specDetailId'])
       }
     })
     let arrStr = arr.sort((a, b) => a - b).join(',')
+    currentUnitPrice = details.marketPrice
     details.sizeList.map(item => {
       if(item.mockSpecDetailIds.join(',') === arrStr) {
         item.selected = true
@@ -644,6 +645,7 @@ class Details extends React.Component {
 
                                 <div className="details-img-container">
                                   <ImageMagnifier
+                                    sizeList={details.sizeList}
                                     video={details.goodsVideo}
                                     images={images}
                                     minImg={details.goodsImg}
