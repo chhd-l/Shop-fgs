@@ -16,12 +16,6 @@ class GoogleTagManager extends React.Component {
 
   render () {
     const event = {
-      // "user": {
-      //   "id": "dffdgf-46fddf45-242ghde45",
-      //   "country": "MX",
-      //   "locale": "es-MX",
-      //   "accountType": "test"
-      // },
       "page": {
         "type": "",
         "hitTimestamp": new Date().toISOString(),
@@ -31,6 +25,16 @@ class GoogleTagManager extends React.Component {
         "id": "RCMXPCO1",
         "environment": "uat", // prd
         "country": "FR"
+      }
+    }
+    let userInfo = sessionStorage.getItem("rc-userinfo")
+    if (userInfo) {
+      userInfo = JSON.parse(userInfo)
+      event.user = {
+        "id": userInfo.customerId,
+        "country": "MX",
+        "locale": userInfo.city, // "es-MX"
+        "accountType": "test"
       }
     }
     let additionalEvents = Object.assign({}, event, this.props.additionalEvents)

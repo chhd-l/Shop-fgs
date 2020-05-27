@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { withRouter, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import {
   formatMoney,
   hanldePurchases
@@ -227,4 +227,4 @@ class UnloginCart extends React.Component {
   }
 }
 
-export default withRouter(UnloginCart)
+export default UnloginCart

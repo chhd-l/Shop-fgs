@@ -31,6 +31,7 @@ class Login extends React.Component {
     console.log(this.state.loginForm, res, "haha");
     if (res.code === "K-000000") {
       sessionStorage.setItem("rc-token", res.context.token);
+      sessionStorage.setItem("rc-userinfo", JSON.stringify(res.context.customerDetail));
       history.push('/account')
     }
   }

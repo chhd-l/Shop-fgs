@@ -12,6 +12,7 @@ export default class AccountHome extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      userInfo: sessionStorage.getItem("rc-userinfo") ? JSON.parse(sessionStorage.getItem("rc-userinfo")) : null
     }
   }
   render () {
@@ -25,14 +26,14 @@ export default class AccountHome extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header showMiniIcons={true} location={this.props.location} />
+        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
               <SideMenu />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <h4><FormattedMessage id="welcome" /> Ken</h4>
+                <h4><FormattedMessage id="welcome" /> {this.state.userInfo && this.state.userInfo.firstName}</h4>
                 <p><FormattedMessage id="account.warmNotice" /></p>
                 <div className="clearfix"></div>
                 <div className="dashboard__profile-cards">
@@ -120,32 +121,32 @@ export default class AccountHome extends React.Component {
                     </div>
                     <div className="col-12 col-md-4">
                       <div className="profileDashboardImage">
-                        <FormattedMessage id="account.paymentMethod">
+                        <FormattedMessage id="shippingAddress">
                           {txt => (
-                            <a
-                              href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List"
+                            <Link
+                              to="/account/shippingAddress"
                               title={txt}>
                               <img
                                 src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwf7c65124/images/dashboard/Payment.jpg"
                                 alt={txt} />
-                            </a>
+                            </Link>
                           )}
                         </FormattedMessage>
                       </div>
                       <div>
                         <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="account.paymentMethod">
+                          <FormattedMessage id="shippingAddress">
                             {txt => (
-                              <a
-                                href="/on/demandware.store/Sites-RU-Site/ru_RU/PaymentInstruments-List"
+                              <Link
+                                to="/account/shippingAddress"
                                 title={txt}
                                 alt={txt}>
                                 <b>{txt}</b>
-                              </a>
+                              </Link>
                             )}
                           </FormattedMessage>
                         </h3>
-                        <p><FormattedMessage id="account.paymentMethodTip" /></p>
+                        <p><FormattedMessage id="account.shippingAddressTip" /></p>
                       </div>
                     </div>
                     <div className="col-12 col-md-4">
