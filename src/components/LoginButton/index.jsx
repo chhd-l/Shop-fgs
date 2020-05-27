@@ -21,6 +21,7 @@ const Home = () => {
   // const { authService } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
   const { authState, authService } = useOktaAuth();
+  console.log(authService, 'authService')
   //     const [userInfo, setUserInfo] = useState(null);
   //     authService.getUser().then((info) => {
   //       console.log(info, 'info')
