@@ -27,7 +27,7 @@ class GoogleTagManager extends React.Component {
         "country": "FR"
       }
     }
-    const userInfo = sessionStorage.getItem("rc-userinfo")
+    let userInfo = sessionStorage.getItem("rc-userinfo")
     if (userInfo) {
       userInfo = JSON.parse(userInfo)
       event.user = {
