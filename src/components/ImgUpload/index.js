@@ -45,15 +45,15 @@ export default class ImgUpload extends React.Component {
   }
   render () {
     return (
-      <div class="aui-col-xs-3 d-flex flex-wrap" id="img">
+      <div className="aui-col-xs-3 d-flex flex-wrap" id="img">
         <div id="imgPreview" className="d-flex flex-wrap">
           {
             this.state.imgList.map((src, i) => (
               <div className="img-item mr-2 mb-2" key={i}>
                 <div className="img-layer d-flex justify-content-around align-items-center" style={{ color: '#fff' }}>
-                  {/* <span class="rc-icon rc-incompatible--xs rc-iconography">EYE</span> */}
-                  <a class="" style={{ cursor: 'pointer' }} onClick={() => { this.hanldePreview(i) }}>EYE</a>
-                  <a class="" style={{ cursor: 'pointer' }} onClick={() => { this.hanldeDelete(i) }}>DEL</a>
+                  {/* <span className="rc-icon rc-incompatible--xs rc-iconography">EYE</span> */}
+                  <a className="" style={{ cursor: 'pointer' }} onClick={() => { this.hanldePreview(i) }}>EYE</a>
+                  <a className="" style={{ cursor: 'pointer' }} onClick={() => { this.hanldeDelete(i) }}>DEL</a>
                 </div>
                 <img className="" src={src} id={`cropedBigImg_${i}`} />
               </div>
