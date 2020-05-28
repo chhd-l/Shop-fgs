@@ -36,7 +36,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
     const { details } = this.state
     return (
       <div>
-        <Header />
+        <Header history={this.props.history} />
         <main className="rc-content--fixed-header">
           <div className="rc-layout-container rc-three-column rc-max-width--xl">
             <div class="rc-column rc-double-width">
@@ -46,7 +46,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                     ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
                     : details
                       ? <React.Fragment>
-                        <img src={successImg} alt="" />
+                        <img src={successImg} alt="" style={{display: 'inline-block'}} />
                         <h4>
                           <b>The return refund/exchange application is submited successfully!</b>
                         </h4>

@@ -39,8 +39,13 @@ const breadcrumbNameMap = {
   '/account/orders-detail/:orderNumber': [
     { name: 'account.personalArea', href: '/account' },
     { name: 'orders', href: '/account/orders' },
-    { name: 'orderDetails' }
+    { name: 'order.orderDetails' }
   ],
+  '/account/orders-aftersale/:orderNumber': [
+    { name: 'account.personalArea', href: '/account' },
+    { name: 'orders', href: '/account/orders' },
+    { name: 'order.orderDetails' }
+  ],  
   '/account/return-order': [
     { name: 'account.personalArea', href: '/account' },
     { name: 'order.returnOrder'}

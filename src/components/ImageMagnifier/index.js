@@ -275,8 +275,8 @@ class ImageMagnifier extends Component {
       </div>
       <div className="d-flex justify-content-center">
         {
-          images && images.map(el => (
-            <div className="rc-img--square rc-img--square-custom" onMouseEnter={(e) => this.imageChange(e, el.artworkUrl)} style={{ backgroundImage: 'url(' + el.artworkUrl + ')' }}></div>
+          images && images.map((el, i) => (
+            <div key={i} className="rc-img--square rc-img--square-custom" onMouseEnter={(e) => this.imageChange(e, el.artworkUrl)} style={{ backgroundImage: 'url(' + el.artworkUrl + ')' }}></div>
           ))
         }
         <video className="rc-img--square rc-img--square-custom" onMouseEnter={() => {

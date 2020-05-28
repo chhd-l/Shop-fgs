@@ -5,16 +5,15 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
-import { flat } from '@/utils/utils'
 import {
   formatMoney,
   translateHtmlCharater,
   hanldePurchases,
-  jugeLoginStatus
-} from "@/utils/utils"
-import { MINIMUM_AMOUNT } from "@/utils/constant"
+  jugeLoginStatus,
+  flat
+} from '@/utils/utils'
+import { MINIMUM_AMOUNT, STOREID } from "@/utils/constant"
 import { FormattedMessage } from 'react-intl'
-import './index.css'
 import { cloneDeep, findIndex, find } from 'lodash'
 import { getDetails, getLoginDetails } from '@/api/details'
 import {
@@ -22,7 +21,9 @@ import {
   sitePurchase,
   sitePurchases,
   siteMiniPurchases,
-} from "@/api/cart";
+} from '@/api/cart'
+import { getDict } from '@/api/dict'
+import './index.css'
 
 class Details extends React.Component {
   constructor(props) {
@@ -177,20 +178,29 @@ class Details extends React.Component {
         // const selectedSize = find(sizeList, s => s.selected)
 
         const { goodsDetailTab } = this.state
-        let tmpGoodsDetail = res.context.goods.goodsDetail
-        if (tmpGoodsDetail) {
-          tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
-          for (let key in tmpGoodsDetail) {
-            goodsDetailTab.tabName.push(key)
-            goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+        try {
+          let tmpGoodsDetail = res.context.goods.goodsDetail
+          if (tmpGoodsDetail) {
+            tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
+            for (let key in tmpGoodsDetail) {
+              goodsDetailTab.tabName.push(key)
+              goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+            }
           }
+          this.setState({
+            goodsDetailTab: goodsDetailTab
+          })
+        } catch (err) {
+          getDict({
+            type: 'goodsDetailTab',
+            storeId: STOREID,
+          }).then(res => {
+            goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(ele => ele.name)
+            this.setState({
+              goodsDetailTab: goodsDetailTab
+            })
+          })
         }
-        this.setState({
-          goodsDetailTab: goodsDetailTab
-        })
-        // const goodsDetailList = this.handleDetailsHtml(
-        //   res.context.goods.goodsDetail
-        // );
 
         this.setState(
           {
@@ -563,6 +573,7 @@ class Details extends React.Component {
           ref={this.headerRef}
           showMiniIcons={true}
           location={this.props.location}
+          history={this.props.history}
         />
         {errMsg ? (
           <main className="rc-content--fixed-header">
@@ -707,8 +718,8 @@ class Details extends React.Component {
                                     </div>
                                     <div className="toggleVisibility">
                                       <div className="product-selectors rc-padding-top--xs">
-                                        {specList.map((sItem) => (
-                                          <div id="choose-select">
+                                        {specList.map((sItem, i) => (
+                                          <div id="choose-select" key={i}>
                                             <div className="rc-margin-bottom--xs">
                                               {/* <FormattedMessage id="details.theSize" /> */}
                                               {sItem.specName}:
@@ -724,8 +735,9 @@ class Details extends React.Component {
                                                     
                                                   )
                                                 )} */}
-                                                {sItem.chidren.map((sdItem) => (
+                                                {sItem.chidren.map((sdItem, i) => (
                                                   <div
+                                                    key={i}
                                                     className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
                                                     // item.selected
                                                     //   ? "selected"
@@ -918,7 +930,7 @@ class Details extends React.Component {
                             <nav className="rc-fade--x">
                               <ul className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist">
                                 {this.state.goodsDetailTab.tabName.map((ele, index) => (
-                                  <li>
+                                  <li key={index}>
                                     <button
                                       className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
                                       data-toggle={`tab__panel-${index}`}
@@ -936,6 +948,7 @@ class Details extends React.Component {
                             {this.state.goodsDetailTab.tabContent.map((ele, i) => (
                               <div
                                 id={`tab__panel-${i}`}
+                                key={i}
                                 className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
                                 aria-expanded={this.state.activeTabIdx === i ? 'true' : 'false'}
                               >

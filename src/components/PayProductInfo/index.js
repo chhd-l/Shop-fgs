@@ -49,7 +49,7 @@ class PayProductInfo extends React.Component {
                 <div className="line-item-total-price justify-content-start pull-left">
                   <div className="item-attributes">
                     <p className="line-item-attributes">
-                      {selectedSizeItem.detailName} - {el.quantity} {el.quantity > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}
+                      {selectedSizeItem.specText} - {el.quantity} {el.quantity > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}
                     </p>
                   </div>
                 </div>
