@@ -356,7 +356,7 @@ class Payment extends React.Component {
         console.log(e);
         this.setState({
           errorShow: true,
-          errorMsg: e
+          errorMsg: e.toString()
         })
         window.scrollTo(0, 0)
         setTimeout(() => {

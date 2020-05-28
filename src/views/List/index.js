@@ -6,12 +6,12 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import Filters from '@/components/Filters'
-import './index.css'
 import { cloneDeep, find, findIndex } from 'lodash'
 import titleCfg from './json/title.json'
 import { getList, getProps, getLoginList } from '@/api/list'
-import { queryStoreCateIds, formatMoney, jugeLoginStatus } from "@/utils/utils"
+import { queryStoreCateIds, formatMoney, jugeLoginStatus } from '@/utils/utils'
 import { STOREID, CATEID } from '@/utils/constant'
+import './index.css'
 
 class List extends React.Component {
   constructor(props) {
@@ -477,4 +477,4 @@ class List extends React.Component {
   }
 }
 
-export default List;
+export default List

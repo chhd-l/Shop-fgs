@@ -57,7 +57,8 @@ class Confirmation extends React.Component {
       commentOnDelivery: '',
       totalPrice: '',
       tradePrice: '',
-      discountPrice: ''
+      discountPrice: '',
+      paywithLogin: sessionStorage.getItem("rc-paywith-login")
     };
   }
   changeCache () {
@@ -86,10 +87,11 @@ class Confirmation extends React.Component {
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true)
-    if (sessionStorage.getItem("rc-paywith-login")) {
+    if (this.state.paywithLogin) {
       localStorage.removeItem('rc-cart-data-login')
     } else {
       localStorage.removeItem('rc-cart-data')
+      localStorage.removeItem('rc-token')
     }
     localStorage.removeItem('orderNumber')
   }
@@ -99,7 +101,12 @@ class Confirmation extends React.Component {
       window.location.reload();
       return false
     }
-    let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
+    let productList
+    if (this.state.paywithLogin) {
+      productList = JSON.parse(localStorage.getItem("rc-cart-data-login"))
+    } else {
+      productList = JSON.parse(localStorage.getItem("rc-cart-data"))
+    }
     this.setState({
       productList: productList,
       loading: false
@@ -125,18 +132,33 @@ class Confirmation extends React.Component {
 
     let event
     if (!loading) {
-      const products = productList.map(item => {
-        const selectedSize = item.sizeList.filter(s => s.selected)[0]
-        return {
-          id: item.goodsId,
-          name: item.goodsName,
-          price: selectedSize.salePrice,
-          brand: "Royal Canin",
-          category: item.goodsCateName,
-          quantity: item.quantity,
-          variant: selectedSize.detailName
-        }
-      })
+      let products
+      if (this.state.paywithLogin) {
+        products = productList.map(item => {
+          return {
+            id: item.goodsId,
+            name: item.goodsName,
+            price: item.salePrice,
+            brand: "Royal Canin",
+            category: item.goodsCateName,
+            quantity: item.quantity,
+            variant: item.specText
+          }
+        })
+      } else {
+        products = productList.map(item => {
+          const selectedSize = item.sizeList.filter(s => s.selected)[0]
+          return {
+            id: item.goodsId,
+            name: item.goodsName,
+            price: selectedSize.salePrice,
+            brand: "Royal Canin",
+            category: item.goodsCateName,
+            quantity: item.quantity,
+            variant: selectedSize.detailName
+          }
+        })
+      }
       event = {
         "page": {
           "type": "Order Confirmation",
@@ -168,7 +190,7 @@ class Confirmation extends React.Component {
           <div className="rc-layout-container rc-three-column rc-max-width--xl">
             <div className="rc-column rc-double-width shipping__address">
               <div className="center">
-                <img src={successImg} alt="" />
+                <img src={successImg} alt="" style={{display: 'inline-block'}} />
                 <h4>
                   <b><FormattedMessage id="confirmation.info1" /></b>
                 </h4>

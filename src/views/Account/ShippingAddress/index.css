@@ -1,33 +1,19 @@
 .table-toolbar {
   padding: 10px;
+  display: flex;
+  justify-content: flex-end;
 }
-.ant-btn {
-  display: inline-block;
-  margin-bottom: 0;
-  font-weight: 500;
-  text-align: center;
-  touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  line-height: 1.15;
-  padding: 0 15px;
-  font-size: 12px;
-  border-radius: 0;
-  height: 28px;
-  user-select: none;
-  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  position: relative;
-  color: #262626;
-  background-color: #fff;
-  border-color: #262626;
-  margin-right: 10px;
+.address-btn{
+  background: #e2001a;
+  border: 1px;
+  color: #fff;
+  border-radius: 5px;
 }
 .t-gray {
   color: #999;
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 2.5;
+  margin-right: 10px;
 }
 .card-address {
   position: relative;

@@ -196,7 +196,7 @@ class UnloginCart extends React.Component {
                                   </div>
                                   <div className="line-item-total-price justify-content-start pull-left">
                                     <div className="item-attributes">
-                                      <p className="line-item-attributes">{find(item.sizeList, s => s.selected).detailName} - {item.quantity > 1 ? `${item.quantity} products` : `${item.quantity} product`}</p>
+                                      <p className="line-item-attributes">{find(item.sizeList, s => s.selected).specText} - {item.quantity > 1 ? `${item.quantity} products` : `${item.quantity} product`}</p>
                                     </div>
                                   </div>
                                   <div className="line-item-total-price justify-content-end pull-right">

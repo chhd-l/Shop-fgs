@@ -458,27 +458,27 @@ class Header extends React.Component {
                             <div className="container cart">
                               <div className="link-group">
                               <div className="link-style" >
-                                  <Link to="/account" >
-                                    <FormattedMessage id="account.myAccount" />
+                                  <Link to="/account" className="click-hover">
+                                    <FormattedMessage id="account.myAccount"  />
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/account/information" >
+                                  <Link to="/account/information"  className="click-hover">
                                     <FormattedMessage id="account.basicInfomation" />
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/account/pets" >
+                                  <Link to="/account/pets" className="click-hover" >
                                     <FormattedMessage id="account.pets" />
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/account/orders" >
+                                  <Link to="/account/orders"  className="click-hover" >
                                   <FormattedMessage id="account.orders" />
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/account/orders" >
+                                  <Link to="/account/orders"  className="click-hover" >
                                     <FormattedMessage id="shippingAddress" />
                                   </Link>
                                 </div>

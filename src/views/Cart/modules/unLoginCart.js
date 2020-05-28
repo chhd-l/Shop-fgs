@@ -290,19 +290,12 @@ class UnLoginCart extends React.Component {
                             className="rc-swatch __select-size"
                             id="id-single-select-size"
                           >
-                            {pitem.sizeList.map((sizeItem, i) => (
-                              <div
-                                key={i}
-                                className={`rc-swatch__item ${
-                                  sizeItem.selected ? "selected" : ""
-                                  }`}
-                              >
-                                <span>
-                                  {sizeItem.detailName}
-                                  <i></i>
-                                </span>
-                              </div>
-                            ))}
+                            <div className={`rc-swatch__item`}>
+                              <span>
+                                {find(pitem.sizeList, s => s.selected).specText}
+                                <i></i>
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
