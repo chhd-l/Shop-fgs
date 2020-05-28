@@ -103,7 +103,7 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div class="order__listing mt-4">
+                            <div className="order__listing mt-4">
                               <div className="order-list-container">
                                 <div className="card-container mt-0 border-0">
                                   <div className="card rc-margin-y--none">

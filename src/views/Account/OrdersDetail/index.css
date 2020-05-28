@@ -13,3 +13,41 @@
   padding: 10px 10px 6px;
   color: #333;
 }
+
+.orderDetailsPage.card .autoshipDiscount {
+  position: relative;
+  color: #47b800
+}
+
+.orderDetailsPage.card .autoshipDiscount:after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* background-image: url(../../images/icons/royal-canin.sprite--single.svg); */
+  background-position: 66.67% 100%;
+  content: "";
+  display: inline-block;
+  background-repeat: no-repeat;
+  width: 28px;
+  height: 28px;
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%
+}
+
+.orderDetailsPage.card .textColor {
+  color: #666
+}
+
+.orderDetailsPage.card .img-fluid {
+  max-width: 16%
+}
+
+@media (max-width: 768.98px) {
+  .orderDetailsPage.card .img-fluid {
+      max-width:44%
+  }
+}
+
+.orderDetailsPage.card .successColor {
+  color: #47b800
+}

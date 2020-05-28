@@ -24,7 +24,7 @@ class OrdersAfterSale extends React.Component {
       orderNumber: '',
       details: null,
       loading: true,
-      selectedIdx: -1,
+      selectedIdx: 0,
       errorMsg: '',
       errorMsgTop: '',
       form: {
@@ -269,11 +269,8 @@ class OrdersAfterSale extends React.Component {
                                   <div className="card-container mt-0 border-0">
                                     <div className="card rc-margin-y--none">
                                       <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 border-0">
-                                        <div className="col-12 col-md-4">
+                                        <div className="col-12 col-md-5">
                                           <p>Product</p>
-                                        </div>
-                                        <div className="col-12 col-md-1">
-                                          <p>Weight</p>
                                         </div>
                                         <div className="col-12 col-md-2">
                                           <p>{afterSaleType === 'exchange' ? 'Exchange Price' : 'Return Price'}</p>
@@ -291,11 +288,18 @@ class OrdersAfterSale extends React.Component {
                                     </div>
                                     {details.tradeItems.map((item, i) => (
                                       <div className="row rc-margin-x--none row align-items-center pt-2 pb-2 border-bottom" key={i}>
-                                        <div className="col-12 col-md-4 pl-0 pr-0">
+                                        <div className="col-12 col-md-5 pl-0 pr-0">
                                           <div className="row">
                                             <div className="col-12 col-md-2 d-flex align-items-center justify-content-center">
                                               <div className="rc-input rc-input--inline mr-0">
-                                                <input className="rc-input__radio" id={`id-radio-${i}`} value={i} type="radio" name="radio" onChange={e => this.handleSelectedItemChange(i)} />
+                                                <input
+                                                  className="rc-input__radio"
+                                                  id={`id-radio-${i}`}
+                                                  value={i}
+                                                  type="radio"
+                                                  name="radio"
+                                                  checked={this.state.selectedIdx === i}
+                                                  onChange={e => this.handleSelectedItemChange(i)} />
                                                 <label className="rc-input__label--inline ml-0" htmlFor={`id-radio-${i}`}>&nbsp;</label>
                                               </div>
                                             </div>
@@ -306,13 +310,11 @@ class OrdersAfterSale extends React.Component {
                                                 alt={item.spuName}
                                                 title={item.spuName} />
                                               <div className="m-1 color-999">
-                                                {item.spuName}
+                                                <span>{item.spuName}</span><br />
+                                                {item.specDetails}
                                               </div>
                                             </div>
                                           </div>
-                                        </div>
-                                        <div className="col-12 col-md-1">
-                                          {item.specDetails}
                                         </div>
                                         <div className="col-12 col-md-2">
                                           {formatMoney(item.price)}
@@ -351,7 +353,7 @@ class OrdersAfterSale extends React.Component {
                                           </div>
                                         </div>
                                         <div className="col-12 col-md-2">
-                                          {formatMoney(item.num * item.price)}
+                                          {formatMoney(item.splitPrice)}
                                         </div>
                                       </div>
                                     ))}
