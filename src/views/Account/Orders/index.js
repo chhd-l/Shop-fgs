@@ -264,13 +264,13 @@ export default class AccountOrders extends React.Component {
                                         <p><FormattedMessage id="order.shippingStatus" /></p>
                                       </div>
                                       <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
-                                        <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
-                                          <Link
-                                            className="medium pull-right--desktop rc-styled-link rc-padding-top--xs"
-                                            to={`/account/orders-detail/${order.id}`}>
+                                        <Link
+                                          className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
+                                          to={`/account/orders-detail/${order.id}`}>
+                                          <span className="medium pull-right--desktop rc-styled-link rc-padding-top--xs">
                                             <FormattedMessage id="order.orderDetails" />
-                                          </Link>
-                                        </button>
+                                          </span>
+                                        </Link>
                                       </div>
                                     </div>
                                   </div>

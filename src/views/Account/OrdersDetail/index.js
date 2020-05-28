@@ -19,7 +19,8 @@ class AccountOrders extends React.Component {
       payRecord: null,
       loading: true,
       modalShow: false,
-      cancelOrderLoading: false
+      cancelOrderLoading: false,
+      errMsg: ''
     }
   }
   componentDidMount () {
@@ -31,7 +32,6 @@ class AccountOrders extends React.Component {
         getOrderDetails(orderNumber),
         getPayRecord(orderNumber)
       ]).then(res => {
-        debugger
         this.setState({
           details: res[0].context,
           payRecord: res[1] && res[1].context,
@@ -39,7 +39,8 @@ class AccountOrders extends React.Component {
         })
       }).catch(err => {
         this.setState({
-          loading: false
+          loading: false,
+          errMsg: err
         })
       })
     })
@@ -120,14 +121,7 @@ class AccountOrders extends React.Component {
               <div className="my__account-content rc-column rc-quad-width">
                 <div className="row justify-content-center">
                   <div className="order_listing_details col-12 no-padding">
-                    <div
-                      className="card confirm-details orderDetailsPage ml-0 mr-0"
-                      ref={(node) => {
-                        if (node) {
-                          node.style.setProperty('padding', '0', 'important');
-                          node.style.setProperty('border', '0', 'important');
-                        }
-                      }}>
+                    <div className="card confirm-details orderDetailsPage ml-0 mr-0">
                       {this.state.loading
                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
                         : details
@@ -373,7 +367,12 @@ class AccountOrders extends React.Component {
                             </div>
                             <div className="text-center">No data</div>
                           </div>
-                          : null
+                          : this.state.errMsg
+                            ? <div className="text-center mt-5">
+                              <span class="rc-icon rc-incompatible--xs rc-iconography"></span>
+                              {this.state.errMsg}
+                            </div>
+                            : null
                       }
                     </div>
                   </div>
