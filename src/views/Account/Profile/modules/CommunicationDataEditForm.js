@@ -51,7 +51,7 @@ export default class CommunicationDataEditForm extends React.Component {
       }, 2000)
     } catch (err) {
       this.setState({
-        errorMsg: err
+        errorMsg: typeof err === 'object' ? err.toString() : err
       })
       setTimeout(() => {
         this.setState({
@@ -91,6 +91,19 @@ export default class CommunicationDataEditForm extends React.Component {
             </FormattedMessage>
           </div>
           <hr />
+          <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
+            <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+              <span>{this.state.errorMsg}</span>
+              <button
+                className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                aria-label="Close"
+                onClick={() => { this.setState({ errorMsg: '' }) }}>
+                <span className="rc-screen-reader-text">
+                  <FormattedMessage id="close" />
+                </span>
+              </button>
+            </aside>
+          </div>
           <aside
             className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
             role="alert">

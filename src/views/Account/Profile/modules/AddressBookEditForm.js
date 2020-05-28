@@ -124,7 +124,7 @@ export default class AddressBookEditForm extends React.Component {
       }, 2000)
     } catch (err) {
       this.setState({
-        errorMsg: err
+        errorMsg: typeof err === 'object' ? err.toString() : err
       })
       this.scrollToErrorMsg()
       setTimeout(() => {

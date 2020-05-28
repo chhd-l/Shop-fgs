@@ -95,12 +95,12 @@ class Details extends React.Component {
   matchGoods () {
     let { specList, details, currentUnitPrice, stock } = this.state
     let arr = []
-    console.log(specList, details, 'listaaa')
     specList.map(el => {
       if (el.chidren.filter(item => item.selected).length) {
         arr.push(el.chidren.filter(item => item.selected)[0]['specDetailId'])
       }
     })
+    console.log(arr, 'arr')
     let arrStr = arr.sort((a, b) => a - b).join(',')
     currentUnitPrice = details.marketPrice
     details.sizeList.map(item => {
@@ -112,6 +112,7 @@ class Details extends React.Component {
         item.selected = false
       }
     })
+    console.log(currentUnitPrice)
     console.log(details.sizeList, 'sizeList')
     this.setState({ details, currentUnitPrice, stock }, () => {
       this.updateInstockStatus();
@@ -132,15 +133,21 @@ class Details extends React.Component {
         let specDetailList = res.context.goodsSpecDetails;
         specList.map((sItem) => {
           sItem.chidren = specDetailList.filter(
-            (sdItem) => {
-              if (sItem.chidren && sItem.chidren.length === 1) {
-                sdItem.selected = true
-              } else {
-                sdItem.selected = false
-              }
+            (sdItem, i) => {
+              // console.log(sdItem, i, 'sdItem')
+              // if(i === 0) {
+              //   sdItem.selected = true
+              // }
+              // if (sItem.chidren && sItem.chidren.length === 1) {
+              //   sdItem.selected = true
+              // } else {
+              //   sdItem.selected = false
+              // }
+              // if(sItem.chidren && sItem.chidren)
               return sdItem.specId === sItem.specId
             }
-          );
+          )
+          sItem.chidren[0].selected = true
         });
 
         // this.setState({ specList });
