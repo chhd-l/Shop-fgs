@@ -4,12 +4,12 @@ import BreadcrumbNameMap from './breadcrumbNameMap';
 import { FormattedMessage } from 'react-intl'
 
 const BreadCrumbs = withRouter(props => {
-  const { location } = props;
+  const { location, match } = props;
   const breadcrumbNameMap = BreadcrumbNameMap;
 
   const url = location.pathname
 
-  let mapData = breadcrumbNameMap[url] || []
+  let mapData = breadcrumbNameMap[url] || breadcrumbNameMap[match.path] || []
 
   // specific for keywords search
   if (url.indexOf('/list/keywords') > -1 && !mapData.length) {
@@ -27,10 +27,6 @@ const BreadCrumbs = withRouter(props => {
     if (goodsName) {
       mapData.push({ name: goodsName })
     }
-  }
-  // specific for order details page
-  if (url.indexOf('/account/orders/detail') > -1 && !mapData.length) {
-    mapData = breadcrumbNameMap['/account/orders']
   }
 
   return (

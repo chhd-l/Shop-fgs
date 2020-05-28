@@ -33,8 +33,17 @@ const breadcrumbNameMap = {
   ],
   '/account/shippingAddress/create': [
     { name: 'account.personalArea', href: '/account' },
-    { name: 'shippingAddress',href: '/account/shippingAddress' },
-    { name: 'create'}
+    { name: 'shippingAddress', href: '/account/shippingAddress' },
+    { name: 'create' }
+  ],
+  '/account/orders-detail/:orderNumber': [
+    { name: 'account.personalArea', href: '/account' },
+    { name: 'orders', href: '/account/orders' },
+    { name: 'orderDetails' }
+  ],
+  '/account/return-order': [
+    { name: 'account.personalArea', href: '/account' },
+    { name: 'order.returnOrder'}
   ]
 };
 

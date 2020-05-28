@@ -40,7 +40,6 @@ class AccountRefunds extends React.Component {
         pageSize: form.pageSize,
         pageNum: currentPage - 1
       })
-      debugger
       this.setState({
         list: res.context,
         loading: false
