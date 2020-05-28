@@ -184,7 +184,7 @@ class UnloginCart extends React.Component {
                               <div className="product-line-item-details d-flex flex-row">
                                 <div className="item-image">
                                   <img className="product-image"
-                                    src={item.goodsImg}
+                                    src={find(item.sizeList, s => s.selected).goodsInfoImg}
                                     alt={item.goodsName}
                                     title={item.goodsName} />
                                 </div>
