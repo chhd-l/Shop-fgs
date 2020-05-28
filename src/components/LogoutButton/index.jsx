@@ -12,10 +12,10 @@
 
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
-import { Button, Header } from 'semantic-ui-react';
 import { getToken } from '@/api/login'
+import { FormattedMessage } from 'react-intl'
 
-const LoginButton = () => {
+const LogoutButton = () => {
   // console.log(useOktaAuth)
   // console.log(useOktaAuth(), 'useOktaAuth')
   // const { authService } = useOktaAuth();
@@ -47,9 +47,21 @@ const LoginButton = () => {
   const login = async () => {
     authService.login('/');
   };
-
+  const logout = async () => authService.logout('/');
+  const clickLogoff = () => {
+    sessionStorage.setItem("is-login", false);
+    sessionStorage.removeItem("rc-token");
+    logout()
+    // this.setState({
+    //   isLogin: false
+    // })
+  }
   return (
-    <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }} onClick={login}>Log in</button>
+    <div className="logoff-style">
+      <a className="rc-styled-link--external" onClick={clickLogoff}>
+        <FormattedMessage id="logOff" />
+      </a>
+    </div>
   );
 };
-export default LoginButton;
+export default LogoutButton;

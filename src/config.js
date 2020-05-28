@@ -6,6 +6,7 @@ export default {
   oidc: {
     clientId: CLIENT_ID,
     issuer: ISSUER,
+    // redirectUri: 'https://shopuat.466920.com/implicit/callback',
     redirectUri: 'https://shopuat.466920.com/implicit/callback',
     // redirectUri: 'https://localhost:3000/api/messages',
     scopes: ['openid', 'profile', 'email'],

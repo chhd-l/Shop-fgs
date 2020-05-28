@@ -98,7 +98,6 @@ class Details extends React.Component {
     let idArr = []
     let specText = ''
     specList.map(el => {
-      // ['specDetailId']
       if (el.chidren.filter(item => item.selected).length) {
         selectedArr.push(el.chidren.filter(item => item.selected)[0])
       }
@@ -108,8 +107,6 @@ class Details extends React.Component {
       idArr.push(el.specDetailId)
       specText = specText + el.detailName + ';'
     })
-    // console.log(arr, 'arr')
-    // let arrStr = arr.sort((a, b) => a - b).join(',')
     currentUnitPrice = details.marketPrice
     details.sizeList.map(item => {
       if (item.mockSpecDetailIds.join(',') === idArr.join(',')) {
