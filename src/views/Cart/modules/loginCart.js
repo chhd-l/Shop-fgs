@@ -439,7 +439,7 @@ class LoginCart extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header ref={this.headerRef} showMiniIcons={true} location={this.props.location} />
+        <Header ref={this.headerRef} showMiniIcons={true} location={this.props.location} history={this.props.history} />
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
             {productList.length

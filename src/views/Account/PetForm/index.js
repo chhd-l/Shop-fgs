@@ -567,7 +567,7 @@ export default class PetForm extends React.Component {
     const { petList,currentPet } = this.state
     return (
       <div>
-        <Header showMiniIcons={true} location={this.props.location} />
+        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">

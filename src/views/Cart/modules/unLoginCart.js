@@ -255,7 +255,7 @@ class UnLoginCart extends React.Component {
               <img
                 className="product-image"
                 style={{ maxWidth: '100px' }}
-                src={pitem.goodsImg}
+                src={find(pitem.sizeList, s => s.selected).goodsInfoImg}
                 alt={pitem.goodsName}
                 title={pitem.goodsName}
               />
@@ -290,19 +290,12 @@ class UnLoginCart extends React.Component {
                             className="rc-swatch __select-size"
                             id="id-single-select-size"
                           >
-                            {pitem.sizeList.map((sizeItem, i) => (
-                              <div
-                                key={i}
-                                className={`rc-swatch__item ${
-                                  sizeItem.selected ? "selected" : ""
-                                  }`}
-                              >
-                                <span>
-                                  {sizeItem.detailName}
-                                  <i></i>
-                                </span>
-                              </div>
-                            ))}
+                            <div className={`rc-swatch__item`}>
+                              <span>
+                                {find(pitem.sizeList, s => s.selected).specText}
+                                <i></i>
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -472,7 +465,7 @@ class UnLoginCart extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header ref={this.headerRef} showMiniIcons={true} location={this.props.location} />
+        <Header ref={this.headerRef} showMiniIcons={true} location={this.props.location} history={this.props.history} />
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
             {productList.length

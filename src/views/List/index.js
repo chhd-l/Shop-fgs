@@ -6,12 +6,12 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import Filters from '@/components/Filters'
-import './index.css'
 import { cloneDeep, find, findIndex } from 'lodash'
 import titleCfg from './json/title.json'
 import { getList, getProps, getLoginList } from '@/api/list'
-import { queryStoreCateIds, formatMoney, jugeLoginStatus } from "@/utils/utils"
+import { queryStoreCateIds, formatMoney, jugeLoginStatus } from '@/utils/utils'
 import { STOREID, CATEID } from '@/utils/constant'
+import './index.css'
 
 class List extends React.Component {
   constructor(props) {
@@ -328,7 +328,7 @@ class List extends React.Component {
     return (
       <div>
         {event ? <GoogleTagManager additionalEvents={event} /> : null}
-        <Header showMiniIcons={true} location={this.props.location} />
+        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           {titleData ?
@@ -477,4 +477,4 @@ class List extends React.Component {
   }
 }
 
-export default List;
+export default List

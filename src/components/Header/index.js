@@ -14,6 +14,7 @@ import LoginButton from '@/components/LoginButton'
 import UnloginCart from './modules/unLoginCart'
 import LoginCart from './modules/loginCart'
 import './index.css'
+import LogoutButton from '@/components/LogoutButton';
 
 class Header extends React.Component {
   static defaultProps = {
@@ -158,6 +159,18 @@ class Header extends React.Component {
         this.getSearchData();
       }, 500)
     })
+  }
+  signUp() {
+    let prefix = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri='
+    let callbackUrl = 'http://localhost:3000?origin=register'
+    let registredUrl = ''
+    if(process.env.NODE_ENV === 'development') {
+      registredUrl = prefix + encodeURIComponent(callbackUrl)
+    }else if(process.env.NODE_ENV === 'production') {
+      callbackUrl = process.env.REACT_APP_RegisterCallback
+      registredUrl = process.env.REACT_APP_RegisterPrefix + encodeURIComponent(callbackUrl)
+    }
+    window.location.href = registredUrl
   }
   async getSearchData () {
     const { keywords } = this.state
@@ -406,9 +419,7 @@ class Header extends React.Component {
                                 {/* <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
                                   onClick={this.clickLogin}>To come in</button> */}
                                 <div><FormattedMessage id="account.notRegistred" /></div>
-                                <a className="rc-styled-link" onClick={() => {
-                                  window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
-                                }}><FormattedMessage id="signUp" /></a>
+                                <a className="rc-styled-link" onClick={() => { this.signUp() }}><FormattedMessage id="signUp" /></a>
                               </div>
 
                               {/* <div className="link-group">
@@ -472,11 +483,12 @@ class Header extends React.Component {
                                   </Link>
                                 </div>
                               </div>
-                              <div className="logoff-style">
+                              <LogoutButton/>
+                              {/* <div className="logoff-style">
                                 <a className="rc-styled-link--external" onClick={()=>this.clickLogoff()}>
                                   <FormattedMessage id="logOff" />
                                 </a>
-                              </div>
+                              </div> */}
 
                             </div>
                           </div>

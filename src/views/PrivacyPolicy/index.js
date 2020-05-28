@@ -6,7 +6,7 @@ class PrivacyPolicy extends React.Component {
   render () {
     return (
       <div>
-        <Header showMiniIcons={true} location={this.props.location} />
+        <Header showMiniIcons={true} location={this.props.location} history={this.props.history}/>
         <main className="rc-content--fixed-header rc-bg-colour--brand3"  >
           <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg rc-padding-x--md--mobile">
             <div className="rc-bg-colour--brand3">
