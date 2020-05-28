@@ -114,7 +114,7 @@ class PersonalDataEditForm extends React.Component {
       firstName: form.firstName,
       lastName: form.lastName,
       email: form.email,
-      birthDay: form.birthdate.split('/').join('-')
+      birthDay: form.birthdate ? form.birthdate.split('/').join('-') : form.birthdate
     })
     try {
       await updateCustomerBaseInfo(param)
@@ -129,7 +129,7 @@ class PersonalDataEditForm extends React.Component {
       }, 2000)
     } catch (err) {
       this.setState({
-        errorMsg: err
+        errorMsg: typeof err === 'object' ? err.toString() : err 
       })
       setTimeout(() => {
         this.setState({
