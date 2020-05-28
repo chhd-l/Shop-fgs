@@ -42,10 +42,14 @@ export default class ShippingAddress extends React.Component {
       }
       
     }
-    this.openAddModal = this.openAddModal.bind(this)
-    this.openEditModal = this.openEditModal.bind(this)
-    this.closeModal = this.closeModal.bind(this)
     
+    
+  }
+
+  componentWillUnmount () {
+    localStorage.setItem("isRefresh", true);
+  }
+  componentDidMount () {
     this.getAddressList()
   }
    getAddressList = async ()=>{
@@ -102,36 +106,7 @@ export default class ShippingAddress extends React.Component {
     }
     
   }
-  openAddModal(){
-    const addressForm={
-      firstName:"",
-      lastName:"",
-      address1:"",
-      address2:"",
-      country:"1",
-      city:"1",
-      postCode:"",
-      phoneNumber:"",
-      rfc:"",
-      isDefalt:false,
-      deliveryAddressId:"",
-      customerId:""
-    }
-    this.setState({
-      addressForm:addressForm,
-      showModal:true,
-      isAdd:true
-    })
-  }
-  openEditModal(id){
-    this.getAddressById(id)
-    
-  }
-  closeModal(){
-    this.setState({
-      showModal:false
-    })
-  }
+
   onFormChange = ({ field, value }) => {
     let data = this.state.addressForm;
     data[field] = value;
@@ -272,10 +247,17 @@ export default class ShippingAddress extends React.Component {
     }
     return el.offsetTop
   }
+  openCreatePage =()=>{
+    const { history } = this.props
+    history.push('/account/shippingAddress/create')
+  }
+  openEditPage =(id)=>{
+    const { history } = this.props
+    history.push('/account/shippingAddress/'+id)
+  }
 
   
   render () {
-    const { addressForm } = this.state 
     return (
       <div>
         <Header showMiniIcons={true} location={this.props.location} />
@@ -311,7 +293,7 @@ export default class ShippingAddress extends React.Component {
                   <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
                 </aside>
                   <div className="table-toolbar">
-                    <button type="button" className="ant-btn" onClick={()=>this.openAddModal()}>
+                    <button type="button" className="ant-btn" onClick={()=>this.openCreatePage()}>
                       <span> <FormattedMessage id="addShippingAddress"></FormattedMessage></span>
                     </button>
                     <span className="t-gray"> 
@@ -372,7 +354,7 @@ export default class ShippingAddress extends React.Component {
                             <span><FormattedMessage id="defaultAddress"></FormattedMessage></span>:
                             <a onClick={()=>this.setDefaltAddress(item.deliveryAddressId)}>
                                <FormattedMessage id="setDefaultAddress"></FormattedMessage></a>}
-                            <a onClick={()=>this.openEditModal(item.deliveryAddressId)}> 
+                            <a onClick={()=>this.openEditPage(item.deliveryAddressId)}> 
                               <FormattedMessage id="edit" ></FormattedMessage>
                             </a>
                           </div>
@@ -384,383 +366,6 @@ export default class ShippingAddress extends React.Component {
                   }
                 </div>
                 
-                    <div role="document" className="ant-modal address-modal " style={{width: "520px",display:(this.state.showModal?'block':'none')}}>
-                      <div className="ant-modal-content">
-                        <button aria-label="Close" className="ant-modal-close">
-                          <span className="ant-modal-close-x"></span>
-                        </button>
-                        <div className="ant-modal-header">
-                          <div className="ant-modal-title" id="rcDialogTitle0">
-                            { this.state.isAdd?<FormattedMessage id="addShippingAddress"></FormattedMessage>:
-                              <FormattedMessage id="editShippingAddress"></FormattedMessage>}
-                          </div>
-                        </div>
-                        <div className="ant-modal-body">
-                          <form className="ant-form ant-form-horizontal">
-
-                            {/* firstName */}
-                            <div className="ant-row ant-form-item">
-                              <div className="ant-form-item-label">
-                                <span
-                                  style={{
-                                    color: 'red',
-                                    fontFamily: 'SimSun',
-                                    marginRight: '4px',
-                                    fontSize: '12px'
-                                  }}
-                                >
-                                  *
-                                </span>
-                                <FormattedMessage id="payment.firstName">
-                                  {(txt)=>(
-                                    <label className="ant-form-item-required" title={txt}>{txt}</label>
-                                    )
-                                  }
-                                </FormattedMessage>
-                              </div>
-                              <div className="ant-form-item-control-wrapper">
-                                <div className="ant-form-item-control address-input">
-                                  <input type="text" value={addressForm.firstName} 
-                                  onChange={(e) => {
-                                    const value =  e.target.value;
-                                    this.onFormChange({
-                                      field: 'firstName',
-                                      value
-                                    });
-                                  }}
-                                  className="ant-input ant-input-lg" style={{width: "256px"}}/>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* lastName */}
-                            <div className="ant-row ant-form-item">
-                              <div className="ant-form-item-label">
-                              <span
-                                  style={{
-                                    color: 'red',
-                                    fontFamily: 'SimSun',
-                                    marginRight: '4px',
-                                    fontSize: '12px'
-                                  }}
-                                >
-                                  *
-                                </span>
-                                <FormattedMessage id="payment.lastName">
-                                  {(txt)=>(
-                                    <label className="ant-form-item-required" title={txt}>{txt}</label>
-                                    )
-                                  }
-                                </FormattedMessage>
-                              </div>
-                              
-                              <div className="ant-form-item-control-wrapper">
-                                <div className="ant-form-item-control address-input">
-                                  <input type="text" value={addressForm.lastName}  
-                                  onChange={(e) => {
-                                    const value =  e.target.value;
-                                    this.onFormChange({
-                                      field: 'lastName',
-                                      value
-                                    });
-                                  }}
-                                  className="ant-input ant-input-lg" style={{width: "256px"}}/>
-                                </div>
-                              </div>
-                            </div>
-                            {/* country */}
-                            <div className="ant-row ant-form-item">
-                              <div className="ant-form-item-label">
-                              <span
-                                  style={{
-                                    color: 'red',
-                                    fontFamily: 'SimSun',
-                                    marginRight: '4px',
-                                    fontSize: '12px'
-                                  }}
-                                >
-                                  *
-                                </span>
-                                <FormattedMessage id="payment.country">
-                                  {(txt)=>(
-                                    <label className="ant-form-item-required" title={txt}>{txt}</label>
-                                    )
-                                  }
-                                </FormattedMessage>
-                              </div>
-                              
-                              <div className="ant-form-item-control-wrapper">
-                                <div className="ant-form-item-control address-input">
-                                <select
-                                    className="ant-input ant-input-lg" 
-                                    style={{width: "256px",fontSize: "13px",fontWeight: 400}}
-                                    value={addressForm.country}  
-                                    onChange={(e) => {
-                                      const value =  e.target.value;
-                                      this.onFormChange({
-                                        field: 'country',
-                                        value
-                                      });
-                                    }} >
-                                      <option value="1">Mexico</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* city */}
-                            <div className="ant-row ant-form-item">
-                              <div className="ant-form-item-label">
-                              <span
-                                  style={{
-                                    color: 'red',
-                                    fontFamily: 'SimSun',
-                                    marginRight: '4px',
-                                    fontSize: '12px'
-                                  }}
-                                >
-                                  *
-                                </span>
-                                <FormattedMessage id="payment.city">
-                                  {(txt)=>(
-                                    <label className="ant-form-item-required" title={txt}>{txt}</label>
-                                    )
-                                  }
-                                </FormattedMessage>
-                              </div>
-                              
-                              <div className="ant-form-item-control-wrapper">
-                                <div className="ant-form-item-control address-input">
-                                  <select
-                                    value={addressForm.city}  
-                                    onChange={(e) => {
-                                      const value =  e.target.value;
-                                      this.onFormChange({
-                                        field: 'city',
-                                        value
-                                      });
-                                    }}
-                                    className="ant-input ant-input-lg" 
-                                    style={{width: "256px",fontSize: "13px",fontWeight: 400}}
-                                    >
-                                    <option value="1">Monterrey</option>
-                                    <option value="2">Mexico City</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* address1 */}
-                            <div className="ant-row ant-form-item">
-                              <div className="ant-form-item-label">
-                              <span
-                                  style={{
-                                    color: 'red',
-                                    fontFamily: 'SimSun',
-                                    marginRight: '4px',
-                                    fontSize: '12px'
-                                  }}
-                                >
-                                  *
-                                </span>
-                                <FormattedMessage id="payment.address1">
-                                  {(txt)=>(
-                                    <label className="ant-form-item-required" title={txt}>{txt}</label>
-                                    )
-                                  }
-                                </FormattedMessage>
-                              </div>
-                              
-                              <div className="ant-form-item-control-wrapper">
-                                <div className="ant-form-item-control address-input">
-                                  <input type="text" value={addressForm.address1}  
-                                  onChange={(e) => {
-                                    const value =  e.target.value;
-                                    this.onFormChange({
-                                      field: 'address1',
-                                      value
-                                    });
-                                  }}
-                                  className="ant-input ant-input-lg" style={{width: "256px"}}/>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* address2 */}
-                            <div className="ant-row ant-form-item">
-                              <div className="ant-form-item-label">
-                              <span
-                                  style={{
-                                    color: 'red',
-                                    fontFamily: 'SimSun',
-                                    marginRight: '4px',
-                                    fontSize: '12px'
-                                  }}
-                                >
-                                  *
-                                </span>
-                                <FormattedMessage id="payment.address2">
-                                  {(txt)=>(
-                                    <label className="ant-form-item-required" title={txt}>{txt}</label>
-                                    )
-                                  }
-                                </FormattedMessage>
-                              </div>
-                              
-                              <div className="ant-form-item-control-wrapper">
-                                <div className="ant-form-item-control address-input">
-                                  <input type="text" value={addressForm.address2} 
-                                  onChange={(e) => {
-                                    const value =  e.target.value;
-                                    this.onFormChange({
-                                      field: 'address2',
-                                      value
-                                    });
-                                  }} 
-                                  className="ant-input ant-input-lg" style={{width: "256px"}}/>
-                                </div>
-                              </div>
-                            </div>
-                            {/* postCode */}
-                            <div className="ant-row ant-form-item">
-                              <div className="ant-form-item-label">
-                              <span
-                                  style={{
-                                    color: 'red',
-                                    fontFamily: 'SimSun',
-                                    marginRight: '4px',
-                                    fontSize: '12px'
-                                  }}
-                                >
-                                  *
-                                </span>
-                                <FormattedMessage id="payment.postCode">
-                                  {(txt)=>(
-                                    <label className="ant-form-item-required" title={txt}>{txt}</label>
-                                    )
-                                  }
-                                </FormattedMessage>
-                              </div>
-                              
-                              <div className="ant-form-item-control-wrapper">
-                                <div className="ant-form-item-control address-input">
-                                  <input type="text" value={addressForm.postCode}  
-                                  onChange={(e) => {
-                                    const value =  e.target.value;
-                                    this.onFormChange({
-                                      field: 'postCode',
-                                      value
-                                    });
-                                  }}
-                                  className="ant-input ant-input-lg" style={{width: "256px"}}/>
-                                </div>
-                              </div>
-                            </div>
-                            {/* phoneNumber */}
-                            <div className="ant-row ant-form-item">
-                              <div className="ant-form-item-label">
-                              <span
-                                  style={{
-                                    color: 'red',
-                                    fontFamily: 'SimSun',
-                                    marginRight: '4px',
-                                    fontSize: '12px'
-                                  }}
-                                >
-                                  *
-                                </span>
-                                <FormattedMessage id="payment.phoneNumber">
-                                  {(txt)=>(
-                                    <label className="ant-form-item-required" title={txt}>{txt}</label>
-                                    )
-                                  }
-                                </FormattedMessage>
-                              </div>
-                              
-                              <div className="ant-form-item-control-wrapper">
-                                <div className="ant-form-item-control address-input">
-                                  <input type="text" value={addressForm.phoneNumber}  
-                                  onChange={(e) => {
-                                    const value =  e.target.value;
-                                    this.onFormChange({
-                                      field: 'phoneNumber',
-                                      value
-                                    });
-                                  }}
-                                  className="ant-input ant-input-lg" style={{width: "256px"}}/>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* rfc */}
-                            <div className="ant-row ant-form-item">
-                              <div className="ant-form-item-label">
-                              <span
-                                  style={{
-                                    color: 'red',
-                                    fontFamily: 'SimSun',
-                                    marginRight: '4px',
-                                    fontSize: '12px'
-                                  }}
-                                >
-                                  *
-                                </span>
-                                <FormattedMessage id="payment.rfc">
-                                  {(txt)=>(
-                                    <label className="ant-form-item-required" title={txt}>{txt}</label>
-                                    )
-                                  }
-                                </FormattedMessage>
-                              </div>
-                              
-                              <div className="ant-form-item-control-wrapper">
-                                <div className="ant-form-item-control address-input">
-                                  <input type="text" value={addressForm.rfc}  
-                                  onChange={(e) => {
-                                    const value =  e.target.value;
-                                    this.onFormChange({
-                                      field: 'rfc',
-                                      value
-                                    });
-                                  }}
-                                  className="ant-input ant-input-lg" style={{width: "256px"}}/>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="ant-row ant-form-item">
-                              <div className="ant-form-item-control-wrapper">
-                                <div className="rc-input rc-input--inline" style={{margin: "15px 0 0 0"}} onClick={()=>this.isDefalt()}>
-                                  <input type="checkbox" 
-                                    id="defaultAddress"
-                                    className="rc-input__checkbox" 
-                                    
-                                    value={addressForm.isDefalt}/>
-                                    {
-                                      !addressForm.isDefalt?<label className="rc-input__label--inline" >
-                                      <FormattedMessage id="setDefaultAddress"></FormattedMessage>
-                                    </label>:<label className="rc-input__label--inline defaultAddressChecked">
-                                    <FormattedMessage id="setDefaultAddress"></FormattedMessage>
-                                  </label>
-                                    }
-                                </div>
-                        
-                              </div>
-                            </div>
-                          </form>
-                        </div>
-                        <div className="ant-modal-footer">
-                          <button type="button" className="ant-btn ant-btn-lg" onClick={()=>this.closeModal()}>
-                            <span><FormattedMessage id="cancle"></FormattedMessage></span>
-                          </button>
-                          <button type="button" className="ant-btn ant-btn-primary ant-btn-lg" onClick={()=>this.saveAddress()}>
-                            <span><FormattedMessage id="confirm"></FormattedMessage></span>
-                          </button>
-                        </div>
-                      
-                    
-                  </div>
-                </div>
               </div>
             </div>
           </div>

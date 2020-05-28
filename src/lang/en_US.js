@@ -234,6 +234,7 @@ const en_US = {
   'account.birthDate': 'Date of Birth',
 
   'order.historyOfOrders': 'History of orders',
+  'order.lastXDays': 'Last {val} days',
   'order.lastXMonths': 'Last {val} months',
   'order.orderDate': 'Order Date',
   'order.orderNumber': 'Order Number',

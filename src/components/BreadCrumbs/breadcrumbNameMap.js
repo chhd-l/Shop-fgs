@@ -19,9 +19,22 @@ const breadcrumbNameMap = {
     { name: 'account.personalArea', href: '/account' },
     { name: 'Pets' }
   ],
+  '/account/pets/petForm': [
+    { name: 'account.personalArea', href: '/account' },
+    { name: 'Pets' }
+  ],
   '/account/orders': [
     { name: 'account.personalArea', href: '/account' },
     { name: 'orders' }
+  ],
+  '/account/shippingAddress': [
+    { name: 'account.personalArea', href: '/account' },
+    { name: 'shippingAddress' }
+  ],
+  '/account/shippingAddress/create': [
+    { name: 'account.personalArea', href: '/account' },
+    { name: 'shippingAddress',href: '/account/shippingAddress' },
+    { name: 'create'}
   ]
 };
 
