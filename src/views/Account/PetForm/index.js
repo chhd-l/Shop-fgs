@@ -44,16 +44,35 @@ export default class PetForm extends React.Component {
       weight:"",
       isSterilized:null,
       birthdate:'',
+      sizeArr:[
+        "Xsmall",
+        "Mini",
+        "Medium",
+        "Maxi",
+        "Giant"
+      ],
+      specialNeeds:[
+        'Age support',
+        'Cardiac support',
+        'Diabetes support',
+        'Digestive support',
+        'Joint support',
+        'Oral/Dental hygiene',
+        'Food sensitivities',
+        'Kidney support',
+        'Liver support',
+        'Skin and Coat support',
+        'Urinary support',
+        'Weight management',
+        'Convalescence',
+        'Skin sensitivity',
+        'Digestive sensitivity',
+        'Joint sensitivity',
+      ],
+
+      selectedSpecialNeeds:[],
 
 
-      features:{
-        appetize:false,
-        irritations:false,
-        joint:false,
-        digestive:false,
-        overweight:false,
-        noneeds:false
-      },
       
       showBreedList:false,
       breedList:[],
@@ -101,8 +120,10 @@ export default class PetForm extends React.Component {
             loading:false,
             showList:true,
             petList:petList,
+            currentPetId: currentPet.petsId,
             currentPet:currentPet
           })
+          this.getSpecialNeeds(currentPet.petsPropRelations)
         }
         else{
           this.setState({
@@ -133,7 +154,9 @@ export default class PetForm extends React.Component {
         currentPet:currentPet,
         showList:true,
         loading:false,
+        currentPetId:currentPet.petsId
       })
+      this.getSpecialNeeds(currentPet.petsPropRelations)
     }
   }
   delPets= async(id)=>{
@@ -154,24 +177,24 @@ export default class PetForm extends React.Component {
     this.setState({
       loading:true
     })
-    const { features } = this.state
+    const { selectedSpecialNeeds } = this.state
     let petsPropRelations=[]
     let propId = 100
-    for(let name in features){
-      if(features[name]){
+    for(let i=0;i< selectedSpecialNeeds.length;i++){
+
         let prop ={
           "delFlag": 0,
           "detailId": 0,
           "indexFlag": 0,
           "petsId": this.state.currentPetId,
           "propId": propId,
-          "propName": name,
+          "propName": selectedSpecialNeeds[i],
           "relationId": "10086",
           "sort": 0,
         }
         petsPropRelations.push(prop)
         propId +=1
-      }
+      
     }
     
     
@@ -183,7 +206,7 @@ export default class PetForm extends React.Component {
         "petsName": this.state.nickname,
         "petsSex": this.state.isMale?"0":"1",
         "petsSizeValueId": "10086",
-        "petsSizeValueName": "10086",
+        "petsSizeValueName": this.state.weight,
         "petsType": this.state.isCat?'cat':'dog',
         "sterilized":this.state.isSterilized?"0":"1",
         "storeId": 0
@@ -195,30 +218,51 @@ export default class PetForm extends React.Component {
       "userId": "10086"
     }
     if(pets.petsId){
-      const res = await editPets(param)
-      if(res.code === 'K-000000'){
-        let currentStep = "success"
-        this.setState({
-          currentStep:currentStep,
-        })
-        setTimeout(() => {
-          this.getPetList()
-        }, 5000);
-        
-      }
+       await editPets(param).then(res=>{
+        if(res.code === 'K-000000'){
+          let currentStep = "success"
+          this.setState({
+            currentStep:currentStep,
+          })
+          setTimeout(() => {
+            this.getPetList()
+          }, 3000);
+          
+        }
+        else{
+          this.showErrorMsg(res.message||'Save Failed')
+
+          this.setState({
+            loading:false
+          })
+        }
+       }).catch(err=>{
+         this.showErrorMsg('Save Failed')
+       })
+      
     }
     else{
-      const res = await addPet(param)
-      if(res.code === 'K-000000'){
-        let currentStep = "success"
-        this.setState({
-          currentStep:currentStep,
-        })
-        setTimeout(() => {
-          this.getPetList()
-        }, 5000);
-        
-      }
+      await addPet(param).then(res=>{
+        if(res.code === 'K-000000'){
+          let currentStep = "success"
+          this.setState({
+            currentStep:currentStep,
+          })
+          setTimeout(() => {
+            this.getPetList()
+          }, 3000);
+          
+        }
+        else{
+          this.showErrorMsg(res.message||'Save Failed')
+
+          this.setState({
+            loading:false
+          })
+        }
+       }).catch(err=>{
+         this.showErrorMsg('Save Failed')
+       })
     }
     
     
@@ -356,26 +400,38 @@ export default class PetForm extends React.Component {
       })
     }
   }
-  selectFeatures=(e)=>{
-    const target = e.target
-    const { features } = this.state
-    features[target.id] = (target.value==="false")
-    this.setState({ features: features })
-    if(this.state.features.appetize ||
-      this.state.features.digestive ||
-      this.state.features.irritations ||
-      this.state.features.joint ||
-      this.state.features.noneeds ||
-      this.state.features.overweight  ){
+  selectFeatures=(val)=>{
+    //如果包含传入元素，则移除
+    if(this.state.selectedSpecialNeeds.includes(val)){
+      let tempArr = this.state.selectedSpecialNeeds.filter(item=>{
+        return item !== val
+      })
+      this.setState({
+        selectedSpecialNeeds:tempArr,
+        isDisabled:false
+      })
+    }
+    else{
+      //如果是没有特殊需求
+      if(val ==='No special needs'){
+        let tempArr = ['No special needs']
         this.setState({
+          selectedSpecialNeeds:tempArr,
           isDisabled:false
         })
       }
-      else{
+      else {
+        //先排除'No special needs'
+        let tempArr = this.state.selectedSpecialNeeds.filter(item=>{
+          return item !== 'No special needs'
+        })
+        tempArr.push(val)
         this.setState({
-          isDisabled:true
+          selectedSpecialNeeds:tempArr,
+          isDisabled:false
         })
       }
+    }
     
   }
   selectedBreed=(item)=>{
@@ -391,7 +447,7 @@ export default class PetForm extends React.Component {
       currentStep:'step1',
       showList:false,
       isEdit:false,
-
+      isDisabled:true,
       currentPetId:'',
       isCat:null,
       isMale:null,
@@ -401,6 +457,7 @@ export default class PetForm extends React.Component {
       weight:"",
       isSterilized:null,
       birthdate:'',
+      selectedSpecialNeeds:[]
     })
   }
   edit=(currentPet)=>{
@@ -410,11 +467,13 @@ export default class PetForm extends React.Component {
       currentStep:'step1',
       isDisabled:false,
       showList:false,
-      currentPetId:currentPet.id,
+      currentPetId:currentPet.petsId,
       isCat:currentPet.petsType ==='dog'?false:true,
       isMale:currentPet.petsSex ===0?true:false,
       nickname:currentPet.petsName,
       isUnknown:currentPet.petsBreed ==="unknown Breed"?true:false,
+      isInputDisabled:currentPet.petsBreed ==="unknown Breed"?true:false,
+      isUnknownDisabled:currentPet.petsBreed ==="unknown Breed"?false:true,
       breed:currentPet.petsBreed ==="unknown Breed"?"":currentPet.petsBreed,
       weight:"",
       isSterilized: currentPet.sterilized ===0?true:false,
@@ -423,6 +482,9 @@ export default class PetForm extends React.Component {
     })
   }
   getDict = async(type,name)=>{
+    this.setState({
+      loading:true
+    })
     let params ={
       "delFlag": 0,
       "storeId": 0,
@@ -433,14 +495,21 @@ export default class PetForm extends React.Component {
       if(res.code === 'K-000000'){
         let breedList = res.context.sysDictionaryVOS
         this.setState({
-          breedList:breedList
+          breedList:breedList,
+          loading:false
         })
       }
       else{
         this.showErrorMsg(res.message||'get data failed')
+        this.setState({
+          loading:false
+        })
       }
     }).catch(err =>{
         this.showErrorMsg('get data failed')
+        this.setState({
+          loading:false
+        })
     })
   }
   showErrorMsg=(message)=>{
@@ -469,7 +538,7 @@ export default class PetForm extends React.Component {
 
   //定位
   scrollToErrorMsg () {
-    const widget = document.querySelector('.content-asset')
+    const widget = document.querySelector('.rc-layout-container')
     // widget && widget.scrollIntoView()
     // console.log(this.getElementToPageTop(widget))
     if (widget) {
@@ -481,6 +550,16 @@ export default class PetForm extends React.Component {
       return this.getElementToPageTop(el.parentElement) + el.offsetTop
     }
     return el.offsetTop
+  }
+
+  getSpecialNeeds=(array)=>{
+    let needs = []
+    for (let index = 0; index < array.length; index++) {
+      needs.push(array.propName)
+    }
+    this.setState({
+      selectedSpecialNeeds:needs
+    })
   }
   render () {
     const { petList,currentPet } = this.state
@@ -507,7 +586,7 @@ export default class PetForm extends React.Component {
                     petList.map(item=>(
                       <li class="rc-margin-x--xs pet-element">
                         <a onClick={ () => this.petsById(item.petsId)}>
-                          <div className={"tab__img img--round img--round--md name--select text-center " + (item.petsId ===currentPet.petsId? "active":"")}>
+                          <div className={"tab__img img--round img--round--md name--select text-center " + (item.petsId ===this.state.currentPetId? "active":"")}>
                             {item.petsName}
                           </div>
                         </a>
@@ -542,13 +621,13 @@ export default class PetForm extends React.Component {
                     <div class="rc-layout-container">
                       <div class="rc-column">
                       <ul class="pet-data">
-                        <li class="breed dog">
+                        <li class={"breed " + (currentPet.petsType==='dog'? "dog":"cat")}>
                           <span class="">{currentPet.petsBreed}</span>
                         </li>
                         <li class="birth">
                           <span class="">{currentPet.birthOfPets}</span>
                         </li>
-                        <li class="gender male sprite-pet">
+                        <li class={"gender "+  (currentPet.petsSex === 0 ?"male":"female") + " sprite-pet"}>
                           <span class=""> {currentPet.petsSex === 0 ?'Male':'Female'}</span>
                         </li>
                         <li class="weight" style={{display:(currentPet.petsType === 'dog'?'block':'none')}}>
@@ -559,9 +638,11 @@ export default class PetForm extends React.Component {
                       <div class="rc-column">
                       <div class="pet-special-need">Special needs</div>
                       <ul class="list-special-need">
-                        <li class="">Skin and Wool Care</li>
-                        <li class="">Increased joint sensitivity</li>
-                        <li class="">Sensitive digestive system</li>
+                        {
+                          this.state.selectedSpecialNeeds.map(item=>(
+                          <li>{item}</li>
+                          ))
+                        }
                       </ul>
                       </div>
                       <div class="edit js-edit-pet">
@@ -705,14 +786,13 @@ export default class PetForm extends React.Component {
                             <input type="checkbox" 
                               id="defaultAddress"
                               className="rc-input__checkbox" 
-                              
                               value={this.state.isUnknown}/>
                               {
-                                !this.state.isUnknown?
-                                <label className="rc-input__label--inline" >
+                                this.state.isUnknown?
+                                <label className="rc-input__label--inline petPropChecked" >
                                   <FormattedMessage id="account.unknownBreed"></FormattedMessage>
                                 </label>:
-                                <label className="rc-input__label--inline petPropChecked">
+                                <label className="rc-input__label--inline ">
                                   <FormattedMessage id="account.unknownBreed"></FormattedMessage>
                                 </label>
                               }
@@ -726,9 +806,29 @@ export default class PetForm extends React.Component {
                     this.state.currentStep === 'step5'?
                     <div id="step-5" className="section next-step">
                       <h2><FormattedMessage id="account.weight"></FormattedMessage> {this.state.nickname} ?</h2>
-                      <div className="group-size">
-                        <div className="wrap__input wrap-size pull-left col-3">
-                          <input id="is-X-Small" 
+                      <div className="group-size" style={{width:'100%'}}>
+                        {
+                          this.state.sizeArr.map(item =>(
+
+                            <div className="wrap__input wrap-size pull-left " onClick={()=>this.selectWeight(item)}>
+                              <input type="radio" className="radio input__radio" 
+                                name="dwfrm_miaaPet_neuteredPet" 
+                                value={item}
+                                />
+                              {
+                                this.state.weight===item?
+                                <label className="label label__input sterilizedChecked" >
+                                  {item}
+                                </label>:
+                                <label className="label label__input">
+                                  {item}
+                                </label>
+                              }
+                            </div>
+                          ))
+                        }
+                        {/* <div className="wrap__input wrap-size pull-left col-3">
+                          <input id={"is-" + item}
                             type="radio" 
                             className="radio input__radio" 
                             name="dwfrm_miaaPet_petSize" 
@@ -764,8 +864,8 @@ export default class PetForm extends React.Component {
                           value="X-Large"
                           onClick={()=>this.selectWeight("X-Large")}/>
                           <label className="label label__input" for="is-X-Large">Giant (over 45 kg)</label>
-                        </div>
-                      </div>
+                        </div>*/}
+                      </div> 
                     </div>:null
                   }
                   {
@@ -773,13 +873,6 @@ export default class PetForm extends React.Component {
                     <div id="step-6" className="section next-step">
                       <h2><FormattedMessage id="account.sterilized"></FormattedMessage></h2>
                       <div className="group-size">
-                        {/* <div className="wrap__input col-6 pull-left text-center">
-                          <input id="is-true" type="radio" className="radio input__radio" 
-                          name="dwfrm_miaaPet_neuteredPet" 
-                          value=""
-                          onClick={()=>this.setSterilized(true)}/>
-                          <label className="label label__input" for="is-true">Sterilized</label>
-                        </div> */}
 
                         <div className="wrap__input col-6 pull-left text-center" onClick={()=>this.setSterilized(true)}>
                           <input id="is-true" type="radio" className="radio input__radio" 
@@ -787,7 +880,7 @@ export default class PetForm extends React.Component {
                             value="true"
                             />
                           {
-                            this.state.isSterilized?
+                            this.state.isSterilized===true?
                             <label className="label label__input sterilizedChecked" >
                               <FormattedMessage id="sterilized"></FormattedMessage>
                             </label>:
@@ -797,13 +890,13 @@ export default class PetForm extends React.Component {
                           }
                         </div>
 
-                        <div className="wrap__input col-6 pull-left text-center" onClick={()=>this.setSterilized(true)}>
+                        <div className="wrap__input col-6 pull-left text-center" onClick={()=>this.setSterilized(false)}>
                           <input id="is-true" type="radio" className="radio input__radio" 
                             name="dwfrm_miaaPet_neuteredPet" 
                             value="false"
                             />
                           {
-                            !this.state.isSterilized?
+                            this.state.isSterilized === false?
                             <label className="label label__input sterilizedChecked" >
                               <FormattedMessage id="notSterilized"></FormattedMessage>
                             </label>:
@@ -812,16 +905,6 @@ export default class PetForm extends React.Component {
                             </label>
                           }
                         </div>
-
-                        {/* <div className="wrap__input col-6 pull-left text-center">
-                          <input id="is-false" 
-                          type="radio" 
-                          className="radio input__radio" 
-                          name="dwfrm_miaaPet_neuteredPet" 
-                          value="false" 
-                          onClick={()=>this.setSterilized(false)}/>
-                          <label className="label label__input" for="is-false">Not sterilized</label>
-                        </div> */}
                       </div>
                     </div>:null
                   }
@@ -850,71 +933,45 @@ export default class PetForm extends React.Component {
                     <div id="step-8" className="section next-step not-hidden">
                       <h2><FormattedMessage id="account.features"></FormattedMessage></h2>
                       <div>
-                        <div className="rc-input rc-input--inline rc-margin-bottom--xs">
-                          <input type="checkbox" 
-                          className="rc-input__checkbox" 
-                          id="appetize"
-                          value={this.state.features.appetize} 
-                           name="dwfrm_miaaPet_appetize"
-                           onClick={(e)=>this.selectFeatures(e)}/>
-                          <label className="rc-input__label--inline" for="appetize">
-                            Pickiness in food
-                          </label>
-                        </div>
-                        <div className="rc-input rc-input--inline rc-margin-bottom--xs">
-                          <input type="checkbox" 
-                            className="rc-input__checkbox" 
-                            id="irritations" 
-                            value={this.state.features.irritations}  
-                            name="dwfrm_miaaPet_irritations"
-                            onClick={(e)=>this.selectFeatures(e)}/>
-                          <label className="rc-input__label--inline" for="irritations">
-                            Skin and Wool Care
-                          </label>
-                        </div>
-                        <div className="rc-input rc-input--inline rc-margin-bottom--xs">
-                          <input type="checkbox" 
-                            className="rc-input__checkbox" id="joint" 
-                            value={this.state.features.joint}  
-                            name="dwfrm_miaaPet_joint"
-                            onClick={(e)=>this.selectFeatures(e)}/>
-                          <label className="rc-input__label--inline" for="joint">
-                            Increased joint sensitivity
-                          </label>
-                        </div>
-                        <div className="rc-input rc-input--inline rc-margin-bottom--xs">
-                          <input type="checkbox" 
-                            className="rc-input__checkbox" 
-                            id="digestive" 
-                            value={this.state.features.digestive} 
-                            name="dwfrm_miaaPet_digestive"
-                            onClick={(e)=>this.selectFeatures(e)}/>
-                          <label className="rc-input__label--inline" for="digestive">
-                            Sensitive digestive system
-                          </label>
-                        </div>
-                        <div className="rc-input rc-input--inline rc-margin-bottom--xs">
-                          <input type="checkbox" 
-                            className="rc-input__checkbox" 
-                            id="overweight" 
-                            value={this.state.features.overweight} 
-                            name="dwfrm_miaaPet_overweight"
-                            onClick={(e)=>this.selectFeatures(e)}/>
-                          <label className="rc-input__label--inline" for="overweight">
-                            Weight gain
-                          </label>
-                        </div>
-                        <div className="rc-input rc-input--inline rc-margin-bottom--xs">
-                          <input type="checkbox" 
-                            className="rc-input__checkbox" 
-                            id="noneeds" 
-                            value={this.state.features.noneeds}  
-                            name="dwfrm_miaaPet_noneeds"
-                            onClick={(e)=>this.selectFeatures(e)}/>
-                          <label className="rc-input__label--inline" for="noneeds">
-                            No special needs
-                          </label>
-                        </div>
+                        {
+                          this.state.specialNeeds.map(item=>(
+                            <div className="rc-input rc-input--inline rc-margin-bottom--xs" 
+                              style={{margin: "15px 0 0 0",width:"22%"}} 
+                              onClick={()=>this.selectFeatures(item)} 
+                            >
+                                <input type="checkbox" 
+                                  className="rc-input__checkbox" 
+                                  value={item}/>
+                                  {
+                                    this.state.selectedSpecialNeeds.includes(item)?
+                                    <label className="rc-input__label--inline petPropChecked" >
+                                      {item}
+                                    </label>:
+                                    <label className="rc-input__label--inline ">
+                                      {item}
+                                    </label>
+                                  }
+                              </div>
+                          ))
+                        }
+                       
+                       <div className="rc-input rc-input--inline rc-margin-bottom--xs" 
+                          style={{margin: "15px 0 0 0"}} 
+                          onClick={()=>this.selectFeatures("No special needs")} 
+                        >
+                            <input type="checkbox" 
+                              className="rc-input__checkbox" 
+                              value="No special needs"/>
+                              {
+                                this.state.selectedSpecialNeeds.includes('No special needs')?
+                                <label className="rc-input__label--inline petPropChecked" >
+                                  No special needs
+                                </label>:
+                                <label className="rc-input__label--inline ">
+                                  No special needs
+                                </label>
+                              }
+                          </div>
                       </div>
                     </div>:null
                   }
@@ -933,13 +990,13 @@ export default class PetForm extends React.Component {
                   {
                     this.state.currentStep === 'success'?
                     <div className="add-pet-success js-add-pet-success" >
-                      <img src={success} className="img-success" alt="" title=""/>
+                      <img src={success} className="img-success" alt="" title="" style={{margin:"0 auto"}}/>
                       <div className="text-done"><FormattedMessage id="account.fine"></FormattedMessage> </div>
                       <div className="text-done"><FormattedMessage id="account.welcome"></FormattedMessage> </div>
                     </div>:null
                   }
                   
-                
+                  
                 </div>
               </div>
             </div>

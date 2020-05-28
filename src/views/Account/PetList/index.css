@@ -48,6 +48,19 @@
   top: 1px;
   position: absolute;
 }
+.pet-information .pet-data li.breed.cat:before {
+  content: "";
+  background: url(./../../../assets/images/pet-cat.svg) no-repeat;
+  width: 21px;
+  height: 25px;
+  background-size: 100%;
+  margin: 0 auto;
+  left: 0;
+  top: 6px;
+  position: absolute;
+}
+
+
 .pet-information .pet-data li.birth:before {
   content: "";
   background: url(./../../../assets/images/birth-pet.svg) no-repeat;
@@ -59,6 +72,7 @@
   top: 9px;
   position: absolute;
 }
+.pet-information .pet-data li.gender.female:before,
 .pet-information .pet-data li.gender.male:before {
   content: "";
   position: absolute;
@@ -72,6 +86,11 @@
   background-position: 0 0;
   left: -4px;
   top: 5px;
+}
+.pet-information .pet-data li.gender.female:before {
+  background-position: 38% 50%;
+  left: -6px;
+  top: 6px;
 }
 .sprite-pet:before {
   background-image: url(./../../../assets/images/royal-canin-sprite.svg);

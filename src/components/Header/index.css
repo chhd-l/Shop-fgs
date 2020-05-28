@@ -24,3 +24,6 @@
   line-height: 3rem;
   text-align: center;
 }
+.click-hover:hover{
+  color: #e2001a;
+}

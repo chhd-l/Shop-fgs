@@ -293,15 +293,16 @@ export default class ShippingAddress extends React.Component {
                   <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
                 </aside>
                   <div className="table-toolbar">
-                    <button type="button" className="ant-btn" onClick={()=>this.openCreatePage()}>
-                      <span> <FormattedMessage id="addShippingAddress"></FormattedMessage></span>
-                    </button>
+                    
                     <span className="t-gray"> 
                       <FormattedMessage
                         id="addressTip"
                         values={{number: <b>{this.state.total}</b>}}
                       />
                     </span>
+                    <button type="button" className="address-btn" onClick={()=>this.openCreatePage()}>
+                      <span> <FormattedMessage id="addShippingAddress"></FormattedMessage></span>
+                    </button>
                   </div>
                   {
                     this.state.addressList.map(item=>(
