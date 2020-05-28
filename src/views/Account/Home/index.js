@@ -168,6 +168,7 @@ export default class AccountHome extends React.Component {
                               <Link
                                 to="/help"
                                 title={txt}
+                                target="_blank"
                                 alt={txt}>
                                 <b>{txt}</b>
                               </Link>

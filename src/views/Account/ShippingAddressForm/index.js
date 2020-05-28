@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import Loading from "@/components/Loading"
 
 
-export default class ShippingAddress extends React.Component {
+export default class ShippingAddressFrom extends React.Component {
   constructor(props) {
     super(props)
     this.state = {

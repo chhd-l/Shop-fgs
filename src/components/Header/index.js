@@ -404,8 +404,8 @@ class Header extends React.Component {
                                 }}>registred</button> */}
                                 {/* <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
                                   onClick={this.clickLogin}>To come in</button> */}
-                                {/* <div>You are not registred?</div>
-                                <a className="rc-styled-link" onClick={this.clickLogin}>Sign up</a> */}
+                                <div><FormattedMessage id="account.notRegistred" /></div>
+                                <a className="rc-styled-link" onClick={this.clickLogin}><FormattedMessage id="signUp" /></a>
                               </div>
 
                               {/* <div className="link-group">
