@@ -127,9 +127,11 @@ export default class PetForm extends React.Component {
         }
         else{
           this.setState({
+            loading:false,
             showList:false,
             petList:petList
           })
+          this.add()
         }
       }
     }).catch(err => {
@@ -457,7 +459,9 @@ export default class PetForm extends React.Component {
       weight:"",
       isSterilized:null,
       birthdate:'',
-      selectedSpecialNeeds:[]
+      selectedSpecialNeeds:[],
+      isUnknownDisabled:false,
+      isInputDisabled:false
     })
   }
   edit=(currentPet)=>{
@@ -561,6 +565,13 @@ export default class PetForm extends React.Component {
       selectedSpecialNeeds:needs
     })
     console.log(this.state.selectedSpecialNeeds);
+    
+  }
+  cancel=()=>{
+    this.setState({
+      loading:true
+    })
+    this.getPetList()
     
   }
   render () {
@@ -977,18 +988,27 @@ export default class PetForm extends React.Component {
                       </div>
                     </div>:null
                   }
-                  {
-                    this.state.currentStep !== 'success'?
-                     <div className="col wrap-btn">
-                      <button type="button" name="next" 
-                        style = {{marginBottom:'20px'}}
-                        className="rc-btn rc-btn--one btn-next btn-block js-btn-next" 
-                        disabled={(this.state.isDisabled)?"disabled":null}
-                        onClick={this.nextStep}>
-                         { this.state.step === 8?'Save':'Further'}
-                      </button>
-                    </div>:null
-                  }
+
+                  <div>
+                    {
+                      this.state.currentStep !== 'success'?
+                        <button type="button" name="next" 
+                          style = {{marginBottom:'20px'}}
+                          className="rc-btn rc-btn--one btn-next btn-block js-btn-next" 
+                          disabled={(this.state.isDisabled)?"disabled":null}
+                          onClick={this.nextStep}>
+                          { this.state.step === 8?'Save':'Further'}
+                        </button>
+                      :null
+                    }
+                    <button type="button" name="next" 
+                      style = {{margin: "0 0 20px 30px", display:(this.state.currentStep === 'success'?"none":null)}}
+                      className="rc-btn rc-btn--two btn-next btn-block js-btn-next" 
+                      onClick={this.cancel}>
+                        <FormattedMessage id="cancel"></FormattedMessage>
+                    </button>
+                  </div>
+                  
                   {
                     this.state.currentStep === 'success'?
                     <div className="add-pet-success js-add-pet-success" >
