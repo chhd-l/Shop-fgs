@@ -40,6 +40,11 @@ export default class Pet extends React.Component {
           })
           this.isHavePet()
         }
+        else{
+          this.setState({
+            loading:false
+          })
+        }
         
       }
       else{

@@ -22,7 +22,7 @@
   padding: 10px 25px 25px;
   border: 1px solid #d7d7d7;
 }
-.card-address:hover{
+.card-address-default{
   border-color: #e2001a !important;
 }
 .addr-line {

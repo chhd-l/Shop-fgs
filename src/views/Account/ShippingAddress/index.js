@@ -300,10 +300,16 @@ export default class ShippingAddress extends React.Component {
   }
 
   getDictValue=(list,id)=>{
-    let item = list.find(item=>{
-      return item.id===id
-    })
-    console.log(item);
+    if(list&& list.length>0){
+      let item = list.find(item=>{
+        return item.id===id
+      })
+      console.log(item);
+      return item.name
+    }
+    else {
+      return id
+    }
     
   }
 
@@ -357,7 +363,7 @@ export default class ShippingAddress extends React.Component {
                   </div>
                   {
                     this.state.addressList.map(item=>(
-                      <div className="card-address" key={item.deliveryAddressId}>
+                      <div className={"card-address " +( item.isDefaltAddress ===1?"card-address-default":"") } key={item.deliveryAddressId}>
                         {/* <div className="addr-line"></div> */}
                         <div className="ant-row">
                           <div className="ant-col-20 form-info">
@@ -381,7 +387,7 @@ export default class ShippingAddress extends React.Component {
 
                               <div className="ant-row ant-form-item">
                                 <div className="ant-col-0 ant-form-item-label">
-                                  <FormattedMessage id="phoneNumber">
+                                  <FormattedMessage id="payment.phoneNumber">
                                     {(txt)=>(
                                       <label className="" title={txt}>{txt}</label>
                                       )
@@ -397,7 +403,7 @@ export default class ShippingAddress extends React.Component {
                               
                               <div className="ant-row ant-form-item">
                                 <div className="ant-col-0 ant-form-item-label">
-                                  <FormattedMessage id="country">
+                                  <FormattedMessage id="payment.country">
                                     {(txt)=>(
                                       <label className="" title={txt}>{txt}</label>
                                       )
@@ -406,14 +412,14 @@ export default class ShippingAddress extends React.Component {
                                 </div>
                                 <div className="ant-col-24 ant-form-item-control-wrapper">
                                   <div className="ant-form-item-control ">
-                                    <span>{item.countryId}</span>
+                                    <span>{this.getDictValue(this.state.countryList,item.countryId) }</span>
                                   </div>
                                 </div>
                               </div>
 
                               <div className="ant-row ant-form-item">
                                 <div className="ant-col-0 ant-form-item-label">
-                                  <FormattedMessage id="city">
+                                  <FormattedMessage id="payment.city">
                                     {(txt)=>(
                                       <label className="" title={txt}>{txt}</label>
                                       )
@@ -430,7 +436,7 @@ export default class ShippingAddress extends React.Component {
 
                               <div className="ant-row ant-form-item">
                                 <div className="ant-col-0 ant-form-item-label">
-                                  <FormattedMessage id="address1">
+                                  <FormattedMessage id="payment.address1">
                                     {(txt)=>(
                                       <label className="" title={txt}>{txt}</label>
                                       )
@@ -449,7 +455,7 @@ export default class ShippingAddress extends React.Component {
                             <a className="card-action-delete" onClick={()=>this.deleteAddress(item.deliveryAddressId)}>×</a>
                           <div className="card-action-link">
                             { item.isDefaltAddress ===1?
-                            <span><FormattedMessage id="defaultAddress"></FormattedMessage></span>:
+                            null:
                             <a onClick={()=>this.setDefaltAddress(item.deliveryAddressId)}>
                                <FormattedMessage id="setDefaultAddress"></FormattedMessage></a>}
                             <a onClick={()=>this.openEditPage(item.deliveryAddressId)}> 

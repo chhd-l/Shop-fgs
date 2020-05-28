@@ -103,7 +103,6 @@ export default class ShippingAddressFrom extends React.Component {
     });
   }
   saveAddress = async ()=>{
-    debugger
     this.setState({
       loading:true
     })
@@ -138,6 +137,7 @@ export default class ShippingAddressFrom extends React.Component {
           this.setState({
             loading:false
           })
+          debugger
           this.showErrorMsg(res.message||"Save Failed!")
         }
        }).catch(err =>{
@@ -291,7 +291,6 @@ export default class ShippingAddressFrom extends React.Component {
     history.push('/account/shippingAddress')
   }
   handleSave=()=>{
-    debugger
     this.saveAddress()
     
   }
