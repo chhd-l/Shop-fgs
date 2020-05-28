@@ -14,6 +14,7 @@ getAddressById,
 editAddress} from '@/api/address'
 import { Link } from 'react-router-dom';
 import Loading from "@/components/Loading"
+import { getDict } from '@/api/dict'
 
 
 export default class ShippingAddressFrom extends React.Component {
@@ -32,22 +33,28 @@ export default class ShippingAddressFrom extends React.Component {
         lastName:"",
         address1:"",
         address2:"",
-        country:"1",
-        city:"1",
+        country:0,
+        city:0,
         postCode:"",
         phoneNumber:"",
         rfc:"",
         isDefalt:false,
         deliveryAddressId:"",
         customerId:""
-      }
+      },
+      cityList:[],
+      countryList:[]
+      
       
     }
+    
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
+    this.getDict('city')
+    this.getDict('country')
     if(this.props.match.params.addressId){
       this.getAddressById(this.props.match.params.addressId)
     }
@@ -96,6 +103,7 @@ export default class ShippingAddressFrom extends React.Component {
     });
   }
   saveAddress = async ()=>{
+    debugger
     this.setState({
       loading:true
     })
@@ -283,8 +291,50 @@ export default class ShippingAddressFrom extends React.Component {
     history.push('/account/shippingAddress')
   }
   handleSave=()=>{
+    debugger
     this.saveAddress()
     
+  }
+
+  getDict = async(type)=>{
+    this.setState({
+      loading:true
+    })
+    let params ={
+      "delFlag": 0,
+      "storeId": 123456858,
+      "type": type,
+    }
+    await getDict(params).then(res=>{
+      if(res.code === 'K-000000'){
+        if(type==='city'){
+          let cityList = res.context.sysDictionaryVOS
+          this.setState({
+            cityList:cityList,
+            loading:false
+          })
+        }
+        if(type==='country'){
+          let countryList = res.context.sysDictionaryVOS
+          this.setState({
+            countryList:countryList,
+            loading:false
+          })
+        }
+        
+      }
+      else{
+        this.showErrorMsg(res.message||'get data failed')
+        this.setState({
+          loading:false
+        })
+      }
+    }).catch(err =>{
+        this.showErrorMsg('get data failed')
+        this.setState({
+          loading:false
+        })
+    })
   }
 
   
@@ -453,7 +503,13 @@ export default class ShippingAddressFrom extends React.Component {
                             onBlur={(e) => this.inputBlur(e)}
                             name="country"
                           >
-                            <option value="0">Mexico</option>
+                            <option value=""></option>
+                            {
+                              this.state.countryList.map(item=>(
+                              <option value={item.id}>{item.name}</option>
+                              ))
+                            }
+                            
                           </select>
                         </span>
                         <div className="invalid-feedback"></div>
@@ -475,8 +531,11 @@ export default class ShippingAddressFrom extends React.Component {
                               name="city"
                             >
                               <option value=""></option>
-                              <option value="1">Monterrey</option>
-                              <option value="2">Mexico City</option>
+                              {
+                                this.state.cityList.map(item=>(
+                                <option value={item.id}>{item.name}</option>
+                                ))
+                              }
                             </select>
                           </span>
                         </div>

@@ -16,10 +16,14 @@
   margin-right: 10px;
 }
 .card-address {
+  height: 200px;
   position: relative;
   margin: 0 10px 20px;
-  padding: 30px 25px 25px;
-  border: 1px solid #d7d7d7 !important;
+  padding: 10px 25px 25px;
+  border: 1px solid #d7d7d7;
+}
+.card-address:hover{
+  border-color: #e2001a !important;
 }
 .addr-line {
   position: absolute;
@@ -82,7 +86,7 @@
   word-break: break-word;
 }
 .card-address .card-action {
-  min-height: 99px;
+  min-height: 170px;
 }
 .ant-col-4 {
   display: block;

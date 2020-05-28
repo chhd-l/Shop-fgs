@@ -487,7 +487,7 @@ export default class PetForm extends React.Component {
     })
     let params ={
       "delFlag": 0,
-      "storeId": 0,
+      "storeId": 123456858,
       "type": type,
       "name":name
     }
@@ -555,11 +555,13 @@ export default class PetForm extends React.Component {
   getSpecialNeeds=(array)=>{
     let needs = []
     for (let index = 0; index < array.length; index++) {
-      needs.push(array.propName)
+      needs.push(array[index].propName)
     }
     this.setState({
       selectedSpecialNeeds:needs
     })
+    console.log(this.state.selectedSpecialNeeds);
+    
   }
   render () {
     const { petList,currentPet } = this.state
