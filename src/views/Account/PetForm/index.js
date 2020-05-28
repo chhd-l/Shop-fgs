@@ -11,6 +11,7 @@ import success from '@/assets/images/check-success.svg'
 import { Link } from 'react-router-dom';
 import edit from "@/assets/images/edit.svg"
 import {  getPetList,addPet,petsById,delPets,editPets } from '@/api/pet'
+import { getDict } from '@/api/dict'
 import Loading from "@/components/Loading"
 
 
@@ -55,17 +56,12 @@ export default class PetForm extends React.Component {
       },
       
       showBreedList:false,
-      breedList:[
-        {name:'test breed',value:1},
-        {name:'test breed2',value:2},
-        {name:'test breed3',value:3},
-        {name:'test breed4',value:4},
-        {name:'test breed5',value:5},
-        {name:'test breed6',value:6},
-      ],
+      breedList:[],
       petList:[],
       currentPet:{},
       isEdit:false,
+      errorMsg:"",
+      successMsg:"",
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
     this.nextStep = this.nextStep.bind(this)
@@ -84,6 +80,7 @@ export default class PetForm extends React.Component {
   }
   componentDidMount () {
     this.getPetList()
+    
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -313,6 +310,8 @@ export default class PetForm extends React.Component {
     let isUnknownDisabled = false
     let showBreedList = false
     if (e.target.value !=="") {
+
+      
       isDisabled = false
       isUnknownDisabled = true
       showBreedList = true
@@ -328,6 +327,7 @@ export default class PetForm extends React.Component {
       isUnknownDisabled: isUnknownDisabled,
       showBreedList:showBreedList
     })
+    this.getDict( this.state.isCat?'catBreed':'dogBreed',e.target.value)
   };
   selectWeight(val){
     this.setState({
@@ -422,6 +422,66 @@ export default class PetForm extends React.Component {
 
     })
   }
+  getDict = async(type,name)=>{
+    let params ={
+      "delFlag": 0,
+      "storeId": 0,
+      "type": type,
+      "name":name
+    }
+    await getDict(params).then(res=>{
+      if(res.code === 'K-000000'){
+        let breedList = res.context.sysDictionaryVOS
+        this.setState({
+          breedList:breedList
+        })
+      }
+      else{
+        this.showErrorMsg(res.message||'get data failed')
+      }
+    }).catch(err =>{
+        this.showErrorMsg('get data failed')
+    })
+  }
+  showErrorMsg=(message)=>{
+    this.setState({
+      errorMsg: message
+    })
+    this.scrollToErrorMsg()
+    setTimeout(() => {
+      this.setState({
+        errorMsg: ''
+      })
+    }, 3000)
+  }
+
+  showSuccessMsg=(message)=>{
+    this.setState({
+      successMsg: message
+    })
+    this.scrollToErrorMsg()
+    setTimeout(() => {
+      this.setState({
+        successMsg: ''
+      })
+    }, 2000)
+  }
+
+  //定位
+  scrollToErrorMsg () {
+    const widget = document.querySelector('.content-asset')
+    // widget && widget.scrollIntoView()
+    // console.log(this.getElementToPageTop(widget))
+    if (widget) {
+      window.scrollTo(this.getElementToPageTop(widget), 0)
+    }
+  }
+  getElementToPageTop (el) {
+    if (el.parentElement) {
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop
+    }
+    return el.offsetTop
+  }
   render () {
     const { petList,currentPet } = this.state
     return (
@@ -457,7 +517,24 @@ export default class PetForm extends React.Component {
                     
                   </ul>
                 </div>
-                
+                <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
+                  <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+                    <span>{this.state.errorMsg}</span>
+                    <button
+                      className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                      onClick={() => { this.setState({ errorMsg: '' }) }}
+                      aria-label="Close">
+                      <span className="rc-screen-reader-text">
+                        <FormattedMessage id="close" />
+                      </span>
+                    </button>
+                  </aside>
+                </div>
+                <aside
+                  className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successMsg ? '' : 'hidden'}`}
+                  role="alert">
+                  <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
+                </aside>
                 {
                   this.state.showList?( 
                   <div class="pet-information js-pet-information rc-margin-bottom--md">
@@ -621,7 +698,10 @@ export default class PetForm extends React.Component {
                        
                         <div className="form-group custom-control label-unknown">
 
-                        <div className="rc-input rc-input--inline" style={{margin: "15px 0 0 0"}} onClick={()=>this.setUnknown()}>
+                        <div className="rc-input rc-input--inline" 
+                          style={{margin: "15px 0 0 0",pointerEvents: this.state.isUnknownDisabled?'none':""}} 
+                          onClick={()=>this.setUnknown()} 
+                        >
                             <input type="checkbox" 
                               id="defaultAddress"
                               className="rc-input__checkbox" 
