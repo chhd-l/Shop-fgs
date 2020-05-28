@@ -10,7 +10,8 @@ const api = {
   returnReason: '/return/reasons',
   returnWays: '/return/ways',
   returnList: 'return/page',
-  payRecord: '/pay/record'
+  payRecord: '/pay/record',
+  returnFindByTid: 'return/findByTid'
 }
 
 export default api
@@ -84,6 +85,13 @@ export function getReturnList (parameter) {
 export function getPayRecord (parameter) {
   return axios({
     url: `${api.payRecord}/${parameter}`,
+    method: 'get'
+  })
+}
+
+export function returnFindByTid (parameter) {
+  return axios({
+    url: `${api.returnFindByTid}/${parameter}`,
     method: 'get'
   })
 }

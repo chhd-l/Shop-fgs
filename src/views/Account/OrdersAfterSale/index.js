@@ -177,7 +177,7 @@ class OrdersAfterSale extends React.Component {
       })
     })
     returnAdd({
-      returnType: this.state.afterSaleType === 'exchange' ? 1 : 0,
+      returnType: this.state.afterSaleType === 'exchange' ? 'REFUND' : 'RETURN',
       description: form.instructions,
       images: imgsParam,
       returnItems: [selectTradeItem],
@@ -198,7 +198,6 @@ class OrdersAfterSale extends React.Component {
         this.setState({
           confirmLoading: false
         })
-        sessionStorage.setItem('rc-after-sale-type', this.state.afterSaleType)
         this.props.history.push(`/account/orders-aftersale/success/${res.context}`)
       })
       .catch(err => {
@@ -354,7 +353,7 @@ class OrdersAfterSale extends React.Component {
                                           </div>
                                         </div>
                                         <div className="col-12 col-md-2">
-                                          {formatMoney(item.splitPrice)}
+                                          {formatMoney(item.num * item.price)}
                                         </div>
                                       </div>
                                     ))}

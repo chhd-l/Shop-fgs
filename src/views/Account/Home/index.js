@@ -15,6 +15,16 @@ export default class AccountHome extends React.Component {
       userInfo: sessionStorage.getItem("rc-userinfo") ? JSON.parse(sessionStorage.getItem("rc-userinfo")) : null
     }
   }
+  componentWillUnmount () {
+    localStorage.setItem("isRefresh", true);
+  }
+  componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
+  }
   render () {
     const event = {
       "page": {
