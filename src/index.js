@@ -7,7 +7,7 @@ import '@/assets/css/checkout.css'
 // import 'semantic-ui-css/semantic.min.css';
 import './polyfills';
 import registerServiceWorker from './registerServiceWorker';
-
+console.log('hahaha', process.env)
 ReactDOM.render(
   <React.StrictMode>
     <App /> 

@@ -1,10 +1,20 @@
 import axios from 'axios'
 
+let env = process.env.NODE_ENV
+let base_url
+if(env === 'development') {
+  base_url = '/api'
+}else if(env === 'production') {
+  base_url = process.env.REACT_APP_BASEURL
+}
+
+
+
 // 创建 axios 实例
 const service = axios.create({
   // baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'https://121.37.129.70:8090/', // api base_url
-  baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'https://shopuat.466920.com/api/', // api base_url
-  // baseURL: process.env.VUE_APP_URL,
+  // baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'https://shopuat.466920.com/api/', // api base_url
+  baseURL: base_url,
   timeout: 60000 // 请求超时时间
 })
 
