@@ -233,6 +233,7 @@ class Header extends React.Component {
   }
   clickLogoff () {
     sessionStorage.setItem("is-login", false);
+    sessionStorage.removeItem("rc-token");
     this.setState({
       isLogin: false
     })
@@ -472,7 +473,7 @@ class Header extends React.Component {
                                 </div>
                               </div>
                               <div className="logoff-style">
-                                <a className="rc-styled-link--external" onClick={this.clickLogoff}>
+                                <a className="rc-styled-link--external" onClick={()=>this.clickLogoff()}>
                                   <FormattedMessage id="logOff" />
                                 </a>
                               </div>

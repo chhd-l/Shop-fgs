@@ -121,19 +121,16 @@ export default class ShippingAddressFrom extends React.Component {
       
        await saveAddress(params).then(res=>{
         if(res.code === 'K-000000'){
-          this.showSuccessMsg(res.msg||"Save Success")
           this.setState({
             loading:false
           })
-          setTimeout(() => {
-            this.handleCancel()
-          }, 3000);
+          this.handleCancel()
         }
         else{
           this.setState({
             loading:false
           })
-          this.showErrorMsg(res.msg||"Save Failed!")
+          this.showErrorMsg(res.message||"Save Failed!")
         }
        }).catch(err =>{
         this.setState({
@@ -148,7 +145,7 @@ export default class ShippingAddressFrom extends React.Component {
           this.setState({
             loading:false
           })
-          this.showSuccessMsg(res.msg||"Save Success")
+          this.showSuccessMsg(res.message||"Save Success")
           setTimeout(() => {
             this.handleCancel()
           }, 3000);
@@ -158,7 +155,7 @@ export default class ShippingAddressFrom extends React.Component {
           this.setState({
             loading:false
           })
-          this.showErrorMsg(res.msg||"Save Failed!")
+          this.showErrorMsg(res.message||"Save Failed!")
         }
        }).catch(err =>{
         this.setState({
@@ -177,11 +174,11 @@ export default class ShippingAddressFrom extends React.Component {
     }
     await setDefaltAddress(params).then( res =>{
       if(res.code === 'K-000000'){
-        this.showSuccessMsg(res.msg||'Set Defalt Address Success')
+        this.showSuccessMsg(res.message||'Set Defalt Address Success')
         this.getAddressList()
       }
       else{
-        this.showErrorMsg(res.msg||'Set Defalt Address Failed')
+        this.showErrorMsg(res.message||'Set Defalt Address Failed')
         this.setState({
           loading:false
         })
@@ -203,11 +200,11 @@ export default class ShippingAddressFrom extends React.Component {
     }
     await deleteAddress(params).then(res=>{
       if(res.code === 'K-000000'){
-        this.showSuccessMsg(res.msg||'Delete Address Success')
+        this.showSuccessMsg(res.message||'Delete Address Success')
         this.getAddressList()
       }
       else{
-        this.showErrorMsg(res.msg||'Delete Address Failed')
+        this.showErrorMsg(res.message||'Delete Address Failed')
         this.setState({
           loading:false
         })
@@ -220,9 +217,9 @@ export default class ShippingAddressFrom extends React.Component {
     })
     
   }
-  showErrorMsg=(msg)=>{
+  showErrorMsg=(message)=>{
     this.setState({
-      errorMsg: msg
+      errorMsg: message
     })
     this.scrollToErrorMsg()
     setTimeout(() => {
@@ -232,9 +229,9 @@ export default class ShippingAddressFrom extends React.Component {
     }, 3000)
   }
 
-  showSuccessMsg=(msg)=>{
+  showSuccessMsg=(message)=>{
     this.setState({
-      successMsg: msg
+      successMsg: message
     })
     this.scrollToErrorMsg()
     setTimeout(() => {
