@@ -5,7 +5,6 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
-import OrderFilters from './modules/filters'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
@@ -139,7 +138,7 @@ export default class AccountOrders extends React.Component {
       .catch(err => {
         this.setState({
           loading: false,
-          errMsg: err
+          errMsg: err.toString()
         })
       })
   }
@@ -168,13 +167,12 @@ export default class AccountOrders extends React.Component {
               <SideMenu type="Orders" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
-                  <h4 className="rc-delta rc-margin--none">
+                  <h4 className="rc-delta rc-margin--none pb-2">
                     <FormattedMessage id="order.historyOfOrders" />
                   </h4>
                 </div>
-                {/* <OrderFilters updateFilterData={form => this.updateFilterData(form)} /> */}
                 <div className="row justify-content-around">
-                  <div className="col-12 col-md-5 row align-items-center">
+                  <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
                       <FormattedMessage id="order.orderNumber" />
                     </div>
@@ -196,43 +194,44 @@ export default class AccountOrders extends React.Component {
                       </span>
                     </div>
                   </div>
-                  <div className="col-12 col-md-5 row align-items-center">
-                    <div className="rc-full-width rc-select-processed">
-                      <select
-                        data-js-select=""
-                        value={this.state.form.duringTime}
-                        onChange={(e) => this.handleDuringTimeChange(e)}>
-                        <FormattedMessage id="order.lastXDays" values={{ val: 7 }}>
-                          {txt => (
-                            <option value="7d">
-                              {txt}
-                            </option>
-                          )}
-                        </FormattedMessage>
-                        <FormattedMessage id="order.lastXDays" values={{ val: 30 }}>
-                          {txt => (
-                            <option value="30d">
-                              {txt}
-                            </option>
-                          )}
-                        </FormattedMessage>
-                        <FormattedMessage id="order.lastXMonths" values={{ val: 3 }}>
-                          {txt => (
-                            <option value="3m">
-                              {txt}
-                            </option>
-                          )}
-                        </FormattedMessage>
-                        <FormattedMessage id="order.lastXMonths" values={{ val: 6 }}>
-                          {txt => (
-                            <option value="6m">
-                              {txt}
-                            </option>
-                          )}
-                        </FormattedMessage>
-                      </select>
+                  <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
+                    <div className="col-12">
+                      <div className="rc-full-width rc-select-processed">
+                        <select
+                          data-js-select=""
+                          value={this.state.form.duringTime}
+                          onChange={(e) => this.handleDuringTimeChange(e)}>
+                          <FormattedMessage id="order.lastXDays" values={{ val: 7 }}>
+                            {txt => (
+                              <option value="7d">
+                                {txt}
+                              </option>
+                            )}
+                          </FormattedMessage>
+                          <FormattedMessage id="order.lastXDays" values={{ val: 30 }}>
+                            {txt => (
+                              <option value="30d">
+                                {txt}
+                              </option>
+                            )}
+                          </FormattedMessage>
+                          <FormattedMessage id="order.lastXMonths" values={{ val: 3 }}>
+                            {txt => (
+                              <option value="3m">
+                                {txt}
+                              </option>
+                            )}
+                          </FormattedMessage>
+                          <FormattedMessage id="order.lastXMonths" values={{ val: 6 }}>
+                            {txt => (
+                              <option value="6m">
+                                {txt}
+                              </option>
+                            )}
+                          </FormattedMessage>
+                        </select>
+                      </div>
                     </div>
-
                   </div>
                 </div>
                 <div className="order__listing">
@@ -249,12 +248,12 @@ export default class AccountOrders extends React.Component {
                             ? <React.Fragment>
                               {this.state.orderList.map(order => (
                                 <div className="card-container" key={order.id}>
-                                  <div className="card rc-margin-y--none ml-0" style={{ border: '0!important', padding: 0 }}>
-                                    <div className="card-header row rc-margin-x--none align-items-center">
-                                      <div className="col-12 col-md-3">
+                                  <div className="card rc-margin-y--none ml-0">
+                                    <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0">
+                                      <div className="col-12 col-md-2">
                                         <p><FormattedMessage id="order.orderDate" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.tradeState.createTime.substr(0, 10)}</span></p>
                                       </div>
-                                      <div className="col-12 col-md-3">
+                                      <div className="col-12 col-md-2">
                                         <p><FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.id}</span></p>
                                       </div>
                                       <div className="col-12 col-md-2">
@@ -262,6 +261,9 @@ export default class AccountOrders extends React.Component {
                                       </div>
                                       <div className="col-12 col-md-2">
                                         <p><FormattedMessage id="order.shippingStatus" /></p>
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        <p><FormattedMessage id="order.paymentStatus" /></p>
                                       </div>
                                       <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
                                         <Link
@@ -275,7 +277,7 @@ export default class AccountOrders extends React.Component {
                                     </div>
                                   </div>
                                   <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
-                                    <div className="col-12 col-md-6 d-flex flex-wrap">
+                                    <div className="col-12 col-md-4 d-flex flex-wrap">
                                       {order.tradeItems.map(item => (
                                         <img
                                           className="img-fluid"
@@ -290,6 +292,9 @@ export default class AccountOrders extends React.Component {
                                     </div>
                                     <div className="col-12 col-md-2">
                                       {order.tradeState.deliverStatus}
+                                    </div>
+                                    <div className="col-12 col-md-2">
+                                      {order.tradeState.payState}
                                     </div>
                                     <div className="col-12 col-md-1 text-right">
                                       {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}

@@ -228,7 +228,7 @@ const en_US = {
   'account.TheAddressBook': 'The address book',
   'account.preferredMmethodsOfCommunication': 'Preferred methods of communication',
   'account.preferredContactMethod': 'Preferred Contact Method',
-  'account.warmNotice': 'Here you can manage your profile, edit pet information and shipping address.',
+  'account.warmNotice': 'Here you can manage your profile, edit pet information and shipping address, and tracking your order status.',
   'account.requiredFields': 'Required fields',
   'account.Email': 'E-mail',
   'account.birthDate': 'Date of Birth',
@@ -243,6 +243,7 @@ const en_US = {
   'order.noDataTip': 'No data',
   'order.orderStatus': 'Order Status',
   'order.shippingStatus': 'Shipping Status',
+  'order.paymentStatus': 'Payment Status',
   'order.dealDatePeriod': 'Deal Date Period',
   'order.returnOrder': 'Return order',
 

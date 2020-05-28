@@ -20,28 +20,33 @@ class AccountOrders extends React.Component {
       loading: true,
       modalShow: false,
       cancelOrderLoading: false,
-      errMsg: ''
+      errMsg: '',
+      modalText: ''
     }
   }
   componentDidMount () {
     this.setState({
       orderNumber: this.props.match.params.orderNumber
     }, () => {
-      const { orderNumber } = this.state
-      Promise.all([
-        getOrderDetails(orderNumber),
-        getPayRecord(orderNumber)
-      ]).then(res => {
-        this.setState({
-          details: res[0].context,
-          payRecord: res[1] && res[1].context,
-          loading: false
-        })
-      }).catch(err => {
-        this.setState({
-          loading: false,
-          errMsg: err
-        })
+      this.init()
+    })
+  }
+  init () {
+    const { orderNumber } = this.state
+    this.setState({ loading: true })
+    Promise.all([
+      getOrderDetails(orderNumber),
+      getPayRecord(orderNumber)
+    ]).then(res => {
+      this.setState({
+        details: res[0].context,
+        payRecord: res[1] && res[1].context,
+        loading: false
+      })
+    }).catch(err => {
+      this.setState({
+        loading: false,
+        errMsg: err.toString()
       })
     })
   }
@@ -53,19 +58,25 @@ class AccountOrders extends React.Component {
     this.setState({ cancelOrderLoading: true })
     cancelOrder(this.state.orderNumber)
       .then(res => {
-        this.setState({ cancelOrderLoading: false })
-        this.props.history.push('/account/orders')
+        this.cancelOrderStatus = 1
+        this.setState({
+          cancelOrderLoading: false,
+          modalText: 'Operate successfully'
+        })
+        this.init()
       })
       .catch(err => {
-        console.log(err)
-        this.setState({ cancelOrderLoading: false })
+        this.cancelOrderStatus = 2
+        this.setState({
+          cancelOrderLoading: false,
+          modalText: err.toString()
+        })
       })
   }
   returnOrExchangeBtnJSX () {
     const { details } = this.state
     let ret = null
-    if (new Date().getTime() > new Date(details.orderTimeOut).getTime()
-      && details.tradeState.deliverStatus === 'SHIPPED'
+    if (details.tradeState.deliverStatus === 'SHIPPED'
       && details.tradeState.flowState === 'COMPLETED') {
       return <React.Fragment>
         <button
@@ -89,16 +100,27 @@ class AccountOrders extends React.Component {
   cancelOrderBtnJSX () {
     const { details } = this.state
     let ret = null
-    if (new Date().getTime() < new Date(details.orderTimeOut).getTime()) {
+    if (new Date().getTime() < new Date(details.orderTimeOut).getTime()
+      && details.tradeState.flowState === 'AUDIT'
+      && details.tradeState.deliverStatus === 'NOT_YET_SHIPPED') {
       ret = <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
         <span
           className="mr-2 rc-styled-link"
           onClick={() => {
-            this.setState({ modalShow: true })
+            this.setState({ modalShow: true, modalText: 'Do you really want to cancel the order?' })
           }}>Cancel order</span>
       </button>
     }
     return ret
+  }
+  hanldeClickConfirm () {
+    if (this.cancelOrderStatus === 1) {
+      this.props.history.push('/account/orders')
+    } else if (this.cancelOrderStatus === 2) {
+      this.setState({ modalShow: false })
+    } else {
+      this.handleCancelOrder()
+    }
   }
   render () {
     const event = {
@@ -108,7 +130,7 @@ class AccountOrders extends React.Component {
         "theme": ""
       }
     }
-    const { details, payRecord } = this.state
+    const { details, payRecord, modalShow } = this.state
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -143,76 +165,76 @@ class AccountOrders extends React.Component {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
+                                  <div className="col-4 text-right color-999">
                                     Receiver:
                                   </div>
-                                  <div className="col-12 col-md-8">
+                                  <div className="col-8">
                                     {details.consignee.name}
                                   </div>
                                 </div>
                                 <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
+                                  <div className="col-4 text-right color-999">
                                     Phone number:
                                   </div>
-                                  <div className="col-12 col-md-8">
+                                  <div className="col-8">
                                     {details.consignee.phone}
                                   </div>
                                 </div>
                                 <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
+                                  <div className="col-4 text-right color-999">
                                     Postal code:
                                   </div>
-                                  <div className="col-12 col-md-8">
+                                  <div className="col-8">
                                     {details.consignee.postCode}
                                   </div>
                                 </div>
                                 <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
+                                  <div className="col-4 text-right color-999">
                                     Delivery address:
                                   </div>
-                                  <div className="col-12 col-md-8">
+                                  <div className="col-8">
                                     {details.consignee.address}
                                   </div>
                                 </div>
                                 <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
+                                  <div className="col-4 text-right color-999">
                                     Billing address:
                                   </div>
-                                  <div className="col-12 col-md-8">
+                                  <div className="col-8">
                                     {details.invoice.address}
                                   </div>
                                 </div>
                                 <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
+                                  <div className="col-4 text-right color-999">
                                     Delivery comment:
                                   </div>
-                                  <div className="col-12 col-md-8">
+                                  <div className="col-8">
                                     {details.buyerRemark}
                                   </div>
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
+                                  <div className="col-4 text-right color-999">
                                     Reference:
                                   </div>
-                                  <div className="col-12 col-md-8">
+                                  <div className="col-8">
                                     {details.consignee.rfc}
                                   </div>
                                 </div>
                                 <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
+                                  <div className="col-4 text-right color-999">
                                     Selected Clinic:
                                 </div>
-                                  <div className="col-12 col-md-8">
+                                  <div className="col-8">
                                     {details.clinicsId}
                                   </div>
                                 </div>
                                 <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
+                                  <div className="col-4 text-right color-999">
                                     Express method:
                                   </div>
-                                  <div className="col-12 col-md-8">
+                                  <div className="col-8">
                                     {details.deliverWay}
                                   </div>
                                 </div>
@@ -227,68 +249,68 @@ class AccountOrders extends React.Component {
                                   <div className="row">
                                     <div className="col-12 col-md-6">
                                       <div className="row">
-                                        <div className="col-12 col-md-4 text-right color-999">
+                                        <div className="col-4 text-right color-999">
                                           Payment time:
                                       </div>
-                                        <div className="col-12 col-md-8">
+                                        <div className="col-8">
                                           {details.tradeState.createTime}
                                         </div>
                                       </div>
                                       <div className="row">
-                                        <div className="col-12 col-md-4 text-right color-999">
+                                        <div className="col-4 text-right color-999">
                                           Payment status:
                                       </div>
-                                        <div className="col-12 col-md-8">
+                                        <div className="col-8">
                                           {details.tradeState.payState}
                                         </div>
                                       </div>
                                       <div className="row">
-                                        <div className="col-12 col-md-4 text-right color-999">
+                                        <div className="col-4 text-right color-999">
                                           Payment number:
                                         </div>
-                                        <div className="col-12 col-md-8">
+                                        <div className="col-8">
                                           {payRecord.chargeId}
                                         </div>
                                       </div>
                                       <div className="row">
-                                        <div className="col-12 col-md-4 text-right color-999">
+                                        <div className="col-4 text-right color-999">
                                           Payment method:
                                         </div>
-                                        <div className="col-12 col-md-8">
+                                        <div className="col-8">
                                           {payRecord.paymentMethod}
                                         </div>
                                       </div>
                                     </div>
                                     <div className="col-12 col-md-6">
                                       <div className="row">
-                                        <div className="col-12 col-md-4 text-right color-999">
+                                        <div className="col-4 text-right color-999">
                                           Name:
                                         </div>
-                                        <div className="col-12 col-md-8">
+                                        <div className="col-8">
                                           {payRecord.accountName}
                                         </div>
                                       </div>
                                       <div className="row">
-                                        <div className="col-12 col-md-4 text-right color-999">
+                                        <div className="col-4 text-right color-999">
                                           Email:
                                         </div>
-                                        <div className="col-12 col-md-8">
+                                        <div className="col-8">
                                           {payRecord.email}
                                         </div>
                                       </div>
                                       <div className="row">
-                                        <div className="col-12 col-md-4 text-right color-999">
+                                        <div className="col-4 text-right color-999">
                                           Phone number :
                                         </div>
-                                        <div className="col-12 col-md-8">
+                                        <div className="col-8">
                                           {payRecord.phone}
                                         </div>
                                       </div>
                                       <div className="row">
-                                        <div className="col-12 col-md-4 text-right color-999">
+                                        <div className="col-4 text-right color-999">
                                           Card number:
                                         </div>
-                                        <div className="col-12 col-md-8">
+                                        <div className="col-8">
                                           {payRecord.last4Digits}
                                         </div>
                                       </div>
@@ -297,16 +319,13 @@ class AccountOrders extends React.Component {
                                 </React.Fragment>
                                 : null
                             }
-                            <div class="order__listing mt-4">
+                            <div className="order__listing mt-4">
                               <div className="order-list-container">
                                 <div className="card-container mt-0 border-0">
                                   <div className="card rc-margin-y--none">
                                     <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 border-0">
-                                      <div className="col-12 col-md-4">
+                                      <div className="col-12 col-md-6">
                                         <p>Product</p>
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        <p>Weight</p>
                                       </div>
                                       <div className="col-12 col-md-2">
                                         <p>Price</p>
@@ -321,18 +340,16 @@ class AccountOrders extends React.Component {
                                   </div>
                                   {details.tradeItems.map((item, i) => (
                                     <div className="row rc-margin-x--none row align-items-center pt-2 pb-2 border-bottom" key={i}>
-                                      <div className="col-12 col-md-4 d-flex pl-0 pr-0">
+                                      <div className="col-12 col-md-6 d-flex pl-0 pr-0">
                                         <img
                                           className="img-fluid border"
                                           src={item.pic}
                                           alt={item.spuName}
                                           title={item.spuName} />
                                         <div className="m-1 color-999">
-                                          {item.spuName}
+                                          <span>{item.spuName}</span><br />
+                                          {item.specDetails}
                                         </div>
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        {item.specDetails}
                                       </div>
                                       <div className="col-12 col-md-2">
                                         {formatMoney(item.price)}
@@ -341,7 +358,7 @@ class AccountOrders extends React.Component {
                                         {item.num}
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        {formatMoney(item.price * item.num)}
+                                        {formatMoney(item.splitPrice)}
                                       </div>
                                     </div>
                                   ))}
@@ -352,7 +369,17 @@ class AccountOrders extends React.Component {
                               <div className="col-9 text-right color-999">
                                 Total:
                               </div>
-                              <div className="col-2 text-right">{formatMoney(details.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}</div>
+                              <div className="col-2 text-right">{formatMoney(details.tradePrice.originPrice)}</div>
+                              {
+                                details.tradePrice.discountsPrice
+                                  ? <React.Fragment>
+                                    <div className="col-9 text-right color-999 red">
+                                      <FormattedMessage id="promotion" />:
+                                    </div>
+                                    <div className="col-2 text-right red">-{formatMoney(details.tradePrice.discountsPrice)}</div>
+                                  </React.Fragment>
+                                  : null
+                              }
                               <div className="col-9 text-right color-999">
                                 Shipping:
                               </div>
@@ -360,7 +387,7 @@ class AccountOrders extends React.Component {
                               <div className="col-9 text-right color-999">
                                 Total (Inclu IVA):
                               </div>
-                              <div className="col-2 text-right">{formatMoney(details.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}</div>
+                              <div className="col-2 text-right">{formatMoney(details.tradePrice.totalPrice)}</div>
                             </div>
                             <div className="detail-title">
                               Delivery Record
@@ -369,7 +396,7 @@ class AccountOrders extends React.Component {
                           </div>
                           : this.state.errMsg
                             ? <div className="text-center mt-5">
-                              <span class="rc-icon rc-incompatible--xs rc-iconography"></span>
+                              <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
                               {this.state.errMsg}
                             </div>
                             : null
@@ -383,26 +410,22 @@ class AccountOrders extends React.Component {
 
           {/* modal */}
           <div
-            className={`modal-backdrop fade ${
-              this.state.modalShow ? "show" : ""
-              }`}
-            style={{ display: this.state.modalShow ? "block" : "none", zIndex: 59 }}
+            className={`modal-backdrop fade ${modalShow ? "show" : ""}`}
+            style={{ display: modalShow ? "block" : "none", zIndex: 59 }}
           ></div>
           <div
-            className={`modal fade ${this.state.modalShow ? "show" : ""}`}
+            className={`modal fade ${modalShow ? "show" : ""}`}
             id="removeProductModal"
             tabIndex="-1"
             role="dialog"
             aria-labelledby="removeProductLineItemModal"
-            style={{ display: this.state.modalShow ? "block" : "none", overflow: 'hidden' }}
+            style={{ display: modalShow ? "block" : "none", overflow: 'hidden' }}
             aria-hidden="true"
           >
             <div className="modal-dialog" role="document">
               <div className="modal-content">
                 <div className="modal-header delete-confirmation-header">
-                  <h4 className="modal-title" id="removeProductLineItemModal">
-                    Cancel Order?
-                  </h4>
+                  <h4 className="modal-title" id="removeProductLineItemModal">Information</h4>
                   <button
                     type="button"
                     className="close"
@@ -410,13 +433,11 @@ class AccountOrders extends React.Component {
                     aria-label="Close"
                     onClick={() => { this.setState({ modalShow: false }) }}
                   >
-                    <span aria-hidden="true">
-                      ×
-                  </span>
+                    <span aria-hidden="true">×</span>
                   </button>
                 </div>
                 <div className="modal-body delete-confirmation-body">
-                  Do you really want to cancel the order?
+                  {this.state.modalText}
                 </div>
                 <div className="modal-footer">
                   <button
@@ -431,7 +452,7 @@ class AccountOrders extends React.Component {
                     type="button"
                     className={`btn btn-primary cart-delete-confirmation-btn ${this.state.cancelOrderLoading ? 'ui-btn-loading' : ''}`}
                     data-dismiss="modal"
-                    onClick={() => this.handleCancelOrder()}
+                    onClick={() => this.hanldeClickConfirm()}
                   >
                     <FormattedMessage id="yes" />
                   </button>
