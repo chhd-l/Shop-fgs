@@ -6,8 +6,9 @@ export default {
   oidc: {
     clientId: CLIENT_ID,
     issuer: ISSUER,
-    redirectUri: 'https://shopuat.466920.com/implicit/callback',
+    // redirectUri: 'https://shopuat.466920.com/implicit/callback',
     // redirectUri: 'https://localhost:3000/api/messages',
+    redirectUri: 'http://localhost:3000/implicit/callback',
     scopes: ['openid', 'profile', 'email'],
     pkce: true,
     disableHttpsCheck: OKTA_TESTING_DISABLEHTTPSCHECK,
