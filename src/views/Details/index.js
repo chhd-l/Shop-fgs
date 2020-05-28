@@ -94,18 +94,27 @@ class Details extends React.Component {
   }
   matchGoods () {
     let { specList, details, currentUnitPrice, stock } = this.state
-    let arr = []
+    let selectedArr = []
+    let idArr = []
+    let specText = ''
     specList.map(el => {
+      // ['specDetailId']
       if (el.chidren.filter(item => item.selected).length) {
-        arr.push(el.chidren.filter(item => item.selected)[0]['specDetailId'])
+        selectedArr.push(el.chidren.filter(item => item.selected)[0])
       }
     })
-    console.log(arr, 'arr')
-    let arrStr = arr.sort((a, b) => a - b).join(',')
+    selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId)
+    selectedArr.map(el => {
+      idArr.push(el.specDetailId)
+      specText = specText + el.detailName + ';'
+    })
+    // console.log(arr, 'arr')
+    // let arrStr = arr.sort((a, b) => a - b).join(',')
     currentUnitPrice = details.marketPrice
     details.sizeList.map(item => {
-      if (item.mockSpecDetailIds.join(',') === arrStr) {
+      if (item.mockSpecDetailIds.join(',') === idArr.join(',')) {
         item.selected = true
+        item.specText = specText
         currentUnitPrice = item.salePrice
         stock = item.stock
       } else {
