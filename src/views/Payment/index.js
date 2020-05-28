@@ -687,7 +687,7 @@ class Payment extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header />
+        <Header history={this.props.history} />
         {this.state.loading ? <Loading /> : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand3" id="payment">
           <div

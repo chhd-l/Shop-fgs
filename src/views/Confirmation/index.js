@@ -185,7 +185,7 @@ class Confirmation extends React.Component {
     return (
       <div>
         {event ? <GoogleTagManager additionalEvents={event} /> : null}
-        <Header />
+        <Header history={this.props.history} />
         <main className="rc-content--fixed-header">
           <div className="rc-layout-container rc-three-column rc-max-width--xl">
             <div className="rc-column rc-double-width shipping__address">
