@@ -618,7 +618,7 @@ class Details extends React.Component {
                             )}
                         </div>
                         <div className="rc-column rc-triple-width product-column">
-                          {/* {this.state.loading ? (
+                          {this.state.loading ? (
                           <div>
                             <Skeleton color="#f5f5f5" width="100%" count={7} />
                           </div>
@@ -640,7 +640,7 @@ class Details extends React.Component {
                               )}
                             ></div>
                           </div>
-                        )} */}
+                        )}
                         </div>
                         {/* <!-- buybox --> */}
                         <div className="rc-column rc-triple-width buybox-column">

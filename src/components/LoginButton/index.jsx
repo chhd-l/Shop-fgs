@@ -21,7 +21,6 @@ const Home = () => {
   // const { authService } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
   const { authState, authService } = useOktaAuth();
-  console.log(authService, 'authService')
   //     const [userInfo, setUserInfo] = useState(null);
   //     authService.getUser().then((info) => {
   //       console.log(info, 'info')
@@ -31,18 +30,15 @@ const Home = () => {
   // console.log(accessToken ,'accessToken')
   useEffect(() => {
     if (!authState.isAuthenticated) {
-      console.log(1)
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
     } else {
-      console.log(2)
       authService.getUser().then((info) => {
         setUserInfo(info);
         authService.getUser().then((info) => {
           setUserInfo(info);
           if (!sessionStorage.getItem('rc-token')) {
             getToken({ oktaToken: `Bearer ${accessToken}` }).then(res => {
-              console.log(res)
               sessionStorage.setItem("rc-token", res.context.token);
               sessionStorage.setItem("rc-userinfo", JSON.stringify(res.context.customerDetail));
             })
