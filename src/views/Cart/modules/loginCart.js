@@ -69,7 +69,17 @@ class LoginCart extends React.Component {
     })
 
     // promotion相关
-    sessionStorage.setItem('goodsMarketingMap', JSON.stringify(sitePurchasesRes.goodsMarketingMap))
+    let goodsMarketingMapStr = JSON.stringify(sitePurchasesRes.goodsMarketingMap)
+    if (goodsMarketingMapStr === "{}") {
+      this.setState({
+        isPromote: false
+      })
+    } else {
+      this.setState({
+        isPromote: true
+      })
+    }
+    sessionStorage.setItem('goodsMarketingMap', JSON.stringify(goodsMarketingMapStr))
     sessionStorage.setItem('rc-totalInfo', JSON.stringify({
       totalPrice: sitePurchasesRes.totalPrice,
       tradePrice: sitePurchasesRes.tradePrice,
