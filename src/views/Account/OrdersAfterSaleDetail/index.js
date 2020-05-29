@@ -8,6 +8,7 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
+import { IMG_DEFAULT } from '@/utils/constant'
 import './index.css'
 
 export default class OrdersAfterSaleDetail extends React.Component {
@@ -147,7 +148,7 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                       <div className="col-12 col-md-6 d-flex pl-0 pr-0">
                                         <img
                                           className="img-fluid border"
-                                          src={item.pic}
+                                          src={item.pic || IMG_DEFAULT}
                                           alt={item.skuName}
                                           title={item.skuName} />
                                         <div className="m-1 color-999">
