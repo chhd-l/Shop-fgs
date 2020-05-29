@@ -264,6 +264,9 @@ export default class PetForm extends React.Component {
         }
        }).catch(err=>{
          this.showErrorMsg('Save Failed')
+         this.setState({
+          loading:false
+        })
        })
     }
     
