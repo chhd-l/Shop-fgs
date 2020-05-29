@@ -132,12 +132,21 @@ export default class PetForm extends React.Component {
             petList:petList
           })
           this.add()
+          
         }
+      }
+      else{
+        this.setState({
+          loading:false,
+          showList:false,
+        })
+        this.showErrorMsg(res.message||'Get Data Failed')
       }
     }).catch(err => {
       this.setState({
         loading: false
       })
+      this.showErrorMsg('Get Data Failed')
     }) 
     }
     
