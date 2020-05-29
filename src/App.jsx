@@ -20,7 +20,8 @@ import config from './config';
 import '@/assets/css/global.css'
 import en_US from '@/lang/en_US'
 import { IntlProvider } from 'react-intl';
-
+import { Provider } from "mobx-react"
+// import Store from './store/store';
 // import React from "react";
 import { HashRouter, Switch } from "react-router-dom";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -53,7 +54,12 @@ import AccountShippingAddress from "@/views/Account/ShippingAddress";
 import AccountShippingAddressForm from "@/views/Account/ShippingAddressForm";
 import AccountReturnOrder from "@/views/Account/ReturnOrder";
 
+// const store = {
+//   store: new Store()
+// }
+
 const App = () => (
+  // <Provider {...store}>
   <IntlProvider locale="en" messages={en_US}>
     {/* <HashRouter>
     <RouteFilter />
@@ -190,5 +196,6 @@ const App = () => (
   {/* </HashRouter> */}
     </Router>
   </IntlProvider>
+  // </Provider>
 );
 export default App;

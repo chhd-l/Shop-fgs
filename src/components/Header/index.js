@@ -15,7 +15,12 @@ import UnloginCart from './modules/unLoginCart'
 import LoginCart from './modules/loginCart'
 import './index.css'
 import LogoutButton from '@/components/LogoutButton';
+import {  inject, observer } from 'mobx-react';
+import Store from '@/store/store';
 
+
+
+@observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false
@@ -247,9 +252,10 @@ class Header extends React.Component {
   clickLogoff () {
     sessionStorage.setItem("is-login", false);
     sessionStorage.removeItem("rc-token");
-    this.setState({
-      isLogin: false
-    })
+    // this.setState({
+    //   isLogin: false
+    // })
+    Store.changeIsLogin(false)
   }
   renderResultJsx () {
     return this.state.result ?
@@ -315,6 +321,7 @@ class Header extends React.Component {
       : null
   }
   render () {
+    console.log(Store.isLogin, 'Store')
     return (
       <React.Fragment>
         <div id="page-top" name="page-top"></div>
@@ -406,7 +413,7 @@ class Header extends React.Component {
                         <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-user--xs rc-iconography"></i>
                       </Link>
                       {
-                        !this.state.isLogin
+                        !Store.isLogin
                           ?
                           <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{ minWidth: "13rem" }}>
                             <div className="container cart" >
