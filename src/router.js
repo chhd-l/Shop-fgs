@@ -99,7 +99,7 @@ const BasicRoute = () => (
 
         <Route path='/account/orders-aftersale/:orderNumber' exact component={AccountOrdersAfterSale} />
         <Route path='/account/orders-aftersale/success/:returnNumber' component={AccountOrdersAfterSaleSuccess} />
-        <Route path='/account/orders-aftersale/detail/:returnNumber' component={AccountOrdersAfterSaleDetail} />
+        <Route path='/account/return-order-detail/:returnNumber' component={AccountOrdersAfterSaleDetail} />
 
         <Route component={Exception} />
       </Switch>

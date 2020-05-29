@@ -118,7 +118,7 @@ const App = () => (
 
         <Route path='/account/orders-aftersale/:orderNumber' exact component={AccountOrdersAfterSale} />
         <Route path='/account/orders-aftersale/success/:returnNumber' component={AccountOrdersAfterSaleSuccess} />
-        <Route path='/account/orders-aftersale/detail/:returnNumber' component={AccountOrdersAfterSaleDetail} />
+        <Route path='/account/return-order-detail/:returnNumber' component={AccountOrdersAfterSaleDetail} />
 
         <Route component={Exception} />
       </Switch>
@@ -183,7 +183,7 @@ const App = () => (
 
         <Route path='/account/orders-aftersale/:orderNumber' exact component={AccountOrdersAfterSale} />
         <Route path='/account/orders-aftersale/success/:returnNumber' exact component={AccountOrdersAfterSaleSuccess} />
-        <Route path='/account/orders-aftersale/detail/:returnNumber' exact component={AccountOrdersAfterSaleDetail} />
+        <Route path='/account/return-order-detail/:returnNumber' exact component={AccountOrdersAfterSaleDetail} />
 
         <Route path='/account/shippingAddress/create' exact component={AccountShippingAddressForm} />
         <Route path='/account/shippingAddress/:addressId' exact component={AccountShippingAddressForm} />

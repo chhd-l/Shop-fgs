@@ -63,7 +63,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                           Your application has been submited for review, you can view the progress in the personal center.
                         </p>
                         <Link
-                          to={`/account/orders-aftersale/detail/${this.state.returnNumber}`}
+                          to={`/account/return-order-detail/${this.state.returnNumber}`}
                           className="rc-meta rc-styled-link backtohome"
                           style={{ fontWeight: 500 }}>
                           View after-sale details

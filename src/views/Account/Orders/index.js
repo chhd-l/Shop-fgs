@@ -21,8 +21,7 @@ export default class AccountOrders extends React.Component {
         pageSize: 6,
         orderNumber: '',
         startdate: '',
-        enddate: '',
-        orderNumber: ''
+        enddate: ''
       },
       loading: false,
       currentPage: 1,
