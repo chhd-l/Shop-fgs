@@ -41,21 +41,26 @@ class AccountOrders extends React.Component {
   init () {
     const { orderNumber } = this.state
     this.setState({ loading: true })
-    Promise.all([
-      getOrderDetails(orderNumber),
-      getPayRecord(orderNumber)
-    ]).then(res => {
-      this.setState({
-        details: res[0].context,
-        payRecord: res[1] && res[1].context,
-        loading: false
+    getOrderDetails(orderNumber)
+      .then(res => {
+        this.setState({
+          details: res.context,
+          loading: false
+        })
       })
-    }).catch(err => {
-      this.setState({
-        loading: false,
-        errMsg: err.toString()
+      .catch(err => {
+        this.setState({
+          loading: false,
+          errMsg: err.toString()
+        })
       })
-    })
+
+    getPayRecord(orderNumber)
+      .then(res => {
+        this.setState({
+          payRecord: res.context,
+        })
+      })
   }
   async hanldeItemClick (afterSaleType) {
     // 退单都完成了，才可继续退单
@@ -100,20 +105,10 @@ class AccountOrders extends React.Component {
     if (details.tradeState.deliverStatus === 'SHIPPED'
       && details.tradeState.flowState === 'COMPLETED') {
       return <React.Fragment>
-        <button
-          className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
-          onClick={() => this.hanldeItemClick('exchange')}>
-          <a className="ui-cursor-pointer">
-            Exchange
-          </a>
-        </button>
-        <button
-          className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
-          onClick={() => this.hanldeItemClick('return')}>
-          <a className="ui-cursor-pointer">
-            Return
-          </a>
-        </button>
+        <div className="d-flex justify-content-end">
+          <button className="rc-btn rc-btn--two" onClick={() => this.hanldeItemClick('exchange')}>Return</button>
+          <button className="rc-btn rc-btn--two" onClick={() => this.hanldeItemClick('return')}>Exchange</button>
+        </div>
       </React.Fragment>
     }
     return ret
@@ -165,7 +160,6 @@ class AccountOrders extends React.Component {
                                 <span className="inlineblock">Order status:{details.tradeState.flowState}</span>
                               </div>
                               <div className="details-btn-group d-flex">
-                                {this.returnOrExchangeBtnJSX()}
                                 {/* 前台暂时不显示取消订单按钮 */}
                                 {/* {this.cancelOrderBtnJSX()} */}
                               </div>
@@ -396,6 +390,7 @@ class AccountOrders extends React.Component {
                               Delivery Record
                             </div>
                             <div className="text-center">No data</div>
+                            {this.returnOrExchangeBtnJSX()}
                           </div>
                           : this.state.errMsg
                             ? <div className="text-center mt-5">
