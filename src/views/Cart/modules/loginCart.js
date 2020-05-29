@@ -79,7 +79,7 @@ class LoginCart extends React.Component {
         isPromote: true
       })
     }
-    sessionStorage.setItem('goodsMarketingMap', JSON.stringify(goodsMarketingMapStr))
+    sessionStorage.setItem('goodsMarketingMap', goodsMarketingMapStr)
     sessionStorage.setItem('rc-totalInfo', JSON.stringify({
       totalPrice: sitePurchasesRes.totalPrice,
       tradePrice: sitePurchasesRes.tradePrice,

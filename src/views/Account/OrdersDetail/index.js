@@ -22,6 +22,7 @@ class AccountOrders extends React.Component {
       payRecord: null,
       loading: true,
       cancelOrderLoading: false,
+      returnOrExchangeLoading: false,
       errMsg: '',
 
       cancelOrderModalVisible: false,
@@ -41,24 +42,30 @@ class AccountOrders extends React.Component {
   init () {
     const { orderNumber } = this.state
     this.setState({ loading: true })
-    Promise.all([
-      getOrderDetails(orderNumber),
-      getPayRecord(orderNumber)
-    ]).then(res => {
-      this.setState({
-        details: res[0].context,
-        payRecord: res[1] && res[1].context,
-        loading: false
+    getOrderDetails(orderNumber)
+      .then(res => {
+        this.setState({
+          details: res.context,
+          loading: false
+        })
       })
-    }).catch(err => {
-      this.setState({
-        loading: false,
-        errMsg: err.toString()
+      .catch(err => {
+        this.setState({
+          loading: false,
+          errMsg: err.toString()
+        })
       })
-    })
+
+    getPayRecord(orderNumber)
+      .then(res => {
+        this.setState({
+          payRecord: res.context,
+        })
+      })
   }
   async hanldeItemClick (afterSaleType) {
     // 退单都完成了，才可继续退单
+    this.setState({ returnOrExchangeLoading: true })
     let res = await returnFindByTid(this.state.orderNumber)
     let unloadItem = find(res.context, ele =>
       ele.returnFlowState === 'INIT'
@@ -67,7 +74,8 @@ class AccountOrders extends React.Component {
       || ele.returnFlowState === 'RECEIVED')
     if (unloadItem) {
       this.setState({
-        returnOrExchangeModalVisible: true
+        returnOrExchangeModalVisible: true,
+        returnOrExchangeLoading: false
       })
     } else {
       sessionStorage.setItem('rc-after-sale-type', afterSaleType)
@@ -100,20 +108,14 @@ class AccountOrders extends React.Component {
     if (details.tradeState.deliverStatus === 'SHIPPED'
       && details.tradeState.flowState === 'COMPLETED') {
       return <React.Fragment>
-        <button
-          className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
-          onClick={() => this.hanldeItemClick('exchange')}>
-          <a className="ui-cursor-pointer">
-            Exchange
-          </a>
-        </button>
-        <button
-          className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
-          onClick={() => this.hanldeItemClick('return')}>
-          <a className="ui-cursor-pointer">
-            Return
-          </a>
-        </button>
+        <div className="d-flex justify-content-end">
+          <button
+            className={`rc-btn rc-btn--two ${this.props.returnOrExchangeLoading ? 'ui-btn-loading' : ''}`}
+            onClick={() => this.hanldeItemClick('exchange')}>Return</button>
+          <button
+            className={`rc-btn rc-btn--two ${this.props.returnOrExchangeLoading ? 'ui-btn-loading' : ''}`}
+            onClick={() => this.hanldeItemClick('return')}>Exchange</button>
+        </div>
       </React.Fragment>
     }
     return ret
@@ -165,7 +167,6 @@ class AccountOrders extends React.Component {
                                 <span className="inlineblock">Order status:{details.tradeState.flowState}</span>
                               </div>
                               <div className="details-btn-group d-flex">
-                                {this.returnOrExchangeBtnJSX()}
                                 {/* 前台暂时不显示取消订单按钮 */}
                                 {/* {this.cancelOrderBtnJSX()} */}
                               </div>
@@ -361,7 +362,7 @@ class AccountOrders extends React.Component {
                                         {item.num}
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        {formatMoney(item.splitPrice)}
+                                        {formatMoney(item.price * item.num)}
                                       </div>
                                     </div>
                                   ))}
@@ -396,6 +397,7 @@ class AccountOrders extends React.Component {
                               Delivery Record
                             </div>
                             <div className="text-center">No data</div>
+                            {this.returnOrExchangeBtnJSX()}
                           </div>
                           : this.state.errMsg
                             ? <div className="text-center mt-5">
@@ -432,7 +434,7 @@ class AccountOrders extends React.Component {
           <Modal
             key="4"
             visible={this.state.returnOrExchangeModalVisible}
-            modalText="No products can be returned or exchange."
+            modalText="This order is associated with a refund in processing and cannot be reapplied."
             close={() => { this.setState({ returnOrExchangeModalVisible: false }) }}
             hanldeClickConfirm={() => { this.setState({ returnOrExchangeModalVisible: false }) }} />
         </main>
