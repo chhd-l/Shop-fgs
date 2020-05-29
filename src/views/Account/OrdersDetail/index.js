@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl'
 import { formatMoney } from "@/utils/utils"
 import { find } from 'lodash'
 import { getOrderDetails, cancelOrder, getPayRecord, returnFindByTid } from "@/api/order"
+import { IMG_DEFAULT } from '@/utils/constant'
 import './index.css'
 
 class AccountOrders extends React.Component {
@@ -353,7 +354,7 @@ class AccountOrders extends React.Component {
                                       <div className="col-12 col-md-6 d-flex pl-0 pr-0">
                                         <img
                                           className="img-fluid border"
-                                          src={item.pic}
+                                          src={item.pic || IMG_DEFAULT}
                                           alt={item.spuName}
                                           title={item.spuName} />
                                         <div className="m-1 color-999">

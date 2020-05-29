@@ -6,6 +6,7 @@ import { getReturnDetails } from "@/api/order"
 import { formatMoney } from "@/utils/utils"
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { IMG_DEFAULT } from '@/utils/constant'
 import successImg from "@/assets/images/credit-cards/success.png"
 import './index.css'
 
@@ -63,7 +64,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                           Your application has been submited for review, you can view the progress in the personal center.
                         </p>
                         <Link
-                          to={`/account/orders-aftersale/detail/${this.state.returnNumber}`}
+                          to={`/account/return-order-detail/${this.state.returnNumber}`}
                           className="rc-meta rc-styled-link backtohome"
                           style={{ fontWeight: 500 }}>
                           View after-sale details
@@ -82,7 +83,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                               <div className="d-flex mb-1" key={item.skuId}>
                                 <img
                                   className="img-fluid border"
-                                  src={item.pic}
+                                  src={item.pic || IMG_DEFAULT}
                                   alt={item.skuName}
                                   title={item.skuName}
                                   style={{ width: "20%" }} />

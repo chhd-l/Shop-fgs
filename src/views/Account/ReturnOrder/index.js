@@ -6,104 +6,139 @@ import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import { FormattedMessage } from 'react-intl'
-import { formatMoney } from "@/utils/utils"
+import { Link } from 'react-router-dom';
+import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
 import { getReturnList } from "@/api/order"
-// import './index.css'
+import { IMG_DEFAULT } from '@/utils/constant'
 
-class AccountRefunds extends React.Component {
+export default class ReturnOrder extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      orderNumber: '',
-      details: null,
-      loading: true,
-      modalShow: false,
-      cancelOrderLoading: false,
-
-      list: [],
+      orderList: [],
       form: {
-        dateRangeKey: '',
+        duringTime: '7d',
         pageSize: 6,
+        returnNumber: '',
+        dateRangeKey: 'inWeek'
       },
+      loading: false,
       currentPage: 1,
       totalPage: 1,
+      initing: true,
+      errMsg: ''
     }
+  }
+  componentWillUnmount () {
+    localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
-    this.queryList()
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
+
+    this.queryReturnList()
   }
-  async queryList () {
-    const { form, currentPage } = this.state
-    try {
-      const res = await getReturnList({
-        dateRangeKey: form.dateRangeKey,
-        pageSize: form.pageSize,
-        pageNum: currentPage - 1
-      })
-      this.setState({
-        list: res.context,
-        loading: false
-      })
-    } catch (err) {
-      this.setState({
-        loading: false
-      })
+  handlePrevOrNextPage (type) {
+    const { currentPage, totalPage } = this.state
+    let res
+    if (type === 'prev') {
+      if (currentPage <= 1) {
+        return
+      }
+      res = currentPage - 1
+    } else {
+      if (currentPage >= totalPage) {
+        return
+      }
+      res = currentPage + 1
+    }
+    this.setState({ currentPage: res }, () => this.queryReturnList())
+  }
+  handleCurrentPageNumChange (e) {
+    const val = e.target.value
+    if (val === '') {
+      this.setState({ currentPage: val })
+    } else {
+      let tmp = parseInt(val)
+      if (isNaN(tmp)) {
+        tmp = 1
+      }
+      if (tmp > this.state.totalPage) {
+        tmp = this.state.totalPage
+      } else if (tmp < 1) {
+        tmp = 1
+      }
+      if (tmp !== this.state.currentPage) {
+        this.setState({ currentPage: tmp }, () => this.queryReturnList())
+      }
     }
   }
-  hanldeItemClick (afterSaleType) {
-    sessionStorage.setItem('rc-after-sale-type', afterSaleType)
-    this.props.history.push(`/account/orders-aftersale/${this.state.orderNumber}`)
+  handleDuringTimeChange (e) {
+    const { form } = this.state
+    form.duringTime = e.target.value
+    this.setState({
+      form: form,
+      currentPage: 1,
+    }, () => this.queryReturnList())
   }
-  handleCancelOrder () {
-    this.setState({ cancelOrderLoading: true })
-    // cancelOrder(this.state.orderNumber)
-    //   .then(res => {
-    //     this.setState({ cancelOrderLoading: false })
-    //     this.props.history.push('/account/orders')
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //     this.setState({ cancelOrderLoading: false })
-    //   })
+  handleInputChange (e) {
+    const target = e.target
+    const { form } = this.state
+    form[target.name] = target.value
+    this.setState({ form: form })
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.queryReturnList()
+    }, 500)
   }
-  returnOrExchangeBtnJSX () {
-    const { details } = this.state
-    let ret = null
-    if (new Date().getTime() > new Date(details.orderTimeOut).getTime()
-      && details.tradeState.deliverStatus === 'SHIPPED'
-      && details.tradeState.flowState === 'COMPLETED') {
-      return <React.Fragment>
-        <button
-          className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
-          onClick={() => this.hanldeItemClick('exchange')}>
-          <a className="ui-cursor-pointer">
-            Exchange
-          </a>
-        </button>
-        <button
-          className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
-          onClick={() => this.hanldeItemClick('return')}>
-          <a className="ui-cursor-pointer">
-            Return
-          </a>
-        </button>
-      </React.Fragment>
+  queryReturnList () {
+    const { form, initing, currentPage } = this.state
+
+    if (!initing) {
+      const widget = document.querySelector('#J_order_list')
+      if (widget) {
+        setTimeout(() => {
+          window.scrollTo(0, widget.offsetTop);
+        }, 0)
+      }
     }
-    return ret
-  }
-  cancelOrderBtnJSX () {
-    const { details } = this.state
-    let ret = null
-    if (new Date().getTime() < new Date(details.orderTimeOut).getTime()) {
-      ret = <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
-        <span
-          className="mr-2 rc-styled-link"
-          onClick={() => {
-            this.setState({ modalShow: true })
-          }}>Cancel order</span>
-      </button>
+    let createdFrom = ''
+    this.setState({ loading: true })
+    let now = dateFormat('YYYY-mm-dd', new Date())
+    if (form.duringTime.includes('d')) {
+      let now2 = new Date()
+      now2.setDate(now2.getDate() - parseInt(form.duringTime))
+      createdFrom = dateFormat('YYYY-mm-dd', now2)
+    } else if (form.duringTime.includes('m')) {
+      createdFrom = getPreMonthDay(now, parseInt(form.duringTime))
     }
-    return ret
+    let param = {
+      beginTime: createdFrom,
+      endTime: now,
+      // dateRangeKey: form.dateRangeKey,
+      tradeOrSkuName: form.returnNumber,
+      pageNum: currentPage - 1,
+      pageSize: form.pageSize
+    }
+    getReturnList(param)
+      .then(res => {
+        this.setState({
+          orderList: res.context.content,
+          currentPage: res.context.number + 1,
+          totalPage: res.context.totalPages,
+          loading: false,
+          initing: false
+        })
+      })
+      .catch(err => {
+        this.setState({
+          loading: false,
+          errMsg: err.toString()
+        })
+      })
   }
   render () {
     const event = {
@@ -113,332 +148,180 @@ class AccountRefunds extends React.Component {
         "theme": ""
       }
     }
-    const { details } = this.state
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header showMiniIcons={true} location={this.props.location}  history={this.props.history}/>
+        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu />
-              <div className="my__account-content rc-column rc-quad-width">
-                <div className="row justify-content-center">
-                  <div className="order_listing_details col-12 no-padding">
-                    <div
-                      className="card confirm-details orderDetailsPage ml-0 mr-0">
-                      {this.state.loading
-                        ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
-                        : details
-                          ? <div className="card-body p-0">
-                            <div className="ui-order-title d-flex justify-content-between align-items-center">
-                              <div>
-                                <span className="inlineblock">Order number:{this.state.orderNumber}</span>&nbsp;&nbsp;
-                                <span className="inlineblock">Order time:{details.tradeState.createTime.substr(0, 19)}</span>&nbsp;&nbsp;
-                                <span className="inlineblock">Order status:{details.tradeState.flowState}</span>
-                              </div>
-                              <div className="details-btn-group d-flex">
-                                {this.returnOrExchangeBtnJSX()}
-                                {this.cancelOrderBtnJSX()}
-                              </div>
-                            </div>
-                            <div className="detail-title">
-                              Order information
-                            </div>
-                            <div className="row">
-                              <div className="col-12 col-md-6">
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Receiver:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {details.consignee.name}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Phone number:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {details.consignee.phone}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Postal code:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {details.consignee.postCode}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Delivery address:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {details.consignee.address}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Billing address:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {details.invoice.address}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Delivery comment:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {details.buyerRemark}
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Reference:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {details.consignee.rfc}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Selected Clinic:
-                                </div>
-                                  <div className="col-12 col-md-8">
-                                    {details.clinicsId}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Express method:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {details.deliverWay}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="detail-title">
-                              Payment information
-                            </div>
-                            <div className="row">
-                              <div className="col-12 col-md-6">
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Payment time:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {details.tradeState.createTime}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Payment status:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {details.tradeState.payState}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Payment number:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {/* General Invoice Details Individual */}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Payment method:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {/* General Invoice Details Individual */}
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Name:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {/* {details.payInfo.payTypeName} */}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Email:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {/* no */}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Phone number :
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {/* no */}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-12 col-md-4 text-right color-999">
-                                    Card number:
-                                  </div>
-                                  <div className="col-12 col-md-8">
-                                    {/* no */}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="order__listing mt-4">
-                              <div className="order-list-container">
-                                <div className="card-container mt-0 border-0">
-                                  <div className="card rc-margin-y--none">
-                                    <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 border-0">
-                                      <div className="col-12 col-md-4">
-                                        <p>Product</p>
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        <p>Weight</p>
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        <p>Price</p>
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        <p>Quantity</p>
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        <p>Subtotal</p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  {details.tradeItems.map((item, i) => (
-                                    <div className="row rc-margin-x--none row align-items-center pt-2 pb-2 border-bottom" key={i}>
-                                      <div className="col-12 col-md-4 d-flex pl-0 pr-0">
-                                        <img
-                                          className="img-fluid border"
-                                          src={item.pic}
-                                          alt={item.spuName}
-                                          title={item.spuName} />
-                                        <div className="m-1 color-999">
-                                          {item.spuName}
-                                        </div>
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        {item.specDetails}
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        {formatMoney(item.price)}
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        {item.num}
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        {formatMoney(item.price * item.num)}
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                            <div className="row pt-2 pb-2 border-bottom" style={{ lineHeight: 1.7 }}>
-                              <div className="col-9 text-right color-999">
-                                Total:
-                              </div>
-                              <div className="col-2 text-right">{formatMoney(details.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}</div>
-                              <div className="col-9 text-right color-999">
-                                Shipping:
-                              </div>
-                              <div className="col-2 text-right">{formatMoney(0)}</div>
-                              <div className="col-9 text-right color-999">
-                                Total (Inclu IVA):
-                              </div>
-                              <div className="col-2 text-right">{formatMoney(details.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}</div>
-                            </div>
-                            <div className="detail-title">
-                              Delivery Record
-                            </div>
-                            <div className="text-center">No data</div>
-                          </div>
-                          : null
-                      }
+              <SideMenu type="ReturnOrder" />
+              <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
+                <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
+                  <h4 className="rc-delta rc-margin--none pb-2">
+                    <FormattedMessage id="order.historyOfOrders" />
+                  </h4>
+                </div>
+                <div className="row justify-content-around">
+                  <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
+                    <div className="col-md-5">
+                      <FormattedMessage id="order.returnNumber" />
+                    </div>
+                    <div className="col-md-7">
+                      <span className="rc-input rc-input--inline rc-full-width">
+                        <input
+                          className="rc-input__control"
+                          id="id-text8"
+                          type="text"
+                          name="returnNumber"
+                          maxLength="20"
+                          value={this.state.form.returnNumber}
+                          onChange={e => this.handleInputChange(e)} />
+                        <label className="rc-input__label" htmlFor="id-text8">
+                          <span className="rc-input__label-text">
+                            <FormattedMessage id="order.inputReturnNumberTip" />
+                          </span>
+                        </label>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
+                    <div className="col-12">
+                      <div className="rc-full-width rc-select-processed">
+                        <select
+                          data-js-select=""
+                          value={this.state.form.duringTime}
+                          onChange={(e) => this.handleDuringTimeChange(e)}>
+                          <FormattedMessage id="order.lastXDays" values={{ val: 7 }}>
+                            {txt => (
+                              <option value="7d">
+                                {txt}
+                              </option>
+                            )}
+                          </FormattedMessage>
+                          <FormattedMessage id="order.lastXDays" values={{ val: 30 }}>
+                            {txt => (
+                              <option value="30d">
+                                {txt}
+                              </option>
+                            )}
+                          </FormattedMessage>
+                          <FormattedMessage id="order.lastXMonths" values={{ val: 3 }}>
+                            {txt => (
+                              <option value="3m">
+                                {txt}
+                              </option>
+                            )}
+                          </FormattedMessage>
+                          <FormattedMessage id="order.lastXMonths" values={{ val: 6 }}>
+                            {txt => (
+                              <option value="6m">
+                                {txt}
+                              </option>
+                            )}
+                          </FormattedMessage>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
+                <div className="order__listing">
+                  <div className="order-list-container">
+                    {
+                      this.state.loading
+                        ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
+                        : this.state.errMsg
+                          ? <div className="text-center mt-5">
+                            <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
+                            {this.state.errMsg}
+                          </div>
+                          : this.state.orderList.length
+                            ? <React.Fragment>
+                              {this.state.orderList.map(order => (
+                                <div className="card-container" key={order.id}>
+                                  <div className="card rc-margin-y--none ml-0">
+                                    <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0">
+                                      <div className="col-12 col-md-2">
+                                        <p><FormattedMessage id="order.returnDate" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.createTime.substr(0, 10)}</span></p>
+                                      </div>
+                                      <div className="col-12 col-md-4">
+                                        <p><FormattedMessage id="order.returnNumber" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.id}</span></p>
+                                      </div>
+                                      <div className="col-12 col-md-2">
+                                        <p><FormattedMessage id="order.returnStatus" /></p>
+                                      </div>
+                                      <div className="col-12 col-md-3 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
+                                        <Link
+                                          className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
+                                          to={`/account/return-order-detail/${order.id}`}>
+                                          <span className="medium pull-right--desktop rc-styled-link rc-padding-top--xs">
+                                            <FormattedMessage id="order.returnDetails" />
+                                          </span>
+                                        </Link>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
+                                    <div className="col-12 col-md-6 d-flex flex-wrap">
+                                      {order.returnItems.map(item => (
+                                        <img
+                                          className="img-fluid"
+                                          key={item.oid}
+                                          src={item.pic || IMG_DEFAULT}
+                                          alt={item.spuName}
+                                          title={item.spuName} />
+                                      ))}
+                                    </div>
+                                    <div className="col-12 col-md-2">
+                                      {order.returnFlowState}
+                                    </div>
+                                    <div className="col-12 col-md-2 text-right">
+                                      {formatMoney(order.returnPrice.totalPrice)}
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                              <div className="grid-footer rc-full-width">
+                                <nav className="rc-pagination rc-padding--s no-padding-left no-padding-right">
+                                  <div className="rc-pagination__form">
+                                    <div
+                                      className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
+                                      onClick={() => this.handlePrevOrNextPage('prev')}></div>
+                                    {/* <div
+                              className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
+                              onClick={this.handlePrevOrNextPage('prev')}></div> */}
+                                    <div className="rc-pagination__steps">
+                                      <input
+                                        type="text"
+                                        className="rc-pagination__step rc-pagination__step--current"
+                                        value={this.state.currentPage}
+                                        onChange={() => this.handleCurrentPageNumChange()} />
+                                      <div className="rc-pagination__step rc-pagination__step--of">
+                                        <FormattedMessage id="of" /> <span>{this.state.totalPage}</span>
+                                      </div>
+                                    </div>
 
-          {/* modal */}
-          <div
-            className={`modal-backdrop fade ${
-              this.state.modalShow ? "show" : ""
-              }`}
-            style={{ display: this.state.modalShow ? "block" : "none", zIndex: 59 }}
-          ></div>
-          <div
-            className={`modal fade ${this.state.modalShow ? "show" : ""}`}
-            id="removeProductModal"
-            tabIndex="-1"
-            role="dialog"
-            aria-labelledby="removeProductLineItemModal"
-            style={{ display: this.state.modalShow ? "block" : "none", overflow: 'hidden' }}
-            aria-hidden="true"
-          >
-            <div className="modal-dialog" role="document">
-              <div className="modal-content">
-                <div className="modal-header delete-confirmation-header">
-                  <h4 className="modal-title" id="removeProductLineItemModal">
-                    Cancel Order?
-                  </h4>
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                    onClick={() => { this.setState({ modalShow: false }) }}
-                  >
-                    <span aria-hidden="true">
-                      ×
-                  </span>
-                  </button>
-                </div>
-                <div className="modal-body delete-confirmation-body">
-                  Do you really want to cancel the order?
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-outline-primary"
-                    data-dismiss="modal"
-                    onClick={() => { this.setState({ modalShow: false }) }}
-                  >
-                    <FormattedMessage id="cancel" />
-                  </button>
-                  <button
-                    type="button"
-                    className={`btn btn-primary cart-delete-confirmation-btn ${this.state.cancelOrderLoading ? 'ui-btn-loading' : ''}`}
-                    data-dismiss="modal"
-                    onClick={() => this.handleCancelOrder()}
-                  >
-                    <FormattedMessage id="yes" />
-                  </button>
+                                    <span
+                                      className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
+                                      onClick={() => this.handlePrevOrNextPage('next')}></span>
+                                  </div>
+                                </nav>
+                              </div>
+                            </React.Fragment>
+                            : <div className="text-center mt-5">
+                              <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
+                              <FormattedMessage id="order.noDataTip" />
+                            </div>
+                    }
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </main>
         <Footer />
-      </div>
+      </div >
     )
   }
 }
-
-export default AccountRefunds
