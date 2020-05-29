@@ -1,9 +1,9 @@
 import axios from '@/utils/request'
 
 const api = {
-  queryPrescription: '/clinics/prescription',
-  prescriptionById: '/clinics/prescriptionById',
-  allClinics: '/clinics/queryPrescriptionNonsort'
+  queryPrescription: '/clinics/prescription',  //搜索Clinic
+  prescriptionById: '/clinics/prescriptionById', //Clinic详情
+  allClinics: '/clinics/queryPrescriptionNonsort' //所有Clinic
 }
 
 export default api

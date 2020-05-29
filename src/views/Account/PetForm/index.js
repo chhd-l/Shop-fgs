@@ -253,7 +253,7 @@ export default class PetForm extends React.Component {
             currentStep:currentStep,
           })
           setTimeout(() => {
-            this.getPetList()
+            this.petsById(pets.petsId)
           }, 3000);
           
         }
@@ -976,7 +976,7 @@ export default class PetForm extends React.Component {
                     this.state.currentStep === 'step8'?
                     <div id="step-8" className="section next-step not-hidden">
                       <h2><FormattedMessage id="account.features"></FormattedMessage></h2>
-                      <div>
+                      <div style={{width: "88%",margin: "0 auto"}}>
                         {
                           this.state.specialNeeds.map(item=>(
                             <div className="rc-input rc-input--inline rc-margin-bottom--xs" 

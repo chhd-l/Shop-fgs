@@ -90,6 +90,10 @@ class RouteFilter extends Component {
     if (this.props.location.pathname === "/confirmation" && !localStorage.getItem('orderNumber')) {
       this.props.history.push("/");
     }
+
+    if(!sessionStorage.getItem('rc-token')&&this.props.location.pathname.indexOf("/account") !== -1){
+      this.props.history.push("/");
+    }
     queryStoreCateIds();
   }
   render () {
