@@ -9,6 +9,7 @@ import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
 import { getOrderList } from "@/api/order"
+import { IMG_DEFAULT } from '@/utils/constant'
 
 export default class AccountOrders extends React.Component {
   constructor(props) {
@@ -177,17 +178,17 @@ export default class AccountOrders extends React.Component {
                       <FormattedMessage id="order.orderNumber" />
                     </div>
                     <div className="col-md-8">
-                      <span class="rc-input rc-input--inline rc-full-width">
+                      <span className="rc-input rc-input--inline rc-full-width">
                         <input
-                          class="rc-input__control"
+                          className="rc-input__control"
                           id="id-text8"
                           type="text"
                           name="orderNumber"
                           maxLength="20"
                           value={this.state.form.orderNumber}
                           onChange={e => this.handleInputChange(e)} />
-                        <label class="rc-input__label" htmlFor="id-text8">
-                          <span class="rc-input__label-text">
+                        <label className="rc-input__label" htmlFor="id-text8">
+                          <span className="rc-input__label-text">
                             <FormattedMessage id="order.inputOrderNumberTip" />
                           </span>
                         </label>
@@ -241,7 +242,7 @@ export default class AccountOrders extends React.Component {
                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
                         : this.state.errMsg
                           ? <div className="text-center mt-5">
-                            <span class="rc-icon rc-incompatible--xs rc-iconography"></span>
+                            <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
                             {this.state.errMsg}
                           </div>
                           : this.state.orderList.length
@@ -282,7 +283,7 @@ export default class AccountOrders extends React.Component {
                                         <img
                                           className="img-fluid"
                                           key={item.oid}
-                                          src={item.pic}
+                                          src={item.pic || IMG_DEFAULT}
                                           alt={item.spuName}
                                           title={item.spuName} />
                                       ))}
@@ -330,7 +331,7 @@ export default class AccountOrders extends React.Component {
                               </div>
                             </React.Fragment>
                             : <div className="text-center mt-5">
-                              <span class="rc-icon rc-incompatible--xs rc-iconography"></span>
+                              <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
                               <FormattedMessage id="order.noDataTip" />
                             </div>
                     }

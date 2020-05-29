@@ -132,7 +132,7 @@ class AccountRefunds extends React.Component {
                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
                         : details
                           ? <div className="card-body p-0">
-                            <div className="ui-order-title d-flex justify-content-between">
+                            <div className="ui-order-title d-flex justify-content-between align-items-center">
                               <div>
                                 <span className="inlineblock">Order number:{this.state.orderNumber}</span>&nbsp;&nbsp;
                                 <span className="inlineblock">Order time:{details.tradeState.createTime.substr(0, 19)}</span>&nbsp;&nbsp;

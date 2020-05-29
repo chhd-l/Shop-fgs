@@ -53,6 +53,7 @@ export default class AccountProfile extends React.Component {
     getCustomerInfo()
       .then(res => {
         const context = res.context
+        sessionStorage.setItem('rc-userinfo', JSON.stringify(context))
         this.setState({
           originData: context,
           personalData: {
