@@ -160,7 +160,7 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                         {item.num}
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        {formatMoney(item.splitPrice)}
+                                        {formatMoney(item.price * item.num)}
                                       </div>
                                     </div>
                                   ))}
@@ -171,7 +171,7 @@ export default class OrdersAfterSaleDetail extends React.Component {
                               <div className="col-9 text-right color-999">
                                 {details.returnType === 'RETURN' ? 'Refundable' : 'Exchange'} amount:
                               </div>
-                              <div className="col-2 text-right">{formatMoney(details.returnPrice.actualReturnPrice || 0)}</div>
+                              <div className="col-2 text-right">{formatMoney(details.returnPrice.applyPrice)}</div>
                             </div>
                           </div>
                           : null

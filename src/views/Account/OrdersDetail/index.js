@@ -355,7 +355,7 @@ class AccountOrders extends React.Component {
                                         {item.num}
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        {formatMoney(item.splitPrice)}
+                                        {formatMoney(item.price * item.num)}
                                       </div>
                                     </div>
                                   ))}
