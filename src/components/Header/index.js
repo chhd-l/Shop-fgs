@@ -325,6 +325,7 @@ class Header extends React.Component {
     return (
       <React.Fragment>
         <div id="page-top" name="page-top"></div>
+        {Store.loginModal ? <Loading /> : null}
         <header className="rc-header" data-js-header-scroll>
           <nav className="rc-header__nav rc-header__nav--primary">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align" role="menubar">
