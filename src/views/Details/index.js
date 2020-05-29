@@ -434,7 +434,7 @@ class Details extends React.Component {
       { quantity: quantityNew },
       { currentAmount: currentUnitPrice * quantityNew }
     );
-    let cartDataCopy = cloneDeep(cartData);
+    let cartDataCopy = cloneDeep(localStorage.getItem("rc-cart-data") ? JSON.parse(localStorage.getItem("rc-cart-data")) : []);
 
     if (!instockStatus || !quantityNew) {
       return;
