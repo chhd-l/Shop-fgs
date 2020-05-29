@@ -8,6 +8,7 @@ class Store {
   @observable  list = ["a","b"];
   @observable  obj = {name:"Mobx"};
   @observable  isLogin = sessionStorage.getItem("rc-token")?true:false
+  @observable  loginModal = false
   
   // 计算值是可以根据现有的状态或其它计算值衍生出的值.
   // 计算值不接受参数
@@ -31,6 +32,13 @@ class Store {
   changeIsLogin(param) {
     if(typeof param === 'boolean') {
       this.isLogin = param
+    }
+  }
+
+  @action.bound
+  changeLoginModal(param) {
+    if(typeof param === 'boolean') {
+      this.loginModal = param
     }
   }
 }

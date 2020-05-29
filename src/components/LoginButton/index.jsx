@@ -31,18 +31,19 @@ const LoginButton = () => {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
     } else {
+      Store.changeLoginModal(true)
       authService.getUser().then((info) => {
         setUserInfo(info);
-        authService.getUser().then((info) => {
-          setUserInfo(info);
-          if (!sessionStorage.getItem('rc-token')) {
-            getToken({ oktaToken: `Bearer ${accessToken}` }).then(res => {
-              Store.changeIsLogin(true)
-              sessionStorage.setItem("rc-token", res.context.token);
-              sessionStorage.setItem("rc-userinfo", JSON.stringify(res.context.customerDetail));
-            })
-          }
-        });
+        if (!sessionStorage.getItem('rc-token')) {
+          getToken({ oktaToken: `Bearer ${accessToken}` }).then(res => {
+            Store.changeLoginModal(false)
+            Store.changeIsLogin(true)
+            sessionStorage.setItem("rc-token", res.context.token);
+            sessionStorage.setItem("rc-userinfo", JSON.stringify(res.context.customerDetail));
+          }).catch(e => {
+            Store.changeLoginModal(false)
+          })
+        }
       });
     }
   }, [authState, authService]); // Update if authState changes
