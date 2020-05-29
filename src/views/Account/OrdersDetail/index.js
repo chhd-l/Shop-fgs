@@ -22,6 +22,7 @@ class AccountOrders extends React.Component {
       payRecord: null,
       loading: true,
       cancelOrderLoading: false,
+      returnOrExchangeLoading: false,
       errMsg: '',
 
       cancelOrderModalVisible: false,
@@ -64,6 +65,7 @@ class AccountOrders extends React.Component {
   }
   async hanldeItemClick (afterSaleType) {
     // 退单都完成了，才可继续退单
+    this.setState({ returnOrExchangeLoading: true })
     let res = await returnFindByTid(this.state.orderNumber)
     let unloadItem = find(res.context, ele =>
       ele.returnFlowState === 'INIT'
@@ -72,7 +74,8 @@ class AccountOrders extends React.Component {
       || ele.returnFlowState === 'RECEIVED')
     if (unloadItem) {
       this.setState({
-        returnOrExchangeModalVisible: true
+        returnOrExchangeModalVisible: true,
+        returnOrExchangeLoading: false
       })
     } else {
       sessionStorage.setItem('rc-after-sale-type', afterSaleType)
@@ -106,8 +109,12 @@ class AccountOrders extends React.Component {
       && details.tradeState.flowState === 'COMPLETED') {
       return <React.Fragment>
         <div className="d-flex justify-content-end">
-          <button className="rc-btn rc-btn--two" onClick={() => this.hanldeItemClick('exchange')}>Return</button>
-          <button className="rc-btn rc-btn--two" onClick={() => this.hanldeItemClick('return')}>Exchange</button>
+          <button
+            className={`rc-btn rc-btn--two ${this.props.returnOrExchangeLoading ? 'ui-btn-loading' : ''}`}
+            onClick={() => this.hanldeItemClick('exchange')}>Return</button>
+          <button
+            className={`rc-btn rc-btn--two ${this.props.returnOrExchangeLoading ? 'ui-btn-loading' : ''}`}
+            onClick={() => this.hanldeItemClick('return')}>Exchange</button>
         </div>
       </React.Fragment>
     }
@@ -427,7 +434,7 @@ class AccountOrders extends React.Component {
           <Modal
             key="4"
             visible={this.state.returnOrExchangeModalVisible}
-            modalText="No products can be returned or exchange."
+            modalText="This order is associated with a refund in processing and cannot be reapplied."
             close={() => { this.setState({ returnOrExchangeModalVisible: false }) }}
             hanldeClickConfirm={() => { this.setState({ returnOrExchangeModalVisible: false }) }} />
         </main>
