@@ -5,6 +5,7 @@
 const path = require('path');
 const dotenv = require('dotenv');
 const fs = require('fs');
+const { override, addDecoratorsLegacy } = require('customize-cra')
 
 // Read environment variables from "testenv". Override environment vars if they are already set.
 const TESTENV = path.resolve(__dirname, '..', 'testenv');

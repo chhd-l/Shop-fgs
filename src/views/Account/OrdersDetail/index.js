@@ -5,9 +5,12 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
+import Modal from '@/components/Modal'
 import { FormattedMessage } from 'react-intl'
 import { formatMoney } from "@/utils/utils"
+import { find } from 'lodash'
 import { getOrderDetails, cancelOrder, getPayRecord, returnFindByTid } from "@/api/order"
+import { IMG_DEFAULT } from '@/utils/constant'
 import './index.css'
 
 class AccountOrders extends React.Component {
@@ -18,12 +21,15 @@ class AccountOrders extends React.Component {
       details: null,
       payRecord: null,
       loading: true,
-      modalShow: false,
       cancelOrderLoading: false,
       errMsg: '',
-      modalText: ''
+
+      cancelOrderModalVisible: false,
+      operateSuccessModalVisible: false,
+      errModalVisible: false,
+      returnOrExchangeModalVisible: false,
+      errModalText: ''
     }
-    // modalConfirmBtnStatus 0-取消订单 1-跳转订单列表 2-关闭弹框
   }
   componentDidMount () {
     this.setState({
@@ -52,36 +58,39 @@ class AccountOrders extends React.Component {
     })
   }
   async hanldeItemClick (afterSaleType) {
+    // 退单都完成了，才可继续退单
     let res = await returnFindByTid(this.state.orderNumber)
-    // 等德哥给状态 todo
-    return
-    if (res.context.length) {
+    let unloadItem = find(res.context, ele =>
+      ele.returnFlowState === 'INIT'
+      || ele.returnFlowState === 'AUDIT'
+      || ele.returnFlowState === 'DELIVERED'
+      || ele.returnFlowState === 'RECEIVED')
+    if (unloadItem) {
+      this.setState({
+        returnOrExchangeModalVisible: true
+      })
+    } else {
       sessionStorage.setItem('rc-after-sale-type', afterSaleType)
       this.props.history.push(`/account/orders-aftersale/${this.state.orderNumber}`)
-    } else {
-      this.setState({
-        modalShow: true,
-        modalText: 'No products can be returned or exchange.'
-      })
-      this.modalConfirmBtnStatus = 2
     }
   }
   handleCancelOrder () {
     this.setState({ cancelOrderLoading: true })
     cancelOrder(this.state.orderNumber)
       .then(res => {
-        this.modalConfirmBtnStatus = 1
         this.setState({
           cancelOrderLoading: false,
-          modalText: 'Operate successfully'
+          cancelOrderModalVisible: false,
+          operateSuccessModalVisible: true
         })
         this.init()
       })
       .catch(err => {
-        this.modalConfirmBtnStatus = 2
         this.setState({
           cancelOrderLoading: false,
-          modalText: err.toString()
+          errModalText: err.toString(),
+          cancelOrderModalVisible: false,
+          errModalVisible: true
         })
       })
   }
@@ -109,10 +118,6 @@ class AccountOrders extends React.Component {
     }
     return ret
   }
-  handleClickCancelOrderBtn () {
-    this.modalConfirmBtnStatus = 0
-    this.setState({ modalShow: true, modalText: 'Do you really want to cancel the order?' })
-  }
   cancelOrderBtnJSX () {
     const { details } = this.state
     let ret = null
@@ -122,19 +127,10 @@ class AccountOrders extends React.Component {
       ret = <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
         <span
           className="mr-2 rc-styled-link"
-          onClick={() => this.handleClickCancelOrderBtn()}>Cancel order</span>
+          onClick={() => { this.setState({ cancelOrderModalVisible: true }) }}>Cancel order</span>
       </button>
     }
     return ret
-  }
-  hanldeClickConfirm () {
-    if (this.modalConfirmBtnStatus === 1) {
-      this.props.history.push('/account/orders')
-    } else if (this.modalConfirmBtnStatus === 2) {
-      this.setState({ modalShow: false })
-    } else {
-      this.handleCancelOrder()
-    }
   }
   render () {
     const event = {
@@ -144,7 +140,7 @@ class AccountOrders extends React.Component {
         "theme": ""
       }
     }
-    const { details, payRecord, modalShow } = this.state
+    const { details, payRecord, cancelOrderModalVisible } = this.state
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -162,7 +158,7 @@ class AccountOrders extends React.Component {
                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
                         : details
                           ? <div className="card-body p-0">
-                            <div className="ui-order-title d-flex justify-content-between">
+                            <div className="ui-order-title d-flex justify-content-between align-items-center">
                               <div>
                                 <span className="inlineblock">Order number:{this.state.orderNumber}</span>&nbsp;&nbsp;
                                 <span className="inlineblock">Order time:{details.tradeState.createTime.substr(0, 19)}</span>&nbsp;&nbsp;
@@ -170,87 +166,84 @@ class AccountOrders extends React.Component {
                               </div>
                               <div className="details-btn-group d-flex">
                                 {this.returnOrExchangeBtnJSX()}
-                                {this.cancelOrderBtnJSX()}
+                                {/* 前台暂时不显示取消订单按钮 */}
+                                {/* {this.cancelOrderBtnJSX()} */}
                               </div>
                             </div>
                             <div className="detail-title">
                               Order information
                             </div>
                             <div className="row">
-                              <div className="col-12 col-md-6">
-                                <div className="row">
-                                  <div className="col-4 text-right color-999">
-                                    Receiver:
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  Receiver:
                                   </div>
-                                  <div className="col-8">
-                                    {details.consignee.name}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-4 text-right color-999">
-                                    Phone number:
-                                  </div>
-                                  <div className="col-8">
-                                    {details.consignee.phone}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-4 text-right color-999">
-                                    Postal code:
-                                  </div>
-                                  <div className="col-8">
-                                    {details.consignee.postCode}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-4 text-right color-999">
-                                    Delivery address:
-                                  </div>
-                                  <div className="col-8">
-                                    {details.consignee.address}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-4 text-right color-999">
-                                    Billing address:
-                                  </div>
-                                  <div className="col-8">
-                                    {details.invoice.address}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-4 text-right color-999">
-                                    Delivery comment:
-                                  </div>
-                                  <div className="col-8">
-                                    {details.buyerRemark}
-                                  </div>
+                                <div className="col-8">
+                                  {details.consignee.name}
                                 </div>
                               </div>
-                              <div className="col-12 col-md-6">
-                                <div className="row">
-                                  <div className="col-4 text-right color-999">
-                                    Reference:
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  Reference:
                                   </div>
-                                  <div className="col-8">
-                                    {details.consignee.rfc}
-                                  </div>
+                                <div className="col-8">
+                                  {details.consignee.rfc}
                                 </div>
-                                <div className="row">
-                                  <div className="col-4 text-right color-999">
-                                    Selected Clinic:
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  Phone number:
+                                  </div>
+                                <div className="col-8">
+                                  {details.consignee.phone}
                                 </div>
-                                  <div className="col-8">
-                                    {details.clinicsId}
-                                  </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  Selected Clinic:
                                 </div>
-                                <div className="row">
-                                  <div className="col-4 text-right color-999">
-                                    Express method:
+                                <div className="col-8">
+                                  {details.clinicsId}
+                                </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  Postal code:
                                   </div>
-                                  <div className="col-8">
-                                    {details.deliverWay}
+                                <div className="col-8">
+                                  {details.consignee.postCode}
+                                </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  Express method:
                                   </div>
+                                <div className="col-8">
+                                  {details.deliverWay}
+                                </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  Delivery address:
+                                  </div>
+                                <div className="col-8">
+                                  {details.consignee.address}
+                                </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  Billing address:
+                                  </div>
+                                <div className="col-8">
+                                  {details.invoice.address}
+                                </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  Delivery comment:
+                                  </div>
+                                <div className="col-8">
+                                  {details.buyerRemark}
                                 </div>
                               </div>
                             </div>
@@ -261,72 +254,68 @@ class AccountOrders extends React.Component {
                                     Payment information
                                   </div>
                                   <div className="row">
-                                    <div className="col-12 col-md-6">
-                                      <div className="row">
-                                        <div className="col-4 text-right color-999">
-                                          Payment time:
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        Payment time:
                                       </div>
-                                        <div className="col-8">
-                                          {details.tradeState.createTime}
-                                        </div>
-                                      </div>
-                                      <div className="row">
-                                        <div className="col-4 text-right color-999">
-                                          Payment status:
-                                      </div>
-                                        <div className="col-8">
-                                          {details.tradeState.payState}
-                                        </div>
-                                      </div>
-                                      <div className="row">
-                                        <div className="col-4 text-right color-999">
-                                          Payment number:
-                                        </div>
-                                        <div className="col-8">
-                                          {payRecord.chargeId}
-                                        </div>
-                                      </div>
-                                      <div className="row">
-                                        <div className="col-4 text-right color-999">
-                                          Payment method:
-                                        </div>
-                                        <div className="col-8">
-                                          {payRecord.paymentMethod}
-                                        </div>
+                                      <div className="col-8">
+                                        {details.tradeState.createTime}
                                       </div>
                                     </div>
-                                    <div className="col-12 col-md-6">
-                                      <div className="row">
-                                        <div className="col-4 text-right color-999">
-                                          Name:
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        Name:
                                         </div>
-                                        <div className="col-8">
-                                          {payRecord.accountName}
-                                        </div>
+                                      <div className="col-8">
+                                        {payRecord.accountName}
                                       </div>
-                                      <div className="row">
-                                        <div className="col-4 text-right color-999">
-                                          Email:
-                                        </div>
-                                        <div className="col-8">
-                                          {payRecord.email}
-                                        </div>
+                                    </div>
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        Payment status:
                                       </div>
-                                      <div className="row">
-                                        <div className="col-4 text-right color-999">
-                                          Phone number :
-                                        </div>
-                                        <div className="col-8">
-                                          {payRecord.phone}
-                                        </div>
+                                      <div className="col-8">
+                                        {details.tradeState.payState}
                                       </div>
-                                      <div className="row">
-                                        <div className="col-4 text-right color-999">
-                                          Card number:
+                                    </div>
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        Email:
                                         </div>
-                                        <div className="col-8">
-                                          {payRecord.last4Digits}
+                                      <div className="col-8">
+                                        {payRecord.email}
+                                      </div>
+                                    </div>
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        Payment number:
                                         </div>
+                                      <div className="col-8">
+                                        {payRecord.chargeId}
+                                      </div>
+                                    </div>
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        Phone number :
+                                        </div>
+                                      <div className="col-8">
+                                        {payRecord.phone}
+                                      </div>
+                                    </div>
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        Payment method:
+                                        </div>
+                                      <div className="col-8">
+                                        {payRecord.paymentMethod}
+                                      </div>
+                                    </div>
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        Card number:
+                                        </div>
+                                      <div className="col-8">
+                                        {payRecord.last4Digits}
                                       </div>
                                     </div>
                                   </div>
@@ -357,7 +346,7 @@ class AccountOrders extends React.Component {
                                       <div className="col-12 col-md-6 d-flex pl-0 pr-0">
                                         <img
                                           className="img-fluid border"
-                                          src={item.pic}
+                                          src={item.pic || IMG_DEFAULT}
                                           alt={item.spuName}
                                           title={item.spuName} />
                                         <div className="m-1 color-999">
@@ -421,59 +410,31 @@ class AccountOrders extends React.Component {
               </div>
             </div>
           </div>
-
-          {/* modal */}
-          <div
-            className={`modal-backdrop fade ${modalShow ? "show" : ""}`}
-            style={{ display: modalShow ? "block" : "none", zIndex: 59 }}
-          ></div>
-          <div
-            className={`modal fade ${modalShow ? "show" : ""}`}
-            id="removeProductModal"
-            tabIndex="-1"
-            role="dialog"
-            aria-labelledby="removeProductLineItemModal"
-            style={{ display: modalShow ? "block" : "none", overflow: 'hidden' }}
-            aria-hidden="true"
-          >
-            <div className="modal-dialog" role="document">
-              <div className="modal-content">
-                <div className="modal-header delete-confirmation-header">
-                  <h4 className="modal-title" id="removeProductLineItemModal">Information</h4>
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                    onClick={() => { this.setState({ modalShow: false }) }}
-                  >
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-                <div className="modal-body delete-confirmation-body">
-                  {this.state.modalText}
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-outline-primary"
-                    data-dismiss="modal"
-                    onClick={() => { this.setState({ modalShow: false }) }}
-                  >
-                    <FormattedMessage id="cancel" />
-                  </button>
-                  <button
-                    type="button"
-                    className={`btn btn-primary cart-delete-confirmation-btn ${this.state.cancelOrderLoading ? 'ui-btn-loading' : ''}`}
-                    data-dismiss="modal"
-                    onClick={() => this.hanldeClickConfirm()}
-                  >
-                    <FormattedMessage id="yes" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Modal
+            key="1"
+            visible={this.state.cancelOrderModalVisible}
+            confirmLoading={this.state.cancelOrderLoading}
+            modalText="Do you really want to cancel the order?"
+            close={() => { this.setState({ cancelOrderModalVisible: false }) }}
+            hanldeClickConfirm={() => this.handleCancelOrder()} />
+          <Modal
+            key="2"
+            visible={this.state.operateSuccessModalVisible}
+            modalText="Operate successfully!"
+            close={() => { this.setState({ operateSuccessModalVisible: false }) }}
+            hanldeClickConfirm={() => { this.props.history.push('/account/orders') }} />
+          <Modal
+            key="3"
+            visible={this.state.errModalVisible}
+            modalText={this.state.errModalText}
+            close={() => { this.setState({ errModalVisible: false }) }}
+            hanldeClickConfirm={() => { this.setState({ errModalVisible: false }) }} />
+          <Modal
+            key="4"
+            visible={this.state.returnOrExchangeModalVisible}
+            modalText="No products can be returned or exchange."
+            close={() => { this.setState({ returnOrExchangeModalVisible: false }) }}
+            hanldeClickConfirm={() => { this.setState({ returnOrExchangeModalVisible: false }) }} />
         </main>
         <Footer />
       </div>

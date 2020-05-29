@@ -14,11 +14,10 @@ import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
 import { getToken } from '@/api/login'
 import { FormattedMessage } from 'react-intl'
+import {  inject, observer } from 'mobx-react';
+import Store from '@/store/store';
 
 const LogoutButton = () => {
-  // console.log(useOktaAuth)
-  // console.log(useOktaAuth(), 'useOktaAuth')
-  // const { authService } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
   const { authState, authService } = useOktaAuth();
   
@@ -45,6 +44,7 @@ const LogoutButton = () => {
   }, [authState, authService]); // Update if authState changes
 
   const login = async () => {
+    Store.changeIsLogin(false)
     authService.login('/');
   };
   const logout = async () => authService.logout('/');
@@ -52,9 +52,6 @@ const LogoutButton = () => {
     sessionStorage.setItem("is-login", false);
     sessionStorage.removeItem("rc-token");
     logout()
-    // this.setState({
-    //   isLogin: false
-    // })
   }
   return (
     <div className="logoff-style">

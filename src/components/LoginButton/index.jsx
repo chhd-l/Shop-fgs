@@ -14,6 +14,8 @@ import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
 import { Button, Header } from 'semantic-ui-react';
 import { getToken } from '@/api/login'
+import {  inject, observer } from 'mobx-react';
+import Store from '@/store/store';
 
 const LoginButton = () => {
   // console.log(useOktaAuth)
@@ -29,17 +31,19 @@ const LoginButton = () => {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
     } else {
+      Store.changeLoginModal(true)
       authService.getUser().then((info) => {
         setUserInfo(info);
-        authService.getUser().then((info) => {
-          setUserInfo(info);
-          if (!sessionStorage.getItem('rc-token')) {
-            getToken({ oktaToken: `Bearer ${accessToken}` }).then(res => {
-              sessionStorage.setItem("rc-token", res.context.token);
-              sessionStorage.setItem("rc-userinfo", JSON.stringify(res.context.customerDetail));
-            })
-          }
-        });
+        if (!sessionStorage.getItem('rc-token')) {
+          getToken({ oktaToken: `Bearer ${accessToken}` }).then(res => {
+            Store.changeLoginModal(false)
+            Store.changeIsLogin(true)
+            sessionStorage.setItem("rc-token", res.context.token);
+            sessionStorage.setItem("rc-userinfo", JSON.stringify(res.context.customerDetail));
+          }).catch(e => {
+            Store.changeLoginModal(false)
+          })
+        }
       });
     }
   }, [authState, authService]); // Update if authState changes

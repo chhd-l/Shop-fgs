@@ -1616,7 +1616,7 @@ ul.ui-star-list li:before {
   left: 0;
   top: 50%;
   transform: translateY(-50%);  
-  background-image: url(../../../public/royal/royal-assets1/royal-canin.sprite--iconography.svg);
+  /* background-image: url(../../../public/royal/royal-assets1/royal-canin.sprite--iconography.svg); */
   background-position: 39.99% 88.89%;
   content: '';
   display: inline-block;

@@ -14,6 +14,7 @@ import {
   getReturnWays,
   returnAdd
 } from "@/api/order"
+import { IMG_DEFAULT } from '@/utils/constant'
 import './index.css'
 
 class OrdersAfterSale extends React.Component {
@@ -306,7 +307,7 @@ class OrdersAfterSale extends React.Component {
                                             <div className="col-12 col-md-10 d-flex">
                                               <img
                                                 className="img-fluid border"
-                                                src={item.pic}
+                                                src={item.pic || IMG_DEFAULT}
                                                 alt={item.spuName}
                                                 title={item.spuName} />
                                               <div className="m-1 color-999">

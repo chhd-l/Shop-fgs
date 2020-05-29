@@ -6,6 +6,7 @@ import { getReturnDetails } from "@/api/order"
 import { formatMoney } from "@/utils/utils"
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { IMG_DEFAULT } from '@/utils/constant'
 import successImg from "@/assets/images/credit-cards/success.png"
 import './index.css'
 
@@ -16,7 +17,8 @@ export default class OrdersAfterSaleSuccess extends React.Component {
       returnNumber: '',
       afterSaleType: '',
       details: null,
-      loading: true
+      loading: true,
+      errMsg: ''
     }
   }
   componentDidMount () {
@@ -33,9 +35,15 @@ export default class OrdersAfterSaleSuccess extends React.Component {
           loading: false
         })
       })
+      .catch(err => {
+        this.setState({
+          errMsg: err.toString(),
+          loading: false
+        })
+      })
   }
   render () {
-    const { details } = this.state
+    const { details, errMsg } = this.state
     return (
       <div>
         <Header history={this.props.history} />
@@ -56,7 +64,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                           Your application has been submited for review, you can view the progress in the personal center.
                         </p>
                         <Link
-                          to={`/account/orders-aftersale/detail/${this.state.returnNumber}`}
+                          to={`/account/return-order-detail/${this.state.returnNumber}`}
                           className="rc-meta rc-styled-link backtohome"
                           style={{ fontWeight: 500 }}>
                           View after-sale details
@@ -75,7 +83,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                               <div className="d-flex mb-1" key={item.skuId}>
                                 <img
                                   className="img-fluid border"
-                                  src={item.pic}
+                                  src={item.pic || IMG_DEFAULT}
                                   alt={item.skuName}
                                   title={item.skuName}
                                   style={{ width: "20%" }} />
@@ -89,7 +97,12 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                           </div>
                         </div>
                       </React.Fragment>
-                      : null
+                      : errMsg
+                        ? <div className="text-center mt-5 mb-5">
+                          <span class="rc-icon rc-incompatible--xs rc-iconography"></span>
+                          {errMsg}
+                        </div>
+                        : null
                 }
               </div>
             </div>

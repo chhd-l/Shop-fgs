@@ -113,6 +113,7 @@ class ImageMagnifier extends Component {
     if(!currentImg && images && images.length > 0) {
       currentImg = images[0].artworkUrl
     }
+    console.log(currentImg, 'currentImg')
     this.setState({
       currentImg: currentImg
     })
@@ -250,8 +251,8 @@ class ImageMagnifier extends Component {
             this.refs.video.play()
             this.setState({videoModalShow: false})
           }}></div>}
-          {!videoShow && <img style={cssStyle.imgStyle} src={currentImg} alt="" />}
-          {videoShow && <video ref="video" style={cssStyle.imgStyle} src={video? video: ''} controlslist="nodownload" oncontextmenu="return false;" controls></video>}
+          {!(videoShow && video) && <img style={cssStyle.imgStyle} src={currentImg} alt="" />}
+          {(videoShow && video) && <video ref="video" style={cssStyle.imgStyle} src={video? video: ''} controlslist="nodownload" oncontextmenu="return false;" controls></video>}
           {!videoShow && <div
             style={cssStyle.maskBlock}
             onMouseEnter={this.mouseEnter}
@@ -279,11 +280,11 @@ class ImageMagnifier extends Component {
             <div key={i} className="rc-img--square rc-img--square-custom" onMouseEnter={(e) => this.imageChange(e, el.artworkUrl)} style={{ backgroundImage: 'url(' + el.artworkUrl + ')' }}></div>
           ))
         }
-        <video className="rc-img--square rc-img--square-custom" onMouseEnter={() => {
+        {video && <video className="rc-img--square rc-img--square-custom" onMouseEnter={() => {
           let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
           cssStyle.imgContainer.cursor = 'pointer'
           this.setState({videoShow: true, cssStyle})
-        }} src={video? video: ''}></video>
+        }} src={video? video: ''}></video>}
       </div>
       </div>
     );

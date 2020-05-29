@@ -119,8 +119,6 @@ class Details extends React.Component {
         item.selected = false
       }
     })
-    console.log(currentUnitPrice)
-    console.log(details.sizeList, 'sizeList')
     this.setState({ details, currentUnitPrice, stock }, () => {
       this.updateInstockStatus();
     })
@@ -167,7 +165,6 @@ class Details extends React.Component {
           // console.log(targetInfo, 'target')
           // if (targetInfo) {
           g = Object.assign({}, g, { selected: false });
-          console.log(g);
           // }
           return g;
         });
