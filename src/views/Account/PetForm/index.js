@@ -105,6 +105,23 @@ export default class PetForm extends React.Component {
       window.location.reload();
       return false
     }
+
+    try {
+      let timer = setInterval(() => {
+        const datePickerOptions = {
+          maxDate: new Date()
+        }
+        if (window.RCDL.features.Datepickers && document.querySelector('.birthdate')) {
+          document.querySelector('.birthdate').setAttribute("datepicker-setup", "false")
+          window.RCDL.features.Datepickers.init('.birthdate', null, datePickerOptions)
+          clearInterval(timer)
+        }
+      }, 1000)
+    } catch (e) {
+      console.log(e)
+    }
+      
+      // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
   }
   getPetList = async ()=>{
 
@@ -738,7 +755,7 @@ export default class PetForm extends React.Component {
                           aria-required="true" 
                           value={this.state.nickname}
                           onChange={this.inputNickname}  
-                          maxlength="2147483647"/>
+                          maxLength="2147483647"/>
                         <div className="invalid-feedback"></div>
                         </div>
                         
@@ -939,9 +956,11 @@ export default class PetForm extends React.Component {
                       <h2><FormattedMessage id="account.enterBirthDare"></FormattedMessage></h2>
                       <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
                         <input
-                          className="rc-input__date rc-js-custom rc-input__control"
+                          className="rc-input__date rc-js-custom rc-input__control birthdate"
                           id="birthdate"
                           data-js-dateformat="DD/MM/YYYY"
+
+                          max="2020-05-29"
                           name="birthdate"
                           type="date"
                           value={this.state.birthdate}
