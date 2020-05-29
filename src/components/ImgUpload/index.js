@@ -14,7 +14,7 @@ export default class ImgUpload extends React.Component {
   handleChange (e) {
     const { imgList } = this.state
     const files = e.target.files
-    if (files[0].size >= 1048576) {
+    if (files.length && files[0].size >= 1048576) {
       console.log("上传图片大小不得超过1M");
       return false;
     }

@@ -7,7 +7,7 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import { FormattedMessage } from 'react-intl'
 import { formatMoney } from "@/utils/utils"
-import { getOrderDetails, cancelOrder, getPayRecord } from "@/api/order"
+import { getOrderDetails, cancelOrder, getPayRecord, returnFindByTid } from "@/api/order"
 import './index.css'
 
 class AccountOrders extends React.Component {
@@ -23,6 +23,7 @@ class AccountOrders extends React.Component {
       errMsg: '',
       modalText: ''
     }
+    // modalConfirmBtnStatus 0-取消订单 1-跳转订单列表 2-关闭弹框
   }
   componentDidMount () {
     this.setState({
@@ -50,15 +51,26 @@ class AccountOrders extends React.Component {
       })
     })
   }
-  hanldeItemClick (afterSaleType) {
-    sessionStorage.setItem('rc-after-sale-type', afterSaleType)
-    this.props.history.push(`/account/orders-aftersale/${this.state.orderNumber}`)
+  async hanldeItemClick (afterSaleType) {
+    let res = await returnFindByTid(this.state.orderNumber)
+    // 等德哥给状态 todo
+    return
+    if (res.context.length) {
+      sessionStorage.setItem('rc-after-sale-type', afterSaleType)
+      this.props.history.push(`/account/orders-aftersale/${this.state.orderNumber}`)
+    } else {
+      this.setState({
+        modalShow: true,
+        modalText: 'No products can be returned or exchange.'
+      })
+      this.modalConfirmBtnStatus = 2
+    }
   }
   handleCancelOrder () {
     this.setState({ cancelOrderLoading: true })
     cancelOrder(this.state.orderNumber)
       .then(res => {
-        this.cancelOrderStatus = 1
+        this.modalConfirmBtnStatus = 1
         this.setState({
           cancelOrderLoading: false,
           modalText: 'Operate successfully'
@@ -66,7 +78,7 @@ class AccountOrders extends React.Component {
         this.init()
       })
       .catch(err => {
-        this.cancelOrderStatus = 2
+        this.modalConfirmBtnStatus = 2
         this.setState({
           cancelOrderLoading: false,
           modalText: err.toString()
@@ -97,6 +109,10 @@ class AccountOrders extends React.Component {
     }
     return ret
   }
+  handleClickCancelOrderBtn () {
+    this.modalConfirmBtnStatus = 0
+    this.setState({ modalShow: true, modalText: 'Do you really want to cancel the order?' })
+  }
   cancelOrderBtnJSX () {
     const { details } = this.state
     let ret = null
@@ -106,17 +122,15 @@ class AccountOrders extends React.Component {
       ret = <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
         <span
           className="mr-2 rc-styled-link"
-          onClick={() => {
-            this.setState({ modalShow: true, modalText: 'Do you really want to cancel the order?' })
-          }}>Cancel order</span>
+          onClick={() => this.handleClickCancelOrderBtn()}>Cancel order</span>
       </button>
     }
     return ret
   }
   hanldeClickConfirm () {
-    if (this.cancelOrderStatus === 1) {
+    if (this.modalConfirmBtnStatus === 1) {
       this.props.history.push('/account/orders')
-    } else if (this.cancelOrderStatus === 2) {
+    } else if (this.modalConfirmBtnStatus === 2) {
       this.setState({ modalShow: false })
     } else {
       this.handleCancelOrder()
@@ -134,7 +148,7 @@ class AccountOrders extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header showMiniIcons={true} location={this.props.location} history={this.props.history}/>
+        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">

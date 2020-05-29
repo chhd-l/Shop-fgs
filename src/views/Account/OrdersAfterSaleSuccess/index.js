@@ -14,13 +14,15 @@ export default class OrdersAfterSaleSuccess extends React.Component {
     super(props)
     this.state = {
       returnNumber: '',
+      afterSaleType: '',
       details: null,
       loading: true
     }
   }
   componentDidMount () {
     this.setState({
-      returnNumber: this.props.match.params.returnNumber
+      returnNumber: this.props.match.params.returnNumber,
+      afterSaleType: sessionStorage.getItem('rc-after-sale-type')
     }, () => this.queryReturnDetails())
   }
   queryReturnDetails () {
@@ -39,16 +41,16 @@ export default class OrdersAfterSaleSuccess extends React.Component {
         <Header history={this.props.history} />
         <main className="rc-content--fixed-header">
           <div className="rc-layout-container rc-three-column rc-max-width--xl">
-            <div class="rc-column rc-double-width">
+            <div className="rc-column rc-double-width">
               <div className="center">
                 {
                   this.state.loading
                     ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
                     : details
                       ? <React.Fragment>
-                        <img src={successImg} alt="" style={{display: 'inline-block'}} />
+                        <img src={successImg} alt="" style={{ display: 'inline-block' }} />
                         <h4>
-                          <b>The return refund/exchange application is submited successfully!</b>
+                          <b>The {details.returnType === 'RETURN' ? 'return refund' : 'exchange'} application is submited successfully!</b>
                         </h4>
                         <p style={{ marginBottom: '5px' }}>
                           Your application has been submited for review, you can view the progress in the personal center.
@@ -66,13 +68,13 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                           style={{ fontWeight: 500 }}>
                           <FormattedMessage id="confirmation.visitOnlineStore" />
                         </Link>
-                        <p class="rc-margin-top--sm"><b>Return number: {this.state.returnNumber}</b></p>
-                        <div class="rc-bg-colour--brand3 rc-max-width--xl rc-bottom-spacing rc-padding--sm imformation">
+                        <p className="rc-margin-top--sm"><b>Return number: {this.state.returnNumber}</b></p>
+                        <div className="rc-bg-colour--brand3 rc-max-width--xl rc-bottom-spacing rc-padding--sm imformation">
                           <div className="info-container text-left">
                             {details.returnItems.map(item => (
                               <div className="d-flex mb-1" key={item.skuId}>
                                 <img
-                                  class="img-fluid border"
+                                  className="img-fluid border"
                                   src={item.pic}
                                   alt={item.skuName}
                                   title={item.skuName}
@@ -83,7 +85,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                                 </span>
                               </div>
                             ))}
-                            <div class="circle-line"></div>
+                            <div className="circle-line"></div>
                           </div>
                         </div>
                       </React.Fragment>

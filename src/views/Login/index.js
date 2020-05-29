@@ -16,6 +16,16 @@ class Login extends React.Component {
       },
     };
   }
+  componentWillUnmount () {
+    localStorage.setItem("isRefresh", true);
+  }
+  componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
+  }
   loginFormChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;

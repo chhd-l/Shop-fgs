@@ -13,6 +13,7 @@ getAddressById,
 editAddress} from '@/api/address'
 import { Link } from 'react-router-dom';
 import Loading from "@/components/Loading"
+import { getDict } from '@/api/dict'
 
 
 export default class ShippingAddress extends React.Component {
@@ -51,6 +52,48 @@ export default class ShippingAddress extends React.Component {
   }
   componentDidMount () {
     this.getAddressList()
+    this.getDict('city')
+    this.getDict('country')
+  }
+  getDict = async(type)=>{
+    this.setState({
+      loading:true
+    })
+    let params ={
+      "delFlag": 0,
+      "storeId": 123456858,
+      "type": type,
+    }
+    await getDict(params).then(res=>{
+      if(res.code === 'K-000000'){
+        if(type==='city'){
+          let cityList = res.context.sysDictionaryVOS
+          this.setState({
+            cityList:cityList,
+            loading:false
+          })
+        }
+        if(type==='country'){
+          let countryList = res.context.sysDictionaryVOS
+          this.setState({
+            countryList:countryList,
+            loading:false
+          })
+        }
+        
+      }
+      else{
+        this.showErrorMsg(res.message||'get data failed')
+        this.setState({
+          loading:false
+        })
+      }
+    }).catch(err =>{
+        this.showErrorMsg('get data failed')
+        this.setState({
+          loading:false
+        })
+    })
   }
    getAddressList = async ()=>{
     await getAddressList().then( res =>{
@@ -256,6 +299,20 @@ export default class ShippingAddress extends React.Component {
     history.push('/account/shippingAddress/'+id)
   }
 
+  getDictValue=(list,id)=>{
+    if(list&& list.length>0){
+      let item = list.find(item=>{
+        return item.id===id
+      })
+      console.log(item);
+      return item.name
+    }
+    else {
+      return id
+    }
+    
+  }
+
   
   render () {
     return (
@@ -306,34 +363,15 @@ export default class ShippingAddress extends React.Component {
                   </div>
                   {
                     this.state.addressList.map(item=>(
-                      <div className="card-address" key={item.deliveryAddressId}>
-                        <div className="addr-line"></div>
+                      <div className={"card-address " +( item.isDefaltAddress ===1?"card-address-default":"") } key={item.deliveryAddressId}>
+                        {/* <div className="addr-line"></div> */}
                         <div className="ant-row">
                           <div className="ant-col-20 form-info">
-                           <div className="card-title">{item.consigneeName}</div>
                             <form className="ant-form ant-form-horizontal">
+
                               <div className="ant-row ant-form-item">
                                 <div className="ant-col-0 ant-form-item-label">
-                                  <FormattedMessage id="consignee">
-                                    {(txt)=>(
-                                      <label className="" title={txt}>{txt}</label>
-                                      )
-                                    }
-                                  </FormattedMessage>
-                                  
-                                </div>
-                                <div className="ant-col-24 ant-form-item-control-wrapper">
-                                  <div className="ant-form-item-control ">
-                                    <p>
-                                      <span>{item.consigneeName}</span>
-                                      <span className="pushl">{item.consigneeNumber}</span>
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="ant-row ant-form-item">
-                                <div className="ant-col-0 ant-form-item-label">
-                                  <FormattedMessage id="shippingAddress">
+                                  <FormattedMessage id="Name">
                                     {(txt)=>(
                                       <label className="" title={txt}>{txt}</label>
                                       )
@@ -342,17 +380,82 @@ export default class ShippingAddress extends React.Component {
                                 </div>
                                 <div className="ant-col-24 ant-form-item-control-wrapper">
                                   <div className="ant-form-item-control ">
-                                    <span>{item.deliveryAddress}</span>
+                                    <span>{item.consigneeName}</span>
                                   </div>
                                 </div>
                               </div>
-                            </form>
+
+                              <div className="ant-row ant-form-item">
+                                <div className="ant-col-0 ant-form-item-label">
+                                  <FormattedMessage id="payment.phoneNumber">
+                                    {(txt)=>(
+                                      <label className="" title={txt}>{txt}</label>
+                                      )
+                                    }
+                                  </FormattedMessage>
+                                </div>
+                                <div className="ant-col-24 ant-form-item-control-wrapper">
+                                  <div className="ant-form-item-control ">
+                                    <span>{item.consigneeNumber}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div className="ant-row ant-form-item">
+                                <div className="ant-col-0 ant-form-item-label">
+                                  <FormattedMessage id="payment.country">
+                                    {(txt)=>(
+                                      <label className="" title={txt}>{txt}</label>
+                                      )
+                                    }
+                                  </FormattedMessage>
+                                </div>
+                                <div className="ant-col-24 ant-form-item-control-wrapper">
+                                  <div className="ant-form-item-control ">
+                                    <span>{this.getDictValue(this.state.countryList,item.countryId) }</span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="ant-row ant-form-item">
+                                <div className="ant-col-0 ant-form-item-label">
+                                  <FormattedMessage id="payment.city">
+                                    {(txt)=>(
+                                      <label className="" title={txt}>{txt}</label>
+                                      )
+                                    }
+                                  </FormattedMessage>
+                                </div>
+                                <div className="ant-col-24 ant-form-item-control-wrapper">
+                                  <div className="ant-form-item-control ">
+                                    <span>{this.getDictValue(this.state.cityList,item.cityId) }</span>
+                                  </div>
+                                </div>
+                              </div>
+                              
+
+                              <div className="ant-row ant-form-item">
+                                <div className="ant-col-0 ant-form-item-label">
+                                  <FormattedMessage id="payment.address1">
+                                    {(txt)=>(
+                                      <label className="" title={txt}>{txt}</label>
+                                      )
+                                    }
+                                  </FormattedMessage>
+                                </div>
+                                <div className="ant-col-24 ant-form-item-control-wrapper">
+                                  <div className="ant-form-item-control ">
+                                    <span>{item.address1}</span>
+                                  </div>
+                                </div>
+                              </div>
+                           </form>
                           </div>
                           <div className="ant-col-4 card-action">
                             <a className="card-action-delete" onClick={()=>this.deleteAddress(item.deliveryAddressId)}>×</a>
                           <div className="card-action-link">
                             { item.isDefaltAddress ===1?
-                            <span><FormattedMessage id="defaultAddress"></FormattedMessage></span>:
+                            null:
                             <a onClick={()=>this.setDefaltAddress(item.deliveryAddressId)}>
                                <FormattedMessage id="setDefaultAddress"></FormattedMessage></a>}
                             <a onClick={()=>this.openEditPage(item.deliveryAddressId)}> 
