@@ -16,7 +16,8 @@ export default class OrdersAfterSaleSuccess extends React.Component {
       returnNumber: '',
       afterSaleType: '',
       details: null,
-      loading: true
+      loading: true,
+      errMsg: ''
     }
   }
   componentDidMount () {
@@ -33,9 +34,15 @@ export default class OrdersAfterSaleSuccess extends React.Component {
           loading: false
         })
       })
+      .catch(err => {
+        this.setState({
+          errMsg: err.toString(),
+          loading: false
+        })
+      })
   }
   render () {
-    const { details } = this.state
+    const { details, errMsg } = this.state
     return (
       <div>
         <Header history={this.props.history} />
@@ -89,7 +96,12 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                           </div>
                         </div>
                       </React.Fragment>
-                      : null
+                      : errMsg
+                        ? <div className="text-center mt-5 mb-5">
+                          <span class="rc-icon rc-incompatible--xs rc-iconography"></span>
+                          {errMsg}
+                        </div>
+                        : null
                 }
               </div>
             </div>
