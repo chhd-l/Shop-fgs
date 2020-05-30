@@ -486,7 +486,7 @@ class Header extends React.Component {
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/account/orders"  className="click-hover" >
+                                  <Link to="/account/shippingAddress"  className="click-hover" >
                                     <FormattedMessage id="shippingAddress" />
                                   </Link>
                                 </div>

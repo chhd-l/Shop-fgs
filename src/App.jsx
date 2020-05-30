@@ -11,7 +11,7 @@
  */
 
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route ,Redirect} from 'react-router-dom';
 import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 import config from './config';
@@ -57,8 +57,10 @@ import AccountReturnOrder from "@/views/Account/ReturnOrder";
 // const store = {
 //   store: new Store()
 // }
+const token = sessionStorage.getItem('rc-token')
 
 const App = () => (
+  
   // <Provider {...store}>
   <IntlProvider locale="en" messages={en_US}>
     {/* <HashRouter>
@@ -171,7 +173,8 @@ const App = () => (
         <Route exact path="/termuse" component={TermUse} />
         <Route exact path="/privacypolicy" component={PrivacyPolicy} />
 
-        <Route path='/account' exact component={AccountHome} />
+
+        <Route path='/account' exact render={()=>(token ? <AccountHome></AccountHome> : <Redirect to= '/'/>) } />
         <Route path='/account/information' exact component={AccountProfile} />
         <Route path='/account/pets' exact component={AccountPets} />
         <Route path='/account/orders' exact component={AccountOrders} />
@@ -185,7 +188,7 @@ const App = () => (
         <Route path='/account/orders-aftersale/success/:returnNumber' exact component={AccountOrdersAfterSaleSuccess} />
         <Route path='/account/return-order-detail/:returnNumber' exact component={AccountOrdersAfterSaleDetail} />
 
-        <Route path='/account/shippingAddress/create' exact component={AccountShippingAddressForm} />
+        <Route path='/account/shippingAddress/create' exact component={AccountShippingAddressForm}  />
         <Route path='/account/shippingAddress/:addressId' exact component={AccountShippingAddressForm} />
 
         {/* <Route exact component={Exception} /> */}
