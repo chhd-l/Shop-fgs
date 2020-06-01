@@ -304,8 +304,12 @@ export default class ShippingAddress extends React.Component {
       let item = list.find(item=>{
         return item.id===id
       })
-      console.log(item);
-      return item.name
+      if(item){
+        return item.name
+      }
+      else{
+        return id
+      }
     }
     else {
       return id

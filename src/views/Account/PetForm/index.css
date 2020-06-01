@@ -1,4 +1,17 @@
 
+@media(max-width: 960px){
+  /* 手机 */
+  .special-need-style{
+    width:80%;
+  }
+}
+@media(min-width: 960px){
+  /* PC */
+  .special-need-style{
+    margin: 15px 0 0 0;
+    width: 22%;
+  }
+}
 .section-form-group {
   background-color: #f0f0f0;
   margin-top: 1rem;

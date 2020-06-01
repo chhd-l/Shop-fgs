@@ -62,65 +62,62 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                   Application time: {details.createTime.substr(0, 19)}
                                 </span>&nbsp;&nbsp;
                                 <span className="inlineblock">
-                                  Return order status: {details.refundStatus}
+                                  Return order status: {details.returnFlowState}
                                 </span>
                               </div>
                             </div>
-                            <div className="mt-3 color-999">Dear customer, your refund has been cancelled for the reason: {details.rejectReason}</div>
+                            <div className="mt-3 color-999">Dear customer, your {details.returnType === 'RETURN' ? 'refund' : 'exchange'} has been cancelled for the reason: {details.rejectReason}</div>
                             <div className="detail-title">
-                              Refund information
+                              {details.returnType === 'RETURN' ? 'Refund' : 'Exchange'} information
                             </div>
                             <div className="row">
-                              <div className="col-12 col-md-6">
-                                <div className="row">
-                                  <div className="col-5 text-right color-999">
-                                    Reasons for return:
+                              <div className="row col-6">
+                                <div className="col-5 text-right color-999">
+                                  Reasons for {details.returnType === 'RETURN' ? 'return' : 'exchange'}:
                                   </div>
-                                  <div className="col-7">
-                                    {Object.values(details.returnReason).join(';')}
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col-5 text-right color-999">
-                                    Chargeback attachment:
-                                  </div>
-                                  <div className="col-7 after-sale d-flex">
-                                    {
-                                      details.images.length
-                                        ? details.images.map((item, i) => (
-                                          <div className="mr-1 mb-1 img-item" key={i}>
-                                            <img src={JSON.parse(item).url} />
-                                          </div>
-                                        ))
-                                        : 'none'
-                                    }
-                                  </div>
+                                <div className="col-7">
+                                  {Object.values(details.returnReason).join(';')}
                                 </div>
                               </div>
-                              <div className="col-12 col-md-6">
-                                <div className="row">
-                                  <div className="col-5 text-right color-999">
-                                    Return Method:
-                                  </div>
-                                  <div className="col-7">
-                                    {Object.values(details.returnWay).join(';')}
-                                  </div>
+                              <div className="row col-6">
+                                <div className="col-5 text-right color-999">
+                                  {details.returnType === 'RETURN' ? 'Return' : 'Exchange'} Method:
                                 </div>
-                                <div className="row">
-                                  <div className="col-5 text-right color-999">
-                                    Refund Method:
-                                  </div>
-                                  <div className="col-7">
-                                    PAYU
-                                  </div>
+                                <div className="col-7">
+                                  {Object.values(details.returnWay).join(';')}
                                 </div>
-                                <div className="row">
-                                  <div className="col-5 text-right color-999">
-                                    Return instructions:
-                                  </div>
-                                  <div className="col-7">
-                                    {details.description}
-                                  </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-5 text-right color-999">
+                                  Chargeback attachment:
+                                </div>
+                                <div className="col-7 after-sale d-flex">
+                                  {
+                                    details.images.length
+                                      ? details.images.map((item, i) => (
+                                        <div className="mr-1 mb-1 img-item" key={i}>
+                                          <img src={JSON.parse(item).url} />
+                                        </div>
+                                      ))
+                                      : 'none'
+                                  }
+                                </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-5 text-right color-999">
+                                  {details.returnType === 'RETURN' ? 'Refund' : 'Exchange'} Method:
+                                </div>
+                                <div className="col-7">
+                                  PAYU
+                                </div>
+                              </div>
+                              <div className="row col-6"></div>
+                              <div className="row col-6">
+                                <div className="col-5 text-right color-999">
+                                  {details.returnType === 'RETURN' ? 'Return' : 'Exchange'} instructions:
+                                </div>
+                                <div className="col-7">
+                                  {details.description}
                                 </div>
                               </div>
                             </div>
@@ -130,7 +127,7 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                   <div className="card rc-margin-y--none">
                                     <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 border-0">
                                       <div className="col-12 col-md-6">
-                                        <p>Returned goods</p>
+                                        <p>{details.returnType === 'RETURN' ? 'Return' : 'Exchange'} goods</p>
                                       </div>
                                       <div className="col-12 col-md-2">
                                         <p>Price</p>
@@ -163,7 +160,7 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                         {item.num}
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        {formatMoney(item.splitPrice)}
+                                        {formatMoney(item.price * item.num)}
                                       </div>
                                     </div>
                                   ))}
@@ -172,9 +169,9 @@ export default class OrdersAfterSaleDetail extends React.Component {
                             </div>
                             <div className="row pt-2 pb-2 border-bottom" style={{ lineHeight: 1.7 }}>
                               <div className="col-9 text-right color-999">
-                                Refundable amount:
+                                {details.returnType === 'RETURN' ? 'Refundable' : 'Exchange'} amount:
                               </div>
-                              <div className="col-2 text-right">{formatMoney(details.returnPrice.actualReturnPrice)}</div>
+                              <div className="col-2 text-right">{formatMoney(details.returnPrice.applyPrice)}</div>
                             </div>
                           </div>
                           : null

@@ -35,6 +35,8 @@ import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 import config from './config';
 
+const token = sessionStorage.getItem('rc-token')
+
 const BasicRoute = () => (
   <HashRouter>
     <RouteFilter />
@@ -84,7 +86,7 @@ const BasicRoute = () => (
         <Route exact path="/FAQ" component={FAQ} />
         <Route exact path="/termuse" component={TermUse} />
         <Route exact path="/privacypolicy" component={PrivacyPolicy} />
-
+        <Route path='/account' exact render={()=>(token ? <AccountHome></AccountHome> : <Redirect to= '/'/>) } />
         <Route path='/account' exact component={AccountHome} />
         <Route path='/account/information' exact component={AccountProfile} />
         <Route path='/account/pets' exact component={AccountPets} />

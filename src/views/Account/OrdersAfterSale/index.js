@@ -318,7 +318,7 @@ class OrdersAfterSale extends React.Component {
                                           </div>
                                         </div>
                                         <div className="col-12 col-md-2">
-                                          {formatMoney(item.price)}
+                                          {formatMoney(item.splitPrice / item.numOrigin)}
                                         </div>
                                         <div className="col-12 col-md-1">
                                           {item.numOrigin}
@@ -326,10 +326,8 @@ class OrdersAfterSale extends React.Component {
                                         <div className="col-12 col-md-2">
                                           <div className="rc-quantity d-flex">
                                             {
-                                              item.num < 1
-                                                ? <span
-                                                  className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus rc-btn--increment"
-                                                  disabled></span>
+                                              item.num < 2
+                                                ? <span disabled className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus rc-btn--increment"></span>
                                                 : <span
                                                   className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus rc-btn--increment"
                                                   onClick={() => this.subQuantity(item)}></span>
@@ -344,9 +342,7 @@ class OrdersAfterSale extends React.Component {
                                             />
                                             {
                                               item.num >= item.numOrigin
-                                                ? <span
-                                                  className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus rc-btn--increment"
-                                                  disabled></span>
+                                                ? <span disabled className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus rc-btn--increment"></span>
                                                 : <span
                                                   className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus rc-btn--increment"
                                                   onClick={() => this.addQuantity(item)}></span>
@@ -354,7 +350,7 @@ class OrdersAfterSale extends React.Component {
                                           </div>
                                         </div>
                                         <div className="col-12 col-md-2">
-                                          {formatMoney(item.num * item.price)}
+                                          {formatMoney(item.splitPrice / item.numOrigin * item.num)}
                                         </div>
                                       </div>
                                     ))}
