@@ -337,11 +337,11 @@ export default class PaymentMethod extends React.Component {
             <div className="rc-padding--sm rc-max-width--xl">
               <div className="rc-layout-container rc-five-column">
                 {this.state.loading ? <Loading positionFixed="true" /> : null}
-                <SideMenu type="ShippingAddress" />
+                <SideMenu type="PaymentMethod" />
                 <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                   <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
                     <h4 className="rc-delta rc-margin--none">
-                      <FormattedMessage id="shippingAddress"></FormattedMessage>
+                      <FormattedMessage id="paymentMethod"></FormattedMessage>
                     </h4>
                   </div>
                   <div className="content-asset">
@@ -381,7 +381,7 @@ export default class PaymentMethod extends React.Component {
                     <div className="table-toolbar">
                       <span className="t-gray">
                         <FormattedMessage
-                          id="addressTip"
+                          id="creditCardTip"
                           values={{ number: <b>{this.state.total}</b> }}
                         />
                       </span>

@@ -283,6 +283,7 @@ const en_US = {
   'addShippingAddress': 'Add New Address',
   'editShippingAddress': 'Edit Shipping Address',
   'addressTip': 'You have created {number} shipping addresses, up to 20',
+  'creditCardTip': 'You have created {number} credit card, up to 20',
   'consignee': 'Consignee',
   'defaultAddress': 'default address',
   'setDefaultAddress': 'Set as Default Address',
@@ -301,7 +302,8 @@ const en_US = {
 
   "sterilized": "Sterilized",
   "notSterilized": "Not sterilized",
-  'paymentMethod': 'Payment method'
+  'paymentMethod': 'Payment method',
+  'addNewCreditCard': 'Add new credit card'
 
 
 }

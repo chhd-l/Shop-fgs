@@ -111,8 +111,8 @@ class Payment extends React.Component {
     } else {
       param.billingAddress = billingAddress;
     }
-    for (let k in param.billingAddress) {
-      if (param.billingAddress[k] === "" && k !== "address2" && k !== "rfc") {
+    for (let k in param.deliveryAddress) {
+      if (param.deliveryAddress[k] === "" && k !== "address2" && k !== "rfc") {
         console.log('delivery', k)
         this.setState({
           errorShow: true,
@@ -126,7 +126,7 @@ class Payment extends React.Component {
         }, 5000);
         return;
       }
-      if (k === 'postCode' && !(/\d{5}/.test(param.billingAddress[k]))) {
+      if (k === 'postCode' && !(/\d{5}/.test(param.deliveryAddress[k]))) {
         this.setState({
           errorShow: true,
           errorMsg: 'Please enter the correct post code'
