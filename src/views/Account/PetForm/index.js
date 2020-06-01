@@ -163,6 +163,8 @@ export default class PetForm extends React.Component {
       this.setState({
         loading: false
       })
+      console.log(err);
+      
       this.showErrorMsg('Get Data Failed')
     }) 
     }
@@ -266,6 +268,9 @@ export default class PetForm extends React.Component {
         }
        }).catch(err=>{
          this.showErrorMsg('Save Failed')
+         this.setState({
+          loading:false
+        })
        })
       
     }
@@ -586,14 +591,17 @@ export default class PetForm extends React.Component {
   }
 
   getSpecialNeeds=(array)=>{
-    let needs = []
-    for (let index = 0; index < array.length; index++) {
-      needs.push(array[index].propName)
+    if(array&&array.length>0){
+      let needs = []
+      for (let index = 0; index < array.length; index++) {
+        needs.push(array[index].propName)
+      }
+      this.setState({
+        selectedSpecialNeeds:needs
+      })
+    
     }
-    this.setState({
-      selectedSpecialNeeds:needs
-    })
-    console.log(this.state.selectedSpecialNeeds);
+    
     
   }
   cancel=()=>{
@@ -979,8 +987,8 @@ export default class PetForm extends React.Component {
                       <div style={{width: "88%",margin: "0 auto"}}>
                         {
                           this.state.specialNeeds.map(item=>(
-                            <div className="rc-input rc-input--inline rc-margin-bottom--xs" 
-                              style={{margin: "15px 0 0 0",width:"22%"}} 
+                            <div className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style" 
+                             
                               onClick={()=>this.selectFeatures(item)} 
                             >
                                 <input type="checkbox" 
@@ -999,8 +1007,7 @@ export default class PetForm extends React.Component {
                           ))
                         }
                        
-                       <div className="rc-input rc-input--inline rc-margin-bottom--xs" 
-                          style={{margin: "15px 0 0 0"}} 
+                       <div className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style" 
                           onClick={()=>this.selectFeatures("No special needs")} 
                         >
                             <input type="checkbox" 
