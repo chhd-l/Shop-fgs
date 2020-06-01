@@ -18,6 +18,7 @@ import PrivacyPolicy from "@/views/PrivacyPolicy";
 import AccountHome from "@/views/Account/Home";
 import AccountProfile from "@/views/Account/Profile";
 import AccountPets from "@/views/Account/Pet";
+import AccountPaymentMethod from "@/views/Account/PaymentMethod"
 import AccountOrders from "@/views/Account/Orders";
 import AccountOrdersDetail from "@/views/Account/OrdersDetail";
 import AccountOrdersAfterSale from "@/views/Account/OrdersAfterSale";
@@ -92,8 +93,10 @@ const BasicRoute = () => (
         <Route path='/account/pets/petForm' exact component={AccountPetForm} />
         <Route path='/account/pets/petList' exact component={AccountPetList} />
         <Route path='/account/shippingAddress' exact component={AccountShippingAddress} />
+        <Route path='/account/paymentMethod' exact component={AccountPaymentMethod} />
         <Route path='/account/shippingAddress/create' exact component={AccountShippingAddressForm} />
         <Route path='/account/shippingAddress/:addressId' exact component={AccountShippingAddressForm} />
+        
         <Route path='/account/refunds' exact component={AccountRefunds} />
         <Route path='/account/return-order' exact component={AccountReturnOrder} />
 

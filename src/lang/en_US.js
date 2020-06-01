@@ -300,8 +300,8 @@ const en_US = {
   'account.orders': 'Orders',
 
   "sterilized": "Sterilized",
-  "notSterilized": "Not sterilized"
-
+  "notSterilized": "Not sterilized",
+  'paymentMethod': 'Payment method'
 
 
 }
