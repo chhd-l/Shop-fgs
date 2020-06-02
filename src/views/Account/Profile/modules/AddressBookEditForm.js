@@ -77,7 +77,7 @@ export default class AddressBookEditForm extends React.Component {
     // widget && widget.scrollIntoView()
     // console.log(this.getElementToPageTop(widget))
     if (widget) {
-      window.scrollTo(this.getElementToPageTop(widget), 0)
+      window.scrollTo(0, this.getElementToPageTop(widget))
     }
   }
   handleCancel () {

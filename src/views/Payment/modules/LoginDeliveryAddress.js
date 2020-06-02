@@ -1,7 +1,7 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from "react-intl"
-import { find } from "lodash"
+import { find, findIndex } from "lodash"
 import {
   getAddressList,
   saveAddress,
@@ -9,23 +9,26 @@ import {
 } from '@/api/address'
 import { getDict } from '@/api/dict'
 import { STOREID } from '@/utils/constant'
-import AddressForm from './addressForm'
+import AddressForm from './AddressForm'
 import Loading from "@/components/Loading"
 
 export default class LoginDeliveryAddress extends React.Component {
+  static defaultProps = {
+    visible: true
+  }
   constructor(props) {
     super(props)
     this.state = {
       deliveryAddress: {
-        firstName: "",
-        lastName: "",
-        address1: "",
-        address2: "",
+        firstName: '',
+        lastName: '',
+        address1: '',
+        address2: '',
         rfc: '',
-        country: "",
-        city: "",
-        postCode: "",
-        phoneNumber: "",
+        country: '',
+        city: '',
+        postCode: '',
+        phoneNumber: '',
         isDefalt: false
       },
       errMsg: '',
@@ -37,7 +40,8 @@ export default class LoginDeliveryAddress extends React.Component {
       countryList: [],
       foledMore: true,
       successTipVisible: false,
-      saveErrorMsg: ''
+      saveErrorMsg: '',
+      selectedId: ''
     }
   }
   componentDidMount () {
@@ -59,19 +63,27 @@ export default class LoginDeliveryAddress extends React.Component {
     })
   }
   async queryAddressList () {
+    const { selectedId } = this.state
     this.setState({ loading: true })
     try {
       let res = await getAddressList()
       let addressList = res.context
-      if (find(addressList, ele => ele.isDefaltAddress === 1)) {
+      let tmpId
+      const defaultAddressItem = find(addressList, ele => ele.isDefaltAddress === 1)
+      if (selectedId && find(addressList, ele => ele.deliveryAddressId == selectedId)) {
+        Array.from(addressList, ele => ele.selected = ele.deliveryAddressId === selectedId)
+      } else if (defaultAddressItem) {
         Array.from(addressList, ele => ele.selected = ele.isDefaltAddress === 1)
-      } else {
+        tmpId = defaultAddressItem.deliveryAddressId
+      } else if (addressList.length) {
         Array.from(addressList, (ele, i) => ele.selected = !i)
+        tmpId = addressList[0].deliveryAddressId
       }
       this.setState({
         addressList: addressList,
         loading: false,
-        addOrEdit: !addressList.length
+        addOrEdit: !addressList.length,
+        selectedId: tmpId
       })
     } catch (err) {
       this.setState({
@@ -99,7 +111,8 @@ export default class LoginDeliveryAddress extends React.Component {
     Array.from(addressList, a => a.selected = false)
     addressList[idx].selected = true
     this.setState({
-      addressList: addressList
+      addressList: addressList,
+      selectedId: addressList[idx].deliveryAddressId
     })
   }
   addOrEditAddress (idx = -1) {
@@ -154,9 +167,9 @@ export default class LoginDeliveryAddress extends React.Component {
     })
   }
   scrollToTitle () {
-    const widget = document.querySelector('#J-err-msg')
+    const widget = document.querySelector(`#J-err-msg-${this.props.id}`)
     if (widget) {
-      window.scrollTo(this.getElementToPageTop(widget), 0)
+      window.scrollTo(0, this.getElementToPageTop(widget) - 600)
     }
   }
   getElementToPageTop (el) {
@@ -207,6 +220,7 @@ export default class LoginDeliveryAddress extends React.Component {
       })
       this.scrollToTitle()
       this.queryAddressList()
+      this.props.otherUpdateList()
       setTimeout(() => {
         this.setState({
           successTipVisible: false
@@ -228,8 +242,8 @@ export default class LoginDeliveryAddress extends React.Component {
   render () {
     const { deliveryAddress, addOrEdit, loading, foledMore, addressList } = this.state;
     return (
-      <React.Fragment>
-        <div className="card-header">
+      <div className={`${this.props.visible ? '' : 'hidden'}`}>
+        <div className="card-header" style={{ marginTop: this.props.type === 'billing' ? -56 : 0 }}>
           <h5 className="d-flex justify-content-between">
             <FormattedMessage id="payment.deliveryTitle" />
             <a
@@ -241,7 +255,7 @@ export default class LoginDeliveryAddress extends React.Component {
             </a>
           </h5>
         </div>
-        <div id="J-err-msg" className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.saveErrorMsg ? '' : 'hidden'}`}>
+        <div id={`J-err-msg-${this.props.id}`} className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.saveErrorMsg ? '' : 'hidden'}`}>
           <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
             <span>{this.state.saveErrorMsg}</span>
             <button
@@ -368,7 +382,7 @@ export default class LoginDeliveryAddress extends React.Component {
             </div>
           </fieldset>
         </div>
-      </React.Fragment>
+      </div>
     )
   }
 }
