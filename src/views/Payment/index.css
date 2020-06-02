@@ -206,8 +206,15 @@
   border-top-color: transparent!important;
   font-size: 0;
 }
-
-.address-item.selected {
+.address-item .icon-default {
+  background: rgba(254, 118, 2, .8);
+  color: #fff;
+  border-radius: .2rem;
+  padding: .05rem .1rem;
+  margin-left: .3rem;
+  font-size: .9em;
+}
+.address-item.selected .address-name{
   border-width: 2px!important;
 }
 .address-item.selected .icon-gou{

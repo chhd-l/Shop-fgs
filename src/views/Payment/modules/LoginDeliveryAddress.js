@@ -1,7 +1,7 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from "react-intl"
-import { findIndex } from "lodash"
+import { find } from "lodash"
 import {
   getAddressList,
   saveAddress,
@@ -63,15 +63,20 @@ export default class LoginDeliveryAddress extends React.Component {
     try {
       let res = await getAddressList()
       let addressList = res.context
-      Array.from(addressList, ele => ele.selected = ele.isDefaltAddress === 1)
+      if (find(addressList, ele => ele.isDefaltAddress === 1)) {
+        Array.from(addressList, ele => ele.selected = ele.isDefaltAddress === 1)
+      } else {
+        Array.from(addressList, (ele, i) => ele.selected = !i)
+      }
       this.setState({
         addressList: addressList,
         loading: false,
+        addOrEdit: !addressList.length
       })
     } catch (err) {
       this.setState({
         errMsg: err.toString(),
-        loading: false,
+        loading: false
       })
     }
   }
@@ -221,7 +226,7 @@ export default class LoginDeliveryAddress extends React.Component {
     }
   }
   render () {
-    const { deliveryAddress, addOrEdit, loading, foledMore } = this.state;
+    const { deliveryAddress, addOrEdit, loading, foledMore, addressList } = this.state;
     return (
       <React.Fragment>
         <div className="card-header">
@@ -263,54 +268,59 @@ export default class LoginDeliveryAddress extends React.Component {
                 : <React.Fragment>
                   {
                     !addOrEdit
-                      ? <React.Fragment>
-                        {
-                          this.state.addressList.map((item, i) => (
-                            <div className={`row align-items-start mb-2 ${foledMore && !item.selected ? 'hidden' : ''}`} key={item.deliveryAddressId}>
-                              <div
-                                className={`ui-cursor-pointer border col-3 address-item ${item.selected ? 'border-danger selected' : ''}`}
-                                onClick={() => this.selectAddress(i)}>
-                                {item.consigneeName}
-                                {
-                                  item.selected
-                                    ? <span className="position-absolute icon-gou">
-                                      <span className="ui-arrow border-danger"></span>
-                                      <span className="position-absolute icon-ok"></span>
-                                    </span>
-                                    : null
-                                }
-                              </div>
-                              <div className="col-8">
-                                {[item.consigneeName, item.consigneeNumber].join(',')}
-                                <br />
-                                {[
-                                  this.getDictValue(this.state.countryList, item.countryId),
-                                  this.getDictValue(this.state.cityList, item.cityId),
-                                  item.address1
-                                ].join(',')}
-                              </div>
-                              <div className="col-1">
-                                <a className="rc-styled-link red" onClick={() => this.addOrEditAddress(i)}>
-                                  <FormattedMessage id="edit" />
-                                </a>
-                              </div>
-                            </div>
-                          ))
-                        }
-                        <span className="ui-cursor-pointer" onClick={() => { this.setState({ foledMore: !foledMore }) }}>
+                      ? addressList.length
+                        ? <React.Fragment>
                           {
-                            foledMore
-                              ? <React.Fragment>
-                                <FormattedMessage id="moreAddress" />&nbsp;
-                                <span className="rc-icon rc-down--xs rc-iconography position-relative" style={{ top: '3px' }}></span>
-                              </React.Fragment>
-                              : <React.Fragment>
-                                <FormattedMessage id="unfoldAddress" />
-                                <span className="rc-icon rc-up--xs rc-iconography position-relative" style={{ top: '3px' }}></span>
-                              </React.Fragment>
+                            addressList.map((item, i) => (
+                              <div className={`row align-items-start address-item mb-2 ${item.selected ? 'selected' : ''} ${foledMore && !item.selected ? 'hidden' : ''}`} key={item.deliveryAddressId}>
+                                <div
+                                  className={`ui-cursor-pointer border col-3 address-name ${item.selected ? 'border-danger' : ''}`}
+                                  onClick={() => this.selectAddress(i)}>
+                                  {item.consigneeName}
+                                  {
+                                    item.selected
+                                      ? <span className="position-absolute icon-gou">
+                                        <span className="ui-arrow border-danger"></span>
+                                        <span className="position-absolute icon-ok"></span>
+                                      </span>
+                                      : null
+                                  }
+                                </div>
+                                <div className="col-8">
+                                  {[item.consigneeName, item.consigneeNumber].join(',')}
+                                  {item.isDefaltAddress === 1 ? <span className="icon-default">Default</span> : null}
+                                  <br />
+                                  {[
+                                    this.getDictValue(this.state.countryList, item.countryId),
+                                    this.getDictValue(this.state.cityList, item.cityId),
+                                    item.address1
+                                  ].join(',')}
+                                </div>
+                                <div className="col-1">
+                                  <a className="rc-styled-link red" onClick={() => this.addOrEditAddress(i)}>
+                                    <FormattedMessage id="edit" />
+                                  </a>
+                                </div>
+                              </div>
+                            ))
                           }
-                        </span>
-                      </React.Fragment>
+                          {
+                            addressList.length > 1 && <span className="ui-cursor-pointer" onClick={() => { this.setState({ foledMore: !foledMore }) }}>
+                              {
+                                foledMore
+                                  ? <React.Fragment>
+                                    <FormattedMessage id="moreAddress" />&nbsp;
+                                <span className="rc-icon rc-down--xs rc-iconography position-relative" style={{ top: '3px' }}></span>
+                                  </React.Fragment>
+                                  : <React.Fragment>
+                                    <FormattedMessage id="unfoldAddress" />
+                                    <span className="rc-icon rc-up--xs rc-iconography position-relative" style={{ top: '3px' }}></span>
+                                  </React.Fragment>
+                              }
+                            </span>
+                          }
+                        </React.Fragment>
+                        : <FormattedMessage id="order.noDataTip" />
                       : null
                   }
                 </React.Fragment>

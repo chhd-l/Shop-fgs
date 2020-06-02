@@ -85,6 +85,7 @@ class Payment extends React.Component {
     };
     this.confirmCardInfo = this.confirmCardInfo.bind(this);
     this.timer = null;
+    this.loginDeliveryAddressRef = React.createRef()
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
@@ -95,8 +96,6 @@ class Payment extends React.Component {
     });
   }
   ChoosePayment () {
-    debugger
-    // todo 登录状态，始终选择selected那个
     const {
       deliveryAddress,
       billingAddress,
@@ -104,26 +103,39 @@ class Payment extends React.Component {
       commentOnDelivery,
       creditCardInfo,
     } = this.state;
+    let tmpDeliveryAddress = deliveryAddress
     if (jugeLoginStatus()) {
-      // deliveryAddress = 
+      const tmp = this.loginDeliveryAddressRef.current && find(this.loginDeliveryAddressRef.current.state.addressList, ele => ele.selected)
+      if (tmp) {
+        tmpDeliveryAddress = {
+          firstName: tmp.firstName,
+          lastName: tmp.lastName,
+          address1: tmp.address1,
+          address2: tmp.address2,
+          rfc: tmp.rfc,
+          country: tmp.countryId ? tmp.countryId.toString() : '',
+          city: tmp.cityId ? tmp.cityId.toString() : '',
+          postCode: tmp.postCode,
+          phoneNumber: tmp.consigneeNumber
+        }
+      }
     }
     const param = {
       billingChecked,
-      deliveryAddress,
+      deliveryAddress: tmpDeliveryAddress,
       commentOnDelivery,
     };
 
     if (billingChecked) {
-      param.billingAddress = deliveryAddress;
+      param.billingAddress = tmpDeliveryAddress;
     } else {
       param.billingAddress = billingAddress;
     }
     for (let k in param.deliveryAddress) {
       if (param.deliveryAddress[k] === "" && k !== "address2" && k !== "rfc") {
-        console.log('delivery', k)
         this.setState({
           errorShow: true,
-          errorMsg: 'Please complete the required items'
+          errorMsg: jugeLoginStatus() ? 'Please select a delivery address' : 'Please complete the required items'
         })
         window.scrollTo(0, 0)
         setTimeout(() => {
@@ -756,7 +768,7 @@ class Payment extends React.Component {
                     </div>
                     {
                       jugeLoginStatus()
-                        ? <LoginDeliveryAddress />
+                        ? <LoginDeliveryAddress ref={this.loginDeliveryAddressRef} />
                         : <UnloginDeliveryAddress
                           data={deliveryAddress}
                           updateData={data => this.updateDeliveryAddress(data)} />
