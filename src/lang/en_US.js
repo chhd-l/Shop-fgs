@@ -303,7 +303,10 @@ const en_US = {
   "sterilized": "Sterilized",
   "notSterilized": "Not sterilized",
   'paymentMethod': 'Payment method',
-  'addNewCreditCard': 'Add new credit card'
+  'addNewCreditCard': 'Add new credit card',
+  "moreAddress": 'More Address',
+  "unfoldAddress": 'Unfold Address',
+  "newAddress": 'New address',
 
 
 }
