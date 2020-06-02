@@ -34,13 +34,9 @@ class HeroCarousel extends React.Component {
                 <span
                   className="rc-icon rc-close--xs rc-iconography searchBtnToggle rc-stick-right rc-vertical-align"
                   style={{ transform: 'translateY(-40%)' }} onClick={this.hideNotice}></span>
-                {
-                  new Date().getTime() < new Date('2020/6/2').getTime()
-                    ? <div className="text-center" style={{ fontSize: '1.15em' }}>
-                      <span className="pr-2 pl-2" style={{ background: '#ec001a', color: '#fff', borderRadius: '.3rem' }}>25% OFF</span> Hasta el 1ero de Junio 2020 o agotar existencias
-                </div>
-                    : null
-                }
+                {/* <div className="text-center" style={{ fontSize: '1.15em' }}>
+                  <span className="pr-2 pl-2" style={{ background: '#ec001a', color: '#fff', borderRadius: '.3rem' }}>25% OFF</span> Hasta el 1ero de Junio 2020 o agotar existencias
+                </div> */}
                 <FormattedMessage id="home.note1" />&nbsp;
                 <FormattedMessage id="home.note2" />
               </div>
@@ -48,14 +44,14 @@ class HeroCarousel extends React.Component {
           }
 
           <div data-js-carousel="" className="rc-carousel js-hero-carousel">
-            <div className="hero-carousel__slide">
+            {/* <div className="hero-carousel__slide">
               <div className="d-md-flex align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
                 <img src={Banner_Horizontal_Hot_Sale} className="rc-md-up" />
                 <span className="btn-cheat-md-down" onClick={this.hanldeClick}></span>
                 <span className="btn-cheat-md-up" onClick={this.hanldeClick}></span>
                 <img src={Pomotion25offImg} className="rc-md-down" />
               </div>
-            </div>
+            </div> */}
             <div className="hero-carousel__slide">
               <div className="d-flex align-items-center hero-carousel__slide__inner flex-column-reverse flex-column flex-md-row">
                 <div className="hero-carousel__slide__video">
@@ -75,7 +71,7 @@ class HeroCarousel extends React.Component {
                     <p><FormattedMessage id="header.carouselInfo2" /></p>
                   </div>
                   <div className="hero-carousel__slide__content__btn text-center">
-                    <Link className="rc-btn rc-btn--one gtm-hero-carousel-btn" onClick={this.hanldeClick}><FormattedMessage id="header.toBegin" /></Link>
+                    <a className="rc-btn rc-btn--one gtm-hero-carousel-btn" onClick={this.hanldeClick}><FormattedMessage id="header.toBegin" /></a>
                   </div>
                 </div>
               </div>

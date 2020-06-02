@@ -111,7 +111,7 @@ class Confirmation extends React.Component {
       productList: productList,
       loading: false
     });
-    let deliveryInfoStr = localStorage.getItem("deliveryInfo");
+    let deliveryInfoStr = this.state.paywithLogin ? localStorage.getItem("loginDeliveryInfo") : localStorage.getItem("deliveryInfo");
     if (deliveryInfoStr) {
       let deliveryInfo = JSON.parse(deliveryInfoStr);
       this.setState({

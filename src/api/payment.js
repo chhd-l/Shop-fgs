@@ -4,9 +4,8 @@ import { register } from '../serviceWorker'
 const api = {
   visitorRegisterAndLogin: '/visitorRegisterAndLogin',
   batchAdd: '/site/batchAdd',
-  confirmAndCommit: '/tradeCustom/confirmcommitAndPay'
-  // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
-  
+  confirmAndCommit: '/tradeCustom/confirmcommitAndPay',
+  customerCommitAndPay: 'tradeCustom/customerCommitAndPay'
 }
 
 export default api
@@ -30,6 +29,14 @@ export function batchAdd (parameter) {
 export function confirmAndCommit (parameter) {
   return axios({
     url: api.confirmAndCommit,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function customerCommitAndPay (parameter) {
+  return axios({
+    url: api.customerCommitAndPay,
     method: 'post',
     data: parameter
   })

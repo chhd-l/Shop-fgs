@@ -305,7 +305,10 @@ const en_US = {
   'paymentMethod': 'Payment method',
   'addNewCreditCard': 'Add new credit card',
 
-  "addressType":'Address Type'
+  "addressType":'Address Type',
+  "moreAddress": 'More Address',
+  "unfoldAddress": 'Unfold Address',
+  "newAddress": 'New address',
 
 
 }

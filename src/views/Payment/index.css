@@ -199,3 +199,32 @@
     user-select:none;
 }
 .shippingPhoneNumber::-ms-clear,::-ms-reveal{display:none;} */
+
+.ui-arrow {
+  border: 6px solid;
+  border-left-color: transparent!important;
+  border-top-color: transparent!important;
+  font-size: 0;
+}
+.address-item .icon-default {
+  background: rgba(254, 118, 2, .8);
+  color: #fff;
+  border-radius: .2rem;
+  padding: .05rem .1rem;
+  margin-left: .3rem;
+  font-size: .9em;
+}
+.address-item.selected .address-name{
+  border-width: 2px!important;
+}
+.address-item.selected .icon-gou{
+  right: 0;
+  bottom: 6px;
+  font-size: 0;
+}
+.address-item.selected .icon-gou .icon-ok {
+  position: absolute;
+  right: 0;
+  transform: rotate(45deg) scale(.4) translate(68%, -8%);
+  transform-origin: bottom right;
+}

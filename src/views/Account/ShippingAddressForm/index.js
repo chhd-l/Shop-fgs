@@ -15,6 +15,7 @@ editAddress} from '@/api/address'
 import { Link } from 'react-router-dom';
 import Loading from "@/components/Loading"
 import { getDict } from '@/api/dict'
+import { STOREID } from '@/utils/constant'
 
 
 export default class ShippingAddressFrom extends React.Component {
@@ -286,7 +287,7 @@ export default class ShippingAddressFrom extends React.Component {
     // widget && widget.scrollIntoView()
     // console.log(this.getElementToPageTop(widget))
     if (widget) {
-      window.scrollTo(this.getElementToPageTop(widget), 0)
+      window.scrollTo(0, this.getElementToPageTop(widget))
     }
   }
   getElementToPageTop (el) {
@@ -332,7 +333,7 @@ export default class ShippingAddressFrom extends React.Component {
     })
     let params ={
       "delFlag": 0,
-      "storeId": 123456858,
+      "storeId": STOREID,
       "type": type,
     }
     await getDict(params).then(res=>{
@@ -378,7 +379,7 @@ export default class ShippingAddressFrom extends React.Component {
     }
     if(type==='country'){
       this.setState({
-        cityList:JSON.parse(sessionStorage.getItem('dict-country'))
+        countryList:JSON.parse(sessionStorage.getItem('dict-country'))
       })
     }
   }
