@@ -9,7 +9,7 @@ import {
 } from '@/api/address'
 import { getDict } from '@/api/dict'
 import { STOREID } from '@/utils/constant'
-import AddressForm from '../modules/addressForm'
+import AddressForm from './AddressForm'
 import Loading from "@/components/Loading"
 
 export default class LoginDeliveryAddress extends React.Component {
@@ -70,7 +70,7 @@ export default class LoginDeliveryAddress extends React.Component {
       let addressList = res.context
       let tmpId
       const defaultAddressItem = find(addressList, ele => ele.isDefaltAddress === 1)
-      if (selectedId && find(addressList, ele => ele.deliveryAddressId == selectedId)) {
+      if (selectedId && find(addressList, ele => ele.deliveryAddressId === selectedId)) {
         Array.from(addressList, ele => ele.selected = ele.deliveryAddressId === selectedId)
       } else if (defaultAddressItem) {
         Array.from(addressList, ele => ele.selected = ele.isDefaltAddress === 1)
