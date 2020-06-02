@@ -9,7 +9,7 @@ import {
 } from '@/api/address'
 import { getDict } from '@/api/dict'
 import { STOREID } from '@/utils/constant'
-import AddressForm from './AddressForm'
+import AddressForm from '../modules/AddressForm'
 import Loading from "@/components/Loading"
 
 export default class LoginDeliveryAddress extends React.Component {

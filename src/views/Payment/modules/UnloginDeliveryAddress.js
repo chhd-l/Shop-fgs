@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from "react-intl"
-import AddressForm from './AddressForm'
+import AddressForm from '../modules/AddressForm'
 
 export default class UnloginDeliveryAddress extends React.Component {
   constructor(props) {
