@@ -40,7 +40,8 @@ export default class ShippingAddressFrom extends React.Component {
         rfc:"",
         isDefalt:false,
         deliveryAddressId:"",
-        customerId:""
+        customerId:"",
+        addressType:""
       },
       cityList:[],
       countryList:[]
@@ -53,8 +54,18 @@ export default class ShippingAddressFrom extends React.Component {
     localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
-    this.getDict('city')
-    this.getDict('country')
+    if(sessionStorage.getItem('dict-city')){
+      this.getDictBySession('city')
+    }
+    else{
+      this.getDict('city')
+    }
+    if(sessionStorage.getItem('dict-country')){
+      this.getDictBySession('country')
+    }
+    else{
+      this.getDict('country')
+    }
     if(this.props.match.params.addressId){
       this.getAddressById(this.props.match.params.addressId)
     }
@@ -66,33 +77,52 @@ export default class ShippingAddressFrom extends React.Component {
     }
   }
   getAddressById = async (id)=>{
+    this.setState({
+      loading:true
+    })
     let params ={
       id:id
     }
-    const res = await getAddressById(params)
-    if(res.code === 'K-000000'){
-      let data = res.context
-      let addressForm={
-        firstName:data.firstName,
-        lastName:data.lastName,
-        address1:data.address1,
-        address2:data.address2,
-        country:data.areaId,
-        city:data.cityId,
-        postCode:data.postCode,
-        phoneNumber:data.consigneeNumber,
-        rfc:data.rfc,
-        isDefalt:data.isDefaltAddress===1?true:false,
-        deliveryAddressId:data.deliveryAddressId,
-        customerId:data.customerId
+    await getAddressById(params).then(res=>{
+      if(res.code === 'K-000000'){
+        let data = res.context
+        let addressForm={
+          firstName:data.firstName,
+          lastName:data.lastName,
+          address1:data.address1,
+          address2:data.address2,
+          country:data.countryId,
+          city:data.cityId,
+          postCode:data.postCode,
+          phoneNumber:data.consigneeNumber,
+          rfc:data.rfc,
+          isDefalt:data.isDefaltAddress===1?true:false,
+          deliveryAddressId:data.deliveryAddressId,
+          customerId:data.customerId,
+          addressType:data.type
+        }
+  
+        this.setState({
+          addressForm:addressForm,
+          showModal:true,
+          isAdd:false,
+          loading:false
+        })
       }
-
+      else{
+        this.setState({
+          loading:false
+        })
+        this.showErrorMsg(res.message||'Get Data Failed')
+      }
+    }).catch(err =>{
       this.setState({
-        addressForm:addressForm,
-        showModal:true,
-        isAdd:false
+        loading:false
       })
-    }
+      this.showErrorMsg('Get Data Failed')
+    })
+    
+    
     
   }
   isDefalt = ()=>{
@@ -119,10 +149,11 @@ export default class ShippingAddressFrom extends React.Component {
       "customerId": data.customerId,
       "deliveryAddress": data.address1+" "+data.address2,
       "deliveryAddressId": data.deliveryAddressId,
-      "isDefaltAddress": data.isDefalt?1:0,
+      "isDefaltAddress": data.addressType==='delivery'?(data.isDefalt?1:0):0,
       "postCode": data.postCode,
       "provinceId": 0,
       "rfc": data.rfc,
+      "type":data.addressType
     }
     if(this.state.isAdd){
       
@@ -312,6 +343,8 @@ export default class ShippingAddressFrom extends React.Component {
             cityList:cityList,
             loading:false
           })
+          sessionStorage.setItem('dict-city',JSON.stringify(cityList))
+
         }
         if(type==='country'){
           let countryList = res.context.sysDictionaryVOS
@@ -319,6 +352,7 @@ export default class ShippingAddressFrom extends React.Component {
             countryList:countryList,
             loading:false
           })
+          sessionStorage.setItem('dict-country',JSON.stringify(countryList))
         }
         
       }
@@ -334,6 +368,19 @@ export default class ShippingAddressFrom extends React.Component {
           loading:false
         })
     })
+  }
+
+  getDictBySession=(type)=>{
+    if(type==='city'){
+      this.setState({
+        cityList:JSON.parse(sessionStorage.getItem('dict-city'))
+      })
+    }
+    if(type==='country'){
+      this.setState({
+        cityList:JSON.parse(sessionStorage.getItem('dict-country'))
+      })
+    }
   }
 
   
@@ -505,7 +552,7 @@ export default class ShippingAddressFrom extends React.Component {
                             <option value=""></option>
                             {
                               this.state.countryList.map(item=>(
-                              <option value={item.id}>{item.name}</option>
+                              <option value={item.id} key={item.id}>{item.name}</option>
                               ))
                             }
                             
@@ -532,7 +579,7 @@ export default class ShippingAddressFrom extends React.Component {
                               <option value=""></option>
                               {
                                 this.state.cityList.map(item=>(
-                                <option value={item.id}>{item.name}</option>
+                                <option value={item.id} key={item.id}>{item.name}</option>
                                 ))
                               }
                             </select>
@@ -641,22 +688,59 @@ export default class ShippingAddressFrom extends React.Component {
                         <label className="rc-input__label" htmlFor="reference"></label>
                       </span>
                     </div>
-                    <div className="form-group col-6">
-                      <div className="rc-input rc-input--inline" style={{margin: "40px 0 0 0"}} onClick={()=>this.isDefalt()}>
-                        <input type="checkbox" 
-                          id="defaultAddress"
-                          className="rc-input__checkbox" 
-                          
-                          value={addressForm.isDefalt}/>
-                          {
-                            !addressForm.isDefalt?<label className="rc-input__label--inline" >
-                            <FormattedMessage id="setDefaultAddress"></FormattedMessage>
-                          </label>:<label className="rc-input__label--inline defaultAddressChecked">
-                          <FormattedMessage id="setDefaultAddress"></FormattedMessage>
+                    <div className="col-lg-6 col-sm-12">
+                      <div className="form-group col-lg-12 pull-left no-padding required">
+                        <label className="form-control-label" htmlFor="addressType">
+                          <FormattedMessage id="addressType" />
                         </label>
-                          }
+                        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" 
+                          style={{marginTop:"10px"}} data-loc="addressTypeSelect">
+                          <select
+                            data-js-select=""
+                            id="addressType"
+                            value={addressForm.addressType}
+                            onChange={(e) => this.handleInputChange(e)}
+                            onBlur={(e) => this.inputBlur(e)}
+                            name="addressType"
+                          >
+                            <option value=""></option>
+                            <option value="delivery">Delivery</option>
+                            <option value="billing">Billing</option>
+                            {/* {
+                              this.state.countryList.map(item=>(
+                              <option value={item.id}>{item.name}</option>
+                              ))
+                            } */}
+                            
+                          </select>
+                        </span>
+                        <div className="invalid-feedback"></div>
                       </div>
                     </div>
+                    </div>
+                  <div className="row">
+                    {
+                      addressForm.addressType === 'delivery'?(
+                        <div className="form-group col-6">
+                          <div className="rc-input rc-input--inline" style={{margin: "40px 0 0 0"}} onClick={()=>this.isDefalt()}>
+                            <input type="checkbox" 
+                              id="defaultAddress"
+                              className="rc-input__checkbox" 
+                              
+                              value={addressForm.isDefalt}/>
+                              {
+                                !addressForm.isDefalt?<label className="rc-input__label--inline" >
+                                <FormattedMessage id="setDefaultAddress"></FormattedMessage>
+                              </label>:<label className="rc-input__label--inline defaultAddressChecked">
+                              <FormattedMessage id="setDefaultAddress"></FormattedMessage>
+                            </label>
+                              }
+                          </div>
+                        </div>
+                      ):null
+                    }
+                    
+                  
                   </div>
                   <span className="rc-meta mandatoryField">
                     * <FormattedMessage id="account.requiredFields" />

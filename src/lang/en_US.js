@@ -279,7 +279,7 @@ const en_US = {
   'account.features': 'What special needs does your pet have?',
   'account.fine': 'Fine!',
   'account.welcome': 'Welcome to the ROYAL CANIN® family!',
-  'shippingAddress': 'Shipping Address',
+  'shippingAddress': 'Address Management',
   'addShippingAddress': 'Add New Address',
   'editShippingAddress': 'Edit Shipping Address',
   'addressTip': 'You have created {number} shipping addresses, up to 20',
@@ -303,7 +303,9 @@ const en_US = {
   "sterilized": "Sterilized",
   "notSterilized": "Not sterilized",
   'paymentMethod': 'Payment method',
-  'addNewCreditCard': 'Add new credit card'
+  'addNewCreditCard': 'Add new credit card',
+
+  "addressType":'Address Type'
 
 
 }
