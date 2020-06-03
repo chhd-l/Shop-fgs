@@ -76,7 +76,7 @@ export default class ShippingAddress extends React.Component {
     }
     if(type==='country'){
       this.setState({
-        cityList:JSON.parse(sessionStorage.getItem('dict-country'))
+        countryList:JSON.parse(sessionStorage.getItem('dict-country'))
       })
     }
   }
