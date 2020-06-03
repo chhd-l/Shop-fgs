@@ -331,7 +331,6 @@ export default class BillingAddressForm extends React.Component {
                 <input
                   className="rc-input__control input__phoneField shippingPhoneNumber"
                   id="shippingPhoneNumber"
-                  type="number"
                   value={billingAddress.phoneNumber}
                   onChange={(e) => this.billingInputChange(e)}
                   onBlur={(e) => this.inputBlur(e)}

@@ -357,7 +357,6 @@ export default class AddressBookEditForm extends React.Component {
               </label>
               <span className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width" input-setup="true">
                 <input
-                  type="number"
                   className="rc-input__control input__phoneField"
                   id="phone"
                   name="phoneNumber"

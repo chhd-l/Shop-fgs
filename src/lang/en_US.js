@@ -252,6 +252,10 @@ const en_US = {
   'order.paymentStatus': 'Payment Status',
   'order.dealDatePeriod': 'Deal Date Period',
   'order.returnOrder': 'Return order',
+  'order.cancelOrder': 'Cancel order',
+  'order.return': 'Return',
+  'order.exchange': 'Exchange',
+  'order.viewOrder': 'View order',
 
   'datePicker.previousMonth': 'previous Month',
   'datePicker.nextMonth': 'next Month',

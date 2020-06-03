@@ -27,7 +27,7 @@ class PayProductInfo extends React.Component {
       productList = JSON.parse(localStorage.getItem("rc-cart-data"))
     }
     this.setState(Object.assign({
-      productList: productList
+      productList: productList || []
     }, totalInfo));
   }
   getProducts (plist) {

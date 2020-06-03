@@ -647,9 +647,7 @@ export default class ShippingAddressFrom extends React.Component {
                         style={{maxWidth:'1000px'}}
                         input-setup="true">
                         <input
-                          type="number"
                           className="rc-input__control input__phoneField"
-                          
                           id="phone"
                           name="phoneNumber"
                           value={addressForm.phoneNumber}

@@ -312,7 +312,6 @@ class UnLoginCart extends React.Component {
                         ></span>
                         <input
                           className="rc-quantity__input"
-                          type="number"
                           value={pitem.quantity}
                           min="1"
                           max="10"
@@ -384,7 +383,6 @@ class UnLoginCart extends React.Component {
                     onClick={() => this.subQuantity(pitem)}></span>
                   <input
                     className="rc-quantity__input"
-                    type="number"
                     value={pitem.quantity}
                     onChange={(e) => this.handleAmountChange(e, pitem)}
                     min="1"

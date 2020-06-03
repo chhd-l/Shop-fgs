@@ -1,6 +1,6 @@
 import React from 'react';
 import gtmParts from 'react-google-tag-manager';
-import { GTMID } from "@/utils/constant"
+import { GTMID, GTM_SITE_ID } from "@/utils/constant"
 
 class GoogleTagManager extends React.Component {
   componentDidMount () {
@@ -13,7 +13,7 @@ class GoogleTagManager extends React.Component {
         theme: ''
       },
       site: {
-        id: 'RCMXPCO1',
+        id: GTM_SITE_ID,
         environment: process.env.NODE_ENV === 'development' ? 'uat' : 'prd',
         country: 'MX'
       }

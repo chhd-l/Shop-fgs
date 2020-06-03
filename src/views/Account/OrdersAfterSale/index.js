@@ -333,7 +333,6 @@ class OrdersAfterSale extends React.Component {
                                             }
                                             <input
                                               className="rc-quantity__input"
-                                              type="number"
                                               value={item.num}
                                               min="0"
                                               max={item.numOrigin}

@@ -774,7 +774,6 @@ class Details extends React.Component {
                                                 className="rc-quantity__input"
                                                 id="quantity"
                                                 name="quantity"
-                                                type="number"
                                                 value={quantity}
                                                 min={quantityMinLimit}
                                                 max={stock}

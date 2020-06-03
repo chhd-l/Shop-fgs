@@ -5,8 +5,9 @@ import Footer from "@/components/Footer";
 import PayProductInfo from "@/components/PayProductInfo";
 import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom";
-import "./index.css";
 import successImg from "@/assets/images/credit-cards/success.png";
+import { GTM_SITE_ID } from "@/utils/constant"
+import "./index.css";
 
 class Confirmation extends React.Component {
   constructor(props) {
@@ -161,19 +162,19 @@ class Confirmation extends React.Component {
         })
       }
       event = {
-        "page": {
-          "type": "Order Confirmation",
-          "theme": ""
+        page: {
+          type: 'Order Confirmation',
+          theme: ''
         },
-        "event": `${localStorage.getItem('orderNumber')}eComTransaction`
+        event: `${GTM_SITE_ID}eComTransaction`
       }
       eEvents = {
-        "ecommerce": {
-          "currencyCode": "EUR",
-          "purchase": {
-            "actionField": {
-              "id": localStorage.getItem('orderNumber'),
-              "revenue": JSON.parse(sessionStorage.getItem('rc-totalInfo')).tradePrice
+        ecommerce: {
+          currencyCode: 'MXN',
+          purchase: {
+            actionField: {
+              id: localStorage.getItem('orderNumber'),
+              revenue: JSON.parse(sessionStorage.getItem('rc-totalInfo')).tradePrice
             },
             products
           }
@@ -196,9 +197,15 @@ class Confirmation extends React.Component {
                 <p style={{ marginBottom: '5px' }}>
                   <FormattedMessage id="confirmation.info2" />
                 </p>
-                <Link to="/" className="rc-meta rc-styled-link backtohome">
-                  <FormattedMessage id="confirmation.visitOnlineStore" />
-                </Link>
+                <div className="d-flex align-items-center justify-content-center">
+                  <Link to="/account/orders" className="rc-btn rc-btn--one">
+                    <FormattedMessage id="order.viewOrder" />
+                  </Link>
+                  &nbsp;or&nbsp;
+                  <Link to="/" className="rc-meta rc-styled-link backtohome mb-0">
+                    <FormattedMessage id="confirmation.visitOnlineStore" />
+                  </Link>
+                </div>
                 <p className="rc-margin-top--sm">
                   <b>
                     <FormattedMessage id="confirmation.orderNumber" />
