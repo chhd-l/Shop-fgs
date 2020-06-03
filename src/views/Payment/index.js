@@ -211,7 +211,10 @@ class Payment extends React.Component {
           errorShow: true,
           errorMsg: jugeLoginStatus() ? 'Please select a delivery address' : 'Please complete the required items'
         })
-        window.scrollTo(0, 0)
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        })
         setTimeout(() => {
           this.setState({
             errorShow: false,
@@ -224,7 +227,10 @@ class Payment extends React.Component {
           errorShow: true,
           errorMsg: 'Please enter the correct post code'
         })
-        window.scrollTo(0, 0)
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        })
         setTimeout(() => {
           this.setState({
             errorShow: false,
@@ -253,7 +259,10 @@ class Payment extends React.Component {
           errorShow: true,
           errorMsg: 'Please complete the required items'
         })
-        window.scrollTo(0, 0)
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        })
         setTimeout(() => {
           this.setState({
             errorShow: false,
@@ -266,7 +275,10 @@ class Payment extends React.Component {
           errorShow: true,
           errorMsg: 'Please enter the correct post code'
         })
-        window.scrollTo(0, 0)
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        })
         setTimeout(() => {
           this.setState({
             errorShow: false,
@@ -327,7 +339,10 @@ class Payment extends React.Component {
           errorShow: true,
           errorMsg: 'Please click the confirm card button'
         })
-        window.scrollTo(0, 0)
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        })
         setTimeout(() => {
           this.setState({
             errorShow: false,
@@ -457,7 +472,10 @@ class Payment extends React.Component {
           errorShow: true,
           errorMsg: e.toString()
         })
-        window.scrollTo(0, 0)
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        })
         setTimeout(() => {
           this.setState({
             errorShow: false,
@@ -516,7 +534,10 @@ class Payment extends React.Component {
           errorShow: true,
           errorMsg: 'Please complete the required items'
         })
-        window.scrollTo(0, 0)
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        })
         setTimeout(() => {
           this.setState({
             errorShow: false,
@@ -542,7 +563,10 @@ class Payment extends React.Component {
           errorShow: true,
           errorMsg: 'Please enter the correct email'
         })
-        window.scrollTo(0, 0)
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        })
         setTimeout(() => {
           this.setState({
             errorShow: false,
@@ -570,7 +594,10 @@ class Payment extends React.Component {
             errorMsg: payosdata.more_info
           })
           sessionStorage.clear("payosdata");
-          window.scrollTo(0, 0)
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          })
           setTimeout(() => {
             this.setState({
               errorShow: false,

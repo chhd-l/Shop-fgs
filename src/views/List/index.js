@@ -136,7 +136,10 @@ class List extends React.Component {
       if (widget) {
         setTimeout(() => {
           console.log(widget.offsetTop)
-          window.scrollTo(0, widget.offsetTop - 100);
+          window.scrollTo({
+            top: widget.offsetTop - 100,
+            behavior: 'smooth'
+          });
         }, 0)
       }
     }

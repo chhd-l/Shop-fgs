@@ -77,7 +77,10 @@ export default class AddressBookEditForm extends React.Component {
   scrollToErrorMsg () {
     const widget = document.querySelector('.contactInfo')
     if (widget) {
-      window.scrollTo(0, this.getElementToPageTop(widget) - 600)
+      window.scrollTo({
+        top: this.getElementToPageTop(widget) - 600,
+        behavior: "smooth"
+      })
     }
   }
   handleCancel () {

@@ -580,7 +580,10 @@ export default class PetForm extends React.Component {
     // widget && widget.scrollIntoView()
     // console.log(this.getElementToPageTop(widget))
     if (widget) {
-      window.scrollTo(0, this.getElementToPageTop(widget))
+      window.scrollTo({
+        top: this.getElementToPageTop(widget),
+        behavior: 'smooth'
+      })
     }
   }
   getElementToPageTop (el) {
