@@ -43,6 +43,7 @@ export default class LoginDeliveryAddress extends React.Component {
       saveErrorMsg: '',
       selectedId: ''
     }
+    this.timer = null
   }
   componentDidMount () {
     this.queryAddressList()
@@ -167,9 +168,13 @@ export default class LoginDeliveryAddress extends React.Component {
     })
   }
   scrollToTitle () {
-    const widget = document.querySelector(`#J-err-msg-${this.props.id}`)
-    if (widget) {
-      window.scrollTo(0, this.getElementToPageTop(widget) - 600)
+    const widget = document.querySelector(`#J-address-title-${this.props.id}`)
+    const headerWidget = document.querySelector('.rc-header__scrolled') ? document.querySelector('.rc-header__scrolled') : document.querySelector('.rc-header__nav')
+    if (widget && headerWidget) {
+      window.scrollTo({
+        top: this.getElementToPageTop(widget) - 950 - this.getElementToPageTop(headerWidget),
+        behavior: "smooth"
+      })
     }
   }
   getElementToPageTop (el) {
@@ -179,7 +184,7 @@ export default class LoginDeliveryAddress extends React.Component {
     return el.offsetTop
   }
   handleClickCancel () {
-    this.setState({ addOrEdit: false })
+    this.setState({ addOrEdit: false, saveErrorMsg: '' })
     this.scrollToTitle()
   }
   async handleSave () {
@@ -189,6 +194,7 @@ export default class LoginDeliveryAddress extends React.Component {
       this.setState({
         saveErrorMsg: 'Please complete the required items'
       })
+      console.log(deliveryAddress)
       this.scrollToTitle()
       return false
     }
@@ -212,16 +218,19 @@ export default class LoginDeliveryAddress extends React.Component {
     try {
       this.setState({ saveLoading: true })
       const tmpPromise = this.currentOperateIdx > -1 ? editAddress : saveAddress
-      await tmpPromise(params)
+      let res = await tmpPromise(params)
       this.setState({
         addOrEdit: false,
         successTipVisible: true,
-        saveLoading: false
+        saveLoading: false,
+        selectedId: res.context.deliveryAddressId
+      }, () => {
+        this.queryAddressList()
+        this.scrollToTitle()
+        this.props.otherUpdateList()
       })
-      this.scrollToTitle()
-      this.queryAddressList()
-      this.props.otherUpdateList()
-      setTimeout(() => {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
         this.setState({
           successTipVisible: false
         })
@@ -232,7 +241,8 @@ export default class LoginDeliveryAddress extends React.Component {
         saveLoading: false
       })
       this.scrollToTitle()
-      setTimeout(() => {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
         this.setState({
           saveErrorMsg: ''
         })
@@ -243,19 +253,17 @@ export default class LoginDeliveryAddress extends React.Component {
     const { deliveryAddress, addOrEdit, loading, foledMore, addressList } = this.state;
     return (
       <div className={`${this.props.visible ? '' : 'hidden'}`}>
-        <div className="card-header" style={{ marginTop: this.props.type === 'billing' ? -56 : 0 }}>
-          <h5 className="d-flex justify-content-between">
+        <div id={`J-address-title-${this.props.id}`} className="card-header" style={{ marginTop: this.props.type === 'billing' ? -56 : 0 }}>
+          <h5 className="pull-left">
             <FormattedMessage id="payment.deliveryTitle" />
-            <a
-              className={`rc-styled-link font-weight-lighter ${addOrEdit ? 'hidden' : ''}`}
-              style={{ fontSize: '1rem' }}
-              onClick={() => this.addOrEditAddress()}
-            >
-              <FormattedMessage id="newAddress" />
-            </a>
           </h5>
+          <p
+            className={`rc-styled-link rc-margin-top--xs pull-right inlineblock m-0 ${addOrEdit ? 'hidden' : ''}`}
+            onClick={() => this.addOrEditAddress()}>
+            <FormattedMessage id="newAddress" />
+          </p>
         </div>
-        <div id={`J-err-msg-${this.props.id}`} className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.saveErrorMsg ? '' : 'hidden'}`}>
+        <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.saveErrorMsg ? '' : 'hidden'}`}>
           <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
             <span>{this.state.saveErrorMsg}</span>
             <button
@@ -286,7 +294,7 @@ export default class LoginDeliveryAddress extends React.Component {
                         ? <React.Fragment>
                           {
                             addressList.map((item, i) => (
-                              <div className={`row align-items-start address-item mb-2 ${item.selected ? 'selected' : ''} ${foledMore && !item.selected ? 'hidden' : ''}`} key={item.deliveryAddressId}>
+                              <div className={`row align-items-center address-item mb-2 ${item.selected ? 'selected' : ''} ${foledMore && !item.selected ? 'hidden' : ''}`} key={item.deliveryAddressId}>
                                 <div
                                   className={`ui-cursor-pointer border col-3 address-name ${item.selected ? 'border-danger' : ''}`}
                                   onClick={() => this.selectAddress(i)}>
@@ -302,7 +310,11 @@ export default class LoginDeliveryAddress extends React.Component {
                                 </div>
                                 <div className="col-8">
                                   {[item.consigneeName, item.consigneeNumber].join(',')}
-                                  {item.isDefaltAddress === 1 ? <span className="icon-default">Default</span> : null}
+                                  {item.isDefaltAddress === 1
+                                    ? <span className="icon-default">
+                                      <FormattedMessage id="default" />
+                                    </span>
+                                    : null}
                                   <br />
                                   {[
                                     this.getDictValue(this.state.countryList, item.countryId),
@@ -311,7 +323,7 @@ export default class LoginDeliveryAddress extends React.Component {
                                   ].join(',')}
                                 </div>
                                 <div className="col-1">
-                                  <a className="rc-styled-link red" onClick={() => this.addOrEditAddress(i)}>
+                                  <a className="rc-styled-link" onClick={() => this.addOrEditAddress(i)}>
                                     <FormattedMessage id="edit" />
                                   </a>
                                 </div>

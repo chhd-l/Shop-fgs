@@ -132,7 +132,7 @@ class Confirmation extends React.Component {
 
     let event
     let eEvents
-    if (!loading) {debugger
+    if (!loading) {
       let products
       if (this.state.paywithLogin) {
         products = productList.map(item => {

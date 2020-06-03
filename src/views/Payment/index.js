@@ -702,9 +702,9 @@ class Payment extends React.Component {
       </span>
     );
     const event = {
-      "page": {
-        "type": "Checkout",
-        "theme": ""
+      page: {
+        type: 'Checkout',
+        theme: ''
       }
     }
 

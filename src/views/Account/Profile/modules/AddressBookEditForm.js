@@ -21,6 +21,7 @@ export default class AddressBookEditForm extends React.Component {
         rfc: ''
       }
     }
+    this.timer = null
   }
   componentDidMount () {
     const { data } = this.props
@@ -60,7 +61,8 @@ export default class AddressBookEditForm extends React.Component {
       errorMsg: msg
     })
     this.scrollToErrorMsg()
-    setTimeout(() => {
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
       this.setState({
         errorMsg: ''
       })
@@ -74,10 +76,8 @@ export default class AddressBookEditForm extends React.Component {
   }
   scrollToErrorMsg () {
     const widget = document.querySelector('.contactInfo')
-    // widget && widget.scrollIntoView()
-    // console.log(this.getElementToPageTop(widget))
     if (widget) {
-      window.scrollTo(0, this.getElementToPageTop(widget))
+      window.scrollTo(0, this.getElementToPageTop(widget) - 600)
     }
   }
   handleCancel () {
@@ -117,7 +117,8 @@ export default class AddressBookEditForm extends React.Component {
         successTipVisible: true
       })
       this.scrollToErrorMsg()
-      setTimeout(() => {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
         this.setState({
           successTipVisible: false
         })
@@ -127,7 +128,8 @@ export default class AddressBookEditForm extends React.Component {
         errorMsg: typeof err === 'object' ? err.toString() : err
       })
       this.scrollToErrorMsg()
-      setTimeout(() => {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
         this.setState({
           errorMsg: ''
         })

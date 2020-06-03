@@ -309,6 +309,7 @@ const en_US = {
   "moreAddress": 'More Address',
   "unfoldAddress": 'Unfold Address',
   "newAddress": 'New address',
+  'default': 'Default'
 
 
 }

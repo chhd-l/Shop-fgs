@@ -71,7 +71,7 @@ class HeroCarousel extends React.Component {
                     <p><FormattedMessage id="header.carouselInfo2" /></p>
                   </div>
                   <div className="hero-carousel__slide__content__btn text-center">
-                    <a className="rc-btn rc-btn--one gtm-hero-carousel-btn" onClick={this.hanldeClick}><FormattedMessage id="header.toBegin" /></a>
+                    <a className="rc-btn rc-btn--one gtm-hero-carousel-btn" style={{color: '#fff'}} onClick={this.hanldeClick}><FormattedMessage id="header.toBegin" /></a>
                   </div>
                 </div>
               </div>
