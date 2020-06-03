@@ -280,7 +280,9 @@ export default class LoginDeliveryAddress extends React.Component {
         <aside
           className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
           role="alert">
-          <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Save successfullly</p>
+          <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+            <FormattedMessage id="saveSuccessfullly" />
+          </p>
         </aside>
         <div className={`rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm ${!addOrEdit ? 'addr-container' : ''}`}>
           {
@@ -360,25 +362,31 @@ export default class LoginDeliveryAddress extends React.Component {
             />
             {this.state.saveLoading ? <Loading positionAbsolute="true" /> : null}
             <div className="rc-layout-container">
-              <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down d-flex justify-content-between align-items-center">
+              <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down d-flex flex-wrap justify-content-between align-items-center">
                 <div className="rc-input rc-input--inline" onClick={() => this.isDefalt()}>
                   <input
                     type="checkbox"
                     id="defaultAddress"
                     className="rc-input__checkbox"
-
                     value={deliveryAddress.isDefalt} />
-                  {
-                    !deliveryAddress.isDefalt
-                      ? <label className="rc-input__label--inline" >
-                        <FormattedMessage id="setDefaultAddress"></FormattedMessage>
-                      </label>
-                      : <label className="rc-input__label--inline defaultAddressChecked">
-                        <FormattedMessage id="setDefaultAddress"></FormattedMessage>
-                      </label>
-                  }
+                  <label className={`rc-input__label--inline ${deliveryAddress.isDefalt ? 'defaultAddressChecked' : ''}`}>
+                    <FormattedMessage id="setDefaultAddress"></FormattedMessage>
+                  </label>
                 </div>
-                <div>
+                <div className="rc-md-up">
+                  <a className="rc-styled-link" onClick={() => this.handleClickCancel()}>
+                    <FormattedMessage id="cancel" />
+                  </a>
+                      &nbsp;<FormattedMessage id="or" />&nbsp;
+                      <button
+                    className="rc-btn rc-btn--one submitBtn"
+                    name="contactPreference"
+                    type="submit"
+                    onClick={() => this.handleSave()}>
+                    <FormattedMessage id="save" />
+                  </button>
+                </div>
+                <div className="rc-md-down rc-full-width text-right">
                   <a className="rc-styled-link" onClick={() => this.handleClickCancel()}>
                     <FormattedMessage id="cancel" />
                   </a>

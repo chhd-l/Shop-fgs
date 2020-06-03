@@ -309,8 +309,8 @@ const en_US = {
   "moreAddress": 'More Address',
   "unfoldAddress": 'Unfold Address',
   "newAddress": 'New address',
-  'default': 'Default'
-
+  'default': 'Default',
+  'saveSuccessfullly': 'Save successfullly'
 
 }
 export default en_US;
