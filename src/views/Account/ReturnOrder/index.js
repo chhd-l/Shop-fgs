@@ -144,7 +144,6 @@ export default class ReturnOrder extends React.Component {
     const event = {
       "page": {
         "type": "Account",
-        "hitTimestamp": new Date().toISOString(),
         "theme": ""
       }
     }

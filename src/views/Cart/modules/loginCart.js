@@ -442,7 +442,6 @@ class LoginCart extends React.Component {
     const event = {
       "page": {
         "type": "Cart",
-        "hitTimestamp": new Date().toISOString(),
         "theme": ""
       }
     }

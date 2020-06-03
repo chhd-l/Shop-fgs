@@ -556,8 +556,7 @@ class Details extends React.Component {
     const event = {
       page: {
         type: "Product",
-        hitTimestamp: new Date().toISOString(),
-        theme: "Cat or Dog",
+        theme: "Cat or Dog", // todo goodsCateName???
       },
     };
     return (

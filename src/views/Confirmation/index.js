@@ -131,17 +131,18 @@ class Confirmation extends React.Component {
     } = this.state;
 
     let event
-    if (!loading) {
+    let eEvents
+    if (!loading) {debugger
       let products
       if (this.state.paywithLogin) {
         products = productList.map(item => {
           return {
-            id: item.goodsId,
+            id: item.goodsInfoId,
             name: item.goodsName,
             price: item.salePrice,
             brand: "Royal Canin",
-            category: item.goodsCateName,
-            quantity: item.quantity,
+            category: item.goodsCateName,  // todo
+            quantity: item.buyCount,
             variant: item.specText
           }
         })
@@ -149,7 +150,7 @@ class Confirmation extends React.Component {
         products = productList.map(item => {
           const selectedSize = item.sizeList.filter(s => s.selected)[0]
           return {
-            id: item.goodsId,
+            id: selectedSize.goodsInfoId,
             name: item.goodsName,
             price: selectedSize.salePrice,
             brand: "Royal Canin",
@@ -162,21 +163,19 @@ class Confirmation extends React.Component {
       event = {
         "page": {
           "type": "Order Confirmation",
-          "hitTimestamp": new Date().toISOString(),
           "theme": ""
         },
-        "event": `${localStorage.getItem('orderNumber')}eComTransaction`,
+        "event": `${localStorage.getItem('orderNumber')}eComTransaction`
+      }
+      eEvents = {
         "ecommerce": {
           "currencyCode": "EUR",
           "purchase": {
             "actionField": {
               "id": localStorage.getItem('orderNumber'),
-              "revenue": productList.reduce(
-                (total, item) => total + item.currentAmount,
-                0
-              ).toString()
+              "revenue": JSON.parse(sessionStorage.getItem('rc-totalInfo')).tradePrice
             },
-            "products": products
+            products
           }
         }
       }
@@ -184,13 +183,13 @@ class Confirmation extends React.Component {
 
     return (
       <div>
-        {event ? <GoogleTagManager additionalEvents={event} /> : null}
+        {event ? <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} /> : null}
         <Header history={this.props.history} />
         <main className="rc-content--fixed-header">
           <div className="rc-layout-container rc-three-column rc-max-width--xl">
             <div className="rc-column rc-double-width shipping__address">
               <div className="center">
-                <img src={successImg} alt="" style={{display: 'inline-block'}} />
+                <img src={successImg} alt="" style={{ display: 'inline-block' }} />
                 <h4>
                   <b><FormattedMessage id="confirmation.info1" /></b>
                 </h4>

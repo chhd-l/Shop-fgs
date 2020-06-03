@@ -7,12 +7,21 @@ import { Link } from "react-router-dom"
 import FAQ1 from "@/assets/images/FAQ1.jpg"
 
 class FAQ extends React.Component {
+  componentWillUnmount () {
+    localStorage.setItem("isRefresh", true);
+  }
+  componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
+  }
   render (h) {
     console.log(dataFAQ);
     const event = {
       "page": {
         "type": "Content",
-        "hitTimestamp": new Date().toISOString(),
         "theme": ""
       }
     }

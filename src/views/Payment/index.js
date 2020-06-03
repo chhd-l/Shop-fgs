@@ -704,7 +704,6 @@ class Payment extends React.Component {
     const event = {
       "page": {
         "type": "Checkout",
-        "hitTimestamp": new Date().toISOString(),
         "theme": ""
       }
     }

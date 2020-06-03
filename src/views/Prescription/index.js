@@ -248,7 +248,6 @@ render(h) {
     const event = {
       "page": {
         "type": "Checkout",
-        "hitTimestamp": new Date().toISOString(),
         "theme": ""
       }
     }

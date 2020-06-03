@@ -303,25 +303,26 @@ class List extends React.Component {
     let event
     if (category) {
       let theme
+      let type
       switch (category) {
         case 'dogs':
+        case 'vcn':
           theme = 'Dog'
+          type = 'Product Catalogue'
           break
         case 'cats':
-          theme = 'Cat'
-          break
-        case 'vcn':
         case 'vd':
-          theme = 'Cat or Dog'
+          theme = 'Cat'
+          type = 'Product Catalogue'
           break
         default:
-          theme = 'Search Results'
+          theme = ''
+          type = 'Search Results'
       }
       event = {
-        "page": {
-          "type": "Product Catalogue",
-          "hitTimestamp": new Date().toISOString(),
-          "theme": theme
+        page: {
+          type,
+          theme
         }
       }
     }
