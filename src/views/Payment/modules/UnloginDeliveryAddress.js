@@ -3,9 +3,6 @@ import { FormattedMessage } from "react-intl"
 import AddressForm from './AddressForm'
 
 export default class UnloginDeliveryAddress extends React.Component {
-  constructor(props) {
-    super(props)
-  }
   render () {
     return (
       <React.Fragment>

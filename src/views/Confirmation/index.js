@@ -155,7 +155,7 @@ class Confirmation extends React.Component {
             name: item.goodsName,
             price: selectedSize.salePrice,
             brand: "Royal Canin",
-            category: item.goodsCateName,
+            category: item.goodsCateName, // todo
             quantity: item.quantity,
             variant: selectedSize.detailName
           }
@@ -198,10 +198,16 @@ class Confirmation extends React.Component {
                   <FormattedMessage id="confirmation.info2" />
                 </p>
                 <div className="d-flex align-items-center justify-content-center">
-                  <Link to="/account/orders" className="rc-btn rc-btn--one">
-                    <FormattedMessage id="order.viewOrder" />
-                  </Link>
-                  &nbsp;or&nbsp;
+                  {
+                    this.state.paywithLogin
+                      ? <React.Fragment>
+                          <Link to="/account/orders" className="rc-btn rc-btn--one">
+                            <FormattedMessage id="order.viewOrder" />
+                          </Link>
+                          &nbsp;or&nbsp;
+                      </React.Fragment>
+                      : null
+                  }
                   <Link to="/" className="rc-meta rc-styled-link backtohome mb-0">
                     <FormattedMessage id="confirmation.visitOnlineStore" />
                   </Link>
