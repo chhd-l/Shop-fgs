@@ -11,6 +11,7 @@ import { getDict } from '@/api/dict'
 import { STOREID } from '@/utils/constant'
 import AddressForm from './AddressForm'
 import Loading from "@/components/Loading"
+import './loginDeliveryAddress.css'
 
 export default class LoginDeliveryAddress extends React.Component {
   static defaultProps = {
@@ -281,7 +282,7 @@ export default class LoginDeliveryAddress extends React.Component {
           role="alert">
           <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Save successfullly</p>
         </aside>
-        <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
+        <div className={`rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm ${!addOrEdit ? 'addr-container' : ''}`}>
           {
             loading
               ? <Skeleton color="#f5f5f5" count={2} width="100%" />
@@ -296,33 +297,33 @@ export default class LoginDeliveryAddress extends React.Component {
                             addressList.map((item, i) => (
                               <div className={`row align-items-center address-item mb-2 ${item.selected ? 'selected' : ''} ${foledMore && !item.selected ? 'hidden' : ''}`} key={item.deliveryAddressId}>
                                 <div
-                                  className={`ui-cursor-pointer border col-3 address-name ${item.selected ? 'border-danger' : ''}`}
+                                  className="ui-cursor-pointer text-center border col-3 col-md-3 address-name"
                                   onClick={() => this.selectAddress(i)}>
                                   {item.consigneeName}
-                                  {
-                                    item.selected
-                                      ? <span className="position-absolute icon-gou">
-                                        <span className="ui-arrow border-danger"></span>
-                                        <span className="position-absolute icon-ok"></span>
-                                      </span>
-                                      : null
-                                  }
+                                  <b></b>
                                 </div>
-                                <div className="col-8">
-                                  {[item.consigneeName, item.consigneeNumber].join(',')}
-                                  {item.isDefaltAddress === 1
-                                    ? <span className="icon-default">
-                                      <FormattedMessage id="default" />
-                                    </span>
-                                    : null}
+                                <div className="col-8 col-md-8">
+                                  {[item.consigneeName, item.consigneeNumber].join(', ')}
                                   <br />
                                   {[
                                     this.getDictValue(this.state.countryList, item.countryId),
                                     this.getDictValue(this.state.cityList, item.cityId),
                                     item.address1
-                                  ].join(',')}
+                                  ].join(', ')}
+                                  {
+                                    item.isDefaltAddress === 1
+                                      ? <span className="icon-default">
+                                        <FormattedMessage id="default" />
+                                      </span>
+                                      : null
+                                  }
                                 </div>
-                                <div className="col-1">
+                                <div className="col-1 col-md-1 rc-md-up">
+                                  <a className="addr-btn-edit rc-styled-link" onClick={() => this.addOrEditAddress(i)}>
+                                    <FormattedMessage id="edit" />
+                                  </a>
+                                </div>
+                                <div className="col-1 col-md-1 rc-md-down">
                                   <a className="rc-styled-link" onClick={() => this.addOrEditAddress(i)}>
                                     <FormattedMessage id="edit" />
                                   </a>
@@ -336,11 +337,11 @@ export default class LoginDeliveryAddress extends React.Component {
                                 foledMore
                                   ? <React.Fragment>
                                     <FormattedMessage id="moreAddress" />&nbsp;
-                                <span className="rc-icon rc-down--xs rc-iconography position-relative" style={{ top: '3px' }}></span>
+                                    <b className="addr-switch switch-on"></b>
                                   </React.Fragment>
                                   : <React.Fragment>
                                     <FormattedMessage id="unfoldAddress" />
-                                    <span className="rc-icon rc-up--xs rc-iconography position-relative" style={{ top: '3px' }}></span>
+                                    <b className="addr-switch switch-off"></b>
                                   </React.Fragment>
                               }
                             </span>

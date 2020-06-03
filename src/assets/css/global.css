@@ -22359,30 +22359,6 @@ tr.rc-table__row.inactive td:after {
   clip-path: polygon(0% 0%, 100% 0%, 100% 30%, 0% 30%);
   animation: rotate 1s linear infinite;
 }
-.icon-ok {
-  display: inline-block;
-  width: 10px;
-  height: 4px;
-  background: #fff;
-  line-height: 0;
-  font-size: 0;
-  font-weight: 100;
-  vertical-align: middle;
-  -webkit-transform: rotate(45deg);
-  outline: 0;
-  margin-right: 8px;
-}
-
-.icon-ok:after {
-  content: '/';
-  display: block;
-  width: 20px;
-  height: 4px;
-  background: #fff;
-  -webkit-transform: rotate(-90deg) translateY(-50%) translateX(50%);
-  outline: 0;
-  margin-right: 8px;
-}
 
 @keyframes rotate {
   from {

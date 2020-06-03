@@ -1,0 +1,79 @@
+
+.addr-container {
+  max-height: 300px;
+  overflow-y: auto;
+}
+.addr-container::-webkit-scrollbar {
+  width: 10px;
+  height: 1px;
+}
+.addr-container::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #c7c7c7;
+}
+.addr-container::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: #ebebeb;
+}
+.address-item:hover {
+  background-color: #fff3f3;
+}
+.address-item:hover .addr-btn-edit {
+  display: inline-block;
+}
+.address-item .addr-btn-edit {
+  display: none;
+}
+.address-item .address-name {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.address-item .icon-default {
+  margin: 5px 10px;
+  background-color: #999;
+  color: #fff;
+  padding: 0 3px;
+  line-height: 20px;
+  font-size: .9em;
+}
+.address-item .address-name:hover,
+.address-item.selected .address-name{
+  border-width: 2px!important;
+  border-color: #ec001a!important;
+}
+.address-item.selected .address-name b{
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 12px;
+  height: 12px;
+  overflow: hidden;
+  background: url(../../../assets/images/selected-icon.png) no-repeat;
+}
+.address-item.selected .icon-gou{
+  right: 0;
+  bottom: 6px;
+  font-size: 0;
+}
+.address-item.selected .icon-gou .icon-ok {
+  position: absolute;
+  right: 0;
+  transform: rotate(45deg) scale(.4) translate(68%, -8%);
+  transform-origin: bottom right;
+}
+.addr-switch {
+  display: inline-block;
+  vertical-align: middle;
+  height: 10px;
+  line-height: 10px;
+  width: 9px;
+  margin-left: 5px;
+  background: url(../../../assets/images/addr-i.png) no-repeat 0 0;
+}
+.addr-switch.switch-on {
+  background-position: 0 0;
+}
+.addr-switch.switch-off {
+  background-position: 0 -10px;
+}
