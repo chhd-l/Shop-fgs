@@ -353,7 +353,7 @@ export default class PaymentMethod extends React.Component {
                     </div>
                     {creditCardList.map((el) => (
                       <div
-                        className="creditCompleteInfoBox"
+                        className={`creditCompleteInfoBox ${el.isDefault === 1?'active': ''}`}
                         style={{
                           display: "block",
                           // !this.state.isCompleteCredit

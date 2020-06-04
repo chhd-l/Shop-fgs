@@ -1,3 +1,9 @@
 .creditCompleteInfoBox .pull-right {
   margin-left: 10px;
 }
+.creditCompleteInfoBox {
+  margin-top: 10px;
+}
+.creditCompleteInfoBox.active {
+  border: 1px solid #ec001a;
+}
