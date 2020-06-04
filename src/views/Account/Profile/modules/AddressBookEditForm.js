@@ -360,6 +360,7 @@ export default class AddressBookEditForm extends React.Component {
                   className="rc-input__control input__phoneField"
                   id="phone"
                   name="phoneNumber"
+                  type="number"
                   value={form.phoneNumber}
                   onChange={e => this.handleInputChange(e)}
                   onBlur={e => this.inputBlur(e)}

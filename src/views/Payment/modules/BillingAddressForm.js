@@ -329,6 +329,7 @@ export default class BillingAddressForm extends React.Component {
                 data-js-warning-message="*Phone Number isn’t valid"
               >
                 <input
+                  type="number"
                   className="rc-input__control input__phoneField shippingPhoneNumber"
                   id="shippingPhoneNumber"
                   value={billingAddress.phoneNumber}

@@ -649,6 +649,7 @@ export default class ShippingAddressFrom extends React.Component {
                         <input
                           className="rc-input__control input__phoneField"
                           id="phone"
+                          type="number"
                           name="phoneNumber"
                           value={addressForm.phoneNumber}
                           onChange={e => this.handleInputChange(e)}
