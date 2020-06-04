@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from "react-intl"
 import { findIndex } from "lodash"
+import Selection from '@/components/Selection'
 import { getDict } from '@/api/dict'
 import { STOREID } from '@/utils/constant'
 
@@ -9,15 +10,15 @@ export default class AddressForm extends React.Component {
     super(props)
     this.state = {
       deliveryAddress: {
-        firstName: "",
-        lastName: "",
-        address1: "",
-        address2: "",
+        firstName: '',
+        lastName: '',
+        address1: '',
+        address2: '',
         rfc: '',
-        country: "", // todo 默认country/city有问题
-        city: "",
-        postCode: "",
-        phoneNumber: "",
+        country: '',
+        city: '',
+        postCode: '',
+        phoneNumber: ''
       },
       cityList: [],
       countryList: []
@@ -30,9 +31,19 @@ export default class AddressForm extends React.Component {
   componentWillReceiveProps (nextProps) {
     if (nextProps.data !== this.state.deliveryAddress) {
       this.setState({
-        deliveryAddress: Object.assign({}, nextProps.data)
+        deliveryAddress: Object.assign({}, nextProps.data),
       })
     }
+  }
+  computedList (key) {
+    let tmp = this.state[`${key}List`].map(c => {
+      return {
+        value: c.id.toString(),
+        name: c.name
+      }
+    })
+    tmp.unshift({ value: '', name: '' })
+    return tmp
   }
   async getDict (type) {
     let res = await getDict({
@@ -45,12 +56,12 @@ export default class AddressForm extends React.Component {
     })
   }
   deliveryInputChange (e) {
-    const target = e.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-    const { deliveryAddress } = this.state;
-    deliveryAddress[name] = value;
-    this.inputBlur(e);
+    const target = e.target
+    const value = target.type === "checkbox" ? target.checked : target.value
+    const name = target.name
+    const { deliveryAddress } = this.state
+    deliveryAddress[name] = value
+    this.inputBlur(e)
     this.setState({ deliveryAddress: deliveryAddress }, () => {
       this.props.updateData(this.state.deliveryAddress)
     });
@@ -68,8 +79,15 @@ export default class AddressForm extends React.Component {
       validDom.style.display = e.target.value ? "none" : "block";
     }
   }
+  handleSelectedItemChange (key, data) {
+    const { deliveryAddress } = this.state
+    deliveryAddress[key] = data.value
+    this.setState({ deliveryAddress: deliveryAddress }, () => {
+      this.props.updateData(this.state.deliveryAddress)
+    })
+  }
   render () {
-    const { deliveryAddress } = this.state;
+    const { deliveryAddress } = this.state
     return (
       <React.Fragment>
         <div className="rc-layout-container">
@@ -236,22 +254,12 @@ export default class AddressForm extends React.Component {
                 <FormattedMessage id="payment.country" />
               </label>
               <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-                <select
-                  data-js-select=""
-                  id="shippingCountry"
-                  value={deliveryAddress.country}
-                  onChange={(e) => this.deliveryInputChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}
-                  name="country"
-                >
-                  {/* <option>Mexico</option> */}
-                  <option value=""></option>
-                  {
-                    this.state.countryList.map(item => (
-                      <option key={item.id} value={item.id}>{item.name}</option>
-                    ))
-                  }
-                </select>
+                <Selection
+                  selectedItemChange={data => this.handleSelectedItemChange('country', data)}
+                  optionList={this.computedList('country')}
+                  selectedItemData={{
+                    value: this.state.deliveryAddress.country
+                  }} />
               </span>
             </div>
           </div>
@@ -260,28 +268,16 @@ export default class AddressForm extends React.Component {
           <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_city">
             <label
               className="form-control-label"
-              htmlFor="shippingAddressCity"
-            >
+              htmlFor="shippingAddressCity">
               <FormattedMessage id="payment.city" />
             </label>
             <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-              <select
-                data-js-select=""
-                id="shippingCountry"
-                value={deliveryAddress.city}
-                onChange={(e) => this.deliveryInputChange(e)}
-                onBlur={(e) => this.inputBlur(e)}
-                name="city"
-              >
-                <option value=""></option>
-                {/* <option>Monterrey</option>
-                <option>Mexico City</option> */}
-                {
-                  this.state.cityList.map(item => (
-                    <option key={item.id} value={item.id}>{item.name}</option>
-                  ))
-                }
-              </select>
+              <Selection
+                selectedItemChange={data => this.handleSelectedItemChange('city', data)}
+                optionList={this.computedList('city')}
+                selectedItemData={{
+                  value: this.state.deliveryAddress.city
+                }} />
             </span>
           </div>
         </div>
@@ -345,6 +341,7 @@ export default class AddressForm extends React.Component {
               data-js-warning-message="*Phone Number isn’t valid"
             >
               <input
+                type="number"
                 className="rc-input__control input__phoneField shippingPhoneNumber"
                 id="shippingPhoneNumber"
                 value={deliveryAddress.phoneNumber}
@@ -430,7 +427,7 @@ export default class AddressForm extends React.Component {
             </div>
           </div>
         </div>
-      </React.Fragment>
+      </React.Fragment >
     )
   }
 }
