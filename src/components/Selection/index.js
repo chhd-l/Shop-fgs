@@ -58,7 +58,7 @@ export default class Selection extends React.Component {
     const { optionList } = this.props
     return (
       <div
-        className="choices"
+        className={`choices ${optionsVisible ? 'is-open' : ''}`}
         role="listbox"
         onClick={e => this.toggleShowOptions(e)}>
         <div className="choices__inner">
