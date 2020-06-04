@@ -250,6 +250,10 @@ export default class PaymentMethod extends React.Component {
   }
   openCreatePage = () => {
     const { history } = this.props;
+    if(this.state.creditCardList.length >= 10) {
+      this.showErrorMsg('Quantity cannot exceed 10')
+      return false
+    }
     history.push("/account/paymentMethod/create");
   };
   openEditPage = (id) => {
