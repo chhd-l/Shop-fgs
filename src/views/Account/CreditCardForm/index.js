@@ -22,8 +22,8 @@ import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import paypalImg from "@/assets/images/credit-cards/paypal.png";
-import axios from 'axios'
-import { addOrUpdatePaymentMethod } from "@/api/payment"
+import axios from "axios";
+import { addOrUpdatePaymentMethod } from "@/api/payment";
 
 export default class ShippingAddressFrom extends React.Component {
   constructor(props) {
@@ -67,28 +67,33 @@ export default class ShippingAddressFrom extends React.Component {
         email: "",
         phoneNumber: "",
         identifyNumber: "111",
-        isDefault: false
+        isDefault: false,
       },
       payosdata: {},
     };
   }
   componentDidMount() {
-    console.log(this.props)
-    const { location } = this.props
-    if(location.query) {
-      sessionStorage.setItem('paymentMethodForm', JSON.stringify(location.query))
+    console.log(this.props);
+    const { location } = this.props;
+    if (location.query) {
+      sessionStorage.setItem(
+        "paymentMethodForm",
+        JSON.stringify(location.query)
+      );
       this.setState({
-        creditCardInfo: location.query
-      })
-    }else if(sessionStorage.getItem('paymentMethodForm')) {
-      let paymentMethodForm = JSON.parse(sessionStorage.getItem('paymentMethodForm'))
+        creditCardInfo: location.query,
+      });
+    } else if (sessionStorage.getItem("paymentMethodForm")) {
+      let paymentMethodForm = JSON.parse(
+        sessionStorage.getItem("paymentMethodForm")
+      );
       this.setState({
-        creditCardInfo: paymentMethodForm
-      })
+        creditCardInfo: paymentMethodForm,
+      });
     }
   }
   componentWillMount() {
-    sessionStorage.removeItem('paymentMethodForm')
+    sessionStorage.removeItem("paymentMethodForm");
   }
   cardInfoInputChange(e) {
     const target = e.target;
@@ -120,98 +125,103 @@ export default class ShippingAddressFrom extends React.Component {
     }
   }
   async handleSave() {
-    const { creditCardInfo } = this.state
+    const { creditCardInfo } = this.state;
     this.setState({
-      loading:true
-    })
+      loading: true,
+    });
     try {
-
-      let res = await axios.post('https://api.paymentsos.com/tokens', {
-        "token_type": "credit_card",
-        "card_number": creditCardInfo.cardNumber,
-        "expiration_date": creditCardInfo.cardMmyy.replace(/\//, '-'),
-        "holder_name": creditCardInfo.cardOwner,
-        "credit_card_cvv": creditCardInfo.cardCvv
-      }, {
-        headers: {
-          public_key: 'fd931719-5733-4b77-b146-2fd22f9ad2e3',
-          "x-payments-os-env": 'test',
-          "Content-type": 'application/json',
-          app_id: 'com.razorfish.dev_mexico',
-          "api-version": '1.3.0'
+      let res = await axios.post(
+        "https://api.paymentsos.com/tokens",
+        {
+          token_type: "credit_card",
+          card_number: creditCardInfo.cardNumber,
+          expiration_date: creditCardInfo.cardMmyy.replace(/\//, "-"),
+          holder_name: creditCardInfo.cardOwner,
+          credit_card_cvv: creditCardInfo.cardCvv,
+        },
+        {
+          headers: {
+            public_key: "fd931719-5733-4b77-b146-2fd22f9ad2e3",
+            "x-payments-os-env": "test",
+            "Content-type": "application/json",
+            app_id: "com.razorfish.dev_mexico",
+            "api-version": "1.3.0",
+          },
         }
-      })
-      console.log(res.data)
+      );
+      console.log(res.data);
       let params = {
         cardCvv: creditCardInfo.cardCvv,
         cardMmyy: creditCardInfo.cardMmyy,
         cardNumber: creditCardInfo.cardNumber,
         cardOwner: creditCardInfo.cardOwner,
         cardType: res.data.card_type,
-        customerId: JSON.parse(sessionStorage.getItem('rc-userinfo'))['customerId'],
+        customerId: JSON.parse(sessionStorage.getItem("rc-userinfo"))[
+          "customerId"
+        ],
         email: creditCardInfo.email,
         phoneNumber: creditCardInfo.phoneNumber,
         vendor: res.data.vendor,
-        id: creditCardInfo.id?creditCardInfo.id: '',
-        isDefault: creditCardInfo.isDefault? '1': '0'
-      }
-      console.log(1)
-      let  addRes = await addOrUpdatePaymentMethod(params)
-      console.log(2)
+        id: creditCardInfo.id ? creditCardInfo.id : "",
+        isDefault: creditCardInfo.isDefault ? "1" : "0",
+      };
+      console.log(1);
+      let addRes = await addOrUpdatePaymentMethod(params);
+      console.log(2);
       this.setState({
-        loading:false
-      })
-      this.handleCancel()
-    }catch(e)  {
-      console.log(e)
+        loading: false,
+      });
+      this.handleCancel();
+    } catch (e) {
+      console.log(e);
       this.setState({
-        loading:false
-      })
-      this.showErrorMsg("Save Failed!")
+        loading: false,
+      });
+      this.showErrorMsg("Save Failed!");
     }
   }
-  handleCancel=()=>{
-    const { history } = this.props
-    history.push('/account/paymentMethod')
-  }
+  handleCancel = () => {
+    const { history } = this.props;
+    history.push("/account/paymentMethod");
+  };
 
-  showErrorMsg=(message)=>{
+  showErrorMsg = (message) => {
     this.setState({
-      errorMsg: message
-    })
-    this.scrollToErrorMsg()
+      errorMsg: message,
+    });
+    this.scrollToErrorMsg();
     setTimeout(() => {
       this.setState({
-        errorMsg: ''
-      })
-    }, 3000)
-  }
+        errorMsg: "",
+      });
+    }, 3000);
+  };
 
-  showSuccessMsg=(message)=>{
+  showSuccessMsg = (message) => {
     this.setState({
-      successMsg: message
-    })
-    this.scrollToErrorMsg()
+      successMsg: message,
+    });
+    this.scrollToErrorMsg();
     setTimeout(() => {
       this.setState({
-        successMsg: ''
-      })
-    }, 2000)
-  }
+        successMsg: "",
+      });
+    }, 2000);
+  };
   //定位
-  scrollToErrorMsg () {
-    const widget = document.querySelector('.billing-payment')
+  scrollToErrorMsg() {
+    const widget = document.querySelector(".billing-payment");
     // widget && widget.scrollIntoView()
     // console.log(this.getElementToPageTop(widget))
     if (widget) {
-      window.scrollTo(this.getElementToPageTop(widget), 0)
+      window.scrollTo(this.getElementToPageTop(widget), 0);
     }
   }
-  getElementToPageTop (el) {
+  getElementToPageTop(el) {
     if (el.parentElement) {
-      return this.getElementToPageTop(el.parentElement) + el.offsetTop
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
     }
-    return el.offsetTop
+    return el.offsetTop;
   }
   render() {
     const { addressForm, creditCardInfo } = this.state;
@@ -237,27 +247,34 @@ export default class ShippingAddressFrom extends React.Component {
               <SideMenu type="PaymentMethod" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div className="billing-payment">
-                <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
-                  <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
-                    <span>{this.state.errorMsg}</span>
-                    <button
-                      className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
-                      onClick={() => { this.setState({ errorMsg: '' }) }}
-                      aria-label="Close">
-                      <span className="rc-screen-reader-text">
-                        <FormattedMessage id="close" />
-                      </span>
-                    </button>
-                  </aside>
-                </div>
+                  <div
+                    className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                      this.state.errorMsg ? "" : "hidden"
+                    }`}
+                  >
+                    <aside
+                      className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                      role="alert"
+                    >
+                      <span>{this.state.errorMsg}</span>
+                      <button
+                        className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                        onClick={() => {
+                          this.setState({ errorMsg: "" });
+                        }}
+                        aria-label="Close"
+                      >
+                        <span className="rc-screen-reader-text">
+                          <FormattedMessage id="close" />
+                        </span>
+                      </button>
+                    </aside>
+                  </div>
                   <div
                     className="rc-list__accordion-item"
                     data-method-id="CREDIT_CARD"
                     style={{
                       display: "block",
-                      // this.state.payMethod === "creditCard"
-                      //   ? "block"
-                      //   : "none",
                     }}
                   >
                     <div className="rc-border-all rc-border-colour--interface checkout--padding">
@@ -266,9 +283,6 @@ export default class ShippingAddressFrom extends React.Component {
                         id="credit-card-content"
                         style={{
                           display: "block",
-                          // !this.state.isCompleteCredit
-                          //   ? "block"
-                          //   : "none",
                         }}
                       >
                         <div className="credit-card-form ">
@@ -277,7 +291,6 @@ export default class ShippingAddressFrom extends React.Component {
                               <p>
                                 <FormattedMessage id="payment.acceptCards" />
                               </p>
-                              {/* <p>We accept credit cards.</p> */}
                             </div>
                             <div className="row">
                               <div className="col-sm-12">
@@ -288,17 +301,6 @@ export default class ShippingAddressFrom extends React.Component {
                                   >
                                     <FormattedMessage id="payment.cardNumber" />
                                     *{CreditCardImg}
-                                    {/* <form id="payment-form">
-                                      <div id="card-secure-fields"></div>
-                                      <button
-                                        id="submit"
-                                        name="submit"
-                                        className="creadit"
-                                        type="submit"
-                                      >
-                                        Pay
-                                      </button>
-                                    </form> */}
                                     <div className="cardFormBox">
                                       <span class="cardImage">
                                         <img
@@ -436,38 +438,6 @@ export default class ShippingAddressFrom extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            {/* <div className="row overflow_visible">
-              <div className="col-sm-12">
-                <div className="form-group required">
-                  <label className="form-control-label">
-                  <FormattedMessage id="payment.socialId" />
-                  </label>
-                  <span
-                    className="rc-input rc-input--full-width"
-                    input-setup="true"
-                  >
-                    <input
-                      type="text"
-                      className="rc-input__control form-control cardOwner"
-                      name="identifyNumber"
-                      value={creditCardInfo.identifyNumber}
-                      onChange={(e) =>
-                        this.cardInfoInputChange(e)
-                      }
-                      onBlur={(e) => this.inputBlur(e)}
-                      maxLength="40"
-                    />
-                    <label
-                      className="rc-input__label"
-                      htmlFor="cardOwner"
-                    ></label>
-                  </span>
-                  <div className="invalid-feedback">
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
-                </div>
-              </div>
-            </div> */}
                             <div className="row">
                               <div className="col-sm-6">
                                 <div className="form-group required">
@@ -531,22 +501,6 @@ export default class ShippingAddressFrom extends React.Component {
                                       name="phoneNumber"
                                       maxLength="2147483647"
                                     />
-                                    {/* <input
-                      className="rc-input__control input__phoneField shippingPhoneNumber"
-                      type="tel"
-                      value={creditCardInfo.phoneNumber}
-                      onChange={(e) =>
-                        this.cardInfoInputChange(e)
-                      }
-                      onBlur={(e) => this.inputBlur(e)}
-                      onClick={(e) =>
-                        this.phoneNumberClick(e)
-                      }
-                      data-js-pattern="(^(\+52)\d{8}$)"
-                      name="phoneNumber"
-                      maxlength="17"
-                      minLength="16"
-                    ></input> */}
                                     <label
                                       className="rc-input__label"
                                       htmlFor="phoneNumber"
@@ -559,25 +513,31 @@ export default class ShippingAddressFrom extends React.Component {
                               </div>
                             </div>
                             <div className="text-right">
-                            {/* <div className="form-group col-6"> */}
-                      <div className="rc-input rc-input--inline" style={{marginTop: "10px", float: 'left'}} onClick={()=> {
-                        creditCardInfo.isDefault = !creditCardInfo.isDefault
-                        this.setState({creditCardInfo})
-                      }}>
-                        <input type="checkbox" 
-                          id="defaultAddress"
-                          className="rc-input__checkbox" 
-                          
-                          value={creditCardInfo.isDefault}/>
-                          {
-                            !creditCardInfo.isDefault?<label className="rc-input__label--inline" >
-                            <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                          </label>:<label className="rc-input__label--inline defaultAddressChecked">
-                          <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                        </label>
-                          }
-                      </div>
-                    {/* </div> */}
+                              <div
+                                className="rc-input rc-input--inline"
+                                style={{ marginTop: "10px", float: "left" }}
+                                onClick={() => {
+                                  creditCardInfo.isDefault = !creditCardInfo.isDefault;
+                                  this.setState({ creditCardInfo });
+                                }}
+                              >
+                                <input
+                                  type="checkbox"
+                                  id="defaultAddress"
+                                  className="rc-input__checkbox"
+                                  value={creditCardInfo.isDefault}
+                                />
+                                {!creditCardInfo.isDefault ? (
+                                  <label className="rc-input__label--inline">
+                                    <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
+                                  </label>
+                                ) : (
+                                  <label className="rc-input__label--inline defaultAddressChecked">
+                                    <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
+                                  </label>
+                                )}
+                              </div>
+                              {/* </div> */}
                               <a
                                 className="rc-styled-link editPersonalInfoBtn"
                                 name="contactInformation"
@@ -598,18 +558,6 @@ export default class ShippingAddressFrom extends React.Component {
                                 <FormattedMessage id="save" />
                               </button>
                             </div>
-                            {/* <div className="row">
-                              <div className="col-sm-12 rc-margin-y--xs rc-text--center">
-                                <button
-                                  className="rc-btn rc-btn--two card-confirm"
-                                  id="card-confirm"
-                                  type="button"
-                                  onClick={() => this.cardConfirm()}
-                                >
-                                  <FormattedMessage id="payment.confirmCard" />
-                                </button>
-                              </div>
-                            </div> */}
                           </div>
                         </div>
                       </div>
