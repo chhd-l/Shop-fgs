@@ -123,10 +123,28 @@ export default class PetForm extends React.Component {
       
       // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
   }
+  getUserInfo(){
+    let userinfo = {}
+    if(sessionStorage.getItem('rc-userinfo')){
+      userinfo = JSON.parse(sessionStorage.getItem('rc-userinfo'))
+      
+    }
+    return userinfo
+  }
   getPetList = async ()=>{
-
+    let consumerAccount = ''
+    if(this.getUserInfo() && this.getUserInfo().customerAccount){
+      consumerAccount = this.getUserInfo().customerAccount
+    }
+    else{
+      this.showErrorMsg('Get Consumer Account Failed')
+      this.setState({
+        loading:false
+      })
+      return
+    }
     let params = {
-      "consumerAccount": "10086"
+      "consumerAccount": consumerAccount
     }
     await getPetList(params).then( res =>{
       if(res.code === 'K-000000'){
@@ -204,9 +222,18 @@ export default class PetForm extends React.Component {
     }
   }
   savePet = async ()=>{
+    let consumerAccount = ''
+    if(this.getUserInfo() && this.getUserInfo().customerAccount){
+      consumerAccount = this.getUserInfo().customerAccount
+    }
+    else{
+      this.showErrorMsg('Get Consumer Account Failed')
+      return
+    }
     this.setState({
       loading:true
     })
+    
     const { selectedSpecialNeeds } = this.state
     let petsPropRelations=[]
     let propId = 100
@@ -245,7 +272,7 @@ export default class PetForm extends React.Component {
       "pets":pets,
       "petsPropRelations":petsPropRelations,
       "storeId": 10086,
-      "userId": "10086"
+      "userId": consumerAccount
     }
     if(pets.petsId){
        await editPets(param).then(res=>{
