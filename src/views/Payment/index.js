@@ -1117,67 +1117,6 @@ class Payment extends React.Component {
                           </h5>
                         </div>
                         <div className="billing-payment">
-                          {/* <div className="form-group rc-border-all rc-border-colour--interface checkout--padding">
-                            <div className="row">
-                              <div className="col-md-12">
-                                <div className="rc-input rc-input--inline">
-                                  <input
-                                    className="rc-input__radio"
-                                    id="id-radio-creditCard"
-                                    value="creditCard"
-                                    type="radio"
-                                    name="pay-method"
-                                    onChange={(e) => this.payMethodChange(e)}
-                                    checked={
-                                      this.state.payMethod === "creditCard"
-                                    }
-                                  />
-                                  <label
-                                    className="rc-input__label--inline"
-                                    htmlFor="id-radio-creditCard"
-                                  >
-                                    Credit card
-                                    {CreditCardImg}
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="col-md-6" style={{ display: 'none' }}>
-                                <div className="rc-input rc-input--inline">
-                                  <input
-                                    className="rc-input__radio"
-                                    id="id-radio-payPal"
-                                    value="payPal"
-                                    type="radio"
-                                    name="pay-method"
-                                    onChange={(e) => this.payMethodChange(e)}
-                                    checked={this.state.payMethod === "payPal"}
-                                  />
-                                  <label
-                                    className="rc-input__label--inline"
-                                    htmlFor="id-radio-payPal"
-                                  >
-                                    <span className="logo-payment-card-list">
-                                      <img
-                                        className="logo-payment-card"
-                                        style={{
-                                          height: "18px",
-                                          width: "70px",
-                                        }}
-                                        src={paypalImg}
-                                      />
-                                    </span>
-                                  </label>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="row">
-                              {this.state.showPayMethodError ?
-                                <div className="ui-warning" style={{ paddingLeft: '20px' }}>
-                                  Payment method is required.
-                              </div>
-                                : null}
-                            </div>
-                          </div> */}
                           <div
                             className="rc-list__accordion-item"
                             data-method-id="CREDIT_CARD"
