@@ -81,7 +81,10 @@ class PersonalDataEditForm extends React.Component {
     this.setState({
       errorMsg: msg
     })
-    window.scrollTo(0, 0)
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
     setTimeout(() => {
       this.setState({
         errorMsg: ''
@@ -93,7 +96,10 @@ class PersonalDataEditForm extends React.Component {
       editFormVisible: false,
       errorMsg: ''
     })
-    window.scrollTo(0, 0)
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
   }
   async handleSave () {
     const { form } = this.state
@@ -129,7 +135,7 @@ class PersonalDataEditForm extends React.Component {
       }, 2000)
     } catch (err) {
       this.setState({
-        errorMsg: typeof err === 'object' ? err.toString() : err 
+        errorMsg: typeof err === 'object' ? err.toString() : err
       })
       setTimeout(() => {
         this.setState({

@@ -1,58 +1,60 @@
 import React from 'react';
 import gtmParts from 'react-google-tag-manager';
-import { GTMID } from "@/utils/constant"
+import { GTMID, GTM_SITE_ID } from "@/utils/constant"
 
 class GoogleTagManager extends React.Component {
   componentDidMount () {
-    const dataLayerName = this.props.dataLayerName || 'dataLayer';
-    const scriptId = this.props.scriptId || 'react-google-tag-manager-gtm';
-
-    if (!window[dataLayerName]) {
-      const gtmScriptNode = document.getElementById(scriptId);
-
-      eval(gtmScriptNode.textContent);
-    }
   }
 
   render () {
     const event = {
-      "page": {
-        "type": "",
-        "hitTimestamp": new Date().toISOString(),
-        "theme": ""
+      page: {
+        type: '',
+        theme: ''
       },
-      "site": {
-        "id": "RCMXPCO1",
-        "environment": "uat", // prd
-        "country": "FR"
+      site: {
+        id: GTM_SITE_ID,
+        environment: process.env.NODE_ENV === 'development' ? 'uat' : 'prd',
+        country: 'MX'
       }
     }
     let userInfo = sessionStorage.getItem("rc-userinfo")
     if (userInfo) {
       userInfo = JSON.parse(userInfo)
       event.user = {
-        "id": userInfo.customerId,
-        "country": "MX",
-        "locale": userInfo.city, // "es-MX"
-        "accountType": "test"
+        id: userInfo.customerId,
+        country: 'MX',
+        locale: userInfo.city, // "es-MX"
+        accountType: 'test'
       }
     }
     let additionalEvents = Object.assign({}, event, this.props.additionalEvents)
-
-    const gtm = gtmParts({
-      id: this.props.gtmId || GTMID,
-      dataLayerName: this.props.dataLayerName || 'dataLayer',
-      additionalEvents,
-      previewVariables: this.props.previewVariables || false,
-    });
-
     return (
-      <div>
-        <div>{gtm.noScriptAsReact()}</div>
-        <div id={this.props.scriptId || 'react-google-tag-manager-gtm'}>
-          {gtm.scriptAsReact()}
-        </div>
-      </div>
+      <React.Fragment>
+        <script dangerouslySetInnerHTML={{
+          __html: `window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push(${JSON.stringify(additionalEvents)});`
+        }}>
+        </script>
+        {
+          this.props.ecommerceEvents && <script dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push(${JSON.stringify(this.props.ecommerceEvents)});`
+          }}>
+          </script>
+        }
+
+        <script type="text/plain" class="optanon-category-2" dangerouslySetInnerHTML={{
+          __html: `(function(w,d,s,l,i){w[l] = w[l] || [];
+            w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js', });
+            var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+            j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl
+            ;
+            f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','${GTMID}');`
+        }}>
+        </script>
+      </React.Fragment>
     );
   }
 }

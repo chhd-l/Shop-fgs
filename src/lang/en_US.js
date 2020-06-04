@@ -252,6 +252,10 @@ const en_US = {
   'order.paymentStatus': 'Payment Status',
   'order.dealDatePeriod': 'Deal Date Period',
   'order.returnOrder': 'Return order',
+  'order.cancelOrder': 'Cancel order',
+  'order.return': 'Return',
+  'order.exchange': 'Exchange',
+  'order.viewOrder': 'View order',
 
   'datePicker.previousMonth': 'previous Month',
   'datePicker.nextMonth': 'next Month',
@@ -279,7 +283,7 @@ const en_US = {
   'account.features': 'What special needs does your pet have?',
   'account.fine': 'Fine!',
   'account.welcome': 'Welcome to the ROYAL CANIN® family!',
-  'shippingAddress': 'Shipping Address',
+  'shippingAddress': 'Address Management',
   'addShippingAddress': 'Add New Address',
   'editShippingAddress': 'Edit Shipping Address',
   'addressTip': 'You have created {number} shipping addresses, up to 20',
@@ -304,9 +308,18 @@ const en_US = {
   "notSterilized": "Not sterilized",
   'paymentMethod': 'Payment method',
   'addNewCreditCard': 'Add new credit card',
+<<<<<<< HEAD
   'delete': 'Delete',
   'setDefaultPaymentMethod': 'Set as Default Payment method'
+=======
+>>>>>>> 051eb9d4e19e2e374160e4a2dec4ebc04aea37e6
 
+  "addressType":'Address Type',
+  "moreAddress": 'More Address',
+  "unfoldAddress": 'Unfold Address',
+  "newAddress": 'New address',
+  'default': 'Default',
+  'saveSuccessfullly': 'Save successfullly'
 
 }
 export default en_US;

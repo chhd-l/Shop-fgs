@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import Skeleton from 'react-skeleton-loader'
 import { Link } from "react-router-dom"
 import { getReturnDetails } from "@/api/order"
-import { formatMoney } from "@/utils/utils"
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { IMG_DEFAULT } from '@/utils/constant'

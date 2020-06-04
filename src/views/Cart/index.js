@@ -5,9 +5,6 @@ import LoginCart from './modules/loginCart'
 import "./index.css"
 
 export default class Cart extends React.Component {
-  constructor(props) {
-    super(props)
-  }
   render () {
     return (
       <React.Fragment>

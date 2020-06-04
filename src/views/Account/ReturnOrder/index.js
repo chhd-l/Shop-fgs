@@ -101,7 +101,10 @@ export default class ReturnOrder extends React.Component {
       const widget = document.querySelector('#J_order_list')
       if (widget) {
         setTimeout(() => {
-          window.scrollTo(0, widget.offsetTop);
+          window.scrollTo({
+            top: widget.offsetTop,
+            behavior: 'smooth'
+          });
         }, 0)
       }
     }
@@ -144,7 +147,6 @@ export default class ReturnOrder extends React.Component {
     const event = {
       "page": {
         "type": "Account",
-        "hitTimestamp": new Date().toISOString(),
         "theme": ""
       }
     }

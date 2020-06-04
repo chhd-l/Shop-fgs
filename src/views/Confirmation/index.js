@@ -5,8 +5,9 @@ import Footer from "@/components/Footer";
 import PayProductInfo from "@/components/PayProductInfo";
 import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom";
-import "./index.css";
 import successImg from "@/assets/images/credit-cards/success.png";
+import { GTM_SITE_ID } from "@/utils/constant"
+import "./index.css";
 
 class Confirmation extends React.Component {
   constructor(props) {
@@ -111,7 +112,7 @@ class Confirmation extends React.Component {
       productList: productList,
       loading: false
     });
-    let deliveryInfoStr = localStorage.getItem("deliveryInfo");
+    let deliveryInfoStr = this.state.paywithLogin ? localStorage.getItem("loginDeliveryInfo") : localStorage.getItem("deliveryInfo");
     if (deliveryInfoStr) {
       let deliveryInfo = JSON.parse(deliveryInfoStr);
       this.setState({
@@ -131,17 +132,18 @@ class Confirmation extends React.Component {
     } = this.state;
 
     let event
+    let eEvents
     if (!loading) {
       let products
       if (this.state.paywithLogin) {
         products = productList.map(item => {
           return {
-            id: item.goodsId,
+            id: item.goodsInfoId,
             name: item.goodsName,
             price: item.salePrice,
             brand: "Royal Canin",
-            category: item.goodsCateName,
-            quantity: item.quantity,
+            category: item.goodsCateName,  // todo
+            quantity: item.buyCount,
             variant: item.specText
           }
         })
@@ -149,34 +151,32 @@ class Confirmation extends React.Component {
         products = productList.map(item => {
           const selectedSize = item.sizeList.filter(s => s.selected)[0]
           return {
-            id: item.goodsId,
+            id: selectedSize.goodsInfoId,
             name: item.goodsName,
             price: selectedSize.salePrice,
             brand: "Royal Canin",
-            category: item.goodsCateName,
+            category: item.goodsCateName, // todo
             quantity: item.quantity,
             variant: selectedSize.detailName
           }
         })
       }
       event = {
-        "page": {
-          "type": "Order Confirmation",
-          "hitTimestamp": new Date().toISOString(),
-          "theme": ""
+        page: {
+          type: 'Order Confirmation',
+          theme: ''
         },
-        "event": `${localStorage.getItem('orderNumber')}eComTransaction`,
-        "ecommerce": {
-          "currencyCode": "EUR",
-          "purchase": {
-            "actionField": {
-              "id": localStorage.getItem('orderNumber'),
-              "revenue": productList.reduce(
-                (total, item) => total + item.currentAmount,
-                0
-              ).toString()
+        event: `${GTM_SITE_ID}eComTransaction`
+      }
+      eEvents = {
+        ecommerce: {
+          currencyCode: 'MXN',
+          purchase: {
+            actionField: {
+              id: localStorage.getItem('orderNumber'),
+              revenue: JSON.parse(sessionStorage.getItem('rc-totalInfo')).tradePrice
             },
-            "products": products
+            products
           }
         }
       }
@@ -184,22 +184,34 @@ class Confirmation extends React.Component {
 
     return (
       <div>
-        {event ? <GoogleTagManager additionalEvents={event} /> : null}
+        {event ? <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} /> : null}
         <Header history={this.props.history} />
         <main className="rc-content--fixed-header">
           <div className="rc-layout-container rc-three-column rc-max-width--xl">
             <div className="rc-column rc-double-width shipping__address">
               <div className="center">
-                <img src={successImg} alt="" style={{display: 'inline-block'}} />
+                <img src={successImg} alt="" style={{ display: 'inline-block' }} />
                 <h4>
                   <b><FormattedMessage id="confirmation.info1" /></b>
                 </h4>
                 <p style={{ marginBottom: '5px' }}>
                   <FormattedMessage id="confirmation.info2" />
                 </p>
-                <Link to="/" className="rc-meta rc-styled-link backtohome">
-                  <FormattedMessage id="confirmation.visitOnlineStore" />
-                </Link>
+                <div className="d-flex align-items-center justify-content-center">
+                  {
+                    this.state.paywithLogin
+                      ? <React.Fragment>
+                          <Link to="/account/orders" className="rc-btn rc-btn--one">
+                            <FormattedMessage id="order.viewOrder" />
+                          </Link>
+                          &nbsp;or&nbsp;
+                      </React.Fragment>
+                      : null
+                  }
+                  <Link to="/" className="rc-meta rc-styled-link backtohome mb-0">
+                    <FormattedMessage id="confirmation.visitOnlineStore" />
+                  </Link>
+                </div>
                 <p className="rc-margin-top--sm">
                   <b>
                     <FormattedMessage id="confirmation.orderNumber" />

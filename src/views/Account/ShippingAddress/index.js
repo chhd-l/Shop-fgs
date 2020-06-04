@@ -14,6 +14,7 @@ editAddress} from '@/api/address'
 import { Link } from 'react-router-dom';
 import Loading from "@/components/Loading"
 import { getDict } from '@/api/dict'
+import { STOREID } from '@/utils/constant'
 
 
 export default class ShippingAddress extends React.Component {
@@ -40,7 +41,9 @@ export default class ShippingAddress extends React.Component {
         isDefalt:false,
         deliveryAddressId:"",
         customerId:""
-      }
+      },
+      cityList:[],
+      countryList:[]
       
     }
     
@@ -50,10 +53,32 @@ export default class ShippingAddress extends React.Component {
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
-  componentDidMount () {
+  componentDidMount() {
     this.getAddressList()
-    this.getDict('city')
-    this.getDict('country')
+    if(sessionStorage.getItem('dict-city')){
+      this.getDictBySession('city')
+    }
+    else{
+      this.getDict('city')
+    }
+    if(sessionStorage.getItem('dict-country')){
+      this.getDictBySession('country')
+    }
+    else{
+      this.getDict('country')
+    }
+  }
+  getDictBySession=(type)=>{
+    if(type==='city'){
+      this.setState({
+        cityList:JSON.parse(sessionStorage.getItem('dict-city'))
+      })
+    }
+    if(type==='country'){
+      this.setState({
+        countryList:JSON.parse(sessionStorage.getItem('dict-country'))
+      })
+    }
   }
   getDict = async(type)=>{
     this.setState({
@@ -61,7 +86,7 @@ export default class ShippingAddress extends React.Component {
     })
     let params ={
       "delFlag": 0,
-      "storeId": 123456858,
+      "storeId": STOREID,
       "type": type,
     }
     await getDict(params).then(res=>{
@@ -72,6 +97,7 @@ export default class ShippingAddress extends React.Component {
             cityList:cityList,
             loading:false
           })
+          sessionStorage.setItem('dict-city',JSON.stringify(cityList))
         }
         if(type==='country'){
           let countryList = res.context.sysDictionaryVOS
@@ -79,6 +105,7 @@ export default class ShippingAddress extends React.Component {
             countryList:countryList,
             loading:false
           })
+          sessionStorage.setItem('dict-country',JSON.stringify(countryList))
         }
         
       }
@@ -281,7 +308,10 @@ export default class ShippingAddress extends React.Component {
     // widget && widget.scrollIntoView()
     // console.log(this.getElementToPageTop(widget))
     if (widget) {
-      window.scrollTo(this.getElementToPageTop(widget), 0)
+      window.scrollTo({
+        top: this.getElementToPageTop(widget),
+        behavior: 'smooth'
+      })
     }
   }
   getElementToPageTop (el) {
@@ -453,15 +483,32 @@ export default class ShippingAddress extends React.Component {
                                   </div>
                                 </div>
                               </div>
+
+                              <div className="ant-row ant-form-item">
+                                <div className="ant-col-0 ant-form-item-label">
+                                  <FormattedMessage id="addressType">
+                                    {(txt)=>(
+                                      <label className="" title={txt}>{txt}</label>
+                                      )
+                                    }
+                                  </FormattedMessage>
+                                </div>
+                                <div className="ant-col-24 ant-form-item-control-wrapper">
+                                  <div className="ant-form-item-control ">
+                                    <span>{item.type}</span>
+                                  </div>
+                                </div>
+                              </div>
                            </form>
                           </div>
                           <div className="ant-col-4 card-action">
                             <a className="card-action-delete" onClick={()=>this.deleteAddress(item.deliveryAddressId)}>×</a>
                           <div className="card-action-link">
-                            { item.isDefaltAddress ===1?
+                            { item.type==='billing'|| item.isDefaltAddress === 1?
                             null:
                             <a onClick={()=>this.setDefaltAddress(item.deliveryAddressId)}>
-                               <FormattedMessage id="setDefaultAddress"></FormattedMessage></a>}
+                               <FormattedMessage id="setDefaultAddress"></FormattedMessage>
+                            </a>}
                             <a onClick={()=>this.openEditPage(item.deliveryAddressId)}> 
                               <FormattedMessage id="edit" ></FormattedMessage>
                             </a>

@@ -21,6 +21,7 @@ export default class AddressBookEditForm extends React.Component {
         rfc: ''
       }
     }
+    this.timer = null
   }
   componentDidMount () {
     const { data } = this.props
@@ -60,7 +61,8 @@ export default class AddressBookEditForm extends React.Component {
       errorMsg: msg
     })
     this.scrollToErrorMsg()
-    setTimeout(() => {
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
       this.setState({
         errorMsg: ''
       })
@@ -74,10 +76,11 @@ export default class AddressBookEditForm extends React.Component {
   }
   scrollToErrorMsg () {
     const widget = document.querySelector('.contactInfo')
-    // widget && widget.scrollIntoView()
-    // console.log(this.getElementToPageTop(widget))
     if (widget) {
-      window.scrollTo(this.getElementToPageTop(widget), 0)
+      window.scrollTo({
+        top: this.getElementToPageTop(widget) - 600,
+        behavior: "smooth"
+      })
     }
   }
   handleCancel () {
@@ -117,7 +120,8 @@ export default class AddressBookEditForm extends React.Component {
         successTipVisible: true
       })
       this.scrollToErrorMsg()
-      setTimeout(() => {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
         this.setState({
           successTipVisible: false
         })
@@ -127,7 +131,8 @@ export default class AddressBookEditForm extends React.Component {
         errorMsg: typeof err === 'object' ? err.toString() : err
       })
       this.scrollToErrorMsg()
-      setTimeout(() => {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
         this.setState({
           errorMsg: ''
         })
@@ -352,10 +357,10 @@ export default class AddressBookEditForm extends React.Component {
               </label>
               <span className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width" input-setup="true">
                 <input
-                  type="number"
                   className="rc-input__control input__phoneField"
                   id="phone"
                   name="phoneNumber"
+                  type="number"
                   value={form.phoneNumber}
                   onChange={e => this.handleInputChange(e)}
                   onBlur={e => this.inputBlur(e)}

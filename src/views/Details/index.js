@@ -556,8 +556,7 @@ class Details extends React.Component {
     const event = {
       page: {
         type: "Product",
-        hitTimestamp: new Date().toISOString(),
-        theme: "Cat or Dog",
+        theme: "Cat or Dog", // todo goodsCateName???
       },
     };
     return (
@@ -775,7 +774,6 @@ class Details extends React.Component {
                                                 className="rc-quantity__input"
                                                 id="quantity"
                                                 name="quantity"
-                                                type="number"
                                                 value={quantity}
                                                 min={quantityMinLimit}
                                                 max={stock}

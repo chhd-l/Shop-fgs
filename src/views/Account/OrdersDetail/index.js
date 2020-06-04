@@ -108,14 +108,16 @@ class AccountOrders extends React.Component {
     if (details.tradeState.deliverStatus === 'SHIPPED'
       && details.tradeState.flowState === 'COMPLETED') {
       return <React.Fragment>
-        <div className="d-flex justify-content-end">
-          <button
-            className={`rc-btn rc-btn--two ${this.props.returnOrExchangeLoading ? 'ui-btn-loading' : ''}`}
-            onClick={() => this.hanldeItemClick('exchange')}>Return</button>
-          <button
-            className={`rc-btn rc-btn--two ${this.props.returnOrExchangeLoading ? 'ui-btn-loading' : ''}`}
-            onClick={() => this.hanldeItemClick('return')}>Exchange</button>
-        </div>
+        <button
+          className={`rc-btn rc-btn--two ${this.props.returnOrExchangeLoading ? 'ui-btn-loading' : ''}`}
+          onClick={() => this.hanldeItemClick('exchange')}>
+          <FormattedMessage id="order.return" />
+        </button>
+        <button
+          className={`rc-btn rc-btn--two ${this.props.returnOrExchangeLoading ? 'ui-btn-loading' : ''}`}
+          onClick={() => this.hanldeItemClick('return')}>
+          <FormattedMessage id="order.exchange" />
+        </button>
       </React.Fragment>
     }
     return ret
@@ -126,20 +128,19 @@ class AccountOrders extends React.Component {
     if (new Date().getTime() < new Date(details.orderTimeOut).getTime()
       && details.tradeState.flowState === 'AUDIT'
       && details.tradeState.deliverStatus === 'NOT_YET_SHIPPED') {
-      ret = <button className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn">
-        <span
-          className="mr-2 rc-styled-link"
-          onClick={() => { this.setState({ cancelOrderModalVisible: true }) }}>Cancel order</span>
+      ret = <button
+        className={`rc-btn rc-btn--two ${this.props.returnOrExchangeLoading ? 'ui-btn-loading' : ''}`}
+        onClick={() => { this.setState({ cancelOrderModalVisible: true }) }}>
+        <FormattedMessage id="order.cancelOrder" />
       </button>
     }
     return ret
   }
   render () {
     const event = {
-      "page": {
-        "type": "Account",
-        "hitTimestamp": new Date().toISOString(),
-        "theme": ""
+      page: {
+        type: 'Account',
+        theme: ''
       }
     }
     const { details, payRecord, cancelOrderModalVisible } = this.state
@@ -165,10 +166,6 @@ class AccountOrders extends React.Component {
                                 <span className="inlineblock">Order number:{this.state.orderNumber}</span>&nbsp;&nbsp;
                                 <span className="inlineblock">Order time:{details.tradeState.createTime.substr(0, 19)}</span>&nbsp;&nbsp;
                                 <span className="inlineblock">Order status:{details.tradeState.flowState}</span>
-                              </div>
-                              <div className="details-btn-group d-flex">
-                                {/* 前台暂时不显示取消订单按钮 */}
-                                {/* {this.cancelOrderBtnJSX()} */}
                               </div>
                             </div>
                             <div className="detail-title">
@@ -397,7 +394,10 @@ class AccountOrders extends React.Component {
                               Delivery Record
                             </div>
                             <div className="text-center">No data</div>
-                            {this.returnOrExchangeBtnJSX()}
+                            <div className="d-flex justify-content-end">
+                              {this.returnOrExchangeBtnJSX()}
+                              {this.cancelOrderBtnJSX()}
+                            </div>
                           </div>
                           : this.state.errMsg
                             ? <div className="text-center mt-5">

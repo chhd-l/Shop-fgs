@@ -125,12 +125,23 @@ class Prescription extends React.Component{
     }
     const res = await getAllPrescription(params)
     if(res.code === 'K-000000'){
-      res.context.forEach(element => {
-        console.log(element.latitude,element.longitude);
-        
-      });
+      let clinicArr = res.context
+      //过滤掉经纬度非数字值
+      clinicArr = clinicArr.filter(item =>{
+        return !(isNaN(item.latitude)||isNaN(item.longitude))
+      })
+      //过滤掉 经度-180-180 ，纬度 -90-90
+      clinicArr = clinicArr.filter(item =>{
+        return (item.latitude>=-90
+          &&item.latitude<=90
+          &&item.longitude>=-180
+          &&item.longitude<=180)
+      })
+
+
+      
       this.setState({
-        clinicArr: res.context
+        clinicArr: clinicArr
       })
     }
     
@@ -248,7 +259,6 @@ render(h) {
     const event = {
       "page": {
         "type": "Checkout",
-        "hitTimestamp": new Date().toISOString(),
         "theme": ""
       }
     }

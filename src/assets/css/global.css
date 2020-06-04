@@ -22359,6 +22359,7 @@ tr.rc-table__row.inactive td:after {
   clip-path: polygon(0% 0%, 100% 0%, 100% 30%, 0% 30%);
   animation: rotate 1s linear infinite;
 }
+
 @keyframes rotate {
   from {
       transform: rotatez(0deg);

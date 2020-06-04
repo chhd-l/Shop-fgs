@@ -43,7 +43,6 @@ class Home extends React.Component {
     const event = {
       "page": {
         "type": "Homepage",
-        "hitTimestamp": new Date().toISOString(),
         "theme": ""
       }
     }
