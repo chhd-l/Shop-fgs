@@ -19,7 +19,7 @@ class RouteFilter extends Component {
     }
   }
   async componentDidMount () {
-    if (this.props.location.pathname === "/payment/payment") {
+    if (this.props.location.pathname === "/payment/payment" || this.props.location.pathname === '/account/paymentMethod/create') {
       loadJS(
         "https://js.paymentsos.com/v2/latest/secure-fields.min.js",
         function () {

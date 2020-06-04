@@ -48,11 +48,13 @@ import AccountOrdersAfterSale from "@/views/Account/OrdersAfterSale";
 import AccountOrdersAfterSaleSuccess from "@/views/Account/OrdersAfterSaleSuccess";
 import AccountOrdersAfterSaleDetail from "@/views/Account/OrdersAfterSaleDetail";
 import AccountPaymentMethod from "@/views/Account/PaymentMethod"
+import AccountPaymentMethodForm from "@/views/Account/CreditCardForm"
 import AccountPetForm from "@/views/Account/PetForm";
 import AccountPetList from "@/views/Account/PetList";
 import AccountShippingAddress from "@/views/Account/ShippingAddress";
 // import AccountRefunds from "@/views/Account/Refunds";
 import AccountShippingAddressForm from "@/views/Account/ShippingAddressForm";
+
 import AccountReturnOrder from "@/views/Account/ReturnOrder";
 
 // const store = {
@@ -191,6 +193,8 @@ const App = () => (
         <Route path='/account/return-order-detail/:returnNumber' exact component={AccountOrdersAfterSaleDetail} />
 
         <Route path='/account/shippingAddress/create' exact component={AccountShippingAddressForm}  />
+        <Route path='/account/paymentMethod/create' exact component={AccountPaymentMethodForm}  />
+        
         <Route path='/account/shippingAddress/:addressId' exact component={AccountShippingAddressForm} />
 
         {/* <Route exact component={Exception} /> */}

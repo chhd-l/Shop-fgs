@@ -4,7 +4,10 @@ import { register } from '../serviceWorker'
 const api = {
   visitorRegisterAndLogin: '/visitorRegisterAndLogin',
   batchAdd: '/site/batchAdd',
-  confirmAndCommit: '/tradeCustom/confirmcommitAndPay'
+  confirmAndCommit: '/tradeCustom/confirmcommitAndPay',
+  addOrUpdatePaymentMethod: '/payment-method/updata',
+  getPaymentMethod: '/payment-method/query-by-customer-id',
+  deleteCard: '/payment-method/delete-by-id'
   // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
   
 }
@@ -32,5 +35,29 @@ export function confirmAndCommit (parameter) {
     url: api.confirmAndCommit,
     method: 'post',
     data: parameter
+  })
+}
+
+export function addOrUpdatePaymentMethod (parameter) {
+  return axios({
+    url: api.addOrUpdatePaymentMethod,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getPaymentMethod(parameter) {
+  return axios({
+    url: api.getPaymentMethod,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function deleteCard(para) {
+  return axios({
+    url: api.deleteCard,
+    method: 'post',
+    data: para
   })
 }
