@@ -308,11 +308,8 @@ const en_US = {
   "notSterilized": "Not sterilized",
   'paymentMethod': 'Payment method',
   'addNewCreditCard': 'Add new credit card',
-<<<<<<< HEAD
   'delete': 'Delete',
-  'setDefaultPaymentMethod': 'Set as Default Payment method'
-=======
->>>>>>> 051eb9d4e19e2e374160e4a2dec4ebc04aea37e6
+  'setDefaultPaymentMethod': 'Set as Default Payment method',
 
   "addressType":'Address Type',
   "moreAddress": 'More Address',

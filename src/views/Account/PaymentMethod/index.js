@@ -236,14 +236,10 @@ export default class PaymentMethod extends React.Component {
     // widget && widget.scrollIntoView()
     // console.log(this.getElementToPageTop(widget))
     if (widget) {
-<<<<<<< HEAD
-      window.scrollTo(this.getElementToPageTop(widget), 0);
-=======
       window.scrollTo({
         top: this.getElementToPageTop(widget),
         behavior: 'smooth'
       })
->>>>>>> 051eb9d4e19e2e374160e4a2dec4ebc04aea37e6
     }
   }
   getElementToPageTop(el) {

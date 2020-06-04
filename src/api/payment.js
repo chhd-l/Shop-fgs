@@ -5,15 +5,12 @@ const api = {
   visitorRegisterAndLogin: '/visitorRegisterAndLogin',
   batchAdd: '/site/batchAdd',
   confirmAndCommit: '/tradeCustom/confirmcommitAndPay',
-<<<<<<< HEAD
   addOrUpdatePaymentMethod: '/payment-method/updata',
   getPaymentMethod: '/payment-method/query-by-customer-id',
-  deleteCard: '/payment-method/delete-by-id'
+  deleteCard: '/payment-method/delete-by-id',
   // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
   
-=======
   customerCommitAndPay: 'tradeCustom/customerCommitAndPay'
->>>>>>> 051eb9d4e19e2e374160e4a2dec4ebc04aea37e6
 }
 
 export default api
@@ -42,7 +39,6 @@ export function confirmAndCommit (parameter) {
   })
 }
 
-<<<<<<< HEAD
 export function addOrUpdatePaymentMethod (parameter) {
   return axios({
     url: api.addOrUpdatePaymentMethod,
@@ -65,12 +61,12 @@ export function deleteCard(para) {
     method: 'post',
     data: para
   })
-=======
+}
+
 export function customerCommitAndPay (parameter) {
   return axios({
     url: api.customerCommitAndPay,
     method: 'post',
     data: parameter
   })
->>>>>>> 051eb9d4e19e2e374160e4a2dec4ebc04aea37e6
 }
