@@ -7,3 +7,41 @@
 .creditCompleteInfoBox.active {
   border: 1px solid #ec001a;
 }
+.addbox {
+  width: 100%;
+  height: 150px;
+  border: 1px dashed #ccc;
+  cursor: pointer;
+}
+#cross {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+#cross:before,#cross:after {
+ content: "";
+ position: absolute;
+ z-index: 2;
+ background: #d00;
+}
+
+#cross:before {
+ left: 50%;
+ top: 50%;
+ width: 2px;
+ margin-left: -1px;
+ height: 70%;
+ background: #ccc;
+ transform: translate(-50%, -50%);
+}
+
+#cross:after {
+ top: 50%;
+ left: 50%;
+ height: 2px;
+ /* margin-top: -1px; */
+ transform: translate(-50%, -50%);
+ width: 40%;
+ background: #ccc;
+}

@@ -102,7 +102,6 @@ export default class ShippingAddressFrom extends React.Component {
     const { creditCardInfo } = this.state;
     
     if(name === 'cardMmyy') {
-      console.log(e.target, window.getSelection().anchorOffset)
       let beforeValue = value.substr(0, value.length -1)
       let inputValue = value.substr(value.length -1, 1)
 
