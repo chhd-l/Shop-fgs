@@ -287,7 +287,7 @@ class AccountOrders extends React.Component {
                                     <div className="row col-6">
                                       <div className="col-4 text-right color-999">
                                         Payment number:
-                                        </div>
+                                      </div>
                                       <div className="col-8">
                                         {payRecord.chargeId}
                                       </div>
@@ -295,7 +295,7 @@ class AccountOrders extends React.Component {
                                     <div className="row col-6">
                                       <div className="col-4 text-right color-999">
                                         Phone number :
-                                        </div>
+                                      </div>
                                       <div className="col-8">
                                         {payRecord.phone}
                                       </div>

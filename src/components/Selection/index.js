@@ -3,7 +3,8 @@ import { find, findIndex } from 'lodash'
 
 export default class Selection extends React.Component {
   static defaultProps = {
-    optionList: []
+    optionList: [],
+    customStyleType: '' // eg: select-one
   }
   constructor(props) {
     super(props)
@@ -60,6 +61,7 @@ export default class Selection extends React.Component {
       <div
         className={`choices ${optionsVisible ? 'is-open' : ''}`}
         role="listbox"
+        data-type={this.props.customStyleType}
         onClick={e => this.toggleShowOptions(e)}>
         <div className="choices__inner">
           <div className="choices__list choices__list--single">
