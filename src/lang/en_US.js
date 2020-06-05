@@ -256,6 +256,7 @@ const en_US = {
   'order.return': 'Return',
   'order.exchange': 'Exchange',
   'order.viewOrder': 'View order',
+  'order.payNow': 'Pay now',
 
   'datePicker.previousMonth': 'previous Month',
   'datePicker.nextMonth': 'next Month',

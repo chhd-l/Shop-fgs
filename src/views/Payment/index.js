@@ -27,6 +27,7 @@ import {
   getPaymentMethod,
   deleteCard,
   addOrUpdatePaymentMethod,
+  rePay
 } from "@/api/payment";
 import Store from '@/store/store';
 import axios from 'axios'
@@ -102,8 +103,9 @@ class Payment extends React.Component {
         isDefault: false,
       },
     };
-    this.confirmCardInfo = this.confirmCardInfo.bind(this);
+    this.tid = sessionStorage.getItem('rc-tid')
     this.timer = null;
+    this.confirmCardInfo = this.confirmCardInfo.bind(this);
     this.loginDeliveryAddressRef = React.createRef();
     this.loginBillingAddressRef = React.createRef();
   }
@@ -157,6 +159,7 @@ class Payment extends React.Component {
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
+    sessionStorage.removeItem('rc-tid')
   }
   confirmCardInfo () {
     this.setState({
@@ -441,18 +444,6 @@ class Payment extends React.Component {
           };
         }),
       };
-      if (jugeLoginStatus()) {
-        const loginCartData = localStorage.getItem("rc-cart-data-login")
-          ? JSON.parse(localStorage.getItem("rc-cart-data-login"))
-          : [];
-        param2.goodsInfos = loginCartData.map((ele) => {
-          return {
-            verifyStock: false,
-            buyCount: ele.buyCount,
-            goodsInfoId: ele.goodsInfoId,
-          };
-        });
-      }
 
       let tradeMarketingList = [
         {
@@ -511,10 +502,10 @@ class Payment extends React.Component {
         tradeItems: param2.goodsInfos.map((g) => {
           return {
             num: g.buyCount,
-            skuId: g.goodsInfoId,
+            skuId: g.goodsInfoId
           };
         }),
-        tradeMarketingList,
+        tradeMarketingList
       };
       try {
         sessionStorage.setItem("rc-paywith-login", jugeLoginStatus());
@@ -534,10 +525,15 @@ class Payment extends React.Component {
           param3.deliveryAddressId = deliveryAddress.addressId;
           param3.billAddressId = billingAddress.addressId;
         }
+        if (this.tid) {
+          param3.tid = this.tid
+        }
 
         const tmpCommitAndPay = jugeLoginStatus()
-          ? customerCommitAndPay
-          : confirmAndCommit;
+          ? this.tid
+            ? rePay
+            : customerCommitAndPay
+          : confirmAndCommit
         let confirmAndCommitRes = await tmpCommitAndPay(param3);
         console.log(confirmAndCommitRes);
         localStorage.setItem(

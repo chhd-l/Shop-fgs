@@ -5,12 +5,14 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
+import TimeCount from '@/components/TimeCount'
 import Selection from '@/components/Selection'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
 import { getOrderList } from "@/api/order"
 import { IMG_DEFAULT } from '@/utils/constant'
+import './index.css'
 
 export default class AccountOrders extends React.Component {
   constructor(props) {
@@ -130,8 +132,18 @@ export default class AccountOrders extends React.Component {
     }
     getOrderList(param)
       .then(res => {
+        let tmpList = Array.from(res.context.content, ele =>
+          Object.assign(ele,
+            {
+              canPayNow: ele.tradeState.flowState === 'AUDIT'
+                && ele.tradeState.deliverStatus === 'NOT_YET_SHIPPED'
+                && ele.tradeState.payState === 'NOT_PAID'
+                && new Date(ele.orderTimeOut).getTime() > new Date().getTime()
+            }
+          )
+        )
         this.setState({
-          orderList: res.context.content,
+          orderList: tmpList,
           currentPage: res.context.pageable.pageNumber + 1,
           totalPage: res.context.totalPages,
           loading: false,
@@ -150,6 +162,32 @@ export default class AccountOrders extends React.Component {
       form: Object.assign({}, this.state.form, form),
       currentPage: 1
     }, () => this.queryOrderList())
+  }
+  handlePayNowTimeEnd (order) {
+    const { orderList } = this.state
+    order.canPayNow = false
+    this.setState({ orderList: orderList })
+  }
+  handleClickPayNow (order) {
+    // todo 地址信息存值
+    const tradeItems = order.tradeItems.map(ele => {
+      return {
+        goodsInfoImg: ele.pic,
+        goodsName: ele.spuName,
+        specText: ele.specDetails,
+        buyCount: ele.num,
+        salePrice: ele.price,
+        goodsInfoId: ele.skuId
+      }
+    })
+    localStorage.setItem("rc-cart-data-login", JSON.stringify(tradeItems))
+    sessionStorage.setItem('rc-tid', order.id)
+    sessionStorage.setItem('rc-totalInfo', JSON.stringify({
+      totalPrice: order.tradePrice.totalPrice,
+      tradePrice: order.tradePrice.originPrice,
+      discountPrice: order.tradePrice.discountsPrice
+    }))
+    this.props.history.push('/payment/payment')
   }
   render () {
     const event = {
@@ -253,7 +291,7 @@ export default class AccountOrders extends React.Component {
                                     </div>
                                   </div>
                                   <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
-                                    <div className="col-12 col-md-4 d-flex flex-wrap">
+                                    <div className="col-12 col-md-2 d-flex flex-wrap">
                                       {order.tradeItems.map(item => (
                                         <img
                                           className="img-fluid"
@@ -264,6 +302,9 @@ export default class AccountOrders extends React.Component {
                                       ))}
                                     </div>
                                     <div className="col-12 col-md-2">
+                                      {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
+                                    </div>
+                                    <div className="col-12 col-md-2">
                                       {order.tradeState.flowState}
                                     </div>
                                     <div className="col-12 col-md-2">
@@ -272,8 +313,20 @@ export default class AccountOrders extends React.Component {
                                     <div className="col-12 col-md-2">
                                       {order.tradeState.payState}
                                     </div>
-                                    <div className="col-12 col-md-1 text-right">
-                                      {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
+                                    <div className="col-12 col-md-2 text-center">
+                                      {
+                                        order.canPayNow
+                                          ? <React.Fragment>
+                                            <TimeCount
+                                              endTime={order.orderTimeOut}
+                                              onTimeEnd={() => this.handlePayNowTimeEnd(order)} />
+                                            <button className="rc-btn rc-btn--one" style={{ transform: 'scale(.85)' }}
+                                              onClick={() => this.handleClickPayNow(order)}>
+                                              <FormattedMessage id="order.payNow" />
+                                            </button>
+                                          </React.Fragment>
+                                          : null
+                                      }
                                     </div>
                                   </div>
                                 </div>

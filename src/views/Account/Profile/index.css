@@ -734,17 +734,6 @@
   margin-bottom: auto
 }
 
-.order__listing .order-list-container .img-fluid {
-  max-width: 15%;
-  margin: .2rem 0
-}
-
-@media (max-width: 768.98px) {
-  .order__listing .order-list-container .img-fluid {
-      max-width:60%
-  }
-}
-
 .my__account__information.receipt_order .order-product-summary {
   color: #333;
   background: #f6f6f6;

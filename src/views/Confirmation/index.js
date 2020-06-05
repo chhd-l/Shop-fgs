@@ -142,7 +142,7 @@ class Confirmation extends React.Component {
             name: item.goodsName,
             price: item.salePrice,
             brand: "Royal Canin",
-            category: item.goodsCateName,  // todo
+            category: item.goodsCateName,
             quantity: item.buyCount,
             variant: item.specText
           }
@@ -155,7 +155,7 @@ class Confirmation extends React.Component {
             name: item.goodsName,
             price: selectedSize.salePrice,
             brand: "Royal Canin",
-            category: item.goodsCateName, // todo
+            category: item.goodsCateName,
             quantity: item.quantity,
             variant: selectedSize.detailName
           }

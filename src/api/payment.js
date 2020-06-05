@@ -10,7 +10,8 @@ const api = {
   deleteCard: '/payment-method/delete-by-id',
   // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
   
-  customerCommitAndPay: 'tradeCustom/customerCommitAndPay'
+  customerCommitAndPay: 'tradeCustom/customerCommitAndPay',
+  rePay: 'tradeCustom/rePay',
 }
 
 export default api
@@ -66,6 +67,14 @@ export function deleteCard(para) {
 export function customerCommitAndPay (parameter) {
   return axios({
     url: api.customerCommitAndPay,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function rePay (parameter) {
+  return axios({
+    url: api.rePay,
     method: 'post',
     data: parameter
   })
