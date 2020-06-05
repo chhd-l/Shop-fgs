@@ -834,10 +834,23 @@ class Payment extends React.Component {
       this.initCardLoginInfo()
       this.getPaymentMethodList()
     } catch (e) {
-      console.log(e);
+      let res = e.response
       this.setState({
         loading: false,
       });
+      if(res) {
+        console.log(res.data.more_info, 'body/expiration_date should match pattern "^(0[1-9]|1[0-2])(\/|\-|\.| )\d{2,4}"')
+        if(res.data.more_info.indexOf('body/credit_card_cvv should match pattern') !== -1) {
+          this.showErrorMsg('your card cvv is invalid')
+        }else if(res.data.more_info.indexOf('body/card_number should match pattern') !== -1) {
+          this.showErrorMsg('your card number is invalid')
+        }else if(res.data.more_info.indexOf('body/expiration_date should match pattern') !== -1) {
+          this.showErrorMsg('your card expiration_date is invalid')
+        }else {
+          this.showErrorMsg(res.data.description)
+        }
+        return
+      }
       this.showErrorMsg("Save Failed!");
     }
   }
@@ -874,11 +887,23 @@ class Payment extends React.Component {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { creditCardLoginInfo } = this.state;
-    // if (name === "phoneNumber") {
-    //   this.phoneNumberInput(e, creditCardInfo, name);
-    // } else {
-    creditCardLoginInfo[name] = value;
-    // }
+    if(name === 'cardMmyy') {
+      let beforeValue = value.substr(0, value.length -1)
+      let inputValue = value.substr(value.length -1, 1)
+
+      if(creditCardLoginInfo[name] !== beforeValue && creditCardLoginInfo[name].substr(0, creditCardLoginInfo[name].length - 1) !== value) return
+      if(isNaN(parseInt(inputValue)) && value.length > creditCardLoginInfo[name].length) return
+      if(creditCardLoginInfo[name].length == 2 && value.length == 3) {
+        creditCardLoginInfo[name] = value.slice(0,2) + '/' + value.slice(2)
+      }else if(creditCardLoginInfo[name].length == 4 && value.length == 3) {
+        creditCardLoginInfo[name] = creditCardLoginInfo[name].slice(0,2)
+      }else {
+        creditCardLoginInfo[name] = value;  
+      }
+    }else {
+      creditCardLoginInfo[name] = value;
+    }
+    
     console.log(["cardNumber", "cardMmyy", "cardCvv"].indexOf(name));
     if (["cardNumber", "cardMmyy", "cardCvv"].indexOf(name) === -1) {
       this.inputBlur(e);
@@ -1439,7 +1464,6 @@ class Payment extends React.Component {
                                             <p>
                                               <FormattedMessage id="payment.cardNumber" />
                                             </p>
-                                            {/* <p><FormattedMessage id="payment.DEBIT" /></p> */}
                                             <p>{el.cardType}</p>
                                           </div>
                                           <div className="col-6">
@@ -1500,7 +1524,7 @@ class Payment extends React.Component {
                                                 <input
                                                   type="text"
                                                   className="rc-input__control form-control email"
-                                                  id="email"
+                                                  id="number"
                                                   value={
                                                     creditCardLoginInfo.cardNumber
                                                   }
@@ -1540,7 +1564,7 @@ class Payment extends React.Component {
                                                     this.cardLoginInfoInputChange(e)
                                                   }
                                                   name="cardMmyy"
-                                                  maxLength="2147483647"
+                                                  maxLength="5"
                                                   placeholder="MM/YY"
                                                 />
                                               </span>
@@ -1570,7 +1594,7 @@ class Payment extends React.Component {
                                                     this.cardLoginInfoInputChange(e)
                                                   }
                                                   name="cardCvv"
-                                                  maxLength="2147483647"
+                                                  maxLength="3"
                                                   placeholder="CVV"
                                                 />
                                               </span>

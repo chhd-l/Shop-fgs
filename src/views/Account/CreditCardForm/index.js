@@ -100,15 +100,31 @@ export default class ShippingAddressFrom extends React.Component {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { creditCardInfo } = this.state;
-    // if (name === "phoneNumber") {
-    //   this.phoneNumberInput(e, creditCardInfo, name);
-    // } else {
-    creditCardInfo[name] = value;
-    // }
+    
+    if(name === 'cardMmyy') {
+      console.log(e.target, window.getSelection().anchorOffset)
+      let beforeValue = value.substr(0, value.length -1)
+      let inputValue = value.substr(value.length -1, 1)
+
+      if(creditCardInfo[name] !== beforeValue && creditCardInfo[name].substr(0, creditCardInfo[name].length - 1) !== value) return
+      if(isNaN(parseInt(inputValue)) && value.length > creditCardInfo[name].length) return
+      if(creditCardInfo[name].length == 2 && value.length == 3) {
+        creditCardInfo[name] = value.slice(0,2) + '/' + value.slice(2)
+      }else if(creditCardInfo[name].length == 4 && value.length == 3) {
+        creditCardInfo[name] = creditCardInfo[name].slice(0,2)
+      }else {
+        creditCardInfo[name] = value;  
+      }
+    }else {
+      creditCardInfo[name] = value;
+    }
+    
+    
     console.log(["cardNumber", "cardMmyy", "cardCvv"].indexOf(name));
     if (["cardNumber", "cardMmyy", "cardCvv"].indexOf(name) === -1) {
       this.inputBlur(e);
     }
+    
     this.setState({ creditCardInfo: creditCardInfo });
   }
   inputBlur(e) {
@@ -173,10 +189,25 @@ export default class ShippingAddressFrom extends React.Component {
       });
       this.handleCancel();
     } catch (e) {
-      console.log(e);
+      console.log(e.response);
+      let res = e.response
+      
       this.setState({
         loading: false,
       });
+      if(res) {
+        console.log(res.data.more_info, 'body/expiration_date should match pattern "^(0[1-9]|1[0-2])(\/|\-|\.| )\d{2,4}"')
+        if(res.data.more_info.indexOf('body/credit_card_cvv should match pattern') !== -1) {
+          this.showErrorMsg('your card cvv is invalid')
+        }else if(res.data.more_info.indexOf('body/card_number should match pattern') !== -1) {
+          this.showErrorMsg('your card number is invalid')
+        }else if(res.data.more_info.indexOf('body/expiration_date should match pattern') !== -1) {
+          this.showErrorMsg('your card expiration_date is invalid')
+        }else {
+          this.showErrorMsg(res.data.description)
+        }
+        return
+      }
       this.showErrorMsg("Save Failed!");
     }
   }
@@ -319,7 +350,7 @@ export default class ShippingAddressFrom extends React.Component {
                                                 <input
                                                   type="text"
                                                   className="rc-input__control form-control email"
-                                                  id="email"
+                                                  id="number"
                                                   value={
                                                     creditCardInfo.cardNumber
                                                   }
@@ -359,7 +390,7 @@ export default class ShippingAddressFrom extends React.Component {
                                                     this.cardInfoInputChange(e)
                                                   }
                                                   name="cardMmyy"
-                                                  maxLength="2147483647"
+                                                  maxLength="5"
                                                   placeholder="MM/YY"
                                                 />
                                               </span>
@@ -379,8 +410,6 @@ export default class ShippingAddressFrom extends React.Component {
                                                 <input
                                                   type="tel"
                                                   className="rc-input__control form-control phone"
-                                                  min-lenght="18"
-                                                  max-length="18"
                                                   data-phonelength="18"
                                                   data-js-validate="(^(\+?7|8)?9\d{9}$)"
                                                   data-range-error="The phone number should contain 10 digits"
@@ -389,7 +418,7 @@ export default class ShippingAddressFrom extends React.Component {
                                                     this.cardInfoInputChange(e)
                                                   }
                                                   name="cardCvv"
-                                                  maxLength="2147483647"
+                                                  maxLength="3"
                                                   placeholder="CVV"
                                                 />
                                               </span>
