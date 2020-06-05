@@ -5,6 +5,7 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
+import Selection from '@/components/Selection'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
@@ -27,7 +28,13 @@ export default class AccountOrders extends React.Component {
       currentPage: 1,
       totalPage: 1,
       initing: true,
-      errMsg: ''
+      errMsg: '',
+      duringTimeOptions: [
+        { value: '7d', name: 'Last 7 days' }, // todo 多语言
+        { value: '30d', name: 'Last 30 days' },
+        { value: '3m', name: 'Last 3 months' },
+        { value: '6m', name: 'Last 6 months' },
+      ]
     }
   }
   componentWillUnmount () {
@@ -39,7 +46,6 @@ export default class AccountOrders extends React.Component {
       window.location.reload();
       return false
     }
-
     this.queryOrderList()
   }
   handlePrevOrNextPage (type) {
@@ -77,9 +83,9 @@ export default class AccountOrders extends React.Component {
       }
     }
   }
-  handleDuringTimeChange (e) {
+  handleDuringTimeChange (data) {
     const { form } = this.state
-    form.duringTime = e.target.value
+    form.duringTime = data.value
     this.setState({
       form: form,
       currentPage: 1,
@@ -97,17 +103,13 @@ export default class AccountOrders extends React.Component {
   }
   queryOrderList () {
     const { form, initing, currentPage } = this.state
-
     if (!initing) {
-      const widget = document.querySelector('#J_order_list')
-      if (widget) {
-        setTimeout(() => {
-          window.scrollTo({
-            top: widget.offsetTop,
-            behavior: 'smooth'
-          });
-        }, 0)
-      }
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }, 0)
     }
     let createdFrom = ''
     this.setState({ loading: true })
@@ -123,8 +125,6 @@ export default class AccountOrders extends React.Component {
       createdFrom,
       createdTo: now,
       keywords: form.orderNumber,
-      // createdFrom: form.startdate ? form.startdate.split('/').join('-') : '',
-      // createdTo: form.enddate ? form.enddate.split('/').join('-') : dateFormat('YYYY-mm-dd', new Date()),
       pageNum: currentPage - 1,
       pageSize: form.pageSize
     }
@@ -153,9 +153,9 @@ export default class AccountOrders extends React.Component {
   }
   render () {
     const event = {
-      "page": {
-        "type": "Account",
-        "theme": ""
+      page: {
+        type: 'Account',
+        theme: ''
       }
     }
     return (
@@ -199,39 +199,13 @@ export default class AccountOrders extends React.Component {
                   <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
                     <div className="col-12">
                       <div className="rc-full-width rc-select-processed">
-                        <select
-                          data-js-select=""
-                          value={this.state.form.duringTime}
-                          onChange={(e) => this.handleDuringTimeChange(e)}>
-                          <FormattedMessage id="order.lastXDays" values={{ val: 7 }}>
-                            {txt => (
-                              <option value="7d">
-                                {txt}
-                              </option>
-                            )}
-                          </FormattedMessage>
-                          <FormattedMessage id="order.lastXDays" values={{ val: 30 }}>
-                            {txt => (
-                              <option value="30d">
-                                {txt}
-                              </option>
-                            )}
-                          </FormattedMessage>
-                          <FormattedMessage id="order.lastXMonths" values={{ val: 3 }}>
-                            {txt => (
-                              <option value="3m">
-                                {txt}
-                              </option>
-                            )}
-                          </FormattedMessage>
-                          <FormattedMessage id="order.lastXMonths" values={{ val: 6 }}>
-                            {txt => (
-                              <option value="6m">
-                                {txt}
-                              </option>
-                            )}
-                          </FormattedMessage>
-                        </select>
+                        <Selection
+                          optionList={this.state.duringTimeOptions}
+                          selectedItemChange={data => this.handleDuringTimeChange(data)}
+                          selectedItemData={{
+                            value: this.state.form.duringTime
+                          }}
+                          customStyleType="select-one" />
                       </div>
                     </div>
                   </div>
@@ -240,7 +214,7 @@ export default class AccountOrders extends React.Component {
                   <div className="order-list-container">
                     {
                       this.state.loading
-                        ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
+                        ? <div className="mt-4"><Skeleton color="#f5f5f5" width="100%" height="50%" count={4} /></div>
                         : this.state.errMsg
                           ? <div className="text-center mt-5">
                             <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
