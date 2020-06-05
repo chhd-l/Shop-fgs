@@ -1598,7 +1598,6 @@ class Payment extends React.Component {
                                   >
                                     <input
                                       type="text"
-                                      id="cardholder-name"
                                       className="rc-input__control form-control cardOwner"
                                       name="cardOwner"
                                       value={creditCardLoginInfo.cardOwner}
@@ -1910,7 +1909,7 @@ class Payment extends React.Component {
                               <div
                                 className="creditCompleteInfoBox"
                                 style={{
-                                  display: !this.state.isCompleteCredit || !Store.isLogin
+                                  display: !this.state.isCompleteCredit || Store.isLogin
                                     ? "none"
                                     : "block",
                                 }}

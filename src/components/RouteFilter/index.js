@@ -65,6 +65,7 @@ class RouteFilter extends Component {
             document
               .getElementById("payment-form")
               .addEventListener("submit", function (event) {
+                console.log(document.getElementById("cardholder-name"))
                 event.preventDefault();
                 const additionalData = {
                   holder_name: document.getElementById("cardholder-name").value, // This field is mandatory
