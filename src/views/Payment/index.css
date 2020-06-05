@@ -199,3 +199,7 @@
     user-select:none;
 }
 .shippingPhoneNumber::-ms-clear,::-ms-reveal{display:none;} */
+
+.loginCardBox .creditCompleteInfoBox:hover {
+  background-color: #fff3f3;
+}
