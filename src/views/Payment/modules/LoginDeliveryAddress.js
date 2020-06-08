@@ -7,8 +7,7 @@ import {
   saveAddress,
   editAddress
 } from '@/api/address'
-import { getDict } from '@/api/dict'
-import { STOREID } from '@/utils/constant'
+import { getDictionary } from '@/utils/utils'
 import AddressForm from './AddressForm'
 import Loading from "@/components/Loading"
 import './loginDeliveryAddress.css'
@@ -49,18 +48,18 @@ export default class LoginDeliveryAddress extends React.Component {
   }
   componentDidMount () {
     this.queryAddressList()
-    this.getDict('city')
-    this.getDict('country')
-  }
-  async getDict (type) {
-    let res = await getDict({
-      delFlag: 0,
-      storeId: STOREID,
-      type
-    })
-    this.setState({
-      [`${type}List`]: res.context.sysDictionaryVOS
-    })
+    getDictionary({ type: 'city' })
+      .then(res => {
+        this.setState({
+          cityList: res
+        })
+      })
+    getDictionary({ type: 'country' })
+      .then(res => {
+        this.setState({
+          countryList: res
+        })
+      })
   }
   async queryAddressList () {
     const { selectedId } = this.state

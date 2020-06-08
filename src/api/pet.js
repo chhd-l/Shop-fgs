@@ -6,8 +6,7 @@ const api = {
   addPet: '/pets/addPets',
   petsById:'/pets/petsById',
   delPets:'/pets/delPets',
-  editPets:'/pets/editPets',
-  getDict:'/sysdict/querySysDictionary'
+  editPets:'/pets/editPets'
 }
 
 export default api

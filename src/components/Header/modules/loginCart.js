@@ -18,7 +18,8 @@ class LoginCart extends React.Component {
       showCart: false,
       checkoutLoading: false,
       tradePrice: '',
-      totalNum: 0
+      totalNum: 0,
+      loading: true
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -43,11 +44,13 @@ class LoginCart extends React.Component {
   }
   async updateCartCache () {
     // 获取购物车列表
+    this.setState({ loading: true })
     const siteMiniPurchasesRes = await siteMiniPurchases()
     const context = siteMiniPurchasesRes.context
     this.setState({
       cartData: context.goodsList,
-      totalNum: context.num
+      totalNum: context.num,
+      loading: false
     })
   }
   handleMouseOver () {
@@ -122,7 +125,7 @@ class LoginCart extends React.Component {
         onMouseOut={this.handleMouseOut}>
         <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn" title="Basket">
           <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
-          <span className="minicart-quantity">{totalNum}</span>
+          <span className="minicart-quantity">{this.state.loading ? '--' : totalNum}</span>
         </Link>
         {
           !totalNum

@@ -2,8 +2,7 @@ import React from 'react'
 import { FormattedMessage } from "react-intl"
 import { findIndex } from "lodash"
 import Selection from '@/components/Selection'
-import { getDict } from '@/api/dict'
-import { STOREID } from '@/utils/constant'
+import { getDictionary } from '@/utils/utils'
 
 export default class AddressForm extends React.Component {
   constructor(props) {
@@ -25,8 +24,18 @@ export default class AddressForm extends React.Component {
     }
   }
   componentDidMount () {
-    this.getDict('city')
-    this.getDict('country')
+    getDictionary({ type: 'city' })
+      .then(res => {
+        this.setState({
+          cityList: res
+        })
+      })
+    getDictionary({ type: 'country' })
+      .then(res => {
+        this.setState({
+          countryList: res
+        })
+      })
   }
   componentWillReceiveProps (nextProps) {
     if (nextProps.data !== this.state.deliveryAddress) {
@@ -44,16 +53,6 @@ export default class AddressForm extends React.Component {
     })
     tmp.unshift({ value: '', name: '' })
     return tmp
-  }
-  async getDict (type) {
-    let res = await getDict({
-      delFlag: 0,
-      storeId: STOREID,
-      type
-    })
-    this.setState({
-      [`${type}List`]: res.context.sysDictionaryVOS
-    })
   }
   deliveryInputChange (e) {
     const target = e.target
