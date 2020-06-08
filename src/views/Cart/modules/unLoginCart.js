@@ -203,15 +203,6 @@ class UnLoginCart extends React.Component {
     let res = await hanldePurchases(param)
     let latestGoodsInfos = res.goodsInfos
     let goodsMarketingMapStr = JSON.stringify(res.goodsMarketingMap)
-    if (goodsMarketingMapStr === "{}") {
-      this.setState({
-        isPromote: false
-      })
-    } else {
-      this.setState({
-        isPromote: true
-      })
-    }
     sessionStorage.setItem('goodsMarketingMap', goodsMarketingMapStr)
     productList.map(item => {
       let selectedSize = find(item.sizeList, s => s.selected)
@@ -231,6 +222,9 @@ class UnLoginCart extends React.Component {
       tradePrice: res.tradePrice,
       discountPrice: res.discountPrice
     }))
+    this.setState({
+      isPromote: parseInt(res.discountPrice) > 0
+    })
     this.setState({
       productList: productList,
       totalPrice: res.totalPrice,

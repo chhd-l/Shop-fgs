@@ -555,8 +555,8 @@ class Details extends React.Component {
     } = this.state;
     const event = {
       page: {
-        type: "Product",
-        theme: "Cat or Dog", // todo goodsCateName???
+        type: 'Product',
+        theme: 'Cat or Dog', // todo goodsCateName???
       },
     };
     return (
@@ -639,28 +639,28 @@ class Details extends React.Component {
                         </div>
                         <div className="rc-column rc-triple-width product-column">
                           {this.state.loading ? (
-                          <div>
-                            <Skeleton color="#f5f5f5" width="100%" count={7} />
-                          </div>
-                        ) : (
-                          <div className="wrap-short-des">
-                            <h1 className="rc-gamma">{details.goodsName}</h1>
-                            <h3>{details.goodsSubtitle}</h3>
-                            <h3>
-                              <div className="rating-stars hidden-lg-down">
-                                <div className="product-number-rating clearfix">
-                                  <div className="ratings pull-left"></div>
-                                </div>
+                            <div>
+                              <Skeleton color="#f5f5f5" width="100%" count={7} />
+                            </div>
+                          ) : (
+                              <div className="wrap-short-des">
+                                <h1 className="rc-gamma">{details.goodsName}</h1>
+                                <h3>{details.goodsSubtitle}</h3>
+                                <h3>
+                                  <div className="rating-stars hidden-lg-down">
+                                    <div className="product-number-rating clearfix">
+                                      <div className="ratings pull-left"></div>
+                                    </div>
+                                  </div>
+                                </h3>
+                                <div
+                                  className="description"
+                                  dangerouslySetInnerHTML={createMarkup(
+                                    details.goodsDescription
+                                  )}
+                                ></div>
                               </div>
-                            </h3>
-                            <div
-                              className="description"
-                              dangerouslySetInnerHTML={createMarkup(
-                                details.goodsDescription
-                              )}
-                            ></div>
-                          </div>
-                        )}
+                            )}
                         </div>
                         {/* <!-- buybox --> */}
                         <div className="rc-column rc-triple-width buybox-column">

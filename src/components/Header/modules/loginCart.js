@@ -95,8 +95,7 @@ class LoginCart extends React.Component {
       // 库存不够，不能下单
       if (find(cartData, ele => ele.buyCount > ele.stock)) {
         this.setState({
-          errorShow: true,
-          errorMsg: <FormattedMessage id="cart.errorInfo2" />
+          errMsg: <FormattedMessage id="cart.errorInfo2" />
         })
         return false
       }

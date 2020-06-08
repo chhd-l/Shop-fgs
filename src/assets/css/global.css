@@ -22360,6 +22360,25 @@ tr.rc-table__row.inactive td:after {
   animation: rotate 1s linear infinite;
 }
 
+.rc-pagination {
+  max-width: 18em;
+  margin: 0 auto;
+}
+.rc-pagination .rc-pagination__step--current {
+  border: 1px solid #d7d7d7;
+  color: #666;
+  border-radius: 3px;
+  margin-right: .5rem;
+  font-weight: 500;
+  width: 2.75rem;
+  height: 2.75rem;
+  text-align: center;
+}
+.rc-pagination .rc-pagination__direction[disabled] {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
 @keyframes rotate {
   from {
       transform: rotatez(0deg);

@@ -5,12 +5,15 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
+import TimeCount from '@/components/TimeCount'
 import Selection from '@/components/Selection'
+import Pagination from '@/components/Pagination'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
 import { getOrderList } from "@/api/order"
 import { IMG_DEFAULT } from '@/utils/constant'
+import './index.css'
 
 export default class AccountOrders extends React.Component {
   constructor(props) {
@@ -19,7 +22,6 @@ export default class AccountOrders extends React.Component {
       orderList: [],
       form: {
         duringTime: '7d',
-        pageSize: 6,
         orderNumber: '',
         startdate: '',
         enddate: ''
@@ -36,6 +38,8 @@ export default class AccountOrders extends React.Component {
         { value: '6m', name: 'Last 6 months' },
       ]
     }
+
+    this.pageSize = 6
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
@@ -48,47 +52,12 @@ export default class AccountOrders extends React.Component {
     }
     this.queryOrderList()
   }
-  handlePrevOrNextPage (type) {
-    const { currentPage, totalPage } = this.state
-    let res
-    if (type === 'prev') {
-      if (currentPage <= 1) {
-        return
-      }
-      res = currentPage - 1
-    } else {
-      if (currentPage >= totalPage) {
-        return
-      }
-      res = currentPage + 1
-    }
-    this.setState({ currentPage: res }, () => this.queryOrderList())
-  }
-  handleCurrentPageNumChange (e) {
-    const val = e.target.value
-    if (val === '') {
-      this.setState({ currentPage: val })
-    } else {
-      let tmp = parseInt(val)
-      if (isNaN(tmp)) {
-        tmp = 1
-      }
-      if (tmp > this.state.totalPage) {
-        tmp = this.state.totalPage
-      } else if (tmp < 1) {
-        tmp = 1
-      }
-      if (tmp !== this.state.currentPage) {
-        this.setState({ currentPage: tmp }, () => this.queryOrderList())
-      }
-    }
-  }
   handleDuringTimeChange (data) {
     const { form } = this.state
     form.duringTime = data.value
     this.setState({
       form: form,
-      currentPage: 1,
+      currentPage: 1
     }, () => this.queryOrderList())
   }
   handleInputChange (e) {
@@ -126,12 +95,22 @@ export default class AccountOrders extends React.Component {
       createdTo: now,
       keywords: form.orderNumber,
       pageNum: currentPage - 1,
-      pageSize: form.pageSize
+      pageSize: this.pageSize
     }
     getOrderList(param)
       .then(res => {
+        let tmpList = Array.from(res.context.content, ele =>
+          Object.assign(ele,
+            {
+              canPayNow: ele.tradeState.flowState === 'AUDIT'
+                && ele.tradeState.deliverStatus === 'NOT_YET_SHIPPED'
+                && ele.tradeState.payState === 'NOT_PAID'
+                && new Date(ele.orderTimeOut).getTime() > new Date().getTime()
+            }
+          )
+        )
         this.setState({
-          orderList: res.context.content,
+          orderList: tmpList,
           currentPage: res.context.pageable.pageNumber + 1,
           totalPage: res.context.totalPages,
           loading: false,
@@ -145,11 +124,42 @@ export default class AccountOrders extends React.Component {
         })
       })
   }
+  hanldePageNumChange (params) {
+    this.setState({
+      currentPage: params.currentPage
+    }, () => this.queryOrderList())
+  }
   updateFilterData (form) {
     this.setState({
       form: Object.assign({}, this.state.form, form),
       currentPage: 1
     }, () => this.queryOrderList())
+  }
+  handlePayNowTimeEnd (order) {
+    const { orderList } = this.state
+    order.canPayNow = false
+    this.setState({ orderList: orderList })
+  }
+  handleClickPayNow (order) {
+    // todo 地址信息存值
+    const tradeItems = order.tradeItems.map(ele => {
+      return {
+        goodsInfoImg: ele.pic,
+        goodsName: ele.spuName,
+        specText: ele.specDetails,
+        buyCount: ele.num,
+        salePrice: ele.price,
+        goodsInfoId: ele.skuId
+      }
+    })
+    localStorage.setItem("rc-cart-data-login", JSON.stringify(tradeItems))
+    sessionStorage.setItem('rc-tid', order.id)
+    sessionStorage.setItem('rc-totalInfo', JSON.stringify({
+      totalPrice: order.tradePrice.totalPrice,
+      tradePrice: order.tradePrice.originPrice,
+      discountPrice: order.tradePrice.discountsPrice
+    }))
+    this.props.history.push('/payment/payment')
   }
   render () {
     const event = {
@@ -221,7 +231,7 @@ export default class AccountOrders extends React.Component {
                             {this.state.errMsg}
                           </div>
                           : this.state.orderList.length
-                            ? <React.Fragment>
+                            ? <>
                               {this.state.orderList.map(order => (
                                 <div className="card-container" key={order.id}>
                                   <div className="card rc-margin-y--none ml-0">
@@ -253,7 +263,7 @@ export default class AccountOrders extends React.Component {
                                     </div>
                                   </div>
                                   <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
-                                    <div className="col-12 col-md-4 d-flex flex-wrap">
+                                    <div className="col-12 col-md-2 d-flex flex-wrap">
                                       {order.tradeItems.map(item => (
                                         <img
                                           className="img-fluid"
@@ -264,6 +274,9 @@ export default class AccountOrders extends React.Component {
                                       ))}
                                     </div>
                                     <div className="col-12 col-md-2">
+                                      {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
+                                    </div>
+                                    <div className="col-12 col-md-2">
                                       {order.tradeState.flowState}
                                     </div>
                                     <div className="col-12 col-md-2">
@@ -272,39 +285,31 @@ export default class AccountOrders extends React.Component {
                                     <div className="col-12 col-md-2">
                                       {order.tradeState.payState}
                                     </div>
-                                    <div className="col-12 col-md-1 text-right">
-                                      {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
+                                    <div className="col-12 col-md-2 text-center">
+                                      {
+                                        order.canPayNow
+                                          ? <React.Fragment>
+                                            <TimeCount
+                                              endTime={order.orderTimeOut}
+                                              onTimeEnd={() => this.handlePayNowTimeEnd(order)} />
+                                            <button className="rc-btn rc-btn--one" style={{ transform: 'scale(.85)' }}
+                                              onClick={() => this.handleClickPayNow(order)}>
+                                              <FormattedMessage id="order.payNow" />
+                                            </button>
+                                          </React.Fragment>
+                                          : null
+                                      }
                                     </div>
                                   </div>
                                 </div>
                               ))}
-                              <div className="grid-footer rc-full-width">
-                                <nav className="rc-pagination rc-padding--s no-padding-left no-padding-right">
-                                  <div className="rc-pagination__form">
-                                    <div
-                                      className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-                                      onClick={() => this.handlePrevOrNextPage('prev')}></div>
-                                    {/* <div
-                              className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-                              onClick={this.handlePrevOrNextPage('prev')}></div> */}
-                                    <div className="rc-pagination__steps">
-                                      <input
-                                        type="text"
-                                        className="rc-pagination__step rc-pagination__step--current"
-                                        value={this.state.currentPage}
-                                        onChange={() => this.handleCurrentPageNumChange()} />
-                                      <div className="rc-pagination__step rc-pagination__step--of">
-                                        <FormattedMessage id="of" /> <span>{this.state.totalPage}</span>
-                                      </div>
-                                    </div>
-
-                                    <span
-                                      className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-                                      onClick={() => this.handlePrevOrNextPage('next')}></span>
-                                  </div>
-                                </nav>
+                              <div className="grid-footer rc-full-width mt-2">
+                                <Pagination
+                                  loading={this.state.loading}
+                                  totalPage={this.state.totalPage}
+                                  onPageNumChange={params => this.hanldePageNumChange(params)} />
                               </div>
-                            </React.Fragment>
+                            </>
                             : <div className="text-center mt-5">
                               <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
                               <FormattedMessage id="order.noDataTip" />

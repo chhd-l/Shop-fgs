@@ -15,7 +15,7 @@ import UnloginCart from './modules/unLoginCart'
 import LoginCart from './modules/loginCart'
 import './index.css'
 import LogoutButton from '@/components/LogoutButton';
-import {  inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import Store from '@/store/store';
 
 
@@ -35,11 +35,10 @@ class Header extends React.Component {
       loading: false,
       result: null,
       showMegaMenu: false,
-      errMsg: '',
       tradePrice: '',
       clinicsId: sessionStorage.getItem('rc-clinics-id'),
       clinicsName: sessionStorage.getItem('rc-clinics-name'),
-      isLogin: sessionStorage.getItem("rc-token")?true:false
+      isLogin: sessionStorage.getItem("rc-token") ? true : false
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -84,7 +83,7 @@ class Header extends React.Component {
         clinicsName: tmpName
       })
     }
-    
+
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
@@ -121,8 +120,7 @@ class Header extends React.Component {
     setTimeout(() => {
       if (!this.flag) {
         this.setState({
-          showCart: false,
-          errMsg: ''
+          showCart: false
         })
       }
     }, 500)
@@ -165,13 +163,13 @@ class Header extends React.Component {
       }, 500)
     })
   }
-  signUp() {
+  signUp () {
     let prefix = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri='
     let callbackUrl = 'http://localhost:3000?origin=register'
     let registredUrl = ''
-    if(process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development') {
       registredUrl = prefix + encodeURIComponent(callbackUrl)
-    }else if(process.env.NODE_ENV === 'production') {
+    } else if (process.env.NODE_ENV === 'production') {
       callbackUrl = process.env.REACT_APP_RegisterCallback
       registredUrl = process.env.REACT_APP_RegisterPrefix + encodeURIComponent(callbackUrl)
     }
@@ -465,13 +463,13 @@ class Header extends React.Component {
                             onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
                             <div className="container cart">
                               <div className="link-group">
-                              <div className="link-style" >
+                                <div className="link-style" >
                                   <Link to="/account" className="click-hover">
-                                    <FormattedMessage id="account.myAccount"  />
+                                    <FormattedMessage id="account.myAccount" />
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/account/information"  className="click-hover">
+                                  <Link to="/account/information" className="click-hover">
                                     <FormattedMessage id="account.basicInfomation" />
                                   </Link>
                                 </div>
@@ -481,22 +479,22 @@ class Header extends React.Component {
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/account/orders"  className="click-hover" >
-                                  <FormattedMessage id="account.orders" />
+                                  <Link to="/account/orders" className="click-hover" >
+                                    <FormattedMessage id="account.orders" />
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/account/shippingAddress"  className="click-hover" >
+                                  <Link to="/account/shippingAddress" className="click-hover" >
                                     <FormattedMessage id="shippingAddress" />
                                   </Link>
                                 </div>
                                 <div className="link-style" >
-                                  <Link to="/account/paymentMethod"  className="click-hover" >
+                                  <Link to="/account/paymentMethod" className="click-hover" >
                                     <FormattedMessage id="paymentMethod" />
                                   </Link>
                                 </div>
                               </div>
-                              <LogoutButton/>
+                              <LogoutButton />
                               {/* <div className="logoff-style">
                                 <a className="rc-styled-link--external" onClick={()=>this.clickLogoff()}>
                                   <FormattedMessage id="logOff" />
