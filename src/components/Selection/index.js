@@ -13,13 +13,7 @@ export default class Selection extends React.Component {
       selectedItem: { value: '' },
       hoveredIdx: -1
     }
-  }
-  componentDidMount () {
-    document.addEventListener('click', () => {
-      this.setState({
-        optionsVisible: false
-      })
-    })
+    this.timeOutId = null
   }
   componentWillReceiveProps (nextProps) {
     const selectedItemData = nextProps.selectedItemData
@@ -47,42 +41,56 @@ export default class Selection extends React.Component {
     })
   }
   toggleShowOptions (e) {
-    e.nativeEvent.stopImmediatePropagation();
     const { optionsVisible, selectedItem } = this.state
     this.setState({
       optionsVisible: !optionsVisible,
       hoveredIdx: !optionsVisible ? findIndex(this.props.optionList, o => o.value === selectedItem.value) : -1,
     })
   }
+  onBlurHandler () {
+    this.timeOutId = setTimeout(() => {
+      this.setState({
+        optionsVisible: false
+      })
+    })
+  }
+  onFocusHandler () {
+    clearTimeout(this.timeOutId)
+  }
   render () {
     const { selectedItem, hoveredIdx, optionsVisible } = this.state
     const { optionList } = this.props
     return (
       <div
-        className={`choices ${optionsVisible ? 'is-open' : ''}`}
-        role="listbox"
-        data-type={this.props.customStyleType}
-        onClick={e => this.toggleShowOptions(e)}>
-        <div className="choices__inner">
-          <div className="choices__list choices__list--single">
-            <div className="choices__item choices__item--selectable" aria-selected="true">
-              {find(optionList, ele => ele.value === selectedItem.value) && find(optionList, ele => ele.value === selectedItem.value).name}
+        onBlur={() => this.onBlurHandler()}
+        onFocus={() => this.onFocusHandler()}>
+        <div
+          className={`choices ${optionsVisible ? 'is-open' : ''}`}
+          role="listbox"
+          tabindex="1"
+          data-type={this.props.customStyleType}
+          onClick={e => this.toggleShowOptions(e)}>
+          <div className="choices__inner">
+            <div className="choices__list choices__list--single">
+              <div className="choices__item choices__item--selectable" aria-selected="true">
+                {find(optionList, ele => ele.value === selectedItem.value) && find(optionList, ele => ele.value === selectedItem.value).name}
+              </div>
             </div>
           </div>
-        </div>
-        <div className={`choices__list choices__list--dropdown ${optionsVisible ? 'is-active' : ''}`} aria-expanded="false">
-          <div className="choices__list" dir="ltr" role="listbox">
-            {this.props.optionList.map((item, i) => (
-              <div
-                className={`choices__item choices__item--choice choices__item--selectable ${hoveredIdx === i ? 'is-highlighted' : ''}`}
-                role="option"
-                aria-selected="false"
-                title={item.name}
-                key={i}
-                onClick={() => this.handleClickOption(item.value)} onMouseEnter={() => this.handleMouseEnterOption(i)}>
-                {item.name}
-              </div>
-            ))}
+          <div className={`choices__list choices__list--dropdown ${optionsVisible ? 'is-active' : ''}`} aria-expanded={optionsVisible}>
+            <div className="choices__list" dir="ltr" role="listbox">
+              {this.props.optionList.map((item, i) => (
+                <div
+                  className={`choices__item choices__item--choice choices__item--selectable ${hoveredIdx === i ? 'is-highlighted' : ''}`}
+                  role="option"
+                  aria-selected="false"
+                  title={item.name}
+                  key={i}
+                  onClick={() => this.handleClickOption(item.value)} onMouseEnter={() => this.handleMouseEnterOption(i)}>
+                  {item.name}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
