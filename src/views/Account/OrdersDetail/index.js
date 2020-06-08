@@ -29,7 +29,9 @@ class AccountOrders extends React.Component {
       operateSuccessModalVisible: false,
       errModalVisible: false,
       returnOrExchangeModalVisible: false,
-      errModalText: ''
+      errModalText: '',
+
+      showOperateBtn: false
     }
   }
   componentDidMount () {
@@ -107,18 +109,19 @@ class AccountOrders extends React.Component {
     let ret = null
     if (details.tradeState.deliverStatus === 'SHIPPED'
       && details.tradeState.flowState === 'COMPLETED') {
-      return <React.Fragment>
-        <button
-          className={`rc-btn rc-btn--two ${this.props.returnOrExchangeLoading ? 'ui-btn-loading' : ''}`}
+      this.setState({ showOperateBtn: true })
+      return <>
+        <div
+          className={`border-bottom p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
           onClick={() => this.hanldeItemClick('exchange')}>
           <FormattedMessage id="order.return" />
-        </button>
-        <button
-          className={`rc-btn rc-btn--two ${this.props.returnOrExchangeLoading ? 'ui-btn-loading' : ''}`}
+        </div>
+        <div
+          className={`p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
           onClick={() => this.hanldeItemClick('return')}>
           <FormattedMessage id="order.exchange" />
-        </button>
-      </React.Fragment>
+        </div>
+      </>
     }
     return ret
   }
@@ -128,11 +131,12 @@ class AccountOrders extends React.Component {
     if (new Date().getTime() < new Date(details.orderTimeOut).getTime()
       && details.tradeState.flowState === 'AUDIT'
       && details.tradeState.deliverStatus === 'NOT_YET_SHIPPED') {
-      ret = <button
-        className={`rc-btn rc-btn--two ${this.props.returnOrExchangeLoading ? 'ui-btn-loading' : ''}`}
+      this.setState({ showOperateBtn: true })
+      ret = <div
+        className={`p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
         onClick={() => { this.setState({ cancelOrderModalVisible: true }) }}>
         <FormattedMessage id="order.cancelOrder" />
-      </button>
+      </div>
     }
     return ret
   }
@@ -143,7 +147,7 @@ class AccountOrders extends React.Component {
         theme: ''
       }
     }
-    const { details, payRecord, cancelOrderModalVisible } = this.state
+    const { details, payRecord } = this.state
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -152,7 +156,7 @@ class AccountOrders extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu />
+              <SideMenu type="Orders" />
               <div className="my__account-content rc-column rc-quad-width">
                 <div className="row justify-content-center">
                   <div className="order_listing_details col-12 no-padding">
@@ -161,202 +165,57 @@ class AccountOrders extends React.Component {
                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
                         : details
                           ? <div className="card-body p-0">
-                            <div className="ui-order-title d-flex justify-content-between align-items-center">
+                            <div className="d-flex justify-content-between align-items-center ml-4 mr-4">
                               <div>
-                                <span className="inlineblock">Order number:{this.state.orderNumber}</span>&nbsp;&nbsp;
-                                <span className="inlineblock">Order time:{details.tradeState.createTime.substr(0, 19)}</span>&nbsp;&nbsp;
-                                <span className="inlineblock">Order status:{details.tradeState.flowState}</span>
+                                <FormattedMessage id="order.orderDate" />:<br />
+                                <span className="medium">{details.tradeState.createTime.substr(0, 10)}</span>
                               </div>
+                              <div>
+                                <FormattedMessage id="order:YourOrderNumber" />:<br />
+                                <span className="medium">{this.state.orderNumber}</span>
+                              </div>
+                              <div className="text-center">
+                                <FormattedMessage id="order.orderStatus" />:<br />
+                                <span className="medium">{details.tradeState.flowState}</span>
+                              </div>
+                              <div className="text-center">
+                                <FormattedMessage id="payment.clinicTitle" />:<br />
+                                <span className="medium">{details.clinicsName}</span>
+                              </div>
+                              {
+                                this.state.showOperateBtn
+                                  ? <>
+                                    <a className="color-999 ui-cursor-pointer" title="Bottom" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">•••</a>
+                                    <div id="bottom-tooltip" class="rc-tooltip text-left pl-1 pr-1">
+                                      {this.returnOrExchangeBtnJSX()}
+                                      {this.cancelOrderBtnJSX()}
+                                    </div>
+                                  </>
+                                  : <span></span>
+                              }
                             </div>
-                            <div className="detail-title">
-                              Order information
-                            </div>
-                            <div className="row">
-                              <div className="row col-6">
-                                <div className="col-4 text-right color-999">
-                                  Receiver:
-                                  </div>
-                                <div className="col-8">
-                                  {details.consignee.name}
-                                </div>
-                              </div>
-                              <div className="row col-6">
-                                <div className="col-4 text-right color-999">
-                                  Reference:
-                                  </div>
-                                <div className="col-8">
-                                  {details.consignee.rfc}
-                                </div>
-                              </div>
-                              <div className="row col-6">
-                                <div className="col-4 text-right color-999">
-                                  Phone number:
-                                  </div>
-                                <div className="col-8">
-                                  {details.consignee.phone}
-                                </div>
-                              </div>
-                              <div className="row col-6">
-                                <div className="col-4 text-right color-999">
-                                  Selected Clinic:
-                                </div>
-                                <div className="col-8">
-                                  {details.clinicsId}
-                                </div>
-                              </div>
-                              <div className="row col-6">
-                                <div className="col-4 text-right color-999">
-                                  Postal code:
-                                  </div>
-                                <div className="col-8">
-                                  {details.consignee.postCode}
-                                </div>
-                              </div>
-                              <div className="row col-6">
-                                <div className="col-4 text-right color-999">
-                                  Express method:
-                                  </div>
-                                <div className="col-8">
-                                  {details.deliverWay}
-                                </div>
-                              </div>
-                              <div className="row col-6">
-                                <div className="col-4 text-right color-999">
-                                  Delivery address:
-                                  </div>
-                                <div className="col-8">
-                                  {details.consignee.address}
-                                </div>
-                              </div>
-                              <div className="row col-6">
-                                <div className="col-4 text-right color-999">
-                                  Billing address:
-                                  </div>
-                                <div className="col-8">
-                                  {details.invoice.address}
-                                </div>
-                              </div>
-                              <div className="row col-6">
-                                <div className="col-4 text-right color-999">
-                                  Delivery comment:
-                                  </div>
-                                <div className="col-8">
-                                  {details.buyerRemark}
-                                </div>
-                              </div>
-                            </div>
-                            {
-                              payRecord
-                                ? <React.Fragment>
-                                  <div className="detail-title">
-                                    Payment information
-                                  </div>
-                                  <div className="row">
-                                    <div className="row col-6">
-                                      <div className="col-4 text-right color-999">
-                                        Payment time:
-                                      </div>
-                                      <div className="col-8">
-                                        {details.tradeState.createTime}
-                                      </div>
-                                    </div>
-                                    <div className="row col-6">
-                                      <div className="col-4 text-right color-999">
-                                        Name:
-                                        </div>
-                                      <div className="col-8">
-                                        {payRecord.accountName}
-                                      </div>
-                                    </div>
-                                    <div className="row col-6">
-                                      <div className="col-4 text-right color-999">
-                                        Payment status:
-                                      </div>
-                                      <div className="col-8">
-                                        {details.tradeState.payState}
-                                      </div>
-                                    </div>
-                                    <div className="row col-6">
-                                      <div className="col-4 text-right color-999">
-                                        Email:
-                                        </div>
-                                      <div className="col-8">
-                                        {payRecord.email}
-                                      </div>
-                                    </div>
-                                    <div className="row col-6">
-                                      <div className="col-4 text-right color-999">
-                                        Payment number:
-                                      </div>
-                                      <div className="col-8">
-                                        {payRecord.chargeId}
-                                      </div>
-                                    </div>
-                                    <div className="row col-6">
-                                      <div className="col-4 text-right color-999">
-                                        Phone number :
-                                      </div>
-                                      <div className="col-8">
-                                        {payRecord.phone}
-                                      </div>
-                                    </div>
-                                    <div className="row col-6">
-                                      <div className="col-4 text-right color-999">
-                                        Payment method:
-                                        </div>
-                                      <div className="col-8">
-                                        {payRecord.paymentMethod}
-                                      </div>
-                                    </div>
-                                    <div className="row col-6">
-                                      <div className="col-4 text-right color-999">
-                                        Card number:
-                                        </div>
-                                      <div className="col-8">
-                                        {payRecord.last4Digits}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </React.Fragment>
-                                : null
-                            }
-                            <div className="order__listing mt-4">
+                            <hr className="rc-margin-top---none" />
+                            <div className="order__listing">
                               <div className="order-list-container">
                                 <div className="card-container mt-0 border-0">
-                                  <div className="card rc-margin-y--none">
-                                    <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0 border-0">
-                                      <div className="col-12 col-md-6">
-                                        <p>Product</p>
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        <p>Price</p>
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        <p>Quantity</p>
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        <p>Subtotal</p>
-                                      </div>
-                                    </div>
-                                  </div>
                                   {details.tradeItems.map((item, i) => (
-                                    <div className="row rc-margin-x--none row align-items-center pt-2 pb-2 border-bottom" key={i}>
-                                      <div className="col-12 col-md-6 d-flex pl-0 pr-0">
+                                    <div className={`row align-items-center pt-2 pb-2 ml-2 mr-2 ${i !== details.tradeItems.length - 1 ? 'border-bottom' : ''}`} key={i}>
+                                      <div className="col-12 col-md-3 d-flex align-items-center justify-content-center">
+                                        <span className="mr-5">{item.num} x</span>
                                         <img
-                                          className="img-fluid border"
+                                          className="img-fluid"
                                           src={item.pic || IMG_DEFAULT}
                                           alt={item.spuName}
                                           title={item.spuName} />
-                                        <div className="m-1 color-999">
-                                          <span>{item.spuName}</span><br />
+                                      </div>
+                                      <div className="col-12 col-md-5">
+                                        <div className="m-1">
+                                          <span className="medium">{item.spuName}</span><br />
                                           {item.specDetails}
                                         </div>
                                       </div>
                                       <div className="col-12 col-md-2">
                                         {formatMoney(item.price)}
-                                      </div>
-                                      <div className="col-12 col-md-2">
-                                        {item.num}
                                       </div>
                                       <div className="col-12 col-md-2">
                                         {formatMoney(item.price * item.num)}
@@ -366,38 +225,180 @@ class AccountOrders extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div className="row pt-2 pb-2 border-bottom" style={{ lineHeight: 1.7 }}>
+                            <hr className="rc-margin-top---none" />
+                            <div className="row pt-2 pb-2" style={{ lineHeight: 1.7 }}>
                               <div className="col-9 text-right color-999">
-                                Total:
+                                <FormattedMessage id="total" />:
                               </div>
                               <div className="col-2 text-right">{formatMoney(details.tradePrice.originPrice)}</div>
                               {
                                 details.tradePrice.discountsPrice
-                                  ? <React.Fragment>
+                                  ? <>
                                     <div className="col-9 text-right color-999 red">
                                       <FormattedMessage id="promotion" />:
                                     </div>
                                     <div className="col-2 text-right red">-{formatMoney(details.tradePrice.discountsPrice)}</div>
-                                  </React.Fragment>
+                                  </>
                                   : null
                               }
                               <div className="col-9 text-right color-999">
-                                Shipping:
+                                <FormattedMessage id="shipping" />:
                               </div>
                               <div className="col-2 text-right">{formatMoney(0)}</div>
                               <div className="col-9 text-right color-999">
-                                Total (Inclu IVA):
+                                <FormattedMessage id="totalIncluIVA" />:
                               </div>
                               <div className="col-2 text-right">{formatMoney(details.tradePrice.totalPrice)}</div>
                             </div>
+                            <hr className="rc-margin-top---none" />
                             <div className="detail-title">
+                              <FormattedMessage id="order.orderInformation" />
+                            </div>
+                            <div className="row">
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  <FormattedMessage id="receiver" />:
+                                </div>
+                                <div className="col-8">
+                                  {details.consignee.name}
+                                </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  <FormattedMessage id="payment.rfc" />:
+                                </div>
+                                <div className="col-8">
+                                  {details.consignee.rfc}
+                                </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  <FormattedMessage id="payment.phoneNumber" />:
+                                </div>
+                                <div className="col-8">
+                                  {details.consignee.phone}
+                                </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  <FormattedMessage id="payment.postCode2" />:
+                                </div>
+                                <div className="col-8">
+                                  {details.consignee.postCode}
+                                </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  <FormattedMessage id="order.expressMethod" />:
+                                </div>
+                                <div className="col-8">
+                                  {details.deliverWay}
+                                </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  <FormattedMessage id="deliveryAddress" />:
+                                </div>
+                                <div className="col-8">
+                                  {details.consignee.address}
+                                </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  <FormattedMessage id="payment.billTitle" />:
+                                </div>
+                                <div className="col-8">
+                                  {details.invoice.address}
+                                </div>
+                              </div>
+                              <div className="row col-6">
+                                <div className="col-4 text-right color-999">
+                                  <FormattedMessage id="order.deliveryComment" />:
+                                </div>
+                                <div className="col-8">
+                                  {details.buyerRemark}
+                                </div>
+                              </div>
+                            </div>
+                            {
+                              payRecord
+                                ? <>
+                                  <div className="detail-title">
+                                    <FormattedMessage id="payment.paymentInformation" />
+                                  </div>
+                                  <div className="row">
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        <FormattedMessage id="order.paymentTime" />:
+                                      </div>
+                                      <div className="col-8">
+                                        {details.tradeState.createTime}
+                                      </div>
+                                    </div>
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        <FormattedMessage id="name" />:
+                                      </div>
+                                      <div className="col-8">
+                                        {payRecord.accountName}
+                                      </div>
+                                    </div>
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        <FormattedMessage id="order.paymentStatus" />:
+                                      </div>
+                                      <div className="col-8">
+                                        {details.tradeState.payState}
+                                      </div>
+                                    </div>
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        <FormattedMessage id="email" />:
+                                      </div>
+                                      <div className="col-8">
+                                        {payRecord.email}
+                                      </div>
+                                    </div>
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        <FormattedMessage id="order.paymentNumber" />:
+                                      </div>
+                                      <div className="col-8">
+                                        {payRecord.chargeId}
+                                      </div>
+                                    </div>
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        <FormattedMessage id="payment.phoneNumber" />:
+                                      </div>
+                                      <div className="col-8">
+                                        {payRecord.phone}
+                                      </div>
+                                    </div>
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        <FormattedMessage id="paymentMethod" />:
+                                      </div>
+                                      <div className="col-8">
+                                        {payRecord.paymentMethod}
+                                      </div>
+                                    </div>
+                                    <div className="row col-6">
+                                      <div className="col-4 text-right color-999">
+                                        <FormattedMessage id="payment.cardNumber" />:
+                                      </div>
+                                      <div className="col-8">
+                                        {payRecord.last4Digits}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </>
+                                : null
+                            }
+                            {/* <div className="detail-title">
                               Delivery Record
                             </div>
-                            <div className="text-center">No data</div>
-                            <div className="d-flex justify-content-end">
-                              {this.returnOrExchangeBtnJSX()}
-                              {this.cancelOrderBtnJSX()}
-                            </div>
+                            <div className="text-center">No data</div> */}
                           </div>
                           : this.state.errMsg
                             ? <div className="text-center mt-5">

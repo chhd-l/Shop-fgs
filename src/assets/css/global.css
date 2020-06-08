@@ -22347,6 +22347,9 @@ tr.rc-table__row.inactive td:after {
   cursor: default;
   pointer-events: none;
 }
+.ui-btn-loading.ui-btn-loading-border-red:before {
+  border-color: #ec001a;
+}
 .ui-btn-loading:before {
   content: '';
   display: inline-block;
