@@ -355,9 +355,6 @@ export default class PaymentMethod extends React.Component {
                         </span>
                       </button> */}
                     </div>
-                    <div className="addbox" onClick={() => this.openCreatePage()}>
-                      <div id="cross"></div>
-                    </div>
                     {creditCardList.map((el) => (
                       <div
                         className={`creditCompleteInfoBox ${el.isDefault === 1?'active': ''}`}
@@ -429,6 +426,9 @@ export default class PaymentMethod extends React.Component {
                         </div>
                       </div>
                     ))}
+                    <div className="addbox" onClick={() => this.openCreatePage()}>
+                      <div id="cross"></div>
+                    </div>
                   </div>
                 </div>
               </div>

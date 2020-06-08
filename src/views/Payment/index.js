@@ -1383,7 +1383,7 @@ class Payment extends React.Component {
                                       }}
                                     />
                                   </span>
-                                  {/* <button
+                                  <button
                                     type="button"
                                     className="address-btn"
                                     onClick={() => {
@@ -1395,14 +1395,11 @@ class Payment extends React.Component {
                                       {" "}
                                       <FormattedMessage id="addNewCreditCard"></FormattedMessage>
                                     </span>
-                                  </button> */}
+                                  </button>
                                 </div>
-                                <div className="addbox" onClick={() => {
-                                      this.setState({ isEdit: true })
-                                      this.initCardLoginInfo()
-                                    }}>
+                                {/* <div className="addbox" onClick={() => this.openCreatePage()}>
                                   <div id="cross"></div>
-                                </div>
+                                </div> */}
                                 {!this.state.isEdit && creditCardList.map((el) => {
                                   return (
                                     <div
