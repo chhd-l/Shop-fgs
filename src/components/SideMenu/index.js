@@ -49,7 +49,7 @@ export default class SideMenu extends React.Component {
               )}
             </FormattedMessage>
           </h2>
-          <h2 className={['nav_item', 'medium', type === 'ReturnOrder' ? 'active' : ''].join(' ')}>
+          {/* <h2 className={['nav_item', 'medium', type === 'ReturnOrder' ? 'active' : ''].join(' ')}>
             <FormattedMessage id="order.returnOrder">
               {txt => (
                 <Link to="/account/return-order" title={txt} alt={txt}>
@@ -57,7 +57,7 @@ export default class SideMenu extends React.Component {
                 </Link>
               )}
             </FormattedMessage>
-          </h2>
+          </h2> */}
           <h2 className={['nav_item', 'medium', type === 'ShippingAddress' ? 'active' : ''].join(' ')}>
             <Link
               to="/account/shippingAddress"
