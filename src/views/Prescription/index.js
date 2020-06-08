@@ -3,6 +3,7 @@ import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Progress from '@/components/Progress'
+import Pagination from '@/components/Pagination'
 import './index.css'
 import MapFlag from '@/components/MapFlag'
 import GoogleMap from '@/components/GoogleMap'
@@ -66,8 +67,8 @@ class Prescription extends React.Component {
       currentSelectClinic: {
         lat: 0,
         lng: 0
-      }
-
+      },
+      loading: true
     }
     this.headerRef = React.createRef();
     this.inputRef = React.createRef();
@@ -110,12 +111,14 @@ class Prescription extends React.Component {
   }
 
   async getPrescription (params) {
+    this.setState({ loading: true })
     const res = await getPrescription(params)
     if (res.code === 'K-000000') {
       let totalPage = Math.ceil(res.context.total / this.state.params.pageSize)
       this.setState({
         currentClinicArr: res.context.content,
-        totalPage: totalPage
+        totalPage: totalPage,
+        loading: false
       })
 
     }
@@ -157,49 +160,12 @@ class Prescription extends React.Component {
     this.getPrescription(params)
 
   }
-
-  handleCurrentPageNumChange = (e) => {
+  hanldePageNumChange = param => {
     const { params } = this.state
-
-    if (e.target.value) {
-      if (e.target.value === "0") {
-        this.setState({ current: 1 })
-      } else {
-        let tmp = parseInt(e.target.value)
-        if (isNaN(tmp)) {
-          tmp = 1
-        }
-        if (tmp > this.state.totalPage) {
-          tmp = this.state.totalPage
-        }
-        params.pageNum = tmp - 1
-        this.setState({ current: tmp })
-        this.getPrescription(params)
-      }
-
-    }
-    else {
-      this.setState({ current: e.target.value })
-    }
-
-  }
-  handlePrevOrNextPage = (type) => {
-    const { current, totalPage, params } = this.state
-    let res
-    if (type === 'prev') {
-      if (+current <= 1) {
-        return
-      }
-      res = +current - 1
-    } else {
-      if (+current >= totalPage) {
-        return
-      }
-      res = +current + 1
-    }
-    params.pageNum = res - 1
-    this.setState({ current: res })
-    this.getPrescription(params)
+    this.setState({
+      current: param.currentPage,
+      params: Object.assign(params, { pageNum: param.currentPage - 1 })
+    }, () => this.getPrescription(this.state.params))
   }
   handldKey = (key) => {
     this.setState({
@@ -349,31 +315,10 @@ class Prescription extends React.Component {
                     }
                   </div>
                   <div className="grid-footer rc-full-width">
-                    <nav className="rc-pagination" data-pagination="" data-pages={this.state.totalPage}>
-                      <div className="d-flex justify-content-between align-items-center">
-                        <button
-                          className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-                          aria-label="Previous step"
-                          data-prev=""
-                          type="submit"
-                          onClick={() => this.handlePrevOrNextPage('prev')}></button>
-                        <div className="d-flex align-items-center">
-                          <input
-                            type="text"
-                            className="rc-pagination__step rc-pagination__step--current"
-                            value={this.state.current}
-                            aria-label="Current step"
-                            onChange={(e) => this.handleCurrentPageNumChange(e)} />
-                          <div className="rc-pagination__step rc-pagination__step--of">
-                            <FormattedMessage id="of" />
-                            &nbsp;<span data-total-steps-label="">{this.state.totalPage}</span>
-                          </div>
-                        </div>
-                        <button
-                          className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-                          aria-label="Previous step" data-next="" type="submit" onClick={() => this.handlePrevOrNextPage('next')}></button>
-                      </div>
-                    </nav>
+                    <Pagination
+                      loading={this.state.loading}
+                      totalPage={this.state.totalPage}
+                      onPageNumChange={params => this.hanldePageNumChange(params)} />
                   </div>
                 </form>
 

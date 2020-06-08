@@ -22374,6 +22374,10 @@ tr.rc-table__row.inactive td:after {
   height: 2.75rem;
   text-align: center;
 }
+.rc-pagination .rc-pagination__direction[disabled] {
+  cursor: not-allowed;
+  opacity: .5;
+}
 
 @keyframes rotate {
   from {

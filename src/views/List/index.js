@@ -6,6 +6,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import Filters from '@/components/Filters'
+import Pagination from '@/components/Pagination'
 import { cloneDeep, find, findIndex } from 'lodash'
 import titleCfg from './json/title.json'
 import { getList, getProps, getLoginList } from '@/api/list'
@@ -70,8 +71,6 @@ class List extends React.Component {
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
-    this.handleCurrentPageNumChange = this.handleCurrentPageNumChange.bind(this)
-    this.handlePrevOrNextPage = this.handlePrevOrNextPage.bind(this)
     this.hanldeItemClick = this.hanldeItemClick.bind(this)
     this.toggleFilterModal = this.toggleFilterModal.bind(this)
   }
@@ -257,40 +256,10 @@ class List extends React.Component {
     }
     this.setState({ checkedList: res, currentPage: 1 }, () => this.getProductList())
   }
-  handleCurrentPageNumChange (e) {
-    const val = e.target.value
-    if (val === '') {
-      this.setState({ currentPage: val })
-    } else {
-      let tmp = parseInt(val)
-      if (isNaN(tmp)) {
-        tmp = 1
-      }
-      if (tmp > this.state.totalPage) {
-        tmp = this.state.totalPage
-      } else if (tmp < 1) {
-        tmp = 1
-      }
-      if (tmp !== this.state.currentPage) {
-        this.setState({ currentPage: tmp }, () => this.getProductList())
-      }
-    }
-  }
-  handlePrevOrNextPage (type) {
-    const { currentPage, totalPage } = this.state
-    let res
-    if (type === 'prev') {
-      if (currentPage <= 1) {
-        return
-      }
-      res = currentPage - 1
-    } else {
-      if (currentPage >= totalPage) {
-        return
-      }
-      res = currentPage + 1
-    }
-    this.setState({ currentPage: res }, () => this.getProductList())
+  hanldePageNumChange (params) {
+    this.setState({
+      currentPage: params.currentPage
+    }, () => this.getProductList())
   }
   hanldeItemClick (item) {
     if (this.state.loading) {
@@ -302,7 +271,7 @@ class List extends React.Component {
     history.push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   render () {
-    const { category, results, productList, loading, checkedList, currentPage, totalPage, titleData } = this.state
+    const { category, results, productList, loading, checkedList, titleData } = this.state
     let event
     if (category) {
       let theme
@@ -384,7 +353,7 @@ class List extends React.Component {
                   <div className={['rc-column', 'rc-triple-width', !productList.length ? 'd-flex justify-content-center align-items-center' : ''].join(' ')}>
                     {!productList.length
                       ?
-                      <React.Fragment>
+                      <>
                         <div className="ui-font-nothing rc-md-up">
                           <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
                           <FormattedMessage id="list.errMsg" />
@@ -393,7 +362,7 @@ class List extends React.Component {
                           <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
                           <FormattedMessage id="list.errMsg" />
                         </div>
-                      </React.Fragment>
+                      </>
                       :
                       <div className={['rc-match-heights', 'rc-layout-container', 'rc-event-card--sidebar-present'].join(' ')}>
                         {productList.map(item => (
@@ -406,7 +375,7 @@ class List extends React.Component {
                                     {
                                       loading
                                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
-                                        : <React.Fragment>
+                                        : <>
                                           <picture className="rc-card__image">
                                             <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center" style={{ minHeight: '202px' }}>
                                               <img
@@ -432,7 +401,7 @@ class List extends React.Component {
                                               </span>
                                             </span>
                                           </div>
-                                        </React.Fragment>
+                                        </>
                                     }
                                   </article>
                                 </a>
@@ -441,29 +410,10 @@ class List extends React.Component {
                           </div>
                         ))}
                         <div className="grid-footer rc-full-width">
-                          <nav className="rc-pagination">
-                            <div className="d-flex justify-content-between align-items-center">
-                              <div
-                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-                                aria-label="Previous step"
-                                onClick={() => this.handlePrevOrNextPage('prev')}></div>
-                              <div className="d-flex align-items-center">
-                                <input
-                                  type="text"
-                                  className="rc-pagination__step rc-pagination__step--current"
-                                  value={currentPage}
-                                  aria-label="Current step"
-                                  onChange={this.handleCurrentPageNumChange} />
-                                <div className="rc-pagination__step rc-pagination__step--of">
-                                  <FormattedMessage id="of" /> <span>{totalPage}</span>
-                                </div>
-                              </div>
-
-                              <span
-                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-                                onClick={() => this.handlePrevOrNextPage('next')}></span>
-                            </div>
-                          </nav>
+                          <Pagination
+                            loading={this.state.loading}
+                            totalPage={this.state.totalPage}
+                            onPageNumChange={params => this.hanldePageNumChange(params)} />
                         </div>
                       </div>
                     }

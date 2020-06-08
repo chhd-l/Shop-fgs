@@ -7,6 +7,7 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import TimeCount from '@/components/TimeCount'
 import Selection from '@/components/Selection'
+import Pagination from '@/components/Pagination'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
@@ -21,7 +22,6 @@ export default class AccountOrders extends React.Component {
       orderList: [],
       form: {
         duringTime: '7d',
-        pageSize: 6,
         orderNumber: '',
         startdate: '',
         enddate: ''
@@ -38,6 +38,8 @@ export default class AccountOrders extends React.Component {
         { value: '6m', name: 'Last 6 months' },
       ]
     }
+
+    this.pageSize = 6
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
@@ -50,47 +52,12 @@ export default class AccountOrders extends React.Component {
     }
     this.queryOrderList()
   }
-  handlePrevOrNextPage (type) {
-    const { currentPage, totalPage } = this.state
-    let res
-    if (type === 'prev') {
-      if (currentPage <= 1) {
-        return
-      }
-      res = currentPage - 1
-    } else {
-      if (currentPage >= totalPage) {
-        return
-      }
-      res = currentPage + 1
-    }
-    this.setState({ currentPage: res }, () => this.queryOrderList())
-  }
-  handleCurrentPageNumChange (e) {
-    const val = e.target.value
-    if (val === '') {
-      this.setState({ currentPage: val })
-    } else {
-      let tmp = parseInt(val)
-      if (isNaN(tmp)) {
-        tmp = 1
-      }
-      if (tmp > this.state.totalPage) {
-        tmp = this.state.totalPage
-      } else if (tmp < 1) {
-        tmp = 1
-      }
-      if (tmp !== this.state.currentPage) {
-        this.setState({ currentPage: tmp }, () => this.queryOrderList())
-      }
-    }
-  }
   handleDuringTimeChange (data) {
     const { form } = this.state
     form.duringTime = data.value
     this.setState({
       form: form,
-      currentPage: 1,
+      currentPage: 1
     }, () => this.queryOrderList())
   }
   handleInputChange (e) {
@@ -128,7 +95,7 @@ export default class AccountOrders extends React.Component {
       createdTo: now,
       keywords: form.orderNumber,
       pageNum: currentPage - 1,
-      pageSize: form.pageSize
+      pageSize: this.pageSize
     }
     getOrderList(param)
       .then(res => {
@@ -156,6 +123,11 @@ export default class AccountOrders extends React.Component {
           errMsg: err.toString()
         })
       })
+  }
+  hanldePageNumChange (params) {
+    this.setState({
+      currentPage: params.currentPage
+    }, () => this.queryOrderList())
   }
   updateFilterData (form) {
     this.setState({
@@ -259,7 +231,7 @@ export default class AccountOrders extends React.Component {
                             {this.state.errMsg}
                           </div>
                           : this.state.orderList.length
-                            ? <React.Fragment>
+                            ? <>
                               {this.state.orderList.map(order => (
                                 <div className="card-container" key={order.id}>
                                   <div className="card rc-margin-y--none ml-0">
@@ -331,30 +303,13 @@ export default class AccountOrders extends React.Component {
                                   </div>
                                 </div>
                               ))}
-                              <div className="grid-footer rc-full-width">
-                                <nav className="rc-pagination rc-padding--s no-padding-left no-padding-right">
-                                  <div className="d-flex justify-content-between align-items-center">
-                                    <div
-                                      className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-                                      onClick={() => this.handlePrevOrNextPage('prev')}></div>
-                                    <div className="d-flex align-items-center">
-                                      <input
-                                        type="text"
-                                        className="rc-pagination__step rc-pagination__step--current"
-                                        value={this.state.currentPage}
-                                        onChange={() => this.handleCurrentPageNumChange()} />
-                                      <div className="rc-pagination__step rc-pagination__step--of">
-                                        <FormattedMessage id="of" /> <span>{this.state.totalPage}</span>
-                                      </div>
-                                    </div>
-
-                                    <span
-                                      className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-                                      onClick={() => this.handlePrevOrNextPage('next')}></span>
-                                  </div>
-                                </nav>
+                              <div className="grid-footer rc-full-width mt-2">
+                                <Pagination
+                                  loading={this.state.loading}
+                                  totalPage={this.state.totalPage}
+                                  onPageNumChange={params => this.hanldePageNumChange(params)} />
                               </div>
-                            </React.Fragment>
+                            </>
                             : <div className="text-center mt-5">
                               <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
                               <FormattedMessage id="order.noDataTip" />

@@ -42,10 +42,10 @@ export default class Selection extends React.Component {
   }
   toggleShowOptions (e) {
     const { optionsVisible, selectedItem } = this.state
-    this.setState({
-      optionsVisible: !optionsVisible,
-      hoveredIdx: !optionsVisible ? findIndex(this.props.optionList, o => o.value === selectedItem.value) : -1,
-    })
+    this.setState(currentState => ({
+      optionsVisible: !currentState.optionsVisible,
+      hoveredIdx: !currentState.optionsVisible ? findIndex(this.props.optionList, o => o.value === selectedItem.value) : -1,
+    }))
   }
   onBlurHandler () {
     this.timeOutId = setTimeout(() => {
