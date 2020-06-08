@@ -333,14 +333,11 @@ export default class AccountOrders extends React.Component {
                               ))}
                               <div className="grid-footer rc-full-width">
                                 <nav className="rc-pagination rc-padding--s no-padding-left no-padding-right">
-                                  <div className="rc-pagination__form">
+                                  <div className="d-flex justify-content-between align-items-center">
                                     <div
                                       className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
                                       onClick={() => this.handlePrevOrNextPage('prev')}></div>
-                                    {/* <div
-                              className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-                              onClick={this.handlePrevOrNextPage('prev')}></div> */}
-                                    <div className="rc-pagination__steps">
+                                    <div className="d-flex align-items-center">
                                       <input
                                         type="text"
                                         className="rc-pagination__step rc-pagination__step--current"

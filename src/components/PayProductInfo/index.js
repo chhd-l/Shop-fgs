@@ -142,7 +142,7 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
-                <div className="row leading-lines shipping-item" style={{ display: sessionStorage.getItem('goodsMarketingMap') === "{}" ? 'none' : 'flex' }}>
+                <div className="row leading-lines shipping-item" style={{ display: parseInt(this.state.discountPrice) > 0 ? 'flex' : 'none' }}>
                   <div className="col-7 start-lines">
                     <p className="order-receipt-label order-shipping-cost" style={{ color: '#ec001a' }}>
                       <span><FormattedMessage id="promotion" /></span>
