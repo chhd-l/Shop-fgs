@@ -147,6 +147,10 @@ export function flat (arr) {
   return res;
 }
 
+/**
+ * 获取字典并存入session
+ * @param {type, name} type - 字典名 
+ */
 export async function getDictionary ({ type, name = '' }) {
   let ret = []
   const tmpKey = `dict-${type}`
