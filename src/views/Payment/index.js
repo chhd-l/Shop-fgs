@@ -151,6 +151,9 @@ class Payment extends React.Component {
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
     sessionStorage.removeItem('rc-tid')
+    if (!Store.isLogin) {
+      sessionStorage.removeItem('rc-token')
+    }
   }
   matchNamefromDict (dictList, id) {
     return find(dictList, ele => ele.id == id)
@@ -415,14 +418,14 @@ class Payment extends React.Component {
       if (jugeLoginStatus()) {
         const loginCartData = localStorage.getItem("rc-cart-data-login")
           ? JSON.parse(localStorage.getItem("rc-cart-data-login"))
-          : [];
+          : []
         param2.goodsInfos = loginCartData.map((ele) => {
           return {
             verifyStock: false,
             buyCount: ele.buyCount,
-            goodsInfoId: ele.goodsInfoId,
-          };
-        });
+            goodsInfoId: ele.goodsInfoId
+          }
+        })
       }
 
       let tradeMarketingList = [
@@ -510,7 +513,7 @@ class Payment extends React.Component {
           delete param3.tradeMarketingList
         }
 
-        const tmpCommitAndPay = jugeLoginStatus()
+        const tmpCommitAndPay = Store.isLogin
           ? this.tid
             ? rePay
             : customerCommitAndPay
@@ -530,11 +533,11 @@ class Payment extends React.Component {
         }
         this.setState({
           errorShow: true,
-          errorMsg: e.message ? e.message.toString() : e.toString(),
+          errorMsg: e.message ? e.message.toString() : e.toString()
         });
         window.scrollTo({
           top: 0,
-          behavior: "smooth",
+          behavior: "smooth"
         });
         setTimeout(() => {
           this.setState({

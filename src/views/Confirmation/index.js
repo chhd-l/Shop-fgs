@@ -96,7 +96,7 @@ class Confirmation extends React.Component {
       localStorage.removeItem('rc-cart-data-login')
     } else {
       localStorage.removeItem('rc-cart-data')
-      localStorage.removeItem('rc-token')
+      sessionStorage.removeItem('rc-token')
     }
     localStorage.removeItem('orderNumber')
   }
