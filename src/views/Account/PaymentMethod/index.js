@@ -29,7 +29,7 @@ export default class PaymentMethod extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
+      loading: false,
       showModal: false,
       isAdd: true,
       addressList: [],
@@ -61,7 +61,7 @@ export default class PaymentMethod extends React.Component {
     localStorage.setItem("isRefresh", true);
   }
   async componentDidMount() {
-    this.getPaymentMethodList()
+    // this.getPaymentMethodList()
   }
   async getPaymentMethodList() {
     try {
@@ -305,39 +305,6 @@ export default class PaymentMethod extends React.Component {
                     </h4>
                   </div>
                   <div className="content-asset">
-                    <div
-                      className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                        this.state.errorMsg ? "" : "hidden"
-                      }`}
-                    >
-                      <aside
-                        className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
-                        role="alert"
-                      >
-                        <span>{this.state.errorMsg}</span>
-                        <button
-                          className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
-                          onClick={() => {
-                            this.setState({ errorMsg: "" });
-                          }}
-                          aria-label="Close"
-                        >
-                          <span className="rc-screen-reader-text">
-                            <FormattedMessage id="close" />
-                          </span>
-                        </button>
-                      </aside>
-                    </div>
-                    <aside
-                      className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-                        this.state.successMsg ? "" : "hidden"
-                      }`}
-                      role="alert"
-                    >
-                      <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
-                        {this.state.successMsg}
-                      </p>
-                    </aside>
                     <PaymentComp/>
                     {/* <div className="table-toolbar">
                       <span className="t-gray">

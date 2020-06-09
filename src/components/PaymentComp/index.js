@@ -18,6 +18,7 @@ import {
   deleteCard,
   addOrUpdatePaymentMethod,
 } from "@/api/payment";
+import Loading from "@/components/Loading";
 
 class PaymentComp extends React.Component {
   constructor(props) {
@@ -42,6 +43,7 @@ class PaymentComp extends React.Component {
         identifyNumber: "111",
         isDefault: false,
       },
+      loading: false
     };
   }
   async componentDidMount() {
@@ -80,8 +82,6 @@ class PaymentComp extends React.Component {
     }
   }
   initCardInfo() {
-    // window.scrollTo(0, 0)
-    window.location.href = "#PaymentComp";
     this.setState({
       creditCardInfo: {
         cardNumber: "",
@@ -93,6 +93,8 @@ class PaymentComp extends React.Component {
         identifyNumber: "111",
         isDefault: false,
       },
+    }, () => {
+      // this.scrollToPaymentComp()
     });
   }
   getElementToPageTop(el) {
@@ -106,7 +108,7 @@ class PaymentComp extends React.Component {
     this.setState({
       errorMsg: message,
     });
-    // this.scrollToErrorMsg();
+    // this.scrollToPaymentComp();
     setTimeout(() => {
       this.setState({
         errorMsg: "",
@@ -124,12 +126,28 @@ class PaymentComp extends React.Component {
       });
     }
   }
+  scrollToPaymentComp() {
+    const widget = document.querySelector("#PaymentComp");
+    widget.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+    // if (widget) {
+    //   window.scrollTo({
+    //     top: this.getElementToPageTop(widget),
+    //     behavior: "smooth",
+    //   });
+    // }
+  }
   cardInfoInputChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { creditCardInfo } = this.state;
-    if (name === "cardMmyy") {
+    if(name === "cardNumber") {
+      console.log(value, value.replace(/\s*/g,""))
+      creditCardInfo[name] = value.replace(/\s*/g,"");
+    }else if (name === "cardMmyy") {
       let beforeValue = value.substr(0, value.length - 1);
       let inputValue = value.substr(value.length - 1, 1);
 
@@ -319,6 +337,7 @@ class PaymentComp extends React.Component {
           display: Store.isLogin ? "block" : "none",
         }}
       >
+        {this.state.loading ? <Loading positionFixed="true" /> : null}
         <div
           className="table-toolbar"
           style={{
@@ -338,7 +357,9 @@ class PaymentComp extends React.Component {
               type="button"
               className="address-btn"
               onClick={() => {
-                this.setState({ isEdit: true });
+                this.setState({ isEdit: true }, () => {
+                  this.scrollToPaymentComp()
+                });
                 this.initCardInfo();
               }}
             >
@@ -376,8 +397,10 @@ class PaymentComp extends React.Component {
                       this.setState({
                         isEdit: true,
                         creditCardInfo: el,
+                      }, () => {
+                        this.scrollToPaymentComp()
                       });
-                      window.location.href = "#PaymentComp";
+                      
                     }}
                   >
                     <FormattedMessage id="edit" />
@@ -451,6 +474,39 @@ class PaymentComp extends React.Component {
           <div className="credit-card-form ">
             <div className="rc-margin-bottom--xs">
               <div className="content-asset">
+              <div
+                      className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                        this.state.errorMsg ? "" : "hidden"
+                      }`}
+                    >
+                      <aside
+                        className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                        role="alert"
+                      >
+                        <span>{this.state.errorMsg}</span>
+                        <button
+                          className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                          onClick={() => {
+                            this.setState({ errorMsg: "" });
+                          }}
+                          aria-label="Close"
+                        >
+                          <span className="rc-screen-reader-text">
+                            <FormattedMessage id="close" />
+                          </span>
+                        </button>
+                      </aside>
+                    </div>
+                    <aside
+                      className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                        this.state.successMsg ? "" : "hidden"
+                      }`}
+                      role="alert"
+                    >
+                      <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+                        {this.state.successMsg}
+                      </p>
+                    </aside>
                 <p>
                   <FormattedMessage id="payment.acceptCards" />
                 </p>
@@ -686,7 +742,8 @@ class PaymentComp extends React.Component {
                   name="contactInformation"
                   onClick={() => {
                     this.initCardInfo();
-                    this.setState({ isEdit: false });
+                    this.setState({ isEdit: false })
+                    // this.scrollToPaymentComp();
                   }}
                 >
                   <FormattedMessage id="cancel" />
