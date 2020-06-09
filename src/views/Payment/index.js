@@ -88,7 +88,8 @@ class Payment extends React.Component {
       modalShow: false,
       payosdata: {},
       selectedCardInfo: {},
-      isToPayNow: sessionStorage.getItem('rc-tid')
+      isToPayNow: sessionStorage.getItem('rc-tid'),
+      isLogin: jugeLoginStatus()
     };
     this.tid = sessionStorage.getItem('rc-tid')
     this.confirmCardInfo = this.confirmCardInfo.bind(this);
@@ -117,7 +118,7 @@ class Payment extends React.Component {
       })
 
     let deliveryInfoStr = localStorage.getItem(
-      `${jugeLoginStatus() ? "loginDeliveryInfo" : "deliveryInfo"}`
+      `${this.state.isLogin ? "loginDeliveryInfo" : "deliveryInfo"}`
     );
     const { creditCardInfo } = this.state;
 
@@ -129,7 +130,7 @@ class Payment extends React.Component {
         if (
           deliveryInfoStr &&
           (this.state.type === "payment" ||
-            (!jugeLoginStatus() && this.state.type === "shipping"))
+            (!this.state.isLogin && this.state.type === "shipping"))
         ) {
           let deliveryInfo = JSON.parse(deliveryInfoStr);
           creditCardInfo.cardOwner =
@@ -175,7 +176,7 @@ class Payment extends React.Component {
     } = this.state;
     let tmpDeliveryAddress = deliveryAddress;
     let tmpBillingAddress = billingAddress;
-    if (jugeLoginStatus()) {
+    if (this.state.isLogin) {
       const tmp =
         this.loginDeliveryAddressRef.current &&
         find(
@@ -232,7 +233,7 @@ class Payment extends React.Component {
       if (param.deliveryAddress[k] === "" && k !== "address2" && k !== "rfc") {
         this.setState({
           errorShow: true,
-          errorMsg: jugeLoginStatus()
+          errorMsg: this.state.isLogin
             ? "Please select a delivery address"
             : "Please complete the required items",
         });
@@ -299,7 +300,7 @@ class Payment extends React.Component {
         return;
       }
     }
-    if (jugeLoginStatus()) {
+    if (this.state.isLogin) {
       localStorage.setItem("loginDeliveryInfo", JSON.stringify(param));
     } else {
       localStorage.setItem("deliveryInfo", JSON.stringify(param));
@@ -415,7 +416,7 @@ class Payment extends React.Component {
           };
         }),
       };
-      if (jugeLoginStatus()) {
+      if (this.state.isLogin) {
         const loginCartData = localStorage.getItem("rc-cart-data-login")
           ? JSON.parse(localStorage.getItem("rc-cart-data-login"))
           : []
@@ -488,8 +489,8 @@ class Payment extends React.Component {
         tradeMarketingList
       };
       try {
-        sessionStorage.setItem("rc-paywith-login", jugeLoginStatus());
-        if (!jugeLoginStatus()) {
+        sessionStorage.setItem("rc-paywith-login", this.state.isLogin);
+        if (!this.state.isLogin) {
           // 登录状态，不需要调用两个接口
           let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
             param
@@ -513,7 +514,7 @@ class Payment extends React.Component {
           delete param3.tradeMarketingList
         }
 
-        const tmpCommitAndPay = Store.isLogin
+        const tmpCommitAndPay = this.state.isLogin
           ? this.tid
             ? rePay
             : customerCommitAndPay
@@ -835,7 +836,7 @@ class Payment extends React.Component {
                       {sessionStorage.getItem("rc-clinics-name") ||
                         sessionStorage.getItem("rc-clinics-name2")}
                     </div>
-                    {jugeLoginStatus() ? (
+                    {this.state.isLogin ? (
                       <LoginDeliveryAddress
                         id="1"
                         ref={this.loginDeliveryAddressRef} />
@@ -867,7 +868,7 @@ class Payment extends React.Component {
                       </div>
                     </div>
 
-                    {jugeLoginStatus() ? (
+                    {this.state.isLogin ? (
                       <LoginDeliveryAddress
                         id="2"
                         type="billing"
