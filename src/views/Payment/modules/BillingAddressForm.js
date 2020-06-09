@@ -1,23 +1,51 @@
 import React from 'react'
 import { FormattedMessage } from "react-intl"
 import { findIndex } from "lodash"
+import Selection from '@/components/Selection'
+import { getDictionary } from '@/utils/utils'
 
 export default class BillingAddressForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       billingAddress: {
-        firstName: "",
-        lastName: "",
-        address1: "",
-        address2: "",
+        firstName: '',
+        lastName: '',
+        address1: '',
+        address2: '',
         rfc: '',
-        country: "Mexico",
-        city: "",
-        postCode: "",
-        phoneNumber: "",
-      }
+        country: 'Mexico',
+        city: '',
+        postCode: '',
+        phoneNumber: ''
+      },
+      cityList: [],
+      countryList: []
     }
+  }
+  componentDidMount () {
+    getDictionary({ type: 'city' })
+      .then(res => {
+        this.setState({
+          cityList: res
+        })
+      })
+    getDictionary({ type: 'country' })
+      .then(res => {
+        this.setState({
+          countryList: res
+        })
+      })
+  }
+  computedList (key) {
+    let tmp = this.state[`${key}List`].map(c => {
+      return {
+        value: c.id.toString(),
+        name: c.name
+      }
+    })
+    tmp.unshift({ value: '', name: '' })
+    return tmp
   }
   componentWillReceiveProps (nextProps) {
     if (nextProps.data !== this.state.billingAddress) {
@@ -60,6 +88,13 @@ export default class BillingAddressForm extends React.Component {
     this.setState({ billingAddress: billingAddress }, () => {
       this.props.updateData(this.state.billingAddress)
     });
+  }
+  handleSelectedItemChange (key, data) {
+    const { billingAddress } = this.state
+    billingAddress[key] = data.value
+    this.setState({ billingAddress: billingAddress }, () => {
+      this.props.updateData(this.state.billingAddress)
+    })
   }
   render () {
     const { billingAddress } = this.state;
@@ -231,17 +266,16 @@ export default class BillingAddressForm extends React.Component {
                 <label
                   className="form-control-label"
                   htmlFor="shippingCountry"
-                  value={billingAddress.country}
-                  onChange={(e) => this.billingInputChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}
-                  name="country"
                 >
                   <FormattedMessage id="payment.country" />
                 </label>
                 <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-                  <select data-js-select="">
-                    <option>Mexico</option>
-                  </select>
+                  <Selection
+                    selectedItemChange={data => this.handleSelectedItemChange('country', data)}
+                    optionList={this.computedList('country')}
+                    selectedItemData={{
+                      value: this.state.billingAddress.country
+                    }} />
                 </span>
               </div>
             </div>
@@ -255,18 +289,12 @@ export default class BillingAddressForm extends React.Component {
                 <FormattedMessage id="payment.city" />
               </label>
               <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-                <select
-                  data-js-select=""
-                  id="shippingCountry"
-                  value={billingAddress.city}
-                  onChange={(e) => this.billingInputChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}
-                  name="city"
-                >
-                  <option value=""></option>
-                  <option>Monterrey</option>
-                  <option>Mexico City</option>
-                </select>
+                <Selection
+                  selectedItemChange={data => this.handleSelectedItemChange('city', data)}
+                  optionList={this.computedList('city')}
+                  selectedItemData={{
+                    value: this.state.billingAddress.city
+                  }} />
               </span>
             </div>
           </div>

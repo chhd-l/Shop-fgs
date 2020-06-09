@@ -12031,7 +12031,9 @@ body {
 .color-999 {
   color: #999
 }
-
+.color-f6f6f6 {
+  color: #f6f6f6
+}
 .w-34px {
   width: 34px
 }
@@ -22346,6 +22348,9 @@ tr.rc-table__row.inactive td:after {
   opacity: 0.5;
   cursor: default;
   pointer-events: none;
+}
+.ui-btn-loading.ui-btn-loading-border-red:before {
+  border-color: #ec001a;
 }
 .ui-btn-loading:before {
   content: '';

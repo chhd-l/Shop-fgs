@@ -10,48 +10,47 @@ import cat from '@/assets/images/animal-2.jpg'
 import success from '@/assets/images/check-success.svg'
 import { Link } from 'react-router-dom';
 import edit from "@/assets/images/edit.svg"
-import {  getPetList,addPet,petsById,delPets,editPets } from '@/api/pet'
-import { getDict } from '@/api/dict'
+import { getPetList, addPet, petsById, delPets, editPets } from '@/api/pet'
 import Loading from "@/components/Loading"
-
+import { getDictionary } from '@/utils/utils'
 
 const selectedPet = {
   border: "3px solid #ec001a",
 }
-const noSelect ={
+const noSelect = {
   border: "3px solid #d7d7d7",
 }
 export default class PetForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      loading:true,
-      precent:12.5,
-      step:1,
-      
-      currentStep:'step1',
-      showList:false,
-      isDisabled:true,
-      isInputDisabled:false,
-      isUnknownDisabled:false,
+      loading: true,
+      precent: 12.5,
+      step: 1,
+
+      currentStep: 'step1',
+      showList: false,
+      isDisabled: true,
+      isInputDisabled: false,
+      isUnknownDisabled: false,
       //pet 
-      currentPetId:'',
-      isCat:null,
-      isMale:null,
-      nickname:"",
-      isUnknown:false,
-      breed:"",
-      weight:"",
-      isSterilized:null,
-      birthdate:'',
-      sizeArr:[
+      currentPetId: '',
+      isCat: null,
+      isMale: null,
+      nickname: "",
+      isUnknown: false,
+      breed: "",
+      weight: "",
+      isSterilized: null,
+      birthdate: '',
+      sizeArr: [
         "Xsmall",
         "Mini",
         "Medium",
         "Maxi",
         "Giant"
       ],
-      specialNeeds:[
+      specialNeeds: [
         'Age support',
         'Cardiac support',
         'Diabetes support',
@@ -70,17 +69,17 @@ export default class PetForm extends React.Component {
         'Joint sensitivity',
       ],
 
-      selectedSpecialNeeds:[],
+      selectedSpecialNeeds: [],
 
 
-      
-      showBreedList:false,
-      breedList:[],
-      petList:[],
-      currentPet:{},
-      isEdit:false,
-      errorMsg:"",
-      successMsg:"",
+
+      showBreedList: false,
+      breedList: [],
+      petList: [],
+      currentPet: {},
+      isEdit: false,
+      errorMsg: "",
+      successMsg: "",
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     }
     this.nextStep = this.nextStep.bind(this)
@@ -91,7 +90,7 @@ export default class PetForm extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.inputBlur = this.inputBlur.bind(this)
     this.selectFeatures = this.selectFeatures.bind(this)
-    
+
   }
 
   componentWillUnmount () {
@@ -99,7 +98,7 @@ export default class PetForm extends React.Component {
   }
   componentDidMount () {
     this.getPetList()
-    
+
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -120,464 +119,448 @@ export default class PetForm extends React.Component {
     } catch (e) {
       console.log(e)
     }
-      
-      // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
+
+    // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
   }
-  getUserInfo(){
+  getUserInfo () {
     let userinfo = {}
-    if(sessionStorage.getItem('rc-userinfo')){
+    if (sessionStorage.getItem('rc-userinfo')) {
       userinfo = JSON.parse(sessionStorage.getItem('rc-userinfo'))
-      
+
     }
     return userinfo
   }
-  getPetList = async ()=>{
+  getPetList = async () => {
     let consumerAccount = ''
-    if(this.getUserInfo() && this.getUserInfo().customerAccount){
+    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
       consumerAccount = this.getUserInfo().customerAccount
     }
-    else{
+    else {
       this.showErrorMsg('Get Consumer Account Failed')
       this.setState({
-        loading:false
+        loading: false
       })
       return
     }
     let params = {
       "consumerAccount": consumerAccount
     }
-    await getPetList(params).then( res =>{
-      if(res.code === 'K-000000'){
+    await getPetList(params).then(res => {
+      if (res.code === 'K-000000') {
         let petList = res.context.context
-        if(petList.length>0){
+        if (petList.length > 0) {
           let currentPet = petList[0]
           this.setState({
-            loading:false,
-            showList:true,
-            petList:petList,
+            loading: false,
+            showList: true,
+            petList: petList,
             currentPetId: currentPet.petsId,
-            currentPet:currentPet
+            currentPet: currentPet
           })
           this.getSpecialNeeds(currentPet.petsPropRelations)
         }
-        else{
+        else {
           this.setState({
-            loading:false,
-            showList:false,
-            petList:petList
+            loading: false,
+            showList: false,
+            petList: petList
           })
           this.add()
-          
+
         }
       }
-      else{
+      else {
         this.setState({
-          loading:false,
-          showList:false,
+          loading: false,
+          showList: false,
         })
-        this.showErrorMsg(res.message||'Get Data Failed')
+        this.showErrorMsg(res.message || 'Get Data Failed')
       }
     }).catch(err => {
       this.setState({
         loading: false
       })
       console.log(err);
-      
+
       this.showErrorMsg('Get Data Failed')
-    }) 
-    }
-    
-  
-  petsById= async(id)=>{
+    })
+  }
+
+
+  petsById = async (id) => {
     let params = {
       "petsId": id
     }
     this.setState({
-      loading:true
+      loading: true
     })
     const res = await petsById(params)
-    if(res.code === 'K-000000'){
+    if (res.code === 'K-000000') {
       let currentPet = res.context.context
       this.setState({
-        currentPet:currentPet,
-        showList:true,
-        loading:false,
-        currentPetId:currentPet.petsId
+        currentPet: currentPet,
+        showList: true,
+        loading: false,
+        currentPetId: currentPet.petsId
       })
       this.getSpecialNeeds(currentPet.petsPropRelations)
     }
   }
-  delPets= async(id)=>{
+  delPets = async (id) => {
     let params = {
       "petsIds": [
         id
       ]
     }
     this.setState({
-      loading:true
+      loading: true
     })
     const res = await delPets(params)
-    if(res.code === 'K-000000'){
+    if (res.code === 'K-000000') {
       this.getPetList()
     }
   }
-  savePet = async ()=>{
+  savePet = async () => {
     let consumerAccount = ''
-    if(this.getUserInfo() && this.getUserInfo().customerAccount){
+    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
       consumerAccount = this.getUserInfo().customerAccount
     }
-    else{
+    else {
       this.showErrorMsg('Get Consumer Account Failed')
       return
     }
     this.setState({
-      loading:true
+      loading: true
     })
-    
-    const { selectedSpecialNeeds } = this.state
-    let petsPropRelations=[]
-    let propId = 100
-    for(let i=0;i< selectedSpecialNeeds.length;i++){
 
-        let prop ={
-          "delFlag": 0,
-          "detailId": 0,
-          "indexFlag": 0,
-          "petsId": this.state.currentPetId,
-          "propId": propId,
-          "propName": selectedSpecialNeeds[i],
-          "relationId": "10086",
-          "sort": 0,
-        }
-        petsPropRelations.push(prop)
-        propId +=1
-      
-    }
-    
-    
-    let pets={
-        "birthOfPets": this.state.birthdate,
-        "petsBreed": this.state.isUnknown?"unknown Breed":this.state.breed,
+    const { selectedSpecialNeeds } = this.state
+    let petsPropRelations = []
+    let propId = 100
+    for (let i = 0; i < selectedSpecialNeeds.length; i++) {
+
+      let prop = {
+        "delFlag": 0,
+        "detailId": 0,
+        "indexFlag": 0,
         "petsId": this.state.currentPetId,
-        "petsImg": "10086",
-        "petsName": this.state.nickname,
-        "petsSex": this.state.isMale?"0":"1",
-        "petsSizeValueId": "10086",
-        "petsSizeValueName": this.state.weight,
-        "petsType": this.state.isCat?'cat':'dog',
-        "sterilized":this.state.isSterilized?"0":"1",
-        "storeId": 0
+        "propId": propId,
+        "propName": selectedSpecialNeeds[i],
+        "relationId": "10086",
+        "sort": 0,
+      }
+      petsPropRelations.push(prop)
+      propId += 1
+
+    }
+
+
+    let pets = {
+      "birthOfPets": this.state.birthdate,
+      "petsBreed": this.state.isUnknown ? "unknown Breed" : this.state.breed,
+      "petsId": this.state.currentPetId,
+      "petsImg": "10086",
+      "petsName": this.state.nickname,
+      "petsSex": this.state.isMale ? "0" : "1",
+      "petsSizeValueId": "10086",
+      "petsSizeValueName": this.state.weight,
+      "petsType": this.state.isCat ? 'cat' : 'dog',
+      "sterilized": this.state.isSterilized ? "0" : "1",
+      "storeId": 0
     }
     let param = {
-      "pets":pets,
-      "petsPropRelations":petsPropRelations,
+      "pets": pets,
+      "petsPropRelations": petsPropRelations,
       "storeId": 10086,
       "userId": consumerAccount
     }
-    if(pets.petsId){
-       await editPets(param).then(res=>{
-        if(res.code === 'K-000000'){
+    if (pets.petsId) {
+      await editPets(param).then(res => {
+        if (res.code === 'K-000000') {
           let currentStep = "success"
           this.setState({
-            currentStep:currentStep,
+            currentStep: currentStep,
           })
           setTimeout(() => {
             this.petsById(pets.petsId)
           }, 3000);
-          
+
         }
-        else{
-          this.showErrorMsg(res.message||'Save Failed')
+        else {
+          this.showErrorMsg(res.message || 'Save Failed')
 
           this.setState({
-            loading:false
+            loading: false
           })
         }
-       }).catch(err=>{
-         this.showErrorMsg('Save Failed')
-         this.setState({
-          loading:false
+      }).catch(err => {
+        this.showErrorMsg('Save Failed')
+        this.setState({
+          loading: false
         })
-       })
-      
+      })
+
     }
-    else{
-      await addPet(param).then(res=>{
-        if(res.code === 'K-000000'){
+    else {
+      await addPet(param).then(res => {
+        if (res.code === 'K-000000') {
           let currentStep = "success"
           this.setState({
-            currentStep:currentStep,
+            currentStep: currentStep,
           })
           setTimeout(() => {
             this.getPetList()
           }, 3000);
-          
+
         }
-        else{
-          this.showErrorMsg(res.message||'Save Failed')
+        else {
+          this.showErrorMsg(res.message || 'Save Failed')
 
           this.setState({
-            loading:false
+            loading: false
           })
         }
-       }).catch(err=>{
-         this.showErrorMsg('Save Failed')
-         this.setState({
-          loading:false
+      }).catch(err => {
+        this.showErrorMsg('Save Failed')
+        this.setState({
+          loading: false
         })
-       })
+      })
     }
-    
-    
+
+
   }
-  nextStep(){
-    let step=this.state.step
+  nextStep () {
+    let step = this.state.step
     let isEdit = this.state.isEdit
     let currentStep
-    if(step>=8){
+    if (step >= 8) {
       this.savePet()
     }
-    else{
-      step+= 1
-      if(this.state.isCat&& step=== 5){
-        step+=1
+    else {
+      step += 1
+      if (this.state.isCat && step === 5) {
+        step += 1
       }
       currentStep = 'step' + step
     }
     this.setState({
-      step:step,
-      currentStep:currentStep,
-      isDisabled: isEdit?false:true,
+      step: step,
+      currentStep: currentStep,
+      isDisabled: isEdit ? false : true,
     })
   };
-  selectPetType(type){
-    if(type==="cat"){
+  selectPetType (type) {
+    if (type === "cat") {
       this.setState({
-        isCat:true,
-        isDisabled:false,
+        isCat: true,
+        isDisabled: false,
       })
     }
-    else if(type==="dog"){
+    else if (type === "dog") {
       this.setState({
-        isCat:false,
-        isDisabled:false,
+        isCat: false,
+        isDisabled: false,
       })
     }
   }
-  selectSex(type){
-    if(type==="male"){
+  selectSex (type) {
+    if (type === "male") {
       this.setState({
-        isMale:true,
-        isDisabled:false,
+        isMale: true,
+        isDisabled: false,
       })
     }
-    else if(type==="female"){
+    else if (type === "female") {
       this.setState({
-        isMale:false,
-        isDisabled:false,
+        isMale: false,
+        isDisabled: false,
       })
     }
   };
-  inputNickname=(e) => {
+  inputNickname = (e) => {
     let isDisabled = true
-    if (e.target.value !=="") {
+    if (e.target.value !== "") {
       isDisabled = false
     }
-    else{
+    else {
       isDisabled = true
     }
     this.setState({
       nickname: e.target.value,
-      isDisabled:isDisabled
+      isDisabled: isDisabled
     })
   };
-  setUnknown=()=>{
+  setUnknown = () => {
     let isUnknown = !this.state.isUnknown
     let inputBreed = this.state.inputBreed
     let isDisabled = this.state.isDisabled
     let isInputDisabled = this.state.isInputDisabled
-    if(isUnknown){
+    if (isUnknown) {
       inputBreed = ""
       isDisabled = false
       isInputDisabled = true
     }
-    else{
+    else {
       isDisabled = true
       isInputDisabled = false
     }
     this.setState({
-      isUnknown:isUnknown,
-      inputBreed:inputBreed,
-      isDisabled:isDisabled,
-      isInputDisabled:isInputDisabled
+      isUnknown: isUnknown,
+      inputBreed: inputBreed,
+      isDisabled: isDisabled,
+      isInputDisabled: isInputDisabled
     })
   }
-  inputBreed=(e) => {
+  inputBreed = (e) => {
     let isDisabled = true
     let isUnknownDisabled = false
     let showBreedList = false
-    if (e.target.value !=="") {
+    if (e.target.value !== "") {
 
-      
+
       isDisabled = false
       isUnknownDisabled = true
       showBreedList = true
     }
-    else{
+    else {
       isDisabled = true
       isUnknownDisabled = false
       showBreedList = false
     }
     this.setState({
       breed: e.target.value,
-      isDisabled:isDisabled,
+      isDisabled: isDisabled,
       isUnknownDisabled: isUnknownDisabled,
-      showBreedList:showBreedList
+      showBreedList: showBreedList
     })
-    this.getDict( this.state.isCat?'catBreed':'dogBreed',e.target.value)
+    this.getDict(this.state.isCat ? 'catBreed' : 'dogBreed', e.target.value)
   };
-  selectWeight(val){
+  selectWeight (val) {
     this.setState({
-      weight:val,
-      isDisabled:false
-    })    
+      weight: val,
+      isDisabled: false
+    })
   }
-  setSterilized(val){
+  setSterilized (val) {
     this.setState({
-      isSterilized:val,
-      isDisabled:false
-    }) 
+      isSterilized: val,
+      isDisabled: false
+    })
   }
-  handleInputChange(e){
+  handleInputChange (e) {
 
     console.log(this.state.birthdate);
-    
+
     console.log(e.target.value);
-    
+
   }
-  inputBlur(e){
-    if(e.target.value&&e.target.value!==""){
+  inputBlur (e) {
+    if (e.target.value && e.target.value !== "") {
       this.setState({
-        birthdate:e.target.value,
+        birthdate: e.target.value,
         isDisabled: false
       })
     }
   }
-  selectFeatures=(val)=>{
+  selectFeatures = (val) => {
     //如果包含传入元素，则移除
-    if(this.state.selectedSpecialNeeds.includes(val)){
-      let tempArr = this.state.selectedSpecialNeeds.filter(item=>{
+    if (this.state.selectedSpecialNeeds.includes(val)) {
+      let tempArr = this.state.selectedSpecialNeeds.filter(item => {
         return item !== val
       })
       this.setState({
-        selectedSpecialNeeds:tempArr,
-        isDisabled:false
+        selectedSpecialNeeds: tempArr,
+        isDisabled: false
       })
     }
-    else{
+    else {
       //如果是没有特殊需求
-      if(val ==='No special needs'){
+      if (val === 'No special needs') {
         let tempArr = ['No special needs']
         this.setState({
-          selectedSpecialNeeds:tempArr,
-          isDisabled:false
+          selectedSpecialNeeds: tempArr,
+          isDisabled: false
         })
       }
       else {
         //先排除'No special needs'
-        let tempArr = this.state.selectedSpecialNeeds.filter(item=>{
+        let tempArr = this.state.selectedSpecialNeeds.filter(item => {
           return item !== 'No special needs'
         })
         tempArr.push(val)
         this.setState({
-          selectedSpecialNeeds:tempArr,
-          isDisabled:false
+          selectedSpecialNeeds: tempArr,
+          isDisabled: false
         })
       }
     }
-    
+
   }
-  selectedBreed=(item)=>{
+  selectedBreed = (item) => {
     this.setState({
-      breed:item.name,
-      showBreedList:false
+      breed: item.name,
+      showBreedList: false
     })
-    
+
   }
-  add=()=>{
+  add = () => {
     this.setState({
-      step:1,
-      currentStep:'step1',
-      showList:false,
-      isEdit:false,
-      isDisabled:true,
-      currentPetId:'',
-      isCat:null,
-      isMale:null,
-      nickname:"",
-      isUnknown:false,
-      breed:"",
-      weight:"",
-      isSterilized:null,
-      birthdate:'',
-      selectedSpecialNeeds:[],
-      isUnknownDisabled:false,
-      isInputDisabled:false
+      step: 1,
+      currentStep: 'step1',
+      showList: false,
+      isEdit: false,
+      isDisabled: true,
+      currentPetId: '',
+      isCat: null,
+      isMale: null,
+      nickname: "",
+      isUnknown: false,
+      breed: "",
+      weight: "",
+      isSterilized: null,
+      birthdate: '',
+      selectedSpecialNeeds: [],
+      isUnknownDisabled: false,
+      isInputDisabled: false
     })
   }
-  edit=(currentPet)=>{
+  edit = (currentPet) => {
     this.setState({
-      isEdit:true,
-      step:1,
-      currentStep:'step1',
-      isDisabled:false,
-      showList:false,
-      currentPetId:currentPet.petsId,
-      isCat:currentPet.petsType ==='dog'?false:true,
-      isMale:currentPet.petsSex ===0?true:false,
-      nickname:currentPet.petsName,
-      isUnknown:currentPet.petsBreed ==="unknown Breed"?true:false,
-      isInputDisabled:currentPet.petsBreed ==="unknown Breed"?true:false,
-      isUnknownDisabled:currentPet.petsBreed ==="unknown Breed"?false:true,
-      breed:currentPet.petsBreed ==="unknown Breed"?"":currentPet.petsBreed,
-      weight:"",
-      isSterilized: currentPet.sterilized ===0?true:false,
-      birthdate:currentPet.birthOfPets,
+      isEdit: true,
+      step: 1,
+      currentStep: 'step1',
+      isDisabled: false,
+      showList: false,
+      currentPetId: currentPet.petsId,
+      isCat: currentPet.petsType === 'dog' ? false : true,
+      isMale: currentPet.petsSex === 0 ? true : false,
+      nickname: currentPet.petsName,
+      isUnknown: currentPet.petsBreed === "unknown Breed" ? true : false,
+      isInputDisabled: currentPet.petsBreed === "unknown Breed" ? true : false,
+      isUnknownDisabled: currentPet.petsBreed === "unknown Breed" ? false : true,
+      breed: currentPet.petsBreed === "unknown Breed" ? "" : currentPet.petsBreed,
+      weight: "",
+      isSterilized: currentPet.sterilized === 0 ? true : false,
+      birthdate: currentPet.birthOfPets,
 
     })
   }
-  getDict = async(type,name)=>{
-    this.setState({
-      loading:true
-    })
-    let params ={
-      "delFlag": 0,
-      "storeId": 123456858,
-      "type": type,
-      "name":name
-    }
-    await getDict(params).then(res=>{
-      if(res.code === 'K-000000'){
-        let breedList = res.context.sysDictionaryVOS
+  getDict = (type, name) => {
+    this.setState({ loading: true })
+    getDictionary({ type, name })
+      .then(res => {
         this.setState({
-          breedList:breedList,
-          loading:false
+          breedList: res,
+          loading: false
         })
-      }
-      else{
-        this.showErrorMsg(res.message||'get data failed')
-        this.setState({
-          loading:false
-        })
-      }
-    }).catch(err =>{
-        this.showErrorMsg('get data failed')
-        this.setState({
-          loading:false
-        })
-    })
+      })
+      .catch(err => {
+        this.showErrorMsg(err.toString() || 'get data failed')
+        this.setState({ loading: false })
+      })
   }
-  showErrorMsg=(message)=>{
+
+  showErrorMsg = (message) => {
     this.setState({
       errorMsg: message
     })
@@ -589,7 +572,7 @@ export default class PetForm extends React.Component {
     }, 3000)
   }
 
-  showSuccessMsg=(message)=>{
+  showSuccessMsg = (message) => {
     this.setState({
       successMsg: message
     })
@@ -620,29 +603,29 @@ export default class PetForm extends React.Component {
     return el.offsetTop
   }
 
-  getSpecialNeeds=(array)=>{
-    if(array&&array.length>0){
+  getSpecialNeeds = (array) => {
+    if (array && array.length > 0) {
       let needs = []
       for (let index = 0; index < array.length; index++) {
         needs.push(array[index].propName)
       }
       this.setState({
-        selectedSpecialNeeds:needs
+        selectedSpecialNeeds: needs
       })
-    
+
     }
-    
-    
+
+
   }
-  cancel=()=>{
+  cancel = () => {
     this.setState({
-      loading:true
+      loading: true
     })
     this.getPetList()
-    
+
   }
   render () {
-    const { petList,currentPet } = this.state
+    const { petList, currentPet } = this.state
     return (
       <div>
         <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
@@ -657,23 +640,23 @@ export default class PetForm extends React.Component {
                 <div class="list-select-pet js-list-pet" data-toggle-group="">
                   <ul class="scroll--x list list--inline list--align list--blank flex--middle" role="tablist">
                     <li class="pet-element">
-                      <a onClick={ ()=>this.add()} class="tab-add tab--img" role="tab">
+                      <a onClick={() => this.add()} class="tab-add tab--img" role="tab">
                         <span class="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
                       </a>
                     </li>
-                    
+
                     {
-                    petList.map(item=>(
-                      <li class="rc-margin-x--xs pet-element">
-                        <a onClick={ () => this.petsById(item.petsId)}>
-                          <div className={"tab__img img--round img--round--md name--select text-center " + (item.petsId ===this.state.currentPetId? "active":"")}>
-                            {item.petsName}
-                          </div>
-                        </a>
-                      </li>
+                      petList.map(item => (
+                        <li class="rc-margin-x--xs pet-element">
+                          <a onClick={() => this.petsById(item.petsId)}>
+                            <div className={"tab__img img--round img--round--md name--select text-center " + (item.petsId === this.state.currentPetId ? "active" : "")}>
+                              {item.petsName}
+                            </div>
+                          </a>
+                        </li>
                       )
-                    )}
-                    
+                      )}
+
                   </ul>
                 </div>
                 <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
@@ -695,58 +678,58 @@ export default class PetForm extends React.Component {
                   <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
                 </aside>
                 {
-                  this.state.showList?( 
-                  <div class="pet-information js-pet-information rc-margin-bottom--md">
-                    <h2 class="name-pet">{currentPet.petsName}</h2>
-                    <div class="rc-layout-container">
-                      <div class="rc-column">
-                      <ul class="pet-data">
-                        <li class={"breed " + (currentPet.petsType==='dog'? "dog":"cat")}>
-                          <span class="">{currentPet.petsBreed}</span>
-                        </li>
-                        <li class="birth">
-                          <span class="">{currentPet.birthOfPets}</span>
-                        </li>
-                        <li class={"gender "+  (currentPet.petsSex === 0 ?"male":"female") + " sprite-pet"}>
-                          <span class=""> {currentPet.petsSex === 0 ?'Male':'Female'}</span>
-                        </li>
-                        <li class="weight" style={{display:(currentPet.petsType === 'dog'?'block':'none')}}>
-                          <span class="">{currentPet.petsSizeValueName}</span>
-                        </li>
-                      </ul>
-                      </div>
-                      <div class="rc-column">
-                      <div class="pet-special-need">Special needs</div>
-                      <ul class="list-special-need">
-                        {
-                          this.state.selectedSpecialNeeds.map(item=>(
-                          <li>{item}</li>
-                          ))
-                        }
-                      </ul>
-                      </div>
-                      <div class="edit js-edit-pet">
-                        <a onClick={()=>this.edit(currentPet)} >
-                          <img src={edit} class="img-success" alt=""/>
+                  this.state.showList ? (
+                    <div class="pet-information js-pet-information rc-margin-bottom--md">
+                      <h2 class="name-pet">{currentPet.petsName}</h2>
+                      <div class="rc-layout-container">
+                        <div class="rc-column">
+                          <ul class="pet-data">
+                            <li class={"breed " + (currentPet.petsType === 'dog' ? "dog" : "cat")}>
+                              <span class="">{currentPet.petsBreed}</span>
+                            </li>
+                            <li class="birth">
+                              <span class="">{currentPet.birthOfPets}</span>
+                            </li>
+                            <li class={"gender " + (currentPet.petsSex === 0 ? "male" : "female") + " sprite-pet"}>
+                              <span class=""> {currentPet.petsSex === 0 ? 'Male' : 'Female'}</span>
+                            </li>
+                            <li class="weight" style={{ display: (currentPet.petsType === 'dog' ? 'block' : 'none') }}>
+                              <span class="">{currentPet.petsSizeValueName}</span>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="rc-column">
+                          <div class="pet-special-need">Special needs</div>
+                          <ul class="list-special-need">
+                            {
+                              this.state.selectedSpecialNeeds.map(item => (
+                                <li>{item}</li>
+                              ))
+                            }
+                          </ul>
+                        </div>
+                        <div class="edit js-edit-pet">
+                          <a onClick={() => this.edit(currentPet)} >
+                            <img src={edit} class="img-success" alt="" />
+                          </a>
+                        </div>
+                        <div class="delete">
+                          <a onClick={() => this.delPets(currentPet.petsId)}>
+                            X
                         </a>
-                      </div>
-                      <div class="delete">
-                        <a onClick={()=>this.delPets(currentPet.petsId)}>
-                        X
-                        </a>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  ):null
+                  ) : null
                 }
-                <div className="group-progress js-group-progress section-form-group" style={{display:!this.state.showList?'block':'none'}}>
+                <div className="group-progress js-group-progress section-form-group" style={{ display: !this.state.showList ? 'block' : 'none' }}>
                   <div className="bar-progress">
-                    <div className="progress-child red js-percent-step" style={{ width:((this.state.precent*this.state.step) + '%') }}>  
+                    <div className="progress-child red js-percent-step" style={{ width: ((this.state.precent * this.state.step) + '%') }}>
                     </div>
                   </div>
                   <div className="step-progress">
                     <FormattedMessage id="account.step"></FormattedMessage>
-                       
+
                     <span className="js-step-number">
                       {this.state.step}
                     </span>
@@ -754,160 +737,160 @@ export default class PetForm extends React.Component {
                         8
                   </div>
                 </div>
-                <div className="pet-form-create" style={{display:!this.state.showList?'block':'none'}}>
+                <div className="pet-form-create" style={{ display: !this.state.showList ? 'block' : 'none' }}>
                   {
-                    this.state.currentStep === 'step1'?
-                    <div id="step-1" className="section col-lg-9 col-12">
+                    this.state.currentStep === 'step1' ?
+                      <div id="step-1" className="section col-lg-9 col-12">
 
-                      <h2>
-                      <FormattedMessage id="account.catOrDog"></FormattedMessage>
-                      </h2>
-                      <div className="form-group  custom-checkbox col-lg-6">
-                        <img src={cat} className="animal-select" alt="" title="" 
-                        onClick={()=>this.selectPetType('cat')}
-                        style={this.state.isCat===true? selectedPet:noSelect } />
-                        <div className="label-option">
-                        <FormattedMessage id="account.cat"></FormattedMessage>
+                        <h2>
+                          <FormattedMessage id="account.catOrDog"></FormattedMessage>
+                        </h2>
+                        <div className="form-group  custom-checkbox col-lg-6">
+                          <img src={cat} className="animal-select" alt="" title=""
+                            onClick={() => this.selectPetType('cat')}
+                            style={this.state.isCat === true ? selectedPet : noSelect} />
+                          <div className="label-option">
+                            <FormattedMessage id="account.cat"></FormattedMessage>
+                          </div>
+                        </div>
+
+                        <div className="form-group custom-checkbox col-lg-6">
+                          <img src={dog} className="animal-select" alt="" title=""
+                            onClick={() => this.selectPetType('dog')}
+                            style={this.state.isCat === false ? selectedPet : noSelect} />
+                          <div className="label-option">
+                            <FormattedMessage id="account.dog"></FormattedMessage>
+                          </div>
                         </div>
                       </div>
-
-                      <div className="form-group custom-checkbox col-lg-6">
-                        <img src={dog} className="animal-select" alt="" title="" 
-                        onClick={()=>this.selectPetType('dog')}
-                        style={ this.state.isCat===false? selectedPet:noSelect } />
-                        <div className="label-option">
-                        <FormattedMessage id="account.dog"></FormattedMessage>
-                        </div>
-                      </div>
-                    </div>
-                    :null
+                      : null
                   }
                   {
-                    this.state.currentStep === 'step2'?
+                    this.state.currentStep === 'step2' ?
                       <div id="step-2" className="section col-lg-9 col-12 next-step">
                         <h2><FormattedMessage id="account.nickname"></FormattedMessage></h2>
                         <div className="form-group">
-                        <input type="text" placeholder="Enter your pet's nickname" className="form-control input-pet" 
-                          name="dwfrm_miaaPet_petName" 
-                          required="required" 
-                          aria-required="true" 
-                          value={this.state.nickname}
-                          onChange={this.inputNickname}  
-                          maxLength="2147483647"/>
-                        <div className="invalid-feedback"></div>
+                          <input type="text" placeholder="Enter your pet's nickname" className="form-control input-pet"
+                            name="dwfrm_miaaPet_petName"
+                            required="required"
+                            aria-required="true"
+                            value={this.state.nickname}
+                            onChange={this.inputNickname}
+                            maxLength="2147483647" />
+                          <div className="invalid-feedback"></div>
                         </div>
-                        
-                    </div>:null
-                  }
-                  {
-                    this.state.currentStep === 'step3'?
-                    
-                    <div id="step-3" className="section next-step">
-                      <h2><FormattedMessage id="account.gender"></FormattedMessage></h2>
-                      <div className="form-group custom-control custom-checkbox col-lg-6 ">
-                        <label className="pet-select-control select-gender-1 icon-rc" 
-                          onClick={()=>this.selectSex('male')} 
-                          style={ this.state.isMale === true? selectedPet:noSelect }>
-                        </label>
-                        <div className="label-option">
-                        <FormattedMessage id="account.male"></FormattedMessage>
-                        </div>
-                      </div>
-                      <div className="form-group custom-control custom-checkbox col-lg-6 ">
-                        
-                        <label className="pet-select-control select-gender-2 icon-rc"  
-                        onClick={()=>this.selectSex('female')} 
-                        style={this.state.isMale === false? selectedPet:noSelect }></label>
-                        <div className="label-option">
-                        <FormattedMessage id="account.female"></FormattedMessage>
-                        </div>
-                      </div>
-                    </div>:null
-                  }
-                  {
-                    this.state.currentStep === 'step4'?
-                    <div id="step-4" className="section next-step not-hidden col-lg-9 col-12">
-                      <h2><FormattedMessage id="account.breed"></FormattedMessage> {this.state.nickname}?</h2>
-                      <div className="content-section">
-                        <div className="form-group relative">
-                          <input type="text" id="dog-breed" 
-                            placeholder="Enter your dog's breed" 
-                            className="form-control input-pet breed" 
-                            value={this.state.breed}
-                            onChange={this.inputBreed}  
-                            style={{display: (this.state.isCat?"none":null)}}
-                            disabled={this.state.isInputDisabled?"disabled":null}/> 
-                            
-                          <input type="text" id="cat-breed" 
-                            placeholder="Enter the breed of your cat" 
-                            className="form-control input-pet breed" 
-                            value={this.state.breed}
-                            onChange={this.inputBreed}  
-                            style={{display: (!this.state.isCat?"none":null)}}
-                            disabled={this.state.isInputDisabled?"disabled":null}/>
 
-                          <div className="select-breed" style={{display:(this.state.showBreedList?'block':'none')}}>
-                            {
-                              this.state.breedList.map(item=>(
-                                <option value={item.value} key={item.value} onClick={()=>this.selectedBreed(item)}>{item.name}</option>
-                              ))
-                            }
+                      </div> : null
+                  }
+                  {
+                    this.state.currentStep === 'step3' ?
+
+                      <div id="step-3" className="section next-step">
+                        <h2><FormattedMessage id="account.gender"></FormattedMessage></h2>
+                        <div className="form-group custom-control custom-checkbox col-lg-6 ">
+                          <label className="pet-select-control select-gender-1 icon-rc"
+                            onClick={() => this.selectSex('male')}
+                            style={this.state.isMale === true ? selectedPet : noSelect}>
+                          </label>
+                          <div className="label-option">
+                            <FormattedMessage id="account.male"></FormattedMessage>
                           </div>
                         </div>
+                        <div className="form-group custom-control custom-checkbox col-lg-6 ">
 
-
-                       
-                        <div className="form-group custom-control label-unknown">
-
-                        <div className="rc-input rc-input--inline" 
-                          style={{margin: "15px 0 0 0",pointerEvents: this.state.isUnknownDisabled?'none':""}} 
-                          onClick={()=>this.setUnknown()} 
-                        >
-                            <input type="checkbox" 
-                              id="defaultAddress"
-                              className="rc-input__checkbox" 
-                              value={this.state.isUnknown}/>
-                              {
-                                this.state.isUnknown?
-                                <label className="rc-input__label--inline petPropChecked" >
-                                  <FormattedMessage id="account.unknownBreed"></FormattedMessage>
-                                </label>:
-                                <label className="rc-input__label--inline ">
-                                  <FormattedMessage id="account.unknownBreed"></FormattedMessage>
-                                </label>
-                              }
+                          <label className="pet-select-control select-gender-2 icon-rc"
+                            onClick={() => this.selectSex('female')}
+                            style={this.state.isMale === false ? selectedPet : noSelect}></label>
+                          <div className="label-option">
+                            <FormattedMessage id="account.female"></FormattedMessage>
                           </div>
-
                         </div>
-                      </div>
-                    </div>:null
+                      </div> : null
                   }
                   {
-                    this.state.currentStep === 'step5'?
-                    <div id="step-5" className="section next-step">
-                      <h2><FormattedMessage id="account.weight"></FormattedMessage> {this.state.nickname} ?</h2>
-                      <div className="group-size" style={{width:'100%'}}>
-                        {
-                          this.state.sizeArr.map(item =>(
+                    this.state.currentStep === 'step4' ?
+                      <div id="step-4" className="section next-step not-hidden col-lg-9 col-12">
+                        <h2><FormattedMessage id="account.breed"></FormattedMessage> {this.state.nickname}?</h2>
+                        <div className="content-section">
+                          <div className="form-group relative">
+                            <input type="text" id="dog-breed"
+                              placeholder="Enter your dog's breed"
+                              className="form-control input-pet breed"
+                              value={this.state.breed}
+                              onChange={this.inputBreed}
+                              style={{ display: (this.state.isCat ? "none" : null) }}
+                              disabled={this.state.isInputDisabled ? "disabled" : null} />
 
-                            <div className="wrap__input wrap-size pull-left " onClick={()=>this.selectWeight(item)}>
-                              <input type="radio" className="radio input__radio" 
-                                name="dwfrm_miaaPet_neuteredPet" 
-                                value={item}
-                                />
+                            <input type="text" id="cat-breed"
+                              placeholder="Enter the breed of your cat"
+                              className="form-control input-pet breed"
+                              value={this.state.breed}
+                              onChange={this.inputBreed}
+                              style={{ display: (!this.state.isCat ? "none" : null) }}
+                              disabled={this.state.isInputDisabled ? "disabled" : null} />
+
+                            <div className="select-breed" style={{ display: (this.state.showBreedList ? 'block' : 'none') }}>
                               {
-                                this.state.weight===item?
-                                <label className="label label__input sterilizedChecked" >
-                                  {item}
-                                </label>:
-                                <label className="label label__input">
-                                  {item}
-                                </label>
+                                this.state.breedList.map(item => (
+                                  <option value={item.value} key={item.value} onClick={() => this.selectedBreed(item)}>{item.name}</option>
+                                ))
                               }
                             </div>
-                          ))
-                        }
-                        {/* <div className="wrap__input wrap-size pull-left col-3">
+                          </div>
+
+
+
+                          <div className="form-group custom-control label-unknown">
+
+                            <div className="rc-input rc-input--inline"
+                              style={{ margin: "15px 0 0 0", pointerEvents: this.state.isUnknownDisabled ? 'none' : "" }}
+                              onClick={() => this.setUnknown()}
+                            >
+                              <input type="checkbox"
+                                id="defaultAddress"
+                                className="rc-input__checkbox"
+                                value={this.state.isUnknown} />
+                              {
+                                this.state.isUnknown ?
+                                  <label className="rc-input__label--inline petPropChecked" >
+                                    <FormattedMessage id="account.unknownBreed"></FormattedMessage>
+                                  </label> :
+                                  <label className="rc-input__label--inline ">
+                                    <FormattedMessage id="account.unknownBreed"></FormattedMessage>
+                                  </label>
+                              }
+                            </div>
+
+                          </div>
+                        </div>
+                      </div> : null
+                  }
+                  {
+                    this.state.currentStep === 'step5' ?
+                      <div id="step-5" className="section next-step">
+                        <h2><FormattedMessage id="account.weight"></FormattedMessage> {this.state.nickname} ?</h2>
+                        <div className="group-size" style={{ width: '100%' }}>
+                          {
+                            this.state.sizeArr.map(item => (
+
+                              <div className="wrap__input wrap-size pull-left " onClick={() => this.selectWeight(item)}>
+                                <input type="radio" className="radio input__radio"
+                                  name="dwfrm_miaaPet_neuteredPet"
+                                  value={item}
+                                />
+                                {
+                                  this.state.weight === item ?
+                                    <label className="label label__input sterilizedChecked" >
+                                      {item}
+                                    </label> :
+                                    <label className="label label__input">
+                                      {item}
+                                    </label>
+                                }
+                              </div>
+                            ))
+                          }
+                          {/* <div className="wrap__input wrap-size pull-left col-3">
                           <input id={"is-" + item}
                             type="radio" 
                             className="radio input__radio" 
@@ -945,52 +928,52 @@ export default class PetForm extends React.Component {
                           onClick={()=>this.selectWeight("X-Large")}/>
                           <label className="label label__input" for="is-X-Large">Giant (over 45 kg)</label>
                         </div>*/}
-                      </div> 
-                    </div>:null
+                        </div>
+                      </div> : null
                   }
                   {
-                    this.state.currentStep === 'step6'?
-                    <div id="step-6" className="section next-step">
-                      <h2><FormattedMessage id="account.sterilized"></FormattedMessage></h2>
-                      <div className="group-size">
+                    this.state.currentStep === 'step6' ?
+                      <div id="step-6" className="section next-step">
+                        <h2><FormattedMessage id="account.sterilized"></FormattedMessage></h2>
+                        <div className="group-size">
 
-                        <div className="wrap__input col-6 pull-left text-center" onClick={()=>this.setSterilized(true)}>
-                          <input id="is-true" type="radio" className="radio input__radio" 
-                            name="dwfrm_miaaPet_neuteredPet" 
-                            value="true"
+                          <div className="wrap__input col-6 pull-left text-center" onClick={() => this.setSterilized(true)}>
+                            <input id="is-true" type="radio" className="radio input__radio"
+                              name="dwfrm_miaaPet_neuteredPet"
+                              value="true"
                             />
-                          {
-                            this.state.isSterilized===true?
-                            <label className="label label__input sterilizedChecked" >
-                              <FormattedMessage id="sterilized"></FormattedMessage>
-                            </label>:
-                            <label className="label label__input">
-                              <FormattedMessage id="sterilized"></FormattedMessage>
-                            </label>
-                          }
-                        </div>
+                            {
+                              this.state.isSterilized === true ?
+                                <label className="label label__input sterilizedChecked" >
+                                  <FormattedMessage id="sterilized"></FormattedMessage>
+                                </label> :
+                                <label className="label label__input">
+                                  <FormattedMessage id="sterilized"></FormattedMessage>
+                                </label>
+                            }
+                          </div>
 
-                        <div className="wrap__input col-6 pull-left text-center" onClick={()=>this.setSterilized(false)}>
-                          <input id="is-true" type="radio" className="radio input__radio" 
-                            name="dwfrm_miaaPet_neuteredPet" 
-                            value="false"
+                          <div className="wrap__input col-6 pull-left text-center" onClick={() => this.setSterilized(false)}>
+                            <input id="is-true" type="radio" className="radio input__radio"
+                              name="dwfrm_miaaPet_neuteredPet"
+                              value="false"
                             />
-                          {
-                            this.state.isSterilized === false?
-                            <label className="label label__input sterilizedChecked" >
-                              <FormattedMessage id="notSterilized"></FormattedMessage>
-                            </label>:
-                            <label className="label label__input">
-                              <FormattedMessage id="notSterilized"></FormattedMessage>
-                            </label>
-                          }
+                            {
+                              this.state.isSterilized === false ?
+                                <label className="label label__input sterilizedChecked" >
+                                  <FormattedMessage id="notSterilized"></FormattedMessage>
+                                </label> :
+                                <label className="label label__input">
+                                  <FormattedMessage id="notSterilized"></FormattedMessage>
+                                </label>
+                            }
+                          </div>
                         </div>
-                      </div>
-                    </div>:null
+                      </div> : null
                   }
                   {
-                    
-                    <div id="step-7" className="section next-step" style={{display:this.state.currentStep === 'step7'?'block':'none'}}>
+
+                    <div id="step-7" className="section next-step" style={{ display: this.state.currentStep === 'step7' ? 'block' : 'none' }}>
                       <h2><FormattedMessage id="account.enterBirthDare"></FormattedMessage></h2>
                       <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
                         <input
@@ -1002,91 +985,91 @@ export default class PetForm extends React.Component {
                           name="birthdate"
                           type="date"
                           value={this.state.birthdate}
-                          onChange={e => this.handleInputChange(e)} 
-                          onBlur={e => this.inputBlur(e)}/>
-                          
+                          onChange={e => this.handleInputChange(e)}
+                          onBlur={e => this.inputBlur(e)} />
+
                         <label className="rc-input__label" htmlFor="birthdate"></label>
                       </span>
                       <div className="invalid-birthdate invalid-feedback">Please select a past date.</div>
-                      </div>
+                    </div>
                   }
                   {
-                    this.state.currentStep === 'step8'?
-                    <div id="step-8" className="section next-step not-hidden">
-                      <h2><FormattedMessage id="account.features"></FormattedMessage></h2>
-                      <div style={{width: "88%",margin: "0 auto"}}>
-                        {
-                          this.state.specialNeeds.map(item=>(
-                            <div className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style" 
-                             
-                              onClick={()=>this.selectFeatures(item)} 
-                            >
-                                <input type="checkbox" 
-                                  className="rc-input__checkbox" 
-                                  value={item}/>
-                                  {
-                                    this.state.selectedSpecialNeeds.includes(item)?
+                    this.state.currentStep === 'step8' ?
+                      <div id="step-8" className="section next-step not-hidden">
+                        <h2><FormattedMessage id="account.features"></FormattedMessage></h2>
+                        <div style={{ width: "88%", margin: "0 auto" }}>
+                          {
+                            this.state.specialNeeds.map(item => (
+                              <div className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style"
+
+                                onClick={() => this.selectFeatures(item)}
+                              >
+                                <input type="checkbox"
+                                  className="rc-input__checkbox"
+                                  value={item} />
+                                {
+                                  this.state.selectedSpecialNeeds.includes(item) ?
                                     <label className="rc-input__label--inline petPropChecked" >
                                       {item}
-                                    </label>:
+                                    </label> :
                                     <label className="rc-input__label--inline ">
                                       {item}
                                     </label>
-                                  }
+                                }
                               </div>
-                          ))
-                        }
-                       
-                       <div className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style" 
-                          onClick={()=>this.selectFeatures("No special needs")} 
-                        >
-                            <input type="checkbox" 
-                              className="rc-input__checkbox" 
-                              value="No special needs"/>
-                              {
-                                this.state.selectedSpecialNeeds.includes('No special needs')?
+                            ))
+                          }
+
+                          <div className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style"
+                            onClick={() => this.selectFeatures("No special needs")}
+                          >
+                            <input type="checkbox"
+                              className="rc-input__checkbox"
+                              value="No special needs" />
+                            {
+                              this.state.selectedSpecialNeeds.includes('No special needs') ?
                                 <label className="rc-input__label--inline petPropChecked" >
                                   No special needs
-                                </label>:
+                                </label> :
                                 <label className="rc-input__label--inline ">
                                   No special needs
                                 </label>
-                              }
+                            }
                           </div>
-                      </div>
-                    </div>:null
+                        </div>
+                      </div> : null
                   }
 
                   <div>
                     {
-                      this.state.currentStep !== 'success'?
-                        <button type="button" name="next" 
-                          style = {{marginBottom:'20px'}}
-                          className="rc-btn rc-btn--one btn-next btn-block js-btn-next" 
-                          disabled={(this.state.isDisabled)?"disabled":null}
+                      this.state.currentStep !== 'success' ?
+                        <button type="button" name="next"
+                          style={{ marginBottom: '20px' }}
+                          className="rc-btn rc-btn--one btn-next btn-block js-btn-next"
+                          disabled={(this.state.isDisabled) ? "disabled" : null}
                           onClick={this.nextStep}>
-                          { this.state.step === 8?'Save':'Further'}
+                          {this.state.step === 8 ? 'Save' : 'Further'}
                         </button>
-                      :null
+                        : null
                     }
-                    <button type="button" name="next" 
-                      style = {{margin: "0 0 20px 30px", display:(this.state.currentStep === 'success'?"none":null)}}
-                      className="rc-btn rc-btn--two btn-next btn-block js-btn-next" 
+                    <button type="button" name="next"
+                      style={{ margin: "0 0 20px 30px", display: (this.state.currentStep === 'success' ? "none" : null) }}
+                      className="rc-btn rc-btn--two btn-next btn-block js-btn-next"
                       onClick={this.cancel}>
-                        <FormattedMessage id="cancel"></FormattedMessage>
+                      <FormattedMessage id="cancel"></FormattedMessage>
                     </button>
                   </div>
-                  
+
                   {
-                    this.state.currentStep === 'success'?
-                    <div className="add-pet-success js-add-pet-success" >
-                      <img src={success} className="img-success" alt="" title="" style={{margin:"0 auto"}}/>
-                      <div className="text-done"><FormattedMessage id="account.fine"></FormattedMessage> </div>
-                      <div className="text-done"><FormattedMessage id="account.welcome"></FormattedMessage> </div>
-                    </div>:null
+                    this.state.currentStep === 'success' ?
+                      <div className="add-pet-success js-add-pet-success" >
+                        <img src={success} className="img-success" alt="" title="" style={{ margin: "0 auto" }} />
+                        <div className="text-done"><FormattedMessage id="account.fine"></FormattedMessage> </div>
+                        <div className="text-done"><FormattedMessage id="account.welcome"></FormattedMessage> </div>
+                      </div> : null
                   }
-                  
-                  
+
+
                 </div>
               </div>
             </div>

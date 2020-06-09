@@ -1,6 +1,7 @@
 import { getStoreCate } from '@/api'
 import { STOREID } from '@/utils/constant'
 import { purchases } from '@/api/cart'
+import { getDict } from '@/api/dict'
 
 /**
  * 
@@ -8,7 +9,7 @@ import { purchases } from '@/api/cart'
  * @param {*} currency 1-$ 2-₱
  */
 export function formatMoney (val, currency = 1) {
-  if(isNaN(val)) {
+  if (isNaN(val)) {
     val = 0
   }
   val = val + ''
@@ -134,14 +135,37 @@ export function jugeLoginStatus () {
  * 数组扁平化
  * @param {Array} array - 数组 
  */
-export function flat(arr){
-	var res = [];
-	for(let el of arr){
-		if(Array.isArray(el)){
-			res = res.concat(flat(el));
-		}else{
-			res.push(el);
-		}
-	}
-	return res;
+export function flat (arr) {
+  var res = [];
+  for (let el of arr) {
+    if (Array.isArray(el)) {
+      res = res.concat(flat(el));
+    } else {
+      res.push(el);
+    }
+  }
+  return res;
+}
+
+/**
+ * 获取字典并存入session
+ * @param {type, name} type - 字典名 
+ */
+export async function getDictionary ({ type, name = '' }) {
+  let ret = []
+  const tmpKey = `dict-${type}`
+  if (sessionStorage.getItem(tmpKey)) {
+    ret = JSON.parse(sessionStorage.getItem(tmpKey))
+  } else {
+    let res = await getDict({
+      delFlag: 0,
+      storeId: STOREID,
+      type,
+      name
+    })
+    const sysDictionaryVOS = res.context.sysDictionaryVOS
+    sessionStorage.setItem(tmpKey, JSON.stringify(sysDictionaryVOS))
+    ret = sysDictionaryVOS
+  }
+  return ret
 }
