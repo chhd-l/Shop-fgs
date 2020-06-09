@@ -90,6 +90,7 @@ class Payment extends React.Component {
       loading: false,
       modalShow: false,
       payosdata: {},
+      selectedCardInfo: {}
     };
     this.confirmCardInfo = this.confirmCardInfo.bind(this);
     this.timer = null;
@@ -329,7 +330,8 @@ class Payment extends React.Component {
   }
   async goConfirmation () {
     if (Store.isLogin) {
-      let selectedCard = this.state.creditCardList.filter(el => el.selected)[0]
+      // let selectedCard = this.state.creditCardList.filter(el => el.selected)[0]
+      let selectedCard = this.state.selectedCardInfo
 
       let res = await axios.post(
         "https://api.paymentsos.com/tokens",
@@ -1165,7 +1167,9 @@ class Payment extends React.Component {
                             }}
                           >
                             <div className="rc-border-all rc-border-colour--interface checkout--padding">
-                              <PaymentComp/>
+                              <PaymentComp getSelectedValue={cardItem => {
+                                this.setState({selectedCardInfo: cardItem})
+                              }} />
                               <div
                                 className="credit-card-content"
                                 id="credit-card-content"

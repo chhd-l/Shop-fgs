@@ -45,11 +45,13 @@ class PaymentComp extends React.Component {
     };
   }
   async componentDidMount() {
+    console.log(window.location.pathname, "111");
     if (Store.isLogin) {
       await this.getPaymentMethodList();
       this.state.creditCardList.map((el) => {
         if (el.isDefault === 1) {
           el.selected = true;
+          this.props.getSelectedValue && this.props.getSelectedValue(el);
         }
       });
       this.setState({ creditCardList: this.state.creditCardList });
@@ -78,6 +80,8 @@ class PaymentComp extends React.Component {
     }
   }
   initCardInfo() {
+    // window.scrollTo(0, 0)
+    window.location.href = "#PaymentComp";
     this.setState({
       creditCardInfo: {
         cardNumber: "",
@@ -230,6 +234,7 @@ class PaymentComp extends React.Component {
       this.state.creditCardList.map((el) => {
         if (el.isDefault === 1) {
           el.selected = true;
+          this.props.getSelectedValue && this.props.getSelectedValue(el);
         }
       });
       this.setState({ creditCardList: this.state.creditCardList });
@@ -308,6 +313,7 @@ class PaymentComp extends React.Component {
     );
     return (
       <div
+        id="PaymentComp"
         className="loginCardBox"
         style={{
           display: Store.isLogin ? "block" : "none",
@@ -327,19 +333,20 @@ class PaymentComp extends React.Component {
               }}
             />
           </span>
-          <button
-            type="button"
-            className="address-btn"
-            onClick={() => {
-              this.setState({ isEdit: true });
-              this.initCardInfo();
-            }}
-          >
-            <span>
-              {" "}
-              <FormattedMessage id="addNewCreditCard"></FormattedMessage>
-            </span>
-          </button>
+          {window.location.pathname === "/payment/payment" && (
+            <button
+              type="button"
+              className="address-btn"
+              onClick={() => {
+                this.setState({ isEdit: true });
+                this.initCardInfo();
+              }}
+            >
+              <span>
+                <FormattedMessage id="addNewCreditCard"></FormattedMessage>
+              </span>
+            </button>
+          )}
         </div>
         {/* <div className="addbox" onClick={() => this.openCreatePage()}>
           <div id="cross"></div>
@@ -351,7 +358,8 @@ class PaymentComp extends React.Component {
                 onClick={() => {
                   creditCardList.map((el) => (el.selected = false));
                   el.selected = true;
-                  console.log(creditCardList);
+                  this.props.getSelectedValue &&
+                    this.props.getSelectedValue(el);
                   this.setState({ creditCardList });
                 }}
                 className={`creditCompleteInfoBox ${
@@ -369,6 +377,7 @@ class PaymentComp extends React.Component {
                         isEdit: true,
                         creditCardInfo: el,
                       });
+                      window.location.href = "#PaymentComp";
                     }}
                   >
                     <FormattedMessage id="edit" />
@@ -420,6 +429,18 @@ class PaymentComp extends React.Component {
               </div>
             );
           })}
+        {window.location.pathname !== "/payment/payment" && !this.state.isEdit && (
+          <div
+            className="addbox"
+            onClick={() => {
+              this.setState({ isEdit: true });
+              this.initCardInfo();
+            }}
+          >
+            <div id="cross"></div>
+          </div>
+        )}
+
         <div
           className="credit-card-content"
           id="credit-card-content"
@@ -661,7 +682,6 @@ class PaymentComp extends React.Component {
                     </label>
                   )}
                 </div>
-                {/* </div> */}
                 <a
                   className="rc-styled-link editPersonalInfoBtn"
                   name="contactInformation"

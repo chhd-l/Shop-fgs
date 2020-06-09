@@ -23,6 +23,7 @@ import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import paypalImg from "@/assets/images/credit-cards/paypal.png";
 import { getPaymentMethod, deleteCard } from "@/api/payment";
+import PaymentComp from "@/components/PaymentComp"
 
 export default class PaymentMethod extends React.Component {
   constructor(props) {
@@ -337,14 +338,15 @@ export default class PaymentMethod extends React.Component {
                         {this.state.successMsg}
                       </p>
                     </aside>
-                    <div className="table-toolbar">
+                    <PaymentComp/>
+                    {/* <div className="table-toolbar">
                       <span className="t-gray">
                         <FormattedMessage
                           id="creditCardTip"
                           values={{ number: <b>{this.state.creditCardList.length}</b> }}
                         />
                       </span>
-                      {/* <button
+                      <button
                         type="button"
                         className="address-btn"
                         onClick={() => this.openCreatePage()}
@@ -353,16 +355,13 @@ export default class PaymentMethod extends React.Component {
                           {" "}
                           <FormattedMessage id="addNewCreditCard"></FormattedMessage>
                         </span>
-                      </button> */}
+                      </button>
                     </div>
                     {creditCardList.map((el) => (
                       <div
                         className={`creditCompleteInfoBox ${el.isDefault === 1?'active': ''}`}
                         style={{
                           display: "block",
-                          // !this.state.isCompleteCredit
-                          //   ? "none"
-                          //   : "block",
                         }}
                       >
                         <p>
@@ -408,7 +407,6 @@ export default class PaymentMethod extends React.Component {
                                 <p>
                                   <FormattedMessage id="payment.cardNumber" />
                                 </p>
-                                {/* <p><FormattedMessage id="payment.DEBIT" /></p> */}
                                 <p>{el.cardType}</p>
                               </div>
                               <div className="col-8">
@@ -425,10 +423,7 @@ export default class PaymentMethod extends React.Component {
                           </div>
                         </div>
                       </div>
-                    ))}
-                    <div className="addbox" onClick={() => this.openCreatePage()}>
-                      <div id="cross"></div>
-                    </div>
+                    ))} */}
                   </div>
                 </div>
               </div>
