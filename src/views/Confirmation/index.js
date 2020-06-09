@@ -4,9 +4,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PayProductInfo from "@/components/PayProductInfo";
 import { FormattedMessage } from 'react-intl'
-import { Link } from "react-router-dom";
-import successImg from "@/assets/images/credit-cards/success.png";
+import { Link } from "react-router-dom"
+import successImg from "@/assets/images/credit-cards/success.png"
+import { find } from "lodash"
 import { GTM_SITE_ID } from "@/utils/constant"
+import { getDictionary } from "@/utils/utils"
 import "./index.css";
 
 class Confirmation extends React.Component {
@@ -59,7 +61,9 @@ class Confirmation extends React.Component {
       totalPrice: '',
       tradePrice: '',
       discountPrice: '',
-      paywithLogin: sessionStorage.getItem("rc-paywith-login")
+      paywithLogin: sessionStorage.getItem("rc-paywith-login"),
+      cityList: [],
+      countryList: []
     };
   }
   changeCache () {
@@ -92,7 +96,7 @@ class Confirmation extends React.Component {
       localStorage.removeItem('rc-cart-data-login')
     } else {
       localStorage.removeItem('rc-cart-data')
-      localStorage.removeItem('rc-token')
+      sessionStorage.removeItem('rc-token')
     }
     localStorage.removeItem('orderNumber')
   }
@@ -121,6 +125,23 @@ class Confirmation extends React.Component {
         commentOnDelivery: deliveryInfo.commentOnDelivery
       });
     }
+    getDictionary({ type: 'city' })
+      .then(res => {
+        this.setState({
+          cityList: res
+        })
+      })
+    getDictionary({ type: 'country' })
+      .then(res => {
+        this.setState({
+          countryList: res
+        })
+      })
+  }
+  matchNamefromDict (dictList, id) {
+    return find(dictList, ele => ele.id == id)
+      ? find(dictList, ele => ele.id == id).name
+      : id
   }
   render () {
     const {
@@ -201,9 +222,9 @@ class Confirmation extends React.Component {
                   {
                     this.state.paywithLogin
                       ? <React.Fragment>
-                          <Link to="/account/orders" className="rc-btn rc-btn--one">
-                            <FormattedMessage id="order.viewOrder" />
-                          </Link>
+                        <Link to="/account/orders" className="rc-btn rc-btn--one">
+                          <FormattedMessage id="order.viewOrder" />
+                        </Link>
                           &nbsp;or&nbsp;
                       </React.Fragment>
                       : null
@@ -260,11 +281,11 @@ class Confirmation extends React.Component {
                                 </div>
                                 <div className="col-md-6"><FormattedMessage id="payment.country" /></div>
                                 <div className="col-md-6">
-                                  &nbsp;{deliveryAddress.country}
+                                  &nbsp;{this.matchNamefromDict(this.state.countryList, deliveryAddress.country)}
                                 </div>
                                 <div className="col-md-6"><FormattedMessage id="payment.city" /></div>
                                 <div className="col-md-6">
-                                  &nbsp;{deliveryAddress.city}
+                                  &nbsp;{this.matchNamefromDict(this.state.cityList, deliveryAddress.city)}
                                 </div>
                                 <div className="col-md-6"><FormattedMessage id="payment.postCode" /></div>
                                 <div className="col-md-6">
@@ -307,11 +328,11 @@ class Confirmation extends React.Component {
                                 </div>
                                 <div className="col-md-6"><FormattedMessage id="payment.country" /></div>
                                 <div className="col-md-6">
-                                  &nbsp;{billingAddress.country}
+                                  &nbsp;{this.matchNamefromDict(this.state.countryList, billingAddress.country)}
                                 </div>
                                 <div className="col-md-6"><FormattedMessage id="payment.city" /></div>
                                 <div className="col-md-6">
-                                  &nbsp;{billingAddress.city}
+                                  &nbsp;{this.matchNamefromDict(this.state.cityList, billingAddress.city)}
                                 </div>
                                 <div className="col-md-6"><FormattedMessage id="payment.postCode" /></div>
                                 <div className="col-md-6">

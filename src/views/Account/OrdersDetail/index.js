@@ -29,9 +29,7 @@ class AccountOrders extends React.Component {
       operateSuccessModalVisible: false,
       errModalVisible: false,
       returnOrExchangeModalVisible: false,
-      errModalText: '',
-
-      showOperateBtn: false
+      errModalText: ''
     }
   }
   componentDidMount () {
@@ -106,20 +104,22 @@ class AccountOrders extends React.Component {
   }
   returnOrExchangeBtnJSX () {
     const { details } = this.state
-    let ret = null
+    let ret = <span />
     if (details.tradeState.deliverStatus === 'SHIPPED'
       && details.tradeState.flowState === 'COMPLETED') {
-      this.setState({ showOperateBtn: true })
       return <>
-        <div
-          className={`border-bottom p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
-          onClick={() => this.hanldeItemClick('exchange')}>
-          <FormattedMessage id="order.return" />
-        </div>
-        <div
-          className={`p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
-          onClick={() => this.hanldeItemClick('return')}>
-          <FormattedMessage id="order.exchange" />
+        <a className="color-999 ui-cursor-pointer" title="Bottom" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">•••</a>
+        <div id="bottom-tooltip" class="rc-tooltip text-left pl-1 pr-1">
+          <div
+            className={`border-bottom p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
+            onClick={() => this.hanldeItemClick('exchange')}>
+            <FormattedMessage id="order.return" />
+          </div>
+          <div
+            className={`p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
+            onClick={() => this.hanldeItemClick('return')}>
+            <FormattedMessage id="order.exchange" />
+          </div>
         </div>
       </>
     }
@@ -127,16 +127,20 @@ class AccountOrders extends React.Component {
   }
   cancelOrderBtnJSX () {
     const { details } = this.state
-    let ret = null
+    let ret = <span />
     if (new Date().getTime() < new Date(details.orderTimeOut).getTime()
       && details.tradeState.flowState === 'AUDIT'
       && details.tradeState.deliverStatus === 'NOT_YET_SHIPPED') {
-      this.setState({ showOperateBtn: true })
-      ret = <div
-        className={`p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
-        onClick={() => { this.setState({ cancelOrderModalVisible: true }) }}>
-        <FormattedMessage id="order.cancelOrder" />
-      </div>
+      ret = <>
+        <a className="color-999 ui-cursor-pointer" title="Bottom" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">•••</a>
+        <div id="bottom-tooltip" class="rc-tooltip text-left pl-1 pr-1">
+          <div
+            className={`p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
+            onClick={() => { this.setState({ cancelOrderModalVisible: true }) }}>
+            <FormattedMessage id="order.cancelOrder" />
+          </div>
+        </div>
+      </>
     }
     return ret
   }
@@ -182,17 +186,8 @@ class AccountOrders extends React.Component {
                                 <FormattedMessage id="payment.clinicTitle" />:<br />
                                 <span className="medium">{details.clinicsName}</span>
                               </div>
-                              {
-                                this.state.showOperateBtn
-                                  ? <>
-                                    <a className="color-999 ui-cursor-pointer" title="Bottom" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">•••</a>
-                                    <div id="bottom-tooltip" class="rc-tooltip text-left pl-1 pr-1">
-                                      {this.returnOrExchangeBtnJSX()}
-                                      {this.cancelOrderBtnJSX()}
-                                    </div>
-                                  </>
-                                  : <span></span>
-                              }
+                              {this.returnOrExchangeBtnJSX()}
+                              {this.cancelOrderBtnJSX()}
                             </div>
                             <hr className="rc-margin-top---none" />
                             <div className="order__listing">
