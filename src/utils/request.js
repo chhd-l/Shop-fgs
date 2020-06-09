@@ -38,7 +38,14 @@ service.interceptors.response.use((response) => {
     return response.data
   } else {
     console.log(response, response.data , response.data.message)
-    return Promise.reject(response.data && response.data.message ? response.data.message : 'Error')
+    let ret = response.data && response.data.message ? response.data.message : 'Error'
+    if (response.data && response.data.message && response.data.message.toLowerCase().includes('payment error')) {
+      ret = {
+        message: response.data.message,
+        errorData: response.data.errorData
+      }
+    }
+    return Promise.reject(ret)
   }
 }, err => Promise.reject(err))
 

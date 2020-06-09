@@ -16,17 +16,14 @@ import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
-import paypalImg from "@/assets/images/credit-cards/paypal.png";
 import { STOREID } from "@/utils/constant";
-import { jugeLoginStatus } from "@/utils/utils";
+import { jugeLoginStatus, getDictionary } from "@/utils/utils";
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
   confirmAndCommit,
   customerCommitAndPay,
-  getPaymentMethod,
-  deleteCard,
-  addOrUpdatePaymentMethod,
+  rePay
 } from "@/api/payment";
 import PaymentComp from "@/components/PaymentComp"
 import Store from '@/store/store';
@@ -90,8 +87,10 @@ class Payment extends React.Component {
       loading: false,
       modalShow: false,
       payosdata: {},
-      selectedCardInfo: {}
+      selectedCardInfo: {},
+      isToPayNow: sessionStorage.getItem('rc-tid')
     };
+    this.tid = sessionStorage.getItem('rc-tid')
     this.confirmCardInfo = this.confirmCardInfo.bind(this);
     this.timer = null;
     this.loginDeliveryAddressRef = React.createRef();
@@ -103,6 +102,20 @@ class Payment extends React.Component {
       window.location.reload();
       return false;
     }
+
+    getDictionary({ type: 'city' })
+      .then(res => {
+        this.setState({
+          cityList: res
+        })
+      })
+    getDictionary({ type: 'country' })
+      .then(res => {
+        this.setState({
+          countryList: res
+        })
+      })
+
     let deliveryInfoStr = localStorage.getItem(
       `${jugeLoginStatus() ? "loginDeliveryInfo" : "deliveryInfo"}`
     );
@@ -137,6 +150,12 @@ class Payment extends React.Component {
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
+    sessionStorage.removeItem('rc-tid')
+  }
+  matchNamefromDict (dictList, id) {
+    return find(dictList, ele => ele.id == id)
+      ? find(dictList, ele => ele.id == id).name
+      : id
   }
   confirmCardInfo () {
     this.setState({
@@ -167,8 +186,8 @@ class Payment extends React.Component {
           address1: tmp.address1,
           address2: tmp.address2,
           rfc: tmp.rfc,
-          country: tmp.countryId ? tmp.countryId.toString() : "",
-          city: tmp.cityId ? tmp.cityId.toString() : "",
+          country: tmp.countryId ? tmp.countryId.toString() : '',
+          city: tmp.cityId ? tmp.cityId.toString() : '',
           postCode: tmp.postCode,
           phoneNumber: tmp.consigneeNumber,
           addressId: tmp.deliveryAddressId,
@@ -187,8 +206,8 @@ class Payment extends React.Component {
           address1: tmp2.address1,
           address2: tmp2.address2,
           rfc: tmp2.rfc,
-          country: tmp2.countryId ? tmp2.countryId.toString() : "",
-          city: tmp2.cityId ? tmp2.cityId.toString() : "",
+          country: tmp2.countryId ? tmp2.countryId.toString() : '',
+          city: tmp2.cityId ? tmp2.cityId.toString() : '',
           postCode: tmp2.postCode,
           phoneNumber: tmp2.consigneeNumber,
           addressId: tmp2.deliveryAddressId,
@@ -241,19 +260,6 @@ class Payment extends React.Component {
         }, 5000);
         return;
       }
-      // if (k === 'phoneNumber' && !(/^\d{10}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
-      //   this.setState({
-      //     errorShow: true,
-      //     errorMsg: 'Please enter the correct phone number'
-      //   })
-      //   window.scrollTo(0, 0)
-      //   setTimeout(() => {
-      //     this.setState({
-      //       errorShow: false,
-      //     });
-      //   }, 5000);
-      //   return
-      // }
     }
     for (let k in param.billingAddress) {
       if (param.billingAddress[k] === "" && k !== "address2" && k !== "rfc") {
@@ -289,19 +295,6 @@ class Payment extends React.Component {
         }, 5000);
         return;
       }
-      // if (k === 'phoneNumber' && !(/^\d{10}$/.test(param.billingAddress[k].replace(/\s*/g, "")))) {
-      //   this.setState({
-      //     errorShow: true,
-      //     errorMsg: 'Please enter the correct phone number'
-      //   })
-      //   window.scrollTo(0, 0)
-      //   setTimeout(() => {
-      //     this.setState({
-      //       errorShow: false,
-      //     });
-      //   }, 5000);
-      //   return
-      // }
     }
     if (jugeLoginStatus()) {
       localStorage.setItem("loginDeliveryInfo", JSON.stringify(param));
@@ -330,7 +323,6 @@ class Payment extends React.Component {
   }
   async goConfirmation () {
     if (Store.isLogin) {
-      // let selectedCard = this.state.creditCardList.filter(el => el.selected)[0]
       let selectedCard = this.state.selectedCardInfo
 
       let res = await axios.post(
@@ -410,6 +402,7 @@ class Payment extends React.Component {
       param.billPostCode = billingAddress.postCode;
       param.rfc = deliveryAddress.rfc;
       param.billRfc = billingAddress.rfc;
+      param.email = creditCardInfo.email
       let param2 = {
         goodsInfos: cartData.map((ele) => {
           return {
@@ -463,8 +456,6 @@ class Payment extends React.Component {
       }
 
       let param3 = {
-        // birthday: '1990-01-01',
-        // identifyNumber: '430702199001011111',
         firstName: deliveryAddress.firstName,
         lastName: deliveryAddress.lastName,
         zipcode: deliveryAddress.postCode,
@@ -475,7 +466,6 @@ class Payment extends React.Component {
         phone: creditCardInfo.phoneNumber,
         email: creditCardInfo.email,
         last4Digits: payosdata.last_4_digits,
-        // identifyNumber: creditCardInfo.identifyNumber,
         line1: deliveryAddress.address1,
         line2: deliveryAddress.address2,
         clinicsId:
@@ -489,10 +479,10 @@ class Payment extends React.Component {
         tradeItems: param2.goodsInfos.map((g) => {
           return {
             num: g.buyCount,
-            skuId: g.goodsInfoId,
-          };
+            skuId: g.goodsInfoId
+          }
         }),
-        tradeMarketingList,
+        tradeMarketingList
       };
       try {
         sessionStorage.setItem("rc-paywith-login", jugeLoginStatus());
@@ -507,29 +497,40 @@ class Payment extends React.Component {
           );
           await batchAdd(param2);
         } else {
-          param3.payAccountName = creditCardInfo.cardOwner;
-          param3.payPhoneNumber = creditCardInfo.phoneNumber;
-          param3.deliveryAddressId = deliveryAddress.addressId;
-          param3.billAddressId = billingAddress.addressId;
+          param3.payAccountName = creditCardInfo.cardOwner
+          param3.payPhoneNumber = creditCardInfo.phoneNumber
+          param3.deliveryAddressId = deliveryAddress.addressId
+          param3.billAddressId = billingAddress.addressId
+        }
+        // rePay
+        if (this.tid) {
+          param3.tid = this.tid
+          delete param3.remark
+          delete param3.tradeItems
+          delete param3.tradeMarketingList
         }
 
         const tmpCommitAndPay = jugeLoginStatus()
-          ? customerCommitAndPay
-          : confirmAndCommit;
+          ? this.tid
+            ? rePay
+            : customerCommitAndPay
+          : confirmAndCommit
         let confirmAndCommitRes = await tmpCommitAndPay(param3);
         console.log(confirmAndCommitRes);
         localStorage.setItem(
-          "orderNumber",
-          confirmAndCommitRes.context[0]["tid"]
+          "orderNumber", confirmAndCommitRes.context && confirmAndCommitRes.context[0]["tid"] || this.tid
         );
         this.setState({ loading: false });
         sessionStorage.removeItem("payosdata");
         history.push("/confirmation");
       } catch (e) {
         console.log(e);
+        if (e.errorData) {
+          this.tid = e.errorData
+        }
         this.setState({
           errorShow: true,
-          errorMsg: e.toString(),
+          errorMsg: e.message ? e.message.toString() : e.toString(),
         });
         window.scrollTo({
           top: 0,
@@ -537,7 +538,7 @@ class Payment extends React.Component {
         });
         setTimeout(() => {
           this.setState({
-            errorShow: false,
+            errorShow: false
           });
         }, 5000);
       } finally {
@@ -734,8 +735,8 @@ class Payment extends React.Component {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
   }
-  
-  
+
+
   updateDeliveryAddress (data) {
     this.setState({
       deliveryAddress: data,
@@ -976,18 +977,18 @@ class Payment extends React.Component {
                   <div className="card shipping-summary">
                     <div className="card-header rc-padding-right--none clearfix">
                       <h5 className="pull-left">Address and Shipping Method</h5>
-                      <a
-                        href="#"
-                        onClick={(e) => this.goDelivery(e)}
-                        className=" rc-styled-link rc-margin-top--xs pull-right"
-                      >
-                        Edit
-                      </a>
+                      {
+                        !this.state.isToPayNow && <a
+                          href="#"
+                          onClick={(e) => this.goDelivery(e)}
+                          className=" rc-styled-link rc-margin-top--xs pull-right">
+                          <FormattedMessage id="edit" />
+                        </a>
+                      }
                     </div>
                     <div className="card-body rc-padding--none">
                       <p className="shipping-addr-label multi-shipping padding-y--sm">
-                        Addresses and shipping methods are indicated under your
-                        goods.
+                        Addresses and shipping methods are indicated under your goods.
                       </p>
                       <div
                         className="single-shipping"
@@ -1029,13 +1030,13 @@ class Payment extends React.Component {
                                     <FormattedMessage id="payment.country" />
                                   </div>
                                   <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.country}
+                                    &nbsp;{this.matchNamefromDict(this.state.countryList, deliveryAddress.country)}
                                   </div>
                                   <div className="col-md-6">
                                     <FormattedMessage id="payment.city" />
                                   </div>
                                   <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.city}
+                                    &nbsp;{this.matchNamefromDict(this.state.cityList, deliveryAddress.city)}
                                   </div>
                                   <div className="col-md-6">
                                     <FormattedMessage id="payment.postCode" />
@@ -1096,13 +1097,13 @@ class Payment extends React.Component {
                                     <FormattedMessage id="payment.country" />
                                   </div>
                                   <div className="col-md-6">
-                                    &nbsp;{billingAddress.country}
+                                    &nbsp;{this.matchNamefromDict(this.state.countryList, billingAddress.country)}
                                   </div>
                                   <div className="col-md-6">
                                     <FormattedMessage id="payment.city" />
                                   </div>
                                   <div className="col-md-6">
-                                    &nbsp;{billingAddress.city}
+                                    &nbsp;{this.matchNamefromDict(this.state.cityList, billingAddress.city)}
                                   </div>
                                   <div className="col-md-6">
                                     <FormattedMessage id="payment.postCode" />
@@ -1168,7 +1169,7 @@ class Payment extends React.Component {
                           >
                             <div className="rc-border-all rc-border-colour--interface checkout--padding">
                               <PaymentComp getSelectedValue={cardItem => {
-                                this.setState({selectedCardInfo: cardItem})
+                                this.setState({ selectedCardInfo: cardItem })
                               }} />
                               <div
                                 className="credit-card-content"
@@ -1503,13 +1504,14 @@ class Payment extends React.Component {
                 <h5 className="product-summary__title rc-margin-bottom--xs">
                   <FormattedMessage id="payment.yourOrder" />
                 </h5>
-                <a
-                  href="#"
-                  onClick={(e) => this.goCart(e)}
-                  className="product-summary__cartlink rc-styled-link"
-                >
-                  <FormattedMessage id="edit" />
-                </a>
+                {
+                  !this.state.isToPayNow && <a
+                    href="#"
+                    onClick={(e) => this.goCart(e)}
+                    className="product-summary__cartlink rc-styled-link">
+                    <FormattedMessage id="edit" />
+                  </a>
+                }
                 <PayProductInfo />
               </div>
             </div>
