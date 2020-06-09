@@ -571,7 +571,6 @@ class PaymentComp extends React.Component {
                     >
                       <input
                         type="text"
-                        id="cardholder-name"
                         className="rc-input__control form-control cardOwner"
                         name="cardOwner"
                         value={creditCardInfo.cardOwner}
