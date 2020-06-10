@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 
 export default class Modal extends React.Component {
   static defaultProps = {
-    modalTitle: 'Information',
+    modalTitle: <FormattedMessage id="information" />,
     modalText: '',
     visible: false,
     confirmLoading: false

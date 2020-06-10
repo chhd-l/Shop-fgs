@@ -570,8 +570,8 @@ class LoginCart extends React.Component {
         <Modal
           visible={this.state.modalShow}
           confirmLoading={this.state.deleteLoading}
-          modalTitle="Delete product?"
-          modalText="Are you sure you want to remove this item from your cart?"
+          modalTitle={<FormattedMessage id="cart.deletInfo" />}
+          modalText={<FormattedMessage id="cart.deletInfo2" />}
           close={() => { this.setState({ modalShow: false }) }}
           hanldeClickConfirm={() => this.deleteProduct()} />
         <Footer />

@@ -67,7 +67,7 @@ class AccountOrders extends React.Component {
     getPayRecord(orderNumber)
       .then(res => {
         this.setState({
-          payRecord: res.context,
+          payRecord: res.context
         })
       })
   }
@@ -420,13 +420,13 @@ class AccountOrders extends React.Component {
             key="1"
             visible={this.state.cancelOrderModalVisible}
             confirmLoading={this.state.cancelOrderLoading}
-            modalText="Do you really want to cancel the order?"
+            modalText={<FormattedMessage id="order.confirmCancelOrderInfo" />}
             close={() => { this.setState({ cancelOrderModalVisible: false }) }}
             hanldeClickConfirm={() => this.handleCancelOrder()} />
           <Modal
             key="2"
             visible={this.state.operateSuccessModalVisible}
-            modalText="Operate successfully!"
+            modalText={<FormattedMessage id="operateSuccessfully" />}
             close={() => { this.setState({ operateSuccessModalVisible: false }) }}
             hanldeClickConfirm={() => { this.props.history.push('/account/orders') }} />
           <Modal
@@ -438,7 +438,7 @@ class AccountOrders extends React.Component {
           <Modal
             key="4"
             visible={this.state.returnOrExchangeModalVisible}
-            modalText="This order is associated with a refund in processing and cannot be reapplied."
+            modalText={<FormattedMessage id="order.refundErrorInfo" />}
             close={() => { this.setState({ returnOrExchangeModalVisible: false }) }}
             hanldeClickConfirm={() => { this.setState({ returnOrExchangeModalVisible: false }) }} />
         </main>
