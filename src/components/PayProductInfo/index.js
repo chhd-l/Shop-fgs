@@ -9,7 +9,8 @@ class PayProductInfo extends React.Component {
       productList: [],
       totalPrice: '',
       tradePrice: '',
-      discountPrice: ''
+      discountPrice: '',
+      isLogin: jugeLoginStatus()
     };
   }
   get totalCount () {
@@ -21,7 +22,7 @@ class PayProductInfo extends React.Component {
   componentDidMount () {
     let totalInfo = JSON.parse(sessionStorage.getItem('rc-totalInfo'))
     let productList
-    if (jugeLoginStatus()) {
+    if (this.state.isLogin) {
       productList = JSON.parse(localStorage.getItem("rc-cart-data-login"))
     } else {
       productList = JSON.parse(localStorage.getItem("rc-cart-data"))
@@ -106,7 +107,7 @@ class PayProductInfo extends React.Component {
   getTotalItems () {
     const { productList } = this.state
     let quantityKeyName = 'quantity'
-    if (jugeLoginStatus()) {
+    if (this.state.isLogin) {
       quantityKeyName = 'buyCount'
     }
     return (
@@ -119,7 +120,7 @@ class PayProductInfo extends React.Component {
   }
   render () {
     const { productList } = this.state
-    const List = jugeLoginStatus() ? this.getProductsForLogin(productList) : this.getProducts(productList)
+    const List = this.state.isLogin ? this.getProductsForLogin(productList) : this.getProducts(productList)
     return (
       <div className="product-summary__inner">
         <div className="product-summary__recap">
