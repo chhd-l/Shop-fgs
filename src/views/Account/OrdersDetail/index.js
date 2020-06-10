@@ -383,7 +383,7 @@ class AccountOrders extends React.Component {
                                         <FormattedMessage id="paymentMethod" />:
                                       </div>
                                       <div className="col-8">
-                                        {payRecord.paymentMethod}
+                                        {payRecord.vendor}
                                       </div>
                                     </div>
                                     <div className="row col-6">
