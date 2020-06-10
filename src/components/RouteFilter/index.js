@@ -26,10 +26,10 @@ class RouteFilter extends Component {
           // window.POS.setPublicKey("fd931719-5733-4b77-b146-2fd22f9ad2e3");
           // window.POS.setPublicKey("e13025c1-e45e-4ead-a18b-782efcee5250");
           let key, env
-          if(process.env.NODE_ENV === 'development') {
+          if (process.env.NODE_ENV === 'development') {
             key = 'fd931719-5733-4b77-b146-2fd22f9ad2e3'
             env = 'test'
-          }else if(process.env.NODE_ENV === 'production') {
+          } else if (process.env.NODE_ENV === 'production') {
             key = process.env.REACT_APP_PaymentKEY
             env = process.env.REACT_APP_PaymentENV
           }
@@ -81,8 +81,14 @@ class RouteFilter extends Component {
       );
     }
     if (this.props.location.pathname !== "/login") {
+      let tmpSrc = ''
+      if (process.env.NODE_ENV === 'production') {
+        tmpSrc = 'https://optanon.blob.core.windows.net/consent/cdfcc414-1ef9-4d1d-82d5-6b85fb8958cb.js'
+      } else {
+        tmpSrc = 'https://optanon.blob.core.windows.net/consent/cdfcc414-1ef9-4d1d-82d5-6b85fb8958cb-test.js'
+      }
       loadJS(
-        "https://optanon.blob.core.windows.net/consent/cdfcc414-1ef9-4d1d-82d5-6b85fb8958cb.js",
+        tmpSrc,
         function () {
 
         }
@@ -92,7 +98,7 @@ class RouteFilter extends Component {
       this.props.history.push("/");
     }
 
-    if(!sessionStorage.getItem('rc-token')&&this.props.location.pathname.indexOf("/account") !== -1){
+    if (!sessionStorage.getItem('rc-token') && this.props.location.pathname.indexOf("/account") !== -1) {
       this.props.history.push("/");
     }
     queryStoreCateIds();
