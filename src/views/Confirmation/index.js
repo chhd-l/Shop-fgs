@@ -61,34 +61,10 @@ class Confirmation extends React.Component {
       totalPrice: '',
       tradePrice: '',
       discountPrice: '',
-      paywithLogin: sessionStorage.getItem("rc-paywith-login"),
+      paywithLogin: sessionStorage.getItem("rc-paywith-login") === 'true',
       cityList: [],
       countryList: []
     };
-  }
-  changeCache () {
-    localStorage.setItem(
-      "rc-cart-data",
-      JSON.stringify(this.state.productList)
-    );
-  }
-  deleteProduct () {
-    let { currentProduct, productList } = this.state;
-    this.setState({
-      productList: productList.filter(
-        (el) => el.id !== currentProduct.id
-      )
-    })
-    this.changeCache();
-    this.closeModal();
-  }
-  changeSize (pItem, sizeItem) {
-    pItem.sizeList.map((el) => (el.selected = false));
-    sizeItem.selected = true;
-    this.setState({
-      productList: this.state.productList,
-    });
-    this.changeCache();
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true)
