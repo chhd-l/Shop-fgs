@@ -22,7 +22,9 @@ class GoogleTagManager extends React.Component {
       },
       site: {
         id: GTM_SITE_ID,
-        environment: process.env.NODE_ENV === 'development' ? 'uat' : 'prd',
+        // todo 区分uat和prd？？
+        // environment: process.env.NODE_ENV === 'development' ? 'uat' : 'prd',
+        environment: 'uat',
         country: 'MX'
       }
     }
