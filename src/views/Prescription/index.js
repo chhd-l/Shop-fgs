@@ -162,6 +162,8 @@ class Prescription extends React.Component {
       this.setState({
         clinicArr: clinicArr
       })
+      console.log(this.state.clinicArr);
+      
     }
 
   }
@@ -222,16 +224,16 @@ class Prescription extends React.Component {
 
     flags.push(<AnyReactComponent
       key={this.state.me.id}
-      lat={this.state.meLocation.lat}
-      lng={this.state.meLocation.lng}
+      lat={+this.state.meLocation.lat}
+      lng={+this.state.meLocation.lng}
       obj={this.state.me}
       show={false}
     />)
     for (var i = 0; i < this.state.clinicArr.length; i++) {
       flags.push(<AnyReactComponent
         key={this.state.clinicArr[i].clinicsId}
-        lat={this.state.clinicArr[i].latitude}
-        lng={this.state.clinicArr[i].longitude}
+        lat={+this.state.clinicArr[i].latitude}
+        lng={+this.state.clinicArr[i].longitude}
         obj={this.state.clinicArr[i]}
         sonMess={this.getSonMess.bind(this)}
         show={+(this.state.clinicArr[i].longitude) === +(this.state.currentSelectClinic.lng)
