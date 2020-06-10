@@ -56,6 +56,8 @@ const en_US = {
   'address': 'Address',
   'welcome': 'Welcome',
   'receiver': 'Receiver',
+  'operateSuccessfully': 'Operate successfully!',
+  'information': 'Information',
 
   'header.basketEmpty': 'your basket is empty',
   'header.startTypingToSearch': 'Start typing to search',
@@ -267,6 +269,8 @@ const en_US = {
   'order.deliveryComment': 'Delivery comment',
   'order.paymentTime': 'Payment time',
   'order.paymentNumber': 'Payment number',
+  'order.confirmCancelOrderInfo': 'Do you really want to cancel the order?',
+  'order.refundErrorInfo': 'This order is associated with a refund in processing and cannot be reapplied.',
 
   'datePicker.previousMonth': 'previous Month',
   'datePicker.nextMonth': 'next Month',

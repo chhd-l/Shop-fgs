@@ -355,6 +355,9 @@ class Details extends React.Component {
     // );
   }
   async hanldeAddToCart ({ redirect = false }) {
+    if (this.state.loading) {
+      return false
+    }
     if (jugeLoginStatus()) {
       this.hanldeLoginAddToCart({ redirect });
     } else {

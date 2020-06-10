@@ -1,5 +1,5 @@
 import React from "react"
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { findIndex } from "lodash"
 import Loading from "@/components/Loading"
 import { updateCustomerBaseInfo } from "@/api/user"
@@ -25,30 +25,6 @@ class PersonalDataEditForm extends React.Component {
     this.setState({
       form: Object.assign({}, data)
     })
-    const {
-      intl, // Injected by `injectIntl`
-    } = this.props;
-    try {
-      // let timer = setInterval(() => {
-      //   const datePickerOptions = {
-      //     i18n: {
-      //       previousMonth: intl.messages['datePicker.previousMonth'],
-      //       nextMonth: intl.messages['datePicker.nextMonth'],
-      //       months: intl.messages['datePicker.months'],
-      //       weekdays: intl.messages['datePicker.weekdays'],
-      //       weekdaysShort: intl.messages['datePicker.weekdaysShort']
-      //     },
-      //     maxDate: new Date
-      //   }
-      //   if (window.RCDL.features.Datepickers && document.querySelector('.rc-input__date.rc-js-custom')) {
-      //     document.querySelector('.rc-input__date.rc-js-custom').setAttribute("datepicker-setup", "false")
-      //     window.RCDL.features.Datepickers.init('.rc-input__date.rc-js-custom', null, datePickerOptions)
-      //     clearInterval(timer)
-      //   }
-      // }, 1000)
-    } catch (e) {
-      console.log(e)
-    }
   }
   componentWillReceiveProps (nextProps) {
     if (nextProps.data !== this.state.form) {
@@ -347,4 +323,4 @@ class PersonalDataEditForm extends React.Component {
   }
 }
 
-export default injectIntl(PersonalDataEditForm)
+export default PersonalDataEditForm
