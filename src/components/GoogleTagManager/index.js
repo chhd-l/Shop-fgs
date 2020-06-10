@@ -39,6 +39,7 @@ class GoogleTagManager extends React.Component {
       }
     }
     let additionalEvents = Object.assign({}, event, this.props.additionalEvents)
+    let additionalEvents2 = Object.assign({}, event, this.props.ecommerceEvents)
 
     const gtm = gtmParts({
       id: this.props.gtmId || GTMID,
@@ -47,9 +48,17 @@ class GoogleTagManager extends React.Component {
       previewVariables: this.props.previewVariables || false,
     });
 
+    const gtm2 = gtmParts({
+      id: this.props.gtmId || GTMID,
+      dataLayerName: this.props.dataLayerName || 'dataLayer',
+      additionalEvents2,
+      previewVariables: this.props.previewVariables || false,
+    });
+
     return (
       <div>
         <div>{gtm.noScriptAsReact()}</div>
+        <div>{gtm2.noScriptAsReact()}</div>
         <div id={this.props.scriptId || 'react-google-tag-manager-gtm'}>
           {gtm.scriptAsReact()}
         </div>
