@@ -127,7 +127,7 @@ const en_US = {
   'cart.dogDiet': 'Choose a diet for your dog',
   'cart.catDiet': 'Choose a diet for your cat',
   'cart.deletInfo': 'Delete product?',
-  'cart.deletInfo2': ' Are you sure you want to remove this item from your cart?',
+  'cart.deletInfo2': 'Are you sure you want to remove this item from your cart?',
 
   'footer.toTheTop': 'To the top',
   'footer.aboutRoyalCanin': 'ABOUT ROYAL CANIN®',

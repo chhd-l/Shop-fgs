@@ -1,11 +1,12 @@
 
-import React from "react";
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import GoogleTagManager from '@/components/GoogleTagManager'
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { Link } from "react-router-dom";
-import { formatMoney } from "@/utils/utils"
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import Modal from '@/components/Modal'
+import { Link } from 'react-router-dom'
+import { formatMoney } from '@/utils/utils'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { find } from 'lodash'
 import {
@@ -27,7 +28,6 @@ class LoginCart extends React.Component {
       discountPrice: '',
       currentProduct: null,
       currentProductIdx: -1,
-      loading: true,
       modalShow: false,
       quantityMinLimit: 1,
       deleteLoading: false,
@@ -198,7 +198,7 @@ class LoginCart extends React.Component {
     this.setState({
       currentProduct: null,
       currentProductIdx: -1,
-      modalShow: false,
+      modalShow: false
     });
   }
   async deleteProduct () {
@@ -218,184 +218,103 @@ class LoginCart extends React.Component {
     this.props.history.push('/details/' + pitem.goodsInfoId)
   }
   getProducts (plist) {
+    const { checkoutLoading } = this.state
     const Lists = plist.map((pitem, index) => (
       <div
         className="rc-border-all rc-border-colour--interface product-info uuid-3ab64fd26c17b64c44e4ba1a7e"
         key={index}
       >
-        <div className="">
-          <div className="d-flex">
-            <div className="product-info__img w-100">
-              <img
-                className="product-image"
-                style={{ maxWidth: '100px' }}
-                src={pitem.goodsInfoImg}
-                alt={pitem.goodsName}
-                title={pitem.goodsName}
-              />
+        <div className="d-flex">
+          <div className="product-info__img w-100">
+            <img
+              className="product-image"
+              style={{ maxWidth: '100px' }}
+              src={pitem.goodsInfoImg}
+              alt={pitem.goodsName}
+              title={pitem.goodsName}
+            />
+          </div>
+          <div className="product-info__desc w-100 relative">
+            <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
+              <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(pitem)}>
+                <h4 className="rc-gamma rc-margin--none">{pitem.goodsName}</h4>
+              </a>
             </div>
-            <div className="product-info__desc w-100 relative">
-              <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
-                <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(pitem)}>
-                  <h4 className="rc-gamma rc-margin--none">{pitem.goodsName}</h4>
-                </a>
-              </div>
-              <div className="cart-product-error-msg"></div>
-              <span
-                className="remove-product-btn js-remove-product rc-icon rc-close--sm rc-iconography"
-                onClick={() => {
-                  this.setState({
-                    currentProduct: pitem,
-                    currentProductIdx: index,
-                    modalShow: true
-                  });
-                }}
-              ></span>
-              <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
-                <div
-                  className="product-quickview product-null product-wrapper product-detail"
-                  data-pid="null"
-                >
-                  <div className="detail-panel">
-                    <section className="attributes">
-                      <div data-attr="size" className="swatch">
-                        <div className="cart-and-ipay">
-                          <div
-                            className="rc-swatch __select-size"
-                            id="id-single-select-size"
-                          >
-                            <div className="rc-swatch__item selected">
-                              <span>
-                                {pitem.specText}
-                                <i></i>
-                              </span>
-                            </div>
-                            {/* {pitem.sizeList.map((sizeItem, i) => (
-                              <div
-                                key={i}
-                                className={`rc-swatch__item ${
-                                  sizeItem.selected ? "selected" : ""
-                                  }`}
-                              >
-                                <span>
-                                  {sizeItem.detailName}
-                                  <i></i>
-                                </span>
-                              </div>
-                            ))} */}
+            <div className="cart-product-error-msg"></div>
+            <span
+              className="remove-product-btn js-remove-product rc-icon rc-close--sm rc-iconography"
+              onClick={() => {
+                this.setState({
+                  currentProduct: pitem,
+                  currentProductIdx: index,
+                  modalShow: true
+                });
+              }}
+            ></span>
+            <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
+              <div
+                className="product-quickview product-null product-wrapper product-detail"
+                data-pid="null"
+              >
+                <div className="detail-panel">
+                  <section className="attributes">
+                    <div data-attr="size" className="swatch">
+                      <div className="cart-and-ipay">
+                        <div
+                          className="rc-swatch __select-size"
+                          id="id-single-select-size"
+                        >
+                          <div className="rc-swatch__item selected">
+                            <span>
+                              {pitem.specText}
+                              <i></i>
+                            </span>
                           </div>
                         </div>
                       </div>
-                    </section>
-                  </div>
-                </div>
-                <div className="rc-md-up">
-                  <div className="product-card-footer product-card-price d-flex">
-                    <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
-                      <div className="rc-quantity d-flex">
-                        <span
-                          className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                          onClick={() => this.subQuantity(pitem)}
-                        ></span>
-                        <input
-                          className="rc-quantity__input"
-                          value={pitem.buyCount}
-                          min="1"
-                          max="10"
-                          onChange={(e) => this.handleAmountChange(e, pitem)}
-                        />
-                        <span
-                          className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                          data-quantity-error-msg="Вы не можете заказать больше 10"
-                          onClick={() => this.addQuantity(pitem)}
-                        ></span>
-                      </div>
                     </div>
-                    <div className="line-item-total-price d-flex justify-content-center">
-                      <p className="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">
-                        =
+                  </section>
+                </div>
+              </div>
+              <div className="rc-md-up">
+                <div className="product-card-footer product-card-price d-flex">
+                  <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
+                    <div className="rc-quantity d-flex">
+                      <span
+                        className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                        onClick={() => this.subQuantity(pitem)}
+                      ></span>
+                      <input
+                        className="rc-quantity__input"
+                        value={pitem.buyCount}
+                        min="1"
+                        max="10"
+                        onChange={(e) => this.handleAmountChange(e, pitem)}
+                      />
+                      <span
+                        className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                        data-quantity-error-msg="Вы не можете заказать больше 10"
+                        onClick={() => this.addQuantity(pitem)}
+                      ></span>
+                    </div>
+                  </div>
+                  <div className="line-item-total-price d-flex justify-content-center">
+                    <p className="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">
+                      =
                       </p>
-                      <div className="item-total-3ab64fd26c17b64c44e4ba1a7e price">
-                        <div
-                          className="strike-through non-adjusted-price">
-                          null
-                        </div>
-                        <b className="pricing line-item-total-price-amount item-total-3ab64fd26c17b64c44e4ba1a7e light">
-                          {formatMoney(pitem.buyCount * pitem.salePrice)}
-                        </b>
-                      </div>
+                    <div className="price">
+                      <b className="pricing line-item-total-price-amount light" style={{ lineHeight: checkoutLoading ? 1.2 : '' }}>
+                        {checkoutLoading ? '--' : formatMoney(pitem.buyCount * pitem.salePrice)}
+                      </b>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="availability  product-availability">
-                <div className="align-left flex rc-content-v-right rc-md-up">
-                  <div className="stock__wrapper">
-                    <div className="stock">
-                      <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
-                        <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
-                      </label>
-                      <span className="availability-msg">
-                        <div
-                          className={[pitem.buyCount <= pitem.stock ? '' : 'out-stock'].join(' ')}>
-                          {pitem.buyCount <= pitem.stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
-                        </div>
-                      </span>
-                    </div>
-                    <div className="promotion stock" style={{ display: this.state.isPromote ? 'inline-block' : 'none' }}>
-                      <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
-                        <span><FormattedMessage id="promotion" /> :</span>
-                      </label>
-                      <span className="availability-msg">
-                        {/* {console.log(find(pitem.sizeList, s => s.selected).marketingLabels, 'find(pitem.sizeList, s => s.selected)')} */}
-                        <div>
-                          {/* <FormattedMessage id="25% OFF" /> */}
-                          {/* {find(pitem.sizeList, s => s.selected).marketingLabels[0].marketingDesc} */}
-                          25% OFF
-                        </div>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="rc-margin-bottom--sm rc-md-down">
-            <div className="product-card-footer product-card-price d-flex">
-              <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
-                <div className="rc-quantity d-flex">
-                  <span
-                    className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                    data-quantity-error-msg="Количество не может быть меньше 1"
-                    onClick={() => this.subQuantity(pitem)}></span>
-                  <input
-                    className="rc-quantity__input"
-                    value={pitem.buyCount}
-                    onChange={(e) => this.handleAmountChange(e, pitem)}
-                    min="1"
-                    max="10" />
-                  <span
-                    className=" rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                    data-quantity-error-msg="Вы не можете заказать больше 10"
-                    onClick={() => this.addQuantity(pitem)}></span>
-                </div>
-              </div>
-              <div className="line-item-total-price d-flex justify-content-center">
-                <p className="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">=</p>
-                <div className="item-total-f6a6279ea1978964b8bf0e3524 price">
-                  <div className="strike-through non-adjusted-price">
-                    null
-                  </div>
-                  <b className="pricing line-item-total-price-amount item-total-f6a6279ea1978964b8bf0e3524 light">
-                    {formatMoney(pitem.buyCount * pitem.salePrice)}
-                  </b>
                 </div>
               </div>
             </div>
             <div className="availability  product-availability">
-              <div className="align-left flex rc-content-v-right">
+              <div className="align-left flex rc-content-v-right rc-md-up">
                 <div className="stock__wrapper">
-                  <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
+                  <div className="stock">
                     <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
                       <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
                     </label>
@@ -406,19 +325,72 @@ class LoginCart extends React.Component {
                       </div>
                     </span>
                   </div>
-                  <div className="promotion stock" style={{ marginTop: '7px', display: this.state.isPromote ? 'inline-block' : 'none' }}>
+                  <div className="promotion stock" style={{ display: this.state.isPromote ? 'inline-block' : 'none' }}>
                     <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
-                      <span className=""><FormattedMessage id="promotion" /> :</span>
+                      <span><FormattedMessage id="promotion" /> :</span>
                     </label>
                     <span className="availability-msg">
-                      {/* {console.log(find(pitem.sizeList, s => s.selected).marketingLabels, 'find(pitem.sizeList, s => s.selected)')} */}
-                      <div>
-                        {/* <FormattedMessage id="25% OFF" /> */}
-                        {/* {find(pitem.sizeList, s => s.selected).marketingLabels[0].marketingDesc} */}
-                          25% OFF
-                        </div>
+                      25% OFF
                     </span>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="rc-margin-bottom--sm rc-md-down">
+          <div className="product-card-footer product-card-price d-flex">
+            <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
+              <div className="rc-quantity d-flex">
+                <span
+                  className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                  data-quantity-error-msg="Количество не может быть меньше 1"
+                  onClick={() => this.subQuantity(pitem)}></span>
+                <input
+                  className="rc-quantity__input"
+                  value={pitem.buyCount}
+                  onChange={(e) => this.handleAmountChange(e, pitem)}
+                  min="1"
+                  max="10" />
+                <span
+                  className=" rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                  data-quantity-error-msg="Вы не можете заказать больше 10"
+                  onClick={() => this.addQuantity(pitem)}></span>
+              </div>
+            </div>
+            <div className="line-item-total-price d-flex justify-content-center">
+              <p className="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">=</p>
+              <div className="item-total-f6a6279ea1978964b8bf0e3524 price">
+                <div className="strike-through non-adjusted-price">
+                  null
+                  </div>
+                <b className="pricing line-item-total-price-amount item-total-f6a6279ea1978964b8bf0e3524 light">
+                  {formatMoney(pitem.buyCount * pitem.salePrice)}
+                </b>
+              </div>
+            </div>
+          </div>
+          <div className="availability  product-availability">
+            <div className="align-left flex rc-content-v-right">
+              <div className="stock__wrapper">
+                <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
+                  <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
+                    <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
+                  </label>
+                  <span className="availability-msg">
+                    <div
+                      className={[pitem.buyCount <= pitem.stock ? '' : 'out-stock'].join(' ')}>
+                      {pitem.buyCount <= pitem.stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
+                    </div>
+                  </span>
+                </div>
+                <div className="promotion stock" style={{ marginTop: '7px', display: this.state.isPromote ? 'inline-block' : 'none' }}>
+                  <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
+                    <span className=""><FormattedMessage id="promotion" /> :</span>
+                  </label>
+                  <span className="availability-msg">
+                    25% OFF
+                  </span>
                 </div>
               </div>
             </div>
@@ -429,12 +401,12 @@ class LoginCart extends React.Component {
     return Lists;
   }
   render () {
-    const { productList } = this.state;
+    const { productList, checkoutLoading } = this.state;
     const List = this.getProducts(this.state.productList);
     const event = {
-      "page": {
-        "type": "Cart",
-        "theme": ""
+      page: {
+        type: 'Cart',
+        theme: ''
       }
     }
     return (
@@ -482,15 +454,15 @@ class LoginCart extends React.Component {
                     <div className="group-order rc-border-all rc-border-colour--interface cart__total__content">
                       <div className="row">
                         <div className="col-12 total-items medium">
-                          <span>{this.state.totalNum}</span> {this.state.totalNum > 1 ? 'items' : 'item'} in the basket
-                    </div>
+                          <span>{checkoutLoading ? '--' : this.state.totalNum}</span> {this.state.totalNum > 1 ? 'items' : 'item'} in the basket
+                        </div>
                       </div>
                       <div className="row">
                         <div className="col-8">
                           <FormattedMessage id="total" />
                         </div>
                         <div className="col-4 no-padding-left">
-                          <p className="text-right sub-total">{formatMoney(this.state.totalPrice)}</p>
+                          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.state.totalPrice)}</p>
                         </div>
                       </div>
                       <div className="row" style={{ display: this.state.isPromote ? 'flex' : 'none' }}>
@@ -500,7 +472,7 @@ class LoginCart extends React.Component {
                           </p>
                         </div>
                         <div className="col-8">
-                          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.state.discountPrice)}</p>
+                          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {checkoutLoading ? '--' : formatMoney(this.state.discountPrice)}</p>
                         </div>
                       </div>
                       <div className="row">
@@ -521,7 +493,7 @@ class LoginCart extends React.Component {
                             </strong>
                           </div>
                           <div className="col-5">
-                            <p className="text-right grand-total-sum medium">{formatMoney(this.state.tradePrice)}</p>
+                            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.state.tradePrice)}</p>
                           </div>
                         </div>
                         <div className="row checkout-proccess">
@@ -579,7 +551,8 @@ class LoginCart extends React.Component {
                                 className="w-100"
                                 style={{ padding: '3rem 0 4rem' }}
                                 src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwf417a5f2/RUSSIAN_BLUE_ADULT___VHN_DERMATOLOGY_EMBLEMATIC_High_Res.___Print.png?sw=550&amp;sh=300&amp;sm=fit&amp;cx=0&amp;cy=268&amp;cw=2642&amp;ch=1441&amp;sfrm=png" alt="Cat" />
-                              <br /><h4 className="card__title red">
+                              <br />
+                              <h4 className="card__title red">
                                 <FormattedMessage id="cart.catDiet" />
                               </h4>
                             </Link>
@@ -593,66 +566,14 @@ class LoginCart extends React.Component {
             }
           </div>
         </main>
-        <div
-          className={`modal-backdrop fade ${
-            this.state.modalShow ? "show" : ""
-            }`}
-          style={{ display: this.state.modalShow ? "block" : "none", zIndex: 59 }}
-        ></div>
-        <div
-          className={`modal fade ${this.state.modalShow ? "show" : ""}`}
-          id="removeProductModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="removeProductLineItemModal"
-          style={{ display: this.state.modalShow ? "block" : "none", overflow: 'hidden' }}
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header delete-confirmation-header">
-                <h4 className="modal-title" id="removeProductLineItemModal">
-                  <FormattedMessage id="cart.deletInfo" />
-                </h4>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                  onClick={() => this.closeModal()}
-                >
-                  <span aria-hidden="true">
-                    ×
-                  </span>
-                </button>
-              </div>
-              <div className="modal-body delete-confirmation-body">
-                <FormattedMessage id="cart.deletInfo2" />
-                <p className="product-to-remove">
-                  {this.state.currentProduct ? this.state.currentProduct.name : ""}
-                </p>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-outline-primary"
-                  data-dismiss="modal"
-                  onClick={() => this.closeModal()}
-                >
-                  <FormattedMessage id="cancel" />
-                </button>
-                <button
-                  type="button"
-                  className={`btn btn-primary cart-delete-confirmation-btn ${this.state.deleteLoading ? 'ui-btn-loading' : ''}`}
-                  data-dismiss="modal"
-                  onClick={() => this.deleteProduct()}
-                >
-                  <FormattedMessage id="yes" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+
+        <Modal
+          visible={this.state.modalShow}
+          confirmLoading={this.state.deleteLoading}
+          modalTitle="Delete product?"
+          modalText="Are you sure you want to remove this item from your cart?"
+          close={() => { this.setState({ modalShow: false }) }}
+          hanldeClickConfirm={() => this.deleteProduct()} />
         <Footer />
       </div>
     );

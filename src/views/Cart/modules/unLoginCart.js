@@ -176,15 +176,7 @@ class UnLoginCart extends React.Component {
     const { history } = this.props
     history.goBack()
   }
-  componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
-  }
   componentDidMount () {
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
-      window.location.reload();
-      return false
-    }
     let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
     this.setState({
       productList: productList || []

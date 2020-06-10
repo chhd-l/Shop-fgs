@@ -1,4 +1,5 @@
 import React from 'react'
+import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
 import { formatMoney } from '@/utils/utils'
@@ -116,7 +117,7 @@ class LoginCart extends React.Component {
     })
   }
   render () {
-    const { cartData, totalNum } = this.state
+    const { cartData, totalNum, loading } = this.state
     return (
       <span
         className="minicart inlineblock"
@@ -124,11 +125,11 @@ class LoginCart extends React.Component {
         onMouseOver={this.handleMouseOver}
         onMouseOut={this.handleMouseOut}>
         <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn" title="Basket">
-          <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
-          <span className="minicart-quantity">{this.state.loading ? '--' : totalNum}</span>
+          <i className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
+          <span className="minicart-quantity">{loading ? '--' : totalNum}</span>
         </Link>
         {
-          !totalNum
+          !totalNum && !loading
             ?
             <div className={['popover', 'popover-bottom', this.state.showCart ? 'show' : ''].join(' ')}>
               <div className="container cart">
@@ -153,7 +154,15 @@ class LoginCart extends React.Component {
                     </div>
                   </div>
                   <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
-                    <span className="rc-body rc-margin--none"><FormattedMessage id="total" /> <b>{formatMoney(this.totalPrice)}</b></span>
+                    <span className="rc-body rc-margin--none">
+                      {
+                        loading
+                          ? <b>--</b>
+                          : <>
+                            <FormattedMessage id="total" /> <b>{formatMoney(this.totalPrice)}</b>
+                          </>
+                      }
+                    </span>
                     <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true"><FormattedMessage id="chang" /></Link>
                   </div>
                   <div style={{ margin: '0 2%', display: this.state.errMsg ? 'block' : 'none' }}>
@@ -187,46 +196,50 @@ class LoginCart extends React.Component {
                   <div className="minicart-error cart-error">
                   </div>
                   <div className="product-summary limit">
-                    {cartData.map((item, idx) => (
-                      <div className="minicart__product" key={item.goodsInfoId}>
-                        <div>
-                          <div className="product-summary__products__item">
-                            <div className="product-line-item">
-                              <div className="product-line-item-details d-flex flex-row">
-                                <div className="item-image">
-                                  <img className="product-image"
-                                    src={item.goodsInfoImg}
-                                    alt={item.goodsName}
-                                    title={item.goodsName} />
+                    {
+                      loading
+                        ? <div className="pt-2 pb-2"><Skeleton color="#f5f5f5" width="100%" count={2} /></div>
+                        : cartData.map((item, idx) => (
+                          <div className="minicart__product" key={item.goodsInfoId}>
+                            <div>
+                              <div className="product-summary__products__item">
+                                <div className="product-line-item">
+                                  <div className="product-line-item-details d-flex flex-row">
+                                    <div className="item-image">
+                                      <img className="product-image"
+                                        src={item.goodsInfoImg}
+                                        alt={item.goodsName}
+                                        title={item.goodsName} />
+                                    </div>
+                                    <div className="wrap-item-title">
+                                      <div className="item-title">
+                                        <div className="line-item-name capitalize">
+                                          <span className="light">{item.goodsName}</span>
+                                        </div>
+                                      </div>
+                                      <div className="line-item-total-price justify-content-start pull-left">
+                                        <div className="item-attributes">
+                                          <p className="line-item-attributes">{item.specText} - {item.buyCount > 1 ? `${item.buyCount} products` : `${item.buyCount} product`}</p>
+                                        </div>
+                                      </div>
+                                      <div className="line-item-total-price justify-content-end pull-right">
+                                        <div className="item-total-07984de212e393df75a36856b6 price relative">
+                                          <div className="strike-through non-adjusted-price">null</div>
+                                          <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">{formatMoney(item.salePrice * item.buyCount)}</b>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="item-options">
+                                  </div>
+                                  <div className="line-item-promo item-07984de212e393df75a36856b6">
+                                  </div>
                                 </div>
-                                <div className="wrap-item-title">
-                                  <div className="item-title">
-                                    <div className="line-item-name capitalize">
-                                      <span className="light">{item.goodsName}</span>
-                                    </div>
-                                  </div>
-                                  <div className="line-item-total-price justify-content-start pull-left">
-                                    <div className="item-attributes">
-                                      <p className="line-item-attributes">{item.specText} - {item.buyCount > 1 ? `${item.buyCount} products` : `${item.buyCount} product`}</p>
-                                    </div>
-                                  </div>
-                                  <div className="line-item-total-price justify-content-end pull-right">
-                                    <div className="item-total-07984de212e393df75a36856b6 price relative">
-                                      <div className="strike-through non-adjusted-price">null</div>
-                                      <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">{formatMoney(item.salePrice * item.buyCount)}</b>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="item-options">
-                              </div>
-                              <div className="line-item-promo item-07984de212e393df75a36856b6">
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    ))}
+                        ))
+                    }
                   </div>
                 </div>
               </div>

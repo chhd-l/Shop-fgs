@@ -27,3 +27,12 @@
 .click-hover:hover{
   color: #e2001a;
 }
+
+@media (max-width: 639.98px) {
+  .minicart .minicart-quantity {
+    right: 4px;
+  }
+  .less-width-xs {
+    min-width: 2.54rem!important;
+  }
+}

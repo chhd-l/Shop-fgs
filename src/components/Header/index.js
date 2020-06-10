@@ -361,7 +361,7 @@ class Header extends React.Component {
                   <li className="rc-list__item">
                     <div className="inlineblock">
                       <button
-                        className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-search--xs', 'rc-iconography', this.state.showSearchInput ? 'rc-hidden' : ''].join(' ')}
+                        className={['rc-btn', 'less-width-xs', 'rc-btn--icon', 'rc-icon', 'rc-search--xs', 'rc-iconography', this.state.showSearchInput ? 'rc-hidden' : ''].join(' ')}
                         aria-label="Search"
                         onClick={this.hanldeSearchClick}>
                         <span className="rc-screen-reader-text">
@@ -409,7 +409,7 @@ class Header extends React.Component {
                     <span className="minicart inlineblock" style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }}
                       onMouseOver={this.handleCenterMouseOver} onMouseOut={this.handleCenterMouseOut}>
                       <Link to="/account" className="minicart-link" data-loc="miniCartOrderBtn" title="Presonal">
-                        <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-user--xs rc-iconography"></i>
+                        <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
                       </Link>
                       {
                         !Store.isLogin

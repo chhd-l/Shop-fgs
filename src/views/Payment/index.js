@@ -985,7 +985,7 @@ class Payment extends React.Component {
                         !this.state.isToPayNow && <a
                           href="#"
                           onClick={(e) => this.goDelivery(e)}
-                          className=" rc-styled-link rc-margin-top--xs pull-right">
+                          className=" rc-styled-link rc-margin-top--xs pull-right pt-0">
                           <FormattedMessage id="edit" />
                         </a>
                       }
