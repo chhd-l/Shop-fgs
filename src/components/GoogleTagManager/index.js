@@ -4,14 +4,6 @@ import { GTMID, GTM_SITE_ID } from "@/utils/constant"
 
 class GoogleTagManager extends React.Component {
   componentDidMount () {
-    const dataLayerName = this.props.dataLayerName || 'dataLayer';
-    const scriptId = this.props.scriptId || 'react-google-tag-manager-gtm';
-
-    if (!window[dataLayerName]) {
-      const gtmScriptNode = document.getElementById(scriptId);
-
-      eval(gtmScriptNode.textContent);
-    }
   }
 
   render () {
@@ -22,7 +14,7 @@ class GoogleTagManager extends React.Component {
       },
       site: {
         id: GTM_SITE_ID,
-        // todo 区分uat和prd？？
+        // todo
         // environment: process.env.NODE_ENV === 'development' ? 'uat' : 'prd',
         environment: 'uat',
         country: 'MX'
@@ -39,32 +31,32 @@ class GoogleTagManager extends React.Component {
       }
     }
     let additionalEvents = Object.assign({}, event, this.props.additionalEvents)
-    let additionalEvents2 = Object.assign({}, event, this.props.ecommerceEvents)
-
-    const gtm = gtmParts({
-      id: this.props.gtmId || GTMID,
-      dataLayerName: this.props.dataLayerName || 'dataLayer',
-      additionalEvents,
-      previewVariables: this.props.previewVariables || false,
-    });
-
-    const gtm2 = gtmParts({
-      id: this.props.gtmId || GTMID,
-      dataLayerName: this.props.dataLayerName || 'dataLayer',
-      additionalEvents2,
-      previewVariables: this.props.previewVariables || false,
-    });
-
     return (
-      <div>
-        <div>{gtm.noScriptAsReact()}</div>
-        <div id={this.props.scriptId || 'react-google-tag-manager-gtm'}>
-          {gtm.scriptAsReact()}
-        </div>
-        <div id={this.props.scriptId || 'react-google-tag-manager-gtm2'}>
-          {gtm2.scriptAsReact()}
-        </div>
-      </div>
+      <React.Fragment>
+        <script dangerouslySetInnerHTML={{
+          __html: `window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push(${JSON.stringify(additionalEvents)});`
+        }}>
+        </script>
+        {
+          this.props.ecommerceEvents && <script dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push(${JSON.stringify(this.props.ecommerceEvents)});`
+          }}>
+          </script>
+        }
+
+        <script className="optanon-category-2" dangerouslySetInnerHTML={{
+          __html: `(function(w,d,s,l,i){w[l] = w[l] || [];
+            w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js', });
+            var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+            j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl
+            ;
+            f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','${GTMID}');`
+        }}>
+        </script>
+      </React.Fragment>
     );
   }
 }
