@@ -149,12 +149,13 @@ class Prescription extends React.Component {
       clinicArr = clinicArr.filter(item => {
         return !(isNaN(item.latitude) || isNaN(item.longitude))
       })
+      
       //过滤掉 经度-180-180 ，纬度 -90-90
       clinicArr = clinicArr.filter(item => {
-        return (item.latitude >= -90
-          && item.latitude <= 90
-          && item.longitude >= -180
-          && item.longitude <= 180)
+        return (+item.latitude >= -90
+          && +item.latitude <= 90
+          && +item.longitude >= -180
+          && +item.longitude <= 180)
       })
 
 
