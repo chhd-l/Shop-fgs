@@ -13,6 +13,7 @@ import edit from "@/assets/images/edit.svg"
 import { getPetList, addPet, petsById, delPets, editPets } from '@/api/pet'
 import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
+import { MINIMUM_AMOUNT, STOREID } from "@/utils/constant"
 
 const selectedPet = {
   border: "3px solid #ec001a",
@@ -265,12 +266,12 @@ export default class PetForm extends React.Component {
       "petsSizeValueName": this.state.weight,
       "petsType": this.state.isCat ? 'cat' : 'dog',
       "sterilized": this.state.isSterilized ? "0" : "1",
-      "storeId": 0
+      "storeId": STOREID
     }
     let param = {
       "pets": pets,
       "petsPropRelations": petsPropRelations,
-      "storeId": 10086,
+      "storeId": STOREID,
       "userId": consumerAccount
     }
     if (pets.petsId) {

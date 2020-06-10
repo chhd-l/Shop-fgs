@@ -10,6 +10,7 @@ import GoogleMap from '@/components/GoogleMap'
 import { FormattedMessage } from 'react-intl'
 import { getPrescription, getAllPrescription } from '@/api/clinic'
 import meImg from "@/assets/images/map-default-marker.png"
+import { STOREID } from "@/utils/constant";
 
 const AnyReactComponent = ({ obj, show, sonMess }) => {
   if (obj.type !== 'customer') {
@@ -60,9 +61,14 @@ class Prescription extends React.Component {
       clinicArr: [],
       currentClinicArr: [],
       params: {
+        distance: 10000,
+        enabled: true,
         input: "",
         pageNum: 0,
         pageSize: 3,
+        latitude: 0,
+        longitude: 0,
+        storeId: STOREID,
       },
       currentSelectClinic: {
         lat: 0,
@@ -72,14 +78,16 @@ class Prescription extends React.Component {
     }
     this.headerRef = React.createRef();
     this.inputRef = React.createRef();
-    this.handleInit()
-    this.getPrescription(this.state.params)
-    this.getAllPrescription()
+    
   }
   componentDidMount () {
+    this.handleInit()
+    
+    this.getAllPrescription()
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
+      
       return false
     }
   }
@@ -93,9 +101,13 @@ class Prescription extends React.Component {
   }
 
   handleInit = (e) => {
+    const {params}=this.state
     //获取当前地理位置信息
     navigator.geolocation.getCurrentPosition(position => {
       this.handldKey(this.state.mapKey)
+      params.latitude = position.coords.latitude.toString()
+      params.longitude = position.coords.longitude.toString()
+      this.getPrescription(this.state.params)
       this.setState({
         center: {
           lat: position.coords.latitude,
@@ -106,7 +118,9 @@ class Prescription extends React.Component {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         },
+        params:params
       })
+      
     })
   }
 
@@ -126,12 +140,11 @@ class Prescription extends React.Component {
   }
   async getAllPrescription () {
     let params = {
-      "filterField": "string",
-      "filteringStr": "string"
+      "storeId": STOREID
     }
     const res = await getAllPrescription(params)
     if (res.code === 'K-000000') {
-      let clinicArr = res.context
+      let clinicArr = res.context.clinicsVo
       //过滤掉经纬度非数字值
       clinicArr = clinicArr.filter(item => {
         return !(isNaN(item.latitude) || isNaN(item.longitude))
