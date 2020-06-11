@@ -559,7 +559,7 @@ class Details extends React.Component {
     const event = {
       page: {
         type: 'Product',
-        theme: 'Cat or Dog', // todo goodsCateName???
+        theme: '' // todo goodsCateName???
       },
     };
     return (
