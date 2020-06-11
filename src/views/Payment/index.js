@@ -152,7 +152,7 @@ class Payment extends React.Component {
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
     sessionStorage.removeItem('rc-tid')
-    if (!Store.isLogin) {
+    if (!this.state.isLogin) {
       sessionStorage.removeItem('rc-token')
     }
   }
@@ -235,81 +235,81 @@ class Payment extends React.Component {
           errorShow: true,
           errorMsg: this.state.isLogin
             ? "Please select a delivery address"
-            : "Please complete the required items",
+            : "Please complete the required items"
         });
         window.scrollTo({
           top: 0,
-          behavior: "smooth",
-        });
+          behavior: 'smooth'
+        })
         setTimeout(() => {
           this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return;
+            errorShow: false
+          })
+        }, 5000)
+        return
       }
       if (k === "postCode" && !/\d{5}/.test(param.deliveryAddress[k])) {
         this.setState({
           errorShow: true,
-          errorMsg: "Please enter the correct post code",
+          errorMsg: "Please enter the correct post code"
         });
         window.scrollTo({
           top: 0,
-          behavior: "smooth",
+          behavior: 'smooth'
         });
         setTimeout(() => {
           this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return;
+            errorShow: false
+          })
+        }, 5000)
+        return
       }
     }
     for (let k in param.billingAddress) {
       if (param.billingAddress[k] === "" && k !== "address2" && k !== "rfc") {
-        console.log("billing", k);
+        console.log("billing", k)
         this.setState({
           errorShow: true,
-          errorMsg: "Please complete the required items",
+          errorMsg: "Please complete the required items"
         });
         window.scrollTo({
           top: 0,
-          behavior: "smooth",
+          behavior: 'smooth'
         });
         setTimeout(() => {
           this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return;
+            errorShow: false
+          })
+        }, 5000)
+        return
       }
       if (k === "postCode" && !/\d{5}/.test(param.billingAddress[k])) {
         this.setState({
           errorShow: true,
-          errorMsg: "Please enter the correct post code",
+          errorMsg: "Please enter the correct post code"
         });
         window.scrollTo({
           top: 0,
-          behavior: "smooth",
+          behavior: 'smooth'
         });
         setTimeout(() => {
           this.setState({
-            errorShow: false,
-          });
-        }, 5000);
-        return;
+            errorShow: false
+          })
+        }, 5000)
+        return
       }
     }
     if (this.state.isLogin) {
-      localStorage.setItem("loginDeliveryInfo", JSON.stringify(param));
+      localStorage.setItem("loginDeliveryInfo", JSON.stringify(param))
     } else {
-      localStorage.setItem("deliveryInfo", JSON.stringify(param));
+      localStorage.setItem("deliveryInfo", JSON.stringify(param))
     }
     this.setState({
-      creditCardInfo: creditCardInfo,
+      creditCardInfo: creditCardInfo
     });
-    const { history } = this.props;
-    history.push("/payment/payment");
+    const { history } = this.props
+    history.push("/payment/payment")
   }
   initCardLoginInfo () {
     this.setState({
@@ -326,7 +326,7 @@ class Payment extends React.Component {
     })
   }
   async goConfirmation () {
-    if (Store.isLogin) {
+    if (this.state.isLogin) {
       let selectedCard = this.state.selectedCardInfo
 
       let res = await axios.post(
@@ -361,20 +361,20 @@ class Payment extends React.Component {
       commentOnDelivery,
       billingChecked,
       creditCardInfo,
-      payMethod,
+      payMethod
     } = this.state;
     const cartData = localStorage.getItem("rc-cart-data")
       ? JSON.parse(localStorage.getItem("rc-cart-data"))
       : [];
     if (!payMethod) {
-      this.setState({ showPayMethodError: true });
+      this.setState({ showPayMethodError: true })
     }
     if (isEighteen && isReadPrivacyPolicy) {
       let payosdata = this.state.payosdata;
       if (!payosdata.token) {
         this.setState({
           errorShow: true,
-          errorMsg: "Please click the confirm card button",
+          errorMsg: "Please click the confirm card button"
         });
         window.scrollTo({
           top: 0,
@@ -388,7 +388,7 @@ class Payment extends React.Component {
         return;
       }
       this.setState({
-        loading: true,
+        loading: true
       });
       let param = Object.assign(
         {},
@@ -412,10 +412,10 @@ class Payment extends React.Component {
           return {
             verifyStock: false,
             buyCount: ele.quantity,
-            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
-          };
-        }),
-      };
+            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
+          }
+        })
+      }
       if (this.state.isLogin) {
         const loginCartData = localStorage.getItem("rc-cart-data-login")
           ? JSON.parse(localStorage.getItem("rc-cart-data-login"))
@@ -434,13 +434,13 @@ class Payment extends React.Component {
           marketingId: "",
           marketingLevelId: "",
           skuIds: [],
-          giftSkuIds: [],
+          giftSkuIds: []
         },
       ];
-      let goodsMarketingMapStr = sessionStorage.getItem("goodsMarketingMap");
-      let goodsMarketingMap = JSON.parse(goodsMarketingMapStr);
+      let goodsMarketingMapStr = sessionStorage.getItem("goodsMarketingMap")
+      let goodsMarketingMap = JSON.parse(goodsMarketingMapStr)
       if (goodsMarketingMapStr === "{}") {
-        tradeMarketingList = [];
+        tradeMarketingList = []
       } else {
         for (let k in goodsMarketingMap) {
           tradeMarketingList[0].skuIds.push(k);
@@ -1179,7 +1179,7 @@ class Payment extends React.Component {
                                 className="credit-card-content"
                                 id="credit-card-content"
                                 style={{
-                                  display: !this.state.isCompleteCredit && !Store.isLogin
+                                  display: !this.state.isCompleteCredit && !this.state.isLogin
                                     ? "block"
                                     : "none",
                                 }}
@@ -1339,7 +1339,7 @@ class Payment extends React.Component {
                               <div
                                 className="creditCompleteInfoBox"
                                 style={{
-                                  display: !this.state.isCompleteCredit || Store.isLogin
+                                  display: !this.state.isCompleteCredit || this.state.isLogin
                                     ? "none"
                                     : "block",
                                 }}
