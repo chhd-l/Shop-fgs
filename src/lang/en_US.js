@@ -157,6 +157,7 @@ const en_US = {
   'footer.copyrightInfo': 'Copyright © Mars 2020®, Trademark of Mars Incorporated and its affiliates',
 
   'clinic.clinic': 'clinic',
+  'clinic.clinic2': 'Clinic',
   'clinic.confirm': 'Confirm',
   'clinic.cancel': 'Cancel',
   'clinic.selectVetClinics': 'Select Vet Clinics',
