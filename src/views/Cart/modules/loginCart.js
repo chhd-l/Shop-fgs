@@ -6,7 +6,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Modal from '@/components/Modal'
 import { Link } from 'react-router-dom'
-import { formatMoney } from '@/utils/utils'
+import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { find } from 'lodash'
 import {
@@ -43,13 +43,22 @@ class LoginCart extends React.Component {
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
-  componentDidMount () {
+  async componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
       return false
     }
-    this.updateCartCache()
+
+    // 合并购物车(登录后合并非登录态的购物车数据)
+    const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
+    if (unloginCartData.length) {
+      await mergeUnloginCartData()
+      this.updateCartCache()
+      this.headerRef.current.updateCartCache()
+    } else {
+      this.updateCartCache()
+    }
   }
   async updateCartCache () {
     // 获取购物车列表

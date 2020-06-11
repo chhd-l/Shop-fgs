@@ -26,7 +26,7 @@ class Login extends React.Component {
       return false
     }
   }
-  loginFormChange(e) {
+  loginFormChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -35,7 +35,7 @@ class Login extends React.Component {
     // this.inputBlur(e);
     this.setState({ loginForm: loginForm });
   }
-  async loginClick() {
+  async loginClick () {
     const { history } = this.props;
     let res = await login(this.state.loginForm);
     console.log(this.state.loginForm, res, "haha");
@@ -45,10 +45,10 @@ class Login extends React.Component {
       let userinfo = res.context.customerDetail
       userinfo.customerAccount = res.context.accountName
       sessionStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-      history.push('/account')
+      history.push(this.props.location.state && this.props.location.state.redirectUrl || '/account')
     }
   }
-  render() {
+  render () {
     return (
       <div>
         <div id="embedded-container" class="miaa miaa-wrapper miaa-embedded">
@@ -84,7 +84,7 @@ class Login extends React.Component {
                     <a
                       className={`col d-flex justify-content-center align-items-center miaa-toggle-signin ${
                         this.state.tabIndex == "0" ? "active" : ""
-                      }`}
+                        }`}
                       onClick={() => {
                         this.setState({ tabIndex: "0" });
                       }}
@@ -100,7 +100,7 @@ class Login extends React.Component {
                     <a
                       className={`col d-flex justify-content-center align-items-center miaa-toggle-signin ${
                         this.state.tabIndex == "1" ? "active" : ""
-                      }`}
+                        }`}
                       onClick={() => {
                         this.setState({ tabIndex: "1" });
                       }}

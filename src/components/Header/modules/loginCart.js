@@ -2,12 +2,11 @@ import React from 'react'
 import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
-import { formatMoney } from '@/utils/utils'
+import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
 import { find } from 'lodash'
 import {
   sitePurchases,
-  siteMiniPurchases,
-  mergePurchase
+  siteMiniPurchases
 } from '@/api/cart'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
 
@@ -27,21 +26,13 @@ class LoginCart extends React.Component {
     this.handleCheckout = this.handleCheckout.bind(this)
   }
   async componentDidMount () {
-    // 合并购物车(登录后合并非登录态的购物车数据)
     const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
-    if (unloginCartData.length) {
-      await mergePurchase({
-        purchaseMergeDTOList: unloginCartData.map(ele => {
-          return {
-            goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId,
-            goodsNum: ele.quantity,
-            invalid: false
-          }
-        })
-      })
-      localStorage.removeItem('rc-cart-data')
+    if (unloginCartData.length && this.props.history.location.pathname !== '/cart') {
+      await mergeUnloginCartData()
+      this.updateCartCache()
+    } else {
+      this.updateCartCache()
     }
-    this.updateCartCache()
   }
   async updateCartCache () {
     // 获取购物车列表

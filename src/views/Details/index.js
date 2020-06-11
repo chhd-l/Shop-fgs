@@ -65,7 +65,6 @@ class Details extends React.Component {
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
-    this.hanldeImgMouseEnter = this.hanldeImgMouseEnter.bind(this);
     this.headerRef = React.createRef();
   }
   // componentWillMount() {
@@ -354,14 +353,14 @@ class Details extends React.Component {
     //   () => this.updateInstockStatus()
     // );
   }
-  async hanldeAddToCart ({ redirect = false }) {
+  async hanldeAddToCart ({ redirect = false, needLogin = false }) {
     if (this.state.loading) {
       return false
     }
     if (jugeLoginStatus()) {
       this.hanldeLoginAddToCart({ redirect });
     } else {
-      this.hanldeUnloginAddToCart({ redirect });
+      this.hanldeUnloginAddToCart({ redirect, needLogin });
     }
   }
   async hanldeLoginAddToCart ({ redirect }) {
@@ -426,7 +425,8 @@ class Details extends React.Component {
       console.log(err);
     }
   }
-  async hanldeUnloginAddToCart ({ redirect = false }) {
+  async hanldeUnloginAddToCart ({ redirect = false, needLogin = false }) {
+    const { history } = this.props
     const { currentUnitPrice, quantity, cartData, instockStatus } = this.state;
     const { goodsId, sizeList } = this.state.details;
     const currentSelectedSize = find(sizeList, (s) => s.selected);
@@ -509,34 +509,22 @@ class Details extends React.Component {
     this.headerRef.current.updateCartCache();
     if (redirect) {
       await this.hanldePurchasesForCheckout(cartDataCopy);
-      setTimeout(() => {
-        if (this.state.tradePrice < MINIMUM_AMOUNT) {
-          this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />,
-          });
-        } else {
-          this.props.history.push('/prescription')
-        }
-      });
+      if (this.state.tradePrice < MINIMUM_AMOUNT) {
+        this.setState({
+          checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />,
+        });
+        return false
+      }
+      if (needLogin) {
+        history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
+      } else {
+        history.push('/prescription')
+      }
     }
     this.headerRef.current.handleCartMouseOver();
     setTimeout(() => {
       this.headerRef.current.handleCartMouseOut();
     }, 1000);
-  }
-  hanldeImgMouseEnter () {
-    if (document.querySelector("#J-details-img")) {
-      this.setState({
-        imageMagnifierCfg: Object.assign(this.state.imageMagnifierCfg, {
-          show: true,
-          config: {
-            width: document.querySelector("#J-details-img").offsetWidth,
-            height: document.querySelector("#J-details-img").offsetHeight,
-            scale: 2,
-          },
-        }),
-      });
-    }
   }
   changeTab (e, i) {
     this.setState({ activeTabIdx: i })
@@ -615,9 +603,6 @@ class Details extends React.Component {
                               >
                                 <div
                                   className="d-flex justify-content-center ui-margin-top-1-md-down"
-                                  onMouseEnter={() =>
-                                    this.hanldeImgMouseEnter(details.goodsImg)
-                                  }
                                 >
                                   {
                                     // this.state.imageMagnifierCfg.show ?
@@ -835,19 +820,7 @@ class Details extends React.Component {
                                       <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                         <div className="cart-and-ipay">
                                           <button
-                                            className={[
-                                              "btn-add-to-cart",
-                                              "add-to-cart",
-                                              "rc-btn",
-                                              "rc-btn--one",
-                                              "rc-full-width",
-                                              addToCartLoading
-                                                ? "ui-btn-loading"
-                                                : "",
-                                              instockStatus && quantity
-                                                ? ""
-                                                : "disabled",
-                                            ].join(" ")}
+                                            className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                                             data-loc="addToCart"
                                             style={{ lineHeight: "30px" }}
                                             onClick={this.hanldeAddToCart}
@@ -860,24 +833,13 @@ class Details extends React.Component {
                                       <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                         <div className="cart-and-ipay">
                                           <button
-                                            className={[
-                                              "btn-add-to-cart",
-                                              "add-to-cart",
-                                              "rc-btn",
-                                              "rc-btn--one",
-                                              "rc-full-width",
-                                              addToCartLoading
-                                                ? "ui-btn-loading"
-                                                : "",
-                                              instockStatus && quantity
-                                                ? ""
-                                                : "disabled",
-                                            ].join(" ")}
+                                            className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                                             data-loc="addToCart"
                                             style={{ lineHeight: "30px" }}
                                             onClick={() =>
                                               this.hanldeAddToCart({
                                                 redirect: true,
+                                                needLogin: !jugeLoginStatus()
                                               })
                                             }
                                           >
@@ -886,6 +848,23 @@ class Details extends React.Component {
                                           </button>
                                         </div>
                                       </div>
+                                      {
+                                        !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                          <div className="cart-and-ipay">
+                                            <button
+                                              className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                              data-loc="addToCart"
+                                              onClick={() =>
+                                                this.hanldeAddToCart({
+                                                  redirect: true
+                                                })
+                                              }
+                                            >
+                                              <FormattedMessage id="GuestCheckout" />
+                                            </button>
+                                          </div>
+                                        </div>
+                                      }
                                     </div>
                                   </div>
                                 </div>
@@ -984,21 +963,20 @@ class Details extends React.Component {
                     </span>
                   </button>
                   <button
-                    className={[
-                      "rc-btn",
-                      "rc-btn--one",
-                      "js-sticky-cta",
-                      "btn-add-to-cart",
-                      addToCartLoading ? "ui-btn-loading" : "",
-                      instockStatus && quantity ? "" : "disabled",
-                    ].join(" ")}
-                    onClick={() => this.hanldeAddToCart({ redirect: true })}
-                  >
+                    className={`rc-btn rc-btn--one js-sticky-cta btn-add-to-cart ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                    onClick={() => this.hanldeAddToCart({ redirect: true, needLogin: !jugeLoginStatus() })}>
                     <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
                     <span className="default-txt">
                       <FormattedMessage id="checkout" />
                     </span>
                   </button>
+                  {
+                    !jugeLoginStatus() && <button
+                      className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                      onClick={() => this.hanldeAddToCart({ redirect: true })}>
+                      <FormattedMessage id="GuestCheckout" />
+                    </button>
+                  }
                 </div>
               </div>
             </main>

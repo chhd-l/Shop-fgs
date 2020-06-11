@@ -10,6 +10,7 @@ const en_US = {
   'miniBasket': 'Mini basket',
   'chang': 'Change',
   'checkout': 'Checkout',
+  'GuestCheckout': 'Checkout (Guest)',
   'itemsInCart': 'You have {val} item in your cart',
   'itemsInCart2': 'You have {val} items in your cart',
   'total': 'Total',
