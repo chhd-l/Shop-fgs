@@ -14,9 +14,7 @@ class GoogleTagManager extends React.Component {
       },
       site: {
         id: GTM_SITE_ID,
-        // todo
-        // environment: process.env.NODE_ENV === 'development' ? 'uat' : 'prd',
-        environment: 'uat',
+        environment: process.env.REACT_APP_ENV,
         country: 'MX'
       }
     }

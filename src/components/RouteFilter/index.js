@@ -81,19 +81,13 @@ class RouteFilter extends Component {
       );
     }
     if (this.props.location.pathname !== "/login") {
-      let tmpSrc = 'https://optanon.blob.core.windows.net/consent/cdfcc414-1ef9-4d1d-82d5-6b85fb8958cb-test.js'
-      // todo 区分uat和prd？？
+      let tmpSrc = process.env.REACT_APP_ONTRUST_SRC
       // if (process.env.NODE_ENV === 'development') {
-      //   tmpSrc = 'https://optanon.blob.core.windows.net/consent/cdfcc414-1ef9-4d1d-82d5-6b85fb8958cb.js'
-      // } else {
       //   tmpSrc = 'https://optanon.blob.core.windows.net/consent/cdfcc414-1ef9-4d1d-82d5-6b85fb8958cb-test.js'
+      // } else {
+      //   tmpSrc = process.env.REACT_APP_ONTRUST_SRC
       // }
-      loadJS(
-        tmpSrc,
-        function () {
-
-        }
-      )
+      loadJS(tmpSrc, function () { })
     }
     if (this.props.location.pathname === "/confirmation" && !localStorage.getItem('orderNumber')) {
       this.props.history.push("/");
