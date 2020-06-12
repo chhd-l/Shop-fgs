@@ -7,7 +7,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Progress from "@/components/Progress";
 import PayProductInfo from "@/components/PayProductInfo";
-import "./index.css";
 import Loading from "@/components/Loading";
 import UnloginDeliveryAddress from "./modules/UnloginDeliveryAddress";
 import LoginDeliveryAddress from "./modules/LoginDeliveryAddress";
@@ -28,6 +27,7 @@ import {
 import PaymentComp from "@/components/PaymentComp"
 import Store from '@/store/store';
 import axios from 'axios'
+import "./index.css";
 
 class Payment extends React.Component {
   constructor(props) {
@@ -476,7 +476,7 @@ class Payment extends React.Component {
           sessionStorage.getItem("rc-clinics-id") ||
           sessionStorage.getItem("rc-clinics-id2"),
         clinicsName:
-          sessionStorage.getItem("rc-clinics-name2") ||
+          sessionStorage.getItem("rc-clinics-name") ||
           sessionStorage.getItem("rc-clinics-name2"),
         remark: commentOnDelivery,
         storeId: STOREID,
@@ -739,8 +739,6 @@ class Payment extends React.Component {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
   }
-
-
   updateDeliveryAddress (data) {
     this.setState({
       deliveryAddress: data,
@@ -750,6 +748,19 @@ class Payment extends React.Component {
     this.setState({
       billingAddress: data,
     });
+  }
+  handleClickEditClinic (e) {
+    e.preventDefault()
+    const sessionClinicsName = sessionStorage.getItem('rc-clinics-name')
+    // 默认clini链接进来，仍然可以编辑
+    if (sessionClinicsName) {
+      sessionStorage.setItem('rc-clinics-name2', sessionClinicsName)
+      sessionStorage.setItem('rc-clinics-id2', sessionStorage.getItem('rc-clinics-id'))
+      sessionStorage.setItem('rc-clinics-name', '')
+      sessionStorage.setItem('rc-clinics-id', '')
+    }
+    let { history } = this.props;
+    history.push("/prescription")
   }
   render () {
     const {
@@ -816,16 +827,12 @@ class Payment extends React.Component {
                         <FormattedMessage id="payment.clinicTitle" />
                       </h5>
                       <p
-                        onClick={(e) => {
-                          e.preventDefault();
-                          let { history } = this.props;
-                          history.push("/prescription");
-                        }}
+                        onClick={e => this.handleClickEditClinic(e)}
                         style={{
-                          display: sessionStorage.getItem("rc-clinics-name")
-                            ? "none"
-                            : "inline",
-                          margin: 0,
+                          // display: sessionStorage.getItem("rc-clinics-name")
+                          //   ? "none"
+                          //   : "inline",
+                          margin: 0
                         }}
                         className="rc-styled-link rc-margin-top--xs pull-right"
                       >
