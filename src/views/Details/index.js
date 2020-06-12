@@ -64,7 +64,6 @@ class Details extends React.Component {
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
-    this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.headerRef = React.createRef();
   }
   // componentWillMount() {
@@ -353,7 +352,7 @@ class Details extends React.Component {
     //   () => this.updateInstockStatus()
     // );
   }
-  async hanldeAddToCart ({ redirect = false, needLogin = false }) {
+  async hanldeAddToCart ({ redirect = false, needLogin = false } = {}) {
     if (this.state.loading) {
       return false
     }
@@ -823,7 +822,7 @@ class Details extends React.Component {
                                             className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                                             data-loc="addToCart"
                                             style={{ lineHeight: "30px" }}
-                                            onClick={this.hanldeAddToCart}
+                                            onClick={() => this.hanldeAddToCart()}
                                           >
                                             <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
                                             <FormattedMessage id="details.addToCart" />
@@ -955,7 +954,7 @@ class Details extends React.Component {
                       addToCartLoading ? "ui-btn-loading" : "",
                       instockStatus && quantity ? "" : "disabled",
                     ].join(" ")}
-                    onClick={this.hanldeAddToCart}
+                    onClick={() => this.hanldeAddToCart()}
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
                     <span className="default-txt">

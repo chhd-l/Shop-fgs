@@ -36,7 +36,7 @@ class UnLoginCart extends React.Component {
   get totalNum () {
     return this.state.productList.reduce((pre, cur) => { return pre + cur.quantity }, 0)
   }
-  async handleCheckout ({ needLogin = false }) {
+  async handleCheckout ({ needLogin = false } = {}) {
     const { history } = this.props;
 
     // 价格未达到底限，不能下单
