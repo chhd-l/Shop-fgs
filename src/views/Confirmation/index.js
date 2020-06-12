@@ -198,7 +198,7 @@ class Confirmation extends React.Component {
                   {
                     this.state.paywithLogin
                       ? <React.Fragment>
-                        <Link to="/account/orders" className="rc-btn rc-btn--one">
+                        <Link to={`/account/orders-detail/${localStorage.getItem('orderNumber')}`} className="rc-btn rc-btn--one">
                           <FormattedMessage id="order.viewOrder" />
                         </Link>
                           &nbsp;or&nbsp;
@@ -211,8 +211,7 @@ class Confirmation extends React.Component {
                 </div>
                 <p className="rc-margin-top--sm">
                   <b>
-                    <FormattedMessage id="confirmation.orderNumber" />
-                  ：{localStorage.getItem('orderNumber')}
+                    <FormattedMessage id="confirmation.orderNumber" />：{localStorage.getItem('orderNumber')}
                   </b>
 
                 </p>
