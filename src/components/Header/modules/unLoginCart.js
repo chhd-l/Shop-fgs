@@ -50,7 +50,7 @@ class UnloginCart extends React.Component {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     })
   }
-  async handleCheckout ({ needLogin = false }) {
+  async handleCheckout ({ needLogin = false } = {}) {
     const { history } = this.props
     const { cartData } = this.state
     let tmpValidateAllItemsStock = true
