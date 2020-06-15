@@ -1233,3 +1233,21 @@
       font-weight: 300
   }
 }
+
+.clnc-overlay {
+  background-color: #fff;
+  z-index: 99;
+  border-radius: .1875rem;
+}
+
+.clinic-item-container {
+  padding-inline-start: 0;
+  max-height: 15rem;
+  overflow-y: auto 
+}
+.clinic-item {
+  cursor: pointer;
+}
+.clinic-item:hover {
+  background-color: #fff3f3;
+}

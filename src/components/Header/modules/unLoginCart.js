@@ -13,7 +13,8 @@ class UnloginCart extends React.Component {
     super(props)
     this.state = {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
-      showCart: false
+      showCart: false,
+      checkoutLoading: false
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -165,7 +166,7 @@ class UnloginCart extends React.Component {
                   <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
                     <a
                       onClick={() => this.handleCheckout()}
-                      className={`rc-styled-link color-999 ${this.state.checkoutLoading ? 'ui-btn-loading' : ''}`}>
+                      className={`rc-styled-link color-999 ${this.state.checkoutLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}>
                       <FormattedMessage id="GuestCheckout" />
                     </a>
                   </div>

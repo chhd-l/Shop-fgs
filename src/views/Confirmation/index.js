@@ -2,13 +2,15 @@ import React from "react";
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import PayProductInfo from "@/components/PayProductInfo";
+import PayProductInfo from "@/components/PayProductInfo"
+import Modal from '@/components/Modal'
 import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
 import successImg from "@/assets/images/credit-cards/success.png"
 import { find } from "lodash"
-import { GTM_SITE_ID } from "@/utils/constant"
+import { GTM_SITE_ID, STOREID } from "@/utils/constant"
 import { getDictionary } from "@/utils/utils"
+import { addEvaluate } from "@/api/order"
 import "./index.css";
 
 class Confirmation extends React.Component {
@@ -56,15 +58,22 @@ class Confirmation extends React.Component {
       ],
       currentProduct: null,
       loading: true,
-      modalShow: false,
       commentOnDelivery: '',
       totalPrice: '',
       tradePrice: '',
       discountPrice: '',
       paywithLogin: sessionStorage.getItem("rc-paywith-login") === 'true',
       cityList: [],
-      countryList: []
-    };
+      countryList: [],
+      submitLoading: false,
+      evalutateScore: -1,
+      consumerComment: '',
+
+      modalShow: true,
+      operateSuccessModalVisible: false,
+      errorMsg: ''
+    }
+    this.timer = null
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true)
@@ -119,6 +128,43 @@ class Confirmation extends React.Component {
       ? find(dictList, ele => ele.id == id).name
       : id
   }
+  async hanldeClickSubmit () {
+    this.setState({ submitLoading: true })
+    try {
+      await addEvaluate({
+        storeId: STOREID,
+        orderNo: localStorage.getItem('orderNumber'),
+        goodsScore: this.state.evalutateScore + 1,
+        consumerComment: this.state.consumerComment,
+        serverScore: -1,
+        logisticsScore: -1,
+        compositeScore: -1
+      })
+      this.setState({
+        operateSuccessModalVisible: true
+      })
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.setState({
+          operateSuccessModalVisible: false
+        })
+      }, 5000)
+    } catch (err) {
+      this.setState({
+        errorMsg: err.toString()
+      })
+    } finally {
+      this.setState({
+        modalShow: false,
+        submitLoading: false
+      })
+    }
+  }
+  handleConsumerCommentChange (e) {
+    this.setState({
+      consumerComment: e.target.value
+    })
+  }
   render () {
     const {
       deliveryAddress,
@@ -162,10 +208,10 @@ class Confirmation extends React.Component {
         page: {
           type: 'Order Confirmation',
           theme: ''
-        },
-        event: `${GTM_SITE_ID}eComTransaction`
+        }
       }
       eEvents = {
+        event: `${GTM_SITE_ID}eComTransaction`,
         ecommerce: {
           currencyCode: 'MXN',
           purchase: {
@@ -406,6 +452,64 @@ class Confirmation extends React.Component {
           </div>
         </main>
         <Footer />
+        <Modal
+          key="1"
+          visible={this.state.modalShow}
+          confirmLoading={this.state.submitLoading}
+          modalTitle={<FormattedMessage id="order.rateModalTitle" />}
+          confirmBtnText={<FormattedMessage id="submit" />}
+          cancelBtnVisible={false}
+          close={() => { this.setState({ modalShow: false }) }}
+          hanldeClickConfirm={() => this.hanldeClickSubmit()}>
+          <div className="text-center pl-4 pr-4" style={{ lineHeight: 2 }}>
+            <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
+              <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+                <span>{this.state.errorMsg}</span>
+                <button
+                  className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                  onClick={() => { this.setState({ errorMsg: '' }) }}
+                  aria-label="Close">
+                  <span className="rc-screen-reader-text">
+                    <FormattedMessage id="close" />
+                  </span>
+                </button>
+              </aside>
+            </div>
+            <h4><FormattedMessage id="confirmation.rateTip" /></h4>
+            <div className="d-flex justify-content-around" style={{ width: '40%', margin: '0 auto' }}>
+              {
+                [0, 1, 2, 3, 4, 5].map((item, idx) => (
+                  <span
+                    key={idx}
+                    className={`rc-icon ui-cursor-pointer ${this.state.evalutateScore >= idx ? 'rc-rate-fill' : 'rc-rate'} rc-brand1`}
+                    onClick={() => { this.setState({ evalutateScore: idx }) }} />
+                ))
+              }
+            </div>
+            <h4><FormattedMessage id="confirmation.rateTip2" /></h4>
+            <span
+              className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
+              input-setup="true">
+              <FormattedMessage id="confirmation.rateTip3">
+                {
+                  txt => (<textarea
+                    className="rc-input__textarea noborder"
+                    maxLength="50"
+                    placeholder={txt}
+                    style={{ height: 100 }}
+                    value={this.state.consumerComment}
+                    onChange={(e) => this.handleConsumerCommentChange(e)} />)
+                }
+              </FormattedMessage>
+            </span>
+          </div>
+        </Modal>
+        <Modal
+          key="2"
+          visible={this.state.operateSuccessModalVisible}
+          modalText={<FormattedMessage id="operateSuccessfully" />}
+          close={() => { this.setState({ operateSuccessModalVisible: false }) }}
+          hanldeClickConfirm={() => { this.setState({ operateSuccessModalVisible: false }) }} />
       </div>
     );
   }
