@@ -158,7 +158,7 @@ export default class PetForm extends React.Component {
             currentPetId: currentPet.petsId,
             currentPet: currentPet
           })
-          this.getSpecialNeeds(currentPet.petsPropRelations)
+          this.getSpecialNeeds(currentPet.customerPetsPropRelations)
         }
         else {
           this.setState({
@@ -204,7 +204,7 @@ export default class PetForm extends React.Component {
         loading: false,
         currentPetId: currentPet.petsId
       })
-      this.getSpecialNeeds(currentPet.petsPropRelations)
+      this.getSpecialNeeds(currentPet.customerPetsPropRelations)
     }
   }
   delPets = async (id) => {
@@ -235,7 +235,7 @@ export default class PetForm extends React.Component {
     })
 
     const { selectedSpecialNeeds } = this.state
-    let petsPropRelations = []
+    let customerPetsPropRelations = []
     let propId = 100
     for (let i = 0; i < selectedSpecialNeeds.length; i++) {
 
@@ -249,7 +249,7 @@ export default class PetForm extends React.Component {
         "relationId": "10086",
         "sort": 0,
       }
-      petsPropRelations.push(prop)
+      customerPetsPropRelations.push(prop)
       propId += 1
 
     }
@@ -269,8 +269,8 @@ export default class PetForm extends React.Component {
       "storeId": STOREID
     }
     let param = {
-      "pets": pets,
-      "petsPropRelations": petsPropRelations,
+      "customerPets": pets,
+      "customerPetsPropRelations": customerPetsPropRelations,
       "storeId": STOREID,
       "userId": consumerAccount
     }
@@ -1042,10 +1042,16 @@ export default class PetForm extends React.Component {
                   }
 
                   <div>
+                    <button type="button"
+                      style={{ margin: "20px", display: (this.state.currentStep === 'success' ? "none" : null) }}
+                      className="rc-btn rc-btn--two btn-next btn-block js-btn-next"
+                      onClick={this.cancel}>
+                      <FormattedMessage id="cancel"></FormattedMessage>
+                    </button>
                     {
                       this.state.currentStep !== 'success' ?
                         <button type="button" name="next"
-                          style={{ marginBottom: '20px' }}
+                          style={{ margin: '20px' }}
                           className="rc-btn rc-btn--one btn-next btn-block js-btn-next"
                           disabled={(this.state.isDisabled) ? "disabled" : null}
                           onClick={this.nextStep}>
@@ -1053,12 +1059,7 @@ export default class PetForm extends React.Component {
                         </button>
                         : null
                     }
-                    <button type="button" name="next"
-                      style={{ margin: "0 0 20px 30px", display: (this.state.currentStep === 'success' ? "none" : null) }}
-                      className="rc-btn rc-btn--two btn-next btn-block js-btn-next"
-                      onClick={this.cancel}>
-                      <FormattedMessage id="cancel"></FormattedMessage>
-                    </button>
+                    
                   </div>
 
                   {
