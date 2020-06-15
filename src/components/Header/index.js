@@ -88,6 +88,12 @@ class Header extends React.Component {
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
   }
+  updateDefaultClinic () {
+    this.setState({
+      clinicsId: sessionStorage.getItem('rc-clinics-id'),
+      clinicsName: sessionStorage.getItem('rc-clinics-name')
+    })
+  }
   updateCartCache () {
     if (jugeLoginStatus()) {
       this.loginCartRef.current.updateCartCache()
