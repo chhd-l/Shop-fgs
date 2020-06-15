@@ -194,7 +194,7 @@ class AccountOrders extends React.Component {
                                 <FormattedMessage id="payment.clinicTitle" />:<br />
                                 <span className="medium">{details.clinicsName}</span>
                               </div>
-                              {this.returnOrExchangeBtnJSX()}
+                              {/* {this.returnOrExchangeBtnJSX()} */}
                               {this.cancelOrderBtnJSX()}
                             </div>
                             <hr className="rc-margin-top---none" />
