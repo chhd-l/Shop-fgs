@@ -26,7 +26,7 @@ export default class AccountOrders extends React.Component {
         startdate: '',
         enddate: ''
       },
-      loading: false,
+      loading: true,
       currentPage: 1,
       totalPage: 1,
       initing: true,
@@ -120,7 +120,8 @@ export default class AccountOrders extends React.Component {
       .catch(err => {
         this.setState({
           loading: false,
-          errMsg: err.toString()
+          errMsg: err.toString(),
+          initing: false
         })
       })
   }
@@ -141,7 +142,6 @@ export default class AccountOrders extends React.Component {
     this.setState({ orderList: orderList })
   }
   handleClickPayNow (order) {
-    // todo 地址信息存值
     const tradeItems = order.tradeItems.map(ele => {
       return {
         goodsInfoImg: ele.pic,
