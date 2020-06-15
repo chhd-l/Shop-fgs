@@ -43,8 +43,8 @@ class Prescription extends React.Component {
       total: 0, // 总数
       totalPage: 1,
       center: {
-        lat: 19.3,
-        lng: -99.1,
+        lat: 19,
+        lng: -99,
       },
       zoom: 12,
       mapKey: 0,
@@ -55,8 +55,8 @@ class Prescription extends React.Component {
         type: 'customer'
       },
       meLocation: {
-        lat: 19.3,
-        lng: -99.1,
+        lat: 19,
+        lng: -99,
       },
       clinicArr: [],
       currentClinicArr: [],
@@ -107,7 +107,7 @@ class Prescription extends React.Component {
       this.handldKey(this.state.mapKey)
       params.latitude = position.coords.latitude.toString()
       params.longitude = position.coords.longitude.toString()
-      this.getPrescription(this.state.params)
+      
       this.setState({
         center: {
           lat: position.coords.latitude,
@@ -122,6 +122,9 @@ class Prescription extends React.Component {
       })
       
     })
+    setTimeout(() => {
+      this.getPrescription(params)
+    }, 1000);
   }
 
   async getPrescription (params) {
