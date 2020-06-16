@@ -26,7 +26,7 @@ export default class Modal extends React.Component {
         {/* modal */}
         {
           visible
-            ? <div className={`rc-shade `} />
+            ? <div className={`rc-shade `} style={{ backgroundColor: 'rgba(51,51,51,.5)' }} />
             : null
         }
         <div
