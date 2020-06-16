@@ -76,8 +76,8 @@ export default class AccountProfile extends React.Component {
           },
           addressBookData: {
             address: context.customerAddress,
-            country: context.country || 'Mexico',
-            city: context.city,
+            country: context.countryId,
+            city: context.cityId,
             postCode: context.postCode,
             phoneNumber: context.contactPhone,
             rfc: context.reference

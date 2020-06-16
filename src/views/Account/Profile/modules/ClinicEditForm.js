@@ -144,7 +144,7 @@ export default class ClinicEditForm extends React.Component {
             <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Save successfullly</p>
           </aside>
           <div className={`row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer ${editFormVisible ? 'hidden' : ''}`}>
-            <div class="col-lg-6">{form.clinicName || '--'}</div>
+            <div className="col-lg-6">{form.clinicName || '--'}</div>
           </div>
           <div className={`${editFormVisible ? '' : 'hidden'}`}>
             <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
@@ -153,7 +153,7 @@ export default class ClinicEditForm extends React.Component {
                 <input
                   type="text"
                   placeholder="Enter clinic name"
-                  class="form-control"
+                  className="form-control"
                   value={form.clinicName}
                   onChange={event => this.handleInputChange(event)}
                   name="clinicName"
