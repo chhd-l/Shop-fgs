@@ -422,6 +422,7 @@ class Details extends React.Component {
       }
     } catch (err) {
       console.log(err);
+      this.setState({ errMsg: err.toString() })
     }
   }
   async hanldeUnloginAddToCart ({ redirect = false, needLogin = false }) {

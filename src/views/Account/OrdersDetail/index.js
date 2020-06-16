@@ -192,7 +192,7 @@ class AccountOrders extends React.Component {
                               </div>
                               <div className="text-center">
                                 <FormattedMessage id="payment.clinicTitle" />:<br />
-                                <span className="medium">{details.prescriberName}</span>
+                                <span className="medium">{details.clinicsName}</span>
                               </div>
                               {/* {this.returnOrExchangeBtnJSX()} */}
                               {this.cancelOrderBtnJSX()}
