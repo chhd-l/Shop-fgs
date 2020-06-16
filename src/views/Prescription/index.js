@@ -43,8 +43,8 @@ class Prescription extends React.Component {
       total: 0, // 总数
       totalPage: 1,
       center: {
-        lat: 19,
-        lng: -99,
+        lat: 19.09,
+        lng: -99.24,
       },
       zoom: 12,
       mapKey: 0,
@@ -55,8 +55,8 @@ class Prescription extends React.Component {
         type: 'customer'
       },
       meLocation: {
-        lat: 19,
-        lng: -99,
+        lat: 19.09,
+        lng: -99.24,
       },
       clinicArr: [],
       currentClinicArr: [],
