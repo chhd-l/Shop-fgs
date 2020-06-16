@@ -465,10 +465,10 @@ class Payment extends React.Component {
         last4Digits: payosdata.last_4_digits,
         line1: deliveryAddress.address1,
         line2: deliveryAddress.address2,
-        prescriberId:
+        clinicsId:
           sessionStorage.getItem("rc-clinics-id") ||
           sessionStorage.getItem("rc-clinics-id2"),
-        prescriberName:
+        clinicsName:
           sessionStorage.getItem("rc-clinics-name") ||
           sessionStorage.getItem("rc-clinics-name2"),
         remark: commentOnDelivery,
