@@ -46,13 +46,18 @@ class Login extends React.Component {
       let userinfo = res.context.customerDetail
       userinfo.customerAccount = res.context.accountName
       sessionStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-      let customerInfoRes = await getCustomerInfo()
-      const context = customerInfoRes.context
-      if (context && context.defaultClinics) {
+      try {
+        let customerInfoRes = await getCustomerInfo()
+        const context = customerInfoRes.context
+        if (context && context.defaultClinics) {
         sessionStorage.setItem('rc-clinics-id', context.defaultClinics.prescriberId)
         sessionStorage.setItem('rc-clinics-name', context.defaultClinics.prescriberName)
+        }
+      } catch (err) {
+        console.log(err)
+      } finally {
+        history.push(this.props.location.state && this.props.location.state.redirectUrl || '/account')
       }
-      history.push(this.props.location.state && this.props.location.state.redirectUrl || '/account')
     }
   }
   render () {

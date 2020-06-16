@@ -33,12 +33,16 @@ export default class SideMenu extends React.Component {
             </FormattedMessage>
           </h2>
           <h2 className={['nav_item', 'medium', type === 'Pets' ? 'active' : ''].join(' ')}>
-            <Link
-              to="/account/pets"
-              title={<FormattedMessage id="pets" />}
-              alt={<FormattedMessage id="pets" />}>
-              <FormattedMessage id="pets" />
-            </Link>
+            <FormattedMessage id="pets">
+              {txt => (
+                <Link
+                  to="/account/pets"
+                  title={txt}
+                  alt={txt}>
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
           </h2>
           <h2 className={['nav_item', 'medium', type === 'Orders' ? 'active' : ''].join(' ')}>
             <FormattedMessage id="orders">
@@ -59,20 +63,28 @@ export default class SideMenu extends React.Component {
             </FormattedMessage>
           </h2> */}
           <h2 className={['nav_item', 'medium', type === 'ShippingAddress' ? 'active' : ''].join(' ')}>
-            <Link
-              to="/account/shippingAddress"
-              title={<FormattedMessage id="shippingAddress" />}
-              alt={<FormattedMessage id="shippingAddress" />}>
-              <FormattedMessage id="shippingAddress" />
-            </Link>
+            <FormattedMessage id="shippingAddress">
+              {txt => (
+                <Link
+                  to="/account/shippingAddress"
+                  title={txt}
+                  alt={txt}>
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
           </h2>
           <h2 className={['nav_item', 'medium', type === 'PaymentMethod' ? 'active' : ''].join(' ')}>
-            <Link
-              to="/account/paymentMethod"
-              title={<FormattedMessage id="paymentMethod" />}
-              alt={<FormattedMessage id="paymentMethod" />}>
-              <FormattedMessage id="paymentMethod" />
-            </Link>
+            <FormattedMessage id="paymentMethod">
+              {txt => (
+                <Link
+                  to="/account/paymentMethod"
+                  title={txt}
+                  alt={txt}>
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
           </h2>
           <h2 className={['nav_item', 'medium', type === 'Help' ? 'active' : ''].join(' ')}>
             <FormattedMessage id="help">

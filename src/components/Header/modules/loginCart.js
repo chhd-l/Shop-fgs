@@ -72,40 +72,45 @@ class LoginCart extends React.Component {
   async handleCheckout () {
     const { cartData } = this.state
     this.setState({ checkoutLoading: true })
-    // 获取总价
-    let sitePurchasesRes = await sitePurchases({ goodsInfoIds: cartData.map(ele => ele.goodsInfoId) })
-    sitePurchasesRes = sitePurchasesRes.context
+    try {
+      // 获取总价
+      let sitePurchasesRes = await sitePurchases({ goodsInfoIds: cartData.map(ele => ele.goodsInfoId) })
+      sitePurchasesRes = sitePurchasesRes.context
 
-    this.setState({
-      checkoutLoading: false,
-      tradePrice: sitePurchasesRes.tradePrice
-    }, () => {
-      if (this.state.tradePrice < MINIMUM_AMOUNT) {
-        this.setState({
-          errMsg: <FormattedMessage id="cart.errorInfo3" />
-        })
-        return false
-      }
+      this.setState({
+        tradePrice: sitePurchasesRes.tradePrice
+      }, () => {
+        if (this.state.tradePrice < MINIMUM_AMOUNT) {
+          this.setState({
+            errMsg: <FormattedMessage id="cart.errorInfo3" />
+          })
+          return false
+        }
 
-      // 库存不够，不能下单
-      if (find(cartData, ele => ele.buyCount > ele.stock)) {
-        this.setState({
-          errMsg: <FormattedMessage id="cart.errorInfo2" />
-        })
-        return false
-      }
+        // 库存不够，不能下单
+        if (find(cartData, ele => ele.buyCount > ele.stock)) {
+          this.setState({
+            errMsg: <FormattedMessage id="cart.errorInfo2" />
+          })
+          return false
+        }
 
-      // promotion相关
-      sessionStorage.setItem('goodsMarketingMap', JSON.stringify(sitePurchasesRes.goodsMarketingMap))
-      sessionStorage.setItem('rc-totalInfo', JSON.stringify({
-        totalPrice: sitePurchasesRes.totalPrice,
-        tradePrice: sitePurchasesRes.tradePrice,
-        discountPrice: sitePurchasesRes.discountPrice
-      }))
+        // promotion相关
+        sessionStorage.setItem('goodsMarketingMap', JSON.stringify(sitePurchasesRes.goodsMarketingMap))
+        sessionStorage.setItem('rc-totalInfo', JSON.stringify({
+          totalPrice: sitePurchasesRes.totalPrice,
+          tradePrice: sitePurchasesRes.tradePrice,
+          discountPrice: sitePurchasesRes.discountPrice
+        }))
 
-      localStorage.setItem('rc-cart-data-login', JSON.stringify(cartData))
-      this.props.history.push('/prescription')
-    })
+        localStorage.setItem('rc-cart-data-login', JSON.stringify(cartData))
+        this.props.history.push('/prescription')
+      })
+    } catch (err) {
+      console.log(err)
+    } finally {
+      this.setState({ checkoutLoading: false })
+    }
   }
   render () {
     const { cartData, totalNum, loading } = this.state

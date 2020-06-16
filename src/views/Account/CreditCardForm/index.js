@@ -266,6 +266,7 @@ export default class ShippingAddressFrom extends React.Component {
       <div>
         <Header
           showMiniIcons={true}
+          showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
         />

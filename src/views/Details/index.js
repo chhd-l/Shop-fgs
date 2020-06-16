@@ -555,6 +555,7 @@ class Details extends React.Component {
         <Header
           ref={this.headerRef}
           showMiniIcons={true}
+          showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
         />
@@ -851,7 +852,7 @@ class Details extends React.Component {
                                         !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                           <div className="cart-and-ipay">
                                             <button
-                                              className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                              className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                                               data-loc="addToCart"
                                               onClick={() =>
                                                 this.hanldeAddToCart({

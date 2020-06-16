@@ -254,7 +254,7 @@ class Prescription extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
+        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3" >
           <div
             id="checkout-main"

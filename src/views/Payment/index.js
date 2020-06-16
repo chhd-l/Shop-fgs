@@ -387,19 +387,12 @@ class Payment extends React.Component {
         }, 5000);
         return;
       }
-      this.setState({
-        loading: true
-      });
-      let param = Object.assign(
-        {},
-        { useDeliveryAddress: billingChecked },
-        deliveryAddress,
-        { city: 1, country: 1 }
-      );
+      this.setState({ loading: true });
+      let param = Object.assign({}, { useDeliveryAddress: billingChecked }, deliveryAddress);
       param.billAddress1 = billingAddress.address1;
       param.billAddress2 = billingAddress.address2;
-      param.billCity = 1;
-      param.billCountry = 1;
+      param.billCity = billingAddress.city;
+      param.billCountry = billingAddress.country;
       param.billFirstName = billingAddress.firstName;
       param.billLastName = billingAddress.lastName;
       param.billPhoneNumber = billingAddress.phoneNumber;
@@ -540,7 +533,8 @@ class Payment extends React.Component {
           top: 0,
           behavior: "smooth"
         });
-        setTimeout(() => {
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
           this.setState({
             errorShow: false
           });
@@ -780,15 +774,15 @@ class Payment extends React.Component {
     );
     const event = {
       page: {
-        type: "Checkout",
-        theme: "",
+        type: 'Checkout',
+        theme: ''
       },
     };
 
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header history={this.props.history} />
+        <Header history={this.props.history} showMiniIcons={false} showUserIcon={true} />
         {this.state.loading ? <Loading /> : null}
         <main
           className="rc-content--fixed-header rc-bg-colour--brand3"

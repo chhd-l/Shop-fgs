@@ -94,15 +94,15 @@ export default class AccountProfile extends React.Component {
   }
   render () {
     const event = {
-      "page": {
-        "type": "Account",
-        "theme": ""
+      page: {
+        type: 'Account',
+        theme: ''
       }
     }
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header ref={this.headerRef} showMiniIcons={true} location={this.props.location} history={this.props.history} />
+        <Header ref={this.headerRef} showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">

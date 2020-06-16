@@ -170,6 +170,7 @@ const en_US = {
   //'clinic.SortResultsByStarRating': 'Sort results by star rating',
 
   'payment.clinicTitle': 'Selected clinic',
+  'payment.clinicTitle2': 'Default clinic',
   'payment.deliveryTitle': 'Delivery Address',
   'payment.firstName': 'First Name',
   'payment.lastName': 'Last Name',
