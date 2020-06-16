@@ -50,7 +50,7 @@ class Home extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
 
-        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
+        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         {
           this.state.promotionVisible && !sessionStorage.getItem('rc-promotion-pop-close')
             ? <div className="ui-pop" onClick={() => this.closePromotionPop()}>

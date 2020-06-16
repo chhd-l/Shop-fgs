@@ -1,7 +1,8 @@
 import { getStoreCate } from '@/api'
 import { STOREID } from '@/utils/constant'
-import { purchases } from '@/api/cart'
+import { purchases, mergePurchase } from '@/api/cart'
 import { getDict } from '@/api/dict'
+import { find } from 'lodash'
 
 /**
  * 
@@ -63,6 +64,23 @@ export async function hanldePurchases (goodsInfoDTOList) {
   } finally {
     return ret
   }
+}
+
+/**
+ * 合并购物车(登录后合并非登录态的购物车数据，购物车页面的合并在购物车页面本身触发)
+ */
+export async function mergeUnloginCartData () {
+  const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
+  await mergePurchase({
+    purchaseMergeDTOList: unloginCartData.map(ele => {
+      return {
+        goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId,
+        goodsNum: ele.quantity,
+        invalid: false
+      }
+    })
+  })
+  localStorage.removeItem('rc-cart-data')
 }
 
 /**

@@ -13,11 +13,11 @@ class UnloginCart extends React.Component {
     super(props)
     this.state = {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
-      showCart: false
+      showCart: false,
+      checkoutLoading: false
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
-    this.handleCheckout = this.handleCheckout.bind(this)
   }
   handleMouseOver () {
     this.flag = 1
@@ -51,7 +51,8 @@ class UnloginCart extends React.Component {
       cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     })
   }
-  async handleCheckout () {
+  async handleCheckout ({ needLogin = false } = {}) {
+    const { history } = this.props
     const { cartData } = this.state
     let tmpValidateAllItemsStock = true
     this.setState({ checkoutLoading: true })
@@ -98,8 +99,12 @@ class UnloginCart extends React.Component {
           this.setState({
             errMsg: <FormattedMessage id="cart.errorInfo2" />
           })
+          return false
+        }
+        if (needLogin) {
+          history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
         } else {
-          this.props.history.push('/prescription')
+          history.push('/prescription')
         }
       })
     }
@@ -152,10 +157,17 @@ class UnloginCart extends React.Component {
                   </div>
                   <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                     <a
-                      onClick={this.handleCheckout}
-                      className={['rc-btn', 'rc-btn--one', 'rc-btn--sm', 'btn-block', 'cart__checkout-btn', 'checkout-btn', this.state.checkoutLoading ? 'ui-btn-loading' : ''].join(' ')}
+                      onClick={() => this.handleCheckout({ needLogin: true })}
+                      className={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${this.state.checkoutLoading ? 'ui-btn-loading' : ''}`}
                       style={{ color: '#fff' }}>
                       <FormattedMessage id="checkout" />
+                    </a>
+                  </div>
+                  <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
+                    <a
+                      onClick={() => this.handleCheckout()}
+                      className={`rc-styled-link color-999 ${this.state.checkoutLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}>
+                      <FormattedMessage id="GuestCheckout" />
                     </a>
                   </div>
                   <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">

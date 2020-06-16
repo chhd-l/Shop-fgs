@@ -163,7 +163,7 @@ class AccountOrders extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
+        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
@@ -192,9 +192,9 @@ class AccountOrders extends React.Component {
                               </div>
                               <div className="text-center">
                                 <FormattedMessage id="payment.clinicTitle" />:<br />
-                                <span className="medium">{details.clinicsName}</span>
+                                <span className="medium">{details.prescriberName}</span>
                               </div>
-                              {this.returnOrExchangeBtnJSX()}
+                              {/* {this.returnOrExchangeBtnJSX()} */}
                               {this.cancelOrderBtnJSX()}
                             </div>
                             <hr className="rc-margin-top---none" />

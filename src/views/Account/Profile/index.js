@@ -8,6 +8,7 @@ import SideMenu from '@/components/SideMenu'
 import PersonalDataEditForm from './modules/PersonalDataEditForm'
 import AddressBookEditForm from './modules/AddressBookEditForm'
 import CommunicationDataEditForm from './modules/CommunicationDataEditForm'
+import ClinicEditForm from './modules/ClinicEditForm'
 import { getCustomerInfo } from "@/api/user"
 import './index.css'
 
@@ -32,11 +33,13 @@ export default class AccountProfile extends React.Component {
       communicationData: {
         contactMethod: ''
       },
+      clinicData: {
+        clinicName: '',
+        clinicId: ''
+      },
       originData: null
     }
-    this.personalDataEditFormRef = React.createRef();
-    this.addressBookEditFormRef = React.createRef();
-    this.communicationDataEditFormRef = React.createRef();
+    this.headerRef = React.createRef()
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
@@ -52,8 +55,17 @@ export default class AccountProfile extends React.Component {
   queryCustomerBaseInfo () {
     getCustomerInfo()
       .then(res => {
+        let prescriberName
+        let prescriberId
         const context = res.context
         sessionStorage.setItem('rc-userinfo', JSON.stringify(context))
+        if (context.defaultClinics) {
+          prescriberName = context.defaultClinics.prescriberName
+          prescriberId = context.defaultClinics.prescriberId
+          sessionStorage.setItem('rc-clinics-id', prescriberId)
+          sessionStorage.setItem('rc-clinics-name', prescriberName)
+          this.headerRef.current.updateDefaultClinic()
+        }
         this.setState({
           originData: context,
           personalData: {
@@ -64,29 +76,33 @@ export default class AccountProfile extends React.Component {
           },
           addressBookData: {
             address: context.customerAddress,
-            country: context.country || 'Mexico',
-            city: context.city,
+            country: context.countryId,
+            city: context.cityId,
             postCode: context.postCode,
             phoneNumber: context.contactPhone,
             rfc: context.reference
           },
           communicationData: {
             contactMethod: context.contactMethod
+          },
+          clinicData: {
+            clinicName: prescriberName,
+            clinicId: prescriberId
           }
         })
       })
   }
   render () {
     const event = {
-      "page": {
-        "type": "Account",
-        "theme": ""
+      page: {
+        type: 'Account',
+        theme: ''
       }
     }
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
+        <Header ref={this.headerRef} showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
@@ -108,11 +124,17 @@ export default class AccountProfile extends React.Component {
                         updateData={() => this.queryCustomerBaseInfo()} />
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="rc-column col-lg-6">
+                  <div className="rc-layout-container rc-two-column">
+                    <div className="rc-column rc-padding-x--none--mobile">
                       <CommunicationDataEditForm
                         originData={this.state.originData}
                         data={this.state.communicationData}
+                        updateData={() => this.queryCustomerBaseInfo()} />
+                    </div>
+                    <div className="rc-column rc-padding-x--none--mobile">
+                      <ClinicEditForm
+                        originData={this.state.originData}
+                        data={this.state.clinicData}
                         updateData={() => this.queryCustomerBaseInfo()} />
                     </div>
                   </div>

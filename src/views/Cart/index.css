@@ -16,10 +16,6 @@
       -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.2);
       box-shadow: 0 2px 10px rgba(0,0,0,.2)
   }
-
-  .checkout-continue div {
-      padding: .625em
-  }
 }
 
 @media (min-width: 640px) {

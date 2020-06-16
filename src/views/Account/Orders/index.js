@@ -26,7 +26,7 @@ export default class AccountOrders extends React.Component {
         startdate: '',
         enddate: ''
       },
-      loading: false,
+      loading: true,
       currentPage: 1,
       totalPage: 1,
       initing: true,
@@ -120,7 +120,8 @@ export default class AccountOrders extends React.Component {
       .catch(err => {
         this.setState({
           loading: false,
-          errMsg: err.toString()
+          errMsg: err.toString(),
+          initing: false
         })
       })
   }
@@ -141,7 +142,6 @@ export default class AccountOrders extends React.Component {
     this.setState({ orderList: orderList })
   }
   handleClickPayNow (order) {
-    // todo 地址信息存值
     const tradeItems = order.tradeItems.map(ele => {
       return {
         goodsInfoImg: ele.pic,
@@ -171,7 +171,7 @@ export default class AccountOrders extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
+        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">

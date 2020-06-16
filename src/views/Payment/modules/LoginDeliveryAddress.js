@@ -80,15 +80,15 @@ export default class LoginDeliveryAddress extends React.Component {
       }
       this.setState({
         addressList: addressList,
-        loading: false,
         addOrEdit: !addressList.length,
         selectedId: tmpId
       })
     } catch (err) {
       this.setState({
-        errMsg: err.toString(),
-        loading: false
+        errMsg: err.toString()
       })
+    } finally {
+      this.setState({ loading: false })
     }
   }
   getDictValue (list, id) {
@@ -221,7 +221,6 @@ export default class LoginDeliveryAddress extends React.Component {
       this.setState({
         addOrEdit: false,
         successTipVisible: true,
-        saveLoading: false,
         selectedId: res.context.deliveryAddressId
       }, () => {
         this.queryAddressList()
@@ -235,8 +234,7 @@ export default class LoginDeliveryAddress extends React.Component {
       }, 2000)
     } catch (err) {
       this.setState({
-        saveErrorMsg: err.toString(),
-        saveLoading: false
+        saveErrorMsg: err.toString()
       })
       this.scrollToTitle()
       clearTimeout(this.timer)
@@ -245,6 +243,8 @@ export default class LoginDeliveryAddress extends React.Component {
           saveErrorMsg: ''
         })
       }, 5000)
+    } finally {
+      this.setState({ saveLoading: false })
     }
   }
   render () {
@@ -374,32 +374,32 @@ export default class LoginDeliveryAddress extends React.Component {
                               : null
                           }
                         </div>
-                        <div className="rc-md-up">
-                          <a className="rc-styled-link" onClick={() => this.handleClickCancel()}>
-                            <FormattedMessage id="cancel" />
-                          </a>
-                          &nbsp;<FormattedMessage id="or" />&nbsp;
-                          <button
-                            className="rc-btn rc-btn--one submitBtn"
-                            name="contactPreference"
-                            type="submit"
-                            onClick={() => this.handleSave()}>
-                            <FormattedMessage id="save" />
-                          </button>
-                        </div>
-                        <div className="rc-md-down rc-full-width text-right">
-                          <a className="rc-styled-link" onClick={() => this.handleClickCancel()}>
-                            <FormattedMessage id="cancel" />
-                          </a>
-                          &nbsp;<FormattedMessage id="or" />&nbsp;
-                          <button
-                            className="rc-btn rc-btn--one submitBtn"
-                            name="contactPreference"
-                            type="submit"
-                            onClick={() => this.handleSave()}>
-                            <FormattedMessage id="save" />
-                          </button>
-                        </div>
+                              <div className="rc-md-up">
+                                <a className="rc-styled-link" onClick={() => this.handleClickCancel()}>
+                                  <FormattedMessage id="cancel" />
+                                </a>
+                                 &nbsp;<FormattedMessage id="or" />&nbsp;
+                                <button
+                                  className="rc-btn rc-btn--one submitBtn"
+                                  name="contactPreference"
+                                  type="submit"
+                                  onClick={() => this.handleSave()}>
+                                  <FormattedMessage id="save" />
+                                </button>
+                              </div>
+                              <div className="rc-md-down rc-full-width text-right">
+                                <a className="rc-styled-link" onClick={() => this.handleClickCancel()}>
+                                  <FormattedMessage id="cancel" />
+                                </a>
+                                &nbsp;<FormattedMessage id="or" />&nbsp;
+                                <button
+                                  className="rc-btn rc-btn--one submitBtn"
+                                  name="contactPreference"
+                                  type="submit"
+                                  onClick={() => this.handleSave()}>
+                                  <FormattedMessage id="save" />
+                                </button>
+                              </div>
                       </div>
                     </div>
                   </fieldset>

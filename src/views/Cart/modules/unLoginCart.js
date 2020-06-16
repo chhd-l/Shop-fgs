@@ -31,13 +31,12 @@ class UnLoginCart extends React.Component {
     }
     this.handleAmountChange = this.handleAmountChange.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
-    this.handleCheckout = this.handleCheckout.bind(this)
     this.headerRef = React.createRef();
   }
   get totalNum () {
     return this.state.productList.reduce((pre, cur) => { return pre + cur.quantity }, 0)
   }
-  async handleCheckout () {
+  async handleCheckout ({ needLogin = false } = {}) {
     const { history } = this.props;
 
     // 价格未达到底限，不能下单
@@ -58,11 +57,19 @@ class UnLoginCart extends React.Component {
           errorShow: true,
           errorMsg: <FormattedMessage id="cart.errorInfo2" />
         })
+        return false
+      }
+      if (needLogin) {
+        history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
         history.push('/prescription')
       }
     } catch (e) {
-      history.push('/prescription')
+      console.log(e)
+      this.setState({
+        errorShow: true,
+        errorMsg: e.toString()
+      })
     } finally {
       this.setState({ checkoutLoading: false })
     }
@@ -434,7 +441,7 @@ class UnLoginCart extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header ref={this.headerRef} showMiniIcons={true} location={this.props.location} history={this.props.history} />
+        <Header ref={this.headerRef} showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
             {productList.length
@@ -520,13 +527,22 @@ class UnLoginCart extends React.Component {
                         </div>
                         <div className="row checkout-proccess">
                           <div className="col-lg-12 checkout-continue">
-                            <a className={[checkoutLoading ? 'ui-btn-loading' : ''].join(' ')} onClick={this.handleCheckout}>
+                            <a className={[checkoutLoading ? 'ui-btn-loading' : ''].join(' ')}>
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                                 <div
-                                  data-oauthlogintargetendpoint="2"
                                   className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
-                                  aria-pressed="true">
+                                  aria-pressed="true"
+                                  onClick={() => this.handleCheckout({ needLogin: true })}>
                                   <FormattedMessage id="checkout" />
+                                </div>
+                              </div>
+                              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
+                                <div className="text-center" onClick={() => this.handleCheckout()}>
+                                  <div
+                                    className="rc-styled-link color-999"
+                                    aria-pressed="true">
+                                    <FormattedMessage id="GuestCheckout" />
+                                  </div>
                                 </div>
                               </div>
                             </a>

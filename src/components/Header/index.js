@@ -13,17 +13,16 @@ import { getPrescriptionById } from '@/api/clinic'
 import LoginButton from '@/components/LoginButton'
 import UnloginCart from './modules/unLoginCart'
 import LoginCart from './modules/loginCart'
-import './index.css'
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
 import Store from '@/store/store';
-
-
+import './index.css'
 
 @observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
   static defaultProps = {
-    showMiniIcons: false
+    showMiniIcons: false,
+    showUserIcon: false
   }
   constructor(props) {
     super(props)
@@ -36,8 +35,8 @@ class Header extends React.Component {
       result: null,
       showMegaMenu: false,
       tradePrice: '',
-      clinicsId: sessionStorage.getItem('rc-clinics-id'),
-      clinicsName: sessionStorage.getItem('rc-clinics-name'),
+      prescriberId: sessionStorage.getItem('rc-clinics-id'),
+      prescriberName: sessionStorage.getItem('rc-clinics-name'),
       isLogin: sessionStorage.getItem("rc-token") ? true : false
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
@@ -63,30 +62,36 @@ class Header extends React.Component {
   async componentDidMount () {
     window.addEventListener('click', (e) => this.hideMenu(e))
     const { location } = this.props
-    if (location && (location.pathname === '/' || location.pathname.includes('/list') || location.pathname.includes('/details')) && !this.state.clinicsId) {
-      let clinicsId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
-      sessionStorage.setItem('rc-clinics-id', clinicsId)
+    if (location && (location.pathname === '/' || location.pathname.includes('/list') || location.pathname.includes('/details')) && !this.state.prescriberId) {
+      let prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
+      sessionStorage.setItem('rc-clinics-id', prescriberId)
       this.setState({
-        clinicsId: clinicsId
+        prescriberId: prescriberId
       })
       let tmpName = ''
-      if (clinicsId && !this.state.clinicsName) {
+      if (prescriberId && !this.state.prescriberName) {
         try {
-          let res = await getPrescriptionById({ clinicsId })
+          let res = await getPrescriptionById({ prescriberId })
           if (res.context) {
-            tmpName = res.context.clinicsName
+            tmpName = res.context.prescriberName
           }
         } catch (e) { }
       }
       sessionStorage.setItem('rc-clinics-name', tmpName)
       this.setState({
-        clinicsName: tmpName
+        prescriberName: tmpName
       })
     }
 
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
+  }
+  updateDefaultClinic () {
+    this.setState({
+      prescriberId: sessionStorage.getItem('rc-clinics-id'),
+      prescriberName: sessionStorage.getItem('rc-clinics-name')
+    })
   }
   updateCartCache () {
     if (jugeLoginStatus()) {
@@ -356,57 +361,65 @@ class Header extends React.Component {
             </Link>
 
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right" role="menubar">
-              {this.props.showMiniIcons ?
-                <React.Fragment>
-                  <li className="rc-list__item">
-                    <div className="inlineblock">
-                      <button
-                        className={['rc-btn', 'less-width-xs', 'rc-btn--icon', 'rc-icon', 'rc-search--xs', 'rc-iconography', this.state.showSearchInput ? 'rc-hidden' : ''].join(' ')}
-                        aria-label="Search"
-                        onClick={this.hanldeSearchClick}>
-                        <span className="rc-screen-reader-text">
-                          <FormattedMessage id="search" />
-                        </span>
-                      </button>
-                      <div className="rc-sm-up">
-                        <form
-                          className={['inlineblock', 'headerSearch', 'headerSearchDesktop', 'relative', this.state.showSearchInput ? '' : 'rc-hidden'].join(' ')}
-                          role="search"
-                          name="simpleSearch"
-                          onSubmit={e => { e.preventDefault() }}>
-                          <span className="rc-input rc-input--full-width" input-setup="true">
-                            <button className="rc-input__submit rc-input__submit--search" type="submit">
-                              <span className="rc-screen-reader-text"></span>
-                            </button>
-                            <FormattedMessage id='header.startTypingToSearch'>
-                              {(txt) => (
-                                <input
-                                  ref={this.inputRef}
-                                  className="search-field"
-                                  type="search"
-                                  autoComplete="off"
-                                  placeholder={txt}
-                                  value={this.state.keywords}
-                                  onChange={this.handleSearchInputChange} />
-                              )}
-                            </FormattedMessage>
-                            <label className="rc-input__label" htmlFor="id-submit-2">
-                              <span className="rc-input__label-text"></span>
-                            </label>
+              <li className="rc-list__item">
+                {
+                  this.props.showMiniIcons
+                    ? <>
+                      <div className="inlineblock">
+                        <button
+                          className={['rc-btn', 'less-width-xs', 'rc-btn--icon', 'rc-icon', 'rc-search--xs', 'rc-iconography', this.state.showSearchInput ? 'rc-hidden' : ''].join(' ')}
+                          aria-label="Search"
+                          onClick={this.hanldeSearchClick}>
+                          <span className="rc-screen-reader-text">
+                            <FormattedMessage id="search" />
                           </span>
-                          <input type="hidden" value="null" name="lang" />
-                          <span className="rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle rc-padding-top--xs" aria-label="Close" onClick={this.hanldeSearchCloseClick}>
-                          </span>
-                          <div className="suggestions-wrapper">{this.renderResultJsx()}</div>
-                        </form>
+                        </button>
+                        <div className="rc-sm-up">
+                          <form
+                            className={['inlineblock', 'headerSearch', 'headerSearchDesktop', 'relative', this.state.showSearchInput ? '' : 'rc-hidden'].join(' ')}
+                            role="search"
+                            name="simpleSearch"
+                            onSubmit={e => { e.preventDefault() }}>
+                            <span className="rc-input rc-input--full-width" input-setup="true">
+                              <button className="rc-input__submit rc-input__submit--search" type="submit">
+                                <span className="rc-screen-reader-text"></span>
+                              </button>
+                              <FormattedMessage id='header.startTypingToSearch'>
+                                {(txt) => (
+                                  <input
+                                    ref={this.inputRef}
+                                    className="search-field"
+                                    type="search"
+                                    autoComplete="off"
+                                    placeholder={txt}
+                                    value={this.state.keywords}
+                                    onChange={this.handleSearchInputChange} />
+                                )}
+                              </FormattedMessage>
+                              <label className="rc-input__label" htmlFor="id-submit-2">
+                                <span className="rc-input__label-text"></span>
+                              </label>
+                            </span>
+                            <input type="hidden" value="null" name="lang" />
+                            <span className="rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle rc-padding-top--xs" aria-label="Close" onClick={this.hanldeSearchCloseClick}>
+                            </span>
+                            <div className="suggestions-wrapper">{this.renderResultJsx()}</div>
+                          </form>
+                        </div>
                       </div>
-                    </div>
-                    {
-                      jugeLoginStatus()
-                        ? <LoginCart ref={this.loginCartRef} history={this.props.history} />
-                        : <UnloginCart ref={this.unloginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
-                    }
-                    <span className="minicart inlineblock" style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }}
+                      {
+                        jugeLoginStatus()
+                          ? <LoginCart ref={this.loginCartRef} history={this.props.history} />
+                          : <UnloginCart ref={this.unloginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
+                      }
+                    </>
+                    : null
+                }
+                {
+                  this.props.showUserIcon
+                    ? <span
+                      className="minicart inlineblock"
+                      style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }}
                       onMouseOver={this.handleCenterMouseOver} onMouseOut={this.handleCenterMouseOut}>
                       <Link to="/account" className="minicart-link" data-loc="miniCartOrderBtn" title="Presonal">
                         <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
@@ -505,9 +518,9 @@ class Header extends React.Component {
                           </div>
                       }
                     </span>
-                  </li>
-                </React.Fragment>
-                : null}
+                    : null
+                }
+              </li>
             </ul>
           </nav>
 
@@ -589,9 +602,9 @@ class Header extends React.Component {
           <MegaMenu show={this.state.showMegaMenu} />
         </header>
         {
-          this.state.clinicsId && this.state.clinicsName && this.props.showMiniIcons
-            ? <div className="tip-clinics" title={this.state.clinicsName}>
-              <FormattedMessage id="clinic.clinic" /> : {this.state.clinicsName}
+          this.state.prescriberId && this.state.prescriberName && this.props.showMiniIcons
+            ? <div className="tip-clinics" title={this.state.prescriberName}>
+              <FormattedMessage id="clinic.clinic" /> : {this.state.prescriberName}
             </div>
             : null
         }

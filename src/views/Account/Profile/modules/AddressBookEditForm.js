@@ -3,6 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { findIndex } from "lodash"
 import Loading from "@/components/Loading"
 import { updateCustomerBaseInfo } from "@/api/user"
+import { getDictionary } from '@/utils/utils'
+import Selection from '@/components/Selection'
 
 export default class AddressBookEditForm extends React.Component {
   constructor(props) {
@@ -14,12 +16,14 @@ export default class AddressBookEditForm extends React.Component {
       errorMsg: '',
       form: {
         address: '',
-        country: "Mexico",
+        country: '',
         city: '',
         postCode: '',
         phoneNumber: '',
         rfc: ''
-      }
+      },
+      cityList: [],
+      countryList: []
     }
     this.timer = null
   }
@@ -28,6 +32,18 @@ export default class AddressBookEditForm extends React.Component {
     this.setState({
       form: Object.assign({}, data)
     })
+    getDictionary({ type: 'city' })
+      .then(res => {
+        this.setState({
+          cityList: res
+        })
+      })
+    getDictionary({ type: 'country' })
+      .then(res => {
+        this.setState({
+          countryList: res
+        })
+      })
   }
   componentWillReceiveProps (nextProps) {
     if (nextProps.data !== this.state.form) {
@@ -35,6 +51,21 @@ export default class AddressBookEditForm extends React.Component {
         form: Object.assign({}, nextProps.data)
       })
     }
+  }
+  computedList (key) {
+    let tmp = this.state[`${key}List`].map(c => {
+      return {
+        value: c.id.toString(),
+        name: c.name
+      }
+    })
+    tmp.unshift({ value: '', name: '' })
+    return tmp
+  }
+  handleSelectedItemChange (key, data) {
+    const { form } = this.state
+    form[key] = data.value
+    this.setState({ form: form })
   }
   inputBlur (e) {
     let validDom = Array.from(
@@ -107,8 +138,8 @@ export default class AddressBookEditForm extends React.Component {
     this.setState({ loading: true })
     let param = Object.assign({}, this.props.originData, {
       customerAddress: form.address,
-      country: form.country,
-      city: form.city,
+      countryId: form.country,
+      cityId: form.city,
       postCode: form.postCode,
       contactPhone: form.phoneNumber,
       reference: form.rfc
@@ -142,6 +173,20 @@ export default class AddressBookEditForm extends React.Component {
         editFormVisible: false,
         loading: false
       })
+    }
+  }
+  getDictValue (list, id) {
+    if (list && list.length > 0) {
+      let item = list.find(item => {
+        return item.id === id
+      })
+      if (item) {
+        return item.name
+      } else {
+        return id
+      }
+    } else {
+      return id
     }
   }
   render () {
@@ -199,13 +244,13 @@ export default class AddressBookEditForm extends React.Component {
               <FormattedMessage id="payment.country" />
             </div>
             <div className="col-md-6">
-              {data.country}
+              {this.getDictValue(this.state.countryList, data.country)}
             </div>
             <div className="col-md-6">
               <FormattedMessage id="payment.city" />
             </div>
             <div className="col-md-6">
-              {data.city}
+              {this.getDictValue(this.state.cityList, data.city)}
             </div>
             <div className="col-md-6">
               <FormattedMessage id="payment.postCode" />
@@ -269,16 +314,13 @@ export default class AddressBookEditForm extends React.Component {
                   <FormattedMessage id="payment.country" />
                 </label>
                 <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" data-loc="countrySelect">
-                  <select
-                    data-js-select=""
-                    id="country"
-                    value={form.country}
-                    onChange={(e) => this.handleInputChange(e)}
-                    onBlur={(e) => this.inputBlur(e)}
-                    name="country"
-                  >
-                    <option>Mexico</option>
-                  </select>
+                  <Selection
+                    key="1"
+                    selectedItemChange={data => this.handleSelectedItemChange('country', data)}
+                    optionList={this.computedList('country')}
+                    selectedItemData={{
+                      value: form.country
+                    }} />
                 </span>
                 <div className="invalid-feedback"></div>
               </div>
@@ -290,18 +332,13 @@ export default class AddressBookEditForm extends React.Component {
                 </label>
                 <div data-js-dynamicselect="city" data-template="shipping">
                   <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" data-loc="citySelect">
-                    <select
-                      data-js-select=""
-                      id="city"
-                      value={form.city}
-                      onChange={(e) => this.handleInputChange(e)}
-                      onBlur={(e) => this.inputBlur(e)}
-                      name="city"
-                    >
-                      <option value=""></option>
-                      <option>Monterrey</option>
-                      <option>Mexico City</option>
-                    </select>
+                    <Selection
+                      key="2"
+                      selectedItemChange={data => this.handleSelectedItemChange('city', data)}
+                      optionList={this.computedList('city')}
+                      selectedItemData={{
+                        value: form.city
+                      }} />
                   </span>
                 </div>
                 <div className="invalid-feedback"></div>

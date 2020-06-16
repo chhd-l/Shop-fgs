@@ -33,7 +33,7 @@ export default class ShippingAddressFrom extends React.Component {
         lastName: "",
         address1: "",
         address2: "",
-        country: 0,
+        country: 6,
         city: 0,
         postCode: "",
         phoneNumber: "",
@@ -41,7 +41,7 @@ export default class ShippingAddressFrom extends React.Component {
         isDefalt: false,
         deliveryAddressId: "",
         customerId: "",
-        addressType: ""
+        addressType: "delivery"
       },
       cityList: [],
       countryList: []
@@ -336,7 +336,7 @@ export default class ShippingAddressFrom extends React.Component {
     const { addressForm } = this.state
     return (
       <div>
-        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
+        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
@@ -364,6 +364,37 @@ export default class ShippingAddressFrom extends React.Component {
                     <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
                   </aside>
                   <div className={`userContactInfoEdit`}>
+                    <div className="row">
+                      <div className="col-lg-6 col-sm-12">
+                        <div className="form-group col-lg-12 pull-left no-padding required">
+                          <label className="form-control-label" htmlFor="addressType">
+                            <FormattedMessage id="addressType" />
+                          </label>
+                          <span className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+                            style={{ marginTop: "10px" }} data-loc="addressTypeSelect">
+                            <select
+                              data-js-select=""
+                              id="addressType"
+                              value={addressForm.addressType}
+                              onChange={(e) => this.handleInputChange(e)}
+                              onBlur={(e) => this.inputBlur(e)}
+                              name="addressType"
+                            >
+                              <option value=""></option>
+                              <option value="delivery">Delivery</option>
+                              <option value="billing">Billing</option>
+                              {/* {
+                              this.state.countryList.map(item=>(
+                              <option value={item.id}>{item.name}</option>
+                              ))
+                            } */}
+
+                            </select>
+                          </span>
+                          <div className="invalid-feedback"></div>
+                        </div>
+                      </div>
+                    </div>
                     <div className="row">
                       <div className="form-group col-lg-6 pull-left required">
                         <label className="form-control-label rc-full-width" htmlFor="address">
@@ -429,8 +460,6 @@ export default class ShippingAddressFrom extends React.Component {
                           />
                         </div>
                       </div>
-                    </div>
-                    <div className="row">
                       <div className="form-group col-lg-6 pull-left required">
                         <label className="form-control-label rc-full-width" htmlFor="address">
                           <FormattedMessage id="payment.address1" />
@@ -481,8 +510,6 @@ export default class ShippingAddressFrom extends React.Component {
                           <label className="rc-input__label" htmlFor="address2"></label>
                         </span>
                       </div>
-                    </div>
-                    <div className="row">
                       <div className="col-lg-6 col-sm-12">
                         <div className="form-group col-lg-12 pull-left no-padding required">
                           <label className="form-control-label" htmlFor="country">
@@ -536,8 +563,6 @@ export default class ShippingAddressFrom extends React.Component {
                           <div className="invalid-feedback"></div>
                         </div>
                       </div>
-                    </div>
-                    <div className="row">
                       <div className="form-group col-6 required">
                         <div className="no-padding">
                           <label className="form-control-label rc-full-width" htmlFor="zipCode">
@@ -616,8 +641,6 @@ export default class ShippingAddressFrom extends React.Component {
                           <FormattedMessage id="example" />: +(52) 559 801 65
                       </span>
                       </div>
-                    </div>
-                    <div className="row">
                       <div className="form-group col-6">
                         <label className="form-control-label rc-full-width" htmlFor="reference">
                           <FormattedMessage id="payment.rfc" />
@@ -635,37 +658,7 @@ export default class ShippingAddressFrom extends React.Component {
                           <label className="rc-input__label" htmlFor="reference"></label>
                         </span>
                       </div>
-                      <div className="col-lg-6 col-sm-12">
-                        <div className="form-group col-lg-12 pull-left no-padding required">
-                          <label className="form-control-label" htmlFor="addressType">
-                            <FormattedMessage id="addressType" />
-                          </label>
-                          <span className="rc-select rc-full-width rc-input--full-width rc-select-processed"
-                            style={{ marginTop: "10px" }} data-loc="addressTypeSelect">
-                            <select
-                              data-js-select=""
-                              id="addressType"
-                              value={addressForm.addressType}
-                              onChange={(e) => this.handleInputChange(e)}
-                              onBlur={(e) => this.inputBlur(e)}
-                              name="addressType"
-                            >
-                              <option value=""></option>
-                              <option value="delivery">Delivery</option>
-                              <option value="billing">Billing</option>
-                              {/* {
-                              this.state.countryList.map(item=>(
-                              <option value={item.id}>{item.name}</option>
-                              ))
-                            } */}
-
-                            </select>
-                          </span>
-                          <div className="invalid-feedback"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
+                      
                       {
                         addressForm.addressType === 'delivery' ? (
                           <div className="form-group col-6">

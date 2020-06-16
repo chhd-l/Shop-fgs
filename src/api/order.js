@@ -11,7 +11,9 @@ const api = {
   returnWays: '/return/ways',
   returnList: 'return/page',
   payRecord: '/pay/record',
-  returnFindByTid: 'return/findByTid'
+  returnFindByTid: 'return/findByTid',
+
+  addEvaluate: '/evaluate/addEvaluate'
 }
 
 export default api
@@ -93,5 +95,13 @@ export function returnFindByTid (parameter) {
   return axios({
     url: `${api.returnFindByTid}/${parameter}`,
     method: 'get'
+  })
+}
+
+export function addEvaluate (parameter) {
+  return axios({
+    url: api.addEvaluate,
+    method: 'post',
+    data: parameter
   })
 }
