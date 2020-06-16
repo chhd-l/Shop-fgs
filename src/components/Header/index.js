@@ -36,8 +36,8 @@ class Header extends React.Component {
       result: null,
       showMegaMenu: false,
       tradePrice: '',
-      clinicsId: sessionStorage.getItem('rc-clinics-id'),
-      clinicsName: sessionStorage.getItem('rc-clinics-name'),
+      prescriberId: sessionStorage.getItem('rc-clinics-id'),
+      prescriberName: sessionStorage.getItem('rc-clinics-name'),
       isLogin: sessionStorage.getItem("rc-token") ? true : false
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
@@ -63,24 +63,24 @@ class Header extends React.Component {
   async componentDidMount () {
     window.addEventListener('click', (e) => this.hideMenu(e))
     const { location } = this.props
-    if (location && (location.pathname === '/' || location.pathname.includes('/list') || location.pathname.includes('/details')) && !this.state.clinicsId) {
-      let clinicsId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
-      sessionStorage.setItem('rc-clinics-id', clinicsId)
+    if (location && (location.pathname === '/' || location.pathname.includes('/list') || location.pathname.includes('/details')) && !this.state.prescriberId) {
+      let prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
+      sessionStorage.setItem('rc-clinics-id', prescriberId)
       this.setState({
-        clinicsId: clinicsId
+        prescriberId: prescriberId
       })
       let tmpName = ''
-      if (clinicsId && !this.state.clinicsName) {
+      if (prescriberId && !this.state.prescriberName) {
         try {
-          let res = await getPrescriptionById({ clinicsId })
+          let res = await getPrescriptionById({ prescriberId })
           if (res.context) {
-            tmpName = res.context.clinicsName
+            tmpName = res.context.prescriberName
           }
         } catch (e) { }
       }
       sessionStorage.setItem('rc-clinics-name', tmpName)
       this.setState({
-        clinicsName: tmpName
+        prescriberName: tmpName
       })
     }
 
@@ -90,8 +90,8 @@ class Header extends React.Component {
   }
   updateDefaultClinic () {
     this.setState({
-      clinicsId: sessionStorage.getItem('rc-clinics-id'),
-      clinicsName: sessionStorage.getItem('rc-clinics-name')
+      prescriberId: sessionStorage.getItem('rc-clinics-id'),
+      prescriberName: sessionStorage.getItem('rc-clinics-name')
     })
   }
   updateCartCache () {
@@ -595,9 +595,9 @@ class Header extends React.Component {
           <MegaMenu show={this.state.showMegaMenu} />
         </header>
         {
-          this.state.clinicsId && this.state.clinicsName && this.props.showMiniIcons
-            ? <div className="tip-clinics" title={this.state.clinicsName}>
-              <FormattedMessage id="clinic.clinic" /> : {this.state.clinicsName}
+          this.state.prescriberId && this.state.prescriberName && this.props.showMiniIcons
+            ? <div className="tip-clinics" title={this.state.prescriberName}>
+              <FormattedMessage id="clinic.clinic" /> : {this.state.prescriberName}
             </div>
             : null
         }

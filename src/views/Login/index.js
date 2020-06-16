@@ -49,8 +49,8 @@ class Login extends React.Component {
       let customerInfoRes = await getCustomerInfo()
       const context = customerInfoRes.context
       if (context && context.defaultClinics) {
-        sessionStorage.setItem('rc-clinics-id', context.defaultClinics.clinicsId)
-        sessionStorage.setItem('rc-clinics-name', context.defaultClinics.clinicsName)
+        sessionStorage.setItem('rc-clinics-id', context.defaultClinics.prescriberId)
+        sessionStorage.setItem('rc-clinics-name', context.defaultClinics.prescriberName)
       }
       history.push(this.props.location.state && this.props.location.state.redirectUrl || '/account')
     }

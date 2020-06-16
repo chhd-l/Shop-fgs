@@ -55,15 +55,15 @@ export default class AccountProfile extends React.Component {
   queryCustomerBaseInfo () {
     getCustomerInfo()
       .then(res => {
-        let clinicsName
-        let clinicsId
+        let prescriberName
+        let prescriberId
         const context = res.context
         sessionStorage.setItem('rc-userinfo', JSON.stringify(context))
         if (context.defaultClinics) {
-          clinicsName = context.defaultClinics.clinicsName
-          clinicsId = context.defaultClinics.clinicsId
-          sessionStorage.setItem('rc-clinics-id', clinicsId)
-          sessionStorage.setItem('rc-clinics-name', clinicsName)
+          prescriberName = context.defaultClinics.prescriberName
+          prescriberId = context.defaultClinics.prescriberId
+          sessionStorage.setItem('rc-clinics-id', prescriberId)
+          sessionStorage.setItem('rc-clinics-name', prescriberName)
           this.headerRef.current.updateDefaultClinic()
         }
         this.setState({
@@ -86,8 +86,8 @@ export default class AccountProfile extends React.Component {
             contactMethod: context.contactMethod
           },
           clinicData: {
-            clinicName: clinicsName,
-            clinicId: clinicsId
+            clinicName: prescriberName,
+            clinicId: prescriberId
           }
         })
       })

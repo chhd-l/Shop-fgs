@@ -48,7 +48,7 @@ export default class ClinicEditForm extends React.Component {
   }
   async getClinicList () {
     this.setState({ loadingList: true })
-    let res = await getAllPrescription({ storeId: STOREID, clinicsName: this.state.form.clinicName })
+    let res = await getAllPrescription({ storeId: STOREID, prescriberName: this.state.form.clinicName })
     this.setState({
       clinicList: res.context && res.context.clinicsVo || [],
       loadingList: false
@@ -57,8 +57,8 @@ export default class ClinicEditForm extends React.Component {
   handleClickClinicItem (e, item) {
     e.nativeEvent.stopImmediatePropagation()
     const { form } = this.state
-    form.clinicName = item.clinicsName
-    form.clinicId = item.clinicsId
+    form.clinicName = item.prescriberName
+    form.clinicId = item.prescriberId
     this.setState({
       form: form,
       clinicList: []
@@ -70,8 +70,8 @@ export default class ClinicEditForm extends React.Component {
     try {
       await updateCustomerBaseInfo(Object.assign({}, this.props.originData, {
         defaultClinics: {
-          clinicsId: form.clinicId,
-          clinicsName: form.clinicName
+          prescriberId: form.clinicId,
+          prescriberName: form.clinicName
         }
       }))
       this.props.updateData(this.state.form)
@@ -174,7 +174,7 @@ export default class ClinicEditForm extends React.Component {
                               <li
                                 className={`clinic-item pl-2 pr-2 ${idx !== clinicList.length - 1 ? 'border-bottom' : ''}`}
                                 key={idx}
-                                onClick={(e) => this.handleClickClinicItem(e, item)}>{item.clinicsName}</li>
+                                onClick={(e) => this.handleClickClinicItem(e, item)}>{item.prescriberName}</li>
                             ))
                           }
                         </ul>
