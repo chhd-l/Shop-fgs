@@ -37,13 +37,18 @@ class LoginCart extends React.Component {
   async updateCartCache () {
     // 获取购物车列表
     this.setState({ loading: true })
-    const siteMiniPurchasesRes = await siteMiniPurchases()
-    const context = siteMiniPurchasesRes.context
-    this.setState({
-      cartData: context.goodsList,
-      totalNum: context.num,
-      loading: false
-    })
+    try {
+      const siteMiniPurchasesRes = await siteMiniPurchases()
+      const context = siteMiniPurchasesRes.context
+      this.setState({
+        cartData: context.goodsList,
+        totalNum: context.num
+      })
+    } catch (err) {
+
+    } finally {
+      this.setState({ loading: false })
+    }
   }
   handleMouseOver () {
     this.flag = 1

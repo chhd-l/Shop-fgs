@@ -13,12 +13,10 @@ import { getPrescriptionById } from '@/api/clinic'
 import LoginButton from '@/components/LoginButton'
 import UnloginCart from './modules/unLoginCart'
 import LoginCart from './modules/loginCart'
-import './index.css'
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
 import Store from '@/store/store';
-
-
+import './index.css'
 
 @observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
