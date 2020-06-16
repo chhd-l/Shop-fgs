@@ -152,7 +152,7 @@ class Payment extends React.Component {
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
     sessionStorage.removeItem('rc-tid')
-    if (!this.state.isLogin) {
+    if (!this.state.isLogin && this.props.location.pathname !== '/payment/payment') {
       sessionStorage.removeItem('rc-token')
     }
   }
@@ -166,62 +166,68 @@ class Payment extends React.Component {
       isCompleteCredit: true,
     });
   }
-  ChoosePayment () {
+  async ChoosePayment () {
     const {
       deliveryAddress,
       billingAddress,
       billingChecked,
       commentOnDelivery,
-      creditCardInfo,
+      creditCardInfo
     } = this.state;
     let tmpDeliveryAddress = deliveryAddress;
     let tmpBillingAddress = billingAddress;
     if (this.state.isLogin) {
-      const tmp =
-        this.loginDeliveryAddressRef.current &&
-        find(
-          this.loginDeliveryAddressRef.current.state.addressList,
-          (ele) => ele.selected
-        );
-      if (tmp) {
-        tmpDeliveryAddress = {
-          firstName: tmp.firstName,
-          lastName: tmp.lastName,
-          address1: tmp.address1,
-          address2: tmp.address2,
-          rfc: tmp.rfc,
-          country: tmp.countryId ? tmp.countryId.toString() : '',
-          city: tmp.cityId ? tmp.cityId.toString() : '',
-          postCode: tmp.postCode,
-          phoneNumber: tmp.consigneeNumber,
-          addressId: tmp.deliveryAddressId,
-        };
+      const deliveryAddressEl = this.loginDeliveryAddressRef.current
+      let tmpDeliveryAddressData = deliveryAddressEl && find(deliveryAddressEl.state.addressList, (ele) => ele.selected)
+      // 若用户未存在任何地址，则自动触发保存操作
+      if (!tmpDeliveryAddressData) {
+        let addressRes = await deliveryAddressEl.handleSave()
+        if (!addressRes) {
+          return false
+        }
+        tmpDeliveryAddressData = deliveryAddressEl && find(deliveryAddressEl.state.addressList, (ele) => ele.selected)
       }
-      const tmp2 =
-        this.loginBillingAddressRef.current &&
-        find(
-          this.loginBillingAddressRef.current.state.addressList,
-          (ele) => ele.selected
-        );
-      if (tmp2) {
+      tmpDeliveryAddress = {
+        firstName: tmpDeliveryAddressData.firstName,
+        lastName: tmpDeliveryAddressData.lastName,
+        address1: tmpDeliveryAddressData.address1,
+        address2: tmpDeliveryAddressData.address2,
+        rfc: tmpDeliveryAddressData.rfc,
+        country: tmpDeliveryAddressData.countryId ? tmpDeliveryAddressData.countryId.toString() : '',
+        city: tmpDeliveryAddressData.cityId ? tmpDeliveryAddressData.cityId.toString() : '',
+        postCode: tmpDeliveryAddressData.postCode,
+        phoneNumber: tmpDeliveryAddressData.consigneeNumber,
+        addressId: tmpDeliveryAddressData.deliveryAddressId,
+      }
+
+      if (!billingChecked) {
+        const billingAddressEl = this.loginBillingAddressRef.current
+        let tmpBillingAddressData = billingAddressEl && find(billingAddressEl.state.addressList, ele => ele.selected)
+        if (!tmpBillingAddressData) {
+          let addressRes = await billingAddressEl.handleSave()
+          if (!addressRes) {
+            return false
+          }
+          tmpBillingAddressData = billingAddressEl && find(billingAddressEl.state.addressList, ele => ele.selected)
+        }
         tmpBillingAddress = {
-          firstName: tmp2.firstName,
-          lastName: tmp2.lastName,
-          address1: tmp2.address1,
-          address2: tmp2.address2,
-          rfc: tmp2.rfc,
-          country: tmp2.countryId ? tmp2.countryId.toString() : '',
-          city: tmp2.cityId ? tmp2.cityId.toString() : '',
-          postCode: tmp2.postCode,
-          phoneNumber: tmp2.consigneeNumber,
-          addressId: tmp2.deliveryAddressId,
-        };
+          firstName: tmpBillingAddressData.firstName,
+          lastName: tmpBillingAddressData.lastName,
+          address1: tmpBillingAddressData.address1,
+          address2: tmpBillingAddressData.address2,
+          rfc: tmpBillingAddressData.rfc,
+          country: tmpBillingAddressData.countryId ? tmpBillingAddressData.countryId.toString() : '',
+          city: tmpBillingAddressData.cityId ? tmpBillingAddressData.cityId.toString() : '',
+          postCode: tmpBillingAddressData.postCode,
+          phoneNumber: tmpBillingAddressData.consigneeNumber,
+          addressId: tmpBillingAddressData.deliveryAddressId,
+        }
       }
     }
     const param = {
       billingChecked,
       deliveryAddress: tmpDeliveryAddress,
-      commentOnDelivery,
+      commentOnDelivery
     };
 
     if (billingChecked) {
@@ -325,10 +331,10 @@ class Payment extends React.Component {
       }
     })
   }
-  async goConfirmation () {
+  async handleClickFurther () {
     if (this.state.isLogin) {
       let selectedCard = this.state.selectedCardInfo
-
+      this.setState({ loading: true });
       let res = await axios.post(
         "https://api.paymentsos.com/tokens",
         {
@@ -349,9 +355,18 @@ class Payment extends React.Component {
         }
       );
       console.log(res, 'res')
-      this.setState({ payosdata: res.data })
-      // sessionStorage.setItem('payosdata', JSON.stringify(res.data))
+      this.setState({
+        payosdata: res.data,
+        creditCardInfo: Object.assign({}, selectedCard),
+        loading: false
+      }, () => {
+        this.goConfirmation()
+      })
+    } else {
+      this.goConfirmation()
     }
+  }
+  async goConfirmation () {
     const { history } = this.props;
     let {
       isEighteen,
@@ -818,7 +833,11 @@ class Payment extends React.Component {
                   <div className="card">
                     <div className="card-header">
                       <h5 className="pull-left">
-                        <FormattedMessage id="payment.clinicTitle" />
+                        {
+                          jugeLoginStatus()
+                            ? <FormattedMessage id="payment.clinicTitle2" />
+                            : <FormattedMessage id="payment.clinicTitle" />
+                        }
                       </h5>
                       <p
                         onClick={e => this.handleClickEditClinic(e)}
@@ -1496,7 +1515,7 @@ class Payment extends React.Component {
                           type="submit"
                           name="submit"
                           value="submit-shipping"
-                          onClick={() => this.goConfirmation()}
+                          onClick={() => this.handleClickFurther()}
                         >
                           <FormattedMessage id="payment.further" />
                         </button>

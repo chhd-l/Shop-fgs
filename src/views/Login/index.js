@@ -49,8 +49,8 @@ class Login extends React.Component {
       try {
         let customerInfoRes = await getCustomerInfo()
         const context = customerInfoRes.context
-        sessionStorage.setItem('rc-clinics-id', context.defaultClinics && context.defaultClinics.prescriberId || '')
-        sessionStorage.setItem('rc-clinics-name', context.defaultClinics && context.defaultClinics.prescriberName || '')
+        sessionStorage.setItem('rc-clinics-id', context.defaultClinics && context.defaultClinics.clinicsId || '')
+        sessionStorage.setItem('rc-clinics-name', context.defaultClinics && context.defaultClinics.clinicsName || '')
       } catch (err) {
         console.log(err)
       } finally {

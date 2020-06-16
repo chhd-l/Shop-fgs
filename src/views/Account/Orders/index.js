@@ -99,15 +99,42 @@ export default class AccountOrders extends React.Component {
     }
     getOrderList(param)
       .then(res => {
-        let tmpList = Array.from(res.context.content, ele =>
-          Object.assign(ele,
+        let tmpList = Array.from(res.context.content, ele => {
+          const tradeState = ele.tradeState
+          let tradeStateFront = {
+            flowState: '',
+            deliverStatus: '',
+            payState: ''
+          }
+          let a = {
+            'AUDIT|NOT_YET_SHIPPED|NOT_PAID': 'To be paid|Not shipped|Unpaid',
+            'AUDIT|NOT_YET_SHIPPED|PAID': 'To be delivered|Not shipped|Paid',
+            // 'AUDIT|NOT_YET_SHIPPED|PAID': 'To be delivered|Not shipped|Paid',
+
+          }
+          // if (tradeState.flowState === 'AUDIT'
+          //   && tradeState.deliverStatus === 'NOT_YET_SHIPPED'
+          //   && tradeState.payState === 'NOT_PAID') {
+          //   tradeStateFront = {
+          //     flowState: 'To be paid',
+          //     deliverStatus: 'Not shipped',
+          //     payState: 'Unpaid'
+          //   }
+          // } else if () { }
+          return Object.assign(ele,
             {
-              canPayNow: ele.tradeState.flowState === 'AUDIT'
-                && ele.tradeState.deliverStatus === 'NOT_YET_SHIPPED'
-                && ele.tradeState.payState === 'NOT_PAID'
-                && new Date(ele.orderTimeOut).getTime() > new Date().getTime()
+              canPayNow: tradeState.flowState === 'AUDIT'
+                && tradeState.deliverStatus === 'NOT_YET_SHIPPED'
+                && tradeState.payState === 'NOT_PAID'
+                && new Date(ele.orderTimeOut).getTime() > new Date().getTime(),
+              tradeStateFront: {
+                flowState: '',
+                deliverStatus: '',
+                payState: ''
+              }
             }
           )
+        }
         )
         this.setState({
           orderList: tmpList,
@@ -152,6 +179,7 @@ export default class AccountOrders extends React.Component {
         goodsInfoId: ele.skuId
       }
     })
+    // todo 调用详情接口，拼接到session中
     localStorage.setItem("rc-cart-data-login", JSON.stringify(tradeItems))
     sessionStorage.setItem('rc-tid', order.id)
     sessionStorage.setItem('rc-totalInfo', JSON.stringify({

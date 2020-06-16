@@ -141,27 +141,22 @@ class Confirmation extends React.Component {
         compositeScore: -1
       })
       this.setState({
+        modalShow: false,
         operateSuccessModalVisible: true
       })
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
-        this.setState({
-          operateSuccessModalVisible: false
-        })
+        this.setState({ operateSuccessModalVisible: false })
       }, 5000)
     } catch (err) {
-      this.setState({
-        errorMsg: err.toString()
-      })
+      this.setState({ errorMsg: err.toString() })
     } finally {
-      this.setState({
-        modalShow: false,
-        submitLoading: false
-      })
+      this.setState({ submitLoading: false })
     }
   }
   handleConsumerCommentChange (e) {
     this.setState({
+      errorMsg: '',
       consumerComment: e.target.value
     })
   }
@@ -482,7 +477,7 @@ class Confirmation extends React.Component {
                   <span
                     key={idx}
                     className={`rc-icon ui-cursor-pointer ${this.state.evalutateScore >= idx ? 'rc-rate-fill' : 'rc-rate'} rc-brand1`}
-                    onClick={() => { this.setState({ evalutateScore: idx }) }} />
+                    onClick={() => { this.setState({ evalutateScore: idx, errorMsg: '' }) }} />
                 ))
               }
             </div>

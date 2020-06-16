@@ -60,8 +60,8 @@ export default class AccountProfile extends React.Component {
         const context = res.context
         sessionStorage.setItem('rc-userinfo', JSON.stringify(context))
         if (context.defaultClinics) {
-          prescriberName = context.defaultClinics.prescriberName
-          prescriberId = context.defaultClinics.prescriberId
+          prescriberName = context.defaultClinics.clinicsName
+          prescriberId = context.defaultClinics.clinicsId
           sessionStorage.setItem('rc-clinics-id', prescriberId)
           sessionStorage.setItem('rc-clinics-name', prescriberName)
           this.headerRef.current.updateDefaultClinic()

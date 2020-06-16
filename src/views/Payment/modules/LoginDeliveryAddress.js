@@ -218,12 +218,12 @@ export default class LoginDeliveryAddress extends React.Component {
       this.setState({ saveLoading: true })
       const tmpPromise = this.currentOperateIdx > -1 ? editAddress : saveAddress
       let res = await tmpPromise(params)
+      await this.queryAddressList()
       this.setState({
         addOrEdit: false,
         successTipVisible: true,
         selectedId: res.context.deliveryAddressId
       }, () => {
-        this.queryAddressList()
         this.scrollToTitle()
       })
       clearTimeout(this.timer)
@@ -232,6 +232,7 @@ export default class LoginDeliveryAddress extends React.Component {
           successTipVisible: false
         })
       }, 2000)
+      return res
     } catch (err) {
       this.setState({
         saveErrorMsg: err.toString()
@@ -374,11 +375,14 @@ export default class LoginDeliveryAddress extends React.Component {
                               : null
                           }
                         </div>
+                        {
+                          addressList.length
+                            ? <>
                               <div className="rc-md-up">
                                 <a className="rc-styled-link" onClick={() => this.handleClickCancel()}>
                                   <FormattedMessage id="cancel" />
                                 </a>
-                                 &nbsp;<FormattedMessage id="or" />&nbsp;
+                                &nbsp;<FormattedMessage id="or" />&nbsp;
                                 <button
                                   className="rc-btn rc-btn--one submitBtn"
                                   name="contactPreference"
@@ -400,6 +404,9 @@ export default class LoginDeliveryAddress extends React.Component {
                                   <FormattedMessage id="save" />
                                 </button>
                               </div>
+                            </>
+                            : null
+                        }
                       </div>
                     </div>
                   </fieldset>

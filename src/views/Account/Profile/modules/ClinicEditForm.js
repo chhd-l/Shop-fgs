@@ -50,7 +50,7 @@ export default class ClinicEditForm extends React.Component {
     this.setState({ loadingList: true })
     let res = await getAllPrescription({ storeId: STOREID, prescriberName: this.state.form.clinicName })
     this.setState({
-      clinicList: res.context && res.context.clinicsVo || [],
+      clinicList: res.context && res.context.prescriberVo || [],
       loadingList: false
     })
   }
@@ -70,8 +70,8 @@ export default class ClinicEditForm extends React.Component {
     try {
       await updateCustomerBaseInfo(Object.assign({}, this.props.originData, {
         defaultClinics: {
-          prescriberId: form.clinicId,
-          prescriberName: form.clinicName
+          clinicsId: form.clinicId,
+          clinicsName: form.clinicName
         }
       }))
       this.props.updateData(this.state.form)
@@ -108,7 +108,7 @@ export default class ClinicEditForm extends React.Component {
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle">
             <h5 className="rc-espilon rc-margin--none">
-              <FormattedMessage id="clinic.clinic2" />
+              <FormattedMessage id="payment.clinicTitle2" />
             </h5>
             <FormattedMessage id="edit">
               {txt => (
