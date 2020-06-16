@@ -147,7 +147,7 @@ class Prescription extends React.Component {
     }
     const res = await getAllPrescription(params)
     if (res.code === 'K-000000') {
-      let clinicArr = res.context.clinicsVo
+      let clinicArr = res.context.prescriberVo
       //过滤掉经纬度非数字值
       clinicArr = clinicArr.filter(item => {
         return !(isNaN(item.latitude) || isNaN(item.longitude))
