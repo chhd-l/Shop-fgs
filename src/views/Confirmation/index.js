@@ -478,7 +478,7 @@ class Confirmation extends React.Component {
             <h4><FormattedMessage id="confirmation.rateTip" /></h4>
             <div className="d-flex justify-content-around" style={{ width: '40%', margin: '0 auto' }}>
               {
-                [0, 1, 2, 3, 4, 5].map((item, idx) => (
+                [0, 1, 2, 3, 4].map((item, idx) => (
                   <span
                     key={idx}
                     className={`rc-icon ui-cursor-pointer ${this.state.evalutateScore >= idx ? 'rc-rate-fill' : 'rc-rate'} rc-brand1`}
