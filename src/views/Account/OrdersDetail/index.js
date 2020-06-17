@@ -10,7 +10,12 @@ import { FormattedMessage } from 'react-intl'
 import { formatMoney } from "@/utils/utils"
 import { find } from 'lodash'
 import { getOrderDetails, cancelOrder, getPayRecord, returnFindByTid } from "@/api/order"
-import { IMG_DEFAULT } from '@/utils/constant'
+import {
+  IMG_DEFAULT,
+  DELIVER_STATUS_ENUM,
+  ORDER_STATUS_ENUM,
+  PAY_STATUS_ENUM
+} from '@/utils/constant'
 import './index.css'
 
 class AccountOrders extends React.Component {
@@ -188,7 +193,7 @@ class AccountOrders extends React.Component {
                               </div>
                               <div className="text-center">
                                 <FormattedMessage id="order.orderStatus" />:<br />
-                                <span className="medium">{details.tradeState.flowState}</span>
+                                <span className="medium">{ORDER_STATUS_ENUM[details.tradeState.flowState] || details.tradeState.flowState}</span>
                               </div>
                               <div className="text-center">
                                 <FormattedMessage id="payment.clinicTitle" />:<br />
@@ -351,7 +356,7 @@ class AccountOrders extends React.Component {
                                         <FormattedMessage id="order.paymentStatus" />:
                                       </div>
                                       <div className="col-8">
-                                        {details.tradeState.payState}
+                                        {PAY_STATUS_ENUM[details.tradeState.payState] || details.tradeState.payState}
                                       </div>
                                     </div>
                                     <div className="row col-6">

@@ -117,14 +117,11 @@ class Payment extends React.Component {
         })
       })
 
-    let deliveryInfoStr = localStorage.getItem(
-      `${this.state.isLogin ? "loginDeliveryInfo" : "deliveryInfo"}`
-    );
+    let deliveryInfoStr = localStorage.getItem(`${this.state.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo'}`);
     const { creditCardInfo } = this.state;
-
     this.setState(
       {
-        type: this.props.match.params.type,
+        type: this.props.match.params.type
       },
       () => {
         if (
@@ -143,7 +140,7 @@ class Payment extends React.Component {
             billingAddress: deliveryInfo.billingAddress,
             commentOnDelivery: deliveryInfo.commentOnDelivery,
             billingChecked: deliveryInfo.billingChecked,
-            creditCardInfo: creditCardInfo,
+            creditCardInfo: creditCardInfo
           });
         }
       }
