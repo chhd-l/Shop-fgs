@@ -59,7 +59,8 @@ class Details extends React.Component {
       addToCartLoading: false,
       tradePrice: "",
       specList: [],
-      tabsValue: []
+      tabsValue: [],
+      buyWay: 'Once'
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -528,6 +529,12 @@ class Details extends React.Component {
   changeTab (e, i) {
     this.setState({ activeTabIdx: i })
   }
+  handleChange(e){
+    this.setState({
+          buyWay: e.target.value
+        }
+    )
+  }
   render () {
     const createMarkup = (text) => ({ __html: text });
     const {
@@ -549,6 +556,8 @@ class Details extends React.Component {
         theme: '' // todo goodsCateName???
       },
     };
+    const data = this.state;
+
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -650,22 +659,41 @@ class Details extends React.Component {
                             )}
                         </div>
                         {/* <!-- buybox --> */}
-                        <div className="rc-column rc-triple-width buybox-column">
-                          <div className="product-pricing v2 rc-full-width hide-cta">
-                            <div className="product-pricing__inner">
-                              <div className="product-pricing__cards d-flex flex-column flex-sm-column">
-                                <div
-                                  className="product-pricing__card singlepruchase selected"
-                                  data-buybox="singlepruchase"
-                                >
-                                  <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
-                                    <div className="rc-input product-pricing__card__head__title">
-                                      <label>
-                                        <FormattedMessage id="details.unitPrice" />
-                                      </label>
-                                    </div>
-
-                                    <b className="product-pricing__card__head__price rc-padding-y--none js-price">
+                        { data.buyWay ?
+                            <div className="rc-column rc-triple-width buybox-column">
+                              <div className="product-pricing v2 rc-full-width hide-cta">
+                                <div className="product-pricing__inner">
+                                  <div className="product-pricing__cards d-flex flex-column flex-sm-column">
+                                    <div
+                                        className="product-pricing__card singlepruchase selected"
+                                        data-buybox="singlepruchase"
+                                    >
+                                      <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
+                                        <div className="rc-input product-pricing__card__head__title">
+                                          <div className="rc-input">
+                                            <input
+                                                className="rc-input__radio"
+                                                id="id-radio-cat-1"
+                                                value="Once"
+                                                checked={ data.buyWay === 'Once'}
+                                                onChange={this.handleChange.bind(this)}
+                                                type="radio"
+                                                name="radio-2"/>
+                                            <label className="rc-input__label--inline" htmlFor="id-radio-cat-1"><FormattedMessage id="details.OneOFF" /></label>
+                                          </div>
+                                          <div className="rc-input">
+                                            <input
+                                                className="rc-input__radio"
+                                                id="id-radio-cat-2"
+                                                value="Subscription"
+                                                checked={ data.buyWay === 'Subscription'}
+                                                onChange={this.handleChange.bind(this)}
+                                                type="radio"
+                                                name="radio-2"/>
+                                            <label className="rc-input__label--inline" htmlFor="id-radio-cat-2"><FormattedMessage id="details.Subscription" /></label>
+                                          </div>
+                                        </div>
+                                        <b className="product-pricing__card__head__price rc-padding-y--none js-price">
                                       <span>
                                         <span>
                                           <span className="sales">
@@ -675,220 +703,478 @@ class Details extends React.Component {
                                           </span>
                                         </span>
                                       </span>
-                                    </b>
-                                  </div>
-                                  {details &&
-                                    find(details.sizeList, (s) => s.selected) &&
-                                    find(details.sizeList, (s) => s.selected)
-                                      .marketingLabels[0] &&
-                                    find(details.sizeList, (s) => s.selected)
-                                      .marketingLabels[0].marketingDesc ? (
-                                      <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
-                                        <div className="rc-input product-pricing__card__head__title red d-flex justify-content-between">
+                                        </b>
+                                      </div>
+                                      {details &&
+                                      find(details.sizeList, (s) => s.selected) &&
+                                      find(details.sizeList, (s) => s.selected)
+                                          .marketingLabels[0] &&
+                                      find(details.sizeList, (s) => s.selected)
+                                          .marketingLabels[0].marketingDesc ? (
+                                          <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
+                                            <div className="rc-input product-pricing__card__head__title red d-flex justify-content-between">
                                           <span>
                                             <FormattedMessage id="promotion" />{" "}
                                           </span>
-                                          <span>25% OFF</span>
-                                        </div>
-                                      </div>
-                                    ) : null}
-                                  <div className="product-pricing__card__body rc-margin-top--xs">
-                                    <div>
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
-                                    <div className="toggleVisibility">
-                                      <div className="product-selectors rc-padding-top--xs">
-                                        {specList.map((sItem, i) => (
-                                          <div id="choose-select" key={i}>
-                                            <div className="rc-margin-bottom--xs">
-                                              {/* <FormattedMessage id="details.theSize" /> */}
-                                              {sItem.specName}:
+                                              <span>25% OFF</span>
+                                            </div>
                                           </div>
+                                      ) : null}
+                                      <div className="product-pricing__card__body rc-margin-top--xs">
+                                        <div>
+                                          <FormattedMessage id="freeShipping" />
+                                        </div>
+                                        <div className="toggleVisibility">
+                                          <div className="product-selectors rc-padding-top--xs">
+                                            {specList.map((sItem, i) => (
+                                                <div id="choose-select" key={i}>
+                                                  <div className="rc-margin-bottom--xs">
+                                                    {/* <FormattedMessage id="details.theSize" /> */}
+                                                    {sItem.specName}:11111
+                                                  </div>
 
-                                            <div data-attr="size">
-                                              <div
-                                                className="rc-swatch __select-size"
-                                                id="id-single-select-size"
-                                              >
-                                                {/* {details.sizeList.map(
+                                                  <div data-attr="size">
+                                                    <div
+                                                        className="rc-swatch __select-size"
+                                                        id="id-single-select-size"
+                                                    >
+                                                      {/* {details.sizeList.map(
                                                   (item, i) => (
-                                                    
+
                                                   )
                                                 )} */}
-                                                {sItem.chidren.map((sdItem, i) => (
-                                                  <div
-                                                    key={i}
-                                                    className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
-                                                    // item.selected
-                                                    //   ? "selected"
-                                                    //   : ""
-                                                    onClick={() =>
-                                                      this.handleChooseSize(sItem.specId, sdItem.specDetailId)
-                                                    }
-                                                  >
+                                                      {sItem.chidren.map((sdItem, i) => (
+                                                          <div
+                                                              key={i}
+                                                              className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
+                                                              // item.selected
+                                                              //   ? "selected"
+                                                              //   : ""
+                                                              onClick={() =>
+                                                                  this.handleChooseSize(sItem.specId, sdItem.specDetailId)
+                                                              }
+                                                          >
                                                     <span>
                                                       {sdItem.detailName}
                                                     </span>
+                                                          </div>
+                                                      ))}
+                                                    </div>
                                                   </div>
-                                                ))}
-                                              </div>
-                                            </div>
 
-                                          </div>
-                                        ))}
+                                                </div>
+                                            ))}
 
-                                        <div
-                                          className="quantity-width start-lines"
-                                          data-attr="size"
-                                        >
-                                          <div className="quantity d-flex justify-content-between align-items-center">
+                                            <div
+                                                className="quantity-width start-lines"
+                                                data-attr="size"
+                                            >
+                                              <div className="quantity d-flex justify-content-between align-items-center">
                                             <span>
                                               <FormattedMessage id="amount" />:
                                           </span>
-                                            <input
-                                              type="hidden"
-                                              id="invalid-quantity"
-                                              value="Пожалуйста, введите правильный номер."
-                                            />
-                                            <div className="rc-quantity text-right d-flex justify-content-end">
+                                                <input
+                                                    type="hidden"
+                                                    id="invalid-quantity"
+                                                    value="Пожалуйста, введите правильный номер."
+                                                />
+                                                <div className="rc-quantity text-right d-flex justify-content-end">
                                               <span
-                                                className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                                onClick={() =>
-                                                  this.hanldeAmountChange("minus")
-                                                }
+                                                  className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                                                  onClick={() =>
+                                                      this.hanldeAmountChange("minus")
+                                                  }
                                               ></span>
-                                              <input
-                                                className="rc-quantity__input"
-                                                id="quantity"
-                                                name="quantity"
-                                                value={quantity}
-                                                min={quantityMinLimit}
-                                                max={stock}
-                                                onChange={this.handleAmountInput}
-                                                maxLength="5"
-                                              />
-                                              <span
-                                                className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                                onClick={() =>
-                                                  this.hanldeAmountChange("plus")
-                                                }
-                                              ></span>
+                                                  <input
+                                                      className="rc-quantity__input"
+                                                      id="quantity"
+                                                      name="quantity"
+                                                      value={quantity}
+                                                      min={quantityMinLimit}
+                                                      max={stock}
+                                                      onChange={this.handleAmountInput}
+                                                      maxLength="5"
+                                                  />
+                                                  <span
+                                                      className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                                                      onClick={() =>
+                                                          this.hanldeAmountChange("plus")
+                                                      }
+                                                  ></span>
+                                                </div>
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                      </div>
-                                      <div className="availability  product-availability" style={{ display: details.sizeList.filter(el => el.selected).length ? 'block' : 'none' }}>
-                                        <div className="align-left flex">
-                                          <div className="stock__wrapper">
-                                            <div className="stock">
-                                              <label
-                                                className={[
-                                                  "availability",
-                                                  instockStatus
-                                                    ? "instock"
-                                                    : "outofstock",
-                                                ].join(" ")}
-                                              >
+                                          <div className="availability  product-availability" style={{ display: details.sizeList.filter(el => el.selected).length ? 'block' : 'none' }}>
+                                            <div className="align-left flex">
+                                              <div className="stock__wrapper">
+                                                <div className="stock">
+                                                  <label
+                                                      className={[
+                                                        "availability",
+                                                        instockStatus
+                                                            ? "instock"
+                                                            : "outofstock",
+                                                      ].join(" ")}
+                                                  >
                                                 <span className="title-select">
                                                   <FormattedMessage id="details.availability" />{" "}
-                                                :
+                                                  :
                                               </span>
-                                              </label>
-                                              <span
-                                                className="availability-msg"
-                                                data-ready-to-order="true"
-                                              >
+                                                  </label>
+                                                  <span
+                                                      className="availability-msg"
+                                                      data-ready-to-order="true"
+                                                  >
                                                 <div
-                                                  className={[
-                                                    instockStatus
-                                                      ? ""
-                                                      : "out-stock",
-                                                  ].join(" ")}
+                                                    className={[
+                                                      instockStatus
+                                                          ? ""
+                                                          : "out-stock",
+                                                    ].join(" ")}
                                                 >
                                                   {instockStatus ? (
-                                                    <FormattedMessage id="details.inStock" />
+                                                      <FormattedMessage id="details.inStock" />
                                                   ) : (
                                                       <FormattedMessage id="details.outStock" />
-                                                    )}
+                                                  )}
                                                 </div>
                                               </span>
+                                                </div>
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                      </div>
-                                      <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                        <div className="cart-and-ipay">
-                                          <button
-                                            className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                            data-loc="addToCart"
-                                            style={{ lineHeight: "30px" }}
-                                            onClick={() => this.hanldeAddToCart()}
-                                          >
-                                            <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
-                                            <FormattedMessage id="details.addToCart" />
-                                          </button>
-                                        </div>
-                                      </div>
-                                      <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                        <div className="cart-and-ipay">
-                                          <button
-                                            className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                            data-loc="addToCart"
-                                            style={{ lineHeight: "30px" }}
-                                            onClick={() =>
-                                              this.hanldeAddToCart({
-                                                redirect: true,
-                                                needLogin: !jugeLoginStatus()
-                                              })
-                                            }
-                                          >
-                                            <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
-                                            <FormattedMessage id="checkout" />
-                                          </button>
-                                        </div>
-                                      </div>
-                                      {
-                                        !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                          <div className="cart-and-ipay">
-                                            <button
-                                              className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                              data-loc="addToCart"
-                                              onClick={() =>
-                                                this.hanldeAddToCart({
-                                                  redirect: true
-                                                })
-                                              }
-                                            >
-                                              <FormattedMessage id="GuestCheckout" />
-                                            </button>
+                                          <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                            <div className="cart-and-ipay">
+                                              <button
+                                                  className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                  data-loc="addToCart"
+                                                  style={{ lineHeight: "30px" }}
+                                                  onClick={() => this.hanldeAddToCart()}
+                                              >
+                                                <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
+                                                <FormattedMessage id="details.addToCart" />
+                                              </button>
+                                            </div>
                                           </div>
+                                          <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                            <div className="cart-and-ipay">
+                                              <button
+                                                  className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                  data-loc="addToCart"
+                                                  style={{ lineHeight: "30px" }}
+                                                  onClick={() =>
+                                                      this.hanldeAddToCart({
+                                                        redirect: true,
+                                                        needLogin: !jugeLoginStatus()
+                                                      })
+                                                  }
+                                              >
+                                                <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
+                                                <FormattedMessage id="checkout" />
+                                              </button>
+                                            </div>
+                                          </div>
+                                          {
+                                            !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                              <div className="cart-and-ipay">
+                                                <button
+                                                    className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                    data-loc="addToCart"
+                                                    onClick={() =>
+                                                        this.hanldeAddToCart({
+                                                          redirect: true
+                                                        })
+                                                    }
+                                                >
+                                                  <FormattedMessage id="GuestCheckout" />
+                                                </button>
+                                              </div>
+                                            </div>
+                                          }
                                         </div>
-                                      }
+                                      </div>
                                     </div>
-                                  </div>
-                                </div>
-                                <div
-                                  style={{
-                                    display: this.state.checkOutErrMsg
-                                      ? "block"
-                                      : "none",
-                                  }}
-                                >
-                                  <aside
-                                    className="rc-alert rc-alert--error rc-alert--with-close"
-                                    role="alert"
-                                    style={{ padding: ".5rem" }}
-                                  >
+                                    <div
+                                        style={{
+                                          display: this.state.checkOutErrMsg
+                                              ? "block"
+                                              : "none",
+                                        }}
+                                    >
+                                      <aside
+                                          className="rc-alert rc-alert--error rc-alert--with-close"
+                                          role="alert"
+                                          style={{ padding: ".5rem" }}
+                                      >
                                     <span style={{ paddingLeft: "0" }}>
                                       {this.state.checkOutErrMsg}
                                     </span>
-                                  </aside>
+                                      </aside>
+                                    </div>
+                                  </div>
+                                  <div className="product-pricing__warranty rc-text--center"></div>
                                 </div>
                               </div>
-                              <div className="product-pricing__warranty rc-text--center"></div>
+                            </div> :
+                            <div className="rc-column rc-triple-width buybox-column">
+                              <div className="product-pricing v2 rc-full-width hide-cta">
+                                <div className="product-pricing__inner">
+                                  <div className="product-pricing__cards d-flex flex-column flex-sm-column">
+                                    <div
+                                        className="product-pricing__card singlepruchase selected"
+                                        data-buybox="singlepruchase"
+                                    >
+                                      <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
+                                        <div className="rc-input product-pricing__card__head__title">
+                                          <div className="rc-input">
+                                            <input
+                                                className="rc-input__radio"
+                                                id="id-radio-cat-1"
+                                                value="Once"
+                                                checked={ data.buyWay === 'Once'}
+                                                onChange={this.handleChange.bind(this)}
+                                                type="radio"
+                                                name="radio-2"/>
+                                            <label className="rc-input__label--inline" htmlFor="id-radio-cat-1"><FormattedMessage id="details.OneOFF" /></label>
+                                          </div>
+                                          <div className="rc-input">
+                                            <input
+                                                className="rc-input__radio"
+                                                id="id-radio-cat-2"
+                                                value="Subscription"
+                                                checked={ data.buyWay === 'Subscription'}
+                                                onChange={this.handleChange.bind(this)}
+                                                type="radio"
+                                                name="radio-2"/>
+                                            <label className="rc-input__label--inline" htmlFor="id-radio-cat-2"><FormattedMessage id="details.Subscription" /></label>
+                                          </div>
+                                        </div>
+                                        <b className="product-pricing__card__head__price rc-padding-y--none js-price">
+                                      <span>
+                                        <span>
+                                          <span className="sales">
+                                            <span className="value">
+                                              {formatMoney(currentUnitPrice)}
+                                            </span>
+                                          </span>
+                                        </span>
+                                      </span>
+                                        </b>
+                                      </div>
+                                      {details &&
+                                      find(details.sizeList, (s) => s.selected) &&
+                                      find(details.sizeList, (s) => s.selected)
+                                          .marketingLabels[0] &&
+                                      find(details.sizeList, (s) => s.selected)
+                                          .marketingLabels[0].marketingDesc ? (
+                                          <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
+                                            <div className="rc-input product-pricing__card__head__title red d-flex justify-content-between">
+                                          <span>
+                                            <FormattedMessage id="promotion" />{" "}
+                                          </span>
+                                              <span>25% OFF</span>
+                                            </div>
+                                          </div>
+                                      ) : null}
+                                      <div className="product-pricing__card__body rc-margin-top--xs">
+                                        <div>
+                                          <FormattedMessage id="freeShipping" />
+                                        </div>
+                                        <div className="toggleVisibility">
+                                          <div className="product-selectors rc-padding-top--xs">
+                                            {specList.map((sItem, i) => (
+                                                <div id="choose-select" key={i}>
+                                                  <div className="rc-margin-bottom--xs">
+                                                    {/* <FormattedMessage id="details.theSize" /> */}
+                                                    {sItem.specName}:11111
+                                                  </div>
+
+                                                  <div data-attr="size">
+                                                    <div
+                                                        className="rc-swatch __select-size"
+                                                        id="id-single-select-size"
+                                                    >
+                                                      {/* {details.sizeList.map(
+                                                  (item, i) => (
+
+                                                  )
+                                                )} */}
+                                                      {sItem.chidren.map((sdItem, i) => (
+                                                          <div
+                                                              key={i}
+                                                              className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
+                                                              // item.selected
+                                                              //   ? "selected"
+                                                              //   : ""
+                                                              onClick={() =>
+                                                                  this.handleChooseSize(sItem.specId, sdItem.specDetailId)
+                                                              }
+                                                          >
+                                                    <span>
+                                                      {sdItem.detailName}
+                                                    </span>
+                                                          </div>
+                                                      ))}
+                                                    </div>
+                                                  </div>
+
+                                                </div>
+                                            ))}
+
+                                            <div
+                                                className="quantity-width start-lines"
+                                                data-attr="size"
+                                            >
+                                              <div className="quantity d-flex justify-content-between align-items-center">
+                                            <span>
+                                              <FormattedMessage id="amount" />:
+                                          </span>
+                                                <input
+                                                    type="hidden"
+                                                    id="invalid-quantity"
+                                                    value="Пожалуйста, введите правильный номер."
+                                                />
+                                                <div className="rc-quantity text-right d-flex justify-content-end">
+                                              <span
+                                                  className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                                                  onClick={() =>
+                                                      this.hanldeAmountChange("minus")
+                                                  }
+                                              ></span>
+                                                  <input
+                                                      className="rc-quantity__input"
+                                                      id="quantity"
+                                                      name="quantity"
+                                                      value={quantity}
+                                                      min={quantityMinLimit}
+                                                      max={stock}
+                                                      onChange={this.handleAmountInput}
+                                                      maxLength="5"
+                                                  />
+                                                  <span
+                                                      className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                                                      onClick={() =>
+                                                          this.hanldeAmountChange("plus")
+                                                      }
+                                                  ></span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="availability  product-availability" style={{ display: details.sizeList.filter(el => el.selected).length ? 'block' : 'none' }}>
+                                            <div className="align-left flex">
+                                              <div className="stock__wrapper">
+                                                <div className="stock">
+                                                  <label
+                                                      className={[
+                                                        "availability",
+                                                        instockStatus
+                                                            ? "instock"
+                                                            : "outofstock",
+                                                      ].join(" ")}
+                                                  >
+                                                <span className="title-select">
+                                                  <FormattedMessage id="details.availability" />{" "}
+                                                  :
+                                              </span>
+                                                  </label>
+                                                  <span
+                                                      className="availability-msg"
+                                                      data-ready-to-order="true"
+                                                  >
+                                                <div
+                                                    className={[
+                                                      instockStatus
+                                                          ? ""
+                                                          : "out-stock",
+                                                    ].join(" ")}
+                                                >
+                                                  {instockStatus ? (
+                                                      <FormattedMessage id="details.inStock" />
+                                                  ) : (
+                                                      <FormattedMessage id="details.outStock" />
+                                                  )}
+                                                </div>
+                                              </span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                            <div className="cart-and-ipay">
+                                              <button
+                                                  className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                  data-loc="addToCart"
+                                                  style={{ lineHeight: "30px" }}
+                                                  onClick={() => this.hanldeAddToCart()}
+                                              >
+                                                <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
+                                                <FormattedMessage id="details.addToCart" />
+                                              </button>
+                                            </div>
+                                          </div>
+                                          <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                            <div className="cart-and-ipay">
+                                              <button
+                                                  className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                  data-loc="addToCart"
+                                                  style={{ lineHeight: "30px" }}
+                                                  onClick={() =>
+                                                      this.hanldeAddToCart({
+                                                        redirect: true,
+                                                        needLogin: !jugeLoginStatus()
+                                                      })
+                                                  }
+                                              >
+                                                <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
+                                                <FormattedMessage id="checkout" />
+                                              </button>
+                                            </div>
+                                          </div>
+                                          {
+                                            !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                              <div className="cart-and-ipay">
+                                                <button
+                                                    className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                    data-loc="addToCart"
+                                                    onClick={() =>
+                                                        this.hanldeAddToCart({
+                                                          redirect: true
+                                                        })
+                                                    }
+                                                >
+                                                  <FormattedMessage id="GuestCheckout" />
+                                                </button>
+                                              </div>
+                                            </div>
+                                          }
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                        style={{
+                                          display: this.state.checkOutErrMsg
+                                              ? "block"
+                                              : "none",
+                                        }}
+                                    >
+                                      <aside
+                                          className="rc-alert rc-alert--error rc-alert--with-close"
+                                          role="alert"
+                                          style={{ padding: ".5rem" }}
+                                      >
+                                    <span style={{ paddingLeft: "0" }}>
+                                      {this.state.checkOutErrMsg}
+                                    </span>
+                                      </aside>
+                                    </div>
+                                  </div>
+                                  <div className="product-pricing__warranty rc-text--center"></div>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
+                        }
                       </div>
                     </div>
                   </div>
