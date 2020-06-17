@@ -168,8 +168,8 @@ export default class AccountOrders extends React.Component {
       debugger
       const detailResCt = detailRes.context
       const tmpDeliveryAddress = {
-        firstName: detailResCt.consignee.firstName,  // todo
-        lastName: detailResCt.consignee.lastName,  // todo
+        firstName: detailResCt.consignee.firstName,
+        lastName: detailResCt.consignee.lastName,
         address1: detailResCt.consignee.detailAddress1,
         address2: detailResCt.consignee.detailAddress2,
         rfc: detailResCt.consignee.rfc,
@@ -180,8 +180,8 @@ export default class AccountOrders extends React.Component {
         addressId: detailResCt.consignee.id
       }
       const tmpBillingAddress = {
-        firstName: detailResCt.invoice.firstName, // todo
-        lastName: detailResCt.invoice.lastName, // todo
+        firstName: detailResCt.invoice.firstName,
+        lastName: detailResCt.invoice.lastName,
         address1: detailResCt.invoice.address1,
         address2: detailResCt.invoice.address2,
         rfc: detailResCt.invoice.rfc,

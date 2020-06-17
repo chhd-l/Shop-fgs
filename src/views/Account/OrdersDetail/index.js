@@ -121,7 +121,7 @@ class AccountOrders extends React.Component {
     if (details.tradeState.deliverStatus === 'SHIPPED'
       && details.tradeState.flowState === 'COMPLETED') {
       return <>
-        <a className="color-999 ui-cursor-pointer" title="Bottom" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">•••</a>
+        <a className="color-999 ui-cursor-pointer" title="More" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">•••</a>
         <div id="bottom-tooltip" class="rc-tooltip text-left pl-1 pr-1">
           <div
             className={`border-bottom p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
@@ -145,7 +145,7 @@ class AccountOrders extends React.Component {
       && details.tradeState.flowState === 'AUDIT'
       && details.tradeState.deliverStatus === 'NOT_YET_SHIPPED') {
       ret = <>
-        <a className="color-999 ui-cursor-pointer" title="Bottom" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">•••</a>
+        <a className="color-999 ui-cursor-pointer" title="More" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">•••</a>
         <div id="bottom-tooltip" class="rc-tooltip text-left pl-1 pr-1">
           <div
             className={`p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
