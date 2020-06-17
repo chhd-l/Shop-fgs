@@ -11,7 +11,7 @@ import { find } from "lodash"
 import { GTM_SITE_ID, STOREID } from "@/utils/constant"
 import { getDictionary } from "@/utils/utils"
 import { addEvaluate } from "@/api/order"
-import "./index.css";
+import "./index.css"
 
 class Confirmation extends React.Component {
   constructor(props) {
@@ -138,7 +138,8 @@ class Confirmation extends React.Component {
         consumerComment: this.state.consumerComment,
         serverScore: -1,
         logisticsScore: -1,
-        compositeScore: -1
+        compositeScore: -1,
+        consumerType: this.state.paywithLogin ? 'Member' : 'Guest'
       })
       this.setState({
         modalShow: false,
