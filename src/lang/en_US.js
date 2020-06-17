@@ -111,6 +111,8 @@ const en_US = {
   'list.errMsg3': 'No filters found, please try again later.',
 
   'details.unitPrice': 'Unit price',
+  'details.OneOFF': 'One-off purchase',
+  'details.Subscription': 'Subscription',
   'details.theSize': 'The size',
   'details.availability': 'Availability',
   'details.inStock': 'In stock',

@@ -23,7 +23,8 @@ export default class AccountProfile extends React.Component {
         email: ''
       },
       addressBookData: {
-        address: '',
+        address1: '',
+        address2: '',
         country: "Mexico",
         city: '',
         postCode: '',
@@ -75,7 +76,8 @@ export default class AccountProfile extends React.Component {
             birthdate: context.birthDay ? context.birthDay.split('-').join('/') : context.birthDay
           },
           addressBookData: {
-            address: context.customerAddress,
+            address1: context.house,
+            address2: context.housing,
             country: context.countryId,
             city: context.cityId,
             postCode: context.postCode,

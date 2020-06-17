@@ -15,7 +15,8 @@ export default class AddressBookEditForm extends React.Component {
       successTipVisible: false,
       errorMsg: '',
       form: {
-        address: '',
+        address1: '',
+        address2: '',
         country: '',
         city: '',
         postCode: '',
@@ -125,7 +126,7 @@ export default class AddressBookEditForm extends React.Component {
     const { form } = this.state
     for (let key in form) {
       const value = form[key]
-      if (!value && (key === 'address' || key === 'country' || key === 'city' || key === 'postCode' || key === 'phoneNumber')) {
+      if (!value && (key === 'address1' || key === 'address2' || key === 'country' || key === 'city' || key === 'postCode' || key === 'phoneNumber')) {
         this.showErrMsg('Please complete the required items')
         return
       }
@@ -137,7 +138,8 @@ export default class AddressBookEditForm extends React.Component {
 
     this.setState({ loading: true })
     let param = Object.assign({}, this.props.originData, {
-      customerAddress: form.address,
+      house: form.address1,
+      housing: form.address2,
       countryId: form.country,
       cityId: form.city,
       postCode: form.postCode,
@@ -235,10 +237,16 @@ export default class AddressBookEditForm extends React.Component {
           </aside>
           <div className={`row userContactInfo text-break ${editFormVisible ? 'hidden' : ''}`}>
             <div className="col-lg-6">
-              <FormattedMessage id="address" />
+              <FormattedMessage id="payment.address1" />
             </div>
             <div className="col-lg-6">
-              {data.address}
+              {data.address1}
+            </div>
+            <div className="col-lg-6">
+              <FormattedMessage id="payment.address2" />
+            </div>
+            <div className="col-lg-6">
+              {data.address2}
             </div>
             <div className="col-md-6">
               <FormattedMessage id="payment.country" />
@@ -276,31 +284,65 @@ export default class AddressBookEditForm extends React.Component {
           <div className="row">
             <div className="form-group col-lg-12 pull-left required">
               <label className="form-control-label rc-full-width" htmlFor="address">
-                <FormattedMessage id="address" />
+                <FormattedMessage id="payment.address1" />
               </label>
               <span className="rc-input rc-input--label rc-margin--none rc-input--full-width" input-setup="true">
                 <input
                   type="text"
                   className="rc-input__control"
-                  id="address"
+                  id="address1"
                   data-pattern-mismatch="Please match the requested format"
                   data-missing-error="Это поле обязательно для заполнения."
-                  name="address"
+                  name="address1"
                   required=""
                   aria-required="true"
-                  value={form.address}
+                  value={form.address1}
                   onChange={e => this.handleInputChange(e)}
                   onBlur={e => this.inputBlur(e)}
                   maxLength="50"
                   autoComplete="address-line" />
-                <label className="rc-input__label" htmlFor="address"></label>
+                <label className="rc-input__label" htmlFor="address1"></label>
               </span>
               <div className="invalid-feedback" style={{ display: 'none' }}>
                 <FormattedMessage
                   id="payment.errorInfo"
                   values={{
                     val: (
-                      <FormattedMessage id="address" />
+                      <FormattedMessage id="payment.address1" />
+                    ),
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="form-group col-lg-12 pull-left required">
+              <label className="form-control-label rc-full-width" htmlFor="address">
+                <FormattedMessage id="payment.address2" />
+              </label>
+              <span className="rc-input rc-input--label rc-margin--none rc-input--full-width" input-setup="true">
+                <input
+                  type="text"
+                  className="rc-input__control"
+                  id="address2"
+                  data-pattern-mismatch="Please match the requested format"
+                  data-missing-error="Это поле обязательно для заполнения."
+                  name="address2"
+                  required=""
+                  aria-required="true"
+                  value={form.address2}
+                  onChange={e => this.handleInputChange(e)}
+                  onBlur={e => this.inputBlur(e)}
+                  maxLength="50"
+                  autoComplete="address-line" />
+                <label className="rc-input__label" htmlFor="address2"></label>
+              </span>
+              <div className="invalid-feedback" style={{ display: 'none' }}>
+                <FormattedMessage
+                  id="payment.errorInfo"
+                  values={{
+                    val: (
+                      <FormattedMessage id="payment.address2" />
                     ),
                   }}
                 />

@@ -59,7 +59,8 @@ class Details extends React.Component {
       addToCartLoading: false,
       tradePrice: "",
       specList: [],
-      tabsValue: []
+      tabsValue: [],
+      buyWay: 'Once'
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -529,6 +530,12 @@ class Details extends React.Component {
   changeTab (e, i) {
     this.setState({ activeTabIdx: i })
   }
+  handleChange(e){
+    this.setState({
+          buyWay: e.target.value
+        }
+    )
+  }
   render () {
     const createMarkup = (text) => ({ __html: text });
     const {
@@ -714,7 +721,7 @@ class Details extends React.Component {
                                               >
                                                 {/* {details.sizeList.map(
                                                   (item, i) => (
-                                                    
+
                                                   )
                                                 )} */}
                                                 {sItem.chidren.map((sdItem, i) => (
