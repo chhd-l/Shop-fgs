@@ -355,17 +355,21 @@ export default class AccountOrders extends React.Component {
                                   </div>
                                 </div>
                               ))}
-                              <div className="grid-footer rc-full-width mt-2">
-                                <Pagination
-                                  loading={this.state.loading}
-                                  totalPage={this.state.totalPage}
-                                  onPageNumChange={params => this.hanldePageNumChange(params)} />
-                              </div>
                             </>
                             : <div className="text-center mt-5">
                               <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
                               <FormattedMessage id="order.noDataTip" />
                             </div>
+                    }
+                    {
+                      this.state.errMsg
+                        ? null
+                        : <div className="grid-footer rc-full-width mt-2">
+                          <Pagination
+                            loading={this.state.loading}
+                            totalPage={this.state.totalPage}
+                            onPageNumChange={params => this.hanldePageNumChange(params)} />
+                        </div>
                     }
                   </div>
                 </div>
