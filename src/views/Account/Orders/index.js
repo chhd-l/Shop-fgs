@@ -11,8 +11,13 @@ import Pagination from '@/components/Pagination'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
-import { getOrderList } from "@/api/order"
-import { IMG_DEFAULT } from '@/utils/constant'
+import { getOrderList, getOrderDetails } from "@/api/order"
+import {
+  IMG_DEFAULT,
+  DELIVER_STATUS_ENUM,
+  ORDER_STATUS_ENUM,
+  PAY_STATUS_ENUM
+} from '@/utils/constant'
 import './index.css'
 
 export default class AccountOrders extends React.Component {
@@ -32,10 +37,10 @@ export default class AccountOrders extends React.Component {
       initing: true,
       errMsg: '',
       duringTimeOptions: [
-        { value: '7d', name: 'Last 7 days' }, // todo 多语言
-        { value: '30d', name: 'Last 30 days' },
-        { value: '3m', name: 'Last 3 months' },
-        { value: '6m', name: 'Last 6 months' },
+        { value: '7d', name: <FormattedMessage id="order.lastXDays" values={{ val: 7 }} /> },
+        { value: '30d', name: <FormattedMessage id="order.lastXDays" values={{ val: 30 }} /> },
+        { value: '3m', name: <FormattedMessage id="order.lastXMonths" values={{ val: 3 }} /> },
+        { value: '6m', name: <FormattedMessage id="order.lastXMonths" values={{ val: 6 }} /> }
       ]
     }
 
@@ -99,15 +104,18 @@ export default class AccountOrders extends React.Component {
     }
     getOrderList(param)
       .then(res => {
-        let tmpList = Array.from(res.context.content, ele =>
-          Object.assign(ele,
+        let tmpList = Array.from(res.context.content, ele => {
+          const tradeState = ele.tradeState
+          return Object.assign(ele,
             {
-              canPayNow: ele.tradeState.flowState === 'AUDIT'
-                && ele.tradeState.deliverStatus === 'NOT_YET_SHIPPED'
-                && ele.tradeState.payState === 'NOT_PAID'
-                && new Date(ele.orderTimeOut).getTime() > new Date().getTime()
+              canPayNow: tradeState.flowState === 'AUDIT'
+                && tradeState.deliverStatus === 'NOT_YET_SHIPPED'
+                && tradeState.payState === 'NOT_PAID'
+                && new Date(ele.orderTimeOut).getTime() > new Date().getTime(),
+              payNowLoading: false
             }
           )
+        }
         )
         this.setState({
           orderList: tmpList,
@@ -141,7 +149,10 @@ export default class AccountOrders extends React.Component {
     order.canPayNow = false
     this.setState({ orderList: orderList })
   }
-  handleClickPayNow (order) {
+  async handleClickPayNow (order) {
+    const { orderList } = this.state
+    order.payNowLoading = true
+    this.setState({ orderList: orderList })
     const tradeItems = order.tradeItems.map(ele => {
       return {
         goodsInfoImg: ele.pic,
@@ -152,14 +163,53 @@ export default class AccountOrders extends React.Component {
         goodsInfoId: ele.skuId
       }
     })
-    localStorage.setItem("rc-cart-data-login", JSON.stringify(tradeItems))
-    sessionStorage.setItem('rc-tid', order.id)
-    sessionStorage.setItem('rc-totalInfo', JSON.stringify({
-      totalPrice: order.tradePrice.totalPrice,
-      tradePrice: order.tradePrice.originPrice,
-      discountPrice: order.tradePrice.discountsPrice
-    }))
-    this.props.history.push('/payment/payment')
+    try {
+      const detailRes = await getOrderDetails(order.id)
+      debugger
+      const detailResCt = detailRes.context
+      const tmpDeliveryAddress = {
+        firstName: detailResCt.consignee.firstName,  // todo
+        lastName: detailResCt.consignee.lastName,  // todo
+        address1: detailResCt.consignee.detailAddress1,
+        address2: detailResCt.consignee.detailAddress2,
+        rfc: detailResCt.consignee.rfc,
+        country: detailResCt.consignee.countryId ? detailResCt.consignee.countryId.toString() : '',
+        city: detailResCt.consignee.cityId ? detailResCt.consignee.cityId.toString() : '',
+        postCode: detailResCt.consignee.postCode,
+        phoneNumber: detailResCt.consignee.phone,
+        addressId: detailResCt.consignee.id
+      }
+      const tmpBillingAddress = {
+        firstName: detailResCt.invoice.firstName, // todo
+        lastName: detailResCt.invoice.lastName, // todo
+        address1: detailResCt.invoice.address1,
+        address2: detailResCt.invoice.address2,
+        rfc: detailResCt.invoice.rfc,
+        country: detailResCt.invoice.countryId ? detailResCt.invoice.countryId.toString() : '',
+        city: detailResCt.invoice.cityId ? detailResCt.invoice.cityId.toString() : '',
+        postCode: detailResCt.invoice.postCode,
+        phoneNumber: detailResCt.invoice.phone,
+        addressId: detailResCt.invoice.addressId
+      }
+      localStorage.setItem("loginDeliveryInfo", JSON.stringify({
+        deliveryAddress: tmpDeliveryAddress,
+        billingAddress: tmpBillingAddress,
+        commentOnDelivery: detailResCt.buyerRemark
+      }))
+      localStorage.setItem("rc-cart-data-login", JSON.stringify(tradeItems))
+      sessionStorage.setItem('rc-tid', order.id)
+      sessionStorage.setItem('rc-totalInfo', JSON.stringify({
+        totalPrice: order.tradePrice.totalPrice,
+        tradePrice: order.tradePrice.originPrice,
+        discountPrice: order.tradePrice.discountsPrice
+      }))
+      this.props.history.push('/payment/payment')
+    } catch (err) {
+      console.log(err)
+    } finally {
+      order.payNowLoading = true
+      this.setState({ orderList: orderList })
+    }
   }
   render () {
     const event = {
@@ -171,7 +221,7 @@ export default class AccountOrders extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
+        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
@@ -277,13 +327,13 @@ export default class AccountOrders extends React.Component {
                                       {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
                                     </div>
                                     <div className="col-12 col-md-2">
-                                      {order.tradeState.flowState}
+                                      {ORDER_STATUS_ENUM[order.tradeState.flowState] || order.tradeState.flowState}
                                     </div>
                                     <div className="col-12 col-md-2">
-                                      {order.tradeState.deliverStatus}
+                                      {DELIVER_STATUS_ENUM[order.tradeState.deliverStatus] || order.tradeState.deliverStatus}
                                     </div>
                                     <div className="col-12 col-md-2">
-                                      {order.tradeState.payState}
+                                      {PAY_STATUS_ENUM[order.tradeState.payState] || order.tradeState.payState}
                                     </div>
                                     <div className="col-12 col-md-2 text-center">
                                       {
@@ -292,7 +342,9 @@ export default class AccountOrders extends React.Component {
                                             <TimeCount
                                               endTime={order.orderTimeOut}
                                               onTimeEnd={() => this.handlePayNowTimeEnd(order)} />
-                                            <button className="rc-btn rc-btn--one" style={{ transform: 'scale(.85)' }}
+                                            <button
+                                              className={`rc-btn rc-btn--one ${order.payNowLoading ? 'ui-btn-loading' : ''}`}
+                                              style={{ transform: 'scale(.85)' }}
                                               onClick={() => this.handleClickPayNow(order)}>
                                               <FormattedMessage id="order.payNow" />
                                             </button>

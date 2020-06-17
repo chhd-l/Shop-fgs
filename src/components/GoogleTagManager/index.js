@@ -30,8 +30,10 @@ class GoogleTagManager extends React.Component {
 
     loadJS(`window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(${JSON.stringify(additionalEvents)});`, function () { })
-    loadJS(`window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(${JSON.stringify(this.props.ecommerceEvents || {})});`, function () { })
+    if (this.props.ecommerceEvents) {
+      loadJS(`window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(${JSON.stringify(this.props.ecommerceEvents)});`, function () { })
+    }
     loadJS(`(function(w,d,s,l,i){w[l] = w[l] || [];
       w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js', });
       var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';

@@ -259,7 +259,7 @@ export default class ShippingAddress extends React.Component {
     // console.log(this.getElementToPageTop(widget))
     if (widget) {
       window.scrollTo({
-        top: this.getElementToPageTop(widget),
+        top: 0,
         behavior: 'smooth'
       })
     }
@@ -301,7 +301,7 @@ export default class ShippingAddress extends React.Component {
   render () {
     return (
       <div>
-        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
+        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">

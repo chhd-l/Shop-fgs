@@ -195,6 +195,16 @@ class PaymentComp extends React.Component {
   async handleSave(e) {
     e.preventDefault();
     const { creditCardInfo } = this.state;
+    for (let k in creditCardInfo) {
+      if (this.state.creditCardInfo[k] === "") {
+        this.showErrorMsg("Please complete the required item");
+        return
+      }
+      if (k === "email" && !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(creditCardInfo[k].replace(/\s*/g, ""))) {
+        this.showErrorMsg("Please enter the correct email");
+        return;
+      }
+    }
     this.setState({
       loading: true,
     });

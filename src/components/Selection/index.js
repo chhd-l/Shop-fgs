@@ -73,7 +73,7 @@ export default class Selection extends React.Component {
           <div className="choices__inner">
             <div className="choices__list choices__list--single">
               <div className="choices__item choices__item--selectable" aria-selected="true">
-                {find(optionList, ele => ele.value === selectedItem.value) && find(optionList, ele => ele.value === selectedItem.value).name}
+                {find(optionList, ele => ele.value == selectedItem.value) && find(optionList, ele => ele.value == selectedItem.value).name}&nbsp;
               </div>
             </div>
           </div>

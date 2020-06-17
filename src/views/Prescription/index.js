@@ -43,8 +43,8 @@ class Prescription extends React.Component {
       total: 0, // 总数
       totalPage: 1,
       center: {
-        lat: 19.3,
-        lng: -99.1,
+        lat: 19.09,
+        lng: -99.24,
       },
       zoom: 12,
       mapKey: 0,
@@ -55,8 +55,8 @@ class Prescription extends React.Component {
         type: 'customer'
       },
       meLocation: {
-        lat: 19.3,
-        lng: -99.1,
+        lat: 19.09,
+        lng: -99.24,
       },
       clinicArr: [],
       currentClinicArr: [],
@@ -107,7 +107,7 @@ class Prescription extends React.Component {
       this.handldKey(this.state.mapKey)
       params.latitude = position.coords.latitude.toString()
       params.longitude = position.coords.longitude.toString()
-      this.getPrescription(this.state.params)
+      
       this.setState({
         center: {
           lat: position.coords.latitude,
@@ -122,6 +122,9 @@ class Prescription extends React.Component {
       })
       
     })
+    setTimeout(() => {
+      this.getPrescription(params)
+    }, 1000);
   }
 
   async getPrescription (params) {
@@ -144,7 +147,7 @@ class Prescription extends React.Component {
     }
     const res = await getAllPrescription(params)
     if (res.code === 'K-000000') {
-      let clinicArr = res.context.clinicsVo
+      let clinicArr = res.context.prescriberVo
       //过滤掉经纬度非数字值
       clinicArr = clinicArr.filter(item => {
         return !(isNaN(item.latitude) || isNaN(item.longitude))
@@ -205,8 +208,8 @@ class Prescription extends React.Component {
 
   }
   handleConfirm = (item) => {
-    sessionStorage.setItem('rc-clinics-id2', item.clinicsId)
-    sessionStorage.setItem('rc-clinics-name2', item.clinicsName)
+    sessionStorage.setItem('rc-clinics-id2', item.prescriberId)
+    sessionStorage.setItem('rc-clinics-name2', item.prescriberName)
 
     const { history } = this.props
     history.push('/payment/shipping')
@@ -232,7 +235,7 @@ class Prescription extends React.Component {
     />)
     for (var i = 0; i < this.state.clinicArr.length; i++) {
       flags.push(<AnyReactComponent
-        key={this.state.clinicArr[i].clinicsId}
+        key={this.state.clinicArr[i].prescriberId}
         lat={+this.state.clinicArr[i].latitude}
         lng={+this.state.clinicArr[i].longitude}
         obj={this.state.clinicArr[i]}
@@ -251,7 +254,7 @@ class Prescription extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header showMiniIcons={true} location={this.props.location} history={this.props.history} />
+        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3" >
           <div
             id="checkout-main"
@@ -311,11 +314,11 @@ class Prescription extends React.Component {
                   <div className="rc-column" style={{ padding: "0", margin: '1rem 0 2rem' }}>
                     {this.state.currentClinicArr.map(item => (
                       <article className="rc-card rc-card--a clinic-card-boder" style={{ width: '100%', margin: '1rem 0' }}
-                        key={item.clinicsId}>
+                        key={item.prescriberId}>
                         <div className="rc-card__body" style={{ padding: "0 0 0 1rem", }}>
                           <div onClick={() => this.handleItem(item)}>
                             <p style={{ margin: '.5rem 0 0 0' }}><FormattedMessage id='clinic.vet' ></FormattedMessage></p>
-                            <h3 className="rc-card__title rc-delta click-btn clinic-title" >{item.clinicsName}</h3>
+                            <h3 className="rc-card__title rc-delta click-btn clinic-title" >{item.prescriberName}</h3>
                             <div className="clinic-phone">{item.preferredChannel === 'phone' ? item.phone : item.email} </div>
                             <div className="clinic-address">{item.location} </div>
                           </div>

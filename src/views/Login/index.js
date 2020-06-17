@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./index.css";
 import Loading from "@/components/Loading";
 import { login } from "@/api/login";
+import { getCustomerInfo } from "@/api/user"
 
 class Login extends React.Component {
   constructor(props) {
@@ -45,7 +46,16 @@ class Login extends React.Component {
       let userinfo = res.context.customerDetail
       userinfo.customerAccount = res.context.accountName
       sessionStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-      history.push(this.props.location.state && this.props.location.state.redirectUrl || '/account')
+      try {
+        let customerInfoRes = await getCustomerInfo()
+        const context = customerInfoRes.context
+        sessionStorage.setItem('rc-clinics-id', context.defaultClinics && context.defaultClinics.clinicsId || '')
+        sessionStorage.setItem('rc-clinics-name', context.defaultClinics && context.defaultClinics.clinicsName || '')
+      } catch (err) {
+        console.log(err)
+      } finally {
+        history.push(this.props.location.state && this.props.location.state.redirectUrl || '/account')
+      }
     }
   }
   render () {

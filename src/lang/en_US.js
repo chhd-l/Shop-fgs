@@ -1,6 +1,7 @@
 const en_US = {
   'just': 'Just',
   'or': 'or',
+  'submit': 'Submit',
   'yes': 'Yes',
   'cancel': 'Cancel',
   'save': 'Save',
@@ -159,7 +160,6 @@ const en_US = {
   'footer.copyrightInfo': 'Copyright © Mars 2020®, Trademark of Mars Incorporated and its affiliates',
 
   'clinic.clinic': 'clinic',
-  'clinic.clinic2': 'Clinic',
   'clinic.confirm': 'Confirm',
   'clinic.cancel': 'Cancel',
   'clinic.selectVetClinics': 'Select Vet Clinics',
@@ -171,6 +171,7 @@ const en_US = {
   //'clinic.SortResultsByStarRating': 'Sort results by star rating',
 
   'payment.clinicTitle': 'Selected clinic',
+  'payment.clinicTitle2': 'Default clinic',
   'payment.deliveryTitle': 'Delivery Address',
   'payment.firstName': 'First Name',
   'payment.lastName': 'Last Name',
@@ -218,6 +219,9 @@ const en_US = {
   'confirmation.visitOnlineStore': 'Visit online store',
   'confirmation.customerInformation': 'Customer Information',
   'confirmation.orderNumber': 'Order number',
+  'confirmation.rateTip': 'How would you rate your shopping experience?',
+  'confirmation.rateTip2': 'What can we do to improve?',
+  'confirmation.rateTip3': 'Enter up to 50 characters',
 
   'help.needHelp': 'Need help ?',
   'help.tip1': 'Our customer service staff is professional and enthusiam.',
@@ -275,6 +279,7 @@ const en_US = {
   'order.paymentNumber': 'Payment number',
   'order.confirmCancelOrderInfo': 'Do you really want to cancel the order?',
   'order.refundErrorInfo': 'This order is associated with a refund in processing and cannot be reapplied.',
+  'order.rateModalTitle': 'Your opinion is important',
 
   'datePicker.previousMonth': 'previous Month',
   'datePicker.nextMonth': 'next Month',

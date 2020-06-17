@@ -423,6 +423,7 @@ class Details extends React.Component {
       }
     } catch (err) {
       console.log(err);
+      this.setState({ errMsg: err.toString() })
     }
   }
   async hanldeUnloginAddToCart ({ redirect = false, needLogin = false }) {
@@ -564,6 +565,7 @@ class Details extends React.Component {
         <Header
           ref={this.headerRef}
           showMiniIcons={true}
+          showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
         />
@@ -981,50 +983,18 @@ class Details extends React.Component {
                                         <div>
                                           <FormattedMessage id="freeShipping" />
                                         </div>
-                                        <div className="toggleVisibility">
-                                          <div className="product-selectors rc-padding-top--xs">
-                                            {specList.map((sItem, i) => (
-                                                <div id="choose-select" key={i}>
-                                                  <div className="rc-margin-bottom--xs">
-                                                    {/* <FormattedMessage id="details.theSize" /> */}
-                                                    {sItem.specName}:11111
-                                                  </div>
-
-                                                  <div data-attr="size">
-                                                    <div
-                                                        className="rc-swatch __select-size"
-                                                        id="id-single-select-size"
-                                                    >
-                                                      {/* {details.sizeList.map(
-                                                  (item, i) => (
-
-                                                  )
-                                                )} */}
-                                                      {sItem.chidren.map((sdItem, i) => (
-                                                          <div
-                                                              key={i}
-                                                              className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
-                                                              // item.selected
-                                                              //   ? "selected"
-                                                              //   : ""
-                                                              onClick={() =>
-                                                                  this.handleChooseSize(sItem.specId, sdItem.specDetailId)
-                                                              }
-                                                          >
-                                                    <span>
-                                                      {sdItem.detailName}
-                                                    </span>
-                                                          </div>
-                                                      ))}
-                                                    </div>
-                                                  </div>
-
-                                                </div>
-                                            ))}
-
-                                            <div
-                                                className="quantity-width start-lines"
-                                                data-attr="size"
+                                      </div>
+                                      {
+                                        !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                          <div className="cart-and-ipay">
+                                            <button
+                                              className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                              data-loc="addToCart"
+                                              onClick={() =>
+                                                this.hanldeAddToCart({
+                                                  redirect: true
+                                                })
+                                              }
                                             >
                                               <div className="quantity d-flex justify-content-between align-items-center">
                                             <span>

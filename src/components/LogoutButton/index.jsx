@@ -33,10 +33,10 @@ const LogoutButton = () => {
         authService.getUser().then((info) => {
           setUserInfo(info);
           if (!sessionStorage.getItem('rc-token')) {
-            // getToken({ oktaToken: `Bearer ${accessToken}` }).then(res => {
-            //   sessionStorage.setItem("rc-token", res.context.token);
-            //   sessionStorage.setItem("rc-userinfo", JSON.stringify(res.context.customerDetail));
-            // })
+            getToken({ oktaToken: `Bearer ${accessToken}` }).then(res => {
+              sessionStorage.setItem("rc-token", res.context.token);
+              sessionStorage.setItem("rc-userinfo", JSON.stringify(res.context.customerDetail));
+            })
           }
         });
       });
