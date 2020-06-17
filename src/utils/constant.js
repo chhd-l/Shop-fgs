@@ -22,5 +22,7 @@ export const ORDER_STATUS_ENUM = {
   'COMPLETED': 'Completed'
 }
 export const PAY_STATUS_ENUM = {
-  'REFUND': 'Refund'
+  'REFUND': 'Refund',
+  'NOT_PAID': 'Unpaid',
+  'PAID': 'Paid'
 }
