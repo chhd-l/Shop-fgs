@@ -14,6 +14,38 @@ import { queryStoreCateIds, formatMoney, jugeLoginStatus } from '@/utils/utils'
 import { STOREID, CATEID } from '@/utils/constant'
 import './index.css'
 
+// todo
+const STORE_CATE_ENUM = [
+  {
+    url: '/list/dogs',
+    category: 'dogs',
+    cateName: 'Prescription dogs',
+    // lang: <FormattedMessage id="home.catogery3" />,
+    lang: 'Dietas de Prescripción Veterinaria Perros',
+  },
+  {
+    url: '/list/cats',
+    category: 'cats',
+    cateName: 'Prescription cats',
+    // lang: <FormattedMessage id="home.catogery4" />,
+    lang: 'Dietas de Prescripción Veterinaria Gatos',
+  },
+  {
+    url: '/list/vcn',
+    category: 'vcn',
+    cateName: 'VD dogs',
+    // lang: <FormattedMessage id="home.catogery1" />,
+    lang: 'Dietas Veterinarias Perros'
+  },
+  {
+    url: '/list/vd',
+    category: 'vd',
+    cateName: 'VD cats',
+    // lang: <FormattedMessage id="home.catogery2" />,
+    lang: 'Dietas Veterinarias Gatos'
+  }
+]
+
 class List extends React.Component {
   constructor(props) {
     super(props)
@@ -87,15 +119,9 @@ class List extends React.Component {
     })
 
     let storeIdList = await queryStoreCateIds()
-    let map = {
-      dogs: 'Prescription dogs',
-      cats: 'Prescription cats',
-      vcn: 'VD dogs',
-      vd: 'VD cats'
-    }
-    let res = map[category]
-    if (res) {
-      let targetObj = find(storeIdList, s => s.cateName.toLocaleLowerCase() === res.toLocaleLowerCase())
+    const t = find(STORE_CATE_ENUM, ele => ele.category == category)
+    if (t && t.cateName) {
+      let targetObj = find(storeIdList, s => s.cateName.toLocaleLowerCase() === t.cateName.toLocaleLowerCase())
       if (targetObj) {
         this.setState({
           storeCateId: targetObj.storeCateId

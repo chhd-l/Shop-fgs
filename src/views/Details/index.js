@@ -10,25 +10,65 @@ import {
   translateHtmlCharater,
   hanldePurchases,
   jugeLoginStatus,
+  queryProps,
   flat
 } from '@/utils/utils'
-import { MINIMUM_AMOUNT, STOREID } from "@/utils/constant"
+import {
+  MINIMUM_AMOUNT,
+  STOREID
+} from "@/utils/constant"
 import { FormattedMessage } from 'react-intl'
 import { cloneDeep, findIndex, find } from 'lodash'
-import { getDetails, getLoginDetails } from '@/api/details'
+import {
+  getDetails,
+  getLoginDetails
+} from '@/api/details'
 import {
   miniPurchases,
   sitePurchase,
   sitePurchases,
-  siteMiniPurchases,
+  siteMiniPurchases
 } from '@/api/cart'
 import { getDict } from '@/api/dict'
 import './index.css'
+
+// todo
+const STORE_CATE_ENUM = [
+  {
+    url: '/list/dogs',
+    category: 'dogs',
+    cateName: 'Prescription dogs',
+    // lang: <FormattedMessage id="home.catogery3" />,
+    lang: 'Dietas de Prescripción Veterinaria Perros',
+  },
+  {
+    url: '/list/cats',
+    category: 'cats',
+    cateName: 'Prescription cats',
+    // lang: <FormattedMessage id="home.catogery4" />,
+    lang: 'Dietas de Prescripción Veterinaria Gatos',
+  },
+  {
+    url: '/list/vcn',
+    category: 'vcn',
+    cateName: 'VD dogs',
+    // lang: <FormattedMessage id="home.catogery1" />,
+    lang: 'Dietas Veterinarias Perros'
+  },
+  {
+    url: '/list/vd',
+    category: 'vd',
+    cateName: 'VD cats',
+    // lang: <FormattedMessage id="home.catogery2" />,
+    lang: 'Dietas Veterinarias Gatos'
+  }
+]
 
 class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      initing: true,
       details: {
         id: "",
         goodsName: "",
@@ -37,6 +77,7 @@ class Details extends React.Component {
         goodsDescription: "",
         sizeList: [],
         images: [],
+        goodsCategory: ''
       },
       activeTabIdx: 0,
       goodsDetailTab: {
@@ -66,6 +107,10 @@ class Details extends React.Component {
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.headerRef = React.createRef();
+
+    this.specie = ''
+    this.productRange = ''
+    this.format = []
   }
   // componentWillMount() {
   //   console.log(1)
@@ -87,7 +132,7 @@ class Details extends React.Component {
     }
     this.setState(
       {
-        id: this.props.match.params.id,
+        id: this.props.match.params.id
       },
       () => this.queryDetails()
     );
@@ -124,102 +169,138 @@ class Details extends React.Component {
   }
   async queryDetails () {
     const { id } = this.state;
-    try {
-      let res;
-      if (jugeLoginStatus()) {
-        res = await getLoginDetails(id);
-      } else {
-        res = await getDetails(id);
-      }
-      this.setState({ loading: false });
-      if (res && res.context && res.context.goodsSpecDetails) {
-        let specList = res.context.goodsSpecs;
-        let specDetailList = res.context.goodsSpecDetails;
-        specList.map((sItem) => {
-          sItem.chidren = specDetailList.filter(
-            (sdItem, i) => {
-              // console.log(sdItem, i, 'sdItem')
-              // if(i === 0) {
-              //   sdItem.selected = true
-              // }
-              // if (sItem.chidren && sItem.chidren.length === 1) {
-              //   sdItem.selected = true
-              // } else {
-              //   sdItem.selected = false
-              // }
-              // if(sItem.chidren && sItem.chidren)
-              return sdItem.specId === sItem.specId
-            }
-          )
-          sItem.chidren[0].selected = true
-        });
+    const tmpRequest = jugeLoginStatus() ? getLoginDetails : getDetails
+    Promise.all([
+      tmpRequest(id),
+      queryProps()
+    ])
+      .then(resList => {
+        const res = resList[0]
+        if (res && res.context && res.context.goodsSpecDetails && resList[1]) {
+          // 获取产品所属类别
+          let tmpSpecie = find(res.context.storeCates, ele => ele.cateName.toLowerCase().includes('dog')) && 'Dog'
+          if (!tmpSpecie) {
+            tmpSpecie = find(res.context.storeCates, ele => ele.cateName.toLowerCase().includes('cat')) && 'Cat'
+          }
+          this.specie = tmpSpecie
 
-        // this.setState({ specList });
-        let sizeList = [];
-        let goodsSpecDetails = res.context.goodsSpecDetails;
-        let goodsInfos = res.context.goodsInfos || [];
-
-        sizeList = goodsInfos.map((g, idx) => {
-          // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
-          // console.log(targetInfo, 'target')
-          // if (targetInfo) {
-          g = Object.assign({}, g, { selected: false });
-          // }
-          return g;
-        });
-
-        // const selectedSize = find(sizeList, s => s.selected)
-
-        const { goodsDetailTab } = this.state
-        try {
-          let tmpGoodsDetail = res.context.goods.goodsDetail
-          if (tmpGoodsDetail) {
-            tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
-            for (let key in tmpGoodsDetail) {
-              goodsDetailTab.tabName.push(key)
-              goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+          // 获取产品所属home页四个大类
+          for (let item of res.context.storeCates) {
+            const t = find(STORE_CATE_ENUM, ele => ele.cateName.toLowerCase() === item.cateName.toLowerCase())
+            if (t) {
+              this.productRange = t.lang
             }
           }
-          this.setState({
-            goodsDetailTab: goodsDetailTab
-          })
-        } catch (err) {
-          getDict({
-            type: 'goodsDetailTab',
-            storeId: STOREID,
-          }).then(res => {
-            goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(ele => ele.name)
+
+          // 获取产品Dry/Wet属性
+          let tmpFormat = []
+          for (let item of res.context.goodsPropDetailRels) {
+            const t = find(resList[1].context, ele => ele.propId == item.propId)
+            if (t && t.propName.includes('Seco')) {
+              const t2 = find(t.goodsPropDetails, ele => ele.detailId == item.detailId)
+              if (t2) {
+                tmpFormat.push({ 'Seco': 'Dry', 'Húmedo': 'Wet' }[t2.detailName] || '')
+              }
+            }
+          }
+          this.format = tmpFormat
+
+
+          let specList = res.context.goodsSpecs;
+          let specDetailList = res.context.goodsSpecDetails;
+          specList.map((sItem) => {
+            sItem.chidren = specDetailList.filter(
+              (sdItem, i) => {
+                // console.log(sdItem, i, 'sdItem')
+                // if(i === 0) {
+                //   sdItem.selected = true
+                // }
+                // if (sItem.chidren && sItem.chidren.length === 1) {
+                //   sdItem.selected = true
+                // } else {
+                //   sdItem.selected = false
+                // }
+                // if(sItem.chidren && sItem.chidren)
+                return sdItem.specId === sItem.specId
+              }
+            )
+            sItem.chidren[0].selected = true
+          });
+
+          // this.setState({ specList });
+          let sizeList = [];
+          let goodsSpecDetails = res.context.goodsSpecDetails;
+          let goodsInfos = res.context.goodsInfos || [];
+
+          sizeList = goodsInfos.map((g, idx) => {
+            // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
+            // console.log(targetInfo, 'target')
+            // if (targetInfo) {
+            g = Object.assign({}, g, { selected: false });
+            // }
+            return g;
+          });
+
+          // const selectedSize = find(sizeList, s => s.selected)
+
+          const { goodsDetailTab } = this.state
+          try {
+            let tmpGoodsDetail = res.context.goods.goodsDetail
+            if (tmpGoodsDetail) {
+              tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
+              for (let key in tmpGoodsDetail) {
+                goodsDetailTab.tabName.push(key)
+                goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+              }
+            }
             this.setState({
               goodsDetailTab: goodsDetailTab
             })
-          })
-        }
-
-        this.setState(
-          {
-            details: Object.assign({}, this.state.details, res.context.goods, {
-              sizeList
-            }),
-            images: res.context.images,
-            specList,
-          },
-          () => {
-            this.matchGoods()
+          } catch (err) {
+            getDict({
+              type: 'goodsDetailTab',
+              storeId: STOREID
+            }).then(res => {
+              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(ele => ele.name)
+              this.setState({
+                goodsDetailTab: goodsDetailTab
+              })
+            })
           }
-        );
-      } else {
-        // 没有规格的情况
+          this.setState(
+            {
+              details: Object.assign({},
+                this.state.details,
+                res.context.goods,
+                { sizeList },
+                { goodsCategory: [this.specie, this.productRange, this.format.join('&')].join('/') }),
+              images: res.context.images,
+              specList
+            },
+            () => {
+              this.matchGoods()
+            }
+          );
+        } else {
+          // 没有规格的情况
+          this.setState({
+            errMsg: <FormattedMessage id="details.errMsg" />
+          });
+        }
+      })
+      .catch(e => {
+        console.log(e);
+        console.table(e);
         this.setState({
-          errMsg: <FormattedMessage id="details.errMsg" />,
+          errMsg: <FormattedMessage id="details.errMsg2" />
         });
-      }
-    } catch (e) {
-      console.log(e);
-      console.table(e);
-      this.setState({
-        errMsg: <FormattedMessage id="details.errMsg2" />,
-      });
-    }
+      })
+      .finally(() => {
+        this.setState({
+          loading: false,
+          initing: false
+        })
+      })
   }
   updateInstockStatus () {
     this.setState({
@@ -371,6 +452,7 @@ class Details extends React.Component {
       await sitePurchase({
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
+        goodsCategory: [this.specie, this.productRange, this.format.join('&')].join('/')
       });
       this.headerRef.current.updateCartCache();
       this.headerRef.current.handleCartMouseOver();
@@ -530,10 +612,10 @@ class Details extends React.Component {
   changeTab (e, i) {
     this.setState({ activeTabIdx: i })
   }
-  handleChange(e){
+  handleChange (e) {
     this.setState({
-          buyWay: e.target.value
-        }
+      buyWay: e.target.value
+    }
     )
   }
   render () {
@@ -549,17 +631,20 @@ class Details extends React.Component {
       cartData,
       errMsg,
       addToCartLoading,
-      specList,
+      specList
     } = this.state;
-    const event = {
-      page: {
-        type: 'Product',
-        theme: '' // todo goodsCateName???
-      },
-    };
+    let event
+    if (!this.state.initing) {
+      event = {
+        page: {
+          type: 'Product',
+          theme: [this.specie, this.productRange, this.format.join('&')].join('/')
+        }
+      }
+    }
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
+        {event ? <GoogleTagManager additionalEvents={event} /> : null}
         <Header
           ref={this.headerRef}
           showMiniIcons={true}

@@ -92,8 +92,8 @@ class Payment extends React.Component {
       isLogin: jugeLoginStatus()
     };
     this.tid = sessionStorage.getItem('rc-tid')
-    this.confirmCardInfo = this.confirmCardInfo.bind(this);
     this.timer = null;
+    this.confirmCardInfo = this.confirmCardInfo.bind(this);
     this.loginDeliveryAddressRef = React.createRef();
     this.loginBillingAddressRef = React.createRef();
   }
@@ -120,9 +120,7 @@ class Payment extends React.Component {
     let deliveryInfoStr = localStorage.getItem(`${this.state.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo'}`);
     const { creditCardInfo } = this.state;
     this.setState(
-      {
-        type: this.props.match.params.type
-      },
+      { type: this.props.match.params.type },
       () => {
         if (
           deliveryInfoStr &&
@@ -149,9 +147,6 @@ class Payment extends React.Component {
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
     sessionStorage.removeItem('rc-tid')
-    if (!this.state.isLogin && this.props.location.pathname !== '/payment/payment') {
-      sessionStorage.removeItem('rc-token')
-    }
   }
   matchNamefromDict (dictList, id) {
     return find(dictList, ele => ele.id == id)
@@ -491,23 +486,21 @@ class Payment extends React.Component {
             skuId: g.goodsInfoId
           }
         }),
-        tradeMarketingList
+        tradeMarketingList,
+        payAccountName: creditCardInfo.cardOwner,
+        payPhoneNumber: creditCardInfo.phoneNumber
       };
       try {
         sessionStorage.setItem("rc-paywith-login", this.state.isLogin);
         if (!this.state.isLogin) {
           // 登录状态，不需要调用两个接口
-          let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
-            param
-          );
+          let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(param);
           sessionStorage.setItem(
             "rc-token",
             postVisitorRegisterAndLoginRes.context.token
           );
           await batchAdd(param2);
         } else {
-          param3.payAccountName = creditCardInfo.cardOwner
-          param3.payPhoneNumber = creditCardInfo.phoneNumber
           param3.deliveryAddressId = deliveryAddress.addressId
           param3.billAddressId = billingAddress.addressId
         }
@@ -533,6 +526,9 @@ class Payment extends React.Component {
         sessionStorage.removeItem("payosdata");
         history.push("/confirmation");
       } catch (e) {
+        if (!this.state.isLogin) {
+          sessionStorage.removeItem('rc-token')
+        }
         console.log(e);
         if (e.errorData) {
           this.tid = e.errorData
