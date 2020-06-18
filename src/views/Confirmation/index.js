@@ -129,12 +129,17 @@ class Confirmation extends React.Component {
       : id
   }
   async hanldeClickSubmit () {
+    const { evalutateScore } = this.state
+    if (evalutateScore === -1) {
+      this.setState({ errorMsg: <FormattedMessage id="confirmation.rateTip4" /> })
+      return false
+    }
     this.setState({ submitLoading: true })
     try {
       await addEvaluate({
         storeId: STOREID,
         orderNo: localStorage.getItem('orderNumber'),
-        goodsScore: this.state.evalutateScore + 1,
+        goodsScore: evalutateScore + 1,
         consumerComment: this.state.consumerComment,
         serverScore: -1,
         logisticsScore: -1,
