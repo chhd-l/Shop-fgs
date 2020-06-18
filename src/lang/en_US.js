@@ -341,7 +341,8 @@ const en_US = {
   "unfoldAddress": 'Unfold Address',
   "newAddress": 'New address',
   'default': 'Default',
-  'saveSuccessfullly': 'Save successfullly'
+  'saveSuccessfullly': 'Save successfullly',
+  'login':'Log in'
 
 }
 export default en_US;

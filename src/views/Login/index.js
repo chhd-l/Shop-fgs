@@ -5,6 +5,7 @@ import "./index.css";
 import Loading from "@/components/Loading";
 import { login } from "@/api/login";
 import { getCustomerInfo } from "@/api/user"
+import { getDictionary } from '@/utils/utils'
 
 class Login extends React.Component {
   constructor(props) {
@@ -22,15 +23,20 @@ class Login extends React.Component {
       registerForm:{
         firstName:'',
         lastName:'',
-        country:'',
+        country:6,
         email:'',
         password:'',
-        confirmPassword:''
+        confirmPassword:'',
+        firstChecked:false,
+        secondChecked:false,
+        thirdChecked:false,
       },
       countryList:[{
-        id:1,
+        id:6,
         name:'Mexico'
-      }]
+      }],
+      errorMsg:'',
+      successMsg:'',
     };
   }
   componentWillUnmount () {
@@ -43,6 +49,15 @@ class Login extends React.Component {
       window.location.reload();
       return false
     }
+    getDictionary({ type: 'country' })
+      .then(res => {
+        this.setState({
+          countryList: res
+        })
+      })
+      .catch(err => {
+        this.showErrorMsg(err.toString() || 'get data failed')
+      })
   }
   loginFormChange (e) {
     const target = e.target;
@@ -53,14 +68,14 @@ class Login extends React.Component {
     // this.inputBlur(e);
     this.setState({ loginForm: loginForm });
   }
-  registerFormChange (e) {
-    const target = e.target;
-    const value = target.value;
-    const name = target.name;
+
+  registerFormChange = ({ field, value }) => {
     const { registerForm } = this.state;
-    registerForm[name] = value;
-    this.setState({ registerForm: registerForm });
-  }
+    registerForm[field] = value;
+    this.setState({
+      registerForm: registerForm
+    });
+  };
   async loginClick () {
     const { history } = this.props;
     let res = await login(this.state.loginForm);
@@ -83,7 +98,84 @@ class Login extends React.Component {
       }
     }
   }
+  register=()=>{
+    const { registerForm } = this.state
+    const objKeys = Object.keys(registerForm)
+    let requiredVerify = true
+    for(let i=0; i< objKeys.length;i++){
+      if(!registerForm[objKeys[i]]){
+        requiredVerify = false
+      }
+    }
+    if(!requiredVerify){
+      this.showErrorMsg('You have mandatory fields not filled out!')
+      return false
+    }
+    if(!(this.nameVerify(registerForm.firstName)&&this.nameVerify(registerForm.lastName))){
+      this.showErrorMsg('First Name or Last Name cannot exceed 50 characters!')
+      return false
+    }
+    if(!this.emailVerify(registerForm.email)){
+      this.showErrorMsg('Your email has not been verified!')
+      return false
+    }
+    if(!this.passwordVerify(registerForm.password)){
+      this.showErrorMsg('Your password has not been verified!')
+      return false
+    }
+    if(registerForm.password !== registerForm.confirmPassword){
+      this.showErrorMsg('The two passwords you typed do not match.!')
+      return false
+    }
+    
+    console.log(registerForm);
+    
+  }
+
+  showErrorMsg = (message) => {
+    this.setState({
+      errorMsg: message
+    })
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    setTimeout(() => {
+      this.setState({
+        errorMsg: ''
+      })
+    }, 3000)
+  }
+
+  showSuccessMsg = (message) => {
+    this.setState({
+      successMsg: message
+    })
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    setTimeout(() => {
+      this.setState({
+        successMsg: ''
+      })
+    }, 2000)
+  }
+
+  emailVerify = (email) => {
+    let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+    return reg.test(email)
+  };
+  passwordVerify =(password)=>{
+    //匹配至少包含一个数字、一个字母 8-20 位的密码
+    let reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\D]{8,20}$/;
+    return reg.test(password)
+  }
+  nameVerify =(name)=>{
+    if(name.length>50)
+      return false
+    else 
+      return true
+  }
+
+
+
   render () {
+    const { registerForm } = this.state
     return (
       <div>
         <div id="embedded-container" className="miaa miaa-wrapper miaa-embedded">
@@ -123,9 +215,7 @@ class Login extends React.Component {
                       }}
                     >
                       <div>
-                        <span data-i18n="toggleSignInRegister_SignIn">
-                            Log in
-                        </span>
+                        <FormattedMessage id="login" />
                       </div>
                     </a>
                     <a
@@ -168,16 +258,13 @@ class Login extends React.Component {
                   >
                     <p className="text-center miaa-greeting-followup pt-3">
                       <span data-i18n="signIn_GreetingText">
-                        
-                          
+
                             To connect to the ROYAL CANIN® service,
                             authorization is required.{" "}
-                          
-                          
+
                             If you do not have a personal account, you can
                             register now.
-                          
-                        
+
                       </span>
                     </p>
                     <div className="mt-2">
@@ -208,7 +295,7 @@ class Login extends React.Component {
                               onChange={(e) => this.loginFormChange(e)}
                             />
                             <span
-                              tabindex="100"
+                              tabIndex="100"
                               title="Show / hide password"
                               className="add-on input-group-addon"
                               style={{ cursor: "pointer" }}
@@ -265,6 +352,28 @@ class Login extends React.Component {
                   >
                     <div className="row">
                       <div className="col">
+
+                        <div className="message-tip">
+                          <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
+                            <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+                              <span>{this.state.errorMsg}</span>
+                              <button
+                                className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                                onClick={() => { this.setState({ errorMsg: '' }) }}
+                                aria-label="Close">
+                                <span className="rc-screen-reader-text">
+                                  <FormattedMessage id="close" />
+                                </span>
+                              </button>
+                            </aside>
+                          </div>
+                          <aside
+                            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successMsg ? '' : 'hidden'}`}
+                            role="alert">
+                            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
+                          </aside>
+                        </div>
+                        
                         <div className="miaa_input required">
                           <input
                             id="capture_traditionalRegistration_firstName"
@@ -273,6 +382,13 @@ class Login extends React.Component {
                             className="capture_firstName capture_required capture_text_input form-control"
                             placeholder="First Name *"
                             name="firstName"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              this.registerFormChange({
+                                field: 'firstName',
+                                value
+                              });
+                            }}
                           />
                         </div>
                         <div className="miaa_input required">
@@ -280,32 +396,53 @@ class Login extends React.Component {
                             id="capture_traditionalRegistration_lastName"
                             data-capturefield="lastName"
                             type="text"
-                            className="capture_firstName capture_required capture_text_input form-control"
+                            className="capture_lastName capture_required capture_text_input form-control"
                             placeholder="Last Name *"
                             name="lastName"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              this.registerFormChange({
+                                field: 'lastName',
+                                value
+                              });
+                            }}
                           />
                         </div>
                         <div className="miaa_input required">
                           <input
-                            id="capture_traditionalRegistration_emailAddress"
-                            data-capturefield="emailAddress"
+                            id="capture_traditionalRegistration_email"
+                            data-capturefield="email"
                             type="email"
-                            className="capture_emailAddress capture_required capture_text_input form-control"
+                            className="capture_email capture_required capture_text_input form-control"
                             placeholder="Email Address *"
-                            name="emailAddress"
+                            name="email"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              this.registerFormChange({
+                                field: 'email',
+                                value
+                              });
+                            }}
                           />
                         </div>
+                        
                         
 
                         <div className="miaa_input required country_select">
                           <select
                             data-js-select=""
                             id="country"
-                            // value={addressForm.country}
+                            value={registerForm.country}
                             placeholder="Country *"
-                            // onChange={(e) => this.handleInputChange(e)}
-                            // onBlur={(e) => this.inputBlur(e)}
                             name="country"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              // value = value === '' ? null : value;
+                              this.registerFormChange({
+                                field: 'country',
+                                value
+                              });
+                            }}
                           >
                             <option value=""></option>
                             {
@@ -318,17 +455,30 @@ class Login extends React.Component {
                         <div className="input-append input-group miaa_input required">
                           <input
                             autoComplete="off"
-                            data-capturefield="newPassword"
-                            type="password"
-                            className="capture_newPassword capture_required capture_text_input form-control"
+                            data-capturefield="password"
+                            type={this.state.registerPwdType}
+                            className="capture_password capture_required capture_text_input form-control"
                             placeholder="Password *"
-                            name="newPassword"
+                            name="password"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              this.registerFormChange({
+                                field: 'password',
+                                value
+                              });
+                            }}
                           />
                           <span
                             tabIndex="100"
                             title="Show / hide password"
                             className="add-on input-group-addon"
                             style={{ cursor: "pointer" }}
+                            onClick={()=>{
+                              let type = this.state.registerPwdType==='password'?'text':'password'
+                              this.setState({
+                                registerPwdType:type
+                              })
+                            }}
                           >
                             <i className="icon-eye-open fa fa-eye"></i>
                           </span>
@@ -340,16 +490,29 @@ class Login extends React.Component {
                           <input
                             autoComplete="off"
                             data-capturefield="confirmPassword"
-                            type="password"
-                            className="capture_newPassword capture_required capture_text_input form-control"
+                            type={this.state.registerConfirmPwdType}
+                            className="capture_password capture_required capture_text_input form-control"
                             placeholder="Confirm Password *"
                             name="confirmPassword"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              this.registerFormChange({
+                                field: 'confirmPassword',
+                                value
+                              });
+                            }}
                           />
                           <span
-                            tabindex="100"
+                            tabIndex="100"
                             title="Show / hide password"
                             className="add-on input-group-addon"
                             style={{ cursor: "pointer" }}
+                            onClick={()=>{
+                              let type = this.state.registerConfirmPwdType==='password'?'text':'password'
+                              this.setState({
+                                registerConfirmPwdType:type
+                              })
+                            }}
                           >
                             <i className="icon-eye-open fa fa-eye"></i>
                           </span>
@@ -367,11 +530,17 @@ class Login extends React.Component {
                           <input
                             id="capture_traditionalRegistration_privacyAndTermsStatus"
                             data-capturefield="privacyAndTermsStatus"
-                            value="true"
+                            value={ registerForm.firstChecked }
                             type="checkbox"
                             className="capture_privacyAndTermsStatus capture_required capture_input_checkbox form-check-input"
-                            name="privacyAndTermsStatus"
-                            placeholder="undefined *"
+                            name="firstChecked"
+                            onChange={(e) => {
+                              let value = (e.target).value === 'false'?true:false;
+                              this.registerFormChange({
+                                field: 'firstChecked',
+                                value
+                              });
+                            }}
                           />
                             I have read the 
                           <a
@@ -400,13 +569,18 @@ class Login extends React.Component {
                           <input
                             id="capture_traditionalRegistration_ageIndicator"
                             data-capturefield="ageIndicator"
-                            value="true"
+                            value={ registerForm.secondChecked }
                             type="checkbox"
                             className="capture_ageIndicator capture_required capture_input_checkbox form-check-input"
-                            name="ageIndicator"
-                            placeholder="undefined *"
+                            name="secondChecked"
+                            onChange={(e) => {
+                              let value = (e.target).value === 'false'?true:false;
+                              this.registerFormChange({
+                                field: 'secondChecked',
+                                value
+                              });
+                            }}
                           />
-                          
                           <font> I confirm that I am 18 years old </font>
                           
                         </label>
@@ -419,43 +593,36 @@ class Login extends React.Component {
                           <input
                             id="capture_traditionalRegistration_optEmail"
                             data-capturefield="optEmail"
-                            value="true"
+                            value={ registerForm.thirdChecked}
                             type="checkbox"
                             className="capture_optEmail capture_input_checkbox form-check-input"
-                            name="optEmail"
+                            name="thirdChecked"
+                            onChange={(e) => {
+                              let value = (e.target).value === 'false'?true:false;
+                              this.registerFormChange({
+                                field: 'thirdChecked',
+                                value
+                              });
+                            }}
                           />
                               <font> I agree to receive the marketing newsletter </font>
                         </label>
                       </div>
                       <div>
-                        <span data-i18n="traditionalRegistration_RequiredFields">
                           * Required fields
-                        </span>
                       </div>
                     </div>
-                       
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="miaa-footer">
-              <div
-                className="miaa-inner-content"
-                style={{
-                  display: this.state.tabIndex === "1" ? "block" : "none",
-                }}
-              >
-                <div className="row">
-                  <div className="col">
+
                     <button
                       id="traditionalRegistrationSubmit"
                       type="submit"
                       className="btn btn-primary capture_btn"
+                      disabled={!(registerForm.firstChecked&& registerForm.secondChecked&& registerForm.thirdChecked)}
+                      onClick={()=>this.register()}
                     >
-                      <span data-i18n="traditionalRegistration_CreateAccount">
-                        Save
-                      </span>
+                      Save
                     </button>
+                       
                   </div>
                 </div>
               </div>
