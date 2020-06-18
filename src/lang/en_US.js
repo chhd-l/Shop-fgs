@@ -343,7 +343,14 @@ const en_US = {
   "newAddress": 'New address',
   'default': 'Default',
   'saveSuccessfullly': 'Save successfullly',
-  'login':'Log in'
-
+  'login':'Log in',
+  'login.register':'Create a personal account',
+  'login.loginTip':' To connect to the ROYAL CANIN® service,authorization is required. If you do not have a personal account, you can register now.',
+  'login.forgotPassword':'Forgot your password?',
+  'login.guestContinue':'Continue with a guest',
+  'login.firstCheck':'',
+  'login.secondCheck':' I confirm that I am 18 years old',
+  'login.thirdCheck':' I agree to receive the marketing newsletter',
+  'requiredFields':'* Required fields'
 }
 export default en_US;

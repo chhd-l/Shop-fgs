@@ -227,9 +227,10 @@ class Login extends React.Component {
                       }}
                     >
                       <div>
-                        <span data-i18n="toggleSignInRegister_Register">
+                        <FormattedMessage id="login.register" />
+                        {/* <span data-i18n="toggleSignInRegister_Register">
                             Create a personal account
-                        </span>
+                        </span> */}
                       </div>
                     </a>
                   </div>
@@ -257,15 +258,7 @@ class Login extends React.Component {
                     }}
                   >
                     <p className="text-center miaa-greeting-followup pt-3">
-                      <span data-i18n="signIn_GreetingText">
-
-                            To connect to the ROYAL CANIN® service,
-                            authorization is required.{" "}
-
-                            If you do not have a personal account, you can
-                            register now.
-
-                      </span>
+                      <FormattedMessage id="login.loginTip" />  
                     </p>
                     <div className="mt-2">
                       <div className="capture_signin">
@@ -281,7 +274,7 @@ class Login extends React.Component {
                             onChange={(e) => this.loginFormChange(e)}
                           />
             
-                        </div>{" "}
+                        </div>
                         <div className="miaa_input required ">
                           <div className="input-append input-group">
                             <input
@@ -316,11 +309,7 @@ class Login extends React.Component {
                           href="#"
                           className="text-muted small-medium"
                         >
-                          <span data-i18n="signIn_ForgotPassword">
-                            
-                              Forgot your password?
-                            
-                          </span>
+                          <FormattedMessage id="login.forgotPassword" />  
                         </a>
 
                         <div className="text-center">
@@ -328,7 +317,7 @@ class Login extends React.Component {
                             className="btn btn-primary"
                             onClick={() => this.loginClick()}
                           >
-                            Log in
+                            <FormattedMessage id="login" />  
                           </button>
                         </div>
 
@@ -338,7 +327,9 @@ class Login extends React.Component {
                             "/prescription":"/"} 
                             className="click-hover" 
                             style={{textDecoration:'underline',color: '#4b5257' }}>
-                            Continue with a guest
+
+                              <FormattedMessage id="login.guestContinue" />  
+                            
                           </Link>
 
                       </div>
@@ -444,7 +435,6 @@ class Login extends React.Component {
                               });
                             }}
                           >
-                            <option value=""></option>
                             {
                               this.state.countryList.map(item => (
                                 <option value={item.id} key={item.id}>{item.name}</option>
@@ -556,7 +546,6 @@ class Login extends React.Component {
                           >
                               <font> Privacy Policy </font>
                           </a>
-                              {" "}
                               and give my consent to the processing of
                               personal data, including cross-border transfer
                         </label>
@@ -581,7 +570,7 @@ class Login extends React.Component {
                               });
                             }}
                           />
-                          <font> I confirm that I am 18 years old </font>
+                          <FormattedMessage id="login.secondCheck" /> 
                           
                         </label>
                       </div>
@@ -605,11 +594,12 @@ class Login extends React.Component {
                               });
                             }}
                           />
-                              <font> I agree to receive the marketing newsletter </font>
+                          <FormattedMessage id="login.thirdCheck" />  
+                              
                         </label>
                       </div>
                       <div>
-                          * Required fields
+                        <FormattedMessage id="requiredFields" /> 
                       </div>
                     </div>
 
@@ -620,7 +610,8 @@ class Login extends React.Component {
                       disabled={!(registerForm.firstChecked&& registerForm.secondChecked&& registerForm.thirdChecked)}
                       onClick={()=>this.register()}
                     >
-                      Save
+                      <FormattedMessage id="save" />
+                      
                     </button>
                        
                   </div>
