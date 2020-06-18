@@ -2,7 +2,7 @@ import axios from '@/utils/request'
 
 const api = {
   details: '/goods/unLogin/spu',
-  loginDetails: '/goods/spu',
+  loginDetails: '/goods/spu'
 }
 
 export default api

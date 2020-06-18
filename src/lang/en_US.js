@@ -223,6 +223,7 @@ const en_US = {
   'confirmation.rateTip': 'How would you rate your shopping experience?',
   'confirmation.rateTip2': 'What can we do to improve?',
   'confirmation.rateTip3': 'Enter up to 50 characters',
+  'confirmation.rateTip4': 'Please score first.',
 
   'help.needHelp': 'Need help ?',
   'help.tip1': 'Our customer service staff is professional and enthusiam.',

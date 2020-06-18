@@ -93,7 +93,6 @@ class Payment extends React.Component {
     };
     this.tid = sessionStorage.getItem('rc-tid')
     this.timer = null;
-    this.goConfirmationPage = false;
     this.confirmCardInfo = this.confirmCardInfo.bind(this);
     this.loginDeliveryAddressRef = React.createRef();
     this.loginBillingAddressRef = React.createRef();
@@ -121,9 +120,7 @@ class Payment extends React.Component {
     let deliveryInfoStr = localStorage.getItem(`${this.state.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo'}`);
     const { creditCardInfo } = this.state;
     this.setState(
-      {
-        type: this.props.match.params.type
-      },
+      { type: this.props.match.params.type },
       () => {
         if (
           deliveryInfoStr &&
@@ -150,9 +147,6 @@ class Payment extends React.Component {
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
     sessionStorage.removeItem('rc-tid')
-    if (!this.state.isLogin && !this.goConfirmationPage) {
-      sessionStorage.removeItem('rc-token')
-    }
   }
   matchNamefromDict (dictList, id) {
     return find(dictList, ele => ele.id == id)
@@ -531,8 +525,10 @@ class Payment extends React.Component {
         this.setState({ loading: false });
         sessionStorage.removeItem("payosdata");
         history.push("/confirmation");
-        this.goConfirmationPage = true
       } catch (e) {
+        if (!this.state.isLogin) {
+          sessionStorage.removeItem('rc-token')
+        }
         console.log(e);
         if (e.errorData) {
           this.tid = e.errorData
