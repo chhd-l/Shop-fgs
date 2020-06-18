@@ -60,6 +60,7 @@ const en_US = {
   'receiver': 'Receiver',
   'operateSuccessfully': 'Operate successfully!',
   'information': 'Information',
+  'confirmDelete': 'Do you confirm to delete?',
 
   'header.basketEmpty': 'your basket is empty',
   'header.startTypingToSearch': 'Start typing to search',

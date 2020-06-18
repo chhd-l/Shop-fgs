@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import Modal from '@/components/Modal'
+import ConfirmTooltip from '@/components/ConfirmTooltip'
 import { Link } from "react-router-dom"
 import { formatMoney, hanldePurchases } from "@/utils/utils"
 import { MINIMUM_AMOUNT } from '@/utils/constant'
@@ -20,10 +20,8 @@ class UnLoginCart extends React.Component {
       totalPrice: '',
       tradePrice: '',
       discountPrice: '',
-      currentProduct: null,
       currentProductIdx: -1,
       loading: true,
-      modalShow: false,
       quantityMinLimit: 1,
       checkoutLoading: false,
       validateAllItemsStock: true,
@@ -160,15 +158,9 @@ class UnLoginCart extends React.Component {
       }, 2000)
     }
   }
-  closeModal () {
-    this.setState({
-      currentProduct: null,
-      currentProductIdx: -1,
-      modalShow: false,
-    });
-  }
-  deleteProduct () {
-    let { currentProductIdx, productList } = this.state;
+  deleteProduct (item) {
+    let { currentProductIdx, productList } = this.state
+    item.confirmTooltipVisible = false
     let newProductList = cloneDeep(productList)
     newProductList.splice(currentProductIdx, 1)
     this.setState({
@@ -176,7 +168,6 @@ class UnLoginCart extends React.Component {
     }, () => {
       this.changeCache();
       this.updateStock()
-      this.closeModal();
     })
   }
   goBack (e) {
@@ -261,29 +252,29 @@ class UnLoginCart extends React.Component {
               </a>
             </div>
             <div className="cart-product-error-msg"></div>
-            <span
-              className="remove-product-btn js-remove-product rc-icon rc-close--sm rc-iconography"
-              onClick={() => {
-                this.setState({
-                  currentProduct: pitem,
-                  currentProductIdx: index,
-                  modalShow: true
-                });
-              }}
-            ></span>
+            <span className="remove-product-btn">
+              <span
+                className="rc-icon rc-close--sm rc-iconography"
+                onClick={() => {
+                  this.updateConfirmTooltipVisible(pitem, true)
+                  this.setState({
+                    currentProductIdx: index
+                  });
+                }}
+              />
+              <ConfirmTooltip
+                display={pitem.confirmTooltipVisible}
+                confirm={e => this.deleteProduct(pitem)}
+                updateChildDisplay={status => this.updateConfirmTooltipVisible(pitem, status)} />
+            </span>
+
             <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
-              <div
-                className="product-quickview product-null product-wrapper product-detail"
-                data-pid="null"
-              >
+              <div className="product-quickview product-null product-wrapper product-detail">
                 <div className="detail-panel">
                   <section className="attributes">
                     <div data-attr="size" className="swatch">
                       <div className="cart-and-ipay">
-                        <div
-                          className="rc-swatch __select-size"
-                          id="id-single-select-size"
-                        >
+                        <div className="rc-swatch __select-size">
                           <div className={`rc-swatch__item`}>
                             <span>
                               {find(pitem.sizeList, s => s.selected).specText}
@@ -364,7 +355,6 @@ class UnLoginCart extends React.Component {
               <div className="rc-quantity d-flex">
                 <span
                   className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                  data-quantity-error-msg="Количество не может быть меньше 1"
                   onClick={() => this.subQuantity(pitem)}></span>
                 <input
                   className="rc-quantity__input"
@@ -390,7 +380,7 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
           </div>
-          <div className="availability  product-availability">
+          <div className="availability product-availability">
             <div className="align-left flex rc-content-v-right">
               <div className="stock__wrapper">
                 <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
@@ -398,15 +388,18 @@ class UnLoginCart extends React.Component {
                     <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
                   </label>
                   <span className="availability-msg">
-                    <div
-                      className={[pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? '' : 'out-stock'].join(' ')}>
-                      {pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
+                    <div className={`${pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? '' : 'out-stock'}`}>
+                      {
+                        pitem.quantity <= find(pitem.sizeList, s => s.selected).stock
+                          ? <FormattedMessage id="details.inStock" />
+                          : <FormattedMessage id="details.outStock" />
+                      }
                     </div>
                   </span>
                 </div>
                 <div className="promotion stock" style={{ marginTop: '7px', display: this.state.isPromote ? 'inline-block' : 'none' }}>
                   <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
-                    <span className=""><FormattedMessage id="promotion" /> :</span>
+                    <span><FormattedMessage id="promotion" /> :</span>
                   </label>
                   <span className="availability-msg">
                     25% OFF
@@ -429,6 +422,13 @@ class UnLoginCart extends React.Component {
     });
     return total
   }
+  updateConfirmTooltipVisible (item, status) {
+    let { productList } = this.state
+    item.confirmTooltipVisible = status
+    this.setState({
+      productList: productList
+    })
+  }
   render () {
     const { productList, checkoutLoading } = this.state;
     const List = this.getProducts(this.state.productList);
@@ -445,7 +445,7 @@ class UnLoginCart extends React.Component {
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
             {productList.length
-              ? <React.Fragment>
+              ? <>
                 <div className="rc-layout-container rc-one-column">
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
@@ -552,8 +552,8 @@ class UnLoginCart extends React.Component {
                     </div>
                   </div>
                 </div>
-              </React.Fragment>
-              : <React.Fragment>
+              </>
+              : <>
                 <div className="rc-text-center">
                   <div className="rc-beta rc-margin-bottom--sm">
                     <FormattedMessage id="cart.yourBasket" />
@@ -600,17 +600,10 @@ class UnLoginCart extends React.Component {
                     </div>
                   </div>
                 </div>
-              </React.Fragment>
+              </>
             }
           </div>
         </main>
-
-        <Modal
-          visible={this.state.modalShow}
-          modalTitle={<FormattedMessage id="cart.deletInfo" />}
-          modalText={<FormattedMessage id="cart.deletInfo2" />}
-          close={() => { this.setState({ modalShow: false }) }}
-          hanldeClickConfirm={() => this.deleteProduct()} />
         <Footer />
       </div>
     );

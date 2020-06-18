@@ -4,6 +4,7 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
+import ConfirmTooltip from '@/components/ConfirmTooltip'
 import './index.css'
 import {
   getAddressList,
@@ -202,30 +203,32 @@ export default class ShippingAddress extends React.Component {
     })
 
   }
-  deleteAddress = async (id) => {
+  deleteAddress = async (item) => {
+    let { addressList } = this.state
+    item.confirmTooltipVisible = false
     this.setState({
-      loading: true
+      loading: true,
+      addressList: addressList
     })
-    let params = {
-      "id": id,
-    }
-    await deleteAddress(params).then(res => {
-      if (res.code === 'K-000000') {
-        this.showSuccessMsg(res.message || 'Delete Address Success')
-        this.getAddressList()
-      }
-      else {
-        this.showErrorMsg(res.message || 'Delete Address Failed')
+    await deleteAddress({ id: item.deliveryAddressId })
+      .then(res => {
+        if (res.code === 'K-000000') {
+          this.showSuccessMsg(res.message || 'Delete Address Success')
+          this.getAddressList()
+        }
+        else {
+          this.showErrorMsg(res.message || 'Delete Address Failed')
+          this.setState({
+            loading: false
+          })
+        }
+      })
+      .catch(err => {
+        this.showErrorMsg('Delete Address Failed')
         this.setState({
           loading: false
         })
-      }
-    }).catch(err => {
-      this.showErrorMsg('Delete Address Failed')
-      this.setState({
-        loading: false
       })
-    })
 
   }
   showErrorMsg = (message) => {
@@ -296,8 +299,13 @@ export default class ShippingAddress extends React.Component {
     }
 
   }
-
-
+  updateConfirmTooltipVisible (item, status) {
+    let { addressList } = this.state
+    item.confirmTooltipVisible = status
+    this.setState({
+      addressList: addressList
+    })
+  }
   render () {
     return (
       <div>
@@ -452,7 +460,14 @@ export default class ShippingAddress extends React.Component {
                             </form>
                           </div>
                           <div className="ant-col-4 card-action">
-                            <a className="card-action-delete" onClick={() => this.deleteAddress(item.deliveryAddressId)}>×</a>
+                            <span className="card-action-delete">
+                              <a onClick={() => this.updateConfirmTooltipVisible(item, true)}>×</a>
+                              <ConfirmTooltip
+                                display={item.confirmTooltipVisible}
+                                confirm={e => this.deleteAddress(item)}
+                                updateChildDisplay={status => this.updateConfirmTooltipVisible(item, status)} />
+                            </span>
+
                             <div className="card-action-link">
                               {item.type === 'billing' || item.isDefaltAddress === 1 ?
                                 null :

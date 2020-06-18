@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import Modal from '@/components/Modal'
+import ConfirmTooltip from '@/components/ConfirmTooltip'
 import { Link } from 'react-router-dom'
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
@@ -26,9 +26,7 @@ class LoginCart extends React.Component {
       totalPrice: '',
       tradePrice: '',
       discountPrice: '',
-      currentProduct: null,
       currentProductIdx: -1,
-      modalShow: false,
       quantityMinLimit: 1,
       deleteLoading: false,
       checkoutLoading: false,
@@ -203,19 +201,15 @@ class LoginCart extends React.Component {
       }, 2000)
     }
   }
-  closeModal () {
-    this.setState({
-      currentProduct: null,
-      currentProductIdx: -1,
-      modalShow: false
-    });
-  }
-  async deleteProduct () {
+  async deleteProduct (item) {
     let { currentProductIdx, productList } = this.state
-    this.setState({ deleteLoading: true })
+    item.confirmTooltipVisible = false
+    this.setState({
+      productList: productList,
+      deleteLoading: true
+    })
     await this.deleteItemFromBackendCart({ goodsInfoIds: [productList[currentProductIdx].goodsInfoId] })
     this.setState({ deleteLoading: false })
-    this.closeModal()
   }
   goBack (e) {
     e.preventDefault();
@@ -250,16 +244,19 @@ class LoginCart extends React.Component {
               </a>
             </div>
             <div className="cart-product-error-msg"></div>
-            <span
-              className="remove-product-btn js-remove-product rc-icon rc-close--sm rc-iconography"
-              onClick={() => {
-                this.setState({
-                  currentProduct: pitem,
-                  currentProductIdx: index,
-                  modalShow: true
-                });
-              }}
-            ></span>
+            <span className="remove-product-btn">
+              <span
+                className="rc-icon rc-close--sm rc-iconography"
+                onClick={() => {
+                  this.updateConfirmTooltipVisible(pitem, true)
+                  this.setState({ currentProductIdx: index })
+                }}
+              />
+              <ConfirmTooltip
+                display={pitem.confirmTooltipVisible}
+                confirm={e => this.deleteProduct(pitem)}
+                updateChildDisplay={status => this.updateConfirmTooltipVisible(pitem, status)} />
+            </span>
             <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
               <div
                 className="product-quickview product-null product-wrapper product-detail"
@@ -409,9 +406,16 @@ class LoginCart extends React.Component {
     ));
     return Lists;
   }
+  updateConfirmTooltipVisible (item, status) {
+    let { productList } = this.state
+    item.confirmTooltipVisible = status
+    this.setState({
+      productList: productList
+    })
+  }
   render () {
     const { productList, checkoutLoading } = this.state;
-    const List = this.getProducts(this.state.productList);
+    const List = this.getProducts(productList);
     const event = {
       page: {
         type: 'Cart',
@@ -575,14 +579,6 @@ class LoginCart extends React.Component {
             }
           </div>
         </main>
-
-        <Modal
-          visible={this.state.modalShow}
-          confirmLoading={this.state.deleteLoading}
-          modalTitle={<FormattedMessage id="cart.deletInfo" />}
-          modalText={<FormattedMessage id="cart.deletInfo2" />}
-          close={() => { this.setState({ modalShow: false }) }}
-          hanldeClickConfirm={() => this.deleteProduct()} />
         <Footer />
       </div>
     );

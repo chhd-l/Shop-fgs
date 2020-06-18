@@ -19,6 +19,7 @@ import {
   addOrUpdatePaymentMethod,
 } from "@/api/payment";
 import Loading from "@/components/Loading";
+import ConfirmTooltip from '@/components/ConfirmTooltip'
 
 class PaymentComp extends React.Component {
   constructor(props) {
@@ -46,7 +47,7 @@ class PaymentComp extends React.Component {
       loading: false
     };
   }
-  async componentDidMount() {
+  async componentDidMount () {
     console.log(window.location.pathname, "111");
     if (Store.isLogin) {
       await this.getPaymentMethodList();
@@ -59,7 +60,7 @@ class PaymentComp extends React.Component {
       this.setState({ creditCardList: this.state.creditCardList });
     }
   }
-  async getPaymentMethodList() {
+  async getPaymentMethodList () {
     try {
       let res = await getPaymentMethod({
         customerId: JSON.parse(sessionStorage.getItem("rc-userinfo"))[
@@ -81,7 +82,7 @@ class PaymentComp extends React.Component {
       });
     }
   }
-  initCardInfo() {
+  initCardInfo () {
     this.setState({
       creditCardInfo: {
         cardNumber: "",
@@ -97,7 +98,7 @@ class PaymentComp extends React.Component {
       // this.scrollToPaymentComp()
     });
   }
-  getElementToPageTop(el) {
+  getElementToPageTop (el) {
     if (el.parentElement) {
       return this.getElementToPageTop(el.parentElement) + el.offsetTop;
     }
@@ -115,7 +116,7 @@ class PaymentComp extends React.Component {
       });
     }, 3000);
   };
-  scrollToErrorMsg() {
+  scrollToErrorMsg () {
     const widget = document.querySelector(".content-asset");
     // widget && widget.scrollIntoView()
     // console.log(this.getElementToPageTop(widget))
@@ -126,7 +127,7 @@ class PaymentComp extends React.Component {
       });
     }
   }
-  scrollToPaymentComp() {
+  scrollToPaymentComp () {
     const widget = document.querySelector("#PaymentComp");
     widget.scrollIntoView({
       behavior: "smooth",
@@ -139,22 +140,22 @@ class PaymentComp extends React.Component {
     //   });
     // }
   }
-  cardInfoInputChange(e) {
+  cardInfoInputChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { creditCardInfo } = this.state;
-    if(name === "cardNumber") {
-      console.log(value, value.replace(/\s*/g,""))
-      creditCardInfo[name] = value.replace(/\s*/g,"");
-    }else if (name === "cardMmyy") {
+    if (name === "cardNumber") {
+      console.log(value, value.replace(/\s*/g, ""))
+      creditCardInfo[name] = value.replace(/\s*/g, "");
+    } else if (name === "cardMmyy") {
       let beforeValue = value.substr(0, value.length - 1);
       let inputValue = value.substr(value.length - 1, 1);
 
       if (
         creditCardInfo[name] !== beforeValue &&
         creditCardInfo[name].substr(0, creditCardInfo[name].length - 1) !==
-          value
+        value
       )
         return;
       if (
@@ -179,7 +180,7 @@ class PaymentComp extends React.Component {
     }
     this.setState({ creditCardInfo });
   }
-  inputBlur(e) {
+  inputBlur (e) {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -192,7 +193,7 @@ class PaymentComp extends React.Component {
       validDom.style.display = e.target.value ? "none" : "block";
     }
   }
-  async handleSave(e) {
+  async handleSave (e) {
     e.preventDefault();
     const { creditCardInfo } = this.state;
     for (let k in creditCardInfo) {
@@ -302,14 +303,14 @@ class PaymentComp extends React.Component {
       this.showErrorMsg("Save Failed!");
     }
   }
-  async deleteCard(id) {
+  async deleteCard (el) {
+    let { creditCardList } = this.state
+    el.confirmTooltipVisible = false
     this.setState({
       loading: true,
+      creditCardList: creditCardList
     });
-    let params = {
-      id: id,
-    };
-    await deleteCard(params)
+    await deleteCard({ id: el.id })
       .then((res) => {
         if (res.code === "K-000000") {
           // console.log(1)
@@ -330,7 +331,14 @@ class PaymentComp extends React.Component {
         });
       });
   }
-  render() {
+  updateConfirmTooltipVisible (el, status) {
+    let { creditCardList } = this.state
+    el.confirmTooltipVisible = status
+    this.setState({
+      creditCardList: creditCardList
+    })
+  }
+  render () {
     const { creditCardInfo, creditCardList, creditCardImgUrl } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
@@ -395,7 +403,7 @@ class PaymentComp extends React.Component {
                 }}
                 className={`creditCompleteInfoBox ${
                   el.selected ? "active" : ""
-                }`}
+                  }`}
                 style={{
                   display: "block",
                 }}
@@ -410,18 +418,19 @@ class PaymentComp extends React.Component {
                       }, () => {
                         this.scrollToPaymentComp()
                       });
-                      
+
                     }}
                   >
                     <FormattedMessage id="edit" />
                   </span>
-                  <span
-                    className="pull-right"
-                    onClick={() => {
-                      this.deleteCard(el.id);
-                    }}
-                  >
-                    <FormattedMessage id="delete" />
+                  <span className="pull-right position-relative">
+                    <span onClick={() => this.updateConfirmTooltipVisible(el, true)}>
+                      <FormattedMessage id="delete" />
+                    </span>
+                    <ConfirmTooltip
+                      display={el.confirmTooltipVisible}
+                      confirm={e => this.deleteCard(el)}
+                      updateChildDisplay={status => this.updateConfirmTooltipVisible(el, status)} />
                   </span>
                 </p>
                 <div className="row">
@@ -484,39 +493,39 @@ class PaymentComp extends React.Component {
           <div className="credit-card-form ">
             <div className="rc-margin-bottom--xs">
               <div className="content-asset">
-              <div
-                      className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                        this.state.errorMsg ? "" : "hidden"
-                      }`}
+                <div
+                  className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                    this.state.errorMsg ? "" : "hidden"
+                    }`}
+                >
+                  <aside
+                    className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                    role="alert"
+                  >
+                    <span>{this.state.errorMsg}</span>
+                    <button
+                      className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                      onClick={() => {
+                        this.setState({ errorMsg: "" });
+                      }}
+                      aria-label="Close"
                     >
-                      <aside
-                        className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
-                        role="alert"
-                      >
-                        <span>{this.state.errorMsg}</span>
-                        <button
-                          className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
-                          onClick={() => {
-                            this.setState({ errorMsg: "" });
-                          }}
-                          aria-label="Close"
-                        >
-                          <span className="rc-screen-reader-text">
-                            <FormattedMessage id="close" />
-                          </span>
-                        </button>
-                      </aside>
-                    </div>
-                    <aside
-                      className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-                        this.state.successMsg ? "" : "hidden"
-                      }`}
-                      role="alert"
-                    >
-                      <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
-                        {this.state.successMsg}
-                      </p>
-                    </aside>
+                      <span className="rc-screen-reader-text">
+                        <FormattedMessage id="close" />
+                      </span>
+                    </button>
+                  </aside>
+                </div>
+                <aside
+                  className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                    this.state.successMsg ? "" : "hidden"
+                    }`}
+                  role="alert"
+                >
+                  <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+                    {this.state.successMsg}
+                  </p>
+                </aside>
                 <p>
                   <FormattedMessage id="payment.acceptCards" />
                 </p>
@@ -742,10 +751,10 @@ class PaymentComp extends React.Component {
                       <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
                     </label>
                   ) : (
-                    <label className="rc-input__label--inline defaultAddressChecked">
-                      <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                    </label>
-                  )}
+                      <label className="rc-input__label--inline defaultAddressChecked">
+                        <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
+                      </label>
+                    )}
                 </div>
                 <a
                   className="rc-styled-link editPersonalInfoBtn"

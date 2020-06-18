@@ -110,11 +110,11 @@
 .card-action-delete {
   font-size: 14px;
   position: absolute;
-  top: 0;
+  top: -6px;
   right: -5px;
   padding: 5px;
   color: #999;
-  line-height: 5px;
+  line-height: 27px;
   font-size: 30px;
   cursor: pointer;
 }
