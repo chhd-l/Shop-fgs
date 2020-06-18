@@ -282,7 +282,7 @@ export default class LoginDeliveryAddress extends React.Component {
             <FormattedMessage id="saveSuccessfullly" />
           </p>
         </aside>
-        <div className={`rc-border-all rc-border-colour--interface rc-margin-bottom--sm ${!addOrEdit ? 'addr-container' : ''}`}>
+        <div className={`rc-border-all rc-border-colour--interface rc-margin-bottom--sm ${!addOrEdit ? 'addr-container' : 'checkout--padding'}`}>
           {
             loading
               ? <span className="pt-2 pb-2"><Skeleton color="#f5f5f5" count={2} width="100%" /></span>
