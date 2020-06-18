@@ -195,7 +195,7 @@ class Details extends React.Component {
           // 获取产品Dry/Wet属性
           let tmpFormat = []
           for (let item of res.context.goodsPropDetailRels) {
-            const t = find(resList[1].context, ele => ele.propId == item.propId)
+            const t = find(resList[1], ele => ele.propId == item.propId)
             if (t && t.propName.includes('Seco')) {
               const t2 = find(t.goodsPropDetails, ele => ele.detailId == item.detailId)
               if (t2) {
