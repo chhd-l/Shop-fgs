@@ -113,6 +113,9 @@ const en_US = {
   'details.unitPrice': 'Unit price',
   'details.OneOFF': 'One-off purchase',
   'details.Subscription': 'Subscription',
+  'details.youCanSave': 'You can save',
+  'details.bySubscription': 'by subscription',
+  'details.deliveryEvery': 'Delivery every',
   'details.theSize': 'The size',
   'details.availability': 'Availability',
   'details.inStock': 'In stock',
@@ -331,6 +334,7 @@ const en_US = {
   "sterilized": "Sterilized",
   "notSterilized": "Not sterilized",
   'paymentMethod': 'Payment method',
+  'subscription': 'Subscription',
   'addNewCreditCard': 'Add new credit card',
   'delete': 'Delete',
   'setDefaultPaymentMethod': 'Set as Default Payment method',
@@ -340,7 +344,25 @@ const en_US = {
   "unfoldAddress": 'Unfold Address',
   "newAddress": 'New address',
   'default': 'Default',
-  'saveSuccessfullly': 'Save successfullly'
+  'saveSuccessfullly': 'Save successfullly',
+
+  'subscription.notYet' : 'Not Yet Shipped',
+  'subscription.frequency' : 'Frequency',
+  'subscription.nextOrder' : 'Next Order',
+  'subscription.order' : 'Order',
+  'subscription.total': 'Total',
+  'subscription.totalInclu': 'Total(Inclu IVA)',
+  'subscription.saveDiscount': 'Subscription Save Discount',
+  'subscription.shipping': 'Shipping',
+  'subscription.shippingAddress': 'Shipping address',
+  'subscription.BillingAddress': 'Billing address',
+  'subscription.paymentMethod': 'Payment method',
+  'subscription.change': 'change',
+  'subscription.product': 'Product',
+  'subscription.number': 'Subscription number',
+  'subscription.date': 'Subscription date',
+  'subscription.deliveryDate': 'Next delivery date',
+  'subscription.detail': 'Subscription detail'
 
 }
 export default en_US;

@@ -2,6 +2,7 @@
 .rc-icon[class*='--xs'].rc-brand3.no-icon:after {
   width: 0;
 }
+
 .pull-left-xs {
   float: left
 }
@@ -648,7 +649,21 @@ body {
   left: .295em;
   position: absolute
 }
-
+.product-pricing__card_contanier {
+  border: 1px solid #ddd;
+  background-color: #fff;
+  padding: 10px;
+}
+.product-pricing.v2 .product-pricing__card.selected {
+  border: none;
+}
+.magt20px {
+  margin-top: 20px;
+}
+.pad10-container {
+  padding: 10px 10px 20px;
+  background-color: #f6f6f6;
+}
 .product-detail .swatch-circle.color-value.selected:after {
   color: #000;
   content: "\F058";
@@ -1596,7 +1611,7 @@ video::-webkit-media-controls-volume-slider {
   display: none;
 } */
 
-video::-webkit-media-controls-enclosure{ 
+video::-webkit-media-controls-enclosure{
   /* display: none; */
 }
 
@@ -1615,7 +1630,7 @@ ul.ui-star-list li:before {
   position: absolute;
   left: 0;
   top: 50%;
-  transform: translateY(-50%);  
+  transform: translateY(-50%);
   /* background-image: url(../../../public/royal/royal-assets1/royal-canin.sprite--iconography.svg); */
   background-position: 39.99% 88.89%;
   content: '';

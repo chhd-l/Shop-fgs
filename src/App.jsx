@@ -48,6 +48,8 @@ import AccountOrdersAfterSale from "@/views/Account/OrdersAfterSale";
 import AccountOrdersAfterSaleSuccess from "@/views/Account/OrdersAfterSaleSuccess";
 import AccountOrdersAfterSaleDetail from "@/views/Account/OrdersAfterSaleDetail";
 import AccountPaymentMethod from "@/views/Account/PaymentMethod"
+import AccountSubscription from "@/views/Account/Subscription"
+import AccountSubscriptionDetail from "@/views/Account/SubscriptionDetail"
 import AccountPaymentMethodForm from "@/views/Account/CreditCardForm"
 import AccountPetForm from "@/views/Account/PetForm";
 import AccountPetList from "@/views/Account/PetList";
@@ -186,6 +188,8 @@ const App = () => (
         <Route path='/account/pets/petList' exact component={AccountPetList}/>
         <Route path='/account/shippingAddress' exact component={AccountShippingAddress}/>
         <Route path='/account/paymentMethod' exact component={AccountPaymentMethod} />
+        <Route path='/account/subscription' exact component={AccountSubscription} />
+        <Route path='/account/subscription-detail' exact component={AccountSubscriptionDetail} />
         <Route path='/account/return-order' exact component={AccountReturnOrder} />
 
         <Route path='/account/orders-aftersale/:orderNumber' exact component={AccountOrdersAfterSale} />
