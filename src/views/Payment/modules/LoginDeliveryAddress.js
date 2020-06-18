@@ -218,13 +218,12 @@ export default class LoginDeliveryAddress extends React.Component {
       this.setState({ saveLoading: true })
       const tmpPromise = this.currentOperateIdx > -1 ? editAddress : saveAddress
       let res = await tmpPromise(params)
+      this.scrollToTitle()
       await this.queryAddressList()
       this.setState({
         addOrEdit: false,
         successTipVisible: true,
         selectedId: res.context.deliveryAddressId
-      }, () => {
-        this.scrollToTitle()
       })
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
@@ -257,8 +256,9 @@ export default class LoginDeliveryAddress extends React.Component {
             <FormattedMessage id="payment.deliveryTitle" />
           </h5>
           <p
-            className={`rc-styled-link rc-margin-top--xs pull-right inlineblock m-0 ${addOrEdit ? 'hidden' : ''}`}
+            className={`red rc-margin-top--xs ui-cursor-pointer pull-right inlineblock m-0 ${addOrEdit ? 'hidden' : ''}`}
             onClick={() => this.addOrEditAddress()}>
+            <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
             <FormattedMessage id="newAddress" />
           </p>
         </div>
@@ -282,71 +282,75 @@ export default class LoginDeliveryAddress extends React.Component {
             <FormattedMessage id="saveSuccessfullly" />
           </p>
         </aside>
-        <div className={`rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm ${!addOrEdit ? 'addr-container' : ''}`}>
+        <div className={`rc-border-all rc-border-colour--interface rc-margin-bottom--sm ${!addOrEdit ? 'addr-container' : ''}`}>
           {
             loading
-              ? <Skeleton color="#f5f5f5" count={2} width="100%" />
+              ? <span className="pt-2 pb-2"><Skeleton color="#f5f5f5" count={2} width="100%" /></span>
               : this.state.errMsg
-                ? this.state.errMsg
-                : <React.Fragment>
+                ? <span className="pt-2 pb-2">{this.state.errMsg}</span>
+                : <>
                   {
                     !addOrEdit
                       ? addressList.length
-                        ? <React.Fragment>
+                        ? <>
                           {
                             addressList.map((item, i) => (
-                              <div className={`row align-items-center address-item mb-2 ${item.selected ? 'selected' : ''} ${foledMore && !item.selected ? 'hidden' : ''}`} key={item.deliveryAddressId}>
-                                <div
-                                  className="ui-cursor-pointer text-center border col-3 col-md-3 address-name"
-                                  onClick={() => this.selectAddress(i)}>
-                                  {item.consigneeName}
-                                  <b></b>
-                                </div>
-                                <div className="col-8 col-md-8">
-                                  {[item.consigneeName, item.consigneeNumber].join(', ')}
-                                  <br />
-                                  {[
-                                    this.getDictValue(this.state.countryList, item.countryId),
-                                    this.getDictValue(this.state.cityList, item.cityId),
-                                    item.address1
-                                  ].join(', ')}
-                                  {
-                                    item.isDefaltAddress === 1
-                                      ? <span className="icon-default">
-                                        <FormattedMessage id="default" />
-                                      </span>
-                                      : null
-                                  }
-                                </div>
-                                <div className="col-1 col-md-1 rc-md-up">
-                                  <a className="addr-btn-edit rc-styled-link" onClick={() => this.addOrEditAddress(i)}>
-                                    <FormattedMessage id="edit" />
-                                  </a>
-                                </div>
-                                <div className="col-1 col-md-1 rc-md-down">
-                                  <a className="rc-styled-link" onClick={() => this.addOrEditAddress(i)}>
-                                    <FormattedMessage id="edit" />
-                                  </a>
+                              <div
+                                className={`address-item ${item.selected ? 'selected' : ''} ${foledMore && !item.selected ? 'hidden' : ''}`} key={item.deliveryAddressId}
+                                onClick={() => this.selectAddress(i)}>
+                                <div className="row align-items-center pt-2 pb-2 ml-2 mr-2 border-bottom">
+                                  <div className="text-center col-3 col-md-2 address-name">
+                                    {item.consigneeName}
+                                  </div>
+                                  <div className="col-8 col-md-8">
+                                    {[item.consigneeName, item.consigneeNumber].join(', ')}
+                                    <br />
+                                    {[
+                                      this.getDictValue(this.state.countryList, item.countryId),
+                                      this.getDictValue(this.state.cityList, item.cityId),
+                                      item.address1
+                                    ].join(', ')}
+                                    {
+                                      item.isDefaltAddress === 1
+                                        ? <span className="icon-default rc-bg-colour--brand1">
+                                          <FormattedMessage id="default" />
+                                        </span>
+                                        : null
+                                    }
+                                  </div>
+                                  <div className="col-1 col-md-2 rc-md-up text-center">
+                                    <a className="addr-btn-edit border-left pl-2 pr-2" onClick={() => this.addOrEditAddress(i)}>
+                                      <span className="rc-icon rc-edit--xs rc-iconography"></span>
+                                      <FormattedMessage id="edit" />
+                                    </a>
+                                  </div>
+                                  <div className="col-1 col-md-1 rc-md-down">
+                                    <a className="rc-styled-link" onClick={() => this.addOrEditAddress(i)}>
+                                      <FormattedMessage id="edit" />
+                                    </a>
+                                  </div>
                                 </div>
                               </div>
                             ))
                           }
                           {
-                            addressList.length > 1 && <span className="ui-cursor-pointer" onClick={() => { this.setState({ foledMore: !foledMore }) }}>
-                              {
-                                foledMore
-                                  ? <React.Fragment>
-                                    <FormattedMessage id="moreAddress" />&nbsp;
+                            addressList.length > 1 && <div className="text-center pt-2 pb-2">
+                              <span className="ui-cursor-pointer black" onClick={() => { this.setState({ foledMore: !foledMore }) }}>
+                                {
+                                  foledMore
+                                    ? <React.Fragment>
+                                      <FormattedMessage id="moreAddress" />&nbsp;
                                     <b className="addr-switch switch-on"></b>
-                                  </React.Fragment>
-                                  : <React.Fragment>
-                                    <FormattedMessage id="unfoldAddress" />
-                                    <b className="addr-switch switch-off"></b>
-                                  </React.Fragment>
-                              }
-                            </span>
+                                    </React.Fragment>
+                                    : <React.Fragment>
+                                      <FormattedMessage id="unfoldAddress" />
+                                      <b className="addr-switch switch-off"></b>
+                                    </React.Fragment>
+                                }
+                              </span>
+                            </div>
                           }
-                        </React.Fragment>
+                        </>
                         : <FormattedMessage id="order.noDataTip" />
                       : null
                   }
@@ -410,7 +414,7 @@ export default class LoginDeliveryAddress extends React.Component {
                       </div>
                     </div>
                   </fieldset>
-                </React.Fragment>
+                </>
           }
         </div>
       </div>
