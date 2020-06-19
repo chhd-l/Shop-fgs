@@ -104,10 +104,24 @@ class ImageMagnifier extends Component {
     this.initParam();
     this.updataImg(this.props);
   }
-
+  componentDidMount() {
+    let { currentImg } = this.state
+    let { images, sizeList } = this.props
+    if (!currentImg && images && images.length > 0) {
+      currentImg = images[0].artworkUrl
+    }
+    console.log(currentImg, 'currentImg')
+    this.setState({
+      currentImg: currentImg
+    })
+    
+    let selectedSizeInfo = sizeList.filter(item => item.selected)
+    if (selectedSizeInfo.length) {
+      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false })
+    }
+  }
   // props 变化时更新
   componentWillReceiveProps (nextProps) {
-
     let { currentImg } = this.state
     let { images } = this.props
     if (!currentImg && images && images.length > 0) {
