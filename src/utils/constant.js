@@ -15,13 +15,13 @@ export const DELIVER_STATUS_ENUM = {
 export const ORDER_STATUS_ENUM = {
   'INIT': 'To be paid',
   'REMEDY': 'To be delivered',
-  'REFUND': 'Cancelled',
+  'REFUND': 'Canceled',
   'AUDIT': 'To be delivered',
   'DELIVERED_PART': 'To be delivered',
   'DELIVERED': 'Delivered',
   'CONFIRMED': 'Completed',
   'COMPLETED': 'Completed',
-  'VOID': 'Cancelled'
+  'VOID': 'Canceled'
 }
 export const PAY_STATUS_ENUM = {
   'REFUND': 'Refund',
