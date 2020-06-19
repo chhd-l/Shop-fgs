@@ -8,7 +8,7 @@ import { getParaByName, jugeLoginStatus } from '@/utils/utils';
 import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import { getList } from '@/api/list'
-import { CATEID } from '@/utils/constant'
+import { CATEID, IMG_DEFAULT } from '@/utils/constant'
 import { getPrescriptionById } from '@/api/clinic'
 import LoginButton from '@/components/LoginButton'
 import UnloginCart from './modules/unLoginCart'
@@ -281,10 +281,10 @@ class Header extends React.Component {
                                 className="swatch__img"
                                 alt={item.lowGoodsName}
                                 title={item.lowGoodsName}
-                                src={item.goodsInfos[0].goodsInfoImg} />
+                                src={item.goodsInfos[0].goodsInfoImg || IMG_DEFAULT} />
                             </a>
                           </div>
-                          <div className="col-8 col-md-9 col-lg-10 rc-padding-top--xs">
+                          <div className="col-8 col-md-9 col-lg-10">
                             <a
                               onClick={() => this.gotoDetails(item)}
                               className="productName ui-cursor-pointer"
@@ -298,7 +298,7 @@ class Header extends React.Component {
                         </div>
                       </div>
                     )) :
-                    <p className="d-flex" style={{ margin: '0 2%' }}>
+                    <p className="d-flex ml-2 mr-2">
                       <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
                       <FormattedMessage id="list.errMsg2" />
                     </p>
@@ -409,7 +409,7 @@ class Header extends React.Component {
                       </div>
                       {
                         jugeLoginStatus()
-                          ? <LoginCart ref={this.loginCartRef} history={this.props.history} />
+                          ? <LoginCart ref={this.loginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
                           : <UnloginCart ref={this.unloginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
                       }
                     </>

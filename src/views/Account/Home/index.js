@@ -16,7 +16,7 @@ export default class AccountHome extends React.Component {
     }
   }
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+    localStorage.setItem("isRefresh", true); 
   }
   componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
@@ -27,9 +27,9 @@ export default class AccountHome extends React.Component {
   }
   render () {
     const event = {
-      "page": {
-        "type": "Account",
-        "theme": ""
+      page: {
+        type: 'Account',
+        theme: ''
       }
     }
     return (
@@ -78,7 +78,7 @@ export default class AccountHome extends React.Component {
                     </div>
                     <div className="col-12 col-md-4">
                       <div className="profileDashboardImage">
-                        <a href="/ru/account/pet-carnet">
+                        <Link to="/account/pets/petForm">
                           <FormattedMessage id="pets">
                             {txt => (
                               <img
@@ -87,18 +87,20 @@ export default class AccountHome extends React.Component {
                                 title={txt} />
                             )}
                           </FormattedMessage>
-                        </a>
+                        </Link>
                       </div>
                       <div>
                         <h3 className="rc-delta profileTextColor">
                           <FormattedMessage id="pets">
                             {txt => (
-                              <a href="/ru/account/pet-carnet" title={txt} alt={txt}>
+                              <Link
+                                to="/account/pets/petForm"
+                                title={txt}
+                                alt={txt}>
                                 <b>{txt}</b>
-                              </a>
+                              </Link>
                             )}
                           </FormattedMessage>
-
                         </h3>
                         <p><FormattedMessage id="account.petsTip" /></p>
                       </div>
