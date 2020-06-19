@@ -1191,7 +1191,7 @@ class Payment extends React.Component {
                                     this.setState({ selectedCardInfo: cardItem })
                                   }} />
                                 </div>
-                                : <div className="rc-border-all rc-border-colour--interface checkout--padding">
+                                : <div className={`rc-border-all rc-border-colour--interface ${!this.state.isCompleteCredit ? 'checkout--padding' : ''}`}>
                                   <div
                                     className={`credit-card-content ${!this.state.isCompleteCredit ? '' : 'hidden'}`}
                                     id="credit-card-content"
@@ -1211,7 +1211,7 @@ class Payment extends React.Component {
                                                 htmlFor="cardNumber"
                                               >
                                                 <FormattedMessage id="payment.cardNumber" />
-                                              *{CreditCardImg}
+                                                *{CreditCardImg}
                                                 <form id="payment-form">
                                                   <div id="card-secure-fields"></div>
                                                   <button
@@ -1348,21 +1348,22 @@ class Payment extends React.Component {
                                       </div>
                                     </div>
                                   </div>
-                                  <div className={`creditCompleteInfoBox ${!this.state.isCompleteCredit ? 'hidden' : ''}`}>
+                                  <div className={`creditCompleteInfoBox pb-3 ${!this.state.isCompleteCredit ? 'hidden' : ''}`}>
                                     <p>
                                       <span
-                                        className="pull-right"
+                                        className="pull-right ui-cursor-pointer-pure mr-2"
                                         onClick={() => {
                                           this.setState({
-                                            isCompleteCredit: false,
+                                            isCompleteCredit: false
                                           });
                                         }}
+                                        style={{position: 'relative', top: -9}}
                                       >
                                         <FormattedMessage id="edit" />
                                       </span>
                                     </p>
                                     <div className="row">
-                                      <div className="col-sm-5">
+                                      <div className="col-sm-4 d-flex flex-column justify-content-center">
                                         <img
                                           src={
                                             this.state.creditCardImgObj[
@@ -1376,26 +1377,21 @@ class Payment extends React.Component {
                                           alt=""
                                         />
                                       </div>
-                                      <div className="col-sm-7">
+                                      <div className="col-sm-8 d-flex flex-column justify-content-around">
                                         <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                                          <div className="col-6">
-                                            <p>
-                                              <FormattedMessage id="name" />
-                                            </p>
-                                            <p>
-                                              <FormattedMessage id="payment.cardNumber" />
-                                            </p>
-                                            <p>{this.state.payosdata.card_type}</p>
+                                          <div className="col-12 color-999">
+                                            <FormattedMessage id="name2" /><br />
+                                            <span className="creditCompleteInfo">{creditCardInfo.cardOwner}</span>
                                           </div>
-                                          <div className="col-6">
-                                            <p>&nbsp;{creditCardInfo.cardOwner}</p>
-                                            <p>
-                                              &nbsp;xxxx xxxx xxxx{" "}
-                                              {this.state.payosdata
-                                                ? this.state.payosdata.last_4_digits
-                                                : ""}
-                                            </p>
-                                            <p>&nbsp;</p>
+                                        </div>
+                                        <div className="row creditCompleteInfo ui-margin-top-1-md-down">
+                                          <div className="col-6 color-999">
+                                            <FormattedMessage id="payment.cardNumber2" /><br />
+                                            <span className="creditCompleteInfo">xxxx xxxx xxxx{" "}{this.state.payosdata ? this.state.payosdata.last_4_digits : ""}</span>
+                                          </div>
+                                          <div className="col-6 color-999">
+                                            <FormattedMessage id="payment.cardType" /><br />
+                                            <span className="creditCompleteInfo">{this.state.payosdata.card_type}</span>
                                           </div>
                                         </div>
                                       </div>

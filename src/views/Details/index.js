@@ -150,7 +150,7 @@ class Details extends React.Component {
     selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId)
     selectedArr.map(el => {
       idArr.push(el.specDetailId)
-      specText = specText + el.detailName + ';'
+      specText = specText + el.detailName + ' '
     })
     currentUnitPrice = details.marketPrice
     details.sizeList.map(item => {

@@ -362,7 +362,6 @@ class PaymentComp extends React.Component {
             }
           </span>
           <span
-            type="button"
             className="red font-weight-normal"
             onClick={() => {
               this.setState({ isEdit: true }, () => {
