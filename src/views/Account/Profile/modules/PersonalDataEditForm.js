@@ -139,7 +139,7 @@ class PersonalDataEditForm extends React.Component {
             <FormattedMessage id="edit">
               {txt => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link ${editFormVisible ? 'hidden' : ''}`}
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 ${editFormVisible ? 'hidden' : ''}`}
                   name="personalInformation"
                   id="personalInfoEditBtn"
                   title={txt}

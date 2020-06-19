@@ -317,7 +317,7 @@ export default class ShippingAddress extends React.Component {
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <SideMenu type="ShippingAddress" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
+                <div className="rc-border-bottom rc-border-colour--interface mb-2">
                   <h4 className="rc-delta rc-margin--none">
                     <FormattedMessage id="shippingAddress"></FormattedMessage>
                   </h4>

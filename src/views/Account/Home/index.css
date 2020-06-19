@@ -462,14 +462,8 @@
   background-position-y: 40%
 }
 
-.card-footer>a,.card-header>a {
-  color: #ec001a;
-  text-decoration: underline
-}
-
 .card-header>a {
   float: right;
-  padding: 3rem 0 0
 }
 
 .hide-makedefault {

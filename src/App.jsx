@@ -11,7 +11,7 @@
  */
 
 import React from 'react';
-import { BrowserRouter as Router, Route ,Redirect} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 import config from './config';
@@ -64,7 +64,7 @@ import ForgetPassword from "@/views/ForgetPassword";
 const token = sessionStorage.getItem('rc-token')
 
 const App = () => (
-  
+
   // <Provider {...store}>
   <IntlProvider locale="en" messages={en_US}>
     {/* <HashRouter>
@@ -131,80 +131,80 @@ const App = () => (
     </ScrollToTop>
   </HashRouter> */}
     <Router path="/">
-    {/* <HashRouter> */}
-    <RouteFilter />
-    <ScrollToTop>
-      <Switch>
-      <Security {...config.oidc}>
-          <Route path="/" exact component={Home} />
-          <Route path="/implicit/callback" component={LoginCallback} />
-          <Route exact path="/login" component={Login} />
-          
-        <Route
-          exact
-          path="/list/:category"
-          render={(props) => (
-            <List key={props.match.params.category} {...props} />
-          )}
-        />
-        <Route
-          exact
-          path="/list/:category/:keywords"
-          render={(props) => (
-            <List
-              key={props.match.params.category + props.match.params.keywords}
-              {...props}
+      {/* <HashRouter> */}
+      <RouteFilter />
+      <ScrollToTop>
+        <Switch>
+          <Security {...config.oidc}>
+            <Route path="/" exact component={Home} />
+            <Route path="/implicit/callback" component={LoginCallback} />
+            <Route exact path="/login" component={Login} />
+
+            <Route
+              exact
+              path="/list/:category"
+              render={(props) => (
+                <List key={props.match.params.category} {...props} />
+              )}
             />
-          )}
-        />
-        <Route
-          exact
-          path="/details/:id"
-          render={(props) => <Details key={props.match.params.id} {...props} />}
-        />
-        <Route exact path="/cart" component={Cart} />
-        <Route
-          exact
-          path="/payment/:type"
-          render={(props) => (
-            <Payment key={props.match.params.type} {...props} />
-          )}
-        />
-        <Route exact path="/confirmation" component={Confirmation} />
-        <Route exact path="/prescription" component={Prescription} />
-        <Route exact path="/help" component={Help} />
-        <Route exact path="/FAQ" component={FAQ} />
-        <Route exact path="/termuse" component={TermUse} />
-        <Route exact path="/privacypolicy" component={PrivacyPolicy} />
+            <Route
+              exact
+              path="/list/:category/:keywords"
+              render={(props) => (
+                <List
+                  key={props.match.params.category + props.match.params.keywords}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/details/:id"
+              render={(props) => <Details key={props.match.params.id} {...props} />}
+            />
+            <Route exact path="/cart" component={Cart} />
+            <Route
+              exact
+              path="/payment/:type"
+              render={(props) => (
+                <Payment key={props.match.params.type} {...props} />
+              )}
+            />
+            <Route exact path="/confirmation" component={Confirmation} />
+            <Route exact path="/prescription" component={Prescription} />
+            <Route exact path="/help" component={Help} />
+            <Route exact path="/FAQ" component={FAQ} />
+            <Route exact path="/termuse" component={TermUse} />
+            <Route exact path="/privacypolicy" component={PrivacyPolicy} />
 
 
-        <Route path='/account' exact render={()=>(token ? <AccountHome></AccountHome> : <Redirect to= '/'/>) } />
-        <Route path='/account/information' exact component={AccountProfile} />
-        <Route path='/account/pets' exact component={AccountPets} />
-        <Route path='/account/orders' exact component={AccountOrders} />
-        <Route path='/account/orders-detail/:orderNumber' exact component={AccountOrdersDetail} />
-        <Route path='/account/pets/petForm' exact component={AccountPetForm}/>
-        <Route path='/account/pets/petList' exact component={AccountPetList}/>
-        <Route path='/account/shippingAddress' exact component={AccountShippingAddress}/>
-        <Route path='/account/paymentMethod' exact component={AccountPaymentMethod} />
-        <Route path='/account/return-order' exact component={AccountReturnOrder} />
+            <Route path='/account' exact render={props => (token ? <AccountHome {...props} /> : <Redirect to='/login' />)} />
+            <Route path='/account/information' exact render={props => (token ? <AccountProfile {...props} /> : <Redirect to='/login' />)} />
+            <Route path='/account/pets' exact render={props => (token ? <AccountPets {...props} /> : <Redirect to='/login' />)} />
+            <Route path='/account/orders' exact render={props => (token ? <AccountOrders {...props} /> : <Redirect to='/login' />)} />
+            <Route path='/account/orders-detail/:orderNumber' exact render={props => (token ? <AccountOrdersDetail {...props} /> : <Redirect to='/login' />)} />
+            <Route path='/account/pets/petForm' exact render={props => (token ? <AccountPetForm {...props} /> : <Redirect to='/login' />)} />
+            <Route path='/account/pets/petList' exact render={props => (token ? <AccountPetList  {...props} /> : <Redirect to='/login' />)} />
+            <Route path='/account/shippingAddress' exact render={props => (token ? <AccountShippingAddress {...props} /> : <Redirect to='/login' />)} />
+            <Route path='/account/paymentMethod' exact render={props => (token ? <AccountPaymentMethod {...props} /> : <Redirect to='/login' />)} />
+            <Route path='/account/return-order' exact render={props => (token ? <AccountReturnOrder {...props} /> : <Redirect to='/login' />)} />
 
-        <Route path='/account/orders-aftersale/:orderNumber' exact component={AccountOrdersAfterSale} />
-        <Route path='/account/orders-aftersale/success/:returnNumber' exact component={AccountOrdersAfterSaleSuccess} />
-        <Route path='/account/return-order-detail/:returnNumber' exact component={AccountOrdersAfterSaleDetail} />
+            <Route path='/account/orders-aftersale/:orderNumber' exact render={props => (token ? <AccountOrdersAfterSale {...props} /> : <Redirect to='/login' />)} />
+            <Route path='/account/orders-aftersale/success/:returnNumber' exact render={props => (token ? <AccountOrdersAfterSaleSuccess {...props} /> : <Redirect to='/login' />)} />
+            <Route path='/account/return-order-detail/:returnNumber' exact render={props => (token ? <AccountOrdersAfterSaleDetail {...props} /> : <Redirect to='/login' />)} />
 
-        <Route path='/account/shippingAddress/create' exact component={AccountShippingAddressForm}  />
-        <Route path='/account/paymentMethod/create' exact component={AccountPaymentMethodForm}  />
-        
-        <Route path='/account/shippingAddress/:addressId' exact component={AccountShippingAddressForm} />
-        <Route exact path="/forgetPassword" component={ForgetPassword} />
+            <Route path='/account/shippingAddress/create' exact render={props => (token ? <AccountShippingAddressForm {...props} /> : <Redirect to='/login' />)} />
+            <Route path='/account/paymentMethod/create' exact render={props => (token ? <AccountPaymentMethodForm {...props} /> : <Redirect to='/login' />)} />
 
-        {/* <Route exact component={Exception} /> */}
-      </Security>
+            <Route path='/account/shippingAddress/:addressId' exact component={AccountShippingAddressForm} render={() => (token ? <AccountPetForm /> : <Redirect to='/login' />)} />
+            <Route exact path="/forgetPassword" component={ForgetPassword} />
 
-      </Switch>
-    </ScrollToTop>
-  {/* </HashRouter> */}
+            <Route exact component={Exception} />
+          </Security>
+
+        </Switch>
+      </ScrollToTop>
+      {/* </HashRouter> */}
     </Router>
   </IntlProvider>
   // </Provider>
