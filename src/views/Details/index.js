@@ -274,7 +274,7 @@ class Details extends React.Component {
                 res.context.goods,
                 { sizeList },
                 { goodsCategory: [this.specie, this.productRange, this.format.join('&')].join('/') }),
-              images: res.context.images,
+              images: res.context.images.concat(res.context.goodsInfos),
               specList
             },
             () => {

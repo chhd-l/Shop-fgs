@@ -248,6 +248,7 @@ class ImageMagnifier extends Component {
   render () {
     const { cssStyle, magnifierOff, minImg, maxImg, imgLoad, currentImg, videoShow, videoModalShow } = this.state;
     const { images, video } = this.props
+    console.log(images, 'images');
     return (
       <div>
         <div style={{ position: 'relative' }}>
@@ -281,8 +282,9 @@ class ImageMagnifier extends Component {
         </div>
         <div className="d-flex justify-content-center">
           {
+            
             images && images.map((el, i) => (
-              <div key={i} className="rc-img--square rc-img--square-custom" onMouseEnter={(e) => this.imageChange(e, el.artworkUrl)} style={{ backgroundImage: 'url(' + el.artworkUrl + ')' }}></div>
+              <div key={i} className="rc-img--square rc-img--square-custom" onMouseEnter={(e) => this.imageChange(e, el.artworkUrl || el.goodsInfoImg)} style={{ backgroundImage: 'url(' + (el.artworkUrl || el.goodsInfoImg) + ')' }}></div>
             ))
           }
           {video && <video className="rc-img--square rc-img--square-custom" onMouseEnter={() => {
