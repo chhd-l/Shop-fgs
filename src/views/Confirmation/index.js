@@ -69,7 +69,7 @@ class Confirmation extends React.Component {
       evalutateScore: -1,
       consumerComment: '',
 
-      modalShow: true,
+      modalShow: false,
       operateSuccessModalVisible: false,
       errorMsg: ''
     }
@@ -110,6 +110,9 @@ class Confirmation extends React.Component {
         commentOnDelivery: deliveryInfo.commentOnDelivery
       });
     }
+    setTimeout(() => {
+      this.setState({ modalShow: true }, 3000)
+    })
     getDictionary({ type: 'city' })
       .then(res => {
         this.setState({

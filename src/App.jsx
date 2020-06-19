@@ -199,7 +199,7 @@ const App = () => (
             <Route path='/account/shippingAddress/:addressId' exact component={AccountShippingAddressForm} render={() => (token ? <AccountPetForm /> : <Redirect to='/login' />)} />
             <Route exact path="/forgetPassword" component={ForgetPassword} />
 
-            <Route exact component={Exception} />
+            {/* <Route exact component={Exception} /> */}
           </Security>
 
         </Switch>
