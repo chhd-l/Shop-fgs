@@ -1,0 +1,52 @@
+.miaa-content{
+  width: 500px;
+  margin: 10px auto;
+}
+.miaa-inner-content {
+  margin: auto;
+  width: 100%;
+}
+@media(min-width: 1050px){
+  .miaa-inner-content {
+    max-width: 500px;
+  }
+}
+
+.miaa-title{
+  font-size: 17px;
+  font-family: "Roboto",sans-serif;
+  line-height: 1.1;
+  color: #474747;
+}
+
+.miaa-body .miaa-inner-content .info-text{
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+
+.miaa_input .form-control{  
+  background-color: #F9F9F9;
+  border: 0;
+  border-bottom: 2px solid #A3A3A4;
+  border-color: #A3A3A4;
+  padding: 1rem 0.9rem;
+  flex-grow: 1;
+}
+
+.miaa-footer .btn {
+  white-space: normal;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 20px 0;
+  white-space: nowrap;
+}
+
+.btn-primary:not(.btn-sm):after, .btn-secondary:not(.btn-sm):after {
+  content: "\f105";
+  font-family: FontAwesome;
+  position: relative;
+  right: -20px;
+}

@@ -56,6 +56,7 @@ import AccountShippingAddress from "@/views/Account/ShippingAddress";
 import AccountShippingAddressForm from "@/views/Account/ShippingAddressForm";
 
 import AccountReturnOrder from "@/views/Account/ReturnOrder";
+import ForgetPassword from "@/views/ForgetPassword";
 
 // const store = {
 //   store: new Store()
@@ -196,6 +197,7 @@ const App = () => (
         <Route path='/account/paymentMethod/create' exact component={AccountPaymentMethodForm}  />
         
         <Route path='/account/shippingAddress/:addressId' exact component={AccountShippingAddressForm} />
+        <Route exact path="/forgetPassword" component={ForgetPassword} />
 
         {/* <Route exact component={Exception} /> */}
       </Security>

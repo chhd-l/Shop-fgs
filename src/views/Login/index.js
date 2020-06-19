@@ -27,6 +27,8 @@ class Login extends React.Component {
         email:'',
         password:'',
         confirmPassword:'',
+        securityQuestion:'',
+        answer:'',
         firstChecked:false,
         secondChecked:false,
         thirdChecked:false,
@@ -305,12 +307,9 @@ class Login extends React.Component {
                         </div>
                       </div>
                       <div className="text-center">
-                        <a
-                          href="#"
-                          className="text-muted small-medium"
-                        >
+                        <Link to="/forgetPassword" className="text-muted small-medium">
                           <FormattedMessage id="login.forgotPassword" />  
-                        </a>
+                        </Link>
 
                         <div className="text-center">
                           <button
@@ -507,7 +506,49 @@ class Login extends React.Component {
                             <i className="icon-eye-open fa fa-eye"></i>
                           </span>
                         </div>
+                        
+                        <div className="miaa_input required country_select">
+                          <select
+                            data-js-select=""
+                            id="securityQuestion"
+                            value={registerForm.securityQuestion}
+                            name="securityQuestion"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              // value = value === '' ? null : value;
+                              this.registerFormChange({
+                                field: 'securityQuestion',
+                                value
+                              });
+                            }}
+                          >
+                            
+                            <option value="" disabled>Security Question *</option>
+                            {
+                              this.state.countryList.map(item => (
+                                <option value={item.id} key={item.id}>{item.name}</option>
+                              ))
+                            }
+                          </select>
+                        </div>
 
+                        <div className="miaa_input required">
+                          <input
+                            id="capture_traditionalRegistration_firstName"
+                            data-capturefield="answer"
+                            type="text"
+                            className="capture_firstName capture_required capture_text_input form-control"
+                            placeholder="Answer *"
+                            name="answer"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              this.registerFormChange({
+                                field: 'answer',
+                                value
+                              });
+                            }}
+                          />
+                        </div>
 
                       </div>
                     </div>
@@ -604,7 +645,6 @@ class Login extends React.Component {
                     </div>
 
                     <button
-                      id="traditionalRegistrationSubmit"
                       type="submit"
                       className="btn btn-primary capture_btn"
                       disabled={!(registerForm.firstChecked&& registerForm.secondChecked&& registerForm.thirdChecked)}

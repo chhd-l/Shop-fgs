@@ -354,6 +354,9 @@ const en_US = {
   'login.firstCheck':'',
   'login.secondCheck':' I confirm that I am 18 years old',
   'login.thirdCheck':' I agree to receive the marketing newsletter',
-  'requiredFields':'* Required fields'
+  'requiredFields':'* Required fields',
+  'forgetPassword.createNewPassword':'Create new password',
+  'forgetPassword.forgetPasswordTip':'You will be sent a letter with instructions for changing the password.',
+  'forgetPassword.back':'Back to log in'
 }
 export default en_US;
