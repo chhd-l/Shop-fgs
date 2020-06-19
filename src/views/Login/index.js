@@ -473,7 +473,7 @@ class Login extends React.Component {
                           </span>
                           
                         </div>
-                        <p style={{marginTop: '-20px'}}>8-20 characters and include at least 1 number and 1 letter</p>
+                        <p style={{marginTop: '-20px'}}>  <FormattedMessage id="login.passwordTip" /> </p>
 
                         <div className="input-append input-group miaa_input required">
                           <input
@@ -639,7 +639,7 @@ class Login extends React.Component {
                               
                         </label>
                       </div>
-                      <div>
+                      <div style={{marginLeft: "20px"}}>
                         <FormattedMessage id="requiredFields" /> 
                       </div>
                     </div>
