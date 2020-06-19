@@ -18,6 +18,8 @@ import { inject, observer } from 'mobx-react';
 import Store from '@/store/store';
 import './index.css'
 
+
+
 @observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
   static defaultProps = {
@@ -47,7 +49,7 @@ class Header extends React.Component {
     this.handleItemClick = this.handleItemClick.bind(this)
     this.toggleMenu = this.toggleMenu.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
-    this.clickLogin = this.clickLogin.bind(this)
+    // this.clickLogin = this.clickLogin.bind(this)
     this.clickLogoff = this.clickLogoff.bind(this)
 
     this.inputRef = React.createRef();
@@ -169,16 +171,19 @@ class Header extends React.Component {
     })
   }
   signUp () {
-    let prefix = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri='
-    let callbackUrl = 'http://localhost:3000?origin=register'
-    let registredUrl = ''
-    if (process.env.NODE_ENV === 'development') {
-      registredUrl = prefix + encodeURIComponent(callbackUrl)
-    } else if (process.env.NODE_ENV === 'production') {
-      callbackUrl = process.env.REACT_APP_RegisterCallback
-      registredUrl = process.env.REACT_APP_RegisterPrefix + encodeURIComponent(callbackUrl)
-    }
-    window.location.href = registredUrl
+    // let prefix = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri='
+    // let callbackUrl = 'http://localhost:3000?origin=register'
+    // let registredUrl = ''
+    // if (process.env.NODE_ENV === 'development') {
+    //   registredUrl = prefix + encodeURIComponent(callbackUrl)
+    // } else if (process.env.NODE_ENV === 'production') {
+    //   callbackUrl = process.env.REACT_APP_RegisterCallback
+    //   registredUrl = process.env.REACT_APP_RegisterPrefix + encodeURIComponent(callbackUrl)
+    // }
+    // window.location.href = registredUrl
+    const { history } = this.props
+    history.push("/login");
+
   }
   async getSearchData () {
     const { keywords } = this.state
@@ -255,10 +260,16 @@ class Header extends React.Component {
   clickLogoff () {
     sessionStorage.setItem("is-login", false);
     sessionStorage.removeItem("rc-token");
+    localStorage.removeItem('rc-cart-data-login')
+    sessionStorage.removeItem('rc-clinics-name') //    
+    sessionStorage.removeItem('rc-clinics-id')
+    sessionStorage.removeItem('rc-userinfo')
     // this.setState({
     //   isLogin: false
     // })
-    Store.changeIsLogin(false)
+    // Store.changeIsLogin(false)
+    const { history } = this.props
+    history.push('/')
   }
   renderResultJsx () {
     return this.state.result ?
@@ -430,15 +441,17 @@ class Header extends React.Component {
                           <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{ minWidth: "13rem" }}>
                             <div className="container cart" >
                               <div className="login-style">
-                                <LoginButton />
+                                {/* <LoginButton /> */}
                                 {/* <button onClick={() => {
                                   // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
                                   window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
                                 }}>registred</button> */}
-                                {/* <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
-                                  onClick={this.clickLogin}>To come in</button> */}
+                                <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
+                                  onClick={()=>this.clickLogin()}>Log in</button>
                                 <div><FormattedMessage id="account.notRegistred" /></div>
-                                <a className="rc-styled-link" onClick={() => { this.signUp() }}><FormattedMessage id="signUp" /></a>
+                                <a className="rc-styled-link" onClick={() => this.signUp()}>
+                                  <FormattedMessage id="signUp" />
+                                </a>
                               </div>
 
                               {/* <div className="link-group">
@@ -507,12 +520,12 @@ class Header extends React.Component {
                                   </Link>
                                 </div>
                               </div>
-                              <LogoutButton />
-                              {/* <div className="logoff-style">
+                              {/* <LogoutButton /> */}
+                              <div className="logoff-style">
                                 <a className="rc-styled-link--external" onClick={()=>this.clickLogoff()}>
                                   <FormattedMessage id="logOff" />
                                 </a>
-                              </div> */}
+                              </div>
 
                             </div>
                           </div>

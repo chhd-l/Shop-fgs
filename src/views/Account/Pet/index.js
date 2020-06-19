@@ -79,29 +79,29 @@ export default class Pet extends React.Component {
               <SideMenu type="Pets" />
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div class="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
-                  <h4 class="rc-delta rc-margin--none">
+                <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
+                  <h4 className="rc-delta rc-margin--none">
                     <FormattedMessage id="account.pets"></FormattedMessage>
                   </h4>
                 </div>
-                <div class="content-asset">
-                  <div class="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
-                    <div class="rc-column">
-                      <div class="rc-padding-right-lg rc-padding-y--sm ">
-                          <div class="children-nomargin">
+                <div className="content-asset">
+                  <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
+                    <div className="rc-column">
+                      <div className="rc-padding-right-lg rc-padding-y--sm ">
+                          <div className="children-nomargin">
                             <p>
                               <FormattedMessage id="account.noPet"></FormattedMessage>
                               
                             </p>
                           </div>
-                          <div class="rc-margin-top--sm">
-                            <Link class="rc-btn rc-btn--one" to="/account/pets/petForm">
+                          <div className="rc-margin-top--sm">
+                            <Link className="rc-btn rc-btn--one" to="/account/pets/petForm">
                               <FormattedMessage id="account.addPet"></FormattedMessage>
                             </Link>
                           </div>
                         </div>
                       </div>
-                      <div class="rc-column">
+                      <div className="rc-column">
                         <img src={noPet} alt="No pets"/>
                       </div>
                     </div>

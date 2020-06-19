@@ -638,17 +638,17 @@ export default class PetForm extends React.Component {
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
 
-                <div class="list-select-pet js-list-pet" data-toggle-group="">
-                  <ul class="scroll--x list list--inline list--align list--blank flex--middle" role="tablist">
-                    <li class="pet-element">
-                      <a onClick={() => this.add()} class="tab-add tab--img" role="tab">
-                        <span class="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
+                <div className="list-select-pet js-list-pet" data-toggle-group="">
+                  <ul className="scroll--x list list--inline list--align list--blank flex--middle" role="tablist">
+                    <li className="pet-element">
+                      <a onClick={() => this.add()} className="tab-add tab--img" role="tab">
+                        <span className="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
                       </a>
                     </li>
 
                     {
                       petList.map(item => (
-                        <li class="rc-margin-x--xs pet-element">
+                        <li className="rc-margin-x--xs pet-element" key={item.petsId}>
                           <a onClick={() => this.petsById(item.petsId)}>
                             <div className={"tab__img img--round img--round--md name--select text-center " + (item.petsId === this.state.currentPetId ? "active" : "")}>
                               {item.petsName}
@@ -680,28 +680,28 @@ export default class PetForm extends React.Component {
                 </aside>
                 {
                   this.state.showList ? (
-                    <div class="pet-information js-pet-information rc-margin-bottom--md">
-                      <h2 class="name-pet">{currentPet.petsName}</h2>
-                      <div class="rc-layout-container">
-                        <div class="rc-column">
-                          <ul class="pet-data">
-                            <li class={"breed " + (currentPet.petsType === 'dog' ? "dog" : "cat")}>
-                              <span class="">{currentPet.petsBreed}</span>
+                    <div className="pet-information js-pet-information rc-margin-bottom--md">
+                      <h2 className="name-pet">{currentPet.petsName}</h2>
+                      <div className="rc-layout-container">
+                        <div className="rc-column">
+                          <ul className="pet-data">
+                            <li className={"breed " + (currentPet.petsType === 'dog' ? "dog" : "cat")}>
+                              <span className="">{currentPet.petsBreed}</span>
                             </li>
-                            <li class="birth">
-                              <span class="">{currentPet.birthOfPets}</span>
+                            <li className="birth">
+                              <span className="">{currentPet.birthOfPets}</span>
                             </li>
-                            <li class={"gender " + (currentPet.petsSex === 0 ? "male" : "female") + " sprite-pet"}>
-                              <span class=""> {currentPet.petsSex === 0 ? 'Male' : 'Female'}</span>
+                            <li className={"gender " + (currentPet.petsSex === 0 ? "male" : "female") + " sprite-pet"}>
+                              <span className=""> {currentPet.petsSex === 0 ? 'Male' : 'Female'}</span>
                             </li>
-                            <li class="weight" style={{ display: (currentPet.petsType === 'dog' ? 'block' : 'none') }}>
-                              <span class="">{currentPet.petsSizeValueName}</span>
+                            <li className="weight" style={{ display: (currentPet.petsType === 'dog' ? 'block' : 'none') }}>
+                              <span className="">{currentPet.petsSizeValueName}</span>
                             </li>
                           </ul>
                         </div>
-                        <div class="rc-column">
-                          <div class="pet-special-need">Special needs</div>
-                          <ul class="list-special-need">
+                        <div className="rc-column">
+                          <div className="pet-special-need">Special needs</div>
+                          <ul className="list-special-need">
                             {
                               this.state.selectedSpecialNeeds.map(item => (
                                 <li>{item}</li>
@@ -709,12 +709,12 @@ export default class PetForm extends React.Component {
                             }
                           </ul>
                         </div>
-                        <div class="edit js-edit-pet">
+                        <div className="edit js-edit-pet">
                           <a onClick={() => this.edit(currentPet)} >
-                            <img src={edit} class="img-success" alt="" />
+                            <img src={edit} className="img-success" alt="" />
                           </a>
                         </div>
-                        <div class="delete">
+                        <div className="delete">
                           <a onClick={() => this.delPets(currentPet.petsId)}>
                             X
                         </a>
