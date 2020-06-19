@@ -200,7 +200,7 @@ class AccountOrders extends React.Component {
                                 <span className="medium">{details.clinicsName}</span>
                               </div>
                               {/* {this.returnOrExchangeBtnJSX()} */}
-                              {this.cancelOrderBtnJSX()}
+                              {/* {this.cancelOrderBtnJSX()} */}
                             </div>
                             <hr className="rc-margin-top---none" />
                             <div className="order__listing">

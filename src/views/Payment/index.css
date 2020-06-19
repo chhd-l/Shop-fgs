@@ -137,11 +137,6 @@
 .creditCompleteInfoBox img {
   width: 100%;
 }
-.creditCompleteInfoBox > p {
-  height: 20px;
-  color: black;
-  cursor: pointer;
-}
 .creditCompleteInfoBox > p .pull-right {
   text-decoration: underline;
 }
@@ -149,13 +144,12 @@
   color: black;
 }
 
-
 .deliveryAddress {
   margin-bottom: 2rem;
 }
 .product-summary__products__item {
   padding-bottom: 1rem;
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
   border-bottom: 1px solid #d7d7d7;
 }
 

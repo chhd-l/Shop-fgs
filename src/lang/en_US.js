@@ -317,6 +317,7 @@ const en_US = {
   'editShippingAddress': 'Edit Shipping Address',
   'addressTip': 'You have created {number} shipping addresses, up to 20',
   'creditCardTip': 'You have created {number} credit card, up to 10',
+  'creditCardTipMany': 'You have created {number} credit cards, up to 10',
   'consignee': 'Consignee',
   'defaultAddress': 'default address',
   'setDefaultAddress': 'Set as Default Address',
