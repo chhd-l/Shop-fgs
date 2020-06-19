@@ -1175,7 +1175,7 @@ class Payment extends React.Component {
                         </div>
                         <div className="billing-payment">
                           <div
-                            className="rc-list__accordion-item"
+                            className="rc-list__accordion-item border-0"
                             data-method-id="CREDIT_CARD"
                             style={{
                               display:
@@ -1184,232 +1184,225 @@ class Payment extends React.Component {
                                   : "none",
                             }}
                           >
-                            <div className="rc-border-all rc-border-colour--interface checkout--padding">
-                              <PaymentComp getSelectedValue={cardItem => {
-                                this.setState({ selectedCardInfo: cardItem })
-                              }} />
-                              <div
-                                className="credit-card-content"
-                                id="credit-card-content"
-                                style={{
-                                  display: !this.state.isCompleteCredit && !this.state.isLogin
-                                    ? "block"
-                                    : "none",
-                                }}
-                              >
-                                <div className="credit-card-form ">
-                                  <div className="rc-margin-bottom--xs">
-                                    <div className="content-asset">
-                                      <p>
-                                        <FormattedMessage id="payment.acceptCards" />
-                                      </p>
-                                    </div>
-                                    <div className="row">
-                                      <div className="col-sm-12">
-                                        <div className="form-group">
-                                          <label
-                                            className="form-control-label"
-                                            htmlFor="cardNumber"
-                                          >
-                                            <FormattedMessage id="payment.cardNumber" />
-                                            *{CreditCardImg}
-                                            <form id="payment-form">
-                                              <div id="card-secure-fields"></div>
-                                              <button
-                                                id="submit"
-                                                name="submit"
-                                                className="creadit"
-                                                type="submit"
-                                              >
-                                                Pay
-                                              </button>
-                                            </form>
-                                          </label>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="row overflow_visible">
-                                      <div className="col-sm-12">
-                                        <div className="form-group required">
-                                          <label className="form-control-label">
-                                            <FormattedMessage id="payment.cardOwner" />
-                                          </label>
-                                          <span
-                                            className="rc-input rc-input--full-width"
-                                            input-setup="true"
-                                          >
-                                            <input
-                                              type="text"
-                                              id="cardholder-name"
-                                              className="rc-input__control form-control cardOwner"
-                                              name="cardOwner"
-                                              value={creditCardInfo.cardOwner}
-                                              onChange={(e) =>
-                                                this.cardInfoInputChange(e)
-                                              }
-                                              onBlur={(e) => this.inputBlur(e)}
-                                              maxLength="40"
-                                            />
-                                            <label
-                                              className="rc-input__label"
-                                              htmlFor="cardOwner"
-                                            ></label>
-                                          </span>
-                                          <div className="invalid-feedback">
-                                            <FormattedMessage id="payment.errorInfo2" />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="row">
-                                      <div className="col-sm-6">
-                                        <div className="form-group required">
-                                          <label className="form-control-label">
-                                            <FormattedMessage id="payment.email" />
-                                          </label>
-                                          <span
-                                            className="rc-input rc-input--full-width"
-                                            input-setup="true"
-                                          >
-                                            <input
-                                              type="email"
-                                              className="rc-input__control email"
-                                              id="email"
-                                              value={creditCardInfo.email}
-                                              onChange={(e) =>
-                                                this.cardInfoInputChange(e)
-                                              }
-                                              onBlur={(e) => this.inputBlur(e)}
-                                              name="email"
-                                              maxLength="254"
-                                            />
-                                            <label
-                                              className="rc-input__label"
-                                              htmlFor="email"
-                                            ></label>
-                                          </span>
-                                          <div className="invalid-feedback">
-                                            <FormattedMessage id="payment.errorInfo2" />
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="col-sm-6">
-                                        <div className="form-group required">
-                                          <label
-                                            className="form-control-label"
-                                            htmlFor="phoneNumber"
-                                          >
-                                            <FormattedMessage id="payment.phoneNumber" />
-                                          </label>
-                                          <span
-                                            className="rc-input rc-input--full-width"
-                                            input-setup="true"
-                                            data-js-validate=""
-                                            data-js-warning-message="*Phone Number isn’t valid"
-                                          >
-                                            <input
-                                              type="number"
-                                              className="rc-input__control input__phoneField shippingPhoneNumber"
-                                              min-lenght="18"
-                                              max-length="18"
-                                              data-phonelength="18"
-                                              data-js-pattern="(^\d{10}$)"
-                                              data-range-error="The phone number should contain 10 digits"
-                                              value={creditCardInfo.phoneNumber}
-                                              onChange={(e) =>
-                                                this.cardInfoInputChange(e)
-                                              }
-                                              onBlur={(e) => this.inputBlur(e)}
-                                              name="phoneNumber"
-                                              maxLength="2147483647"
-                                            />
-                                            <label
-                                              className="rc-input__label"
-                                              htmlFor="phoneNumber"
-                                            ></label>
-                                          </span>
-                                          <div className="invalid-feedback">
-                                            <FormattedMessage id="payment.errorInfo2" />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="row">
-                                      <div className="col-sm-12 rc-margin-y--xs rc-text--center">
-                                        <button
-                                          className="rc-btn rc-btn--two card-confirm"
-                                          id="card-confirm"
-                                          type="button"
-                                          onClick={() => this.cardConfirm()}
-                                        >
-                                          <FormattedMessage id="payment.confirmCard" />
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
+                            {
+                              this.state.isLogin
+                                ? <div className="rc-border-colour--interface">
+                                  <PaymentComp getSelectedValue={cardItem => {
+                                    this.setState({ selectedCardInfo: cardItem })
+                                  }} />
                                 </div>
-                              </div>
-                              <div
-                                className="creditCompleteInfoBox"
-                                style={{
-                                  display: !this.state.isCompleteCredit || this.state.isLogin
-                                    ? "none"
-                                    : "block",
-                                }}
-                              >
-                                <p>
-                                  <span
-                                    className="pull-right"
-                                    onClick={() => {
-                                      this.setState({
-                                        isCompleteCredit: false,
-                                      });
-                                    }}
+                                : <div className="rc-border-all rc-border-colour--interface checkout--padding">
+                                  <div
+                                    className={`credit-card-content ${!this.state.isCompleteCredit ? '' : 'hidden'}`}
+                                    id="credit-card-content"
                                   >
-                                    <FormattedMessage id="edit" />
-                                  </span>
-                                </p>
-                                <div className="row">
-                                  <div className="col-sm-5">
-                                    <img
-                                      src={
-                                        this.state.creditCardImgObj[
-                                          this.state.payosdata.vendor
-                                        ]
-                                          ? this.state.creditCardImgObj[
-                                          this.state.payosdata.vendor
-                                          ]
-                                          : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
-                                      }
-                                      alt=""
-                                    />
-                                  </div>
-                                  <div className="col-sm-7">
-                                    <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                                      <div className="col-6">
-                                        <p>
-                                          <FormattedMessage id="name" />
-                                        </p>
-                                        <p>
-                                          <FormattedMessage id="payment.cardNumber" />
-                                        </p>
-                                        <p>{this.state.payosdata.card_type}</p>
+                                    <div className="credit-card-form ">
+                                      <div className="rc-margin-bottom--xs">
+                                        <div className="content-asset">
+                                          <p>
+                                            <FormattedMessage id="payment.acceptCards" />
+                                          </p>
+                                        </div>
+                                        <div className="row">
+                                          <div className="col-sm-12">
+                                            <div className="form-group">
+                                              <label
+                                                className="form-control-label"
+                                                htmlFor="cardNumber"
+                                              >
+                                                <FormattedMessage id="payment.cardNumber" />
+                                              *{CreditCardImg}
+                                                <form id="payment-form">
+                                                  <div id="card-secure-fields"></div>
+                                                  <button
+                                                    id="submit"
+                                                    name="submit"
+                                                    className="creadit"
+                                                    type="submit"
+                                                  >
+                                                    Pay
+                                                </button>
+                                                </form>
+                                              </label>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="row overflow_visible">
+                                          <div className="col-sm-12">
+                                            <div className="form-group required">
+                                              <label className="form-control-label">
+                                                <FormattedMessage id="payment.cardOwner" />
+                                              </label>
+                                              <span
+                                                className="rc-input rc-input--full-width"
+                                                input-setup="true"
+                                              >
+                                                <input
+                                                  type="text"
+                                                  id="cardholder-name"
+                                                  className="rc-input__control form-control cardOwner"
+                                                  name="cardOwner"
+                                                  value={creditCardInfo.cardOwner}
+                                                  onChange={(e) =>
+                                                    this.cardInfoInputChange(e)
+                                                  }
+                                                  onBlur={(e) => this.inputBlur(e)}
+                                                  maxLength="40"
+                                                />
+                                                <label
+                                                  className="rc-input__label"
+                                                  htmlFor="cardOwner"
+                                                ></label>
+                                              </span>
+                                              <div className="invalid-feedback">
+                                                <FormattedMessage id="payment.errorInfo2" />
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="row">
+                                          <div className="col-sm-6">
+                                            <div className="form-group required">
+                                              <label className="form-control-label">
+                                                <FormattedMessage id="payment.email" />
+                                              </label>
+                                              <span
+                                                className="rc-input rc-input--full-width"
+                                                input-setup="true"
+                                              >
+                                                <input
+                                                  type="email"
+                                                  className="rc-input__control email"
+                                                  id="email"
+                                                  value={creditCardInfo.email}
+                                                  onChange={(e) =>
+                                                    this.cardInfoInputChange(e)
+                                                  }
+                                                  onBlur={(e) => this.inputBlur(e)}
+                                                  name="email"
+                                                  maxLength="254"
+                                                />
+                                                <label
+                                                  className="rc-input__label"
+                                                  htmlFor="email"
+                                                ></label>
+                                              </span>
+                                              <div className="invalid-feedback">
+                                                <FormattedMessage id="payment.errorInfo2" />
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="col-sm-6">
+                                            <div className="form-group required">
+                                              <label
+                                                className="form-control-label"
+                                                htmlFor="phoneNumber"
+                                              >
+                                                <FormattedMessage id="payment.phoneNumber" />
+                                              </label>
+                                              <span
+                                                className="rc-input rc-input--full-width"
+                                                input-setup="true"
+                                                data-js-validate=""
+                                                data-js-warning-message="*Phone Number isn’t valid"
+                                              >
+                                                <input
+                                                  type="number"
+                                                  className="rc-input__control input__phoneField shippingPhoneNumber"
+                                                  min-lenght="18"
+                                                  max-length="18"
+                                                  data-phonelength="18"
+                                                  data-js-pattern="(^\d{10}$)"
+                                                  data-range-error="The phone number should contain 10 digits"
+                                                  value={creditCardInfo.phoneNumber}
+                                                  onChange={(e) =>
+                                                    this.cardInfoInputChange(e)
+                                                  }
+                                                  onBlur={(e) => this.inputBlur(e)}
+                                                  name="phoneNumber"
+                                                  maxLength="2147483647"
+                                                />
+                                                <label
+                                                  className="rc-input__label"
+                                                  htmlFor="phoneNumber"
+                                                ></label>
+                                              </span>
+                                              <div className="invalid-feedback">
+                                                <FormattedMessage id="payment.errorInfo2" />
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="row">
+                                          <div className="col-sm-12 rc-margin-y--xs rc-text--center">
+                                            <button
+                                              className="rc-btn rc-btn--two card-confirm"
+                                              id="card-confirm"
+                                              type="button"
+                                              onClick={() => this.cardConfirm()}
+                                            >
+                                              <FormattedMessage id="payment.confirmCard" />
+                                            </button>
+                                          </div>
+                                        </div>
                                       </div>
-                                      <div className="col-6">
-                                        <p>&nbsp;{creditCardInfo.cardOwner}</p>
-                                        <p>
-                                          &nbsp;xxxx xxxx xxxx{" "}
-                                          {this.state.payosdata
-                                            ? this.state.payosdata.last_4_digits
-                                            : ""}
-                                        </p>
-                                        <p>&nbsp;</p>
+                                    </div>
+                                  </div>
+                                  <div className={`creditCompleteInfoBox ${!this.state.isCompleteCredit ? 'hidden' : ''}`}>
+                                    <p>
+                                      <span
+                                        className="pull-right"
+                                        onClick={() => {
+                                          this.setState({
+                                            isCompleteCredit: false,
+                                          });
+                                        }}
+                                      >
+                                        <FormattedMessage id="edit" />
+                                      </span>
+                                    </p>
+                                    <div className="row">
+                                      <div className="col-sm-5">
+                                        <img
+                                          src={
+                                            this.state.creditCardImgObj[
+                                              this.state.payosdata.vendor
+                                            ]
+                                              ? this.state.creditCardImgObj[
+                                              this.state.payosdata.vendor
+                                              ]
+                                              : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
+                                          }
+                                          alt=""
+                                        />
+                                      </div>
+                                      <div className="col-sm-7">
+                                        <div className="row creditCompleteInfo ui-margin-top-1-md-down">
+                                          <div className="col-6">
+                                            <p>
+                                              <FormattedMessage id="name" />
+                                            </p>
+                                            <p>
+                                              <FormattedMessage id="payment.cardNumber" />
+                                            </p>
+                                            <p>{this.state.payosdata.card_type}</p>
+                                          </div>
+                                          <div className="col-6">
+                                            <p>&nbsp;{creditCardInfo.cardOwner}</p>
+                                            <p>
+                                              &nbsp;xxxx xxxx xxxx{" "}
+                                              {this.state.payosdata
+                                                ? this.state.payosdata.last_4_digits
+                                                : ""}
+                                            </p>
+                                            <p>&nbsp;</p>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
+                            }
                           </div>
                         </div>
                       </form>

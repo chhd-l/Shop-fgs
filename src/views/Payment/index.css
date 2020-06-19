@@ -132,9 +132,6 @@
   border: none !important;
 }
 .creditCompleteInfoBox {
-  background-color: #d7d7d7;
-  padding: 1rem 2rem 1.5rem 2rem;
-  border: 1px solid transparent;
   transition: all .3s ease-in-out;
 }
 .creditCompleteInfoBox img {

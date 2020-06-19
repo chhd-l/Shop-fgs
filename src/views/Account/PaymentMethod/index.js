@@ -57,13 +57,13 @@ export default class PaymentMethod extends React.Component {
     };
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
-  async componentDidMount() {
+  async componentDidMount () {
     // this.getPaymentMethodList()
   }
-  async getPaymentMethodList() {
+  async getPaymentMethodList () {
     try {
       let res = await getPaymentMethod({
         customerId: JSON.parse(sessionStorage.getItem('rc-userinfo'))['customerId'],
@@ -74,9 +74,9 @@ export default class PaymentMethod extends React.Component {
         });
       }
       this.setState({
-        loading:false
+        loading: false
       })
-    }catch {
+    } catch {
       this.showErrorMsg('get data failed')
       this.setState({
         loading: false
@@ -155,7 +155,7 @@ export default class PaymentMethod extends React.Component {
         });
       });
   };
-  async deleteCard(id) {
+  async deleteCard (id) {
     this.setState({
       loading: true,
     });
@@ -232,7 +232,7 @@ export default class PaymentMethod extends React.Component {
   };
 
   //定位
-  scrollToErrorMsg() {
+  scrollToErrorMsg () {
     const widget = document.querySelector(".content-asset");
     // widget && widget.scrollIntoView()
     // console.log(this.getElementToPageTop(widget))
@@ -243,7 +243,7 @@ export default class PaymentMethod extends React.Component {
       })
     }
   }
-  getElementToPageTop(el) {
+  getElementToPageTop (el) {
     if (el.parentElement) {
       return this.getElementToPageTop(el.parentElement) + el.offsetTop;
     }
@@ -251,7 +251,7 @@ export default class PaymentMethod extends React.Component {
   }
   openCreatePage = () => {
     const { history } = this.props;
-    if(this.state.creditCardList.length >= 10) {
+    if (this.state.creditCardList.length >= 10) {
       this.showErrorMsg('Quantity cannot exceed 10')
       return false
     }
@@ -276,7 +276,7 @@ export default class PaymentMethod extends React.Component {
       return id;
     }
   };
-  render() {
+  render () {
     const event = {
       page: {
         type: "Account",
@@ -300,13 +300,13 @@ export default class PaymentMethod extends React.Component {
                 {this.state.loading ? <Loading positionFixed="true" /> : null}
                 <SideMenu type="PaymentMethod" />
                 <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                  <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
+                  <div className="rc-border-bottom rc-border-colour--interface mb-3">
                     <h4 className="rc-delta rc-margin--none">
                       <FormattedMessage id="paymentMethod"></FormattedMessage>
                     </h4>
                   </div>
                   <div className="content-asset">
-                    <PaymentComp/>
+                    <PaymentComp listColClassName={['col-sm-3', 'col-sm-9']} />
                     {/* <div className="table-toolbar">
                       <span className="t-gray">
                         <FormattedMessage

@@ -318,9 +318,9 @@ export default class LoginDeliveryAddress extends React.Component {
                                         : null
                                     }
                                   </div>
-                                  <div className="col-1 col-md-2 rc-md-up text-center">
-                                    <a className="addr-btn-edit border-left pl-2 pr-2" onClick={() => this.addOrEditAddress(i)}>
-                                      <span className="rc-icon rc-edit--xs rc-iconography"></span>
+                                  <div className="col-1 col-md-2 rc-md-up text-right">
+                                    <a className="addr-btn-edit border-left pl-2" onClick={() => this.addOrEditAddress(i)}>
+                                      {/* <span className="rc-icon rc-edit--xs rc-iconography"></span> */}
                                       <FormattedMessage id="edit" />
                                     </a>
                                   </div>

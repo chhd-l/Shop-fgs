@@ -302,13 +302,13 @@ export default class ShippingAddressFrom extends React.Component {
                     </aside>
                   </div>
                   <div
-                    className="rc-list__accordion-item"
+                    className="rc-list__accordion-item border-0"
                     data-method-id="CREDIT_CARD"
                     style={{
                       display: "block",
                     }}
                   >
-                    <div className="rc-border-all rc-border-colour--interface checkout--padding">
+                    <div className="rc-border-colour--interface checkout--padding">
                       <div
                         className="credit-card-content"
                         id="credit-card-content"

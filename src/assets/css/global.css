@@ -22338,6 +22338,9 @@ tr.rc-table__row.inactive td:after {
   -webkit-animation: swing 1.5s ease-in-out alternate infinite;
   animation: swing 1.5s ease-in-out alternate infinite
 }
+.ui-cursor-pointer-pure {
+  cursor: pointer;
+}
 .ui-cursor-pointer {
   cursor: pointer;
 }

@@ -22,6 +22,9 @@ import Loading from "@/components/Loading";
 import ConfirmTooltip from '@/components/ConfirmTooltip'
 
 class PaymentComp extends React.Component {
+  static defaultProps = {
+    listColClassName: ['col-sm-4', 'col-sm-8']
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -61,25 +64,18 @@ class PaymentComp extends React.Component {
     }
   }
   async getPaymentMethodList () {
+    // this.setState({ loading: true })
     try {
       let res = await getPaymentMethod({
         customerId: JSON.parse(sessionStorage.getItem("rc-userinfo"))[
           "customerId"
-        ],
+        ]
       });
-      if (res.code === "K-000000") {
-        this.setState({
-          creditCardList: res.context,
-        });
-      }
-      this.setState({
-        loading: false,
-      });
+      this.setState({ creditCardList: res.context });
     } catch {
       this.showErrorMsg("get data failed");
-      this.setState({
-        loading: false,
-      });
+    } finally {
+      this.setState({ loading: false });
     }
   }
   initCardInfo () {
@@ -350,18 +346,9 @@ class PaymentComp extends React.Component {
     return (
       <div
         id="PaymentComp"
-        className="loginCardBox"
-        style={{
-          display: Store.isLogin ? "block" : "none",
-        }}
-      >
+        className={`loginCardBox ${Store.isLogin ? '' : 'hidden'} ${this.state.isEdit && window.location.pathname === "/payment/payment" ? 'rc-border-all rc-border-colour--interface checkout--padding' : ''}`}>
         {this.state.loading ? <Loading positionFixed="true" /> : null}
-        <div
-          className="table-toolbar"
-          style={{
-            display: !this.state.isEdit ? "flex" : "none",
-          }}
-        >
+        <div className={`table-toolbar d-flex justify-content-between p-0 ${!this.state.isEdit ? '' : 'hidden-xxl-down'}`}>
           <span className="t-gray">
             <FormattedMessage
               id="creditCardTip"
@@ -370,108 +357,106 @@ class PaymentComp extends React.Component {
               }}
             />
           </span>
-          {window.location.pathname === "/payment/payment" && (
-            <button
-              type="button"
-              className="address-btn"
-              onClick={() => {
-                this.setState({ isEdit: true }, () => {
-                  this.scrollToPaymentComp()
-                });
-                this.initCardInfo();
-              }}
-            >
-              <span>
-                <FormattedMessage id="addNewCreditCard"></FormattedMessage>
-              </span>
-            </button>
-          )}
+          <span
+            type="button"
+            className="red font-weight-normal"
+            onClick={() => {
+              this.setState({ isEdit: true }, () => {
+                this.scrollToPaymentComp()
+              });
+              this.initCardInfo();
+            }}
+          >
+            <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
+            <FormattedMessage id="addNewCreditCard"></FormattedMessage>
+          </span>
         </div>
         {/* <div className="addbox" onClick={() => this.openCreatePage()}>
           <div id="cross"></div>
         </div> */}
-        {!this.state.isEdit &&
-          creditCardList.map((el) => {
-            return (
-              <div
-                onClick={() => {
-                  creditCardList.map((el) => (el.selected = false));
-                  el.selected = true;
-                  this.props.getSelectedValue &&
-                    this.props.getSelectedValue(el);
-                  this.setState({ creditCardList });
-                }}
-                className={`creditCompleteInfoBox ${
-                  el.selected ? "active" : ""
-                  }`}
-                style={{
-                  display: "block",
-                }}
-              >
-                <p>
-                  <span
-                    className="pull-right"
-                    onClick={() => {
-                      this.setState({
-                        isEdit: true,
-                        creditCardInfo: el,
-                      }, () => {
-                        this.scrollToPaymentComp()
-                      });
+        <div>
 
-                    }}
-                  >
-                    <FormattedMessage id="edit" />
-                  </span>
-                  <span className="pull-right position-relative">
-                    <span onClick={() => this.updateConfirmTooltipVisible(el, true)}>
-                      <FormattedMessage id="delete" />
-                    </span>
-                    <ConfirmTooltip
-                      display={el.confirmTooltipVisible}
-                      confirm={e => this.deleteCard(el)}
-                      updateChildDisplay={status => this.updateConfirmTooltipVisible(el, status)} />
-                  </span>
-                </p>
-                <div className="row">
-                  <div className="col-sm-3">
-                    <img
-                      src={
-                        this.state.creditCardImgObj[el.vendor]
-                          ? this.state.creditCardImgObj[el.vendor]
-                          : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
-                      }
-                      alt=""
-                    />
-                  </div>
-                  <div className="col-sm-9">
-                    <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                      <div className="col-4">
-                        <p>
-                          <FormattedMessage id="name" />
-                        </p>
-                        <p>
-                          <FormattedMessage id="payment.cardNumber" />
-                        </p>
-                        <p>{el.cardType}</p>
-                      </div>
-                      <div className="col-8">
-                        <p>&nbsp;{el.cardOwner}</p>
-                        <p>
-                          &nbsp;xxxx xxxx xxxx{" "}
-                          {el.cardNumber
-                            ? el.cardNumber.substring(el.cardNumber.length - 4)
-                            : ""}
-                        </p>
-                        <p>&nbsp;</p>
+        </div>
+        {!this.state.isEdit && creditCardList.length
+          ? <div className="border">
+            {
+              creditCardList.map((el, idx) => {
+                return (
+                  <div
+                    className={`pl-2 pr-2 creditCompleteInfoBox ${el.selected ? "active" : ""}`}
+                    key={idx}
+                    onClick={() => {
+                      creditCardList.map((el) => (el.selected = false));
+                      el.selected = true;
+                      this.props.getSelectedValue &&
+                        this.props.getSelectedValue(el);
+                      this.setState({ creditCardList });
+                    }}>
+                    <div className={`pt-2 pb-3 ${idx !== creditCardList.length - 1 ? 'border-bottom' : ''} `}>
+                      <p>
+                        <span className="pull-right position-relative border-left pl-2 ui-cursor-pointer-pure">
+                          <span onClick={() => this.updateConfirmTooltipVisible(el, true)}>
+                            <FormattedMessage id="delete" />
+                          </span>
+                          <ConfirmTooltip
+                            display={el.confirmTooltipVisible}
+                            confirm={e => this.deleteCard(el)}
+                            updateChildDisplay={status => this.updateConfirmTooltipVisible(el, status)} />
+                        </span>
+                        <span
+                          className="pull-right ui-cursor-pointer-pure"
+                          onClick={() => {
+                            this.setState({
+                              isEdit: true,
+                              creditCardInfo: el,
+                            }, () => {
+                              this.scrollToPaymentComp()
+                            });
+                          }}
+                        >
+                          <FormattedMessage id="edit" />
+                        </span>
+                      </p>
+                      <div className="row">
+                        <div className={`${this.props.listColClassName[0]} d-flex flex-column justify-content-center pl-0`}>
+                          <img
+                            src={
+                              this.state.creditCardImgObj[el.vendor]
+                                ? this.state.creditCardImgObj[el.vendor]
+                                : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
+                            }
+                            alt=""
+                          />
+                        </div>
+                        <div className={`${this.props.listColClassName[1]} d-flex flex-column justify-content-around pr-0`}>
+                          <div className="row ui-margin-top-1-md-down">
+                            <div className="col-12 color-999">
+                              <FormattedMessage id="name2" /><br />
+                              <span className="creditCompleteInfo">{el.cardOwner}</span>
+                            </div>
+                          </div>
+                          <div className="row ui-margin-top-1-md-down">
+                            <div className="col-6 color-999">
+                              <FormattedMessage id="payment.cardNumber2" /><br />
+                              <span className="creditCompleteInfo">
+                                xxxx xxxx xxxx{" "}{el.cardNumber ? el.cardNumber.substring(el.cardNumber.length - 4) : ""}
+                              </span>
+                            </div>
+                            <div className="col-6 border-left color-999">
+                            <FormattedMessage id="payment.cardType" /><br />
+                              <span className="creditCompleteInfo">{el.cardType}</span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}
-        {window.location.pathname !== "/payment/payment" && !this.state.isEdit && (
+                );
+              })
+            }
+          </div>
+          : null}
+        {/* {window.location.pathname !== "/payment/payment" && !this.state.isEdit && (
           <div
             className="addbox"
             onClick={() => {
@@ -481,7 +466,7 @@ class PaymentComp extends React.Component {
           >
             <div id="cross"></div>
           </div>
-        )}
+        )} */}
 
         <div
           className="credit-card-content"
