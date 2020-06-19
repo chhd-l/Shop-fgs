@@ -111,8 +111,8 @@ class Confirmation extends React.Component {
       });
     }
     setTimeout(() => {
-      this.setState({ modalShow: true }, 3000)
-    })
+      this.setState({ modalShow: true })
+    }, 3000)
     getDictionary({ type: 'city' })
       .then(res => {
         this.setState({

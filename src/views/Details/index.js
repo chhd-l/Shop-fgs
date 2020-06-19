@@ -941,7 +941,7 @@ class Details extends React.Component {
                                           </button>
                                         </div>
                                       </div>
-                                      {
+                                      {/* {
                                         !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                           <div className="cart-and-ipay">
                                             <button
@@ -957,7 +957,7 @@ class Details extends React.Component {
                                             </button>
                                           </div>
                                         </div>
-                                      }
+                                      } */}
                                     </div>
                                   </div>
                                 </div>
