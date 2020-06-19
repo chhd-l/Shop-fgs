@@ -282,10 +282,10 @@ export default class LoginDeliveryAddress extends React.Component {
             <FormattedMessage id="saveSuccessfullly" />
           </p>
         </aside>
-        <div className={`rc-border-all rc-border-colour--interface rc-margin-bottom--sm ${!addOrEdit ? 'addr-container' : 'checkout--padding'}`}>
+        <div className={`rc-border-all rc-border-colour--interface rc-margin-bottom--sm ${!addOrEdit ? 'addr-container' : 'checkout--padding'} ${loading ? 'pt-3 pb-3' : ''}`}>
           {
             loading
-              ? <span className="pt-2 pb-2"><Skeleton color="#f5f5f5" count={2} width="100%" /></span>
+              ? <Skeleton color="#f5f5f5" count={2} width="100%" />
               : this.state.errMsg
                 ? <span className="pt-2 pb-2">{this.state.errMsg}</span>
                 : <>
@@ -298,9 +298,18 @@ export default class LoginDeliveryAddress extends React.Component {
                               <div
                                 className={`address-item ${item.selected ? 'selected' : ''} ${foledMore && !item.selected ? 'hidden' : ''}`} key={item.deliveryAddressId}
                                 onClick={() => this.selectAddress(i)}>
-                                <div className="row align-items-center pt-2 pb-2 ml-2 mr-2 border-bottom">
-                                  <div className="text-center col-3 col-md-2 address-name">
-                                    {item.consigneeName}
+                                <div className="row align-items-center pt-3 pb-3 ml-2 mr-2 border-bottom">
+                                  <div className="d-flex align-items-center justify-content-between col-3 col-md-3 address-name">
+                                    {
+                                      item.selected
+                                        ? <svg width="24" height="32">
+                                          <path d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0" fill="#E2001A" fillRule="evenodd"></path>
+                                        </svg>
+                                        : <svg width="24" height="32">
+                                          <path d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0" fill="#c4c4c4" fillRule="evenodd"></path>
+                                        </svg>
+                                    }
+                                    <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span>
                                   </div>
                                   <div className="col-8 col-md-8">
                                     {[item.consigneeName, item.consigneeNumber].join(', ')}
@@ -318,7 +327,7 @@ export default class LoginDeliveryAddress extends React.Component {
                                         : null
                                     }
                                   </div>
-                                  <div className="col-1 col-md-2 rc-md-up text-right">
+                                  <div className="col-1 col-md-1 rc-md-up text-right">
                                     <a className="addr-btn-edit border-left pl-2" onClick={() => this.addOrEditAddress(i)}>
                                       {/* <span className="rc-icon rc-edit--xs rc-iconography"></span> */}
                                       <FormattedMessage id="edit" />

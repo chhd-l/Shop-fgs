@@ -1,5 +1,6 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
+import Skeleton from 'react-skeleton-loader'
 import { formatMoney, jugeLoginStatus } from "@/utils/utils";
 import { findIndex, find } from "lodash";
 import Store from "@/store/store";
@@ -10,13 +11,9 @@ import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import paypalImg from "@/assets/images/credit-cards/paypal.png";
 import {
-  postVisitorRegisterAndLogin,
-  batchAdd,
-  confirmAndCommit,
-  customerCommitAndPay,
   getPaymentMethod,
   deleteCard,
-  addOrUpdatePaymentMethod,
+  addOrUpdatePaymentMethod
 } from "@/api/payment";
 import Loading from "@/components/Loading";
 import ConfirmTooltip from '@/components/ConfirmTooltip'
@@ -47,11 +44,12 @@ class PaymentComp extends React.Component {
         identifyNumber: "111",
         isDefault: false,
       },
-      loading: false
+      loading: false,
+      listLoading: true,
+      listErr: ''
     };
   }
   async componentDidMount () {
-    console.log(window.location.pathname, "111");
     if (Store.isLogin) {
       await this.getPaymentMethodList();
       this.state.creditCardList.map((el) => {
@@ -64,18 +62,21 @@ class PaymentComp extends React.Component {
     }
   }
   async getPaymentMethodList () {
-    // this.setState({ loading: true })
+    this.setState({ listLoading: true })
     try {
       let res = await getPaymentMethod({
         customerId: JSON.parse(sessionStorage.getItem("rc-userinfo"))[
           "customerId"
         ]
       });
-      this.setState({ creditCardList: res.context });
-    } catch {
-      this.showErrorMsg("get data failed");
+      this.setState({ creditCardList: res.context })
+    } catch (err) {
+      this.setState({ listErr: err.toString() })
     } finally {
-      this.setState({ loading: false });
+      this.setState({
+        loading: false,
+        listLoading: false
+      });
     }
   }
   initCardInfo () {
@@ -350,12 +351,15 @@ class PaymentComp extends React.Component {
         {this.state.loading ? <Loading positionFixed="true" /> : null}
         <div className={`table-toolbar d-flex justify-content-between p-0 ${!this.state.isEdit ? '' : 'hidden-xxl-down'}`}>
           <span className="t-gray">
-            <FormattedMessage
-              id="creditCardTip"
-              values={{
-                number: <b>{this.state.creditCardList.length}</b>,
-              }}
-            />
+            {
+              creditCardList.length > 1
+                ? <FormattedMessage
+                  id="creditCardTipMany"
+                  values={{ number: <b>{creditCardList.length}</b> }} />
+                : <FormattedMessage
+                  id="creditCardTip"
+                  values={{ number: <b>{creditCardList.length}</b> }} />
+            }
           </span>
           <span
             type="button"
@@ -365,10 +369,9 @@ class PaymentComp extends React.Component {
                 this.scrollToPaymentComp()
               });
               this.initCardInfo();
-            }}
-          >
+            }}>
             <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
-            <FormattedMessage id="addNewCreditCard"></FormattedMessage>
+            <FormattedMessage id="addNewCreditCard" />
           </span>
         </div>
         {/* <div className="addbox" onClick={() => this.openCreatePage()}>
@@ -377,85 +380,90 @@ class PaymentComp extends React.Component {
         <div>
 
         </div>
-        {!this.state.isEdit && creditCardList.length
-          ? <div className="border">
-            {
-              creditCardList.map((el, idx) => {
-                return (
-                  <div
-                    className={`pl-2 pr-2 creditCompleteInfoBox ${el.selected ? "active" : ""}`}
-                    key={idx}
-                    onClick={() => {
-                      creditCardList.map((el) => (el.selected = false));
-                      el.selected = true;
-                      this.props.getSelectedValue &&
-                        this.props.getSelectedValue(el);
-                      this.setState({ creditCardList });
-                    }}>
-                    <div className={`pt-2 pb-3 ${idx !== creditCardList.length - 1 ? 'border-bottom' : ''} `}>
-                      <p>
-                        <span className="pull-right position-relative border-left pl-2 ui-cursor-pointer-pure">
-                          <span onClick={() => this.updateConfirmTooltipVisible(el, true)}>
-                            <FormattedMessage id="delete" />
-                          </span>
-                          <ConfirmTooltip
-                            display={el.confirmTooltipVisible}
-                            confirm={e => this.deleteCard(el)}
-                            updateChildDisplay={status => this.updateConfirmTooltipVisible(el, status)} />
-                        </span>
-                        <span
-                          className="pull-right ui-cursor-pointer-pure"
-                          onClick={() => {
-                            this.setState({
-                              isEdit: true,
-                              creditCardInfo: el,
-                            }, () => {
-                              this.scrollToPaymentComp()
-                            });
-                          }}
-                        >
-                          <FormattedMessage id="edit" />
-                        </span>
-                      </p>
-                      <div className="row">
-                        <div className={`${this.props.listColClassName[0]} d-flex flex-column justify-content-center pl-0`}>
-                          <img
-                            src={
-                              this.state.creditCardImgObj[el.vendor]
-                                ? this.state.creditCardImgObj[el.vendor]
-                                : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
-                            }
-                            alt=""
-                          />
-                        </div>
-                        <div className={`${this.props.listColClassName[1]} d-flex flex-column justify-content-around pr-0`}>
-                          <div className="row ui-margin-top-1-md-down">
-                            <div className="col-12 color-999">
-                              <FormattedMessage id="name2" /><br />
-                              <span className="creditCompleteInfo">{el.cardOwner}</span>
-                            </div>
-                          </div>
-                          <div className="row ui-margin-top-1-md-down">
-                            <div className="col-6 color-999">
-                              <FormattedMessage id="payment.cardNumber2" /><br />
-                              <span className="creditCompleteInfo">
-                                xxxx xxxx xxxx{" "}{el.cardNumber ? el.cardNumber.substring(el.cardNumber.length - 4) : ""}
+        {!this.state.isEdit
+          ? this.state.listLoading
+            ? <div className="mt-4"><Skeleton color="#f5f5f5" width="100%" height="50%" count={4} /></div>
+            : this.state.listErr
+              ? <div className="text-center p-4">{this.state.listErr}</div>
+              : <div className="border">
+                {
+                  creditCardList.map((el, idx) => {
+                    return (
+                      <div
+                        className={`pl-2 pr-2 creditCompleteInfoBox ${el.selected ? "active" : ""}`}
+                        key={idx}
+                        onClick={() => {
+                          creditCardList.map((el) => (el.selected = false));
+                          el.selected = true;
+                          this.props.getSelectedValue &&
+                            this.props.getSelectedValue(el);
+                          this.setState({ creditCardList });
+                        }}>
+                        <div className={`pt-2 pb-3 ${idx !== creditCardList.length - 1 ? 'border-bottom' : ''} `}>
+                          <p>
+                            <span className="pull-right position-relative border-left pl-2 ui-cursor-pointer-pure">
+                              <span onClick={() => this.updateConfirmTooltipVisible(el, true)}>
+                                <FormattedMessage id="delete" />
                               </span>
+                              <ConfirmTooltip
+                                display={el.confirmTooltipVisible}
+                                confirm={e => this.deleteCard(el)}
+                                updateChildDisplay={status => this.updateConfirmTooltipVisible(el, status)} />
+                            </span>
+                            <span
+                              className="pull-right ui-cursor-pointer-pure"
+                              onClick={() => {
+                                this.setState({
+                                  isEdit: true,
+                                  creditCardInfo: el,
+                                }, () => {
+                                  this.scrollToPaymentComp()
+                                });
+                              }}
+                            >
+                              <FormattedMessage id="edit" />
+                            </span>
+                          </p>
+                          <div className="row">
+                            <div className={`${this.props.listColClassName[0]} d-flex flex-column justify-content-center pl-0`}>
+                              <img
+                                src={
+                                  this.state.creditCardImgObj[el.vendor]
+                                    ? this.state.creditCardImgObj[el.vendor]
+                                    : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
+                                }
+                                alt=""
+                              />
                             </div>
-                            <div className="col-6 border-left color-999">
-                            <FormattedMessage id="payment.cardType" /><br />
-                              <span className="creditCompleteInfo">{el.cardType}</span>
+                            <div className={`${this.props.listColClassName[1]} d-flex flex-column justify-content-around pr-0`}>
+                              <div className="row ui-margin-top-1-md-down">
+                                <div className="col-12 color-999">
+                                  <FormattedMessage id="name2" /><br />
+                                  <span className="creditCompleteInfo">{el.cardOwner}</span>
+                                </div>
+                              </div>
+                              <div className="row ui-margin-top-1-md-down">
+                                <div className="col-6 color-999">
+                                  <FormattedMessage id="payment.cardNumber2" /><br />
+                                  <span className="creditCompleteInfo">
+                                    xxxx xxxx xxxx{" "}{el.cardNumber ? el.cardNumber.substring(el.cardNumber.length - 4) : ""}
+                                  </span>
+                                </div>
+                                <div className="col-6 border-left color-999">
+                                  <FormattedMessage id="payment.cardType" /><br />
+                                  <span className="creditCompleteInfo">{el.cardType}</span>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                );
-              })
-            }
-          </div>
-          : null}
+                    );
+                  })
+                }
+              </div>
+          : null
+        }
         {/* {window.location.pathname !== "/payment/payment" && !this.state.isEdit && (
           <div
             className="addbox"
