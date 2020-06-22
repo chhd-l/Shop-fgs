@@ -157,7 +157,7 @@ export function dateFormat (fmt, date) {
 }
 
 export function jugeLoginStatus () {
-  if (sessionStorage.getItem('rc-token')) {
+  if (localStorage.getItem('rc-token')) {
     return true
   } else {
     return false

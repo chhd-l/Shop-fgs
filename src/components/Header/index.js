@@ -62,12 +62,18 @@ class Header extends React.Component {
   async componentDidMount () {
     window.addEventListener('click', (e) => this.hideMenu(e))
     const { location } = this.props
-    if (location && (location.pathname === '/' || location.pathname.includes('/list') || location.pathname.includes('/details')) && !this.state.prescriberId) {
-      let prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
+    let prescriberId
+    let prescriberName
+
+    // 指定clinic链接进入，设置default clinic
+    if (location
+      && (location.pathname === '/'
+        || location.pathname.includes('/list')
+        || location.pathname.includes('/details'))
+      && !this.state.prescriberId) {
+      prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
       sessionStorage.setItem('rc-clinics-id', prescriberId)
-      this.setState({
-        prescriberId: prescriberId
-      })
+      this.setState({ prescriberId: prescriberId })
       let tmpName = ''
       if (prescriberId && !this.state.prescriberName) {
         try {
@@ -78,11 +84,23 @@ class Header extends React.Component {
         } catch (e) { }
       }
       sessionStorage.setItem('rc-clinics-name', tmpName)
-      this.setState({
-        prescriberName: tmpName
-      })
+      this.setState({ prescriberName: tmpName })
     }
 
+    // 登录状态，设置default clinic
+    if (jugeLoginStatus() && !prescriberId && localStorage.getItem('rc-userinfo')) {
+      let userInfo = JSON.parse(localStorage.getItem('rc-userinfo'))
+      if (userInfo.defaultClinics) {
+        prescriberId = userInfo.defaultClinics.clinicsId
+        prescriberName = userInfo.defaultClinics.clinicsName
+        this.setState({
+          prescriberId: prescriberId,
+          prescriberName: prescriberName
+        })
+        sessionStorage.setItem('rc-clinics-name', prescriberName)
+        sessionStorage.setItem('rc-clinics-id', prescriberId)
+      }
+    }
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
@@ -253,11 +271,10 @@ class Header extends React.Component {
     history.push('/login')
   }
   clickLogoff () {
-    sessionStorage.setItem("is-login", false);
-    sessionStorage.removeItem("rc-token");
+    localStorage.removeItem("rc-token");
     sessionStorage.removeItem('rc-clinics-name')
     sessionStorage.removeItem('rc-clinics-id')
-    sessionStorage.removeItem('rc-userinfo')
+    localStorage.removeItem('rc-userinfo')
     localStorage.removeItem('rc-cart-data-login')
     // this.setState({
     //   isLogin: false

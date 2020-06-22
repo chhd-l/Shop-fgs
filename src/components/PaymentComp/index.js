@@ -65,7 +65,7 @@ class PaymentComp extends React.Component {
     this.setState({ listLoading: true })
     try {
       let res = await getPaymentMethod({
-        customerId: JSON.parse(sessionStorage.getItem("rc-userinfo"))[
+        customerId: JSON.parse(localStorage.getItem("rc-userinfo"))[
           "customerId"
         ]
       });
@@ -239,7 +239,7 @@ class PaymentComp extends React.Component {
         cardNumber: creditCardInfo.cardNumber,
         cardOwner: creditCardInfo.cardOwner,
         cardType: res.data.card_type,
-        customerId: JSON.parse(sessionStorage.getItem("rc-userinfo"))[
+        customerId: JSON.parse(localStorage.getItem("rc-userinfo"))[
           "customerId"
         ],
         email: creditCardInfo.email,

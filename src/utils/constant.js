@@ -17,7 +17,7 @@ export const ORDER_STATUS_ENUM = {
   'REMEDY': 'To be delivered',
   'REFUND': 'Canceled',
   'AUDIT': 'To be delivered',
-  'DELIVERED_PART': 'To be delivered',
+  'DELIVERED_PART': 'Delivered',
   'DELIVERED': 'Delivered',
   'CONFIRMED': 'Completed',
   'COMPLETED': 'Completed',

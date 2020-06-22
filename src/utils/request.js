@@ -20,7 +20,7 @@ const service = axios.create({
 
 // request interceptor
 service.interceptors.request.use(config => {
-  const token = sessionStorage.getItem('rc-token')
+  const token = sessionStorage.getItem('rc-token') || localStorage.getItem('rc-token')
   if (token) {
     config.headers['Authorization'] = 'Bearer '
       + token

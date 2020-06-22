@@ -14,7 +14,8 @@ import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
 import { Button, Header } from 'semantic-ui-react';
 import { getToken } from '@/api/login'
-import {  inject, observer } from 'mobx-react';
+import { getCustomerInfo } from "@/api/user"
+import { inject, observer } from 'mobx-react';
 import Store from '@/store/store';
 
 const LoginButton = () => {
@@ -23,9 +24,9 @@ const LoginButton = () => {
   // const { authService } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
   const { authState, authService } = useOktaAuth();
-  
+
   const { accessToken } = authState;
-  
+
   useEffect(() => {
     if (!authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
@@ -34,12 +35,15 @@ const LoginButton = () => {
       Store.changeLoginModal(true)
       authService.getUser().then((info) => {
         setUserInfo(info);
-        if (!sessionStorage.getItem('rc-token')) {
-          getToken({ oktaToken: `Bearer ${accessToken}` }).then(res => {
+        if (!localStorage.getItem('rc-token')) {
+          getToken({ oktaToken: `Bearer ${accessToken}` }).then(async res => {
+            let userinfo = res.context.customerDetail
             Store.changeLoginModal(false)
             Store.changeIsLogin(true)
-            sessionStorage.setItem("rc-token", res.context.token);
-            sessionStorage.setItem("rc-userinfo", JSON.stringify(res.context.customerDetail));
+            localStorage.setItem("rc-token", res.context.token);
+            let customerInfoRes = await getCustomerInfo()
+            userinfo.defaultClinics = customerInfoRes.context.defaultClinics
+            localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
           }).catch(e => {
             Store.changeLoginModal(false)
           })

@@ -12,7 +12,7 @@ export default class AccountHome extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      userInfo: sessionStorage.getItem("rc-userinfo") ? JSON.parse(sessionStorage.getItem("rc-userinfo")) : null
+      userInfo: localStorage.getItem("rc-userinfo") ? JSON.parse(localStorage.getItem("rc-userinfo")) : null
     }
   }
   componentWillUnmount () {

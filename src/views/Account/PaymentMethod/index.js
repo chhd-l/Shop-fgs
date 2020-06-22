@@ -66,7 +66,7 @@ export default class PaymentMethod extends React.Component {
   async getPaymentMethodList () {
     try {
       let res = await getPaymentMethod({
-        customerId: JSON.parse(sessionStorage.getItem('rc-userinfo'))['customerId'],
+        customerId: JSON.parse(localStorage.getItem('rc-userinfo'))['customerId'],
       });
       if (res.code === "K-000000") {
         this.setState({
