@@ -211,37 +211,26 @@ class AccountOrders extends React.Component {
                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
                         : details
                           ? <div className="card-body p-0">
-                            {/* <div class="rc-progress-stepped" data-value="">
+                            <div class="rc-progress-stepped" data-value="">
                               <ol class="rc-list">
                                 <li class="rc-list__item rc-progress-stepped__item rc-complete">
-                                  <a href="#" class="rc-progress-stepped__link">
-                                    1
-                                  </a>
-                                  <FormattedMessage id="order.progress1" />
+                                  <a href="#" class="rc-progress-stepped__link">1</a>
                                 </li>
                                 <li class="rc-list__item rc-progress-stepped__item rc-complete">
-                                  <a href="#" class="rc-progress-stepped__link">
-                                    2
-                                  </a>
-                                  <FormattedMessage id="order.progress2" />
+                                  <a href="#" class="rc-progress-stepped__link">2</a>
                                 </li>
                                 <li class="rc-list__item rc-progress-stepped__item rc-current">
-                                  <a href="#" class="rc-progress-stepped__link">
-                                    3
-                                  </a>
-                                  <FormattedMessage id="order.progress3" />
+                                  <a href="#" class="rc-progress-stepped__link">3</a>
                                 </li>
                                 <li class="rc-list__item rc-progress-stepped__item">
-                                  <a href="#" class="rc-progress-stepped__link">
-                                    4
-                                  </a>
-                                  <FormattedMessage id="order.progress4" />
+                                  <a href="#" class="rc-progress-stepped__link">4</a>
                                 </li>
                               </ol>
+                              <ol> </ol>
                             </div>
-                            <hr className="rc-margin-top---none" /> */}
-                            <div className="d-flex justify-content-between align-items-center ml-4 mr-4">
-                              <div>
+                            <hr className="rc-margin-top---none" />
+                            <div className="d-flex justify-content-between align-items-center flex-wrap ml-4 mr-4">
+                              <div className="">
                                 <FormattedMessage id="order.orderNumber" />:<br />
                                 <span className="medium">{this.state.orderNumber}</span>
                               </div>
@@ -273,17 +262,21 @@ class AccountOrders extends React.Component {
                                           alt={item.spuName}
                                           title={item.spuName} />
                                         <span className="ml-1">
-                                          <span className="medium text-break">{item.spuName}</span><br />
+                                          <span
+                                            className="medium ui-text-overflow-line2 text-break"
+                                            title={item.spuName}>
+                                            {item.spuName}
+                                          </span><br />
                                           {item.specDetails}
                                         </span>
                                       </div>
-                                      <div className="col-12 col-md-3">
+                                      <div className="col-9 col-md-3 text-right text-md-left">
                                         {item.num} x
                                       </div>
-                                      <div className="col-12 col-md-2">
+                                      <div className="col-3 col-md-2 text-right text-md-left">
                                         {formatMoney(item.price)}
                                       </div>
-                                      <div className="col-12 col-md-2">
+                                      <div className="col-12 col-md-2 text-right text-md-left">
                                         {formatMoney(item.price * item.num)}
                                       </div>
                                     </div>
@@ -293,32 +286,32 @@ class AccountOrders extends React.Component {
                             </div>
                             <hr className="rc-margin-top---none" />
                             <div className="row pt-2 pb-2" style={{ lineHeight: 1.7 }}>
-                              <div className="col-11 text-right color-999">
+                              <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="total" />
                               </div>
-                              <div className="col-1 medium">{formatMoney(details.tradePrice.originPrice)}</div>
+                              <div className="col-3 col-xxl-1 medium">{formatMoney(details.tradePrice.originPrice)}</div>
                               {
                                 details.tradePrice.discountsPrice
                                   ? <>
-                                    <div className="col-11 text-right color-999 red">
+                                    <div className="col-9 col-xxl-11 text-right color-999 red">
                                       <FormattedMessage id="promotion" />
                                     </div>
-                                    <div className="col-1 red medium">-{formatMoney(details.tradePrice.discountsPrice)}</div>
+                                    <div className="col-3 col-xxl-1 red medium">-{formatMoney(details.tradePrice.discountsPrice)}</div>
                                   </>
                                   : null
                               }
-                              <div className="col-11 text-right color-999">
+                              <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="shipping" />
                               </div>
-                              <div className="col-1 medium">{formatMoney(0)}</div>
-                              <div className="col-11 text-right color-999">
+                              <div className="col-3 col-xxl-1 medium">{formatMoney(0)}</div>
+                              <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="totalIncluIVA" />
                               </div>
-                              <div className="col-1 medium">{formatMoney(details.tradePrice.totalPrice)}</div>
+                              <div className="col-3 col-xxl-1 medium">{formatMoney(details.tradePrice.totalPrice)}</div>
                             </div>
                             <hr className="rc-margin-top---none" />
                             <div className="row ml-2 mr-2">
-                              <div className="col-4">
+                              <div className="col-12 col-md-4 mb-2">
                                 <i class="rc-icon rc-delivery--sm rc-brand1 m-1" />
                                 <FormattedMessage id="delivery2" />
                                 <div>
@@ -330,7 +323,7 @@ class AccountOrders extends React.Component {
                                   {details.buyerRemark}
                                 </div>
                               </div>
-                              <div className="col-4">
+                              <div className="col-12 col-md-4 mb-2">
                                 <i class="rc-icon rc-rewind rc-billing rc-brand1" />
                                 <FormattedMessage id="billing" />
                                 <div>
@@ -341,7 +334,7 @@ class AccountOrders extends React.Component {
                                   {details.invoice.rfc}{details.invoice.rfc ? <br /> : null}
                                 </div>
                               </div>
-                              <div className="col-4">
+                              <div className="col-12 col-md-4 mb-2">
                                 {
                                   payRecord
                                     ? <>

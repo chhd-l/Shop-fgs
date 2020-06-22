@@ -123,7 +123,9 @@ export default class LoginDeliveryAddress extends React.Component {
       address1: '',
       address2: '',
       rfc: '',
-      country: '',
+      country: find(this.state.countryList, ele => ele.name.toLowerCase() == 'mexico')
+        ? find(this.state.countryList, ele => ele.name.toLowerCase() == 'mexico').id
+        : '',
       city: '',
       postCode: '',
       phoneNumber: '',
