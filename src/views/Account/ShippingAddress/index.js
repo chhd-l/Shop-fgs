@@ -357,7 +357,7 @@ export default class ShippingAddress extends React.Component {
                     this.state.addressList.map(item => (
                       <div className={"card-address " + (item.isDefaltAddress === 1 ? "card-address-default" : "")} key={item.deliveryAddressId}>
                         {/* <div className="addr-line"></div> */}
-                        <div className="ant-row">
+                        <div className="row">
                           <div className="ant-col-20 form-info">
                             <form className="ant-form ant-form-horizontal">
 
@@ -471,7 +471,7 @@ export default class ShippingAddress extends React.Component {
                             <div className="card-action-link">
                               {item.type === 'billing' || item.isDefaltAddress === 1 ?
                                 null :
-                                <a onClick={() => this.setDefaltAddress(item.deliveryAddressId)}>
+                                <a onClick={() => this.setDefaltAddress(item.deliveryAddressId)} style={{display:'block'}}>
                                   <FormattedMessage id="setDefaultAddress"></FormattedMessage>
                                 </a>}
                               <a onClick={() => this.openEditPage(item.deliveryAddressId)}>

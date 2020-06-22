@@ -350,7 +350,7 @@ const en_US = {
   'login':'Log in',
   'login.register':'Create a personal account',
   'login.loginTip':' To connect to the ROYAL CANIN® service,authorization is required. If you do not have a personal account, you can register now.',
-  'login.forgotPassword':'Forgot your password?',
+  'login.forgetPassword':'Forget your password?',
   'login.guestContinue':'Continue with a guest',
   'login.firstCheck':'',
   'login.secondCheck':' I confirm that I am 18 years old',
@@ -359,6 +359,8 @@ const en_US = {
   'requiredFields':'* Required fields',
   'forgetPassword.createNewPassword':'Create new password',
   'forgetPassword.forgetPasswordTip':'You will be sent a letter with instructions for changing the password.',
-  'forgetPassword.back':'Back to log in'
+  'forgetPassword.back':'Back to log in',
+  'changePassword':'Change Password',
+  'passwordHide':'Password:********',
 }
 export default en_US;

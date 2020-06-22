@@ -50,7 +50,7 @@ export default class ForgetPassword extends React.Component {
     return(
       <div className="miaa-content">
         <div className="miaa-header">
-          <h4 className="miaa-title mb-3" style={{  fontWeight: 700}}>
+          <h4 className="miaa-title mb-3" style={{  fontWeight: 700,textAlign:'center'}}>
             <FormattedMessage id='forgetPassword.createNewPassword'/>
           </h4>
         </div>

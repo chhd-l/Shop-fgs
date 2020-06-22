@@ -6,6 +6,8 @@ import Loading from "@/components/Loading";
 import { login } from "@/api/login";
 import { getCustomerInfo } from "@/api/user"
 import { getDictionary } from '@/utils/utils'
+// import cat from "@/assets/images/login/login_cat.png"
+// import dog from "@/assets/images/login/login_dog.png"
 
 class Login extends React.Component {
   constructor(props) {
@@ -308,7 +310,7 @@ class Login extends React.Component {
                       </div>
                       <div className="text-center">
                         <Link to="/forgetPassword" className="text-muted small-medium">
-                          <FormattedMessage id="login.forgotPassword" />  
+                          <FormattedMessage id="login.forgetPassword" />  
                         </Link>
 
                         <div className="text-center">

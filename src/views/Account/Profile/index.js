@@ -9,6 +9,7 @@ import PersonalDataEditForm from './modules/PersonalDataEditForm'
 import AddressBookEditForm from './modules/AddressBookEditForm'
 import CommunicationDataEditForm from './modules/CommunicationDataEditForm'
 import ClinicEditForm from './modules/ClinicEditForm'
+import PasswordForm from './modules/PasswordForm'
 import { getCustomerInfo } from "@/api/user"
 import './index.css'
 
@@ -112,6 +113,7 @@ export default class AccountProfile extends React.Component {
               <SideMenu type="Profile" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div className="card-body_">
+
                   <div className="rc-layout-container rc-two-column">
                     <div className="rc-column rc-padding-x--none--mobile">
                       <PersonalDataEditForm
@@ -138,6 +140,12 @@ export default class AccountProfile extends React.Component {
                         originData={this.state.originData}
                         data={this.state.clinicData}
                         updateData={() => this.queryCustomerBaseInfo()} />
+                    </div>
+                    
+                  </div>
+                  <div className="rc-layout-container rc-two-column">
+                    <div className="rc-column rc-padding-x--none--mobile">
+                      <PasswordForm></PasswordForm>
                     </div>
                   </div>
                 </div>
