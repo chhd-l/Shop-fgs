@@ -125,8 +125,8 @@ export default class PetForm extends React.Component {
   }
   getUserInfo () {
     let userinfo = {}
-    if (sessionStorage.getItem('rc-userinfo')) {
-      userinfo = JSON.parse(sessionStorage.getItem('rc-userinfo'))
+    if (localStorage.getItem('rc-userinfo')) {
+      userinfo = JSON.parse(localStorage.getItem('rc-userinfo'))
 
     }
     return userinfo

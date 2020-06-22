@@ -92,7 +92,7 @@ class RouteFilter extends Component {
       this.props.history.push("/");
     }
 
-    if (!sessionStorage.getItem('rc-token') && this.props.location.pathname.indexOf("/account") !== -1) {
+    if (!localStorage.getItem('rc-token') && this.props.location.pathname.indexOf("/account") !== -1) {
       this.props.history.push("/");
     }
     queryStoreCateIds();

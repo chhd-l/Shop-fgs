@@ -13,16 +13,17 @@
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
 import { getToken } from '@/api/login'
+import { getCustomerInfo } from "@/api/user"
 import { FormattedMessage } from 'react-intl'
-import {  inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import Store from '@/store/store';
 
 const LogoutButton = () => {
   const [userInfo, setUserInfo] = useState(null);
   const { authState, authService } = useOktaAuth();
-  
+
   const { accessToken } = authState;
-  
+
   useEffect(() => {
     if (!authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
@@ -32,10 +33,13 @@ const LogoutButton = () => {
         setUserInfo(info);
         authService.getUser().then((info) => {
           setUserInfo(info);
-          if (!sessionStorage.getItem('rc-token')) {
-            getToken({ oktaToken: `Bearer ${accessToken}` }).then(res => {
-              sessionStorage.setItem("rc-token", res.context.token);
-              sessionStorage.setItem("rc-userinfo", JSON.stringify(res.context.customerDetail));
+          if (!localStorage.localStorage('rc-token')) {
+            getToken({ oktaToken: `Bearer ${accessToken}` }).then(async res => {
+              let userinfo = res.context.customerDetail
+              let customerInfoRes = await getCustomerInfo()
+              userinfo.defaultClinics = customerInfoRes.context.defaultClinics
+              localStorage.localStorage("rc-token", res.context.token);
+              localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
             })
           }
         });
@@ -49,8 +53,7 @@ const LogoutButton = () => {
   };
   const logout = async () => authService.logout('/');
   const clickLogoff = () => {
-    sessionStorage.setItem("is-login", false);
-    sessionStorage.removeItem("rc-token");
+    localStorage.removeItem("rc-token");
     logout()
   }
   return (

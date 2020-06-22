@@ -18,36 +18,36 @@ class Login extends React.Component {
         customerAccount: "",
         customerPassword: "",
       },
-      loginPasswordType:'password',
-      registerPwdType:'password',
-      registerConfirmPwdType:'password',
+      loginPasswordType: 'password',
+      registerPwdType: 'password',
+      registerConfirmPwdType: 'password',
 
-      registerForm:{
-        firstName:'',
-        lastName:'',
-        country:6,
-        email:'',
-        password:'',
-        confirmPassword:'',
-        securityQuestion:'',
-        answer:'',
-        firstChecked:false,
-        secondChecked:false,
-        thirdChecked:false,
+      registerForm: {
+        firstName: '',
+        lastName: '',
+        country: 6,
+        email: '',
+        password: '',
+        confirmPassword: '',
+        securityQuestion: '',
+        answer: '',
+        firstChecked: false,
+        secondChecked: false,
+        thirdChecked: false,
       },
-      countryList:[{
-        id:6,
-        name:'Mexico'
+      countryList: [{
+        id: 6,
+        name: 'Mexico'
       }],
-      errorMsg:'',
-      successMsg:'',
+      errorMsg: '',
+      successMsg: '',
     };
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
-    
+
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -84,56 +84,49 @@ class Login extends React.Component {
     const { history } = this.props;
     let res = await login(this.state.loginForm);
     console.log(this.state.loginForm, res, "haha");
-    if (res.code === "K-000000") {
-      sessionStorage.setItem("is-login", true);
-      sessionStorage.setItem("rc-token", res.context.token);
-      let userinfo = res.context.customerDetail
-      userinfo.customerAccount = res.context.accountName
-      sessionStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-      try {
-        let customerInfoRes = await getCustomerInfo()
-        const context = customerInfoRes.context
-        sessionStorage.setItem('rc-clinics-id', (context.defaultClinics && context.defaultClinics.clinicsId) || '')
-        sessionStorage.setItem('rc-clinics-name', (context.defaultClinics && context.defaultClinics.clinicsName) || '')
-      } catch (err) {
-        console.log(err)
-      } finally {
-        history.push((this.props.location.state && this.props.location.state.redirectUrl) || '/account')
-      }
-    }
+    localStorage.setItem("rc-token", res.context.token);
+    let userinfo = res.context.customerDetail
+    userinfo.customerAccount = res.context.accountName
+
+    let customerInfoRes = await getCustomerInfo()
+    const context = customerInfoRes.context
+    userinfo.defaultClinics = customerInfoRes.context.defaultClinics
+    localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+
+    history.push((this.props.location.state && this.props.location.state.redirectUrl) || '/account')
   }
-  register=()=>{
+  register = () => {
     const { registerForm } = this.state
     const objKeys = Object.keys(registerForm)
     let requiredVerify = true
-    for(let i=0; i< objKeys.length;i++){
-      if(!registerForm[objKeys[i]]){
+    for (let i = 0; i < objKeys.length; i++) {
+      if (!registerForm[objKeys[i]]) {
         requiredVerify = false
       }
     }
-    if(!requiredVerify){
+    if (!requiredVerify) {
       this.showErrorMsg('You have mandatory fields not filled out!')
       return false
     }
-    if(!(this.nameVerify(registerForm.firstName)&&this.nameVerify(registerForm.lastName))){
+    if (!(this.nameVerify(registerForm.firstName) && this.nameVerify(registerForm.lastName))) {
       this.showErrorMsg('First Name or Last Name cannot exceed 50 characters!')
       return false
     }
-    if(!this.emailVerify(registerForm.email)){
+    if (!this.emailVerify(registerForm.email)) {
       this.showErrorMsg('Your email has not been verified!')
       return false
     }
-    if(!this.passwordVerify(registerForm.password)){
+    if (!this.passwordVerify(registerForm.password)) {
       this.showErrorMsg('Your password has not been verified!')
       return false
     }
-    if(registerForm.password !== registerForm.confirmPassword){
+    if (registerForm.password !== registerForm.confirmPassword) {
       this.showErrorMsg('The two passwords you typed do not match.!')
       return false
     }
-    
+
     console.log(registerForm);
-    
+
   }
 
   showErrorMsg = (message) => {
@@ -164,15 +157,15 @@ class Login extends React.Component {
     let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
     return reg.test(email)
   };
-  passwordVerify =(password)=>{
+  passwordVerify = (password) => {
     //匹配至少包含一个数字、一个字母 8-20 位的密码
     let reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\D]{8,20}$/;
     return reg.test(password)
   }
-  nameVerify =(name)=>{
-    if(name.length>50)
+  nameVerify = (name) => {
+    if (name.length > 50)
       return false
-    else 
+    else
       return true
   }
 
@@ -199,7 +192,7 @@ class Login extends React.Component {
                 aria-label="Close"
               >
                 <span aria-hidden="true">
-                    ×
+                  ×
                 </span>
               </button>
               <div className="miaa-header">
@@ -253,7 +246,7 @@ class Login extends React.Component {
                 acceptCharset="UTF-8"
                 next='{"noop":""}'
               >
-                
+
                 <div className="miaa-body">
                   <div
                     className="miaa-inner-content"
@@ -262,7 +255,7 @@ class Login extends React.Component {
                     }}
                   >
                     <p className="text-center miaa-greeting-followup pt-3">
-                      <FormattedMessage id="login.loginTip" />  
+                      <FormattedMessage id="login.loginTip" />
                     </p>
                     <div className="mt-2">
                       <div className="capture_signin">
@@ -277,7 +270,7 @@ class Login extends React.Component {
                             value={this.state.loginForm.customerAccount}
                             onChange={(e) => this.loginFormChange(e)}
                           />
-            
+
                         </div>
                         <div className="miaa_input required ">
                           <div className="input-append input-group">
@@ -296,10 +289,10 @@ class Login extends React.Component {
                               title="Show / hide password"
                               className="add-on input-group-addon"
                               style={{ cursor: "pointer" }}
-                              onClick={()=>{
-                                let type = this.state.loginPasswordType==='password'?'text':'password'
+                              onClick={() => {
+                                let type = this.state.loginPasswordType === 'password' ? 'text' : 'password'
                                 this.setState({
-                                  loginPasswordType:type
+                                  loginPasswordType: type
                                 })
                               }}
                             >
@@ -318,20 +311,20 @@ class Login extends React.Component {
                             className="btn btn-primary"
                             onClick={() => this.loginClick()}
                           >
-                            <FormattedMessage id="login" />  
+                            <FormattedMessage id="login" />
                           </button>
                         </div>
 
-                        
-                          <Link to={(this.props.location.state&&
-                            this.props.location.state.redirectUrl==='/cart')? 
-                            "/prescription":"/"} 
-                            className="click-hover" 
-                            style={{textDecoration:'underline',color: '#4b5257' }}>
 
-                              <FormattedMessage id="login.guestContinue" />  
-                            
-                          </Link>
+                        <Link to={(this.props.location.state &&
+                          this.props.location.state.redirectUrl === '/cart') ?
+                          "/prescription" : "/"}
+                          className="click-hover"
+                          style={{ textDecoration: 'underline', color: '#4b5257' }}>
+
+                          <FormattedMessage id="login.guestContinue" />
+
+                        </Link>
 
                       </div>
                     </div>
@@ -365,7 +358,7 @@ class Login extends React.Component {
                             <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
                           </aside>
                         </div>
-                        
+
                         <div className="miaa_input required">
                           <input
                             id="capture_traditionalRegistration_firstName"
@@ -417,8 +410,8 @@ class Login extends React.Component {
                             }}
                           />
                         </div>
-                        
-                        
+
+
 
                         <div className="miaa_input required country_select">
                           <select
@@ -464,18 +457,18 @@ class Login extends React.Component {
                             title="Show / hide password"
                             className="add-on input-group-addon"
                             style={{ cursor: "pointer" }}
-                            onClick={()=>{
-                              let type = this.state.registerPwdType==='password'?'text':'password'
+                            onClick={() => {
+                              let type = this.state.registerPwdType === 'password' ? 'text' : 'password'
                               this.setState({
-                                registerPwdType:type
+                                registerPwdType: type
                               })
                             }}
                           >
                             <i className="icon-eye-open fa fa-eye"></i>
                           </span>
-                          
+
                         </div>
-                        <p style={{marginTop: '-20px'}}>  <FormattedMessage id="login.passwordTip" /> </p>
+                        <p style={{ marginTop: '-20px' }}>  <FormattedMessage id="login.passwordTip" /> </p>
 
                         <div className="input-append input-group miaa_input required">
                           <input
@@ -498,17 +491,17 @@ class Login extends React.Component {
                             title="Show / hide password"
                             className="add-on input-group-addon"
                             style={{ cursor: "pointer" }}
-                            onClick={()=>{
-                              let type = this.state.registerConfirmPwdType==='password'?'text':'password'
+                            onClick={() => {
+                              let type = this.state.registerConfirmPwdType === 'password' ? 'text' : 'password'
                               this.setState({
-                                registerConfirmPwdType:type
+                                registerConfirmPwdType: type
                               })
                             }}
                           >
                             <i className="icon-eye-open fa fa-eye"></i>
                           </span>
                         </div>
-                        
+
                         <div className="miaa_input required country_select">
                           <select
                             data-js-select=""
@@ -524,7 +517,7 @@ class Login extends React.Component {
                               });
                             }}
                           >
-                            
+
                             <option value="" disabled>Security Question *</option>
                             {
                               this.state.countryList.map(item => (
@@ -563,31 +556,31 @@ class Login extends React.Component {
                           <input
                             id="capture_traditionalRegistration_privacyAndTermsStatus"
                             data-capturefield="privacyAndTermsStatus"
-                            value={ registerForm.firstChecked }
+                            value={registerForm.firstChecked}
                             type="checkbox"
                             className="capture_privacyAndTermsStatus capture_required capture_input_checkbox form-check-input"
                             name="firstChecked"
                             onChange={(e) => {
-                              let value = (e.target).value === 'false'?true:false;
+                              let value = (e.target).value === 'false' ? true : false;
                               this.registerFormChange({
                                 field: 'firstChecked',
                                 value
                               });
                             }}
                           />
-                            I have read the 
+                            I have read the
                           <a
                             href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html/"
                             target="_blank" rel='noreferrer'
                           >
                             <font> User Agreement </font>
                           </a>
-                              and the 
+                              and the
                           <a
                             href="https://www.mars.com/global/policies/privacy/pp-russian/"
                             target="_blank" rel='noreferrer'
                           >
-                              <font> Privacy Policy </font>
+                            <font> Privacy Policy </font>
                           </a>
                               and give my consent to the processing of
                               personal data, including cross-border transfer
@@ -601,20 +594,20 @@ class Login extends React.Component {
                           <input
                             id="capture_traditionalRegistration_ageIndicator"
                             data-capturefield="ageIndicator"
-                            value={ registerForm.secondChecked }
+                            value={registerForm.secondChecked}
                             type="checkbox"
                             className="capture_ageIndicator capture_required capture_input_checkbox form-check-input"
                             name="secondChecked"
                             onChange={(e) => {
-                              let value = (e.target).value === 'false'?true:false;
+                              let value = (e.target).value === 'false' ? true : false;
                               this.registerFormChange({
                                 field: 'secondChecked',
                                 value
                               });
                             }}
                           />
-                          <FormattedMessage id="login.secondCheck" /> 
-                          
+                          <FormattedMessage id="login.secondCheck" />
+
                         </label>
                       </div>
                       <div className="col-lg-12">
@@ -625,45 +618,45 @@ class Login extends React.Component {
                           <input
                             id="capture_traditionalRegistration_optEmail"
                             data-capturefield="optEmail"
-                            value={ registerForm.thirdChecked}
+                            value={registerForm.thirdChecked}
                             type="checkbox"
                             className="capture_optEmail capture_input_checkbox form-check-input"
                             name="thirdChecked"
                             onChange={(e) => {
-                              let value = (e.target).value === 'false'?true:false;
+                              let value = (e.target).value === 'false' ? true : false;
                               this.registerFormChange({
                                 field: 'thirdChecked',
                                 value
                               });
                             }}
                           />
-                          <FormattedMessage id="login.thirdCheck" />  
-                              
+                          <FormattedMessage id="login.thirdCheck" />
+
                         </label>
                       </div>
-                      <div style={{marginLeft: "20px"}}>
-                        <FormattedMessage id="requiredFields" /> 
+                      <div style={{ marginLeft: "20px" }}>
+                        <FormattedMessage id="requiredFields" />
                       </div>
                     </div>
 
                     <button
                       type="submit"
                       className="btn btn-primary capture_btn"
-                      disabled={!(registerForm.firstChecked&& registerForm.secondChecked&& registerForm.thirdChecked)}
-                      onClick={()=>this.register()}
+                      disabled={!(registerForm.firstChecked && registerForm.secondChecked && registerForm.thirdChecked)}
+                      onClick={() => this.register()}
                     >
                       <FormattedMessage id="save" />
-                      
+
                     </button>
-                       
+
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>    
-          );
+      </div>
+    );
   }
 }
 

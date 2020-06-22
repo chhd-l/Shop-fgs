@@ -103,7 +103,9 @@ class Payment extends React.Component {
       window.location.reload();
       return false;
     }
-
+    if (this.state.isLogin && !localStorage.getItem("rc-cart-data-login")) {
+      this.props.history.push('/cart')
+    }
     getDictionary({ type: 'city' })
       .then(res => {
         this.setState({

@@ -61,7 +61,7 @@ import ForgetPassword from "@/views/ForgetPassword";
 // const store = {
 //   store: new Store()
 // }
-const token = sessionStorage.getItem('rc-token')
+const token = localStorage.getItem('rc-token')
 
 const App = () => (
 
@@ -138,7 +138,8 @@ const App = () => (
           <Security {...config.oidc}>
             <Route path="/" exact component={Home} />
             <Route path="/implicit/callback" component={LoginCallback} />
-            <Route exact path="/login" component={Login} />
+            {/* <Route exact path="/login" component={Login} /> */}
+            <Route exact path="/login" render={props => (token ? <Redirect to="/account" /> : <Login {...props} />)} />
 
             <Route
               exact

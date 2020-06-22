@@ -72,7 +72,7 @@ export default class ShippingAddressFrom extends React.Component {
       payosdata: {},
     };
   }
-  componentDidMount() {
+  componentDidMount () {
     console.log(this.props);
     const { location } = this.props;
     if (location.query) {
@@ -92,41 +92,41 @@ export default class ShippingAddressFrom extends React.Component {
       });
     }
   }
-  componentWillMount() {
+  componentWillMount () {
     sessionStorage.removeItem("paymentMethodForm");
   }
-  cardInfoInputChange(e) {
+  cardInfoInputChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { creditCardInfo } = this.state;
-    
-    if(name === 'cardMmyy') {
-      let beforeValue = value.substr(0, value.length -1)
-      let inputValue = value.substr(value.length -1, 1)
 
-      if(creditCardInfo[name] !== beforeValue && creditCardInfo[name].substr(0, creditCardInfo[name].length - 1) !== value) return
-      if(isNaN(parseInt(inputValue)) && value.length > creditCardInfo[name].length) return
-      if(creditCardInfo[name].length == 2 && value.length == 3) {
-        creditCardInfo[name] = value.slice(0,2) + '/' + value.slice(2)
-      }else if(creditCardInfo[name].length == 4 && value.length == 3) {
-        creditCardInfo[name] = creditCardInfo[name].slice(0,2)
-      }else {
-        creditCardInfo[name] = value;  
+    if (name === 'cardMmyy') {
+      let beforeValue = value.substr(0, value.length - 1)
+      let inputValue = value.substr(value.length - 1, 1)
+
+      if (creditCardInfo[name] !== beforeValue && creditCardInfo[name].substr(0, creditCardInfo[name].length - 1) !== value) return
+      if (isNaN(parseInt(inputValue)) && value.length > creditCardInfo[name].length) return
+      if (creditCardInfo[name].length == 2 && value.length == 3) {
+        creditCardInfo[name] = value.slice(0, 2) + '/' + value.slice(2)
+      } else if (creditCardInfo[name].length == 4 && value.length == 3) {
+        creditCardInfo[name] = creditCardInfo[name].slice(0, 2)
+      } else {
+        creditCardInfo[name] = value;
       }
-    }else {
+    } else {
       creditCardInfo[name] = value;
     }
-    
-    
+
+
     console.log(["cardNumber", "cardMmyy", "cardCvv"].indexOf(name));
     if (["cardNumber", "cardMmyy", "cardCvv"].indexOf(name) === -1) {
       this.inputBlur(e);
     }
-    
+
     this.setState({ creditCardInfo: creditCardInfo });
   }
-  inputBlur(e) {
+  inputBlur (e) {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -139,7 +139,7 @@ export default class ShippingAddressFrom extends React.Component {
       validDom.style.display = e.target.value ? "none" : "block";
     }
   }
-  async handleSave() {
+  async handleSave () {
     const { creditCardInfo } = this.state;
     this.setState({
       loading: true,
@@ -156,8 +156,8 @@ export default class ShippingAddressFrom extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.NODE_ENV === 'development'?'fd931719-5733-4b77-b146-2fd22f9ad2e3': process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env": process.env.NODE_ENV === 'development'?'test': process.env.REACT_APP_PaymentENV,
+            public_key: process.env.NODE_ENV === 'development' ? 'fd931719-5733-4b77-b146-2fd22f9ad2e3' : process.env.REACT_APP_PaymentKEY,
+            "x-payments-os-env": process.env.NODE_ENV === 'development' ? 'test' : process.env.REACT_APP_PaymentENV,
             "Content-type": "application/json",
             app_id: "com.razorfish.dev_mexico",
             "api-version": "1.3.0",
@@ -171,7 +171,7 @@ export default class ShippingAddressFrom extends React.Component {
         cardNumber: creditCardInfo.cardNumber,
         cardOwner: creditCardInfo.cardOwner,
         cardType: res.data.card_type,
-        customerId: JSON.parse(sessionStorage.getItem("rc-userinfo"))[
+        customerId: JSON.parse(localStorage.getItem("rc-userinfo"))[
           "customerId"
         ],
         email: creditCardInfo.email,
@@ -190,19 +190,19 @@ export default class ShippingAddressFrom extends React.Component {
     } catch (e) {
       console.log(e.response);
       let res = e.response
-      
+
       this.setState({
         loading: false,
       });
-      if(res) {
+      if (res) {
         console.log(res.data.more_info, 'body/expiration_date should match pattern "^(0[1-9]|1[0-2])(\/|\-|\.| )\d{2,4}"')
-        if(res.data.more_info.indexOf('body/credit_card_cvv should match pattern') !== -1) {
+        if (res.data.more_info.indexOf('body/credit_card_cvv should match pattern') !== -1) {
           this.showErrorMsg('your card cvv is invalid')
-        }else if(res.data.more_info.indexOf('body/card_number should match pattern') !== -1) {
+        } else if (res.data.more_info.indexOf('body/card_number should match pattern') !== -1) {
           this.showErrorMsg('your card number is invalid')
-        }else if(res.data.more_info.indexOf('body/expiration_date should match pattern') !== -1) {
+        } else if (res.data.more_info.indexOf('body/expiration_date should match pattern') !== -1) {
           this.showErrorMsg('your card expiration_date is invalid')
-        }else {
+        } else {
           this.showErrorMsg(res.data.description)
         }
         return
@@ -239,7 +239,7 @@ export default class ShippingAddressFrom extends React.Component {
     }, 2000);
   };
   //定位
-  scrollToErrorMsg() {
+  scrollToErrorMsg () {
     const widget = document.querySelector(".billing-payment");
     // widget && widget.scrollIntoView()
     // console.log(this.getElementToPageTop(widget))
@@ -247,13 +247,13 @@ export default class ShippingAddressFrom extends React.Component {
       window.scrollTo(this.getElementToPageTop(widget), 0);
     }
   }
-  getElementToPageTop(el) {
+  getElementToPageTop (el) {
     if (el.parentElement) {
       return this.getElementToPageTop(el.parentElement) + el.offsetTop;
     }
     return el.offsetTop;
   }
-  render() {
+  render () {
     const { addressForm, creditCardInfo } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
@@ -281,7 +281,7 @@ export default class ShippingAddressFrom extends React.Component {
                   <div
                     className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
                       this.state.errorMsg ? "" : "hidden"
-                    }`}
+                      }`}
                   >
                     <aside
                       className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -561,10 +561,10 @@ export default class ShippingAddressFrom extends React.Component {
                                     <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
                                   </label>
                                 ) : (
-                                  <label className="rc-input__label--inline defaultAddressChecked">
-                                    <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                                  </label>
-                                )}
+                                    <label className="rc-input__label--inline defaultAddressChecked">
+                                      <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
+                                    </label>
+                                  )}
                               </div>
                               {/* </div> */}
                               <a
