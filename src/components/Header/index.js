@@ -38,15 +38,13 @@ class Header extends React.Component {
       showMegaMenu: false,
       tradePrice: '',
       prescriberId: sessionStorage.getItem('rc-clinics-id'),
-      prescriberName: sessionStorage.getItem('rc-clinics-name'),
-      isLogin: sessionStorage.getItem("rc-token") ? true : false
+      prescriberName: sessionStorage.getItem('rc-clinics-name')
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
     this.hanldeSearchClick = this.hanldeSearchClick.bind(this)
     this.hanldeSearchCloseClick = this.hanldeSearchCloseClick.bind(this)
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this)
-    this.handleItemClick = this.handleItemClick.bind(this)
     this.toggleMenu = this.toggleMenu.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
     // this.clickLogin = this.clickLogin.bind(this)
@@ -232,9 +230,6 @@ class Header extends React.Component {
       })
     }
   }
-  handleItemClick () {
-    this.props.history.push('/list/keywords/' + this.state.keywords)
-  }
   gotoDetails (item) {
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
     sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
@@ -260,10 +255,10 @@ class Header extends React.Component {
   clickLogoff () {
     sessionStorage.setItem("is-login", false);
     sessionStorage.removeItem("rc-token");
-    localStorage.removeItem('rc-cart-data-login')
-    sessionStorage.removeItem('rc-clinics-name') //    
+    sessionStorage.removeItem('rc-clinics-name')
     sessionStorage.removeItem('rc-clinics-id')
     sessionStorage.removeItem('rc-userinfo')
+    localStorage.removeItem('rc-cart-data-login')
     // this.setState({
     //   isLogin: false
     // })
@@ -318,9 +313,11 @@ class Header extends React.Component {
               {
                 this.state.result.totalElements ?
                   <div className="rc-margin-top--xs">
-                    <a className="productName rc-large-body ui-cursor-pointer" onClick={this.handleItemClick}>
+                    <Link
+                      className="productName rc-large-body ui-cursor-pointer"
+                      to={`/list/keywords/${this.state.keywords}`}>
                       <b><FormattedMessage id="viewAllResults" /> ({this.state.result.totalElements})</b>
-                    </a>
+                    </Link>
                   </div> :
                   null
               }
@@ -447,7 +444,7 @@ class Header extends React.Component {
                                   window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
                                 }}>registred</button> */}
                                 <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
-                                  onClick={()=>this.clickLogin()}>Log in</button>
+                                  onClick={() => this.clickLogin()}>Log in</button>
                                 <div><FormattedMessage id="account.notRegistred" /></div>
                                 <a className="rc-styled-link" onClick={() => this.signUp()}>
                                   <FormattedMessage id="signUp" />
@@ -522,7 +519,7 @@ class Header extends React.Component {
                               </div>
                               {/* <LogoutButton /> */}
                               <div className="logoff-style">
-                                <a className="rc-styled-link--external" onClick={()=>this.clickLogoff()}>
+                                <a className="rc-styled-link--external" onClick={() => this.clickLogoff()}>
                                   <FormattedMessage id="logOff" />
                                 </a>
                               </div>
