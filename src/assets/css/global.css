@@ -22406,8 +22406,7 @@ tr.rc-table__row.inactive td:after {
 }
 
 .rc-progress--breadcrumbs-stepped li {
-  margin-right: 4px;
-  max-width: 200px;
+  max-width: 300px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
