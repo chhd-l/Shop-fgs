@@ -6,6 +6,11 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom';
+import helpImg from "@/assets/images/profile/Help.jpg";
+import myOrderImg from "@/assets/images/profile/My Order.jpg";
+import myPetImg from "@/assets/images/profile/My pet.jpg";
+import myProfileImg from "@/assets/images/profile/My profile.jpg";
+import paymentImg from "@/assets/images/profile/Payment.jpg";
 import './index.css'
 
 export default class AccountHome extends React.Component {
@@ -16,7 +21,7 @@ export default class AccountHome extends React.Component {
     }
   }
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true); 
+    localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
@@ -53,7 +58,7 @@ export default class AccountHome extends React.Component {
                           <FormattedMessage id="account.profile">
                             {txt => (
                               <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwdb6e2062/images/dashboard/My profile.jpg"
+                                src={myProfileImg}
                                 alt={txt}
                                 title={txt} />
                             )}
@@ -82,7 +87,7 @@ export default class AccountHome extends React.Component {
                           <FormattedMessage id="pets">
                             {txt => (
                               <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwa1d75ed1/images/dashboard/My pet.jpg"
+                                src={myPetImg}
                                 alt={txt}
                                 title={txt} />
                             )}
@@ -111,7 +116,7 @@ export default class AccountHome extends React.Component {
                           {txt => (
                             <Link to="/account/orders" title={txt}>
                               <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwb0f9538d/images/dashboard/My%20Order.jpg"
+                                src={myOrderImg}
                                 alt={txt} />
                             </Link>
                           )}
@@ -138,7 +143,7 @@ export default class AccountHome extends React.Component {
                               to="/account/shippingAddress"
                               title={txt}>
                               <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwf7c65124/images/dashboard/Payment.jpg"
+                                src={paymentImg}
                                 alt={txt} />
                             </Link>
                           )}
@@ -166,7 +171,7 @@ export default class AccountHome extends React.Component {
                           {txt => (
                             <Link to="/help" title={txt}>
                               <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dweb723ffe/images/dashboard/Help.jpg"
+                                src={helpImg}
                                 alt={txt} />
                             </Link>
                           )}

@@ -273,7 +273,7 @@ class AccountOrders extends React.Component {
                                           alt={item.spuName}
                                           title={item.spuName} />
                                         <span className="ml-1">
-                                          <span className="medium">{item.spuName}</span><br />
+                                          <span className="medium text-break">{item.spuName}</span><br />
                                           {item.specDetails}
                                         </span>
                                       </div>

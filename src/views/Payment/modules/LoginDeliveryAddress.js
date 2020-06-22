@@ -66,7 +66,7 @@ export default class LoginDeliveryAddress extends React.Component {
     this.setState({ loading: true })
     try {
       let res = await getAddressList()
-      let addressList = res.context.filter(ele => ele.type === this.props.type)
+      let addressList = res.context.filter(ele => ele.type.toLowerCase() === this.props.type)
       let tmpId
       const defaultAddressItem = find(addressList, ele => ele.isDefaltAddress === 1)
       if (selectedId && find(addressList, ele => ele.deliveryAddressId === selectedId)) {

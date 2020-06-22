@@ -240,7 +240,11 @@ class LoginCart extends React.Component {
           <div className="product-info__desc w-100 relative">
             <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
               <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(pitem)}>
-                <h4 className="rc-gamma rc-margin--none">{pitem.goodsName}</h4>
+                <h4
+                  className="rc-gamma rc-margin--none ui-text-overflow-line2 text-break"
+                  title={pitem.goodsName}>
+                  {pitem.goodsName}
+                </h4>
               </a>
             </div>
             <div className="cart-product-error-msg"></div>

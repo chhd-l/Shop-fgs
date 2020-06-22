@@ -414,10 +414,16 @@ class List extends React.Component {
                                           <div className="rc-card__body rc-padding-top--none">
                                             <div className="height-product-tile-plpOnly height-product-tile">
                                               <header className="rc-text--center">
-                                                <h3 className="rc-card__title rc-gamma">{item.lowGoodsName}</h3>
+                                                <h3
+                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break"
+                                                  title={item.lowGoodsName}>
+                                                  {item.lowGoodsName}
+                                                </h3>
                                               </header>
                                               <div className="Product-Key-words rc-text--center"></div>
-                                              <div className="goodsSubtitle">
+                                              <div
+                                                className="goodsSubtitle ui-text-overflow-line3 text-break"
+                                                title={item.goodsSubtitle}>
                                                 {item.goodsSubtitle}
                                               </div>
                                             </div>

@@ -1,3 +1,8 @@
+.order__listing .order-list-container .img-fluid {
+  max-width: 34%;
+  margin-bottom: .2rem;
+}
+
 @media (max-width: 768.98px) {
   .order__listing .order-list-container .img-fluid {
       max-width:60%
