@@ -89,7 +89,9 @@ class Payment extends React.Component {
       payosdata: {},
       selectedCardInfo: {},
       isToPayNow: sessionStorage.getItem('rc-tid'),
-      isLogin: jugeLoginStatus()
+      isLogin: jugeLoginStatus(),
+      cityList: [],
+      countryList: []
     };
     this.tid = sessionStorage.getItem('rc-tid')
     this.timer = null;
