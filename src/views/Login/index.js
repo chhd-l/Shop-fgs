@@ -371,7 +371,7 @@ class Login extends React.Component {
                     >
                       <div class="rc-column" style={{ textAlign: "center" }}>
                         <button
-                          class="rc-btn rc-btn--one"
+                          class="rc-btn rc-btn--two"
                           style={{ width: "100%" }}
                           onClick={() => {
                             this.setState({type: 'register'})
@@ -382,7 +382,7 @@ class Login extends React.Component {
                       </div>
                       <div class="rc-column" style={{ textAlign: "center" }}>
                         <button
-                          class="rc-btn rc-btn--two"
+                          class="rc-btn rc-btn--one"
                           style={{ width: "100%" }}
                           onClick={() => this.loginClick()}
                         >
@@ -682,7 +682,7 @@ class Login extends React.Component {
               <div style={{ textAlign: "center" }} class="rc-layout-container rc-two-column buttonGroup">
               <div class="rc-column" style={{ textAlign: "center" }}>
                 <button
-                  class="rc-btn rc-btn--one"
+                  class="rc-btn rc-btn--two"
                   style={{ width: "100%" }}
                   onClick={() => this.register()}
                 >
@@ -691,7 +691,7 @@ class Login extends React.Component {
               </div>
               <div class="rc-column" style={{ textAlign: "center" }}>
                 <button
-                  class="rc-btn rc-btn--two"
+                  class="rc-btn rc-btn--one"
                   style={{ width: "100%" }}
                   onClick={(e) => {
                     e.preventDefault()
