@@ -6,8 +6,10 @@ import Loading from "@/components/Loading";
 import { login } from "@/api/login";
 import { getCustomerInfo } from "@/api/user";
 import { getDictionary } from "@/utils/utils";
-import bg1 from "@/assets/images/login-bg1.png";
-import bg2 from "@/assets/images/login-bg2.png";
+// import bg1 from "@/assets/images/login-bg1.png";
+// import bg2 from "@/assets/images/login-bg2.png";
+import bg1 from "@/assets/images/login-bg3.jpg";
+import bg2 from "@/assets/images/register-bg1.jpg";
 
 class Login extends React.Component {
   constructor(props) {
@@ -238,19 +240,19 @@ class Login extends React.Component {
                   <h1 class="rc-espilon">
                     <img
                       src={bg1}
-                      style={{ display: "inline", width: "30%" }}
+                      style={{ display: "inline"}}
                     />
-                    <img
+                    {/* <img
                       src={bg2}
                       style={{ display: "inline", width: "70%" }}
-                    />
+                    /> */}
                   </h1>
                 </div>
 
                 <div class="rc-column">
                   <h1 class="rc-espilon">
                     <h3><span style={{color: '#666'}}>Welcome to</span> Royal Canin</h3>
-                    <div style={{ width: '70%' }}>
+                    <div className="loginBox">
                     <div style={{ marginTop: "40px" }}>
                       <div className="miaa_input required ">
                         <input
@@ -369,7 +371,7 @@ class Login extends React.Component {
                     >
                       <div class="rc-column" style={{ textAlign: "center" }}>
                         <button
-                          class="rc-btn rc-btn--one"
+                          class="rc-btn rc-btn--two"
                           style={{ width: "100%" }}
                           onClick={() => {
                             this.setState({type: 'register'})
@@ -380,7 +382,7 @@ class Login extends React.Component {
                       </div>
                       <div class="rc-column" style={{ textAlign: "center" }}>
                         <button
-                          class="rc-btn rc-btn--two"
+                          class="rc-btn rc-btn--one"
                           style={{ width: "100%" }}
                           onClick={() => this.loginClick()}
                         >
@@ -400,7 +402,7 @@ class Login extends React.Component {
                         
                       }
                     >
-                      Continue with a guest>
+                      Continue as a guest>
                     </a>
                     </div>
                   </h1>
@@ -408,7 +410,8 @@ class Login extends React.Component {
               </div>
               <div style={{display: this.state.type === 'register'?'block': 'none'}} className="register">
               <h3 style={{textAlign: 'center', color: '#e2001a'}}><span style={{color: '#666'}}>Welcome to</span> Royal Canin</h3>
-              <div style={{ width: "50%", margin: "0 auto" }}>
+              <div className="registerBox" style={{ position: 'relative', margin: "0 auto" }}>
+              <img src={bg2} className="registerImg" style={{width: '200px', position: 'absolute', bottom: '0', right: '-200px'}}/>
                 <div class="rc-layout-container rc-two-column">
                   <div class="rc-column">
                     <div className="miaa_input required">
@@ -676,16 +679,30 @@ class Login extends React.Component {
                               personal data, including cross-border transfer
                         </label>
               </div>
-              <p style={{ textAlign: "center" }}>
-                <button class="rc-btn rc-btn--two" onClick={() => this.register()}>Create an account</button>
-                or
-                <a class="rc-styled-link" onClick={(e) => {
-                            e.preventDefault()
-                            this.setState({type: 'login'})
-                          }}>
+              <div style={{ textAlign: "center" }} class="rc-layout-container rc-two-column buttonGroup">
+              <div class="rc-column" style={{ textAlign: "center" }}>
+                <button
+                  class="rc-btn rc-btn--two"
+                  style={{ width: "100%" }}
+                  onClick={() => this.register()}
+                >
+                  Create an account
+                </button>
+              </div>
+              <div class="rc-column" style={{ textAlign: "center" }}>
+                <button
+                  class="rc-btn rc-btn--one"
+                  style={{ width: "100%" }}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    this.setState({type: 'login'})
+                  }}
+                >
                   Log in
-                </a>
-              </p>
+                </button>
+              </div>
+                
+              </div>
               </div>
               {/* <div className="miaa-toggle-wrapper">
                 <div className="miaa-inner-content">

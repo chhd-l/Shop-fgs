@@ -247,32 +247,34 @@ class AccountOrders extends React.Component {
                           ? <div className="card-body p-0">
                             {
                               currentProgerssIndex > -1
-                                ? <div className="rc-progress-stepped order-progress">
-                                  <ol className="rc-list d-flex order-progress-mb">
-                                    {
-                                      this.state.progressList.map((item, i) => (
-                                        <li
-                                          key={i}
-                                          className={`rc-list__item rc-progress-stepped__item ${i < currentProgerssIndex ? 'rc-complete' : i == currentProgerssIndex ? 'rc-current' : ''}`}>
-                                          <span className="rc-progress-stepped__link">
-                                            {i + 1}
-                                            <br />
-                                            <span className="order-progress-text md-up">
-                                              {item.displayName}<br />{item.time1}&nbsp;{item.time2}
+                                ? <>
+                                  <div className="rc-progress-stepped order-progress">
+                                    <ol className="rc-list d-flex order-progress-mb">
+                                      {
+                                        this.state.progressList.map((item, i) => (
+                                          <li
+                                            key={i}
+                                            className={`rc-list__item rc-progress-stepped__item ${i < currentProgerssIndex ? 'rc-complete' : i == currentProgerssIndex ? 'rc-current' : ''}`}>
+                                            <span className="rc-progress-stepped__link">
+                                              {i + 1}
+                                              <br />
+                                              <span className="order-progress-text md-up">
+                                                {item.displayName}<br />{item.time1}&nbsp;{item.time2}
+                                              </span>
+                                              <span className="order-progress-text md-down">
+                                                {item.displayName}<br />{item.time1}&nbsp;<br />{item.time2}&nbsp;
                                             </span>
-                                            <span className="order-progress-text md-down">
-                                              {item.displayName}<br />{item.time1}&nbsp;<br />{item.time2}&nbsp;
                                             </span>
-                                          </span>
-                                        </li>
-                                      ))
-                                    }
-                                  </ol>
-                                  <ol> </ol>
-                                </div>
+                                          </li>
+                                        ))
+                                      }
+                                    </ol>
+                                    <ol> </ol>
+                                  </div>
+                                  <hr className="rc-margin-top---none" />
+                                </>
                                 : null
                             }
-                            <hr className="rc-margin-top---none" />
                             <div className="d-flex justify-content-between align-items-center flex-wrap ml-4 mr-4">
                               <div className="">
                                 <FormattedMessage id="order.orderNumber" />:<br />
