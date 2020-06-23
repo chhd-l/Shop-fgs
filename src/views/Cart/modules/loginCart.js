@@ -39,15 +39,9 @@ class LoginCart extends React.Component {
     this.headerRef = React.createRef();
   }
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+    
   }
   async componentDidMount () {
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
-      window.location.reload();
-      return false
-    }
-
     // 合并购物车(登录后合并非登录态的购物车数据)
     const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     if (unloginCartData.length) {

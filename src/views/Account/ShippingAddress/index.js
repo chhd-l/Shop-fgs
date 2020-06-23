@@ -50,7 +50,7 @@ export default class ShippingAddress extends React.Component {
   }
 
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+    
   }
   componentDidMount () {
     this.getAddressList()

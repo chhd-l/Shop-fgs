@@ -76,7 +76,6 @@ class Confirmation extends React.Component {
     this.timer = null
   }
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true)
     if (this.state.paywithLogin) {
       localStorage.removeItem('rc-cart-data-login')
     } else {
@@ -86,11 +85,6 @@ class Confirmation extends React.Component {
     localStorage.removeItem('orderNumber')
   }
   componentDidMount () {
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
-      window.location.reload();
-      return false
-    }
     let productList
     if (this.state.paywithLogin) {
       productList = JSON.parse(localStorage.getItem("rc-cart-data-login"))

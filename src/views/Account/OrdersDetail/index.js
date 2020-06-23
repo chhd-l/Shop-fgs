@@ -69,11 +69,6 @@ class AccountOrders extends React.Component {
     }
   }
   componentDidMount () {
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
-      window.location.reload();
-      return false
-    }
     this.setState({
       orderNumber: this.props.match.params.orderNumber
     }, () => {
@@ -93,7 +88,7 @@ class AccountOrders extends React.Component {
       })
   }
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+    
   }
   matchNamefromDict (dictList, id) {
     return find(dictList, ele => ele.id == id)

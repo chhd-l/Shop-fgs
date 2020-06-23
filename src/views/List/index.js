@@ -107,7 +107,7 @@ class List extends React.Component {
     this.toggleFilterModal = this.toggleFilterModal.bind(this)
   }
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+    
   }
   toggleFilterModal (status) {
     this.setState({ filterModalVisible: status })
@@ -132,12 +132,6 @@ class List extends React.Component {
     this.getProductList()
   }
   componentDidMount () {
-    console.log(localStorage.getItem("isRefresh"))
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
-      window.location.reload();
-      return false
-    }
     this.setState({
       category: this.props.match.params.category
     }, () => {
