@@ -591,8 +591,8 @@ export default class ShippingAddressFrom extends React.Component {
                               value={addressForm.postCode}
                               onChange={e => this.handleInputChange(e)}
                               onBlur={e => this.inputBlur(e)}
-                              maxLength="5"
-                              minLength="5"
+                              // maxLength="5"
+                              // minLength="5"
                               data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                               autoComplete="postal-code" />
                             <label className="rc-input__label" htmlFor="zipCode"></label>

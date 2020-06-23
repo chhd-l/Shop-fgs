@@ -326,8 +326,8 @@ export default class BillingAddressForm extends React.Component {
                   onChange={(e) => this.billingInputChange(e)}
                   onBlur={(e) => this.inputBlur(e)}
                   name="postCode"
-                  maxLength="6"
-                  minLength="6"
+                  // maxLength="6"
+                  // minLength="6"
                   data-js-pattern="(^\d{6}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                 />
                 <label
