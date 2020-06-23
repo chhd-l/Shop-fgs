@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import "./index.css";
 import Loading from "@/components/Loading";
 import { login } from "@/api/login";
-import { getCustomerInfo } from "@/api/user"
-import { getDictionary } from '@/utils/utils'
-// import cat from "@/assets/images/login/login_cat.png"
-// import dog from "@/assets/images/login/login_dog.png"
+import { getCustomerInfo } from "@/api/user";
+import { getDictionary } from "@/utils/utils";
+import bg1 from "@/assets/images/login-bg1.png";
+import bg2 from "@/assets/images/login-bg2.png";
 
 class Login extends React.Component {
   constructor(props) {
@@ -18,52 +18,54 @@ class Login extends React.Component {
         customerAccount: "",
         customerPassword: "",
       },
-      loginPasswordType: 'password',
-      registerPwdType: 'password',
-      registerConfirmPwdType: 'password',
+      loginPasswordType: "password",
+      registerPwdType: "password",
+      registerConfirmPwdType: "password",
 
       registerForm: {
-        firstName: '',
-        lastName: '',
+        firstName: "",
+        lastName: "",
         country: 6,
-        email: '',
-        password: '',
-        confirmPassword: '',
-        securityQuestion: '',
-        answer: '',
+        email: "",
+        password: "",
+        confirmPassword: "",
+        securityQuestion: "",
+        answer: "",
         firstChecked: false,
         secondChecked: false,
         thirdChecked: false,
       },
-      countryList: [{
-        id: 6,
-        name: 'Mexico'
-      }],
-      errorMsg: '',
-      successMsg: '',
+      countryList: [
+        {
+          id: 6,
+          name: "Mexico",
+        },
+      ],
+      errorMsg: "",
+      successMsg: "",
+      type: 'login'
     };
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
   }
-  componentDidMount () {
-
+  componentDidMount() {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
-      return false
+      return false;
     }
-    getDictionary({ type: 'country' })
-      .then(res => {
+    getDictionary({ type: "country" })
+      .then((res) => {
         this.setState({
-          countryList: res
-        })
+          countryList: res,
+        });
       })
-      .catch(err => {
-        this.showErrorMsg(err.toString() || 'get data failed')
-      })
+      .catch((err) => {
+        this.showErrorMsg(err.toString() || "get data failed");
+      });
   }
-  loginFormChange (e) {
+  loginFormChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -77,105 +79,111 @@ class Login extends React.Component {
     const { registerForm } = this.state;
     registerForm[field] = value;
     this.setState({
-      registerForm: registerForm
+      registerForm: registerForm,
     });
   };
-  async loginClick () {
+  async loginClick() {
     const { history } = this.props;
     let res = await login(this.state.loginForm);
     console.log(this.state.loginForm, res, "haha");
     localStorage.setItem("rc-token", res.context.token);
-    let userinfo = res.context.customerDetail
-    userinfo.customerAccount = res.context.accountName
+    let userinfo = res.context.customerDetail;
+    userinfo.customerAccount = res.context.accountName;
 
-    let customerInfoRes = await getCustomerInfo()
-    const context = customerInfoRes.context
-    userinfo.defaultClinics = customerInfoRes.context.defaultClinics
+    let customerInfoRes = await getCustomerInfo();
+    const context = customerInfoRes.context;
+    userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
     localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
 
-    history.push((this.props.location.state && this.props.location.state.redirectUrl) || '/account')
+    history.push(
+      (this.props.location.state && this.props.location.state.redirectUrl) ||
+        "/account"
+    );
   }
   register = () => {
-    const { registerForm } = this.state
-    const objKeys = Object.keys(registerForm)
-    let requiredVerify = true
+    const { registerForm } = this.state;
+    const objKeys = Object.keys(registerForm);
+    let requiredVerify = true;
     for (let i = 0; i < objKeys.length; i++) {
       if (!registerForm[objKeys[i]]) {
-        requiredVerify = false
+        requiredVerify = false;
       }
     }
     if (!requiredVerify) {
-      this.showErrorMsg('You have mandatory fields not filled out!')
-      return false
+      this.showErrorMsg("You have mandatory fields not filled out!");
+      return false;
     }
-    if (!(this.nameVerify(registerForm.firstName) && this.nameVerify(registerForm.lastName))) {
-      this.showErrorMsg('First Name or Last Name cannot exceed 50 characters!')
-      return false
+    if (
+      !(
+        this.nameVerify(registerForm.firstName) &&
+        this.nameVerify(registerForm.lastName)
+      )
+    ) {
+      this.showErrorMsg("First Name or Last Name cannot exceed 50 characters!");
+      return false;
     }
     if (!this.emailVerify(registerForm.email)) {
-      this.showErrorMsg('Your email has not been verified!')
-      return false
+      this.showErrorMsg("Your email has not been verified!");
+      return false;
     }
     if (!this.passwordVerify(registerForm.password)) {
-      this.showErrorMsg('Your password has not been verified!')
-      return false
+      this.showErrorMsg("Your password has not been verified!");
+      return false;
     }
     if (registerForm.password !== registerForm.confirmPassword) {
-      this.showErrorMsg('The two passwords you typed do not match.!')
-      return false
+      this.showErrorMsg("The two passwords you typed do not match.!");
+      return false;
     }
 
     console.log(registerForm);
-
-  }
+  };
 
   showErrorMsg = (message) => {
     this.setState({
-      errorMsg: message
-    })
+      errorMsg: message,
+    });
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     setTimeout(() => {
       this.setState({
-        errorMsg: ''
-      })
-    }, 3000)
-  }
+        errorMsg: "",
+      });
+    }, 3000);
+  };
 
   showSuccessMsg = (message) => {
     this.setState({
-      successMsg: message
-    })
+      successMsg: message,
+    });
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     setTimeout(() => {
       this.setState({
-        successMsg: ''
-      })
-    }, 2000)
-  }
+        successMsg: "",
+      });
+    }, 2000);
+  };
 
   emailVerify = (email) => {
     let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
-    return reg.test(email)
+    return reg.test(email);
   };
   passwordVerify = (password) => {
     //匹配至少包含一个数字、一个字母 8-20 位的密码
     let reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\D]{8,20}$/;
-    return reg.test(password)
-  }
+    return reg.test(password);
+  };
   nameVerify = (name) => {
-    if (name.length > 50)
-      return false
-    else
-      return true
-  }
+    if (name.length > 50) return false;
+    else return true;
+  };
 
-
-
-  render () {
-    const { registerForm } = this.state
+  render() {
+    const { registerForm } = this.state;
     return (
       <div>
-        <div id="embedded-container" className="miaa miaa-wrapper miaa-embedded">
+        <div
+          id="embedded-container"
+          className="miaa miaa-wrapper miaa-embedded"
+        >
           <div
             id="signIn"
             className="miaa-screen janrain-capture-ui capture-ui-content capture_screen_container"
@@ -185,7 +193,7 @@ class Login extends React.Component {
             style={{ display: "block" }}
           >
             <div className="miaa-content">
-              <button
+              {/* <button
                 type="button"
                 className="close"
                 data-dismiss="modal"
@@ -194,13 +202,485 @@ class Login extends React.Component {
                 <span aria-hidden="true">
                   ×
                 </span>
-              </button>
-              <div className="miaa-header">
+              </button> */}
+              {/* <div className="miaa-header">
                 <div className="miaa-inner-content">
                   <div className="miaa-brand-logo mb-5"></div>
                 </div>
+              </div> */}
+              <div
+                style={{
+                  width: "120px",
+                  height: "45px",
+                  margin: "60px auto 40px",
+                }}
+              >
+                <object
+                  id="main-logo"
+                  class="rc-logo-svg rc-logo--primary"
+                  data="https://d1a19ys8w1wkc1.cloudfront.net/logo--primary.svg?v=8-9-5"
+                  type="image/svg+xml"
+                >
+                  <img
+                    src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-9-5"
+                    width="150"
+                    height="100"
+                    alt="Royal Canin logo"
+                    style={{
+                      backgroundImage:
+                        "url(https://d1a19ys8w1wkc1.cloudfront.net/logo--primary.png?v=8-9-5)",
+                    }}
+                  />
+                </object>
               </div>
-              <div className="miaa-toggle-wrapper">
+              <div class="rc-layout-container rc-two-column" style={{display: this.state.type === 'login'?'block': 'none'}}>
+                <div class="rc-column">
+                  <h1 class="rc-espilon">
+                    <img
+                      src={bg1}
+                      style={{ display: "inline", width: "30%" }}
+                    />
+                    <img
+                      src={bg2}
+                      style={{ display: "inline", width: "70%" }}
+                    />
+                  </h1>
+                </div>
+
+                <div class="rc-column">
+                  <h1 class="rc-espilon">
+                    <h3><span style={{color: '#666'}}>Welcome to</span> Royal Canin</h3>
+                    <div style={{ width: '70%' }}>
+                    <div style={{ marginTop: "40px" }}>
+                      <div className="miaa_input required ">
+                        <input
+                          type="email"
+                          className="capture_signInEmailAddress capture_required capture_text_input form-control"
+                          placeholder="Email Address *"
+                          name="customerAccount"
+                          value={this.state.loginForm.customerAccount}
+                          onChange={(e) => this.loginFormChange(e)}
+                        />
+                      </div>
+                      {/* <span
+                        class="rc-input rc-input--inline rc-input--label"
+                        style={{ width: "100%" }}
+                      >
+                        <input
+                          class="rc-input__control"
+                          id="email"
+                          type="text"
+                          name="text"
+                        />
+                        <label class="rc-input__label" for="email">
+                          <span class="rc-input__label-text">
+                            Email Address
+                          </span>
+                        </label>
+                      </span> */}
+                    </div>
+                    <div style={{ marginTop: "40px" }}>
+                      <div className="miaa_input required ">
+                        <div className="input-append input-group">
+                          <input
+                            id="capture_signIn_currentPassword"
+                            data-capturefield="currentPassword"
+                            type={this.state.loginPasswordType}
+                            className="capture_currentPassword capture_required capture_text_input form-control"
+                            placeholder="Password *"
+                            name="customerPassword"
+                            value={this.state.loginForm.customerPassword}
+                            onChange={(e) => this.loginFormChange(e)}
+                          />
+                          <span
+                            tabIndex="100"
+                            title="Show / hide password"
+                            className="add-on input-group-addon"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              let type =
+                                this.state.loginPasswordType === "password"
+                                  ? "text"
+                                  : "password";
+                              this.setState({
+                                loginPasswordType: type,
+                              });
+                            }}
+                          >
+                            <i className="icon-eye-open fa fa-eye"></i>
+                          </span>
+                        </div>
+                      </div>
+                      {/* <span
+                        class="rc-input rc-input--inline rc-input--label"
+                        style={{ width: "100%" }}
+                      >
+                        <input
+                          class="rc-input__control"
+                          id="password"
+                          type="text"
+                          name="text"
+                        />
+                        <label class="rc-input__label" for="password">
+                          <span class="rc-input__label-text">Password</span>
+                        </label>
+                      </span> */}
+                    </div>
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "60px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <div
+                        class="rc-input rc-input--inline"
+                        style={{ float: "left" }}
+                      >
+                        <input
+                          class="rc-input__checkbox"
+                          id="id-checkbox-cat"
+                          value="Cat"
+                          type="checkbox"
+                          name="checkbox-1"
+                        />
+                        <label
+                          class="rc-input__label--inline"
+                          for="id-checkbox-cat"
+                          style={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Remember Me
+                        </label>
+                      </div>
+
+                      <p style={{ float: "right" }}>
+                        <a
+                          class="rc-styled-link"
+                          href="#/"
+                          style={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Forget password?
+                        </a>
+                      </p>
+                    </div>
+                    <div
+                      class="rc-layout-container rc-two-column"
+                      style={{ width: "100%" }}
+                    >
+                      <div class="rc-column" style={{ textAlign: "center" }}>
+                        <button
+                          class="rc-btn rc-btn--one"
+                          style={{ width: "100%" }}
+                          onClick={() => {
+                            this.setState({type: 'register'})
+                          }}
+                        >
+                          Create an account
+                        </button>
+                      </div>
+                      <div class="rc-column" style={{ textAlign: "center" }}>
+                        <button
+                          class="rc-btn rc-btn--two"
+                          style={{ width: "100%" }}
+                          onClick={() => this.loginClick()}
+                        >
+                          Log in
+                        </button>
+                      </div>
+                    </div>
+                    <a
+                      class="rc-styled-link"
+                      href="#/"
+                      style={{ color: "#666", fontSize: "14px" }}
+                    >
+                      Continue with a guest>
+                    </a>
+                    </div>
+                  </h1>
+                </div>
+              </div>
+              <div style={{display: this.state.type === 'register'?'block': 'none'}} className="register">
+              <h3 style={{textAlign: 'center', color: '#e2001a'}}><span style={{color: '#666'}}>Welcome to</span> Royal Canin</h3>
+              <div style={{ width: "50%", margin: "0 auto" }}>
+                <div class="rc-layout-container rc-two-column">
+                  <div class="rc-column">
+                    <div className="miaa_input required">
+                      <input
+                        id="capture_traditionalRegistration_firstName"
+                        data-capturefield="firstName"
+                        type="text"
+                        className="capture_firstName capture_required capture_text_input form-control"
+                        placeholder="First Name *"
+                        name="firstName"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          this.registerFormChange({
+                            field: "firstName",
+                            value,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div class="rc-column">
+                    <div className="miaa_input required">
+                      <input
+                        id="capture_traditionalRegistration_lastName"
+                        data-capturefield="lastName"
+                        type="text"
+                        className="capture_lastName capture_required capture_text_input form-control"
+                        placeholder="Last Name *"
+                        name="lastName"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          this.registerFormChange({
+                            field: "lastName",
+                            value,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="rc-layout-container rc-two-column">
+                  <div class="rc-column">
+                    <div className="miaa_input required">
+                      <input
+                        id="capture_traditionalRegistration_email"
+                        data-capturefield="email"
+                        type="email"
+                        className="capture_email capture_required capture_text_input form-control"
+                        placeholder="Email Address *"
+                        name="email"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          this.registerFormChange({
+                            field: "email",
+                            value,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div class="rc-column">
+                    <div className="miaa_input required country_select">
+                      <select
+                        data-js-select=""
+                        id="country"
+                        value={registerForm.country}
+                        placeholder="Country *"
+                        name="country"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // value = value === '' ? null : value;
+                          this.registerFormChange({
+                            field: "country",
+                            value,
+                          });
+                        }}
+                      >
+                        {this.state.countryList.map((item) => (
+                          <option value={item.id} key={item.id}>
+                            {item.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="rc-layout-container rc-two-column">
+                  <div class="rc-column">
+                    <div className="input-append input-group miaa_input required">
+                      <input
+                        autoComplete="off"
+                        data-capturefield="password"
+                        type={this.state.registerPwdType}
+                        className="capture_password capture_required capture_text_input form-control"
+                        placeholder="Password *"
+                        name="password"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          this.registerFormChange({
+                            field: "password",
+                            value,
+                          });
+                        }}
+                      />
+                      <span
+                        tabIndex="100"
+                        title="Show / hide password"
+                        className="add-on input-group-addon"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          let type =
+                            this.state.registerPwdType === "password"
+                              ? "text"
+                              : "password";
+                          this.setState({
+                            registerPwdType: type,
+                          });
+                        }}
+                      >
+                        <i className="icon-eye-open fa fa-eye"></i>
+                      </span>
+                    </div>
+                    <p style={{ marginTop: "-20px" }}>
+                      {" "}
+                      <FormattedMessage id="login.passwordTip" />{" "}
+                    </p>
+                  </div>
+                  <div class="rc-column">
+                    <div className="input-append input-group miaa_input required">
+                      <input
+                        autoComplete="off"
+                        data-capturefield="confirmPassword"
+                        type={this.state.registerConfirmPwdType}
+                        className="capture_password capture_required capture_text_input form-control"
+                        placeholder="Confirm Password *"
+                        name="confirmPassword"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          this.registerFormChange({
+                            field: "confirmPassword",
+                            value,
+                          });
+                        }}
+                      />
+                      <span
+                        tabIndex="100"
+                        title="Show / hide password"
+                        className="add-on input-group-addon"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          let type =
+                            this.state.registerConfirmPwdType === "password"
+                              ? "text"
+                              : "password";
+                          this.setState({
+                            registerConfirmPwdType: type,
+                          });
+                        }}
+                      >
+                        <i className="icon-eye-open fa fa-eye"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="rc-layout-container rc-two-column">
+                  <div class="rc-column">
+                    <div className="miaa_input required country_select">
+                      <select
+                        data-js-select=""
+                        id="securityQuestion"
+                        value={registerForm.securityQuestion}
+                        name="securityQuestion"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // value = value === '' ? null : value;
+                          this.registerFormChange({
+                            field: "securityQuestion",
+                            value,
+                          });
+                        }}
+                      >
+                        <option value="" disabled>
+                          Security Question *
+                        </option>
+                        {this.state.countryList.map((item) => (
+                          <option value={item.id} key={item.id}>
+                            {item.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="rc-column">
+                    <div className="miaa_input required">
+                      <input
+                        id="capture_traditionalRegistration_firstName"
+                        data-capturefield="answer"
+                        type="text"
+                        className="capture_firstName capture_required capture_text_input form-control"
+                        placeholder="Answer *"
+                        name="answer"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          this.registerFormChange({
+                            field: "answer",
+                            value,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style={{ textAlign: "center" }}>
+                {/* <div class="rc-input rc-input--inline">
+                  <input
+                    class="rc-input__checkbox"
+                    id="id-checkbox-cat"
+                    value="Cat"
+                    type="checkbox"
+                    name="checkbox-1"
+                  />
+                  <label
+                    class="rc-input__label--inline"
+                    for="id-checkbox-cat"
+                    style={{ color: "#666", fontSize: "14px" }}
+                  >
+                    Remember Me
+                  </label>
+                </div> */}
+                <label
+                          htmlFor="capture_traditionalRegistration_privacyAndTermsStatus"
+                          className="form-check-label"
+                        >
+                          <input
+                            id="capture_traditionalRegistration_privacyAndTermsStatus"
+                            data-capturefield="privacyAndTermsStatus"
+                            value={registerForm.firstChecked}
+                            type="checkbox"
+                            className="capture_privacyAndTermsStatus capture_required capture_input_checkbox form-check-input"
+                            name="firstChecked"
+                            onChange={(e) => {
+                              let value = (e.target).value === 'false' ? true : false;
+                              this.registerFormChange({
+                                field: 'firstChecked',
+                                value
+                              });
+                            }}
+                          />
+                            I have read the
+                          <a
+                            href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html/"
+                            target="_blank" rel='noreferrer'
+                          >
+                            <font> User Agreement </font>
+                          </a>
+                              and the
+                          <a
+                            href="https://www.mars.com/global/policies/privacy/pp-russian/"
+                            target="_blank" rel='noreferrer'
+                          >
+                            <font> Privacy Policy </font>
+                          </a>
+                              and give my consent to the processing of
+                              personal data, including cross-border transfer
+                        </label>
+              </div>
+              <p style={{ textAlign: "center" }}>
+                <button class="rc-btn rc-btn--two" onClick={() => this.register()}>Create an account</button>
+                or
+                <a class="rc-styled-link" onClick={(e) => {
+                            e.preventDefault()
+                            this.setState({type: 'login'})
+                          }}>
+                  Log in
+                </a>
+              </p>
+              </div>
+              {/* <div className="miaa-toggle-wrapper">
                 <div className="miaa-inner-content">
                   <div className="row no-gutters">
                     <a
@@ -225,9 +705,6 @@ class Login extends React.Component {
                     >
                       <div>
                         <FormattedMessage id="login.register" />
-                        {/* <span data-i18n="toggleSignInRegister_Register">
-                            Create a personal account
-                        </span> */}
                       </div>
                     </a>
                   </div>
@@ -651,7 +1128,7 @@ class Login extends React.Component {
 
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

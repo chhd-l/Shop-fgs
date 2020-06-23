@@ -15514,7 +15514,6 @@ input.radio {
 .input__checkbox:checked+.label--inline:after {
   content: "";
   position: absolute;
-  /* background-image: url(../../images/icons/royal-canin.sprite--brand1.svg); */
   background-position: 92.31% 50%;
   top: -4px;
   left: -3px;
