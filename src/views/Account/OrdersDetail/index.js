@@ -112,7 +112,8 @@ class AccountOrders extends React.Component {
           Array.from(progressList, item => {
             const tpm = find(tradeEventLogs, ele => ele.eventType.includes(item.backendName))
             if (tpm) {
-              item.time = tpm.eventTime.substr(11, 8)
+              item.time1 = tpm.eventTime.substr(0, 10)
+              item.time2 = tpm.eventTime.substr(11, 8)
             }
             return item
           })
@@ -247,7 +248,7 @@ class AccountOrders extends React.Component {
                             {
                               currentProgerssIndex > -1
                                 ? <div className="rc-progress-stepped order-progress">
-                                  <ol className="rc-list d-flex mb-4">
+                                  <ol className="rc-list d-flex order-progress-mb">
                                     {
                                       this.state.progressList.map((item, i) => (
                                         <li
@@ -256,9 +257,12 @@ class AccountOrders extends React.Component {
                                           <span className="rc-progress-stepped__link">
                                             {i + 1}
                                             <br />
-                                            <span className="order-progress-text">
-                                              {item.displayName}<br />{item.time}&nbsp;
-                                        </span>
+                                            <span className="order-progress-text md-up">
+                                              {item.displayName}<br />{item.time1}&nbsp;{item.time2}
+                                            </span>
+                                            <span className="order-progress-text md-down">
+                                              {item.displayName}<br />{item.time1}&nbsp;<br />{item.time2}&nbsp;
+                                            </span>
                                           </span>
                                         </li>
                                       ))
@@ -292,10 +296,10 @@ class AccountOrders extends React.Component {
                             <hr className="rc-margin-top---none" />
                             <div className="order__listing">
                               <div className="order-list-container">
-                                <div className="card-container mt-0 border-0">
+                                <div className="card-container mt-0 border-0 pl-2 pr-2">
                                   {details.tradeItems.map((item, i) => (
-                                    <div className={`row align-items-center ${i ? 'pt-3' : ''} ${i !== details.tradeItems.length - 1 ? 'border-bottom pb-3' : ''}`} key={i}>
-                                      <div className="col-12 col-md-5 d-flex">
+                                    <div className={`row align-items-center ${i ? 'pt-3' : ''} ${i !== details.tradeItems.length - 1 ? 'pb-3' : ''}`} key={i}>
+                                      <div className="col-12 col-md-4 d-flex">
                                         <img
                                           className="img-fluid"
                                           src={item.pic || IMG_DEFAULT}
@@ -313,10 +317,10 @@ class AccountOrders extends React.Component {
                                       <div className="col-9 col-md-3 text-right text-md-left">
                                         {item.num} x
                                       </div>
-                                      <div className="col-3 col-md-2 text-right text-md-left">
+                                      <div className="col-3 col-md-4 text-right text-md-left">
                                         {formatMoney(item.price)}
                                       </div>
-                                      <div className="col-12 col-md-2 text-right text-md-left">
+                                      <div className="col-12 col-md-1 text-right text-md-left text-nowrap">
                                         {formatMoney(item.price * item.num)}
                                       </div>
                                     </div>
@@ -329,36 +333,37 @@ class AccountOrders extends React.Component {
                               <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="total" />
                               </div>
-                              <div className="col-3 col-xxl-1 medium">{formatMoney(details.tradePrice.originPrice)}</div>
+                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(details.tradePrice.originPrice)}</div>
                               {
                                 details.tradePrice.discountsPrice
                                   ? <>
                                     <div className="col-9 col-xxl-11 text-right color-999 red">
                                       <FormattedMessage id="promotion" />
                                     </div>
-                                    <div className="col-3 col-xxl-1 red medium">-{formatMoney(details.tradePrice.discountsPrice)}</div>
+                                    <div className="col-3 col-xxl-1 red medium text-nowrap">-{formatMoney(details.tradePrice.discountsPrice)}</div>
                                   </>
                                   : null
                               }
                               <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="shipping" />
                               </div>
-                              <div className="col-3 col-xxl-1 medium">{formatMoney(0)}</div>
+                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(0)}</div>
                               <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="totalIncluIVA" />
                               </div>
-                              <div className="col-3 col-xxl-1 medium">{formatMoney(details.tradePrice.totalPrice)}</div>
+                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(details.tradePrice.totalPrice)}</div>
                             </div>
                             <hr className="rc-margin-top---none" />
                             <div className="row ml-2 mr-2">
                               <div className="col-12 col-md-4 mb-2">
                                 <i className="rc-icon rc-delivery--sm rc-brand1 m-1" />
                                 <FormattedMessage id="delivery2" />
-                                <div>
+                                <div className="ml-1">
                                   <span className="medium">{details.consignee.name}</span><br />
                                   {details.consignee.postCode}, {details.consignee.phone}<br />
                                   {this.matchNamefromDict(this.state.countryList, details.consignee.countryId)}{' '}{this.matchNamefromDict(this.state.cityList, details.consignee.cityId)}<br />
-                                  {details.consignee.address}<br />
+                                  {details.consignee.detailAddress1}<br />
+                                  {details.consignee.detailAddress2}{details.consignee.detailAddress2 ? <br /> : null}
                                   {details.consignee.rfc}{details.consignee.rfc ? <br /> : null}
                                   {details.buyerRemark}
                                 </div>
@@ -366,11 +371,12 @@ class AccountOrders extends React.Component {
                               <div className="col-12 col-md-4 mb-2">
                                 <i className="rc-icon rc-rewind rc-billing rc-brand1" />
                                 <FormattedMessage id="billing" />
-                                <div>
+                                <div className="ml-1">
                                   <span className="medium">{details.invoice.contacts}</span><br />
                                   {details.invoice.postCode}, {details.invoice.phone}<br />
                                   {this.matchNamefromDict(this.state.countryList, details.invoice.countryId)}{' '}{this.matchNamefromDict(this.state.cityList, details.invoice.cityId)}<br />
-                                  {details.invoice.address}<br />
+                                  {details.invoice.address1}<br />
+                                  {details.invoice.address2}{details.invoice.address2 ? <br /> : null}
                                   {details.invoice.rfc}{details.invoice.rfc ? <br /> : null}
                                 </div>
                               </div>
@@ -380,10 +386,10 @@ class AccountOrders extends React.Component {
                                     ? <>
                                       <i className="rc-icon rc-payment--sm rc-brand1 m-1" />
                                       <FormattedMessage id="payment.payment" />
-                                      <div>
+                                      <div className="ml-1">
                                         <img
                                           className="d-inline-block mr-1"
-                                          style={{ width: '20%' }}
+                                          style={{ width: '10%' }}
                                           src={
                                             this.state.creditCardImgObj[payRecord.vendor]
                                               ? this.state.creditCardImgObj[payRecord.vendor]
