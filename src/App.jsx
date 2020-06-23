@@ -18,7 +18,8 @@ import config from './config';
 // import Home from '@/views/Home';
 
 import '@/assets/css/global.css'
-import en_US from '@/lang/en_US'
+// import en_US from '@/lang/en_US'
+import es_ES from '@/lang/es_ES'
 import { IntlProvider } from 'react-intl';
 import { Provider } from "mobx-react"
 // import Store from './store/store';
@@ -66,7 +67,7 @@ const token = localStorage.getItem('rc-token')
 const App = () => (
 
   // <Provider {...store}>
-  <IntlProvider locale="en" messages={en_US}>
+  <IntlProvider locale="es" messages={es_ES}>
     {/* <HashRouter>
     <RouteFilter />
     <ScrollToTop>
