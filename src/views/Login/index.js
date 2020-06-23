@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import "./index.css";
 import Loading from "@/components/Loading";
-import { login } from "@/api/login";
+import { login,getQuestions,register } from "@/api/login";
 import { getCustomerInfo } from "@/api/user"
 import { getDictionary } from '@/utils/utils'
 // import cat from "@/assets/images/login/login_cat.png"
@@ -41,6 +41,7 @@ class Login extends React.Component {
       }],
       errorMsg: '',
       successMsg: '',
+      questionList:[]
     };
   }
   componentWillUnmount () {
@@ -62,7 +63,23 @@ class Login extends React.Component {
       .catch(err => {
         this.showErrorMsg(err.toString() || 'get data failed')
       })
+    getQuestions().then(res=>{
+      if(res.code==='K-000000'){
+
+        this.setState({
+          questionList:res.context
+        })
+      }
+      else{
+        this.showErrorMsg(res.message || 'get data failed')
+      }
+    }).catch(err=>{
+      this.showErrorMsg(err.toString() || 'get data failed')
+    })
   }
+  // getQuestions=()=>{
+    
+  // }
   loginFormChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
@@ -125,7 +142,26 @@ class Login extends React.Component {
       return false
     }
 
-    console.log(registerForm);
+    let params = {
+      "answer": registerForm.answer,
+      "confirmPassword": registerForm.confirmPassword,
+      "country": registerForm.country,
+      "customerPassword": registerForm.password,
+      "email": registerForm.email,
+      "firstName": registerForm.firstName,
+      "lastName": registerForm.lastName,
+      "questionId": registerForm.securityQuestion,
+    }
+
+    console.log(params);
+
+    register(params).then(res=>{
+      console.log(res)
+    }).catch(err=>{
+      this.showErrorMsg(err.toString() || 'Register failed')
+    })
+
+
 
   }
 
@@ -159,7 +195,7 @@ class Login extends React.Component {
   };
   passwordVerify = (password) => {
     //匹配至少包含一个数字、一个字母 8-20 位的密码
-    let reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\D]{8,20}$/;
+    let reg = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d\D]{8,20}$/;
     return reg.test(password)
   }
   nameVerify = (name) => {
@@ -520,8 +556,8 @@ class Login extends React.Component {
 
                             <option value="" disabled>Security Question *</option>
                             {
-                              this.state.countryList.map(item => (
-                                <option value={item.id} key={item.id}>{item.name}</option>
+                              this.state.questionList.map(item => (
+                                <option value={item.id} key={item.id}>{item.question}</option>
                               ))
                             }
                           </select>

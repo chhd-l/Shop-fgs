@@ -355,7 +355,7 @@ const en_US = {
   'login.firstCheck':'',
   'login.secondCheck':' I confirm that I am 18 years old',
   'login.thirdCheck':' I agree to receive the marketing newsletter',
-  'login.passwordTip':'8-20 characters and include at least 1 number and 1 letter',
+  'login.passwordTip':'8-20 characters and include at a lowercase letter, an uppercase letter, a number',
   'requiredFields':'* Required fields',
   'forgetPassword.createNewPassword':'Create new password',
   'forgetPassword.forgetPasswordTip':'You will be sent a letter with instructions for changing the password.',
