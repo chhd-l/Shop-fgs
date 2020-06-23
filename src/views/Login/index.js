@@ -392,6 +392,13 @@ class Login extends React.Component {
                       class="rc-styled-link"
                       href="#/"
                       style={{ color: "#666", fontSize: "14px" }}
+                      onClick={() => {
+                        window.location.href = this.props.location.state &&
+                        this.props.location.state.redirectUrl === '/cart' ?
+                        "/prescription" : "/"
+                      }
+                        
+                      }
                     >
                       Continue with a guest>
                     </a>
