@@ -69,11 +69,6 @@ class AccountOrders extends React.Component {
     }
   }
   componentDidMount () {
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
-      window.location.reload();
-      return false
-    }
     this.setState({
       orderNumber: this.props.match.params.orderNumber
     }, () => {
@@ -93,7 +88,7 @@ class AccountOrders extends React.Component {
       })
   }
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+    
   }
   matchNamefromDict (dictList, id) {
     return find(dictList, ele => ele.id == id)
@@ -357,7 +352,7 @@ class AccountOrders extends React.Component {
                             </div>
                             <hr className="rc-margin-top---none" />
                             <div className="row ml-2 mr-2">
-                              <div className="col-12 col-md-4 mb-2">
+                              <div className="col-12 col-md-5 mb-2">
                                 <i className="rc-icon rc-delivery--sm rc-brand1 m-1" />
                                 <FormattedMessage id="delivery2" />
                                 <div className="ml-1">
@@ -370,7 +365,7 @@ class AccountOrders extends React.Component {
                                   {details.buyerRemark}
                                 </div>
                               </div>
-                              <div className="col-12 col-md-4 mb-2">
+                              <div className="col-12 col-md-5 mb-2">
                                 <i className="rc-icon rc-rewind rc-billing rc-brand1" />
                                 <FormattedMessage id="billing" />
                                 <div className="ml-1">
@@ -382,7 +377,7 @@ class AccountOrders extends React.Component {
                                   {details.invoice.rfc}{details.invoice.rfc ? <br /> : null}
                                 </div>
                               </div>
-                              <div className="col-12 col-md-4 mb-2">
+                              <div className="col-12 col-md-2 mb-2">
                                 {
                                   payRecord
                                     ? <>
@@ -391,7 +386,7 @@ class AccountOrders extends React.Component {
                                       <div className="ml-1">
                                         <img
                                           className="d-inline-block mr-1"
-                                          style={{ width: '10%' }}
+                                          style={{ width: '20%' }}
                                           src={
                                             this.state.creditCardImgObj[payRecord.vendor]
                                               ? this.state.creditCardImgObj[payRecord.vendor]

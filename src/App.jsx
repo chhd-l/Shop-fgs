@@ -131,7 +131,7 @@ const App = () => (
       </Switch>
     </ScrollToTop>
   </HashRouter> */}
-    <Router path="/">
+    <Router forceRefresh={true} path="/">
       {/* <HashRouter> */}
       <RouteFilter />
       <ScrollToTop>

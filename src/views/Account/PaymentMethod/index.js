@@ -58,7 +58,7 @@ export default class PaymentMethod extends React.Component {
   }
 
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+    
   }
   async componentDidMount () {
     // this.getPaymentMethodList()
