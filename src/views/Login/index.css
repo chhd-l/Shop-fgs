@@ -7,7 +7,7 @@
     margin: 0 !important;
   }
   .loginBox {
-    width: 70%;
+    width: 476px;
   }
   .registerBox {
     width: 50%;
@@ -15,6 +15,23 @@
   .buttonGroup {
     width: 40%;
     margin: 0 auto !important;
+  }
+  .imgBox {
+    text-align: right;
+  }
+  .imgBox img {
+    margin-top: 70px;
+    width: 476px;
+  }
+  .forgetBox {
+    width: 420px;
+    margin: 0 auto;
+  }
+  .forgetBox p {
+    font-size: 14px;
+  }
+  .logoImg {
+    margin: 60px auto 40px;
   }
 }
 
@@ -45,6 +62,16 @@
   }
   .register .buttonGroup .rc-column {
     padding-bottom: 1rem;
+  }
+  .imgBox {
+    text-align: center;
+  }
+  .forgetBox .rc-btn {
+    display: inline !important;
+    margin-bottom: 0.5rem;
+  }
+  .logoImg {
+    margin: 20px auto 10px;
   }
 }
 
