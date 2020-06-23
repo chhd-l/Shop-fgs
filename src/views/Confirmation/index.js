@@ -69,7 +69,7 @@ class Confirmation extends React.Component {
       evalutateScore: -1,
       consumerComment: '',
 
-      modalShow: false,
+      modalShow: true,
       operateSuccessModalVisible: false,
       errorMsg: ''
     }

@@ -362,7 +362,7 @@ class PaymentComp extends React.Component {
             }
           </span>
           <span
-            className="red font-weight-normal"
+            className="red font-weight-normal ui-cursor-pointer"
             onClick={() => {
               this.setState({ isEdit: true }, () => {
                 this.scrollToPaymentComp()
@@ -389,7 +389,7 @@ class PaymentComp extends React.Component {
                   creditCardList.map((el, idx) => {
                     return (
                       <div
-                        className={`pl-2 pr-2 creditCompleteInfoBox ${el.selected ? "active" : ""}`}
+                        className={`pl-2 pr-2 creditCompleteInfoBox ui-cursor-pointer ${el.selected ? "active" : ""}`}
                         key={idx}
                         onClick={() => {
                           creditCardList.map((el) => (el.selected = false));

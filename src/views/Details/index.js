@@ -725,9 +725,13 @@ class Details extends React.Component {
                             </div>
                           ) : (
                               <div className="wrap-short-des">
-                                <h1 className="rc-gamma">{details.goodsName}</h1>
-                                <h3>{details.goodsSubtitle}</h3>
-                                <h3>
+                                <h1
+                                  className="rc-gamma ui-text-overflow-line2 text-break"
+                                  title={details.goodsName}>
+                                  {details.goodsName}
+                                </h1>
+                                <h3 className="text-break">{details.goodsSubtitle}</h3>
+                                <h3 className="text-break">
                                   <div className="rating-stars hidden-lg-down">
                                     <div className="product-number-rating clearfix">
                                       <div className="ratings pull-left"></div>

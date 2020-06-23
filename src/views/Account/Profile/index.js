@@ -21,7 +21,10 @@ export default class AccountProfile extends React.Component {
         firstName: '',
         lastName: '',
         birthdate: '',
-        email: ''
+        email: '',
+        country: "Mexico",
+        phoneNumber: '',
+        rfc: ''
       },
       addressBookData: {
         address1: '',
@@ -71,7 +74,10 @@ export default class AccountProfile extends React.Component {
             firstName: context.firstName,
             lastName: context.lastName,
             email: context.email,
-            birthdate: context.birthDay ? context.birthDay.split('-').join('/') : context.birthDay
+            birthdate: context.birthDay ? context.birthDay.split('-').join('/') : context.birthDay,
+            country: context.countryId,
+            phoneNumber: context.contactPhone,
+            rfc: context.reference
           },
           addressBookData: {
             address1: context.house,
@@ -119,30 +125,25 @@ export default class AccountProfile extends React.Component {
                         updateData={() => this.queryCustomerBaseInfo()} />
                     </div>
                     <div className="rc-column rc-padding-x--none--mobile">
-                      <AddressBookEditForm
+                      {/* <AddressBookEditForm
                         originData={this.state.originData}
                         data={this.state.addressBookData}
-                        updateData={() => this.queryCustomerBaseInfo()} />
-                    </div>
-                  </div>
-                  <div className="rc-layout-container rc-two-column">
-                    <div className="rc-column rc-padding-x--none--mobile">
+                        updateData={() => this.queryCustomerBaseInfo()} /> */}
                       <CommunicationDataEditForm
                         originData={this.state.originData}
                         data={this.state.communicationData}
                         updateData={() => this.queryCustomerBaseInfo()} />
                     </div>
+                  </div>
+                  <div className="rc-layout-container rc-two-column">
                     <div className="rc-column rc-padding-x--none--mobile">
                       <ClinicEditForm
                         originData={this.state.originData}
                         data={this.state.clinicData}
                         updateData={() => this.queryCustomerBaseInfo()} />
                     </div>
-                    
-                  </div>
-                  <div className="rc-layout-container rc-two-column">
                     <div className="rc-column rc-padding-x--none--mobile">
-                      <PasswordForm></PasswordForm>
+                      <PasswordForm />
                     </div>
                   </div>
                 </div>
