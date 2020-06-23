@@ -27,9 +27,7 @@
 .address-item.selected { 
   border-color: rgba(255, 0, 0, .5);
 }
-.address-item:hover .addr-btn-edit {
-  /* display: inline-block; */
-}
+
 .address-item .addr-btn-edit {
   /* display: none; */
   white-space: nowrap;
@@ -57,22 +55,9 @@
 }
 .address-item .address-name:hover,
 .address-item.selected .address-name{
-  /* border-width: 2px!important; */
-  /* border-color: #ec001a!important; */
   color: red
 }
 
-/* .address-item.selected .icon-gou{
-  right: 0;
-  bottom: 6px;
-  font-size: 0;
-} */
-/* .address-item.selected .icon-gou .icon-ok {
-  position: absolute;
-  right: 0;
-  transform: rotate(45deg) scale(.4) translate(68%, -8%);
-  transform-origin: bottom right;
-} */
 .addr-switch {
   display: inline-block;
   vertical-align: middle;

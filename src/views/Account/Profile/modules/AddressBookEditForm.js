@@ -84,7 +84,12 @@ export default class AddressBookEditForm extends React.Component {
   handleInputChange (e) {
     const target = e.target
     const { form } = this.state
-    form[target.name] = target.value
+    const name = target.name
+    let value = target.value
+    if (name === 'postCode') {
+      value = value.replace(/\s+/g,"")
+    }
+    form[name] = value
     this.setState({ form: form })
     this.inputBlur(e);
   }

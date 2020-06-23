@@ -301,7 +301,7 @@ export default class LoginDeliveryAddress extends React.Component {
                                 className={`address-item ${item.selected ? 'selected' : ''} ${foledMore && !item.selected ? 'hidden' : ''}`} key={item.deliveryAddressId}
                                 onClick={() => this.selectAddress(i)}>
                                 <div className="row align-items-center pt-3 pb-3 ml-2 mr-2 border-bottom">
-                                  <div className="d-flex align-items-center justify-content-between col-3 col-md-3 address-name">
+                                  <div className="d-flex align-items-center justify-content-between col-12 col-md-3 address-name">
                                     {
                                       item.selected
                                         ? <svg width="24" height="32">
@@ -313,7 +313,7 @@ export default class LoginDeliveryAddress extends React.Component {
                                     }
                                     <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span>
                                   </div>
-                                  <div className="col-8 col-md-8">
+                                  <div className="col-10 col-md-8">
                                     {[item.consigneeName, item.consigneeNumber].join(', ')}
                                     <br />
                                     {[
@@ -329,14 +329,9 @@ export default class LoginDeliveryAddress extends React.Component {
                                         : null
                                     }
                                   </div>
-                                  <div className="col-1 col-md-1 rc-md-up text-right">
+                                  <div className="col-2 col-md-1 text-right">
                                     <a className="addr-btn-edit border-left pl-2" onClick={() => this.addOrEditAddress(i)}>
                                       {/* <span className="rc-icon rc-edit--xs rc-iconography"></span> */}
-                                      <FormattedMessage id="edit" />
-                                    </a>
-                                  </div>
-                                  <div className="col-1 col-md-1 rc-md-down">
-                                    <a className="rc-styled-link" onClick={() => this.addOrEditAddress(i)}>
                                       <FormattedMessage id="edit" />
                                     </a>
                                   </div>
