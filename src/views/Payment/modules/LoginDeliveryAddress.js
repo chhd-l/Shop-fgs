@@ -214,7 +214,7 @@ export default class LoginDeliveryAddress extends React.Component {
       postCode: deliveryAddress.postCode,
       provinceId: 0,
       rfc: deliveryAddress.rfc,
-      type: this.props.type
+      type: this.props.type.toUpperCase()
     }
     try {
       this.setState({ saveLoading: true })
