@@ -19,9 +19,6 @@ import Loading from "@/components/Loading";
 import ConfirmTooltip from '@/components/ConfirmTooltip'
 
 class PaymentComp extends React.Component {
-  static defaultProps = {
-    listColClassName: ['col-sm-4', 'col-sm-8']
-  }
   constructor(props) {
     super(props);
     this.state = {
@@ -349,7 +346,7 @@ class PaymentComp extends React.Component {
         id="PaymentComp"
         className={`loginCardBox ${Store.isLogin ? '' : 'hidden'} ${this.state.isEdit && window.location.pathname === "/payment/payment" ? 'rc-border-all rc-border-colour--interface checkout--padding' : ''}`}>
         {this.state.loading ? <Loading positionFixed="true" /> : null}
-        <div className={`table-toolbar d-flex justify-content-between p-0 ${!this.state.isEdit ? '' : 'hidden-xxl-down'}`}>
+        <div className={`table-toolbar d-flex flex-wrap justify-content-between p-0 ${!this.state.isEdit ? '' : 'hidden-xxl-down'}`}>
           <span className="t-gray">
             {
               creditCardList.length > 1
@@ -389,7 +386,7 @@ class PaymentComp extends React.Component {
                   creditCardList.map((el, idx) => {
                     return (
                       <div
-                        className={`pl-2 pr-2 creditCompleteInfoBox ui-cursor-pointer ${el.selected ? "active" : ""}`}
+                        className={`pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer ${el.selected ? "active" : ""}`}
                         key={idx}
                         onClick={() => {
                           creditCardList.map((el) => (el.selected = false));
@@ -398,8 +395,8 @@ class PaymentComp extends React.Component {
                             this.props.getSelectedValue(el);
                           this.setState({ creditCardList });
                         }}>
-                        <div className={`pt-2 pb-3 ${idx !== creditCardList.length - 1 ? 'border-bottom' : ''} `}>
-                          <p>
+                        <div className={`pt-3 pb-3 ${idx !== creditCardList.length - 1 ? 'border-bottom' : ''} `}>
+                          <div className="overflow-hidden position-absolute" style={{ right: '1%', top: '2%', zIndex: 1 }}>
                             <span className="pull-right position-relative border-left pl-2 ui-cursor-pointer-pure">
                               <span onClick={() => this.updateConfirmTooltipVisible(el, true)}>
                                 <FormattedMessage id="delete" />
@@ -422,19 +419,16 @@ class PaymentComp extends React.Component {
                             >
                               <FormattedMessage id="edit" />
                             </span>
-                          </p>
+                          </div>
                           <div className="row">
-                            <div className={`${this.props.listColClassName[0]} d-flex flex-column justify-content-center pl-0`}>
-                              <img
-                                src={
-                                  this.state.creditCardImgObj[el.vendor]
-                                    ? this.state.creditCardImgObj[el.vendor]
-                                    : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
-                                }
-                                alt=""
-                              />
+                            <div className={`col-6 col-sm-3 d-flex flex-column justify-content-center`}>
+                              <img src={
+                                this.state.creditCardImgObj[el.vendor]
+                                  ? this.state.creditCardImgObj[el.vendor]
+                                  : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
+                              } />
                             </div>
-                            <div className={`${this.props.listColClassName[1]} d-flex flex-column justify-content-around pr-0`}>
+                            <div className={`col-12 col-sm-9 d-flex flex-column justify-content-around`}>
                               <div className="row ui-margin-top-1-md-down">
                                 <div className="col-12 color-999">
                                   <FormattedMessage id="name2" /><br />

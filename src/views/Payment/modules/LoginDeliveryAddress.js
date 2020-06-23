@@ -323,7 +323,7 @@ export default class LoginDeliveryAddress extends React.Component {
                                     ].join(', ')}
                                     {
                                       item.isDefaltAddress === 1
-                                        ? <span className="icon-default rc-bg-colour--brand1">
+                                        ? <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
                                           <FormattedMessage id="default" />
                                         </span>
                                         : null
@@ -341,7 +341,7 @@ export default class LoginDeliveryAddress extends React.Component {
                           }
                           {
                             addressList.length > 1 && <div className="text-center pt-2 pb-2">
-                              <span className="ui-cursor-pointer black" onClick={() => { this.setState({ foledMore: !foledMore }) }}>
+                              <span className="ui-cursor-pointer" onClick={() => { this.setState({ foledMore: !foledMore }) }}>
                                 {
                                   foledMore
                                     ? <React.Fragment>

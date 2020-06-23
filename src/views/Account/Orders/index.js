@@ -290,7 +290,7 @@ export default class AccountOrders extends React.Component {
                                         <p><FormattedMessage id="order.orderDate" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.tradeState.createTime.substr(0, 10)}</span></p>
                                       </div>
                                       <div className="col-12 col-md-2">
-                                        <p><FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.id}</span></p>
+                                        <p className="text-nowrap"><FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.id}</span></p>
                                       </div>
                                       <div className="col-12 col-md-2">
                                         <p><FormattedMessage id="order.orderStatus" /></p>
