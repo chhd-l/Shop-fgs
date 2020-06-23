@@ -56,8 +56,11 @@ export default class AddressForm extends React.Component {
   }
   deliveryInputChange (e) {
     const target = e.target
-    const value = target.type === "checkbox" ? target.checked : target.value
+    let value = target.type === "checkbox" ? target.checked : target.value
     const name = target.name
+    if (name === 'postCode') {
+      value = value.replace(/\s+/g,"")
+    }
     const { deliveryAddress } = this.state
     deliveryAddress[name] = value
     this.inputBlur(e)

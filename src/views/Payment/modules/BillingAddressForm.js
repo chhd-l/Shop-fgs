@@ -56,9 +56,12 @@ export default class BillingAddressForm extends React.Component {
   }
   deliveryInputChange (e) {
     const target = e.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    let value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { deliveryAddress } = this.state;
+    if (name === 'postCode') {
+      value = value.replace(/\s+/g,"")
+    }
     deliveryAddress[name] = value;
     this.inputBlur(e);
     this.setState({ deliveryAddress: deliveryAddress }, () => {
@@ -80,9 +83,12 @@ export default class BillingAddressForm extends React.Component {
   }
   billingInputChange (e) {
     const target = e.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    let value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { billingAddress } = this.state;
+    if (name === 'postCode') {
+      value = value.replace(/\s+/g,"")
+    }
     billingAddress[name] = value;
     this.inputBlur(e);
     this.setState({ billingAddress: billingAddress }, () => {

@@ -319,7 +319,12 @@ export default class ShippingAddressFrom extends React.Component {
   handleInputChange (e) {
     const target = e.target
     const { addressForm } = this.state
-    addressForm[target.name] = target.value
+    const name = target.name
+    let value = target.value
+    if (name === 'postCode') {
+      value = value.replace(/\s+/g,"")
+    }
+    addressForm[name] = value
     this.setState({ addressForm: addressForm })
     this.inputBlur(e);
   }
