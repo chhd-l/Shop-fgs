@@ -8,7 +8,7 @@ import SideMenu from '@/components/SideMenu'
 import Modal from '@/components/Modal'
 import { FormattedMessage } from 'react-intl'
 import { formatMoney, getDictionary } from "@/utils/utils"
-import { find } from 'lodash'
+import { find, findIndex } from 'lodash'
 import { getOrderDetails, cancelOrder, getPayRecord, returnFindByTid } from "@/api/order"
 import {
   IMG_DEFAULT,
@@ -46,7 +46,26 @@ class AccountOrders extends React.Component {
       returnOrExchangeModalVisible: false,
       errModalText: '',
       cityList: [],
-      countryList: []
+      countryList: [],
+      progressList: [
+        {
+          backendName: 'Create Order',
+          displayName: 'Create'
+        },
+        {
+          backendName: 'Order payment',
+          displayName: 'Paid'
+        },
+        {
+          backendName: 'DELIVERED',
+          displayName: 'Delivered'
+        },
+        {
+          backendName: 'COMPLETED',
+          displayName: 'Completed'
+        }
+      ],
+      currentProgerssIndex: -1
     }
   }
   componentDidMount () {
@@ -82,13 +101,27 @@ class AccountOrders extends React.Component {
       : id
   }
   init () {
-    const { orderNumber } = this.state
+    const { orderNumber, progressList } = this.state
     this.setState({ loading: true })
     getOrderDetails(orderNumber)
       .then(res => {
+        let tmpIndex = -1
+        const tradeEventLogs = res.context.tradeEventLogs || []
+        if (tradeEventLogs.length) {
+          tmpIndex = findIndex(progressList, ele => tradeEventLogs[0].eventType.includes(ele.backendName))
+          Array.from(progressList, item => {
+            const tpm = find(tradeEventLogs, ele => ele.eventType.includes(item.backendName))
+            if (tpm) {
+              item.time = tpm.eventTime.substr(11, 8)
+            }
+            return item
+          })
+        }
         this.setState({
           details: res.context,
-          loading: false
+          loading: false,
+          currentProgerssIndex: tmpIndex,
+          progressList: progressList
         })
       })
       .catch(err => {
@@ -151,7 +184,7 @@ class AccountOrders extends React.Component {
       && details.tradeState.flowState === 'COMPLETED') {
       return <>
         <a className="color-999 ui-cursor-pointer" title="More" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">•••</a>
-        <div id="bottom-tooltip" class="rc-tooltip text-left pl-1 pr-1">
+        <div id="bottom-tooltip" className="rc-tooltip text-left pl-1 pr-1">
           <div
             className={`border-bottom p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
             onClick={() => this.hanldeItemClick('exchange')}>
@@ -175,7 +208,7 @@ class AccountOrders extends React.Component {
       && details.tradeState.deliverStatus === 'NOT_YET_SHIPPED') {
       ret = <>
         <a className="color-999 ui-cursor-pointer" title="More" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">•••</a>
-        <div id="bottom-tooltip" class="rc-tooltip text-left pl-1 pr-1">
+        <div id="bottom-tooltip" className="rc-tooltip text-left pl-1 pr-1">
           <div
             className={`p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
             onClick={() => { this.setState({ cancelOrderModalVisible: true }) }}>
@@ -193,7 +226,7 @@ class AccountOrders extends React.Component {
         theme: ''
       }
     }
-    const { details, payRecord } = this.state
+    const { details, payRecord, currentProgerssIndex } = this.state
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -211,23 +244,30 @@ class AccountOrders extends React.Component {
                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
                         : details
                           ? <div className="card-body p-0">
-                            <div class="rc-progress-stepped" data-value="">
-                              <ol class="rc-list">
-                                <li class="rc-list__item rc-progress-stepped__item rc-complete">
-                                  <a href="#" class="rc-progress-stepped__link">1</a>
-                                </li>
-                                <li class="rc-list__item rc-progress-stepped__item rc-complete">
-                                  <a href="#" class="rc-progress-stepped__link">2</a>
-                                </li>
-                                <li class="rc-list__item rc-progress-stepped__item rc-current">
-                                  <a href="#" class="rc-progress-stepped__link">3</a>
-                                </li>
-                                <li class="rc-list__item rc-progress-stepped__item">
-                                  <a href="#" class="rc-progress-stepped__link">4</a>
-                                </li>
-                              </ol>
-                              <ol> </ol>
-                            </div>
+                            {
+                              currentProgerssIndex > -1
+                                ? <div className="rc-progress-stepped order-progress">
+                                  <ol className="rc-list d-flex mb-4">
+                                    {
+                                      this.state.progressList.map((item, i) => (
+                                        <li
+                                          key={i}
+                                          className={`rc-list__item rc-progress-stepped__item ${i < currentProgerssIndex ? 'rc-complete' : i == currentProgerssIndex ? 'rc-current' : ''}`}>
+                                          <span className="rc-progress-stepped__link">
+                                            {i + 1}
+                                            <br />
+                                            <span className="order-progress-text">
+                                              {item.displayName}<br />{item.time}&nbsp;
+                                        </span>
+                                          </span>
+                                        </li>
+                                      ))
+                                    }
+                                  </ol>
+                                  <ol> </ol>
+                                </div>
+                                : null
+                            }
                             <hr className="rc-margin-top---none" />
                             <div className="d-flex justify-content-between align-items-center flex-wrap ml-4 mr-4">
                               <div className="">
@@ -239,12 +279,12 @@ class AccountOrders extends React.Component {
                                 <span className="medium">{details.tradeState.createTime.substr(0, 10)}</span>
                               </div>
                               <div className="text-center">
-                                <FormattedMessage id="payment.clinicTitle3" />:<br />
-                                <span className="medium">{details.clinicsName}</span>
+                                <FormattedMessage id="order.orderStatus" />:<br />
+                                <span className="medium">{ORDER_STATUS_ENUM[details.tradeState.flowState] || details.tradeState.flowState}</span>
                               </div>
                               <div className="text-center">
-                                {/* <FormattedMessage id="order.orderStatus" />:<br />
-                                <span className="medium">{ORDER_STATUS_ENUM[details.tradeState.flowState] || details.tradeState.flowState}</span> */}
+                                <FormattedMessage id="payment.clinicTitle3" />:<br />
+                                <span className="medium">{details.clinicsName}</span>
                               </div>
                               {/* {this.returnOrExchangeBtnJSX()} */}
                               {/* {this.cancelOrderBtnJSX()} */}
@@ -312,7 +352,7 @@ class AccountOrders extends React.Component {
                             <hr className="rc-margin-top---none" />
                             <div className="row ml-2 mr-2">
                               <div className="col-12 col-md-4 mb-2">
-                                <i class="rc-icon rc-delivery--sm rc-brand1 m-1" />
+                                <i className="rc-icon rc-delivery--sm rc-brand1 m-1" />
                                 <FormattedMessage id="delivery2" />
                                 <div>
                                   <span className="medium">{details.consignee.name}</span><br />
@@ -324,7 +364,7 @@ class AccountOrders extends React.Component {
                                 </div>
                               </div>
                               <div className="col-12 col-md-4 mb-2">
-                                <i class="rc-icon rc-rewind rc-billing rc-brand1" />
+                                <i className="rc-icon rc-rewind rc-billing rc-brand1" />
                                 <FormattedMessage id="billing" />
                                 <div>
                                   <span className="medium">{details.invoice.contacts}</span><br />
@@ -338,7 +378,7 @@ class AccountOrders extends React.Component {
                                 {
                                   payRecord
                                     ? <>
-                                      <i class="rc-icon rc-payment--sm rc-brand1 m-1" />
+                                      <i className="rc-icon rc-payment--sm rc-brand1 m-1" />
                                       <FormattedMessage id="payment.payment" />
                                       <div>
                                         <img
