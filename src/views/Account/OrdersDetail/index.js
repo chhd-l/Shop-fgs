@@ -8,7 +8,7 @@ import SideMenu from '@/components/SideMenu'
 import Modal from '@/components/Modal'
 import { FormattedMessage } from 'react-intl'
 import { formatMoney, getDictionary } from "@/utils/utils"
-import { find } from 'lodash'
+import { find, findIndex } from 'lodash'
 import { getOrderDetails, cancelOrder, getPayRecord, returnFindByTid } from "@/api/order"
 import {
   IMG_DEFAULT,
@@ -46,7 +46,26 @@ class AccountOrders extends React.Component {
       returnOrExchangeModalVisible: false,
       errModalText: '',
       cityList: [],
-      countryList: []
+      countryList: [],
+      progressList: [
+        {
+          backendName: 'Create Order',
+          displayName: 'Create'
+        },
+        {
+          backendName: 'Order payment',
+          displayName: 'Paid'
+        },
+        {
+          backendName: 'DELIVERED',
+          displayName: 'Delivered'
+        },
+        {
+          backendName: 'COMPLETED',
+          displayName: 'Completed'
+        }
+      ],
+      currentProgerssIndex: -1
     }
   }
   componentDidMount () {
@@ -82,13 +101,28 @@ class AccountOrders extends React.Component {
       : id
   }
   init () {
-    const { orderNumber } = this.state
+    const { orderNumber, progressList } = this.state
     this.setState({ loading: true })
     getOrderDetails(orderNumber)
       .then(res => {
+        let tmpIndex = -1
+        const tradeEventLogs = res.context.tradeEventLogs || []
+        if (tradeEventLogs.length) {
+          tmpIndex = findIndex(progressList, ele => tradeEventLogs[0].eventType.includes(ele.backendName))
+          Array.from(progressList, item => {
+            const tpm = find(tradeEventLogs, ele => ele.eventType.includes(item.backendName))
+            if (tpm) {
+              item.time1 = tpm.eventTime.substr(0, 10)
+              item.time2 = tpm.eventTime.substr(11, 8)
+            }
+            return item
+          })
+        }
         this.setState({
           details: res.context,
-          loading: false
+          loading: false,
+          currentProgerssIndex: tmpIndex,
+          progressList: progressList
         })
       })
       .catch(err => {
@@ -151,7 +185,7 @@ class AccountOrders extends React.Component {
       && details.tradeState.flowState === 'COMPLETED') {
       return <>
         <a className="color-999 ui-cursor-pointer" title="More" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">•••</a>
-        <div id="bottom-tooltip" class="rc-tooltip text-left pl-1 pr-1">
+        <div id="bottom-tooltip" className="rc-tooltip text-left pl-1 pr-1">
           <div
             className={`border-bottom p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
             onClick={() => this.hanldeItemClick('exchange')}>
@@ -175,7 +209,7 @@ class AccountOrders extends React.Component {
       && details.tradeState.deliverStatus === 'NOT_YET_SHIPPED') {
       ret = <>
         <a className="color-999 ui-cursor-pointer" title="More" data-tooltip-placement="bottom" data-tooltip="bottom-tooltip">•••</a>
-        <div id="bottom-tooltip" class="rc-tooltip text-left pl-1 pr-1">
+        <div id="bottom-tooltip" className="rc-tooltip text-left pl-1 pr-1">
           <div
             className={`p-1 ui-cursor-pointer ${this.props.returnOrExchangeLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}
             onClick={() => { this.setState({ cancelOrderModalVisible: true }) }}>
@@ -193,7 +227,7 @@ class AccountOrders extends React.Component {
         theme: ''
       }
     }
-    const { details, payRecord } = this.state
+    const { details, payRecord, currentProgerssIndex } = this.state
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -211,24 +245,36 @@ class AccountOrders extends React.Component {
                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
                         : details
                           ? <div className="card-body p-0">
-                            <div class="rc-progress-stepped" data-value="">
-                              <ol class="rc-list">
-                                <li class="rc-list__item rc-progress-stepped__item rc-complete">
-                                  <a href="#" class="rc-progress-stepped__link">1</a>
-                                </li>
-                                <li class="rc-list__item rc-progress-stepped__item rc-complete">
-                                  <a href="#" class="rc-progress-stepped__link">2</a>
-                                </li>
-                                <li class="rc-list__item rc-progress-stepped__item rc-current">
-                                  <a href="#" class="rc-progress-stepped__link">3</a>
-                                </li>
-                                <li class="rc-list__item rc-progress-stepped__item">
-                                  <a href="#" class="rc-progress-stepped__link">4</a>
-                                </li>
-                              </ol>
-                              <ol> </ol>
-                            </div>
-                            <hr className="rc-margin-top---none" />
+                            {
+                              currentProgerssIndex > -1
+                                ? <>
+                                  <div className="rc-progress-stepped order-progress">
+                                    <ol className="rc-list d-flex order-progress-mb">
+                                      {
+                                        this.state.progressList.map((item, i) => (
+                                          <li
+                                            key={i}
+                                            className={`rc-list__item rc-progress-stepped__item ${i < currentProgerssIndex ? 'rc-complete' : i == currentProgerssIndex ? 'rc-current' : ''}`}>
+                                            <span className="rc-progress-stepped__link">
+                                              {i + 1}
+                                              <br />
+                                              <span className="order-progress-text md-up">
+                                                {item.displayName}<br />{item.time1}&nbsp;{item.time2}
+                                              </span>
+                                              <span className="order-progress-text md-down">
+                                                {item.displayName}<br />{item.time1}&nbsp;<br />{item.time2}&nbsp;
+                                            </span>
+                                            </span>
+                                          </li>
+                                        ))
+                                      }
+                                    </ol>
+                                    <ol> </ol>
+                                  </div>
+                                  <hr className="rc-margin-top---none" />
+                                </>
+                                : null
+                            }
                             <div className="d-flex justify-content-between align-items-center flex-wrap ml-4 mr-4">
                               <div className="">
                                 <FormattedMessage id="order.orderNumber" />:<br />
@@ -239,12 +285,12 @@ class AccountOrders extends React.Component {
                                 <span className="medium">{details.tradeState.createTime.substr(0, 10)}</span>
                               </div>
                               <div className="text-center">
-                                <FormattedMessage id="payment.clinicTitle3" />:<br />
-                                <span className="medium">{details.clinicsName}</span>
+                                <FormattedMessage id="order.orderStatus" />:<br />
+                                <span className="medium">{ORDER_STATUS_ENUM[details.tradeState.flowState] || details.tradeState.flowState}</span>
                               </div>
                               <div className="text-center">
-                                {/* <FormattedMessage id="order.orderStatus" />:<br />
-                                <span className="medium">{ORDER_STATUS_ENUM[details.tradeState.flowState] || details.tradeState.flowState}</span> */}
+                                <FormattedMessage id="payment.clinicTitle3" />:<br />
+                                <span className="medium">{details.clinicsName}</span>
                               </div>
                               {/* {this.returnOrExchangeBtnJSX()} */}
                               {/* {this.cancelOrderBtnJSX()} */}
@@ -252,10 +298,10 @@ class AccountOrders extends React.Component {
                             <hr className="rc-margin-top---none" />
                             <div className="order__listing">
                               <div className="order-list-container">
-                                <div className="card-container mt-0 border-0">
+                                <div className="card-container mt-0 border-0 pl-2 pr-2">
                                   {details.tradeItems.map((item, i) => (
-                                    <div className={`row align-items-center ${i ? 'pt-3' : ''} ${i !== details.tradeItems.length - 1 ? 'border-bottom pb-3' : ''}`} key={i}>
-                                      <div className="col-12 col-md-5 d-flex">
+                                    <div className={`row align-items-center ${i ? 'pt-3' : ''} ${i !== details.tradeItems.length - 1 ? 'pb-3' : ''}`} key={i}>
+                                      <div className="col-12 col-md-4 d-flex">
                                         <img
                                           className="img-fluid"
                                           src={item.pic || IMG_DEFAULT}
@@ -273,10 +319,10 @@ class AccountOrders extends React.Component {
                                       <div className="col-9 col-md-3 text-right text-md-left">
                                         {item.num} x
                                       </div>
-                                      <div className="col-3 col-md-2 text-right text-md-left">
+                                      <div className="col-3 col-md-4 text-right text-md-left">
                                         {formatMoney(item.price)}
                                       </div>
-                                      <div className="col-12 col-md-2 text-right text-md-left">
+                                      <div className="col-12 col-md-1 text-right text-md-left text-nowrap">
                                         {formatMoney(item.price * item.num)}
                                       </div>
                                     </div>
@@ -289,48 +335,50 @@ class AccountOrders extends React.Component {
                               <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="total" />
                               </div>
-                              <div className="col-3 col-xxl-1 medium">{formatMoney(details.tradePrice.originPrice)}</div>
+                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(details.tradePrice.originPrice)}</div>
                               {
                                 details.tradePrice.discountsPrice
                                   ? <>
                                     <div className="col-9 col-xxl-11 text-right color-999 red">
                                       <FormattedMessage id="promotion" />
                                     </div>
-                                    <div className="col-3 col-xxl-1 red medium">-{formatMoney(details.tradePrice.discountsPrice)}</div>
+                                    <div className="col-3 col-xxl-1 red medium text-nowrap">-{formatMoney(details.tradePrice.discountsPrice)}</div>
                                   </>
                                   : null
                               }
                               <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="shipping" />
                               </div>
-                              <div className="col-3 col-xxl-1 medium">{formatMoney(0)}</div>
+                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(0)}</div>
                               <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="totalIncluIVA" />
                               </div>
-                              <div className="col-3 col-xxl-1 medium">{formatMoney(details.tradePrice.totalPrice)}</div>
+                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(details.tradePrice.totalPrice)}</div>
                             </div>
                             <hr className="rc-margin-top---none" />
                             <div className="row ml-2 mr-2">
                               <div className="col-12 col-md-4 mb-2">
-                                <i class="rc-icon rc-delivery--sm rc-brand1 m-1" />
+                                <i className="rc-icon rc-delivery--sm rc-brand1 m-1" />
                                 <FormattedMessage id="delivery2" />
-                                <div>
+                                <div className="ml-1">
                                   <span className="medium">{details.consignee.name}</span><br />
                                   {details.consignee.postCode}, {details.consignee.phone}<br />
                                   {this.matchNamefromDict(this.state.countryList, details.consignee.countryId)}{' '}{this.matchNamefromDict(this.state.cityList, details.consignee.cityId)}<br />
-                                  {details.consignee.address}<br />
+                                  {details.consignee.detailAddress1}<br />
+                                  {details.consignee.detailAddress2}{details.consignee.detailAddress2 ? <br /> : null}
                                   {details.consignee.rfc}{details.consignee.rfc ? <br /> : null}
                                   {details.buyerRemark}
                                 </div>
                               </div>
                               <div className="col-12 col-md-4 mb-2">
-                                <i class="rc-icon rc-rewind rc-billing rc-brand1" />
+                                <i className="rc-icon rc-rewind rc-billing rc-brand1" />
                                 <FormattedMessage id="billing" />
-                                <div>
+                                <div className="ml-1">
                                   <span className="medium">{details.invoice.contacts}</span><br />
                                   {details.invoice.postCode}, {details.invoice.phone}<br />
                                   {this.matchNamefromDict(this.state.countryList, details.invoice.countryId)}{' '}{this.matchNamefromDict(this.state.cityList, details.invoice.cityId)}<br />
-                                  {details.invoice.address}<br />
+                                  {details.invoice.address1}<br />
+                                  {details.invoice.address2}{details.invoice.address2 ? <br /> : null}
                                   {details.invoice.rfc}{details.invoice.rfc ? <br /> : null}
                                 </div>
                               </div>
@@ -338,12 +386,12 @@ class AccountOrders extends React.Component {
                                 {
                                   payRecord
                                     ? <>
-                                      <i class="rc-icon rc-payment--sm rc-brand1 m-1" />
+                                      <i className="rc-icon rc-payment--sm rc-brand1 m-1" />
                                       <FormattedMessage id="payment.payment" />
-                                      <div>
+                                      <div className="ml-1">
                                         <img
                                           className="d-inline-block mr-1"
-                                          style={{ width: '20%' }}
+                                          style={{ width: '10%' }}
                                           src={
                                             this.state.creditCardImgObj[payRecord.vendor]
                                               ? this.state.creditCardImgObj[payRecord.vendor]

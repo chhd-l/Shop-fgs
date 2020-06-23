@@ -672,7 +672,7 @@
   background-color: #f6f6f6;
   border-bottom: 1px solid #979797;
   border-top: 1px solid #979797;
-  padding: 1.25rem
+  /* padding: 1.25rem */
 }
 
 .order__listing .card .card-header:first-child {

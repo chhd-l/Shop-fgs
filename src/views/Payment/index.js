@@ -1367,7 +1367,7 @@ class Payment extends React.Component {
                                       </span>
                                     </p>
                                     <div className="row">
-                                      <div className="col-sm-4 d-flex flex-column justify-content-center">
+                                      <div className="col-6 col-sm-3 d-flex flex-column justify-content-center">
                                         <img
                                           src={
                                             this.state.creditCardImgObj[
@@ -1381,7 +1381,7 @@ class Payment extends React.Component {
                                           alt=""
                                         />
                                       </div>
-                                      <div className="col-sm-8 d-flex flex-column justify-content-around">
+                                      <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
                                         <div className="row creditCompleteInfo ui-margin-top-1-md-down">
                                           <div className="col-12 color-999">
                                             <FormattedMessage id="name2" /><br />

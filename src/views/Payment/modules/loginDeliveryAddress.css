@@ -16,9 +16,9 @@
   background: #ebebeb;
 }
 .address-item {
-  border: 2px solid transparent;
-  border-radius: .2em;
+  border: 1px solid transparent;
   cursor: pointer;
+  transition: all .3s ease-in-out;
 }
 .address-item:hover,
 .address-item.selected {
@@ -43,15 +43,14 @@
 .address-item .address-name {
   padding-top: 4px;
   padding-bottom: 4px;
-  font-weight: bold;
 }
 .address-item .icon-default {
   margin: 5px 10px;
-  color: #fff;
   padding: 0 10px;
   line-height: 20px;
   font-size: .9em;
-  border-radius: 1em
+  border-radius: 1em;
+  border: 1px solid
 }
 .address-item .address-name:hover,
 .address-item.selected .address-name{

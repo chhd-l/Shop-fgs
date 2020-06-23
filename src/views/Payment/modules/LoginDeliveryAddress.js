@@ -66,7 +66,7 @@ export default class LoginDeliveryAddress extends React.Component {
     this.setState({ loading: true })
     try {
       let res = await getAddressList()
-      let addressList = res.context.filter(ele => ele.type.toLowerCase() === this.props.type)
+      let addressList = res.context.filter(ele => ele.type === this.props.type.toUpperCase())
       let tmpId
       const defaultAddressItem = find(addressList, ele => ele.isDefaltAddress === 1)
       if (selectedId && find(addressList, ele => ele.deliveryAddressId === selectedId)) {
@@ -214,7 +214,7 @@ export default class LoginDeliveryAddress extends React.Component {
       postCode: deliveryAddress.postCode,
       provinceId: 0,
       rfc: deliveryAddress.rfc,
-      type: this.props.type
+      type: this.props.type.toUpperCase()
     }
     try {
       this.setState({ saveLoading: true })
@@ -323,7 +323,7 @@ export default class LoginDeliveryAddress extends React.Component {
                                     ].join(', ')}
                                     {
                                       item.isDefaltAddress === 1
-                                        ? <span className="icon-default rc-bg-colour--brand1">
+                                        ? <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
                                           <FormattedMessage id="default" />
                                         </span>
                                         : null
@@ -340,8 +340,10 @@ export default class LoginDeliveryAddress extends React.Component {
                             ))
                           }
                           {
-                            addressList.length > 1 && <div className="text-center pt-2 pb-2">
-                              <span className="ui-cursor-pointer black" onClick={() => { this.setState({ foledMore: !foledMore }) }}>
+                            addressList.length > 1 && <div
+                              className="text-center pt-2 pb-2 ui-cursor-pointer"
+                              onClick={() => { this.setState({ foledMore: !foledMore }) }}>
+                              <span>
                                 {
                                   foledMore
                                     ? <React.Fragment>
