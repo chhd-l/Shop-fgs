@@ -84,15 +84,9 @@ class Prescription extends React.Component {
     this.handleInit()
     
     this.getAllPrescription()
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
-      window.location.reload();
-      
-      return false
-    }
   }
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+    
   }
   inputSearchValue = (e) => {
     this.setState({

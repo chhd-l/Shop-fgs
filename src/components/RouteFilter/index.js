@@ -11,16 +11,13 @@ class RouteFilter extends Component {
     ) {
       this.props.history.push("/payment/shipping");
     }
-
-    // 切换路由时，刷新下页面，解决外部组件无法初始化问题
-    if (this.props.location !== nextProps.location) {
-      // window.location.reload();
-      return false;
-    }
   }
   async componentDidMount () {
-    console.log(window.location.href, 'href')
-    if(window.location.href.indexOf('/#/') !== -1) {
+    // 解决forceRefresh=true，回退无效的bug
+    if (window.history && window.history.pushState) {
+      window.addEventListener('popstate', this.reload, false);
+    }
+    if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/')
     }
     if (this.props.location.pathname === "/payment/payment") {
@@ -96,6 +93,12 @@ class RouteFilter extends Component {
       this.props.history.push("/");
     }
     queryStoreCateIds();
+  }
+  componentWillUnmount () {
+    window.removeEventListener('popstate', this.reload, false);
+  }
+  reload () {
+    window.location.reload();
   }
   render () {
     return <React.Fragment />;
