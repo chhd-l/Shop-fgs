@@ -422,7 +422,7 @@ class List extends React.Component {
                                               </header>
                                               <div className="Product-Key-words rc-text--center"></div>
                                               <div
-                                                className="goodsSubtitle ui-text-overflow-line3 text-break"
+                                                className="text-center ui-text-overflow-line3 text-break"
                                                 title={item.goodsSubtitle}>
                                                 {item.goodsSubtitle}
                                               </div>
