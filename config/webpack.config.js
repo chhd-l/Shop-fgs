@@ -24,6 +24,7 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -261,7 +262,7 @@ module.exports = function(webpackEnv) {
       // https://twitter.com/wSokra/status/969633336732905474
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
       splitChunks: {
-        // chunks: 'all',
+        chunks: 'all',
         // name: false,
         cacheGroups: {
           vendor: {
@@ -276,6 +277,14 @@ module.exports = function(webpackEnv) {
             name: 'common',
             reuseExistingChunk: true,
             enforce: true, // 我们的公用代码小于 30kb，这里强制分离
+          },
+          reactBase: {
+            test: (module) => {
+              return /react|redux|prop-types/.test(module.context);
+            }, // 直接使用 test 来做路径匹配，抽离react相关代码
+            chunks: "initial",
+            name: "reactBase",
+            priority: 10,
           }
         },
       },
@@ -525,6 +534,7 @@ module.exports = function(webpackEnv) {
       ],
     },
     plugins: [
+      new BundleAnalyzerPlugin(),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
