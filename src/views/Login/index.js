@@ -98,21 +98,31 @@ class Login extends React.Component {
     });
   };
   async loginClick() {
+    if(localStorage.getItem("rc-token")){
+      localStorage.removeItem("rc-token")
+    }
+    if(localStorage.getItem("rc-userinfo")){
+      localStorage.removeItem("rc-userinfo")
+    }
     const { history } = this.props;
     let res = await login(this.state.loginForm);
-    localStorage.setItem("rc-token", res.context.token);
-    let userinfo = res.context.customerDetail;
-    userinfo.customerAccount = res.context.accountName;
+    if(res.code==='K-000000'){
+      localStorage.setItem("rc-token", res.context.token);
+      let userinfo = res.context.customerDetail;
+      userinfo.customerAccount = res.context.accountName;
 
-    let customerInfoRes = await getCustomerInfo();
-    const context = customerInfoRes.context;
-    userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
-    localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+      let customerInfoRes = await getCustomerInfo();
+      if(res.code==='K-000000'){
+        userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
+        localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+      }
 
-    history.push(
-      (this.props.location.state && this.props.location.state.redirectUrl) ||
-        "/account"
-    );
+      history.push(
+        (this.props.location.state && this.props.location.state.redirectUrl) ||
+          "/account"
+      );
+    }
+    
   }
   register = () => {
     this.setState({
