@@ -21,7 +21,10 @@
   }
   .imgBox img {
     margin-top: 70px;
-    width: 476px;
+    width: 675px;
+  }
+  .loginForm {
+    margin-top: 50px;
   }
   .forgetBox {
     width: 420px;
@@ -31,7 +34,10 @@
     font-size: 14px;
   }
   .logoImg {
-    margin: 60px auto 40px;
+    margin: 60px auto 60px;
+  }
+  .policyBox {
+    /* padding-left: 30px; */
   }
 }
 
