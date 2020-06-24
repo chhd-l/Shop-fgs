@@ -1637,3 +1637,6 @@ ul.ui-star-list .list_title {
     width: 100%;
   }
 }
+p {
+  word-wrap: break-word;
+}

@@ -229,8 +229,16 @@ class PaymentComp extends React.Component {
   async handleSave (e) {
     e.preventDefault();
     const { creditCardInfo } = this.state;
+    console.log(creditCardInfo)
     for (let k in creditCardInfo) {
-      if (this.state.creditCardInfo[k] === "") {
+      let fieldList =['cardNumber',
+        'cardMmyy',
+        'cardCvv',
+        'cardOwner',
+        'email',
+        'phoneNumber',
+        'identifyNumber']
+      if (fieldList.indexOf(k) !== -1 && this.state.creditCardInfo[k] === "") {
         this.showErrorMsg("Please complete the required item");
         return
       }
@@ -268,7 +276,13 @@ class PaymentComp extends React.Component {
           },
         }
       );
-      console.log(res.data);
+      if(!res.data.vendor) {
+        this.showErrorMsg("Lo sentimos, los tipos de tarjeta de crédito actualmente admitidos son: VISA, American Express, MasterCard");
+        this.setState({
+          loading: false,
+        });
+        return
+      }
       let params = {
         cardCvv: creditCardInfo.cardCvv,
         cardMmyy: creditCardInfo.cardMmyy,
