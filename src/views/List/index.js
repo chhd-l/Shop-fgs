@@ -24,18 +24,25 @@ const STORE_CATE_ENUM = [
     lang: 'Dietas de Prescripción Veterinaria Perros',
   },
   {
+    url: '/list/prescription-cats',
+    category: 'prescription-cats',
+    cateName: ['Prescription cats'],
+    // lang: <FormattedMessage id="home.catogery3" />,
+    lang: 'Dietas de Prescripción Veterinaria Perros',
+  },
+  {
     url: '/list/dogs',
     category: 'dogs',
     cateName: ['Prescription dogs', 'VD dogs'],
     // lang: <FormattedMessage id="home.catogery3" />,
-    lang: 'Dietas de Prescripción Veterinaria Perros',
+    lang: 'Perros',
   },
   {
     url: '/list/cats',
     category: 'cats',
     cateName: ['Prescription cats', 'VD cats'],
     // lang: <FormattedMessage id="home.catogery4" />,
-    lang: 'Dietas de Prescripción Veterinaria Gatos',
+    lang: 'Gatos',
   },
   {
     url: '/list/vcn',

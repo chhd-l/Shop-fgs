@@ -316,7 +316,7 @@ class Header extends React.Component {
                           <div className="col-8 col-md-9 col-lg-10">
                             <a
                               onClick={() => this.gotoDetails(item)}
-                              className="productName ui-cursor-pointer"
+                              className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
                               alt={item.lowGoodsName}
                               title={item.lowGoodsName}
                             >
