@@ -153,6 +153,7 @@
   },
   "babel": {
     "plugins": [
+      "@babel/plugin-syntax-dynamic-import",
       [
         "@babel/plugin-proposal-decorators",
         {
@@ -170,6 +171,7 @@
     "react-app-rewired": "^2.1.6",
     "react-google-tag-manager": "^2.2.1",
     "react-router-dom": "^5.1.2",
-    "react-skeleton-loader": "^1.0.4"
+    "react-skeleton-loader": "^1.0.4",
+    "webpack-bundle-analyzer": "^3.8.0"
   }
 }
