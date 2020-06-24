@@ -375,5 +375,9 @@ const en_US = {
   'forgetPassword.back':'Atrás para iniciar sesión',
   'changePassword':'Cambia la contraseña',
   'passwordHide':'Contraseña:********',
+
+
+  'type':'Tipo',
+  'billingAddress':'Dirección de facturación'
 }
 export default en_US;

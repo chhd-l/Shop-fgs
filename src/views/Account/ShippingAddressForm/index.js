@@ -41,7 +41,7 @@ export default class ShippingAddressFrom extends React.Component {
         isDefalt: false,
         deliveryAddressId: "",
         customerId: "",
-        addressType: "delivery"
+        addressType: "DELIVERY"
       },
       cityList: [],
       countryList: []
@@ -117,7 +117,7 @@ export default class ShippingAddressFrom extends React.Component {
       this.setState({
         loading: false
       })
-      this.showErrorMsg('Get Data Failed')
+      this.showErrorMsg(err.toString()||'Get Data Failed')
     })
 
 
@@ -147,7 +147,7 @@ export default class ShippingAddressFrom extends React.Component {
       "customerId": data.customerId,
       "deliveryAddress": data.address1 + " " + data.address2,
       "deliveryAddressId": data.deliveryAddressId,
-      "isDefaltAddress": data.addressType === 'delivery' ? (data.isDefalt ? 1 : 0) : 0,
+      "isDefaltAddress": data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
       "postCode": data.postCode,
       "provinceId": 0,
       "rfc": data.rfc,
@@ -173,7 +173,7 @@ export default class ShippingAddressFrom extends React.Component {
         this.setState({
           loading: false
         })
-        this.showErrorMsg("Save Failed!")
+        this.showErrorMsg(err.toString()||"Save Failed!")
       })
 
     } else {
@@ -198,7 +198,7 @@ export default class ShippingAddressFrom extends React.Component {
         this.setState({
           loading: false
         })
-        this.showErrorMsg("Save Failed!")
+        this.showErrorMsg( err.toString()||"Save Failed!")
       })
     }
   }
@@ -221,7 +221,7 @@ export default class ShippingAddressFrom extends React.Component {
         })
       }
     }).catch(err => {
-      this.showErrorMsg('Set Defalt Address Failed')
+      this.showErrorMsg(err.toString()||'Set Defalt Address Failed')
       this.setState({
         loading: false
       })
@@ -247,7 +247,7 @@ export default class ShippingAddressFrom extends React.Component {
         })
       }
     }).catch(err => {
-      this.showErrorMsg('Delete Address Failed')
+      this.showErrorMsg(err.toString()||'Delete Address Failed')
       this.setState({
         loading: false
       })
@@ -258,7 +258,7 @@ export default class ShippingAddressFrom extends React.Component {
     this.setState({
       errorMsg: message
     })
-    this.scrollToErrorMsg()
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
     setTimeout(() => {
       this.setState({
         errorMsg: ''
@@ -270,7 +270,7 @@ export default class ShippingAddressFrom extends React.Component {
     this.setState({
       successMsg: message
     })
-    this.scrollToErrorMsg()
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
     setTimeout(() => {
       this.setState({
         successMsg: ''
@@ -379,9 +379,8 @@ export default class ShippingAddressFrom extends React.Component {
                               onBlur={(e) => this.inputBlur(e)}
                               name="addressType"
                             >
-                              <option value=""></option>
-                              <option value="delivery">Delivery</option>
-                              <option value="billing">Billing</option>
+                              <option value="DELIVERY">Delivery</option>
+                              <option value="BILLING">Billing</option>
                               {/* {
                               this.state.countryList.map(item=>(
                               <option value={item.id}>{item.name}</option>
@@ -659,7 +658,7 @@ export default class ShippingAddressFrom extends React.Component {
                       </div>
                       
                       {
-                        addressForm.addressType === 'delivery' ? (
+                        addressForm.addressType === 'DELIVERY' ? (
                           <div className="form-group col-6">
                             <div className="rc-input rc-input--inline" style={{ margin: "40px 0 0 0" }} onClick={() => this.isDefalt()}>
                               <input type="checkbox"

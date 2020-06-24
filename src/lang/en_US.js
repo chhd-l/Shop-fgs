@@ -369,5 +369,7 @@ const en_US = {
   'forgetPassword.back':'Back to log in',
   'changePassword':'Change Password',
   'passwordHide':'Password:********',
+  'type':'TYPE',
+  'billingAddress':'Billing Address'
 }
 export default en_US;
