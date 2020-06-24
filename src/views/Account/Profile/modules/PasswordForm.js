@@ -1,7 +1,7 @@
 import React from "react"
 import { FormattedMessage } from 'react-intl'
 import Loading from "@/components/Loading"
-import { STOREID } from "@/utils/constant"
+import { modifyPassword } from "@/api/login";
 
 
 export default class PasswordForm extends React.Component {
@@ -26,6 +26,48 @@ export default class PasswordForm extends React.Component {
     const { passwordForm } = this.state
     passwordForm[target.name] = target.value
     this.setState({ passwordForm: passwordForm })
+  }
+
+  handleSave=()=>{
+    const{passwordForm}=this.state
+    if (!this.passwordVerify(passwordForm.newPassword)) {
+      this.showErrorMsg("Your password has not been verified!");
+      return false;
+    }
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      this.showErrorMsg("The two passwords you typed do not match!");
+      return false;
+    }
+    let params ={
+      "confirmNewPassword": passwordForm.confirmPassword,
+      "newPassword": passwordForm.newPassword,
+      "oldPassword": passwordForm.oldPassword
+    }
+    
+    modifyPassword(params).then(res=>{
+      console.log(res);
+      
+    }).catch(err=>{
+      this.showErrorMsg('system error')
+    })
+
+  }
+
+  showErrorMsg = (message) => {
+    this.setState({
+      errorMsg: message
+    })
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    setTimeout(() => {
+      this.setState({
+        errorMsg: ''
+      })
+    }, 3000)
+  }
+  passwordVerify = (password) => {
+    //匹配至少包含一个数字、一个大写字母 一个小写字母 8-20 位的密码
+    let reg = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d\D]{8,20}$/;
+    return reg.test(password)
   }
 
   render() {

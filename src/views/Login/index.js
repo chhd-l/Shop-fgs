@@ -3,9 +3,9 @@ import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import "./index.css";
 import Loading from "@/components/Loading";
-import { login } from "@/api/login";
-import { getCustomerInfo } from "@/api/user";
-import { getDictionary } from "@/utils/utils";
+import { login,getQuestions,register } from "@/api/login";
+import { getCustomerInfo } from "@/api/user"
+import { getDictionary } from '@/utils/utils'
 // import bg1 from "@/assets/images/login-bg1.png";
 // import bg2 from "@/assets/images/login-bg2.png";
 import bg1 from "@/assets/images/login-bg3.jpg";
@@ -34,18 +34,18 @@ class Login extends React.Component {
         securityQuestion: "",
         answer: "",
         firstChecked: false,
-        secondChecked: false,
-        thirdChecked: false,
+        // secondChecked: false,
+        // thirdChecked: false,
       },
-      countryList: [
-        {
-          id: 6,
-          name: "Mexico",
-        },
-      ],
-      errorMsg: "",
-      successMsg: "",
-      type: 'login'
+      countryList: [{
+        id: 6,
+        name: 'Mexico'
+      }],
+      errorMsg: '',
+      successMsg: '',
+      questionList:[],
+      type: 'login',
+      loading:false
     };
   }
   componentWillUnmount() {
@@ -58,10 +58,28 @@ class Login extends React.Component {
           countryList: res,
         });
       })
-      .catch((err) => {
-        this.showErrorMsg(err.toString() || "get data failed");
-      });
+    getQuestions().then(res=>{
+      if(res.code==='K-000000'){
+
+        this.setState({
+          questionList:res.context
+        })
+      }
+      else{
+        this.showErrorMsg(res.message || 'get data failed')
+      }
+    }).catch(err=>{
+      this.showErrorMsg(err.toString() || 'get data failed')
+    })
   }
+  // getQuestions=()=>{
+    
+  // }
+  // loginFormChange (e) {
+  //     .catch((err) => {
+  //       this.showErrorMsg(err.toString() || "get data failed");
+  //     });
+  // }
   loginFormChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
@@ -82,7 +100,6 @@ class Login extends React.Component {
   async loginClick() {
     const { history } = this.props;
     let res = await login(this.state.loginForm);
-    console.log(this.state.loginForm, res, "haha");
     localStorage.setItem("rc-token", res.context.token);
     let userinfo = res.context.customerDetail;
     userinfo.customerAccount = res.context.accountName;
@@ -98,6 +115,9 @@ class Login extends React.Component {
     );
   }
   register = () => {
+    this.setState({
+      loading:true
+    })
     const { registerForm } = this.state;
     const objKeys = Object.keys(registerForm);
     let requiredVerify = true;
@@ -128,16 +148,52 @@ class Login extends React.Component {
       return false;
     }
     if (registerForm.password !== registerForm.confirmPassword) {
-      this.showErrorMsg("The two passwords you typed do not match.!");
+      this.showErrorMsg("The two passwords you typed do not match!");
       return false;
     }
 
-    console.log(registerForm);
-  };
+    let params = {
+      "answer": registerForm.answer,
+      "confirmPassword": registerForm.confirmPassword,
+      "country": registerForm.country,
+      "customerPassword": registerForm.password,
+      "email": registerForm.email,
+      "firstName": registerForm.firstName,
+      "lastName": registerForm.lastName,
+      "questionId": registerForm.securityQuestion,
+    }
+
+    console.log(params);
+
+    register(params).then(res=>{
+      debugger
+      if(res.code==='K-000000'){
+        console.log(res);
+        
+        localStorage.setItem("rc-token", res.context.token);
+        let userinfo = res.context.customerDetail;
+        userinfo.customerAccount = res.context.accountName;
+        localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+        const { history } = this.props;
+        history.push("/account")
+
+      }
+      else{
+        this.showErrorMsg(res.message || 'Register failed')
+      }
+      console.log(res)
+    }).catch(err=>{
+      this.showErrorMsg(err.toString() || 'Register failed')
+    })
+
+
+
+  }
 
   showErrorMsg = (message) => {
     this.setState({
       errorMsg: message,
+      loading:false
     });
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     setTimeout(() => {
@@ -164,10 +220,10 @@ class Login extends React.Component {
     return reg.test(email);
   };
   passwordVerify = (password) => {
-    //匹配至少包含一个数字、一个字母 8-20 位的密码
-    let reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\D]{8,20}$/;
-    return reg.test(password);
-  };
+    //匹配至少包含一个数字、一个大写字母 一个小写字母 8-20 位的密码
+    let reg = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d\D]{8,20}$/;
+    return reg.test(password)
+  }
   nameVerify = (name) => {
     if (name.length > 50) return false;
     else return true;
@@ -351,7 +407,7 @@ class Login extends React.Component {
                       </div>
 
                       <p style={{ float: "right" }}>
-                        <a
+                        {/* <a
                           class="rc-styled-link"
                           href="#/"
                           style={{ color: "#666", fontSize: "14px" }}
@@ -361,7 +417,10 @@ class Login extends React.Component {
                           }}
                         >
                           Forget password?
-                        </a>
+                        </a> */}
+                        <Link to="/forgetPassword" style={{ color: "#666", fontSize: "14px" }}>
+                          <FormattedMessage id="login.forgetPassword" />  
+                        </Link>
                       </p>
                     </div>
                     <div
@@ -401,16 +460,38 @@ class Login extends React.Component {
                         
                       }
                     >
-                      Continue as a guest>
+                      Continue as a guest{'>'}
                     </a>
                     </div>
                   </h1>
                 </div>
               </div>
               <div style={{display: this.state.type === 'register'?'block': 'none'}} className="register">
+              {this.state.loading ? <Loading positionFixed="true" /> : null}
               <h3 style={{textAlign: 'center', color: '#e2001a'}}><span style={{color: '#666'}}>Welcome to</span> Royal Canin</h3>
               <div className="registerBox" style={{ position: 'relative', margin: "0 auto" }}>
-              <img src={bg2} className="registerImg" style={{width: '200px', position: 'absolute', bottom: '0', right: '-200px'}}/>
+              <div className="message-tip">
+                  <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
+                    <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+                      <span>{this.state.errorMsg}</span>
+                      <button
+                        className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                        onClick={() => { this.setState({ errorMsg: '' }) }}
+                        aria-label="Close">
+                        <span className="rc-screen-reader-text">
+                          <FormattedMessage id="close" />
+                        </span>
+                      </button>
+                    </aside>
+                  </div>
+                  <aside
+                    className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successMsg ? '' : 'hidden'}`}
+                    role="alert">
+                    <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
+                  </aside>
+                </div>
+              <img src={bg2} className="registerImg" 
+                style={{width: '200px', position: 'absolute', bottom: '0', right: '-200px'}} alt=""/>
                 <div class="rc-layout-container rc-two-column">
                   <div class="rc-column">
                     <div className="miaa_input required">
@@ -595,9 +676,9 @@ class Login extends React.Component {
                         <option value="" disabled>
                           Security Question *
                         </option>
-                        {this.state.countryList.map((item) => (
+                        {this.state.questionList.map((item) => (
                           <option value={item.id} key={item.id}>
-                            {item.name}
+                            {item.question}
                           </option>
                         ))}
                       </select>
@@ -1070,8 +1151,8 @@ class Login extends React.Component {
 
                             <option value="" disabled>Security Question *</option>
                             {
-                              this.state.countryList.map(item => (
-                                <option value={item.id} key={item.id}>{item.name}</option>
+                              this.state.questionList.map(item => (
+                                <option value={item.id} key={item.id}>{item.question}</option>
                               ))
                             }
                           </select>
