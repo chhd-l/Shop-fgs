@@ -428,7 +428,7 @@ const en_US = {
   'PleaseFillInstructions': 'Please fill in the return instructions',
   'MMYY': 'MM/YY',
   'cardNumber': 'Card Number',
-  'findLocation': 'Find Location'
+  'findLocation': 'Find Location',
   'type':'TYPE',
   'billingAddress':'Billing Address'
 }

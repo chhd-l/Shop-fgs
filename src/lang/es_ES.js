@@ -434,7 +434,7 @@ const en_US = {
   'PleaseFillInstructions': 'Por favor complete las instrucciones de devolución',
   'MMYY': 'MM/AA',
   'cardNumber': 'Número de tarjeta',
-  'findLocation': 'Buscar ubicación'
+  'findLocation': 'Buscar ubicación',
 
 
   'type':'Tipo',
