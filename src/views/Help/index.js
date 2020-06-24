@@ -11,9 +11,9 @@ import helpImg from "@/assets/images/slider-img-help.jpg"
 class Help extends React.Component {
   render (h) {
     const event = {
-      "page": {
-        "type": "Content",
-        "theme": ""
+      page: {
+        type: 'Content',
+        theme: ''
       }
     }
 

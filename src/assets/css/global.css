@@ -22420,3 +22420,14 @@ tr.rc-table__row.inactive td:after {
       transform: rotatez(360deg);
   }
 }
+
+/* 去除input type=number 加减按钮 */
+ input::-webkit-outer-spin-button,
+ input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+ input{
+  -moz-appearance:textfield;
+}

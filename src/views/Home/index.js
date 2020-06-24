@@ -122,7 +122,7 @@ class Home extends React.Component {
                         <FormattedMessage id="home.catogery3">
                           {txt => (
                             <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                              to="/list/dogs" title={txt}>
+                              to="/list/prescription-dogs" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
                                   srcSet={DIETDOG} />
@@ -143,7 +143,7 @@ class Home extends React.Component {
                         <FormattedMessage id="home.catogery4">
                           {txt => (
                             <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                              to="/list/cats" title={txt}>
+                              to="/list/prescription-cats" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
                                   srcSet={DIETCAT} />

@@ -1,5 +1,5 @@
 import React from "react"
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -21,7 +21,9 @@ const selectedPet = {
 const noSelect = {
   border: "3px solid #d7d7d7",
 }
-export default class PetForm extends React.Component {
+
+@injectIntl
+class PetForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -131,7 +133,7 @@ export default class PetForm extends React.Component {
       consumerAccount = this.getUserInfo().customerAccount
     }
     else {
-      this.showErrorMsg('Get Consumer Account Failed')
+      this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
       this.setState({
         loading: false
       })
@@ -169,7 +171,7 @@ export default class PetForm extends React.Component {
           loading: false,
           showList: false,
         })
-        this.showErrorMsg(res.message || 'Get Data Failed')
+        this.showErrorMsg(res.message || this.props.intl.messages.getDataFailed)
       }
     }).catch(err => {
       this.setState({
@@ -177,7 +179,7 @@ export default class PetForm extends React.Component {
       })
       console.log(err);
 
-      this.showErrorMsg('Get Data Failed')
+      this.showErrorMsg(this.props.intl.messages.getDataFailed)
     })
   }
 
@@ -221,7 +223,7 @@ export default class PetForm extends React.Component {
       consumerAccount = this.getUserInfo().customerAccount
     }
     else {
-      this.showErrorMsg('Get Consumer Account Failed')
+      this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
       return
     }
     this.setState({
@@ -281,14 +283,14 @@ export default class PetForm extends React.Component {
 
         }
         else {
-          this.showErrorMsg(res.message || 'Save Failed')
+          this.showErrorMsg(res.message || this.props.intl.messages.saveFailed)
 
           this.setState({
             loading: false
           })
         }
       }).catch(err => {
-        this.showErrorMsg('Save Failed')
+        this.showErrorMsg(this.props.intl.messages.saveFailed)
         this.setState({
           loading: false
         })
@@ -308,14 +310,14 @@ export default class PetForm extends React.Component {
 
         }
         else {
-          this.showErrorMsg(res.message || 'Save Failed')
+          this.showErrorMsg(res.message || this.props.intl.messages.saveFailed)
 
           this.setState({
             loading: false
           })
         }
       }).catch(err => {
-        this.showErrorMsg('Save Failed')
+        this.showErrorMsg(this.props.intl.messages.saveFailed)
         this.setState({
           loading: false
         })
@@ -550,7 +552,7 @@ export default class PetForm extends React.Component {
         })
       })
       .catch(err => {
-        this.showErrorMsg(err.toString() || 'get data failed')
+        this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
         this.setState({ loading: false })
       })
   }
@@ -765,7 +767,7 @@ export default class PetForm extends React.Component {
                       <div id="step-2" className="section col-lg-9 col-12 next-step">
                         <h2><FormattedMessage id="account.nickname"></FormattedMessage></h2>
                         <div className="form-group">
-                          <input type="text" placeholder="Enter your pet's nickname" className="form-control input-pet"
+                          <input type="text" placeholder={this.props.intl.messages.enterNickname} className="form-control input-pet"
                             name="dwfrm_miaaPet_petName"
                             required="required"
                             aria-required="true"
@@ -809,7 +811,7 @@ export default class PetForm extends React.Component {
                         <div className="content-section">
                           <div className="form-group relative">
                             <input type="text" id="dog-breed"
-                              placeholder="Enter your dog's breed"
+                              placeholder={this.props.intl.messages.enterDogBreed}
                               className="form-control input-pet breed"
                               value={this.state.breed}
                               onChange={this.inputBreed}
@@ -817,7 +819,7 @@ export default class PetForm extends React.Component {
                               disabled={this.state.isInputDisabled ? "disabled" : null} />
 
                             <input type="text" id="cat-breed"
-                              placeholder="Enter the breed of your cat"
+                              placeholder={this.props.intl.messages.enterCatBreed}
                               className="form-control input-pet breed"
                               value={this.state.breed}
                               onChange={this.inputBreed}
@@ -1076,3 +1078,5 @@ export default class PetForm extends React.Component {
     )
   }
 }
+
+export default injectIntl(PetForm)

@@ -17,6 +17,7 @@ import { getToken } from '@/api/login'
 import { getCustomerInfo } from "@/api/user"
 import { inject, observer } from 'mobx-react';
 import Store from '@/store/store';
+import { FormattedMessage } from 'react-intl'
 
 const LoginButton = () => {
   // console.log(useOktaAuth)
@@ -57,7 +58,7 @@ const LoginButton = () => {
   };
 
   return (
-    <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }} onClick={login}>Log in</button>
+    <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }} onClick={login}><FormattedMessage id='login'/></button>
   );
 };
 export default LoginButton;

@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BreadCrumbs from "@/components/BreadCrumbs";
@@ -25,7 +25,8 @@ import paypalImg from "@/assets/images/credit-cards/paypal.png";
 import axios from "axios";
 import { addOrUpdatePaymentMethod } from "@/api/payment";
 
-export default class ShippingAddressFrom extends React.Component {
+@injectIntl
+class ShippingAddressFrom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -197,17 +198,17 @@ export default class ShippingAddressFrom extends React.Component {
       if (res) {
         console.log(res.data.more_info, 'body/expiration_date should match pattern "^(0[1-9]|1[0-2])(\/|\-|\.| )\d{2,4}"')
         if (res.data.more_info.indexOf('body/credit_card_cvv should match pattern') !== -1) {
-          this.showErrorMsg('your card cvv is invalid')
+          this.showErrorMsg(this.props.intl.messages.cardCvvIsInvalid)
         } else if (res.data.more_info.indexOf('body/card_number should match pattern') !== -1) {
-          this.showErrorMsg('your card number is invalid')
+          this.showErrorMsg(this.props.intl.messages.cardNumberIsInvalid)
         } else if (res.data.more_info.indexOf('body/expiration_date should match pattern') !== -1) {
-          this.showErrorMsg('your card expiration_date is invalid')
+          this.showErrorMsg(this.props.intl.messages.expirationDateIsInvalid)
         } else {
           this.showErrorMsg(res.data.description)
         }
         return
       }
-      this.showErrorMsg("Save Failed!");
+      this.showErrorMsg(this.props.intl.messages.saveFailed);
     }
   }
   handleCancel = () => {
@@ -359,7 +360,7 @@ export default class ShippingAddressFrom extends React.Component {
                                                   }
                                                   name="cardNumber"
                                                   maxLength="254"
-                                                  placeholder="Card Number"
+                                                  placeholder={this.props.intl.messages.findLocation}
                                                 />
                                               </span>
                                               <div className="invalid-feedback ui-position-absolute">
@@ -391,7 +392,7 @@ export default class ShippingAddressFrom extends React.Component {
                                                   }
                                                   name="cardMmyy"
                                                   maxLength="5"
-                                                  placeholder="MM/YY"
+                                                  placeholder={this.props.intl.messages.MMYY}
                                                 />
                                               </span>
                                               <div className="invalid-feedback ui-position-absolute">
@@ -602,3 +603,4 @@ export default class ShippingAddressFrom extends React.Component {
     );
   }
 }
+export default injectIntl(ShippingAddressFrom)
