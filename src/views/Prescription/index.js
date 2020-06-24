@@ -278,7 +278,7 @@ class Prescription extends React.Component {
                       type="search"
                       autoComplete="off"
                       aria-label="Search location"
-                      placeholder="Buscar ubicación"
+                      placeholder={this.props.intl.messages.MMYY}
                       value={this.state.keywords}
                       onChange={this.inputSearchValue} />
                     <label className="rc-input__label" htmlFor="id-submit-2">

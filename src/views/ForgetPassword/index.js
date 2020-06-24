@@ -1,9 +1,10 @@
 import React from 'react'
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import { forgetPassword } from "@/api/login";
 import './index.css'
 
-export default class ForgetPassword extends React.Component {
+@injectIntl
+class ForgetPassword extends React.Component {
   constructor(props){
     super(props)
     this.state={
@@ -14,17 +15,17 @@ export default class ForgetPassword extends React.Component {
   }
   sendEmail =()=>{
     if(!this.emailVerify(this.state.email)){
-      this.showErrorMsg('Your email has not been verified!')
+      this.showErrorMsg(this.props.intl.messages.yourEmailNotVerified)
       return false
     }
     forgetPassword({"customerAccount":this.state.email }).then(res=>{
       if(res.code==='K-000000'){
-        this.showSuccessMsg(res.message||'Reset password email has been sent to your mailbox, please note that check!')
+        this.showSuccessMsg(res.message || this.props.intl.messages.resetPasswordEmail)
         console.log(res);
       }
       
     }).catch(err=>{
-      this.showErrorMsg(err.toString()||'system error')
+      this.showErrorMsg(err.toString()|| this.props.intl.messages.systemError)
     })
   }
 
@@ -99,7 +100,7 @@ export default class ForgetPassword extends React.Component {
                 data-capturefield="email"
                 type="email"
                 className="capture_email capture_required capture_text_input form-control"
-                placeholder="Email Address *"
+                placeholder={this.props.intl.messages.emailAddress}
                 name="email"
                 onChange={(e) => {
                   const value = (e.target).value;
@@ -132,3 +133,4 @@ export default class ForgetPassword extends React.Component {
     )
   }
 }
+export default injectIntl(ForgetPassword);

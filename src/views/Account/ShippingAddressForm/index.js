@@ -1,5 +1,5 @@
 import React from "react"
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -17,7 +17,8 @@ import { Link } from 'react-router-dom';
 import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
 
-export default class ShippingAddressFrom extends React.Component {
+@injectIntl
+class ShippingAddressFrom extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -58,7 +59,7 @@ export default class ShippingAddressFrom extends React.Component {
         })
       })
       .catch(err => {
-        this.showErrorMsg(err.toString() || 'get data failed')
+        this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
       })
     getDictionary({ type: 'country' })
       .then(res => {
@@ -67,7 +68,7 @@ export default class ShippingAddressFrom extends React.Component {
         })
       })
       .catch(err => {
-        this.showErrorMsg(err.toString() || 'get data failed')
+        this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
       })
 
     if (this.props.match.params.addressId) {
@@ -111,13 +112,13 @@ export default class ShippingAddressFrom extends React.Component {
         this.setState({
           loading: false
         })
-        this.showErrorMsg(res.message || 'Get Data Failed')
+        this.showErrorMsg(res.message || this.props.intl.messages.getDataFailed)
       }
     }).catch(err => {
       this.setState({
         loading: false
       })
-      this.showErrorMsg('Get Data Failed')
+      this.showErrorMsg(this.props.intl.messages.getDataFailed)
     })
 
 
@@ -166,14 +167,13 @@ export default class ShippingAddressFrom extends React.Component {
           this.setState({
             loading: false
           })
-          debugger
-          this.showErrorMsg(res.message || "Save Failed!")
+          this.showErrorMsg(res.message || this.props.intl.messages.saveFailed)
         }
       }).catch(err => {
         this.setState({
           loading: false
         })
-        this.showErrorMsg("Save Failed!")
+        this.showErrorMsg(this.props.intl.messages.saveFailed)
       })
 
     } else {
@@ -182,7 +182,7 @@ export default class ShippingAddressFrom extends React.Component {
           this.setState({
             loading: false
           })
-          this.showSuccessMsg(res.message || "Save Success")
+          this.showSuccessMsg(res.message || this.props.intl.messages.saveSuccess)
           setTimeout(() => {
             this.handleCancel()
           }, 3000);
@@ -192,13 +192,13 @@ export default class ShippingAddressFrom extends React.Component {
           this.setState({
             loading: false
           })
-          this.showErrorMsg(res.message || "Save Failed!")
+          this.showErrorMsg(res.message || this.props.intl.messages.saveFailed)
         }
       }).catch(err => {
         this.setState({
           loading: false
         })
-        this.showErrorMsg("Save Failed!")
+        this.showErrorMsg(this.props.intl.messages.saveFailed)
       })
     }
   }
@@ -211,17 +211,17 @@ export default class ShippingAddressFrom extends React.Component {
     }
     await setDefaltAddress(params).then(res => {
       if (res.code === 'K-000000') {
-        this.showSuccessMsg(res.message || 'Set Defalt Address Success')
+        this.showSuccessMsg(res.message || this.props.intl.messages.setDefaltAddressSuccess)
         this.getAddressList()
       }
       else {
-        this.showErrorMsg(res.message || 'Set Defalt Address Failed')
+        this.showErrorMsg(res.message || this.props.intl.messages.setDefaltAddressFailed)
         this.setState({
           loading: false
         })
       }
     }).catch(err => {
-      this.showErrorMsg('Set Defalt Address Failed')
+      this.showErrorMsg(this.props.intl.messages.setDefaltAddressFailed)
       this.setState({
         loading: false
       })
@@ -237,17 +237,17 @@ export default class ShippingAddressFrom extends React.Component {
     }
     await deleteAddress(params).then(res => {
       if (res.code === 'K-000000') {
-        this.showSuccessMsg(res.message || 'Delete Address Success')
+        this.showSuccessMsg(res.message || this.props.intl.messages.deleteAddressSuccess)
         this.getAddressList()
       }
       else {
-        this.showErrorMsg(res.message || 'Delete Address Failed')
+        this.showErrorMsg(res.message || this.props.intl.messages.deleteAddressFailed)
         this.setState({
           loading: false
         })
       }
     }).catch(err => {
-      this.showErrorMsg('Delete Address Failed')
+      this.showErrorMsg(this.props.intl.messages.deleteAddressFailed)
       this.setState({
         loading: false
       })
@@ -714,3 +714,5 @@ export default class ShippingAddressFrom extends React.Component {
     )
   }
 }
+
+export default injectIntl(ShippingAddressFrom);

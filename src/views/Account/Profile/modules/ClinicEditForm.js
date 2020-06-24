@@ -1,11 +1,12 @@
 import React from "react"
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import Loading from "@/components/Loading"
 import { updateCustomerBaseInfo } from "@/api/user"
 import { getAllPrescription } from '@/api/clinic'
 import { STOREID } from "@/utils/constant"
 
-export default class ClinicEditForm extends React.Component {
+@injectIntl
+class ClinicEditForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -152,7 +153,7 @@ export default class ClinicEditForm extends React.Component {
                 onBlur={() => { setTimeout(() => { this.setState({ clinicList: [] }) }, 500) }}>
                 <input
                   type="text"
-                  placeholder="Enter clinic name"
+                  placeholder={this.props.intl.messages.enterClinicName}
                   className="form-control"
                   value={form.clinicName}
                   onChange={event => this.handleInputChange(event)}
@@ -205,3 +206,4 @@ export default class ClinicEditForm extends React.Component {
     )
   }
 }
+export default injectIntl(ClinicEditForm)

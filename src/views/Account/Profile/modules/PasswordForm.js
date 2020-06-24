@@ -1,10 +1,10 @@
 import React from "react"
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import Loading from "@/components/Loading"
 import { modifyPassword } from "@/api/login";
 
-
-export default class PasswordForm extends React.Component {
+@injectIntl
+class PasswordForm extends React.Component {
   constructor(props){
     super(props)
     this.state={
@@ -31,11 +31,11 @@ export default class PasswordForm extends React.Component {
   handleSave=()=>{
     const{passwordForm}=this.state
     if (!this.passwordVerify(passwordForm.newPassword)) {
-      this.showErrorMsg("Your password has not been verified!");
+      this.showErrorMsg(this.props.intl.messages.yourEmailNotVerified);
       return false;
     }
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      this.showErrorMsg("The two passwords you typed do not match!");
+      this.showErrorMsg(this.props.intl.messages.twoPasswordsYouTypedDoNotMatch);
       return false;
     }
     let params ={
@@ -48,7 +48,7 @@ export default class PasswordForm extends React.Component {
       console.log(res);
       
     }).catch(err=>{
-      this.showErrorMsg('system error')
+      this.showErrorMsg(this.props.intl.messages.systemError)
     })
 
   }
@@ -122,7 +122,7 @@ export default class PasswordForm extends React.Component {
                 
                 <input
                   type="text"
-                  placeholder="Old Password *"
+                  placeholder={this.props.intl.messages.oldPassword}
                   className="form-control password-input"
                   value={passwordForm.oldPassword}
                   onChange={event => this.handleInputChange(event)}
@@ -130,7 +130,7 @@ export default class PasswordForm extends React.Component {
                 />
                 <input
                   type="text"
-                  placeholder="New Password"
+                  placeholder={this.props.intl.messages.newPassword}
                   className="form-control password-input"
                   value={passwordForm.newPassword}
                   onChange={event => this.handleInputChange(event)}
@@ -138,7 +138,7 @@ export default class PasswordForm extends React.Component {
                 />
                 <input
                   type="text"
-                  placeholder="Enter new password again"
+                  placeholder={this.props.intl.messages.enterPasswordAgain}
                   className="form-control password-input"
                   value={passwordForm.confirmPassword}
                   onChange={event => this.handleInputChange(event)}
@@ -170,3 +170,5 @@ export default class PasswordForm extends React.Component {
     )
   }
 }
+
+export default injectIntl(PasswordForm);
