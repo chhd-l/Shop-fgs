@@ -17,30 +17,37 @@ import './index.css'
 // todo
 const STORE_CATE_ENUM = [
   {
+    url: '/list/prescription-dogs',
+    category: 'prescription-dogs',
+    cateName: ['Prescription dogs'],
+    // lang: <FormattedMessage id="home.catogery3" />,
+    lang: 'Dietas de Prescripción Veterinaria Perros',
+  },
+  {
     url: '/list/dogs',
     category: 'dogs',
-    cateName: 'Prescription dogs',
+    cateName: ['Prescription dogs', 'VD dogs'],
     // lang: <FormattedMessage id="home.catogery3" />,
     lang: 'Dietas de Prescripción Veterinaria Perros',
   },
   {
     url: '/list/cats',
     category: 'cats',
-    cateName: 'Prescription cats',
+    cateName: ['Prescription cats', 'VD cats'],
     // lang: <FormattedMessage id="home.catogery4" />,
     lang: 'Dietas de Prescripción Veterinaria Gatos',
   },
   {
     url: '/list/vcn',
     category: 'vcn',
-    cateName: 'VD dogs',
+    cateName: ['VD dogs'],
     // lang: <FormattedMessage id="home.catogery1" />,
     lang: 'Dietas Veterinarias Perros'
   },
   {
     url: '/list/vd',
     category: 'vd',
-    cateName: 'VD cats',
+    cateName: ['VD cats'],
     // lang: <FormattedMessage id="home.catogery2" />,
     lang: 'Dietas Veterinarias Gatos'
   }
@@ -50,7 +57,7 @@ class List extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      storeCateId: '',
+      storeCateIds: [],
       category: '',
       titleData: null,
       productList: [
@@ -107,7 +114,7 @@ class List extends React.Component {
     this.toggleFilterModal = this.toggleFilterModal.bind(this)
   }
   componentWillUnmount () {
-    
+
   }
   toggleFilterModal (status) {
     this.setState({ filterModalVisible: status })
@@ -120,13 +127,9 @@ class List extends React.Component {
 
     let storeIdList = await queryStoreCateIds()
     const t = find(STORE_CATE_ENUM, ele => ele.category == category)
-    if (t && t.cateName) {
-      let targetObj = find(storeIdList, s => s.cateName.toLocaleLowerCase() === t.cateName.toLocaleLowerCase())
-      if (targetObj) {
-        this.setState({
-          storeCateId: targetObj.storeCateId
-        })
-      }
+    if (t) {
+      let tmpArr = Array.from(storeIdList, s => t.cateName.includes(s.cateName) ? s.storeCateId : '').filter(s => !!s)
+      this.setState({ storeCateIds: tmpArr })
     }
 
     this.getProductList()
@@ -145,7 +148,7 @@ class List extends React.Component {
     })
   }
   async getProductList () {
-    let { checkedList, currentPage, pageSize, storeCateId, keywords, initingList, category } = this.state;
+    let { checkedList, currentPage, pageSize, storeCateIds, keywords, initingList, category } = this.state;
     this.setState({
       loading: true
     })
@@ -173,11 +176,8 @@ class List extends React.Component {
       pageSize,
       esGoodsInfoDTOList: [],
       companyType: '',
-      keywords
-    }
-
-    if (storeCateId) {
-      params.storeCateIds = [storeCateId]
+      keywords,
+      storeCateIds
     }
 
     for (let item of checkedList) {
