@@ -99,12 +99,16 @@ class Login extends React.Component {
     });
   };
   async loginClick() {
+    if(sessionStorage.getItem("rc-token")){
+      sessionStorage.removeItem("rc-token")
+    }
     if(localStorage.getItem("rc-token")){
       localStorage.removeItem("rc-token")
     }
     if(localStorage.getItem("rc-userinfo")){
       localStorage.removeItem("rc-userinfo")
     }
+
     const { history } = this.props;
     let res = await login(this.state.loginForm);
     if(res.code==='K-000000'){
