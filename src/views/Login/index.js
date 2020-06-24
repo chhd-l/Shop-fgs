@@ -407,7 +407,7 @@ class Login extends React.Component {
                       </div>
 
                       <p style={{ float: "right" }}>
-                        {/* <a
+                        <a
                           class="rc-styled-link"
                           href="#/"
                           style={{ color: "#666", fontSize: "14px" }}
@@ -417,10 +417,10 @@ class Login extends React.Component {
                           }}
                         >
                           Forget password?
-                        </a> */}
-                        <Link to="/forgetPassword" style={{ color: "#666", fontSize: "14px" }}>
+                        </a>
+                        {/* <Link to="/forgetPassword" style={{ color: "#666", fontSize: "14px" }}>
                           <FormattedMessage id="login.forgetPassword" />  
-                        </Link>
+                        </Link> */}
                       </p>
                     </div>
                     <div

@@ -43,7 +43,8 @@ class PaymentComp extends React.Component {
       },
       loading: false,
       listLoading: true,
-      listErr: ''
+      listErr: '',
+      currentVendor: '1'
     };
   }
   async componentDidMount () {
@@ -133,6 +134,44 @@ class PaymentComp extends React.Component {
     //     behavior: "smooth",
     //   });
     // }
+  }
+  async cardNumberChange(e) {
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    let cardNumber = value.replace(/\s*/g, "") ||  this.state.creditCardInfo.cardNumber;
+
+    try {
+      let res = await axios.post(
+        "https://api.paymentsos.com/tokens",
+        {
+          token_type: "credit_card",
+          card_number: cardNumber,
+          expiration_date: '12-20',
+          credit_card_cvv: '888',
+          holder_name: "echo"
+        },
+        {
+          headers: {
+            public_key:
+              process.env.NODE_ENV === "development"
+                ? "fd931719-5733-4b77-b146-2fd22f9ad2e3"
+                : process.env.REACT_APP_PaymentKEY,
+            "x-payments-os-env":
+              process.env.NODE_ENV === "development"
+                ? "test"
+                : process.env.REACT_APP_PaymentENV,
+            "Content-type": "application/json",
+            app_id: "com.razorfish.dev_mexico",
+            "api-version": "1.3.0",
+          },
+        }
+      );
+      console.log(res)
+      this.setState({currentVendor: res.data.vendor})
+    } catch (e) {
+      console.log(e)
+    }
+
   }
   cardInfoInputChange (e) {
     const target = e.target;
@@ -526,7 +565,12 @@ class PaymentComp extends React.Component {
                         <span class="cardImage">
                           <img
                             alt="Card"
-                            src="https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
+                            // src="https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
+                            src={
+                              this.state.creditCardImgObj[this.state.currentVendor]
+                                  ? this.state.creditCardImgObj[this.state.currentVendor]
+                                  : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
+                            }
                           />
                         </span>
                         <span className="cardForm">
@@ -545,6 +589,9 @@ class PaymentComp extends React.Component {
                                     onChange={(e) =>
                                       this.cardInfoInputChange(e)
                                     }
+                                    onKeyUp={(e) => {
+                                      this.cardNumberChange(e)
+                                    }}
                                     name="cardNumber"
                                     maxLength="254"
                                     placeholder="Card Number"
