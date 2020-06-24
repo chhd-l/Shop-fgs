@@ -44,7 +44,8 @@ class Login extends React.Component {
       errorMsg: '',
       successMsg: '',
       questionList:[],
-      type: 'login'
+      type: 'login',
+      loading:false
     };
   }
   componentWillUnmount() {
@@ -104,7 +105,6 @@ class Login extends React.Component {
   async loginClick() {
     const { history } = this.props;
     let res = await login(this.state.loginForm);
-    console.log(this.state.loginForm, res, "haha");
     localStorage.setItem("rc-token", res.context.token);
     let userinfo = res.context.customerDetail;
     userinfo.customerAccount = res.context.accountName;
@@ -120,6 +120,9 @@ class Login extends React.Component {
     );
   }
   register = () => {
+    this.setState({
+      loading:true
+    })
     const { registerForm } = this.state;
     const objKeys = Object.keys(registerForm);
     let requiredVerify = true;
@@ -150,7 +153,7 @@ class Login extends React.Component {
       return false;
     }
     if (registerForm.password !== registerForm.confirmPassword) {
-      this.showErrorMsg("The two passwords you typed do not match.!");
+      this.showErrorMsg("The two passwords you typed do not match!");
       return false;
     }
 
@@ -168,6 +171,21 @@ class Login extends React.Component {
     console.log(params);
 
     register(params).then(res=>{
+      debugger
+      if(res.code==='K-000000'){
+        console.log(res);
+        
+        localStorage.setItem("rc-token", res.context.token);
+        let userinfo = res.context.customerDetail;
+        userinfo.customerAccount = res.context.accountName;
+        localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+        const { history } = this.props;
+        history.push("/account")
+
+      }
+      else{
+        this.showErrorMsg(res.message || 'Register failed')
+      }
       console.log(res)
     }).catch(err=>{
       this.showErrorMsg(err.toString() || 'Register failed')
@@ -180,6 +198,7 @@ class Login extends React.Component {
   showErrorMsg = (message) => {
     this.setState({
       errorMsg: message,
+      loading:false
     });
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     setTimeout(() => {
@@ -206,7 +225,7 @@ class Login extends React.Component {
     return reg.test(email);
   };
   passwordVerify = (password) => {
-    //匹配至少包含一个数字、一个字母 8-20 位的密码
+    //匹配至少包含一个数字、一个大写字母 一个小写字母 8-20 位的密码
     let reg = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d\D]{8,20}$/;
     return reg.test(password)
   }
@@ -393,13 +412,16 @@ class Login extends React.Component {
                       </div>
 
                       <p style={{ float: "right" }}>
-                        <a
+                        {/* <a
                           class="rc-styled-link"
                           href="#/"
                           style={{ color: "#666", fontSize: "14px" }}
                         >
                           Forget password?
-                        </a>
+                        </a> */}
+                        <Link to="/forgetPassword" style={{ color: "#666", fontSize: "14px" }}>
+                          <FormattedMessage id="login.forgetPassword" />  
+                        </Link>
                       </p>
                     </div>
                     <div
@@ -439,15 +461,37 @@ class Login extends React.Component {
                         
                       }
                     >
-                      Continue with a guest>
+                      Continue with a guest{'>'}
                     </a>
                     </div>
                   </h1>
                 </div>
               </div>
               <div style={{display: this.state.type === 'register'?'block': 'none'}} className="register">
+              {this.state.loading ? <Loading positionFixed="true" /> : null}
               <h3 style={{textAlign: 'center', color: '#e2001a'}}><span style={{color: '#666'}}>Welcome to</span> Royal Canin</h3>
+              
               <div style={{ width: "50%", margin: "0 auto" }}>
+                <div className="message-tip">
+                  <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
+                    <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+                      <span>{this.state.errorMsg}</span>
+                      <button
+                        className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                        onClick={() => { this.setState({ errorMsg: '' }) }}
+                        aria-label="Close">
+                        <span className="rc-screen-reader-text">
+                          <FormattedMessage id="close" />
+                        </span>
+                      </button>
+                    </aside>
+                  </div>
+                  <aside
+                    className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successMsg ? '' : 'hidden'}`}
+                    role="alert">
+                    <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
+                  </aside>
+                </div>
                 <div class="rc-layout-container rc-two-column">
                   <div class="rc-column">
                     <div className="miaa_input required">
@@ -632,9 +676,9 @@ class Login extends React.Component {
                         <option value="" disabled>
                           Security Question *
                         </option>
-                        {this.state.countryList.map((item) => (
+                        {this.state.questionList.map((item) => (
                           <option value={item.id} key={item.id}>
-                            {item.name}
+                            {item.question}
                           </option>
                         ))}
                       </select>

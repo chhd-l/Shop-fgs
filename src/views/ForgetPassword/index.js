@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from "react-intl";
+import { forgetPassword } from "@/api/login";
 import './index.css'
 
 export default class ForgetPassword extends React.Component {
@@ -12,13 +13,19 @@ export default class ForgetPassword extends React.Component {
     }
   }
   sendEmail =()=>{
-    debugger
     if(!this.emailVerify(this.state.email)){
       this.showErrorMsg('Your email has not been verified!')
       return false
     }
-    console.log(this.state.email);
-    
+    forgetPassword({"customerAccount":this.state.email }).then(res=>{
+      if(res.code==='K-000000'){
+        this.showSuccessMsg(res.message||'Reset password email has been sent to your mailbox, please note that check!')
+        console.log(res);
+      }
+      
+    }).catch(err=>{
+      this.showErrorMsg(err.toString()||'system error')
+    })
   }
 
   showErrorMsg = (message) => {
@@ -30,18 +37,23 @@ export default class ForgetPassword extends React.Component {
       this.setState({
         errorMsg: ''
       })
-    }, 3000)
+    }, 5000)
+  }
+  showSuccessMsg = (message) => {
+    this.setState({
+      successMsg: message
+    })
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    setTimeout(() => {
+      this.setState({
+        successMsg: ''
+      })
+    }, 5000)
   }
   emailVerify = (email) => {
     let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
     return reg.test(email)
   };
-  emailChange=(email)=>{
-    this.setState({
-      email:email
-    })
-    
-  }
   backToLogin(){
     const { history } = this.props;
     history.push("/login");
@@ -91,7 +103,9 @@ export default class ForgetPassword extends React.Component {
                 name="email"
                 onChange={(e) => {
                   const value = (e.target).value;
-                  this.emailChange(value);
+                  this.setState({
+                    email:value
+                  })
                 }}
               />
             </div>

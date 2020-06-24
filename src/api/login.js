@@ -2,10 +2,13 @@ import axios from '@/utils/request'
 import base64 from 'base-64'
 
 const api = {
-  login: 'login',
+  // login: 'login',
+  login:'/base/login',
   getToken: '/okta/getJwtToken',
   getQuestions:'/questions/all',
   register:'/baseRegister',
+  forgetPassword:'/base/forgetPassword',
+  modifyPassword:'/base/modifyPassword'
 }
 
 export default api
@@ -47,6 +50,26 @@ export function register (parameter) {
 
   return axios({
     url: api.register,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function modifyPassword (parameter) {
+  parameter.oldPassword = base64.encode(parameter.oldPassword )
+  parameter.newPassword = base64.encode(parameter.newPassword )
+  parameter.confirmNewPassword = base64.encode(parameter.confirmNewPassword )
+
+  return axios({
+    url: api.modifyPassword,
+    method: 'post',
+    data: parameter
+  })
+}
+export function forgetPassword (parameter) {
+  parameter.customerAccount = base64.encode(parameter.customerAccount )
+  return axios({
+    url: api.forgetPassword,
     method: 'post',
     data: parameter
   })
