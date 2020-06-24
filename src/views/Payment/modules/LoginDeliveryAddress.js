@@ -301,7 +301,7 @@ export default class LoginDeliveryAddress extends React.Component {
                                 className={`address-item ${item.selected ? 'selected' : ''} ${foledMore && !item.selected ? 'hidden' : ''}`} key={item.deliveryAddressId}
                                 onClick={() => this.selectAddress(i)}>
                                 <div className="row align-items-center pt-3 pb-3 ml-2 mr-2 border-bottom">
-                                  <div className="d-flex align-items-center justify-content-between col-12 col-md-3 address-name">
+                                  <div className="d-flex align-items-center justify-content-between col-2 col-md-1 address-name">
                                     {
                                       item.selected
                                         ? <svg width="24" height="32">
@@ -311,9 +311,9 @@ export default class LoginDeliveryAddress extends React.Component {
                                           <path d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0" fill="#c4c4c4" fillRule="evenodd"></path>
                                         </svg>
                                     }
-                                    <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span>
+                                    {/* <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span> */}
                                   </div>
-                                  <div className="col-10 col-md-8">
+                                  <div className="col-10 col-md-9">
                                     {[item.consigneeName, item.consigneeNumber].join(', ')}
                                     {
                                       item.isDefaltAddress === 1
@@ -329,7 +329,7 @@ export default class LoginDeliveryAddress extends React.Component {
                                       item.address1
                                     ].join(', ')}
                                   </div>
-                                  <div className="col-2 col-md-1 text-right">
+                                  <div className="col-12 col-md-2 mt-md-0 mt-1 text-right">
                                     <a className="addr-btn-edit border-left pl-2" onClick={() => this.addOrEditAddress(i)}>
                                       {/* <span className="rc-icon rc-edit--xs rc-iconography"></span> */}
                                       <FormattedMessage id="edit" />

@@ -288,8 +288,8 @@ const en_US = {
   'order.confirmCancelOrderInfo': 'Do you really want to cancel the order?',
   'order.refundErrorInfo': 'This order is associated with a refund in processing and cannot be reapplied.',
   'order.rateModalTitle': 'Your opinion is important',
-  'order.progress1': 'Created',
-  'order.progress2': 'Payment',
+  'order.progress1': 'Create',
+  'order.progress2': 'Paid',
   'order.progress3': 'Delivered',
   'order.progress4': 'Completed',
 

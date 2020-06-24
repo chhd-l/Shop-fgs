@@ -203,6 +203,7 @@ class Header extends React.Component {
     // window.location.href = registredUrl
     const { history } = this.props
     history.push("/login");
+    localStorage.setItem('loginType', 'register')
 
   }
   async getSearchData () {
@@ -273,6 +274,7 @@ class Header extends React.Component {
   clickLogin () {
     const { history } = this.props
     history.push('/login')
+    localStorage.setItem('loginType', 'login')
   }
   clickLogoff () {
     localStorage.removeItem("rc-token");

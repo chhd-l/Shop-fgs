@@ -15,7 +15,6 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 import config from './config';
-// import Home from '@/views/Home';
 
 import '@/assets/css/global.css'
 // import en_US from '@/lang/en_US'
@@ -63,6 +62,7 @@ import ForgetPassword from "@/views/ForgetPassword";
 //   store: new Store()
 // }
 const token = localStorage.getItem('rc-token')
+localStorage.setItem('rc-lang', 'es')
 
 const App = () => (
 

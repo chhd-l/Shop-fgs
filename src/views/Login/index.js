@@ -44,7 +44,7 @@ class Login extends React.Component {
       errorMsg: '',
       successMsg: '',
       questionList:[],
-      type: 'login',
+      type: localStorage.getItem('loginType') || 'login',
       loading:false
     };
   }
@@ -300,9 +300,9 @@ class Login extends React.Component {
                   </h1>
                 </div>
 
-                <div class="rc-column">
+                <div class="rc-column loginForm">
                   <h1 class="rc-espilon">
-                    <h3><span style={{color: '#666'}}>Welcome to</span> Royal Canin</h3>
+                    <h3 style={{fontSize: '32px'}}><span style={{color: '#666'}}>Welcome to</span> Royal Canin</h3>
                     <div className="loginBox">
                     <div style={{ marginTop: "40px" }}>
                       <div className="miaa_input required ">
@@ -414,6 +414,7 @@ class Login extends React.Component {
                           onClick={(e) => {
                             e.preventDefault()
                             this.setState({type: 'forgetPassword'})
+                            localStorage.setItem('loginType', 'forgetPassword')
                           }}
                         >
                           Forget password?
@@ -429,22 +430,23 @@ class Login extends React.Component {
                     >
                       <div class="rc-column" style={{ textAlign: "center" }}>
                         <button
-                          class="rc-btn rc-btn--two"
-                          style={{ width: "100%" }}
-                          onClick={() => {
-                            this.setState({type: 'register'})
-                          }}
-                        >
-                          Create an account
-                        </button>
-                      </div>
-                      <div class="rc-column" style={{ textAlign: "center" }}>
-                        <button
                           class="rc-btn rc-btn--one"
                           style={{ width: "100%" }}
                           onClick={() => this.loginClick()}
                         >
                           Log in
+                        </button>
+                      </div>
+                      <div class="rc-column" style={{ textAlign: "center" }}>
+                        <button
+                          class="rc-btn rc-btn--two"
+                          style={{ width: "100%" }}
+                          onClick={() => {
+                            this.setState({type: 'register'})
+                            localStorage.setItem('loginType', 'register')
+                          }}
+                        >
+                          Create an account
                         </button>
                       </div>
                     </div>
@@ -467,7 +469,7 @@ class Login extends React.Component {
               </div>
               <div style={{display: this.state.type === 'register'?'block': 'none'}} className="register">
               {this.state.loading ? <Loading positionFixed="true" /> : null}
-              <h3 style={{textAlign: 'center', color: '#e2001a'}}><span style={{color: '#666'}}>Welcome to</span> Royal Canin</h3>
+              <h3 style={{textAlign: 'center', color: '#e2001a', fontSize: '32px'}}><span style={{color: '#666'}}>Welcome to</span> Royal Canin</h3>
               <div className="registerBox" style={{ position: 'relative', margin: "0 auto" }}>
               <div className="message-tip">
                   <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
@@ -490,7 +492,7 @@ class Login extends React.Component {
                   </aside>
                 </div>
               <img src={bg2} className="registerImg" 
-                style={{width: '200px', position: 'absolute', bottom: '0', right: '-200px'}} alt=""/>
+                style={{width: '270px', position: 'absolute', bottom: '-120px', right: '-270px'}} alt=""/>
                 <div class="rc-layout-container rc-two-column">
                   <div class="rc-column">
                     <div className="miaa_input required">
@@ -703,8 +705,7 @@ class Login extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div style={{ textAlign: "center" }}>
+                <div className="policyBox" style={{ textAlign: "left" }}>
                 {/* <div class="rc-input rc-input--inline">
                   <input
                     class="rc-input__checkbox"
@@ -758,10 +759,12 @@ class Login extends React.Component {
                               personal data, including cross-border transfer
                         </label>
               </div>
+              </div>
+              
               <div style={{ textAlign: "center" }} class="rc-layout-container rc-two-column buttonGroup">
               <div class="rc-column" style={{ textAlign: "center" }}>
                 <button
-                  class="rc-btn rc-btn--two"
+                  class="rc-btn rc-btn--one"
                   style={{ width: "100%" }}
                   onClick={() => this.register()}
                 >
@@ -770,11 +773,12 @@ class Login extends React.Component {
               </div>
               <div class="rc-column" style={{ textAlign: "center" }}>
                 <button
-                  class="rc-btn rc-btn--one"
+                  class="rc-btn rc-btn--two"
                   style={{ width: "100%" }}
                   onClick={(e) => {
                     e.preventDefault()
                     this.setState({type: 'login'})
+                    localStorage.setItem('loginType', 'login')
                   }}
                 >
                   Log in
@@ -785,10 +789,10 @@ class Login extends React.Component {
               </div>
               
               <div style={{display: this.state.type === 'forgetPassword'?'block': 'none'}} className="forgetPassword">
-                <h3 style={{textAlign: 'center'}}>Create New Password</h3>
+                <h3 style={{textAlign: 'center', fontSize: '30px'}}>Create New Password</h3>
                 
                 <div className="forgetBox" style={{position: 'relative'}}>
-                <img src={bg2} className="registerImg" style={{width: '200px', position: 'absolute', bottom: '-100px', right: '-300px'}}/>
+                <img src={bg2} className="registerImg" style={{width: '300px', position: 'absolute', bottom: '-120px', right: '-400px'}}/>
                 <p>You will be sent a letter with instruction for changing the password</p>
                 <div className="miaa_input required">
                       <input
@@ -811,7 +815,7 @@ class Login extends React.Component {
                     >
                       <p style={{ textAlign: "center" }}>
                         <button
-                          class="rc-btn rc-btn--two"
+                          class="rc-btn rc-btn--one"
                           style={{ width: "70%" }}
                           onClick={() => {
                             this.setState({type: 'login'})
@@ -822,7 +826,7 @@ class Login extends React.Component {
                       </p>
                       <p style={{ textAlign: "center" }}>
                         <button
-                          class="rc-btn rc-btn--one"
+                          class="rc-btn rc-btn--two"
                           style={{ width: "70%" }}
                           onClick={() => this.setState({type: 'login'})}
                         >

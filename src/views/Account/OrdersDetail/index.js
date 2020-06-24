@@ -6,15 +6,13 @@ import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import Modal from '@/components/Modal'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { formatMoney, getDictionary } from "@/utils/utils"
 import { find, findIndex } from 'lodash'
 import { getOrderDetails, cancelOrder, getPayRecord, returnFindByTid } from "@/api/order"
 import {
   IMG_DEFAULT,
-  DELIVER_STATUS_ENUM,
-  ORDER_STATUS_ENUM,
-  PAY_STATUS_ENUM
+  ORDER_STATUS_ENUM
 } from '@/utils/constant'
 import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
@@ -22,6 +20,9 @@ import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import './index.css'
 
+const lang = localStorage.getItem('rc-lang')
+
+@injectIntl
 class AccountOrders extends React.Component {
   constructor(props) {
     super(props)
@@ -50,19 +51,19 @@ class AccountOrders extends React.Component {
       progressList: [
         {
           backendName: 'Create Order',
-          displayName: 'Create'
+          displayName: this.props.intl.messages['order.progress1']
         },
         {
           backendName: 'Order payment',
-          displayName: 'Paid'
+          displayName: this.props.intl.messages['order.progress1']
         },
         {
           backendName: 'DELIVERED',
-          displayName: 'Delivered'
+          displayName: this.props.intl.messages['order.progress3']
         },
         {
           backendName: 'COMPLETED',
-          displayName: 'Completed'
+          displayName: this.props.intl.messages['order.progress4']
         }
       ],
       currentProgerssIndex: -1
@@ -88,7 +89,7 @@ class AccountOrders extends React.Component {
       })
   }
   componentWillUnmount () {
-    
+
   }
   matchNamefromDict (dictList, id) {
     return find(dictList, ele => ele.id == id)
@@ -281,7 +282,7 @@ class AccountOrders extends React.Component {
                               </div>
                               <div className="text-center">
                                 <FormattedMessage id="order.orderStatus" />:<br />
-                                <span className="medium">{ORDER_STATUS_ENUM[details.tradeState.flowState] || details.tradeState.flowState}</span>
+                                <span className="medium">{ORDER_STATUS_ENUM[lang][details.tradeState.flowState] || details.tradeState.flowState}</span>
                               </div>
                               <div className="text-center">
                                 <FormattedMessage id="payment.clinicTitle3" />:<br />
