@@ -62,6 +62,7 @@ import ForgetPassword from "@/views/ForgetPassword";
 //   store: new Store()
 // }
 const token = localStorage.getItem('rc-token')
+localStorage.setItem('rc-lang', 'es')
 
 const App = () => (
 

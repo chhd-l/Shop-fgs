@@ -20,7 +20,7 @@ class Help extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header history={this.props.history} />
+        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3" >
           {/* <div class="rc-bg-colour--brand4 text-center" >
             <div class="rc-layout-container rc-content-h-middle">

@@ -295,10 +295,10 @@ const en_US = {
   'order.confirmCancelOrderInfo': '¿Realmente quieres cancelar el pedido?',
   'order.refundErrorInfo': 'Este pedido está asociado con un reembolso en proceso y no se puede volver a aplicar.',
   'order.rateModalTitle': 'Tu opinión es importante',
-  'order.progress1': 'Creada',
-  'order.progress2': 'Pago',
-  'order.progress3': 'Entregada',
-  'order.progress4': 'Terminada',
+  'order.progress1': 'Creado',
+  'order.progress2': 'Pagado',
+  'order.progress3': 'Entregado',
+  'order.progress4': 'Terminado',
 
   'datePicker.previousMonth': 'Poprzedni miesiąc',
   'datePicker.nextMonth': 'Następny miesiąc',
@@ -435,5 +435,9 @@ const en_US = {
   'MMYY': 'MM/AA',
   'cardNumber': 'Número de tarjeta',
   'findLocation': 'Buscar ubicación'
+
+
+  'type':'Tipo',
+  'billingAddress':'Dirección de facturación'
 }
 export default en_US;
