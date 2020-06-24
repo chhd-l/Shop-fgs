@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import '@/assets/css/heroCarousel.css'
 import Banner_Horizontal_Hot_Sale from "@/assets/images/Banner_Horizontal_Hot_Sale.jpg";
 import Pomotion25offImg from "@/assets/images/pomotion_25off.png";
+import Banner_recommend_item from "@/assets/images/Banner_recommend_item.jpg";
 import './index.css'
 
 class HeroCarousel extends React.Component {
@@ -52,6 +53,16 @@ class HeroCarousel extends React.Component {
                 <img src={Pomotion25offImg} className="rc-md-down" />
               </div>
             </div> */}
+            <div className="hero-carousel__slide">
+              <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
+                <img src={Banner_recommend_item} style={{ maxHeight: '100%' }} />
+                <span className="btn-cheat">
+                  <Link to="/details/8a80808671d968b10171e6d2ba8c0016" className="rc-btn rc-btn--one gtm-hero-carousel-btn">
+                    <FormattedMessage id="header.toOrder" />
+                  </Link>
+                </span>
+              </div>
+            </div>
             <div className="hero-carousel__slide">
               <div className="d-flex align-items-center hero-carousel__slide__inner flex-column-reverse flex-column flex-md-row">
                 <div className="hero-carousel__slide__video">
