@@ -44,7 +44,7 @@ class Login extends React.Component {
       errorMsg: '',
       successMsg: '',
       questionList:[],
-      type: 'login',
+      type: localStorage.getItem('loginType') || 'login',
       loading:false
     };
   }
@@ -414,6 +414,7 @@ class Login extends React.Component {
                           onClick={(e) => {
                             e.preventDefault()
                             this.setState({type: 'forgetPassword'})
+                            localStorage.setItem('loginType', 'forgetPassword')
                           }}
                         >
                           Forget password?
@@ -442,6 +443,7 @@ class Login extends React.Component {
                           style={{ width: "100%" }}
                           onClick={() => {
                             this.setState({type: 'register'})
+                            localStorage.setItem('loginType', 'register')
                           }}
                         >
                           Create an account
@@ -776,6 +778,7 @@ class Login extends React.Component {
                   onClick={(e) => {
                     e.preventDefault()
                     this.setState({type: 'login'})
+                    localStorage.setItem('loginType', 'login')
                   }}
                 >
                   Log in
