@@ -2,8 +2,9 @@ import axios from '@/utils/request'
 import base64 from 'base-64'
 
 const api = {
-  // login: 'login',
-  login:'/base/login',
+  login: 'login',
+  
+  // login:'/base/login', //okta
   getToken: '/okta/getJwtToken',
   getQuestions:'/questions/all',
   register:'/baseRegister',
