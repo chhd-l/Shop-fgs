@@ -316,7 +316,7 @@ class Header extends React.Component {
                           <div className="col-8 col-md-9 col-lg-10">
                             <a
                               onClick={() => this.gotoDetails(item)}
-                              className="productName ui-cursor-pointer"
+                              className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
                               alt={item.lowGoodsName}
                               title={item.lowGoodsName}
                             >
@@ -467,7 +467,7 @@ class Header extends React.Component {
                                   window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
                                 }}>registred</button> */}
                                 <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
-                                  onClick={() => this.clickLogin()}>Log in</button>
+                                  onClick={() => this.clickLogin()}> <FormattedMessage id='login'/></button>
                                 <div><FormattedMessage id="account.notRegistred" /></div>
                                 <a className="rc-styled-link" onClick={() => this.signUp()}>
                                   <FormattedMessage id="signUp" />

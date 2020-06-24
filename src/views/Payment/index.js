@@ -109,42 +109,47 @@ class Payment extends React.Component {
           cityList: res
         })
       })
-    getDictionary({ type: 'country' })
-      .then(res => {
-        this.setState({
-          countryList: res
-        })
-      })
+    let countryRes = await getDictionary({ type: 'country' })
 
     let deliveryInfoStr = localStorage.getItem(`${this.state.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo'}`);
-    const { creditCardInfo } = this.state;
-    this.setState(
-      { type: this.props.match.params.type },
-      () => {
-        if (
-          deliveryInfoStr &&
-          (this.state.type === "payment" ||
-            (!this.state.isLogin && this.state.type === "shipping"))
-        ) {
-          let deliveryInfo = JSON.parse(deliveryInfoStr);
-          creditCardInfo.cardOwner =
-            deliveryInfo.deliveryAddress.firstName +
-            " " +
-            deliveryInfo.deliveryAddress.lastName;
-          creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
-          this.setState({
-            deliveryAddress: deliveryInfo.deliveryAddress,
-            billingAddress: deliveryInfo.billingAddress,
-            commentOnDelivery: deliveryInfo.commentOnDelivery,
-            billingChecked: deliveryInfo.billingChecked,
-            creditCardInfo: creditCardInfo
-          });
-        }
+    const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
+    this.setState({
+      type: this.props.match.params.type,
+      countryList: countryRes
+    }, () => {
+      if (deliveryInfoStr
+        && (this.state.type === "payment"
+          || (!this.state.isLogin && this.state.type === "shipping"))) {
+        let deliveryInfo = JSON.parse(deliveryInfoStr);
+        creditCardInfo.cardOwner =
+          deliveryInfo.deliveryAddress.firstName +
+          " " +
+          deliveryInfo.deliveryAddress.lastName;
+        creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
+        this.setState({
+          deliveryAddress: deliveryInfo.deliveryAddress,
+          billingAddress: deliveryInfo.billingAddress,
+          commentOnDelivery: deliveryInfo.commentOnDelivery,
+          billingChecked: deliveryInfo.billingChecked,
+          creditCardInfo: creditCardInfo
+        });
       }
+      if (!deliveryInfoStr && this.state.type === "shipping" && !this.state.isLogin) {
+        let defaultCountryId = find(this.state.countryList, ele => ele.name.toLowerCase() == 'mexico')
+          ? find(this.state.countryList, ele => ele.name.toLowerCase() == 'mexico').id
+          : ''
+        deliveryAddress.country = defaultCountryId
+        billingAddress.country = defaultCountryId
+        this.setState({
+          deliveryAddress: deliveryAddress,
+          billingAddress: billingAddress
+        });
+      }
+    }
     );
   }
   componentWillUnmount () {
-    
+
     sessionStorage.removeItem('rc-tid')
   }
   matchNamefromDict (dictList, id) {
@@ -742,7 +747,7 @@ class Payment extends React.Component {
   }
   updateDeliveryAddress (data) {
     this.setState({
-      deliveryAddress: data,
+      deliveryAddress: data
     });
   }
   updateBillingAddress (data) {
@@ -1356,7 +1361,7 @@ class Payment extends React.Component {
                                             isCompleteCredit: false
                                           });
                                         }}
-                                        style={{position: 'relative', top: -9}}
+                                        style={{ position: 'relative', top: -9 }}
                                       >
                                         <FormattedMessage id="edit" />
                                       </span>

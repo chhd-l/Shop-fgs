@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import Skeleton from 'react-skeleton-loader'
 import { formatMoney, jugeLoginStatus } from "@/utils/utils";
 import { findIndex, find } from "lodash";
@@ -18,6 +18,7 @@ import {
 import Loading from "@/components/Loading";
 import ConfirmTooltip from '@/components/ConfirmTooltip'
 
+@injectIntl
 class PaymentComp extends React.Component {
   constructor(props) {
     super(props);
@@ -239,11 +240,11 @@ class PaymentComp extends React.Component {
         'phoneNumber',
         'identifyNumber']
       if (fieldList.indexOf(k) !== -1 && this.state.creditCardInfo[k] === "") {
-        this.showErrorMsg("Please complete the required item");
+        this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem);
         return
       }
       if (k === "email" && !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(creditCardInfo[k].replace(/\s*/g, ""))) {
-        this.showErrorMsg("Please enter the correct email");
+        this.showErrorMsg(this.props.intl.messages.pleaseEnterTheCorrectEmail);
         return;
       }
     }
@@ -329,25 +330,25 @@ class PaymentComp extends React.Component {
             "body/credit_card_cvv should match pattern"
           ) !== -1
         ) {
-          this.showErrorMsg("your card cvv is invalid");
+          this.showErrorMsg(this.props.intl.messages.cardCvvIsInvalid);
         } else if (
           res.data.more_info.indexOf(
             "body/card_number should match pattern"
           ) !== -1
         ) {
-          this.showErrorMsg("your card number is invalid");
+          this.showErrorMsg(this.props.intl.messages.cardNumberIsInvalid);
         } else if (
           res.data.more_info.indexOf(
             "body/expiration_date should match pattern"
           ) !== -1
         ) {
-          this.showErrorMsg("your card expiration_date is invalid");
+          this.showErrorMsg(this.props.intl.messages.expirationDateIsInvalid);
         } else {
           this.showErrorMsg(res.data.description);
         }
         return;
       }
-      this.showErrorMsg("Save Failed!");
+      this.showErrorMsg(this.props.intl.messages.saveFailed);
     }
   }
   async deleteCard (el) {
@@ -365,14 +366,14 @@ class PaymentComp extends React.Component {
           this.getPaymentMethodList();
         } else {
           console.log(2);
-          this.showErrorMsg(res.message || "Delete Address Failed");
+          this.showErrorMsg(res.message || this.props.intl.messages.deleteAddressFailed);
           this.setState({
             loading: false,
           });
         }
       })
       .catch((err) => {
-        this.showErrorMsg("Delete Address Failed");
+        this.showErrorMsg(this.props.intl.messages.deleteAddressFailed);
         this.setState({
           loading: false,
         });
@@ -608,7 +609,7 @@ class PaymentComp extends React.Component {
                                     }}
                                     name="cardNumber"
                                     maxLength="254"
-                                    placeholder="Card Number"
+                                    placeholder={this.props.intl.messages.cardNumber}
                                   />
                                 </span>
                                 <div className="invalid-feedback ui-position-absolute">
@@ -638,7 +639,7 @@ class PaymentComp extends React.Component {
                                     }
                                     name="cardMmyy"
                                     maxLength="5"
-                                    placeholder="MM/YY"
+                                    placeholder={this.props.intl.messages.cardNumber}
                                   />
                                 </span>
                                 <div className="invalid-feedback ui-position-absolute">
@@ -835,4 +836,4 @@ class PaymentComp extends React.Component {
   }
 }
 
-export default PaymentComp;
+export default injectIntl(PaymentComp);

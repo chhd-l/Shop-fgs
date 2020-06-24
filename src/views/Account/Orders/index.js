@@ -20,6 +20,8 @@ import {
 } from '@/utils/constant'
 import './index.css'
 
+const lang = localStorage.getItem('rc-lang')
+
 export default class AccountOrders extends React.Component {
   constructor(props) {
     super(props)
@@ -230,7 +232,7 @@ export default class AccountOrders extends React.Component {
                   </h4>
                 </div>
                 <div className="row justify-content-around">
-                  <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
+                  <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
                       <FormattedMessage id="order.orderNumber" />
                     </div>
@@ -252,7 +254,7 @@ export default class AccountOrders extends React.Component {
                       </span>
                     </div>
                   </div>
-                  <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
+                  <div className="col-12 col-md-4 row align-items-center mt-2 mt-md-0">
                     <div className="col-12">
                       <div className="rc-full-width rc-select-processed">
                         <Selection
@@ -323,13 +325,13 @@ export default class AccountOrders extends React.Component {
                                       {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
                                     </div>
                                     <div className="col-4 col-md-2">
-                                      {ORDER_STATUS_ENUM[order.tradeState.flowState] || order.tradeState.flowState}
+                                      {ORDER_STATUS_ENUM[lang][order.tradeState.flowState] || order.tradeState.flowState}
                                     </div>
                                     <div className="col-4 col-md-2">
-                                      {DELIVER_STATUS_ENUM[order.tradeState.deliverStatus] || order.tradeState.deliverStatus}
+                                      {DELIVER_STATUS_ENUM[lang][order.tradeState.deliverStatus] || order.tradeState.deliverStatus}
                                     </div>
                                     <div className="col-4 col-md-2">
-                                      {PAY_STATUS_ENUM[order.tradeState.payState] || order.tradeState.payState}
+                                      {PAY_STATUS_ENUM[lang][order.tradeState.payState] || order.tradeState.payState}
                                     </div>
                                     <div className="col-4 col-md-2 text-center">
                                       {

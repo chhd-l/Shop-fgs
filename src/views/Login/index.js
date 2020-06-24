@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import "./index.css";
 import Loading from "@/components/Loading";
@@ -11,6 +11,7 @@ import { getDictionary } from '@/utils/utils'
 import bg1 from "@/assets/images/login-bg3.jpg";
 import bg2 from "@/assets/images/register-bg1.jpg";
 
+@injectIntl
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -66,10 +67,10 @@ class Login extends React.Component {
         })
       }
       else{
-        this.showErrorMsg(res.message || 'get data failed')
+        this.showErrorMsg(res.message || this.props.intl.messages.getDataFailed)
       }
     }).catch(err=>{
-      this.showErrorMsg(err.toString() || 'get data failed')
+      this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
     })
   }
   // getQuestions=()=>{
@@ -98,21 +99,35 @@ class Login extends React.Component {
     });
   };
   async loginClick() {
+    if(sessionStorage.getItem("rc-token")){
+      sessionStorage.removeItem("rc-token")
+    }
+    if(localStorage.getItem("rc-token")){
+      localStorage.removeItem("rc-token")
+    }
+    if(localStorage.getItem("rc-userinfo")){
+      localStorage.removeItem("rc-userinfo")
+    }
+
     const { history } = this.props;
     let res = await login(this.state.loginForm);
-    localStorage.setItem("rc-token", res.context.token);
-    let userinfo = res.context.customerDetail;
-    userinfo.customerAccount = res.context.accountName;
+    if(res.code==='K-000000'){
+      localStorage.setItem("rc-token", res.context.token);
+      let userinfo = res.context.customerDetail;
+      userinfo.customerAccount = res.context.accountName;
 
-    let customerInfoRes = await getCustomerInfo();
-    const context = customerInfoRes.context;
-    userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
-    localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+      let customerInfoRes = await getCustomerInfo();
+      if(res.code==='K-000000'){
+        userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
+        localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+      }
 
-    history.push(
-      (this.props.location.state && this.props.location.state.redirectUrl) ||
-        "/account"
-    );
+      history.push(
+        (this.props.location.state && this.props.location.state.redirectUrl) ||
+          "/account"
+      );
+    }
+    
   }
   register = () => {
     this.setState({
@@ -127,7 +142,8 @@ class Login extends React.Component {
       }
     }
     if (!requiredVerify) {
-      this.showErrorMsg("You have mandatory fields not filled out!");
+      debugger
+      this.showErrorMsg(this.props.intl.messages.mandatoryFieldsError);
       return false;
     }
     if (
@@ -136,19 +152,19 @@ class Login extends React.Component {
         this.nameVerify(registerForm.lastName)
       )
     ) {
-      this.showErrorMsg("First Name or Last Name cannot exceed 50 characters!");
+      this.showErrorMsg(this.props.intl.messages.firstNameLastName50characters);
       return false;
     }
     if (!this.emailVerify(registerForm.email)) {
-      this.showErrorMsg("Your email has not been verified!");
+      this.showErrorMsg(this.props.intl.messages.yourEmailNotVerified);
       return false;
     }
     if (!this.passwordVerify(registerForm.password)) {
-      this.showErrorMsg("Your password has not been verified!");
+      this.showErrorMsg(this.props.intl.messages.yourPasswordNotVerified);
       return false;
     }
     if (registerForm.password !== registerForm.confirmPassword) {
-      this.showErrorMsg("The two passwords you typed do not match!");
+      this.showErrorMsg(this.props.intl.messages.twoPasswordsYouTypedDoNotMatch);
       return false;
     }
 
@@ -179,11 +195,11 @@ class Login extends React.Component {
 
       }
       else{
-        this.showErrorMsg(res.message || 'Register failed')
+        this.showErrorMsg(res.message || this.props.intl.messages.registerFailed)
       }
       console.log(res)
     }).catch(err=>{
-      this.showErrorMsg(err.toString() || 'Register failed')
+      this.showErrorMsg(err.toString() || this.props.intl.messages.registerFailed)
     })
 
 
@@ -302,14 +318,15 @@ class Login extends React.Component {
 
                 <div class="rc-column loginForm">
                   <h1 class="rc-espilon">
-                    <h3 style={{fontSize: '32px'}}><span style={{color: '#666'}}>Welcome to</span> Royal Canin</h3>
+                    <h3 style={{fontSize: '32px'}}><span style={{color: '#666'}}>
+                      <FormattedMessage id='welcomeTo'/></span> <FormattedMessage id='royalCanin'/></h3>
                     <div className="loginBox">
                     <div style={{ marginTop: "40px" }}>
                       <div className="miaa_input required ">
                         <input
                           type="email"
                           className="capture_signInEmailAddress capture_required capture_text_input form-control"
-                          placeholder="Email Address *"
+                          placeholder={this.props.intl.messages.emailAddress}
                           name="customerAccount"
                           value={this.state.loginForm.customerAccount}
                           onChange={(e) => this.loginFormChange(e)}
@@ -340,7 +357,7 @@ class Login extends React.Component {
                             data-capturefield="currentPassword"
                             type={this.state.loginPasswordType}
                             className="capture_currentPassword capture_required capture_text_input form-control"
-                            placeholder="Password *"
+                            placeholder={this.props.intl.messages.password}
                             name="customerPassword"
                             value={this.state.loginForm.customerPassword}
                             onChange={(e) => this.loginFormChange(e)}
@@ -402,7 +419,7 @@ class Login extends React.Component {
                           for="id-checkbox-cat"
                           style={{ color: "#666", fontSize: "14px" }}
                         >
-                          Remember Me
+                          <FormattedMessage id='rememberMe'/>
                         </label>
                       </div>
 
@@ -417,7 +434,7 @@ class Login extends React.Component {
                             localStorage.setItem('loginType', 'forgetPassword')
                           }}
                         >
-                          Forget password?
+                          <FormattedMessage id='forgetPassword'/>
                         </a>
                         {/* <Link to="/forgetPassword" style={{ color: "#666", fontSize: "14px" }}>
                           <FormattedMessage id="login.forgetPassword" />  
@@ -434,7 +451,7 @@ class Login extends React.Component {
                           style={{ width: "100%" }}
                           onClick={() => this.loginClick()}
                         >
-                          Log in
+                          <FormattedMessage id='login'/>
                         </button>
                       </div>
                       <div class="rc-column" style={{ textAlign: "center" }}>
@@ -446,7 +463,7 @@ class Login extends React.Component {
                             localStorage.setItem('loginType', 'register')
                           }}
                         >
-                          Create an account
+                           <FormattedMessage id='createAnAccount'/>
                         </button>
                       </div>
                     </div>
@@ -461,7 +478,7 @@ class Login extends React.Component {
                         
                       }
                     >
-                      Continue as a guest{'>'}
+                      <FormattedMessage id='continueAsGuest'/>{'>'}
                     </a>
                     </div>
                   </h1>
@@ -469,7 +486,7 @@ class Login extends React.Component {
               </div>
               <div style={{display: this.state.type === 'register'?'block': 'none'}} className="register">
               {this.state.loading ? <Loading positionFixed="true" /> : null}
-              <h3 style={{textAlign: 'center', color: '#e2001a', fontSize: '32px'}}><span style={{color: '#666'}}>Welcome to</span> Royal Canin</h3>
+              <h3 style={{textAlign: 'center', color: '#e2001a', fontSize: '32px'}}><span style={{color: '#666'}}> <FormattedMessage id='welcomeTo'/></span>  <FormattedMessage id='royalCanin'/></h3>
               <div className="registerBox" style={{ position: 'relative', margin: "0 auto" }}>
               <div className="message-tip">
                   <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
@@ -501,7 +518,7 @@ class Login extends React.Component {
                         data-capturefield="firstName"
                         type="text"
                         className="capture_firstName capture_required capture_text_input form-control"
-                        placeholder="First Name *"
+                        placeholder= {this.props.intl.messages.firstName}
                         name="firstName"
                         onChange={(e) => {
                           const value = e.target.value;
@@ -520,7 +537,7 @@ class Login extends React.Component {
                         data-capturefield="lastName"
                         type="text"
                         className="capture_lastName capture_required capture_text_input form-control"
-                        placeholder="Last Name *"
+                        placeholder={this.props.intl.messages.lastName}
                         name="lastName"
                         onChange={(e) => {
                           const value = e.target.value;
@@ -541,7 +558,7 @@ class Login extends React.Component {
                         data-capturefield="email"
                         type="email"
                         className="capture_email capture_required capture_text_input form-control"
-                        placeholder="Email Address *"
+                        placeholder={this.props.intl.messages.emailAddress}
                         name="email"
                         onChange={(e) => {
                           const value = e.target.value;
@@ -559,7 +576,7 @@ class Login extends React.Component {
                         data-js-select=""
                         id="country"
                         value={registerForm.country}
-                        placeholder="Country *"
+                        placeholder={this.props.intl.messages.country}
                         name="country"
                         onChange={(e) => {
                           const value = e.target.value;
@@ -587,7 +604,7 @@ class Login extends React.Component {
                         data-capturefield="password"
                         type={this.state.registerPwdType}
                         className="capture_password capture_required capture_text_input form-control"
-                        placeholder="Password *"
+                        placeholder={this.props.intl.messages.password}
                         name="password"
                         onChange={(e) => {
                           const value = e.target.value;
@@ -627,7 +644,7 @@ class Login extends React.Component {
                         data-capturefield="confirmPassword"
                         type={this.state.registerConfirmPwdType}
                         className="capture_password capture_required capture_text_input form-control"
-                        placeholder="Confirm Password *"
+                        placeholder={this.props.intl.messages.confirmPassword}
                         name="confirmPassword"
                         onChange={(e) => {
                           const value = e.target.value;
@@ -675,7 +692,7 @@ class Login extends React.Component {
                         }}
                       >
                         <option value="" disabled>
-                          Security Question *
+                          {this.props.intl.messages.securityQuestion} *
                         </option>
                         {this.state.questionList.map((item) => (
                           <option value={item.id} key={item.id}>
@@ -692,7 +709,7 @@ class Login extends React.Component {
                         data-capturefield="answer"
                         type="text"
                         className="capture_firstName capture_required capture_text_input form-control"
-                        placeholder="Answer *"
+                        placeholder={this.props.intl.messages.answer}
                         name="answer"
                         onChange={(e) => {
                           const value = e.target.value;
@@ -741,22 +758,21 @@ class Login extends React.Component {
                               });
                             }}
                           />
-                            I have read the
+                            <FormattedMessage id='iHaveReadThe'/>
                           <a
                             href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html/"
                             target="_blank" rel='noreferrer'
                           >
-                            <font> User Agreement </font>
+                            <font> <FormattedMessage id='userAgreement'/></font>
                           </a>
-                              and the
+                            <FormattedMessage id='andThe'/>
                           <a
                             href="https://www.mars.com/global/policies/privacy/pp-russian/"
                             target="_blank" rel='noreferrer'
                           >
-                            <font> Privacy Policy </font>
+                            <font><FormattedMessage id='privacyPolicy'/> </font>
                           </a>
-                              and give my consent to the processing of
-                              personal data, including cross-border transfer
+                            <FormattedMessage id='giveConsentPersonalData'/>
                         </label>
               </div>
               </div>
@@ -768,7 +784,7 @@ class Login extends React.Component {
                   style={{ width: "100%" }}
                   onClick={() => this.register()}
                 >
-                  Create an account
+                  <FormattedMessage id='createAnAccount'/>
                 </button>
               </div>
               <div class="rc-column" style={{ textAlign: "center" }}>
@@ -781,7 +797,7 @@ class Login extends React.Component {
                     localStorage.setItem('loginType', 'login')
                   }}
                 >
-                  Log in
+                  <FormattedMessage id='login'/>
                 </button>
               </div>
                 
@@ -789,18 +805,18 @@ class Login extends React.Component {
               </div>
               
               <div style={{display: this.state.type === 'forgetPassword'?'block': 'none'}} className="forgetPassword">
-                <h3 style={{textAlign: 'center', fontSize: '30px'}}>Create New Password</h3>
+                <h3 style={{textAlign: 'center', fontSize: '30px'}}><FormattedMessage id='forgetPassword.createNewPassword'/></h3>
                 
                 <div className="forgetBox" style={{position: 'relative'}}>
                 <img src={bg2} className="registerImg" style={{width: '300px', position: 'absolute', bottom: '-120px', right: '-400px'}}/>
-                <p>You will be sent a letter with instruction for changing the password</p>
+                <p><FormattedMessage id='forgetPassword.forgetPasswordTip'/></p>
                 <div className="miaa_input required">
                       <input
                         id="capture_traditionalRegistration_firstName"
                         data-capturefield="email"
                         type="text"
                         className="capture_firstName capture_required capture_text_input form-control"
-                        placeholder="Email Address *"
+                        placeholder={this.props.intl.messages.emailAddress}
                         name="email"
                         onChange={(e) => {
                           const value = e.target.value;
@@ -821,7 +837,7 @@ class Login extends React.Component {
                             this.setState({type: 'login'})
                           }}
                         >
-                          Submit
+                          <FormattedMessage id='submit'/>
                         </button>
                       </p>
                       <p style={{ textAlign: "center" }}>
@@ -830,7 +846,7 @@ class Login extends React.Component {
                           style={{ width: "70%" }}
                           onClick={() => this.setState({type: 'login'})}
                         >
-                          Back to authorization
+                          <FormattedMessage id='backToAuthorization'/>
                         </button>
                       </p>
                     </div>
@@ -1294,4 +1310,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default injectIntl(Login);

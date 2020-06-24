@@ -1,6 +1,6 @@
 import React from "react"
 import Skeleton from 'react-skeleton-loader'
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -17,6 +17,7 @@ import {
 import { IMG_DEFAULT } from '@/utils/constant'
 import './index.css'
 
+@injectIntl
 class OrdersAfterSale extends React.Component {
   constructor(props) {
     super(props)
@@ -426,7 +427,7 @@ class OrdersAfterSale extends React.Component {
                                         id="instructions"
                                         value={form.instructions}
                                         onChange={e => this.handleFormChange(e)}
-                                        placeholder="Please fill in the return instructions"
+                                        placeholder={this.props.intl.messages.PleaseFillInstructions}
                                       ></textarea>
                                       <label
                                         className="rc-input__label"
@@ -481,4 +482,4 @@ class OrdersAfterSale extends React.Component {
   }
 }
 
-export default OrdersAfterSale
+export default injectIntl(OrdersAfterSale)
