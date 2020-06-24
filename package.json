@@ -84,8 +84,7 @@
     "start": "cross-env PORT=3000 node scripts/start.js",
     "test": "node scripts/test.js",
     "build": "dotenv -e .env.development node scripts/build.js",
-    "build:prod": "dotenv -e .env.production node scripts/build.js",
-    "analyz": "set NODE_ENV=production npm_config_report=true npm run build"
+    "build:prod": "dotenv -e .env.production node scripts/build.js"
   },
   "eslintConfig": {
     "extends": "react-app"
