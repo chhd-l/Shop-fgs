@@ -20,6 +20,8 @@ import {
 } from '@/utils/constant'
 import './index.css'
 
+const lang = localStorage.getItem('rc-lang')
+
 export default class AccountOrders extends React.Component {
   constructor(props) {
     super(props)
@@ -323,13 +325,13 @@ export default class AccountOrders extends React.Component {
                                       {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
                                     </div>
                                     <div className="col-4 col-md-2">
-                                      {ORDER_STATUS_ENUM[order.tradeState.flowState] || order.tradeState.flowState}
+                                      {ORDER_STATUS_ENUM[lang][order.tradeState.flowState] || order.tradeState.flowState}
                                     </div>
                                     <div className="col-4 col-md-2">
-                                      {DELIVER_STATUS_ENUM[order.tradeState.deliverStatus] || order.tradeState.deliverStatus}
+                                      {DELIVER_STATUS_ENUM[lang][order.tradeState.deliverStatus] || order.tradeState.deliverStatus}
                                     </div>
                                     <div className="col-4 col-md-2">
-                                      {PAY_STATUS_ENUM[order.tradeState.payState] || order.tradeState.payState}
+                                      {PAY_STATUS_ENUM[lang][order.tradeState.payState] || order.tradeState.payState}
                                     </div>
                                     <div className="col-4 col-md-2 text-center">
                                       {
