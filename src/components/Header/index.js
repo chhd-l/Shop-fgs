@@ -64,6 +64,7 @@ class Header extends React.Component {
     const { location } = this.props
     let prescriberId
     let prescriberName
+    let tmpName = ''
 
     // 指定clinic链接进入，设置default clinic
     if (location
@@ -72,23 +73,26 @@ class Header extends React.Component {
         || location.pathname.includes('/details'))
       && !this.state.prescriberId) {
       prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
-      sessionStorage.setItem('rc-clinics-id', prescriberId)
-      this.setState({ prescriberId: prescriberId })
-      let tmpName = ''
       if (prescriberId && !this.state.prescriberName) {
         try {
           let res = await getPrescriptionById({ prescriberId })
-          if (res.context) {
+          if (res.context && res.context.enabled) {
             tmpName = res.context.prescriberName
           }
         } catch (e) { }
       }
-      sessionStorage.setItem('rc-clinics-name', tmpName)
-      this.setState({ prescriberName: tmpName })
+      if (prescriberId && tmpName) {
+        sessionStorage.setItem('rc-clinics-id', prescriberId)
+        sessionStorage.setItem('rc-clinics-name', tmpName)
+        this.setState({
+          prescriberName: tmpName,
+          prescriberId: prescriberId
+        })
+      }
     }
 
     // 登录状态，设置default clinic
-    if (jugeLoginStatus() && !prescriberId && localStorage.getItem('rc-userinfo')) {
+    if (jugeLoginStatus() && (!prescriberId || !tmpName) && localStorage.getItem('rc-userinfo')) {
       let userInfo = JSON.parse(localStorage.getItem('rc-userinfo'))
       if (userInfo.defaultClinics) {
         prescriberId = userInfo.defaultClinics.clinicsId

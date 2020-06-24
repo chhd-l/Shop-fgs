@@ -95,16 +95,10 @@ export default class PetForm extends React.Component {
   }
 
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+    
   }
   componentDidMount () {
     this.getPetList()
-
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
-      window.location.reload();
-      return false
-    }
 
     try {
       let timer = setInterval(() => {

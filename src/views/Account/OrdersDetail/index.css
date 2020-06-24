@@ -29,7 +29,7 @@
 }
 
 .orderDetailsPage.card .img-fluid {
-  max-width: 16%
+  max-width: 19%
 }
 
 @media (max-width: 768.98px) {
@@ -43,7 +43,7 @@
 }
 .rc-billing::after {
   background-position: 69.98% 77.89%!important;
-  transform: scale(.7);
+  transform: scale(.6);
 }
 .order-progress {
   overflow-x: auto;
@@ -61,6 +61,7 @@
   background-color: #e2001a;
 }
 .rc-progress-stepped__item .order-progress-text {
+  display: none;
   position: absolute;
   z-index: 1;
   white-space: nowrap;
@@ -68,8 +69,11 @@
   left: 50%;
   transform: translateX(-50%);
   line-height: 1.3;
-  bottom: -3rem;
+  bottom: -4.5rem;
   opacity: .6;
+}
+.rc-progress-stepped__item .order-progress-text.md-down {
+  display: block;
 }
 .order-progress .rc-progress-stepped__item.rc-complete .order-progress-text,
 .order-progress .rc-progress-stepped__item.rc-current .order-progress-text {
@@ -92,7 +96,22 @@
   height: 2.5rem;
   line-height: 2rem;
 }
+.order-progress-mb {
+  margin-bottom: 5rem!important
+}
 @media (min-width: 1292px) {
+  .rc-progress-stepped__item .order-progress-text.md-up {
+    display: block;
+  }
+  .rc-progress-stepped__item .order-progress-text.md-down {
+    display: none;
+  }
+  .order-progress-mb {
+    margin-bottom: 4.5rem!important
+  }
+  .rc-progress-stepped__item .order-progress-text {
+    bottom: -3rem;
+  }
   .order-progress .rc-progress-stepped__item::after {
     width: 14rem;
     right: -14rem;

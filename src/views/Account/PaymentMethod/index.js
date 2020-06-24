@@ -58,7 +58,7 @@ export default class PaymentMethod extends React.Component {
   }
 
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+    
   }
   async componentDidMount () {
     // this.getPaymentMethodList()
@@ -306,7 +306,7 @@ export default class PaymentMethod extends React.Component {
                     </h4>
                   </div>
                   <div className="content-asset">
-                    <PaymentComp listColClassName={['col-sm-3', 'col-sm-9']} />
+                    <PaymentComp />
                     {/* <div className="table-toolbar">
                       <span className="t-gray">
                         <FormattedMessage

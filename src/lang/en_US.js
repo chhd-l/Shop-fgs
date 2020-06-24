@@ -158,7 +158,7 @@ const en_US = {
   'footer.cookieCollectionPolicy': 'Cookie Collection Policy',
   'footer.contactUs': 'Contact us',
   'footer.contactUsInfo': 'You can contact us Monday to Friday from 9:00 am to 6:00 pm',
-  'footer.confidentiality': 'Confidentiality',
+  'footer.confidentiality': 'Privacidad',
   'footer.cookies': 'Cookies',
   'footer.legalTerms': 'Legal Terms',
   'footer.copyrightInfo': 'Copyright © Mars 2020®, Trademark of Mars Incorporated and its affiliates',

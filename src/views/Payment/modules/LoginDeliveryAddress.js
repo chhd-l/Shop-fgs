@@ -66,7 +66,7 @@ export default class LoginDeliveryAddress extends React.Component {
     this.setState({ loading: true })
     try {
       let res = await getAddressList()
-      let addressList = res.context.filter(ele => ele.type.toLowerCase() === this.props.type)
+      let addressList = res.context.filter(ele => ele.type === this.props.type.toUpperCase())
       let tmpId
       const defaultAddressItem = find(addressList, ele => ele.isDefaltAddress === 1)
       if (selectedId && find(addressList, ele => ele.deliveryAddressId === selectedId)) {
@@ -214,7 +214,7 @@ export default class LoginDeliveryAddress extends React.Component {
       postCode: deliveryAddress.postCode,
       provinceId: 0,
       rfc: deliveryAddress.rfc,
-      type: this.props.type
+      type: this.props.type.toUpperCase()
     }
     try {
       this.setState({ saveLoading: true })
@@ -315,19 +315,19 @@ export default class LoginDeliveryAddress extends React.Component {
                                   </div>
                                   <div className="col-10 col-md-8">
                                     {[item.consigneeName, item.consigneeNumber].join(', ')}
+                                    {
+                                      item.isDefaltAddress === 1
+                                        ? <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
+                                          <FormattedMessage id="default" />
+                                        </span>
+                                        : null
+                                    }
                                     <br />
                                     {[
                                       this.getDictValue(this.state.countryList, item.countryId),
                                       this.getDictValue(this.state.cityList, item.cityId),
                                       item.address1
                                     ].join(', ')}
-                                    {
-                                      item.isDefaltAddress === 1
-                                        ? <span className="icon-default rc-bg-colour--brand1">
-                                          <FormattedMessage id="default" />
-                                        </span>
-                                        : null
-                                    }
                                   </div>
                                   <div className="col-2 col-md-1 text-right">
                                     <a className="addr-btn-edit border-left pl-2" onClick={() => this.addOrEditAddress(i)}>
@@ -340,8 +340,10 @@ export default class LoginDeliveryAddress extends React.Component {
                             ))
                           }
                           {
-                            addressList.length > 1 && <div className="text-center pt-2 pb-2">
-                              <span className="ui-cursor-pointer black" onClick={() => { this.setState({ foledMore: !foledMore }) }}>
+                            addressList.length > 1 && <div
+                              className="text-center pt-2 pb-2 ui-cursor-pointer"
+                              onClick={() => { this.setState({ foledMore: !foledMore }) }}>
+                              <span>
                                 {
                                   foledMore
                                     ? <React.Fragment>
@@ -379,7 +381,7 @@ export default class LoginDeliveryAddress extends React.Component {
                                   className="rc-input__checkbox"
                                   value={deliveryAddress.isDefalt} />
                                 <label className={`rc-input__label--inline ${deliveryAddress.isDefalt ? 'defaultAddressChecked' : ''}`}>
-                                  <FormattedMessage id="setDefaultAddress"></FormattedMessage>
+                                  <FormattedMessage id="setDefaultAddress" />
                                 </label>
                               </div>
                               : null

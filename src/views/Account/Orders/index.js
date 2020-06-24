@@ -47,14 +47,10 @@ export default class AccountOrders extends React.Component {
     this.pageSize = 6
   }
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+    
   }
   componentDidMount () {
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
-      window.location.reload();
-      return false
-    }
+
     this.queryOrderList()
   }
   handleDuringTimeChange (data) {
@@ -289,16 +285,16 @@ export default class AccountOrders extends React.Component {
                                       <div className="col-12 col-md-2">
                                         <p><FormattedMessage id="order.orderDate" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.tradeState.createTime.substr(0, 10)}</span></p>
                                       </div>
-                                      <div className="col-12 col-md-2">
-                                        <p><FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.id}</span></p>
+                                      <div className="col-12 col-md-2 mb-2 mb-md-0">
+                                        <p className="text-nowrap"><FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.id}</span></p>
                                       </div>
-                                      <div className="col-12 col-md-2">
+                                      <div className="col-4 col-md-2">
                                         <p><FormattedMessage id="order.orderStatus" /></p>
                                       </div>
-                                      <div className="col-12 col-md-2">
+                                      <div className="col-4 col-md-2">
                                         <p><FormattedMessage id="order.shippingStatus" /></p>
                                       </div>
-                                      <div className="col-12 col-md-2">
+                                      <div className="col-4 col-md-2">
                                         <p><FormattedMessage id="order.paymentStatus" /></p>
                                       </div>
                                       <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
@@ -313,7 +309,7 @@ export default class AccountOrders extends React.Component {
                                     </div>
                                   </div>
                                   <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
-                                    <div className="col-12 col-md-2 d-flex flex-wrap">
+                                    <div className="col-8 col-md-2 d-flex flex-wrap mb-2 mb-md-0">
                                       {order.tradeItems.map(item => (
                                         <img
                                           className="img-fluid"
@@ -323,19 +319,19 @@ export default class AccountOrders extends React.Component {
                                           title={item.spuName} />
                                       ))}
                                     </div>
-                                    <div className="col-12 col-md-2">
+                                    <div className="col-4 col-md-2 text-right text-md-left">
                                       {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
                                     </div>
-                                    <div className="col-12 col-md-2">
+                                    <div className="col-4 col-md-2">
                                       {ORDER_STATUS_ENUM[order.tradeState.flowState] || order.tradeState.flowState}
                                     </div>
-                                    <div className="col-12 col-md-2">
+                                    <div className="col-4 col-md-2">
                                       {DELIVER_STATUS_ENUM[order.tradeState.deliverStatus] || order.tradeState.deliverStatus}
                                     </div>
-                                    <div className="col-12 col-md-2">
+                                    <div className="col-4 col-md-2">
                                       {PAY_STATUS_ENUM[order.tradeState.payState] || order.tradeState.payState}
                                     </div>
-                                    <div className="col-12 col-md-2 text-center">
+                                    <div className="col-4 col-md-2 text-center">
                                       {
                                         order.canPayNow
                                           ? <React.Fragment>

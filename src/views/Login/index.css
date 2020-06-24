@@ -6,6 +6,33 @@
   .layout-container, .rc-layout-container {
     margin: 0 !important;
   }
+  .loginBox {
+    width: 476px;
+  }
+  .registerBox {
+    width: 50%;
+  }
+  .buttonGroup {
+    width: 40%;
+    margin: 0 auto !important;
+  }
+  .imgBox {
+    text-align: right;
+  }
+  .imgBox img {
+    margin-top: 70px;
+    width: 476px;
+  }
+  .forgetBox {
+    width: 420px;
+    margin: 0 auto;
+  }
+  .forgetBox p {
+    font-size: 14px;
+  }
+  .logoImg {
+    margin: 60px auto 40px;
+  }
 }
 
 .register .rc-column {
@@ -20,6 +47,31 @@
   /* 手机 */
   .miaa-content {
     width: 100%;
+  }
+  .loginBox {
+    width: 100%;
+  }
+  .registerBox {
+    width:100%;
+  }
+  .registerImg {
+    display: none !important;
+  }
+  .register .rc-column {
+    padding-left: 0;
+  }
+  .register .buttonGroup .rc-column {
+    padding-bottom: 1rem;
+  }
+  .imgBox {
+    text-align: center;
+  }
+  .forgetBox .rc-btn {
+    display: inline !important;
+    margin-bottom: 0.5rem;
+  }
+  .logoImg {
+    margin: 20px auto 10px;
   }
 }
 
@@ -7842,7 +7894,7 @@ html .miaa {
 .miaa .miaa_select:first-child,
 .miaa .miaa_radio:first-child,
 .miaa .capture_dateselectBlock:first-child {
-  margin-top: 25px
+  /* margin-top: 25px */
 }
 
 .miaa .miaa_input label::first-letter,
