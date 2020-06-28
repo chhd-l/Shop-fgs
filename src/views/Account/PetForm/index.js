@@ -864,19 +864,21 @@ class PetForm extends React.Component {
                               style={{ margin: "15px 0 0 0", pointerEvents: this.state.isUnknownDisabled ? 'none' : "" }}
                               onClick={() => this.setUnknown()}
                             >
-                              <input type="checkbox"
-                                id="defaultAddress"
-                                className="rc-input__checkbox"
-                                value={this.state.isUnknown} />
                               {
-                                this.state.isUnknown ?
-                                  <label className="rc-input__label--inline petPropChecked" >
-                                    <FormattedMessage id="account.unknownBreed"></FormattedMessage>
-                                  </label> :
-                                  <label className="rc-input__label--inline ">
-                                    <FormattedMessage id="account.unknownBreed"></FormattedMessage>
-                                  </label>
+                                this.state.isUnknown
+                                  ? <input
+                                    type="checkbox"
+                                    className="rc-input__checkbox"
+                                    value={this.state.isUnknown}
+                                    checked />
+                                  : <input
+                                    type="checkbox"
+                                    className="rc-input__checkbox"
+                                    value={this.state.isUnknown} />
                               }
+                              <label className="rc-input__label--inline text-break" >
+                                <FormattedMessage id="account.unknownBreed" />
+                              </label>
                             </div>
 
                           </div>

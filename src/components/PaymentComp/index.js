@@ -784,27 +784,27 @@ class PaymentComp extends React.Component {
                   className="rc-input rc-input--inline"
                   style={{ marginTop: "10px", float: "left" }}
                   onClick={() => {
-                    console.log(creditCardInfo.isDefault, 'default')
                     creditCardInfo.isDefault = !creditCardInfo.isDefault;
                     this.setState({ creditCardInfo });
                   }}
                 >
-                  <input
-                    type="checkbox"
-                    id="defaultAddress"
-                    className="rc-input__checkbox"
-                    // value={creditCardInfo.isDefault}
-                    value={true}
-                  />
-                  {!creditCardInfo.isDefault ? (
-                    <label className="rc-input__label--inline">
-                      <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                    </label>
-                  ) : (
-                      <label className="rc-input__label--inline defaultAddressChecked">
-                        <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                      </label>
-                    )}
+                  {
+                    creditCardInfo.isDefault
+                      ? <input
+                        type="checkbox"
+                        className="rc-input__checkbox"
+                        value={creditCardInfo.isDefault}
+                        checked
+                      />
+                      : <input
+                        type="checkbox"
+                        className="rc-input__checkbox"
+                        value={creditCardInfo.isDefault}
+                      />
+                  }
+                  <label className="rc-input__label--inline text-break">
+                    <FormattedMessage id="setDefaultPaymentMethod" />
+                  </label>
                 </div>
                 <a
                   className="rc-styled-link editPersonalInfoBtn"
