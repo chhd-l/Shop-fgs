@@ -222,6 +222,7 @@ const en_US = {
   'payment.email': 'Email',
   'payment.acceptCards': 'We accept credit cards.',
   'payment.rfc': 'Reference',
+  'payment.addressTitle': 'Address and Shipping Method',
 
   'confirmation.info1': 'Thank you for your order.',
   'confirmation.info2': 'In the near future, our staff will contact you to comfirm the order.',

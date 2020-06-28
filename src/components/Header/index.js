@@ -21,7 +21,7 @@ import './index.css'
 
 
 @observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
-@injectIntl
+// @injectIntl
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
@@ -453,9 +453,18 @@ class Header extends React.Component {
                       className="minicart inlineblock"
                       style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }}
                       onMouseOver={this.handleCenterMouseOver} onMouseOut={this.handleCenterMouseOut}>
-                      <Link to="/account" className="minicart-link" data-loc="miniCartOrderBtn" title={this.props.intl.messages.personal}>
-                        <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
-                      </Link>
+                      <FormattedMessage id="personal">
+                        {txt => (
+                          <Link
+                            to="/account"
+                            className="minicart-link"
+                            data-loc="miniCartOrderBtn"
+                            title={txt}>
+                            <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
+                          </Link>
+                        )}
+                      </FormattedMessage>
+
                       {
                         !Store.isLogin
                           ?
@@ -647,4 +656,4 @@ class Header extends React.Component {
   }
 }
 
-export default injectIntl(Header)
+export default Header

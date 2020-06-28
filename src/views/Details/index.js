@@ -146,7 +146,7 @@ class Details extends React.Component {
           for (let item of res.context.storeCates) {
             const t = find(STORE_CATE_ENUM, ele => ele.cateName.includes(item.cateName))
             if (t) {
-              this.productRange.push(t.text[this.props.intl.locale || 'en'])
+              this.productRange.push(t.text[this.props.intl && this.props.intl.locale || 'en'])
             }
           }
 
@@ -200,7 +200,7 @@ class Details extends React.Component {
           });
 
           // const selectedSize = find(sizeList, s => s.selected)
-          
+
           const { goodsDetailTab } = this.state
           try {
             let tmpGoodsDetail = res.context.goods.goodsDetail
@@ -414,10 +414,10 @@ class Details extends React.Component {
         goodsNum: quantity,
         goodsCategory: [this.specie, this.productRange, this.format.join('&')].join('/')
       });
-      this.headerRef.current.updateCartCache();
-      this.headerRef.current.handleCartMouseOver();
+      this.headerRef.current && this.headerRef.current.updateCartCache();
+      this.headerRef.current && this.headerRef.current.handleCartMouseOver();
       setTimeout(() => {
-        this.headerRef.current.handleCartMouseOut();
+        this.headerRef.current && this.headerRef.current.handleCartMouseOut();
       }, 1000);
       if (redirect) {
         // 获取购物车列表
@@ -549,7 +549,7 @@ class Details extends React.Component {
     }
     localStorage.setItem("rc-cart-data", JSON.stringify(cartDataCopy));
     this.setState({ cartData: cartDataCopy });
-    this.headerRef.current.updateCartCache();
+    this.headerRef.current && this.headerRef.current.updateCartCache();
     if (redirect) {
       await this.hanldePurchasesForCheckout(cartDataCopy);
       if (this.state.tradePrice < MINIMUM_AMOUNT) {

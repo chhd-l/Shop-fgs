@@ -1002,7 +1002,7 @@ class Payment extends React.Component {
                 >
                   <div className="card shipping-summary">
                     <div className="card-header rc-padding-right--none clearfix">
-                      <h5 className="pull-left">Address and Shipping Method</h5>
+                      <h5 className="pull-left"><FormattedMessage id="payment.addressTitle" /></h5>
                       {
                         !this.state.isToPayNow && <a
                           href="#"
