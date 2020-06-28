@@ -447,6 +447,7 @@ const en_US = {
   
   'CompleteRequiredItems': 'Por favor complete los artículos requeridos',
   'EnterCorrectEmail': 'Por favor ingrese el correo electrónico correcto',
-  'EnterCorrectPostCode': 'Por favor, introduzca el código postal correcto'
+  'EnterCorrectPostCode': 'Por favor, introduzca el código postal correcto',
+  'personal': 'Personal'
 }
 export default en_US;
