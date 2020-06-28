@@ -181,7 +181,7 @@ class ShippingAddressFrom extends React.Component {
         this.setState({
           loading: false
         })
-        this.showErrorMsg(err.toString()||this.props.intl.messages.saveFailed)
+        this.showErrorMsg(err.toString() || this.props.intl.messages.saveFailed)
       })
 
     } else {
@@ -206,7 +206,7 @@ class ShippingAddressFrom extends React.Component {
         this.setState({
           loading: false
         })
-        this.showErrorMsg( err.toString()||this.props.intl.messages.saveFailed)
+        this.showErrorMsg(err.toString() || this.props.intl.messages.saveFailed)
       })
     }
   }
@@ -229,7 +229,7 @@ class ShippingAddressFrom extends React.Component {
         })
       }
     }).catch(err => {
-      this.showErrorMsg(err.toString()||this.props.intl.messages.setDefaltAddressFailed)
+      this.showErrorMsg(err.toString() || this.props.intl.messages.setDefaltAddressFailed)
       this.setState({
         loading: false
       })
@@ -255,7 +255,7 @@ class ShippingAddressFrom extends React.Component {
         })
       }
     }).catch(err => {
-      this.showErrorMsg(err.toString()||this.props.intl.messages.setDefaltAddressFailed)
+      this.showErrorMsg(err.toString() || this.props.intl.messages.setDefaltAddressFailed)
       this.setState({
         loading: false
       })
@@ -324,7 +324,7 @@ class ShippingAddressFrom extends React.Component {
     const name = target.name
     let value = target.value
     if (name === 'postCode') {
-      value = value.replace(/\s+/g,"")
+      value = value.replace(/\s+/g, "")
     }
     addressForm[name] = value
     this.setState({ addressForm: addressForm })
@@ -663,23 +663,26 @@ class ShippingAddressFrom extends React.Component {
                           <label className="rc-input__label" htmlFor="reference"></label>
                         </span>
                       </div>
-                      
+
                       {
                         addressForm.addressType === 'DELIVERY' ? (
                           <div className="form-group col-6">
                             <div className="rc-input rc-input--inline" style={{ margin: "40px 0 0 0" }} onClick={() => this.isDefalt()}>
-                              <input type="checkbox"
-                                id="defaultAddress"
-                                className="rc-input__checkbox"
-
-                                value={addressForm.isDefalt} />
                               {
-                                !addressForm.isDefalt ? <label className="rc-input__label--inline" >
-                                  <FormattedMessage id="setDefaultAddress"></FormattedMessage>
-                                </label> : <label className="rc-input__label--inline defaultAddressChecked">
-                                    <FormattedMessage id="setDefaultAddress"></FormattedMessage>
-                                  </label>
+                                addressForm.isDefalt
+                                  ? <input
+                                    type="checkbox"
+                                    className="rc-input__checkbox"
+                                    value={addressForm.isDefalt}
+                                    checked />
+                                  : <input
+                                    type="checkbox"
+                                    className="rc-input__checkbox"
+                                    value={addressForm.isDefalt} />
                               }
+                              <label className="rc-input__label--inline text-break">
+                                <FormattedMessage id="setDefaultAddress" />
+                              </label>
                             </div>
                           </div>
                         ) : null
@@ -716,7 +719,7 @@ class ShippingAddressFrom extends React.Component {
           </div>
         </main>
         <Footer />
-      </div>
+      </div >
     )
   }
 }

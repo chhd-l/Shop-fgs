@@ -441,5 +441,6 @@ const en_US = {
   'EnterCorrectPostCode': 'Please enter the correct post code',
   'noSpecialNeeds':'No special needs',
   'loginFailed':'login failed',
+  'personal': 'Personal'
 }
 export default en_US;

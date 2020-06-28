@@ -373,7 +373,7 @@ const en_US = {
   'login.firstCheck':'',
   'login.secondCheck':' Confirmo que tengo 18 años',
   'login.thirdCheck':' Acepto recibir el boletín de marketing',
-  'login.passwordTip':'8-20 caracteres incluidos menos 1 número 1 letra',
+  'login.passwordTip':'8-20 caracteres e incluyen en una letra minúscula, una letra mayúscula, un número',
   'requiredFields':'* Campos requeridos',
   'forgetPassword.createNewPassword':'Crear nueva contraseña',
   'forgetPassword.forgetPasswordTip':'Se le enviará una carta con instrucciones para cambiar la contraseña.',
@@ -450,5 +450,6 @@ const en_US = {
   'EnterCorrectPostCode': 'Por favor, introduzca el código postal correcto',
   'noSpecialNeeds':'Sin necesidades especiales',
   'loginFailed':'error de inicio de sesion',
+  'personal': 'Personal'
 }
 export default en_US;
