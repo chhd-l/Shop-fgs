@@ -11,3 +11,10 @@
   z-index: 10;
   background: url(../../assets/images/openVideo.png) center center no-repeat;
 }
+
+@media(max-width: 769px) {
+  .justify-content-center {
+    text-align: center;
+  }
+}
+

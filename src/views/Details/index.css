@@ -1640,3 +1640,10 @@ ul.ui-star-list .list_title {
 p {
   word-wrap: break-word;
 }
+
+.details-img-container {
+  width: 100%;
+}
+.imageBox {
+  padding: 0 !important;
+}

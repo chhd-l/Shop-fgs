@@ -784,6 +784,7 @@ class PaymentComp extends React.Component {
                   className="rc-input rc-input--inline"
                   style={{ marginTop: "10px", float: "left" }}
                   onClick={() => {
+                    console.log(creditCardInfo.isDefault, 'default')
                     creditCardInfo.isDefault = !creditCardInfo.isDefault;
                     this.setState({ creditCardInfo });
                   }}
@@ -792,7 +793,8 @@ class PaymentComp extends React.Component {
                     type="checkbox"
                     id="defaultAddress"
                     className="rc-input__checkbox"
-                    value={creditCardInfo.isDefault}
+                    // value={creditCardInfo.isDefault}
+                    value={true}
                   />
                   {!creditCardInfo.isDefault ? (
                     <label className="rc-input__label--inline">

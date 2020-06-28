@@ -664,7 +664,7 @@ class Details extends React.Component {
                           " "
                         )}
                       >
-                        <div className="rc-column rc-double-width carousel-column">
+                        <div className="rc-column rc-double-width carousel-column imageBox">
                           {this.state.loading ? (
                             <Skeleton
                               color="#f5f5f5"
