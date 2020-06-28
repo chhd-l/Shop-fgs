@@ -113,9 +113,14 @@ class Details extends React.Component {
     this.format = []
   }
   componentWillUnmount () {
-    
+    localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false;
+    }
     this.setState(
       {
         id: this.props.match.params.id

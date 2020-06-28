@@ -3,6 +3,16 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
 class TermUse extends React.Component {
+  componentWillUnmount () {
+    localStorage.setItem("isRefresh", true);
+  }
+  componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
+  }
   render (h) {
     return (
       <div>

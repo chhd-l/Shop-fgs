@@ -20,6 +20,11 @@ class Home extends React.Component {
     }
   }
   componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
     if (new Date().getTime() < new Date('2020/6/2').getTime()) {
       this.setState({
         // promotionVisible: true
@@ -32,7 +37,7 @@ class Home extends React.Component {
     sessionStorage.setItem('rc-promotion-pop-close', true)
   }
   componentWillUnmount () {
-    
+    localStorage.setItem("isRefresh", true);
   }
   render () {
     const event = {

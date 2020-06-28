@@ -49,10 +49,14 @@ export default class AccountOrders extends React.Component {
     this.pageSize = 6
   }
   componentWillUnmount () {
-    
+    localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
-
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
     this.queryOrderList()
   }
   handleDuringTimeChange (data) {
