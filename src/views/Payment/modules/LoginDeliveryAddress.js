@@ -264,10 +264,10 @@ export default class LoginDeliveryAddress extends React.Component {
             <FormattedMessage id="payment.deliveryTitle" />
           </h5>
           <p
-            className={`red rc-margin-top--xs ui-cursor-pointer pull-right inlineblock m-0 ${addOrEdit ? 'hidden' : ''}`}
+            className={`red rc-margin-top--xs ui-cursor-pointer pull-right inlineblock m-0 d-flex align-items-center ${addOrEdit ? 'hidden' : ''}`}
             onClick={() => this.addOrEditAddress()}>
             <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
-            <FormattedMessage id="newAddress" />
+            <span><FormattedMessage id="newAddress" /></span>
           </p>
         </div>
         <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.saveErrorMsg ? '' : 'hidden'}`}>
