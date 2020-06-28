@@ -1,5 +1,5 @@
 import React from "react"
-import {injectIntl, FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -44,15 +44,20 @@ class ShippingAddress extends React.Component {
       },
       cityList: [],
       countryList: [],
-      currentType:'DELIVERY',
-      currentAddressList:[]
+      currentType: 'DELIVERY',
+      currentAddressList: []
     }
   }
 
   componentWillUnmount () {
-    
+    localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
     this.getAddressList()
     getDictionary({ type: 'city' })
       .then(res => {
@@ -191,7 +196,7 @@ class ShippingAddress extends React.Component {
         }
       })
       .catch(err => {
-        this.showErrorMsg(err.toString()|| this.props.intl.messages.deleteAddressFailed)
+        this.showErrorMsg(err.toString() || this.props.intl.messages.deleteAddressFailed)
         this.setState({
           loading: false
         })
@@ -273,14 +278,14 @@ class ShippingAddress extends React.Component {
       addressList: addressList
     })
   }
-  switchAddressType=(type)=>{
-    const {addressList} = this.state
-    let currentAddressList = addressList.filter(item=>{
+  switchAddressType = (type) => {
+    const { addressList } = this.state
+    let currentAddressList = addressList.filter(item => {
       return item.type === type
     })
     this.setState({
-      currentType:type,
-      currentAddressList:currentAddressList
+      currentType: type,
+      currentAddressList: currentAddressList
     })
   }
   render () {
@@ -319,64 +324,64 @@ class ShippingAddress extends React.Component {
                     <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
                   </aside>
                   <div className="table-toolbar">
-                    <div style={{display:'flex'}}>
+                    <div style={{ display: 'flex' }}>
                       <span className="type-text">
-                          <FormattedMessage id="type"></FormattedMessage>
-                        </span>
+                        <FormattedMessage id="type"></FormattedMessage>
+                      </span>
 
-                        <span className="dividing"></span>
-                        
-                        <button type="button" 
-                          onClick={()=>this.switchAddressType('DELIVERY')}
-                          className={ this.state.currentType==='DELIVERY'?'selected-btn':"type-btn"} >
-                          <span> <FormattedMessage id="deliveryAddress"></FormattedMessage></span>
-                        </button>
-                        
-                        <span className="dividing"></span>
+                      <span className="dividing"></span>
 
-                        <button type="button"
-                            onClick={()=>this.switchAddressType('BILLING')}
-                            className={ this.state.currentType==='BILLING'?'selected-btn':"type-btn"}>
-                          <span> <FormattedMessage id="billingAddress"></FormattedMessage></span>
-                        </button>
-
-                        <span className="dividing"></span>
-                      </div>
-                      <button type="button" className="address-btn" onClick={() => this.openCreatePage()}>
-                        <span><FormattedMessage id="newAddress"></FormattedMessage></span>
+                      <button type="button"
+                        onClick={() => this.switchAddressType('DELIVERY')}
+                        className={this.state.currentType === 'DELIVERY' ? 'selected-btn' : "type-btn"} >
+                        <span> <FormattedMessage id="deliveryAddress"></FormattedMessage></span>
                       </button>
-                    </div>
 
-                  
+                      <span className="dividing"></span>
+
+                      <button type="button"
+                        onClick={() => this.switchAddressType('BILLING')}
+                        className={this.state.currentType === 'BILLING' ? 'selected-btn' : "type-btn"}>
+                        <span> <FormattedMessage id="billingAddress"></FormattedMessage></span>
+                      </button>
+
+                      <span className="dividing"></span>
+                    </div>
+                    <button type="button" className="address-btn" onClick={() => this.openCreatePage()}>
+                      <span><FormattedMessage id="newAddress"></FormattedMessage></span>
+                    </button>
+                  </div>
+
+
                   <div className="row address-layout">
                     {
                       this.state.currentAddressList.map(item => (
-                        <div className="col-lg-6"  style={{padding:"10px 25px" }} key={item.deliveryAddressId}>
+                        <div className="col-lg-6" style={{ padding: "10px 25px" }} key={item.deliveryAddressId}>
                           {/* <div className="addr-line"></div> */}
                           <div className={"row card-address " + (item.isDefaltAddress === 1 ? "card-address-default" : "")} >
                             <div className="col-lg-10">
                               <div className="address-name">
-                                <span>{item.firstName+' '+ item.lastName}</span>
+                                <span>{item.firstName + ' ' + item.lastName}</span>
                               </div>
                             </div>
                             <div className="col-lg-2 address-action">
-                              <a className="address-click-btn" 
+                              <a className="address-click-btn"
                                 onClick={() => this.openEditPage(item.deliveryAddressId)}>
                                 <FormattedMessage id="edit" />
                               </a>
-                              
+
                               <span className="dividing-action"></span>
                               <a className="address-click-btn"
-                               onClick={() => this.updateConfirmTooltipVisible(item, true)}>
+                                onClick={() => this.updateConfirmTooltipVisible(item, true)}>
                                 <FormattedMessage id="delete" />
                               </a>
-                                <ConfirmTooltip
-                                  display={item.confirmTooltipVisible}
-                                  confirm={e => this.deleteAddress(item)}
-                                  updateChildDisplay={status => this.updateConfirmTooltipVisible(item, status)} />
+                              <ConfirmTooltip
+                                display={item.confirmTooltipVisible}
+                                confirm={e => this.deleteAddress(item)}
+                                updateChildDisplay={status => this.updateConfirmTooltipVisible(item, status)} />
                               {/* <a className="address-click-btn"><FormattedMessage id="delete" /></a> */}
                             </div>
-                            <div className="col-lg-12" style={{fontSize:'12px'}}>
+                            <div className="col-lg-12" style={{ fontSize: '12px' }}>
                               <div>
                                 <span>{item.consigneeNumber}</span>
                               </div>
@@ -390,129 +395,7 @@ class ShippingAddress extends React.Component {
                                 <span>{item.address1}</span>
                               </div>
                             </div>
-                            
 
-                            {/* <div className="col-lg-3">
-                              <FormattedMessage id="edit" />
-                              <span className="dividing-action"></span>
-                              <FormattedMessage id="delete" />
-                            </div> */}
-                            {/* <div className="ant-col-20 form-info">
-                              <form className="ant-form ant-form-horizontal">
-
-                                <div className="ant-row ant-form-item">
-                                  <div className="ant-col-0 ant-form-item-label">
-                                    <FormattedMessage id="Name">
-                                      {(txt) => (
-                                        <label className="" title={txt}>{txt}</label>
-                                      )}
-                                    </FormattedMessage>
-                                  </div>
-                                  <div className="ant-col-24 ant-form-item-control-wrapper">
-                                    <div className="ant-form-item-control ">
-                                      <span>{item.consigneeName}</span>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="ant-row ant-form-item">
-                                  <div className="ant-col-0 ant-form-item-label">
-                                    <FormattedMessage id="payment.phoneNumber">
-                                      {(txt) => (
-                                        <label className="" title={txt}>{txt}</label>
-                                      )
-                                      }
-                                    </FormattedMessage>
-                                  </div>
-                                  <div className="ant-col-24 ant-form-item-control-wrapper">
-                                    <div className="ant-form-item-control ">
-                                      <span>{item.consigneeNumber}</span>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="ant-row ant-form-item">
-                                  <div className="ant-col-0 ant-form-item-label">
-                                    <FormattedMessage id="payment.country">
-                                      {(txt) => (
-                                        <label className="" title={txt}>{txt}</label>
-                                      )
-                                      }
-                                    </FormattedMessage>
-                                  </div>
-                                  <div className="ant-col-24 ant-form-item-control-wrapper">
-                                    <div className="ant-form-item-control ">
-                                      <span>{this.getDictValue(this.state.countryList, item.countryId)}</span>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="ant-row ant-form-item">
-                                  <div className="ant-col-0 ant-form-item-label">
-                                    <FormattedMessage id="payment.city">
-                                      {(txt) => (
-                                        <label className="" title={txt}>{txt}</label>
-                                      )
-                                      }
-                                    </FormattedMessage>
-                                  </div>
-                                  <div className="ant-col-24 ant-form-item-control-wrapper">
-                                    <div className="ant-form-item-control ">
-                                      <span>{this.getDictValue(this.state.cityList, item.cityId)}</span>
-                                    </div>
-                                  </div>
-                                </div>
-
-
-                                <div className="ant-row ant-form-item">
-                                  <div className="ant-col-0 ant-form-item-label">
-                                    <FormattedMessage id="payment.address1">
-                                      {(txt) => (
-                                        <label className="" title={txt}>{txt}</label>
-                                      )
-                                      }
-                                    </FormattedMessage>
-                                  </div>
-                                  <div className="ant-col-24 ant-form-item-control-wrapper">
-                                    <div className="ant-form-item-control ">
-                                      <span>{item.address1}</span>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="ant-row ant-form-item">
-                                  <div className="ant-col-0 ant-form-item-label">
-                                    <FormattedMessage id="addressType">
-                                      {(txt) => (
-                                        <label className="" title={txt}>{txt}</label>
-                                      )
-                                      }
-                                    </FormattedMessage>
-                                  </div>
-                                  <div className="ant-col-24 ant-form-item-control-wrapper">
-                                    <div className="ant-form-item-control ">
-                                      <span>{item.type}</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </form>
-                            </div>
-                            <div className="ant-col-4 card-action">
-                              <span className="card-action-delete">
-                                <a onClick={() => this.updateConfirmTooltipVisible(item, true)}>×</a>
-                                <ConfirmTooltip
-                                  display={item.confirmTooltipVisible}
-                                  confirm={e => this.deleteAddress(item)}
-                                  updateChildDisplay={status => this.updateConfirmTooltipVisible(item, status)} />
-                              </span>
-
-                              <div className="card-action-link">
-                                <a onClick={() => this.openEditPage(item.deliveryAddressId)}>
-                                  <FormattedMessage id="edit" ></FormattedMessage>
-                                </a>
-                              </div>
-                            </div>
-                           */}
                           </div>
                         </div>
 
@@ -520,7 +403,7 @@ class ShippingAddress extends React.Component {
                     }
                   </div>
 
-                  
+
                 </div>
 
               </div>

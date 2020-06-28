@@ -13,10 +13,6 @@ class RouteFilter extends Component {
     }
   }
   async componentDidMount () {
-    // 解决forceRefresh=true，回退无效的bug
-    if (window.history && window.history.pushState) {
-      window.addEventListener('popstate', this.reload, false);
-    }
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/')
     }
@@ -93,12 +89,6 @@ class RouteFilter extends Component {
       this.props.history.push("/");
     }
     queryStoreCateIds();
-  }
-  componentWillUnmount () {
-    window.removeEventListener('popstate', this.reload, false);
-  }
-  reload () {
-    window.location.reload();
   }
   render () {
     return <React.Fragment />;

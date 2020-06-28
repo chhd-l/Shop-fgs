@@ -42,6 +42,11 @@ class OrdersAfterSale extends React.Component {
     this.imgUploaderRef = React.createRef();
   }
   componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
     const afterSaleType = sessionStorage.getItem('rc-after-sale-type')
     if (afterSaleType) {
       this.setState({
@@ -70,7 +75,7 @@ class OrdersAfterSale extends React.Component {
     history.goBack()
   }
   componentWillUnmount () {
-    
+    localStorage.setItem("isRefresh", true);
   }
   queryDetails () {
     getOrderReturnDetails(this.state.orderNumber)
@@ -403,7 +408,6 @@ class OrdersAfterSale extends React.Component {
                                       >
                                         <option>Please select a return method</option>
                                         {this.state.returnWayList.map((item, i) => (
-                                          // todo
                                           // <option key={i}>{item[i.toString()]}</option>
                                           Object.keys(item).map(key => (
                                             <option key={`${i}-${key}`} value={`${i}-${key}`}>{item[key]}</option>

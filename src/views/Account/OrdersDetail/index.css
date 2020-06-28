@@ -97,7 +97,7 @@
   line-height: 2rem;
 }
 .order-progress-mb {
-  margin-bottom: 5rem!important
+  margin-bottom: 3rem!important
 }
 @media (min-width: 1292px) {
   .rc-progress-stepped__item .order-progress-text.md-up {
@@ -107,7 +107,7 @@
     display: none;
   }
   .order-progress-mb {
-    margin-bottom: 4.5rem!important
+    margin-bottom: 2.8rem!important
   }
   .rc-progress-stepped__item .order-progress-text {
     bottom: -3rem;

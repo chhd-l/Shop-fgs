@@ -3,8 +3,8 @@ import axios from 'axios'
 let env = process.env.NODE_ENV
 let base_url
 if (env === 'development') {
-  base_url = process.env.REACT_APP_BASEURL
-  // base_url = '/api'
+  // base_url = process.env.REACT_APP_BASEURL
+  base_url = '/api'
 } else if (env === 'production') {
   base_url = process.env.REACT_APP_BASEURL
 }

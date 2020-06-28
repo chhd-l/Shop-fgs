@@ -78,15 +78,21 @@ class Prescription extends React.Component {
     }
     this.headerRef = React.createRef();
     this.inputRef = React.createRef();
-    
+
   }
   componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      
+      return false
+    }
     this.handleInit()
-    
+
     this.getAllPrescription()
   }
   componentWillUnmount () {
-    
+    localStorage.setItem("isRefresh", true);
   }
   inputSearchValue = (e) => {
     this.setState({
@@ -95,13 +101,13 @@ class Prescription extends React.Component {
   }
 
   handleInit = (e) => {
-    const {params}=this.state
+    const { params } = this.state
     //获取当前地理位置信息
     navigator.geolocation.getCurrentPosition(position => {
       this.handldKey(this.state.mapKey)
       params.latitude = position.coords.latitude.toString()
       params.longitude = position.coords.longitude.toString()
-      
+
       this.setState({
         center: {
           lat: position.coords.latitude,
@@ -112,9 +118,9 @@ class Prescription extends React.Component {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         },
-        params:params
+        params: params
       })
-      
+
     })
     setTimeout(() => {
       this.getPrescription(params)
@@ -146,7 +152,7 @@ class Prescription extends React.Component {
       clinicArr = clinicArr.filter(item => {
         return !(isNaN(item.latitude) || isNaN(item.longitude))
       })
-      
+
       //过滤掉 经度-180-180 ，纬度 -90-90
       clinicArr = clinicArr.filter(item => {
         return (+item.latitude >= -90
@@ -161,7 +167,7 @@ class Prescription extends React.Component {
         clinicArr: clinicArr
       })
       console.log(this.state.clinicArr);
-      
+
     }
 
   }
@@ -272,15 +278,17 @@ class Prescription extends React.Component {
                     <button className="rc-input__submit rc-input__submit--search" type="submit" onClick={this.handleSearch}>
                       <span className="rc-screen-reader-text">Submit</span>
                     </button>
-                    <input
-                      ref={this.inputRef}
-                      className="search-field"
-                      type="search"
-                      autoComplete="off"
-                      aria-label="Search location"
-                      placeholder={this.props.intl.messages.MMYY}
-                      value={this.state.keywords}
-                      onChange={this.inputSearchValue} />
+                    <FormattedMessage id="MMYY">
+                      {txt => <input
+                        ref={this.inputRef}
+                        className="search-field"
+                        type="search"
+                        autoComplete="off"
+                        aria-label="Search location"
+                        placeholder={txt}
+                        value={this.state.keywords}
+                        onChange={this.inputSearchValue} />}
+                    </FormattedMessage>
                     <label className="rc-input__label" htmlFor="id-submit-2">
                       <span className="rc-input__label-text"></span>
                     </label>
@@ -314,7 +322,9 @@ class Prescription extends React.Component {
                             <p style={{ margin: '.5rem 0 0 0' }}><FormattedMessage id='clinic.vet' ></FormattedMessage></p>
                             <h3 className="rc-card__title rc-delta click-btn clinic-title" >{item.prescriberName}</h3>
                             <div className="clinic-phone">{item.preferredChannel === 'phone' ? item.phone : item.email} </div>
-                            <div className="clinic-address">{item.location} </div>
+                            <div
+                              className="clinic-address ui-text-overflow-line2 text-break mr-3 mb-2"
+                              title={item.location}>{item.location} </div>
                           </div>
 
                           <div style={{ height: '3rem' }}>
