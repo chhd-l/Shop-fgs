@@ -481,8 +481,15 @@ class PetForm extends React.Component {
     }
     else {
       //如果是没有特殊需求
-      if (val === 'No special needs') {
-        let tempArr = ['No special needs']
+      if (val === 'Sin necesidades especiales' || val === 'No special needs') {
+
+        let tempArr=[]
+        if(val === 'Sin necesidades especiales' ){
+          tempArr = ['Sin necesidades especiales']
+        }
+        if(val === 'No special needs' ){
+          tempArr = ['No special needs']
+        }
         this.setState({
           selectedSpecialNeeds: tempArr,
           isDisabled: false
@@ -491,6 +498,9 @@ class PetForm extends React.Component {
       else {
         //先排除'No special needs'
         let tempArr = this.state.selectedSpecialNeeds.filter(item => {
+          return item !== 'Sin necesidades especiales'
+        })
+        tempArr = this.state.selectedSpecialNeeds.filter(item => {
           return item !== 'No special needs'
         })
         tempArr.push(val)
@@ -545,7 +555,7 @@ class PetForm extends React.Component {
       isInputDisabled: currentPet.petsBreed === "unknown Breed" ? true : false,
       isUnknownDisabled: currentPet.petsBreed === "unknown Breed" ? false : true,
       breed: currentPet.petsBreed === "unknown Breed" ? "" : currentPet.petsBreed,
-      weight: "",
+      weight:  currentPet.petsType === 'dog' ?currentPet.petsSizeValueName:'',
       isSterilized: currentPet.sterilized === 0 ? true : false,
       birthdate: currentPet.birthOfPets,
 
@@ -879,13 +889,13 @@ class PetForm extends React.Component {
                           {
                             this.state.sizeArr.map(item => (
 
-                              <div className="wrap__input wrap-size pull-left " onClick={() => this.selectWeight(item.valueEn)}>
+                              <div className="wrap__input wrap-size pull-left " onClick={() => this.selectWeight(item.name)}>
                                 <input type="radio" className="radio input__radio"
                                   name="dwfrm_miaaPet_neuteredPet"
                                   value={item.name}
                                 />
                                 {
-                                  this.state.weight === item.valueEn ?
+                                  this.state.weight === item.name ?
                                     <label className="label label__input sterilizedChecked" >
                                       {item.name}
                                     </label> :
@@ -1011,13 +1021,13 @@ class PetForm extends React.Component {
                             this.state.specialNeeds.map(item => (
                               <div className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style"
 
-                                onClick={() => this.selectFeatures(item.valueEn)}
+                                onClick={() => this.selectFeatures(item.name)}
                               >
                                 <input type="checkbox"
                                   className="rc-input__checkbox"
                                   value={item.name} />
                                 {
-                                  this.state.selectedSpecialNeeds.includes(item.valueEn) ?
+                                  this.state.selectedSpecialNeeds.includes(item.name) ?
                                     <label className="rc-input__label--inline petPropChecked" >
                                       {item.name}
                                     </label> :
@@ -1030,18 +1040,18 @@ class PetForm extends React.Component {
                           }
 
                           <div className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style"
-                            onClick={() => this.selectFeatures("No special needs")}
+                            onClick={() => this.selectFeatures("Sin necesidades especiales")}
                           >
                             <input type="checkbox"
                               className="rc-input__checkbox"
-                              value="No special needs" />
+                              value="Sin necesidades especiales" />
                             {
-                              this.state.selectedSpecialNeeds.includes('No special needs') ?
+                              this.state.selectedSpecialNeeds.includes('Sin necesidades especiales') ?
                                 <label className="rc-input__label--inline petPropChecked" >
-                                  No special needs
+                                  <FormattedMessage id="noSpecialNeeds"/>
                                 </label> :
                                 <label className="rc-input__label--inline ">
-                                  No special needs
+                                  <FormattedMessage id="noSpecialNeeds"/>
                                 </label>
                             }
                           </div>

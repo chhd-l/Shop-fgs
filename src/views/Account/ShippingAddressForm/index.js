@@ -142,6 +142,7 @@ class ShippingAddressFrom extends React.Component {
       loading: true
     })
     let data = this.state.addressForm;
+    debugger
     let params = {
       "address1": data.address1,
       "address2": data.address2,
@@ -163,6 +164,7 @@ class ShippingAddressFrom extends React.Component {
     if (this.state.isAdd) {
 
       await saveAddress(params).then(res => {
+        debugger
         if (res.code === 'K-000000') {
           this.setState({
             loading: false
@@ -579,9 +581,8 @@ class ShippingAddressFrom extends React.Component {
                             data-js-warning-message="*Post Code isn’t valid"
                             input-setup="true">
                             <input
-                              type="text"
                               className="rc-input__control"
-
+                              type="number"
                               id="zipCode"
                               data-pattern-mismatch="Please match the requested format"
                               data-missing-error="Это поле обязательно для заполнения."

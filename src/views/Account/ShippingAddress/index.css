@@ -24,6 +24,12 @@
   .address-tab-first{
     width: 100%;
   }
+  .card-phone-title{
+    width: 80% !important;
+  }
+  .card-phone-action{
+    width: 20% !important;
+  }
 }
 @media(min-width: 960px){
   /* PC */

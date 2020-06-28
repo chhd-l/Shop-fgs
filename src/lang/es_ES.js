@@ -447,6 +447,8 @@ const en_US = {
   
   'CompleteRequiredItems': 'Por favor complete los artículos requeridos',
   'EnterCorrectEmail': 'Por favor ingrese el correo electrónico correcto',
-  'EnterCorrectPostCode': 'Por favor, introduzca el código postal correcto'
+  'EnterCorrectPostCode': 'Por favor, introduzca el código postal correcto',
+  'noSpecialNeeds':'Sin necesidades especiales',
+  'loginFailed':'error de inicio de sesion',
 }
 export default en_US;

@@ -285,7 +285,7 @@ class Header extends React.Component {
     // this.setState({
     //   isLogin: false
     // })
-    // Store.changeIsLogin(false)
+    Store.changeIsLogin(false)
     const { history } = this.props
     history.push('/')
   }
