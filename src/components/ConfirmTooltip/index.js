@@ -4,7 +4,9 @@ import './index.css'
 
 class ConfirmTooltip extends React.Component {
   static defaultProps = {
-    content: <FormattedMessage id="confirmDelete" />
+    content: <FormattedMessage id="confirmDelete" />,
+    containerStyle: {},
+    arrowStyle: {}
   }
   componentWillReceiveProps (nextProps) {
     if (nextProps.display) {
@@ -26,12 +28,14 @@ class ConfirmTooltip extends React.Component {
       this.props.display ?
         <div
           className="confirm-tool-container position-relative"
-          style={{ zIndex: 99 }}
           onBlur={(e) => this.onBlur(e)}>
-          <div className="confirm-tool-content rc-bg-colour--brand4 p-3" tabIndex="1">
-            <div class="confirm-tool-arrow"></div>
+          <div
+            className="confirm-tool-content rc-bg-colour--brand4 p-3"
+            style={this.props.containerStyle}
+            tabIndex="1">
+            <div className="confirm-tool-arrow" style={this.props.arrowStyle}></div>
             <div className="pt-1 pb-3">{this.props.content}</div>
-            <div className="d-flex justify-content-end">
+            <div className="d-flex justify-content-between">
               <div className="rc-btn rc-btn--two rc-btn--sm" onClick={(e) => { this.cancel(e) }}>
                 <FormattedMessage id="cancel" />
               </div>
