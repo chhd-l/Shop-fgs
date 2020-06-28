@@ -55,7 +55,7 @@ class AccountOrders extends React.Component {
         },
         {
           backendName: 'Order payment',
-          displayName: this.props.intl.messages['order.progress1']
+          displayName: this.props.intl.messages['order.progress2']
         },
         {
           backendName: 'DELIVERED',

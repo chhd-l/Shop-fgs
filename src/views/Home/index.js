@@ -41,9 +41,9 @@ class Home extends React.Component {
   }
   render () {
     const event = {
-      "page": {
-        "type": "Homepage",
-        "theme": ""
+      page: {
+        type: 'Homepage',
+        theme: ''
       }
     }
     return (
