@@ -294,7 +294,7 @@ class ImageMagnifier extends Component {
             </div>
           )}
         </div>
-        <div className="d-flex justify-content-center">
+        <div className="justify-content-center">
           {
             
             images && images.map((el, i) => (

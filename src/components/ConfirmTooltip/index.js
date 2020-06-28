@@ -1,8 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
 import './index.css'
 
 class ConfirmTooltip extends React.Component {
+  static propTypes = {
+    containerStyle: PropTypes.object,
+    arrowStyle: PropTypes.object
+  }
   static defaultProps = {
     content: <FormattedMessage id="confirmDelete" />,
     containerStyle: {},
