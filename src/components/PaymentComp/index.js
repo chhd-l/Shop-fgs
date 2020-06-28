@@ -136,10 +136,10 @@ class PaymentComp extends React.Component {
     //   });
     // }
   }
-  async cardNumberChange(e) {
+  async cardNumberChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
-    let cardNumber = value.replace(/\s*/g, "") ||  this.state.creditCardInfo.cardNumber;
+    let cardNumber = value.replace(/\s*/g, "") || this.state.creditCardInfo.cardNumber;
 
     try {
       let res = await axios.post(
@@ -168,7 +168,7 @@ class PaymentComp extends React.Component {
         }
       );
       console.log(res)
-      this.setState({currentVendor: res.data.vendor})
+      this.setState({ currentVendor: res.data.vendor })
     } catch (e) {
       console.log(e)
     }
@@ -232,7 +232,7 @@ class PaymentComp extends React.Component {
     const { creditCardInfo } = this.state;
     console.log(creditCardInfo)
     for (let k in creditCardInfo) {
-      let fieldList =['cardNumber',
+      let fieldList = ['cardNumber',
         'cardMmyy',
         'cardCvv',
         'cardOwner',
@@ -277,7 +277,7 @@ class PaymentComp extends React.Component {
           },
         }
       );
-      if(!res.data.vendor) {
+      if (!res.data.vendor) {
         this.showErrorMsg("Lo sentimos, los tipos de tarjeta de crédito actualmente admitidos son: VISA, American Express, MasterCard");
         this.setState({
           loading: false,
@@ -450,7 +450,7 @@ class PaymentComp extends React.Component {
                           this.setState({ creditCardList });
                         }}>
                         <div className={`pt-3 pb-3 ${idx !== creditCardList.length - 1 ? 'border-bottom' : ''} `}>
-                          <div className="overflow-hidden position-absolute" style={{ right: '1%', top: '2%', zIndex: 1 }}>
+                          <div className="position-absolute" style={{ right: '1%', top: '2%' }}>
                             <span className="pull-right position-relative border-left pl-2 ui-cursor-pointer-pure">
                               <span onClick={() => this.updateConfirmTooltipVisible(el, true)}>
                                 <FormattedMessage id="delete" />
@@ -583,8 +583,8 @@ class PaymentComp extends React.Component {
                             // src="https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                             src={
                               this.state.creditCardImgObj[this.state.currentVendor]
-                                  ? this.state.creditCardImgObj[this.state.currentVendor]
-                                  : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
+                                ? this.state.creditCardImgObj[this.state.currentVendor]
+                                : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                             }
                           />
                         </span>

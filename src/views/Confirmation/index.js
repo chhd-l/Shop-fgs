@@ -151,12 +151,12 @@ class Confirmation extends React.Component {
       })
       this.setState({
         modalShow: false,
-        operateSuccessModalVisible: true
+        // operateSuccessModalVisible: true
       })
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.setState({ operateSuccessModalVisible: false })
-      }, 5000)
+      // clearTimeout(this.timer)
+      // this.timer = setTimeout(() => {
+      //   this.setState({ operateSuccessModalVisible: false })
+      // }, 5000)
     } catch (err) {
       this.setState({ errorMsg: err.toString() })
     } finally {
@@ -202,7 +202,7 @@ class Confirmation extends React.Component {
             name: item.goodsName,
             price: selectedSize.salePrice,
             brand: "Royal Canin",
-            category: item.goodsCategory, //todo 待接口修改完毕确认
+            category: item.goodsCategory,
             quantity: item.quantity,
             variant: selectedSize.detailName
           }

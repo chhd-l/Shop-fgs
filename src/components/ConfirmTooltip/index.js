@@ -24,7 +24,9 @@ class ConfirmTooltip extends React.Component {
   render () {
     return (
       this.props.display ?
-        <div className="confirm-tool-container"
+        <div
+          className="confirm-tool-container position-relative"
+          style={{ zIndex: 99 }}
           onBlur={(e) => this.onBlur(e)}>
           <div className="confirm-tool-content rc-bg-colour--brand4 p-3" tabIndex="1">
             <div class="confirm-tool-arrow"></div>

@@ -434,6 +434,10 @@ const en_US = {
   'cardNumber': 'Card Number',
   'findLocation': 'Find Location',
   'type':'TYPE',
-  'billingAddress':'Billing Address'
+  'billingAddress':'Billing Address',
+
+  'CompleteRequiredItems': 'Please complete the required items',
+  'EnterCorrectEmail': 'Please enter the correct email',
+  'EnterCorrectPostCode': 'Please enter the correct post code'
 }
 export default en_US;

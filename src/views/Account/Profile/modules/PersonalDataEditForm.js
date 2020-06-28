@@ -1,11 +1,12 @@
 import React from "react"
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import { findIndex } from "lodash"
 import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
 import { updateCustomerBaseInfo } from "@/api/user"
 import Selection from '@/components/Selection'
 
+@injectIntl
 class PersonalDataEditForm extends React.Component {
   constructor(props) {
     super(props)
@@ -94,11 +95,11 @@ class PersonalDataEditForm extends React.Component {
     for (let key in form) {
       const value = form[key]
       if (!value && key !== 'birthdate') {
-        this.showErrMsg('Please complete the required items')
+        this.showErrMsg(this.props.intl.messages.CompleteRequiredItems)
         return
       }
       if (key === 'email' && value && !(/^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/.test(value))) {
-        this.showErrMsg('Please enter the correct email')
+        this.showErrMsg(this.props.intl.messages.EnterCorrectEmail)
         return
       }
     }
@@ -211,7 +212,7 @@ class PersonalDataEditForm extends React.Component {
           <aside
             className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
             role="alert">
-            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Save successfullly</p>
+            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none"><FormattedMessage id="saveSuccessfullly"/></p>
           </aside>
           <div className={`row userProfileInfo text-break ${editFormVisible ? 'hidden' : ''}`}>
             <div className="col-lg-6">
@@ -452,4 +453,4 @@ class PersonalDataEditForm extends React.Component {
   }
 }
 
-export default PersonalDataEditForm
+export default injectIntl(PersonalDataEditForm)
