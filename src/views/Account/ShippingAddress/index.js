@@ -299,11 +299,11 @@ class ShippingAddress extends React.Component {
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <SideMenu type="ShippingAddress" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div className="rc-border-bottom rc-border-colour--interface mb-2">
+                {/* <div className="rc-border-bottom rc-border-colour--interface mb-2">
                   <h4 className="rc-delta rc-margin--none">
                     <FormattedMessage id="shippingAddress"></FormattedMessage>
                   </h4>
-                </div>
+                </div> */}
                 <div className="content-asset">
                   <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
                     <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
@@ -323,7 +323,7 @@ class ShippingAddress extends React.Component {
                     role="alert">
                     <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
                   </aside>
-                  <div className="table-toolbar">
+                  {/* <div className="table-toolbar">
                     <div style={{ display: 'flex' }}>
                       <span className="type-text">
                         <FormattedMessage id="type"></FormattedMessage>
@@ -350,7 +350,43 @@ class ShippingAddress extends React.Component {
                     <button type="button" className="address-btn" onClick={() => this.openCreatePage()}>
                       <span><FormattedMessage id="newAddress"></FormattedMessage></span>
                     </button>
+                  </div> */}
+                  <div className="address-tab">
+                    <nav class="rc-tabs__controller  rc-fade--x address-tab-first" data-toggle-group="">
+                      <ul class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist" >
+                        <li className="rc-tabs-li">
+                          <button class="rc-tab" 
+                            onClick={() => this.switchAddressType('DELIVERY')}
+                            style={{padding: "8px 15px"}} 
+                            data-toggle="deliveryAddress" role="tab">
+                            <FormattedMessage id="deliveryAddress"></FormattedMessage>
+                          </button>
+                        </li>
+                        <li className="rc-tabs-li">
+                          <button class="rc-tab" 
+                            onClick={() => this.switchAddressType('BILLING')}
+                            style={{padding: "8px 15px"}} 
+                            data-toggle="billingAddress" role="tab">
+                            <FormattedMessage id="billingAddress"></FormattedMessage>
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                    <div>
+                    <span
+                      className="red font-weight-normal ui-cursor-pointer"
+                      onClick={() => this.openCreatePage()}>
+                      <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
+                      <FormattedMessage id="newAddress" />
+                    </span>
+                      {/* <button className="address-btn" onClick={() => this.openCreatePage()}>
+                        <span><FormattedMessage id="newAddress"></FormattedMessage></span>
+                      </button> */}
+                    </div>
+                    
                   </div>
+                  
+
 
 
                   <div className="row address-layout">
@@ -362,6 +398,12 @@ class ShippingAddress extends React.Component {
                             <div className="col-lg-10">
                               <div className="address-name">
                                 <span>{item.firstName + ' ' + item.lastName}</span>
+                                {item.isDefaltAddress === 1
+                                    ? <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
+                                      <FormattedMessage id="default" />
+                                    </span>
+                                    : null
+                                }
                               </div>
                             </div>
                             <div className="col-lg-2 address-action">

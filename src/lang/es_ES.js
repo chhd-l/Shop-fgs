@@ -327,6 +327,8 @@ const en_US = {
   'account.features': '¿Qué necesidades especiales tiene tu mascota?',
   'account.fine': 'Fine!',
   'account.welcome': '¡Multa!',
+  'account.specialNeeds':'Necesidades especiales',
+  'account.dateTip':'Por favor seleccione una fecha pasada.',
   'shippingAddress': 'Gestión de direcciones',
   'addShippingAddress': 'Add New Address',
   'editShippingAddress': 'Agregar nueva dirección',

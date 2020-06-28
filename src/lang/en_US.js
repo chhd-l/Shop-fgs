@@ -321,6 +321,8 @@ const en_US = {
   'account.features': 'What special needs does your pet have?',
   'account.fine': 'Fine!',
   'account.welcome': 'Welcome to the ROYAL CANIN® family!',
+  'account.specialNeeds':'Special Needs',
+  'account.dateTip':'Please select a past date.',
   'shippingAddress': 'Address Management',
   'addShippingAddress': 'Add New Address',
   'editShippingAddress': 'Edit Shipping Address',
