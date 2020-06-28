@@ -55,3 +55,60 @@ export const PAY_STATUS_ENUM = {
     'PAID': 'Pagado'
   }
 }
+
+export const STORE_CATE_ENUM = [
+  {
+    url: '/list/prescription-dogs',
+    category: 'prescription-dogs',
+    cateName: ['Prescription dogs'],
+    text: {
+      en: 'Prescription dogs',
+      es: 'Dietas de Prescripción Veterinaria Perros'
+    }
+  },
+  {
+    url: '/list/prescription-cats',
+    category: 'prescription-cats',
+    cateName: ['Prescription cats'],
+    text: {
+      en: 'Prescription dogs',
+      es: 'Dietas de Prescripción Veterinaria Gatos'
+    }
+  },
+  {
+    url: '/list/dogs',
+    category: 'dogs',
+    cateName: ['Prescription dogs', 'VD dogs'],
+    text: {
+      en: 'dogs',
+      es: 'Perros'
+    }
+  },
+  {
+    url: '/list/cats',
+    category: 'cats',
+    cateName: ['Prescription cats', 'VD cats'],
+    text: {
+      en: 'cats',
+      es: 'Gatos'
+    }
+  },
+  {
+    url: '/list/vcn',
+    category: 'vcn',
+    cateName: ['VD dogs'],
+    text: {
+      en: 'VD dogs',
+      es: 'Dietas Veterinarias Perros'
+    }
+  },
+  {
+    url: '/list/vd',
+    category: 'vd',
+    cateName: ['VD cats'],
+    text: {
+      en: 'VD cats',
+      es: 'Dietas Veterinarias Gatos'
+    }
+  }
+]

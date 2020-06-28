@@ -11,54 +11,8 @@ import { cloneDeep, find, findIndex } from 'lodash'
 import titleCfg from './json/title.json'
 import { getList, getProps, getLoginList } from '@/api/list'
 import { queryStoreCateIds, formatMoney, jugeLoginStatus } from '@/utils/utils'
-import { STOREID, CATEID } from '@/utils/constant'
+import { STOREID, CATEID, STORE_CATE_ENUM } from '@/utils/constant'
 import './index.css'
-
-// todo
-const STORE_CATE_ENUM = [
-  {
-    url: '/list/prescription-dogs',
-    category: 'prescription-dogs',
-    cateName: ['Prescription dogs'],
-    // lang: <FormattedMessage id="home.catogery3" />,
-    lang: 'Dietas de Prescripción Veterinaria Perros',
-  },
-  {
-    url: '/list/prescription-cats',
-    category: 'prescription-cats',
-    cateName: ['Prescription cats'],
-    // lang: <FormattedMessage id="home.catogery3" />,
-    lang: 'Dietas de Prescripción Veterinaria Perros',
-  },
-  {
-    url: '/list/dogs',
-    category: 'dogs',
-    cateName: ['Prescription dogs', 'VD dogs'],
-    // lang: <FormattedMessage id="home.catogery3" />,
-    lang: 'Perros',
-  },
-  {
-    url: '/list/cats',
-    category: 'cats',
-    cateName: ['Prescription cats', 'VD cats'],
-    // lang: <FormattedMessage id="home.catogery4" />,
-    lang: 'Gatos',
-  },
-  {
-    url: '/list/vcn',
-    category: 'vcn',
-    cateName: ['VD dogs'],
-    // lang: <FormattedMessage id="home.catogery1" />,
-    lang: 'Dietas Veterinarias Perros'
-  },
-  {
-    url: '/list/vd',
-    category: 'vd',
-    cateName: ['VD cats'],
-    // lang: <FormattedMessage id="home.catogery2" />,
-    lang: 'Dietas Veterinarias Gatos'
-  }
-]
 
 class List extends React.Component {
   constructor(props) {

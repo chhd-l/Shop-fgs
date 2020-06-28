@@ -15,14 +15,12 @@ import {
 } from '@/utils/utils'
 import {
   MINIMUM_AMOUNT,
-  STOREID
+  STOREID,
+  STORE_CATE_ENUM
 } from "@/utils/constant"
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { cloneDeep, findIndex, find } from 'lodash'
-import {
-  getDetails,
-  getLoginDetails
-} from '@/api/details'
+import { getDetails, getLoginDetails } from '@/api/details'
 import {
   miniPurchases,
   sitePurchase,
@@ -32,38 +30,7 @@ import {
 import { getDict } from '@/api/dict'
 import './index.css'
 
-// todo
-const STORE_CATE_ENUM = [
-  {
-    url: '/list/dogs',
-    category: 'dogs',
-    cateName: 'Prescription dogs',
-    // lang: <FormattedMessage id="home.catogery3" />,
-    lang: 'Dietas de Prescripción Veterinaria Perros',
-  },
-  {
-    url: '/list/cats',
-    category: 'cats',
-    cateName: 'Prescription cats',
-    // lang: <FormattedMessage id="home.catogery4" />,
-    lang: 'Dietas de Prescripción Veterinaria Gatos',
-  },
-  {
-    url: '/list/vcn',
-    category: 'vcn',
-    cateName: 'VD dogs',
-    // lang: <FormattedMessage id="home.catogery1" />,
-    lang: 'Dietas Veterinarias Perros'
-  },
-  {
-    url: '/list/vd',
-    category: 'vd',
-    cateName: 'VD cats',
-    // lang: <FormattedMessage id="home.catogery2" />,
-    lang: 'Dietas Veterinarias Gatos'
-  }
-]
-
+@injectIntl
 class Details extends React.Component {
   constructor(props) {
     super(props);
@@ -109,7 +76,7 @@ class Details extends React.Component {
     this.headerRef = React.createRef();
 
     this.specie = ''
-    this.productRange = ''
+    this.productRange = []
     this.format = []
   }
   componentWillUnmount () {
@@ -177,9 +144,9 @@ class Details extends React.Component {
 
           // 获取产品所属home页四个大类
           for (let item of res.context.storeCates) {
-            const t = find(STORE_CATE_ENUM, ele => ele.cateName.toLowerCase() === item.cateName.toLowerCase())
+            const t = find(STORE_CATE_ENUM, ele => ele.cateName.includes(item.cateName))
             if (t) {
-              this.productRange = t.lang
+              this.productRange.push(t.text[this.props.intl.locale || 'en'])
             }
           }
 
@@ -264,7 +231,7 @@ class Details extends React.Component {
                 this.state.details,
                 res.context.goods,
                 { sizeList },
-                { goodsCategory: [this.specie, this.productRange, this.format.join('&')].join('/') }),
+                { goodsCategory: [this.specie, this.productRange.join('&'), this.format.join('&')].join('/') }),
               images: res.context.images.concat(res.context.goodsInfos),
               specList
             },

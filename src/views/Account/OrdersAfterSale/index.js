@@ -408,7 +408,6 @@ class OrdersAfterSale extends React.Component {
                                       >
                                         <option>Please select a return method</option>
                                         {this.state.returnWayList.map((item, i) => (
-                                          // todo
                                           // <option key={i}>{item[i.toString()]}</option>
                                           Object.keys(item).map(key => (
                                             <option key={`${i}-${key}`} value={`${i}-${key}`}>{item[key]}</option>

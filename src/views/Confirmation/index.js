@@ -202,7 +202,7 @@ class Confirmation extends React.Component {
             name: item.goodsName,
             price: selectedSize.salePrice,
             brand: "Royal Canin",
-            category: item.goodsCategory, //todo 待接口修改完毕确认
+            category: item.goodsCategory,
             quantity: item.quantity,
             variant: selectedSize.detailName
           }
