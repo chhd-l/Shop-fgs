@@ -351,40 +351,39 @@ class ShippingAddress extends React.Component {
                       <span><FormattedMessage id="newAddress"></FormattedMessage></span>
                     </button>
                   </div> */}
-                  <div className="address-tab">
-                    <nav class="rc-tabs__controller  rc-fade--x address-tab-first" data-toggle-group="">
-                      <ul class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist" >
-                        <li className="rc-tabs-li">
-                          <button class="rc-tab" 
-                            onClick={() => this.switchAddressType('DELIVERY')}
-                            style={{padding: "8px 15px"}} 
-                            data-toggle="deliveryAddress" role="tab">
-                            <FormattedMessage id="deliveryAddress"></FormattedMessage>
-                          </button>
-                        </li>
-                        <li className="rc-tabs-li">
-                          <button class="rc-tab" 
-                            onClick={() => this.switchAddressType('BILLING')}
-                            style={{padding: "8px 15px"}} 
-                            data-toggle="billingAddress" role="tab">
-                            <FormattedMessage id="billingAddress"></FormattedMessage>
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
-                    <div>
+                  <nav class="rc-tabs__controller rc-fade--x " data-toggle-group="">
+                    <ul class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist" >
+                      <li className="rc-tabs-li">
+                        <button class="rc-tab" 
+                          onClick={() => this.switchAddressType('DELIVERY')}
+                          style={{padding: "8px 15px"}} 
+                          data-toggle="deliveryAddress" role="tab">
+                          <FormattedMessage id="deliveryAddress"></FormattedMessage>
+                        </button>
+                      </li>
+                      <li className="rc-tabs-li">
+                        <button class="rc-tab" 
+                          onClick={() => this.switchAddressType('BILLING')}
+                          style={{padding: "8px 15px"}} 
+                          data-toggle="billingAddress" role="tab">
+                          <FormattedMessage id="billingAddress"></FormattedMessage>
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
+                  <div className="address-add-btn">
                     <span
                       className="red font-weight-normal ui-cursor-pointer"
                       onClick={() => this.openCreatePage()}>
                       <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
                       <FormattedMessage id="newAddress" />
                     </span>
-                      {/* <button className="address-btn" onClick={() => this.openCreatePage()}>
-                        <span><FormattedMessage id="newAddress"></FormattedMessage></span>
-                      </button> */}
-                    </div>
-                    
+                    {/* <button className="address-btn" onClick={() => this.openCreatePage()}>
+                      <span><FormattedMessage id="newAddress"></FormattedMessage></span>
+                    </button> */}
                   </div>
+                  
+                
                   
 
 

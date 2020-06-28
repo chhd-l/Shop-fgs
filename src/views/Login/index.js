@@ -337,6 +337,8 @@ class Login extends React.Component {
                     <h3 style={{fontSize: '32px'}}><span style={{color: '#666'}}>
                       <FormattedMessage id='welcomeTo'/></span> <FormattedMessage id='royalCanin'/>
                     </h3>
+                   
+                    <div className="loginBox">
                     <div className="message-tip">
                         <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
                           <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
@@ -357,7 +359,6 @@ class Login extends React.Component {
                           <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
                         </aside>
                       </div>
-                    <div className="loginBox">
                       
                     <div style={{ marginTop: "40px" }}>
                       <div className="miaa_input required ">
