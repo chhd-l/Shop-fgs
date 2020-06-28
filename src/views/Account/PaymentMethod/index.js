@@ -59,10 +59,14 @@ class PaymentMethod extends React.Component {
   }
 
   componentWillUnmount () {
-    
+    localStorage.setItem("isRefresh", true);
   }
   async componentDidMount () {
-    // this.getPaymentMethodList()
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
   }
   async getPaymentMethodList () {
     try {

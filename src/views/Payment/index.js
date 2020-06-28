@@ -100,6 +100,11 @@ class Payment extends React.Component {
     this.loginBillingAddressRef = React.createRef();
   }
   async componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
     if (this.state.isLogin && !localStorage.getItem("rc-cart-data-login")) {
       this.props.history.push('/cart')
     }
@@ -149,7 +154,7 @@ class Payment extends React.Component {
     );
   }
   componentWillUnmount () {
-
+    localStorage.setItem("isRefresh", true);
     sessionStorage.removeItem('rc-tid')
   }
   matchNamefromDict (dictList, id) {

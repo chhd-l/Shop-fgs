@@ -15,14 +15,12 @@ import {
 } from '@/utils/utils'
 import {
   MINIMUM_AMOUNT,
-  STOREID
+  STOREID,
+  STORE_CATE_ENUM
 } from "@/utils/constant"
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { cloneDeep, findIndex, find } from 'lodash'
-import {
-  getDetails,
-  getLoginDetails
-} from '@/api/details'
+import { getDetails, getLoginDetails } from '@/api/details'
 import {
   miniPurchases,
   sitePurchase,
@@ -32,38 +30,7 @@ import {
 import { getDict } from '@/api/dict'
 import './index.css'
 
-// todo
-const STORE_CATE_ENUM = [
-  {
-    url: '/list/dogs',
-    category: 'dogs',
-    cateName: 'Prescription dogs',
-    // lang: <FormattedMessage id="home.catogery3" />,
-    lang: 'Dietas de Prescripción Veterinaria Perros',
-  },
-  {
-    url: '/list/cats',
-    category: 'cats',
-    cateName: 'Prescription cats',
-    // lang: <FormattedMessage id="home.catogery4" />,
-    lang: 'Dietas de Prescripción Veterinaria Gatos',
-  },
-  {
-    url: '/list/vcn',
-    category: 'vcn',
-    cateName: 'VD dogs',
-    // lang: <FormattedMessage id="home.catogery1" />,
-    lang: 'Dietas Veterinarias Perros'
-  },
-  {
-    url: '/list/vd',
-    category: 'vd',
-    cateName: 'VD cats',
-    // lang: <FormattedMessage id="home.catogery2" />,
-    lang: 'Dietas Veterinarias Gatos'
-  }
-]
-
+@injectIntl
 class Details extends React.Component {
   constructor(props) {
     super(props);
@@ -109,13 +76,18 @@ class Details extends React.Component {
     this.headerRef = React.createRef();
 
     this.specie = ''
-    this.productRange = ''
+    this.productRange = []
     this.format = []
   }
   componentWillUnmount () {
-    
+    localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false;
+    }
     this.setState(
       {
         id: this.props.match.params.id
@@ -172,9 +144,9 @@ class Details extends React.Component {
 
           // 获取产品所属home页四个大类
           for (let item of res.context.storeCates) {
-            const t = find(STORE_CATE_ENUM, ele => ele.cateName.toLowerCase() === item.cateName.toLowerCase())
+            const t = find(STORE_CATE_ENUM, ele => ele.cateName.includes(item.cateName))
             if (t) {
-              this.productRange = t.lang
+              this.productRange.push(t.text[this.props.intl.locale || 'en'])
             }
           }
 
@@ -228,7 +200,7 @@ class Details extends React.Component {
           });
 
           // const selectedSize = find(sizeList, s => s.selected)
-
+          
           const { goodsDetailTab } = this.state
           try {
             let tmpGoodsDetail = res.context.goods.goodsDetail
@@ -236,7 +208,8 @@ class Details extends React.Component {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
               for (let key in tmpGoodsDetail) {
                 goodsDetailTab.tabName.push(key)
-                goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+                goodsDetailTab.tabContent.push(tmpGoodsDetail[key])
+                // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
               }
             }
             this.setState({
@@ -259,7 +232,7 @@ class Details extends React.Component {
                 this.state.details,
                 res.context.goods,
                 { sizeList },
-                { goodsCategory: [this.specie, this.productRange, this.format.join('&')].join('/') }),
+                { goodsCategory: [this.specie, this.productRange.join('&'), this.format.join('&')].join('/') }),
               images: res.context.images.concat(res.context.goodsInfos),
               specList
             },
@@ -421,6 +394,7 @@ class Details extends React.Component {
     // );
   }
   async hanldeAddToCart ({ redirect = false, needLogin = false } = {}) {
+    this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
       return false
     }
@@ -1001,7 +975,7 @@ class Details extends React.Component {
                               </ul>
                             </nav>
                           </div>
-                          <div className="rc-tabs" style={{ marginTop: '40px' }}>
+                          <div className="rc-tabs tabs-detail" style={{ marginTop: '40px' }}>
                             {this.state.goodsDetailTab.tabContent.map((ele, i) => (
                               <div
                                 id={`tab__panel-${i}`}
@@ -1011,7 +985,7 @@ class Details extends React.Component {
                               >
                                 <div className="block">
                                   <p
-                                    className="content"
+                                    className="content rc-scroll--x"
                                     dangerouslySetInnerHTML={createMarkup(ele)} />
                                 </div>
                               </div>
@@ -1029,15 +1003,7 @@ class Details extends React.Component {
               >
                 <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
                   <button
-                    className={[
-                      "rc-btn",
-                      "rc-btn--one",
-                      "js-sticky-cta",
-                      "rc-margin-right--xs--mobile",
-                      "btn-add-to-cart",
-                      addToCartLoading ? "ui-btn-loading" : "",
-                      instockStatus && quantity ? "" : "disabled",
-                    ].join(" ")}
+                    className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile btn-add-to-cart ${addToCartLoading ? "ui-btn-loading" : ""} ${instockStatus && quantity ? "" : "disabled"}`}
                     onClick={() => this.hanldeAddToCart()}
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
@@ -1053,13 +1019,13 @@ class Details extends React.Component {
                       <FormattedMessage id="checkout" />
                     </span>
                   </button>
-                  {
+                  {/* {
                     !jugeLoginStatus() && <button
                       className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                       onClick={() => this.hanldeAddToCart({ redirect: true })}>
                       <FormattedMessage id="GuestCheckout" />
                     </button>
-                  }
+                  } */}
                 </div>
               </div>
             </main>

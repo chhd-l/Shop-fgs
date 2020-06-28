@@ -1,5 +1,5 @@
 import React from "react"
-import {injectIntl, FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -44,15 +44,20 @@ class ShippingAddress extends React.Component {
       },
       cityList: [],
       countryList: [],
-      currentType:'DELIVERY',
-      currentAddressList:[]
+      currentType: 'DELIVERY',
+      currentAddressList: []
     }
   }
 
   componentWillUnmount () {
-    
+    localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
     this.getAddressList()
     getDictionary({ type: 'city' })
       .then(res => {
@@ -191,7 +196,7 @@ class ShippingAddress extends React.Component {
         }
       })
       .catch(err => {
-        this.showErrorMsg(err.toString()|| this.props.intl.messages.deleteAddressFailed)
+        this.showErrorMsg(err.toString() || this.props.intl.messages.deleteAddressFailed)
         this.setState({
           loading: false
         })
@@ -273,14 +278,14 @@ class ShippingAddress extends React.Component {
       addressList: addressList
     })
   }
-  switchAddressType=(type)=>{
-    const {addressList} = this.state
-    let currentAddressList = addressList.filter(item=>{
+  switchAddressType = (type) => {
+    const { addressList } = this.state
+    let currentAddressList = addressList.filter(item => {
       return item.type === type
     })
     this.setState({
-      currentType:type,
-      currentAddressList:currentAddressList
+      currentType: type,
+      currentAddressList: currentAddressList
     })
   }
   render () {
@@ -294,11 +299,11 @@ class ShippingAddress extends React.Component {
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <SideMenu type="ShippingAddress" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div className="rc-border-bottom rc-border-colour--interface mb-2">
+                {/* <div className="rc-border-bottom rc-border-colour--interface mb-2">
                   <h4 className="rc-delta rc-margin--none">
                     <FormattedMessage id="shippingAddress"></FormattedMessage>
                   </h4>
-                </div>
+                </div> */}
                 <div className="content-asset">
                   <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
                     <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
@@ -318,65 +323,107 @@ class ShippingAddress extends React.Component {
                     role="alert">
                     <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
                   </aside>
-                  <div className="table-toolbar">
-                    <div style={{display:'flex'}}>
+                  {/* <div className="table-toolbar">
+                    <div style={{ display: 'flex' }}>
                       <span className="type-text">
-                          <FormattedMessage id="type"></FormattedMessage>
-                        </span>
+                        <FormattedMessage id="type"></FormattedMessage>
+                      </span>
 
-                        <span className="dividing"></span>
-                        
-                        <button type="button" 
-                          onClick={()=>this.switchAddressType('DELIVERY')}
-                          className={ this.state.currentType==='DELIVERY'?'selected-btn':"type-btn"} >
-                          <span> <FormattedMessage id="deliveryAddress"></FormattedMessage></span>
-                        </button>
-                        
-                        <span className="dividing"></span>
+                      <span className="dividing"></span>
 
-                        <button type="button"
-                            onClick={()=>this.switchAddressType('BILLING')}
-                            className={ this.state.currentType==='BILLING'?'selected-btn':"type-btn"}>
-                          <span> <FormattedMessage id="billingAddress"></FormattedMessage></span>
-                        </button>
-
-                        <span className="dividing"></span>
-                      </div>
-                      <button type="button" className="address-btn" onClick={() => this.openCreatePage()}>
-                        <span><FormattedMessage id="newAddress"></FormattedMessage></span>
+                      <button type="button"
+                        onClick={() => this.switchAddressType('DELIVERY')}
+                        className={this.state.currentType === 'DELIVERY' ? 'selected-btn' : "type-btn"} >
+                        <span> <FormattedMessage id="deliveryAddress"></FormattedMessage></span>
                       </button>
-                    </div>
 
+                      <span className="dividing"></span>
+
+                      <button type="button"
+                        onClick={() => this.switchAddressType('BILLING')}
+                        className={this.state.currentType === 'BILLING' ? 'selected-btn' : "type-btn"}>
+                        <span> <FormattedMessage id="billingAddress"></FormattedMessage></span>
+                      </button>
+
+                      <span className="dividing"></span>
+                    </div>
+                    <button type="button" className="address-btn" onClick={() => this.openCreatePage()}>
+                      <span><FormattedMessage id="newAddress"></FormattedMessage></span>
+                    </button>
+                  </div> */}
+                  <div className="address-tab">
+                    <nav class="rc-tabs__controller  rc-fade--x address-tab-first" data-toggle-group="">
+                      <ul class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist" >
+                        <li className="rc-tabs-li">
+                          <button class="rc-tab" 
+                            onClick={() => this.switchAddressType('DELIVERY')}
+                            style={{padding: "8px 15px"}} 
+                            data-toggle="deliveryAddress" role="tab">
+                            <FormattedMessage id="deliveryAddress"></FormattedMessage>
+                          </button>
+                        </li>
+                        <li className="rc-tabs-li">
+                          <button class="rc-tab" 
+                            onClick={() => this.switchAddressType('BILLING')}
+                            style={{padding: "8px 15px"}} 
+                            data-toggle="billingAddress" role="tab">
+                            <FormattedMessage id="billingAddress"></FormattedMessage>
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                    <div>
+                    <span
+                      className="red font-weight-normal ui-cursor-pointer"
+                      onClick={() => this.openCreatePage()}>
+                      <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
+                      <FormattedMessage id="newAddress" />
+                    </span>
+                      {/* <button className="address-btn" onClick={() => this.openCreatePage()}>
+                        <span><FormattedMessage id="newAddress"></FormattedMessage></span>
+                      </button> */}
+                    </div>
+                    
+                  </div>
                   
+
+
+
                   <div className="row address-layout">
                     {
                       this.state.currentAddressList.map(item => (
-                        <div className="col-lg-6"  style={{padding:"10px 25px" }} key={item.deliveryAddressId}>
+                        <div className="col-lg-6" style={{ padding: "10px 25px" }} key={item.deliveryAddressId}>
                           {/* <div className="addr-line"></div> */}
                           <div className={"row card-address " + (item.isDefaltAddress === 1 ? "card-address-default" : "")} >
                             <div className="col-lg-10">
                               <div className="address-name">
-                                <span>{item.firstName+' '+ item.lastName}</span>
+                                <span>{item.firstName + ' ' + item.lastName}</span>
+                                {item.isDefaltAddress === 1
+                                    ? <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
+                                      <FormattedMessage id="default" />
+                                    </span>
+                                    : null
+                                }
                               </div>
                             </div>
                             <div className="col-lg-2 address-action">
-                              <a className="address-click-btn" 
+                              <a className="address-click-btn"
                                 onClick={() => this.openEditPage(item.deliveryAddressId)}>
                                 <FormattedMessage id="edit" />
                               </a>
-                              
+
                               <span className="dividing-action"></span>
                               <a className="address-click-btn"
-                               onClick={() => this.updateConfirmTooltipVisible(item, true)}>
+                                onClick={() => this.updateConfirmTooltipVisible(item, true)}>
                                 <FormattedMessage id="delete" />
                               </a>
-                                <ConfirmTooltip
-                                  display={item.confirmTooltipVisible}
-                                  confirm={e => this.deleteAddress(item)}
-                                  updateChildDisplay={status => this.updateConfirmTooltipVisible(item, status)} />
+                              <ConfirmTooltip
+                                display={item.confirmTooltipVisible}
+                                confirm={e => this.deleteAddress(item)}
+                                updateChildDisplay={status => this.updateConfirmTooltipVisible(item, status)} />
                               {/* <a className="address-click-btn"><FormattedMessage id="delete" /></a> */}
                             </div>
-                            <div className="col-lg-12" style={{fontSize:'12px'}}>
+                            <div className="col-lg-12" style={{ fontSize: '12px' }}>
                               <div>
                                 <span>{item.consigneeNumber}</span>
                               </div>
@@ -390,7 +437,7 @@ class ShippingAddress extends React.Component {
                                 <span>{item.address1}</span>
                               </div>
                             </div>
-                            
+
                           </div>
                         </div>
 
@@ -398,7 +445,7 @@ class ShippingAddress extends React.Component {
                     }
                   </div>
 
-                  
+
                 </div>
 
               </div>

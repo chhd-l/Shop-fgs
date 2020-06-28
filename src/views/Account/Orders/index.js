@@ -8,7 +8,7 @@ import SideMenu from '@/components/SideMenu'
 import TimeCount from '@/components/TimeCount'
 import Selection from '@/components/Selection'
 import Pagination from '@/components/Pagination'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
 import { getOrderList, getOrderDetails } from "@/api/order"
@@ -20,9 +20,8 @@ import {
 } from '@/utils/constant'
 import './index.css'
 
-const lang = localStorage.getItem('rc-lang')
-
-export default class AccountOrders extends React.Component {
+@injectIntl
+class AccountOrders extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -49,10 +48,14 @@ export default class AccountOrders extends React.Component {
     this.pageSize = 6
   }
   componentWillUnmount () {
-    
+    localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
-
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
     this.queryOrderList()
   }
   handleDuringTimeChange (data) {
@@ -163,7 +166,6 @@ export default class AccountOrders extends React.Component {
     })
     try {
       const detailRes = await getOrderDetails(order.id)
-      debugger
       const detailResCt = detailRes.context
       const tmpDeliveryAddress = {
         firstName: detailResCt.consignee.firstName,
@@ -210,6 +212,7 @@ export default class AccountOrders extends React.Component {
     }
   }
   render () {
+    const lang = this.props.intl.locale || 'en'
     const event = {
       page: {
         type: 'Account',
@@ -380,3 +383,4 @@ export default class AccountOrders extends React.Component {
     )
   }
 }
+export default AccountOrders

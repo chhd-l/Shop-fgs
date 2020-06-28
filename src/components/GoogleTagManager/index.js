@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import gtmParts from 'react-google-tag-manager';
 import { GTMID, GTM_SITE_ID } from "@/utils/constant"
 
 class GoogleTagManager extends React.Component {

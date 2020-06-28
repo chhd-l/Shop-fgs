@@ -82,6 +82,7 @@ const en_US = {
   'header.carouselInfo10': 'CLUB del consultor personal ROYAL CANIN®',
   'header.carouselInfo11': 'CLUB de ROYAL CANIN® para los gatitos',
   'header.toBegin': 'Empezar',
+  'header.toOrder': 'Compra ahora',
   'header.toLearnMore': 'Saber más',
 
   'home.productsCategory': 'Nuestros productos por categoría',
@@ -245,8 +246,8 @@ const en_US = {
   'help.byTelephone': 'Por teléfono',
   'help.byEmail': 'Por correo',
 
-  'account.personalArea': 'Area personal',
-  'account.profile': 'Perfil',
+  'account.personalArea': 'Perfil',
+  'account.profile': 'Información básica',
   'account.profileTip': 'Ver y editar su información personal.',
   'account.petsTip': 'Crea y administra tus perfiles de mascotas.',
   'account.ordersTip': 'Verifique el estado de los pedidos actuales y vea el historial de los anteriores.',
@@ -327,12 +328,14 @@ const en_US = {
   'account.features': '¿Qué necesidades especiales tiene tu mascota?',
   'account.fine': 'Fine!',
   'account.welcome': '¡Multa!',
+  'account.specialNeeds':'Necesidades especiales',
+  'account.dateTip':'Por favor seleccione una fecha pasada.',
   'shippingAddress': 'Gestión de direcciones',
   'addShippingAddress': 'Add New Address',
   'editShippingAddress': 'Agregar nueva dirección',
-  'addressTip': 'Ha creado {número} direcciones de envío, hasta 20',
-  'creditCardTip': 'Ha creado {número} tarjeta de crédito, hasta 10',
-  'creditCardTipMany': 'Ha creado {número} tarjetas de crédito, hasta 10',
+  'addressTip': 'Ha creado {number} direcciones de envío, hasta 20',
+  'creditCardTip': 'Ha creado {number} tarjeta de crédito, hasta 10',
+  'creditCardTipMany': 'Ha creado {number} tarjetas de crédito, hasta 10',
   'consignee': 'Consignatario',
   'defaultAddress': 'dirección predeterminada',
   'setDefaultAddress': 'Establecer como dirección predeterminada',
@@ -370,7 +373,7 @@ const en_US = {
   'login.firstCheck':'',
   'login.secondCheck':' Confirmo que tengo 18 años',
   'login.thirdCheck':' Acepto recibir el boletín de marketing',
-  'login.passwordTip':'8-20 caracteres incluidos menos 1 número 1 letra',
+  'login.passwordTip':'8-20 caracteres e incluyen en una letra minúscula, una letra mayúscula, un número',
   'requiredFields':'* Campos requeridos',
   'forgetPassword.createNewPassword':'Crear nueva contraseña',
   'forgetPassword.forgetPasswordTip':'Se le enviará una carta con instrucciones para cambiar la contraseña.',
@@ -379,7 +382,7 @@ const en_US = {
   'passwordHide':'Contraseña:********',
 
   'welcomeTo': 'Bienvenido a',
-  'royalCanin':'canino real',
+  'royalCanin':'Royal Canin',
   'rememberMe': 'Recuérdame',
   'forgetPassword': '¿Contraseña olvidada?',
   'createAnAccount': 'Crea una cuenta',
@@ -440,6 +443,10 @@ const en_US = {
 
 
   'type':'Tipo',
-  'billingAddress':'Dirección de facturación'
+  'billingAddress':'Dirección de facturación',
+  
+  'CompleteRequiredItems': 'Por favor complete los artículos requeridos',
+  'EnterCorrectEmail': 'Por favor ingrese el correo electrónico correcto',
+  'EnterCorrectPostCode': 'Por favor, introduzca el código postal correcto'
 }
 export default en_US;

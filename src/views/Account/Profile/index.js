@@ -47,9 +47,14 @@ export default class AccountProfile extends React.Component {
     this.headerRef = React.createRef()
   }
   componentWillUnmount () {
-    
+    localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
     this.queryCustomerBaseInfo()
   }
   queryCustomerBaseInfo () {

@@ -321,6 +321,8 @@ const en_US = {
   'account.features': 'What special needs does your pet have?',
   'account.fine': 'Fine!',
   'account.welcome': 'Welcome to the ROYAL CANIN® family!',
+  'account.specialNeeds':'Special Needs',
+  'account.dateTip':'Please select a past date.',
   'shippingAddress': 'Address Management',
   'addShippingAddress': 'Add New Address',
   'editShippingAddress': 'Edit Shipping Address',
@@ -432,6 +434,10 @@ const en_US = {
   'cardNumber': 'Card Number',
   'findLocation': 'Find Location',
   'type':'TYPE',
-  'billingAddress':'Billing Address'
+  'billingAddress':'Billing Address',
+
+  'CompleteRequiredItems': 'Please complete the required items',
+  'EnterCorrectEmail': 'Please enter the correct email',
+  'EnterCorrectPostCode': 'Please enter the correct post code'
 }
 export default en_US;
