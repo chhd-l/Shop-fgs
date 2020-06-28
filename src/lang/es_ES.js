@@ -377,7 +377,7 @@ const en_US = {
   'passwordHide':'Contraseña:********',
 
   'welcomeTo': 'Bienvenido a',
-  'royalCanin':'canino real',
+  'royalCanin':'Royal Canin',
   'rememberMe': 'Recuérdame',
   'forgetPassword': '¿Contraseña olvidada?',
   'createAnAccount': 'Crea una cuenta',
