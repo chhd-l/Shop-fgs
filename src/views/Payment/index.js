@@ -868,7 +868,7 @@ class Payment extends React.Component {
                           updateData={(data) => this.updateDeliveryAddress(data)}
                         />
                       )}
-                    <div className="card-header" style={{ zIndex: 2, width: '60%' }}>
+                    <div className="card-header" style={{ zIndex: 2, width: '62%' }}>
                       <h5>
                         <FormattedMessage id="payment.billTitle" />
                       </h5>

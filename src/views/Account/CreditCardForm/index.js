@@ -565,7 +565,6 @@ class ShippingAddressFrom extends React.Component {
                                       value={creditCardInfo.isDefault}
                                     />
                                 }
-
                                 <label className="rc-input__label--inline text-break">
                                   <FormattedMessage id="setDefaultPaymentMethod" />
                                 </label>
