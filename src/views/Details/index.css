@@ -689,6 +689,11 @@ label.color~a:hover {
   display: none
 }
 
+.rc-tabs table {
+  width: 100%;
+  border: 1px solid #d7d7d7;
+  border-radius: 3px;
+}
 .rc-tabs .arrow-img-columns {
   max-width: none
 }
@@ -1615,8 +1620,8 @@ ul.ui-star-list li:before {
   position: absolute;
   left: 0;
   top: 50%;
-  transform: translateY(-50%);  
-  /* background-image: url(../../../public/royal/royal-assets1/royal-canin.sprite--iconography.svg); */
+  transform: translateY(-50%);
+  background-image: url(../../assets/images/royal-canin.sprite--iconography.svg);
   background-position: 39.99% 88.89%;
   content: '';
   display: inline-block;

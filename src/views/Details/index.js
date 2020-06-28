@@ -200,7 +200,7 @@ class Details extends React.Component {
           });
 
           // const selectedSize = find(sizeList, s => s.selected)
-
+          
           const { goodsDetailTab } = this.state
           try {
             let tmpGoodsDetail = res.context.goods.goodsDetail
@@ -208,7 +208,8 @@ class Details extends React.Component {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
               for (let key in tmpGoodsDetail) {
                 goodsDetailTab.tabName.push(key)
-                goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+                goodsDetailTab.tabContent.push(tmpGoodsDetail[key])
+                // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
               }
             }
             this.setState({
@@ -1001,15 +1002,7 @@ class Details extends React.Component {
               >
                 <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
                   <button
-                    className={[
-                      "rc-btn",
-                      "rc-btn--one",
-                      "js-sticky-cta",
-                      "rc-margin-right--xs--mobile",
-                      "btn-add-to-cart",
-                      addToCartLoading ? "ui-btn-loading" : "",
-                      instockStatus && quantity ? "" : "disabled",
-                    ].join(" ")}
+                    className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile btn-add-to-cart ${addToCartLoading ? "ui-btn-loading" : ""} ${instockStatus && quantity ? "" : "disabled"}`}
                     onClick={() => this.hanldeAddToCart()}
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
