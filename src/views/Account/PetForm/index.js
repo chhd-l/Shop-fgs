@@ -48,10 +48,10 @@ class PetForm extends React.Component {
       isSterilized: null,
       birthdate: '',
       sizeArr: [
-       
+
       ],
       specialNeeds: [
-       
+
       ],
 
       selectedSpecialNeeds: [],
@@ -90,10 +90,10 @@ class PetForm extends React.Component {
     this.getPetList()
 
     getDictionary({ type: 'dogSize' })
-    
+
       .then(res => {
         console.log(res);
-        
+
         this.setState({
           sizeArr: res
         })
@@ -709,11 +709,11 @@ class PetForm extends React.Component {
                           </ul>
                         </div>
                         <div className="rc-column">
-                          <div className="pet-special-need"><FormattedMessage id="account.specialNeeds"/></div>
+                          <div className="pet-special-need"><FormattedMessage id="account.specialNeeds" /></div>
                           <ul className="list-special-need">
                             {
-                              this.state.selectedSpecialNeeds.map(item => (
-                                <li>{item}</li>
+                              this.state.selectedSpecialNeeds.map((item, i) => (
+                                <li key={i}>{item}</li>
                               ))
                             }
                           </ul>
@@ -730,6 +730,7 @@ class PetForm extends React.Component {
                           </a>
                           <ConfirmTooltip
                             containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                            // containerStyle={1}
                             arrowStyle={{ left: '89%' }}
                             display={currentPet.confirmTooltipVisible}
                             confirm={e => this.delPets(currentPet)}
@@ -888,9 +889,12 @@ class PetForm extends React.Component {
                         <h2><FormattedMessage id="account.weight"></FormattedMessage> {this.state.nickname} ?</h2>
                         <div className="group-size" style={{ width: '100%' }}>
                           {
-                            this.state.sizeArr.map(item => (
+                            this.state.sizeArr.map((item, i) => (
 
-                              <div className="wrap__input wrap-size pull-left " onClick={() => this.selectWeight(item.valueEn)}>
+                              <div
+                                className="wrap__input wrap-size pull-left"
+                                key={i}
+                                onClick={() => this.selectWeight(item.valueEn)}>
                                 <input type="radio" className="radio input__radio"
                                   name="dwfrm_miaaPet_neuteredPet"
                                   value={item.name}
@@ -1008,8 +1012,8 @@ class PetForm extends React.Component {
                         <label className="rc-input__label" htmlFor="birthdate"></label>
                       </span>
                       <div className="invalid-birthdate invalid-feedback">
-                        <FormattedMessage id="account.dateTip"/>  
-                  
+                        <FormattedMessage id="account.dateTip" />
+
                       </div>
                     </div>
                   }
@@ -1019,9 +1023,9 @@ class PetForm extends React.Component {
                         <h2><FormattedMessage id="account.features"></FormattedMessage></h2>
                         <div style={{ width: "88%", margin: "0 auto" }}>
                           {
-                            this.state.specialNeeds.map(item => (
+                            this.state.specialNeeds.map((item, i) => (
                               <div className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style"
-
+                                key={i}
                                 onClick={() => this.selectFeatures(item.valueEn)}
                               >
                                 <input type="checkbox"
@@ -1074,8 +1078,8 @@ class PetForm extends React.Component {
                           className="rc-btn rc-btn--one btn-next btn-block js-btn-next"
                           disabled={(this.state.isDisabled) ? "disabled" : null}
                           onClick={this.nextStep}>
-                           
-                          {this.state.step === 8 ? <FormattedMessage id="save"/> : <FormattedMessage id="payment.further"/>}
+
+                          {this.state.step === 8 ? <FormattedMessage id="save" /> : <FormattedMessage id="payment.further" />}
                         </button>
                         : null
                     }
