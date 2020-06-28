@@ -975,7 +975,7 @@ class Details extends React.Component {
                               </ul>
                             </nav>
                           </div>
-                          <div className="rc-tabs" style={{ marginTop: '40px' }}>
+                          <div className="rc-tabs tabs-detail" style={{ marginTop: '40px' }}>
                             {this.state.goodsDetailTab.tabContent.map((ele, i) => (
                               <div
                                 id={`tab__panel-${i}`}
@@ -985,7 +985,7 @@ class Details extends React.Component {
                               >
                                 <div className="block">
                                   <p
-                                    className="content"
+                                    className="content rc-scroll--x"
                                     dangerouslySetInnerHTML={createMarkup(ele)} />
                                 </div>
                               </div>
@@ -1019,13 +1019,13 @@ class Details extends React.Component {
                       <FormattedMessage id="checkout" />
                     </span>
                   </button>
-                  {
+                  {/* {
                     !jugeLoginStatus() && <button
                       className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                       onClick={() => this.hanldeAddToCart({ redirect: true })}>
                       <FormattedMessage id="GuestCheckout" />
                     </button>
-                  }
+                  } */}
                 </div>
               </div>
             </main>

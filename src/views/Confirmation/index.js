@@ -151,12 +151,12 @@ class Confirmation extends React.Component {
       })
       this.setState({
         modalShow: false,
-        operateSuccessModalVisible: true
+        // operateSuccessModalVisible: true
       })
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.setState({ operateSuccessModalVisible: false })
-      }, 5000)
+      // clearTimeout(this.timer)
+      // this.timer = setTimeout(() => {
+      //   this.setState({ operateSuccessModalVisible: false })
+      // }, 5000)
     } catch (err) {
       this.setState({ errorMsg: err.toString() })
     } finally {
