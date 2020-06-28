@@ -246,8 +246,8 @@ const en_US = {
   'help.byTelephone': 'Por teléfono',
   'help.byEmail': 'Por correo',
 
-  'account.personalArea': 'Area personal',
-  'account.profile': 'Perfil',
+  'account.personalArea': 'Perfil',
+  'account.profile': 'Información básica',
   'account.profileTip': 'Ver y editar su información personal.',
   'account.petsTip': 'Crea y administra tus perfiles de mascotas.',
   'account.ordersTip': 'Verifique el estado de los pedidos actuales y vea el historial de los anteriores.',
@@ -441,6 +441,10 @@ const en_US = {
 
 
   'type':'Tipo',
-  'billingAddress':'Dirección de facturación'
+  'billingAddress':'Dirección de facturación',
+  
+  'CompleteRequiredItems': 'Por favor complete los artículos requeridos',
+  'EnterCorrectEmail': 'Por favor ingrese el correo electrónico correcto',
+  'EnterCorrectPostCode': 'Por favor, introduzca el código postal correcto'
 }
 export default en_US;
