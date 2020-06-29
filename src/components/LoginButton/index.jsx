@@ -46,12 +46,13 @@ const LoginButton = (props, ref) => {
             let customerInfoRes = await getCustomerInfo()
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
             localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-            const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
-            if (unloginCartData.length) {
-              await mergeUnloginCartData()
-              debugger
-              props.updateCartCache && props.updateCartCache()
-            }
+            // const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
+            // if (unloginCartData.length) {
+            //   await mergeUnloginCartData()
+            //   props.updateCartCache && props.updateCartCache()
+            // }
+            props.history.push(sessionStorage.getItem('redirectUrl'))
+            // props.history.push('/cart')
           }).catch(e => {
             Store.changeLoginModal(false)
           })
@@ -61,11 +62,13 @@ const LoginButton = (props, ref) => {
   }, [authState, authService]); // Update if authState changes
 
   const login = async () => {
+    sessionStorage.setItem('redirectUrl', '/account')
     if (props.beforeLoginCallback) {
       let res = await props.beforeLoginCallback()
       if (res === false) {
         return false
       }
+      sessionStorage.setItem('redirectUrl', '/cart')
     }
     authService.login('/');
   };
