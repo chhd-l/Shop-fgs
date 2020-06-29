@@ -380,7 +380,7 @@ export default class LoginDeliveryAddress extends React.Component {
                         <div>
                           {
                             this.props.type === 'delivery'
-                              ? <div className="rc-input rc-input--inline" onClick={() => this.isDefalt()}>
+                              ? <div className="rc-input rc-input--inline w-100 mw-100" onClick={() => this.isDefalt()}>
                                 {
                                   deliveryAddress.isDefalt
                                     ? <input
