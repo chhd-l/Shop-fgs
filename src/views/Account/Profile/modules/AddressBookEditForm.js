@@ -6,7 +6,6 @@ import { updateCustomerBaseInfo } from "@/api/user"
 import { getDictionary } from '@/utils/utils'
 import Selection from '@/components/Selection'
 
-@injectIntl
 class AddressBookEditForm extends React.Component {
   constructor(props) {
     super(props)

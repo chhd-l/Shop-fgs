@@ -522,7 +522,7 @@ class UnLoginCart extends React.Component {
                         <div className="row">
                           <div className="col-7 medium">
                             <strong>
-                              <FormattedMessage id="totalCost" />
+                              <FormattedMessage id="totalIncluIVA" />
                             </strong>
                           </div>
                           <div className="col-5">

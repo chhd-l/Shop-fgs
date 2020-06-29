@@ -23,7 +23,6 @@ const noSelect = {
   border: "3px solid #d7d7d7",
 }
 
-@injectIntl
 class PetForm extends React.Component {
   constructor(props) {
     super(props)

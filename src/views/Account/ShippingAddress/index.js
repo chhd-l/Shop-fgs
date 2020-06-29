@@ -16,7 +16,6 @@ import { Link } from 'react-router-dom';
 import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
 
-@injectIntl
 class ShippingAddress extends React.Component {
   constructor(props) {
     super(props)
