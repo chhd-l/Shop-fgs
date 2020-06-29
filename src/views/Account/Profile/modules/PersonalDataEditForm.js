@@ -6,7 +6,6 @@ import { getDictionary } from '@/utils/utils'
 import { updateCustomerBaseInfo } from "@/api/user"
 import Selection from '@/components/Selection'
 
-@injectIntl
 class PersonalDataEditForm extends React.Component {
   constructor(props) {
     super(props)

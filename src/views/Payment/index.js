@@ -29,7 +29,6 @@ import Store from '@/store/store';
 import axios from 'axios'
 import "./index.css";
 
-@injectIntl
 class Payment extends React.Component {
   constructor(props) {
     super(props);

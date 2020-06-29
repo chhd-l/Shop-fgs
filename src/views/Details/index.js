@@ -314,33 +314,6 @@ class Details extends React.Component {
       tradePrice: res.tradePrice,
     });
   }
-  async hanldePurchases () {
-    const { sizeList } = this.state.details;
-    const { cartData } = this.state;
-    const currentSelectedSize = find(sizeList, (s) => s.selected);
-    let res = await hanldePurchases([
-      {
-        goodsInfoId: currentSelectedSize.goodsInfoId,
-        goodsNum: this.state.quantity,
-        invalid: false,
-      },
-    ]);
-    sessionStorage.setItem(
-      "goodsMarketingMap",
-      JSON.stringify(res.goodsMarketingMap)
-    );
-    sessionStorage.setItem(
-      "rc-totalInfo",
-      JSON.stringify({
-        totalPrice: res.totalPrice,
-        tradePrice: res.tradePrice,
-        discountPrice: res.discountPrice,
-      })
-    );
-    this.setState({
-      tradePrice: res.tradePrice,
-    });
-  }
   handleAmountInput (e) {
     this.setState({ checkOutErrMsg: "" });
     const { quantityMinLimit } = this.state;
@@ -1037,3 +1010,4 @@ class Details extends React.Component {
 }
 
 export default Details
+ 

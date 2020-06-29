@@ -17,7 +17,6 @@ import {
 import { IMG_DEFAULT } from '@/utils/constant'
 import './index.css'
 
-@injectIntl
 class OrdersAfterSale extends React.Component {
   constructor(props) {
     super(props)

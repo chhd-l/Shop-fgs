@@ -18,10 +18,7 @@ import { inject, observer } from 'mobx-react';
 import Store from '@/store/store';
 import './index.css'
 
-
-
 @observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
-// @injectIntl
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
@@ -661,4 +658,4 @@ class Header extends React.Component {
   }
 }
 
-export default Header
+export default injectIntl(Header, { forwardRef: true })
