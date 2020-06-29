@@ -3,7 +3,6 @@ import { injectIntl, FormattedMessage } from "react-intl";
 import { forgetPassword } from "@/api/login";
 import './index.css'
 
-@injectIntl
 class ForgetPassword extends React.Component {
   constructor(props){
     super(props)

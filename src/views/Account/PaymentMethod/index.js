@@ -25,7 +25,6 @@ import paypalImg from "@/assets/images/credit-cards/paypal.png";
 import { getPaymentMethod, deleteCard } from "@/api/payment";
 import PaymentComp from "@/components/PaymentComp"
 
-@injectIntl
 class PaymentMethod extends React.Component {
   constructor(props) {
     super(props);

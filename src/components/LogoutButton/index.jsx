@@ -33,7 +33,7 @@ const LogoutButton = () => {
         setUserInfo(info);
         authService.getUser().then((info) => {
           setUserInfo(info);
-          if (!localStorage.localStorage('rc-token')) {
+          if (!localStorage.getItem('rc-token')) {
             getToken({ oktaToken: `Bearer ${accessToken}` }).then(async res => {
               let userinfo = res.context.customerDetail
               let customerInfoRes = await getCustomerInfo()

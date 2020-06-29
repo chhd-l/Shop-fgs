@@ -18,7 +18,6 @@ import {
 import Loading from "@/components/Loading";
 import ConfirmTooltip from '@/components/ConfirmTooltip'
 
-@injectIntl
 class PaymentComp extends React.Component {
   constructor(props) {
     super(props);

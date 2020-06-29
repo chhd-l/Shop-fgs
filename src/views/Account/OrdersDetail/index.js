@@ -375,7 +375,7 @@ class AccountOrders extends React.Component {
                               </div>
                               <div className="col-12 col-md-5 mb-2">
                                 <div className="d-flex align-items-center">
-                                  <i className="rc-icon rc-rewind rc-billing rc-brand1" />
+                                  <i className="rc-icon rc-rewind rc-billing rc-brand1 mt-1" />
                                   <span>
                                     <FormattedMessage id="billing" />
                                   </span>

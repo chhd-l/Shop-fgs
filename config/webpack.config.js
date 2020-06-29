@@ -1,4 +1,4 @@
-'use strict';
+
 
 const fs = require('fs');
 const path = require('path');
@@ -41,6 +41,9 @@ const isExtendingEslintConfig = process.env.EXTEND_ESLINT === 'true';
 const imageInlineSizeLimit = parseInt(
   process.env.IMAGE_INLINE_SIZE_LIMIT || '10000'
 );
+
+const lessRegex = /\.(less)$/;
+const lessModuleRegex = /\.module\.(less)$/;
 
 // Check if TypeScript is setup
 const useTypeScript = fs.existsSync(paths.appTsConfig);
@@ -445,6 +448,31 @@ module.exports = function(webpackEnv) {
                 inputSourceMap: shouldUseSourceMap,
               },
             },
+
+            //加入less
+            {
+              test: lessRegex,
+              exclude: lessModuleRegex,
+              use: getStyleLoaders({ importLoaders: 3 }, 'less-loader'),          
+            },
+            {
+              test: lessModuleRegex,
+              use: getStyleLoaders(
+                 {
+                    importLoaders: 3,
+                    modules: true,
+                    getLocalIdent: getCSSModuleLocalIdent,
+                    modifyVars:{
+                      'primary-color': '#1DA57A',
+                      'link-color': '#1DA57A',  
+                      'border-radius-base': '2px',
+                    },
+                    javascriptEnabled: true,
+                },
+                   'less-loader'
+             ),
+            },
+
             // "postcss" loader applies autoprefixer to our CSS.
             // "css" loader resolves paths in CSS and adds assets as dependencies.
             // "style" loader turns CSS into JS modules that inject <style> tags.

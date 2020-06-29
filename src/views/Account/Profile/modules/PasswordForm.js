@@ -3,7 +3,6 @@ import { injectIntl, FormattedMessage } from 'react-intl'
 import Loading from "@/components/Loading"
 import { modifyPassword } from "@/api/login";
 
-@injectIntl
 class PasswordForm extends React.Component {
   constructor(props){
     super(props)

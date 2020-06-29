@@ -11,7 +11,6 @@ import { getDictionary } from '@/utils/utils'
 import bg1 from "@/assets/images/login-bg3.jpg";
 import bg2 from "@/assets/images/register-bg1.jpg";
 
-@injectIntl
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -45,6 +44,7 @@ class Login extends React.Component {
       errorMsg: '',
       successMsg: '',
       questionList:[],
+      // type: this.props.match.params.type,
       type: localStorage.getItem('loginType') || 'login',
       loading:false
     };
@@ -53,6 +53,7 @@ class Login extends React.Component {
     localStorage.setItem("isRefresh", true);
   }
   componentDidMount() {
+    // console.log()
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();

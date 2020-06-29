@@ -18,10 +18,7 @@ import { inject, observer } from 'mobx-react';
 import Store from '@/store/store';
 import './index.css'
 
-
-
 @observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
-// @injectIntl
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
@@ -471,15 +468,20 @@ class Header extends React.Component {
                           <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{ minWidth: "13rem" }}>
                             <div className="container cart" >
                               <div className="login-style">
-                                {/* <LoginButton /> */}
+                                <LoginButton />
                                 {/* <button onClick={() => {
                                   // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
                                   window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
                                 }}>registred</button> */}
-                                <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
-                                  onClick={() => this.clickLogin()}> <FormattedMessage id='login'/></button>
+                                {/* <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
+                                  onClick={() => this.clickLogin()}> <FormattedMessage id='login'/></button> */}
                                 <div><FormattedMessage id="account.notRegistred" /></div>
-                                <a className="rc-styled-link" onClick={() => this.signUp()}>
+                                <a className="rc-styled-link" onClick={() => {
+                                  // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
+                                  window.location.href = process.env.REACT_APP_RegisterPrefix + window.encodeURIComponent(process.env.REACT_APP_RegisterCallback)
+                                  // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
+                                  // this.signUp()
+                                }}>
                                   <FormattedMessage id="signUp" />
                                 </a>
                               </div>
@@ -550,12 +552,12 @@ class Header extends React.Component {
                                   </Link>
                                 </div>
                               </div>
-                              {/* <LogoutButton /> */}
-                              <div className="logoff-style">
+                              <LogoutButton />
+                              {/* <div className="logoff-style">
                                 <a className="rc-styled-link--external" onClick={() => this.clickLogoff()}>
                                   <FormattedMessage id="logOff" />
                                 </a>
-                              </div>
+                              </div> */}
 
                             </div>
                           </div>
@@ -656,4 +658,4 @@ class Header extends React.Component {
   }
 }
 
-export default Header
+export default injectIntl(Header, { forwardRef: true })
