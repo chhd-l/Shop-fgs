@@ -313,7 +313,7 @@ class AccountOrders extends React.Component {
                                             className="medium ui-text-overflow-line2 text-break"
                                             title={item.spuName}>
                                             {item.spuName}
-                                          </span><br />
+                                          </span>
                                           {item.specDetails}
                                         </span>
                                       </div>

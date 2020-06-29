@@ -9,7 +9,7 @@
   background: #e2001a;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 3;
+  z-index: 9;
   max-height: 20%;
   white-space: nowrap;
   text-overflow: ellipsis;

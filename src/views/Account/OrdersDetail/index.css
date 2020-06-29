@@ -50,12 +50,14 @@
   overflow-y: hidden;
 }
 .order-progress .rc-complete .rc-progress-stepped__link {
-  background-color: #e2001a;
-  border-color: #e2001a;
+  /* background-color: #e2001a; */
+  /* border-color: #e2001a; */
 }
+.order-progress .rc-complete .rc-progress-stepped__link,
 .order-progress .rc-current .rc-progress-stepped__link {
   border-color: #e2001a;
   color:#e2001a;
+  background-color: #fff;
 }
 .order-progress .rc-progress-stepped__item.rc-complete::after {
   background-color: #e2001a;
