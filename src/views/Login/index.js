@@ -45,6 +45,7 @@ class Login extends React.Component {
       errorMsg: '',
       successMsg: '',
       questionList:[],
+      // type: this.props.match.params.type,
       type: localStorage.getItem('loginType') || 'login',
       loading:false
     };
@@ -53,6 +54,7 @@ class Login extends React.Component {
     localStorage.setItem("isRefresh", true);
   }
   componentDidMount() {
+    // console.log()
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
