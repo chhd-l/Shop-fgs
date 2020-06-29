@@ -447,6 +447,7 @@ const en_US = {
   'selectProduct': 'Please select product',
   'noSpecialNeeds':'No special needs',
   'loginFailed':'login failed',
+  'choosePrescriber':'Please choose the correct prescriber'
  
 }
 export default en_US;

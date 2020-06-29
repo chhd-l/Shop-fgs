@@ -456,5 +456,6 @@ const en_US = {
   'selectProduct': 'Por favor seleccione producto',
   'noSpecialNeeds':'Sin necesidades especiales',
   'loginFailed':'error de inicio de sesion',
+  'choosePrescriber':'Por favor, elija el prescriptor correcto'
 }
 export default en_US;
