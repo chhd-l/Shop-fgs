@@ -543,6 +543,7 @@ class UnLoginCart extends React.Component {
                                 <LoginButton
                                   beforeLoginCallback={async () => this.handleCheckout({ needLogin: true })}
                                   btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
+                                  updateCartCache={() => this.headerRef.current.updateCartCache()}
                                 >
                                   <FormattedMessage id="checkout" />
                                 </LoginButton>
