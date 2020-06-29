@@ -5,6 +5,7 @@ import { updateCustomerBaseInfo } from "@/api/user"
 import { getAllPrescription } from '@/api/clinic'
 import { STOREID } from "@/utils/constant"
 
+
 class ClinicEditForm extends React.Component {
   constructor(props) {
     super(props)
@@ -18,20 +19,43 @@ class ClinicEditForm extends React.Component {
         clinicId: ''
       },
       clinicList: [],
-      loadingList: false
+      loadingList: false,
+      oldForm:{
+        clinicName: '',
+        clinicId: ''
+      }
     }
     this.timer = null
   }
   componentDidMount () {
     const { data } = this.props
+    let form={
+      clinicName: data.clinicName,
+      clinicId: data.clinicId
+    }
+    let oldForm ={
+      clinicName: data.clinicName,
+      clinicId: data.clinicId
+    }
     this.setState({
-      form: Object.assign({}, data)
+      form: form,
+      oldForm: oldForm
     })
   }
   componentWillReceiveProps (nextProps) {
     if (nextProps.data !== this.state.form) {
+      const { data } = nextProps
+      let form={
+        clinicName: data.clinicName,
+        clinicId: data.clinicId
+      }
+      let oldForm ={
+        clinicName: data.clinicName,
+        clinicId: data.clinicId
+      }
       this.setState({
-        form: Object.assign({}, nextProps.data)
+        form: form,
+        oldForm: oldForm
       })
     }
   }
@@ -40,6 +64,7 @@ class ClinicEditForm extends React.Component {
     const target = e.target
     const { form } = this.state
     form[target.name] = target.value
+    form['clinicId'] = null
     this.setState({ form: form })
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
@@ -50,7 +75,7 @@ class ClinicEditForm extends React.Component {
     this.setState({ loadingList: true })
     let res = await getAllPrescription({ storeId: STOREID, prescriberName: this.state.form.clinicName })
     this.setState({
-      clinicList: res.context && res.context.prescriberVo || [],
+      clinicList: (res.context && res.context.prescriberVo) || [],
       loadingList: false
     })
   }
@@ -67,16 +92,33 @@ class ClinicEditForm extends React.Component {
   async handleSave () {
     const { form } = this.state
     this.setState({ loading: true })
-    try {
+    try {   
+      if(!form.clinicId){
+        this.setState({
+          errorMsg: this.props.intl.messages.choosePrescriber
+        })
+        setTimeout(() => {
+          this.setState({
+            errorMsg: ''
+          })
+        }, 5000)
+        return false
+      }
       await updateCustomerBaseInfo(Object.assign({}, this.props.originData, {
         defaultClinics: {
           clinicsId: form.clinicId,
           clinicsName: form.clinicName
         }
       }))
+
       this.props.updateData(this.state.form)
+      let oldForm = {
+        clinicId: form.clinicId,
+        clinicName: form.clinicName
+      }
       this.setState({
-        successTipVisible: true
+        successTipVisible: true,
+        oldForm:oldForm
       })
       setTimeout(() => {
         this.setState({
@@ -93,11 +135,28 @@ class ClinicEditForm extends React.Component {
         })
       }, 5000)
     } finally {
+      const {oldForm} = this.state
+      let form = {
+        clinicId: oldForm.clinicId,
+        clinicName: oldForm.clinicName
+      }
       this.setState({
+        form:form,
         editFormVisible: false,
         loading: false
       })
     }
+  }
+  cancelClinic=()=>{
+    const {oldForm} = this.state
+    let form ={
+      clinicName:oldForm.clinicName,
+      clinicId :oldForm.clinicId
+    }
+    this.setState({ 
+      form:form,
+      editFormVisible: false 
+    })
   }
   render () {
     const { editFormVisible, form, clinicList } = this.state
@@ -187,7 +246,7 @@ class ClinicEditForm extends React.Component {
               <a
                 className="rc-styled-link"
                 name="contactPreference"
-                onClick={() => { this.setState({ editFormVisible: false }) }}>
+                onClick={() =>  { this.cancelClinic() }}>
                 <FormattedMessage id="cancel" />
               </a>
               &nbsp;<FormattedMessage id="or" />&nbsp;
