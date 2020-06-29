@@ -153,17 +153,11 @@ class PaymentComp extends React.Component {
         },
         {
           headers: {
-            public_key:
-              process.env.NODE_ENV === "development"
-                ? "fd931719-5733-4b77-b146-2fd22f9ad2e3"
-                : process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env":
-              process.env.NODE_ENV === "development"
-                ? "test"
-                : process.env.REACT_APP_PaymentENV,
+            "public_key": process.env.REACT_APP_PaymentKEY,
+            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
             "Content-type": "application/json",
-            app_id: "com.razorfish.dev_mexico",
-            "api-version": "1.3.0",
+            "app_id": "com.razorfish.dev_mexico",
+            "api-version": "1.3.0"
           },
         }
       );
@@ -172,7 +166,6 @@ class PaymentComp extends React.Component {
     } catch (e) {
       console.log(e)
     }
-
   }
   cardInfoInputChange (e) {
     const target = e.target;
@@ -263,18 +256,12 @@ class PaymentComp extends React.Component {
         },
         {
           headers: {
-            public_key:
-              process.env.NODE_ENV === "development"
-                ? "fd931719-5733-4b77-b146-2fd22f9ad2e3"
-                : process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env":
-              process.env.NODE_ENV === "development"
-                ? "test"
-                : process.env.REACT_APP_PaymentENV,
+            "public_key": process.env.REACT_APP_PaymentKEY,
+            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
             "Content-type": "application/json",
-            app_id: "com.razorfish.dev_mexico",
-            "api-version": "1.3.0",
-          },
+            "app_id": "com.razorfish.dev_mexico",
+            "api-version": "1.3.0"
+          }
         }
       );
       if (!res.data.vendor) {
