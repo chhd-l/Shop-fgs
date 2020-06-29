@@ -142,9 +142,9 @@ export default class AccountProfile extends React.Component {
                         data={this.state.clinicData}
                         updateData={() => this.queryCustomerBaseInfo()} />
                     </div>
-                    <div className="rc-column rc-padding-x--none--mobile">
+                    {/* <div className="rc-column rc-padding-x--none--mobile">
                       <PasswordForm />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
