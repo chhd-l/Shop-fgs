@@ -477,14 +477,11 @@ class PetForm extends React.Component {
     }
     else {
       //如果是没有特殊需求
-      if (val === 'Sin necesidades especiales' || val === 'No special needs') {
+      if (val === 'Sin necesidades especiales') {
 
         let tempArr=[]
         if(val === 'Sin necesidades especiales' ){
           tempArr = ['Sin necesidades especiales']
-        }
-        if(val === 'No special needs' ){
-          tempArr = ['No special needs']
         }
         this.setState({
           selectedSpecialNeeds: tempArr,
@@ -496,9 +493,6 @@ class PetForm extends React.Component {
         let tempArr = this.state.selectedSpecialNeeds.filter(item => {
           return item !== 'Sin necesidades especiales'
         })
-        tempArr = this.state.selectedSpecialNeeds.filter(item => {
-          return item !== 'No special needs'
-        })
         tempArr.push(val)
         this.setState({
           selectedSpecialNeeds: tempArr,
@@ -506,6 +500,7 @@ class PetForm extends React.Component {
         })
       }
     }
+    
 
   }
   selectedBreed = (item) => {
