@@ -5,6 +5,7 @@ import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ConfirmTooltip from '@/components/ConfirmTooltip'
+import LoginButton from '@/components/LoginButton'
 import { Link } from "react-router-dom"
 import { formatMoney, hanldePurchases } from "@/utils/utils"
 import { MINIMUM_AMOUNT } from '@/utils/constant'
@@ -58,7 +59,7 @@ class UnLoginCart extends React.Component {
         return false
       }
       if (needLogin) {
-        history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
+        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
         history.push('/prescription')
       }
@@ -533,12 +534,18 @@ class UnLoginCart extends React.Component {
                           <div className="col-lg-12 checkout-continue">
                             <a className={[checkoutLoading ? 'ui-btn-loading' : ''].join(' ')}>
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                                <div
+                                {/* <div
                                   className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
                                   aria-pressed="true"
                                   onClick={() => this.handleCheckout({ needLogin: true })}>
                                   <FormattedMessage id="checkout" />
-                                </div>
+                                </div> */}
+                                <LoginButton
+                                  beforeLoginCallback={async () => this.handleCheckout({ needLogin: true })}
+                                  btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
+                                >
+                                  <FormattedMessage id="checkout" />
+                                </LoginButton>
                               </div>
                               {/* <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                                 <div className="text-center" onClick={() => this.handleCheckout()}>

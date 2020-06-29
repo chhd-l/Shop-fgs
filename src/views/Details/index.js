@@ -5,6 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
+import LoginButton from '@/components/LoginButton'
 import {
   formatMoney,
   translateHtmlCharater,
@@ -367,6 +368,7 @@ class Details extends React.Component {
     // );
   }
   async hanldeAddToCart ({ redirect = false, needLogin = false } = {}) {
+    debugger
     this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
       return false
@@ -475,35 +477,31 @@ class Details extends React.Component {
         tmpData = Object.assign(tmpData, { quantity: quantityNew });
       }
     }
-
-    try {
-      let res = await miniPurchases({
-        goodsInfoDTOList: [
-          {
-            goodsInfoId: currentSelectedSize.goodsInfoId,
-            goodsNum: quantityNew,
-          },
-        ],
-      });
-      let tmpObj = find(
-        res.context.goodsList,
-        (ele) => ele.goodsInfoId === currentSelectedSize.goodsInfoId
-      );
-      if (tmpObj) {
-        if (quantityNew > tmpObj.stock) {
-          quantityNew = tmpObj.stock;
-          if (flag) {
-            this.setState({
-              quantity: quantityNew,
-            });
-          }
-          tmpData = Object.assign(tmpData, { quantity: quantityNew });
+debugger
+    let res = await miniPurchases({
+      goodsInfoDTOList: [
+        {
+          goodsInfoId: currentSelectedSize.goodsInfoId,
+          goodsNum: quantityNew,
+        },
+      ],
+    });
+    let tmpObj = find(
+      res.context.goodsList,
+      (ele) => ele.goodsInfoId === currentSelectedSize.goodsInfoId
+    );
+    if (tmpObj) {
+      if (quantityNew > tmpObj.stock) {
+        quantityNew = tmpObj.stock;
+        if (flag) {
+          this.setState({
+            quantity: quantityNew
+          });
         }
+        tmpData = Object.assign(tmpData, { quantity: quantityNew });
       }
-    } catch (e) {
-    } finally {
-      this.setState({ addToCartLoading: false });
     }
+    this.setState({ addToCartLoading: false });
 
     const idx = findIndex(
       cartDataCopy,
@@ -523,6 +521,7 @@ class Details extends React.Component {
     localStorage.setItem("rc-cart-data", JSON.stringify(cartDataCopy));
     this.setState({ cartData: cartDataCopy });
     this.headerRef.current && this.headerRef.current.updateCartCache();
+    debugger
     if (redirect) {
       await this.hanldePurchasesForCheckout(cartDataCopy);
       if (this.state.tradePrice < MINIMUM_AMOUNT) {
@@ -532,7 +531,7 @@ class Details extends React.Component {
         return false
       }
       if (needLogin) {
-        history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
+        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
         history.push('/prescription')
       }
@@ -862,20 +861,34 @@ class Details extends React.Component {
                                       </div>
                                       <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                         <div className="cart-and-ipay">
-                                          <button
-                                            className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                            data-loc="addToCart"
-                                            style={{ lineHeight: "30px" }}
-                                            onClick={() =>
-                                              this.hanldeAddToCart({
-                                                redirect: true,
-                                                needLogin: !jugeLoginStatus()
-                                              })
-                                            }
-                                          >
-                                            <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
-                                            <FormattedMessage id="checkout" />
-                                          </button>
+                                          {
+                                            jugeLoginStatus()
+                                              ? <button
+                                                className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                data-loc="addToCart"
+                                                style={{ lineHeight: "30px" }}
+                                                onClick={() =>
+                                                  this.hanldeAddToCart({
+                                                    redirect: true,
+                                                    needLogin: false
+                                                  })
+                                                }
+                                              >
+                                                <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
+                                                <FormattedMessage id="checkout" />
+                                              </button>
+                                              : <LoginButton
+                                                beforeLoginCallback={async () =>
+                                                  this.hanldeAddToCart({
+                                                    redirect: true,
+                                                    needLogin: true
+                                                  })
+                                                }
+                                                btnClass={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                              >
+                                                <FormattedMessage id="checkout" />
+                                              </LoginButton>
+                                          }
                                         </div>
                                       </div>
                                       {/* {
@@ -1010,4 +1023,3 @@ class Details extends React.Component {
 }
 
 export default Details
- 
