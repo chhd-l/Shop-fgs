@@ -387,8 +387,8 @@ class ShippingAddressFrom extends React.Component {
                               onBlur={(e) => this.inputBlur(e)}
                               name="addressType"
                             >
-                              <option value="DELIVERY">Delivery</option>
-                              <option value="BILLING">Billing</option>
+                              <option value="DELIVERY"> <FormattedMessage id="delivery" /></option>
+                              <option value="BILLING"><FormattedMessage id="billing2" /></option>
                               {/* {
                               this.state.countryList.map(item=>(
                               <option value={item.id}>{item.name}</option>

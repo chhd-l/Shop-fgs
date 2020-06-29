@@ -64,6 +64,7 @@ const en_US = {
   'information': 'Información',
   'confirmDelete': '¿Confirmas eliminar?',
   'billing': 'FACTURACIÓN',
+  'billing2': 'Facturación',
 
   'header.basketEmpty': 'Tú carrito esta vacío',
   'header.startTypingToSearch': 'Empieza a escribir para buscar',
