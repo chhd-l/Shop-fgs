@@ -17,7 +17,6 @@ import {
 import { IMG_DEFAULT } from '@/utils/constant'
 import './index.css'
 
-@injectIntl
 class OrdersAfterSale extends React.Component {
   constructor(props) {
     super(props)
@@ -151,13 +150,13 @@ class OrdersAfterSale extends React.Component {
   handleConfirm () {
     const { form, orderNumber, selectedIdx, details } = this.state
     if (selectedIdx === -1) {
-      this.showTopErrMsg('please select product')
+      this.showTopErrMsg(this.props.intl.messages.selectProduct)
       return
     }
     for (let key in form) {
       const value = form[key]
       if (!value && (key === 'reason' || key === 'method' || key === 'instructions')) {
-        this.setState({ errorMsg: 'Please complete the required items' })
+        this.setState({ errorMsg: this.props.intl.messages.CompleteRequiredItems })
         setTimeout(() => {
           this.setState({
             errorMsg: ''
@@ -206,7 +205,7 @@ class OrdersAfterSale extends React.Component {
         this.setState({
           confirmLoading: false
         })
-        this.showTopErrMsg(err || 'system error')
+        this.showTopErrMsg(err || this.props.intl.messages.systemError)
       })
   }
   render () {

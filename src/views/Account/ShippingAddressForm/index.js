@@ -17,7 +17,6 @@ import { Link } from 'react-router-dom';
 import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
 
-@injectIntl
 class ShippingAddressFrom extends React.Component {
   constructor(props) {
     super(props)
@@ -387,8 +386,8 @@ class ShippingAddressFrom extends React.Component {
                               onBlur={(e) => this.inputBlur(e)}
                               name="addressType"
                             >
-                              <option value="DELIVERY">Delivery</option>
-                              <option value="BILLING">Billing</option>
+                              <option value="DELIVERY"> <FormattedMessage id="delivery" /></option>
+                              <option value="BILLING"><FormattedMessage id="billing2" /></option>
                               {/* {
                               this.state.countryList.map(item=>(
                               <option value={item.id}>{item.name}</option>
@@ -411,8 +410,6 @@ class ShippingAddressFrom extends React.Component {
                             type="text"
                             className="rc-input__control"
                             id="firstName"
-                            data-pattern-mismatch="Please match the requested format"
-                            data-missing-error="Это поле обязательно для заполнения."
                             name="firstName"
                             required=""
                             aria-required="true"
@@ -443,8 +440,6 @@ class ShippingAddressFrom extends React.Component {
                             type="text"
                             className="rc-input__control"
                             id="lastName"
-                            data-pattern-mismatch="Please match the requested format"
-                            data-missing-error="Это поле обязательно для заполнения."
                             name="lastName"
                             required=""
                             aria-required="true"
@@ -475,8 +470,6 @@ class ShippingAddressFrom extends React.Component {
                             type="text"
                             className="rc-input__control"
                             id="address1"
-                            data-pattern-mismatch="Please match the requested format"
-                            data-missing-error="Это поле обязательно для заполнения."
                             name="address1"
                             required=""
                             aria-required="true"
@@ -584,8 +577,6 @@ class ShippingAddressFrom extends React.Component {
                               className="rc-input__control"
                               type="number"
                               id="zipCode"
-                              data-pattern-mismatch="Please match the requested format"
-                              data-missing-error="Это поле обязательно для заполнения."
                               data-range-error="The postal code needs to be 6 characters"
                               name="postCode"
                               value={addressForm.postCode}

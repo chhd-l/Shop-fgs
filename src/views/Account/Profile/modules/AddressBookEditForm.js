@@ -6,7 +6,6 @@ import { updateCustomerBaseInfo } from "@/api/user"
 import { getDictionary } from '@/utils/utils'
 import Selection from '@/components/Selection'
 
-@injectIntl
 class AddressBookEditForm extends React.Component {
   constructor(props) {
     super(props)
@@ -88,7 +87,7 @@ class AddressBookEditForm extends React.Component {
     const name = target.name
     let value = target.value
     if (name === 'postCode') {
-      value = value.replace(/\s+/g,"")
+      value = value.replace(/\s+/g, "")
     }
     form[name] = value
     this.setState({ form: form })
@@ -239,7 +238,7 @@ class AddressBookEditForm extends React.Component {
           <aside
             className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
             role="alert">
-            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none"><FormattedMessage id="saveSuccessfullly"/></p>
+            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none"><FormattedMessage id="saveSuccessfullly" /></p>
           </aside>
           <div className={`row userContactInfo text-break ${editFormVisible ? 'hidden' : ''}`}>
             <div className="col-lg-6">

@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { findIndex, find } from "lodash";
 import GoogleTagManager from "@/components/GoogleTagManager";
@@ -241,8 +241,8 @@ class Payment extends React.Component {
         this.setState({
           errorShow: true,
           errorMsg: this.state.isLogin
-            ? "Please select a delivery address"
-            : "Please complete the required items"
+            ? this.props.intl.messages.selectDeliveryAddress
+            : this.props.intl.messages.CompleteRequiredItems
         });
         window.scrollTo({
           top: 0,
@@ -258,7 +258,7 @@ class Payment extends React.Component {
       if (k === "postCode" && !/\d{5}/.test(param.deliveryAddress[k])) {
         this.setState({
           errorShow: true,
-          errorMsg: "Please enter the correct post code"
+          errorMsg: this.props.intl.messages.EnterCorrectPostCode
         });
         window.scrollTo({
           top: 0,
@@ -277,7 +277,7 @@ class Payment extends React.Component {
         console.log("billing", k)
         this.setState({
           errorShow: true,
-          errorMsg: "Please complete the required items"
+          errorMsg: this.props.intl.messages.CompleteRequiredItems
         });
         window.scrollTo({
           top: 0,
@@ -293,7 +293,7 @@ class Payment extends React.Component {
       if (k === "postCode" && !/\d{5}/.test(param.billingAddress[k])) {
         this.setState({
           errorShow: true,
-          errorMsg: "Please enter the correct post code"
+          errorMsg: this.props.intl.messages.EnterCorrectPostCode
         });
         window.scrollTo({
           top: 0,
@@ -347,12 +347,12 @@ class Payment extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.NODE_ENV === 'development' ? 'fd931719-5733-4b77-b146-2fd22f9ad2e3' : process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env": process.env.NODE_ENV === 'development' ? 'test' : process.env.REACT_APP_PaymentENV,
+            "public_key": process.env.REACT_APP_PaymentKEY,
+            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
             "Content-type": "application/json",
-            app_id: "com.razorfish.dev_mexico",
+            "app_id": "com.razorfish.dev_mexico",
             "api-version": "1.3.0",
-          },
+          }
         }
       );
       console.log(res, 'res')
@@ -390,7 +390,7 @@ class Payment extends React.Component {
       if (!payosdata.token) {
         this.setState({
           errorShow: true,
-          errorMsg: "Please click the confirm card button"
+          errorMsg: this.props.intl.messages.clickConfirmCardButton
         });
         window.scrollTo({
           top: 0,
@@ -607,7 +607,7 @@ class Payment extends React.Component {
       if (this.state.creditCardInfo[k] === "") {
         this.setState({
           errorShow: true,
-          errorMsg: "Please complete the required items",
+          errorMsg: this.props.intl.messages.CompleteRequiredItems,
         });
         window.scrollTo({
           top: 0,
@@ -636,7 +636,7 @@ class Payment extends React.Component {
       if (k === "email" && !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(this.state.creditCardInfo[k].replace(/\s*/g, ""))) {
         this.setState({
           errorShow: true,
-          errorMsg: "Please enter the correct email",
+          errorMsg: this.props.intl.messages.EnterCorrectEmail,
         });
         window.scrollTo({
           top: 0,
@@ -1538,4 +1538,4 @@ class Payment extends React.Component {
   }
 }
 
-export default Payment;
+export default injectIntl(Payment);

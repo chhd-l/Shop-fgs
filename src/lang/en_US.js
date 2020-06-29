@@ -64,6 +64,7 @@ const en_US = {
   'information': 'Information',
   'confirmDelete': 'Do you confirm to delete?',
   'billing': 'BILLING',
+  'billing2': 'Billing',
 
   'header.basketEmpty': 'your basket is empty',
   'header.startTypingToSearch': 'Start typing to search',
@@ -440,8 +441,12 @@ const en_US = {
   'CompleteRequiredItems': 'Please complete the required items',
   'EnterCorrectEmail': 'Please enter the correct email',
   'EnterCorrectPostCode': 'Please enter the correct post code',
+  'personal': 'Personal',
+  'selectDeliveryAddress': 'Please select a delivery address',
+  'clickConfirmCardButton': 'Please click the confirm card button',
+  'selectProduct': 'Please select product',
   'noSpecialNeeds':'No special needs',
   'loginFailed':'login failed',
-  'personal': 'Personal'
+ 
 }
 export default en_US;

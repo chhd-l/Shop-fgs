@@ -18,7 +18,6 @@ import {
 import Loading from "@/components/Loading";
 import ConfirmTooltip from '@/components/ConfirmTooltip'
 
-@injectIntl
 class PaymentComp extends React.Component {
   constructor(props) {
     super(props);
@@ -153,17 +152,11 @@ class PaymentComp extends React.Component {
         },
         {
           headers: {
-            public_key:
-              process.env.NODE_ENV === "development"
-                ? "fd931719-5733-4b77-b146-2fd22f9ad2e3"
-                : process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env":
-              process.env.NODE_ENV === "development"
-                ? "test"
-                : process.env.REACT_APP_PaymentENV,
+            "public_key": process.env.REACT_APP_PaymentKEY,
+            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
             "Content-type": "application/json",
-            app_id: "com.razorfish.dev_mexico",
-            "api-version": "1.3.0",
+            "app_id": "com.razorfish.dev_mexico",
+            "api-version": "1.3.0"
           },
         }
       );
@@ -172,7 +165,6 @@ class PaymentComp extends React.Component {
     } catch (e) {
       console.log(e)
     }
-
   }
   cardInfoInputChange (e) {
     const target = e.target;
@@ -263,18 +255,12 @@ class PaymentComp extends React.Component {
         },
         {
           headers: {
-            public_key:
-              process.env.NODE_ENV === "development"
-                ? "fd931719-5733-4b77-b146-2fd22f9ad2e3"
-                : process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env":
-              process.env.NODE_ENV === "development"
-                ? "test"
-                : process.env.REACT_APP_PaymentENV,
+            "public_key": process.env.REACT_APP_PaymentKEY,
+            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
             "Content-type": "application/json",
-            app_id: "com.razorfish.dev_mexico",
-            "api-version": "1.3.0",
-          },
+            "app_id": "com.razorfish.dev_mexico",
+            "api-version": "1.3.0"
+          }
         }
       );
       if (!res.data.vendor) {
@@ -456,6 +442,8 @@ class PaymentComp extends React.Component {
                                 <FormattedMessage id="delete" />
                               </span>
                               <ConfirmTooltip
+                                containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                                arrowStyle={{ left: '89%' }}
                                 display={el.confirmTooltipVisible}
                                 confirm={e => this.deleteCard(el)}
                                 updateChildDisplay={status => this.updateConfirmTooltipVisible(el, status)} />

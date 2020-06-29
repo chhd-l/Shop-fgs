@@ -23,7 +23,6 @@ const noSelect = {
   border: "3px solid #d7d7d7",
 }
 
-@injectIntl
 class PetForm extends React.Component {
   constructor(props) {
     super(props)
@@ -740,7 +739,6 @@ class PetForm extends React.Component {
                           </a>
                           <ConfirmTooltip
                             containerStyle={{ transform: 'translate(-89%, 105%)' }}
-                            // containerStyle={1}
                             arrowStyle={{ left: '89%' }}
                             display={currentPet.confirmTooltipVisible}
                             confirm={e => this.delPets(currentPet)}

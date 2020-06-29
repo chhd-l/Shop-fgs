@@ -5,7 +5,6 @@ import { updateCustomerBaseInfo } from "@/api/user"
 import { getAllPrescription } from '@/api/clinic'
 import { STOREID } from "@/utils/constant"
 
-@injectIntl
 class ClinicEditForm extends React.Component {
   constructor(props) {
     super(props)

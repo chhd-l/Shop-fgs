@@ -314,7 +314,7 @@ class AccountOrders extends React.Component {
                                     </div>
                                   </div>
                                   <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
-                                    <div className="col-8 col-md-2 d-flex flex-wrap mb-2 mb-md-0">
+                                    <div className="col-8 col-md-2 d-flex flex-wrap align-items-center mb-2 mb-md-0">
                                       {order.tradeItems.map(item => (
                                         <img
                                           className="img-fluid"
