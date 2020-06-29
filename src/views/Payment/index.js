@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { findIndex, find } from "lodash";
 import GoogleTagManager from "@/components/GoogleTagManager";
@@ -29,6 +29,7 @@ import Store from '@/store/store';
 import axios from 'axios'
 import "./index.css";
 
+@injectIntl
 class Payment extends React.Component {
   constructor(props) {
     super(props);
@@ -241,8 +242,8 @@ class Payment extends React.Component {
         this.setState({
           errorShow: true,
           errorMsg: this.state.isLogin
-            ? "Please select a delivery address"
-            : "Please complete the required items"
+            ? this.props.intl.messages.selectDeliveryAddress
+            : this.props.intl.messages.CompleteRequiredItems
         });
         window.scrollTo({
           top: 0,
@@ -258,7 +259,7 @@ class Payment extends React.Component {
       if (k === "postCode" && !/\d{5}/.test(param.deliveryAddress[k])) {
         this.setState({
           errorShow: true,
-          errorMsg: "Please enter the correct post code"
+          errorMsg: this.props.intl.messages.EnterCorrectPostCode
         });
         window.scrollTo({
           top: 0,
@@ -277,7 +278,7 @@ class Payment extends React.Component {
         console.log("billing", k)
         this.setState({
           errorShow: true,
-          errorMsg: "Please complete the required items"
+          errorMsg: this.props.intl.messages.CompleteRequiredItems
         });
         window.scrollTo({
           top: 0,
@@ -293,7 +294,7 @@ class Payment extends React.Component {
       if (k === "postCode" && !/\d{5}/.test(param.billingAddress[k])) {
         this.setState({
           errorShow: true,
-          errorMsg: "Please enter the correct post code"
+          errorMsg: this.props.intl.messages.EnterCorrectPostCode
         });
         window.scrollTo({
           top: 0,
@@ -390,7 +391,7 @@ class Payment extends React.Component {
       if (!payosdata.token) {
         this.setState({
           errorShow: true,
-          errorMsg: "Please click the confirm card button"
+          errorMsg: this.props.intl.messages.clickConfirmCardButton
         });
         window.scrollTo({
           top: 0,
@@ -607,7 +608,7 @@ class Payment extends React.Component {
       if (this.state.creditCardInfo[k] === "") {
         this.setState({
           errorShow: true,
-          errorMsg: "Please complete the required items",
+          errorMsg: this.props.intl.messages.CompleteRequiredItems,
         });
         window.scrollTo({
           top: 0,
@@ -636,7 +637,7 @@ class Payment extends React.Component {
       if (k === "email" && !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(this.state.creditCardInfo[k].replace(/\s*/g, ""))) {
         this.setState({
           errorShow: true,
-          errorMsg: "Please enter the correct email",
+          errorMsg: this.props.intl.messages.EnterCorrectEmail,
         });
         window.scrollTo({
           top: 0,
@@ -1538,4 +1539,4 @@ class Payment extends React.Component {
   }
 }
 
-export default Payment;
+export default injectIntl(Payment);

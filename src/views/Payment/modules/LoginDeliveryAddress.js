@@ -192,7 +192,7 @@ export default class LoginDeliveryAddress extends React.Component {
     const originData = addressList[this.currentOperateIdx]
     if (!deliveryAddress.firstName || !deliveryAddress.lastName || !deliveryAddress.address1 || !deliveryAddress.country || !deliveryAddress.city || !deliveryAddress.postCode || !deliveryAddress.phoneNumber) {
       this.setState({
-        saveErrorMsg: 'Please complete the required items'
+        saveErrorMsg: this.props.intl.messages.CompleteRequiredItems
       })
       console.log(deliveryAddress)
       this.scrollToTitle()

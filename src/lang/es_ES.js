@@ -448,6 +448,9 @@ const en_US = {
   'CompleteRequiredItems': 'Por favor complete los artículos requeridos',
   'EnterCorrectEmail': 'Por favor ingrese el correo electrónico correcto',
   'EnterCorrectPostCode': 'Por favor, introduzca el código postal correcto',
-  'personal': 'Personal'
+  'personal': 'Personal',
+  'selectDeliveryAddress': 'Por favor seleccione una dirección de entrega',
+  'clickConfirmCardButton': 'Por favor, haga clic en el botón confirmar tarjeta',
+  'selectProduct': 'Please select product'
 }
 export default en_US;
