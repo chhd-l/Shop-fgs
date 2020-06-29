@@ -64,6 +64,7 @@ const en_US = {
   'information': 'Information',
   'confirmDelete': 'Do you confirm to delete?',
   'billing': 'BILLING',
+  'billing2': 'Billing',
 
   'header.basketEmpty': 'your basket is empty',
   'header.startTypingToSearch': 'Start typing to search',
