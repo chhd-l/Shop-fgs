@@ -473,24 +473,58 @@ class PaymentComp extends React.Component {
                             </div>
                             <div className={`col-12 col-sm-9 d-flex flex-column justify-content-around`}>
                               <div className="row ui-margin-top-1-md-down">
+                                <div className="col-12 color-999" style={{display: el.selected? 'none': 'block'}}>
+                                  <FormattedMessage id="name2" /><br />
+                                  <span className="creditCompleteInfo">{el.cardOwner}</span>
+                                </div>
+                                <div className="col-12 color-999" style={{display: el.selected? 'block': 'none'}}>
+                                  <FormattedMessage id="Cvv" /><br />
+                                  <div className="col-4 color-999">
+                                    <input type="password" maxLength="3" />
+                                  </div>
+                                  {/* <span className="creditCompleteInfo">
+                                    <input type="password" maxLength="3" />
+                                  </span> */}
+                                </div>
+                              </div>
+                              <div className="row ui-margin-top-1-md-down">
+                                <div className="col-4 color-999">
+                                  <FormattedMessage id="payment.cardNumber2" /><br />
+                                  <span className="creditCompleteInfo">
+                                    xxxx xxxx xxxx{" "}{el.cardNumber ? el.cardNumber.substring(el.cardNumber.length - 4) : ""}
+                                  </span>
+                                </div>
+                                <div className="col-4 border-left color-999">
+                                  <FormattedMessage id="payment.cardType" /><br />
+                                  <span className="creditCompleteInfo">{el.cardType}</span>
+                                </div>
+                                <div className="col-4 border-left color-999" style={{display: el.selected? 'block': 'none'}}>
+                                  <button class="rc-btn rc-btn--two">Apply</button>
+                                  {/* <FormattedMessage id="payment.cardType" /><br />
+                                  <span className="creditCompleteInfo">{el.cardType}</span> */}
+                                </div>
+                              </div>
+                            </div>
+                            {/* <div className={`col-12 col-sm-9 d-flex flex-column justify-content-around`}>
+                              <div className="row ui-margin-top-1-md-down">
                                 <div className="col-12 color-999">
                                   <FormattedMessage id="name2" /><br />
                                   <span className="creditCompleteInfo">{el.cardOwner}</span>
                                 </div>
                               </div>
                               <div className="row ui-margin-top-1-md-down">
-                                <div className="col-6 color-999">
+                                <div className="col-4 color-999">
                                   <FormattedMessage id="payment.cardNumber2" /><br />
                                   <span className="creditCompleteInfo">
                                     xxxx xxxx xxxx{" "}{el.cardNumber ? el.cardNumber.substring(el.cardNumber.length - 4) : ""}
                                   </span>
                                 </div>
-                                <div className="col-6 border-left color-999">
+                                <div className="col-4 border-left color-999">
                                   <FormattedMessage id="payment.cardType" /><br />
                                   <span className="creditCompleteInfo">{el.cardType}</span>
                                 </div>
                               </div>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
@@ -645,7 +679,7 @@ class PaymentComp extends React.Component {
                                   data-js-warning-message="*Phone Number isn’t valid"
                                 >
                                   <input
-                                    type="tel"
+                                    type="password"
                                     className="rc-input__control form-control phone"
                                     data-phonelength="18"
                                     data-js-validate="(^(\+?7|8)?9\d{9}$)"
