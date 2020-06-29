@@ -297,7 +297,7 @@ class AccountOrders extends React.Component {
                               {/* {this.cancelOrderBtnJSX()} */}
                             </div>
                             <hr className="rc-margin-top---none" />
-                            <div className="order__listing">
+                            <div className="order__listing text-left">
                               <div className="order-list-container">
                                 <div className="card-container mt-0 border-0 pl-2 pr-2">
                                   {details.tradeItems.map((item, i) => (
