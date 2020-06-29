@@ -368,7 +368,6 @@ class Details extends React.Component {
     // );
   }
   async hanldeAddToCart ({ redirect = false, needLogin = false } = {}) {
-    debugger
     this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
       return false
@@ -376,7 +375,7 @@ class Details extends React.Component {
     if (jugeLoginStatus()) {
       this.hanldeLoginAddToCart({ redirect });
     } else {
-      this.hanldeUnloginAddToCart({ redirect, needLogin });
+      await this.hanldeUnloginAddToCart({ redirect, needLogin });
     }
   }
   async hanldeLoginAddToCart ({ redirect }) {
@@ -444,6 +443,10 @@ class Details extends React.Component {
     }
   }
   async hanldeUnloginAddToCart ({ redirect = false, needLogin = false }) {
+    this.setState({ checkOutErrMsg: "" });
+    if (this.state.loading) {
+      return false
+    }
     const { history } = this.props
     const { currentUnitPrice, quantity, cartData, instockStatus } = this.state;
     const { goodsId, sizeList } = this.state.details;
@@ -477,7 +480,7 @@ class Details extends React.Component {
         tmpData = Object.assign(tmpData, { quantity: quantityNew });
       }
     }
-debugger
+
     let res = await miniPurchases({
       goodsInfoDTOList: [
         {
@@ -521,7 +524,6 @@ debugger
     localStorage.setItem("rc-cart-data", JSON.stringify(cartDataCopy));
     this.setState({ cartData: cartDataCopy });
     this.headerRef.current && this.headerRef.current.updateCartCache();
-    debugger
     if (redirect) {
       await this.hanldePurchasesForCheckout(cartDataCopy);
       if (this.state.tradePrice < MINIMUM_AMOUNT) {
@@ -879,12 +881,13 @@ debugger
                                               </button>
                                               : <LoginButton
                                                 beforeLoginCallback={async () =>
-                                                  this.hanldeAddToCart({
+                                                  this.hanldeUnloginAddToCart({
                                                     redirect: true,
                                                     needLogin: true
                                                   })
                                                 }
                                                 btnClass={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                updateCartCache={() => { this.headerRef.current && this.headerRef.current.updateCartCache() }}
                                               >
                                                 <FormattedMessage id="checkout" />
                                               </LoginButton>
@@ -997,14 +1000,31 @@ debugger
                       <FormattedMessage id="details.addToCart" />
                     </span>
                   </button>
-                  <button
-                    className={`rc-btn rc-btn--one js-sticky-cta btn-add-to-cart ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                    onClick={() => this.hanldeAddToCart({ redirect: true, needLogin: !jugeLoginStatus() })}>
-                    <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
-                    <span className="default-txt">
-                      <FormattedMessage id="checkout" />
-                    </span>
-                  </button>
+                  {
+                    jugeLoginStatus()
+                      ? <button
+                        className={`rc-btn rc-btn--one js-sticky-cta btn-add-to-cart ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                        onClick={() => this.hanldeAddToCart({ redirect: true, needLogin: false })}>
+                        <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                        <span className="default-txt">
+                          <FormattedMessage id="checkout" />
+                        </span>
+                      </button>
+                      : <LoginButton
+                        beforeLoginCallback={async () =>
+                          this.hanldeUnloginAddToCart({
+                            redirect: true,
+                            needLogin: true
+                          })
+                        }
+                        btnClass={`rc-btn rc-btn--one js-sticky-cta btn-add-to-cart ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                      >
+                        <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                        <span className="default-txt">
+                          <FormattedMessage id="checkout" />
+                        </span>
+                      </LoginButton>
+                  }
                   {/* {
                     !jugeLoginStatus() && <button
                       className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
