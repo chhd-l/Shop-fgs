@@ -354,17 +354,17 @@ class ShippingAddress extends React.Component {
                   <nav class="rc-tabs__controller rc-fade--x " data-toggle-group="">
                     <ul class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break" role="tablist" >
                       <li className="rc-tabs-li">
-                        <button class="rc-tab text-break" 
+                        <button class="rc-tab text-break"
                           onClick={() => this.switchAddressType('DELIVERY')}
-                          style={{padding: "8px 15px"}} 
+                          style={{ padding: "8px 15px" }}
                           data-toggle="deliveryAddress" role="tab">
                           <FormattedMessage id="deliveryAddress"></FormattedMessage>
                         </button>
                       </li>
                       <li className="rc-tabs-li">
-                        <button class="rc-tab text-break" 
+                        <button class="rc-tab text-break"
                           onClick={() => this.switchAddressType('BILLING')}
-                          style={{padding: "8px 15px"}} 
+                          style={{ padding: "8px 15px" }}
                           data-toggle="billingAddress" role="tab">
                           <FormattedMessage id="billingAddress"></FormattedMessage>
                         </button>
@@ -375,16 +375,20 @@ class ShippingAddress extends React.Component {
                     <span
                       className="red font-weight-normal ui-cursor-pointer"
                       onClick={() => this.openCreatePage()}>
-                      <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
-                      <FormattedMessage id="newAddress" />
+                      <span className="d-flex align-items-center">
+                        <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
+                        <span>
+                          <FormattedMessage id="newAddress" />
+                        </span>
+                      </span>
                     </span>
                     {/* <button className="address-btn" onClick={() => this.openCreatePage()}>
                       <span><FormattedMessage id="newAddress"></FormattedMessage></span>
                     </button> */}
                   </div>
-                  
-                
-                  
+
+
+
 
 
 
@@ -394,18 +398,18 @@ class ShippingAddress extends React.Component {
                         <div className="col-lg-6" style={{ padding: "10px 25px" }} key={item.deliveryAddressId}>
                           {/* <div className="addr-line"></div> */}
                           <div className={"row card-address " + (item.isDefaltAddress === 1 ? "card-address-default" : "")} >
-                            <div className="col-lg-10 card-phone-title">
+                            <div className="col-10 card-phone-title">
                               <div className="address-name">
                                 <span>{item.firstName + ' ' + item.lastName}</span>
                                 {item.isDefaltAddress === 1
-                                    ? <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
-                                      <FormattedMessage id="default" />
-                                    </span>
-                                    : null
+                                  ? <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
+                                    <FormattedMessage id="default" />
+                                  </span>
+                                  : null
                                 }
                               </div>
                             </div>
-                            <div className="col-lg-2 address-action card-phone-action">
+                            <div className="col-2 address-action card-phone-action">
                               <a className="address-click-btn"
                                 onClick={() => this.openEditPage(item.deliveryAddressId)}>
                                 <FormattedMessage id="edit" />
@@ -417,6 +421,8 @@ class ShippingAddress extends React.Component {
                                 <FormattedMessage id="delete" />
                               </a>
                               <ConfirmTooltip
+                                containerStyle={{ transform: 'translate(-96%, 105%)' }}
+                                arrowStyle={{ left: '89%' }}
                                 display={item.confirmTooltipVisible}
                                 confirm={e => this.deleteAddress(item)}
                                 updateChildDisplay={status => this.updateConfirmTooltipVisible(item, status)} />
