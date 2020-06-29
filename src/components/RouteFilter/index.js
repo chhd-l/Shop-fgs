@@ -20,18 +20,8 @@ class RouteFilter extends Component {
       loadJS(
         "https://js.paymentsos.com/v2/latest/secure-fields.min.js",
         function () {
-          // window.POS.setPublicKey("fd931719-5733-4b77-b146-2fd22f9ad2e3");
-          // window.POS.setPublicKey("e13025c1-e45e-4ead-a18b-782efcee5250");
-          let key, env
-          if (process.env.NODE_ENV === 'development') {
-            key = 'fd931719-5733-4b77-b146-2fd22f9ad2e3'
-            env = 'test'
-          } else if (process.env.NODE_ENV === 'production') {
-            key = process.env.REACT_APP_PaymentKEY
-            env = process.env.REACT_APP_PaymentENV
-          }
-          window.POS.setPublicKey(key)
-          window.POS.setEnvironment(env);
+          window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY)
+          window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
           const style = {
             base: {
               secureFields: {
@@ -78,8 +68,7 @@ class RouteFilter extends Component {
       );
     }
     if (this.props.location.pathname !== "/login") {
-      let tmpSrc = process.env.REACT_APP_ONTRUST_SRC
-      loadJS(tmpSrc, function () { })
+      loadJS(process.env.REACT_APP_ONTRUST_SRC, function () { })
     }
     if (this.props.location.pathname === "/confirmation" && !localStorage.getItem('orderNumber')) {
       this.props.history.push("/");

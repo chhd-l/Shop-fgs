@@ -157,12 +157,12 @@ class ShippingAddressFrom extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.NODE_ENV === 'development' ? 'fd931719-5733-4b77-b146-2fd22f9ad2e3' : process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env": process.env.NODE_ENV === 'development' ? 'test' : process.env.REACT_APP_PaymentENV,
+            "public_key": process.env.REACT_APP_PaymentKEY,
+            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
             "Content-type": "application/json",
-            app_id: "com.razorfish.dev_mexico",
-            "api-version": "1.3.0",
-          },
+            "app_id": "com.razorfish.dev_mexico",
+            "api-version": "1.3.0"
+          }
         }
       );
       console.log(res.data);
@@ -551,21 +551,23 @@ class ShippingAddressFrom extends React.Component {
                                   this.setState({ creditCardInfo });
                                 }}
                               >
-                                <input
-                                  type="checkbox"
-                                  id="defaultAddress"
-                                  className="rc-input__checkbox"
-                                  value={creditCardInfo.isDefault}
-                                />
-                                {!creditCardInfo.isDefault ? (
-                                  <label className="rc-input__label--inline">
-                                    <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                                  </label>
-                                ) : (
-                                    <label className="rc-input__label--inline defaultAddressChecked">
-                                      <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                                    </label>
-                                  )}
+                                {
+                                  creditCardInfo.isDefault
+                                    ? <input
+                                      type="checkbox"
+                                      className="rc-input__checkbox"
+                                      value={creditCardInfo.isDefault}
+                                      checked
+                                    />
+                                    : <input
+                                      type="checkbox"
+                                      className="rc-input__checkbox"
+                                      value={creditCardInfo.isDefault}
+                                    />
+                                }
+                                <label className="rc-input__label--inline text-break">
+                                  <FormattedMessage id="setDefaultPaymentMethod" />
+                                </label>
                               </div>
                               {/* </div> */}
                               <a

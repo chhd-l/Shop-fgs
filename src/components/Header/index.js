@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import { find } from 'lodash'
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading'
@@ -21,6 +21,7 @@ import './index.css'
 
 
 @observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
+// @injectIntl
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
@@ -285,7 +286,7 @@ class Header extends React.Component {
     // this.setState({
     //   isLogin: false
     // })
-    // Store.changeIsLogin(false)
+    Store.changeIsLogin(false)
     const { history } = this.props
     history.push('/')
   }
@@ -452,9 +453,18 @@ class Header extends React.Component {
                       className="minicart inlineblock"
                       style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }}
                       onMouseOver={this.handleCenterMouseOver} onMouseOut={this.handleCenterMouseOut}>
-                      <Link to="/account" className="minicart-link" data-loc="miniCartOrderBtn" title="Presonal">
-                        <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
-                      </Link>
+                      <FormattedMessage id="personal">
+                        {txt => (
+                          <Link
+                            to="/account"
+                            className="minicart-link"
+                            data-loc="miniCartOrderBtn"
+                            title={txt}>
+                            <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
+                          </Link>
+                        )}
+                      </FormattedMessage>
+
                       {
                         !Store.isLogin
                           ?

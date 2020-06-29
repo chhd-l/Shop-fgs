@@ -153,17 +153,11 @@ class PaymentComp extends React.Component {
         },
         {
           headers: {
-            public_key:
-              process.env.NODE_ENV === "development"
-                ? "fd931719-5733-4b77-b146-2fd22f9ad2e3"
-                : process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env":
-              process.env.NODE_ENV === "development"
-                ? "test"
-                : process.env.REACT_APP_PaymentENV,
+            "public_key": process.env.REACT_APP_PaymentKEY,
+            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
             "Content-type": "application/json",
-            app_id: "com.razorfish.dev_mexico",
-            "api-version": "1.3.0",
+            "app_id": "com.razorfish.dev_mexico",
+            "api-version": "1.3.0"
           },
         }
       );
@@ -172,7 +166,6 @@ class PaymentComp extends React.Component {
     } catch (e) {
       console.log(e)
     }
-
   }
   cardInfoInputChange (e) {
     const target = e.target;
@@ -263,18 +256,12 @@ class PaymentComp extends React.Component {
         },
         {
           headers: {
-            public_key:
-              process.env.NODE_ENV === "development"
-                ? "fd931719-5733-4b77-b146-2fd22f9ad2e3"
-                : process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env":
-              process.env.NODE_ENV === "development"
-                ? "test"
-                : process.env.REACT_APP_PaymentENV,
+            "public_key": process.env.REACT_APP_PaymentKEY,
+            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
             "Content-type": "application/json",
-            app_id: "com.razorfish.dev_mexico",
-            "api-version": "1.3.0",
-          },
+            "app_id": "com.razorfish.dev_mexico",
+            "api-version": "1.3.0"
+          }
         }
       );
       if (!res.data.vendor) {
@@ -413,7 +400,7 @@ class PaymentComp extends React.Component {
             }
           </span>
           <span
-            className="red font-weight-normal ui-cursor-pointer"
+            className="red font-weight-normal ui-cursor-pointer d-flex align-items-center"
             onClick={() => {
               this.setState({ isEdit: true }, () => {
                 this.scrollToPaymentComp()
@@ -421,7 +408,7 @@ class PaymentComp extends React.Component {
               this.initCardInfo();
             }}>
             <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
-            <FormattedMessage id="addNewCreditCard" />
+            <span style={{ marginTop: -3 }}><FormattedMessage id="addNewCreditCard" /></span>
           </span>
         </div>
         {/* <div className="addbox" onClick={() => this.openCreatePage()}>
@@ -456,6 +443,8 @@ class PaymentComp extends React.Component {
                                 <FormattedMessage id="delete" />
                               </span>
                               <ConfirmTooltip
+                                containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                                arrowStyle={{ left: '89%' }}
                                 display={el.confirmTooltipVisible}
                                 confirm={e => this.deleteCard(el)}
                                 updateChildDisplay={status => this.updateConfirmTooltipVisible(el, status)} />
@@ -784,27 +773,27 @@ class PaymentComp extends React.Component {
                   className="rc-input rc-input--inline"
                   style={{ marginTop: "10px", float: "left" }}
                   onClick={() => {
-                    console.log(creditCardInfo.isDefault, 'default')
                     creditCardInfo.isDefault = !creditCardInfo.isDefault;
                     this.setState({ creditCardInfo });
                   }}
                 >
-                  <input
-                    type="checkbox"
-                    id="defaultAddress"
-                    className="rc-input__checkbox"
-                    // value={creditCardInfo.isDefault}
-                    value={true}
-                  />
-                  {!creditCardInfo.isDefault ? (
-                    <label className="rc-input__label--inline">
-                      <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                    </label>
-                  ) : (
-                      <label className="rc-input__label--inline defaultAddressChecked">
-                        <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                      </label>
-                    )}
+                  {
+                    creditCardInfo.isDefault
+                      ? <input
+                        type="checkbox"
+                        className="rc-input__checkbox"
+                        value={creditCardInfo.isDefault}
+                        checked
+                      />
+                      : <input
+                        type="checkbox"
+                        className="rc-input__checkbox"
+                        value={creditCardInfo.isDefault}
+                      />
+                  }
+                  <label className="rc-input__label--inline text-break">
+                    <FormattedMessage id="setDefaultPaymentMethod" />
+                  </label>
                 </div>
                 <a
                   className="rc-styled-link editPersonalInfoBtn"

@@ -478,8 +478,15 @@ class PetForm extends React.Component {
     }
     else {
       //如果是没有特殊需求
-      if (val === 'No special needs') {
-        let tempArr = ['No special needs']
+      if (val === 'Sin necesidades especiales' || val === 'No special needs') {
+
+        let tempArr=[]
+        if(val === 'Sin necesidades especiales' ){
+          tempArr = ['Sin necesidades especiales']
+        }
+        if(val === 'No special needs' ){
+          tempArr = ['No special needs']
+        }
         this.setState({
           selectedSpecialNeeds: tempArr,
           isDisabled: false
@@ -488,6 +495,9 @@ class PetForm extends React.Component {
       else {
         //先排除'No special needs'
         let tempArr = this.state.selectedSpecialNeeds.filter(item => {
+          return item !== 'Sin necesidades especiales'
+        })
+        tempArr = this.state.selectedSpecialNeeds.filter(item => {
           return item !== 'No special needs'
         })
         tempArr.push(val)
@@ -542,7 +552,7 @@ class PetForm extends React.Component {
       isInputDisabled: currentPet.petsBreed === "unknown Breed" ? true : false,
       isUnknownDisabled: currentPet.petsBreed === "unknown Breed" ? false : true,
       breed: currentPet.petsBreed === "unknown Breed" ? "" : currentPet.petsBreed,
-      weight: "",
+      weight:  currentPet.petsType === 'dog' ?currentPet.petsSizeValueName:'',
       isSterilized: currentPet.sterilized === 0 ? true : false,
       birthdate: currentPet.birthOfPets,
 
@@ -730,7 +740,6 @@ class PetForm extends React.Component {
                           </a>
                           <ConfirmTooltip
                             containerStyle={{ transform: 'translate(-89%, 105%)' }}
-                            // containerStyle={1}
                             arrowStyle={{ left: '89%' }}
                             display={currentPet.confirmTooltipVisible}
                             confirm={e => this.delPets(currentPet)}
@@ -864,19 +873,21 @@ class PetForm extends React.Component {
                               style={{ margin: "15px 0 0 0", pointerEvents: this.state.isUnknownDisabled ? 'none' : "" }}
                               onClick={() => this.setUnknown()}
                             >
-                              <input type="checkbox"
-                                id="defaultAddress"
-                                className="rc-input__checkbox"
-                                value={this.state.isUnknown} />
                               {
-                                this.state.isUnknown ?
-                                  <label className="rc-input__label--inline petPropChecked" >
-                                    <FormattedMessage id="account.unknownBreed"></FormattedMessage>
-                                  </label> :
-                                  <label className="rc-input__label--inline ">
-                                    <FormattedMessage id="account.unknownBreed"></FormattedMessage>
-                                  </label>
+                                this.state.isUnknown
+                                  ? <input
+                                    type="checkbox"
+                                    className="rc-input__checkbox"
+                                    value={this.state.isUnknown}
+                                    checked />
+                                  : <input
+                                    type="checkbox"
+                                    className="rc-input__checkbox"
+                                    value={this.state.isUnknown} />
                               }
+                              <label className="rc-input__label--inline text-break" >
+                                <FormattedMessage id="account.unknownBreed" />
+                              </label>
                             </div>
 
                           </div>
@@ -891,16 +902,14 @@ class PetForm extends React.Component {
                           {
                             this.state.sizeArr.map((item, i) => (
 
-                              <div
-                                className="wrap__input wrap-size pull-left"
-                                key={i}
-                                onClick={() => this.selectWeight(item.valueEn)}>
+                              <div className="wrap__input wrap-size pull-left " 
+                              onClick={() => this.selectWeight(item.name)}>
                                 <input type="radio" className="radio input__radio"
                                   name="dwfrm_miaaPet_neuteredPet"
                                   value={item.name}
                                 />
                                 {
-                                  this.state.weight === item.valueEn ?
+                                  this.state.weight === item.name ?
                                     <label className="label label__input sterilizedChecked" >
                                       {item.name}
                                     </label> :
@@ -1025,14 +1034,14 @@ class PetForm extends React.Component {
                           {
                             this.state.specialNeeds.map((item, i) => (
                               <div className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style"
-                                key={i}
-                                onClick={() => this.selectFeatures(item.valueEn)}
+
+                                onClick={() => this.selectFeatures(item.name)}
                               >
                                 <input type="checkbox"
                                   className="rc-input__checkbox"
                                   value={item.name} />
                                 {
-                                  this.state.selectedSpecialNeeds.includes(item.valueEn) ?
+                                  this.state.selectedSpecialNeeds.includes(item.name) ?
                                     <label className="rc-input__label--inline petPropChecked" >
                                       {item.name}
                                     </label> :
@@ -1045,18 +1054,18 @@ class PetForm extends React.Component {
                           }
 
                           <div className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style"
-                            onClick={() => this.selectFeatures("No special needs")}
+                            onClick={() => this.selectFeatures("Sin necesidades especiales")}
                           >
                             <input type="checkbox"
                               className="rc-input__checkbox"
-                              value="No special needs" />
+                              value="Sin necesidades especiales" />
                             {
-                              this.state.selectedSpecialNeeds.includes('No special needs') ?
+                              this.state.selectedSpecialNeeds.includes('Sin necesidades especiales') ?
                                 <label className="rc-input__label--inline petPropChecked" >
-                                  No special needs
+                                  <FormattedMessage id="noSpecialNeeds"/>
                                 </label> :
                                 <label className="rc-input__label--inline ">
-                                  No special needs
+                                  <FormattedMessage id="noSpecialNeeds"/>
                                 </label>
                             }
                           </div>

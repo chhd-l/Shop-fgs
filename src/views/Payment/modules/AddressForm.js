@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from "react-intl"
-import { findIndex } from "lodash"
+import { find, findIndex } from "lodash"
 import Selection from '@/components/Selection'
 import { getDictionary } from '@/utils/utils'
 
@@ -32,8 +32,13 @@ export default class AddressForm extends React.Component {
       })
     getDictionary({ type: 'country' })
       .then(res => {
+        const { deliveryAddress } = this.state
+        deliveryAddress.country = find(res, ele => ele.name.toLowerCase() == 'mexico')
+          ? find(res, ele => ele.name.toLowerCase() == 'mexico').id
+          : ''
         this.setState({
-          countryList: res
+          countryList: res,
+          deliveryAddress: deliveryAddress
         })
       })
   }
@@ -59,7 +64,7 @@ export default class AddressForm extends React.Component {
     let value = target.type === "checkbox" ? target.checked : target.value
     const name = target.name
     if (name === 'postCode') {
-      value = value.replace(/\s+/g,"")
+      value = value.replace(/\s+/g, "")
     }
     const { deliveryAddress } = this.state
     deliveryAddress[name] = value
@@ -91,7 +96,7 @@ export default class AddressForm extends React.Component {
   render () {
     const { deliveryAddress } = this.state
     return (
-      <React.Fragment>
+      <>
         <div className="rc-layout-container">
           <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
@@ -429,7 +434,7 @@ export default class AddressForm extends React.Component {
             </div>
           </div>
         </div>
-      </React.Fragment >
+      </>
     )
   }
 }

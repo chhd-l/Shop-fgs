@@ -170,7 +170,7 @@ class PaymentMethod extends React.Component {
     await deleteCard(params)
       .then((res) => {
         if (res.code === "K-000000") {
-          this.showSuccessMsg(res.message || "Delete Address Success");
+          this.showSuccessMsg(res.message || this.props.intl.messages.deleteAddressSuccess);
           this.getPaymentMethodList();
         } else {
           this.showErrorMsg(res.message || this.props.intl.messages.deleteAddressFailed);
@@ -196,7 +196,7 @@ class PaymentMethod extends React.Component {
     await deleteAddress(params)
       .then((res) => {
         if (res.code === "K-000000") {
-          this.showSuccessMsg(res.message || "Delete Address Success");
+          this.showSuccessMsg(res.message || this.props.intl.messages.deleteAddressSuccess);
           this.getAddressList();
         } else {
           this.showErrorMsg(res.message || this.props.intl.messages.deleteAddressFailed);

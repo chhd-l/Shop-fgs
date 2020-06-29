@@ -105,7 +105,7 @@ class Login extends React.Component {
       registerForm: registerForm,
     });
   };
-  async loginClick() {
+ loginClick=() => {
     if(sessionStorage.getItem("rc-token")){
       sessionStorage.removeItem("rc-token")
     }
@@ -117,23 +117,35 @@ class Login extends React.Component {
     }
 
     const { history } = this.props;
-    let res = await login(this.state.loginForm);
-    if(res.code==='K-000000'){
-      localStorage.setItem("rc-token", res.context.token);
-      let userinfo = res.context.customerDetail;
-      userinfo.customerAccount = res.context.accountName;
-
-      let customerInfoRes = await getCustomerInfo();
-      if(res.code==='K-000000'){
-        userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
-        localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-      }
-
-      history.push(
-        (this.props.location.state && this.props.location.state.redirectUrl) ||
-          "/account"
-      );
-    }
+    login(this.state.loginForm).then(res=>{
+     
+        localStorage.setItem("rc-token", res.context.token);
+        let userinfo = res.context.customerDetail;
+        userinfo.customerAccount = res.context.accountName;
+  
+         getCustomerInfo().then(customerInfoRes=>{
+          if(res.code==='K-000000'){
+            userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
+            localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+          }
+    
+          history.push(
+            (this.props.location.state && this.props.location.state.redirectUrl) ||
+              "/account"
+          );
+        }).catch(err=>{
+          history.push(
+            (this.props.location.state && this.props.location.state.redirectUrl) ||
+              "/account"
+          );
+          this.showErrorMsg(err.toString()|| this.props.intl.messages.loginFailed)
+        })
+        
+      
+    }).catch(err=>{
+      this.showErrorMsg(err.toString()|| this.props.intl.messages.loginFailed)
+    })
+    
     
   }
   register = () => {
@@ -149,7 +161,6 @@ class Login extends React.Component {
       }
     }
     if (!requiredVerify) {
-      debugger
       this.showErrorMsg(this.props.intl.messages.mandatoryFieldsError);
       return false;
     }
@@ -326,8 +337,31 @@ class Login extends React.Component {
                 <div class="rc-column loginForm">
                   <h1 class="rc-espilon">
                     <h3 style={{fontSize: '32px'}}><span style={{color: '#666'}}>
-                      <FormattedMessage id='welcomeTo'/></span> <FormattedMessage id='royalCanin'/></h3>
+                      <FormattedMessage id='welcomeTo'/></span> <FormattedMessage id='royalCanin'/>
+                    </h3>
+                   
                     <div className="loginBox">
+                    <div className="message-tip">
+                        <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
+                          <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+                            <span>{this.state.errorMsg}</span>
+                            <button
+                              className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                              onClick={() => { this.setState({ errorMsg: '' }) }}
+                              aria-label="Close">
+                              <span className="rc-screen-reader-text">
+                                <FormattedMessage id="close" />
+                              </span>
+                            </button>
+                          </aside>
+                        </div>
+                        <aside
+                          className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successMsg ? '' : 'hidden'}`}
+                          role="alert">
+                          <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
+                        </aside>
+                      </div>
+                      
                     <div style={{ marginTop: "40px" }}>
                       <div className="miaa_input required ">
                         <input
@@ -495,7 +529,7 @@ class Login extends React.Component {
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <h3 style={{textAlign: 'center', color: '#e2001a', fontSize: '32px'}}><span style={{color: '#666'}}> <FormattedMessage id='welcomeTo'/></span>  <FormattedMessage id='royalCanin'/></h3>
               <div className="registerBox" style={{ position: 'relative', margin: "0 auto" }}>
-              <div className="message-tip">
+                <div className="message-tip">
                   <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
                     <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
                       <span>{this.state.errorMsg}</span>

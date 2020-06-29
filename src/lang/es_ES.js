@@ -64,6 +64,7 @@ const en_US = {
   'information': 'Información',
   'confirmDelete': '¿Confirmas eliminar?',
   'billing': 'FACTURACIÓN',
+  'billing2': 'Facturación',
 
   'header.basketEmpty': 'Tú carrito esta vacío',
   'header.startTypingToSearch': 'Empieza a escribir para buscar',
@@ -225,6 +226,7 @@ const en_US = {
   'payment.email': 'Correo electrónico',
   'payment.acceptCards': 'Aceptamos tarjetas de crédito.',
   'payment.rfc': 'Referencia',
+  'payment.addressTitle': 'Dirección y método de envío',
 
   'confirmation.info1': 'Gracias por su orden.',
   'confirmation.info2': 'En un futuro cercano, nuestro personal se comunicará con usted para confirmar el pedido.',
@@ -447,6 +449,12 @@ const en_US = {
   
   'CompleteRequiredItems': 'Por favor complete los artículos requeridos',
   'EnterCorrectEmail': 'Por favor ingrese el correo electrónico correcto',
-  'EnterCorrectPostCode': 'Por favor, introduzca el código postal correcto'
+  'EnterCorrectPostCode': 'Por favor, introduzca el código postal correcto',
+  'personal': 'Personal',
+  'selectDeliveryAddress': 'Por favor seleccione una dirección de entrega',
+  'clickConfirmCardButton': 'Por favor, haga clic en el botón confirmar tarjeta',
+  'selectProduct': 'Por favor seleccione producto',
+  'noSpecialNeeds':'Sin necesidades especiales',
+  'loginFailed':'error de inicio de sesion',
 }
 export default en_US;

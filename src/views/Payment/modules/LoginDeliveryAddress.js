@@ -46,20 +46,26 @@ export default class LoginDeliveryAddress extends React.Component {
     }
     this.timer = null
   }
-  componentDidMount () {
-    this.queryAddressList()
+  async componentDidMount () {
     getDictionary({ type: 'city' })
       .then(res => {
         this.setState({
           cityList: res
         })
       })
-    getDictionary({ type: 'country' })
+
+    await getDictionary({ type: 'country' })
       .then(res => {
+        const { deliveryAddress } = this.state
+        deliveryAddress.country = find(res, ele => ele.name.toLowerCase() == 'mexico')
+          ? find(res, ele => ele.name.toLowerCase() == 'mexico').id
+          : ''
         this.setState({
-          countryList: res
+          countryList: res,
+          deliveryAddress: deliveryAddress
         })
       })
+    this.queryAddressList()
   }
   async queryAddressList () {
     const { selectedId } = this.state
@@ -192,7 +198,7 @@ export default class LoginDeliveryAddress extends React.Component {
     const originData = addressList[this.currentOperateIdx]
     if (!deliveryAddress.firstName || !deliveryAddress.lastName || !deliveryAddress.address1 || !deliveryAddress.country || !deliveryAddress.city || !deliveryAddress.postCode || !deliveryAddress.phoneNumber) {
       this.setState({
-        saveErrorMsg: 'Please complete the required items'
+        saveErrorMsg: this.props.intl.messages.CompleteRequiredItems
       })
       console.log(deliveryAddress)
       this.scrollToTitle()
@@ -258,10 +264,10 @@ export default class LoginDeliveryAddress extends React.Component {
             <FormattedMessage id="payment.deliveryTitle" />
           </h5>
           <p
-            className={`red rc-margin-top--xs ui-cursor-pointer pull-right inlineblock m-0 ${addOrEdit ? 'hidden' : ''}`}
+            className={`red rc-margin-top--xs ui-cursor-pointer pull-right inlineblock m-0 d-flex align-items-center ${addOrEdit ? 'hidden' : ''}`}
             onClick={() => this.addOrEditAddress()}>
             <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
-            <FormattedMessage id="newAddress" />
+            <span><FormattedMessage id="newAddress" /></span>
           </p>
         </div>
         <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.saveErrorMsg ? '' : 'hidden'}`}>
@@ -374,13 +380,20 @@ export default class LoginDeliveryAddress extends React.Component {
                         <div>
                           {
                             this.props.type === 'delivery'
-                              ? <div className="rc-input rc-input--inline" onClick={() => this.isDefalt()}>
-                                <input
-                                  type="checkbox"
-                                  id="defaultAddress"
-                                  className="rc-input__checkbox"
-                                  value={deliveryAddress.isDefalt} />
-                                <label className={`rc-input__label--inline ${deliveryAddress.isDefalt ? 'defaultAddressChecked' : ''}`}>
+                              ? <div className="rc-input rc-input--inline w-100 mw-100" onClick={() => this.isDefalt()}>
+                                {
+                                  deliveryAddress.isDefalt
+                                    ? <input
+                                      type="checkbox"
+                                      className="rc-input__checkbox"
+                                      value={deliveryAddress.isDefalt}
+                                      checked />
+                                    : <input
+                                      type="checkbox"
+                                      className="rc-input__checkbox"
+                                      value={deliveryAddress.isDefalt} />
+                                }
+                                <label className={`rc-input__label--inline text-break`}>
                                   <FormattedMessage id="setDefaultAddress" />
                                 </label>
                               </div>

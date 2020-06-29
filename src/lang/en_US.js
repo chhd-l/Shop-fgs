@@ -222,6 +222,7 @@ const en_US = {
   'payment.email': 'Email',
   'payment.acceptCards': 'We accept credit cards.',
   'payment.rfc': 'Reference',
+  'payment.addressTitle': 'Address and Shipping Method',
 
   'confirmation.info1': 'Thank you for your order.',
   'confirmation.info2': 'In the near future, our staff will contact you to comfirm the order.',
@@ -438,6 +439,13 @@ const en_US = {
 
   'CompleteRequiredItems': 'Please complete the required items',
   'EnterCorrectEmail': 'Please enter the correct email',
-  'EnterCorrectPostCode': 'Please enter the correct post code'
+  'EnterCorrectPostCode': 'Please enter the correct post code',
+  'personal': 'Personal',
+  'selectDeliveryAddress': 'Please select a delivery address',
+  'clickConfirmCardButton': 'Please click the confirm card button',
+  'selectProduct': 'Please select product',
+  'noSpecialNeeds':'No special needs',
+  'loginFailed':'login failed',
+ 
 }
 export default en_US;

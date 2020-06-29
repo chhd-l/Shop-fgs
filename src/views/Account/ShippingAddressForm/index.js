@@ -142,6 +142,7 @@ class ShippingAddressFrom extends React.Component {
       loading: true
     })
     let data = this.state.addressForm;
+    debugger
     let params = {
       "address1": data.address1,
       "address2": data.address2,
@@ -163,6 +164,7 @@ class ShippingAddressFrom extends React.Component {
     if (this.state.isAdd) {
 
       await saveAddress(params).then(res => {
+        debugger
         if (res.code === 'K-000000') {
           this.setState({
             loading: false
@@ -179,7 +181,7 @@ class ShippingAddressFrom extends React.Component {
         this.setState({
           loading: false
         })
-        this.showErrorMsg(err.toString()||this.props.intl.messages.saveFailed)
+        this.showErrorMsg(err.toString() || this.props.intl.messages.saveFailed)
       })
 
     } else {
@@ -204,7 +206,7 @@ class ShippingAddressFrom extends React.Component {
         this.setState({
           loading: false
         })
-        this.showErrorMsg( err.toString()||this.props.intl.messages.saveFailed)
+        this.showErrorMsg(err.toString() || this.props.intl.messages.saveFailed)
       })
     }
   }
@@ -227,7 +229,7 @@ class ShippingAddressFrom extends React.Component {
         })
       }
     }).catch(err => {
-      this.showErrorMsg(err.toString()||this.props.intl.messages.setDefaltAddressFailed)
+      this.showErrorMsg(err.toString() || this.props.intl.messages.setDefaltAddressFailed)
       this.setState({
         loading: false
       })
@@ -253,7 +255,7 @@ class ShippingAddressFrom extends React.Component {
         })
       }
     }).catch(err => {
-      this.showErrorMsg(err.toString()||this.props.intl.messages.setDefaltAddressFailed)
+      this.showErrorMsg(err.toString() || this.props.intl.messages.setDefaltAddressFailed)
       this.setState({
         loading: false
       })
@@ -322,7 +324,7 @@ class ShippingAddressFrom extends React.Component {
     const name = target.name
     let value = target.value
     if (name === 'postCode') {
-      value = value.replace(/\s+/g,"")
+      value = value.replace(/\s+/g, "")
     }
     addressForm[name] = value
     this.setState({ addressForm: addressForm })
@@ -385,8 +387,8 @@ class ShippingAddressFrom extends React.Component {
                               onBlur={(e) => this.inputBlur(e)}
                               name="addressType"
                             >
-                              <option value="DELIVERY">Delivery</option>
-                              <option value="BILLING">Billing</option>
+                              <option value="DELIVERY"> <FormattedMessage id="delivery" /></option>
+                              <option value="BILLING"><FormattedMessage id="billing2" /></option>
                               {/* {
                               this.state.countryList.map(item=>(
                               <option value={item.id}>{item.name}</option>
@@ -579,9 +581,8 @@ class ShippingAddressFrom extends React.Component {
                             data-js-warning-message="*Post Code isn’t valid"
                             input-setup="true">
                             <input
-                              type="text"
                               className="rc-input__control"
-
+                              type="number"
                               id="zipCode"
                               data-pattern-mismatch="Please match the requested format"
                               data-missing-error="Это поле обязательно для заполнения."
@@ -662,23 +663,26 @@ class ShippingAddressFrom extends React.Component {
                           <label className="rc-input__label" htmlFor="reference"></label>
                         </span>
                       </div>
-                      
+
                       {
                         addressForm.addressType === 'DELIVERY' ? (
                           <div className="form-group col-6">
                             <div className="rc-input rc-input--inline" style={{ margin: "40px 0 0 0" }} onClick={() => this.isDefalt()}>
-                              <input type="checkbox"
-                                id="defaultAddress"
-                                className="rc-input__checkbox"
-
-                                value={addressForm.isDefalt} />
                               {
-                                !addressForm.isDefalt ? <label className="rc-input__label--inline" >
-                                  <FormattedMessage id="setDefaultAddress"></FormattedMessage>
-                                </label> : <label className="rc-input__label--inline defaultAddressChecked">
-                                    <FormattedMessage id="setDefaultAddress"></FormattedMessage>
-                                  </label>
+                                addressForm.isDefalt
+                                  ? <input
+                                    type="checkbox"
+                                    className="rc-input__checkbox"
+                                    value={addressForm.isDefalt}
+                                    checked />
+                                  : <input
+                                    type="checkbox"
+                                    className="rc-input__checkbox"
+                                    value={addressForm.isDefalt} />
                               }
+                              <label className="rc-input__label--inline text-break">
+                                <FormattedMessage id="setDefaultAddress" />
+                              </label>
                             </div>
                           </div>
                         ) : null
@@ -715,7 +719,7 @@ class ShippingAddressFrom extends React.Component {
           </div>
         </main>
         <Footer />
-      </div>
+      </div >
     )
   }
 }
