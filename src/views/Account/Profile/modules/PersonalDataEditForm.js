@@ -212,7 +212,7 @@ class PersonalDataEditForm extends React.Component {
           <aside
             className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
             role="alert">
-            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none"><FormattedMessage id="saveSuccessfullly"/></p>
+            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none"><FormattedMessage id="saveSuccessfullly" /></p>
           </aside>
           <div className={`row userProfileInfo text-break ${editFormVisible ? 'hidden' : ''}`}>
             <div className="col-lg-6">
@@ -324,6 +324,7 @@ class PersonalDataEditForm extends React.Component {
                     type="date"
                     value={form.birthdate}
                     onBlur={e => this.handleInputChange(e)}
+                    style={{ padding: '.95rem 0' }}
                   />
                   <label className="rc-input__label" htmlFor="birthdate"></label>
                 </span>
@@ -338,7 +339,10 @@ class PersonalDataEditForm extends React.Component {
                 <label className="form-control-label rc-full-width" htmlFor="email">
                   <FormattedMessage id="account.Email" />
                 </label>
-                <span className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width" input-setup="true">
+                <span
+                  className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width"
+                  input-setup="true"
+                  style={{ opacity: .8 }}>
                   <input
                     type="email"
                     className="rc-input__control"
@@ -354,7 +358,8 @@ class PersonalDataEditForm extends React.Component {
                     onChange={e => this.handleInputChange(e)}
                     onBlur={e => this.inputBlur(e)}
                     maxLength="50"
-                    pattern="^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$" />
+                    pattern="^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$"
+                    disabled />
                   <label className="rc-input__label" htmlFor="email"></label>
                 </span>
                 <div className="invalid-feedback" style={{ display: 'none' }}>
