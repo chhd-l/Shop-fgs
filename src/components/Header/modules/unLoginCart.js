@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
+import LoginButton from '@/components/LoginButton'
 import {
   formatMoney,
   hanldePurchases
@@ -87,26 +88,25 @@ class UnloginCart extends React.Component {
         checkoutLoading: false,
         validateAllItemsStock: tmpValidateAllItemsStock,
         tradePrice: res.tradePrice
-      }, () => {
-        if (this.state.tradePrice < MINIMUM_AMOUNT) {
-          this.setState({
-            errMsg: <FormattedMessage id="cart.errorInfo3" />
-          })
-          return false
-        }
-        const { validateAllItemsStock } = this.state
-        if (!validateAllItemsStock) {
-          this.setState({
-            errMsg: <FormattedMessage id="cart.errorInfo2" />
-          })
-          return false
-        }
-        if (needLogin) {
-          history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
-        } else {
-          history.push('/prescription')
-        }
       })
+
+      if (res.tradePrice < MINIMUM_AMOUNT) {
+        this.setState({
+          errMsg: <FormattedMessage id="cart.errorInfo3" />
+        })
+        return false
+      }
+      if (!tmpValidateAllItemsStock) {
+        this.setState({
+          errMsg: <FormattedMessage id="cart.errorInfo2" />
+        })
+        return false
+      }
+      if (needLogin) {
+        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
+      } else {
+        history.push('/prescription')
+      }
     }
   }
   render () {
@@ -156,20 +156,27 @@ class UnloginCart extends React.Component {
                     </aside>
                   </div>
                   <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                    <a
+                    {/* <a
                       onClick={() => this.handleCheckout({ needLogin: true })}
                       className={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${this.state.checkoutLoading ? 'ui-btn-loading' : ''}`}
                       style={{ color: '#fff' }}>
                       <FormattedMessage id="checkout" />
-                    </a>
+                    </a> */}
+                    <LoginButton
+                      beforeLoginCallback={async () => this.handleCheckout({ needLogin: true })}
+                      btnClass={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${this.state.checkoutLoading ? 'ui-btn-loading' : ''}`}
+                      updateCartCache={() => this.updateCartCache()}
+                    >
+                      <FormattedMessage id="checkout" />
+                    </LoginButton>
                   </div>
-                  {/* <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
+                  <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
                     <a
                       onClick={() => this.handleCheckout()}
                       className={`rc-styled-link color-999 ${this.state.checkoutLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}>
                       <FormattedMessage id="GuestCheckout" />
                     </a>
-                  </div> */}
+                  </div>
                   <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                     <span className="rc-meta">
                       {

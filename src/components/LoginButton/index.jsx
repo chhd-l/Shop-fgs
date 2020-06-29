@@ -18,6 +18,7 @@ import { getCustomerInfo } from "@/api/user"
 import { inject, observer } from 'mobx-react';
 import Store from '@/store/store';
 import { FormattedMessage } from 'react-intl'
+import { mergeUnloginCartData } from '@/utils/utils'
 
 const LoginButton = (props, ref) => {
   // console.log(useOktaAuth)
@@ -45,6 +46,12 @@ const LoginButton = (props, ref) => {
             let customerInfoRes = await getCustomerInfo()
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
             localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+            const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
+            if (unloginCartData.length) {
+              await mergeUnloginCartData()
+              debugger
+              props.updateCartCache && props.updateCartCache()
+            }
           }).catch(e => {
             Store.changeLoginModal(false)
           })
@@ -56,7 +63,6 @@ const LoginButton = (props, ref) => {
   const login = async () => {
     if (props.beforeLoginCallback) {
       let res = await props.beforeLoginCallback()
-      debugger
       if (res === false) {
         return false
       }

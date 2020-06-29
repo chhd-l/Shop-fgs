@@ -543,11 +543,12 @@ class UnLoginCart extends React.Component {
                                 <LoginButton
                                   beforeLoginCallback={async () => this.handleCheckout({ needLogin: true })}
                                   btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
+                                  updateCartCache={() => this.headerRef.current.updateCartCache()}
                                 >
                                   <FormattedMessage id="checkout" />
                                 </LoginButton>
                               </div>
-                              {/* <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
+                              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                                 <div className="text-center" onClick={() => this.handleCheckout()}>
                                   <div
                                     className="rc-styled-link color-999"
@@ -555,7 +556,7 @@ class UnLoginCart extends React.Component {
                                     <FormattedMessage id="GuestCheckout" />
                                   </div>
                                 </div>
-                              </div> */}
+                              </div>
                             </a>
                           </div>
                         </div>
