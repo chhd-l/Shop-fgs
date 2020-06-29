@@ -21,9 +21,15 @@
     color: #fff;
     border-radius: 25px;
   }
-  .address-tab-first{
+  /* .address-tab-first{
     width: 100%;
   }
+  .card-phone-title{
+    width: 80% !important;
+  }
+  .card-phone-action{
+    width: 20% !important;
+  } */
 }
 @media(min-width: 960px){
   /* PC */
@@ -61,13 +67,13 @@
     border-left: 1px solid #b6b6b6;
     font-size: 0;
   }
-  .address-tab{
+  /* .address-tab{
     display: flex;
     justify-content: space-between;
   }
   .address-tab-first{
     width: 70%;
-  }
+  } */
 }
 
 
@@ -106,6 +112,7 @@
 .address-layout{
   display: flex;
   justify-content: space-between;
+  margin-top: 20px;
 }
 .address-border{
   border: 1px solid #CACACA;
@@ -153,3 +160,7 @@
   border-bottom: 1px solid #d7d7d7;
 }
 
+.address-add-btn{
+  position: absolute;
+  right: 10px;
+}

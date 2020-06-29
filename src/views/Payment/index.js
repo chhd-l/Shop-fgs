@@ -869,7 +869,7 @@ class Payment extends React.Component {
                           updateData={(data) => this.updateDeliveryAddress(data)}
                         />
                       )}
-                    <div className="card-header" style={{ zIndex: 2, width: '60%' }}>
+                    <div className="card-header" style={{ zIndex: 2, width: '62%' }}>
                       <h5>
                         <FormattedMessage id="payment.billTitle" />
                       </h5>
@@ -1003,7 +1003,7 @@ class Payment extends React.Component {
                 >
                   <div className="card shipping-summary">
                     <div className="card-header rc-padding-right--none clearfix">
-                      <h5 className="pull-left">Address and Shipping Method</h5>
+                      <h5 className="pull-left"><FormattedMessage id="payment.addressTitle" /></h5>
                       {
                         !this.state.isToPayNow && <a
                           href="#"

@@ -351,40 +351,39 @@ class ShippingAddress extends React.Component {
                       <span><FormattedMessage id="newAddress"></FormattedMessage></span>
                     </button>
                   </div> */}
-                  <div className="address-tab">
-                    <nav class="rc-tabs__controller  rc-fade--x address-tab-first" data-toggle-group="">
-                      <ul class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist" >
-                        <li className="rc-tabs-li">
-                          <button class="rc-tab" 
-                            onClick={() => this.switchAddressType('DELIVERY')}
-                            style={{padding: "8px 15px"}} 
-                            data-toggle="deliveryAddress" role="tab">
-                            <FormattedMessage id="deliveryAddress"></FormattedMessage>
-                          </button>
-                        </li>
-                        <li className="rc-tabs-li">
-                          <button class="rc-tab" 
-                            onClick={() => this.switchAddressType('BILLING')}
-                            style={{padding: "8px 15px"}} 
-                            data-toggle="billingAddress" role="tab">
-                            <FormattedMessage id="billingAddress"></FormattedMessage>
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
-                    <div>
+                  <nav class="rc-tabs__controller rc-fade--x " data-toggle-group="">
+                    <ul class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break" role="tablist" >
+                      <li className="rc-tabs-li">
+                        <button class="rc-tab text-break" 
+                          onClick={() => this.switchAddressType('DELIVERY')}
+                          style={{padding: "8px 15px"}} 
+                          data-toggle="deliveryAddress" role="tab">
+                          <FormattedMessage id="deliveryAddress"></FormattedMessage>
+                        </button>
+                      </li>
+                      <li className="rc-tabs-li">
+                        <button class="rc-tab text-break" 
+                          onClick={() => this.switchAddressType('BILLING')}
+                          style={{padding: "8px 15px"}} 
+                          data-toggle="billingAddress" role="tab">
+                          <FormattedMessage id="billingAddress"></FormattedMessage>
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
+                  <div className="address-add-btn">
                     <span
                       className="red font-weight-normal ui-cursor-pointer"
                       onClick={() => this.openCreatePage()}>
                       <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
                       <FormattedMessage id="newAddress" />
                     </span>
-                      {/* <button className="address-btn" onClick={() => this.openCreatePage()}>
-                        <span><FormattedMessage id="newAddress"></FormattedMessage></span>
-                      </button> */}
-                    </div>
-                    
+                    {/* <button className="address-btn" onClick={() => this.openCreatePage()}>
+                      <span><FormattedMessage id="newAddress"></FormattedMessage></span>
+                    </button> */}
                   </div>
+                  
+                
                   
 
 
@@ -395,7 +394,7 @@ class ShippingAddress extends React.Component {
                         <div className="col-lg-6" style={{ padding: "10px 25px" }} key={item.deliveryAddressId}>
                           {/* <div className="addr-line"></div> */}
                           <div className={"row card-address " + (item.isDefaltAddress === 1 ? "card-address-default" : "")} >
-                            <div className="col-lg-10">
+                            <div className="col-lg-10 card-phone-title">
                               <div className="address-name">
                                 <span>{item.firstName + ' ' + item.lastName}</span>
                                 {item.isDefaltAddress === 1
@@ -406,7 +405,7 @@ class ShippingAddress extends React.Component {
                                 }
                               </div>
                             </div>
-                            <div className="col-lg-2 address-action">
+                            <div className="col-lg-2 address-action card-phone-action">
                               <a className="address-click-btn"
                                 onClick={() => this.openEditPage(item.deliveryAddressId)}>
                                 <FormattedMessage id="edit" />

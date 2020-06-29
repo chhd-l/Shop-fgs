@@ -225,6 +225,7 @@ const en_US = {
   'payment.email': 'Correo electrónico',
   'payment.acceptCards': 'Aceptamos tarjetas de crédito.',
   'payment.rfc': 'Referencia',
+  'payment.addressTitle': 'Dirección y método de envío',
 
   'confirmation.info1': 'Gracias por su orden.',
   'confirmation.info2': 'En un futuro cercano, nuestro personal se comunicará con usted para confirmar el pedido.',
@@ -451,6 +452,8 @@ const en_US = {
   'personal': 'Personal',
   'selectDeliveryAddress': 'Por favor seleccione una dirección de entrega',
   'clickConfirmCardButton': 'Por favor, haga clic en el botón confirmar tarjeta',
-  'selectProduct': 'Please select product'
+  'selectProduct': 'Por favor seleccione producto',
+  'noSpecialNeeds':'Sin necesidades especiales',
+  'loginFailed':'error de inicio de sesion',
 }
 export default en_US;

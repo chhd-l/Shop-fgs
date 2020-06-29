@@ -551,21 +551,23 @@ class ShippingAddressFrom extends React.Component {
                                   this.setState({ creditCardInfo });
                                 }}
                               >
-                                <input
-                                  type="checkbox"
-                                  id="defaultAddress"
-                                  className="rc-input__checkbox"
-                                  value={creditCardInfo.isDefault}
-                                />
-                                {!creditCardInfo.isDefault ? (
-                                  <label className="rc-input__label--inline">
-                                    <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                                  </label>
-                                ) : (
-                                    <label className="rc-input__label--inline defaultAddressChecked">
-                                      <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                                    </label>
-                                  )}
+                                {
+                                  creditCardInfo.isDefault
+                                    ? <input
+                                      type="checkbox"
+                                      className="rc-input__checkbox"
+                                      value={creditCardInfo.isDefault}
+                                      checked
+                                    />
+                                    : <input
+                                      type="checkbox"
+                                      className="rc-input__checkbox"
+                                      value={creditCardInfo.isDefault}
+                                    />
+                                }
+                                <label className="rc-input__label--inline text-break">
+                                  <FormattedMessage id="setDefaultPaymentMethod" />
+                                </label>
                               </div>
                               {/* </div> */}
                               <a

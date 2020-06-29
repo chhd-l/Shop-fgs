@@ -302,7 +302,7 @@ class AccountOrders extends React.Component {
                                 <div className="card-container mt-0 border-0 pl-2 pr-2">
                                   {details.tradeItems.map((item, i) => (
                                     <div className={`row align-items-center ${i ? 'pt-3' : ''} ${i !== details.tradeItems.length - 1 ? 'pb-3' : ''}`} key={i}>
-                                      <div className="col-12 col-md-4 d-flex">
+                                      <div className="col-12 col-md-4 d-flex align-items-start">
                                         <img
                                           className="img-fluid"
                                           src={item.pic || IMG_DEFAULT}
@@ -357,10 +357,12 @@ class AccountOrders extends React.Component {
                               <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(details.tradePrice.totalPrice)}</div>
                             </div>
                             <hr className="rc-margin-top---none" />
-                            <div className="row ml-2 mr-2">
+                            <div className="row ml-2 mr-2 text-left">
                               <div className="col-12 col-md-5 mb-2">
-                                <i className="rc-icon rc-delivery--sm rc-brand1 m-1" />
-                                <FormattedMessage id="delivery2" />
+                                <div className="d-flex align-items-center">
+                                  <i className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" />
+                                  <span><FormattedMessage id="delivery2" /></span>
+                                </div>
                                 <div className="ml-1">
                                   <span className="medium">{details.consignee.name}</span><br />
                                   {details.consignee.postCode}, {details.consignee.phone}<br />
@@ -372,8 +374,12 @@ class AccountOrders extends React.Component {
                                 </div>
                               </div>
                               <div className="col-12 col-md-5 mb-2">
-                                <i className="rc-icon rc-rewind rc-billing rc-brand1" />
-                                <FormattedMessage id="billing" />
+                                <div className="d-flex align-items-center">
+                                  <i className="rc-icon rc-rewind rc-billing rc-brand1" />
+                                  <span>
+                                    <FormattedMessage id="billing" />
+                                  </span>
+                                </div>
                                 <div className="ml-1">
                                   <span className="medium">{details.invoice.contacts}</span><br />
                                   {details.invoice.postCode}, {details.invoice.phone}<br />
@@ -387,8 +393,12 @@ class AccountOrders extends React.Component {
                                 {
                                   payRecord
                                     ? <>
-                                      <i className="rc-icon rc-payment--sm rc-brand1 m-1" />
-                                      <FormattedMessage id="payment.payment" />
+                                      <div className="d-flex align-items-center">
+                                        <i className="rc-icon rc-payment--sm rc-brand1 ml-1 mr-1 mt-1" />
+                                        <span>
+                                          <FormattedMessage id="payment.payment" />
+                                        </span>
+                                      </div>
                                       <div className="ml-1">
                                         <img
                                           className="d-inline-block mr-1"
