@@ -48,11 +48,9 @@ const LoginButton = (props, ref) => {
             localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
             const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
             if (unloginCartData.length) {
-              debugger
               await mergeUnloginCartData()
+              debugger
               props.updateCartCache && props.updateCartCache()
-              // this.updateCartCache()
-              // this.headerRef.current.updateCartCache()
             }
           }).catch(e => {
             Store.changeLoginModal(false)

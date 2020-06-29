@@ -894,7 +894,7 @@ class Details extends React.Component {
                                           }
                                         </div>
                                       </div>
-                                      {/* {
+                                      {
                                         !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                           <div className="cart-and-ipay">
                                             <button
@@ -910,7 +910,7 @@ class Details extends React.Component {
                                             </button>
                                           </div>
                                         </div>
-                                      } */}
+                                      }
                                     </div>
                                   </div>
                                 </div>
@@ -1025,13 +1025,13 @@ class Details extends React.Component {
                         </span>
                       </LoginButton>
                   }
-                  {/* {
+                  {
                     !jugeLoginStatus() && <button
                       className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                       onClick={() => this.hanldeAddToCart({ redirect: true })}>
                       <FormattedMessage id="GuestCheckout" />
                     </button>
-                  } */}
+                  }
                 </div>
               </div>
             </main>
