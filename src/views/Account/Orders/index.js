@@ -247,6 +247,7 @@ class AccountOrders extends React.Component {
                           type="text"
                           name="orderNumber"
                           maxLength="20"
+                          
                           value={this.state.form.orderNumber}
                           onChange={e => this.handleInputChange(e)} />
                         <label className="rc-input__label" htmlFor="id-text8">
