@@ -49,15 +49,17 @@
   overflow-x: auto;
   overflow-y: hidden;
 }
-.order-progress .rc-complete .rc-progress-stepped__link {
-  /* background-color: #e2001a; */
-  /* border-color: #e2001a; */
+.order-progress .rc-complete .rc-progress-stepped__link,
+.order-progress .rc-current .rc-progress-stepped__link {
+  background-color: #e2001a;
+  border-color: #e2001a;
+  color: #fff
 }
 .order-progress .rc-complete .rc-progress-stepped__link,
 .order-progress .rc-current .rc-progress-stepped__link {
-  border-color: #e2001a;
+  /* border-color: #e2001a;
   color:#e2001a;
-  background-color: #fff;
+  background-color: #fff; */
 }
 .order-progress .rc-progress-stepped__item.rc-complete::after {
   background-color: #e2001a;
@@ -86,17 +88,17 @@
 }
 
 .order-progress .rc-progress-stepped__item::after {
-  width: 3rem;
-  right: -3rem;
+  width: 3.6rem;
+  right: -3.6rem;
 }
 .order-progress .rc-progress-stepped__item {
-  margin: 0 1.5rem;
+  margin: 0 1.8rem;
   float: none;
 }
 .order-progress .rc-progress-stepped__link {
-  width: 2.5rem;
-  height: 2.5rem;
-  line-height: 2rem;
+  width: 2rem;
+  height: 2rem;
+  line-height: 1.5rem;
 }
 .order-progress-mb {
   margin-bottom: 3rem!important
@@ -122,8 +124,8 @@
     margin: 0 7rem;
   }
   .order-progress .rc-progress-stepped__link {
-    width: 2.5rem;
-    height: 2.5rem;
-    line-height: 2rem;
+    width: 2rem;
+    height: 2rem;
+    line-height: 1.5rem;
   }
 }
