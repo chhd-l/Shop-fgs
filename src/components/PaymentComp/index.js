@@ -456,6 +456,8 @@ class PaymentComp extends React.Component {
                                 <FormattedMessage id="delete" />
                               </span>
                               <ConfirmTooltip
+                                containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                                arrowStyle={{ left: '89%' }}
                                 display={el.confirmTooltipVisible}
                                 confirm={e => this.deleteCard(el)}
                                 updateChildDisplay={status => this.updateConfirmTooltipVisible(el, status)} />

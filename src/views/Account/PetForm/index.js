@@ -740,7 +740,6 @@ class PetForm extends React.Component {
                           </a>
                           <ConfirmTooltip
                             containerStyle={{ transform: 'translate(-89%, 105%)' }}
-                            // containerStyle={1}
                             arrowStyle={{ left: '89%' }}
                             display={currentPet.confirmTooltipVisible}
                             confirm={e => this.delPets(currentPet)}
