@@ -371,8 +371,10 @@ class Header extends React.Component {
                     onClick={this.toggleMenu}>
                     <FormattedMessage id="menu" />
                   </button>
-                  <button className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-menu--xs', 'rc-iconography', 'rc-md-down', this.state.showMegaMenu ? 'btn-close' : ''].join(' ')}
-                    aria-label="Menu" onClick={this.toggleMenu}>
+                  <button
+                    className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-menu--xs', 'rc-iconography', 'rc-md-down', this.state.showMegaMenu ? 'btn-close' : ''].join(' ')}
+                    aria-label="Menu"
+                    onClick={this.toggleMenu}>
                     <span className="rc-screen-reader-text">
                       <FormattedMessage id="menu" />
                     </span>
@@ -468,7 +470,7 @@ class Header extends React.Component {
                           <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{ minWidth: "13rem" }}>
                             <div className="container cart" >
                               <div className="login-style">
-                                <LoginButton />
+                                <LoginButton btnStyle={{ width: "11rem", margin: "2rem 0" }} />
                                 {/* <button onClick={() => {
                                   // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
                                   window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'

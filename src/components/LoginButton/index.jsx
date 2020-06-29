@@ -19,7 +19,7 @@ import { inject, observer } from 'mobx-react';
 import Store from '@/store/store';
 import { FormattedMessage } from 'react-intl'
 
-const LoginButton = () => {
+const LoginButton = (props, ref) => {
   // console.log(useOktaAuth)
   // console.log(useOktaAuth(), 'useOktaAuth')
   // const { authService } = useOktaAuth();
@@ -54,11 +54,23 @@ const LoginButton = () => {
   }, [authState, authService]); // Update if authState changes
 
   const login = async () => {
+    if (props.beforeLoginCallback) {
+      let res = await props.beforeLoginCallback()
+      debugger
+      if (res === false) {
+        return false
+      }
+    }
     authService.login('/');
   };
 
   return (
-    <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }} onClick={login}><FormattedMessage id='login'/></button>
+    <button
+      className={props.btnClass || "rc-btn rc-btn--one"}
+      style={props.btnStyle || {}}
+      onClick={login}>
+      {props.children || <FormattedMessage id='login' />}
+    </button>
   );
 };
 export default LoginButton;
