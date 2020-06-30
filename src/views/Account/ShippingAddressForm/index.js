@@ -671,10 +671,12 @@ class ShippingAddressFrom extends React.Component {
                                     type="checkbox"
                                     className="rc-input__checkbox"
                                     value={addressForm.isDefalt}
+                                    key={1}
                                     checked />
                                   : <input
                                     type="checkbox"
                                     className="rc-input__checkbox"
+                                    key={2}
                                     value={addressForm.isDefalt} />
                               }
                               <label className="rc-input__label--inline text-break w-100">

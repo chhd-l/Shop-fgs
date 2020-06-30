@@ -62,10 +62,10 @@ class PaymentComp extends React.Component {
       //   }
       // });
       let filterList = this.state.creditCardList.filter(el => {
-        if(el.isDefault === 1) {
+        if (el.isDefault === 1) {
           el.selected = true;
           return true
-        }else {
+        } else {
           el.selected = false;
           return false
         }
@@ -119,20 +119,20 @@ class PaymentComp extends React.Component {
     }
     return el.offsetTop;
   }
-  confirmCvv(e, el) {
+  confirmCvv (e, el) {
     e.preventDefault()
     e.stopPropagation()
     let { isCurrentCvvConfirm } = this.state
-    if(this.state.currentCvv === el.cardCvv) {
+    if (this.state.currentCvv === el.cardCvv) {
       isCurrentCvvConfirm = true
       this.props.getSelectedValue && this.props.getSelectedValue(el);
-    }else {
+    } else {
       isCurrentCvvConfirm = false
       // this.setState({ listErr: 'card_cvv is wrong' })
       this.showErrorMsg('card_cvv is wrong');
     }
     console.log(isCurrentCvvConfirm)
-    this.setState({isCurrentCvvConfirm: isCurrentCvvConfirm})
+    this.setState({ isCurrentCvvConfirm: isCurrentCvvConfirm })
   }
   showErrorMsg = (message) => {
     this.setState({
@@ -169,10 +169,10 @@ class PaymentComp extends React.Component {
     //   });
     // }
   }
-  currentCvvChange(e) {
+  currentCvvChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
-    this.setState({currentCvv: value})
+    this.setState({ currentCvv: value })
   }
   async cardNumberChange (e) {
     const target = e.target;
@@ -334,10 +334,10 @@ class PaymentComp extends React.Component {
       this.initCardInfo();
       await this.getPaymentMethodList();
       let filterList = this.state.creditCardList.filter(el => {
-        if(el.isDefault === 1) {
+        if (el.isDefault === 1) {
           el.selected = true;
           return true
-        }else {
+        } else {
           el.selected = false;
           return false
         }
@@ -443,7 +443,7 @@ class PaymentComp extends React.Component {
         className={`loginCardBox ${Store.isLogin ? '' : 'hidden'} ${this.state.isEdit && window.location.pathname === "/payment/payment" ? 'rc-border-all rc-border-colour--interface checkout--padding' : ''}`}>
         {this.state.loading ? <Loading positionFixed="true" /> : null}
         <div className={`table-toolbar d-flex flex-wrap justify-content-between p-0 ${!this.state.isEdit ? '' : 'hidden-xxl-down'}`}>
-        
+
           <span className="t-gray">
             {
               creditCardList.length > 1
@@ -555,16 +555,16 @@ class PaymentComp extends React.Component {
                             </div>
                             <div className={`col-12 col-sm-9 d-flex flex-column justify-content-around`}>
                               <div className="row ui-margin-top-1-md-down">
-                                <div className="col-12 color-999" style={{display: el.selected? 'none': 'block'}}>
+                                <div className="col-12 color-999" style={{ display: el.selected ? 'none' : 'block' }}>
                                   <FormattedMessage id="name2" /><br />
                                   <span className="creditCompleteInfo">{el.cardOwner}</span>
                                 </div>
-                                <div className="col-12 color-999" style={{display: el.selected? 'block': 'none'}}>
+                                <div className="col-12 color-999" style={{ display: el.selected ? 'block' : 'none' }}>
                                   <FormattedMessage id="CVV" /><br />
-                                  <div className="col-4 color-999" style={{textAlign: 'left', paddingLeft: '0', marginBottom: '5px'}}>
+                                  <div className="col-4 color-999" style={{ textAlign: 'left', paddingLeft: '0', marginBottom: '5px' }}>
                                     <input onChange={e => {
                                       this.currentCvvChange(e)
-                                    }} type="password" maxLength="3"  style={{width: '100%'}} value={this.state.currentCvv}/>
+                                    }} type="password" maxLength="3" style={{ width: '100%' }} value={this.state.currentCvv} />
                                   </div>
                                   {/* <span className="creditCompleteInfo">
                                     <input type="password" maxLength="3" />
@@ -583,10 +583,10 @@ class PaymentComp extends React.Component {
                                   <span className="creditCompleteInfo">{el.cardType}</span>
                                 </div>
                                 <div className="col-md-3 col-sm-12 border-left color-999" >
-                                  <button class="rc-btn rc-btn--two" style={{display: (el.selected && !isCurrentCvvConfirm)? 'block': 'none', padding: '0.2rem 1.4rem'}} onClick={(e) => {
+                                  <button class="rc-btn rc-btn--two" style={{ display: (el.selected && !isCurrentCvvConfirm) ? 'block' : 'none', padding: '0.2rem 1.4rem' }} onClick={(e) => {
                                     this.confirmCvv(e, el)
                                   }}><FormattedMessage id="payment.apply" /></button>
-                                  <img src={successImg} style={{width: '25px', display: (el.selected && isCurrentCvvConfirm)? 'block': 'none',float: 'right', marginTop:'20px'}}/>
+                                  <img src={successImg} style={{ width: '25px', display: (el.selected && isCurrentCvvConfirm) ? 'block' : 'none', float: 'right', marginTop: '20px' }} />
                                   {/* <FormattedMessage id="payment.cardType" /><br />
                                   <span className="creditCompleteInfo">{el.cardType}</span> */}
                                 </div>
@@ -904,12 +904,14 @@ class PaymentComp extends React.Component {
                         type="checkbox"
                         className="rc-input__checkbox"
                         value={creditCardInfo.isDefault}
+                        key={1}
                         checked
                       />
                       : <input
                         type="checkbox"
                         className="rc-input__checkbox"
                         value={creditCardInfo.isDefault}
+                        key={2}
                       />
                   }
                   <label className="rc-input__label--inline text-break">

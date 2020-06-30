@@ -13,7 +13,7 @@ import Loading from "@/components/Loading"
 import './loginDeliveryAddress.css'
 
 
- class LoginDeliveryAddress extends React.Component {
+class LoginDeliveryAddress extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery'
@@ -228,12 +228,12 @@ import './loginDeliveryAddress.css'
       const tmpPromise = this.currentOperateIdx > -1 ? editAddress : saveAddress
       let res = await tmpPromise(params)
       this.scrollToTitle()
-      if(res.context.deliveryAddressId){
+      if (res.context.deliveryAddressId) {
         this.setState({
-          selectedId:res.context.deliveryAddressId
+          selectedId: res.context.deliveryAddressId
         })
       }
-      
+
       await this.queryAddressList()
       this.setState({
         addOrEdit: false,
@@ -359,14 +359,14 @@ import './loginDeliveryAddress.css'
                               <span>
                                 {
                                   foledMore
-                                    ? <React.Fragment>
+                                    ? <>
                                       <FormattedMessage id="moreAddress" />&nbsp;
-                                    <b className="addr-switch switch-on"></b>
-                                    </React.Fragment>
-                                    : <React.Fragment>
+                                      <b className="addr-switch switch-on"></b>
+                                    </>
+                                    : <>
                                       <FormattedMessage id="unfoldAddress" />
                                       <b className="addr-switch switch-off"></b>
-                                    </React.Fragment>
+                                    </>
                                 }
                               </span>
                             </div>
@@ -394,10 +394,12 @@ import './loginDeliveryAddress.css'
                                       type="checkbox"
                                       className="rc-input__checkbox"
                                       value={deliveryAddress.isDefalt}
+                                      key={1}
                                       checked />
                                     : <input
                                       type="checkbox"
                                       className="rc-input__checkbox"
+                                      key={2}
                                       value={deliveryAddress.isDefalt} />
                                 }
                                 <label className={`rc-input__label--inline text-break`}>
@@ -450,4 +452,4 @@ import './loginDeliveryAddress.css'
   }
 }
 
-export default injectIntl(LoginDeliveryAddress, {forwardRef: true})
+export default injectIntl(LoginDeliveryAddress, { forwardRef: true })

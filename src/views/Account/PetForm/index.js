@@ -892,10 +892,12 @@ class PetForm extends React.Component {
                                     type="checkbox"
                                     className="rc-input__checkbox"
                                     value={this.state.isUnknown}
+                                    key={1}
                                     checked />
                                   : <input
                                     type="checkbox"
                                     className="rc-input__checkbox"
+                                    key={2}
                                     value={this.state.isUnknown} />
                               }
                               <label className="rc-input__label--inline text-break" >
