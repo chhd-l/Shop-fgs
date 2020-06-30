@@ -386,8 +386,16 @@ class ShippingAddressFrom extends React.Component {
                               onBlur={(e) => this.inputBlur(e)}
                               name="addressType"
                             >
-                              <option value="DELIVERY"> <FormattedMessage id="delivery" /></option>
-                              <option value="BILLING"><FormattedMessage id="billing2" /></option>
+                              <FormattedMessage id="delivery">
+                                {txt => (
+                                  <option value="DELIVERY">{txt}</option>
+                                )}
+                              </FormattedMessage>
+                              <FormattedMessage id="billing2">
+                                {txt => (
+                                  <option value="DELIVERY">{txt}</option>
+                                )}
+                              </FormattedMessage>
                               {/* {
                               this.state.countryList.map(item=>(
                               <option value={item.id}>{item.name}</option>
@@ -671,7 +679,7 @@ class ShippingAddressFrom extends React.Component {
                                     className="rc-input__checkbox"
                                     value={addressForm.isDefalt} />
                               }
-                              <label className="rc-input__label--inline text-break">
+                              <label className="rc-input__label--inline text-break w-100">
                                 <FormattedMessage id="setDefaultAddress" />
                               </label>
                             </div>
