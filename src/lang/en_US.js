@@ -224,6 +224,7 @@ const en_US = {
   'payment.acceptCards': 'We accept credit cards.',
   'payment.rfc': 'Reference',
   'payment.addressTitle': 'Address and Shipping Method',
+  'payment.apply': 'Apply',
 
   'confirmation.info1': 'Thank you for your order.',
   'confirmation.info2': 'In the near future, our staff will contact you to comfirm the order.',

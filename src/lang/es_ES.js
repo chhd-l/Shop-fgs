@@ -227,6 +227,7 @@ const en_US = {
   'payment.acceptCards': 'Aceptamos tarjetas de crédito.',
   'payment.rfc': 'Referencia',
   'payment.addressTitle': 'Dirección y método de envío',
+  'payment.apply': 'Aplicar',
 
   'confirmation.info1': 'Gracias por su orden.',
   'confirmation.info2': 'En un futuro cercano, nuestro personal se comunicará con usted para confirmar el pedido.',
