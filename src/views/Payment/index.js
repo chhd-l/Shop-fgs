@@ -979,7 +979,7 @@ class Payment extends React.Component {
                         </h5>
                       </div>
                       <span
-                        className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
+                        className="rc-input nomaxwidth rc-border-all rc-border-colour--interface rc-input--full-width"
                         input-setup="true"
                       >
                         <textarea
