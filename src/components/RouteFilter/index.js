@@ -4,12 +4,10 @@ import { queryStoreCateIds } from "@/utils/utils";
 
 class RouteFilter extends Component {
   shouldComponentUpdate (nextProps) {
-    if (
-      nextProps.location.pathname === "/prescription" &&
-      sessionStorage.getItem("rc-clinics-id") &&
-      sessionStorage.getItem("rc-clinics-name")
-    ) {
-      this.props.history.push("/payment/shipping");
+    if (nextProps.location.pathname === "/prescription"
+      && ((sessionStorage.getItem("rc-clinics-id-link") && sessionStorage.getItem("rc-clinics-name-link"))
+        || (sessionStorage.getItem("rc-clinics-id-default") && sessionStorage.getItem("rc-clinics-name-default")))) {
+      this.props.history.replace("/payment/shipping");
     }
   }
   async componentDidMount () {

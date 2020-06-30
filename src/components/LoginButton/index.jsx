@@ -52,7 +52,7 @@ const LoginButton = (props, ref) => {
             //   props.updateCartCache && props.updateCartCache()
             // }
             props.history.push(sessionStorage.getItem('redirectUrl'))
-            // props.history.push('/cart')
+            sessionStorage.removeItem('redirectUrl')
           }).catch(e => {
             Store.changeLoginModal(false)
           })
