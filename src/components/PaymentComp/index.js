@@ -560,7 +560,7 @@ class PaymentComp extends React.Component {
                                   <span className="creditCompleteInfo">{el.cardOwner}</span>
                                 </div>
                                 <div className="col-12 color-999" style={{display: el.selected? 'block': 'none'}}>
-                                  <FormattedMessage id="Cvv" /><br />
+                                  <FormattedMessage id="CVV" /><br />
                                   <div className="col-4 color-999" style={{textAlign: 'left', paddingLeft: '0', marginBottom: '5px'}}>
                                     <input onChange={e => {
                                       this.currentCvvChange(e)
@@ -572,21 +572,21 @@ class PaymentComp extends React.Component {
                                 </div>
                               </div>
                               <div className="row ui-margin-top-1-md-down">
-                                <div className="col-4 color-999">
+                                <div className="col-md-5 col-sm-12 color-999">
                                   <FormattedMessage id="payment.cardNumber2" /><br />
                                   <span className="creditCompleteInfo">
                                     xxxx xxxx xxxx{" "}{el.cardNumber ? el.cardNumber.substring(el.cardNumber.length - 4) : ""}
                                   </span>
                                 </div>
-                                <div className="col-4 border-left color-999">
+                                <div className="col-md-4 col-sm-12 border-left color-999">
                                   <FormattedMessage id="payment.cardType" /><br />
                                   <span className="creditCompleteInfo">{el.cardType}</span>
                                 </div>
-                                <div className="col-4 border-left color-999" >
-                                  <button class="rc-btn rc-btn--two" style={{display: (el.selected && !isCurrentCvvConfirm)? 'block': 'none'}} onClick={(e) => {
+                                <div className="col-md-3 col-sm-12 border-left color-999" >
+                                  <button class="rc-btn rc-btn--two" style={{display: (el.selected && !isCurrentCvvConfirm)? 'block': 'none', padding: '0.2rem 1.4rem'}} onClick={(e) => {
                                     this.confirmCvv(e, el)
-                                  }}>Apply</button>
-                                  <img src={successImg} style={{width: '60px', display: (el.selected && isCurrentCvvConfirm)? 'block': 'none'}}/>
+                                  }}><FormattedMessage id="payment.apply" /></button>
+                                  <img src={successImg} style={{width: '25px', display: (el.selected && isCurrentCvvConfirm)? 'block': 'none',float: 'right', marginTop:'20px'}}/>
                                   {/* <FormattedMessage id="payment.cardType" /><br />
                                   <span className="creditCompleteInfo">{el.cardType}</span> */}
                                 </div>

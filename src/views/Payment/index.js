@@ -105,7 +105,13 @@ class Payment extends React.Component {
       window.location.reload();
       return false
     }
+    
     if (this.state.isLogin && !localStorage.getItem("rc-cart-data-login")) {
+      this.props.history.push('/cart')
+    }
+    if (!this.state.isLogin
+      && (!localStorage.getItem("rc-cart-data")
+        || !JSON.parse(localStorage.getItem("rc-cart-data")).length)) {
       this.props.history.push('/cart')
     }
     getDictionary({ type: 'city' })
@@ -334,7 +340,7 @@ class Payment extends React.Component {
   }
   async handleClickFurther () {
     if (this.state.isLogin) {
-      if(!this.state.selectedCardInfo.cardNumber) {
+      if (!this.state.selectedCardInfo.cardNumber) {
         this.setState({
           errorShow: true,
           errorMsg: this.props.intl.messages.clickConfirmCardButton
