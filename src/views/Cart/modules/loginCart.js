@@ -38,9 +38,6 @@ class LoginCart extends React.Component {
     this.gotoDetails = this.gotoDetails.bind(this)
     this.headerRef = React.createRef();
   }
-  componentWillUnmount () {
-    
-  }
   async componentDidMount () {
     // 合并购物车(登录后合并非登录态的购物车数据)
     const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
@@ -105,24 +102,30 @@ class LoginCart extends React.Component {
 
     // 价格未达到底限，不能下单
     if (this.state.tradePrice < MINIMUM_AMOUNT) {
-      this.setState({
-        errorShow: true,
-        errorMsg: <FormattedMessage id="cart.errorInfo3" />
-      })
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo3" />)
       return false
     }
 
     // 库存不够，不能下单
     if (find(productList, ele => ele.buyCount > ele.stock)) {
-      this.setState({
-        errorShow: true,
-        errorMsg: <FormattedMessage id="cart.errorInfo2" />
-      })
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo2" />)
       return false
     }
 
     localStorage.setItem('rc-cart-data-login', JSON.stringify(productList))
     this.props.history.push('/prescription')
+  }
+  showErrMsg (msg) {
+    this.setState({
+      errorShow: true,
+      errorMsg: msg
+    })
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      this.setState({
+        errorShow: false
+      })
+    }, 3000)
   }
   handleAmountChange (e, item) {
     this.setState({ errorShow: false })
@@ -137,41 +140,15 @@ class LoginCart extends React.Component {
       let tmp = parseInt(val)
       if (isNaN(tmp)) {
         tmp = 1
-        this.setState({
-          errorShow: true,
-          errorMsg: <FormattedMessage id="cart.errorInfo" />
-        });
-        setTimeout(() => {
-          this.setState({
-            errorShow: false
-          });
-        }, 2000)
+        this.showErrMsg(<FormattedMessage id="cart.errorInfo" />)
       }
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit
-        this.setState({
-          errorShow: true,
-          errorMsg: <FormattedMessage id="cart.errorInfo" />
-        });
-        setTimeout(() => {
-          this.setState({
-            errorShow: false
-          });
-        }, 2000)
+        this.showErrMsg(<FormattedMessage id="cart.errorInfo" />)
       }
       item.buyCount = tmp
       this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
     }
-  }
-  changeCache () {
-    this.state.productList.map(item => {
-      item.currentAmount = item.quantity * find(item.sizeList, s => s.selected).salePrice
-    })
-    localStorage.setItem(
-      "rc-cart-data",
-      JSON.stringify(this.state.productList)
-    )
-    this.headerRef.current.updateCartCache()
   }
   addQuantity (item) {
     this.setState({ errorShow: false })
@@ -184,15 +161,7 @@ class LoginCart extends React.Component {
       item.buyCount--
       this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
     } else {
-      this.setState({
-        errorShow: true,
-        errorMsg: <FormattedMessage id="cart.errorInfo" />
-      });
-      setTimeout(() => {
-        this.setState({
-          errorShow: false
-        });
-      }, 2000)
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />)
     }
   }
   async deleteProduct (item) {

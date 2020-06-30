@@ -166,17 +166,18 @@ class UnloginCart extends React.Component {
                       beforeLoginCallback={async () => this.handleCheckout({ needLogin: true })}
                       btnClass={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${this.state.checkoutLoading ? 'ui-btn-loading' : ''}`}
                       updateCartCache={() => this.updateCartCache()}
+                      history={this.props.history}
                     >
                       <FormattedMessage id="checkout" />
                     </LoginButton>
                   </div>
-                  {/* <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
+                  <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
                     <a
                       onClick={() => this.handleCheckout()}
                       className={`rc-styled-link color-999 ${this.state.checkoutLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''}`}>
                       <FormattedMessage id="GuestCheckout" />
                     </a>
-                  </div> */}
+                  </div>
                   <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                     <span className="rc-meta">
                       {

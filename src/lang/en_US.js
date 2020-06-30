@@ -12,7 +12,7 @@ const en_US = {
   'miniBasket': 'Mini basket',
   'chang': 'Change',
   'checkout': 'Checkout',
-  'GuestCheckout': 'Checkout (Guest)',
+  'GuestCheckout': 'Check out as a guest ',
   'itemsInCart': 'You have {val} item in your cart',
   'itemsInCart2': 'You have {val} items in your cart',
   'total': 'Total',
@@ -110,7 +110,7 @@ const en_US = {
   'home.catogery5': 'Gatos',
   'home.catogery6': 'Perros',
   'home.note1': 'Afectado por la epidemia, el tiempo de entrega puede extenderse.',
-  'home.note2': 'Nuestra área de distribución se limita a la Ciudad de México y Monterrey',
+  'home.note2': 'Nuestra área de distribución se limita a la Ciudad de México, Guadalajara y Monterrey.',
 
   'list.youSearchedFor': 'You searched for',
   'list.errMsg': 'No products found, please change the search criteria and try again.',

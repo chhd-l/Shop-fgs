@@ -247,13 +247,19 @@ class AccountOrders extends React.Component {
                           type="text"
                           name="orderNumber"
                           maxLength="20"
+                          // placeholder={this.props.intl.message.order.inputOrderNumberTip}
                           value={this.state.form.orderNumber}
                           onChange={e => this.handleInputChange(e)} />
-                        <label className="rc-input__label" htmlFor="id-text8">
-                          <span className="rc-input__label-text">
-                            <FormattedMessage id="order.inputOrderNumberTip" />
-                          </span>
-                        </label>
+                          {
+                            this.state.form.orderNumber?null:
+                            ( 
+                            <label className="rc-input__label" htmlFor="id-text8">
+                              <span className="rc-input__label-text">
+                                <FormattedMessage id="order.inputOrderNumberTip" />
+                              </span>
+                            </label>)
+                          }
+                       
                       </span>
                     </div>
                   </div>
