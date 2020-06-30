@@ -445,17 +445,33 @@ class Header extends React.Component {
                       className="minicart inlineblock"
                       style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }}
                       onMouseOver={this.handleCenterMouseOver} onMouseOut={this.handleCenterMouseOut}>
-                      <FormattedMessage id="personal">
-                        {txt => (
-                          <Link
-                            to="/account"
-                            className="minicart-link"
-                            data-loc="miniCartOrderBtn"
-                            title={txt}>
-                            <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
-                          </Link>
-                        )}
-                      </FormattedMessage>
+                        {
+                          Store.isLogin?(
+                            <FormattedMessage id="personal">
+                              {txt => (
+                                <Link
+                                  to="/account"
+                                  className="minicart-link"
+                                  data-loc="miniCartOrderBtn"
+                                  title={txt}>
+                                  <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
+                                </Link>
+                              )}
+                            </FormattedMessage>
+                          ):(
+                            <FormattedMessage id="personal">
+                              {txt => (
+                                <div
+                                  className="minicart-link"
+                                  data-loc="miniCartOrderBtn"
+                                  title={txt}>
+                                  <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
+                                </div>
+                              )}
+                            </FormattedMessage>
+                          )
+                        }
+                      
 
                       {
                         !Store.isLogin

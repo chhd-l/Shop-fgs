@@ -410,7 +410,7 @@ class PersonalDataEditForm extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="form-group col-lg-6 pull-left required">
+              <div className="form-group col-lg-6 pull-left">
                 <label className="form-control-label rc-full-width" htmlFor="reference">
                   <FormattedMessage id="payment.rfc" />
                 </label>

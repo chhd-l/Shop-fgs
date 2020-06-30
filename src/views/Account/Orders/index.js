@@ -250,16 +250,16 @@ class AccountOrders extends React.Component {
                           // placeholder={this.props.intl.message.order.inputOrderNumberTip}
                           value={this.state.form.orderNumber}
                           onChange={e => this.handleInputChange(e)} />
-                          {
-                            this.state.form.orderNumber?null:
-                            ( 
-                            <label className="rc-input__label" htmlFor="id-text8">
-                              <span className="rc-input__label-text">
-                                <FormattedMessage id="order.inputOrderNumberTip" />
-                              </span>
-                            </label>)
-                          }
-                       
+                        {
+                          this.state.form.orderNumber ? null :
+                            (
+                              <label className="rc-input__label" htmlFor="id-text8">
+                                <span className="rc-input__label-text">
+                                  <FormattedMessage id="order.inputOrderNumberTip" />
+                                </span>
+                              </label>)
+                        }
+
                       </span>
                     </div>
                   </div>
@@ -363,13 +363,10 @@ class AccountOrders extends React.Component {
                                 </div>
                               ))}
                             </>
-                            : <div className="text-center mt-5">
-                              <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-                              <FormattedMessage id="order.noDataTip" />
-                            </div>
+                            : null
                     }
                     {
-                      this.state.errMsg
+                      this.state.errMsg || !this.state.orderList.length
                         ? null
                         : <div className="grid-footer rc-full-width mt-2">
                           <Pagination
