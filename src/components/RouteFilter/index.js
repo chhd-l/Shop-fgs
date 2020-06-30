@@ -9,6 +9,9 @@ class RouteFilter extends Component {
         || (sessionStorage.getItem("rc-clinics-id-default") && sessionStorage.getItem("rc-clinics-name-default")))) {
       this.props.history.replace("/payment/shipping");
     }
+    if (!localStorage.getItem('rc-token') && nextProps.location.pathname.indexOf("/account") !== -1) {
+      this.props.history.push("/");
+    }
   }
   async componentDidMount () {
     if (window.location.href.indexOf('/#/') !== -1) {
@@ -69,10 +72,6 @@ class RouteFilter extends Component {
       loadJS(process.env.REACT_APP_ONTRUST_SRC, function () { })
     }
     if (this.props.location.pathname === "/confirmation" && !localStorage.getItem('orderNumber')) {
-      this.props.history.push("/");
-    }
-
-    if (!localStorage.getItem('rc-token') && this.props.location.pathname.indexOf("/account") !== -1) {
       this.props.history.push("/");
     }
     queryStoreCateIds();

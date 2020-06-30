@@ -347,9 +347,8 @@ class Header extends React.Component {
       : null
   }
   render () {
-    console.log(Store.isLogin, 'Store')
     return (
-      <React.Fragment>
+      <>
         <div id="page-top" name="page-top"></div>
         {Store.loginModal ? <Loading /> : null}
         <header className="rc-header" data-js-header-scroll>
@@ -651,7 +650,7 @@ class Header extends React.Component {
             </div>
             : null
         }
-      </React.Fragment>
+      </>
     )
   }
 }

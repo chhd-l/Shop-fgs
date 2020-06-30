@@ -558,8 +558,8 @@ class Details extends React.Component {
       } else {
         history.push('/prescription')
       }
-      this.setState({ addToCartLoading: false });
     }
+    this.setState({ addToCartLoading: false });
     this.headerRef.current.handleCartMouseOver();
     setTimeout(() => {
       this.headerRef.current.handleCartMouseOut();
