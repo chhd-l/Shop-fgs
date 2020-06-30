@@ -519,7 +519,7 @@ class PaymentComp extends React.Component {
                           this.setState({ creditCardList, isCurrentCvvConfirm: false, currentCvv: '' });
                         }}>
                         <div className={`pt-3 pb-3 ${idx !== creditCardList.length - 1 ? 'border-bottom' : ''} `}>
-                          <div className="position-absolute" style={{ right: '1%', top: '2%' }}>
+                          <div className="position-absolute" style={{ right: '1%', top: '2%', zIndex: '2' }}>
                             <span className="pull-right position-relative border-left pl-2 ui-cursor-pointer-pure">
                               <span onClick={() => this.updateConfirmTooltipVisible(el, true)}>
                                 <FormattedMessage id="delete" />
@@ -533,7 +533,8 @@ class PaymentComp extends React.Component {
                             </span>
                             <span
                               className="pull-right ui-cursor-pointer-pure"
-                              onClick={() => {
+                              onClick={(e) => {
+                                e.preventDefault()
                                 this.setState({
                                   isEdit: true,
                                   creditCardInfo: el,
@@ -556,11 +557,13 @@ class PaymentComp extends React.Component {
                             <div className={`col-12 col-sm-9 d-flex flex-column justify-content-around`}>
                               <div className="row ui-margin-top-1-md-down">
                                 <div className="col-12 color-999" style={{display: el.selected? 'none': 'block'}}>
-                                  <FormattedMessage id="name2" /><br />
+                                  <span style={{ fontSize: '14px' }}><FormattedMessage id="name2" /></span>
+                                  <br />
                                   <span className="creditCompleteInfo">{el.cardOwner}</span>
                                 </div>
                                 <div className="col-12 color-999" style={{display: el.selected? 'block': 'none'}}>
-                                  <FormattedMessage id="CVV" /><br />
+                                  <span style={{ fontSize: '14px' }}><FormattedMessage id="CVV" /></span>
+                                  <br />
                                   <div className="col-4 color-999" style={{textAlign: 'left', paddingLeft: '0', marginBottom: '5px'}}>
                                     <input onChange={e => {
                                       this.currentCvvChange(e)
@@ -573,13 +576,15 @@ class PaymentComp extends React.Component {
                               </div>
                               <div className="row ui-margin-top-1-md-down">
                                 <div className="col-md-5 col-sm-12 color-999">
-                                  <FormattedMessage id="payment.cardNumber2" /><br />
+                                  <span style={{ fontSize: '14px' }}><FormattedMessage id="payment.cardNumber2" /></span>
+                                  <br />
                                   <span className="creditCompleteInfo">
                                     xxxx xxxx xxxx{" "}{el.cardNumber ? el.cardNumber.substring(el.cardNumber.length - 4) : ""}
                                   </span>
                                 </div>
                                 <div className="col-md-4 col-sm-12 border-left color-999">
-                                  <FormattedMessage id="payment.cardType" /><br />
+                                  <span style={{ fontSize: '14px' }}> <FormattedMessage id="payment.cardType" /></span>
+                                  <br />
                                   <span className="creditCompleteInfo">{el.cardType}</span>
                                 </div>
                                 <div className="col-md-3 col-sm-12 border-left color-999" >
@@ -892,7 +897,7 @@ class PaymentComp extends React.Component {
               <div className="text-right">
                 <div
                   className="rc-input rc-input--inline"
-                  style={{ marginTop: "10px", float: "left" }}
+                  style={{ marginTop: "10px", float: "left", maxWidth: 'none' }}
                   onClick={() => {
                     creditCardInfo.isDefault = !creditCardInfo.isDefault;
                     this.setState({ creditCardInfo });
