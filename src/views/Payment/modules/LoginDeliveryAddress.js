@@ -130,8 +130,8 @@ import './loginDeliveryAddress.css'
       address1: '',
       address2: '',
       rfc: '',
-      country: find(this.state.countryList, ele => ele.name.toLowerCase() == 'mexico')
-        ? find(this.state.countryList, ele => ele.name.toLowerCase() == 'mexico').id
+      country: find(this.state.countryList, ele => ele.name.toLowerCase() === 'mexico')
+        ? find(this.state.countryList, ele => ele.name.toLowerCase() === 'mexico').id
         : '',
       city: '',
       postCode: '',
@@ -228,6 +228,12 @@ import './loginDeliveryAddress.css'
       const tmpPromise = this.currentOperateIdx > -1 ? editAddress : saveAddress
       let res = await tmpPromise(params)
       this.scrollToTitle()
+      if(res.context.deliveryAddressId){
+        this.setState({
+          selectedId:res.context.deliveryAddressId
+        })
+      }
+      
       await this.queryAddressList()
       this.setState({
         addOrEdit: false,
