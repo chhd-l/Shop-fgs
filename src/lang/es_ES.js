@@ -12,7 +12,7 @@ const en_US = {
   'miniBasket': 'Mini basket',
   'chang': 'Cambio',
   'checkout': 'Comprar',
-  'GuestCheckout': 'Pagar (Invitada)',
+  'GuestCheckout': 'Pagar como invitada',
   'itemsInCart': 'Usted tiene {val} artículo en su carro',
   'itemsInCart2': 'Usted tiene {val} artículos en su carro',
   'total': 'Total',
