@@ -545,7 +545,7 @@ class ShippingAddressFrom extends React.Component {
                             <div className="text-right">
                               <div
                                 className="rc-input rc-input--inline"
-                                style={{ marginTop: "10px", float: "left" }}
+                                style={{ marginTop: "12px", float: "left", maxWidth: 'none' }}
                                 onClick={() => {
                                   creditCardInfo.isDefault = !creditCardInfo.isDefault;
                                   this.setState({ creditCardInfo });

@@ -659,7 +659,7 @@ class PaymentComp extends React.Component {
                                 display: el.selected ? "none" : "block",
                               }}
                             >
-                              <FormattedMessage id="name2" />
+                              <span style={{ fontSize: '14px' }}><FormattedMessage id="name2" /></span>
                               <br />
                               <span className="creditCompleteInfo">
                                 {el.cardOwner}
@@ -671,7 +671,7 @@ class PaymentComp extends React.Component {
                                 display: el.selected ? "block" : "none",
                               }}
                             >
-                              <FormattedMessage id="Cvv" />
+                              <span style={{ fontSize: '14px' }}><FormattedMessage id="CVV" /></span>
                               <br />
                               <div
                                 className="col-4 color-999"
@@ -697,8 +697,8 @@ class PaymentComp extends React.Component {
                             </div>
                           </div>
                           <div className="row ui-margin-top-1-md-down">
-                            <div className="col-4 color-999">
-                              <FormattedMessage id="payment.cardNumber2" />
+                            <div className="col-md-4 col-6 color-999">
+                            <span style={{ fontSize: '14px' }}><FormattedMessage id="payment.cardNumber2" /></span>
                               <br />
                               <span className="creditCompleteInfo">
                                 xxxx xxxx xxxx{" "}
@@ -709,14 +709,14 @@ class PaymentComp extends React.Component {
                                   : ""}
                               </span>
                             </div>
-                            <div className="col-4 border-left color-999">
-                              <FormattedMessage id="payment.cardType" />
+                            <div className="col-md-4 col-6 border-left color-999">
+                            <span style={{ fontSize: '14px' }}><FormattedMessage id="payment.cardType" /></span>
                               <br />
                               <span className="creditCompleteInfo">
                                 {el.cardType}
                               </span>
                             </div>
-                            <div className="col-4 border-left color-999">
+                            <div className="col-md-4 col-12 border-left color-999">
                               <button
                                 class="rc-btn rc-btn--two"
                                 style={{
@@ -724,21 +724,26 @@ class PaymentComp extends React.Component {
                                     el.selected && !isCurrentCvvConfirm
                                       ? "block"
                                       : "none",
+                                    padding: '.2rem 1.6rem',
+                                    marginTop: '20px',
+                                    float: 'right'
                                 }}
                                 onClick={(e) => {
                                   this.confirmCvv(e, el);
                                 }}
                               >
-                                Apply
+                                <FormattedMessage id="payment.apply" />
                               </button>
                               <img
                                 src={successImg}
                                 style={{
-                                  width: "60px",
+                                  width: "25px",
                                   display:
                                     el.selected && isCurrentCvvConfirm
                                       ? "block"
                                       : "none",
+                                  float: 'right',
+                                  marginTop: '20px'
                                 }}
                               />
                               {/* <FormattedMessage id="payment.cardType" /><br />
@@ -749,19 +754,19 @@ class PaymentComp extends React.Component {
                         <div className={`col-12 col-sm-9 flex-column justify-content-around`} style={{display: pathname !== "/payment/payment"?'flex ': 'none'}}>
                           <div className="row ui-margin-top-1-md-down">
                             <div className="col-12 color-999">
-                              <FormattedMessage id="name2" /><br />
+                            <span style={{ fontSize: '14px' }}><FormattedMessage id="name2" /></span><br />
                               <span className="creditCompleteInfo">{el.cardOwner}</span>
                             </div>
                           </div>
                           <div className="row ui-margin-top-1-md-down">
                             <div className="col-6 color-999">
-                              <FormattedMessage id="payment.cardNumber2" /><br />
+                            <span style={{ fontSize: '14px' }}><FormattedMessage id="payment.cardNumber2" /></span><br />
                               <span className="creditCompleteInfo">
                                 xxxx xxxx xxxx{" "}{el.cardNumber ? el.cardNumber.substring(el.cardNumber.length - 4) : ""}
                               </span>
                             </div>
                             <div className="col-6 border-left color-999">
-                              <FormattedMessage id="payment.cardType" /><br />
+                            <span style={{ fontSize: '14px' }}><FormattedMessage id="payment.cardType" /></span><br />
                               <span className="creditCompleteInfo">{el.cardType}</span>
                             </div>
                           </div>
