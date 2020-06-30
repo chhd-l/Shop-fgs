@@ -379,7 +379,7 @@ class Details extends React.Component {
     }
   }
   async hanldeLoginAddToCart ({ redirect }) {
-    const { quantity, cartData } = this.state;
+    const { quantity } = this.state;
     const { goodsId, sizeList } = this.state.details;
     const currentSelectedSize = find(sizeList, (s) => s.selected);
     try {
@@ -396,6 +396,7 @@ class Details extends React.Component {
       if (redirect) {
         // 获取购物车列表
         let siteMiniPurchasesRes = await siteMiniPurchases();
+
         siteMiniPurchasesRes = siteMiniPurchasesRes.context;
         // 获取总价
         let sitePurchasesRes = await sitePurchases({
@@ -406,18 +407,17 @@ class Details extends React.Component {
         sitePurchasesRes = sitePurchasesRes.context;
         if (sitePurchasesRes.tradePrice < MINIMUM_AMOUNT) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />,
-          });
-          return false;
+            checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />
+          })
+          return false
         }
 
         // 库存不够，不能下单
-        if (find(cartData, (ele) => ele.buyCount > ele.stock)) {
+        if (find(siteMiniPurchasesRes.goodsList, (ele) => ele.buyCount > ele.stock)) {
           this.setState({
-            errorShow: true,
-            errorMsg: <FormattedMessage id="cart.errorInfo2" />,
-          });
-          return false;
+            checkOutErrMsg: <FormattedMessage id="cart.errorInfo2" />
+          })
+          return false
         }
 
         // promotion相关
@@ -461,7 +461,7 @@ class Details extends React.Component {
     let cartDataCopy = cloneDeep(localStorage.getItem("rc-cart-data") ? JSON.parse(localStorage.getItem("rc-cart-data")) : []);
 
     if (!instockStatus || !quantityNew) {
-      return;
+      return false
     }
 
     this.setState({ addToCartLoading: true });
@@ -899,7 +899,7 @@ class Details extends React.Component {
                                         !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                           <div className="cart-and-ipay">
                                             <button
-                                              className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                              className={`btn-add-to-cart2 rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                                               data-loc="addToCart"
                                               onClick={() =>
                                                 this.hanldeAddToCart({
@@ -1029,7 +1029,7 @@ class Details extends React.Component {
                   }
                   {
                     !jugeLoginStatus() && <button
-                      className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                      className={`btn-add-to-cart2 rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                       onClick={() => this.hanldeAddToCart({ redirect: true })}>
                       <FormattedMessage id="GuestCheckout" />
                     </button>

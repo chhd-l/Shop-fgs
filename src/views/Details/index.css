@@ -1561,6 +1561,10 @@ label.availability {
   border-color: grey;
   cursor: not-allowed;
 }
+.btn-add-to-cart2.disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
 .rc-img--square.rc-img--square-custom {
   margin-top: 2rem;
   border: 1px solid #999;
