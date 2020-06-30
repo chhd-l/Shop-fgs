@@ -1,6 +1,6 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
-import { FormattedMessage } from "react-intl"
+import { injectIntl, FormattedMessage } from "react-intl"
 import { find, findIndex } from "lodash"
 import {
   getAddressList,
@@ -12,7 +12,8 @@ import AddressForm from './AddressForm'
 import Loading from "@/components/Loading"
 import './loginDeliveryAddress.css'
 
-export default class LoginDeliveryAddress extends React.Component {
+
+class LoginDeliveryAddress extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery'
@@ -129,8 +130,8 @@ export default class LoginDeliveryAddress extends React.Component {
       address1: '',
       address2: '',
       rfc: '',
-      country: find(this.state.countryList, ele => ele.name.toLowerCase() == 'mexico')
-        ? find(this.state.countryList, ele => ele.name.toLowerCase() == 'mexico').id
+      country: find(this.state.countryList, ele => ele.name.toLowerCase() === 'mexico')
+        ? find(this.state.countryList, ele => ele.name.toLowerCase() === 'mexico').id
         : '',
       city: '',
       postCode: '',
@@ -227,6 +228,12 @@ export default class LoginDeliveryAddress extends React.Component {
       const tmpPromise = this.currentOperateIdx > -1 ? editAddress : saveAddress
       let res = await tmpPromise(params)
       this.scrollToTitle()
+      if (res.context.deliveryAddressId) {
+        this.setState({
+          selectedId: res.context.deliveryAddressId
+        })
+      }
+
       await this.queryAddressList()
       this.setState({
         addOrEdit: false,
@@ -352,14 +359,14 @@ export default class LoginDeliveryAddress extends React.Component {
                               <span>
                                 {
                                   foledMore
-                                    ? <React.Fragment>
+                                    ? <>
                                       <FormattedMessage id="moreAddress" />&nbsp;
-                                    <b className="addr-switch switch-on"></b>
-                                    </React.Fragment>
-                                    : <React.Fragment>
+                                      <b className="addr-switch switch-on"></b>
+                                    </>
+                                    : <>
                                       <FormattedMessage id="unfoldAddress" />
                                       <b className="addr-switch switch-off"></b>
-                                    </React.Fragment>
+                                    </>
                                 }
                               </span>
                             </div>
@@ -387,10 +394,12 @@ export default class LoginDeliveryAddress extends React.Component {
                                       type="checkbox"
                                       className="rc-input__checkbox"
                                       value={deliveryAddress.isDefalt}
+                                      key={1}
                                       checked />
                                     : <input
                                       type="checkbox"
                                       className="rc-input__checkbox"
+                                      key={2}
                                       value={deliveryAddress.isDefalt} />
                                 }
                                 <label className={`rc-input__label--inline text-break`}>
@@ -442,3 +451,5 @@ export default class LoginDeliveryAddress extends React.Component {
     )
   }
 }
+
+export default injectIntl(LoginDeliveryAddress, { forwardRef: true })

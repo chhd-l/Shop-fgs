@@ -33,8 +33,8 @@ export default class AddressForm extends React.Component {
     getDictionary({ type: 'country' })
       .then(res => {
         const { deliveryAddress } = this.state
-        deliveryAddress.country = find(res, ele => ele.name.toLowerCase() == 'mexico')
-          ? find(res, ele => ele.name.toLowerCase() == 'mexico').id
+        deliveryAddress.country = find(res, ele => ele.name.toLowerCase() === 'mexico')
+          ? find(res, ele => ele.name.toLowerCase() === 'mexico').id
           : ''
         this.setState({
           countryList: res,

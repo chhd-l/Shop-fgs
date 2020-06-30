@@ -63,7 +63,7 @@ class ClinicEditForm extends React.Component {
     e.nativeEvent.stopImmediatePropagation()
     const target = e.target
     const { form } = this.state
-    form[target.name] = target.value
+    form[target.dataset.name] = target.value
     form['clinicId'] = null
     this.setState({ form: form })
     clearTimeout(this.timer)
@@ -215,7 +215,7 @@ class ClinicEditForm extends React.Component {
                   className="form-control"
                   value={form.clinicName}
                   onChange={event => this.handleInputChange(event)}
-                  name="clinicName"
+                  data-name="clinicName"
                 />
                 {
                   this.state.loadingList

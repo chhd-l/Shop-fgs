@@ -557,12 +557,14 @@ class ShippingAddressFrom extends React.Component {
                                       type="checkbox"
                                       className="rc-input__checkbox"
                                       value={creditCardInfo.isDefault}
+                                      key={1}
                                       checked
                                     />
                                     : <input
                                       type="checkbox"
                                       className="rc-input__checkbox"
                                       value={creditCardInfo.isDefault}
+                                      key={2}
                                     />
                                 }
                                 <label className="rc-input__label--inline text-break">

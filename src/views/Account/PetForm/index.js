@@ -15,6 +15,7 @@ import { getPetList, addPet, petsById, delPets, editPets } from '@/api/pet'
 import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
 import { MINIMUM_AMOUNT, STOREID } from "@/utils/constant"
+import { getCustomerInfo } from "@/api/user"
 
 const selectedPet = {
   border: "3px solid #ec001a",
@@ -136,22 +137,40 @@ class PetForm extends React.Component {
     }
     return userinfo
   }
-  getPetList = async () => {
+
+  getAccount= ()=>{
     let consumerAccount = ''
     if (this.getUserInfo() && this.getUserInfo().customerAccount) {
       consumerAccount = this.getUserInfo().customerAccount
     }
     else {
+      getCustomerInfo()
+      .then(res => {
+        const context = res.context
+        localStorage.setItem('rc-userinfo', JSON.stringify(context))
+
+        consumerAccount = context.consumerAccount
+        
+      })
+    }
+    console.log(consumerAccount,'1');
+    
+    return consumerAccount
+  }
+
+  getPetList = () => {
+    if(!this.getAccount()){
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
       this.setState({
         loading: false
       })
-      return
+      return false
     }
+    console.log('2');
     let params = {
-      "consumerAccount": consumerAccount
+      "consumerAccount": this.getAccount()
     }
-    await getPetList(params).then(res => {
+    getPetList(params).then(res => {
       if (res.code === 'K-000000') {
         let petList = res.context.context
         if (petList.length > 0) {
@@ -873,10 +892,12 @@ class PetForm extends React.Component {
                                     type="checkbox"
                                     className="rc-input__checkbox"
                                     value={this.state.isUnknown}
+                                    key={1}
                                     checked />
                                   : <input
                                     type="checkbox"
                                     className="rc-input__checkbox"
+                                    key={2}
                                     value={this.state.isUnknown} />
                               }
                               <label className="rc-input__label--inline text-break" >

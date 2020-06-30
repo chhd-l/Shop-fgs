@@ -46,12 +46,15 @@ const LoginButton = (props, ref) => {
             let customerInfoRes = await getCustomerInfo()
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
             localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-            // const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
-            // if (unloginCartData.length) {
-            //   await mergeUnloginCartData()
-            //   props.updateCartCache && props.updateCartCache()
-            // }
-            props.history.push(sessionStorage.getItem('redirectUrl'))
+            if (sessionStorage.getItem('redirectUrl') === '/cart') {
+              props.history.push(sessionStorage.getItem('redirectUrl'))
+            } else {
+              const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
+              if (unloginCartData.length) {
+                await mergeUnloginCartData()
+              }
+              props.updateCartCache && props.updateCartCache()
+            }
             sessionStorage.removeItem('redirectUrl')
           }).catch(e => {
             Store.changeLoginModal(false)
@@ -62,7 +65,7 @@ const LoginButton = (props, ref) => {
   }, [authState, authService]); // Update if authState changes
 
   const login = async () => {
-    sessionStorage.setItem('redirectUrl', '/account')
+    sessionStorage.setItem('redirectUrl', '/')
     if (props.beforeLoginCallback) {
       let res = await props.beforeLoginCallback()
       if (res === false) {

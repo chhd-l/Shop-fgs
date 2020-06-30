@@ -117,7 +117,7 @@ class Login extends React.Component {
 
     const { history } = this.props;
     login(this.state.loginForm).then(res=>{
-     
+        debugger
         localStorage.setItem("rc-token", res.context.token);
         let userinfo = res.context.customerDetail;
         userinfo.customerAccount = res.context.accountName;

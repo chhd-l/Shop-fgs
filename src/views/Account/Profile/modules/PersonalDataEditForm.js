@@ -93,7 +93,7 @@ class PersonalDataEditForm extends React.Component {
     const { form } = this.state
     for (let key in form) {
       const value = form[key]
-      if (!value && key !== 'birthdate') {
+      if (!value && (key !== 'birthdate'&& key !== 'rfc')) {
         this.showErrMsg(this.props.intl.messages.CompleteRequiredItems)
         return
       }
@@ -410,7 +410,7 @@ class PersonalDataEditForm extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="form-group col-lg-6 pull-left required">
+              <div className="form-group col-lg-6 pull-left">
                 <label className="form-control-label rc-full-width" htmlFor="reference">
                   <FormattedMessage id="payment.rfc" />
                 </label>
@@ -426,9 +426,9 @@ class PersonalDataEditForm extends React.Component {
                     maxLength="50" />
                   <label className="rc-input__label" htmlFor="reference"></label>
                 </span>
-                <div className="invalid-feedback" style={{ display: 'none' }}>
+                {/* <div className="invalid-feedback" style={{ display: 'none' }}>
                   <FormattedMessage id="payment.errorInfo2" />
-                </div>
+                </div> */}
               </div>
             </div>
             <span className="rc-meta mandatoryField">

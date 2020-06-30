@@ -64,10 +64,10 @@ class PaymentComp extends React.Component {
       //     el.selected = false;
       //   }
       // });
-      let filterList = this.state.creditCardList.filter((el) => {
+      let filterList = this.state.creditCardList.filter(el => {
         if (el.isDefault === 1) {
           el.selected = true;
-          return true;
+          return true
         } else {
           el.selected = false;
           return false;
@@ -125,20 +125,20 @@ class PaymentComp extends React.Component {
     }
     return el.offsetTop;
   }
-  confirmCvv(e, el) {
-    e.preventDefault();
-    e.stopPropagation();
-    let { isCurrentCvvConfirm } = this.state;
+  confirmCvv (e, el) {
+    e.preventDefault()
+    e.stopPropagation()
+    let { isCurrentCvvConfirm } = this.state
     if (this.state.currentCvv === el.cardCvv) {
-      isCurrentCvvConfirm = true;
+      isCurrentCvvConfirm = true
       this.props.getSelectedValue && this.props.getSelectedValue(el);
     } else {
-      isCurrentCvvConfirm = false;
+      isCurrentCvvConfirm = false
       // this.setState({ listErr: 'card_cvv is wrong' })
       this.showErrorMsg("card_cvv is wrong");
     }
-    console.log(isCurrentCvvConfirm);
-    this.setState({ isCurrentCvvConfirm: isCurrentCvvConfirm });
+    console.log(isCurrentCvvConfirm)
+    this.setState({ isCurrentCvvConfirm: isCurrentCvvConfirm })
   }
   showErrorMsg = (message) => {
     this.setState({
@@ -175,10 +175,10 @@ class PaymentComp extends React.Component {
     //   });
     // }
   }
-  currentCvvChange(e) {
+  currentCvvChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
-    this.setState({ currentCvv: value });
+    this.setState({ currentCvv: value })
   }
   async cardNumberChange(e) {
     const target = e.target;

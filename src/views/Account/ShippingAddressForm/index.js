@@ -141,7 +141,6 @@ class ShippingAddressFrom extends React.Component {
       loading: true
     })
     let data = this.state.addressForm;
-    debugger
     let params = {
       "address1": data.address1,
       "address2": data.address2,
@@ -163,7 +162,6 @@ class ShippingAddressFrom extends React.Component {
     if (this.state.isAdd) {
 
       await saveAddress(params).then(res => {
-        debugger
         if (res.code === 'K-000000') {
           this.setState({
             loading: false
@@ -386,8 +384,16 @@ class ShippingAddressFrom extends React.Component {
                               onBlur={(e) => this.inputBlur(e)}
                               name="addressType"
                             >
-                              <option value="DELIVERY"> <FormattedMessage id="delivery" /></option>
-                              <option value="BILLING"><FormattedMessage id="billing2" /></option>
+                              <FormattedMessage id="delivery">
+                                {txt => (
+                                  <option value="DELIVERY">{txt}</option>
+                                )}
+                              </FormattedMessage>
+                              <FormattedMessage id="billing2">
+                                {txt => (
+                                  <option value="DELIVERY">{txt}</option>
+                                )}
+                              </FormattedMessage>
                               {/* {
                               this.state.countryList.map(item=>(
                               <option value={item.id}>{item.name}</option>
@@ -665,13 +671,15 @@ class ShippingAddressFrom extends React.Component {
                                     type="checkbox"
                                     className="rc-input__checkbox"
                                     value={addressForm.isDefalt}
+                                    key={1}
                                     checked />
                                   : <input
                                     type="checkbox"
                                     className="rc-input__checkbox"
+                                    key={2}
                                     value={addressForm.isDefalt} />
                               }
-                              <label className="rc-input__label--inline text-break">
+                              <label className="rc-input__label--inline text-break w-100">
                                 <FormattedMessage id="setDefaultAddress" />
                               </label>
                             </div>

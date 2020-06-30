@@ -15,6 +15,8 @@ import {
   sitePurchases,
   siteMiniPurchases
 } from '@/api/cart'
+import CART_CAT from "@/assets/images/CART_CAT.webp";
+import CART_DOG from "@/assets/images/CART_DOG.webp";
 
 class LoginCart extends React.Component {
   constructor(props) {
@@ -519,7 +521,8 @@ class LoginCart extends React.Component {
                               <img
                                 className="w-100"
                                 style={{ transform: 'scale(.8)' }}
-                                src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwd94da11c/ENGLISH_COCKER_SPANIEL_ADULT__DERMATOLOGY_EMBLEMATIC_High_Res.___Print.png?sw=500&amp;sh=385&amp;sm=fit&amp;cx=356&amp;cy=161&amp;cw=2088&amp;ch=1608&amp;sfrm=png" alt="Dog" />
+                                src={CART_DOG}
+                                alt="Dog" />
                               <br /><h4 className="card__title red">
                                 <FormattedMessage id="cart.dogDiet" />
                               </h4>
@@ -530,7 +533,8 @@ class LoginCart extends React.Component {
                               <img
                                 className="w-100"
                                 style={{ padding: '3rem 0 4rem' }}
-                                src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwf417a5f2/RUSSIAN_BLUE_ADULT___VHN_DERMATOLOGY_EMBLEMATIC_High_Res.___Print.png?sw=550&amp;sh=300&amp;sm=fit&amp;cx=0&amp;cy=268&amp;cw=2642&amp;ch=1441&amp;sfrm=png" alt="Cat" />
+                                src={CART_CAT}
+                                alt="Cat" />
                               <br />
                               <h4 className="card__title red">
                                 <FormattedMessage id="cart.catDiet" />
