@@ -397,7 +397,7 @@ class ShippingAddress extends React.Component {
                         <div className="col-lg-6" style={{ padding: "10px 25px" }} key={item.deliveryAddressId}>
                           {/* <div className="addr-line"></div> */}
                           <div className={"row card-address " + (item.isDefaltAddress === 1 ? "card-address-default" : "")} >
-                            <div className="col-10 card-phone-title">
+                            <div className="col-10 card-phone-title word-break">
                               <div className="address-name">
                                 <span>{item.firstName + ' ' + item.lastName}</span>
                                 {item.isDefaltAddress === 1
