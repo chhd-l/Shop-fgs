@@ -334,6 +334,22 @@ class Payment extends React.Component {
   }
   async handleClickFurther () {
     if (this.state.isLogin) {
+      if(!this.state.selectedCardInfo.cardNumber) {
+        this.setState({
+          errorShow: true,
+          errorMsg: this.props.intl.messages.clickConfirmCardButton
+        });
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        setTimeout(() => {
+          this.setState({
+            errorShow: false,
+          });
+        }, 5000);
+        return
+      }
       let selectedCard = this.state.selectedCardInfo
       this.setState({ loading: true });
       let res = await axios.post(

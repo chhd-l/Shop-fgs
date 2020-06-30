@@ -846,7 +846,8 @@ label.availability {
 .product-detail .description {
   overflow: hidden;
   text-align: justify;
-  position: relative
+  position: relative;
+  word-wrap: break-word;
 }
 
 .product-detail .description ul li {
