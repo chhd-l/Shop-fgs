@@ -75,7 +75,8 @@ export default class AccountProfile extends React.Component {
             lastName: context.lastName,
             email: context.email,
             birthdate: context.birthDay ? context.birthDay.split('-').join('/') : context.birthDay,
-            country: context.countryId,
+            // country: context.countryId,
+            country:6, //先写死墨西哥id
             phoneNumber: context.contactPhone,
             rfc: context.reference
           },
