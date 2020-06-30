@@ -694,7 +694,7 @@ class PaymentComp extends React.Component {
                             </div>
                           </div>
                           <div className="row ui-margin-top-1-md-down">
-                            <div className="col-md-4 col-sm-12 color-999">
+                            <div className="col-md-4 col-6 color-999">
                             <span style={{ fontSize: '14px' }}><FormattedMessage id="payment.cardNumber2" /></span>
                               <br />
                               <span className="creditCompleteInfo">
@@ -706,14 +706,14 @@ class PaymentComp extends React.Component {
                                   : ""}
                               </span>
                             </div>
-                            <div className="col-md-4 col-sm-12 border-left color-999">
+                            <div className="col-md-4 col-6 border-left color-999">
                             <span style={{ fontSize: '14px' }}><FormattedMessage id="payment.cardType" /></span>
                               <br />
                               <span className="creditCompleteInfo">
                                 {el.cardType}
                               </span>
                             </div>
-                            <div className="col-md-4 col-sm-12 border-left color-999">
+                            <div className="col-md-4 col-12 border-left color-999">
                               <button
                                 class="rc-btn rc-btn--two"
                                 style={{
@@ -722,6 +722,7 @@ class PaymentComp extends React.Component {
                                       ? "block"
                                       : "none",
                                     padding: '.2rem 1.6rem',
+                                    marginTop: '20px',
                                     float: 'right'
                                 }}
                                 onClick={(e) => {
