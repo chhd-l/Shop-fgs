@@ -61,7 +61,6 @@ class Header extends React.Component {
     window.addEventListener('click', (e) => this.hideMenu(e))
     const { location } = this.props
     let prescriberId
-    let prescriberName
     let tmpName = ''
 
     // 指定clinic链接进入，设置default clinic
@@ -432,7 +431,7 @@ class Header extends React.Component {
                         </div>
                       </div>
                       {
-                        jugeLoginStatus()
+                        Store.isLogin
                           ? <LoginCart ref={this.loginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
                           : <UnloginCart ref={this.unloginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
                       }
@@ -445,20 +444,20 @@ class Header extends React.Component {
                       className="minicart inlineblock"
                       style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }}
                       onMouseOver={this.handleCenterMouseOver} onMouseOut={this.handleCenterMouseOut}>
-                        {
-                          Store.isLogin?(
-                            <FormattedMessage id="personal">
-                              {txt => (
-                                <Link
-                                  to="/account"
-                                  className="minicart-link"
-                                  data-loc="miniCartOrderBtn"
-                                  title={txt}>
-                                  <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          ):(
+                      {
+                        Store.isLogin ? (
+                          <FormattedMessage id="personal">
+                            {txt => (
+                              <Link
+                                to="/account"
+                                className="minicart-link"
+                                data-loc="miniCartOrderBtn"
+                                title={txt}>
+                                <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
+                              </Link>
+                            )}
+                          </FormattedMessage>
+                        ) : (
                             <FormattedMessage id="personal">
                               {txt => (
                                 <div
@@ -470,8 +469,8 @@ class Header extends React.Component {
                               )}
                             </FormattedMessage>
                           )
-                        }
-                      
+                      }
+
 
                       {
                         !Store.isLogin
@@ -480,6 +479,7 @@ class Header extends React.Component {
                             <div className="container cart" >
                               <div className="login-style">
                                 <LoginButton
+                                  updateCartCache={() => this.updateCartCache()}
                                   btnStyle={{ width: "11rem", margin: "2rem 0" }}
                                   history={this.props.history} />
                                 {/* <button onClick={() => {
