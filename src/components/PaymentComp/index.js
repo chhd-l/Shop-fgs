@@ -10,6 +10,7 @@ import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import paypalImg from "@/assets/images/credit-cards/paypal.png";
+import successImg from "@/assets/images/success.png"
 import {
   getPaymentMethod,
   deleteCard,
@@ -44,18 +45,37 @@ class PaymentComp extends React.Component {
       loading: false,
       listLoading: true,
       listErr: '',
-      currentVendor: '1'
+      currentVendor: '1',
+      currentCvv: '',
+      isCurrentCvvConfirm: false
     };
   }
   async componentDidMount () {
     if (Store.isLogin) {
       await this.getPaymentMethodList();
-      this.state.creditCardList.map((el) => {
-        if (el.isDefault === 1) {
+      // this.state.creditCardList.map((el) => {
+      //   if (el.isDefault === 1) {
+      //     el.selected = true;
+      //     this.props.getSelectedValue && this.props.getSelectedValue(el);
+      //   }else {
+      //     el.selected = false;
+      //   }
+      // });
+      let filterList = this.state.creditCardList.filter(el => {
+        if(el.isDefault === 1) {
           el.selected = true;
-          this.props.getSelectedValue && this.props.getSelectedValue(el);
+          return true
+        }else {
+          el.selected = false;
+          return false
         }
-      });
+      })
+      // if(filterList.length) {
+      //   this.props.getSelectedValue && this.props.getSelectedValue(filterList[0]);
+      // }else if(this.state.creditCardList.length) {
+      //   this.state.creditCardList[0].selected = true
+      //   this.props.getSelectedValue && this.props.getSelectedValue(this.state.creditCardList[0]);
+      // }
       this.setState({ creditCardList: this.state.creditCardList });
     }
   }
@@ -99,7 +119,21 @@ class PaymentComp extends React.Component {
     }
     return el.offsetTop;
   }
-
+  confirmCvv(e, el) {
+    e.preventDefault()
+    e.stopPropagation()
+    let { isCurrentCvvConfirm } = this.state
+    if(this.state.currentCvv === el.cardCvv) {
+      isCurrentCvvConfirm = true
+      this.props.getSelectedValue && this.props.getSelectedValue(el);
+    }else {
+      isCurrentCvvConfirm = false
+      // this.setState({ listErr: 'card_cvv is wrong' })
+      this.showErrorMsg('card_cvv is wrong');
+    }
+    console.log(isCurrentCvvConfirm)
+    this.setState({isCurrentCvvConfirm: isCurrentCvvConfirm})
+  }
   showErrorMsg = (message) => {
     this.setState({
       errorMsg: message,
@@ -134,6 +168,11 @@ class PaymentComp extends React.Component {
     //     behavior: "smooth",
     //   });
     // }
+  }
+  currentCvvChange(e) {
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    this.setState({currentCvv: value})
   }
   async cardNumberChange (e) {
     const target = e.target;
@@ -294,12 +333,29 @@ class PaymentComp extends React.Component {
       });
       this.initCardInfo();
       await this.getPaymentMethodList();
-      this.state.creditCardList.map((el) => {
-        if (el.isDefault === 1) {
+      let filterList = this.state.creditCardList.filter(el => {
+        if(el.isDefault === 1) {
           el.selected = true;
-          this.props.getSelectedValue && this.props.getSelectedValue(el);
+          return true
+        }else {
+          el.selected = false;
+          return false
         }
-      });
+      })
+      // if(filterList.length) {
+      //   this.props.getSelectedValue && this.props.getSelectedValue(filterList[0]);
+      // }else if(this.state.creditCardList.length){
+      //   this.state.creditCardList[0].selected = true
+      //   this.props.getSelectedValue && this.props.getSelectedValue(this.state.creditCardList[0]);
+      // }
+      // this.state.creditCardList.map((el) => {
+      //   if (el.isDefault === 1) {
+      //     el.selected = true;
+      //     this.props.getSelectedValue && this.props.getSelectedValue(el);
+      //   }else {
+      //     el.selected = false;
+      //   }
+      // });
       this.setState({ creditCardList: this.state.creditCardList });
     } catch (e) {
       let res = e.response;
@@ -373,7 +429,7 @@ class PaymentComp extends React.Component {
     })
   }
   render () {
-    const { creditCardInfo, creditCardList, creditCardImgUrl } = this.state;
+    const { creditCardInfo, creditCardList, creditCardImgUrl, isCurrentCvvConfirm } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {creditCardImgUrl.map((el, idx) => (
@@ -387,6 +443,7 @@ class PaymentComp extends React.Component {
         className={`loginCardBox ${Store.isLogin ? '' : 'hidden'} ${this.state.isEdit && window.location.pathname === "/payment/payment" ? 'rc-border-all rc-border-colour--interface checkout--padding' : ''}`}>
         {this.state.loading ? <Loading positionFixed="true" /> : null}
         <div className={`table-toolbar d-flex flex-wrap justify-content-between p-0 ${!this.state.isEdit ? '' : 'hidden-xxl-down'}`}>
+        
           <span className="t-gray">
             {
               creditCardList.length > 1
@@ -422,6 +479,31 @@ class PaymentComp extends React.Component {
             : this.state.listErr
               ? <div className="text-center p-4">{this.state.listErr}</div>
               : <div className="border">
+                <div
+                  className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                    this.state.errorMsg ? "" : "hidden"
+                    }`}
+                >
+                  <aside
+                    className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                    role="alert"
+                  >
+                    <span>{this.state.errorMsg}</span>
+                    <button
+                      className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                      onClick={() => {
+                        this.setState({ errorMsg: "" });
+                      }}
+                      aria-label="Close"
+                    >
+                      <span className="rc-screen-reader-text">
+                        <FormattedMessage id="close" />
+                      </span>
+                    </button>
+                  </aside>
+                </div>
+
+
                 {
                   creditCardList.map((el, idx) => {
                     return (
@@ -431,9 +513,10 @@ class PaymentComp extends React.Component {
                         onClick={() => {
                           creditCardList.map((el) => (el.selected = false));
                           el.selected = true;
-                          this.props.getSelectedValue &&
-                            this.props.getSelectedValue(el);
-                          this.setState({ creditCardList });
+                          // this.props.getSelectedValue &&
+                          //   this.props.getSelectedValue(el);
+                          this.props.getSelectedValue && this.props.getSelectedValue({});
+                          this.setState({ creditCardList, isCurrentCvvConfirm: false, currentCvv: '' });
                         }}>
                         <div className={`pt-3 pb-3 ${idx !== creditCardList.length - 1 ? 'border-bottom' : ''} `}>
                           <div className="position-absolute" style={{ right: '1%', top: '2%' }}>
@@ -472,24 +555,63 @@ class PaymentComp extends React.Component {
                             </div>
                             <div className={`col-12 col-sm-9 d-flex flex-column justify-content-around`}>
                               <div className="row ui-margin-top-1-md-down">
+                                <div className="col-12 color-999" style={{display: el.selected? 'none': 'block'}}>
+                                  <FormattedMessage id="name2" /><br />
+                                  <span className="creditCompleteInfo">{el.cardOwner}</span>
+                                </div>
+                                <div className="col-12 color-999" style={{display: el.selected? 'block': 'none'}}>
+                                  <FormattedMessage id="Cvv" /><br />
+                                  <div className="col-4 color-999" style={{textAlign: 'left', paddingLeft: '0', marginBottom: '5px'}}>
+                                    <input onChange={e => {
+                                      this.currentCvvChange(e)
+                                    }} type="password" maxLength="3"  style={{width: '100%'}} value={this.state.currentCvv}/>
+                                  </div>
+                                  {/* <span className="creditCompleteInfo">
+                                    <input type="password" maxLength="3" />
+                                  </span> */}
+                                </div>
+                              </div>
+                              <div className="row ui-margin-top-1-md-down">
+                                <div className="col-4 color-999">
+                                  <FormattedMessage id="payment.cardNumber2" /><br />
+                                  <span className="creditCompleteInfo">
+                                    xxxx xxxx xxxx{" "}{el.cardNumber ? el.cardNumber.substring(el.cardNumber.length - 4) : ""}
+                                  </span>
+                                </div>
+                                <div className="col-4 border-left color-999">
+                                  <FormattedMessage id="payment.cardType" /><br />
+                                  <span className="creditCompleteInfo">{el.cardType}</span>
+                                </div>
+                                <div className="col-4 border-left color-999" >
+                                  <button class="rc-btn rc-btn--two" style={{display: (el.selected && !isCurrentCvvConfirm)? 'block': 'none'}} onClick={(e) => {
+                                    this.confirmCvv(e, el)
+                                  }}>Apply</button>
+                                  <img src={successImg} style={{width: '60px', display: (el.selected && isCurrentCvvConfirm)? 'block': 'none'}}/>
+                                  {/* <FormattedMessage id="payment.cardType" /><br />
+                                  <span className="creditCompleteInfo">{el.cardType}</span> */}
+                                </div>
+                              </div>
+                            </div>
+                            {/* <div className={`col-12 col-sm-9 d-flex flex-column justify-content-around`}>
+                              <div className="row ui-margin-top-1-md-down">
                                 <div className="col-12 color-999">
                                   <FormattedMessage id="name2" /><br />
                                   <span className="creditCompleteInfo">{el.cardOwner}</span>
                                 </div>
                               </div>
                               <div className="row ui-margin-top-1-md-down">
-                                <div className="col-6 color-999">
+                                <div className="col-4 color-999">
                                   <FormattedMessage id="payment.cardNumber2" /><br />
                                   <span className="creditCompleteInfo">
                                     xxxx xxxx xxxx{" "}{el.cardNumber ? el.cardNumber.substring(el.cardNumber.length - 4) : ""}
                                   </span>
                                 </div>
-                                <div className="col-6 border-left color-999">
+                                <div className="col-4 border-left color-999">
                                   <FormattedMessage id="payment.cardType" /><br />
                                   <span className="creditCompleteInfo">{el.cardType}</span>
                                 </div>
                               </div>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
@@ -644,7 +766,7 @@ class PaymentComp extends React.Component {
                                   data-js-warning-message="*Phone Number isn’t valid"
                                 >
                                   <input
-                                    type="tel"
+                                    type="password"
                                     className="rc-input__control form-control phone"
                                     data-phonelength="18"
                                     data-js-validate="(^(\+?7|8)?9\d{9}$)"
