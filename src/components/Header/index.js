@@ -35,8 +35,8 @@ class Header extends React.Component {
       result: null,
       showMegaMenu: false,
       tradePrice: '',
-      prescriberId: sessionStorage.getItem('rc-clinics-id'),
-      prescriberName: sessionStorage.getItem('rc-clinics-name')
+      prescriberId: sessionStorage.getItem('rc-clinics-id-link'),
+      prescriberName: sessionStorage.getItem('rc-clinics-name-link')
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -80,8 +80,8 @@ class Header extends React.Component {
         } catch (e) { }
       }
       if (prescriberId && tmpName) {
-        sessionStorage.setItem('rc-clinics-id', prescriberId)
-        sessionStorage.setItem('rc-clinics-name', tmpName)
+        sessionStorage.setItem('rc-clinics-id-link', prescriberId)
+        sessionStorage.setItem('rc-clinics-name-link', tmpName)
         this.setState({
           prescriberName: tmpName,
           prescriberId: prescriberId
@@ -90,17 +90,11 @@ class Header extends React.Component {
     }
 
     // 登录状态，设置default clinic
-    if (jugeLoginStatus() && (!prescriberId || !tmpName) && localStorage.getItem('rc-userinfo')) {
+    if (jugeLoginStatus() && localStorage.getItem('rc-userinfo') && !sessionStorage.getItem('rc-clinics-id-select')) {
       let userInfo = JSON.parse(localStorage.getItem('rc-userinfo'))
       if (userInfo.defaultClinics) {
-        prescriberId = userInfo.defaultClinics.clinicsId
-        prescriberName = userInfo.defaultClinics.clinicsName
-        this.setState({
-          prescriberId: prescriberId,
-          prescriberName: prescriberName
-        })
-        sessionStorage.setItem('rc-clinics-name', prescriberName)
-        sessionStorage.setItem('rc-clinics-id', prescriberId)
+        sessionStorage.setItem('rc-clinics-id-default', userInfo.defaultClinics.clinicsId)
+        sessionStorage.setItem('rc-clinics-name-default', userInfo.defaultClinics.clinicsName)
       }
     }
   }
@@ -109,8 +103,8 @@ class Header extends React.Component {
   }
   updateDefaultClinic () {
     this.setState({
-      prescriberId: sessionStorage.getItem('rc-clinics-id'),
-      prescriberName: sessionStorage.getItem('rc-clinics-name')
+      prescriberId: sessionStorage.getItem('rc-clinics-id-link'),
+      prescriberName: sessionStorage.getItem('rc-clinics-name-link')
     })
   }
   updateCartCache () {
@@ -275,9 +269,7 @@ class Header extends React.Component {
     localStorage.setItem('loginType', 'login')
   }
   clickLogoff () {
-    localStorage.removeItem("rc-token");
-    sessionStorage.removeItem('rc-clinics-name')
-    sessionStorage.removeItem('rc-clinics-id')
+    localStorage.removeItem("rc-token")
     localStorage.removeItem('rc-userinfo')
     localStorage.removeItem('rc-cart-data-login')
     // this.setState({

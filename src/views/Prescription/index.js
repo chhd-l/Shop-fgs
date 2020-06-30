@@ -208,8 +208,8 @@ class Prescription extends React.Component {
 
   }
   handleConfirm = (item) => {
-    sessionStorage.setItem('rc-clinics-id2', item.prescriberId)
-    sessionStorage.setItem('rc-clinics-name2', item.prescriberName)
+    sessionStorage.setItem('rc-clinics-id-select', item.prescriberId)
+    sessionStorage.setItem('rc-clinics-name-select', item.prescriberName)
 
     const { history } = this.props
     history.push('/payment/shipping')

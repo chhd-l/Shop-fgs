@@ -482,11 +482,13 @@ class Payment extends React.Component {
         line1: deliveryAddress.address1,
         line2: deliveryAddress.address2,
         clinicsId:
-          sessionStorage.getItem("rc-clinics-id") ||
-          sessionStorage.getItem("rc-clinics-id2"),
+          sessionStorage.getItem("rc-clinics-id-link")
+          || sessionStorage.getItem("rc-clinics-id-default")
+          || sessionStorage.getItem("rc-clinics-id-select"),
         clinicsName:
-          sessionStorage.getItem("rc-clinics-name") ||
-          sessionStorage.getItem("rc-clinics-name2"),
+          sessionStorage.getItem("rc-clinics-name-link")
+          || sessionStorage.getItem("rc-clinics-name-default")
+          || sessionStorage.getItem("rc-clinics-name-select"),
         remark: commentOnDelivery,
         storeId: STOREID,
         tradeItems: param2.goodsInfos.map((g) => {
@@ -762,24 +764,24 @@ class Payment extends React.Component {
   }
   handleClickEditClinic (e) {
     e.preventDefault()
-    const sessionClinicsName = sessionStorage.getItem('rc-clinics-name')
+    const tmpClinicsName = sessionStorage.getItem('rc-clinics-name-link') || sessionStorage.getItem('rc-clinics-name-default')
+    const tmpClinicsId = sessionStorage.getItem('rc-clinics-id-link') || sessionStorage.getItem('rc-clinics-id-default')
     // 默认clini链接进来，仍然可以编辑
-    if (sessionClinicsName) {
-      sessionStorage.setItem('rc-clinics-name2', sessionClinicsName)
-      sessionStorage.setItem('rc-clinics-id2', sessionStorage.getItem('rc-clinics-id'))
-      sessionStorage.setItem('rc-clinics-name', '')
-      sessionStorage.setItem('rc-clinics-id', '')
+    if (tmpClinicsName) {
+      sessionStorage.setItem('rc-clinics-name-select', tmpClinicsName)
+      sessionStorage.setItem('rc-clinics-id-select', tmpClinicsId)
+      sessionStorage.removeItem('rc-clinics-name-link')
+      sessionStorage.removeItem('rc-clinics-id-link')
+      sessionStorage.removeItem('rc-clinics-name-default')
+      sessionStorage.removeItem('rc-clinics-id-default')
     }
-    let { history } = this.props;
-    history.push("/prescription")
+    this.props.history.push("/prescription")
   }
   render () {
     const {
       deliveryAddress,
       billingAddress,
-      creditCardInfo,
-      creditCardList,
-      creditCardLoginInfo
+      creditCardInfo
     } = this.state;
 
     const CreditCardImg = (
@@ -793,8 +795,8 @@ class Payment extends React.Component {
       page: {
         type: 'Checkout',
         theme: ''
-      },
-    };
+      }
+    }
 
     return (
       <div>
@@ -847,26 +849,28 @@ class Payment extends React.Component {
                           // display: sessionStorage.getItem("rc-clinics-name")
                           //   ? "none"
                           //   : "inline",
-                          margin: 0
                         }}
-                        className="rc-styled-link rc-margin-top--xs pull-right"
+                        className="rc-styled-link rc-margin-top--xs pull-right m-0"
                       >
                         <FormattedMessage id="edit" />
                       </p>
                     </div>
                     <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
-                      {sessionStorage.getItem("rc-clinics-name") ||
-                        sessionStorage.getItem("rc-clinics-name2")}
+                      {
+                        sessionStorage.getItem("rc-clinics-name-link")
+                        || sessionStorage.getItem("rc-clinics-name-default")
+                        || sessionStorage.getItem("rc-clinics-name-select")
+                      }
                     </div>
-                    {this.state.isLogin ? (
-                      <LoginDeliveryAddress
-                        id="1"
-                        ref={this.loginDeliveryAddressRef} />
-                    ) : (
+                    {this.state.isLogin
+                      ? (
+                        <LoginDeliveryAddress
+                          id="1"
+                          ref={this.loginDeliveryAddressRef} />
+                      ) : (
                         <UnloginDeliveryAddress
                           data={deliveryAddress}
-                          updateData={(data) => this.updateDeliveryAddress(data)}
-                        />
+                          updateData={(data) => this.updateDeliveryAddress(data)} />
                       )}
                     <div className="card-header" style={{ zIndex: 2, width: '62%' }}>
                       <h5>

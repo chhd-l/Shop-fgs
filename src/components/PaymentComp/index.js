@@ -565,7 +565,7 @@ class PaymentComp extends React.Component {
                       <FormattedMessage id="payment.cardNumber" />*
                       {CreditCardImg}
                       <div className="cardFormBox">
-                        <span class="cardImage">
+                        <span className="cardImage">
                           <img
                             alt="Card"
                             // src="https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
