@@ -470,7 +470,9 @@ class Header extends React.Component {
                           <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{ minWidth: "13rem" }}>
                             <div className="container cart" >
                               <div className="login-style">
-                                <LoginButton btnStyle={{ width: "11rem", margin: "2rem 0" }} />
+                                <LoginButton
+                                  btnStyle={{ width: "11rem", margin: "2rem 0" }}
+                                  history={this.props.history} />
                                 {/* <button onClick={() => {
                                   // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
                                   window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'

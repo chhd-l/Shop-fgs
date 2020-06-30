@@ -888,6 +888,7 @@ class Details extends React.Component {
                                                 }
                                                 btnClass={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                                                 updateCartCache={() => { this.headerRef.current && this.headerRef.current.updateCartCache() }}
+                                                history={this.props.history}
                                               >
                                                 <FormattedMessage id="checkout" />
                                               </LoginButton>
@@ -1018,6 +1019,7 @@ class Details extends React.Component {
                           })
                         }
                         btnClass={`rc-btn rc-btn--one js-sticky-cta btn-add-to-cart ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                        history={this.props.history}
                       >
                         <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
                         <span className="default-txt">
