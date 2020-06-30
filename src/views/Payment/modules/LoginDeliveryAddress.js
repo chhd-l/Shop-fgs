@@ -1,6 +1,6 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
-import { FormattedMessage } from "react-intl"
+import { injectIntl, FormattedMessage } from "react-intl"
 import { find, findIndex } from "lodash"
 import {
   getAddressList,
@@ -12,7 +12,8 @@ import AddressForm from './AddressForm'
 import Loading from "@/components/Loading"
 import './loginDeliveryAddress.css'
 
-export default class LoginDeliveryAddress extends React.Component {
+
+ class LoginDeliveryAddress extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery'
@@ -442,3 +443,5 @@ export default class LoginDeliveryAddress extends React.Component {
     )
   }
 }
+
+export default injectIntl(LoginDeliveryAddress, {forwardRef: true})

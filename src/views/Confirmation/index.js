@@ -83,6 +83,8 @@ class Confirmation extends React.Component {
       localStorage.removeItem('rc-cart-data')
       sessionStorage.removeItem('rc-token')
     }
+    sessionStorage.removeItem('rc-clinics-id-select')
+    sessionStorage.removeItem('rc-clinics-name-select')
     localStorage.removeItem('orderNumber')
   }
   componentDidMount () {
