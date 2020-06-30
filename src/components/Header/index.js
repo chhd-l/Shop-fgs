@@ -269,7 +269,9 @@ class Header extends React.Component {
     localStorage.setItem('loginType', 'login')
   }
   clickLogoff () {
-    localStorage.removeItem("rc-token")
+    localStorage.removeItem("rc-token");
+    sessionStorage.removeItem('rc-clinics-name-default')
+    sessionStorage.removeItem('rc-clinics-id-default')
     localStorage.removeItem('rc-userinfo')
     localStorage.removeItem('rc-cart-data-login')
     // this.setState({
