@@ -344,7 +344,7 @@ class PaymentComp extends React.Component {
 
       let addRes = await addOrUpdatePaymentMethod(params);
 
-      if (this.state.creditCardList.length) {
+      if (this.state.creditCardList.length && window.location.pathname === '/account/paymentMethod') {
         this.setState({
           loading: false,
           isEdit: false,
@@ -365,9 +365,12 @@ class PaymentComp extends React.Component {
           this.state.creditCardList[0].selected = true;
         }
       } else {
+        
+        // params.id = addRes.context.id
         this.setState({
           loading: false,
-          currentCardInfo: params,
+          currentCardInfo: addRes.context,
+          creditCardInfo: addRes.context,
           completeCardShow: true,
         });
         this.props.getSelectedValue &&
@@ -484,7 +487,7 @@ class PaymentComp extends React.Component {
         className={`loginCardBox ${Store.isLogin ? "" : "hidden"} ${
           (this.state.isEdit &&
             window.location.pathname === "/payment/payment") ||
-          !this.state.creditCardList.length
+          (!this.state.creditCardList.length && pathname !== '/account/paymentMethod')
             ? "rc-border-all rc-border-colour--interface checkout--padding"
             : ""
         }`}
@@ -492,7 +495,7 @@ class PaymentComp extends React.Component {
         {this.state.loading ? <Loading positionFixed="true" /> : null}
         <div
           className={`table-toolbar d-flex flex-wrap justify-content-between p-0 ${
-            !this.state.isEdit && this.state.creditCardList.length
+            !this.state.isEdit && (this.state.creditCardList.length || pathname === '/account/paymentMethod')
               ? ""
               : "hidden-xxl-down"
           }`}
@@ -529,7 +532,7 @@ class PaymentComp extends React.Component {
           <div id="cross"></div>
         </div> */}
         <div></div>
-        {!this.state.isEdit && this.state.creditCardList.length ? (
+        {!this.state.isEdit && (this.state.creditCardList.length || pathname === '/account/paymentMethod') ? (
           this.state.listLoading ? (
             <div className="mt-4">
               <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
@@ -788,7 +791,7 @@ class PaymentComp extends React.Component {
           id="credit-card-content"
           style={{
             display:
-              this.state.isEdit || !this.state.creditCardList.length
+              this.state.isEdit || (!this.state.creditCardList.length &&  pathname !== '/account/paymentMethod')
                 ? "block"
                 : "none",
           }}
@@ -797,7 +800,7 @@ class PaymentComp extends React.Component {
             className={`creditCompleteInfoBox pb-3`}
             style={{
               display:
-                this.state.completeCardShow && !this.state.creditCardList.length
+                this.state.completeCardShow && (!this.state.creditCardList.length &&  pathname !== '/account/paymentMethod')
                   ? "block"
                   : "none",
             }}
@@ -1127,6 +1130,7 @@ class PaymentComp extends React.Component {
                     marginTop: "10px",
                     float: "left",
                     textAlign: "left",
+                    maxWidth: '400px'
                   }}
                   onClick={() => {
                     creditCardInfo.isDefault = !creditCardInfo.isDefault;
@@ -1155,7 +1159,7 @@ class PaymentComp extends React.Component {
                   className="rc-styled-link editPersonalInfoBtn"
                   name="contactInformation"
                   style={{
-                    display: this.state.creditCardList.length
+                    display: this.state.creditCardList.length || pathname === '/account/paymentMethod'
                       ? "inline-block"
                       : "none",
                   }}
@@ -1170,7 +1174,7 @@ class PaymentComp extends React.Component {
                 &nbsp;
                 <span
                   style={{
-                    display: this.state.creditCardList.length
+                    display: this.state.creditCardList.length || pathname === '/account/paymentMethod'
                       ? "inline-block"
                       : "none",
                   }}
