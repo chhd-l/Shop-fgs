@@ -110,7 +110,7 @@ const en_US = {
   'home.catogery5': 'Gatos',
   'home.catogery6': 'Perros',
   'home.note1': 'Afectado por la epidemia, el tiempo de entrega puede extenderse.',
-  'home.note2': 'Nuestra área de distribución se limita a la Ciudad de México, Monterrey y Guadalajara.',
+  'home.note2': 'Nuestra área de distribución se limita a la Ciudad de México, Guadalajara y Monterrey.',
 
   'list.youSearchedFor': 'You searched for',
   'list.errMsg': 'No products found, please change the search criteria and try again.',
