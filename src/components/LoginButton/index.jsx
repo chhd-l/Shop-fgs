@@ -62,7 +62,7 @@ const LoginButton = (props, ref) => {
   }, [authState, authService]); // Update if authState changes
 
   const login = async () => {
-    sessionStorage.setItem('redirectUrl', '/account')
+    sessionStorage.setItem('redirectUrl', '/')
     if (props.beforeLoginCallback) {
       let res = await props.beforeLoginCallback()
       if (res === false) {

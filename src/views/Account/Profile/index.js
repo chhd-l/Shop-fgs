@@ -67,6 +67,10 @@ export default class AccountProfile extends React.Component {
         if (context.defaultClinics) {
           prescriberName = context.defaultClinics.clinicsName
           prescriberId = context.defaultClinics.clinicsId
+          sessionStorage.removeItem('rc-clinics-name-select')
+          sessionStorage.removeItem('rc-clinics-id-select')
+          sessionStorage.setItem('rc-clinics-name-default', prescriberName)
+          sessionStorage.setItem('rc-clinics-id-default', prescriberId)
         }
         this.setState({
           originData: context,
