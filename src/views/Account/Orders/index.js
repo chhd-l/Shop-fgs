@@ -70,7 +70,10 @@ class AccountOrders extends React.Component {
     const target = e.target
     const { form } = this.state
     form[target.name] = target.value
-    this.setState({ form: form })
+    this.setState({
+      form: form,
+      currentPage: 1
+    })
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.queryOrderList()
@@ -372,6 +375,7 @@ class AccountOrders extends React.Component {
                           <Pagination
                             loading={this.state.loading}
                             totalPage={this.state.totalPage}
+                            currentPage={this.state.currentPage}
                             onPageNumChange={params => this.hanldePageNumChange(params)} />
                         </div>
                     }
