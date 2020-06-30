@@ -133,8 +133,8 @@
 }
 
 .address-action{
-  font-size: 12px;
-    margin: auto 0;
+    height: 20px;
+    font-size: 12px;
     padding: 0;
     display: flex;
     justify-content: flex-end;
@@ -163,4 +163,28 @@
 .address-add-btn{
   position: absolute;
   right: 10px;
+}
+.spanWrap{
+  word-break:normal; 
+  width:auto; 
+  display:block; 
+  white-space:pre-wrap;
+  word-wrap : break-word ;
+  overflow: hidden ;
+
+}
+
+.line-ellipse{
+  overflow:hidden;
+  text-overflow:ellipsis; 
+  white-space:nowrap;
+  }
+
+.line-ellipsis{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display:-webkit-box;
+  -webkit-box-orient:vertical; 
+  -webkit-line-clamp:2;
+  width:auto; 
 }

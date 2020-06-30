@@ -24,33 +24,29 @@ const LogoutButton = () => {
 
   const { accessToken } = authState;
 
-  useEffect(() => {
-    if (!authState.isAuthenticated) {
-      // When user isn't authenticated, forget any user info
-      setUserInfo(null);
-    } else {
-      authService.getUser().then((info) => {
-        setUserInfo(info);
-        authService.getUser().then((info) => {
-          setUserInfo(info);
-          if (!localStorage.getItem('rc-token')) {
-            getToken({ oktaToken: `Bearer ${accessToken}` }).then(async res => {
-              let userinfo = res.context.customerDetail
-              let customerInfoRes = await getCustomerInfo()
-              userinfo.defaultClinics = customerInfoRes.context.defaultClinics
-              localStorage.localStorage("rc-token", res.context.token);
-              localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-            })
-          }
-        });
-      });
-    }
-  }, [authState, authService]); // Update if authState changes
+  // useEffect(() => {
+  //   if (!authState.isAuthenticated) {
+  //     // When user isn't authenticated, forget any user info
+  //     setUserInfo(null);
+  //   } else {
+  //     authService.getUser().then((info) => {
+  //       setUserInfo(info);
+  //       authService.getUser().then((info) => {
+  //         setUserInfo(info);
+  //         if (!localStorage.getItem('rc-token')) {
+  //           getToken({ oktaToken: `Bearer ${accessToken}` }).then(async res => {
+  //             let userinfo = res.context.customerDetail
+  //             let customerInfoRes = await getCustomerInfo()
+  //             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
+  //             localStorage.localStorage("rc-token", res.context.token);
+  //             localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+  //           })
+  //         }
+  //       });
+  //     });
+  //   }
+  // }, [authState, authService]); // Update if authState changes
 
-  const login = async () => {
-    Store.changeIsLogin(false)
-    authService.login('/');
-  };
   const logout = async () => authService.logout('/');
   const clickLogoff = () => {
     localStorage.removeItem("rc-token");
