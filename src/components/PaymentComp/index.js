@@ -134,8 +134,7 @@ class PaymentComp extends React.Component {
       this.props.getSelectedValue && this.props.getSelectedValue(el);
     } else {
       isCurrentCvvConfirm = false
-      // this.setState({ listErr: 'card_cvv is wrong' })
-      this.showErrorMsg("card_cvv is wrong");
+      this.showErrorMsg(this.props.intl.messages.cvvWarning);
     }
     console.log(isCurrentCvvConfirm)
     this.setState({ isCurrentCvvConfirm: isCurrentCvvConfirm })
