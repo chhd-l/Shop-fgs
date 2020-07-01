@@ -69,7 +69,8 @@ class ImageMagnifier extends Component {
           height: "400px",
           border: "1px solid #ccc",
           overflow: "hidden",
-          zIndex: 98
+          zIndex: 98,
+          background: '#fff'
         },
         // 图片样式
         imgStyle: {
@@ -104,7 +105,7 @@ class ImageMagnifier extends Component {
     this.initParam();
     this.updataImg(this.props);
   }
-  componentDidMount() {
+  componentDidMount () {
     let { currentImg } = this.state
     let { images, sizeList } = this.props
     if (!currentImg && images && images.length > 0) {
@@ -114,7 +115,7 @@ class ImageMagnifier extends Component {
     this.setState({
       currentImg: currentImg
     })
-    
+
     let selectedSizeInfo = sizeList.filter(item => item.selected)
     if (selectedSizeInfo.length) {
       this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false })
@@ -207,7 +208,7 @@ class ImageMagnifier extends Component {
     cssStyle.imgContainer.height = params.height + "px";
     cssStyle.magnifierContainer.width = params.width + "px";
     cssStyle.magnifierContainer.height = params.height + "px";
-    cssStyle.magnifierContainer.left = (parseInt(params.width) + 80) + "px";
+    cssStyle.magnifierContainer.left = (parseInt(params.width) + 120) + "px";
     cssStyle.imgStyle2.width = params.width + "px";
     cssStyle.imgStyle2.height = params.height + "px";
     cssStyle.imgStyle2.transform = "scale(" + params.scale + ")";
@@ -260,9 +261,9 @@ class ImageMagnifier extends Component {
   //   this.setState()
   // }
   render () {
-    const { cssStyle, magnifierOff, minImg, maxImg, imgLoad, currentImg, videoShow, videoModalShow } = this.state;
+    const { cssStyle, magnifierOff, imgLoad, currentImg, videoShow, videoModalShow } = this.state;
     const { images, video } = this.props
-    console.log(images, 'images');
+    // console.log(images, 'images');
     return (
       <div>
         <div style={{ position: 'relative' }}>
@@ -294,11 +295,14 @@ class ImageMagnifier extends Component {
             </div>
           )}
         </div>
-        <div className="justify-content-center">
+        <div className="justify-content-center" style={{ marginTop: '2rem' }}>
           {
-            
             images && images.map((el, i) => (
-              <div key={i} className="rc-img--square rc-img--square-custom" onMouseEnter={(e) => this.imageChange(e, el.artworkUrl || el.goodsInfoImg)} style={{ backgroundImage: 'url(' + (el.artworkUrl || el.goodsInfoImg) + ')' }}></div>
+              <div
+                key={i}
+                className={`rc-img--square rc-img--square-custom ${(el.artworkUrl || el.goodsInfoImg) === currentImg ? 'hover' : ''}`}
+                onMouseEnter={(e) => this.imageChange(e, el.artworkUrl || el.goodsInfoImg)}
+                style={{ backgroundImage: 'url(' + (el.artworkUrl || el.goodsInfoImg) + ')' }}></div>
             ))
           }
           {video && <video className="rc-img--square rc-img--square-custom" onMouseEnter={() => {
