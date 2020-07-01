@@ -344,7 +344,7 @@ class PaymentComp extends React.Component {
 
       let addRes = await addOrUpdatePaymentMethod(params);
 
-      if (this.state.creditCardList.length && window.location.pathname === '/account/paymentMethod') {
+      if (this.state.creditCardList.length ) {
         this.setState({
           loading: false,
           isEdit: false,
