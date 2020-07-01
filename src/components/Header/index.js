@@ -92,8 +92,15 @@ class Header extends React.Component {
         })
       }
     }
-
-    // 登录状态，设置default clinic
+    this.setDefaultClinic()
+  }
+  componentWillUnmount () {
+    window.removeEventListener('click', this.hideMenu)
+  }
+  /**
+   * 登录状态，设置default clinic
+   */
+  setDefaultClinic () {
     if (jugeLoginStatus() && localStorage.getItem('rc-userinfo') && !sessionStorage.getItem('rc-clinics-id-select')) {
       let userInfo = JSON.parse(localStorage.getItem('rc-userinfo'))
       if (userInfo.defaultClinics) {
@@ -101,9 +108,6 @@ class Header extends React.Component {
         sessionStorage.setItem('rc-clinics-name-default', userInfo.defaultClinics.clinicsName)
       }
     }
-  }
-  componentWillUnmount () {
-    window.removeEventListener('click', this.hideMenu)
   }
   updateDefaultClinic () {
     this.setState({
@@ -484,7 +488,10 @@ class Header extends React.Component {
                             <div className="container cart" >
                               <div className="login-style">
                                 <LoginButton
-                                  updateCartCache={() => this.updateCartCache()}
+                                  updateCartCache={() => {
+                                    this.updateCartCache()
+                                    this.setDefaultClinic()
+                                  }}
                                   btnStyle={{ width: "11rem", margin: "2rem 0" }}
                                   history={this.props.history} />
                                 {/* <button onClick={() => {
