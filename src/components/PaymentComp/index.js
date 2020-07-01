@@ -388,14 +388,15 @@ class PaymentComp extends React.Component {
       //     el.selected = true;
       //     this.props.getSelectedValue && this.props.getSelectedValue(el);
       //   }else {
-      //     el.selected = false;
+      //     el.selected = false
       //   }
       // });
-      this.setState({ creditCardList: this.state.creditCardList });
+      this.setState({ creditCardList: this.state.creditCardList, currentCvv: '' });
     } catch (e) {
       let res = e.response;
       this.setState({
         loading: false,
+        currentCvv: ''
       });
       if (res) {
         console.log(
@@ -1170,7 +1171,7 @@ class PaymentComp extends React.Component {
                   }}
                   onClick={() => {
                     this.initCardInfo();
-                    this.setState({ isEdit: false });
+                    this.setState({ isEdit: false, currentCvv: '' });
                     // this.scrollToPaymentComp();
                   }}
                 >
