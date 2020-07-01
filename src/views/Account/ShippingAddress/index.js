@@ -14,13 +14,15 @@ import {
 } from '@/api/address'
 import { Link } from 'react-router-dom';
 import Loading from "@/components/Loading"
+import Skeleton from "react-skeleton-loader";
 import { getDictionary } from '@/utils/utils'
 
 class ShippingAddress extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      loading: true,
+      loading: false,
+      listLoading: true,
       showModal: false,
       isAdd: true,
       addressList: [],
@@ -78,27 +80,30 @@ class ShippingAddress extends React.Component {
       })
   }
   getAddressList = async () => {
-    await getAddressList().then(res => {
-      if (res.code === 'K-000000') {
-        let addressList = res.context
-        let total = addressList.length
-        this.setState({
-          addressList: addressList,
-          total: total,
-          loading: false,
-        })
-        this.switchAddressType(this.state.currentType)
-      } else {
-        this.showErrorMsg(res.message || this.props.intl.messages.queryDataFailed)
-      }
-    }).catch(err => {
-      this.showErrorMsg(this.props.intl.messages.queryDataFailed)
-      this.setState({
-        loading: false
+    this.setState({ listLoading: true })
+    await getAddressList()
+      .then(res => {
+        if (res.code === 'K-000000') {
+          let addressList = res.context
+          let total = addressList.length
+          this.setState({
+            addressList: addressList,
+            total: total,
+            // loading: false,
+          })
+          this.switchAddressType(this.state.currentType)
+        } else {
+          this.showErrorMsg(res.message || this.props.intl.messages.queryDataFailed)
+        }
+        this.setState({ listLoading: false })
       })
-    })
-
-
+      .catch(err => {
+        this.showErrorMsg(this.props.intl.messages.queryDataFailed)
+        this.setState({
+          // loading: false
+          listLoading: false
+        })
+      })
   }
   getAddressById = async (id) => {
     let params = {
@@ -183,22 +188,17 @@ class ShippingAddress extends React.Component {
     })
     await deleteAddress({ id: item.deliveryAddressId })
       .then(res => {
+        this.setState({ loading: false })
         if (res.code === 'K-000000') {
           this.showSuccessMsg(res.message || this.props.intl.messages.deleteAddressSuccess)
           this.getAddressList()
-        }
-        else {
+        } else {
           this.showErrorMsg(res.message || this.props.intl.messages.deleteAddressFailed)
-          this.setState({
-            loading: false
-          })
         }
       })
       .catch(err => {
         this.showErrorMsg(err.toString() || this.props.intl.messages.deleteAddressFailed)
-        this.setState({
-          loading: false
-        })
+        this.setState({ loading: false })
       })
 
   }
@@ -386,70 +386,68 @@ class ShippingAddress extends React.Component {
                     </button> */}
                   </div>
 
+                  {
+                    this.state.listLoading
+                      ? <div className="mt-5">
+                        <Skeleton color="#f5f5f5" width="100%" height="100%" count={4} />
+                      </div>
+                      : <div className="row address-layout">
+                        {
+                          this.state.currentAddressList.map(item => (
+                            <div className="col-lg-6" style={{ padding: "10px 25px" }} key={item.deliveryAddressId}>
+                              {/* <div className="addr-line"></div> */}
+                              <div className={"row card-address " + (item.isDefaltAddress === 1 ? "card-address-default" : "")} >
+                                <div className="col-10 card-phone-title word-break">
+                                  <div className="address-name">
+                                    <span>{item.firstName + ' ' + item.lastName}</span>
+                                    {item.isDefaltAddress === 1
+                                      ? <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
+                                        <FormattedMessage id="default" />
+                                      </span>
+                                      : null
+                                    }
+                                  </div>
+                                </div>
+                                <div className="col-2 address-action card-phone-action">
+                                  <a className="address-click-btn"
+                                    onClick={() => this.openEditPage(item.deliveryAddressId)}>
+                                    <FormattedMessage id="edit" />
+                                  </a>
 
+                                  <span className="dividing-action"></span>
+                                  <a className="address-click-btn"
+                                    onClick={() => this.updateConfirmTooltipVisible(item, true)}>
+                                    <FormattedMessage id="delete" />
+                                  </a>
+                                  <ConfirmTooltip
+                                    containerStyle={{ transform: 'translate(-96%, 105%)' }}
+                                    arrowStyle={{ left: '89%' }}
+                                    display={item.confirmTooltipVisible}
+                                    confirm={e => this.deleteAddress(item)}
+                                    updateChildDisplay={status => this.updateConfirmTooltipVisible(item, status)} />
+                                  {/* <a className="address-click-btn"><FormattedMessage id="delete" /></a> */}
+                                </div>
+                                <div className="col-lg-12" style={{ fontSize: '12px' }}>
+                                  <div>
+                                    <span>{item.consigneeNumber}</span>
+                                  </div>
+                                  <div>
+                                    <span>{this.getDictValue(this.state.countryList, item.countryId)}</span>
+                                  </div>
+                                  <div>
+                                    <span>{this.getDictValue(this.state.cityList, item.cityId)}</span>
+                                  </div>
+                                  <div>
+                                    <span>{item.address1}</span>
+                                  </div>
+                                </div>
 
-
-
-
-                  <div className="row address-layout">
-                    {
-                      this.state.currentAddressList.map(item => (
-                        <div className="col-lg-6" style={{ padding: "10px 25px" }} key={item.deliveryAddressId}>
-                          {/* <div className="addr-line"></div> */}
-                          <div className={"row card-address " + (item.isDefaltAddress === 1 ? "card-address-default" : "")} >
-                            <div className="col-10 card-phone-title word-break">
-                              <div className="address-name">
-                                <span>{item.firstName + ' ' + item.lastName}</span>
-                                {item.isDefaltAddress === 1
-                                  ? <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
-                                    <FormattedMessage id="default" />
-                                  </span>
-                                  : null
-                                }
                               </div>
                             </div>
-                            <div className="col-2 address-action card-phone-action">
-                              <a className="address-click-btn"
-                                onClick={() => this.openEditPage(item.deliveryAddressId)}>
-                                <FormattedMessage id="edit" />
-                              </a>
-
-                              <span className="dividing-action"></span>
-                              <a className="address-click-btn"
-                                onClick={() => this.updateConfirmTooltipVisible(item, true)}>
-                                <FormattedMessage id="delete" />
-                              </a>
-                              <ConfirmTooltip
-                                containerStyle={{ transform: 'translate(-96%, 105%)' }}
-                                arrowStyle={{ left: '89%' }}
-                                display={item.confirmTooltipVisible}
-                                confirm={e => this.deleteAddress(item)}
-                                updateChildDisplay={status => this.updateConfirmTooltipVisible(item, status)} />
-                              {/* <a className="address-click-btn"><FormattedMessage id="delete" /></a> */}
-                            </div>
-                            <div className="col-lg-12" style={{ fontSize: '12px' }}>
-                              <div>
-                                <span>{item.consigneeNumber}</span>
-                              </div>
-                              <div>
-                                <span>{this.getDictValue(this.state.countryList, item.countryId)}</span>
-                              </div>
-                              <div>
-                                <span>{this.getDictValue(this.state.cityList, item.cityId)}</span>
-                              </div>
-                              <div>
-                                <span>{item.address1}</span>
-                              </div>
-                            </div>
-
-                          </div>
-                        </div>
-
-                      ))
-                    }
-                  </div>
-
-
+                          ))
+                        }
+                      </div>
+                  }
                 </div>
 
               </div>

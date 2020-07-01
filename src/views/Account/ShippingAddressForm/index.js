@@ -391,7 +391,7 @@ class ShippingAddressFrom extends React.Component {
                               </FormattedMessage>
                               <FormattedMessage id="billing2">
                                 {txt => (
-                                  <option value="DELIVERY">{txt}</option>
+                                  <option value="BILLING">{txt}</option>
                                 )}
                               </FormattedMessage>
                               {/* {
