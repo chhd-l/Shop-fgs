@@ -65,6 +65,7 @@ const LoginButton = (props, ref) => {
   }, [authState, authService]); // Update if authState changes
 
   const login = async () => {
+    sessionStorage.removeItem('rc-token-lose')
     sessionStorage.setItem('redirectUrl', '/')
     if (props.beforeLoginCallback) {
       let res = await props.beforeLoginCallback()
@@ -80,7 +81,8 @@ const LoginButton = (props, ref) => {
     <button
       className={props.btnClass || "rc-btn rc-btn--one"}
       style={props.btnStyle || {}}
-      onClick={login}>
+      onClick={login}
+      id="J-btn-login">
       {props.children || <FormattedMessage id='login' />}
     </button>
   );
