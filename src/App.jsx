@@ -56,6 +56,7 @@ import AccountShippingAddress from "@/views/Account/ShippingAddress";
 import AccountShippingAddressForm from "@/views/Account/ShippingAddressForm";
 
 import AccountReturnOrder from "@/views/Account/ReturnOrder";
+import TiView from "@/views/TiView";
 
 // const store = {
 //   store: new Store()
@@ -173,6 +174,7 @@ const App = () => (
         <Route exact path="/prescription" component={Prescription} />
         <Route exact path="/help" component={Help} />
         <Route exact path="/FAQ" component={FAQ} />
+        <Route exact path="/TiView" component={TiView} />
         <Route exact path="/termuse" component={TermUse} />
         <Route exact path="/privacypolicy" component={PrivacyPolicy} />
 
