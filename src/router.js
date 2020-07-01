@@ -31,6 +31,8 @@ import AccountShippingAddressForm from "@/views/Account/ShippingAddressForm";
 import AccountRefunds from "@/views/Account/Refunds";
 import AccountReturnOrder from "@/views/Account/ReturnOrder";
 
+
+
 import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 import config from './config';
@@ -105,7 +107,7 @@ const BasicRoute = () => (
         <Route path='/account/orders-aftersale/:orderNumber' exact component={AccountOrdersAfterSale} />
         <Route path='/account/orders-aftersale/success/:returnNumber' component={AccountOrdersAfterSaleSuccess} />
         <Route path='/account/return-order-detail/:returnNumber' component={AccountOrdersAfterSaleDetail} />
-
+        <Route path='/TV' component={Tv} />
         <Route component={Exception} />
       </Switch>
     </ScrollToTop>
