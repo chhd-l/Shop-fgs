@@ -1,6 +1,6 @@
 import React from "react"
 import Skeleton from 'react-skeleton-loader'
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -150,13 +150,13 @@ class OrdersAfterSale extends React.Component {
   handleConfirm () {
     const { form, orderNumber, selectedIdx, details } = this.state
     if (selectedIdx === -1) {
-      this.showTopErrMsg('please select product')
+      this.showTopErrMsg(this.props.intl.messages.selectProduct)
       return
     }
     for (let key in form) {
       const value = form[key]
       if (!value && (key === 'reason' || key === 'method' || key === 'instructions')) {
-        this.setState({ errorMsg: 'Please complete the required items' })
+        this.setState({ errorMsg: this.props.intl.messages.CompleteRequiredItems })
         setTimeout(() => {
           this.setState({
             errorMsg: ''
@@ -205,7 +205,7 @@ class OrdersAfterSale extends React.Component {
         this.setState({
           confirmLoading: false
         })
-        this.showTopErrMsg(err || 'system error')
+        this.showTopErrMsg(err || this.props.intl.messages.systemError)
       })
   }
   render () {
@@ -407,7 +407,6 @@ class OrdersAfterSale extends React.Component {
                                       >
                                         <option>Please select a return method</option>
                                         {this.state.returnWayList.map((item, i) => (
-                                          // todo
                                           // <option key={i}>{item[i.toString()]}</option>
                                           Object.keys(item).map(key => (
                                             <option key={`${i}-${key}`} value={`${i}-${key}`}>{item[key]}</option>
@@ -431,7 +430,7 @@ class OrdersAfterSale extends React.Component {
                                         id="instructions"
                                         value={form.instructions}
                                         onChange={e => this.handleFormChange(e)}
-                                        placeholder="Please fill in the return instructions"
+                                        placeholder={this.props.intl.messages.PleaseFillInstructions}
                                       ></textarea>
                                       <label
                                         className="rc-input__label"
@@ -486,4 +485,4 @@ class OrdersAfterSale extends React.Component {
   }
 }
 
-export default OrdersAfterSale
+export default injectIntl(OrdersAfterSale)

@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BreadCrumbs from "@/components/BreadCrumbs";
@@ -25,7 +25,7 @@ import paypalImg from "@/assets/images/credit-cards/paypal.png";
 import { getPaymentMethod, deleteCard } from "@/api/payment";
 import PaymentComp from "@/components/PaymentComp"
 
-export default class PaymentMethod extends React.Component {
+class PaymentMethod extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,16 +57,20 @@ export default class PaymentMethod extends React.Component {
     };
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
-  async componentDidMount() {
-    // this.getPaymentMethodList()
+  async componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
   }
-  async getPaymentMethodList() {
+  async getPaymentMethodList () {
     try {
       let res = await getPaymentMethod({
-        customerId: JSON.parse(sessionStorage.getItem('rc-userinfo'))['customerId'],
+        customerId: JSON.parse(localStorage.getItem('rc-userinfo'))['customerId'],
       });
       if (res.code === "K-000000") {
         this.setState({
@@ -74,10 +78,10 @@ export default class PaymentMethod extends React.Component {
         });
       }
       this.setState({
-        loading:false
+        loading: false
       })
-    }catch {
-      this.showErrorMsg('get data failed')
+    } catch {
+      this.showErrorMsg(this.props.intl.messages.getDataFailed)
       this.setState({
         loading: false
       })
@@ -139,23 +143,23 @@ export default class PaymentMethod extends React.Component {
     await setDefaltAddress(params)
       .then((res) => {
         if (res.code === "K-000000") {
-          this.showSuccessMsg(res.message || "Set Defalt Address Success");
+          this.showSuccessMsg(res.message || this.props.intl.messages.setDefaltAddressSuccess);
           this.getAddressList();
         } else {
-          this.showErrorMsg(res.message || "Set Defalt Address Failed");
+          this.showErrorMsg(res.message || this.props.intl.messages.setDefaltAddressFailed);
           this.setState({
             loading: false,
           });
         }
       })
       .catch((err) => {
-        this.showErrorMsg("Set Defalt Address Failed");
+        this.showErrorMsg(this.props.intl.messages.setDefaltAddressFailed);
         this.setState({
           loading: false,
         });
       });
   };
-  async deleteCard(id) {
+  async deleteCard (id) {
     this.setState({
       loading: true,
     });
@@ -165,17 +169,17 @@ export default class PaymentMethod extends React.Component {
     await deleteCard(params)
       .then((res) => {
         if (res.code === "K-000000") {
-          this.showSuccessMsg(res.message || "Delete Address Success");
+          this.showSuccessMsg(res.message || this.props.intl.messages.deleteAddressSuccess);
           this.getPaymentMethodList();
         } else {
-          this.showErrorMsg(res.message || "Delete Address Failed");
+          this.showErrorMsg(res.message || this.props.intl.messages.deleteAddressFailed);
           this.setState({
             loading: false,
           });
         }
       })
       .catch((err) => {
-        this.showErrorMsg("Delete Address Failed");
+        this.showErrorMsg(this.props.intl.messages.deleteAddressFailed);
         this.setState({
           loading: false,
         });
@@ -191,17 +195,17 @@ export default class PaymentMethod extends React.Component {
     await deleteAddress(params)
       .then((res) => {
         if (res.code === "K-000000") {
-          this.showSuccessMsg(res.message || "Delete Address Success");
+          this.showSuccessMsg(res.message || this.props.intl.messages.deleteAddressSuccess);
           this.getAddressList();
         } else {
-          this.showErrorMsg(res.message || "Delete Address Failed");
+          this.showErrorMsg(res.message || this.props.intl.messages.deleteAddressFailed);
           this.setState({
             loading: false,
           });
         }
       })
       .catch((err) => {
-        this.showErrorMsg("Delete Address Failed");
+        this.showErrorMsg(this.props.intl.messages.deleteAddressFailed);
         this.setState({
           loading: false,
         });
@@ -232,7 +236,7 @@ export default class PaymentMethod extends React.Component {
   };
 
   //定位
-  scrollToErrorMsg() {
+  scrollToErrorMsg () {
     const widget = document.querySelector(".content-asset");
     // widget && widget.scrollIntoView()
     // console.log(this.getElementToPageTop(widget))
@@ -243,7 +247,7 @@ export default class PaymentMethod extends React.Component {
       })
     }
   }
-  getElementToPageTop(el) {
+  getElementToPageTop (el) {
     if (el.parentElement) {
       return this.getElementToPageTop(el.parentElement) + el.offsetTop;
     }
@@ -251,8 +255,8 @@ export default class PaymentMethod extends React.Component {
   }
   openCreatePage = () => {
     const { history } = this.props;
-    if(this.state.creditCardList.length >= 10) {
-      this.showErrorMsg('Quantity cannot exceed 10')
+    if (this.state.creditCardList.length >= 10) {
+      this.showErrorMsg(this.props.intl.messages.quantityCannotExceed10)
       return false
     }
     history.push("/account/paymentMethod/create");
@@ -276,7 +280,7 @@ export default class PaymentMethod extends React.Component {
       return id;
     }
   };
-  render() {
+  render () {
     const event = {
       page: {
         type: "Account",
@@ -300,13 +304,13 @@ export default class PaymentMethod extends React.Component {
                 {this.state.loading ? <Loading positionFixed="true" /> : null}
                 <SideMenu type="PaymentMethod" />
                 <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                  <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
+                  <div className="rc-border-bottom rc-border-colour--interface mb-3">
                     <h4 className="rc-delta rc-margin--none">
                       <FormattedMessage id="paymentMethod"></FormattedMessage>
                     </h4>
                   </div>
                   <div className="content-asset">
-                    <PaymentComp/>
+                    <PaymentComp />
                     {/* <div className="table-toolbar">
                       <span className="t-gray">
                         <FormattedMessage
@@ -403,3 +407,4 @@ export default class PaymentMethod extends React.Component {
     );
   }
 }
+export default injectIntl(PaymentMethod)

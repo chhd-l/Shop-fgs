@@ -1,6 +1,6 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
-import { FormattedMessage } from "react-intl"
+import { injectIntl, FormattedMessage } from "react-intl"
 import { find, findIndex } from "lodash"
 import {
   getAddressList,
@@ -12,7 +12,8 @@ import AddressForm from './AddressForm'
 import Loading from "@/components/Loading"
 import './loginDeliveryAddress.css'
 
-export default class LoginDeliveryAddress extends React.Component {
+
+class LoginDeliveryAddress extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery'
@@ -46,27 +47,33 @@ export default class LoginDeliveryAddress extends React.Component {
     }
     this.timer = null
   }
-  componentDidMount () {
-    this.queryAddressList()
+  async componentDidMount () {
     getDictionary({ type: 'city' })
       .then(res => {
         this.setState({
           cityList: res
         })
       })
-    getDictionary({ type: 'country' })
+
+    await getDictionary({ type: 'country' })
       .then(res => {
+        const { deliveryAddress } = this.state
+        deliveryAddress.country = find(res, ele => ele.name.toLowerCase() == 'mexico')
+          ? find(res, ele => ele.name.toLowerCase() == 'mexico').id
+          : ''
         this.setState({
-          countryList: res
+          countryList: res,
+          deliveryAddress: deliveryAddress
         })
       })
+    this.queryAddressList()
   }
   async queryAddressList () {
     const { selectedId } = this.state
     this.setState({ loading: true })
     try {
       let res = await getAddressList()
-      let addressList = res.context.filter(ele => ele.type === this.props.type)
+      let addressList = res.context.filter(ele => ele.type === this.props.type.toUpperCase())
       let tmpId
       const defaultAddressItem = find(addressList, ele => ele.isDefaltAddress === 1)
       if (selectedId && find(addressList, ele => ele.deliveryAddressId === selectedId)) {
@@ -123,7 +130,9 @@ export default class LoginDeliveryAddress extends React.Component {
       address1: '',
       address2: '',
       rfc: '',
-      country: '',
+      country: find(this.state.countryList, ele => ele.name.toLowerCase() === 'mexico')
+        ? find(this.state.countryList, ele => ele.name.toLowerCase() === 'mexico').id
+        : '',
       city: '',
       postCode: '',
       phoneNumber: '',
@@ -190,7 +199,7 @@ export default class LoginDeliveryAddress extends React.Component {
     const originData = addressList[this.currentOperateIdx]
     if (!deliveryAddress.firstName || !deliveryAddress.lastName || !deliveryAddress.address1 || !deliveryAddress.country || !deliveryAddress.city || !deliveryAddress.postCode || !deliveryAddress.phoneNumber) {
       this.setState({
-        saveErrorMsg: 'Please complete the required items'
+        saveErrorMsg: this.props.intl.messages.CompleteRequiredItems
       })
       console.log(deliveryAddress)
       this.scrollToTitle()
@@ -212,19 +221,24 @@ export default class LoginDeliveryAddress extends React.Component {
       postCode: deliveryAddress.postCode,
       provinceId: 0,
       rfc: deliveryAddress.rfc,
-      type: this.props.type
+      type: this.props.type.toUpperCase()
     }
     try {
       this.setState({ saveLoading: true })
       const tmpPromise = this.currentOperateIdx > -1 ? editAddress : saveAddress
       let res = await tmpPromise(params)
+      this.scrollToTitle()
+      if (res.context.deliveryAddressId) {
+        this.setState({
+          selectedId: res.context.deliveryAddressId
+        })
+      }
+
       await this.queryAddressList()
       this.setState({
         addOrEdit: false,
         successTipVisible: true,
         selectedId: res.context.deliveryAddressId
-      }, () => {
-        this.scrollToTitle()
       })
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
@@ -257,9 +271,10 @@ export default class LoginDeliveryAddress extends React.Component {
             <FormattedMessage id="payment.deliveryTitle" />
           </h5>
           <p
-            className={`rc-styled-link rc-margin-top--xs pull-right inlineblock m-0 ${addOrEdit ? 'hidden' : ''}`}
+            className={`red rc-margin-top--xs ui-cursor-pointer pull-right inlineblock m-0 d-flex align-items-center ${addOrEdit ? 'hidden' : ''}`}
             onClick={() => this.addOrEditAddress()}>
-            <FormattedMessage id="newAddress" />
+            <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
+            <span><FormattedMessage id="newAddress" /></span>
           </p>
         </div>
         <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.saveErrorMsg ? '' : 'hidden'}`}>
@@ -282,71 +297,81 @@ export default class LoginDeliveryAddress extends React.Component {
             <FormattedMessage id="saveSuccessfullly" />
           </p>
         </aside>
-        <div className={`rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm ${!addOrEdit ? 'addr-container' : ''}`}>
+        <div className={`rc-border-all rc-border-colour--interface rc-margin-bottom--sm ${!addOrEdit ? 'addr-container' : 'checkout--padding'} ${loading ? 'pt-3 pb-3' : ''}`}>
           {
             loading
               ? <Skeleton color="#f5f5f5" count={2} width="100%" />
               : this.state.errMsg
-                ? this.state.errMsg
-                : <React.Fragment>
+                ? <span className="pt-2 pb-2">{this.state.errMsg}</span>
+                : <>
                   {
                     !addOrEdit
                       ? addressList.length
-                        ? <React.Fragment>
+                        ? <>
                           {
                             addressList.map((item, i) => (
-                              <div className={`row align-items-center address-item mb-2 ${item.selected ? 'selected' : ''} ${foledMore && !item.selected ? 'hidden' : ''}`} key={item.deliveryAddressId}>
-                                <div
-                                  className="ui-cursor-pointer text-center border col-3 col-md-3 address-name"
-                                  onClick={() => this.selectAddress(i)}>
-                                  {item.consigneeName}
-                                  <b></b>
-                                </div>
-                                <div className="col-8 col-md-8">
-                                  {[item.consigneeName, item.consigneeNumber].join(', ')}
-                                  <br />
-                                  {[
-                                    this.getDictValue(this.state.countryList, item.countryId),
-                                    this.getDictValue(this.state.cityList, item.cityId),
-                                    item.address1
-                                  ].join(', ')}
-                                  {
-                                    item.isDefaltAddress === 1
-                                      ? <span className="icon-default">
-                                        <FormattedMessage id="default" />
-                                      </span>
-                                      : null
-                                  }
-                                </div>
-                                <div className="col-1 col-md-1 rc-md-up">
-                                  <a className="addr-btn-edit rc-styled-link" onClick={() => this.addOrEditAddress(i)}>
-                                    <FormattedMessage id="edit" />
-                                  </a>
-                                </div>
-                                <div className="col-1 col-md-1 rc-md-down">
-                                  <a className="rc-styled-link" onClick={() => this.addOrEditAddress(i)}>
-                                    <FormattedMessage id="edit" />
-                                  </a>
+                              <div
+                                className={`address-item ${item.selected ? 'selected' : ''} ${foledMore && !item.selected ? 'hidden' : ''}`} key={item.deliveryAddressId}
+                                onClick={() => this.selectAddress(i)}>
+                                <div className="row align-items-center pt-3 pb-3 ml-2 mr-2 border-bottom">
+                                  <div className="d-flex align-items-center justify-content-between col-2 col-md-1 address-name">
+                                    {
+                                      item.selected
+                                        ? <svg width="24" height="32">
+                                          <path d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0" fill="#E2001A" fillRule="evenodd"></path>
+                                        </svg>
+                                        : <svg width="24" height="32">
+                                          <path d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0" fill="#c4c4c4" fillRule="evenodd"></path>
+                                        </svg>
+                                    }
+                                    {/* <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span> */}
+                                  </div>
+                                  <div className="col-10 col-md-9">
+                                    {[item.consigneeName, item.consigneeNumber].join(', ')}
+                                    {
+                                      item.isDefaltAddress === 1
+                                        ? <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
+                                          <FormattedMessage id="default" />
+                                        </span>
+                                        : null
+                                    }
+                                    <br />
+                                    {[
+                                      this.getDictValue(this.state.countryList, item.countryId),
+                                      this.getDictValue(this.state.cityList, item.cityId),
+                                      item.address1
+                                    ].join(', ')}
+                                  </div>
+                                  <div className="col-12 col-md-2 mt-md-0 mt-1 text-right">
+                                    <a className="addr-btn-edit border-left pl-2" onClick={() => this.addOrEditAddress(i)}>
+                                      {/* <span className="rc-icon rc-edit--xs rc-iconography"></span> */}
+                                      <FormattedMessage id="edit" />
+                                    </a>
+                                  </div>
                                 </div>
                               </div>
                             ))
                           }
                           {
-                            addressList.length > 1 && <span className="ui-cursor-pointer" onClick={() => { this.setState({ foledMore: !foledMore }) }}>
-                              {
-                                foledMore
-                                  ? <React.Fragment>
-                                    <FormattedMessage id="moreAddress" />&nbsp;
-                                    <b className="addr-switch switch-on"></b>
-                                  </React.Fragment>
-                                  : <React.Fragment>
-                                    <FormattedMessage id="unfoldAddress" />
-                                    <b className="addr-switch switch-off"></b>
-                                  </React.Fragment>
-                              }
-                            </span>
+                            addressList.length > 1 && <div
+                              className="text-center pt-2 pb-2 ui-cursor-pointer"
+                              onClick={() => { this.setState({ foledMore: !foledMore }) }}>
+                              <span>
+                                {
+                                  foledMore
+                                    ? <>
+                                      <FormattedMessage id="moreAddress" />&nbsp;
+                                      <b className="addr-switch switch-on"></b>
+                                    </>
+                                    : <>
+                                      <FormattedMessage id="unfoldAddress" />
+                                      <b className="addr-switch switch-off"></b>
+                                    </>
+                                }
+                              </span>
+                            </div>
                           }
-                        </React.Fragment>
+                        </>
                         : <FormattedMessage id="order.noDataTip" />
                       : null
                   }
@@ -362,14 +387,23 @@ export default class LoginDeliveryAddress extends React.Component {
                         <div>
                           {
                             this.props.type === 'delivery'
-                              ? <div className="rc-input rc-input--inline" onClick={() => this.isDefalt()}>
-                                <input
-                                  type="checkbox"
-                                  id="defaultAddress"
-                                  className="rc-input__checkbox"
-                                  value={deliveryAddress.isDefalt} />
-                                <label className={`rc-input__label--inline ${deliveryAddress.isDefalt ? 'defaultAddressChecked' : ''}`}>
-                                  <FormattedMessage id="setDefaultAddress"></FormattedMessage>
+                              ? <div className="rc-input rc-input--inline w-100 mw-100" onClick={() => this.isDefalt()}>
+                                {
+                                  deliveryAddress.isDefalt
+                                    ? <input
+                                      type="checkbox"
+                                      className="rc-input__checkbox"
+                                      value={deliveryAddress.isDefalt}
+                                      key={1}
+                                      checked />
+                                    : <input
+                                      type="checkbox"
+                                      className="rc-input__checkbox"
+                                      key={2}
+                                      value={deliveryAddress.isDefalt} />
+                                }
+                                <label className={`rc-input__label--inline text-break`}>
+                                  <FormattedMessage id="setDefaultAddress" />
                                 </label>
                               </div>
                               : null
@@ -410,10 +444,12 @@ export default class LoginDeliveryAddress extends React.Component {
                       </div>
                     </div>
                   </fieldset>
-                </React.Fragment>
+                </>
           }
         </div>
       </div>
     )
   }
 }
+
+export default injectIntl(LoginDeliveryAddress, { forwardRef: true })

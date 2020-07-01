@@ -1,12 +1,10 @@
 const breadcrumbNameMap = {
-  '/list/dogs': [{ name: 'home.catogery3' }],
-  '/list/cats': [{ name: 'home.catogery4' }],
-  '/list/vcn': [
-    { name: 'home.catogery1' }
-  ],
-  '/list/vd': [
-    { name: 'home.catogery2' }
-  ],
+  '/list/dogs': [{ name: 'home.catogery6' }],
+  '/list/cats': [{ name: 'home.catogery5' }],
+  '/list/vcn': [{ name: 'home.catogery1' }],
+  '/list/vd': [{ name: 'home.catogery2' }],
+  '/list/prescription-dogs': [{ name: 'home.catogery3' }],
+  '/list/prescription-cats': [{ name: 'home.catogery4' }],
   '/list/keywords': [{ name: 'viewResults' }],
   '/account': [
     { name: 'account.personalArea' }
@@ -17,11 +15,11 @@ const breadcrumbNameMap = {
   ],
   '/account/pets': [
     { name: 'account.personalArea', href: '/account' },
-    { name: 'Pets' }
+    { name: 'pets' }
   ],
   '/account/pets/petForm': [
     { name: 'account.personalArea', href: '/account' },
-    { name: 'Pets' }
+    { name: 'pets' }
   ],
   '/account/orders': [
     { name: 'account.personalArea', href: '/account' },
@@ -54,6 +52,10 @@ const breadcrumbNameMap = {
     { name: 'account.personalArea', href: '/account' },
     { name: 'order.returnOrder', href: '/account/return-order' },
     { name: 'order.returnOrderDetails' }
+  ],
+  '/account/paymentMethod': [
+    { name: 'account.personalArea', href: '/account' },
+    { name: 'paymentMethod' }
   ]
 };
 

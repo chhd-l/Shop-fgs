@@ -5,6 +5,7 @@ import Footer from '@/components/Footer'
 import dataFAQ from './FAQ.json'
 import { Link } from "react-router-dom"
 import FAQ1 from "@/assets/images/FAQ1.jpg"
+import './index.less'
 
 class FAQ extends React.Component {
   componentWillUnmount () {
@@ -90,7 +91,7 @@ class FAQ extends React.Component {
             <dl data-toggle-group="" data-toggle-effect="rc-expand--vertical" className="">
               {
                 dataFAQ.map((item, index) => (
-                  <div className="rc-list__accordion-item" key={index}>
+                  <div className="rc-list__accordion-item test-color" key={index}>
                     <dt>
                       <button className="rc-list__header" id={"heading-" + index} data-toggle={"content-" + index}>{item.frequently}</button>
                     </dt>

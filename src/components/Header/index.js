@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import { find } from 'lodash'
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading'
@@ -8,7 +8,7 @@ import { getParaByName, jugeLoginStatus } from '@/utils/utils';
 import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import { getList } from '@/api/list'
-import { CATEID } from '@/utils/constant'
+import { CATEID, IMG_DEFAULT } from '@/utils/constant'
 import { getPrescriptionById } from '@/api/clinic'
 import LoginButton from '@/components/LoginButton'
 import UnloginCart from './modules/unLoginCart'
@@ -35,19 +35,17 @@ class Header extends React.Component {
       result: null,
       showMegaMenu: false,
       tradePrice: '',
-      prescriberId: sessionStorage.getItem('rc-clinics-id'),
-      prescriberName: sessionStorage.getItem('rc-clinics-name'),
-      isLogin: sessionStorage.getItem("rc-token") ? true : false
+      prescriberId: sessionStorage.getItem('rc-clinics-id-link'),
+      prescriberName: sessionStorage.getItem('rc-clinics-name-link')
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
     this.hanldeSearchClick = this.hanldeSearchClick.bind(this)
     this.hanldeSearchCloseClick = this.hanldeSearchCloseClick.bind(this)
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this)
-    this.handleItemClick = this.handleItemClick.bind(this)
     this.toggleMenu = this.toggleMenu.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
-    this.clickLogin = this.clickLogin.bind(this)
+    // this.clickLogin = this.clickLogin.bind(this)
     this.clickLogoff = this.clickLogoff.bind(this)
 
     this.inputRef = React.createRef();
@@ -60,37 +58,61 @@ class Header extends React.Component {
     this.handleCenterMouseOut = this.handleCenterMouseOut.bind(this)
   }
   async componentDidMount () {
+    if (sessionStorage.getItem('rc-token-lose')) {
+      document.querySelector('#J-btn-logoff') && document.querySelector('#J-btn-logoff').click()
+      document.querySelector('#J-btn-login') && document.querySelector('#J-btn-login').click()
+    }
+
     window.addEventListener('click', (e) => this.hideMenu(e))
     const { location } = this.props
-    if (location && (location.pathname === '/' || location.pathname.includes('/list') || location.pathname.includes('/details')) && !this.state.prescriberId) {
-      let prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
-      sessionStorage.setItem('rc-clinics-id', prescriberId)
-      this.setState({
-        prescriberId: prescriberId
-      })
-      let tmpName = ''
+    let prescriberId
+    let tmpName = ''
+
+    // 指定clinic链接进入，设置default clinic
+    if (location
+      && (location.pathname === '/'
+        || location.pathname.includes('/list')
+        || location.pathname.includes('/details'))
+      && !this.state.prescriberId) {
+      prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
       if (prescriberId && !this.state.prescriberName) {
         try {
           let res = await getPrescriptionById({ prescriberId })
-          if (res.context) {
+          if (res.context && res.context.enabled) {
             tmpName = res.context.prescriberName
           }
         } catch (e) { }
       }
-      sessionStorage.setItem('rc-clinics-name', tmpName)
-      this.setState({
-        prescriberName: tmpName
-      })
+      if (prescriberId && tmpName) {
+        sessionStorage.setItem('rc-clinics-id-link', prescriberId)
+        sessionStorage.setItem('rc-clinics-name-link', tmpName)
+        this.setState({
+          prescriberName: tmpName,
+          prescriberId: prescriberId
+        })
+      }
     }
-
+    this.setDefaultClinic()
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
   }
+  /**
+   * 登录状态，设置default clinic
+   */
+  setDefaultClinic () {
+    if (jugeLoginStatus() && localStorage.getItem('rc-userinfo') && !sessionStorage.getItem('rc-clinics-id-select')) {
+      let userInfo = JSON.parse(localStorage.getItem('rc-userinfo'))
+      if (userInfo.defaultClinics) {
+        sessionStorage.setItem('rc-clinics-id-default', userInfo.defaultClinics.clinicsId)
+        sessionStorage.setItem('rc-clinics-name-default', userInfo.defaultClinics.clinicsName)
+      }
+    }
+  }
   updateDefaultClinic () {
     this.setState({
-      prescriberId: sessionStorage.getItem('rc-clinics-id'),
-      prescriberName: sessionStorage.getItem('rc-clinics-name')
+      prescriberId: sessionStorage.getItem('rc-clinics-id-link'),
+      prescriberName: sessionStorage.getItem('rc-clinics-name-link')
     })
   }
   updateCartCache () {
@@ -169,16 +191,20 @@ class Header extends React.Component {
     })
   }
   signUp () {
-    let prefix = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri='
-    let callbackUrl = 'http://localhost:3000?origin=register'
-    let registredUrl = ''
-    if (process.env.NODE_ENV === 'development') {
-      registredUrl = prefix + encodeURIComponent(callbackUrl)
-    } else if (process.env.NODE_ENV === 'production') {
-      callbackUrl = process.env.REACT_APP_RegisterCallback
-      registredUrl = process.env.REACT_APP_RegisterPrefix + encodeURIComponent(callbackUrl)
-    }
-    window.location.href = registredUrl
+    // let prefix = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri='
+    // let callbackUrl = 'http://localhost:3000?origin=register'
+    // let registredUrl = ''
+    // if (process.env.NODE_ENV === 'development') {
+    //   registredUrl = prefix + encodeURIComponent(callbackUrl)
+    // } else if (process.env.NODE_ENV === 'production') {
+    //   callbackUrl = process.env.REACT_APP_RegisterCallback
+    //   registredUrl = process.env.REACT_APP_RegisterPrefix + encodeURIComponent(callbackUrl)
+    // }
+    // window.location.href = registredUrl
+    const { history } = this.props
+    history.push("/login");
+    localStorage.setItem('loginType', 'register')
+
   }
   async getSearchData () {
     const { keywords } = this.state
@@ -227,9 +253,6 @@ class Header extends React.Component {
       })
     }
   }
-  handleItemClick () {
-    this.props.history.push('/list/keywords/' + this.state.keywords)
-  }
   gotoDetails (item) {
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
     sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
@@ -251,14 +274,20 @@ class Header extends React.Component {
   clickLogin () {
     const { history } = this.props
     history.push('/login')
+    localStorage.setItem('loginType', 'login')
   }
   clickLogoff () {
-    sessionStorage.setItem("is-login", false);
-    sessionStorage.removeItem("rc-token");
+    localStorage.removeItem("rc-token");
+    sessionStorage.removeItem('rc-clinics-name-default')
+    sessionStorage.removeItem('rc-clinics-id-default')
+    localStorage.removeItem('rc-userinfo')
+    localStorage.removeItem('rc-cart-data-login')
     // this.setState({
     //   isLogin: false
     // })
     Store.changeIsLogin(false)
+    const { history } = this.props
+    history.push('/')
   }
   renderResultJsx () {
     return this.state.result ?
@@ -281,13 +310,13 @@ class Header extends React.Component {
                                 className="swatch__img"
                                 alt={item.lowGoodsName}
                                 title={item.lowGoodsName}
-                                src={item.goodsInfos[0].goodsInfoImg} />
+                                src={item.goodsInfos[0].goodsInfoImg || IMG_DEFAULT} />
                             </a>
                           </div>
-                          <div className="col-8 col-md-9 col-lg-10 rc-padding-top--xs">
+                          <div className="col-8 col-md-9 col-lg-10">
                             <a
                               onClick={() => this.gotoDetails(item)}
-                              className="productName ui-cursor-pointer"
+                              className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
                               alt={item.lowGoodsName}
                               title={item.lowGoodsName}
                             >
@@ -298,7 +327,7 @@ class Header extends React.Component {
                         </div>
                       </div>
                     )) :
-                    <p className="d-flex" style={{ margin: '0 2%' }}>
+                    <p className="d-flex ml-2 mr-2">
                       <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
                       <FormattedMessage id="list.errMsg2" />
                     </p>
@@ -307,9 +336,11 @@ class Header extends React.Component {
               {
                 this.state.result.totalElements ?
                   <div className="rc-margin-top--xs">
-                    <a className="productName rc-large-body ui-cursor-pointer" onClick={this.handleItemClick}>
+                    <Link
+                      className="productName rc-large-body ui-cursor-pointer"
+                      to={`/list/keywords/${this.state.keywords}`}>
                       <b><FormattedMessage id="viewAllResults" /> ({this.state.result.totalElements})</b>
-                    </a>
+                    </Link>
                   </div> :
                   null
               }
@@ -324,9 +355,8 @@ class Header extends React.Component {
       : null
   }
   render () {
-    console.log(Store.isLogin, 'Store')
     return (
-      <React.Fragment>
+      <>
         <div id="page-top" name="page-top"></div>
         {Store.loginModal ? <Loading /> : null}
         <header className="rc-header" data-js-header-scroll>
@@ -342,8 +372,10 @@ class Header extends React.Component {
                     onClick={this.toggleMenu}>
                     <FormattedMessage id="menu" />
                   </button>
-                  <button className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-menu--xs', 'rc-iconography', 'rc-md-down', this.state.showMegaMenu ? 'btn-close' : ''].join(' ')}
-                    aria-label="Menu" onClick={this.toggleMenu}>
+                  <button
+                    className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-menu--xs', 'rc-iconography', 'rc-md-down', this.state.showMegaMenu ? 'btn-close' : ''].join(' ')}
+                    aria-label="Menu"
+                    onClick={this.toggleMenu}>
                     <span className="rc-screen-reader-text">
                       <FormattedMessage id="menu" />
                     </span>
@@ -408,8 +440,8 @@ class Header extends React.Component {
                         </div>
                       </div>
                       {
-                        jugeLoginStatus()
-                          ? <LoginCart ref={this.loginCartRef} history={this.props.history} />
+                        Store.isLogin
+                          ? <LoginCart ref={this.loginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
                           : <UnloginCart ref={this.unloginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
                       }
                     </>
@@ -421,24 +453,62 @@ class Header extends React.Component {
                       className="minicart inlineblock"
                       style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }}
                       onMouseOver={this.handleCenterMouseOver} onMouseOut={this.handleCenterMouseOut}>
-                      <Link to="/account" className="minicart-link" data-loc="miniCartOrderBtn" title="Presonal">
-                        <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
-                      </Link>
+                      {
+                        Store.isLogin ? (
+                          <FormattedMessage id="personal">
+                            {txt => (
+                              <Link
+                                to="/account"
+                                className="minicart-link"
+                                data-loc="miniCartOrderBtn"
+                                title={txt}>
+                                <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
+                              </Link>
+                            )}
+                          </FormattedMessage>
+                        ) : (
+                            <FormattedMessage id="personal">
+                              {txt => (
+                                <div
+                                  className="minicart-link"
+                                  data-loc="miniCartOrderBtn"
+                                  title={txt}>
+                                  <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
+                                </div>
+                              )}
+                            </FormattedMessage>
+                          )
+                      }
+
+
                       {
                         !Store.isLogin
                           ?
                           <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{ minWidth: "13rem" }}>
                             <div className="container cart" >
                               <div className="login-style">
-                                <LoginButton />
+                                <LoginButton
+                                  updateCartCache={() => {
+                                    this.updateCartCache()
+                                    this.setDefaultClinic()
+                                  }}
+                                  btnStyle={{ width: "11rem", margin: "2rem 0" }}
+                                  history={this.props.history} />
                                 {/* <button onClick={() => {
                                   // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
                                   window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
                                 }}>registred</button> */}
                                 {/* <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
-                                  onClick={this.clickLogin}>To come in</button> */}
+                                  onClick={() => this.clickLogin()}> <FormattedMessage id='login'/></button> */}
                                 <div><FormattedMessage id="account.notRegistred" /></div>
-                                <a className="rc-styled-link" onClick={() => { this.signUp() }}><FormattedMessage id="signUp" /></a>
+                                <a className="rc-styled-link" onClick={() => {
+                                  // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
+                                  window.location.href = process.env.REACT_APP_RegisterPrefix + window.encodeURIComponent(process.env.REACT_APP_RegisterCallback)
+                                  // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
+                                  // this.signUp()
+                                }}>
+                                  <FormattedMessage id="signUp" />
+                                </a>
                               </div>
 
                               {/* <div className="link-group">
@@ -509,7 +579,7 @@ class Header extends React.Component {
                               </div>
                               <LogoutButton />
                               {/* <div className="logoff-style">
-                                <a className="rc-styled-link--external" onClick={()=>this.clickLogoff()}>
+                                <a className="rc-styled-link--external" onClick={() => this.clickLogoff()}>
                                   <FormattedMessage id="logOff" />
                                 </a>
                               </div> */}
@@ -608,9 +678,9 @@ class Header extends React.Component {
             </div>
             : null
         }
-      </React.Fragment>
+      </>
     )
   }
 }
 
-export default Header
+export default injectIntl(Header, { forwardRef: true })

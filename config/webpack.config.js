@@ -1,4 +1,4 @@
-'use strict';
+
 
 const fs = require('fs');
 const path = require('path');
@@ -24,6 +24,7 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -40,6 +41,9 @@ const isExtendingEslintConfig = process.env.EXTEND_ESLINT === 'true';
 const imageInlineSizeLimit = parseInt(
   process.env.IMAGE_INLINE_SIZE_LIMIT || '10000'
 );
+
+const lessRegex = /\.(less)$/;
+const lessModuleRegex = /\.module\.(less)$/;
 
 // Check if TypeScript is setup
 const useTypeScript = fs.existsSync(paths.appTsConfig);
@@ -261,7 +265,7 @@ module.exports = function(webpackEnv) {
       // https://twitter.com/wSokra/status/969633336732905474
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
       splitChunks: {
-        // chunks: 'all',
+        chunks: 'all',
         // name: false,
         cacheGroups: {
           vendor: {
@@ -276,6 +280,14 @@ module.exports = function(webpackEnv) {
             name: 'common',
             reuseExistingChunk: true,
             enforce: true, // 我们的公用代码小于 30kb，这里强制分离
+          },
+          reactBase: {
+            test: (module) => {
+              return /react|redux|prop-types/.test(module.context);
+            }, // 直接使用 test 来做路径匹配，抽离react相关代码
+            chunks: "initial",
+            name: "reactBase",
+            priority: 10,
           }
         },
       },
@@ -436,6 +448,31 @@ module.exports = function(webpackEnv) {
                 inputSourceMap: shouldUseSourceMap,
               },
             },
+
+            //加入less
+            {
+              test: lessRegex,
+              exclude: lessModuleRegex,
+              use: getStyleLoaders({ importLoaders: 3 }, 'less-loader'),          
+            },
+            {
+              test: lessModuleRegex,
+              use: getStyleLoaders(
+                 {
+                    importLoaders: 3,
+                    modules: true,
+                    getLocalIdent: getCSSModuleLocalIdent,
+                    modifyVars:{
+                      'primary-color': '#1DA57A',
+                      'link-color': '#1DA57A',  
+                      'border-radius-base': '2px',
+                    },
+                    javascriptEnabled: true,
+                },
+                   'less-loader'
+             ),
+            },
+
             // "postcss" loader applies autoprefixer to our CSS.
             // "css" loader resolves paths in CSS and adds assets as dependencies.
             // "style" loader turns CSS into JS modules that inject <style> tags.
@@ -525,6 +562,7 @@ module.exports = function(webpackEnv) {
       ],
     },
     plugins: [
+      // new BundleAnalyzerPlugin(),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(

@@ -1,12 +1,12 @@
 import React from "react"
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import { findIndex } from "lodash"
 import Loading from "@/components/Loading"
 import { updateCustomerBaseInfo } from "@/api/user"
 import { getDictionary } from '@/utils/utils'
 import Selection from '@/components/Selection'
 
-export default class AddressBookEditForm extends React.Component {
+class AddressBookEditForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -84,7 +84,12 @@ export default class AddressBookEditForm extends React.Component {
   handleInputChange (e) {
     const target = e.target
     const { form } = this.state
-    form[target.name] = target.value
+    const name = target.name
+    let value = target.value
+    if (name === 'postCode') {
+      value = value.replace(/\s+/g, "")
+    }
+    form[name] = value
     this.setState({ form: form })
     this.inputBlur(e);
   }
@@ -127,11 +132,11 @@ export default class AddressBookEditForm extends React.Component {
     for (let key in form) {
       const value = form[key]
       if (!value && (key === 'address1' || key === 'address2' || key === 'country' || key === 'city' || key === 'postCode' || key === 'phoneNumber')) {
-        this.showErrMsg('Please complete the required items')
+        this.showErrMsg(this.props.intl.messages.CompleteRequiredItems)
         return
       }
       if (key === 'postCode' && value && !(/\d{5}/.test(value))) {
-        this.showErrMsg('Please enter the correct post code')
+        this.showErrMsg(this.props.intl.messages.EnterCorrectPostCode)
         return
       }
     }
@@ -205,7 +210,7 @@ export default class AddressBookEditForm extends React.Component {
             <FormattedMessage id="edit">
               {txt => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link ${editFormVisible ? 'hidden' : ''}`}
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 ${editFormVisible ? 'hidden' : ''}`}
                   name="contactInformation"
                   id="contactInfoEditBtn"
                   title={txt}
@@ -233,7 +238,7 @@ export default class AddressBookEditForm extends React.Component {
           <aside
             className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
             role="alert">
-            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Save successfullly</p>
+            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none"><FormattedMessage id="saveSuccessfullly" /></p>
           </aside>
           <div className={`row userContactInfo text-break ${editFormVisible ? 'hidden' : ''}`}>
             <div className="col-lg-6">
@@ -409,8 +414,8 @@ export default class AddressBookEditForm extends React.Component {
                     value={form.postCode}
                     onChange={e => this.handleInputChange(e)}
                     onBlur={e => this.inputBlur(e)}
-                    maxLength="5"
-                    minLength="5"
+                    // maxLength="5"
+                    // minLength="5"
                     data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                     autoComplete="postal-code" />
                   <label className="rc-input__label" htmlFor="zipCode"></label>
@@ -507,3 +512,5 @@ export default class AddressBookEditForm extends React.Component {
     )
   }
 }
+
+export default injectIntl(AddressBookEditForm)

@@ -8,7 +8,7 @@ import SideMenu from '@/components/SideMenu'
 import TimeCount from '@/components/TimeCount'
 import Selection from '@/components/Selection'
 import Pagination from '@/components/Pagination'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
 import { getOrderList, getOrderDetails } from "@/api/order"
@@ -20,7 +20,8 @@ import {
 } from '@/utils/constant'
 import './index.css'
 
-export default class AccountOrders extends React.Component {
+@injectIntl
+class AccountOrders extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -69,7 +70,10 @@ export default class AccountOrders extends React.Component {
     const target = e.target
     const { form } = this.state
     form[target.name] = target.value
-    this.setState({ form: form })
+    this.setState({
+      form: form,
+      currentPage: 1
+    })
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.queryOrderList()
@@ -165,7 +169,6 @@ export default class AccountOrders extends React.Component {
     })
     try {
       const detailRes = await getOrderDetails(order.id)
-      debugger
       const detailResCt = detailRes.context
       const tmpDeliveryAddress = {
         firstName: detailResCt.consignee.firstName,
@@ -212,6 +215,7 @@ export default class AccountOrders extends React.Component {
     }
   }
   render () {
+    const lang = this.props.intl.locale || 'en'
     const event = {
       page: {
         type: 'Account',
@@ -234,7 +238,7 @@ export default class AccountOrders extends React.Component {
                   </h4>
                 </div>
                 <div className="row justify-content-around">
-                  <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
+                  <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
                       <FormattedMessage id="order.orderNumber" />
                     </div>
@@ -246,17 +250,23 @@ export default class AccountOrders extends React.Component {
                           type="text"
                           name="orderNumber"
                           maxLength="20"
+                          // placeholder={this.props.intl.message.order.inputOrderNumberTip}
                           value={this.state.form.orderNumber}
                           onChange={e => this.handleInputChange(e)} />
-                        <label className="rc-input__label" htmlFor="id-text8">
-                          <span className="rc-input__label-text">
-                            <FormattedMessage id="order.inputOrderNumberTip" />
-                          </span>
-                        </label>
+                        {
+                          this.state.form.orderNumber ? null :
+                            (
+                              <label className="rc-input__label" htmlFor="id-text8">
+                                <span className="rc-input__label-text">
+                                  <FormattedMessage id="order.inputOrderNumberTip" />
+                                </span>
+                              </label>)
+                        }
+
                       </span>
                     </div>
                   </div>
-                  <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
+                  <div className="col-12 col-md-4 row align-items-center mt-2 mt-md-0">
                     <div className="col-12">
                       <div className="rc-full-width rc-select-processed">
                         <Selection
@@ -289,16 +299,16 @@ export default class AccountOrders extends React.Component {
                                       <div className="col-12 col-md-2">
                                         <p><FormattedMessage id="order.orderDate" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.tradeState.createTime.substr(0, 10)}</span></p>
                                       </div>
-                                      <div className="col-12 col-md-2">
-                                        <p><FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.id}</span></p>
+                                      <div className="col-12 col-md-2 mb-2 mb-md-0">
+                                        <p className="text-nowrap"><FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.id}</span></p>
                                       </div>
-                                      <div className="col-12 col-md-2">
+                                      <div className="col-4 col-md-2">
                                         <p><FormattedMessage id="order.orderStatus" /></p>
                                       </div>
-                                      <div className="col-12 col-md-2">
+                                      <div className="col-4 col-md-2">
                                         <p><FormattedMessage id="order.shippingStatus" /></p>
                                       </div>
-                                      <div className="col-12 col-md-2">
+                                      <div className="col-4 col-md-2">
                                         <p><FormattedMessage id="order.paymentStatus" /></p>
                                       </div>
                                       <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
@@ -313,7 +323,7 @@ export default class AccountOrders extends React.Component {
                                     </div>
                                   </div>
                                   <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
-                                    <div className="col-12 col-md-2 d-flex flex-wrap">
+                                    <div className="col-8 col-md-2 d-flex flex-wrap align-items-center mb-2 mb-md-0">
                                       {order.tradeItems.map(item => (
                                         <img
                                           className="img-fluid"
@@ -323,19 +333,19 @@ export default class AccountOrders extends React.Component {
                                           title={item.spuName} />
                                       ))}
                                     </div>
-                                    <div className="col-12 col-md-2">
+                                    <div className="col-4 col-md-2 text-right text-md-left">
                                       {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
                                     </div>
-                                    <div className="col-12 col-md-2">
-                                      {ORDER_STATUS_ENUM[order.tradeState.flowState] || order.tradeState.flowState}
+                                    <div className="col-4 col-md-2">
+                                      {ORDER_STATUS_ENUM[lang][order.tradeState.flowState] || order.tradeState.flowState}
                                     </div>
-                                    <div className="col-12 col-md-2">
-                                      {DELIVER_STATUS_ENUM[order.tradeState.deliverStatus] || order.tradeState.deliverStatus}
+                                    <div className="col-4 col-md-2">
+                                      {DELIVER_STATUS_ENUM[lang][order.tradeState.deliverStatus] || order.tradeState.deliverStatus}
                                     </div>
-                                    <div className="col-12 col-md-2">
-                                      {PAY_STATUS_ENUM[order.tradeState.payState] || order.tradeState.payState}
+                                    <div className="col-4 col-md-2">
+                                      {PAY_STATUS_ENUM[lang][order.tradeState.payState] || order.tradeState.payState}
                                     </div>
-                                    <div className="col-12 col-md-2 text-center">
+                                    <div className="col-4 col-md-2 text-center">
                                       {
                                         order.canPayNow
                                           ? <React.Fragment>
@@ -356,18 +366,16 @@ export default class AccountOrders extends React.Component {
                                 </div>
                               ))}
                             </>
-                            : <div className="text-center mt-5">
-                              <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-                              <FormattedMessage id="order.noDataTip" />
-                            </div>
+                            : null
                     }
                     {
-                      this.state.errMsg
+                      this.state.errMsg || !this.state.orderList.length
                         ? null
                         : <div className="grid-footer rc-full-width mt-2">
                           <Pagination
                             loading={this.state.loading}
                             totalPage={this.state.totalPage}
+                            currentPage={this.state.currentPage}
                             onPageNumChange={params => this.hanldePageNumChange(params)} />
                         </div>
                     }
@@ -382,3 +390,4 @@ export default class AccountOrders extends React.Component {
     )
   }
 }
+export default AccountOrders

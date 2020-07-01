@@ -83,6 +83,8 @@ class Confirmation extends React.Component {
       localStorage.removeItem('rc-cart-data')
       sessionStorage.removeItem('rc-token')
     }
+    sessionStorage.removeItem('rc-clinics-id-select')
+    sessionStorage.removeItem('rc-clinics-name-select')
     localStorage.removeItem('orderNumber')
   }
   componentDidMount () {
@@ -110,6 +112,9 @@ class Confirmation extends React.Component {
         commentOnDelivery: deliveryInfo.commentOnDelivery
       });
     }
+    setTimeout(() => {
+      this.setState({ modalShow: true })
+    }, 3000)
     getDictionary({ type: 'city' })
       .then(res => {
         this.setState({
@@ -148,12 +153,12 @@ class Confirmation extends React.Component {
       })
       this.setState({
         modalShow: false,
-        operateSuccessModalVisible: true
+        // operateSuccessModalVisible: true
       })
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.setState({ operateSuccessModalVisible: false })
-      }, 5000)
+      // clearTimeout(this.timer)
+      // this.timer = setTimeout(() => {
+      //   this.setState({ operateSuccessModalVisible: false })
+      // }, 5000)
     } catch (err) {
       this.setState({ errorMsg: err.toString() })
     } finally {
@@ -186,7 +191,7 @@ class Confirmation extends React.Component {
             name: item.goodsName,
             price: item.salePrice,
             brand: "Royal Canin",
-            category: item.goodsCateName,
+            category: item.goodsCategory,
             quantity: item.buyCount,
             variant: item.specText
           }
@@ -199,7 +204,7 @@ class Confirmation extends React.Component {
             name: item.goodsName,
             price: selectedSize.salePrice,
             brand: "Royal Canin",
-            category: item.goodsCateName,
+            category: item.goodsCategory,
             quantity: item.quantity,
             variant: selectedSize.detailName
           }

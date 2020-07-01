@@ -1,5 +1,5 @@
 import React from "react"
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -8,18 +8,15 @@ import ConfirmTooltip from '@/components/ConfirmTooltip'
 import './index.css'
 import {
   getAddressList,
-  saveAddress,
   setDefaltAddress,
   deleteAddress,
   getAddressById,
-  editAddress
 } from '@/api/address'
 import { Link } from 'react-router-dom';
 import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
 
-
-export default class ShippingAddress extends React.Component {
+class ShippingAddress extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -45,7 +42,9 @@ export default class ShippingAddress extends React.Component {
         customerId: ""
       },
       cityList: [],
-      countryList: []
+      countryList: [],
+      currentType: 'DELIVERY',
+      currentAddressList: []
     }
   }
 
@@ -53,6 +52,11 @@ export default class ShippingAddress extends React.Component {
     localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false
+    }
     this.getAddressList()
     getDictionary({ type: 'city' })
       .then(res => {
@@ -61,7 +65,7 @@ export default class ShippingAddress extends React.Component {
         })
       })
       .catch(err => {
-        this.showErrorMsg(err.toString() || 'get data failed')
+        this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
       })
     getDictionary({ type: 'country' })
       .then(res => {
@@ -70,7 +74,7 @@ export default class ShippingAddress extends React.Component {
         })
       })
       .catch(err => {
-        this.showErrorMsg(err.toString() || 'get data failed')
+        this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
       })
   }
   getAddressList = async () => {
@@ -83,11 +87,12 @@ export default class ShippingAddress extends React.Component {
           total: total,
           loading: false,
         })
+        this.switchAddressType(this.state.currentType)
       } else {
-        this.showErrorMsg(res.message || "Query Data Failed")
+        this.showErrorMsg(res.message || this.props.intl.messages.queryDataFailed)
       }
     }).catch(err => {
-      this.showErrorMsg("Query Data Failed")
+      this.showErrorMsg(this.props.intl.messages.queryDataFailed)
       this.setState({
         loading: false
       })
@@ -142,41 +147,7 @@ export default class ShippingAddress extends React.Component {
       addressForm: data
     });
   }
-  saveAddress = async () => {
-    this.setState({
-      loading: true
-    })
-    let data = this.state.addressForm;
-    let params = {
-      "areaId": +data.country,
-      "cityId": +data.city,
-      "consigneeName": data.firstName + " " + data.lastName,
-      "consigneeNumber": data.phoneNumber,
-      "customerId": data.customerId,
-      "deliveryAddress": data.address1 + " " + data.address2,
-      "deliveryAddressId": data.deliveryAddressId,
-      "isDefaltAddress": data.isDefalt ? 1 : 0,
-      "postCode": data.postCode,
-      "provinceId": 0,
-      "rfc": data.rfc,
-    }
-    if (this.state.isAdd) {
 
-      const res = await saveAddress(params)
-      if (res.code === 'K-000000') {
-        this.getAddressList()
-        this.closeModal()
-
-      }
-    } else {
-      const res = await editAddress(params)
-      if (res.code === 'K-000000') {
-        this.getAddressList()
-        this.closeModal()
-
-      }
-    }
-  }
   setDefaltAddress = async (id) => {
     this.setState({
       loading: true
@@ -186,17 +157,17 @@ export default class ShippingAddress extends React.Component {
     }
     await setDefaltAddress(params).then(res => {
       if (res.code === 'K-000000') {
-        this.showSuccessMsg(res.message || 'Set Defalt Address Success')
+        this.showSuccessMsg(res.message || this.props.intl.messages.setDefaltAddressSuccess)
         this.getAddressList()
       }
       else {
-        this.showErrorMsg(res.message || 'Set Defalt Address Failed')
+        this.showErrorMsg(res.message || this.props.intl.messages.setDefaltAddressFailed)
         this.setState({
           loading: false
         })
       }
     }).catch(err => {
-      this.showErrorMsg('Set Defalt Address Failed')
+      this.showErrorMsg(this.props.intl.messages.setDefaltAddressFailed)
       this.setState({
         loading: false
       })
@@ -213,18 +184,18 @@ export default class ShippingAddress extends React.Component {
     await deleteAddress({ id: item.deliveryAddressId })
       .then(res => {
         if (res.code === 'K-000000') {
-          this.showSuccessMsg(res.message || 'Delete Address Success')
+          this.showSuccessMsg(res.message || this.props.intl.messages.deleteAddressSuccess)
           this.getAddressList()
         }
         else {
-          this.showErrorMsg(res.message || 'Delete Address Failed')
+          this.showErrorMsg(res.message || this.props.intl.messages.deleteAddressFailed)
           this.setState({
             loading: false
           })
         }
       })
       .catch(err => {
-        this.showErrorMsg('Delete Address Failed')
+        this.showErrorMsg(err.toString() || this.props.intl.messages.deleteAddressFailed)
         this.setState({
           loading: false
         })
@@ -235,7 +206,7 @@ export default class ShippingAddress extends React.Component {
     this.setState({
       errorMsg: message
     })
-    this.scrollToErrorMsg()
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
     setTimeout(() => {
       this.setState({
         errorMsg: ''
@@ -247,7 +218,7 @@ export default class ShippingAddress extends React.Component {
     this.setState({
       successMsg: message
     })
-    this.scrollToErrorMsg()
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
     setTimeout(() => {
       this.setState({
         successMsg: ''
@@ -306,6 +277,16 @@ export default class ShippingAddress extends React.Component {
       addressList: addressList
     })
   }
+  switchAddressType = (type) => {
+    const { addressList } = this.state
+    let currentAddressList = addressList.filter(item => {
+      return item.type === type
+    })
+    this.setState({
+      currentType: type,
+      currentAddressList: currentAddressList
+    })
+  }
   render () {
     return (
       <div>
@@ -317,11 +298,11 @@ export default class ShippingAddress extends React.Component {
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <SideMenu type="ShippingAddress" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
+                {/* <div className="rc-border-bottom rc-border-colour--interface mb-2">
                   <h4 className="rc-delta rc-margin--none">
                     <FormattedMessage id="shippingAddress"></FormattedMessage>
                   </h4>
-                </div>
+                </div> */}
                 <div className="content-asset">
                   <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
                     <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
@@ -341,149 +322,134 @@ export default class ShippingAddress extends React.Component {
                     role="alert">
                     <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
                   </aside>
-                  <div className="table-toolbar">
+                  {/* <div className="table-toolbar">
+                    <div style={{ display: 'flex' }}>
+                      <span className="type-text">
+                        <FormattedMessage id="type"></FormattedMessage>
+                      </span>
 
-                    <span className="t-gray">
-                      <FormattedMessage
-                        id="addressTip"
-                        values={{ number: <b>{this.state.total}</b> }}
-                      />
-                    </span>
+                      <span className="dividing"></span>
+
+                      <button type="button"
+                        onClick={() => this.switchAddressType('DELIVERY')}
+                        className={this.state.currentType === 'DELIVERY' ? 'selected-btn' : "type-btn"} >
+                        <span> <FormattedMessage id="deliveryAddress"></FormattedMessage></span>
+                      </button>
+
+                      <span className="dividing"></span>
+
+                      <button type="button"
+                        onClick={() => this.switchAddressType('BILLING')}
+                        className={this.state.currentType === 'BILLING' ? 'selected-btn' : "type-btn"}>
+                        <span> <FormattedMessage id="billingAddress"></FormattedMessage></span>
+                      </button>
+
+                      <span className="dividing"></span>
+                    </div>
                     <button type="button" className="address-btn" onClick={() => this.openCreatePage()}>
-                      <span> <FormattedMessage id="addShippingAddress"></FormattedMessage></span>
+                      <span><FormattedMessage id="newAddress"></FormattedMessage></span>
                     </button>
+                  </div> */}
+                  <nav class="rc-tabs__controller rc-fade--x " data-toggle-group="">
+                    <ul class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break" role="tablist" >
+                      <li className="rc-tabs-li">
+                        <button class="rc-tab text-break"
+                          onClick={() => this.switchAddressType('DELIVERY')}
+                          style={{ padding: "8px 15px" }}
+                          data-toggle="deliveryAddress" role="tab">
+                          <FormattedMessage id="deliveryAddress"></FormattedMessage>
+                        </button>
+                      </li>
+                      <li className="rc-tabs-li">
+                        <button class="rc-tab text-break"
+                          onClick={() => this.switchAddressType('BILLING')}
+                          style={{ padding: "8px 15px" }}
+                          data-toggle="billingAddress" role="tab">
+                          <FormattedMessage id="billingAddress"></FormattedMessage>
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
+                  <div className="address-add-btn">
+                    <span
+                      className="red font-weight-normal ui-cursor-pointer"
+                      onClick={() => this.openCreatePage()}>
+                      <span className="d-flex align-items-center">
+                        <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
+                        <span>
+                          <FormattedMessage id="newAddress" />
+                        </span>
+                      </span>
+                    </span>
+                    {/* <button className="address-btn" onClick={() => this.openCreatePage()}>
+                      <span><FormattedMessage id="newAddress"></FormattedMessage></span>
+                    </button> */}
                   </div>
-                  {
-                    this.state.addressList.map(item => (
-                      <div className={"card-address " + (item.isDefaltAddress === 1 ? "card-address-default" : "")} key={item.deliveryAddressId}>
-                        {/* <div className="addr-line"></div> */}
-                        <div className="ant-row">
-                          <div className="ant-col-20 form-info">
-                            <form className="ant-form ant-form-horizontal">
 
-                              <div className="ant-row ant-form-item">
-                                <div className="ant-col-0 ant-form-item-label">
-                                  <FormattedMessage id="Name">
-                                    {(txt) => (
-                                      <label className="" title={txt}>{txt}</label>
-                                    )
-                                    }
-                                  </FormattedMessage>
-                                </div>
-                                <div className="ant-col-24 ant-form-item-control-wrapper">
-                                  <div className="ant-form-item-control ">
-                                    <span>{item.consigneeName}</span>
-                                  </div>
-                                </div>
+
+
+
+
+
+                  <div className="row address-layout">
+                    {
+                      this.state.currentAddressList.map(item => (
+                        <div className="col-lg-6" style={{ padding: "10px 25px" }} key={item.deliveryAddressId}>
+                          {/* <div className="addr-line"></div> */}
+                          <div className={"row card-address " + (item.isDefaltAddress === 1 ? "card-address-default" : "")} >
+                            <div className="col-10 card-phone-title word-break">
+                              <div className="address-name">
+                                <span>{item.firstName + ' ' + item.lastName}</span>
+                                {item.isDefaltAddress === 1
+                                  ? <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
+                                    <FormattedMessage id="default" />
+                                  </span>
+                                  : null
+                                }
                               </div>
+                            </div>
+                            <div className="col-2 address-action card-phone-action">
+                              <a className="address-click-btn"
+                                onClick={() => this.openEditPage(item.deliveryAddressId)}>
+                                <FormattedMessage id="edit" />
+                              </a>
 
-                              <div className="ant-row ant-form-item">
-                                <div className="ant-col-0 ant-form-item-label">
-                                  <FormattedMessage id="payment.phoneNumber">
-                                    {(txt) => (
-                                      <label className="" title={txt}>{txt}</label>
-                                    )
-                                    }
-                                  </FormattedMessage>
-                                </div>
-                                <div className="ant-col-24 ant-form-item-control-wrapper">
-                                  <div className="ant-form-item-control ">
-                                    <span>{item.consigneeNumber}</span>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="ant-row ant-form-item">
-                                <div className="ant-col-0 ant-form-item-label">
-                                  <FormattedMessage id="payment.country">
-                                    {(txt) => (
-                                      <label className="" title={txt}>{txt}</label>
-                                    )
-                                    }
-                                  </FormattedMessage>
-                                </div>
-                                <div className="ant-col-24 ant-form-item-control-wrapper">
-                                  <div className="ant-form-item-control ">
-                                    <span>{this.getDictValue(this.state.countryList, item.countryId)}</span>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="ant-row ant-form-item">
-                                <div className="ant-col-0 ant-form-item-label">
-                                  <FormattedMessage id="payment.city">
-                                    {(txt) => (
-                                      <label className="" title={txt}>{txt}</label>
-                                    )
-                                    }
-                                  </FormattedMessage>
-                                </div>
-                                <div className="ant-col-24 ant-form-item-control-wrapper">
-                                  <div className="ant-form-item-control ">
-                                    <span>{this.getDictValue(this.state.cityList, item.cityId)}</span>
-                                  </div>
-                                </div>
-                              </div>
-
-
-                              <div className="ant-row ant-form-item">
-                                <div className="ant-col-0 ant-form-item-label">
-                                  <FormattedMessage id="payment.address1">
-                                    {(txt) => (
-                                      <label className="" title={txt}>{txt}</label>
-                                    )
-                                    }
-                                  </FormattedMessage>
-                                </div>
-                                <div className="ant-col-24 ant-form-item-control-wrapper">
-                                  <div className="ant-form-item-control ">
-                                    <span>{item.address1}</span>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="ant-row ant-form-item">
-                                <div className="ant-col-0 ant-form-item-label">
-                                  <FormattedMessage id="addressType">
-                                    {(txt) => (
-                                      <label className="" title={txt}>{txt}</label>
-                                    )
-                                    }
-                                  </FormattedMessage>
-                                </div>
-                                <div className="ant-col-24 ant-form-item-control-wrapper">
-                                  <div className="ant-form-item-control ">
-                                    <span>{item.type}</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </form>
-                          </div>
-                          <div className="ant-col-4 card-action">
-                            <span className="card-action-delete">
-                              <a onClick={() => this.updateConfirmTooltipVisible(item, true)}>×</a>
+                              <span className="dividing-action"></span>
+                              <a className="address-click-btn"
+                                onClick={() => this.updateConfirmTooltipVisible(item, true)}>
+                                <FormattedMessage id="delete" />
+                              </a>
                               <ConfirmTooltip
+                                containerStyle={{ transform: 'translate(-96%, 105%)' }}
+                                arrowStyle={{ left: '89%' }}
                                 display={item.confirmTooltipVisible}
                                 confirm={e => this.deleteAddress(item)}
                                 updateChildDisplay={status => this.updateConfirmTooltipVisible(item, status)} />
-                            </span>
-
-                            <div className="card-action-link">
-                              {item.type === 'billing' || item.isDefaltAddress === 1 ?
-                                null :
-                                <a onClick={() => this.setDefaltAddress(item.deliveryAddressId)}>
-                                  <FormattedMessage id="setDefaultAddress"></FormattedMessage>
-                                </a>}
-                              <a onClick={() => this.openEditPage(item.deliveryAddressId)}>
-                                <FormattedMessage id="edit" ></FormattedMessage>
-                              </a>
+                              {/* <a className="address-click-btn"><FormattedMessage id="delete" /></a> */}
                             </div>
+                            <div className="col-lg-12" style={{ fontSize: '12px' }}>
+                              <div>
+                                <span>{item.consigneeNumber}</span>
+                              </div>
+                              <div>
+                                <span>{this.getDictValue(this.state.countryList, item.countryId)}</span>
+                              </div>
+                              <div>
+                                <span>{this.getDictValue(this.state.cityList, item.cityId)}</span>
+                              </div>
+                              <div>
+                                <span>{item.address1}</span>
+                              </div>
+                            </div>
+
                           </div>
                         </div>
-                      </div>
 
-                    ))
-                  }
+                      ))
+                    }
+                  </div>
+
+
                 </div>
 
               </div>
@@ -495,3 +461,5 @@ export default class ShippingAddress extends React.Component {
     )
   }
 }
+
+export default injectIntl(ShippingAddress);

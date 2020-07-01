@@ -5,30 +5,38 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
+import LoginButton from '@/components/LoginButton'
 import {
   formatMoney,
   translateHtmlCharater,
   hanldePurchases,
   jugeLoginStatus,
+  queryProps,
   flat
 } from '@/utils/utils'
-import { MINIMUM_AMOUNT, STOREID } from "@/utils/constant"
-import { FormattedMessage } from 'react-intl'
+import {
+  MINIMUM_AMOUNT,
+  STOREID,
+  STORE_CATE_ENUM
+} from "@/utils/constant"
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { cloneDeep, findIndex, find } from 'lodash'
 import { getDetails, getLoginDetails } from '@/api/details'
 import {
   miniPurchases,
   sitePurchase,
   sitePurchases,
-  siteMiniPurchases,
+  siteMiniPurchases
 } from '@/api/cart'
 import { getDict } from '@/api/dict'
 import './index.css'
 
+@injectIntl
 class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      initing: true,
       details: {
         id: "",
         goodsName: "",
@@ -37,6 +45,7 @@ class Details extends React.Component {
         goodsDescription: "",
         sizeList: [],
         images: [],
+        goodsCategory: ''
       },
       activeTabIdx: 0,
       goodsDetailTab: {
@@ -66,16 +75,11 @@ class Details extends React.Component {
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.headerRef = React.createRef();
+
+    this.specie = ''
+    this.productRange = []
+    this.format = []
   }
-  // componentWillMount() {
-  //   console.log(1)
-  //   console.log(localStorage.getItem("isRefresh"))
-  //   if (localStorage.getItem("isRefresh")) {
-  //     localStorage.removeItem("isRefresh");
-  //     window.location.reload();
-  //     return false
-  //   }
-  // }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
@@ -87,7 +91,7 @@ class Details extends React.Component {
     }
     this.setState(
       {
-        id: this.props.match.params.id,
+        id: this.props.match.params.id
       },
       () => this.queryDetails()
     );
@@ -105,7 +109,7 @@ class Details extends React.Component {
     selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId)
     selectedArr.map(el => {
       idArr.push(el.specDetailId)
-      specText = specText + el.detailName + ';'
+      specText = specText + el.detailName + ' '
     })
     currentUnitPrice = details.marketPrice
     details.sizeList.map(item => {
@@ -124,102 +128,139 @@ class Details extends React.Component {
   }
   async queryDetails () {
     const { id } = this.state;
-    try {
-      let res;
-      if (jugeLoginStatus()) {
-        res = await getLoginDetails(id);
-      } else {
-        res = await getDetails(id);
-      }
-      this.setState({ loading: false });
-      if (res && res.context && res.context.goodsSpecDetails) {
-        let specList = res.context.goodsSpecs;
-        let specDetailList = res.context.goodsSpecDetails;
-        specList.map((sItem) => {
-          sItem.chidren = specDetailList.filter(
-            (sdItem, i) => {
-              // console.log(sdItem, i, 'sdItem')
-              // if(i === 0) {
-              //   sdItem.selected = true
-              // }
-              // if (sItem.chidren && sItem.chidren.length === 1) {
-              //   sdItem.selected = true
-              // } else {
-              //   sdItem.selected = false
-              // }
-              // if(sItem.chidren && sItem.chidren)
-              return sdItem.specId === sItem.specId
-            }
-          )
-          sItem.chidren[0].selected = true
-        });
+    const tmpRequest = jugeLoginStatus() ? getLoginDetails : getDetails
+    Promise.all([
+      tmpRequest(id),
+      queryProps()
+    ])
+      .then(resList => {
+        const res = resList[0]
+        if (res && res.context && res.context.goodsSpecDetails && resList[1]) {
+          // 获取产品所属类别
+          let tmpSpecie = find(res.context.storeCates, ele => ele.cateName.toLowerCase().includes('dog')) && 'Dog'
+          if (!tmpSpecie) {
+            tmpSpecie = find(res.context.storeCates, ele => ele.cateName.toLowerCase().includes('cat')) && 'Cat'
+          }
+          this.specie = tmpSpecie
 
-        // this.setState({ specList });
-        let sizeList = [];
-        let goodsSpecDetails = res.context.goodsSpecDetails;
-        let goodsInfos = res.context.goodsInfos || [];
-
-        sizeList = goodsInfos.map((g, idx) => {
-          // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
-          // console.log(targetInfo, 'target')
-          // if (targetInfo) {
-          g = Object.assign({}, g, { selected: false });
-          // }
-          return g;
-        });
-
-        // const selectedSize = find(sizeList, s => s.selected)
-
-        const { goodsDetailTab } = this.state
-        try {
-          let tmpGoodsDetail = res.context.goods.goodsDetail
-          if (tmpGoodsDetail) {
-            tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
-            for (let key in tmpGoodsDetail) {
-              goodsDetailTab.tabName.push(key)
-              goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+          // 获取产品所属home页四个大类
+          for (let item of res.context.storeCates) {
+            const t = find(STORE_CATE_ENUM, ele => ele.cateName.includes(item.cateName))
+            if (t) {
+              this.productRange.push(t.text[this.props.intl && this.props.intl.locale || 'en'])
             }
           }
-          this.setState({
-            goodsDetailTab: goodsDetailTab
-          })
-        } catch (err) {
-          getDict({
-            type: 'goodsDetailTab',
-            storeId: STOREID,
-          }).then(res => {
-            goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(ele => ele.name)
+
+          // 获取产品Dry/Wet属性
+          let tmpFormat = []
+          for (let item of res.context.goodsPropDetailRels) {
+            const t = find(resList[1], ele => ele.propId == item.propId)
+            if (t && t.propName.includes('Seco')) {
+              const t2 = find(t.goodsPropDetails, ele => ele.detailId == item.detailId)
+              if (t2) {
+                tmpFormat.push({ 'Seco': 'Dry', 'Húmedo': 'Wet' }[t2.detailName] || '')
+              }
+            }
+          }
+          this.format = tmpFormat
+
+
+          let specList = res.context.goodsSpecs;
+          let specDetailList = res.context.goodsSpecDetails;
+          specList.map((sItem) => {
+            sItem.chidren = specDetailList.filter(
+              (sdItem, i) => {
+                // console.log(sdItem, i, 'sdItem')
+                // if(i === 0) {
+                //   sdItem.selected = true
+                // }
+                // if (sItem.chidren && sItem.chidren.length === 1) {
+                //   sdItem.selected = true
+                // } else {
+                //   sdItem.selected = false
+                // }
+                // if(sItem.chidren && sItem.chidren)
+                return sdItem.specId === sItem.specId
+              }
+            )
+            sItem.chidren[0].selected = true
+          });
+
+          // this.setState({ specList });
+          let sizeList = [];
+          let goodsSpecDetails = res.context.goodsSpecDetails;
+          let goodsInfos = res.context.goodsInfos || [];
+
+          sizeList = goodsInfos.map((g, idx) => {
+            // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
+            // console.log(targetInfo, 'target')
+            // if (targetInfo) {
+            g = Object.assign({}, g, { selected: false });
+            // }
+            return g;
+          });
+
+          // const selectedSize = find(sizeList, s => s.selected)
+
+          const { goodsDetailTab } = this.state
+          try {
+            let tmpGoodsDetail = res.context.goods.goodsDetail
+            if (tmpGoodsDetail) {
+              tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
+              for (let key in tmpGoodsDetail) {
+                goodsDetailTab.tabName.push(key)
+                goodsDetailTab.tabContent.push(tmpGoodsDetail[key])
+                // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+              }
+            }
             this.setState({
               goodsDetailTab: goodsDetailTab
             })
-          })
-        }
-
-        this.setState(
-          {
-            details: Object.assign({}, this.state.details, res.context.goods, {
-              sizeList
-            }),
-            images: res.context.images,
-            specList,
-          },
-          () => {
-            this.matchGoods()
+          } catch (err) {
+            getDict({
+              type: 'goodsDetailTab',
+              storeId: STOREID
+            }).then(res => {
+              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(ele => ele.name)
+              this.setState({
+                goodsDetailTab: goodsDetailTab
+              })
+            })
           }
-        );
-      } else {
-        // 没有规格的情况
+          this.setState(
+            {
+              details: Object.assign({},
+                this.state.details,
+                res.context.goods,
+                { sizeList },
+                { goodsCategory: [this.specie, this.productRange.join('&'), this.format.join('&')].join('/') }),
+              images: res.context.images.concat(res.context.goodsInfos),
+              specList
+            },
+            () => {
+              this.matchGoods()
+            }
+          );
+        } else {
+          // 没有规格的情况
+          this.setState({
+            errMsg: <FormattedMessage id="details.errMsg" />
+          });
+        }
+      })
+      .catch(e => {
+        console.log(e);
+        console.table(e);
         this.setState({
-          errMsg: <FormattedMessage id="details.errMsg" />,
+          errMsg: <FormattedMessage id="details.errMsg2" />
         });
-      }
-    } catch (e) {
-      console.log(e);
-      console.table(e);
-      this.setState({
-        errMsg: <FormattedMessage id="details.errMsg2" />,
-      });
-    }
+      })
+      .finally(() => {
+        this.setState({
+          loading: false,
+          initing: false
+        })
+      })
   }
   updateInstockStatus () {
     this.setState({
@@ -271,35 +312,9 @@ class Details extends React.Component {
       })
     );
     this.setState({
-      tradePrice: res.tradePrice,
-    });
-  }
-  async hanldePurchases () {
-    const { sizeList } = this.state.details;
-    const { cartData } = this.state;
-    const currentSelectedSize = find(sizeList, (s) => s.selected);
-    let res = await hanldePurchases([
-      {
-        goodsInfoId: currentSelectedSize.goodsInfoId,
-        goodsNum: this.state.quantity,
-        invalid: false,
-      },
-    ]);
-    sessionStorage.setItem(
-      "goodsMarketingMap",
-      JSON.stringify(res.goodsMarketingMap)
-    );
-    sessionStorage.setItem(
-      "rc-totalInfo",
-      JSON.stringify({
-        totalPrice: res.totalPrice,
-        tradePrice: res.tradePrice,
-        discountPrice: res.discountPrice,
-      })
-    );
-    this.setState({
-      tradePrice: res.tradePrice,
-    });
+      tradePrice: res.tradePrice
+    })
+    return res
   }
   handleAmountInput (e) {
     this.setState({ checkOutErrMsg: "" });
@@ -354,32 +369,35 @@ class Details extends React.Component {
     // );
   }
   async hanldeAddToCart ({ redirect = false, needLogin = false } = {}) {
+    this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
       return false
     }
     if (jugeLoginStatus()) {
       this.hanldeLoginAddToCart({ redirect });
     } else {
-      this.hanldeUnloginAddToCart({ redirect, needLogin });
+      await this.hanldeUnloginAddToCart({ redirect, needLogin });
     }
   }
   async hanldeLoginAddToCart ({ redirect }) {
-    const { quantity, cartData } = this.state;
+    const { quantity } = this.state;
     const { goodsId, sizeList } = this.state.details;
     const currentSelectedSize = find(sizeList, (s) => s.selected);
     try {
       await sitePurchase({
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
+        goodsCategory: [this.specie, this.productRange, this.format.join('&')].join('/')
       });
-      this.headerRef.current.updateCartCache();
-      this.headerRef.current.handleCartMouseOver();
+      this.headerRef.current && this.headerRef.current.updateCartCache();
+      this.headerRef.current && this.headerRef.current.handleCartMouseOver();
       setTimeout(() => {
-        this.headerRef.current.handleCartMouseOut();
+        this.headerRef.current && this.headerRef.current.handleCartMouseOut();
       }, 1000);
       if (redirect) {
         // 获取购物车列表
         let siteMiniPurchasesRes = await siteMiniPurchases();
+
         siteMiniPurchasesRes = siteMiniPurchasesRes.context;
         // 获取总价
         let sitePurchasesRes = await sitePurchases({
@@ -390,18 +408,17 @@ class Details extends React.Component {
         sitePurchasesRes = sitePurchasesRes.context;
         if (sitePurchasesRes.tradePrice < MINIMUM_AMOUNT) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />,
-          });
-          return false;
+            checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />
+          })
+          return false
         }
 
         // 库存不够，不能下单
-        if (find(cartData, (ele) => ele.buyCount > ele.stock)) {
+        if (find(siteMiniPurchasesRes.goodsList, (ele) => ele.buyCount > ele.stock)) {
           this.setState({
-            errorShow: true,
-            errorMsg: <FormattedMessage id="cart.errorInfo2" />,
-          });
-          return false;
+            checkOutErrMsg: <FormattedMessage id="cart.errorInfo2" />
+          })
+          return false
         }
 
         // promotion相关
@@ -427,6 +444,10 @@ class Details extends React.Component {
     }
   }
   async hanldeUnloginAddToCart ({ redirect = false, needLogin = false }) {
+    this.setState({ checkOutErrMsg: "" });
+    if (this.state.loading) {
+      return false
+    }
     const { history } = this.props
     const { currentUnitPrice, quantity, cartData, instockStatus } = this.state;
     const { goodsId, sizeList } = this.state.details;
@@ -441,7 +462,7 @@ class Details extends React.Component {
     let cartDataCopy = cloneDeep(localStorage.getItem("rc-cart-data") ? JSON.parse(localStorage.getItem("rc-cart-data")) : []);
 
     if (!instockStatus || !quantityNew) {
-      return;
+      return false
     }
 
     this.setState({ addToCartLoading: true });
@@ -461,34 +482,30 @@ class Details extends React.Component {
       }
     }
 
-    try {
-      let res = await miniPurchases({
-        goodsInfoDTOList: [
-          {
-            goodsInfoId: currentSelectedSize.goodsInfoId,
-            goodsNum: quantityNew,
-          },
-        ],
-      });
-      let tmpObj = find(
-        res.context.goodsList,
-        (ele) => ele.goodsInfoId === currentSelectedSize.goodsInfoId
-      );
-      if (tmpObj) {
-        if (quantityNew > tmpObj.stock) {
-          quantityNew = tmpObj.stock;
-          if (flag) {
-            this.setState({
-              quantity: quantityNew,
-            });
-          }
-          tmpData = Object.assign(tmpData, { quantity: quantityNew });
-        }
-      }
-    } catch (e) {
-    } finally {
-      this.setState({ addToCartLoading: false });
-    }
+    // 超过库存时，修改产品数量为最大值替换
+    // let res = await miniPurchases({
+    //   goodsInfoDTOList: [
+    //     {
+    //       goodsInfoId: currentSelectedSize.goodsInfoId,
+    //       goodsNum: quantityNew
+    //     }
+    //   ]
+    // });
+    // let tmpObj = find(
+    //   res.context.goodsList,
+    //   (ele) => ele.goodsInfoId === currentSelectedSize.goodsInfoId
+    // );
+    // if (tmpObj) {
+    //   if (quantityNew > tmpObj.stock) {
+    //     quantityNew = tmpObj.stock;
+    //     if (flag) {
+    //       this.setState({
+    //         quantity: quantityNew
+    //       });
+    //     }
+    //     tmpData = Object.assign(tmpData, { quantity: quantityNew });
+    //   }
+    // }
 
     const idx = findIndex(
       cartDataCopy,
@@ -507,21 +524,42 @@ class Details extends React.Component {
     }
     localStorage.setItem("rc-cart-data", JSON.stringify(cartDataCopy));
     this.setState({ cartData: cartDataCopy });
-    this.headerRef.current.updateCartCache();
+    this.headerRef.current && this.headerRef.current.updateCartCache();
     if (redirect) {
-      await this.hanldePurchasesForCheckout(cartDataCopy);
+      // 库存校验
+      let tmpValidateAllItemsStock = true
+      let purchasesRes = await this.hanldePurchasesForCheckout(cartDataCopy);
+      purchasesRes = purchasesRes.goodsInfos
+      cartDataCopy.map(item => {
+        let selectedSize = find(item.sizeList, s => s.selected)
+        const tmpObj = find(purchasesRes, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
+        if (tmpObj) {
+          selectedSize.stock = tmpObj.stock
+          if (item.quantity > tmpObj.stock) {
+            tmpValidateAllItemsStock = false
+          }
+        }
+      })
+      this.setState({ addToCartLoading: false });
       if (this.state.tradePrice < MINIMUM_AMOUNT) {
         this.setState({
           checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />,
         });
         return false
       }
+      if (!tmpValidateAllItemsStock) {
+        this.setState({
+          checkOutErrMsg: <FormattedMessage id="cart.errorInfo2" />
+        })
+        return false
+      }
       if (needLogin) {
-        history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
+        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
         history.push('/prescription')
       }
     }
+    this.setState({ addToCartLoading: false });
     this.headerRef.current.handleCartMouseOver();
     setTimeout(() => {
       this.headerRef.current.handleCartMouseOut();
@@ -530,10 +568,10 @@ class Details extends React.Component {
   changeTab (e, i) {
     this.setState({ activeTabIdx: i })
   }
-  handleChange(e){
+  handleChange (e) {
     this.setState({
-          buyWay: e.target.value
-        }
+      buyWay: e.target.value
+    }
     )
   }
   render () {
@@ -549,17 +587,20 @@ class Details extends React.Component {
       cartData,
       errMsg,
       addToCartLoading,
-      specList,
+      specList
     } = this.state;
-    const event = {
-      page: {
-        type: 'Product',
-        theme: '' // todo goodsCateName???
-      },
-    };
+    let event
+    if (!this.state.initing) {
+      event = {
+        page: {
+          type: 'Product',
+          theme: [this.specie, this.productRange, this.format.join('&')].join('/')
+        }
+      }
+    }
     return (
       <div>
-        <GoogleTagManager additionalEvents={event} />
+        {event ? <GoogleTagManager additionalEvents={event} /> : null}
         <Header
           ref={this.headerRef}
           showMiniIcons={true}
@@ -593,7 +634,7 @@ class Details extends React.Component {
                           " "
                         )}
                       >
-                        <div className="rc-column rc-double-width carousel-column">
+                        <div className="rc-column rc-double-width carousel-column imageBox">
                           {this.state.loading ? (
                             <Skeleton
                               color="#f5f5f5"
@@ -640,9 +681,13 @@ class Details extends React.Component {
                             </div>
                           ) : (
                               <div className="wrap-short-des">
-                                <h1 className="rc-gamma">{details.goodsName}</h1>
-                                <h3>{details.goodsSubtitle}</h3>
-                                <h3>
+                                <h1
+                                  className="rc-gamma ui-text-overflow-line2 text-break"
+                                  title={details.goodsName}>
+                                  {details.goodsName}
+                                </h1>
+                                <h3 className="text-break">{details.goodsSubtitle}</h3>
+                                <h3 className="text-break">
                                   <div className="rating-stars hidden-lg-down">
                                     <div className="product-number-rating clearfix">
                                       <div className="ratings pull-left"></div>
@@ -840,27 +885,43 @@ class Details extends React.Component {
                                       </div>
                                       <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                         <div className="cart-and-ipay">
-                                          <button
-                                            className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                            data-loc="addToCart"
-                                            style={{ lineHeight: "30px" }}
-                                            onClick={() =>
-                                              this.hanldeAddToCart({
-                                                redirect: true,
-                                                needLogin: !jugeLoginStatus()
-                                              })
-                                            }
-                                          >
-                                            <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
-                                            <FormattedMessage id="checkout" />
-                                          </button>
+                                          {
+                                            jugeLoginStatus()
+                                              ? <button
+                                                className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                data-loc="addToCart"
+                                                style={{ lineHeight: "30px" }}
+                                                onClick={() =>
+                                                  this.hanldeAddToCart({
+                                                    redirect: true,
+                                                    needLogin: false
+                                                  })
+                                                }
+                                              >
+                                                <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
+                                                <FormattedMessage id="checkout" />
+                                              </button>
+                                              : <LoginButton
+                                                beforeLoginCallback={async () =>
+                                                  this.hanldeUnloginAddToCart({
+                                                    redirect: true,
+                                                    needLogin: true
+                                                  })
+                                                }
+                                                btnClass={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                updateCartCache={() => { this.headerRef.current && this.headerRef.current.updateCartCache() }}
+                                                history={this.props.history}
+                                              >
+                                                <FormattedMessage id="checkout" />
+                                              </LoginButton>
+                                          }
                                         </div>
                                       </div>
                                       {
                                         !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                           <div className="cart-and-ipay">
                                             <button
-                                              className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                              className={`btn-add-to-cart2 rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                                               data-loc="addToCart"
                                               onClick={() =>
                                                 this.hanldeAddToCart({
@@ -926,7 +987,7 @@ class Details extends React.Component {
                               </ul>
                             </nav>
                           </div>
-                          <div className="rc-tabs" style={{ marginTop: '40px' }}>
+                          <div className="rc-tabs tabs-detail" style={{ marginTop: '40px' }}>
                             {this.state.goodsDetailTab.tabContent.map((ele, i) => (
                               <div
                                 id={`tab__panel-${i}`}
@@ -936,7 +997,7 @@ class Details extends React.Component {
                               >
                                 <div className="block">
                                   <p
-                                    className="content"
+                                    className="content rc-scroll--x"
                                     dangerouslySetInnerHTML={createMarkup(ele)} />
                                 </div>
                               </div>
@@ -954,15 +1015,7 @@ class Details extends React.Component {
               >
                 <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
                   <button
-                    className={[
-                      "rc-btn",
-                      "rc-btn--one",
-                      "js-sticky-cta",
-                      "rc-margin-right--xs--mobile",
-                      "btn-add-to-cart",
-                      addToCartLoading ? "ui-btn-loading" : "",
-                      instockStatus && quantity ? "" : "disabled",
-                    ].join(" ")}
+                    className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile btn-add-to-cart ${addToCartLoading ? "ui-btn-loading" : ""} ${instockStatus && quantity ? "" : "disabled"}`}
                     onClick={() => this.hanldeAddToCart()}
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
@@ -970,17 +1023,35 @@ class Details extends React.Component {
                       <FormattedMessage id="details.addToCart" />
                     </span>
                   </button>
-                  <button
-                    className={`rc-btn rc-btn--one js-sticky-cta btn-add-to-cart ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                    onClick={() => this.hanldeAddToCart({ redirect: true, needLogin: !jugeLoginStatus() })}>
-                    <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
-                    <span className="default-txt">
-                      <FormattedMessage id="checkout" />
-                    </span>
-                  </button>
+                  {
+                    jugeLoginStatus()
+                      ? <button
+                        className={`rc-btn rc-btn--one js-sticky-cta btn-add-to-cart ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                        onClick={() => this.hanldeAddToCart({ redirect: true, needLogin: false })}>
+                        <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                        <span className="default-txt">
+                          <FormattedMessage id="checkout" />
+                        </span>
+                      </button>
+                      : <LoginButton
+                        beforeLoginCallback={async () =>
+                          this.hanldeUnloginAddToCart({
+                            redirect: true,
+                            needLogin: true
+                          })
+                        }
+                        btnClass={`rc-btn rc-btn--one js-sticky-cta btn-add-to-cart ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                        history={this.props.history}
+                      >
+                        <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                        <span className="default-txt">
+                          <FormattedMessage id="checkout" />
+                        </span>
+                      </LoginButton>
+                  }
                   {
                     !jugeLoginStatus() && <button
-                      className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                      className={`btn-add-to-cart2 rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                       onClick={() => this.hanldeAddToCart({ redirect: true })}>
                       <FormattedMessage id="GuestCheckout" />
                     </button>

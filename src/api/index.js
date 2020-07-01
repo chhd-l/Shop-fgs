@@ -2,6 +2,7 @@ import axios from '@/utils/request'
 
 const api = {
   storeCate: '/storeCate',
+  props: '/goods/goodsProp',
   uploadResource: '/common/uploadResource'
 }
 
@@ -23,5 +24,11 @@ export function uploadResource (params) {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
+  })
+}
+export function getProps (parameter) {
+  return axios({
+    url: `${api.props}/${parameter}`,
+    method: 'get'
   })
 }

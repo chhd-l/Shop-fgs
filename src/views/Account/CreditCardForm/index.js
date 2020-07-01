@@ -1,5 +1,5 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BreadCrumbs from "@/components/BreadCrumbs";
@@ -25,7 +25,8 @@ import paypalImg from "@/assets/images/credit-cards/paypal.png";
 import axios from "axios";
 import { addOrUpdatePaymentMethod } from "@/api/payment";
 
-export default class ShippingAddressFrom extends React.Component {
+@injectIntl
+class ShippingAddressFrom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -72,7 +73,7 @@ export default class ShippingAddressFrom extends React.Component {
       payosdata: {},
     };
   }
-  componentDidMount() {
+  componentDidMount () {
     console.log(this.props);
     const { location } = this.props;
     if (location.query) {
@@ -92,41 +93,41 @@ export default class ShippingAddressFrom extends React.Component {
       });
     }
   }
-  componentWillMount() {
+  componentWillMount () {
     sessionStorage.removeItem("paymentMethodForm");
   }
-  cardInfoInputChange(e) {
+  cardInfoInputChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     const { creditCardInfo } = this.state;
-    
-    if(name === 'cardMmyy') {
-      let beforeValue = value.substr(0, value.length -1)
-      let inputValue = value.substr(value.length -1, 1)
 
-      if(creditCardInfo[name] !== beforeValue && creditCardInfo[name].substr(0, creditCardInfo[name].length - 1) !== value) return
-      if(isNaN(parseInt(inputValue)) && value.length > creditCardInfo[name].length) return
-      if(creditCardInfo[name].length == 2 && value.length == 3) {
-        creditCardInfo[name] = value.slice(0,2) + '/' + value.slice(2)
-      }else if(creditCardInfo[name].length == 4 && value.length == 3) {
-        creditCardInfo[name] = creditCardInfo[name].slice(0,2)
-      }else {
-        creditCardInfo[name] = value;  
+    if (name === 'cardMmyy') {
+      let beforeValue = value.substr(0, value.length - 1)
+      let inputValue = value.substr(value.length - 1, 1)
+
+      if (creditCardInfo[name] !== beforeValue && creditCardInfo[name].substr(0, creditCardInfo[name].length - 1) !== value) return
+      if (isNaN(parseInt(inputValue)) && value.length > creditCardInfo[name].length) return
+      if (creditCardInfo[name].length == 2 && value.length == 3) {
+        creditCardInfo[name] = value.slice(0, 2) + '/' + value.slice(2)
+      } else if (creditCardInfo[name].length == 4 && value.length == 3) {
+        creditCardInfo[name] = creditCardInfo[name].slice(0, 2)
+      } else {
+        creditCardInfo[name] = value;
       }
-    }else {
+    } else {
       creditCardInfo[name] = value;
     }
-    
-    
+
+
     console.log(["cardNumber", "cardMmyy", "cardCvv"].indexOf(name));
     if (["cardNumber", "cardMmyy", "cardCvv"].indexOf(name) === -1) {
       this.inputBlur(e);
     }
-    
+
     this.setState({ creditCardInfo: creditCardInfo });
   }
-  inputBlur(e) {
+  inputBlur (e) {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -139,7 +140,7 @@ export default class ShippingAddressFrom extends React.Component {
       validDom.style.display = e.target.value ? "none" : "block";
     }
   }
-  async handleSave() {
+  async handleSave () {
     const { creditCardInfo } = this.state;
     this.setState({
       loading: true,
@@ -156,12 +157,12 @@ export default class ShippingAddressFrom extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.NODE_ENV === 'development'?'fd931719-5733-4b77-b146-2fd22f9ad2e3': process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env": process.env.NODE_ENV === 'development'?'test': process.env.REACT_APP_PaymentENV,
+            "public_key": process.env.REACT_APP_PaymentKEY,
+            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
             "Content-type": "application/json",
-            app_id: "com.razorfish.dev_mexico",
-            "api-version": "1.3.0",
-          },
+            "app_id": "com.razorfish.dev_mexico",
+            "api-version": "1.3.0"
+          }
         }
       );
       console.log(res.data);
@@ -171,7 +172,7 @@ export default class ShippingAddressFrom extends React.Component {
         cardNumber: creditCardInfo.cardNumber,
         cardOwner: creditCardInfo.cardOwner,
         cardType: res.data.card_type,
-        customerId: JSON.parse(sessionStorage.getItem("rc-userinfo"))[
+        customerId: JSON.parse(localStorage.getItem("rc-userinfo"))[
           "customerId"
         ],
         email: creditCardInfo.email,
@@ -190,24 +191,24 @@ export default class ShippingAddressFrom extends React.Component {
     } catch (e) {
       console.log(e.response);
       let res = e.response
-      
+
       this.setState({
         loading: false,
       });
-      if(res) {
+      if (res) {
         console.log(res.data.more_info, 'body/expiration_date should match pattern "^(0[1-9]|1[0-2])(\/|\-|\.| )\d{2,4}"')
-        if(res.data.more_info.indexOf('body/credit_card_cvv should match pattern') !== -1) {
-          this.showErrorMsg('your card cvv is invalid')
-        }else if(res.data.more_info.indexOf('body/card_number should match pattern') !== -1) {
-          this.showErrorMsg('your card number is invalid')
-        }else if(res.data.more_info.indexOf('body/expiration_date should match pattern') !== -1) {
-          this.showErrorMsg('your card expiration_date is invalid')
-        }else {
+        if (res.data.more_info.indexOf('body/credit_card_cvv should match pattern') !== -1) {
+          this.showErrorMsg(this.props.intl.messages.cardCvvIsInvalid)
+        } else if (res.data.more_info.indexOf('body/card_number should match pattern') !== -1) {
+          this.showErrorMsg(this.props.intl.messages.cardNumberIsInvalid)
+        } else if (res.data.more_info.indexOf('body/expiration_date should match pattern') !== -1) {
+          this.showErrorMsg(this.props.intl.messages.expirationDateIsInvalid)
+        } else {
           this.showErrorMsg(res.data.description)
         }
         return
       }
-      this.showErrorMsg("Save Failed!");
+      this.showErrorMsg(this.props.intl.messages.saveFailed);
     }
   }
   handleCancel = () => {
@@ -239,7 +240,7 @@ export default class ShippingAddressFrom extends React.Component {
     }, 2000);
   };
   //定位
-  scrollToErrorMsg() {
+  scrollToErrorMsg () {
     const widget = document.querySelector(".billing-payment");
     // widget && widget.scrollIntoView()
     // console.log(this.getElementToPageTop(widget))
@@ -247,13 +248,13 @@ export default class ShippingAddressFrom extends React.Component {
       window.scrollTo(this.getElementToPageTop(widget), 0);
     }
   }
-  getElementToPageTop(el) {
+  getElementToPageTop (el) {
     if (el.parentElement) {
       return this.getElementToPageTop(el.parentElement) + el.offsetTop;
     }
     return el.offsetTop;
   }
-  render() {
+  render () {
     const { addressForm, creditCardInfo } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
@@ -281,7 +282,7 @@ export default class ShippingAddressFrom extends React.Component {
                   <div
                     className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
                       this.state.errorMsg ? "" : "hidden"
-                    }`}
+                      }`}
                   >
                     <aside
                       className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -302,13 +303,13 @@ export default class ShippingAddressFrom extends React.Component {
                     </aside>
                   </div>
                   <div
-                    className="rc-list__accordion-item"
+                    className="rc-list__accordion-item border-0"
                     data-method-id="CREDIT_CARD"
                     style={{
                       display: "block",
                     }}
                   >
-                    <div className="rc-border-all rc-border-colour--interface checkout--padding">
+                    <div className="rc-border-colour--interface checkout--padding">
                       <div
                         className="credit-card-content"
                         id="credit-card-content"
@@ -359,7 +360,7 @@ export default class ShippingAddressFrom extends React.Component {
                                                   }
                                                   name="cardNumber"
                                                   maxLength="254"
-                                                  placeholder="Card Number"
+                                                  placeholder={this.props.intl.messages.findLocation}
                                                 />
                                               </span>
                                               <div className="invalid-feedback ui-position-absolute">
@@ -391,7 +392,7 @@ export default class ShippingAddressFrom extends React.Component {
                                                   }
                                                   name="cardMmyy"
                                                   maxLength="5"
-                                                  placeholder="MM/YY"
+                                                  placeholder={this.props.intl.messages.MMYY}
                                                 />
                                               </span>
                                               <div className="invalid-feedback ui-position-absolute">
@@ -544,27 +545,31 @@ export default class ShippingAddressFrom extends React.Component {
                             <div className="text-right">
                               <div
                                 className="rc-input rc-input--inline"
-                                style={{ marginTop: "10px", float: "left" }}
+                                style={{ marginTop: "12px", float: "left", maxWidth: 'none' }}
                                 onClick={() => {
                                   creditCardInfo.isDefault = !creditCardInfo.isDefault;
                                   this.setState({ creditCardInfo });
                                 }}
                               >
-                                <input
-                                  type="checkbox"
-                                  id="defaultAddress"
-                                  className="rc-input__checkbox"
-                                  value={creditCardInfo.isDefault}
-                                />
-                                {!creditCardInfo.isDefault ? (
-                                  <label className="rc-input__label--inline">
-                                    <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                                  </label>
-                                ) : (
-                                  <label className="rc-input__label--inline defaultAddressChecked">
-                                    <FormattedMessage id="setDefaultPaymentMethod"></FormattedMessage>
-                                  </label>
-                                )}
+                                {
+                                  creditCardInfo.isDefault
+                                    ? <input
+                                      type="checkbox"
+                                      className="rc-input__checkbox"
+                                      value={creditCardInfo.isDefault}
+                                      key={1}
+                                      checked
+                                    />
+                                    : <input
+                                      type="checkbox"
+                                      className="rc-input__checkbox"
+                                      value={creditCardInfo.isDefault}
+                                      key={2}
+                                    />
+                                }
+                                <label className="rc-input__label--inline text-break">
+                                  <FormattedMessage id="setDefaultPaymentMethod" />
+                                </label>
                               </div>
                               {/* </div> */}
                               <a
@@ -602,3 +607,4 @@ export default class ShippingAddressFrom extends React.Component {
     );
   }
 }
+export default injectIntl(ShippingAddressFrom)

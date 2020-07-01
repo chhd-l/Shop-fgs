@@ -37,7 +37,7 @@ import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 import config from './config';
 
-const token = sessionStorage.getItem('rc-token')
+const token = localStorage.getItem('rc-token')
 
 const BasicRoute = () => (
   <HashRouter>

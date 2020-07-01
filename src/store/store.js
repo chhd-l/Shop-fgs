@@ -7,7 +7,7 @@ class Store {
   @observable  map = new Map();
   @observable  list = ["a","b"];
   @observable  obj = {name:"Mobx"};
-  @observable  isLogin = sessionStorage.getItem("rc-token")?true:false
+  @observable  isLogin = localStorage.getItem("rc-token")?true:false
   @observable  loginModal = false
   
   // 计算值是可以根据现有的状态或其它计算值衍生出的值.

@@ -1,11 +1,12 @@
 import React from "react"
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import Loading from "@/components/Loading"
 import { updateCustomerBaseInfo } from "@/api/user"
 import { getAllPrescription } from '@/api/clinic'
 import { STOREID } from "@/utils/constant"
 
-export default class ClinicEditForm extends React.Component {
+
+class ClinicEditForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -18,20 +19,43 @@ export default class ClinicEditForm extends React.Component {
         clinicId: ''
       },
       clinicList: [],
-      loadingList: false
+      loadingList: false,
+      oldForm:{
+        clinicName: '',
+        clinicId: ''
+      }
     }
     this.timer = null
   }
   componentDidMount () {
     const { data } = this.props
+    let form={
+      clinicName: data.clinicName,
+      clinicId: data.clinicId
+    }
+    let oldForm ={
+      clinicName: data.clinicName,
+      clinicId: data.clinicId
+    }
     this.setState({
-      form: Object.assign({}, data)
+      form: form,
+      oldForm: oldForm
     })
   }
   componentWillReceiveProps (nextProps) {
     if (nextProps.data !== this.state.form) {
+      const { data } = nextProps
+      let form={
+        clinicName: data.clinicName,
+        clinicId: data.clinicId
+      }
+      let oldForm ={
+        clinicName: data.clinicName,
+        clinicId: data.clinicId
+      }
       this.setState({
-        form: Object.assign({}, nextProps.data)
+        form: form,
+        oldForm: oldForm
       })
     }
   }
@@ -39,7 +63,8 @@ export default class ClinicEditForm extends React.Component {
     e.nativeEvent.stopImmediatePropagation()
     const target = e.target
     const { form } = this.state
-    form[target.name] = target.value
+    form[target.dataset.name] = target.value
+    form['clinicId'] = null
     this.setState({ form: form })
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
@@ -50,7 +75,7 @@ export default class ClinicEditForm extends React.Component {
     this.setState({ loadingList: true })
     let res = await getAllPrescription({ storeId: STOREID, prescriberName: this.state.form.clinicName })
     this.setState({
-      clinicList: res.context && res.context.prescriberVo || [],
+      clinicList: (res.context && res.context.prescriberVo) || [],
       loadingList: false
     })
   }
@@ -67,16 +92,33 @@ export default class ClinicEditForm extends React.Component {
   async handleSave () {
     const { form } = this.state
     this.setState({ loading: true })
-    try {
+    try {   
+      if(!form.clinicId){
+        this.setState({
+          errorMsg: this.props.intl.messages.choosePrescriber
+        })
+        setTimeout(() => {
+          this.setState({
+            errorMsg: ''
+          })
+        }, 5000)
+        return false
+      }
       await updateCustomerBaseInfo(Object.assign({}, this.props.originData, {
         defaultClinics: {
           clinicsId: form.clinicId,
           clinicsName: form.clinicName
         }
       }))
+
       this.props.updateData(this.state.form)
+      let oldForm = {
+        clinicId: form.clinicId,
+        clinicName: form.clinicName
+      }
       this.setState({
-        successTipVisible: true
+        successTipVisible: true,
+        oldForm:oldForm
       })
       setTimeout(() => {
         this.setState({
@@ -93,11 +135,28 @@ export default class ClinicEditForm extends React.Component {
         })
       }, 5000)
     } finally {
+      const {oldForm} = this.state
+      let form = {
+        clinicId: oldForm.clinicId,
+        clinicName: oldForm.clinicName
+      }
       this.setState({
+        form:form,
         editFormVisible: false,
         loading: false
       })
     }
+  }
+  cancelClinic=()=>{
+    const {oldForm} = this.state
+    let form ={
+      clinicName:oldForm.clinicName,
+      clinicId :oldForm.clinicId
+    }
+    this.setState({ 
+      form:form,
+      editFormVisible: false 
+    })
   }
   render () {
     const { editFormVisible, form, clinicList } = this.state
@@ -113,7 +172,7 @@ export default class ClinicEditForm extends React.Component {
             <FormattedMessage id="edit">
               {txt => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link ${editFormVisible ? 'hidden' : ''}`}
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 ${editFormVisible ? 'hidden' : ''}`}
                   name="contactPreference"
                   id="contactPrefEditBtn"
                   title={txt}
@@ -141,7 +200,7 @@ export default class ClinicEditForm extends React.Component {
           <aside
             className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
             role="alert">
-            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Save successfullly</p>
+            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none"><FormattedMessage id="saveSuccessfullly"/></p>
           </aside>
           <div className={`row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer ${editFormVisible ? 'hidden' : ''}`}>
             <div className="col-lg-6">{form.clinicName || '--'}</div>
@@ -152,11 +211,11 @@ export default class ClinicEditForm extends React.Component {
                 onBlur={() => { setTimeout(() => { this.setState({ clinicList: [] }) }, 500) }}>
                 <input
                   type="text"
-                  placeholder="Enter clinic name"
+                  placeholder={this.props.intl.messages.enterClinicName}
                   className="form-control"
                   value={form.clinicName}
                   onChange={event => this.handleInputChange(event)}
-                  name="clinicName"
+                  data-name="clinicName"
                 />
                 {
                   this.state.loadingList
@@ -187,7 +246,7 @@ export default class ClinicEditForm extends React.Component {
               <a
                 className="rc-styled-link"
                 name="contactPreference"
-                onClick={() => { this.setState({ editFormVisible: false }) }}>
+                onClick={() =>  { this.cancelClinic() }}>
                 <FormattedMessage id="cancel" />
               </a>
               &nbsp;<FormattedMessage id="or" />&nbsp;
@@ -205,3 +264,4 @@ export default class ClinicEditForm extends React.Component {
     )
   }
 }
+export default injectIntl(ClinicEditForm)
