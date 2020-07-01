@@ -553,7 +553,8 @@ class PaymentComp extends React.Component {
                   <span>{this.state.errorMsg}</span>
                   <button
                     className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault()
                       this.setState({ errorMsg: "" });
                     }}
                     aria-label="Close"
