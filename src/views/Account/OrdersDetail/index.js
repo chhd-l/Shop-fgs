@@ -358,7 +358,7 @@ class AccountOrders extends React.Component {
                             </div>
                             <hr className="rc-margin-top---none" />
                             <div className="row ml-2 mr-2 text-left">
-                              <div className="col-12 col-md-5 mb-2">
+                              <div className="col-12 col-md-4 mb-2">
                                 <div className="d-flex align-items-center">
                                   <i className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" />
                                   <span><FormattedMessage id="delivery2" /></span>
@@ -373,7 +373,7 @@ class AccountOrders extends React.Component {
                                   {details.buyerRemark}
                                 </div>
                               </div>
-                              <div className="col-12 col-md-5 mb-2">
+                              <div className="col-12 col-md-4 mb-2">
                                 <div className="d-flex align-items-center">
                                   <i className="rc-icon rc-rewind rc-billing rc-brand1 mt-1" />
                                   <span>
@@ -389,7 +389,7 @@ class AccountOrders extends React.Component {
                                   {details.invoice.rfc}{details.invoice.rfc ? <br /> : null}
                                 </div>
                               </div>
-                              <div className="col-12 col-md-2 mb-2">
+                              <div className="col-12 col-md-4 mb-2">
                                 {
                                   payRecord
                                     ? <>
