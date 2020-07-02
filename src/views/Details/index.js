@@ -615,25 +615,18 @@ class Details extends React.Component {
       addToCartLoading,
       specList
     } = this.state;
-<<<<<<< HEAD
-    const event = {
-      page: {
-        type: 'Product',
-        theme: '' // todo goodsCateName???
-      },
-    };
-    const data = this.state
-=======
+
     let event
     if (!this.state.initing) {
       event = {
         page: {
-          type: 'Product',
-          theme: [this.specie, this.productRange, this.format.join('&')].join('/')
+        type: 'Product',
+        theme: [this.specie, this.productRange, this.format.join('&')].join('/')
         }
       }
     }
->>>>>>> 00305014474581523803877857c92854fa888b41
+    const data = this.state
+
     return (
       <div>
         {event ? <GoogleTagManager additionalEvents={event} /> : null}
@@ -1147,20 +1140,6 @@ class Details extends React.Component {
                                             </div>
                                           </div>
                                         </div>
-<<<<<<< HEAD
-                                        <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                          <div className="cart-and-ipay">
-                                            <button
-                                                className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                                data-loc="addToCart"
-                                                style={{ lineHeight: "30px" }}
-                                                onClick={() => this.hanldeAddToCart()}
-                                            >
-                                              <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
-                                              <FormattedMessage id="details.addToCart" />
-                                            </button>
-                                          </div>
-=======
                                       </div>
                                       <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                         <div className="cart-and-ipay">
@@ -1207,12 +1186,10 @@ class Details extends React.Component {
                                                 <FormattedMessage id="checkout" />
                                               </LoginButton>
                                           }
->>>>>>> 00305014474581523803877857c92854fa888b41
                                         </div>
                                         <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                           <div className="cart-and-ipay">
                                             <button
-<<<<<<< HEAD
                                                 className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                                                 data-loc="addToCart"
                                                 style={{ lineHeight: "30px" }}
@@ -1222,15 +1199,6 @@ class Details extends React.Component {
                                                       needLogin: !jugeLoginStatus()
                                                     })
                                                 }
-=======
-                                              className={`btn-add-to-cart2 rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                              data-loc="addToCart"
-                                              onClick={() =>
-                                                this.hanldeAddToCart({
-                                                  redirect: true
-                                                })
-                                              }
->>>>>>> 00305014474581523803877857c92854fa888b41
                                             >
                                               <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
                                               <FormattedMessage id="checkout" />

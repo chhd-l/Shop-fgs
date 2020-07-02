@@ -1646,11 +1646,8 @@ ul.ui-star-list li:before {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-<<<<<<< HEAD
   /* background-image: url(../../../public/royal/royal-assets1/royal-canin.sprite--iconography.svg); */
-=======
   background-image: url(../../assets/images/royal-canin.sprite--iconography.svg);
->>>>>>> 00305014474581523803877857c92854fa888b41
   background-position: 39.99% 88.89%;
   content: '';
   display: inline-block;
@@ -1671,8 +1668,7 @@ ul.ui-star-list .list_title {
     width: 100%;
   }
 }
-<<<<<<< HEAD
-=======
+
 p {
   word-wrap: break-word;
 }
@@ -1683,4 +1679,4 @@ p {
 .imageBox {
   padding: 0 !important;
 }
->>>>>>> 00305014474581523803877857c92854fa888b41
+

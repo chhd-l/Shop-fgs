@@ -1,12 +1,12 @@
 import React from "react";
 import "./index.css";
-import Test from "../../Test";
 import {FormattedMessage} from "react-intl";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BreadCrumbs from "@/components/BreadCrumbs";
 import SideMenu from "@/components/SideMenu";
 import visaImg from "@/assets/images/credit-cards/visa.svg";
+import Loading from '@/components/Loading'
 export default class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
