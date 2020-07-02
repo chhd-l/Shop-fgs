@@ -5,11 +5,9 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
-<<<<<<< HEAD
 import Selection from '@/components/Selection'
-=======
 import LoginButton from '@/components/LoginButton'
->>>>>>> 00305014474581523803877857c92854fa888b41
+
 import {
   formatMoney,
   translateHtmlCharater,
