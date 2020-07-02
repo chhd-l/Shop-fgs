@@ -189,7 +189,7 @@ const App = () => (
         <Route path='/account/shippingAddress' exact component={AccountShippingAddress}/>
         <Route path='/account/paymentMethod' exact component={AccountPaymentMethod} />
         <Route path='/account/subscription' exact component={AccountSubscription} />
-        <Route path='/account/subscription-detail' exact component={AccountSubscriptionDetail} />
+        <Route path='/account/subscription-detail/:subscriptionNumber' exact component={AccountSubscriptionDetail} />
         <Route path='/account/return-order' exact component={AccountReturnOrder} />
 
         <Route path='/account/orders-aftersale/:orderNumber' exact component={AccountOrdersAfterSale} />

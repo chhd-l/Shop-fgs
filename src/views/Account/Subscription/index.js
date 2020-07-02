@@ -241,8 +241,8 @@ export default class Subscription extends React.Component {
                                 </div>
                                 <div className="row justify-content-around">
                                     <div className="col-12 col-md-5 row align-items-center mt-2 mt-md-0">
-                                        <div className="col-md-4">
-                                            <FormattedMessage id="order.orderNumber"/>
+                                        <div className="col-md-6">
+                                            <FormattedMessage id="subscription.number"/>
                                         </div>
                                         <div className="col-md-8">
                       <span className="rc-input rc-input--inline rc-full-width">
@@ -256,7 +256,7 @@ export default class Subscription extends React.Component {
                             onChange={e => this.handleInputChange(e)}/>
                         <label className="rc-input__label" htmlFor="id-text8">
                           <span className="rc-input__label-text">
-                            <FormattedMessage id="order.inputOrderNumberTip"/>
+                            <FormattedMessage id="subscription.subscriptionNumberTip"/>
                           </span>
                         </label>
                       </span>
@@ -306,7 +306,7 @@ export default class Subscription extends React.Component {
                                                                             className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
                                                                             <Link
                                                                                 className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
-                                                                                to={`/account/subscription-detail`}>
+                                                                                to={`/account/subscription-detail/${order.id}`}>
                                           <span
                                               className="medium pull-right--desktop rc-styled-link rc-padding-top--xs">
                                             <FormattedMessage id="subscription.detail"/>

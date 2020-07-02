@@ -360,9 +360,11 @@ const en_US = {
   'subscription.change': 'change',
   'subscription.product': 'Product',
   'subscription.number': 'Subscription number',
+  'subscription.subscriptionNumberTip': 'Please enter subscription number',
   'subscription.date': 'Subscription date',
   'subscription.deliveryDate': 'Next delivery date',
-  'subscription.detail': 'Subscription detail'
+  'subscription.detail': 'Subscription detail',
+  'subscription.sub': 'Sub-'
 
 }
 export default en_US;

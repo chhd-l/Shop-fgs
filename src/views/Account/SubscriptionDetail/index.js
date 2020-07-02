@@ -12,7 +12,7 @@ export default class SubscriptionDetail extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      orderId: '2345567',
+      subId:  0,
       selectedTime: 'Every 4 weeks',
       nextOrderTime: '2020-18-06',
       productName: 'Glycobalance Feline',
@@ -44,6 +44,9 @@ export default class SubscriptionDetail extends React.Component {
   }
   componentDidMount() {
     console.log('enter detail')
+    this.setState({
+      subId: this.props.match.params.subscriptionNumber
+    })
   }
   render () {
     const data = this.state
@@ -65,7 +68,7 @@ export default class SubscriptionDetail extends React.Component {
                   <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                     <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
                       <h4 className="rc-delta rc-margin--none">
-                        <FormattedMessage id="Subscription"></FormattedMessage>
+                        <FormattedMessage id="subscription.sub"></FormattedMessage>{data.subId}
                       </h4>
                     </div>
                     <div className="content-asset">
@@ -82,7 +85,7 @@ export default class SubscriptionDetail extends React.Component {
                                 <FormattedMessage id="subscription.notYet"></FormattedMessage>
                               </b>
                               <h1 className="rc-card__meta order-Id"><FormattedMessage id="subscription.order"></FormattedMessage>                                {data.oderId}
-                                {data.orderId}
+                                {data.subId}
                               </h1>
                             </div>
                             <div>
@@ -210,10 +213,7 @@ export default class SubscriptionDetail extends React.Component {
                                     </h1>
                                   </div>
                                   <div className="v-center">
-                                    <span className="rc-carousel__direction rc-carousel__direction--next
-                                      rc-btn rc-btn--icon rc-icon rc-interactive rc-right rc-iconography" aria-label="next">
-                                    <span className="rc-screen-reader-text">Next</span>
-                                    </span>
+                                    <a className="rc-styled-link red-text"><FormattedMessage id="subscription.change"></FormattedMessage></a>
                                   </div>
                                 </div>
                               </div>
@@ -241,10 +241,7 @@ export default class SubscriptionDetail extends React.Component {
                                     </h1>
                                   </div>
                                   <div className="v-center">
-                                    <span className="rc-carousel__direction rc-carousel__direction--next
-                                      rc-btn rc-btn--icon rc-icon rc-interactive rc-right rc-iconography" aria-label="next">
-                                    <span className="rc-screen-reader-text">Next</span>
-                                    </span>
+                                    <a className="rc-styled-link red-text"><FormattedMessage id="subscription.change"></FormattedMessage></a>
                                   </div>
                                 </div>
                               </div>
@@ -272,10 +269,7 @@ export default class SubscriptionDetail extends React.Component {
                                     </h1>
                                   </div>
                                   <div className="v-center">
-                                    <span className="rc-carousel__direction rc-carousel__direction--next
-                                      rc-btn rc-btn--icon rc-icon rc-interactive rc-right rc-iconography" aria-label="next">
-                                    <span className="rc-screen-reader-text">Next</span>
-                                    </span>
+                                    <a className="rc-styled-link red-text"><FormattedMessage id="subscription.change"></FormattedMessage></a>
                                   </div>
                                 </div>
                               </div>

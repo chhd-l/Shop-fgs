@@ -63,8 +63,12 @@ class Details extends React.Component {
       tabsValue: [],
       buyWay: 'Once',
       saveMoney: 0,
-      deliveryWeekOptions: [],
-      selectedDelivery: null
+      deliveryWeekOptions: [
+        {name: 'foure weeks', value: 1},
+        {name: 'three month', value: 2},
+        {name: 'one year', value: 3}
+      ],
+      selectedDelivery: 1
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -541,15 +545,22 @@ class Details extends React.Component {
         }
     )
   }
+
   loadDeliveryWeekOptions() {
     this.setState({
       deliveryWeekOptions: [
-        {text: 'foure weeks', value: 1},
-        {text: 'three month', value: 2},
-        {text: 'one year', value: 3}
+        {name: 'foure weeks', value: 1},
+        {name: 'three month', value: 2},
+        {name: 'one year', value: 3}
       ]
     })
   }
+  handleSelectedItemChange (data) {
+    this.setState({ selectedDelivery: data.value }, () =>{
+        console.log(this.state.selectedDelivery);
+    })
+  }
+
   render () {
     const createMarkup = (text) => ({ __html: text });
     const {
@@ -937,6 +948,7 @@ class Details extends React.Component {
                                     <div>
                                       <FormattedMessage id="details.deliveryEvery" />
                                       <Selection
+                                          selectedItemChange={data => this.handleSelectedItemChange(data)}
                                           optionList={data.deliveryWeekOptions}
                                           selectedItemData={{
                                             value: data.selectedDelivery
