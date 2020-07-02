@@ -454,7 +454,7 @@ class PetForm extends React.Component {
       isUnknownDisabled: isUnknownDisabled,
       showBreedList: showBreedList
     })
-    this.getDict(this.state.isCat ? 'catBreed' : 'dogBreed', e.target.value)
+    this.getDict(this.state.isCat ? 'catBreed_mx' : 'dogBreed_mx', e.target.value)
   };
   selectWeight (val) {
     this.setState({
