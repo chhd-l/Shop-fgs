@@ -65,10 +65,6 @@
         e.target.value = retextStr(target.value, target.selectionStart, '')
         target.selectionStart = oldSelectionStart + 1
         target.selectionEnd = oldSelectionEnd + 1
-      // }else if(oldSelectionStart >= 16 && oldSelectionEnd >= 16) {
-      //   e.target.value = retextStr(target.value, target.selectionStart, '')
-      //   target.selectionStart = oldSelectionStart
-      //   target.selectionEnd = oldSelectionEnd
       }else {
         e.target.value = retextStr(target.value, target.selectionStart, '')
         target.selectionStart = oldSelectionStart

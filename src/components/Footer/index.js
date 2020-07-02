@@ -22,103 +22,104 @@ function Footer () {
         <div className="rc-layout-container rc-one-column">
           <div className="rc-column rc-padding-x--xs--desktop rc-padding-x--none--mobile">
             <nav data-toggle-group="mobile" data-toggle-effect="rc-expand--vertical" className="rc-padding-x--xs--desktop rc-padding-x--none--mobile">
-              <ul className="rc-list rc-list--five-column rc-list--blank rc-list--align rc-list--inverse" role="menubar">
-                <li className="rc-list__item rc-list__item--group">
-                  <button className="rc-list__header" id="footer-head-158504765613564650" data-toggle="footer-list-158504765613564650" role="menuitem">
+              <ul className="rc-list rc-list--blank rc-list--align rc-list--inverse d-flex justify-content-between flex-wrap flex-md-nowrap" role="menubar">
+                <li className="rc-list__item rc-list__item--group rc-full-width">
+                  <div className="rc-list__header" id="footer-head-158504765613564650" data-toggle="footer-list-158504765613564650" role="menuitem">
                     <h3 className="rc-padding-left--md--mobile">
                       <FormattedMessage id="footer.aboutRoyalCanin" />
                     </h3>
-                  </button>
+                  </div>
                   <ul className="list list--blank list--align" id="footer-list-158504765613564650" aria-labelledby="footer-head-158504765613564650" role="menu">
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.royalcanin.com/mx/about-us" role="menuitem">
+                      <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.royalcanin.com/mx/about-us" role="menuitem">
                         <FormattedMessage id="aboutUs2" />
                       </a>
                     </li>
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.royalcanin.com/mx/about-us/our-values" role="menuitem">
+                      <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.royalcanin.com/mx/about-us/our-values" role="menuitem">
                         <FormattedMessage id="footer.ourValues" />
                       </a>
                     </li>
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.royalcanin.com/mx/about-us/quality-and-food-safety" role="menuitem">
+                      <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.royalcanin.com/mx/about-us/quality-and-food-safety" role="menuitem">
                         <FormattedMessage id="footer.qualityAndSafety" />
                       </a>
                     </li>
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.royalcanin.com/mx/cats/health-and-wellbeing" role="menuitem">
+                      <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.royalcanin.com/mx/cats/health-and-wellbeing" role="menuitem">
                         <FormattedMessage id="footer.healthAndNutrition" />
                       </a>
                     </li>
                   </ul>
                 </li>
-                <li className="rc-list__item rc-list__item--group">
-                  <button className="rc-list__header" id="footer-head-158504765613561849" data-toggle="footer-list-158504765613561849" role="menuitem">
+                <li className="rc-list__item rc-list__item--group rc-full-width">
+                  <div className="rc-list__header" id="footer-head-158504765613561849" data-toggle="footer-list-158504765613561849" role="menuitem">
                     <h3 className="rc-padding-left--md--mobile">
                       <FormattedMessage id="footer.products" />
                     </h3>
-                  </button>
+                  </div>
                   <ul className="list list--blank list--align" id="footer-list-158504765613561849" aria-labelledby="footer-head-158504765613561849" role="menu">
                     <li className="rc-list__item">
-                      <Link className="rc-list__link" to="/list/cats" role="menuitem">
+                      <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/list/cats" role="menuitem">
                         <FormattedMessage id="cats" />
                       </Link>
                     </li>
                     <li className="rc-list__item">
-                      <Link className="rc-list__link" to="/list/dogs" role="menuitem">
+                      <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/list/dogs" role="menuitem">
                         <FormattedMessage id="dogs" />
                       </Link>
                     </li>
                   </ul>
                 </li>
-                <li className="rc-list__item rc-list__item--group">
-                  <button className="rc-list__header" id="footer-head-158504765613551093" data-toggle="footer-list-158504765613551093" role="menuitem">
+                <li className="rc-list__item rc-list__item--group rc-full-width">
+                  <div className="rc-list__header" id="footer-head-158504765613551093" data-toggle="footer-list-158504765613551093" role="menuitem">
                     <h3 className="rc-padding-left--md--mobile">
                       <FormattedMessage id="footer.help" />
                     </h3>
-                  </button>
+                  </div>
                   <ul className="list list--blank list--align" id="footer-list-158504765613551093" aria-labelledby="footer-head-158504765613551093" role="menu">
                     <li className="rc-list__item">
-                      <Link className="rc-list__link" to="/help" role="menuitem">
+                      <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/help" role="menuitem">
                         <FormattedMessage id="footer.contacts" />
                       </Link>
                     </li>
                     <li className="rc-list__item">
-                      <Link className="rc-list__link" to="/FAQ" role="menuitem">
+                      <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/FAQ" role="menuitem">
                         <FormattedMessage id="footer.FAQ" />
                       </Link>
                     </li>
                   </ul>
                 </li>
-                <li className="rc-list__item rc-list__item--group">
-                  <button className="rc-list__header" id="footer-head-158504765613549553" data-toggle="footer-list-158504765613549553" role="menuitem">
+                <li className="rc-list__item rc-list__item--group rc-full-width">
+                  <div className="rc-list__header" id="footer-head-158504765613549553" data-toggle="footer-list-158504765613549553" role="menuitem">
                     <h3 className="rc-padding-left--md--mobile">
                       <FormattedMessage id="footer.Additionally" />
                     </h3>
-                  </button>
+                  </div>
                   <ul className="list list--blank list--align" id="footer-list-158504765613549553" aria-labelledby="footer-head-158504765613549553" role="menu">
                     <li className="rc-list__item">
-                      <Link className="rc-list__link" to="/privacypolicy" role="menuitem">
+                      <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/privacypolicy" role="menuitem">
                         <FormattedMessage id="footer.privacyPolicy" />
                       </Link>
                     </li>
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.mars.com/global/policies/note-to-parents/np-russian" role="menuitem">
+                      <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.mars.com/global/policies/note-to-parents/np-russian" role="menuitem">
                         <FormattedMessage id="footer.informationForParents" />
                       </a>
                     </li>
                     <li className="rc-list__item">
-                      <Link className="rc-list__link" to="/termuse" role="menuitem">
+                      <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/termuse" role="menuitem">
                         <FormattedMessage id="footer.websiteTermsOfUse" />
                       </Link>
                     </li>
                     <li className="rc-list__item">
-                      <a className="rc-list__link" href="https://www.mars.com/cookies-spain" role="menuitem">
+                      <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.mars.com/cookies-spain" role="menuitem">
                         <FormattedMessage id="footer.cookieCollectionPolicy" />
                       </a>
                     </li>
                   </ul>
                 </li>
+                <li className="rc-list__item rc-list__item--group rc-full-width"></li>
               </ul>
             </nav>
 
@@ -177,7 +178,7 @@ function Footer () {
         </div>
       </div>
       {/* <!-- OneTrust Cookies Settings button start --> */}
-      <a class="optanon-show-settings">Cookie Settings</a>
+      <a className="optanon-show-settings">Cookie Settings</a>
       {/* <!-- OneTrust Cookies Settings button end --> */}
     </footer>
   )

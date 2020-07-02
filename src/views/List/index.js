@@ -1,23 +1,24 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
-import { createHashHistory } from 'history'
 import { FormattedMessage } from 'react-intl'
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import Filters from '@/components/Filters'
-import './index.css'
+import Pagination from '@/components/Pagination'
 import { cloneDeep, find, findIndex } from 'lodash'
 import titleCfg from './json/title.json'
-import { getList, getProps } from '@/api/list'
-import { queryStoreCateIds, formatMoney } from "@/utils/utils"
-import { STOREID, CATEID } from '@/utils/constant'
+import { getList, getProps, getLoginList } from '@/api/list'
+import { queryStoreCateIds, formatMoney, jugeLoginStatus } from '@/utils/utils'
+import { STOREID, CATEID, STORE_CATE_ENUM } from '@/utils/constant'
+import './index.css'
 
 class List extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      storeCateId: '',
+      storeCateIds: [],
       category: '',
       titleData: null,
       productList: [
@@ -62,7 +63,6 @@ class List extends React.Component {
       totalPage: 1, // 总页数
       results: 0, // 总数据条数
       pageSize: 9,
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       keywords: '',
       filterList: [],
       initingFilter: true,
@@ -71,8 +71,6 @@ class List extends React.Component {
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
-    this.handleCurrentPageNumChange = this.handleCurrentPageNumChange.bind(this)
-    this.handlePrevOrNextPage = this.handlePrevOrNextPage.bind(this)
     this.hanldeItemClick = this.hanldeItemClick.bind(this)
     this.toggleFilterModal = this.toggleFilterModal.bind(this)
   }
@@ -89,20 +87,10 @@ class List extends React.Component {
     })
 
     let storeIdList = await queryStoreCateIds()
-    let map = {
-      dogs: 'Prescription dogs',
-      cats: 'Prescription cats',
-      vcn: 'VD dogs',
-      vd: 'VD cats'
-    }
-    let res = map[category]
-    if (res) {
-      let targetObj = find(storeIdList, s => s.cateName.toLocaleLowerCase() === res.toLocaleLowerCase())
-      if (targetObj) {
-        this.setState({
-          storeCateId: targetObj.storeCateId
-        })
-      }
+    const t = find(STORE_CATE_ENUM, ele => ele.category == category)
+    if (t) {
+      let tmpArr = Array.from(storeIdList, s => t.cateName.includes(s.cateName) ? s.storeCateId : '').filter(s => !!s)
+      this.setState({ storeCateIds: tmpArr })
     }
 
     this.getProductList()
@@ -127,7 +115,7 @@ class List extends React.Component {
     })
   }
   async getProductList () {
-    let { checkedList, currentPage, pageSize, storeCateId, keywords, initingList, category } = this.state;
+    let { checkedList, currentPage, pageSize, storeCateIds, keywords, initingList, category } = this.state;
     this.setState({
       loading: true
     })
@@ -136,8 +124,10 @@ class List extends React.Component {
       const widget = document.querySelector('#J-product-list')
       if (widget) {
         setTimeout(() => {
-          console.log(widget.offsetTop)
-          window.scrollTo(0, widget.offsetTop - 100);
+          window.scrollTo({
+            top: widget.offsetTop - 100,
+            behavior: 'smooth'
+          });
         }, 0)
       }
     }
@@ -152,11 +142,8 @@ class List extends React.Component {
       pageSize,
       esGoodsInfoDTOList: [],
       companyType: '',
-      keywords
-    }
-
-    if (storeCateId) {
-      params.storeCateIds = [storeCateId]
+      keywords,
+      storeCateIds
     }
 
     for (let item of checkedList) {
@@ -167,8 +154,13 @@ class List extends React.Component {
         params.propDetails.push({ propId: item.propId, detailIds: [item.detailId] })
       }
     }
-
-    getList(params)
+    let tmpList
+    if (jugeLoginStatus()) {
+      tmpList = getLoginList
+    } else {
+      tmpList = getList
+    }
+    tmpList(params)
       .then(res => {
         this.setState({ loading: false, initingList: false })
         const esGoods = res.context.esGoods
@@ -250,40 +242,10 @@ class List extends React.Component {
     }
     this.setState({ checkedList: res, currentPage: 1 }, () => this.getProductList())
   }
-  handleCurrentPageNumChange (e) {
-    const val = e.target.value
-    if (val === '') {
-      this.setState({ currentPage: val })
-    } else {
-      let tmp = parseInt(val)
-      if (isNaN(tmp)) {
-        tmp = 1
-      }
-      if (tmp > this.state.totalPage) {
-        tmp = this.state.totalPage
-      } else if (tmp < 1) {
-        tmp = 1
-      }
-      if (tmp !== this.state.currentPage) {
-        this.setState({ currentPage: tmp }, () => this.getProductList())
-      }
-    }
-  }
-  handlePrevOrNextPage (type) {
-    const { currentPage, totalPage } = this.state
-    let res
-    if (type === 'prev') {
-      if (currentPage <= 1) {
-        return
-      }
-      res = currentPage - 1
-    } else {
-      if (currentPage >= totalPage) {
-        return
-      }
-      res = currentPage + 1
-    }
-    this.setState({ currentPage: res }, () => this.getProductList())
+  hanldePageNumChange (params) {
+    this.setState({
+      currentPage: params.currentPage
+    }, () => this.getProductList())
   }
   hanldeItemClick (item) {
     if (this.state.loading) {
@@ -291,13 +253,41 @@ class List extends React.Component {
     }
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
     sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
-    createHashHistory().push('/details/' + item.goodsInfos[0].goodsInfoId)
+    const { history } = this.props
+    history.push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   render () {
-    const { results, productList, loading, checkedList, currentPage, totalPage, titleData, cartData } = this.state
+    const { category, results, productList, loading, checkedList, titleData } = this.state
+    let event
+    if (category) {
+      let theme
+      let type
+      switch (category) {
+        case 'dogs':
+        case 'vcn':
+          theme = 'Dog'
+          type = 'Product Catalogue'
+          break
+        case 'cats':
+        case 'vd':
+          theme = 'Cat'
+          type = 'Product Catalogue'
+          break
+        default:
+          theme = ''
+          type = 'Search Results'
+      }
+      event = {
+        page: {
+          type,
+          theme
+        }
+      }
+    }
     return (
       <div>
-        <Header cartData={cartData} showMiniIcons={true} location={this.props.location} />
+        {event ? <GoogleTagManager additionalEvents={event} /> : null}
+        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           {titleData ?
@@ -349,7 +339,7 @@ class List extends React.Component {
                   <div className={['rc-column', 'rc-triple-width', !productList.length ? 'd-flex justify-content-center align-items-center' : ''].join(' ')}>
                     {!productList.length
                       ?
-                      <React.Fragment>
+                      <>
                         <div className="ui-font-nothing rc-md-up">
                           <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
                           <FormattedMessage id="list.errMsg" />
@@ -358,7 +348,7 @@ class List extends React.Component {
                           <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
                           <FormattedMessage id="list.errMsg" />
                         </div>
-                      </React.Fragment>
+                      </>
                       :
                       <div className={['rc-match-heights', 'rc-layout-container', 'rc-event-card--sidebar-present'].join(' ')}>
                         {productList.map(item => (
@@ -371,7 +361,7 @@ class List extends React.Component {
                                     {
                                       loading
                                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
-                                        : <React.Fragment>
+                                        : <>
                                           <picture className="rc-card__image">
                                             <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center" style={{ minHeight: '202px' }}>
                                               <img
@@ -384,10 +374,16 @@ class List extends React.Component {
                                           <div className="rc-card__body rc-padding-top--none">
                                             <div className="height-product-tile-plpOnly height-product-tile">
                                               <header className="rc-text--center">
-                                                <h3 className="rc-card__title rc-gamma">{item.lowGoodsName}</h3>
+                                                <h3
+                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break"
+                                                  title={item.lowGoodsName}>
+                                                  {item.lowGoodsName}
+                                                </h3>
                                               </header>
                                               <div className="Product-Key-words rc-text--center"></div>
-                                              <div className="rc-card__meta rc-margin-bottom--xs rc-text--center">
+                                              <div
+                                                className="text-center ui-text-overflow-line3 text-break"
+                                                title={item.goodsSubtitle}>
                                                 {item.goodsSubtitle}
                                               </div>
                                             </div>
@@ -397,7 +393,7 @@ class List extends React.Component {
                                               </span>
                                             </span>
                                           </div>
-                                        </React.Fragment>
+                                        </>
                                     }
                                   </article>
                                 </a>
@@ -406,30 +402,11 @@ class List extends React.Component {
                           </div>
                         ))}
                         <div className="grid-footer rc-full-width">
-                          <nav className="rc-pagination">
-                            <div className="rc-pagination__form">
-                              <div
-                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-                                onClick={() => this.handlePrevOrNextPage('prev')}></div>
-                              {/* <div
-                              className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
-                              onClick={this.handlePrevOrNextPage('prev')}></div> */}
-                              <div className="rc-pagination__steps">
-                                <input
-                                  type="text"
-                                  className="rc-pagination__step rc-pagination__step--current"
-                                  value={currentPage}
-                                  onChange={this.handleCurrentPageNumChange} />
-                                <div className="rc-pagination__step rc-pagination__step--of">
-                                  <FormattedMessage id="of" /> <span>{totalPage}</span>
-                                </div>
-                              </div>
-
-                              <span
-                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-                                onClick={() => this.handlePrevOrNextPage('next')}></span>
-                            </div>
-                          </nav>
+                          <Pagination
+                            loading={this.state.loading}
+                            currentPage={this.state.currentPage}
+                            totalPage={this.state.totalPage}
+                            onPageNumChange={params => this.hanldePageNumChange(params)} />
                         </div>
                       </div>
                     }
@@ -446,4 +423,4 @@ class List extends React.Component {
   }
 }
 
-export default List;
+export default List

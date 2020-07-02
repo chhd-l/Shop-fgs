@@ -12028,7 +12028,12 @@ body {
 .red {
   color: #ec001a!important
 }
-
+.color-999 {
+  color: #999
+}
+.color-f6f6f6 {
+  color: #f6f6f6
+}
 .w-34px {
   width: 34px
 }
@@ -15509,7 +15514,6 @@ input.radio {
 .input__checkbox:checked+.label--inline:after {
   content: "";
   position: absolute;
-  /* background-image: url(../../images/icons/royal-canin.sprite--brand1.svg); */
   background-position: 92.31% 50%;
   top: -4px;
   left: -3px;
@@ -18911,7 +18915,8 @@ button.rc-btn.tooltip-btn {
   width: 100%;
   height: 100%
 }
-.veil.absolute {
+.veil.absolute,
+.veil .underlay.absolute {
   position: absolute;
 }
 
@@ -22332,6 +22337,9 @@ tr.rc-table__row.inactive td:after {
   -webkit-animation: swing 1.5s ease-in-out alternate infinite;
   animation: swing 1.5s ease-in-out alternate infinite
 }
+.ui-cursor-pointer-pure {
+  cursor: pointer;
+}
 .ui-cursor-pointer {
   cursor: pointer;
 }
@@ -22342,6 +22350,9 @@ tr.rc-table__row.inactive td:after {
   opacity: 0.5;
   cursor: default;
   pointer-events: none;
+}
+.ui-btn-loading.ui-btn-loading-border-red:before {
+  border-color: #ec001a;
 }
 .ui-btn-loading:before {
   content: '';
@@ -22355,6 +22366,51 @@ tr.rc-table__row.inactive td:after {
   clip-path: polygon(0% 0%, 100% 0%, 100% 30%, 0% 30%);
   animation: rotate 1s linear infinite;
 }
+.ui-text-overflow-line2 {
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.ui-text-overflow-line3 {
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.rc-pagination {
+  max-width: 18em;
+  margin: 0 auto;
+}
+.rc-pagination .rc-pagination__step--current {
+  border: 1px solid #d7d7d7;
+  color: #666;
+  border-radius: 3px;
+  margin-right: .5rem;
+  font-weight: 500;
+  width: 2.75rem;
+  height: 2.75rem;
+  text-align: center;
+}
+.rc-pagination .rc-pagination__direction[disabled] {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+.rc-progress--breadcrumbs-stepped li {
+  max-width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 @keyframes rotate {
   from {
       transform: rotatez(0deg);
@@ -22363,4 +22419,15 @@ tr.rc-table__row.inactive td:after {
   to {
       transform: rotatez(360deg);
   }
+}
+
+/* 去除input type=number 加减按钮 */
+ input::-webkit-outer-spin-button,
+ input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+ input[type=number]{
+  -moz-appearance:textfield;
 }

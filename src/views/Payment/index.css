@@ -119,7 +119,7 @@
 .cardForm > .rc-input:nth-child(3) {
   width: 18%;
 }
-.rc-baseline img {
+#payment .rc-baseline img {
   display: inline-block !important;
 }
 .cardForm {
@@ -132,16 +132,10 @@
   border: none !important;
 }
 .creditCompleteInfoBox {
-  background-color: #d7d7d7;
-  padding: 1rem 2rem 1.5rem 2rem;
+  transition: all .3s ease-in-out;
 }
 .creditCompleteInfoBox img {
   width: 100%;
-}
-.creditCompleteInfoBox > p {
-  height: 20px;
-  color: black;
-  cursor: pointer;
 }
 .creditCompleteInfoBox > p .pull-right {
   text-decoration: underline;
@@ -150,13 +144,12 @@
   color: black;
 }
 
-
 .deliveryAddress {
   margin-bottom: 2rem;
 }
 .product-summary__products__item {
   padding-bottom: 1rem;
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
   border-bottom: 1px solid #d7d7d7;
 }
 
@@ -199,3 +192,4 @@
     user-select:none;
 }
 .shippingPhoneNumber::-ms-clear,::-ms-reveal{display:none;} */
+

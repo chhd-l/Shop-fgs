@@ -18,9 +18,10 @@ class MapFlag extends React.Component {
     })
   }
   handleConfirm=(item)=>{
-    sessionStorage.setItem('rc-clinics-name2',item.clinicsName)
-    sessionStorage.setItem('rc-clinics-id2', item.clinicsId)
-    createHashHistory().push('/payment/shipping')
+    sessionStorage.setItem('rc-clinics-name-select',item.prescriberName)
+    sessionStorage.setItem('rc-clinics-id-select', item.prescriberId)
+    const { history } = this.props
+    history.push('/payment/shipping')
   }
   handleClose=()=>{
     this.setState({
@@ -53,7 +54,7 @@ class MapFlag extends React.Component {
         <div className="rc-tooltip rc-text--left rc-padding--xs" id="map-tooltip" style={{ display:'block'}}>
           <div className="rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop" style={{marginBottom:"0"}}>
             <p><FormattedMessage id='clinic.vet' ></FormattedMessage></p>
-            <h4 className="rc-card__title rc-delta click-btn map-flag-title" >{this.props.obj.clinicsName}</h4>
+            <h4 className="rc-card__title rc-delta click-btn map-flag-title" >{this.props.obj.prescriberName}</h4>
             
             <div className="map-flag-address">{this.props.obj.location} </div>
 

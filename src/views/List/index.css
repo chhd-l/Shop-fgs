@@ -9,3 +9,13 @@
     font-size: 18px;
   }
 }
+.goodsSubtitle {
+  position: absolute;
+  bottom: 14px;
+  width: 100%;
+  text-align: center;
+}
+
+.height-product-tile-plpOnly.height-product-tile {
+  position: relative;
+}

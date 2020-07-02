@@ -1,0 +1,157 @@
+.list-select-pet .name--select.active {
+  border: 10px solid #e2001a;
+}
+.list-select-pet .name--select {
+  line-height: 62px;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  padding: 2px;
+  width: 62px;
+  height: 62px;
+  color: #444;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px solid #d7d7d7;
+  border-radius: 50%;
+}
+.pet-information {
+  overflow: hidden;
+  position: relative;
+  background: #f0f0f0;
+  padding: 20px 30px;
+  margin-top: 1rem;
+}
+.pet-information .name-pet {
+  font-size: 1.6rem;
+}
+.rc-layout-container {
+  display: flex;
+  -ms-flex-preferred-size: 100%;
+  flex-basis: 100%;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  z-index: 1;
+}
+.pet-information .pet-data li.breed.dog:before {
+  content: "";
+  background: url(./../../../assets/images/pet-dog.svg) no-repeat;
+  width: 21px;
+  height: 30px;
+  background-size: 100%;
+  margin: 0 auto;
+  left: 0;
+  top: 1px;
+  position: absolute;
+}
+.pet-information .pet-data li.breed.cat:before {
+  content: "";
+  background: url(./../../../assets/images/pet-cat.svg) no-repeat;
+  width: 21px;
+  height: 25px;
+  background-size: 100%;
+  margin: 0 auto;
+  left: 0;
+  top: 6px;
+  position: absolute;
+}
+
+
+.pet-information .pet-data li.birth:before {
+  content: "";
+  background: url(./../../../assets/images/birth-pet.svg) no-repeat;
+  width: 20px;
+  height: 20px;
+  background-size: 100%;
+  margin: 0 auto;
+  left: 0;
+  top: 9px;
+  position: absolute;
+}
+.pet-information .pet-data li.gender.female:before,
+.pet-information .pet-data li.gender.male:before {
+  content: "";
+  position: absolute;
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+}
+.pet-information .pet-data li.gender.male:before {
+  background-position: 0 0;
+  left: -4px;
+  top: 5px;
+}
+.pet-information .pet-data li.gender.female:before {
+  background-position: 38% 50%;
+  left: -6px;
+  top: 6px;
+}
+.sprite-pet:before {
+  background-image: url(./../../../assets/images/royal-canin-sprite.svg);
+}
+.pet-information .pet-data li.weight:before {
+  content: "";
+  background: url(./../../../assets/images/weigh-pet.svg) no-repeat;
+  width: 21px;
+  height: 30px;
+  background-size: 100%;
+  margin: 0 auto;
+  left: 0;
+  top: 10px;
+  position: absolute;
+}
+.pet-information .list-special-need li {
+  padding: 7px;
+  border-radius: 10px;
+  background: #d7d7d7;
+  display: block;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-bottom: 10px;
+}
+.pet-information .list-special-need {
+  list-style: none;
+  padding: 0;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+.pet-information .pet-data li {
+  padding: 10px;
+  padding-left: 30px;
+  position: relative;
+  text-transform: capitalize;
+}
+.pet-information .edit {
+  position: absolute;
+  overflow: hidden;
+  right: 20px;
+  top: 20px;
+  background: #dadada;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right:0;
+}
+.pet-information .delete {
+  position: absolute;
+  right: 20px;
+  top: 90px;
+  width: 50px;
+  height: 50px;
+  background: #e2001a;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 50px;
+  text-align: center;
+}
+.pet-information .delete a {
+  color: #fff;
+  display: block;
+}

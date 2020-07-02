@@ -4,9 +4,14 @@ import { register } from '../serviceWorker'
 const api = {
   visitorRegisterAndLogin: '/visitorRegisterAndLogin',
   batchAdd: '/site/batchAdd',
-  confirmAndCommit: '/tradeCustom/confirmcommitAndPay'
+  confirmAndCommit: '/tradeCustom/confirmcommitAndPay',
+  addOrUpdatePaymentMethod: '/payment-method/updata',
+  getPaymentMethod: '/payment-method/query-by-customer-id',
+  deleteCard: '/payment-method/delete-by-id',
   // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
   
+  customerCommitAndPay: 'tradeCustom/customerCommitAndPay',
+  rePay: 'tradeCustom/rePay',
 }
 
 export default api
@@ -30,6 +35,46 @@ export function batchAdd (parameter) {
 export function confirmAndCommit (parameter) {
   return axios({
     url: api.confirmAndCommit,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function addOrUpdatePaymentMethod (parameter) {
+  return axios({
+    url: api.addOrUpdatePaymentMethod,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getPaymentMethod(parameter) {
+  return axios({
+    url: api.getPaymentMethod,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function deleteCard(para) {
+  return axios({
+    url: api.deleteCard,
+    method: 'post',
+    data: para
+  })
+}
+
+export function customerCommitAndPay (parameter) {
+  return axios({
+    url: api.customerCommitAndPay,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function rePay (parameter) {
+  return axios({
+    url: api.rePay,
     method: 'post',
     data: parameter
   })

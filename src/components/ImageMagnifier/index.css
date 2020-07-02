@@ -1,0 +1,20 @@
+.videoModal {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -50px;
+  margin-left: -50px;
+  cursor: pointer;
+  border-radius: 50px;
+  z-index: 10;
+  background: url(../../assets/images/openVideo.png) center center no-repeat;
+}
+
+@media(max-width: 769px) {
+  .justify-content-center {
+    text-align: center;
+  }
+}
+

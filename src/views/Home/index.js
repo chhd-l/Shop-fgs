@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import HeroCarousel from '@/components/HeroCarousel'
@@ -15,7 +16,6 @@ class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       promotionVisible: false
     }
   }
@@ -40,9 +40,17 @@ class Home extends React.Component {
     localStorage.setItem("isRefresh", true);
   }
   render () {
+    const event = {
+      page: {
+        type: 'Homepage',
+        theme: ''
+      }
+    }
     return (
       <div>
-        <Header cartData={this.state.cartData} showMiniIcons={true} location={this.props.location} />
+        <GoogleTagManager additionalEvents={event} />
+
+        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         {
           this.state.promotionVisible && !sessionStorage.getItem('rc-promotion-pop-close')
             ? <div className="ui-pop" onClick={() => this.closePromotionPop()}>
@@ -119,7 +127,7 @@ class Home extends React.Component {
                         <FormattedMessage id="home.catogery3">
                           {txt => (
                             <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                              to="/list/dogs" title={txt}>
+                              to="/list/prescription-dogs" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
                                   srcSet={DIETDOG} />
@@ -140,7 +148,7 @@ class Home extends React.Component {
                         <FormattedMessage id="home.catogery4">
                           {txt => (
                             <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                              to="/list/cats" title={txt}>
+                              to="/list/prescription-cats" title={txt}>
                               <picture className="category-cards__card__img">
                                 <source
                                   srcSet={DIETCAT} />

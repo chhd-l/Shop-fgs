@@ -1,146 +1,139 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import { find } from 'lodash'
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
-import { createHashHistory } from 'history'
-import { formatMoney, getParaByName, hanldePurchases } from "@/utils/utils";
+import { getParaByName, jugeLoginStatus } from '@/utils/utils';
 import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
-import './index.css'
 import { getList } from '@/api/list'
-import { CATEID, MINIMUM_AMOUNT } from '@/utils/constant'
+import { CATEID, IMG_DEFAULT } from '@/utils/constant'
 import { getPrescriptionById } from '@/api/clinic'
+import LoginButton from '@/components/LoginButton'
+import UnloginCart from './modules/unLoginCart'
+import LoginCart from './modules/loginCart'
+import LogoutButton from '@/components/LogoutButton';
+import { inject, observer } from 'mobx-react';
+import Store from '@/store/store';
+import './index.css'
 
+@observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
   static defaultProps = {
-    cartData: [],
-    showMiniIcons: false
+    showMiniIcons: false,
+    showUserIcon: false
   }
   constructor(props) {
     super(props)
     this.state = {
       showCart: false,
+      showCenter: false,
       showSearchInput: false,
       keywords: '',
       loading: false,
       result: null,
       showMegaMenu: false,
-      checkoutLoading: false,
-      validateAllItemsStock: true,
-      errMsg: '',
       tradePrice: '',
-      clinicsId: sessionStorage.getItem('rc-clinics-id'),
-      clinicsName: sessionStorage.getItem('rc-clinics-name')
+      prescriberId: sessionStorage.getItem('rc-clinics-id-link'),
+      prescriberName: sessionStorage.getItem('rc-clinics-name-link')
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
     this.hanldeSearchClick = this.hanldeSearchClick.bind(this)
     this.hanldeSearchCloseClick = this.hanldeSearchCloseClick.bind(this)
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this)
-    this.handleItemClick = this.handleItemClick.bind(this)
     this.toggleMenu = this.toggleMenu.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
-    this.handleCheckout = this.handleCheckout.bind(this)
+    // this.clickLogin = this.clickLogin.bind(this)
+    this.clickLogoff = this.clickLogoff.bind(this)
+
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
     this.menuBtnRef = React.createRef();
+    this.unloginCartRef = React.createRef();
+    this.loginCartRef = React.createRef();
+
+    this.handleCenterMouseOver = this.handleCenterMouseOver.bind(this)
+    this.handleCenterMouseOut = this.handleCenterMouseOut.bind(this)
   }
   async componentDidMount () {
+    if (sessionStorage.getItem('rc-token-lose')) {
+      document.querySelector('#J-btn-logoff') && document.querySelector('#J-btn-logoff').click()
+      document.querySelector('#J-btn-login') && document.querySelector('#J-btn-login').click()
+    }
+
     window.addEventListener('click', (e) => this.hideMenu(e))
     const { location } = this.props
-    if (location && (location.pathname === '/' || location.pathname.includes('/list') || location.pathname.includes('/details')) && !this.state.clinicsId) {
-      let clinicsId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
-      sessionStorage.setItem('rc-clinics-id', clinicsId)
-      this.setState({
-        clinicsId: clinicsId
-      })
-      let tmpName = ''
-      if (clinicsId && !this.state.clinicsName) {
+    let prescriberId
+    let tmpName = ''
+
+    // 指定clinic链接进入，设置default clinic
+    if (location
+      && (location.pathname === '/'
+        || location.pathname.includes('/list')
+        || location.pathname.includes('/details'))
+      && !this.state.prescriberId) {
+      prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
+      if (prescriberId && !this.state.prescriberName) {
         try {
-          let res = await getPrescriptionById({ clinicsId })
-          if (res.context) {
-            tmpName = res.context.clinicsName
+          let res = await getPrescriptionById({ prescriberId })
+          if (res.context && res.context.enabled) {
+            tmpName = res.context.prescriberName
           }
         } catch (e) { }
       }
-      sessionStorage.setItem('rc-clinics-name', tmpName)
-      this.setState({
-        clinicsName: tmpName
-      })
+      if (prescriberId && tmpName) {
+        sessionStorage.setItem('rc-clinics-id-link', prescriberId)
+        sessionStorage.setItem('rc-clinics-name-link', tmpName)
+        this.setState({
+          prescriberName: tmpName,
+          prescriberId: prescriberId
+        })
+      }
     }
+    this.setDefaultClinic()
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
   }
-  get totalNum () {
-    return this.props.cartData.reduce((pre, cur) => { return pre + cur.quantity }, 0)
+  /**
+   * 登录状态，设置default clinic
+   */
+  setDefaultClinic () {
+    if (jugeLoginStatus() && localStorage.getItem('rc-userinfo') && !sessionStorage.getItem('rc-clinics-id-select')) {
+      let userInfo = JSON.parse(localStorage.getItem('rc-userinfo'))
+      if (userInfo.defaultClinics) {
+        sessionStorage.setItem('rc-clinics-id-default', userInfo.defaultClinics.clinicsId)
+        sessionStorage.setItem('rc-clinics-name-default', userInfo.defaultClinics.clinicsName)
+      }
+    }
   }
-  get totalPrice () {
-    let ret = 0
-    this.props.cartData.map(item => {
-      return ret += item.currentAmount
+  updateDefaultClinic () {
+    this.setState({
+      prescriberId: sessionStorage.getItem('rc-clinics-id-link'),
+      prescriberName: sessionStorage.getItem('rc-clinics-name-link')
     })
-    return ret
   }
-  async handleCheckout () {
-    // if (this.state.tradePrice < MINIMUM_AMOUNT) {
-    //   this.setState({
-    //     errMsg: <FormattedMessage id="cart.errorInfo3" />
-    //   })
-    //   return false
-    // }
-    const { cartData } = this.props
-    let tmpValidateAllItemsStock = true
-    this.setState({ checkoutLoading: true })
-    if (cartData.length) {
-      let productList = cartData
-      let param = productList.map(ele => {
-        return {
-          goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId,
-          goodsNum: ele.quantity,
-          invalid: false
-        }
-      })
-      let res = await hanldePurchases(param)
-      let latestGoodsInfos = res.goodsInfos
-      productList.map(item => {
-        let selectedSize = find(item.sizeList, s => s.selected)
-        const tmpObj = find(latestGoodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
-        if (tmpObj) {
-          selectedSize.stock = tmpObj.stock
-          if (item.quantity > tmpObj.stock) {
-            tmpValidateAllItemsStock = false
-          }
-        }
-      })
-
-      sessionStorage.setItem('rc-totalInfo', JSON.stringify({
-        totalPrice: res.totalPrice,
-        tradePrice: res.tradePrice,
-        discountPrice: res.discountPrice
-      }))
-      this.setState({
-        checkoutLoading: false,
-        validateAllItemsStock: tmpValidateAllItemsStock,
-        tradePrice: res.tradePrice
-      }, () => {
-        if (this.state.tradePrice < MINIMUM_AMOUNT) {
-          this.setState({
-            errMsg: <FormattedMessage id="cart.errorInfo3" />
-          })
-          return false
-        }
-        const { validateAllItemsStock } = this.state
-        if (!validateAllItemsStock) {
-          this.setState({
-            errMsg: <FormattedMessage id="cart.errorInfo2" />
-          })
-        } else {
-          createHashHistory().push('/prescription')
-        }
-      })
+  updateCartCache () {
+    if (jugeLoginStatus()) {
+      this.loginCartRef.current.updateCartCache()
+    } else {
+      this.unloginCartRef.current.updateCartCache()
+    }
+  }
+  handleCartMouseOver () {
+    if (jugeLoginStatus()) {
+      this.loginCartRef.current.handleMouseOver()
+    } else {
+      this.unloginCartRef.current.handleMouseOver()
+    }
+  }
+  handleCartMouseOut () {
+    if (jugeLoginStatus()) {
+      this.loginCartRef.current.handleMouseOut()
+    } else {
+      this.unloginCartRef.current.handleMouseOut()
     }
   }
   handleMouseOver () {
@@ -154,11 +147,21 @@ class Header extends React.Component {
     setTimeout(() => {
       if (!this.flag) {
         this.setState({
-          showCart: false,
-          errMsg: ''
+          showCart: false
         })
       }
     }, 500)
+  }
+
+  handleCenterMouseOver () {
+    this.setState({
+      showCenter: true
+    })
+  }
+  handleCenterMouseOut () {
+    this.setState({
+      showCenter: false
+    })
   }
   hanldeSearchClick () {
     this.setState({
@@ -186,6 +189,22 @@ class Header extends React.Component {
         this.getSearchData();
       }, 500)
     })
+  }
+  signUp () {
+    // let prefix = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri='
+    // let callbackUrl = 'http://localhost:3000?origin=register'
+    // let registredUrl = ''
+    // if (process.env.NODE_ENV === 'development') {
+    //   registredUrl = prefix + encodeURIComponent(callbackUrl)
+    // } else if (process.env.NODE_ENV === 'production') {
+    //   callbackUrl = process.env.REACT_APP_RegisterCallback
+    //   registredUrl = process.env.REACT_APP_RegisterPrefix + encodeURIComponent(callbackUrl)
+    // }
+    // window.location.href = registredUrl
+    const { history } = this.props
+    history.push("/login");
+    localStorage.setItem('loginType', 'register')
+
   }
   async getSearchData () {
     const { keywords } = this.state
@@ -234,13 +253,10 @@ class Header extends React.Component {
       })
     }
   }
-  handleItemClick () {
-    createHashHistory().push('/list/keywords/' + this.state.keywords)
-  }
   gotoDetails (item) {
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
     sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
-    createHashHistory().push('/details/' + item.goodsInfos[0].goodsInfoId)
+    this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   toggleMenu () {
     this.setState({
@@ -254,6 +270,24 @@ class Header extends React.Component {
         showMegaMenu: false
       })
     }
+  }
+  clickLogin () {
+    const { history } = this.props
+    history.push('/login')
+    localStorage.setItem('loginType', 'login')
+  }
+  clickLogoff () {
+    localStorage.removeItem("rc-token");
+    sessionStorage.removeItem('rc-clinics-name-default')
+    sessionStorage.removeItem('rc-clinics-id-default')
+    localStorage.removeItem('rc-userinfo')
+    localStorage.removeItem('rc-cart-data-login')
+    // this.setState({
+    //   isLogin: false
+    // })
+    Store.changeIsLogin(false)
+    const { history } = this.props
+    history.push('/')
   }
   renderResultJsx () {
     return this.state.result ?
@@ -276,13 +310,13 @@ class Header extends React.Component {
                                 className="swatch__img"
                                 alt={item.lowGoodsName}
                                 title={item.lowGoodsName}
-                                src={item.goodsInfos[0].goodsInfoImg} />
+                                src={item.goodsInfos[0].goodsInfoImg || IMG_DEFAULT} />
                             </a>
                           </div>
-                          <div className="col-8 col-md-9 col-lg-10 rc-padding-top--xs">
+                          <div className="col-8 col-md-9 col-lg-10">
                             <a
                               onClick={() => this.gotoDetails(item)}
-                              className="productName ui-cursor-pointer"
+                              className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
                               alt={item.lowGoodsName}
                               title={item.lowGoodsName}
                             >
@@ -293,7 +327,7 @@ class Header extends React.Component {
                         </div>
                       </div>
                     )) :
-                    <p className="d-flex" style={{ margin: '0 2%' }}>
+                    <p className="d-flex ml-2 mr-2">
                       <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
                       <FormattedMessage id="list.errMsg2" />
                     </p>
@@ -302,9 +336,11 @@ class Header extends React.Component {
               {
                 this.state.result.totalElements ?
                   <div className="rc-margin-top--xs">
-                    <a className="productName rc-large-body ui-cursor-pointer" onClick={this.handleItemClick}>
+                    <Link
+                      className="productName rc-large-body ui-cursor-pointer"
+                      to={`/list/keywords/${this.state.keywords}`}>
                       <b><FormattedMessage id="viewAllResults" /> ({this.state.result.totalElements})</b>
-                    </a>
+                    </Link>
                   </div> :
                   null
               }
@@ -319,10 +355,10 @@ class Header extends React.Component {
       : null
   }
   render () {
-    const { cartData } = this.props
     return (
-      <React.Fragment>
+      <>
         <div id="page-top" name="page-top"></div>
+        {Store.loginModal ? <Loading /> : null}
         <header className="rc-header" data-js-header-scroll>
           <nav className="rc-header__nav rc-header__nav--primary">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align" role="menubar">
@@ -336,8 +372,10 @@ class Header extends React.Component {
                     onClick={this.toggleMenu}>
                     <FormattedMessage id="menu" />
                   </button>
-                  <button className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-menu--xs', 'rc-iconography', 'rc-md-down', this.state.showMegaMenu ? 'btn-close' : ''].join(' ')}
-                    aria-label="Menu" onClick={this.toggleMenu}>
+                  <button
+                    className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-menu--xs', 'rc-iconography', 'rc-md-down', this.state.showMegaMenu ? 'btn-close' : ''].join(' ')}
+                    aria-label="Menu"
+                    onClick={this.toggleMenu}>
                     <span className="rc-screen-reader-text">
                       <FormattedMessage id="menu" />
                     </span>
@@ -355,166 +393,204 @@ class Header extends React.Component {
             </Link>
 
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right" role="menubar">
-              {this.props.showMiniIcons ?
-                <React.Fragment>
-                  <li className="rc-list__item">
-                    <div className="inlineblock">
-                      <button
-                        className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-search--xs', 'rc-iconography', this.state.showSearchInput ? 'rc-hidden' : ''].join(' ')}
-                        aria-label="Search"
-                        onClick={this.hanldeSearchClick}>
-                        <span className="rc-screen-reader-text">
-                          <FormattedMessage id="search" />
-                        </span>
-                      </button>
-                      <div className="rc-sm-up">
-                        <form
-                          className={['inlineblock', 'headerSearch', 'headerSearchDesktop', 'relative', this.state.showSearchInput ? '' : 'rc-hidden'].join(' ')}
-                          role="search"
-                          name="simpleSearch"
-                          onSubmit={e => { e.preventDefault() }}>
-                          <span className="rc-input rc-input--full-width" input-setup="true">
-                            <button className="rc-input__submit rc-input__submit--search" type="submit">
-                              <span className="rc-screen-reader-text"></span>
-                            </button>
-                            <FormattedMessage id='header.startTypingToSearch'>
-                              {(txt) => (
-                                <input
-                                  ref={this.inputRef}
-                                  className="search-field"
-                                  type="search"
-                                  autoComplete="off"
-                                  placeholder={txt}
-                                  value={this.state.keywords}
-                                  onChange={this.handleSearchInputChange} />
+              <li className="rc-list__item">
+                {
+                  this.props.showMiniIcons
+                    ? <>
+                      <div className="inlineblock">
+                        <button
+                          className={['rc-btn', 'less-width-xs', 'rc-btn--icon', 'rc-icon', 'rc-search--xs', 'rc-iconography', this.state.showSearchInput ? 'rc-hidden' : ''].join(' ')}
+                          aria-label="Search"
+                          onClick={this.hanldeSearchClick}>
+                          <span className="rc-screen-reader-text">
+                            <FormattedMessage id="search" />
+                          </span>
+                        </button>
+                        <div className="rc-sm-up">
+                          <form
+                            className={['inlineblock', 'headerSearch', 'headerSearchDesktop', 'relative', this.state.showSearchInput ? '' : 'rc-hidden'].join(' ')}
+                            role="search"
+                            name="simpleSearch"
+                            onSubmit={e => { e.preventDefault() }}>
+                            <span className="rc-input rc-input--full-width" input-setup="true">
+                              <button className="rc-input__submit rc-input__submit--search" type="submit">
+                                <span className="rc-screen-reader-text"></span>
+                              </button>
+                              <FormattedMessage id='header.startTypingToSearch'>
+                                {(txt) => (
+                                  <input
+                                    ref={this.inputRef}
+                                    className="search-field"
+                                    type="search"
+                                    autoComplete="off"
+                                    placeholder={txt}
+                                    value={this.state.keywords}
+                                    onChange={this.handleSearchInputChange} />
+                                )}
+                              </FormattedMessage>
+                              <label className="rc-input__label" htmlFor="id-submit-2">
+                                <span className="rc-input__label-text"></span>
+                              </label>
+                            </span>
+                            <input type="hidden" value="null" name="lang" />
+                            <span className="rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle rc-padding-top--xs" aria-label="Close" onClick={this.hanldeSearchCloseClick}>
+                            </span>
+                            <div className="suggestions-wrapper">{this.renderResultJsx()}</div>
+                          </form>
+                        </div>
+                      </div>
+                      {
+                        Store.isLogin
+                          ? <LoginCart ref={this.loginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
+                          : <UnloginCart ref={this.unloginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
+                      }
+                    </>
+                    : null
+                }
+                {
+                  this.props.showUserIcon
+                    ? <span
+                      className="minicart inlineblock"
+                      style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }}
+                      onMouseOver={this.handleCenterMouseOver} onMouseOut={this.handleCenterMouseOut}>
+                      {
+                        Store.isLogin ? (
+                          <FormattedMessage id="personal">
+                            {txt => (
+                              <Link
+                                to="/account"
+                                className="minicart-link"
+                                data-loc="miniCartOrderBtn"
+                                title={txt}>
+                                <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
+                              </Link>
+                            )}
+                          </FormattedMessage>
+                        ) : (
+                            <FormattedMessage id="personal">
+                              {txt => (
+                                <div
+                                  className="minicart-link"
+                                  data-loc="miniCartOrderBtn"
+                                  title={txt}>
+                                  <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
+                                </div>
                               )}
                             </FormattedMessage>
-                            <label className="rc-input__label" htmlFor="id-submit-2">
-                              <span className="rc-input__label-text"></span>
-                            </label>
-                          </span>
-                          <input type="hidden" value="null" name="lang" />
-                          <span className="rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle rc-padding-top--xs" aria-label="Close" onClick={this.hanldeSearchCloseClick}>
-                          </span>
-                          <div className="suggestions-wrapper">{this.renderResultJsx()}</div>
-                        </form>
-                      </div>
-                    </div>
-                    <span className="minicart inlineblock" style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
-                      <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn" title="Basket">
-                        <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
-                        <span className="minicart-quantity">{this.totalNum}</span>
-                      </Link>
+                          )
+                      }
+
+
                       {
-                        !this.totalNum
+                        !Store.isLogin
                           ?
-                          <div className={['popover', 'popover-bottom', this.state.showCart ? 'show' : ''].join(' ')}>
-                            <div className="container cart">
-                              <div className="minicart__footer__msg text-center minicart-padding">
-                                <span className="minicart__pointer"></span>
-                                <div className="minicart__empty">
-                                  <img className="cart-img" src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwbedbf812/images/cart.png" alt="Интернет-магазин ROYAL CANIN®" />
-                                  <p className="rc-delta"><FormattedMessage id="header.basketEmpty" /></p>
-                                </div>
+                          <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{ minWidth: "13rem" }}>
+                            <div className="container cart" >
+                              <div className="login-style">
+                                <LoginButton
+                                  updateCartCache={() => {
+                                    this.updateCartCache()
+                                    this.setDefaultClinic()
+                                  }}
+                                  btnStyle={{ width: "11rem", margin: "2rem 0" }}
+                                  history={this.props.history} />
+                                {/* <button onClick={() => {
+                                  // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
+                                  window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
+                                }}>registred</button> */}
+                                {/* <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
+                                  onClick={() => this.clickLogin()}> <FormattedMessage id='login'/></button> */}
+                                <div><FormattedMessage id="account.notRegistred" /></div>
+                                <a className="rc-styled-link" onClick={() => {
+                                  // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
+                                  window.location.href = process.env.REACT_APP_RegisterPrefix + window.encodeURIComponent(process.env.REACT_APP_RegisterCallback)
+                                  // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
+                                  // this.signUp()
+                                }}>
+                                  <FormattedMessage id="signUp" />
+                                </a>
                               </div>
+
+                              {/* <div className="link-group">
+                                <div className="link-style" >
+                                  <Link to="/account" >
+                                    <FormattedMessage id="account.myAccount" />
+                                  </Link>
+                                </div>
+                                <div className="link-style" >
+                                  <Link to="/account/information" >
+                                    <FormattedMessage id="account.basicInfomation" />
+                                  </Link>
+                                </div>
+                                <div className="link-style" >
+                                  <Link to="/account/pets" >
+                                    <FormattedMessage id="account.pets" />
+                                  </Link>
+                                </div>
+                                <div className="link-style" >
+                                  <Link to="/account/orders" >
+                                  <FormattedMessage id="account.orders" />
+                                  </Link>
+                                </div>
+                                <div className="link-style" >
+                                  <Link to="/account/orders" >
+                                    <FormattedMessage id="shippingAddress" />
+                                  </Link>
+                                </div>
+
+                              </div> */}
                             </div>
                           </div>
                           :
-                          <div className={['popover', 'popover-bottom', this.state.showCart ? 'show' : ''].join(' ')} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
+                          <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{ minWidth: "13rem" }}
+                            onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
                             <div className="container cart">
-                              <div>
-                                <div className="minicart__header cart--head small">
-                                  <span className="minicart__pointer"></span>
-                                  <div className="d-flex minicart_freeshipping_info align-items-center">
-                                    <i className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></i>
-                                    <p><FormattedMessage id="miniBasket" /></p>
-                                  </div>
+                              <div className="link-group">
+                                <div className="link-style" >
+                                  <Link to="/account" className="click-hover">
+                                    <FormattedMessage id="account.myAccount" />
+                                  </Link>
                                 </div>
-                                <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
-                                  <span className="rc-body rc-margin--none"><FormattedMessage id="total" /> <b>{formatMoney(this.totalPrice)}</b></span>
-                                  <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true"><FormattedMessage id="chang" /></Link>
+                                <div className="link-style" >
+                                  <Link to="/account/information" className="click-hover">
+                                    <FormattedMessage id="account.basicInfomation" />
+                                  </Link>
                                 </div>
-                                <div style={{ margin: '0 2%', display: this.state.errMsg ? 'block' : 'none' }}>
-                                  <aside className="rc-alert rc-alert--error rc-alert--with-close" role="alert" style={{ padding: '.5rem' }}>
-                                    <span style={{ paddingLeft: '0' }}>{this.state.errMsg}</span>
-                                  </aside>
+                                <div className="link-style" >
+                                  <Link to="/account/pets" className="click-hover" >
+                                    <FormattedMessage id="account.pets" />
+                                  </Link>
                                 </div>
-                                <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                                  <a
-                                    onClick={this.handleCheckout}
-                                    className={['rc-btn', 'rc-btn--one', 'rc-btn--sm', 'btn-block', 'cart__checkout-btn', 'checkout-btn', this.state.checkoutLoading ? 'ui-btn-loading' : ''].join(' ')}
-                                    style={{ color: '#fff' }}>
-                                    <FormattedMessage id="checkout" />
-                                  </a>
+                                <div className="link-style" >
+                                  <Link to="/account/orders" className="click-hover" >
+                                    <FormattedMessage id="account.orders" />
+                                  </Link>
                                 </div>
-                                <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
-                                  <span className="rc-meta">
-                                    {
-                                      this.props.cartData.length > 1
-                                        ? <FormattedMessage
-                                          id="itemsInCart2"
-                                          values={{ val: <b>{this.props.cartData.length}</b> }}
-                                        />
-                                        : <FormattedMessage
-                                          id="itemsInCart"
-                                          values={{ val: <b>{this.props.cartData.length}</b> }}
-                                        />
-                                    }
-                                  </span>
+                                <div className="link-style" >
+                                  <Link to="/account/shippingAddress" className="click-hover" >
+                                    <FormattedMessage id="shippingAddress" />
+                                  </Link>
                                 </div>
-                                <div className="minicart-error cart-error">
-                                </div>
-                                <div className="product-summary limit">
-                                  {cartData.map((item, idx) => (
-                                    <div className="minicart__product" key={item.goodsId + idx}>
-                                      <div>
-                                        <div className="product-summary__products__item">
-                                          <div className="product-line-item">
-                                            <div className="product-line-item-details d-flex flex-row">
-                                              <div className="item-image">
-                                                <img className="product-image"
-                                                  src={item.goodsImg}
-                                                  alt={item.goodsName}
-                                                  title={item.goodsName} />
-                                              </div>
-                                              <div className="wrap-item-title">
-                                                <div className="item-title">
-                                                  <div className="line-item-name capitalize">
-                                                    <span className="light">{item.goodsName}</span>
-                                                  </div>
-                                                </div>
-                                                <div className="line-item-total-price justify-content-start pull-left">
-                                                  <div className="item-attributes">
-                                                    <p className="line-item-attributes">{find(item.sizeList, s => s.selected).detailName} - {item.quantity > 1 ? `${item.quantity} products` : `${item.quantity} product`}</p>
-                                                  </div>
-                                                </div>
-                                                <div className="line-item-total-price justify-content-end pull-right">
-                                                  <div className="item-total-07984de212e393df75a36856b6 price relative">
-                                                    <div className="strike-through non-adjusted-price">null</div>
-                                                    <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">{formatMoney(item.currentAmount)}</b>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="item-options">
-                                            </div>
-                                            <div className="line-item-promo item-07984de212e393df75a36856b6">
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                    </div>
-                                  ))}
+                                <div className="link-style" >
+                                  <Link to="/account/paymentMethod" className="click-hover" >
+                                    <FormattedMessage id="paymentMethod" />
+                                  </Link>
                                 </div>
                               </div>
+                              <LogoutButton />
+                              {/* <div className="logoff-style">
+                                <a className="rc-styled-link--external" onClick={() => this.clickLogoff()}>
+                                  <FormattedMessage id="logOff" />
+                                </a>
+                              </div> */}
+
                             </div>
                           </div>
                       }
                     </span>
-                  </li>
-                </React.Fragment>
-                : null}
+                    : null
+                }
+              </li>
             </ul>
           </nav>
 
@@ -596,15 +672,15 @@ class Header extends React.Component {
           <MegaMenu show={this.state.showMegaMenu} />
         </header>
         {
-          this.state.clinicsId && this.state.clinicsName && this.props.showMiniIcons
-            ? <div className="tip-clinics" title={this.state.clinicsName}>
-              <FormattedMessage id="clinic.clinic" /> : {this.state.clinicsName}
+          this.state.prescriberId && this.state.prescriberName && this.props.showMiniIcons
+            ? <div className="tip-clinics" title={this.state.prescriberName}>
+              <FormattedMessage id="clinic.clinic" /> : {this.state.prescriberName}
             </div>
             : null
         }
-      </React.Fragment>
+      </>
     )
   }
 }
 
-export default Header
+export default injectIntl(Header, { forwardRef: true })

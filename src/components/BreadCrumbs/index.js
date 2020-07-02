@@ -4,12 +4,12 @@ import BreadcrumbNameMap from './breadcrumbNameMap';
 import { FormattedMessage } from 'react-intl'
 
 const BreadCrumbs = withRouter(props => {
-  const { location } = props;
+  const { location, match } = props;
   const breadcrumbNameMap = BreadcrumbNameMap;
 
   const url = location.pathname
 
-  let mapData = breadcrumbNameMap[url] || []
+  let mapData = breadcrumbNameMap[url] || breadcrumbNameMap[match.path] || []
 
   // specific for keywords search
   if (url.indexOf('/list/keywords') > -1 && !mapData.length) {
@@ -43,7 +43,11 @@ const BreadCrumbs = withRouter(props => {
               {
                 item.href
                   ? <Link className="rc-styled-link rc-progress__breadcrumb" to={item.href}><FormattedMessage id={`${item.name}`} /></Link>
-                  : <FormattedMessage id={`${item.name}`} />
+                  : <FormattedMessage id={`${item.name}`}>
+                    {
+                      txt => (<span title={txt}>{txt}</span>)
+                    }
+                  </FormattedMessage>
               }
             </li>
           ))}
