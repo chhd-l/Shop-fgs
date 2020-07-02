@@ -120,6 +120,9 @@ const en_US = {
   'details.unitPrice': 'Unit price',
   'details.OneOFF': 'One-off purchase',
   'details.Subscription': 'Subscription',
+  'details.youCanSave': 'You can save',
+  'details.bySubscription': 'by subscription',
+  'details.deliveryEvery': 'Delivery every',
   'details.theSize': 'The size',
   'details.availability': 'Availability',
   'details.inStock': 'In stock',
@@ -351,7 +354,12 @@ const en_US = {
   "sterilized": "Sterilized",
   "notSterilized": "Not sterilized",
   'paymentMethod': 'Payment method',
+<<<<<<< HEAD
+  'subscription': 'Subscription',
+  'addNewCreditCard': 'Add new credit card',
+=======
   'addNewCreditCard': 'Add Credit Card',
+>>>>>>> 00305014474581523803877857c92854fa888b41
   'delete': 'Delete',
   'setDefaultPaymentMethod': 'Set as Default Payment method',
 
@@ -361,6 +369,28 @@ const en_US = {
   "newAddress": 'New address',
   'default': 'Default',
   'saveSuccessfullly': 'Save successfullly',
+<<<<<<< HEAD
+
+  'subscription.notYet' : 'Not Yet Shipped',
+  'subscription.frequency' : 'Frequency',
+  'subscription.nextOrder' : 'Next Order',
+  'subscription.order' : 'Order',
+  'subscription.total': 'Total',
+  'subscription.totalInclu': 'Total(Inclu IVA)',
+  'subscription.saveDiscount': 'Subscription Save Discount',
+  'subscription.shipping': 'Shipping',
+  'subscription.shippingAddress': 'Shipping address',
+  'subscription.BillingAddress': 'Billing address',
+  'subscription.paymentMethod': 'Payment method',
+  'subscription.change': 'change',
+  'subscription.product': 'Product',
+  'subscription.number': 'Subscription number',
+  'subscription.subscriptionNumberTip': 'Please enter subscription number',
+  'subscription.date': 'Subscription date',
+  'subscription.deliveryDate': 'Next delivery date',
+  'subscription.detail': 'Subscription detail',
+  'subscription.sub': 'Sub-'
+=======
   'login':'Log in',
   'login.register':'Create a personal account',
   'login.loginTip':' To connect to the ROYAL CANIN® service,authorization is required. If you do not have a personal account, you can register now.',
@@ -376,6 +406,7 @@ const en_US = {
   'forgetPassword.back':'Back to log in',
   'changePassword':'Change Password',
   'passwordHide':'Password:********',
+>>>>>>> 00305014474581523803877857c92854fa888b41
 
   'welcomeTo': 'Welcome to',
   'royalCanin':'Royal Canin',
