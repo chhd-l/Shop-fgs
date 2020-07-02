@@ -1,5 +1,5 @@
 import React from "react"
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
 
-export default class ShippingAddressFrom extends React.Component {
+class ShippingAddressFrom extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -41,7 +41,7 @@ export default class ShippingAddressFrom extends React.Component {
         isDefalt: false,
         deliveryAddressId: "",
         customerId: "",
-        addressType: "delivery"
+        addressType: "DELIVERY"
       },
       cityList: [],
       countryList: []
@@ -64,7 +64,7 @@ export default class ShippingAddressFrom extends React.Component {
         })
       })
       .catch(err => {
-        this.showErrorMsg(err.toString() || 'get data failed')
+        this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
       })
     getDictionary({ type: 'country' })
       .then(res => {
@@ -73,7 +73,7 @@ export default class ShippingAddressFrom extends React.Component {
         })
       })
       .catch(err => {
-        this.showErrorMsg(err.toString() || 'get data failed')
+        this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
       })
 
     if (this.props.match.params.addressId) {
@@ -117,13 +117,13 @@ export default class ShippingAddressFrom extends React.Component {
         this.setState({
           loading: false
         })
-        this.showErrorMsg(res.message || 'Get Data Failed')
+        this.showErrorMsg(res.message || this.props.intl.messages.getDataFailed)
       }
     }).catch(err => {
       this.setState({
         loading: false
       })
-      this.showErrorMsg('Get Data Failed')
+      this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
     })
 
 
@@ -153,7 +153,7 @@ export default class ShippingAddressFrom extends React.Component {
       "customerId": data.customerId,
       "deliveryAddress": data.address1 + " " + data.address2,
       "deliveryAddressId": data.deliveryAddressId,
-      "isDefaltAddress": data.addressType === 'delivery' ? (data.isDefalt ? 1 : 0) : 0,
+      "isDefaltAddress": data.addressType === 'DELIVERY' ? (data.isDefalt ? 1 : 0) : 0,
       "postCode": data.postCode,
       "provinceId": 0,
       "rfc": data.rfc,
@@ -172,14 +172,13 @@ export default class ShippingAddressFrom extends React.Component {
           this.setState({
             loading: false
           })
-          debugger
-          this.showErrorMsg(res.message || "Save Failed!")
+          this.showErrorMsg(res.message || this.props.intl.messages.saveFailed)
         }
       }).catch(err => {
         this.setState({
           loading: false
         })
-        this.showErrorMsg("Save Failed!")
+        this.showErrorMsg(err.toString() || this.props.intl.messages.saveFailed)
       })
 
     } else {
@@ -188,7 +187,7 @@ export default class ShippingAddressFrom extends React.Component {
           this.setState({
             loading: false
           })
-          this.showSuccessMsg(res.message || "Save Success")
+          this.showSuccessMsg(res.message || this.props.intl.messages.saveSuccess)
           setTimeout(() => {
             this.handleCancel()
           }, 3000);
@@ -198,13 +197,13 @@ export default class ShippingAddressFrom extends React.Component {
           this.setState({
             loading: false
           })
-          this.showErrorMsg(res.message || "Save Failed!")
+          this.showErrorMsg(res.message || this.props.intl.messages.saveFailed)
         }
       }).catch(err => {
         this.setState({
           loading: false
         })
-        this.showErrorMsg("Save Failed!")
+        this.showErrorMsg(err.toString() || this.props.intl.messages.saveFailed)
       })
     }
   }
@@ -217,17 +216,17 @@ export default class ShippingAddressFrom extends React.Component {
     }
     await setDefaltAddress(params).then(res => {
       if (res.code === 'K-000000') {
-        this.showSuccessMsg(res.message || 'Set Defalt Address Success')
+        this.showSuccessMsg(res.message || this.props.intl.messages.setDefaltAddressSuccess)
         this.getAddressList()
       }
       else {
-        this.showErrorMsg(res.message || 'Set Defalt Address Failed')
+        this.showErrorMsg(res.message || this.props.intl.messages.setDefaltAddressFailed)
         this.setState({
           loading: false
         })
       }
     }).catch(err => {
-      this.showErrorMsg('Set Defalt Address Failed')
+      this.showErrorMsg(err.toString() || this.props.intl.messages.setDefaltAddressFailed)
       this.setState({
         loading: false
       })
@@ -243,17 +242,17 @@ export default class ShippingAddressFrom extends React.Component {
     }
     await deleteAddress(params).then(res => {
       if (res.code === 'K-000000') {
-        this.showSuccessMsg(res.message || 'Delete Address Success')
+        this.showSuccessMsg(res.message || this.props.intl.messages.deleteAddressSuccess)
         this.getAddressList()
       }
       else {
-        this.showErrorMsg(res.message || 'Delete Address Failed')
+        this.showErrorMsg(res.message || this.props.intl.messages.deleteAddressFailed)
         this.setState({
           loading: false
         })
       }
     }).catch(err => {
-      this.showErrorMsg('Delete Address Failed')
+      this.showErrorMsg(err.toString() || this.props.intl.messages.setDefaltAddressFailed)
       this.setState({
         loading: false
       })
@@ -264,7 +263,7 @@ export default class ShippingAddressFrom extends React.Component {
     this.setState({
       errorMsg: message
     })
-    this.scrollToErrorMsg()
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
     setTimeout(() => {
       this.setState({
         errorMsg: ''
@@ -276,7 +275,7 @@ export default class ShippingAddressFrom extends React.Component {
     this.setState({
       successMsg: message
     })
-    this.scrollToErrorMsg()
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
     setTimeout(() => {
       this.setState({
         successMsg: ''
@@ -319,7 +318,12 @@ export default class ShippingAddressFrom extends React.Component {
   handleInputChange (e) {
     const target = e.target
     const { addressForm } = this.state
-    addressForm[target.name] = target.value
+    const name = target.name
+    let value = target.value
+    if (name === 'postCode') {
+      value = value.replace(/\s+/g, "")
+    }
+    addressForm[name] = value
     this.setState({ addressForm: addressForm })
     this.inputBlur(e);
   }
@@ -380,9 +384,16 @@ export default class ShippingAddressFrom extends React.Component {
                               onBlur={(e) => this.inputBlur(e)}
                               name="addressType"
                             >
-                              <option value=""></option>
-                              <option value="delivery">Delivery</option>
-                              <option value="billing">Billing</option>
+                              <FormattedMessage id="delivery">
+                                {txt => (
+                                  <option value="DELIVERY">{txt}</option>
+                                )}
+                              </FormattedMessage>
+                              <FormattedMessage id="billing2">
+                                {txt => (
+                                  <option value="BILLING">{txt}</option>
+                                )}
+                              </FormattedMessage>
                               {/* {
                               this.state.countryList.map(item=>(
                               <option value={item.id}>{item.name}</option>
@@ -405,8 +416,6 @@ export default class ShippingAddressFrom extends React.Component {
                             type="text"
                             className="rc-input__control"
                             id="firstName"
-                            data-pattern-mismatch="Please match the requested format"
-                            data-missing-error="Это поле обязательно для заполнения."
                             name="firstName"
                             required=""
                             aria-required="true"
@@ -437,8 +446,6 @@ export default class ShippingAddressFrom extends React.Component {
                             type="text"
                             className="rc-input__control"
                             id="lastName"
-                            data-pattern-mismatch="Please match the requested format"
-                            data-missing-error="Это поле обязательно для заполнения."
                             name="lastName"
                             required=""
                             aria-required="true"
@@ -469,8 +476,6 @@ export default class ShippingAddressFrom extends React.Component {
                             type="text"
                             className="rc-input__control"
                             id="address1"
-                            data-pattern-mismatch="Please match the requested format"
-                            data-missing-error="Это поле обязательно для заполнения."
                             name="address1"
                             required=""
                             aria-required="true"
@@ -575,19 +580,16 @@ export default class ShippingAddressFrom extends React.Component {
                             data-js-warning-message="*Post Code isn’t valid"
                             input-setup="true">
                             <input
-                              type="text"
                               className="rc-input__control"
-
+                              type="number"
                               id="zipCode"
-                              data-pattern-mismatch="Please match the requested format"
-                              data-missing-error="Это поле обязательно для заполнения."
                               data-range-error="The postal code needs to be 6 characters"
                               name="postCode"
                               value={addressForm.postCode}
                               onChange={e => this.handleInputChange(e)}
                               onBlur={e => this.inputBlur(e)}
-                              maxLength="5"
-                              minLength="5"
+                              // maxLength="5"
+                              // minLength="5"
                               data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                               autoComplete="postal-code" />
                             <label className="rc-input__label" htmlFor="zipCode"></label>
@@ -658,23 +660,28 @@ export default class ShippingAddressFrom extends React.Component {
                           <label className="rc-input__label" htmlFor="reference"></label>
                         </span>
                       </div>
-                      
+
                       {
-                        addressForm.addressType === 'delivery' ? (
+                        addressForm.addressType === 'DELIVERY' ? (
                           <div className="form-group col-6">
                             <div className="rc-input rc-input--inline" style={{ margin: "40px 0 0 0" }} onClick={() => this.isDefalt()}>
-                              <input type="checkbox"
-                                id="defaultAddress"
-                                className="rc-input__checkbox"
-
-                                value={addressForm.isDefalt} />
                               {
-                                !addressForm.isDefalt ? <label className="rc-input__label--inline" >
-                                  <FormattedMessage id="setDefaultAddress"></FormattedMessage>
-                                </label> : <label className="rc-input__label--inline defaultAddressChecked">
-                                    <FormattedMessage id="setDefaultAddress"></FormattedMessage>
-                                  </label>
+                                addressForm.isDefalt
+                                  ? <input
+                                    type="checkbox"
+                                    className="rc-input__checkbox"
+                                    value={addressForm.isDefalt}
+                                    key={1}
+                                    checked />
+                                  : <input
+                                    type="checkbox"
+                                    className="rc-input__checkbox"
+                                    key={2}
+                                    value={addressForm.isDefalt} />
                               }
+                              <label className="rc-input__label--inline text-break w-100">
+                                <FormattedMessage id="setDefaultAddress" />
+                              </label>
                             </div>
                           </div>
                         ) : null
@@ -711,7 +718,9 @@ export default class ShippingAddressFrom extends React.Component {
           </div>
         </main>
         <Footer />
-      </div>
+      </div >
     )
   }
 }
+
+export default injectIntl(ShippingAddressFrom);

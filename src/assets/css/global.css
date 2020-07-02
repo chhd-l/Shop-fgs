@@ -15514,7 +15514,6 @@ input.radio {
 .input__checkbox:checked+.label--inline:after {
   content: "";
   position: absolute;
-  /* background-image: url(../../images/icons/royal-canin.sprite--brand1.svg); */
   background-position: 92.31% 50%;
   top: -4px;
   left: -3px;
@@ -22338,6 +22337,9 @@ tr.rc-table__row.inactive td:after {
   -webkit-animation: swing 1.5s ease-in-out alternate infinite;
   animation: swing 1.5s ease-in-out alternate infinite
 }
+.ui-cursor-pointer-pure {
+  cursor: pointer;
+}
 .ui-cursor-pointer {
   cursor: pointer;
 }
@@ -22364,6 +22366,24 @@ tr.rc-table__row.inactive td:after {
   clip-path: polygon(0% 0%, 100% 0%, 100% 30%, 0% 30%);
   animation: rotate 1s linear infinite;
 }
+.ui-text-overflow-line2 {
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.ui-text-overflow-line3 {
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
 
 .rc-pagination {
   max-width: 18em;
@@ -22384,6 +22404,13 @@ tr.rc-table__row.inactive td:after {
   opacity: .5;
 }
 
+.rc-progress--breadcrumbs-stepped li {
+  max-width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 @keyframes rotate {
   from {
       transform: rotatez(0deg);
@@ -22392,4 +22419,15 @@ tr.rc-table__row.inactive td:after {
   to {
       transform: rotatez(360deg);
   }
+}
+
+/* 去除input type=number 加减按钮 */
+ input::-webkit-outer-spin-button,
+ input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+ input[type=number]{
+  -moz-appearance:textfield;
 }

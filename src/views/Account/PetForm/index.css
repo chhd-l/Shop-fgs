@@ -219,3 +219,6 @@ h2{
   left: calc(50% - 5px);
   padding: 5px;
 }
+.pet-element{
+  margin: auto 0;
+}

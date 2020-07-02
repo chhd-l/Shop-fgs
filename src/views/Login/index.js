@@ -1,10 +1,15 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import "./index.css";
 import Loading from "@/components/Loading";
-import { login } from "@/api/login";
+import { login,getQuestions,register } from "@/api/login";
 import { getCustomerInfo } from "@/api/user"
+import { getDictionary } from '@/utils/utils'
+// import bg1 from "@/assets/images/login-bg1.png";
+// import bg2 from "@/assets/images/login-bg2.png";
+import bg1 from "@/assets/images/login-bg3.jpg";
+import bg2 from "@/assets/images/register-bg1.jpg";
 
 class Login extends React.Component {
   constructor(props) {
@@ -15,19 +20,74 @@ class Login extends React.Component {
         customerAccount: "",
         customerPassword: "",
       },
+      loginPasswordType: "password",
+      registerPwdType: "password",
+      registerConfirmPwdType: "password",
+
+      registerForm: {
+        firstName: "",
+        lastName: "",
+        country: 6,
+        email: "",
+        password: "",
+        confirmPassword: "",
+        securityQuestion: "",
+        answer: "",
+        firstChecked: false,
+        // secondChecked: false,
+        // thirdChecked: false,
+      },
+      countryList: [{
+        id: 6,
+        name: 'Mexico'
+      }],
+      errorMsg: '',
+      successMsg: '',
+      questionList:[],
+      // type: this.props.match.params.type,
+      type: localStorage.getItem('loginType') || 'login',
+      loading:false
     };
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
   }
-  componentDidMount () {
+  componentDidMount() {
+    // console.log()
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
-      return false
+      return false;
     }
+    getDictionary({ type: "country" })
+      .then((res) => {
+        this.setState({
+          countryList: res,
+        });
+      })
+    getQuestions().then(res=>{
+      if(res.code==='K-000000'){
+
+        this.setState({
+          questionList:res.context
+        })
+      }
+      else{
+        this.showErrorMsg(res.message || this.props.intl.messages.getDataFailed)
+      }
+    }).catch(err=>{
+      this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
+    })
   }
-  loginFormChange (e) {
+  // getQuestions=()=>{
+    
+  // }
+  // loginFormChange (e) {
+  //     .catch((err) => {
+  //       this.showErrorMsg(err.toString() || "get data failed");
+  //     });
+  // }
+  loginFormChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -36,91 +96,828 @@ class Login extends React.Component {
     // this.inputBlur(e);
     this.setState({ loginForm: loginForm });
   }
-  async loginClick () {
+
+  registerFormChange = ({ field, value }) => {
+    const { registerForm } = this.state;
+    registerForm[field] = value;
+    this.setState({
+      registerForm: registerForm,
+    });
+  };
+ loginClick=() => {
+    if(sessionStorage.getItem("rc-token")){
+      sessionStorage.removeItem("rc-token")
+    }
+    if(localStorage.getItem("rc-token")){
+      localStorage.removeItem("rc-token")
+    }
+    if(localStorage.getItem("rc-userinfo")){
+      localStorage.removeItem("rc-userinfo")
+    }
+
     const { history } = this.props;
-    let res = await login(this.state.loginForm);
-    console.log(this.state.loginForm, res, "haha");
-    if (res.code === "K-000000") {
-      sessionStorage.setItem("is-login", true);
-      sessionStorage.setItem("rc-token", res.context.token);
-      let userinfo = res.context.customerDetail
-      userinfo.customerAccount = res.context.accountName
-      sessionStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-      try {
-        let customerInfoRes = await getCustomerInfo()
-        const context = customerInfoRes.context
-        sessionStorage.setItem('rc-clinics-id', context.defaultClinics && context.defaultClinics.clinicsId || '')
-        sessionStorage.setItem('rc-clinics-name', context.defaultClinics && context.defaultClinics.clinicsName || '')
-      } catch (err) {
-        console.log(err)
-      } finally {
-        history.push(this.props.location.state && this.props.location.state.redirectUrl || '/account')
+    login(this.state.loginForm).then(res=>{
+        debugger
+        localStorage.setItem("rc-token", res.context.token);
+        let userinfo = res.context.customerDetail;
+        userinfo.customerAccount = res.context.accountName;
+  
+         getCustomerInfo().then(customerInfoRes=>{
+          if(res.code==='K-000000'){
+            userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
+            localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+          }
+    
+          history.push(
+            (this.props.location.state && this.props.location.state.redirectUrl) ||
+              "/account"
+          );
+        }).catch(err=>{
+          history.push(
+            (this.props.location.state && this.props.location.state.redirectUrl) ||
+              "/account"
+          );
+          this.showErrorMsg(err.toString()|| this.props.intl.messages.loginFailed)
+        })
+        
+      
+    }).catch(err=>{
+      this.showErrorMsg(err.toString()|| this.props.intl.messages.loginFailed)
+    })
+    
+    
+  }
+  register = () => {
+    this.setState({
+      loading:true
+    })
+    const { registerForm } = this.state;
+    const objKeys = Object.keys(registerForm);
+    let requiredVerify = true;
+    for (let i = 0; i < objKeys.length; i++) {
+      if (!registerForm[objKeys[i]]) {
+        requiredVerify = false;
       }
     }
+    if (!requiredVerify) {
+      this.showErrorMsg(this.props.intl.messages.mandatoryFieldsError);
+      return false;
+    }
+    if (
+      !(
+        this.nameVerify(registerForm.firstName) &&
+        this.nameVerify(registerForm.lastName)
+      )
+    ) {
+      this.showErrorMsg(this.props.intl.messages.firstNameLastName50characters);
+      return false;
+    }
+    if (!this.emailVerify(registerForm.email)) {
+      this.showErrorMsg(this.props.intl.messages.yourEmailNotVerified);
+      return false;
+    }
+    if (!this.passwordVerify(registerForm.password)) {
+      this.showErrorMsg(this.props.intl.messages.yourPasswordNotVerified);
+      return false;
+    }
+    if (registerForm.password !== registerForm.confirmPassword) {
+      this.showErrorMsg(this.props.intl.messages.twoPasswordsYouTypedDoNotMatch);
+      return false;
+    }
+
+    let params = {
+      "answer": registerForm.answer,
+      "confirmPassword": registerForm.confirmPassword,
+      "country": registerForm.country,
+      "customerPassword": registerForm.password,
+      "email": registerForm.email,
+      "firstName": registerForm.firstName,
+      "lastName": registerForm.lastName,
+      "questionId": registerForm.securityQuestion,
+    }
+
+    console.log(params);
+
+    register(params).then(res=>{
+      debugger
+      if(res.code==='K-000000'){
+        console.log(res);
+        
+        localStorage.setItem("rc-token", res.context.token);
+        let userinfo = res.context.customerDetail;
+        userinfo.customerAccount = res.context.accountName;
+        localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+        const { history } = this.props;
+        history.push("/account")
+
+      }
+      else{
+        this.showErrorMsg(res.message || this.props.intl.messages.registerFailed)
+      }
+      console.log(res)
+    }).catch(err=>{
+      this.showErrorMsg(err.toString() || this.props.intl.messages.registerFailed)
+    })
+
+
+
   }
-  render () {
+
+  showErrorMsg = (message) => {
+    this.setState({
+      errorMsg: message,
+      loading:false
+    });
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    setTimeout(() => {
+      this.setState({
+        errorMsg: "",
+      });
+    }, 3000);
+  };
+
+  showSuccessMsg = (message) => {
+    this.setState({
+      successMsg: message,
+    });
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    setTimeout(() => {
+      this.setState({
+        successMsg: "",
+      });
+    }, 2000);
+  };
+
+  emailVerify = (email) => {
+    let reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+    return reg.test(email);
+  };
+  passwordVerify = (password) => {
+    //匹配至少包含一个数字、一个大写字母 一个小写字母 8-20 位的密码
+    let reg = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d\D]{8,20}$/;
+    return reg.test(password)
+  }
+  nameVerify = (name) => {
+    if (name.length > 50) return false;
+    else return true;
+  };
+
+  render() {
+    const { registerForm } = this.state;
     return (
       <div>
-        <div id="embedded-container" class="miaa miaa-wrapper miaa-embedded">
+        <div
+          id="embedded-container"
+          className="miaa miaa-wrapper miaa-embedded"
+        >
           <div
             id="signIn"
-            class="miaa-screen janrain-capture-ui capture-ui-content capture_screen_container"
+            className="miaa-screen janrain-capture-ui capture-ui-content capture_screen_container"
             role="document"
             data-capturescreenname="signIn"
             data-captureventadded="true"
             style={{ display: "block" }}
           >
-            <div class="miaa-content">
-              <button
+            <div className="miaa-content">
+              {/* <button
                 type="button"
-                class="close"
+                className="close"
                 data-dismiss="modal"
                 aria-label="Close"
               >
                 <span aria-hidden="true">
-                  <font>
-                    <font>×</font>
-                  </font>
+                  ×
                 </span>
-              </button>
-              <div class="miaa-header">
-                <div class="miaa-inner-content">
-                  <div class="miaa-brand-logo mb-5"></div>
+              </button> */}
+              {/* <div className="miaa-header">
+                <div className="miaa-inner-content">
+                  <div className="miaa-brand-logo mb-5"></div>
+                </div>
+              </div> */}
+              <div
+                className="logoImg"
+                style={{
+                  width: "120px",
+                  height: "45px"
+                }}
+              >
+                <object
+                  id="main-logo"
+                  class="rc-logo-svg rc-logo--primary"
+                  data="https://d1a19ys8w1wkc1.cloudfront.net/logo--primary.svg?v=8-9-5"
+                  type="image/svg+xml"
+                >
+                  <img
+                    src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-9-5"
+                    width="150"
+                    height="100"
+                    alt="Royal Canin logo"
+                    style={{
+                      backgroundImage:
+                        "url(https://d1a19ys8w1wkc1.cloudfront.net/logo--primary.png?v=8-9-5)",
+                    }}
+                  />
+                </object>
+              </div>
+              <div class="rc-layout-container rc-two-column" style={{display: this.state.type === 'login'?'block': 'none'}}>
+                <div class="rc-column">
+                  <h1 class="rc-espilon imgBox">
+                    <img
+                      src={bg1}
+                      style={{ display: "inline"}}
+                    />
+                    {/* <img
+                      src={bg2}
+                      style={{ display: "inline", width: "70%" }}
+                    /> */}
+                  </h1>
+                </div>
+
+                <div class="rc-column loginForm">
+                  <h1 class="rc-espilon">
+                    <h3 style={{fontSize: '32px'}}><span style={{color: '#666'}}>
+                      <FormattedMessage id='welcomeTo'/></span> <FormattedMessage id='royalCanin'/>
+                    </h3>
+                   
+                    <div className="loginBox">
+                    <div className="message-tip">
+                        <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
+                          <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+                            <span>{this.state.errorMsg}</span>
+                            <button
+                              className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                              onClick={() => { this.setState({ errorMsg: '' }) }}
+                              aria-label="Close">
+                              <span className="rc-screen-reader-text">
+                                <FormattedMessage id="close" />
+                              </span>
+                            </button>
+                          </aside>
+                        </div>
+                        <aside
+                          className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successMsg ? '' : 'hidden'}`}
+                          role="alert">
+                          <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
+                        </aside>
+                      </div>
+                      
+                    <div style={{ marginTop: "40px" }}>
+                      <div className="miaa_input required ">
+                        <input
+                          type="email"
+                          className="capture_signInEmailAddress capture_required capture_text_input form-control"
+                          placeholder={this.props.intl.messages.emailAddress}
+                          name="customerAccount"
+                          value={this.state.loginForm.customerAccount}
+                          onChange={(e) => this.loginFormChange(e)}
+                        />
+                      </div>
+                      {/* <span
+                        class="rc-input rc-input--inline rc-input--label"
+                        style={{ width: "100%" }}
+                      >
+                        <input
+                          class="rc-input__control"
+                          id="email"
+                          type="text"
+                          name="text"
+                        />
+                        <label class="rc-input__label" for="email">
+                          <span class="rc-input__label-text">
+                            Email Address
+                          </span>
+                        </label>
+                      </span> */}
+                    </div>
+                    <div style={{ marginTop: "40px" }}>
+                      <div className="miaa_input required ">
+                        <div className="input-append input-group">
+                          <input
+                            id="capture_signIn_currentPassword"
+                            data-capturefield="currentPassword"
+                            type={this.state.loginPasswordType}
+                            className="capture_currentPassword capture_required capture_text_input form-control"
+                            placeholder={this.props.intl.messages.password}
+                            name="customerPassword"
+                            value={this.state.loginForm.customerPassword}
+                            onChange={(e) => this.loginFormChange(e)}
+                          />
+                          <span
+                            tabIndex="100"
+                            title="Show / hide password"
+                            className="add-on input-group-addon"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              let type =
+                                this.state.loginPasswordType === "password"
+                                  ? "text"
+                                  : "password";
+                              this.setState({
+                                loginPasswordType: type,
+                              });
+                            }}
+                          >
+                            <i className="icon-eye-open fa fa-eye"></i>
+                          </span>
+                        </div>
+                      </div>
+                      {/* <span
+                        class="rc-input rc-input--inline rc-input--label"
+                        style={{ width: "100%" }}
+                      >
+                        <input
+                          class="rc-input__control"
+                          id="password"
+                          type="text"
+                          name="text"
+                        />
+                        <label class="rc-input__label" for="password">
+                          <span class="rc-input__label-text">Password</span>
+                        </label>
+                      </span> */}
+                    </div>
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "60px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <div
+                        class="rc-input rc-input--inline"
+                        style={{ float: "left" }}
+                      >
+                        <input
+                          class="rc-input__checkbox"
+                          id="id-checkbox-cat"
+                          value="Cat"
+                          type="checkbox"
+                          name="checkbox-1"
+                        />
+                        <label
+                          class="rc-input__label--inline"
+                          for="id-checkbox-cat"
+                          style={{ color: "#666", fontSize: "14px" }}
+                        >
+                          <FormattedMessage id='rememberMe'/>
+                        </label>
+                      </div>
+
+                      <p style={{ float: "right" }}>
+                        <a
+                          class="rc-styled-link"
+                          href="#/"
+                          style={{ color: "#666", fontSize: "14px" }}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            this.setState({type: 'forgetPassword'})
+                            localStorage.setItem('loginType', 'forgetPassword')
+                          }}
+                        >
+                          <FormattedMessage id='forgetPassword'/>
+                        </a>
+                        {/* <Link to="/forgetPassword" style={{ color: "#666", fontSize: "14px" }}>
+                          <FormattedMessage id="login.forgetPassword" />  
+                        </Link> */}
+                      </p>
+                    </div>
+                    <div
+                      class="rc-layout-container rc-two-column"
+                      style={{ width: "100%" }}
+                    >
+                      <div class="rc-column" style={{ textAlign: "center" }}>
+                        <button
+                          class="rc-btn rc-btn--one"
+                          style={{ width: "100%" }}
+                          onClick={() => this.loginClick()}
+                        >
+                          <FormattedMessage id='login'/>
+                        </button>
+                      </div>
+                      <div class="rc-column" style={{ textAlign: "center" }}>
+                        <button
+                          class="rc-btn rc-btn--two"
+                          style={{ width: "100%" }}
+                          onClick={() => {
+                            this.setState({type: 'register'})
+                            localStorage.setItem('loginType', 'register')
+                          }}
+                        >
+                           <FormattedMessage id='createAnAccount'/>
+                        </button>
+                      </div>
+                    </div>
+                    <a
+                      class="rc-styled-link"
+                      style={{ color: "#666", fontSize: "14px" }}
+                      onClick={() => {
+                        window.location.href = this.props.location.state &&
+                        this.props.location.state.redirectUrl === '/cart' ?
+                        "/prescription" : "/"
+                      }
+                        
+                      }
+                    >
+                      <FormattedMessage id='continueAsGuest'/>{'>'}
+                    </a>
+                    </div>
+                  </h1>
                 </div>
               </div>
-              <div class="miaa-toggle-wrapper">
-                <div class="miaa-inner-content">
-                  <div class="row no-gutters">
+              <div style={{display: this.state.type === 'register'?'block': 'none'}} className="register">
+              {this.state.loading ? <Loading positionFixed="true" /> : null}
+              <h3 style={{textAlign: 'center', color: '#e2001a', fontSize: '32px'}}><span style={{color: '#666'}}> <FormattedMessage id='welcomeTo'/></span>  <FormattedMessage id='royalCanin'/></h3>
+              <div className="registerBox" style={{ position: 'relative', margin: "0 auto" }}>
+                <div className="message-tip">
+                  <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
+                    <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+                      <span>{this.state.errorMsg}</span>
+                      <button
+                        className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                        onClick={() => { this.setState({ errorMsg: '' }) }}
+                        aria-label="Close">
+                        <span className="rc-screen-reader-text">
+                          <FormattedMessage id="close" />
+                        </span>
+                      </button>
+                    </aside>
+                  </div>
+                  <aside
+                    className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successMsg ? '' : 'hidden'}`}
+                    role="alert">
+                    <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
+                  </aside>
+                </div>
+              <img src={bg2} className="registerImg" 
+                style={{width: '270px', position: 'absolute', bottom: '-120px', right: '-270px'}} alt=""/>
+                <div class="rc-layout-container rc-two-column">
+                  <div class="rc-column">
+                    <div className="miaa_input required">
+                      <input
+                        id="capture_traditionalRegistration_firstName"
+                        data-capturefield="firstName"
+                        type="text"
+                        className="capture_firstName capture_required capture_text_input form-control"
+                        placeholder= {this.props.intl.messages.firstName}
+                        name="firstName"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          this.registerFormChange({
+                            field: "firstName",
+                            value,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div class="rc-column">
+                    <div className="miaa_input required">
+                      <input
+                        id="capture_traditionalRegistration_lastName"
+                        data-capturefield="lastName"
+                        type="text"
+                        className="capture_lastName capture_required capture_text_input form-control"
+                        placeholder={this.props.intl.messages.lastName}
+                        name="lastName"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          this.registerFormChange({
+                            field: "lastName",
+                            value,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="rc-layout-container rc-two-column">
+                  <div class="rc-column">
+                    <div className="miaa_input required">
+                      <input
+                        id="capture_traditionalRegistration_email"
+                        data-capturefield="email"
+                        type="email"
+                        className="capture_email capture_required capture_text_input form-control"
+                        placeholder={this.props.intl.messages.emailAddress}
+                        name="email"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          this.registerFormChange({
+                            field: "email",
+                            value,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div class="rc-column">
+                    <div className="miaa_input required country_select">
+                      <select
+                        data-js-select=""
+                        id="country"
+                        value={registerForm.country}
+                        placeholder={this.props.intl.messages.country}
+                        name="country"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // value = value === '' ? null : value;
+                          this.registerFormChange({
+                            field: "country",
+                            value,
+                          });
+                        }}
+                      >
+                        {this.state.countryList.map((item) => (
+                          <option value={item.id} key={item.id}>
+                            {item.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="rc-layout-container rc-two-column">
+                  <div class="rc-column">
+                    <div className="input-append input-group miaa_input required">
+                      <input
+                        autoComplete="off"
+                        data-capturefield="password"
+                        type={this.state.registerPwdType}
+                        className="capture_password capture_required capture_text_input form-control"
+                        placeholder={this.props.intl.messages.password}
+                        name="password"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          this.registerFormChange({
+                            field: "password",
+                            value,
+                          });
+                        }}
+                      />
+                      <span
+                        tabIndex="100"
+                        title="Show / hide password"
+                        className="add-on input-group-addon"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          let type =
+                            this.state.registerPwdType === "password"
+                              ? "text"
+                              : "password";
+                          this.setState({
+                            registerPwdType: type,
+                          });
+                        }}
+                      >
+                        <i className="icon-eye-open fa fa-eye"></i>
+                      </span>
+                    </div>
+                    <p style={{ marginTop: "-20px" }}>
+                      {" "}
+                      <FormattedMessage id="login.passwordTip" />{" "}
+                    </p>
+                  </div>
+                  <div class="rc-column">
+                    <div className="input-append input-group miaa_input required">
+                      <input
+                        autoComplete="off"
+                        data-capturefield="confirmPassword"
+                        type={this.state.registerConfirmPwdType}
+                        className="capture_password capture_required capture_text_input form-control"
+                        placeholder={this.props.intl.messages.confirmPassword}
+                        name="confirmPassword"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          this.registerFormChange({
+                            field: "confirmPassword",
+                            value,
+                          });
+                        }}
+                      />
+                      <span
+                        tabIndex="100"
+                        title="Show / hide password"
+                        className="add-on input-group-addon"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          let type =
+                            this.state.registerConfirmPwdType === "password"
+                              ? "text"
+                              : "password";
+                          this.setState({
+                            registerConfirmPwdType: type,
+                          });
+                        }}
+                      >
+                        <i className="icon-eye-open fa fa-eye"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="rc-layout-container rc-two-column">
+                  <div class="rc-column">
+                    <div className="miaa_input required country_select">
+                      <select
+                        data-js-select=""
+                        id="securityQuestion"
+                        value={registerForm.securityQuestion}
+                        name="securityQuestion"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // value = value === '' ? null : value;
+                          this.registerFormChange({
+                            field: "securityQuestion",
+                            value,
+                          });
+                        }}
+                      >
+                        <option value="" disabled>
+                          {this.props.intl.messages.securityQuestion} *
+                        </option>
+                        {this.state.questionList.map((item) => (
+                          <option value={item.id} key={item.id}>
+                            {item.question}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="rc-column">
+                    <div className="miaa_input required">
+                      <input
+                        id="capture_traditionalRegistration_firstName"
+                        data-capturefield="answer"
+                        type="text"
+                        className="capture_firstName capture_required capture_text_input form-control"
+                        placeholder={this.props.intl.messages.answer}
+                        name="answer"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          this.registerFormChange({
+                            field: "answer",
+                            value,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="policyBox" style={{ textAlign: "left" }}>
+                {/* <div class="rc-input rc-input--inline">
+                  <input
+                    class="rc-input__checkbox"
+                    id="id-checkbox-cat"
+                    value="Cat"
+                    type="checkbox"
+                    name="checkbox-1"
+                  />
+                  <label
+                    class="rc-input__label--inline"
+                    for="id-checkbox-cat"
+                    style={{ color: "#666", fontSize: "14px" }}
+                  >
+                    Remember Me
+                  </label>
+                </div> */}
+                <label
+                          htmlFor="capture_traditionalRegistration_privacyAndTermsStatus"
+                          className="form-check-label"
+                        >
+                          <input
+                            id="capture_traditionalRegistration_privacyAndTermsStatus"
+                            data-capturefield="privacyAndTermsStatus"
+                            value={registerForm.firstChecked}
+                            type="checkbox"
+                            className="capture_privacyAndTermsStatus capture_required capture_input_checkbox form-check-input"
+                            name="firstChecked"
+                            onChange={(e) => {
+                              let value = (e.target).value === 'false' ? true : false;
+                              this.registerFormChange({
+                                field: 'firstChecked',
+                                value
+                              });
+                            }}
+                          />
+                            <FormattedMessage id='iHaveReadThe'/>
+                          <a
+                            href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html/"
+                            target="_blank" rel='noreferrer'
+                          >
+                            <font> <FormattedMessage id='userAgreement'/></font>
+                          </a>
+                            <FormattedMessage id='andThe'/>
+                          <a
+                            href="https://www.mars.com/global/policies/privacy/pp-russian/"
+                            target="_blank" rel='noreferrer'
+                          >
+                            <font><FormattedMessage id='privacyPolicy'/> </font>
+                          </a>
+                            <FormattedMessage id='giveConsentPersonalData'/>
+                        </label>
+              </div>
+              </div>
+              
+              <div style={{ textAlign: "center" }} class="rc-layout-container rc-two-column buttonGroup">
+              <div class="rc-column" style={{ textAlign: "center" }}>
+                <button
+                  class="rc-btn rc-btn--one"
+                  style={{ width: "100%" }}
+                  onClick={() => this.register()}
+                >
+                  <FormattedMessage id='createAnAccount'/>
+                </button>
+              </div>
+              <div class="rc-column" style={{ textAlign: "center" }}>
+                <button
+                  class="rc-btn rc-btn--two"
+                  style={{ width: "100%" }}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    this.setState({type: 'login'})
+                    localStorage.setItem('loginType', 'login')
+                  }}
+                >
+                  <FormattedMessage id='login'/>
+                </button>
+              </div>
+                
+              </div>
+              </div>
+              
+              <div style={{display: this.state.type === 'forgetPassword'?'block': 'none'}} className="forgetPassword">
+                <h3 style={{textAlign: 'center', fontSize: '30px'}}><FormattedMessage id='forgetPassword.createNewPassword'/></h3>
+                
+                <div className="forgetBox" style={{position: 'relative'}}>
+                <img src={bg2} className="registerImg" style={{width: '300px', position: 'absolute', bottom: '-120px', right: '-400px'}}/>
+                <p><FormattedMessage id='forgetPassword.forgetPasswordTip'/></p>
+                <div className="miaa_input required">
+                      <input
+                        id="capture_traditionalRegistration_firstName"
+                        data-capturefield="email"
+                        type="text"
+                        className="capture_firstName capture_required capture_text_input form-control"
+                        placeholder={this.props.intl.messages.emailAddress}
+                        name="email"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          this.registerFormChange({
+                            field: "email",
+                            value,
+                          });
+                        }}
+                      />
+                      <div
+                      style={{ width: "100%", marginTop: '100px' }}
+                    >
+                      <p style={{ textAlign: "center" }}>
+                        <button
+                          class="rc-btn rc-btn--one"
+                          style={{ width: "70%" }}
+                          onClick={() => {
+                            this.setState({type: 'login'})
+                          }}
+                        >
+                          <FormattedMessage id='submit'/>
+                        </button>
+                      </p>
+                      <p style={{ textAlign: "center" }}>
+                        <button
+                          class="rc-btn rc-btn--two"
+                          style={{ width: "70%" }}
+                          onClick={() => this.setState({type: 'login'})}
+                        >
+                          <FormattedMessage id='backToAuthorization'/>
+                        </button>
+                      </p>
+                    </div>
+                    </div>
+                </div>
+              </div>
+              {/* <div className="miaa-toggle-wrapper">
+                <div className="miaa-inner-content">
+                  <div className="row no-gutters">
                     <a
                       className={`col d-flex justify-content-center align-items-center miaa-toggle-signin ${
-                        this.state.tabIndex == "0" ? "active" : ""
+                        this.state.tabIndex === "0" ? "active" : ""
                         }`}
                       onClick={() => {
                         this.setState({ tabIndex: "0" });
                       }}
                     >
                       <div>
-                        <span data-i18n="toggleSignInRegister_SignIn">
-                          <font>
-                            <font>Log in</font>
-                          </font>
-                        </span>
+                        <FormattedMessage id="login" />
                       </div>
                     </a>
                     <a
                       className={`col d-flex justify-content-center align-items-center miaa-toggle-signin ${
-                        this.state.tabIndex == "1" ? "active" : ""
+                        this.state.tabIndex === "1" ? "active" : ""
                         }`}
                       onClick={() => {
                         this.setState({ tabIndex: "1" });
                       }}
                     >
                       <div>
-                        <span data-i18n="toggleSignInRegister_Register">
-                          <font>
-                            <font>Create a personal account</font>
-                          </font>
-                        </span>
+                        <FormattedMessage id="login.register" />
                       </div>
                     </a>
                   </div>
@@ -131,771 +928,420 @@ class Login extends React.Component {
                 name="signInForm"
                 data-capturefield="signInForm"
                 // action="https://royalcanin.eu.janraincapture.com/widget/traditional_signin.jsonp"
-                class="capture_form capture_signInForm"
+                className="capture_form capture_signInForm"
                 // method="POST"
-                novalidate="novalidate"
+                noValidate="novalidate"
                 data-transactionid="u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
                 target="captureIFrame_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                accept-charset="UTF-8"
+                acceptCharset="UTF-8"
                 next='{"noop":""}'
               >
-                <div id="capture_signIn_signInForm_defaultSavedProfileMessage"></div>
-                <div id="capture_signIn_signInForm_errorMessages"></div>
-                <input
-                  id="capture_signIn_utf8"
-                  data-capturefield="undefined"
-                  value="✓"
-                  type="hidden"
-                  class="capture_utf8"
-                  name="utf8"
-                />
-                <input
-                  id="capture_signIn_screen_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  data-capturefield="undefined"
-                  value="signIn"
-                  type="hidden"
-                  class="capture_screen_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  name="capture_screen"
-                />
-                <input
-                  id="capture_signIn_js_version_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  data-capturefield="undefined"
-                  value="d445bf4"
-                  type="hidden"
-                  class="capture_js_version_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  name="js_version"
-                />
-                <input
-                  id="capture_signIn_transactionId_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  data-capturefield="undefined"
-                  value="u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  type="hidden"
-                  class="capture_transactionId_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  name="capture_transactionId"
-                />
-                <input
-                  id="capture_signIn_form_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  data-capturefield="undefined"
-                  value="signInForm"
-                  type="hidden"
-                  class="capture_form_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  name="form"
-                />
-                <input
-                  id="capture_signIn_flow_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  data-capturefield="undefined"
-                  value="flagshipstore"
-                  type="hidden"
-                  class="capture_flow_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  name="flow"
-                />
-                <input
-                  id="capture_signIn_client_id_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  data-capturefield="undefined"
-                  value="2h77msethh4fzpsnj9b95yesh384mrwt"
-                  type="hidden"
-                  class="capture_client_id_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  name="client_id"
-                />
-                <input
-                  id="capture_signIn_redirect_uri_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  data-capturefield="undefined"
-                  value="https://as-royru4juaqporg.miaaguard.com/interaction/v1/bd6ad9ef-eb68-4ab2-8662-06802f078a6b"
-                  type="hidden"
-                  class="capture_redirect_uri_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  name="redirect_uri"
-                />
-                <input
-                  id="capture_signIn_response_type_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  data-capturefield="undefined"
-                  value="code"
-                  type="hidden"
-                  class="capture_response_type_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  name="response_type"
-                />
-                <input
-                  id="capture_signIn_flow_version_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  data-capturefield="undefined"
-                  value="20200120090524479014"
-                  type="hidden"
-                  class="capture_flow_version_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  name="flow_version"
-                />
-                <input
-                  id="capture_signIn_settings_version_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  data-capturefield="undefined"
-                  type="hidden"
-                  class="capture_settings_version_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  name="settings_version"
-                />
-                <input
-                  id="capture_signIn_locale_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  data-capturefield="undefined"
-                  value="ru-RU"
-                  type="hidden"
-                  class="capture_locale_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  name="locale"
-                />
-                <input
-                  id="capture_signIn_recaptcha_version_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  data-capturefield="undefined"
-                  value="1"
-                  type="hidden"
-                  class="capture_recaptcha_version_u0krt3r6k50pni8jkfjtmvb8mv1bjhf73e5egjyq"
-                  name="recaptchaVersion"
-                />
-                <div class="miaa-body">
+
+                <div className="miaa-body">
                   <div
-                    class="miaa-inner-content"
+                    className="miaa-inner-content"
                     style={{
-                      display: this.state.tabIndex == "0" ? "block" : "none",
+                      display: this.state.tabIndex === "0" ? "block" : "none",
                     }}
                   >
-                    <p class="text-center miaa-greeting-followup pt-3">
-                      <span data-i18n="signIn_GreetingText">
-                        <font>
-                          <font>
-                            To connect to the ROYAL CANIN® service,
-                            authorization is required.{" "}
-                          </font>
-                          <font>
-                            If you do not have a personal account, you can
-                            register now.
-                          </font>
-                        </font>
-                      </span>
+                    <p className="text-center miaa-greeting-followup pt-3">
+                      <FormattedMessage id="login.loginTip" />
                     </p>
-                    <div class="mt-2">
-                      <div class="capture_signin">
+                    <div className="mt-2">
+                      <div className="capture_signin">
                         <div
-                          id="capture_signIn_form_item_signInEmailAddress"
-                          class="miaa_input required capture_form_item capture_email capture_form_item_signInEmailAddress no-gutters form-group row align-items-center"
-                          data-capturefield="undefined"
+                          className="miaa_input required "
                         >
-                          <label for="capture_signIn_signInEmailAddress">
-                            <font>
-                              <font>Email address</font>
-                            </font>
-                          </label>
                           <input
-                            id="capture_signIn_signInEmailAddress"
-                            data-capturefield="signInEmailAddress"
                             type="email"
-                            class="capture_signInEmailAddress capture_required capture_text_input form-control"
+                            className="capture_signInEmailAddress capture_required capture_text_input form-control"
                             placeholder="Email Address *"
                             name="customerAccount"
                             value={this.state.loginForm.customerAccount}
                             onChange={(e) => this.loginFormChange(e)}
                           />
-                          <div
-                            class="capture_tip_validating"
-                            data-elementname="signInEmailAddress"
-                          >
-                            <font>
-                              <font>Check</font>
-                            </font>
-                          </div>
-                          <div
-                            class="capture_tip_error"
-                            data-elementname="signInEmailAddress"
-                          ></div>
-                        </div>{" "}
-                        <div
-                          id="capture_signIn_form_item_currentPassword"
-                          class="miaa_input required capture_form_item capture_password capture_form_item_currentPassword no-gutters form-group row align-items-center"
-                          data-capturefield="undefined"
-                        >
-                          <label for="capture_signIn_currentPassword">
-                            <font>
-                              <font>Password</font>
-                            </font>
-                          </label>
-                          <div class="input-append input-group">
+
+                        </div>
+                        <div className="miaa_input required ">
+                          <div className="input-append input-group">
                             <input
                               id="capture_signIn_currentPassword"
                               data-capturefield="currentPassword"
-                              type="password"
-                              class="capture_currentPassword capture_required capture_text_input form-control"
+                              type={this.state.loginPasswordType}
+                              className="capture_currentPassword capture_required capture_text_input form-control"
                               placeholder="Password *"
                               name="customerPassword"
                               value={this.state.loginForm.customerPassword}
                               onChange={(e) => this.loginFormChange(e)}
                             />
                             <span
-                              tabindex="100"
+                              tabIndex="100"
                               title="Show / hide password"
-                              class="add-on input-group-addon"
+                              className="add-on input-group-addon"
                               style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                let type = this.state.loginPasswordType === 'password' ? 'text' : 'password'
+                                this.setState({
+                                  loginPasswordType: type
+                                })
+                              }}
                             >
-                              <i class="icon-eye-open fa fa-eye"></i>
+                              <i className="icon-eye-open fa fa-eye"></i>
                             </span>
                           </div>
-                          <div
-                            class="capture_tip_validating"
-                            data-elementname="currentPassword"
-                          >
-                            <font>
-                              <font>Check</font>
-                            </font>
-                          </div>
-                          <div
-                            class="capture_tip_error"
-                            data-elementname="currentPassword"
-                          ></div>
                         </div>
                       </div>
-                      <div class="text-center">
-                        <a
-                          href="#"
-                          onclick="miaa.showScreen('forgotPassword')"
-                          class="text-muted small-medium"
-                        >
-                          <span data-i18n="signIn_ForgotPassword">
-                            <font>
-                              <font>Forgot your password?</font>
-                            </font>
-                          </span>
-                        </a>
+                      <div className="text-center">
+                        <Link to="/forgetPassword" className="text-muted small-medium">
+                          <FormattedMessage id="login.forgetPassword" />  
+                        </Link>
+
+                        <div className="text-center">
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => this.loginClick()}
+                          >
+                            <FormattedMessage id="login" />
+                          </button>
+                        </div>
+
+
+                        <Link to={(this.props.location.state &&
+                          this.props.location.state.redirectUrl === '/cart') ?
+                          "/prescription" : "/"}
+                          className="click-hover"
+                          style={{ textDecoration: 'underline', color: '#4b5257' }}>
+
+                          <FormattedMessage id="login.guestContinue" />
+
+                        </Link>
+
                       </div>
                     </div>
                   </div>
                   <div
-                    class="miaa-inner-content"
+                    className="miaa-inner-content"
                     style={{
-                      display: this.state.tabIndex == "1" ? "block" : "none",
+                      display: this.state.tabIndex === "1" ? "block" : "none",
                     }}
                   >
-                    <div class="row">
-                      <div class="col">
-                        <div
-                          id="capture_traditionalRegistration_form_item_emailAddress"
-                          class="miaa_input required capture_form_item capture_email capture_form_item_emailAddress form-group row align-items-center no-gutters"
-                          data-capturefield="undefined"
-                        >
-                          <label for="capture_traditionalRegistration_emailAddress">
-                            <font>
-                              <font>Email address</font>
-                            </font>
-                          </label>
-                          <input
-                            id="capture_traditionalRegistration_emailAddress"
-                            data-capturefield="emailAddress"
-                            type="email"
-                            class="capture_emailAddress capture_required capture_text_input form-control"
-                            placeholder="Email Address *"
-                            name="emailAddress"
-                          />
-                          <div
-                            class="capture_tip_validating"
-                            data-elementname="emailAddress"
-                          >
-                            <font>
-                              <font>Check</font>
-                            </font>
+                    <div className="row">
+                      <div className="col">
+
+                        <div className="message-tip">
+                          <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
+                            <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+                              <span>{this.state.errorMsg}</span>
+                              <button
+                                className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                                onClick={() => { this.setState({ errorMsg: '' }) }}
+                                aria-label="Close">
+                                <span className="rc-screen-reader-text">
+                                  <FormattedMessage id="close" />
+                                </span>
+                              </button>
+                            </aside>
                           </div>
-                          <div
-                            class="capture_tip_error"
-                            data-elementname="emailAddress"
-                          ></div>
+                          <aside
+                            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successMsg ? '' : 'hidden'}`}
+                            role="alert">
+                            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
+                          </aside>
                         </div>
-                        <div
-                          id="capture_traditionalRegistration_form_item_newPassword"
-                          class="miaa_input required capture_form_item capture_password capture_form_item_newPassword form-group row align-items-center no-gutters"
-                          data-capturefield="undefined"
-                        >
-                          <label for="capture_traditionalRegistration_newPassword">
-                            <font>
-                              <font>Password</font>
-                            </font>
-                          </label>
-                          <div class="input-append input-group">
-                            <input
-                              id="capture_traditionalRegistration_newPassword"
-                              autocomplete="off"
-                              data-capturefield="newPassword"
-                              type="password"
-                              class="capture_newPassword capture_required capture_text_input form-control"
-                              placeholder="Password *"
-                              name="newPassword"
-                            />
-                            <span
-                              tabindex="100"
-                              title="Show / hide password"
-                              class="add-on input-group-addon"
-                              style={{ cursor: "pointer" }}
-                            >
-                              <i class="icon-eye-open fa fa-eye"></i>
-                            </span>
-                          </div>
-                          <div
-                            class="capture_tip_validating"
-                            data-elementname="newPassword"
-                          >
-                            <font>
-                              <font>Check</font>
-                            </font>
-                          </div>
-                          <div
-                            class="capture_tip_error"
-                            data-elementname="newPassword"
-                          ></div>
-                        </div>
-                        <div class="password-validation-rules">
-                          <div class="password-validation-rule min-length">
-                            <i
-                              class="fa fa-check-circle-o"
-                              aria-hidden="true"
-                            ></i>
-                            <span
-                              class="rule-text"
-                              data-i18n="newPasswordComplexity_MinLength"
-                            >
-                              <font>
-                                <font>
-                                  Password must contain at least 8 characters.
-                                </font>
-                              </font>
-                            </span>
-                          </div>
-                          <div class="password-validation-rule min-number">
-                            <i
-                              class="fa fa-check-circle-o"
-                              aria-hidden="true"
-                            ></i>
-                            <span
-                              class="rule-text"
-                              data-i18n="newPasswordComplexity_MinNumbers"
-                            >
-                              <font>
-                                <font>Password must include 1 digit.</font>
-                              </font>
-                            </span>
-                          </div>
-                          <div class="password-validation-rule min-letter">
-                            <i
-                              class="fa fa-check-circle-o"
-                              aria-hidden="true"
-                            ></i>
-                            <span
-                              class="rule-text"
-                              data-i18n="newPasswordComplexity_MinLetters"
-                            >
-                              <font>
-                                <font>Password must include 1 letter.</font>
-                              </font>
-                            </span>
-                          </div>
-                          <div class="password-validation-rule min-special">
-                            <i
-                              class="fa fa-check-circle-o"
-                              aria-hidden="true"
-                            ></i>
-                            <span
-                              class="rule-text"
-                              data-i18n="newPasswordComplexity_MinSpecial"
-                            >
-                              <font>
-                                <font>
-                                  Password must include 1 special character.
-                                </font>
-                              </font>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col mb-3">
-                        <div
-                          id="capture_traditionalRegistration_form_collection_salutation"
-                          class="miaa_radio required capture_form_collection capture_elementCollection capture_form_collection_salutation form-group row align-items-center no-gutters"
-                          data-capturefield="undefined"
-                        >
-                          <div
-                            class="capture_tip_validating"
-                            data-elementname="salutation"
-                          >
-                            <font>
-                              <font>Check</font>
-                            </font>
-                          </div>
-                          <div
-                            class="capture_tip_error"
-                            data-elementname="salutation"
-                          ></div>
-                        </div>
-                        <div
-                          id="capture_traditionalRegistration_form_item_firstName"
-                          class="miaa_input required capture_form_item capture_text capture_form_item_firstName form-group row align-items-center no-gutters"
-                          data-capturefield="undefined"
-                        >
+
+                        <div className="miaa_input required">
                           <input
                             id="capture_traditionalRegistration_firstName"
                             data-capturefield="firstName"
                             type="text"
-                            class="capture_firstName capture_required capture_text_input form-control"
-                            placeholder="Name *"
+                            className="capture_firstName capture_required capture_text_input form-control"
+                            placeholder="First Name *"
                             name="firstName"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              this.registerFormChange({
+                                field: 'firstName',
+                                value
+                              });
+                            }}
                           />
-                          <div
-                            class="capture_tip_validating"
-                            data-elementname="firstName"
-                          >
-                            <font>
-                              <font>Check</font>
-                            </font>
-                          </div>
-                          <div
-                            class="capture_tip_error"
-                            data-elementname="firstName"
-                          ></div>
                         </div>
-                        <div
-                          id="capture_traditionalRegistration_form_item_lastName"
-                          class="miaa_input required capture_form_item capture_text capture_form_item_lastName form-group row align-items-center no-gutters"
-                          data-capturefield="undefined"
-                        >
-                          <label for="capture_traditionalRegistration_lastName">
-                            <font>
-                              <font>Surname</font>
-                            </font>
-                          </label>
+                        <div className="miaa_input required">
                           <input
                             id="capture_traditionalRegistration_lastName"
                             data-capturefield="lastName"
                             type="text"
-                            class="capture_lastName capture_required capture_text_input form-control"
-                            placeholder="Surname *"
+                            className="capture_lastName capture_required capture_text_input form-control"
+                            placeholder="Last Name *"
                             name="lastName"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              this.registerFormChange({
+                                field: 'lastName',
+                                value
+                              });
+                            }}
                           />
-                          <div
-                            class="capture_tip_validating"
-                            data-elementname="lastName"
-                          >
-                            <font>
-                              <font>Check</font>
-                            </font>
-                          </div>
-                          <div
-                            class="capture_tip_error"
-                            data-elementname="lastName"
-                          ></div>
                         </div>
-                        <div
-                          id="capture_traditionalRegistration_form_item_firstName"
-                          class="miaa_input required capture_form_item capture_text capture_form_item_firstName form-group row align-items-center no-gutters"
-                          data-capturefield="undefined"
-                        >
+                        <div className="miaa_input required">
+                          <input
+                            id="capture_traditionalRegistration_email"
+                            data-capturefield="email"
+                            type="email"
+                            className="capture_email capture_required capture_text_input form-control"
+                            placeholder="Email Address *"
+                            name="email"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              this.registerFormChange({
+                                field: 'email',
+                                value
+                              });
+                            }}
+                          />
+                        </div>
+
+
+
+                        <div className="miaa_input required country_select">
+                          <select
+                            data-js-select=""
+                            id="country"
+                            value={registerForm.country}
+                            placeholder="Country *"
+                            name="country"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              // value = value === '' ? null : value;
+                              this.registerFormChange({
+                                field: 'country',
+                                value
+                              });
+                            }}
+                          >
+                            {
+                              this.state.countryList.map(item => (
+                                <option value={item.id} key={item.id}>{item.name}</option>
+                              ))
+                            }
+                          </select>
+                        </div>
+                        <div className="input-append input-group miaa_input required">
+                          <input
+                            autoComplete="off"
+                            data-capturefield="password"
+                            type={this.state.registerPwdType}
+                            className="capture_password capture_required capture_text_input form-control"
+                            placeholder="Password *"
+                            name="password"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              this.registerFormChange({
+                                field: 'password',
+                                value
+                              });
+                            }}
+                          />
+                          <span
+                            tabIndex="100"
+                            title="Show / hide password"
+                            className="add-on input-group-addon"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              let type = this.state.registerPwdType === 'password' ? 'text' : 'password'
+                              this.setState({
+                                registerPwdType: type
+                              })
+                            }}
+                          >
+                            <i className="icon-eye-open fa fa-eye"></i>
+                          </span>
+
+                        </div>
+                        <p style={{ marginTop: '-20px' }}>  <FormattedMessage id="login.passwordTip" /> </p>
+
+                        <div className="input-append input-group miaa_input required">
+                          <input
+                            autoComplete="off"
+                            data-capturefield="confirmPassword"
+                            type={this.state.registerConfirmPwdType}
+                            className="capture_password capture_required capture_text_input form-control"
+                            placeholder="Confirm Password *"
+                            name="confirmPassword"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              this.registerFormChange({
+                                field: 'confirmPassword',
+                                value
+                              });
+                            }}
+                          />
+                          <span
+                            tabIndex="100"
+                            title="Show / hide password"
+                            className="add-on input-group-addon"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              let type = this.state.registerConfirmPwdType === 'password' ? 'text' : 'password'
+                              this.setState({
+                                registerConfirmPwdType: type
+                              })
+                            }}
+                          >
+                            <i className="icon-eye-open fa fa-eye"></i>
+                          </span>
+                        </div>
+
+                        <div className="miaa_input required country_select">
+                          <select
+                            data-js-select=""
+                            id="securityQuestion"
+                            value={registerForm.securityQuestion}
+                            name="securityQuestion"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              // value = value === '' ? null : value;
+                              this.registerFormChange({
+                                field: 'securityQuestion',
+                                value
+                              });
+                            }}
+                          >
+
+                            <option value="" disabled>Security Question *</option>
+                            {
+                              this.state.questionList.map(item => (
+                                <option value={item.id} key={item.id}>{item.question}</option>
+                              ))
+                            }
+                          </select>
+                        </div>
+
+                        <div className="miaa_input required">
                           <input
                             id="capture_traditionalRegistration_firstName"
-                            data-capturefield="firstName"
+                            data-capturefield="answer"
                             type="text"
-                            class="capture_firstName capture_required capture_text_input form-control"
-                            placeholder="Phone *"
-                            name="firstName"
+                            className="capture_firstName capture_required capture_text_input form-control"
+                            placeholder="Answer *"
+                            name="answer"
+                            onChange={(e) => {
+                              const value = (e.target).value;
+                              this.registerFormChange({
+                                field: 'answer',
+                                value
+                              });
+                            }}
                           />
-                          <div
-                            class="capture_tip_validating"
-                            data-elementname="firstName"
-                          >
-                            <font>
-                              <font>Check</font>
-                            </font>
-                          </div>
-                          <div
-                            class="capture_tip_error"
-                            data-elementname="firstName"
-                          ></div>
                         </div>
-                        <div
-                          id="capture_traditionalRegistration_form_item_primaryAddressCountry"
-                          class="miaa_input required capture_form_item capture_text capture_form_item_primaryAddressCountry form-group row align-items-center no-gutters"
-                          data-capturefield="undefined"
-                        >
-                          <label for="capture_traditionalRegistration_primaryAddressCountry-selectized">
-                            Country
-                          </label>
-                          <div class="selectize-control capture_primaryAddressCountry capture_required capture_text_input form-control single">
-                            <div class="selectize-input items not-full has-options">
-                              <input
-                                type="text"
-                                autocomplete="off"
-                                tabindex=""
-                                disabled
-                                id="capture_traditionalRegistration_primaryAddressCountry-selectized"
-                                placeholder="Country *"
-                                style={{ width: "100%" }}
-                              />
-                            </div>
-                          </div>
-                          <div
-                            class="capture_tip_validating"
-                            data-elementname="primaryAddressCountry"
-                          >
-                            <font>
-                              <font>Check</font>
-                            </font>
-                          </div>
-                          <div
-                            class="capture_tip_error"
-                            data-elementname="primaryAddressCountry"
-                          ></div>
-                        </div>
-                        <div
-                          id="capture_traditionalRegistration_form_item_privacyAndTermsStatus"
-                          class="miaa_check form-check required capture_form_item capture_form_item_privacyAndTermsStatus form-group"
-                          data-capturefield="undefined"
-                        >
-                          <div
-                            id="capture_traditionalRegistration_form_item_inner_privacyAndTermsStatus"
-                            class="capture_checkbox capture_form_item_inner_privacyAndTermsStatus form-check"
-                            data-capturefield="undefined"
-                          >
-                            <label
-                              for="capture_traditionalRegistration_privacyAndTermsStatus"
-                              class="form-check-label"
-                            >
-                              <input
-                                id="capture_traditionalRegistration_privacyAndTermsStatus"
-                                data-capturefield="privacyAndTermsStatus"
-                                value="true"
-                                type="checkbox"
-                                class="capture_privacyAndTermsStatus capture_required capture_input_checkbox form-check-input"
-                                name="privacyAndTermsStatus"
-                                placeholder="undefined *"
-                              />
-                              <font>
-                                <font>I have read the </font>
-                              </font>
-                              <a
-                                href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html/"
-                                target="_blank"
-                              >
-                                <font>
-                                  <font>User Agreement</font>
-                                </font>
-                              </a>
-                              <font>
-                                <font> and the </font>
-                              </font>
-                              <a
-                                href="https://www.mars.com/global/policies/privacy/pp-russian/"
-                                target="_blank"
-                              >
-                                <font>
-                                  <font>Privacy Policy</font>
-                                </font>
-                              </a>
-                              <font>
-                                <font>
-                                  {" "}
-                                  and give my consent to the processing of
-                                  personal data, including cross-border transfer
-                                </font>
-                              </font>
-                            </label>
-                          </div>
-                          <div
-                            class="capture_tip_validating"
-                            data-elementname="privacyAndTermsStatus"
-                          >
-                            <font>
-                              <font>Check</font>
-                            </font>
-                          </div>
-                          <div
-                            class="capture_tip_error"
-                            data-elementname="privacyAndTermsStatus"
-                          ></div>
-                        </div>
-                        <div
-                          id="capture_traditionalRegistration_form_item_ageIndicator"
-                          class="miaa_check form-check required capture_form_item capture_form_item_ageIndicator form-group"
-                          data-capturefield="undefined"
-                        >
-                          <div
-                            id="capture_traditionalRegistration_form_item_inner_ageIndicator"
-                            class="capture_checkbox capture_form_item_inner_ageIndicator form-check"
-                            data-capturefield="undefined"
-                          >
-                            <label
-                              for="capture_traditionalRegistration_ageIndicator"
-                              class="form-check-label"
-                            >
-                              <input
-                                id="capture_traditionalRegistration_ageIndicator"
-                                data-capturefield="ageIndicator"
-                                value="true"
-                                type="checkbox"
-                                class="capture_ageIndicator capture_required capture_input_checkbox form-check-input"
-                                name="ageIndicator"
-                                placeholder="undefined *"
-                              />
-                              <font>
-                                <font>I confirm that I am 18 years old</font>
-                              </font>
-                            </label>
-                          </div>
-                          <div
-                            class="capture_tip_validating"
-                            data-elementname="ageIndicator"
-                          >
-                            <font>
-                              <font>Check</font>
-                            </font>
-                          </div>
-                          <div
-                            class="capture_tip_error"
-                            data-elementname="ageIndicator"
-                          ></div>
-                        </div>
-                        <div
-                          id="capture_traditionalRegistration_form_item_optEmail"
-                          class="miaa_check form-check capture_form_item capture_form_item_optEmail form-group"
-                          data-capturefield="undefined"
-                        >
-                          <div
-                            id="capture_traditionalRegistration_form_item_inner_optEmail"
-                            class="capture_checkbox capture_form_item_inner_optEmail form-check"
-                            data-capturefield="undefined"
-                          >
-                            <label
-                              for="capture_traditionalRegistration_optEmail"
-                              class="form-check-label"
-                            >
-                              <input
-                                id="capture_traditionalRegistration_optEmail"
-                                data-capturefield="optEmail"
-                                value="true"
-                                type="checkbox"
-                                class="capture_optEmail capture_input_checkbox form-check-input"
-                                name="optEmail"
-                              />
-                              <font>
-                                <font>
-                                  I agree to receive the marketing newsletter
-                                </font>
-                              </font>
-                            </label>
-                          </div>
-                          <div
-                            class="capture_tip_validating"
-                            data-elementname="optEmail"
-                          >
-                            <font>
-                              <font>Check</font>
-                            </font>
-                          </div>
-                          <div
-                            class="capture_tip_error"
-                            data-elementname="optEmail"
-                          ></div>
-                        </div>
-                        <div class="hidden">
-                          <div
-                            id="capture_traditionalRegistration_form_item_qualificationsCode"
-                            class="miaa_select required capture_form_item capture_form_item_qualificationsCode form-group row align-items-center no-gutters"
-                            data-capturefield="undefined"
-                          >
-                            <label for="capture_traditionalRegistration_qualificationsCode">
-                              <font>
-                                <font>Occupation</font>
-                              </font>
-                            </label>
-                            <select
-                              id="capture_traditionalRegistration_qualificationsCode"
-                              class="capture_qualificationsCode capture_select form-control"
-                              data-capturefield="qualificationsCode"
-                              name="qualificationsCode"
-                              placeholder="undefined *"
-                            >
-                              <option value="PET_OWNER" selected="selected">
-                                Animal owner
-                              </option>
-                              <option disabled="true">Occupation</option>
-                              <option value="BREEDER">Breeder</option>
-                              <option value="VETERINARIAN" disabled="true">
-                                Veterinarian
-                              </option>
-                              <option value="PET_SHOP_STAFF" disabled="true">
-                                Pet shop staff
-                              </option>
-                              <option value="PET_HOTEL_STAFF" disabled="true">
-                                Hotel staff for animals
-                              </option>
-                              <option value="EMPLOYEE" disabled="true">
-                                Employee
-                              </option>
-                              <option value="OTHER" disabled="true">
-                                Other
-                              </option>
-                            </select>
-                            <div
-                              class="capture_tip_validating"
-                              data-elementname="qualificationsCode"
-                            >
-                              <font>
-                                <font>Check</font>
-                              </font>
-                            </div>
-                            <div
-                              class="capture_tip_error"
-                              data-elementname="qualificationsCode"
-                            ></div>
-                          </div>
-                        </div>
-                        <div class="mt-2">
-                          <span data-i18n="traditionalRegistration_RequiredFields">
-                            <font>
-                              <font>* Required fields</font>
-                            </font>
-                          </span>
-                        </div>
+
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div class="miaa-footer">
-                  <div
-                    class="miaa-inner-content"
-                    style={{
-                      display: this.state.tabIndex == "1" ? "block" : "none",
-                    }}
-                  >
-                    <div class="row">
-                      <div class="col">
-                        <button
-                          id="traditionalRegistrationSubmit"
-                          type="submit"
-                          class="btn btn-primary capture_btn"
+                    <div className="row">
+                      <div className="col-lg-12">
+                        <label
+                          htmlFor="capture_traditionalRegistration_privacyAndTermsStatus"
+                          className="form-check-label"
                         >
-                          <span data-i18n="traditionalRegistration_CreateAccount">
-                            Save
-                          </span>
-                        </button>
+                          <input
+                            id="capture_traditionalRegistration_privacyAndTermsStatus"
+                            data-capturefield="privacyAndTermsStatus"
+                            value={registerForm.firstChecked}
+                            type="checkbox"
+                            className="capture_privacyAndTermsStatus capture_required capture_input_checkbox form-check-input"
+                            name="firstChecked"
+                            onChange={(e) => {
+                              let value = (e.target).value === 'false' ? true : false;
+                              this.registerFormChange({
+                                field: 'firstChecked',
+                                value
+                              });
+                            }}
+                          />
+                            I have read the
+                          <a
+                            href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html/"
+                            target="_blank" rel='noreferrer'
+                          >
+                            <font> User Agreement </font>
+                          </a>
+                              and the
+                          <a
+                            href="https://www.mars.com/global/policies/privacy/pp-russian/"
+                            target="_blank" rel='noreferrer'
+                          >
+                            <font> Privacy Policy </font>
+                          </a>
+                              and give my consent to the processing of
+                              personal data, including cross-border transfer
+                        </label>
+                      </div>
+                      <div className="col-lg-12">
+                        <label
+                          htmlFor="capture_traditionalRegistration_ageIndicator"
+                          className="form-check-label"
+                        >
+                          <input
+                            id="capture_traditionalRegistration_ageIndicator"
+                            data-capturefield="ageIndicator"
+                            value={registerForm.secondChecked}
+                            type="checkbox"
+                            className="capture_ageIndicator capture_required capture_input_checkbox form-check-input"
+                            name="secondChecked"
+                            onChange={(e) => {
+                              let value = (e.target).value === 'false' ? true : false;
+                              this.registerFormChange({
+                                field: 'secondChecked',
+                                value
+                              });
+                            }}
+                          />
+                          <FormattedMessage id="login.secondCheck" />
+
+                        </label>
+                      </div>
+                      <div className="col-lg-12">
+                        <label
+                          htmlFor="capture_traditionalRegistration_optEmail"
+                          className="form-check-label"
+                        >
+                          <input
+                            id="capture_traditionalRegistration_optEmail"
+                            data-capturefield="optEmail"
+                            value={registerForm.thirdChecked}
+                            type="checkbox"
+                            className="capture_optEmail capture_input_checkbox form-check-input"
+                            name="thirdChecked"
+                            onChange={(e) => {
+                              let value = (e.target).value === 'false' ? true : false;
+                              this.registerFormChange({
+                                field: 'thirdChecked',
+                                value
+                              });
+                            }}
+                          />
+                          <FormattedMessage id="login.thirdCheck" />
+
+                        </label>
+                      </div>
+                      <div style={{ marginLeft: "20px" }}>
+                        <FormattedMessage id="requiredFields" />
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="miaa-inner-content"
-                    style={{
-                      display: this.state.tabIndex == "0" ? "block" : "none",
-                    }}
-                  >
-                    <div class="text-center">
-                      <button
-                        // id="signInSubmit"
-                        class="btn btn-primary"
-                        // type="submit"
-                        // disabled="disabled"
-                        onClick={() => this.loginClick()}
-                      >
-                        Log in
-                      </button>
-                    </div>
+
+                    <button
+                      type="submit"
+                      className="btn btn-primary capture_btn"
+                      disabled={!(registerForm.firstChecked && registerForm.secondChecked && registerForm.thirdChecked)}
+                      onClick={() => this.register()}
+                    >
+                      <FormattedMessage id="save" />
+
+                    </button>
+
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -904,4 +1350,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default injectIntl(Login);

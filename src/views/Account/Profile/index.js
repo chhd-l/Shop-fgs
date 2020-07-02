@@ -9,6 +9,7 @@ import PersonalDataEditForm from './modules/PersonalDataEditForm'
 import AddressBookEditForm from './modules/AddressBookEditForm'
 import CommunicationDataEditForm from './modules/CommunicationDataEditForm'
 import ClinicEditForm from './modules/ClinicEditForm'
+import PasswordForm from './modules/PasswordForm'
 import { getCustomerInfo } from "@/api/user"
 import './index.css'
 
@@ -20,10 +21,14 @@ export default class AccountProfile extends React.Component {
         firstName: '',
         lastName: '',
         birthdate: '',
-        email: ''
+        email: '',
+        country: "Mexico",
+        phoneNumber: '',
+        rfc: ''
       },
       addressBookData: {
-        address: '',
+        address1: '',
+        address2: '',
         country: "Mexico",
         city: '',
         postCode: '',
@@ -58,13 +63,14 @@ export default class AccountProfile extends React.Component {
         let prescriberName
         let prescriberId
         const context = res.context
-        sessionStorage.setItem('rc-userinfo', JSON.stringify(context))
+        localStorage.setItem('rc-userinfo', JSON.stringify(context))
         if (context.defaultClinics) {
           prescriberName = context.defaultClinics.clinicsName
           prescriberId = context.defaultClinics.clinicsId
-          sessionStorage.setItem('rc-clinics-id', prescriberId)
-          sessionStorage.setItem('rc-clinics-name', prescriberName)
-          this.headerRef.current.updateDefaultClinic()
+          sessionStorage.removeItem('rc-clinics-name-select')
+          sessionStorage.removeItem('rc-clinics-id-select')
+          sessionStorage.setItem('rc-clinics-name-default', prescriberName)
+          sessionStorage.setItem('rc-clinics-id-default', prescriberId)
         }
         this.setState({
           originData: context,
@@ -72,10 +78,15 @@ export default class AccountProfile extends React.Component {
             firstName: context.firstName,
             lastName: context.lastName,
             email: context.email,
-            birthdate: context.birthDay ? context.birthDay.split('-').join('/') : context.birthDay
+            birthdate: context.birthDay ? context.birthDay.split('-').join('/') : context.birthDay,
+            // country: context.countryId,
+            country:6, //先写死墨西哥id
+            phoneNumber: context.contactPhone,
+            rfc: context.reference
           },
           addressBookData: {
-            address: context.customerAddress,
+            address1: context.house,
+            address2: context.housing,
             country: context.countryId,
             city: context.cityId,
             postCode: context.postCode,
@@ -110,6 +121,7 @@ export default class AccountProfile extends React.Component {
               <SideMenu type="Profile" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div className="card-body_">
+
                   <div className="rc-layout-container rc-two-column">
                     <div className="rc-column rc-padding-x--none--mobile">
                       <PersonalDataEditForm
@@ -118,25 +130,26 @@ export default class AccountProfile extends React.Component {
                         updateData={() => this.queryCustomerBaseInfo()} />
                     </div>
                     <div className="rc-column rc-padding-x--none--mobile">
-                      <AddressBookEditForm
+                      {/* <AddressBookEditForm
                         originData={this.state.originData}
                         data={this.state.addressBookData}
-                        updateData={() => this.queryCustomerBaseInfo()} />
-                    </div>
-                  </div>
-                  <div className="rc-layout-container rc-two-column">
-                    <div className="rc-column rc-padding-x--none--mobile">
+                        updateData={() => this.queryCustomerBaseInfo()} /> */}
                       <CommunicationDataEditForm
                         originData={this.state.originData}
                         data={this.state.communicationData}
                         updateData={() => this.queryCustomerBaseInfo()} />
                     </div>
+                  </div>
+                  <div className="rc-layout-container rc-two-column">
                     <div className="rc-column rc-padding-x--none--mobile">
                       <ClinicEditForm
                         originData={this.state.originData}
                         data={this.state.clinicData}
                         updateData={() => this.queryCustomerBaseInfo()} />
                     </div>
+                    {/* <div className="rc-column rc-padding-x--none--mobile">
+                      <PasswordForm />
+                    </div> */}
                   </div>
                 </div>
               </div>

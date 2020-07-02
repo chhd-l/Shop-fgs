@@ -1,12 +1,12 @@
 import React from "react"
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import { findIndex } from "lodash"
 import Loading from "@/components/Loading"
 import { updateCustomerBaseInfo } from "@/api/user"
 import { getDictionary } from '@/utils/utils'
 import Selection from '@/components/Selection'
 
-export default class AddressBookEditForm extends React.Component {
+class AddressBookEditForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -15,7 +15,8 @@ export default class AddressBookEditForm extends React.Component {
       successTipVisible: false,
       errorMsg: '',
       form: {
-        address: '',
+        address1: '',
+        address2: '',
         country: '',
         city: '',
         postCode: '',
@@ -83,7 +84,12 @@ export default class AddressBookEditForm extends React.Component {
   handleInputChange (e) {
     const target = e.target
     const { form } = this.state
-    form[target.name] = target.value
+    const name = target.name
+    let value = target.value
+    if (name === 'postCode') {
+      value = value.replace(/\s+/g, "")
+    }
+    form[name] = value
     this.setState({ form: form })
     this.inputBlur(e);
   }
@@ -125,19 +131,20 @@ export default class AddressBookEditForm extends React.Component {
     const { form } = this.state
     for (let key in form) {
       const value = form[key]
-      if (!value && (key === 'address' || key === 'country' || key === 'city' || key === 'postCode' || key === 'phoneNumber')) {
-        this.showErrMsg('Please complete the required items')
+      if (!value && (key === 'address1' || key === 'address2' || key === 'country' || key === 'city' || key === 'postCode' || key === 'phoneNumber')) {
+        this.showErrMsg(this.props.intl.messages.CompleteRequiredItems)
         return
       }
       if (key === 'postCode' && value && !(/\d{5}/.test(value))) {
-        this.showErrMsg('Please enter the correct post code')
+        this.showErrMsg(this.props.intl.messages.EnterCorrectPostCode)
         return
       }
     }
 
     this.setState({ loading: true })
     let param = Object.assign({}, this.props.originData, {
-      customerAddress: form.address,
+      house: form.address1,
+      housing: form.address2,
       countryId: form.country,
       cityId: form.city,
       postCode: form.postCode,
@@ -203,7 +210,7 @@ export default class AddressBookEditForm extends React.Component {
             <FormattedMessage id="edit">
               {txt => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link ${editFormVisible ? 'hidden' : ''}`}
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 ${editFormVisible ? 'hidden' : ''}`}
                   name="contactInformation"
                   id="contactInfoEditBtn"
                   title={txt}
@@ -231,14 +238,20 @@ export default class AddressBookEditForm extends React.Component {
           <aside
             className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
             role="alert">
-            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">Save successfullly</p>
+            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none"><FormattedMessage id="saveSuccessfullly" /></p>
           </aside>
           <div className={`row userContactInfo text-break ${editFormVisible ? 'hidden' : ''}`}>
             <div className="col-lg-6">
-              <FormattedMessage id="address" />
+              <FormattedMessage id="payment.address1" />
             </div>
             <div className="col-lg-6">
-              {data.address}
+              {data.address1}
+            </div>
+            <div className="col-lg-6">
+              <FormattedMessage id="payment.address2" />
+            </div>
+            <div className="col-lg-6">
+              {data.address2}
             </div>
             <div className="col-md-6">
               <FormattedMessage id="payment.country" />
@@ -276,31 +289,65 @@ export default class AddressBookEditForm extends React.Component {
           <div className="row">
             <div className="form-group col-lg-12 pull-left required">
               <label className="form-control-label rc-full-width" htmlFor="address">
-                <FormattedMessage id="address" />
+                <FormattedMessage id="payment.address1" />
               </label>
               <span className="rc-input rc-input--label rc-margin--none rc-input--full-width" input-setup="true">
                 <input
                   type="text"
                   className="rc-input__control"
-                  id="address"
+                  id="address1"
                   data-pattern-mismatch="Please match the requested format"
                   data-missing-error="Это поле обязательно для заполнения."
-                  name="address"
+                  name="address1"
                   required=""
                   aria-required="true"
-                  value={form.address}
+                  value={form.address1}
                   onChange={e => this.handleInputChange(e)}
                   onBlur={e => this.inputBlur(e)}
                   maxLength="50"
                   autoComplete="address-line" />
-                <label className="rc-input__label" htmlFor="address"></label>
+                <label className="rc-input__label" htmlFor="address1"></label>
               </span>
               <div className="invalid-feedback" style={{ display: 'none' }}>
                 <FormattedMessage
                   id="payment.errorInfo"
                   values={{
                     val: (
-                      <FormattedMessage id="address" />
+                      <FormattedMessage id="payment.address1" />
+                    ),
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="form-group col-lg-12 pull-left required">
+              <label className="form-control-label rc-full-width" htmlFor="address">
+                <FormattedMessage id="payment.address2" />
+              </label>
+              <span className="rc-input rc-input--label rc-margin--none rc-input--full-width" input-setup="true">
+                <input
+                  type="text"
+                  className="rc-input__control"
+                  id="address2"
+                  data-pattern-mismatch="Please match the requested format"
+                  data-missing-error="Это поле обязательно для заполнения."
+                  name="address2"
+                  required=""
+                  aria-required="true"
+                  value={form.address2}
+                  onChange={e => this.handleInputChange(e)}
+                  onBlur={e => this.inputBlur(e)}
+                  maxLength="50"
+                  autoComplete="address-line" />
+                <label className="rc-input__label" htmlFor="address2"></label>
+              </span>
+              <div className="invalid-feedback" style={{ display: 'none' }}>
+                <FormattedMessage
+                  id="payment.errorInfo"
+                  values={{
+                    val: (
+                      <FormattedMessage id="payment.address2" />
                     ),
                   }}
                 />
@@ -367,8 +414,8 @@ export default class AddressBookEditForm extends React.Component {
                     value={form.postCode}
                     onChange={e => this.handleInputChange(e)}
                     onBlur={e => this.inputBlur(e)}
-                    maxLength="5"
-                    minLength="5"
+                    // maxLength="5"
+                    // minLength="5"
                     data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                     autoComplete="postal-code" />
                   <label className="rc-input__label" htmlFor="zipCode"></label>
@@ -465,3 +512,5 @@ export default class AddressBookEditForm extends React.Component {
     )
   }
 }
+
+export default injectIntl(AddressBookEditForm)

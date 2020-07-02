@@ -4,11 +4,14 @@ import { FormattedMessage } from 'react-intl'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
-import Modal from '@/components/Modal'
+import ConfirmTooltip from '@/components/ConfirmTooltip'
+import LoginButton from '@/components/LoginButton'
 import { Link } from "react-router-dom"
 import { formatMoney, hanldePurchases } from "@/utils/utils"
 import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { cloneDeep, find } from 'lodash'
+import CART_CAT from "@/assets/images/CART_CAT.webp";
+import CART_DOG from "@/assets/images/CART_DOG.webp";
 
 class UnLoginCart extends React.Component {
   constructor(props) {
@@ -20,10 +23,8 @@ class UnLoginCart extends React.Component {
       totalPrice: '',
       tradePrice: '',
       discountPrice: '',
-      currentProduct: null,
       currentProductIdx: -1,
       loading: true,
-      modalShow: false,
       quantityMinLimit: 1,
       checkoutLoading: false,
       validateAllItemsStock: true,
@@ -60,7 +61,7 @@ class UnLoginCart extends React.Component {
         return false
       }
       if (needLogin) {
-        history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
+        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
         history.push('/prescription')
       }
@@ -160,15 +161,9 @@ class UnLoginCart extends React.Component {
       }, 2000)
     }
   }
-  closeModal () {
-    this.setState({
-      currentProduct: null,
-      currentProductIdx: -1,
-      modalShow: false,
-    });
-  }
-  deleteProduct () {
-    let { currentProductIdx, productList } = this.state;
+  deleteProduct (item) {
+    let { currentProductIdx, productList } = this.state
+    item.confirmTooltipVisible = false
     let newProductList = cloneDeep(productList)
     newProductList.splice(currentProductIdx, 1)
     this.setState({
@@ -176,7 +171,6 @@ class UnLoginCart extends React.Component {
     }, () => {
       this.changeCache();
       this.updateStock()
-      this.closeModal();
     })
   }
   goBack (e) {
@@ -257,33 +251,37 @@ class UnLoginCart extends React.Component {
           <div className="product-info__desc w-100 relative">
             <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
               <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(pitem)}>
-                <h4 className="rc-gamma rc-margin--none">{pitem.goodsName}</h4>
+                <h4
+                  className="rc-gamma rc-margin--none ui-text-overflow-line2 text-break"
+                  title={pitem.goodsName}>
+                  {pitem.goodsName}
+                </h4>
               </a>
             </div>
             <div className="cart-product-error-msg"></div>
-            <span
-              className="remove-product-btn js-remove-product rc-icon rc-close--sm rc-iconography"
-              onClick={() => {
-                this.setState({
-                  currentProduct: pitem,
-                  currentProductIdx: index,
-                  modalShow: true
-                });
-              }}
-            ></span>
+            <span className="remove-product-btn">
+              <span
+                className="rc-icon rc-close--sm rc-iconography"
+                onClick={() => {
+                  this.updateConfirmTooltipVisible(pitem, true)
+                  this.setState({
+                    currentProductIdx: index
+                  });
+                }}
+              />
+              <ConfirmTooltip
+                display={pitem.confirmTooltipVisible}
+                confirm={e => this.deleteProduct(pitem)}
+                updateChildDisplay={status => this.updateConfirmTooltipVisible(pitem, status)} />
+            </span>
+
             <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
-              <div
-                className="product-quickview product-null product-wrapper product-detail"
-                data-pid="null"
-              >
+              <div className="product-quickview product-null product-wrapper product-detail">
                 <div className="detail-panel">
                   <section className="attributes">
                     <div data-attr="size" className="swatch">
                       <div className="cart-and-ipay">
-                        <div
-                          className="rc-swatch __select-size"
-                          id="id-single-select-size"
-                        >
+                        <div className="rc-swatch __select-size">
                           <div className={`rc-swatch__item`}>
                             <span>
                               {find(pitem.sizeList, s => s.selected).specText}
@@ -364,7 +362,6 @@ class UnLoginCart extends React.Component {
               <div className="rc-quantity d-flex">
                 <span
                   className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                  data-quantity-error-msg="Количество не может быть меньше 1"
                   onClick={() => this.subQuantity(pitem)}></span>
                 <input
                   className="rc-quantity__input"
@@ -390,7 +387,7 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
           </div>
-          <div className="availability  product-availability">
+          <div className="availability product-availability">
             <div className="align-left flex rc-content-v-right">
               <div className="stock__wrapper">
                 <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
@@ -398,15 +395,18 @@ class UnLoginCart extends React.Component {
                     <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
                   </label>
                   <span className="availability-msg">
-                    <div
-                      className={[pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? '' : 'out-stock'].join(' ')}>
-                      {pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
+                    <div className={`${pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? '' : 'out-stock'}`}>
+                      {
+                        pitem.quantity <= find(pitem.sizeList, s => s.selected).stock
+                          ? <FormattedMessage id="details.inStock" />
+                          : <FormattedMessage id="details.outStock" />
+                      }
                     </div>
                   </span>
                 </div>
                 <div className="promotion stock" style={{ marginTop: '7px', display: this.state.isPromote ? 'inline-block' : 'none' }}>
                   <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
-                    <span className=""><FormattedMessage id="promotion" /> :</span>
+                    <span><FormattedMessage id="promotion" /> :</span>
                   </label>
                   <span className="availability-msg">
                     25% OFF
@@ -429,6 +429,13 @@ class UnLoginCart extends React.Component {
     });
     return total
   }
+  updateConfirmTooltipVisible (item, status) {
+    let { productList } = this.state
+    item.confirmTooltipVisible = status
+    this.setState({
+      productList: productList
+    })
+  }
   render () {
     const { productList, checkoutLoading } = this.state;
     const List = this.getProducts(this.state.productList);
@@ -445,7 +452,7 @@ class UnLoginCart extends React.Component {
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
             {productList.length
-              ? <React.Fragment>
+              ? <>
                 <div className="rc-layout-container rc-one-column">
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
@@ -518,7 +525,7 @@ class UnLoginCart extends React.Component {
                         <div className="row">
                           <div className="col-7 medium">
                             <strong>
-                              <FormattedMessage id="totalCost" />
+                              <FormattedMessage id="totalIncluIVA" />
                             </strong>
                           </div>
                           <div className="col-5">
@@ -529,12 +536,20 @@ class UnLoginCart extends React.Component {
                           <div className="col-lg-12 checkout-continue">
                             <a className={[checkoutLoading ? 'ui-btn-loading' : ''].join(' ')}>
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                                <div
+                                {/* <div
                                   className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
                                   aria-pressed="true"
                                   onClick={() => this.handleCheckout({ needLogin: true })}>
                                   <FormattedMessage id="checkout" />
-                                </div>
+                                </div> */}
+                                <LoginButton
+                                  beforeLoginCallback={async () => this.handleCheckout({ needLogin: true })}
+                                  btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
+                                  updateCartCache={() => this.headerRef.current.updateCartCache()}
+                                  history={this.props.history}
+                                >
+                                  <FormattedMessage id="checkout" />
+                                </LoginButton>
                               </div>
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                                 <div className="text-center" onClick={() => this.handleCheckout()}>
@@ -552,8 +567,8 @@ class UnLoginCart extends React.Component {
                     </div>
                   </div>
                 </div>
-              </React.Fragment>
-              : <React.Fragment>
+              </>
+              : <>
                 <div className="rc-text-center">
                   <div className="rc-beta rc-margin-bottom--sm">
                     <FormattedMessage id="cart.yourBasket" />
@@ -577,7 +592,8 @@ class UnLoginCart extends React.Component {
                               <img
                                 className="w-100"
                                 style={{ transform: 'scale(.8)' }}
-                                src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwd94da11c/ENGLISH_COCKER_SPANIEL_ADULT__DERMATOLOGY_EMBLEMATIC_High_Res.___Print.png?sw=500&amp;sh=385&amp;sm=fit&amp;cx=356&amp;cy=161&amp;cw=2088&amp;ch=1608&amp;sfrm=png" alt="Dog" />
+                                src={CART_DOG}
+                                alt="Dog" />
                               <br />
                               <h4 className="card__title red">
                                 <FormattedMessage id="cart.dogDiet" />
@@ -589,7 +605,8 @@ class UnLoginCart extends React.Component {
                               <img
                                 className="w-100"
                                 style={{ padding: '3rem 0 4rem' }}
-                                src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwf417a5f2/RUSSIAN_BLUE_ADULT___VHN_DERMATOLOGY_EMBLEMATIC_High_Res.___Print.png?sw=550&amp;sh=300&amp;sm=fit&amp;cx=0&amp;cy=268&amp;cw=2642&amp;ch=1441&amp;sfrm=png" alt="Cat" />
+                                src={CART_CAT}
+                                alt="Cat" />
                               <br /><h4 className="card__title red">
                                 <FormattedMessage id="cart.catDiet" />
                               </h4>
@@ -600,17 +617,10 @@ class UnLoginCart extends React.Component {
                     </div>
                   </div>
                 </div>
-              </React.Fragment>
+              </>
             }
           </div>
         </main>
-
-        <Modal
-          visible={this.state.modalShow}
-          modalTitle={<FormattedMessage id="cart.deletInfo" />}
-          modalText={<FormattedMessage id="cart.deletInfo2" />}
-          close={() => { this.setState({ modalShow: false }) }}
-          hanldeClickConfirm={() => this.deleteProduct()} />
         <Footer />
       </div>
     );

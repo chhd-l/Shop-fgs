@@ -4,41 +4,25 @@ import { queryStoreCateIds } from "@/utils/utils";
 
 class RouteFilter extends Component {
   shouldComponentUpdate (nextProps) {
-    if (
-      nextProps.location.pathname === "/prescription" &&
-      sessionStorage.getItem("rc-clinics-id") &&
-      sessionStorage.getItem("rc-clinics-name")
-    ) {
-      this.props.history.push("/payment/shipping");
+    if (nextProps.location.pathname === "/prescription"
+      && ((sessionStorage.getItem("rc-clinics-id-link") && sessionStorage.getItem("rc-clinics-name-link"))
+        || (sessionStorage.getItem("rc-clinics-id-default") && sessionStorage.getItem("rc-clinics-name-default")))) {
+      this.props.history.replace("/payment/shipping");
     }
-
-    // 切换路由时，刷新下页面，解决外部组件无法初始化问题
-    if (this.props.location !== nextProps.location) {
-      // window.location.reload();
-      return false;
+    if (!localStorage.getItem('rc-token') && nextProps.location.pathname.indexOf("/account") !== -1) {
+      this.props.history.push("/");
     }
   }
   async componentDidMount () {
-    console.log(window.location.href, 'href')
-    if(window.location.href.indexOf('/#/') !== -1) {
+    if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/')
     }
     if (this.props.location.pathname === "/payment/payment") {
       loadJS(
         "https://js.paymentsos.com/v2/latest/secure-fields.min.js",
         function () {
-          // window.POS.setPublicKey("fd931719-5733-4b77-b146-2fd22f9ad2e3");
-          // window.POS.setPublicKey("e13025c1-e45e-4ead-a18b-782efcee5250");
-          let key, env
-          if (process.env.NODE_ENV === 'development') {
-            key = 'fd931719-5733-4b77-b146-2fd22f9ad2e3'
-            env = 'test'
-          } else if (process.env.NODE_ENV === 'production') {
-            key = process.env.REACT_APP_PaymentKEY
-            env = process.env.REACT_APP_PaymentENV
-          }
-          window.POS.setPublicKey(key)
-          window.POS.setEnvironment(env);
+          window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY)
+          window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
           const style = {
             base: {
               secureFields: {
@@ -85,14 +69,9 @@ class RouteFilter extends Component {
       );
     }
     if (this.props.location.pathname !== "/login") {
-      let tmpSrc = process.env.REACT_APP_ONTRUST_SRC
-      loadJS(tmpSrc, function () { })
+      loadJS(process.env.REACT_APP_ONTRUST_SRC, function () { })
     }
     if (this.props.location.pathname === "/confirmation" && !localStorage.getItem('orderNumber')) {
-      this.props.history.push("/");
-    }
-
-    if (!sessionStorage.getItem('rc-token') && this.props.location.pathname.indexOf("/account") !== -1) {
       this.props.history.push("/");
     }
     queryStoreCateIds();

@@ -6,30 +6,31 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom';
+import helpImg from "@/assets/images/profile/Help.jpg";
+import myOrderImg from "@/assets/images/profile/My Order.jpg";
+import myPetImg from "@/assets/images/profile/My pet.jpg";
+import myProfileImg from "@/assets/images/profile/My profile.jpg";
+import paymentImg from "@/assets/images/profile/Payment.jpg";
 import './index.css'
 
 export default class AccountHome extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      userInfo: sessionStorage.getItem("rc-userinfo") ? JSON.parse(sessionStorage.getItem("rc-userinfo")) : null
+      userInfo: localStorage.getItem("rc-userinfo") ? JSON.parse(localStorage.getItem("rc-userinfo")) : null
     }
   }
   componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+    
   }
   componentDidMount () {
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
-      window.location.reload();
-      return false
-    }
+
   }
   render () {
     const event = {
-      "page": {
-        "type": "Account",
-        "theme": ""
+      page: {
+        type: 'Account',
+        theme: ''
       }
     }
     return (
@@ -53,7 +54,7 @@ export default class AccountHome extends React.Component {
                           <FormattedMessage id="account.profile">
                             {txt => (
                               <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwdb6e2062/images/dashboard/My profile.jpg"
+                                src={myProfileImg}
                                 alt={txt}
                                 title={txt} />
                             )}
@@ -78,27 +79,29 @@ export default class AccountHome extends React.Component {
                     </div>
                     <div className="col-12 col-md-4">
                       <div className="profileDashboardImage">
-                        <a href="/ru/account/pet-carnet">
+                        <Link to="/account/pets/petForm">
                           <FormattedMessage id="pets">
                             {txt => (
                               <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwa1d75ed1/images/dashboard/My pet.jpg"
+                                src={myPetImg}
                                 alt={txt}
                                 title={txt} />
                             )}
                           </FormattedMessage>
-                        </a>
+                        </Link>
                       </div>
                       <div>
                         <h3 className="rc-delta profileTextColor">
                           <FormattedMessage id="pets">
                             {txt => (
-                              <a href="/ru/account/pet-carnet" title={txt} alt={txt}>
+                              <Link
+                                to="/account/pets/petForm"
+                                title={txt}
+                                alt={txt}>
                                 <b>{txt}</b>
-                              </a>
+                              </Link>
                             )}
                           </FormattedMessage>
-
                         </h3>
                         <p><FormattedMessage id="account.petsTip" /></p>
                       </div>
@@ -109,7 +112,7 @@ export default class AccountHome extends React.Component {
                           {txt => (
                             <Link to="/account/orders" title={txt}>
                               <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwb0f9538d/images/dashboard/My%20Order.jpg"
+                                src={myOrderImg}
                                 alt={txt} />
                             </Link>
                           )}
@@ -136,7 +139,7 @@ export default class AccountHome extends React.Component {
                               to="/account/shippingAddress"
                               title={txt}>
                               <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwf7c65124/images/dashboard/Payment.jpg"
+                                src={paymentImg}
                                 alt={txt} />
                             </Link>
                           )}
@@ -164,7 +167,7 @@ export default class AccountHome extends React.Component {
                           {txt => (
                             <Link to="/help" title={txt}>
                               <img
-                                src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dweb723ffe/images/dashboard/Help.jpg"
+                                src={helpImg}
                                 alt={txt} />
                             </Link>
                           )}

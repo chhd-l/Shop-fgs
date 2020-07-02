@@ -1,5 +1,5 @@
-import { getStoreCate } from '@/api'
-import { STOREID } from '@/utils/constant'
+import { getStoreCate, getProps } from '@/api'
+import { STOREID, CATEID } from '@/utils/constant'
 import { purchases, mergePurchase } from '@/api/cart'
 import { getDict } from '@/api/dict'
 import { find } from 'lodash'
@@ -28,6 +28,20 @@ export async function queryStoreCateIds () {
     }
   }
   return JSON.parse(sessionStorage.getItem('rc-storeId-list'))
+}
+
+/**
+ * 获取商品属性
+ */
+export async function queryProps () {
+  let tmp = sessionStorage.getItem('rc-goodsprop-list')
+  if (!tmp) {
+    let res = await getProps(CATEID)
+    if (res.context && res.context.length) {
+      sessionStorage.setItem('rc-goodsprop-list', JSON.stringify(res.context))
+    }
+  }
+  return JSON.parse(sessionStorage.getItem('rc-goodsprop-list'))
 }
 
 export function getParaByName (search, name) {
@@ -76,7 +90,8 @@ export async function mergeUnloginCartData () {
       return {
         goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId,
         goodsNum: ele.quantity,
-        invalid: false
+        invalid: false,
+        goodsCategory: ele.goodsCategory
       }
     })
   })
@@ -142,7 +157,7 @@ export function dateFormat (fmt, date) {
 }
 
 export function jugeLoginStatus () {
-  if (sessionStorage.getItem('rc-token')) {
+  if (localStorage.getItem('rc-token')) {
     return true
   } else {
     return false

@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import Modal from '@/components/Modal'
+import ConfirmTooltip from '@/components/ConfirmTooltip'
 import { Link } from 'react-router-dom'
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
@@ -15,6 +15,8 @@ import {
   sitePurchases,
   siteMiniPurchases
 } from '@/api/cart'
+import CART_CAT from "@/assets/images/CART_CAT.webp";
+import CART_DOG from "@/assets/images/CART_DOG.webp";
 
 class LoginCart extends React.Component {
   constructor(props) {
@@ -26,9 +28,7 @@ class LoginCart extends React.Component {
       totalPrice: '',
       tradePrice: '',
       discountPrice: '',
-      currentProduct: null,
       currentProductIdx: -1,
-      modalShow: false,
       quantityMinLimit: 1,
       deleteLoading: false,
       checkoutLoading: false,
@@ -40,16 +40,7 @@ class LoginCart extends React.Component {
     this.gotoDetails = this.gotoDetails.bind(this)
     this.headerRef = React.createRef();
   }
-  componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
-  }
   async componentDidMount () {
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
-      window.location.reload();
-      return false
-    }
-
     // 合并购物车(登录后合并非登录态的购物车数据)
     const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
     if (unloginCartData.length) {
@@ -113,24 +104,30 @@ class LoginCart extends React.Component {
 
     // 价格未达到底限，不能下单
     if (this.state.tradePrice < MINIMUM_AMOUNT) {
-      this.setState({
-        errorShow: true,
-        errorMsg: <FormattedMessage id="cart.errorInfo3" />
-      })
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo3" />)
       return false
     }
 
     // 库存不够，不能下单
     if (find(productList, ele => ele.buyCount > ele.stock)) {
-      this.setState({
-        errorShow: true,
-        errorMsg: <FormattedMessage id="cart.errorInfo2" />
-      })
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo2" />)
       return false
     }
 
     localStorage.setItem('rc-cart-data-login', JSON.stringify(productList))
     this.props.history.push('/prescription')
+  }
+  showErrMsg (msg) {
+    this.setState({
+      errorShow: true,
+      errorMsg: msg
+    })
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      this.setState({
+        errorShow: false
+      })
+    }, 3000)
   }
   handleAmountChange (e, item) {
     this.setState({ errorShow: false })
@@ -145,41 +142,15 @@ class LoginCart extends React.Component {
       let tmp = parseInt(val)
       if (isNaN(tmp)) {
         tmp = 1
-        this.setState({
-          errorShow: true,
-          errorMsg: <FormattedMessage id="cart.errorInfo" />
-        });
-        setTimeout(() => {
-          this.setState({
-            errorShow: false
-          });
-        }, 2000)
+        this.showErrMsg(<FormattedMessage id="cart.errorInfo" />)
       }
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit
-        this.setState({
-          errorShow: true,
-          errorMsg: <FormattedMessage id="cart.errorInfo" />
-        });
-        setTimeout(() => {
-          this.setState({
-            errorShow: false
-          });
-        }, 2000)
+        this.showErrMsg(<FormattedMessage id="cart.errorInfo" />)
       }
       item.buyCount = tmp
       this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
     }
-  }
-  changeCache () {
-    this.state.productList.map(item => {
-      item.currentAmount = item.quantity * find(item.sizeList, s => s.selected).salePrice
-    })
-    localStorage.setItem(
-      "rc-cart-data",
-      JSON.stringify(this.state.productList)
-    )
-    this.headerRef.current.updateCartCache()
   }
   addQuantity (item) {
     this.setState({ errorShow: false })
@@ -192,30 +163,18 @@ class LoginCart extends React.Component {
       item.buyCount--
       this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
     } else {
-      this.setState({
-        errorShow: true,
-        errorMsg: <FormattedMessage id="cart.errorInfo" />
-      });
-      setTimeout(() => {
-        this.setState({
-          errorShow: false
-        });
-      }, 2000)
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo" />)
     }
   }
-  closeModal () {
-    this.setState({
-      currentProduct: null,
-      currentProductIdx: -1,
-      modalShow: false
-    });
-  }
-  async deleteProduct () {
+  async deleteProduct (item) {
     let { currentProductIdx, productList } = this.state
-    this.setState({ deleteLoading: true })
+    item.confirmTooltipVisible = false
+    this.setState({
+      productList: productList,
+      deleteLoading: true
+    })
     await this.deleteItemFromBackendCart({ goodsInfoIds: [productList[currentProductIdx].goodsInfoId] })
     this.setState({ deleteLoading: false })
-    this.closeModal()
   }
   goBack (e) {
     e.preventDefault();
@@ -246,20 +205,27 @@ class LoginCart extends React.Component {
           <div className="product-info__desc w-100 relative">
             <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
               <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(pitem)}>
-                <h4 className="rc-gamma rc-margin--none">{pitem.goodsName}</h4>
+                <h4
+                  className="rc-gamma rc-margin--none ui-text-overflow-line2 text-break"
+                  title={pitem.goodsName}>
+                  {pitem.goodsName}
+                </h4>
               </a>
             </div>
             <div className="cart-product-error-msg"></div>
-            <span
-              className="remove-product-btn js-remove-product rc-icon rc-close--sm rc-iconography"
-              onClick={() => {
-                this.setState({
-                  currentProduct: pitem,
-                  currentProductIdx: index,
-                  modalShow: true
-                });
-              }}
-            ></span>
+            <span className="remove-product-btn">
+              <span
+                className="rc-icon rc-close--sm rc-iconography"
+                onClick={() => {
+                  this.updateConfirmTooltipVisible(pitem, true)
+                  this.setState({ currentProductIdx: index })
+                }}
+              />
+              <ConfirmTooltip
+                display={pitem.confirmTooltipVisible}
+                confirm={e => this.deleteProduct(pitem)}
+                updateChildDisplay={status => this.updateConfirmTooltipVisible(pitem, status)} />
+            </span>
             <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
               <div
                 className="product-quickview product-null product-wrapper product-detail"
@@ -409,9 +375,16 @@ class LoginCart extends React.Component {
     ));
     return Lists;
   }
+  updateConfirmTooltipVisible (item, status) {
+    let { productList } = this.state
+    item.confirmTooltipVisible = status
+    this.setState({
+      productList: productList
+    })
+  }
   render () {
     const { productList, checkoutLoading } = this.state;
-    const List = this.getProducts(this.state.productList);
+    const List = this.getProducts(productList);
     const event = {
       page: {
         type: 'Cart',
@@ -498,7 +471,7 @@ class LoginCart extends React.Component {
                         <div className="row">
                           <div className="col-7 medium">
                             <strong>
-                              <FormattedMessage id="totalCost" />
+                              <FormattedMessage id="totalIncluIVA" />
                             </strong>
                           </div>
                           <div className="col-5">
@@ -548,7 +521,8 @@ class LoginCart extends React.Component {
                               <img
                                 className="w-100"
                                 style={{ transform: 'scale(.8)' }}
-                                src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwd94da11c/ENGLISH_COCKER_SPANIEL_ADULT__DERMATOLOGY_EMBLEMATIC_High_Res.___Print.png?sw=500&amp;sh=385&amp;sm=fit&amp;cx=356&amp;cy=161&amp;cw=2088&amp;ch=1608&amp;sfrm=png" alt="Dog" />
+                                src={CART_DOG}
+                                alt="Dog" />
                               <br /><h4 className="card__title red">
                                 <FormattedMessage id="cart.dogDiet" />
                               </h4>
@@ -559,7 +533,8 @@ class LoginCart extends React.Component {
                               <img
                                 className="w-100"
                                 style={{ padding: '3rem 0 4rem' }}
-                                src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwf417a5f2/RUSSIAN_BLUE_ADULT___VHN_DERMATOLOGY_EMBLEMATIC_High_Res.___Print.png?sw=550&amp;sh=300&amp;sm=fit&amp;cx=0&amp;cy=268&amp;cw=2642&amp;ch=1441&amp;sfrm=png" alt="Cat" />
+                                src={CART_CAT}
+                                alt="Cat" />
                               <br />
                               <h4 className="card__title red">
                                 <FormattedMessage id="cart.catDiet" />
@@ -575,14 +550,6 @@ class LoginCart extends React.Component {
             }
           </div>
         </main>
-
-        <Modal
-          visible={this.state.modalShow}
-          confirmLoading={this.state.deleteLoading}
-          modalTitle={<FormattedMessage id="cart.deletInfo" />}
-          modalText={<FormattedMessage id="cart.deletInfo2" />}
-          close={() => { this.setState({ modalShow: false }) }}
-          hanldeClickConfirm={() => this.deleteProduct()} />
         <Footer />
       </div>
     );

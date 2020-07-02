@@ -462,14 +462,8 @@
   background-position-y: 40%
 }
 
-.card-footer>a,.card-header>a {
-  color: #ec001a;
-  text-decoration: underline
-}
-
 .card-header>a {
   float: right;
-  padding: 3rem 0 0
 }
 
 .hide-makedefault {
@@ -678,7 +672,7 @@
   background-color: #f6f6f6;
   border-bottom: 1px solid #979797;
   border-top: 1px solid #979797;
-  padding: 1.25rem
+  /* padding: 1.25rem */
 }
 
 .order__listing .card .card-header:first-child {
@@ -1250,4 +1244,14 @@
 }
 .clinic-item:hover {
   background-color: #fff3f3;
+}
+
+.password-input {
+  background-color: #F9F9F9;
+  border: 0;
+  border-bottom: 2px solid #A3A3A4;
+  border-color: #A3A3A4;
+  padding: 1rem 0.9rem;
+  flex-grow: 1;
+  margin: 1rem 0;
 }

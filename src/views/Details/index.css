@@ -704,6 +704,16 @@ label.color~a:hover {
   display: none
 }
 
+.tabs-detail table {
+  width: 100%;
+  border: 1px solid #d7d7d7;
+  border-radius: 3px;
+}
+@media (max-width: 769px) {
+  .tabs-detail table {
+    width: 150%;
+  }
+}
 .rc-tabs .arrow-img-columns {
   max-width: none
 }
@@ -851,7 +861,8 @@ label.availability {
 .product-detail .description {
   overflow: hidden;
   text-align: justify;
-  position: relative
+  position: relative;
+  word-wrap: break-word;
 }
 
 .product-detail .description ul li {
@@ -1500,7 +1511,7 @@ label.availability {
   top: -1px;
   left: 0;
   background: #fff;
-  z-index: 9;
+  z-index: 99;
   -webkit-transition: .1s;
   transition: .1s;
   padding: 8px 0;
@@ -1566,14 +1577,18 @@ label.availability {
   border-color: grey;
   cursor: not-allowed;
 }
+.btn-add-to-cart2.disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
 .rc-img--square.rc-img--square-custom {
-  margin-top: 2rem;
   border: 1px solid #999;
   background-size: contain;
   margin-left: 5px;
 }
 
-.rc-img--square.rc-img--square-custom:hover {
+.rc-img--square.rc-img--square-custom:hover,
+.rc-img--square.rc-img--square-custom.hover {
   border-color: #e2001a;
 }
 
@@ -1631,7 +1646,11 @@ ul.ui-star-list li:before {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
+<<<<<<< HEAD
   /* background-image: url(../../../public/royal/royal-assets1/royal-canin.sprite--iconography.svg); */
+=======
+  background-image: url(../../assets/images/royal-canin.sprite--iconography.svg);
+>>>>>>> 00305014474581523803877857c92854fa888b41
   background-position: 39.99% 88.89%;
   content: '';
   display: inline-block;
@@ -1652,3 +1671,16 @@ ul.ui-star-list .list_title {
     width: 100%;
   }
 }
+<<<<<<< HEAD
+=======
+p {
+  word-wrap: break-word;
+}
+
+.details-img-container {
+  width: 100%;
+}
+.imageBox {
+  padding: 0 !important;
+}
+>>>>>>> 00305014474581523803877857c92854fa888b41

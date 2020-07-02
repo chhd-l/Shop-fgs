@@ -15,6 +15,13 @@ export default class Pagination extends Component {
     this.handlePrevOrNextPage = this.handlePrevOrNextPage.bind(this)
     this.handleCurrentPageNumChange = this.handleCurrentPageNumChange.bind(this)
   }
+  componentWillReceiveProps (nextProps) {
+    if (this.state.currentPage !== nextProps.currentPage) {
+      this.setState({
+        currentPage: nextProps.currentPage
+      })
+    }
+  }
   handleCurrentPageNumChange (e) {
     if (this.props.loading) {
       return false

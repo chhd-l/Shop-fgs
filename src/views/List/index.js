@@ -11,14 +11,14 @@ import { cloneDeep, find, findIndex } from 'lodash'
 import titleCfg from './json/title.json'
 import { getList, getProps, getLoginList } from '@/api/list'
 import { queryStoreCateIds, formatMoney, jugeLoginStatus } from '@/utils/utils'
-import { STOREID, CATEID } from '@/utils/constant'
+import { STOREID, CATEID, STORE_CATE_ENUM } from '@/utils/constant'
 import './index.css'
 
 class List extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      storeCateId: '',
+      storeCateIds: [],
       category: '',
       titleData: null,
       productList: [
@@ -87,20 +87,10 @@ class List extends React.Component {
     })
 
     let storeIdList = await queryStoreCateIds()
-    let map = {
-      dogs: 'Prescription dogs',
-      cats: 'Prescription cats',
-      vcn: 'VD dogs',
-      vd: 'VD cats'
-    }
-    let res = map[category]
-    if (res) {
-      let targetObj = find(storeIdList, s => s.cateName.toLocaleLowerCase() === res.toLocaleLowerCase())
-      if (targetObj) {
-        this.setState({
-          storeCateId: targetObj.storeCateId
-        })
-      }
+    const t = find(STORE_CATE_ENUM, ele => ele.category == category)
+    if (t) {
+      let tmpArr = Array.from(storeIdList, s => t.cateName.includes(s.cateName) ? s.storeCateId : '').filter(s => !!s)
+      this.setState({ storeCateIds: tmpArr })
     }
 
     this.getProductList()
@@ -125,7 +115,7 @@ class List extends React.Component {
     })
   }
   async getProductList () {
-    let { checkedList, currentPage, pageSize, storeCateId, keywords, initingList, category } = this.state;
+    let { checkedList, currentPage, pageSize, storeCateIds, keywords, initingList, category } = this.state;
     this.setState({
       loading: true
     })
@@ -134,7 +124,6 @@ class List extends React.Component {
       const widget = document.querySelector('#J-product-list')
       if (widget) {
         setTimeout(() => {
-          console.log(widget.offsetTop)
           window.scrollTo({
             top: widget.offsetTop - 100,
             behavior: 'smooth'
@@ -153,11 +142,8 @@ class List extends React.Component {
       pageSize,
       esGoodsInfoDTOList: [],
       companyType: '',
-      keywords
-    }
-
-    if (storeCateId) {
-      params.storeCateIds = [storeCateId]
+      keywords,
+      storeCateIds
     }
 
     for (let item of checkedList) {
@@ -388,10 +374,16 @@ class List extends React.Component {
                                           <div className="rc-card__body rc-padding-top--none">
                                             <div className="height-product-tile-plpOnly height-product-tile">
                                               <header className="rc-text--center">
-                                                <h3 className="rc-card__title rc-gamma">{item.lowGoodsName}</h3>
+                                                <h3
+                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break"
+                                                  title={item.lowGoodsName}>
+                                                  {item.lowGoodsName}
+                                                </h3>
                                               </header>
                                               <div className="Product-Key-words rc-text--center"></div>
-                                              <div className="goodsSubtitle">
+                                              <div
+                                                className="text-center ui-text-overflow-line3 text-break"
+                                                title={item.goodsSubtitle}>
                                                 {item.goodsSubtitle}
                                               </div>
                                             </div>
@@ -412,6 +404,7 @@ class List extends React.Component {
                         <div className="grid-footer rc-full-width">
                           <Pagination
                             loading={this.state.loading}
+                            currentPage={this.state.currentPage}
                             totalPage={this.state.totalPage}
                             onPageNumChange={params => this.hanldePageNumChange(params)} />
                         </div>

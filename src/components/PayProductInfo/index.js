@@ -43,7 +43,9 @@ class PayProductInfo extends React.Component {
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
-                  <div className="line-item-name capitalize">
+                  <div
+                    className="line-item-name capitalize ui-text-overflow-line2 text-break"
+                    title={el.goodsName}>
                     <span className="light">{el.goodsName}</span>
                   </div>
                 </div>
@@ -79,7 +81,9 @@ class PayProductInfo extends React.Component {
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
-                  <div className="line-item-name capitalize">
+                  <div
+                    className="line-item-name capitalize ui-text-overflow-line2 text-break"
+                    title={el.goodsName}>
                     <span className="light">{el.goodsName}</span>
                   </div>
                 </div>
@@ -172,7 +176,7 @@ class PayProductInfo extends React.Component {
           </div>
           <div className="product-summary__total grand-total row leading-lines rc-bg-colour--brand4 checkout--padding">
             <div className="col-6 start-lines order-receipt-label">
-              <span><FormattedMessage id="totalCost" /></span>
+              <span><FormattedMessage id="totalIncluIVA" /></span>
             </div>
             <div className="col-6 end-lines text-right">
               <span className="grand-total-sum">

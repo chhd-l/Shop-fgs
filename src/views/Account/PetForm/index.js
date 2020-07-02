@@ -1,9 +1,10 @@
 import React from "react"
-import { FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
+import ConfirmTooltip from '@/components/ConfirmTooltip'
 import './index.css'
 import dog from '@/assets/images/animal-1.jpg'
 import cat from '@/assets/images/animal-2.jpg'
@@ -14,6 +15,7 @@ import { getPetList, addPet, petsById, delPets, editPets } from '@/api/pet'
 import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
 import { MINIMUM_AMOUNT, STOREID } from "@/utils/constant"
+import { getCustomerInfo } from "@/api/user"
 
 const selectedPet = {
   border: "3px solid #ec001a",
@@ -21,7 +23,8 @@ const selectedPet = {
 const noSelect = {
   border: "3px solid #d7d7d7",
 }
-export default class PetForm extends React.Component {
+
+class PetForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -45,29 +48,10 @@ export default class PetForm extends React.Component {
       isSterilized: null,
       birthdate: '',
       sizeArr: [
-        "Xsmall",
-        "Mini",
-        "Medium",
-        "Maxi",
-        "Giant"
+
       ],
       specialNeeds: [
-        'Age support',
-        'Cardiac support',
-        'Diabetes support',
-        'Digestive support',
-        'Joint support',
-        'Oral/Dental hygiene',
-        'Food sensitivities',
-        'Kidney support',
-        'Liver support',
-        'Skin and Coat support',
-        'Urinary support',
-        'Weight management',
-        'Convalescence',
-        'Skin sensitivity',
-        'Digestive sensitivity',
-        'Joint sensitivity',
+
       ],
 
       selectedSpecialNeeds: [],
@@ -98,13 +82,35 @@ export default class PetForm extends React.Component {
     localStorage.setItem("isRefresh", true);
   }
   componentDidMount () {
-    this.getPetList()
-
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
       return false
     }
+    this.getPetList()
+
+    getDictionary({ type: 'dogSize' })
+
+      .then(res => {
+        console.log(res);
+
+        this.setState({
+          sizeArr: res
+        })
+      })
+      .catch(err => {
+        this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
+      })
+    getDictionary({ type: 'specialNeeds' })
+      .then(res => {
+        console.log(res);
+        this.setState({
+          specialNeeds: res
+        })
+      })
+      .catch(err => {
+        this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
+      })
 
     try {
       let timer = setInterval(() => {
@@ -125,28 +131,46 @@ export default class PetForm extends React.Component {
   }
   getUserInfo () {
     let userinfo = {}
-    if (sessionStorage.getItem('rc-userinfo')) {
-      userinfo = JSON.parse(sessionStorage.getItem('rc-userinfo'))
+    if (localStorage.getItem('rc-userinfo')) {
+      userinfo = JSON.parse(localStorage.getItem('rc-userinfo'))
 
     }
     return userinfo
   }
-  getPetList = async () => {
+
+  getAccount= ()=>{
     let consumerAccount = ''
     if (this.getUserInfo() && this.getUserInfo().customerAccount) {
       consumerAccount = this.getUserInfo().customerAccount
     }
     else {
-      this.showErrorMsg('Get Consumer Account Failed')
+      getCustomerInfo()
+      .then(res => {
+        const context = res.context
+        localStorage.setItem('rc-userinfo', JSON.stringify(context))
+
+        consumerAccount = context.consumerAccount
+        
+      })
+    }
+    console.log(consumerAccount,'1');
+    
+    return consumerAccount
+  }
+
+  getPetList = () => {
+    if(!this.getAccount()){
+      this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
       this.setState({
         loading: false
       })
-      return
+      return false
     }
+    console.log('2');
     let params = {
-      "consumerAccount": consumerAccount
+      "consumerAccount": this.getAccount()
     }
-    await getPetList(params).then(res => {
+    getPetList(params).then(res => {
       if (res.code === 'K-000000') {
         let petList = res.context.context
         if (petList.length > 0) {
@@ -175,7 +199,7 @@ export default class PetForm extends React.Component {
           loading: false,
           showList: false,
         })
-        this.showErrorMsg(res.message || 'Get Data Failed')
+        this.showErrorMsg(res.message || this.props.intl.messages.getDataFailed)
       }
     }).catch(err => {
       this.setState({
@@ -183,7 +207,7 @@ export default class PetForm extends React.Component {
       })
       console.log(err);
 
-      this.showErrorMsg('Get Data Failed')
+      this.showErrorMsg(this.props.intl.messages.getDataFailed)
     })
   }
 
@@ -207,19 +231,15 @@ export default class PetForm extends React.Component {
       this.getSpecialNeeds(currentPet.customerPetsPropRelations)
     }
   }
-  delPets = async (id) => {
-    let params = {
-      "petsIds": [
-        id
-      ]
-    }
+  delPets = async (currentPet) => {
+    let params = { petsIds: [currentPet.petsId] }
+    currentPet.confirmTooltipVisible = false
     this.setState({
-      loading: true
+      loading: true,
+      currentPet: currentPet
     })
-    const res = await delPets(params)
-    if (res.code === 'K-000000') {
-      this.getPetList()
-    }
+    await delPets(params)
+    this.getPetList()
   }
   savePet = async () => {
     let consumerAccount = ''
@@ -227,7 +247,7 @@ export default class PetForm extends React.Component {
       consumerAccount = this.getUserInfo().customerAccount
     }
     else {
-      this.showErrorMsg('Get Consumer Account Failed')
+      this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
       return
     }
     this.setState({
@@ -287,14 +307,14 @@ export default class PetForm extends React.Component {
 
         }
         else {
-          this.showErrorMsg(res.message || 'Save Failed')
+          this.showErrorMsg(res.message || this.props.intl.messages.saveFailed)
 
           this.setState({
             loading: false
           })
         }
       }).catch(err => {
-        this.showErrorMsg('Save Failed')
+        this.showErrorMsg(this.props.intl.messages.saveFailed)
         this.setState({
           loading: false
         })
@@ -314,14 +334,14 @@ export default class PetForm extends React.Component {
 
         }
         else {
-          this.showErrorMsg(res.message || 'Save Failed')
+          this.showErrorMsg(res.message || this.props.intl.messages.saveFailed)
 
           this.setState({
             loading: false
           })
         }
       }).catch(err => {
-        this.showErrorMsg('Save Failed')
+        this.showErrorMsg(this.props.intl.messages.saveFailed)
         this.setState({
           loading: false
         })
@@ -476,8 +496,12 @@ export default class PetForm extends React.Component {
     }
     else {
       //如果是没有特殊需求
-      if (val === 'No special needs') {
-        let tempArr = ['No special needs']
+      if (val === 'Sin necesidades especiales') {
+
+        let tempArr=[]
+        if(val === 'Sin necesidades especiales' ){
+          tempArr = ['Sin necesidades especiales']
+        }
         this.setState({
           selectedSpecialNeeds: tempArr,
           isDisabled: false
@@ -486,7 +510,7 @@ export default class PetForm extends React.Component {
       else {
         //先排除'No special needs'
         let tempArr = this.state.selectedSpecialNeeds.filter(item => {
-          return item !== 'No special needs'
+          return item !== 'Sin necesidades especiales'
         })
         tempArr.push(val)
         this.setState({
@@ -495,6 +519,7 @@ export default class PetForm extends React.Component {
         })
       }
     }
+    
 
   }
   selectedBreed = (item) => {
@@ -540,7 +565,7 @@ export default class PetForm extends React.Component {
       isInputDisabled: currentPet.petsBreed === "unknown Breed" ? true : false,
       isUnknownDisabled: currentPet.petsBreed === "unknown Breed" ? false : true,
       breed: currentPet.petsBreed === "unknown Breed" ? "" : currentPet.petsBreed,
-      weight: "",
+      weight:  currentPet.petsType === 'dog' ?currentPet.petsSizeValueName:'',
       isSterilized: currentPet.sterilized === 0 ? true : false,
       birthdate: currentPet.birthOfPets,
 
@@ -556,7 +581,7 @@ export default class PetForm extends React.Component {
         })
       })
       .catch(err => {
-        this.showErrorMsg(err.toString() || 'get data failed')
+        this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
         this.setState({ loading: false })
       })
   }
@@ -625,6 +650,13 @@ export default class PetForm extends React.Component {
     this.getPetList()
 
   }
+  updateConfirmTooltipVisible = (status) => {
+    let { currentPet } = this.state
+    currentPet.confirmTooltipVisible = status
+    this.setState({
+      currentPet: currentPet
+    })
+  }
   render () {
     const { petList, currentPet } = this.state
     return (
@@ -638,17 +670,17 @@ export default class PetForm extends React.Component {
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
 
-                <div class="list-select-pet js-list-pet" data-toggle-group="">
-                  <ul class="scroll--x list list--inline list--align list--blank flex--middle" role="tablist">
-                    <li class="pet-element">
-                      <a onClick={() => this.add()} class="tab-add tab--img" role="tab">
-                        <span class="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
+                <div className="list-select-pet js-list-pet" data-toggle-group="">
+                  <ul className="scroll--x list list--inline list--align list--blank flex--middle" role="tablist">
+                    <li className="pet-element">
+                      <a onClick={() => this.add()} className="tab-add tab--img" role="tab">
+                        <span className="rc-icon rc-plus rc-iconography plus-icon add_pet ui-cursor-pointer"></span>
                       </a>
                     </li>
 
                     {
                       petList.map(item => (
-                        <li class="rc-margin-x--xs pet-element">
+                        <li className="rc-margin-x--xs pet-element" key={item.petsId}>
                           <a onClick={() => this.petsById(item.petsId)}>
                             <div className={"tab__img img--round img--round--md name--select text-center " + (item.petsId === this.state.currentPetId ? "active" : "")}>
                               {item.petsName}
@@ -680,44 +712,51 @@ export default class PetForm extends React.Component {
                 </aside>
                 {
                   this.state.showList ? (
-                    <div class="pet-information js-pet-information rc-margin-bottom--md">
-                      <h2 class="name-pet">{currentPet.petsName}</h2>
-                      <div class="rc-layout-container">
-                        <div class="rc-column">
-                          <ul class="pet-data">
-                            <li class={"breed " + (currentPet.petsType === 'dog' ? "dog" : "cat")}>
-                              <span class="">{currentPet.petsBreed}</span>
+                    <div className="pet-information js-pet-information rc-margin-bottom--md">
+                      <h2 className="name-pet">{currentPet.petsName}</h2>
+                      <div className="rc-layout-container">
+                        <div className="rc-column">
+                          <ul className="pet-data">
+                            <li className={"breed " + (currentPet.petsType === 'dog' ? "dog" : "cat")}>
+                              <span className="">{currentPet.petsBreed}</span>
                             </li>
-                            <li class="birth">
-                              <span class="">{currentPet.birthOfPets}</span>
+                            <li className="birth">
+                              <span className="">{currentPet.birthOfPets}</span>
                             </li>
-                            <li class={"gender " + (currentPet.petsSex === 0 ? "male" : "female") + " sprite-pet"}>
-                              <span class=""> {currentPet.petsSex === 0 ? 'Male' : 'Female'}</span>
+                            <li className={"gender " + (currentPet.petsSex === 0 ? "male" : "female") + " sprite-pet"}>
+                              <span className=""> {currentPet.petsSex === 0 ? <FormattedMessage id="account.male"></FormattedMessage> : <FormattedMessage id="account.female"></FormattedMessage>}</span>
                             </li>
-                            <li class="weight" style={{ display: (currentPet.petsType === 'dog' ? 'block' : 'none') }}>
-                              <span class="">{currentPet.petsSizeValueName}</span>
+                            <li className="weight" style={{ display: (currentPet.petsType === 'dog' ? 'block' : 'none') }}>
+                              <span className="">{currentPet.petsSizeValueName}</span>
                             </li>
                           </ul>
                         </div>
-                        <div class="rc-column">
-                          <div class="pet-special-need">Special needs</div>
-                          <ul class="list-special-need">
+                        <div className="rc-column">
+                          <div className="pet-special-need"><FormattedMessage id="account.specialNeeds" /></div>
+                          <ul className="list-special-need">
                             {
-                              this.state.selectedSpecialNeeds.map(item => (
-                                <li>{item}</li>
+                              this.state.selectedSpecialNeeds.map((item, i) => (
+                                <li key={i}>{item}</li>
                               ))
                             }
                           </ul>
                         </div>
-                        <div class="edit js-edit-pet">
+                        <div className="edit js-edit-pet">
                           <a onClick={() => this.edit(currentPet)} >
-                            <img src={edit} class="img-success" alt="" />
+                            <img src={edit} className="img-success" alt="" />
                           </a>
                         </div>
-                        <div class="delete">
-                          <a onClick={() => this.delPets(currentPet.petsId)}>
+                        <div className="delete">
+                          <a
+                            onClick={() => this.updateConfirmTooltipVisible(true)}>
                             X
-                        </a>
+                          </a>
+                          <ConfirmTooltip
+                            containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                            arrowStyle={{ left: '89%' }}
+                            display={currentPet.confirmTooltipVisible}
+                            confirm={e => this.delPets(currentPet)}
+                            updateChildDisplay={status => this.updateConfirmTooltipVisible(status)} />
                         </div>
                       </div>
                     </div>
@@ -746,7 +785,7 @@ export default class PetForm extends React.Component {
                         <h2>
                           <FormattedMessage id="account.catOrDog"></FormattedMessage>
                         </h2>
-                        <div className="form-group  custom-checkbox col-lg-6">
+                        <div className="form-group  custom-checkbox col-lg-6 ui-cursor-pointer">
                           <img src={cat} className="animal-select" alt="" title=""
                             onClick={() => this.selectPetType('cat')}
                             style={this.state.isCat === true ? selectedPet : noSelect} />
@@ -755,7 +794,7 @@ export default class PetForm extends React.Component {
                           </div>
                         </div>
 
-                        <div className="form-group custom-checkbox col-lg-6">
+                        <div className="form-group custom-checkbox col-lg-6 ui-cursor-pointer">
                           <img src={dog} className="animal-select" alt="" title=""
                             onClick={() => this.selectPetType('dog')}
                             style={this.state.isCat === false ? selectedPet : noSelect} />
@@ -771,7 +810,7 @@ export default class PetForm extends React.Component {
                       <div id="step-2" className="section col-lg-9 col-12 next-step">
                         <h2><FormattedMessage id="account.nickname"></FormattedMessage></h2>
                         <div className="form-group">
-                          <input type="text" placeholder="Enter your pet's nickname" className="form-control input-pet"
+                          <input type="text" placeholder={this.props.intl.messages.enterNickname} className="form-control input-pet"
                             name="dwfrm_miaaPet_petName"
                             required="required"
                             aria-required="true"
@@ -788,7 +827,7 @@ export default class PetForm extends React.Component {
 
                       <div id="step-3" className="section next-step">
                         <h2><FormattedMessage id="account.gender"></FormattedMessage></h2>
-                        <div className="form-group custom-control custom-checkbox col-lg-6 ">
+                        <div className="form-group custom-control custom-checkbox col-lg-6 ui-cursor-pointer">
                           <label className="pet-select-control select-gender-1 icon-rc"
                             onClick={() => this.selectSex('male')}
                             style={this.state.isMale === true ? selectedPet : noSelect}>
@@ -797,7 +836,7 @@ export default class PetForm extends React.Component {
                             <FormattedMessage id="account.male"></FormattedMessage>
                           </div>
                         </div>
-                        <div className="form-group custom-control custom-checkbox col-lg-6 ">
+                        <div className="form-group custom-control custom-checkbox col-lg-6 ui-cursor-pointer">
 
                           <label className="pet-select-control select-gender-2 icon-rc"
                             onClick={() => this.selectSex('female')}
@@ -815,7 +854,7 @@ export default class PetForm extends React.Component {
                         <div className="content-section">
                           <div className="form-group relative">
                             <input type="text" id="dog-breed"
-                              placeholder="Enter your dog's breed"
+                              placeholder={this.props.intl.messages.enterDogBreed}
                               className="form-control input-pet breed"
                               value={this.state.breed}
                               onChange={this.inputBreed}
@@ -823,7 +862,7 @@ export default class PetForm extends React.Component {
                               disabled={this.state.isInputDisabled ? "disabled" : null} />
 
                             <input type="text" id="cat-breed"
-                              placeholder="Enter the breed of your cat"
+                              placeholder={this.props.intl.messages.enterCatBreed}
                               className="form-control input-pet breed"
                               value={this.state.breed}
                               onChange={this.inputBreed}
@@ -847,19 +886,23 @@ export default class PetForm extends React.Component {
                               style={{ margin: "15px 0 0 0", pointerEvents: this.state.isUnknownDisabled ? 'none' : "" }}
                               onClick={() => this.setUnknown()}
                             >
-                              <input type="checkbox"
-                                id="defaultAddress"
-                                className="rc-input__checkbox"
-                                value={this.state.isUnknown} />
                               {
-                                this.state.isUnknown ?
-                                  <label className="rc-input__label--inline petPropChecked" >
-                                    <FormattedMessage id="account.unknownBreed"></FormattedMessage>
-                                  </label> :
-                                  <label className="rc-input__label--inline ">
-                                    <FormattedMessage id="account.unknownBreed"></FormattedMessage>
-                                  </label>
+                                this.state.isUnknown
+                                  ? <input
+                                    type="checkbox"
+                                    className="rc-input__checkbox"
+                                    value={this.state.isUnknown}
+                                    key={1}
+                                    checked />
+                                  : <input
+                                    type="checkbox"
+                                    className="rc-input__checkbox"
+                                    key={2}
+                                    value={this.state.isUnknown} />
                               }
+                              <label className="rc-input__label--inline text-break" >
+                                <FormattedMessage id="account.unknownBreed" />
+                              </label>
                             </div>
 
                           </div>
@@ -872,20 +915,21 @@ export default class PetForm extends React.Component {
                         <h2><FormattedMessage id="account.weight"></FormattedMessage> {this.state.nickname} ?</h2>
                         <div className="group-size" style={{ width: '100%' }}>
                           {
-                            this.state.sizeArr.map(item => (
+                            this.state.sizeArr.map((item, i) => (
 
-                              <div className="wrap__input wrap-size pull-left " onClick={() => this.selectWeight(item)}>
+                              <div className="wrap__input wrap-size pull-left " 
+                              onClick={() => this.selectWeight(item.name)}>
                                 <input type="radio" className="radio input__radio"
                                   name="dwfrm_miaaPet_neuteredPet"
-                                  value={item}
+                                  value={item.name}
                                 />
                                 {
-                                  this.state.weight === item ?
+                                  this.state.weight === item.name ?
                                     <label className="label label__input sterilizedChecked" >
-                                      {item}
+                                      {item.name}
                                     </label> :
                                     <label className="label label__input">
-                                      {item}
+                                      {item.name}
                                     </label>
                                 }
                               </div>
@@ -991,7 +1035,10 @@ export default class PetForm extends React.Component {
 
                         <label className="rc-input__label" htmlFor="birthdate"></label>
                       </span>
-                      <div className="invalid-birthdate invalid-feedback">Please select a past date.</div>
+                      <div className="invalid-birthdate invalid-feedback">
+                        <FormattedMessage id="account.dateTip" />
+
+                      </div>
                     </div>
                   }
                   {
@@ -1000,21 +1047,21 @@ export default class PetForm extends React.Component {
                         <h2><FormattedMessage id="account.features"></FormattedMessage></h2>
                         <div style={{ width: "88%", margin: "0 auto" }}>
                           {
-                            this.state.specialNeeds.map(item => (
+                            this.state.specialNeeds.map((item, i) => (
                               <div className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style"
 
-                                onClick={() => this.selectFeatures(item)}
+                                onClick={() => this.selectFeatures(item.name)}
                               >
                                 <input type="checkbox"
                                   className="rc-input__checkbox"
-                                  value={item} />
+                                  value={item.name} />
                                 {
-                                  this.state.selectedSpecialNeeds.includes(item) ?
+                                  this.state.selectedSpecialNeeds.includes(item.name) ?
                                     <label className="rc-input__label--inline petPropChecked" >
-                                      {item}
+                                      {item.name}
                                     </label> :
                                     <label className="rc-input__label--inline ">
-                                      {item}
+                                      {item.name}
                                     </label>
                                 }
                               </div>
@@ -1022,18 +1069,18 @@ export default class PetForm extends React.Component {
                           }
 
                           <div className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style"
-                            onClick={() => this.selectFeatures("No special needs")}
+                            onClick={() => this.selectFeatures("Sin necesidades especiales")}
                           >
                             <input type="checkbox"
                               className="rc-input__checkbox"
-                              value="No special needs" />
+                              value="Sin necesidades especiales" />
                             {
-                              this.state.selectedSpecialNeeds.includes('No special needs') ?
+                              this.state.selectedSpecialNeeds.includes('Sin necesidades especiales') ?
                                 <label className="rc-input__label--inline petPropChecked" >
-                                  No special needs
+                                  <FormattedMessage id="noSpecialNeeds"/>
                                 </label> :
                                 <label className="rc-input__label--inline ">
-                                  No special needs
+                                  <FormattedMessage id="noSpecialNeeds"/>
                                 </label>
                             }
                           </div>
@@ -1055,11 +1102,12 @@ export default class PetForm extends React.Component {
                           className="rc-btn rc-btn--one btn-next btn-block js-btn-next"
                           disabled={(this.state.isDisabled) ? "disabled" : null}
                           onClick={this.nextStep}>
-                          {this.state.step === 8 ? 'Save' : 'Further'}
+
+                          {this.state.step === 8 ? <FormattedMessage id="save" /> : <FormattedMessage id="payment.further" />}
                         </button>
                         : null
                     }
-                    
+
                   </div>
 
                   {
@@ -1082,3 +1130,5 @@ export default class PetForm extends React.Component {
     )
   }
 }
+
+export default injectIntl(PetForm)
