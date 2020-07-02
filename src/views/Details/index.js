@@ -686,6 +686,14 @@ class Details extends React.Component {
                                   title={details.goodsName}>
                                   {details.goodsName}
                                 </h1>
+                                <div className="mgb28">
+                                  <span className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                                  <span className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                                  <span className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                                  <span className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                                  {/*<span className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>*/}
+                                  <span className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-right--xs rc-rate-fill--xs rc-iconography--xs"></span>
+                                </div>
                                 <h3 className="text-break">{details.goodsSubtitle}</h3>
                                 <h3 className="text-break">
                                   <div className="rating-stars hidden-lg-down">
@@ -1008,6 +1016,175 @@ class Details extends React.Component {
                     </div>
                     : null
                 }
+              </div>
+              <div>
+                <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
+              </div>
+              <div>
+                <div className="rc-layout-container rc-two-column rc-max-width--lg rc-padding-top--sm">
+                  <div className="rc-column ">
+                    <h2 className="rc-beta">
+                      Customer reviews
+                    </h2>
+                  </div>
+                </div>
+                <div className="rc-layout-container rc-padding-bottom--xs rc-max-width--lg">
+                  <div className="rc-column">
+                    <form>
+                      <span className="rc-select rc-select-processed">
+                        <label className="rc-select__label" htmlFor="id-single-select">Sort by</label>
+                        <select data-js-select="" id="id-single-select">
+                          <option>Most Recent</option>
+                          <option>Lowest to Highest Rating</option>
+                          <option>Hightest to Lowest Rating</option>
+                        </select>
+                      </span>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className="rc-layout-container rc-one-column rc-max-width--lg">
+                  <div className="rc-column rc-margin-bottom--sm">
+                    <div className="rc-layout-container rc-margin-top--md rc-stacked">
+                      <div className="rc-column rc-padding-x--none--desktop">
+                        {/*list*/}
+                        <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
+                          <div className="rc-column">
+                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                              <h5 className="rc-espilon">John Doe</h5>
+                              02 Nov 2018
+                            </div>
+                          </div>
+                          <div className="rc-column rc-quad-width">
+                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+
+                              <h5 className="mgb28">Excellent recommendation from Breeder and Vet.</h5>
+                              We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her
+                              coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape
+                              of the food makes it so much easier for her to eat.
+                              &nbsp;
+                            </div>
+                          </div>
+                        </div>
+                        <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
+                          <div className="rc-column">
+                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                              <h5 className="rc-espilon">John Doe</h5>
+                              02 Nov 2018
+                            </div>
+                          </div>
+                          <div className="rc-column rc-quad-width">
+                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+
+                              <h5 className="mgb28">Excellent recommendation from Breeder and Vet.</h5>
+                              We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her
+                              coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape
+                              of the food makes it so much easier for her to eat.
+                              &nbsp;
+                            </div>
+                          </div>
+                        </div>
+                        <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
+                          <div className="rc-column">
+                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                              <h5 className="rc-espilon">John Doe</h5>
+                              02 Nov 2018
+                            </div>
+                          </div>
+                          <div className="rc-column rc-quad-width">
+                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+
+                              <h5 className="mgb28">Excellent recommendation from Breeder and Vet.</h5>
+                              We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her
+                              coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape
+                              of the food makes it so much easier for her to eat.
+                              &nbsp;
+                            </div>
+                          </div>
+                        </div>
+                        <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
+                          <div className="rc-column">
+                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                              <h5 className="rc-espilon">John Doe</h5>
+                              02 Nov 2018
+                            </div>
+                          </div>
+                          <div className="rc-column rc-quad-width">
+                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                              <span
+                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+
+                              <h5 className="mgb28">Excellent recommendation from Breeder and Vet.</h5>
+                              We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her
+                              coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape
+                              of the food makes it so much easier for her to eat.
+                              &nbsp;
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {/*分頁*/}
+                      <div className="rc-column rc-margin-top--md">
+                        <nav className="rc-pagination" data-pagination="" data-pages="10"
+                             data-rc-feature-pagination-setup="true" data-rc-pagination-active="true">
+                          <form action="#" method="POST" className="rc-pagination__form">
+                            <button
+                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography rc-pagination__direction--disabled"
+                                type="submit" data-prev="" aria-label="Previous step"></button>
+                            <div className="rc-pagination__steps">
+                              <input type="text" className="rc-pagination__step rc-pagination__step--current" value="1"
+                                     aria-label="Current step" ></input>
+                                <div className="rc-pagination__step rc-pagination__step--of">of <span
+                                    data-total-steps-label="">10</span></div>
+                            </div>
+                            <button
+                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
+                                type="submit" data-next="" aria-label="Previous step"></button>
+                          </form>
+                        </nav>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div
                 className="sticky-addtocart"

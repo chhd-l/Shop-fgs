@@ -1611,7 +1611,7 @@ video::-webkit-media-controls-volume-slider {
   display: none;
 } */
 
-video::-webkit-media-controls-enclosure{ 
+video::-webkit-media-controls-enclosure{
   /* display: none; */
 }
 
@@ -1661,4 +1661,7 @@ p {
 }
 .imageBox {
   padding: 0 !important;
+}
+.mgb28 {
+  margin-bottom: 28px;
 }
