@@ -16,6 +16,7 @@ import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
 import { MINIMUM_AMOUNT, STOREID } from "@/utils/constant"
 import { getCustomerInfo } from "@/api/user"
+import { getDict } from "@/api/dict"
 
 const selectedPet = {
   border: "3px solid #ec001a",
@@ -573,12 +574,16 @@ class PetForm extends React.Component {
   }
   getDict = (type, name) => {
     this.setState({ loading: true })
-    getDictionary({ type, name })
+    getDict({ type, name })
       .then(res => {
-        this.setState({
-          breedList: res,
-          loading: false
-        })
+        if(res.code ==='K-000000'){
+          this.setState({
+            breedList: res.context.sysDictionaryVOS,
+            loading: false
+          })
+        }
+        else this.showErrorMsg(res.message || this.props.intl.messages.getDataFailed)
+        
       })
       .catch(err => {
         this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
@@ -872,7 +877,7 @@ class PetForm extends React.Component {
                             <div className="select-breed" style={{ display: (this.state.showBreedList ? 'block' : 'none') }}>
                               {
                                 this.state.breedList.map(item => (
-                                  <option value={item.value} key={item.value} onClick={() => this.selectedBreed(item)}>{item.name}</option>
+                                  <option value={item.value} key={item.id} onClick={() => this.selectedBreed(item)}>{item.name}</option>
                                 ))
                               }
                             </div>
