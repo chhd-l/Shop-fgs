@@ -22411,6 +22411,10 @@ tr.rc-table__row.inactive td:after {
   text-overflow: ellipsis;
 }
 
+.font-16 {
+  font-size: 16px!important;
+}
+
 @keyframes rotate {
   from {
       transform: rotatez(0deg);

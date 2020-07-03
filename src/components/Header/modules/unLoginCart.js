@@ -68,6 +68,7 @@ class UnloginCart extends React.Component {
       })
       let res = await hanldePurchases(param)
       let latestGoodsInfos = res.goodsInfos
+      let outOfstockProNames = []
       productList.map(item => {
         let selectedSize = find(item.sizeList, s => s.selected)
         const tmpObj = find(latestGoodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
@@ -75,6 +76,7 @@ class UnloginCart extends React.Component {
           selectedSize.stock = tmpObj.stock
           if (item.quantity > tmpObj.stock) {
             tmpValidateAllItemsStock = false
+            outOfstockProNames.push(tmpObj.goodsInfoName + ' ' + tmpObj.specText)
           }
         }
       })
@@ -98,7 +100,7 @@ class UnloginCart extends React.Component {
       }
       if (!tmpValidateAllItemsStock) {
         this.setState({
-          errMsg: <FormattedMessage id="cart.errorInfo2" />
+          errMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />
         })
         return false
       }

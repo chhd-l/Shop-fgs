@@ -36,7 +36,8 @@ class Header extends React.Component {
       showMegaMenu: false,
       tradePrice: '',
       prescriberId: sessionStorage.getItem('rc-clinics-id-link'),
-      prescriberName: sessionStorage.getItem('rc-clinics-name-link')
+      prescriberName: sessionStorage.getItem('rc-clinics-name-link'),
+      isScrollToTop: true
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -64,6 +65,7 @@ class Header extends React.Component {
     }
 
     window.addEventListener('click', (e) => this.hideMenu(e))
+    window.addEventListener('wheel', e => this.handleMouseScroll(e))
     const { location } = this.props
     let prescriberId
     let tmpName = ''
@@ -96,6 +98,7 @@ class Header extends React.Component {
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
+    window.removeEventListener('wheel', this.handleMouseScroll)
   }
   /**
    * 登录状态，设置default clinic
@@ -108,6 +111,12 @@ class Header extends React.Component {
         sessionStorage.setItem('rc-clinics-name-default', userInfo.defaultClinics.clinicsName)
       }
     }
+  }
+
+  handleMouseScroll (e) {
+    this.setState({
+      isScrollToTop: e.deltaY < 0
+    })
   }
   updateDefaultClinic () {
     this.setState({
@@ -359,7 +368,7 @@ class Header extends React.Component {
       <>
         <div id="page-top" name="page-top"></div>
         {Store.loginModal ? <Loading /> : null}
-        <header className="rc-header" data-js-header-scroll>
+        <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`}>
           <nav className="rc-header__nav rc-header__nav--primary">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align" role="menubar">
               {this.props.showMiniIcons ?
@@ -432,7 +441,6 @@ class Header extends React.Component {
                                 <span className="rc-input__label-text"></span>
                               </label>
                             </span>
-                            <input type="hidden" value="null" name="lang" />
                             <span className="rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle rc-padding-top--xs" aria-label="Close" onClick={this.hanldeSearchCloseClick}>
                             </span>
                             <div className="suggestions-wrapper">{this.renderResultJsx()}</div>
