@@ -594,7 +594,7 @@ class Details extends React.Component {
       event = {
         page: {
           type: 'Product',
-          theme: [this.specie, this.productRange, this.format.join('&')].join('/')
+          theme: this.specie
         }
       }
     }
