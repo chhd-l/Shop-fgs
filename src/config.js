@@ -15,6 +15,6 @@ export default {
   },
   resourceServer: {
     messagesUrl: 'https://shopuat.466920.com/api/messages',
-    // messagesUrl: 'https://localhost:3000/api/messages',
+    // messagesUrl: 'https://localhost:3000/api/messages'
   },
 };
