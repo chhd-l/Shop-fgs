@@ -15,7 +15,7 @@ import { STOREID } from "@/utils/constant";
 const AnyReactComponent = ({ obj, show, sonMess }) => {
   if (obj.type !== 'customer') {
     return (
-      <MapFlag obj={obj} show={show} sonMess={sonMess}></MapFlag>
+      <MapFlag obj={obj} show={show} sonMess={sonMess} history={this.props.history} ></MapFlag>
     )
   }
   else {
