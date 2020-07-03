@@ -414,9 +414,10 @@ class Details extends React.Component {
         }
 
         // 库存不够，不能下单
-        if (find(siteMiniPurchasesRes.goodsList, (ele) => ele.buyCount > ele.stock)) {
+        const outOfstockProNames = siteMiniPurchasesRes.goodsList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
+        if (outOfstockProNames.length) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorInfo2" />
+            checkOutErrMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />
           })
           return false
         }
@@ -530,6 +531,7 @@ class Details extends React.Component {
       let tmpValidateAllItemsStock = true
       let purchasesRes = await this.hanldePurchasesForCheckout(cartDataCopy);
       purchasesRes = purchasesRes.goodsInfos
+      let outOfstockProNames = []
       cartDataCopy.map(item => {
         let selectedSize = find(item.sizeList, s => s.selected)
         const tmpObj = find(purchasesRes, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
@@ -537,6 +539,7 @@ class Details extends React.Component {
           selectedSize.stock = tmpObj.stock
           if (item.quantity > tmpObj.stock) {
             tmpValidateAllItemsStock = false
+            outOfstockProNames.push(tmpObj.goodsInfoName + ' ' + tmpObj.specText)
           }
         }
       })
@@ -549,7 +552,7 @@ class Details extends React.Component {
       }
       if (!tmpValidateAllItemsStock) {
         this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorInfo2" />
+          checkOutErrMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />
         })
         return false
       }
@@ -937,19 +940,13 @@ class Details extends React.Component {
                                     </div>
                                   </div>
                                 </div>
-                                <div
-                                  style={{
-                                    display: this.state.checkOutErrMsg
-                                      ? "block"
-                                      : "none",
-                                  }}
-                                >
+                                <div className={`text-break ${this.state.checkOutErrMsg ? '' : 'hidden'}`}>
                                   <aside
                                     className="rc-alert rc-alert--error rc-alert--with-close"
                                     role="alert"
                                     style={{ padding: ".5rem" }}
                                   >
-                                    <span style={{ paddingLeft: "0" }}>
+                                    <span className="pl-0">
                                       {this.state.checkOutErrMsg}
                                     </span>
                                   </aside>
