@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import './index.css'
+import LeftImg from '@/assets/images/left.png'
+import RightImg from '@/assets/images/right.png'
 
 class ImageMagnifier extends Component {
   constructor(props) {
@@ -93,7 +95,8 @@ class ImageMagnifier extends Component {
       },
       videoShow: false,
       videoModalShow: true,
-      listenerCount: 1
+      listenerCount: 1,
+      positionLeft: 0
     };
   }
 
@@ -263,6 +266,10 @@ class ImageMagnifier extends Component {
   render () {
     const { cssStyle, magnifierOff, imgLoad, currentImg, videoShow, videoModalShow } = this.state;
     const { images, video } = this.props
+    let imgCount = images.length 
+    if(video) {
+      imgCount = imgCount + 1
+    }
     // console.log(images, 'images');
     return (
       <div>
@@ -295,7 +302,14 @@ class ImageMagnifier extends Component {
             </div>
           )}
         </div>
-        <div className="justify-content-center" style={{ marginTop: '2rem' }}>
+        <div className="scrollOutBox">
+        <i className={`rc-icon rc-left rc-iconography ${this.state.positionLeft === 0?'': 'rc-brand1'}`} onClick={() => {
+          if(this.state.positionLeft === 0) return;
+          this.setState({positionLeft: this.state.positionLeft + 69})
+        }}></i>
+        {/* <img className="moveImg" src={LeftImg} /> */}
+        <div className="imageOutBox">
+        <div className="justify-content-center imageInnerBox" style={{ marginTop: '2rem', textAlign: 'left', left: this.state.positionLeft + 'px'}}>
           {
             images && images.map((el, i) => (
               <div
@@ -310,6 +324,15 @@ class ImageMagnifier extends Component {
             cssStyle.imgContainer.cursor = 'pointer'
             this.setState({ videoShow: true, cssStyle })
           }} src={video ? video : ''}></video>}
+        </div>
+        </div>
+        {/* <img className="moveImg" src={RightImg} /> */}
+        <i className={`rc-icon rc-right rc-iconography ${this.state.positionLeft === (imgCount - 5) * -69?'': 'rc-brand1'}`} onClick={() => {
+          
+          // console.log()
+          if(this.state.positionLeft === (imgCount - 5) * -69) return;
+          this.setState({positionLeft: this.state.positionLeft - 69})
+        }}></i>
         </div>
       </div>
     );
