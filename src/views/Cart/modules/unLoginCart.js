@@ -33,6 +33,8 @@ class UnLoginCart extends React.Component {
     this.handleAmountChange = this.handleAmountChange.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
     this.headerRef = React.createRef();
+
+    this.outOfstockProNames = []
   }
   get totalNum () {
     return this.state.productList.reduce((pre, cur) => { return pre + cur.quantity }, 0)
@@ -56,7 +58,7 @@ class UnLoginCart extends React.Component {
       if (!this.state.validateAllItemsStock) {
         this.setState({
           errorShow: true,
-          errorMsg: <FormattedMessage id="cart.errorInfo2" />
+          errorMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: this.outOfstockProNames.join('/') }} />
         })
         return false
       }
@@ -198,6 +200,7 @@ class UnLoginCart extends React.Component {
     let latestGoodsInfos = res.goodsInfos
     let goodsMarketingMapStr = JSON.stringify(res.goodsMarketingMap)
     sessionStorage.setItem('goodsMarketingMap', goodsMarketingMapStr)
+    this.outOfstockProNames = []
     productList.map(item => {
       let selectedSize = find(item.sizeList, s => s.selected)
       const tmpObj = find(latestGoodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
@@ -205,6 +208,7 @@ class UnLoginCart extends React.Component {
         selectedSize.stock = tmpObj.stock
         selectedSize.marketingLabels = tmpObj.marketingLabels
         if (item.quantity > tmpObj.stock) {
+          this.outOfstockProNames.push(tmpObj.goodsInfoName + ' ' + tmpObj.specText)
           this.setState({
             validateAllItemsStock: false
           })

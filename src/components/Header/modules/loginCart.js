@@ -93,9 +93,10 @@ class LoginCart extends React.Component {
         }
 
         // 库存不够，不能下单
-        if (find(cartData, ele => ele.buyCount > ele.stock)) {
+        const outOfstockProNames = cartData.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
+        if (outOfstockProNames.length) {
           this.setState({
-            errMsg: <FormattedMessage id="cart.errorInfo2" />
+            errMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />
           })
           return false
         }
@@ -167,8 +168,8 @@ class LoginCart extends React.Component {
                     <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true"><FormattedMessage id="chang" /></Link>
                   </div>
                   <div style={{ margin: '0 2%', display: this.state.errMsg ? 'block' : 'none' }}>
-                    <aside className="rc-alert rc-alert--error rc-alert--with-close" role="alert" style={{ padding: '.5rem' }}>
-                      <span style={{ paddingLeft: '0' }}>{this.state.errMsg}</span>
+                    <aside className="rc-alert rc-alert--error rc-alert--with-close text-break" role="alert" style={{ padding: '.5rem' }}>
+                      <span className="pl-0">{this.state.errMsg}</span>
                     </aside>
                   </div>
                   <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">

@@ -135,7 +135,7 @@ const en_US = {
   'details.errMsg2': 'No se encontraron detalles, intente nuevamente más tarde.',
 
   'cart.errorInfo': 'El número no puede ser inferior a 1',
-  'cart.errorInfo2': 'No puede realizar su pedido, ya que el producto elegido está agotado.',
+  'cart.errorInfo2': 'No puede realizar su pedido, producto agotado: {val}',
   'cart.errorInfo3': '*El monto de su pedido aún no ha alcanzado el monto mínimo para envío gratuito ($400)',
   'cart.yourBasket': 'Tu canasta',
   'cart.fullPrice': 'Descubre nuestras dietas veterinarias',

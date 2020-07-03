@@ -20,8 +20,6 @@ import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import './index.css'
 
-const lang = localStorage.getItem('rc-lang')
-
 @injectIntl
 class AccountOrders extends React.Component {
   constructor(props) {
@@ -109,7 +107,16 @@ class AccountOrders extends React.Component {
         let tmpIndex = -1
         const tradeEventLogs = res.context.tradeEventLogs || []
         if (tradeEventLogs.length) {
-          tmpIndex = findIndex(progressList, ele => tradeEventLogs[0].eventType.includes(ele.backendName))
+          const lastedEventLog = tradeEventLogs[0]
+          tmpIndex = findIndex(progressList, ele => lastedEventLog.eventType.includes(ele.backendName))
+          // 特殊处理作废发货的情况
+          if (tmpIndex === -1 && lastedEventLog.eventType === 'Void shipment record') {
+            if (lastedEventLog.eventDetail.includes('part shipped')) {
+              tmpIndex = findIndex(progressList, ele => ele.backendName === 'DELIVERED')
+            } else if (lastedEventLog.eventDetail.includes('not shipped')) {
+              tmpIndex = findIndex(progressList, ele => ele.backendName === 'Order payment')
+            }
+          }
           Array.from(progressList, item => {
             const tpm = find(tradeEventLogs, ele => ele.eventType.includes(item.backendName))
             if (tpm) {
@@ -222,6 +229,7 @@ class AccountOrders extends React.Component {
     return ret
   }
   render () {
+    const lang = this.props.intl.locale || 'en'
     const event = {
       page: {
         type: 'Account',

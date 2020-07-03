@@ -104,13 +104,16 @@ class LoginCart extends React.Component {
 
     // 价格未达到底限，不能下单
     if (this.state.tradePrice < MINIMUM_AMOUNT) {
+      window.scrollTo({ behavior: "smooth", top: 0 })
       this.showErrMsg(<FormattedMessage id="cart.errorInfo3" />)
       return false
     }
 
     // 库存不够，不能下单
-    if (find(productList, ele => ele.buyCount > ele.stock)) {
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo2" />)
+    const outOfstockProNames = productList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
+    if (outOfstockProNames.length) {
+      window.scrollTo({ behavior: "smooth", top: 0 })
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />)
       return false
     }
 
@@ -398,7 +401,7 @@ class LoginCart extends React.Component {
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
             {productList.length
-              ? <React.Fragment>
+              ? <>
                 <div className="rc-layout-container rc-one-column">
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
@@ -416,7 +419,7 @@ class LoginCart extends React.Component {
                 <div className="rc-layout-container rc-three-column cart cart-page">
                   <div className="rc-column rc-double-width">
                     <div className="rc-padding-bottom--xs cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
-                      <aside className="rc-alert rc-alert--error rc-alert--with-close" role="alert">
+                      <aside className="rc-alert rc-alert--error rc-alert--with-close text-break" role="alert">
                         <span style={{ paddingLeft: 0 }}>{this.state.errorMsg}</span>
                       </aside>
                     </div>
@@ -496,8 +499,8 @@ class LoginCart extends React.Component {
                     </div>
                   </div>
                 </div>
-              </React.Fragment>
-              : <React.Fragment>
+              </>
+              : <>
                 <div className="rc-text-center">
                   <div className="rc-beta rc-margin-bottom--sm">
                     <FormattedMessage id="cart.yourBasket" />
@@ -546,7 +549,7 @@ class LoginCart extends React.Component {
                     </div>
                   </div>
                 </div>
-              </React.Fragment>
+              </>
             }
           </div>
         </main>
