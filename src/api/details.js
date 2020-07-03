@@ -20,3 +20,11 @@ export function getLoginDetails (parameter) {
     method: 'get'
   })
 }
+
+export function getLoginGoodsEvaluate (data) {
+  return axios({
+    url: `/goodsEvaluate/spuGoodsEvaluatePageLogin`,
+    method: 'post',
+    data
+  })
+}

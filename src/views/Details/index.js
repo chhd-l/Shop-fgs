@@ -23,7 +23,7 @@ import {
 } from "@/utils/constant"
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { cloneDeep, findIndex, find } from 'lodash'
-import { getDetails, getLoginDetails } from '@/api/details'
+import { getDetails, getLoginDetails, getLoginGoodsEvaluate } from '@/api/details'
 import {
   miniPurchases,
   sitePurchase,
@@ -72,13 +72,17 @@ class Details extends React.Component {
       specList: [],
       tabsValue: [],
       buyWay: 'Once',
+      selectedSortBy: 0,
       saveMoney: 0,
       deliveryWeekOptions: [
         {name: 'foure weeks', value: 1},
         {name: 'three month', value: 2},
         {name: 'one year', value: 3}
       ],
-      selectedDelivery: 1
+      selectedDelivery: 1,
+      goodsEvaluatesList: [],
+      evaluatesCurrentPage: 0,
+      valuatesTotalPages: 0
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -102,7 +106,11 @@ class Details extends React.Component {
       {
         id: this.props.match.params.id
       },
-      () => this.queryDetails()
+      () => {
+        this.queryDetails()
+        debugger
+        this.getGoodsEvaluates(1, 10, this.state.id, null)
+      }
     );
     this.loadDeliveryWeekOptions()
   }
@@ -599,7 +607,81 @@ class Details extends React.Component {
         console.log(this.state.selectedDelivery);
     })
   }
-
+  sortByChange(e) {
+    this.setState({
+      selectedSortBy: e.target.value
+    })
+  }
+  evaluatesPrePage() {
+    let currentPage = this.state.evaluatesCurrentPage
+    if(currentPage > 1) {
+      currentPage--
+      this.getGoodsEvaluates(currentPage, 10, null)
+    }
+  }
+  evaluatesNextPage() {
+    let currentPage = this.state.evaluatesCurrentPage
+    if(currentPage < this.state.valuatesTotalPages) {
+      currentPage++
+      this.getGoodsEvaluates(currentPage, 10, null)
+    }
+  }
+  async getGoodsEvaluates (pageNum = 1, pageSize = 10, sort) {
+    let parmas = {
+      pageNum: 1,
+      pageSize: 10,
+      goodsId: this.state.id
+    }
+    let res = await getLoginGoodsEvaluate(parmas)
+    if(res.context && res.context.goodsEvaluateVOPage ) {
+      let obj = res.context.goodsEvaluateVOPage
+      this.setState({
+        evaluatesCurrentPage: obj.number,
+        valuatesTotalPages: obj.totalPages,
+        goodsEvaluatesList: obj.content
+      }, () => {
+        console.log(this.state.evaluatesCurrentPage, this.state.valuatesTotalPages, 'dddddddddd')
+        if(this.state.goodsEvaluatesList.length === 0 ) {
+          this.setState({
+            goodsEvaluatesList: [
+              {
+                commentator: 'John Doe',
+                commentTime: '02 Nov 2018',
+                title: 'Excellent recommendation from Breeder and Vet.',
+                description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
+                rate: 5,
+                rateList: new Array(5).fill({value: 1})
+              },
+              {
+                commentator: 'John Doe1',
+                commentTime: '02 Nov 2018',
+                title: 'Excellent recommendation from Breeder and Vet.',
+                description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
+                rate: 5,
+                rateList: new Array(5).fill({value: 1})
+              },
+              {
+                commentator: 'John Doe2',
+                commentTime: '02 Nov 2018',
+                title: 'Excellent recommendation from Breeder and Vet.',
+                description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
+                rate: 4,
+                rateList: new Array(5).fill({value: 1})
+              }
+            ]
+          }, () => {
+            this.state.goodsEvaluatesList.forEach((item) => {
+              item.rateList.forEach((r, i) => {
+                if(i >= item.rate) {
+                  r.value = 0
+                }
+              })
+            })
+          })
+        }
+      })
+    }
+  }
   render () {
     const createMarkup = (text) => ({ __html: text });
     const {
@@ -716,12 +798,12 @@ class Details extends React.Component {
                                   {details.goodsName}
                                 </h1>
                                 <div className="mgb28">
-                                  <span className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                                  <span className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                                  <span className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                                  <span className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
                                   {/*<span className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>*/}
-                                  <span className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-right--xs rc-rate-fill--xs rc-iconography--xs"></span>
+                                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-right--xs rc-rate-fill--xs rc-iconography--xs"></span>
                                 </div>
                                 <h3 className="text-break">{details.goodsSubtitle}</h3>
                                 <h3 className="text-break">
@@ -1322,10 +1404,12 @@ class Details extends React.Component {
                     <form>
                       <span className="rc-select rc-select-processed">
                         <label className="rc-select__label" htmlFor="id-single-select">Sort by</label>
-                        <select data-js-select="" id="id-single-select">
-                          <option>Most Recent</option>
-                          <option>Lowest to Highest Rating</option>
-                          <option>Hightest to Lowest Rating</option>
+                        <select data-js-select="" id="id-single-select"
+                                onChange={this.sortByChange}
+                                value = {this.state.selectedSortBy}>
+                          <option value={0}>Most Recent</option>
+                          <option value={1}>Lowest to Highest Rating</option>
+                          <option value={2}>Hightest to Lowest Rating</option>
                         </select>
                       </span>
                     </form>
@@ -1338,136 +1422,54 @@ class Details extends React.Component {
                     <div className="rc-layout-container rc-margin-top--md rc-stacked">
                       <div className="rc-column rc-padding-x--none--desktop">
                         {/*list*/}
-                        <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
-                          <div className="rc-column">
-                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                              <h5 className="rc-espilon">John Doe</h5>
-                              02 Nov 2018
-                            </div>
-                          </div>
-                          <div className="rc-column rc-quad-width">
-                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-
-                              <h5 className="mgb28">Excellent recommendation from Breeder and Vet.</h5>
-                              We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her
-                              coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape
-                              of the food makes it so much easier for her to eat.
-                              &nbsp;
-                            </div>
-                          </div>
-                        </div>
-                        <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
-                          <div className="rc-column">
-                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                              <h5 className="rc-espilon">John Doe</h5>
-                              02 Nov 2018
-                            </div>
-                          </div>
-                          <div className="rc-column rc-quad-width">
-                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-
-                              <h5 className="mgb28">Excellent recommendation from Breeder and Vet.</h5>
-                              We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her
-                              coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape
-                              of the food makes it so much easier for her to eat.
-                              &nbsp;
-                            </div>
-                          </div>
-                        </div>
-                        <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
-                          <div className="rc-column">
-                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                              <h5 className="rc-espilon">John Doe</h5>
-                              02 Nov 2018
-                            </div>
-                          </div>
-                          <div className="rc-column rc-quad-width">
-                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-
-                              <h5 className="mgb28">Excellent recommendation from Breeder and Vet.</h5>
-                              We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her
-                              coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape
-                              of the food makes it so much easier for her to eat.
-                              &nbsp;
-                            </div>
-                          </div>
-                        </div>
-                        <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
-                          <div className="rc-column">
-                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                              <h5 className="rc-espilon">John Doe</h5>
-                              02 Nov 2018
-                            </div>
-                          </div>
-                          <div className="rc-column rc-quad-width">
-                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                              <span
-                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-
-                              <h5 className="mgb28">Excellent recommendation from Breeder and Vet.</h5>
-                              We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her
-                              coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape
-                              of the food makes it so much easier for her to eat.
-                              &nbsp;
-                            </div>
-                          </div>
-                        </div>
+                        {
+                          data.goodsEvaluatesList.map(item => (
+                              <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
+                                <div className="rc-column">
+                                  <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                                    <h5 className="rc-espilon">{item.commentator}</h5>
+                                    {item.commentTime}
+                                  </div>
+                                </div>
+                                <div className="rc-column rc-quad-width">
+                                  <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                                    {
+                                      item.rateList.map(r => (
+                                              r.value === 1 ?<span
+                                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                                              :
+                                                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-right--xs rc-rate-fill--xs rc-iconography--xs"></span>
+                                          )
+                                      )
+                                    }
+                                    <h5 className="mgb28">{item.title}</h5>
+                                    {item.description}
+                                    &nbsp;
+                                  </div>
+                                </div>
+                              </div>
+                              )
+                          )}
                       </div>
                       {/*分頁*/}
                       <div className="rc-column rc-margin-top--md">
-                        <nav className="rc-pagination" data-pagination="" data-pages="10"
+                        <nav className="rc-pagination" data-pagination="" data-pages={data.valuatesTotalPages}
                              data-rc-feature-pagination-setup="true" data-rc-pagination-active="true">
                           <form action="#" method="POST" className="rc-pagination__form">
                             <button
-                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography rc-pagination__direction--disabled"
-                                type="submit" data-prev="" aria-label="Previous step"></button>
+                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography "
+                                disabled={data.evaluatesCurrentPage===1}
+                                type="submit" data-prev="" aria-label="Previous step" onClick={this.evaluatesPrePage.bind(this)}></button>
                             <div className="rc-pagination__steps">
-                              <input type="text" className="rc-pagination__step rc-pagination__step--current" value="1"
-                                     aria-label="Current step" ></input>
+                              <input type="text" className="rc-pagination__step rc-pagination__step--current"
+                                     aria-label="Current step" value={data.evaluatesCurrentPage}></input>
                                 <div className="rc-pagination__step rc-pagination__step--of">of <span
-                                    data-total-steps-label="">10</span></div>
+                                    data-total-steps-label="">{data.valuatesTotalPages}</span></div>
                             </div>
                             <button
                                 className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-                                type="submit" data-next="" aria-label="Previous step"></button>
+                                disabled={data.evaluatesCurrentPage >= data.valuatesTotalPages}
+                                type="submit" data-next="" aria-label="Previous step" onClick={this.evaluatesNextPage.bind(this)} ></button>
                           </form>
                         </nav>
                       </div>
