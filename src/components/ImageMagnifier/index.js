@@ -303,13 +303,13 @@ class ImageMagnifier extends Component {
           )}
         </div>
         <div className="scrollOutBox">
-        <i className={`rc-icon rc-left rc-iconography ${this.state.positionLeft === 0?'': 'rc-brand1'}`} onClick={() => {
+        <i className={`rc-icon rc-left rc-iconography ${this.state.positionLeft === 0?'': 'rc-brand1'}`} style={{visibility: imgCount > 5? 'visible': 'hidden'}} onClick={() => {
           if(this.state.positionLeft === 0) return;
           this.setState({positionLeft: this.state.positionLeft + 69})
         }}></i>
         {/* <img className="moveImg" src={LeftImg} /> */}
         <div className="imageOutBox">
-        <div className="justify-content-center imageInnerBox" style={{ marginTop: '2rem', textAlign: 'left', left: this.state.positionLeft + 'px'}}>
+        <div className="justify-content-center imageInnerBox" style={{ marginTop: '2rem', textAlign: imgCount <= 5? 'center': 'left', width: imgCount <= 5? '100%': '1000px', left: this.state.positionLeft + 'px'}}>
           {
             images && images.map((el, i) => (
               <div
@@ -327,9 +327,7 @@ class ImageMagnifier extends Component {
         </div>
         </div>
         {/* <img className="moveImg" src={RightImg} /> */}
-        <i className={`rc-icon rc-right rc-iconography ${this.state.positionLeft === (imgCount - 5) * -69?'': 'rc-brand1'}`} onClick={() => {
-          
-          // console.log()
+        <i className={`rc-icon rc-right rc-iconography ${this.state.positionLeft === (imgCount - 5) * -69?'': 'rc-brand1'}`} style={{visibility: imgCount > 5? 'visible': 'hidden'}} onClick={() => {
           if(this.state.positionLeft === (imgCount - 5) * -69) return;
           this.setState({positionLeft: this.state.positionLeft - 69})
         }}></i>
