@@ -12,10 +12,10 @@ import { getPrescription, getAllPrescription } from '@/api/clinic'
 import meImg from "@/assets/images/map-default-marker.png"
 import { STOREID } from "@/utils/constant";
 
-const AnyReactComponent = ({ obj, show, sonMess }) => {
+const AnyReactComponent = ({ obj, show, sonMess , props }) => {
   if (obj.type !== 'customer') {
     return (
-      <MapFlag obj={obj} show={show} sonMess={sonMess} history={this.props.history} ></MapFlag>
+      <MapFlag obj={obj} show={show} sonMess={sonMess} props={props}></MapFlag>
     )
   }
   else {
@@ -235,6 +235,7 @@ class Prescription extends React.Component {
     />)
     for (var i = 0; i < this.state.clinicArr.length; i++) {
       flags.push(<AnyReactComponent
+        props={this.props}
         key={this.state.clinicArr[i].prescriberId}
         lat={+this.state.clinicArr[i].latitude}
         lng={+this.state.clinicArr[i].longitude}
