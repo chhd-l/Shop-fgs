@@ -154,7 +154,6 @@ class PetForm extends React.Component {
         
       })
     }
-    console.log(consumerAccount,'1');
     
     return consumerAccount
   }
@@ -167,7 +166,6 @@ class PetForm extends React.Component {
       })
       return false
     }
-    console.log('2');
     let params = {
       "consumerAccount": this.getAccount()
     }
