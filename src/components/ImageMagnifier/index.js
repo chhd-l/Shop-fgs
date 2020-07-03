@@ -303,7 +303,7 @@ class ImageMagnifier extends Component {
           )}
         </div>
         <div className="scrollOutBox">
-        <i className={`rc-icon rc-left rc-iconography ${this.state.positionLeft === 0?'': 'rc-brand1'}`} style={{visibility: imgCount > 5? 'visible': 'hidden'}} onClick={() => {
+        <i className={`rc-icon rc-left leftArrow rc-iconography ${this.state.positionLeft === 0?'': 'rc-brand1'}`} style={{visibility: imgCount > 5? 'visible': 'hidden'}} onClick={() => {
           if(this.state.positionLeft === 0) return;
           this.setState({positionLeft: this.state.positionLeft + 69})
         }}></i>
@@ -327,7 +327,7 @@ class ImageMagnifier extends Component {
         </div>
         </div>
         {/* <img className="moveImg" src={RightImg} /> */}
-        <i className={`rc-icon rc-right rc-iconography ${this.state.positionLeft === (imgCount - 5) * -69?'': 'rc-brand1'}`} style={{visibility: imgCount > 5? 'visible': 'hidden'}} onClick={() => {
+        <i className={`rc-icon rc-right rightArrow rc-iconography ${this.state.positionLeft === (imgCount - 5) * -69?'': 'rc-brand1'}`} style={{visibility: imgCount > 5? 'visible': 'hidden'}} onClick={() => {
           if(this.state.positionLeft === (imgCount - 5) * -69) return;
           this.setState({positionLeft: this.state.positionLeft - 69})
         }}></i>

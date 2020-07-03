@@ -39,7 +39,7 @@
   width: 413px;
   position: relative;
 }
-.rc-left,.rc-right {
+.rightArrow,.leftArrow {
   position: relative;
   top: -30px;
   cursor: pointer;
