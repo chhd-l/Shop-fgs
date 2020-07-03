@@ -296,7 +296,6 @@ class Prescription extends React.Component {
                       aria-label="location" onClick={(e) => this.handleInit(e)}>
                     </i>
                   </span>
-                  <input type="hidden" value="null" name="lang" />
 
                   {/* <span className="rc-select rc-input--inline rc-input--label rc-margin-bottom--md--mobile rc-margin-bottom--sm--desktop"
                     style={{width:'100%',maxWidth:'100%', padding: "1rem 0 0 0"}}>

@@ -75,9 +75,9 @@ class Details extends React.Component {
       selectedSortBy: 0,
       saveMoney: 0,
       deliveryWeekOptions: [
-        {name: 'foure weeks', value: 1},
-        {name: 'three month', value: 2},
-        {name: 'one year', value: 3}
+        { name: 'foure weeks', value: 1 },
+        { name: 'three month', value: 2 },
+        { name: 'one year', value: 3 }
       ],
       selectedDelivery: 1,
       goodsEvaluatesList: [],
@@ -108,7 +108,6 @@ class Details extends React.Component {
       },
       () => {
         this.queryDetails()
-        debugger
         this.getGoodsEvaluates(1, 10, this.state.id, null)
       }
     );
@@ -432,9 +431,10 @@ class Details extends React.Component {
         }
 
         // 库存不够，不能下单
-        if (find(siteMiniPurchasesRes.goodsList, (ele) => ele.buyCount > ele.stock)) {
+        const outOfstockProNames = siteMiniPurchasesRes.goodsList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
+        if (outOfstockProNames.length) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorInfo2" />
+            checkOutErrMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />
           })
           return false
         }
@@ -548,6 +548,7 @@ class Details extends React.Component {
       let tmpValidateAllItemsStock = true
       let purchasesRes = await this.hanldePurchasesForCheckout(cartDataCopy);
       purchasesRes = purchasesRes.goodsInfos
+      let outOfstockProNames = []
       cartDataCopy.map(item => {
         let selectedSize = find(item.sizeList, s => s.selected)
         const tmpObj = find(purchasesRes, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
@@ -555,6 +556,7 @@ class Details extends React.Component {
           selectedSize.stock = tmpObj.stock
           if (item.quantity > tmpObj.stock) {
             tmpValidateAllItemsStock = false
+            outOfstockProNames.push(tmpObj.goodsInfoName + ' ' + tmpObj.specText)
           }
         }
       })
@@ -567,7 +569,7 @@ class Details extends React.Component {
       }
       if (!tmpValidateAllItemsStock) {
         this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorInfo2" />
+          checkOutErrMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />
         })
         return false
       }
@@ -593,35 +595,35 @@ class Details extends React.Component {
     )
   }
 
-  loadDeliveryWeekOptions() {
+  loadDeliveryWeekOptions () {
     this.setState({
       deliveryWeekOptions: [
-        {name: 'foure weeks', value: 1},
-        {name: 'three month', value: 2},
-        {name: 'one year', value: 3}
+        { name: 'foure weeks', value: 1 },
+        { name: 'three month', value: 2 },
+        { name: 'one year', value: 3 }
       ]
     })
   }
   handleSelectedItemChange (data) {
-    this.setState({ selectedDelivery: data.value }, () =>{
-        console.log(this.state.selectedDelivery);
+    this.setState({ selectedDelivery: data.value }, () => {
+      console.log(this.state.selectedDelivery);
     })
   }
-  sortByChange(e) {
+  sortByChange (e) {
     this.setState({
       selectedSortBy: e.target.value
     })
   }
-  evaluatesPrePage() {
+  evaluatesPrePage () {
     let currentPage = this.state.evaluatesCurrentPage
-    if(currentPage > 1) {
+    if (currentPage > 1) {
       currentPage--
       this.getGoodsEvaluates(currentPage, 10, null)
     }
   }
-  evaluatesNextPage() {
+  evaluatesNextPage () {
     let currentPage = this.state.evaluatesCurrentPage
-    if(currentPage < this.state.valuatesTotalPages) {
+    if (currentPage < this.state.valuatesTotalPages) {
       currentPage++
       this.getGoodsEvaluates(currentPage, 10, null)
     }
@@ -633,7 +635,7 @@ class Details extends React.Component {
       goodsId: this.state.id
     }
     let res = await getLoginGoodsEvaluate(parmas)
-    if(res.context && res.context.goodsEvaluateVOPage ) {
+    if (res.context && res.context.goodsEvaluateVOPage) {
       let obj = res.context.goodsEvaluateVOPage
       this.setState({
         evaluatesCurrentPage: obj.number,
@@ -641,7 +643,7 @@ class Details extends React.Component {
         goodsEvaluatesList: obj.content
       }, () => {
         console.log(this.state.evaluatesCurrentPage, this.state.valuatesTotalPages, 'dddddddddd')
-        if(this.state.goodsEvaluatesList.length === 0 ) {
+        if (this.state.goodsEvaluatesList.length === 0) {
           this.setState({
             goodsEvaluatesList: [
               {
@@ -650,7 +652,7 @@ class Details extends React.Component {
                 title: 'Excellent recommendation from Breeder and Vet.',
                 description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
                 rate: 5,
-                rateList: new Array(5).fill({value: 1})
+                rateList: new Array(5).fill({ value: 1 })
               },
               {
                 commentator: 'John Doe1',
@@ -658,7 +660,7 @@ class Details extends React.Component {
                 title: 'Excellent recommendation from Breeder and Vet.',
                 description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
                 rate: 5,
-                rateList: new Array(5).fill({value: 1})
+                rateList: new Array(5).fill({ value: 1 })
               },
               {
                 commentator: 'John Doe2',
@@ -666,13 +668,13 @@ class Details extends React.Component {
                 title: 'Excellent recommendation from Breeder and Vet.',
                 description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
                 rate: 4,
-                rateList: new Array(5).fill({value: 1})
+                rateList: new Array(5).fill({ value: 1 })
               }
             ]
           }, () => {
             this.state.goodsEvaluatesList.forEach((item) => {
               item.rateList.forEach((r, i) => {
-                if(i >= item.rate) {
+                if (i >= item.rate) {
                   r.value = 0
                 }
               })
@@ -702,8 +704,8 @@ class Details extends React.Component {
     if (!this.state.initing) {
       event = {
         page: {
-        type: 'Product',
-        theme: [this.specie, this.productRange, this.format.join('&')].join('/')
+          type: 'Product',
+          theme: [this.specie, this.productRange, this.format.join('&')].join('/')
         }
       }
     }
@@ -836,293 +838,62 @@ class Details extends React.Component {
                                       <div className="rc-input product-pricing__card__head__title">
                                         <div className="rc-input">
                                           <input
-                                              className="rc-input__radio"
-                                              id="id-radio-cat-1"
-                                              value="Once"
-                                              checked={ data.buyWay === 'Once'}
-                                              onChange={this.handleChange.bind(this)}
-                                              type="radio"
-                                              name="radio-2"/>
+                                            className="rc-input__radio"
+                                            id="id-radio-cat-1"
+                                            value="Once"
+                                            checked={data.buyWay === 'Once'}
+                                            onChange={this.handleChange.bind(this)}
+                                            type="radio"
+                                            name="radio-2" />
                                           <label className="rc-input__label--inline" htmlFor="id-radio-cat-1"><FormattedMessage id="details.OneOFF" /></label>
                                         </div>
                                       </div>
 
                                       <b className="product-pricing__card__head__price rc-padding-y--none js-price">
-                                      <span>
                                         <span>
-                                          <span className="sales">
-                                            <span className="value">
-                                              {formatMoney(currentUnitPrice)}
+                                          <span>
+                                            <span className="sales">
+                                              <span className="value">
+                                                {formatMoney(currentUnitPrice)}
+                                              </span>
                                             </span>
                                           </span>
                                         </span>
-                                      </span>
                                       </b>
                                     </div>
                                     {details &&
-                                    find(details.sizeList, (s) => s.selected) &&
-                                    find(details.sizeList, (s) => s.selected)
+                                      find(details.sizeList, (s) => s.selected) &&
+                                      find(details.sizeList, (s) => s.selected)
                                         .marketingLabels[0] &&
-                                    find(details.sizeList, (s) => s.selected)
+                                      find(details.sizeList, (s) => s.selected)
                                         .marketingLabels[0].marketingDesc ? (
                                         <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
                                           <div className="rc-input product-pricing__card__head__title red d-flex justify-content-between">
-                                          <span>
-                                            <FormattedMessage id="promotion" />{" "}
-                                          </span>
-                                            <span>25% OFF</span>
-                                          </div>
-                                        </div>
-                                    ) : null}
-                                    {data.buyWay==='Once' ?
-                                        <div className="product-pricing__card__body rc-margin-top--xs pad10-container">
-                                          <div>
-                                            <FormattedMessage id="freeShipping" />
-                                          </div>
-                                          <div className="toggleVisibility">
-                                            <div className="product-selectors rc-padding-top--xs">
-                                              {specList.map((sItem, i) => (
-                                                  <div id="choose-select" key={i}>
-                                                    <div className="rc-margin-bottom--xs">
-                                                      {/* <FormattedMessage id="details.theSize" /> */}
-                                                      {sItem.specName}:
-                                                    </div>
-
-                                                    <div data-attr="size">
-                                                      <div
-                                                          className="rc-swatch __select-size"
-                                                          id="id-single-select-size"
-                                                      >
-                                                        {/* {details.sizeList.map(
-                                                  (item, i) => (
-
-                                                  )
-                                                )} */}
-                                                        {sItem.chidren.map((sdItem, i) => (
-                                                            <div
-                                                                key={i}
-                                                                className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
-                                                                // item.selected
-                                                                //   ? "selected"
-                                                                //   : ""
-                                                                onClick={() =>
-                                                                    this.handleChooseSize(sItem.specId, sdItem.specDetailId)
-                                                                }
-                                                            >
-                                                    <span>
-                                                      {sdItem.detailName}
-                                                    </span>
-                                                            </div>
-                                                        ))}
-                                                      </div>
-                                                    </div>
-
-                                                  </div>
-                                              ))}
-
-                                              <div
-                                                  className="quantity-width start-lines"
-                                                  data-attr="size"
-                                              >
-                                                <div className="quantity d-flex justify-content-between align-items-center">
                                             <span>
-                                              <FormattedMessage id="amount" />:
-                                          </span>
-                                                  <input
-                                                      type="hidden"
-                                                      id="invalid-quantity"
-                                                      value="Пожалуйста, введите правильный номер."
-                                                  />
-                                                  <div className="rc-quantity text-right d-flex justify-content-end">
-                                              <span
-                                                  className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                                  onClick={() =>
-                                                      this.hanldeAmountChange("minus")
-                                                  }
-                                              ></span>
-                                                    <input
-                                                        className="rc-quantity__input"
-                                                        id="quantity"
-                                                        name="quantity"
-                                                        value={quantity}
-                                                        min={quantityMinLimit}
-                                                        max={stock}
-                                                        onChange={this.handleAmountInput}
-                                                        maxLength="5"
-                                                    />
-                                                    <span
-                                                        className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                                        onClick={() =>
-                                                            this.hanldeAmountChange("plus")
-                                                        }
-                                                    ></span>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="availability  product-availability" style={{ display: details.sizeList.filter(el => el.selected).length ? 'block' : 'none' }}>
-                                              <div className="align-left flex">
-                                                <div className="stock__wrapper">
-                                                  <div className="stock">
-                                                    <label
-                                                        className={[
-                                                          "availability",
-                                                          instockStatus
-                                                              ? "instock"
-                                                              : "outofstock",
-                                                        ].join(" ")}
-                                                    >
-                                                <span className="title-select">
-                                                  <FormattedMessage id="details.availability" />{" "}
-                                                  :
-                                              </span>
-                                                    </label>
-                                                    <span
-                                                        className="availability-msg"
-                                                        data-ready-to-order="true"
-                                                    >
-                                                <div
-                                                    className={[
-                                                      instockStatus
-                                                          ? ""
-                                                          : "out-stock",
-                                                    ].join(" ")}
-                                                >
-                                                  {instockStatus ? (
-                                                      <FormattedMessage id="details.inStock" />
-                                                  ) : (
-                                                      <FormattedMessage id="details.outStock" />
-                                                  )}
-                                                </div>
-                                              </span>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                              <div className="cart-and-ipay">
-                                                <button
-                                                    className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                                    data-loc="addToCart"
-                                                    style={{ lineHeight: "30px" }}
-                                                    onClick={() => this.hanldeAddToCart()}
-                                                >
-                                                  <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
-                                                  <FormattedMessage id="details.addToCart" />
-                                                </button>
-                                              </div>
-                                            </div>
-                                            <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                              <div className="cart-and-ipay">
-                                                <button
-                                                    className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                                    data-loc="addToCart"
-                                                    style={{ lineHeight: "30px" }}
-                                                    onClick={() =>
-                                                        this.hanldeAddToCart({
-                                                          redirect: true,
-                                                          needLogin: !jugeLoginStatus()
-                                                        })
-                                                    }
-                                                >
-                                                  <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
-                                                  <FormattedMessage id="checkout" />
-                                                </button>
-                                              </div>
-                                            </div>
-                                            {
-                                              !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                                <div className="cart-and-ipay">
-                                                  <button
-                                                      className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                                      data-loc="addToCart"
-                                                      onClick={() =>
-                                                          this.hanldeAddToCart({
-                                                            redirect: true
-                                                          })
-                                                      }
-                                                  >
-                                                    <FormattedMessage id="GuestCheckout" />
-                                                  </button>
-                                                </div>
-                                              </div>
-                                            }
-                                          </div>
-                                        </div>
-                                        : null}
-                                  </div>
-                                    {/*Subscription*/}
-                                  <div className="product-pricing__card_contanier magt20px">
-                                    <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
-                                      <div className="rc-input product-pricing__card__head__title">
-                                        <div className="rc-input">
-                                          <input
-                                              className="rc-input__radio"
-                                              id="id-radio-cat-2"
-                                              value="Subscription"
-                                              checked={ data.buyWay === 'Subscription'}
-                                              onChange={this.handleChange.bind(this)}
-                                              type="radio"
-                                              name="radio-2"/>
-                                          <label className="rc-input__label--inline" htmlFor="id-radio-cat-2"><FormattedMessage id="details.Subscription" /></label>
-                                        </div>
-                                      </div>
-
-                                      <b className="product-pricing__card__head__price rc-padding-y--none js-price">
-                                      <span>
-                                        <span>
-                                          <span className="sales">
-                                            <span className="value">
-                                              {formatMoney(currentUnitPrice)}
+                                              <FormattedMessage id="promotion" />{" "}
                                             </span>
-                                          </span>
-                                        </span>
-                                      </span>
-                                      </b>
-                                    </div>
-                                    <div>
-                                      <FormattedMessage id="details.youCanSave" /> {data.savedMoney} <FormattedMessage id="details.bySubscription" />
-                                    </div>
-                                    <div>
-                                      <FormattedMessage id="details.deliveryEvery" />
-                                      <Selection
-                                          selectedItemChange={data => this.handleSelectedItemChange(data)}
-                                          optionList={data.deliveryWeekOptions}
-                                          selectedItemData={{
-                                            value: data.selectedDelivery
-                                          }}
-                                          customStyleType="select-one" />
-                                    </div>
-                                    {details &&
-                                    find(details.sizeList, (s) => s.selected) &&
-                                    find(details.sizeList, (s) => s.selected)
-                                        .marketingLabels[0] &&
-                                    find(details.sizeList, (s) => s.selected)
-                                        .marketingLabels[0].marketingDesc ? (
-                                        <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
-                                          <div className="rc-input product-pricing__card__head__title red d-flex justify-content-between">
-                                          <span>
-                                            <FormattedMessage id="promotion" />{" "}
-                                          </span>
                                             <span>25% OFF</span>
                                           </div>
                                         </div>
-                                    ) : null}
-                                    {data.buyWay === 'Subscription' ? <div className="product-pricing__card__body rc-margin-top--xs pad10-container">
-
-                                      <div className="toggleVisibility">
-                                        <div className="product-selectors rc-padding-top--xs">
-                                          {specList.map((sItem, i) => (
+                                      ) : null}
+                                    {data.buyWay === 'Once' ?
+                                      <div className="product-pricing__card__body rc-margin-top--xs pad10-container">
+                                        <div>
+                                          <FormattedMessage id="freeShipping" />
+                                        </div>
+                                        <div className="toggleVisibility">
+                                          <div className="product-selectors rc-padding-top--xs">
+                                            {specList.map((sItem, i) => (
                                               <div id="choose-select" key={i}>
                                                 <div className="rc-margin-bottom--xs">
                                                   {/* <FormattedMessage id="details.theSize" /> */}
                                                   {sItem.specName}:
-                                                </div>
+                                                    </div>
 
                                                 <div data-attr="size">
                                                   <div
-                                                      className="rc-swatch __select-size"
-                                                      id="id-single-select-size"
+                                                    className="rc-swatch __select-size"
+                                                    id="id-single-select-size"
                                                   >
                                                     {/* {details.sizeList.map(
                                                   (item, i) => (
@@ -1130,48 +901,48 @@ class Details extends React.Component {
                                                   )
                                                 )} */}
                                                     {sItem.chidren.map((sdItem, i) => (
-                                                        <div
-                                                            key={i}
-                                                            className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
-                                                            // item.selected
-                                                            //   ? "selected"
-                                                            //   : ""
-                                                            onClick={() =>
-                                                                this.handleChooseSize(sItem.specId, sdItem.specDetailId)
-                                                            }
-                                                        >
-                                                    <span>
-                                                      {sdItem.detailName}
-                                                    </span>
-                                                        </div>
+                                                      <div
+                                                        key={i}
+                                                        className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
+                                                        // item.selected
+                                                        //   ? "selected"
+                                                        //   : ""
+                                                        onClick={() =>
+                                                          this.handleChooseSize(sItem.specId, sdItem.specDetailId)
+                                                        }
+                                                      >
+                                                        <span>
+                                                          {sdItem.detailName}
+                                                        </span>
+                                                      </div>
                                                     ))}
                                                   </div>
                                                 </div>
 
                                               </div>
-                                          ))}
+                                            ))}
 
-                                          <div
+                                            <div
                                               className="quantity-width start-lines"
                                               data-attr="size"
-                                          >
-                                            <div className="quantity d-flex justify-content-between align-items-center">
-                                            <span>
-                                              <FormattedMessage id="amount" />:
+                                            >
+                                              <div className="quantity d-flex justify-content-between align-items-center">
+                                                <span>
+                                                  <FormattedMessage id="amount" />:
                                           </span>
-                                              <input
+                                                <input
                                                   type="hidden"
                                                   id="invalid-quantity"
                                                   value="Пожалуйста, введите правильный номер."
-                                              />
-                                              <div className="rc-quantity text-right d-flex justify-content-end">
-                                              <span
-                                                  className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                                  onClick={() =>
+                                                />
+                                                <div className="rc-quantity text-right d-flex justify-content-end">
+                                                  <span
+                                                    className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                                                    onClick={() =>
                                                       this.hanldeAmountChange("minus")
-                                                  }
-                                              ></span>
-                                                <input
+                                                    }
+                                                  ></span>
+                                                  <input
                                                     className="rc-quantity__input"
                                                     id="quantity"
                                                     name="quantity"
@@ -1180,12 +951,243 @@ class Details extends React.Component {
                                                     max={stock}
                                                     onChange={this.handleAmountInput}
                                                     maxLength="5"
-                                                />
-                                                <span
+                                                  />
+                                                  <span
                                                     className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                                                     onClick={() =>
-                                                        this.hanldeAmountChange("plus")
+                                                      this.hanldeAmountChange("plus")
                                                     }
+                                                  ></span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="availability  product-availability" style={{ display: details.sizeList.filter(el => el.selected).length ? 'block' : 'none' }}>
+                                            <div className="align-left flex">
+                                              <div className="stock__wrapper">
+                                                <div className="stock">
+                                                  <label
+                                                    className={[
+                                                      "availability",
+                                                      instockStatus
+                                                        ? "instock"
+                                                        : "outofstock",
+                                                    ].join(" ")}
+                                                  >
+                                                    <span className="title-select">
+                                                      <FormattedMessage id="details.availability" />{" "}
+                                                  :
+                                              </span>
+                                                  </label>
+                                                  <span
+                                                    className="availability-msg"
+                                                    data-ready-to-order="true"
+                                                  >
+                                                    <div
+                                                      className={[
+                                                        instockStatus
+                                                          ? ""
+                                                          : "out-stock",
+                                                      ].join(" ")}
+                                                    >
+                                                      {instockStatus ? (
+                                                        <FormattedMessage id="details.inStock" />
+                                                      ) : (
+                                                          <FormattedMessage id="details.outStock" />
+                                                        )}
+                                                    </div>
+                                                  </span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                            <div className="cart-and-ipay">
+                                              <button
+                                                className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                data-loc="addToCart"
+                                                style={{ lineHeight: "30px" }}
+                                                onClick={() => this.hanldeAddToCart()}
+                                              >
+                                                <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
+                                                <FormattedMessage id="details.addToCart" />
+                                              </button>
+                                            </div>
+                                          </div>
+                                          <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                            <div className="cart-and-ipay">
+                                              <button
+                                                className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                data-loc="addToCart"
+                                                style={{ lineHeight: "30px" }}
+                                                onClick={() =>
+                                                  this.hanldeAddToCart({
+                                                    redirect: true,
+                                                    needLogin: !jugeLoginStatus()
+                                                  })
+                                                }
+                                              >
+                                                <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
+                                                <FormattedMessage id="checkout" />
+                                              </button>
+                                            </div>
+                                          </div>
+                                          {
+                                            !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                              <div className="cart-and-ipay">
+                                                <button
+                                                  className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                  data-loc="addToCart"
+                                                  onClick={() =>
+                                                    this.hanldeAddToCart({
+                                                      redirect: true
+                                                    })
+                                                  }
+                                                >
+                                                  <FormattedMessage id="GuestCheckout" />
+                                                </button>
+                                              </div>
+                                            </div>
+                                          }
+                                        </div>
+                                      </div>
+                                      : null}
+                                  </div>
+                                  {/*Subscription*/}
+                                  <div className="product-pricing__card_contanier magt20px">
+                                    <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
+                                      <div className="rc-input product-pricing__card__head__title">
+                                        <div className="rc-input">
+                                          <input
+                                            className="rc-input__radio"
+                                            id="id-radio-cat-2"
+                                            value="Subscription"
+                                            checked={data.buyWay === 'Subscription'}
+                                            onChange={this.handleChange.bind(this)}
+                                            type="radio"
+                                            name="radio-2" />
+                                          <label className="rc-input__label--inline" htmlFor="id-radio-cat-2"><FormattedMessage id="details.Subscription" /></label>
+                                        </div>
+                                      </div>
+
+                                      <b className="product-pricing__card__head__price rc-padding-y--none js-price">
+                                        <span>
+                                          <span>
+                                            <span className="sales">
+                                              <span className="value">
+                                                {formatMoney(currentUnitPrice)}
+                                              </span>
+                                            </span>
+                                          </span>
+                                        </span>
+                                      </b>
+                                    </div>
+                                    <div>
+                                      <FormattedMessage id="details.youCanSave" /> {data.savedMoney} <FormattedMessage id="details.bySubscription" />
+                                    </div>
+                                    <div>
+                                      <FormattedMessage id="details.deliveryEvery" />
+                                      <Selection
+                                        selectedItemChange={data => this.handleSelectedItemChange(data)}
+                                        optionList={data.deliveryWeekOptions}
+                                        selectedItemData={{
+                                          value: data.selectedDelivery
+                                        }}
+                                        customStyleType="select-one" />
+                                    </div>
+                                    {details &&
+                                      find(details.sizeList, (s) => s.selected) &&
+                                      find(details.sizeList, (s) => s.selected)
+                                        .marketingLabels[0] &&
+                                      find(details.sizeList, (s) => s.selected)
+                                        .marketingLabels[0].marketingDesc ? (
+                                        <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
+                                          <div className="rc-input product-pricing__card__head__title red d-flex justify-content-between">
+                                            <span>
+                                              <FormattedMessage id="promotion" />{" "}
+                                            </span>
+                                            <span>25% OFF</span>
+                                          </div>
+                                        </div>
+                                      ) : null}
+                                    {data.buyWay === 'Subscription' ? <div className="product-pricing__card__body rc-margin-top--xs pad10-container">
+
+                                      <div className="toggleVisibility">
+                                        <div className="product-selectors rc-padding-top--xs">
+                                          {specList.map((sItem, i) => (
+                                            <div id="choose-select" key={i}>
+                                              <div className="rc-margin-bottom--xs">
+                                                {/* <FormattedMessage id="details.theSize" /> */}
+                                                {sItem.specName}:
+                                                </div>
+
+                                              <div data-attr="size">
+                                                <div
+                                                  className="rc-swatch __select-size"
+                                                  id="id-single-select-size"
+                                                >
+                                                  {/* {details.sizeList.map(
+                                                  (item, i) => (
+
+                                                  )
+                                                )} */}
+                                                  {sItem.chidren.map((sdItem, i) => (
+                                                    <div
+                                                      key={i}
+                                                      className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
+                                                      // item.selected
+                                                      //   ? "selected"
+                                                      //   : ""
+                                                      onClick={() =>
+                                                        this.handleChooseSize(sItem.specId, sdItem.specDetailId)
+                                                      }
+                                                    >
+                                                      <span>
+                                                        {sdItem.detailName}
+                                                      </span>
+                                                    </div>
+                                                  ))}
+                                                </div>
+                                              </div>
+
+                                            </div>
+                                          ))}
+
+                                          <div
+                                            className="quantity-width start-lines"
+                                            data-attr="size"
+                                          >
+                                            <div className="quantity d-flex justify-content-between align-items-center">
+                                              <span>
+                                                <FormattedMessage id="amount" />:
+                                          </span>
+                                              <input
+                                                type="hidden"
+                                                id="invalid-quantity"
+                                                value="Пожалуйста, введите правильный номер."
+                                              />
+                                              <div className="rc-quantity text-right d-flex justify-content-end">
+                                                <span
+                                                  className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                                                  onClick={() =>
+                                                    this.hanldeAmountChange("minus")
+                                                  }
+                                                ></span>
+                                                <input
+                                                  className="rc-quantity__input"
+                                                  id="quantity"
+                                                  name="quantity"
+                                                  value={quantity}
+                                                  min={quantityMinLimit}
+                                                  max={stock}
+                                                  onChange={this.handleAmountInput}
+                                                  maxLength="5"
+                                                />
+                                                <span
+                                                  className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                                                  onClick={() =>
+                                                    this.hanldeAmountChange("plus")
+                                                  }
                                                 ></span>
                                               </div>
                                             </div>
@@ -1196,36 +1198,36 @@ class Details extends React.Component {
                                             <div className="stock__wrapper">
                                               <div className="stock">
                                                 <label
-                                                    className={[
-                                                      "availability",
-                                                      instockStatus
-                                                          ? "instock"
-                                                          : "outofstock",
-                                                    ].join(" ")}
+                                                  className={[
+                                                    "availability",
+                                                    instockStatus
+                                                      ? "instock"
+                                                      : "outofstock",
+                                                  ].join(" ")}
                                                 >
-                                                <span className="title-select">
-                                                  <FormattedMessage id="details.availability" />{" "}
+                                                  <span className="title-select">
+                                                    <FormattedMessage id="details.availability" />{" "}
                                                   :
                                               </span>
                                                 </label>
                                                 <span
-                                                    className="availability-msg"
-                                                    data-ready-to-order="true"
+                                                  className="availability-msg"
+                                                  data-ready-to-order="true"
                                                 >
-                                                <div
+                                                  <div
                                                     className={[
                                                       instockStatus
-                                                          ? ""
-                                                          : "out-stock",
+                                                        ? ""
+                                                        : "out-stock",
                                                     ].join(" ")}
-                                                >
-                                                  {instockStatus ? (
+                                                  >
+                                                    {instockStatus ? (
                                                       <FormattedMessage id="details.inStock" />
-                                                  ) : (
-                                                      <FormattedMessage id="details.outStock" />
-                                                  )}
-                                                </div>
-                                              </span>
+                                                    ) : (
+                                                        <FormattedMessage id="details.outStock" />
+                                                      )}
+                                                  </div>
+                                                </span>
                                               </div>
                                             </div>
                                           </div>
@@ -1280,15 +1282,15 @@ class Details extends React.Component {
                                         <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                           <div className="cart-and-ipay">
                                             <button
-                                                className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                                data-loc="addToCart"
-                                                style={{ lineHeight: "30px" }}
-                                                onClick={() =>
-                                                    this.hanldeAddToCart({
-                                                      redirect: true,
-                                                      needLogin: !jugeLoginStatus()
-                                                    })
-                                                }
+                                              className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                              data-loc="addToCart"
+                                              style={{ lineHeight: "30px" }}
+                                              onClick={() =>
+                                                this.hanldeAddToCart({
+                                                  redirect: true,
+                                                  needLogin: !jugeLoginStatus()
+                                                })
+                                              }
                                             >
                                               <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
                                               <FormattedMessage id="checkout" />
@@ -1299,13 +1301,13 @@ class Details extends React.Component {
                                           !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                             <div className="cart-and-ipay">
                                               <button
-                                                  className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                                  data-loc="addToCart"
-                                                  onClick={() =>
-                                                      this.hanldeAddToCart({
-                                                        redirect: true
-                                                      })
-                                                  }
+                                                className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                                data-loc="addToCart"
+                                                onClick={() =>
+                                                  this.hanldeAddToCart({
+                                                    redirect: true
+                                                  })
+                                                }
                                               >
                                                 <FormattedMessage id="GuestCheckout" />
                                               </button>
@@ -1313,23 +1315,17 @@ class Details extends React.Component {
                                           </div>
                                         }
                                       </div>
-                                    </div>: null}
+                                    </div> : null}
                                   </div>
-                                  <div
-                                      style={{
-                                        display: this.state.checkOutErrMsg
-                                            ? "block"
-                                            : "none",
-                                      }}
-                                  >
+                                  <div className={`text-break ${this.state.checkOutErrMsg ? '' : 'hidden'}`}>
                                     <aside
-                                        className="rc-alert rc-alert--error rc-alert--with-close"
-                                        role="alert"
-                                        style={{ padding: ".5rem" }}
+                                      className="rc-alert rc-alert--error rc-alert--with-close"
+                                      role="alert"
+                                      style={{ padding: ".5rem" }}
                                     >
-                                    <span style={{ paddingLeft: "0" }}>
-                                      {this.state.checkOutErrMsg}
-                                    </span>
+                                      <span className="pl-0">
+                                        {this.state.checkOutErrMsg}
+                                      </span>
                                     </aside>
                                   </div>
                                 </div>
@@ -1405,8 +1401,8 @@ class Details extends React.Component {
                       <span className="rc-select rc-select-processed">
                         <label className="rc-select__label" htmlFor="id-single-select">Sort by</label>
                         <select data-js-select="" id="id-single-select"
-                                onChange={this.sortByChange}
-                                value = {this.state.selectedSortBy}>
+                          onChange={this.sortByChange}
+                          value={this.state.selectedSortBy}>
                           <option value={0}>Most Recent</option>
                           <option value={1}>Lowest to Highest Rating</option>
                           <option value={2}>Hightest to Lowest Rating</option>
@@ -1424,52 +1420,52 @@ class Details extends React.Component {
                         {/*list*/}
                         {
                           data.goodsEvaluatesList.map(item => (
-                              <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
-                                <div className="rc-column">
-                                  <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                                    <h5 className="rc-espilon">{item.commentator}</h5>
-                                    {item.commentTime}
-                                  </div>
-                                </div>
-                                <div className="rc-column rc-quad-width">
-                                  <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                                    {
-                                      item.rateList.map(r => (
-                                              r.value === 1 ?<span
-                                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                                              :
-                                                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-right--xs rc-rate-fill--xs rc-iconography--xs"></span>
-                                          )
-                                      )
-                                    }
-                                    <h5 className="mgb28">{item.title}</h5>
-                                    {item.description}
-                                    &nbsp;
-                                  </div>
+                            <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
+                              <div className="rc-column">
+                                <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                                  <h5 className="rc-espilon">{item.commentator}</h5>
+                                  {item.commentTime}
                                 </div>
                               </div>
-                              )
+                              <div className="rc-column rc-quad-width">
+                                <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                                  {
+                                    item.rateList.map(r => (
+                                      r.value === 1 ? <span
+                                        className="rc-icon rc-badge--icon-label rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
+                                        :
+                                        <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-right--xs rc-rate-fill--xs rc-iconography--xs"></span>
+                                    )
+                                    )
+                                  }
+                                  <h5 className="mgb28">{item.title}</h5>
+                                  {item.description}
+                                    &nbsp;
+                                  </div>
+                              </div>
+                            </div>
+                          )
                           )}
                       </div>
                       {/*分頁*/}
                       <div className="rc-column rc-margin-top--md">
                         <nav className="rc-pagination" data-pagination="" data-pages={data.valuatesTotalPages}
-                             data-rc-feature-pagination-setup="true" data-rc-pagination-active="true">
+                          data-rc-feature-pagination-setup="true" data-rc-pagination-active="true">
                           <form action="#" method="POST" className="rc-pagination__form">
                             <button
-                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography "
-                                disabled={data.evaluatesCurrentPage===1}
-                                type="submit" data-prev="" aria-label="Previous step" onClick={this.evaluatesPrePage.bind(this)}></button>
+                              className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography "
+                              disabled={data.evaluatesCurrentPage === 1}
+                              type="submit" data-prev="" aria-label="Previous step" onClick={this.evaluatesPrePage.bind(this)}></button>
                             <div className="rc-pagination__steps">
                               <input type="text" className="rc-pagination__step rc-pagination__step--current"
-                                     aria-label="Current step" value={data.evaluatesCurrentPage}></input>
-                                <div className="rc-pagination__step rc-pagination__step--of">of <span
-                                    data-total-steps-label="">{data.valuatesTotalPages}</span></div>
+                                aria-label="Current step" value={data.evaluatesCurrentPage}></input>
+                              <div className="rc-pagination__step rc-pagination__step--of">of <span
+                                data-total-steps-label="">{data.valuatesTotalPages}</span></div>
                             </div>
                             <button
-                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-                                disabled={data.evaluatesCurrentPage >= data.valuatesTotalPages}
-                                type="submit" data-next="" aria-label="Previous step" onClick={this.evaluatesNextPage.bind(this)} ></button>
+                              className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
+                              disabled={data.evaluatesCurrentPage >= data.valuatesTotalPages}
+                              type="submit" data-next="" aria-label="Previous step" onClick={this.evaluatesNextPage.bind(this)} ></button>
                           </form>
                         </nav>
                       </div>

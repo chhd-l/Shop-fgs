@@ -20,8 +20,6 @@ import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import './index.css'
 
-const lang = localStorage.getItem('rc-lang')
-
 @injectIntl
 class AccountOrders extends React.Component {
   constructor(props) {
@@ -222,6 +220,7 @@ class AccountOrders extends React.Component {
     return ret
   }
   render () {
+    const lang = this.props.intl.locale || 'en'
     const event = {
       page: {
         type: 'Account',
