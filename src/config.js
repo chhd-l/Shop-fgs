@@ -1,5 +1,5 @@
-const CLIENT_ID = process.env.CLIENT_ID || '0oar7ofrk3EJ4SYPT0h7';
-const ISSUER = process.env.ISSUER || 'https://accountdev.royalcanin.com/oauth2/default';
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID || '0oar7ofrk3EJ4SYPT0h7';
+const ISSUER = process.env.REACT_APP_ISSUER || 'https://accountdev.royalcanin.com/oauth2/default';
 const OKTA_TESTING_DISABLEHTTPSCHECK = process.env.OKTA_TESTING_DISABLEHTTPSCHECK || false;
 
 export default {
