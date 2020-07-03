@@ -208,9 +208,11 @@ class Details extends React.Component {
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
               for (let key in tmpGoodsDetail) {
-                goodsDetailTab.tabName.push(key)
-                goodsDetailTab.tabContent.push(tmpGoodsDetail[key])
-                // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+                if (tmpGoodsDetail[key]) {
+                  goodsDetailTab.tabName.push(key)
+                  goodsDetailTab.tabContent.push(tmpGoodsDetail[key])
+                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+                }
               }
             }
             this.setState({
