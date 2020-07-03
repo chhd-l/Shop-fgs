@@ -12,6 +12,7 @@ import titleCfg from './json/title.json'
 import { getList, getProps, getLoginList } from '@/api/list'
 import { queryStoreCateIds, formatMoney, jugeLoginStatus } from '@/utils/utils'
 import { STOREID, CATEID, STORE_CATE_ENUM } from '@/utils/constant'
+import Rate from '@/components/Rate'
 import './index.css'
 
 class List extends React.Component {
@@ -391,6 +392,10 @@ class List extends React.Component {
                                               <span className="range">
                                                 {formatMoney(item.goodsInfos[0].salePrice)}
                                               </span>
+                                            </span>
+                                            <span className="rc-card__price rc-text--center flex-inline">
+                                              {/*goodsEvaluateNum*/}
+                                              <div className="display-inline" ><Rate def={4} disabled={true}/></div><span className='comments'>{item.goodsEvaluateNum}</span>
                                             </span>
                                           </div>
                                         </>

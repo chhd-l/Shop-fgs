@@ -19,3 +19,12 @@
 .height-product-tile-plpOnly.height-product-tile {
   position: relative;
 }
+.display-inline {
+  display: inline-block;
+}
+.comments{
+  color: #ddd;
+  font-size: 16px;
+  position: relative;
+  top: -2px
+}

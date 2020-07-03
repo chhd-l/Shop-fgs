@@ -7,7 +7,8 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
 import Selection from '@/components/Selection'
 import LoginButton from '@/components/LoginButton'
-
+import Rate from '@/components/Rate'
+import Reviews from './components/Reviews'
 import {
   formatMoney,
   translateHtmlCharater,
@@ -108,8 +109,6 @@ class Details extends React.Component {
       },
       () => {
         this.queryDetails()
-        debugger
-        this.getGoodsEvaluates(1, 10, this.state.id, null)
       }
     );
     this.loadDeliveryWeekOptions()
@@ -607,81 +606,7 @@ class Details extends React.Component {
         console.log(this.state.selectedDelivery);
     })
   }
-  sortByChange(e) {
-    this.setState({
-      selectedSortBy: e.target.value
-    })
-  }
-  evaluatesPrePage() {
-    let currentPage = this.state.evaluatesCurrentPage
-    if(currentPage > 1) {
-      currentPage--
-      this.getGoodsEvaluates(currentPage, 10, null)
-    }
-  }
-  evaluatesNextPage() {
-    let currentPage = this.state.evaluatesCurrentPage
-    if(currentPage < this.state.valuatesTotalPages) {
-      currentPage++
-      this.getGoodsEvaluates(currentPage, 10, null)
-    }
-  }
-  async getGoodsEvaluates (pageNum = 1, pageSize = 10, sort) {
-    let parmas = {
-      pageNum: 1,
-      pageSize: 10,
-      goodsId: this.state.id
-    }
-    let res = await getLoginGoodsEvaluate(parmas)
-    if(res.context && res.context.goodsEvaluateVOPage ) {
-      let obj = res.context.goodsEvaluateVOPage
-      this.setState({
-        evaluatesCurrentPage: obj.number,
-        valuatesTotalPages: obj.totalPages,
-        goodsEvaluatesList: obj.content
-      }, () => {
-        console.log(this.state.evaluatesCurrentPage, this.state.valuatesTotalPages, 'dddddddddd')
-        if(this.state.goodsEvaluatesList.length === 0 ) {
-          this.setState({
-            goodsEvaluatesList: [
-              {
-                commentator: 'John Doe',
-                commentTime: '02 Nov 2018',
-                title: 'Excellent recommendation from Breeder and Vet.',
-                description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
-                rate: 5,
-                rateList: new Array(5).fill({value: 1})
-              },
-              {
-                commentator: 'John Doe1',
-                commentTime: '02 Nov 2018',
-                title: 'Excellent recommendation from Breeder and Vet.',
-                description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
-                rate: 5,
-                rateList: new Array(5).fill({value: 1})
-              },
-              {
-                commentator: 'John Doe2',
-                commentTime: '02 Nov 2018',
-                title: 'Excellent recommendation from Breeder and Vet.',
-                description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
-                rate: 4,
-                rateList: new Array(5).fill({value: 1})
-              }
-            ]
-          }, () => {
-            this.state.goodsEvaluatesList.forEach((item) => {
-              item.rateList.forEach((r, i) => {
-                if(i >= item.rate) {
-                  r.value = 0
-                }
-              })
-            })
-          })
-        }
-      })
-    }
-  }
+
   render () {
     const createMarkup = (text) => ({ __html: text });
     const {
@@ -798,12 +723,7 @@ class Details extends React.Component {
                                   {details.goodsName}
                                 </h1>
                                 <div className="mgb28">
-                                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                                  {/*<span className="rc-icon rc-badge--icon-label rc-padding-x--xs--desktop rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>*/}
-                                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-right--xs rc-rate-fill--xs rc-iconography--xs"></span>
+                                  <Rate def={4} disabled={true}/>
                                 </div>
                                 <h3 className="text-break">{details.goodsSubtitle}</h3>
                                 <h3 className="text-break">
@@ -1391,92 +1311,7 @@ class Details extends React.Component {
               <div>
                 <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
               </div>
-              <div>
-                <div className="rc-layout-container rc-two-column rc-max-width--lg rc-padding-top--sm">
-                  <div className="rc-column ">
-                    <h2 className="rc-beta">
-                      Customer reviews
-                    </h2>
-                  </div>
-                </div>
-                <div className="rc-layout-container rc-padding-bottom--xs rc-max-width--lg">
-                  <div className="rc-column">
-                    <form>
-                      <span className="rc-select rc-select-processed">
-                        <label className="rc-select__label" htmlFor="id-single-select">Sort by</label>
-                        <select data-js-select="" id="id-single-select"
-                                onChange={this.sortByChange}
-                                value = {this.state.selectedSortBy}>
-                          <option value={0}>Most Recent</option>
-                          <option value={1}>Lowest to Highest Rating</option>
-                          <option value={2}>Hightest to Lowest Rating</option>
-                        </select>
-                      </span>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div className="rc-layout-container rc-one-column rc-max-width--lg">
-                  <div className="rc-column rc-margin-bottom--sm">
-                    <div className="rc-layout-container rc-margin-top--md rc-stacked">
-                      <div className="rc-column rc-padding-x--none--desktop">
-                        {/*list*/}
-                        {
-                          data.goodsEvaluatesList.map(item => (
-                              <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
-                                <div className="rc-column">
-                                  <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                                    <h5 className="rc-espilon">{item.commentator}</h5>
-                                    {item.commentTime}
-                                  </div>
-                                </div>
-                                <div className="rc-column rc-quad-width">
-                                  <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                                    {
-                                      item.rateList.map(r => (
-                                              r.value === 1 ?<span
-                                                  className="rc-icon rc-badge--icon-label rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs"></span>
-                                              :
-                                                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-right--xs rc-rate-fill--xs rc-iconography--xs"></span>
-                                          )
-                                      )
-                                    }
-                                    <h5 className="mgb28">{item.title}</h5>
-                                    {item.description}
-                                    &nbsp;
-                                  </div>
-                                </div>
-                              </div>
-                              )
-                          )}
-                      </div>
-                      {/*分頁*/}
-                      <div className="rc-column rc-margin-top--md">
-                        <nav className="rc-pagination" data-pagination="" data-pages={data.valuatesTotalPages}
-                             data-rc-feature-pagination-setup="true" data-rc-pagination-active="true">
-                          <form action="#" method="POST" className="rc-pagination__form">
-                            <button
-                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography "
-                                disabled={data.evaluatesCurrentPage===1}
-                                type="submit" data-prev="" aria-label="Previous step" onClick={this.evaluatesPrePage.bind(this)}></button>
-                            <div className="rc-pagination__steps">
-                              <input type="text" className="rc-pagination__step rc-pagination__step--current"
-                                     aria-label="Current step" value={data.evaluatesCurrentPage}></input>
-                                <div className="rc-pagination__step rc-pagination__step--of">of <span
-                                    data-total-steps-label="">{data.valuatesTotalPages}</span></div>
-                            </div>
-                            <button
-                                className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-                                disabled={data.evaluatesCurrentPage >= data.valuatesTotalPages}
-                                type="submit" data-next="" aria-label="Previous step" onClick={this.evaluatesNextPage.bind(this)} ></button>
-                          </form>
-                        </nav>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div><Reviews id={data.id}/></div>
               <div
                 className="sticky-addtocart"
                 style={{ transform: "translateY(-80px)" }}
