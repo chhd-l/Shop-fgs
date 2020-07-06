@@ -354,23 +354,15 @@ const en_US = {
   "sterilized": "Sterilized",
   "notSterilized": "Not sterilized",
   'paymentMethod': 'Payment method',
-<<<<<<< HEAD
   'subscription': 'Subscription',
-  'addNewCreditCard': 'Add new credit card',
-=======
-  'addNewCreditCard': 'Add Credit Card',
->>>>>>> 00305014474581523803877857c92854fa888b41
   'delete': 'Delete',
   'setDefaultPaymentMethod': 'Set as Default Payment method',
-
   "addressType": 'Address Type',
   "moreAddress": 'More Address',
   "unfoldAddress": 'Unfold Address',
   "newAddress": 'New address',
   'default': 'Default',
   'saveSuccessfullly': 'Save successfullly',
-<<<<<<< HEAD
-
   'subscription.notYet' : 'Not Yet Shipped',
   'subscription.frequency' : 'Frequency',
   'subscription.nextOrder' : 'Next Order',
@@ -389,8 +381,7 @@ const en_US = {
   'subscription.date': 'Subscription date',
   'subscription.deliveryDate': 'Next delivery date',
   'subscription.detail': 'Subscription detail',
-  'subscription.sub': 'Sub-'
-=======
+  'subscription.sub': 'Sub-',
   'login':'Log in',
   'login.register':'Create a personal account',
   'login.loginTip':' To connect to the ROYAL CANIN® service,authorization is required. If you do not have a personal account, you can register now.',
@@ -406,8 +397,6 @@ const en_US = {
   'forgetPassword.back':'Back to log in',
   'changePassword':'Change Password',
   'passwordHide':'Password:********',
->>>>>>> 00305014474581523803877857c92854fa888b41
-
   'welcomeTo': 'Welcome to',
   'royalCanin':'Royal Canin',
   'rememberMe': 'Remember Me',
@@ -421,7 +410,6 @@ const en_US = {
   'privacyPolicy': 'Privacy Policy',
   'giveConsentPersonalData': 'and give my consent to the processing of personal data, including cross-border transfer',
   'backToAuthorization': 'Back to authorization',
-
   'mandatoryFieldsError': 'You have mandatory fields not filled out!',
   'firstNameLastName50characters!': 'First Name or Last Name cannot exceed 50 characters!',
   'yourEmailNotVerified': 'Your email has not been verified!',
@@ -481,6 +469,6 @@ const en_US = {
   'loginFailed':'login failed',
   'choosePrescriber':'Please choose the correct prescriber',
   'cvvWarning': 'CVV is wrong'
- 
+
 }
 export default en_US;
