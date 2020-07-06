@@ -361,6 +361,20 @@ class AccountOrders extends React.Component {
                                           </React.Fragment>
                                           : null
                                       }
+                                      <div>
+                                        <button className="rc-btn rc-btn--two">
+                                          <FormattedMessage id="subscription">
+                                            {txt => (
+                                                <Link
+                                                    to="/account/productReview"
+                                                    title={txt}
+                                                    alt={txt}>
+                                                  {txt}
+                                                </Link>
+                                            )}
+                                          </FormattedMessage>
+                                        </button>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>

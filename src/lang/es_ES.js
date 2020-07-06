@@ -447,7 +447,7 @@ const en_US = {
 
   'type':'Tipo',
   'billingAddress':'Dirección de facturación',
-  
+
   'CompleteRequiredItems': 'Por favor complete los artículos requeridos',
   'EnterCorrectEmail': 'Por favor ingrese el correo electrónico correcto',
   'EnterCorrectPostCode': 'Por favor, introduzca el código postal correcto',
@@ -458,6 +458,7 @@ const en_US = {
   'noSpecialNeeds':'Sin necesidades especiales',
   'loginFailed':'error de inicio de sesion',
   'choosePrescriber':'Por favor, elija el prescriptor correcto',
-  'cvvWarning': 'CVV incorrecto'
+  'cvvWarning': 'CVV incorrecto',
+  'replyComments': 'Reply comments'
 }
 export default en_US;

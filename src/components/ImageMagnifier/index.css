@@ -17,4 +17,30 @@
     text-align: center;
   }
 }
+.imageOutBox {
+  width: 345px;
+  height: 102px;
+  overflow: hidden;
+  display: inline-block;
+  position: relative;
+}
 
+.imageInnerBox {
+  width: 1000px;
+  position: absolute;
+  /* left: 0; */
+  top: 0;
+}
+.moveImg {
+  width: 30px;
+  /* height: 64px; */
+}
+.scrollOutBox {
+  width: 413px;
+  position: relative;
+}
+.rightArrow,.leftArrow {
+  position: relative;
+  top: -30px;
+  cursor: pointer;
+}

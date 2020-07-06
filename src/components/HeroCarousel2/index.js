@@ -8,6 +8,7 @@ import '@/assets/css/heroCarousel.css'
 import Banner_Horizontal_Hot_Sale from "@/assets/images/Banner_Horizontal_Hot_Sale.jpg";
 import Pomotion25offImg from "@/assets/images/pomotion_25off.png";
 import Banner_recommend_item from "@/assets/images/Banner_recommend_item.jpg";
+import Banner_recommend_item_m from "@/assets/images/Banner_recommend_item_m.jpg";
 import './index.less'
 
 function SampleNextArrow (props) {
@@ -93,8 +94,16 @@ class HeroCarousel extends React.Component {
             <div className="hero-carousel__slide">
               <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
                 <img
+                  className="rc-md-up"
                   src={Banner_recommend_item}
                   style={{ maxHeight: '100%' }} />
+                <img
+                  className="rc-md-down w-100"
+                  src={Banner_recommend_item_m}
+                  style={{ maxHeight: '100%' }} />
+                <span className="font-weight-normal red font-16 mb-1 ml-3 mr-3 text-center inlineblock">
+                  Monitorea en casa la salud urinaria de tu gato con Hematuria Detection(Detecta sangre en la orina)
+                </span>
                 <span className="rc-md-up btn-cheat">
                   <Link
                     to="/details/8a80808671d968b10171e6d2ba8c0016"
@@ -102,7 +111,15 @@ class HeroCarousel extends React.Component {
                     <FormattedMessage id="header.toOrder" />
                   </Link>
                 </span>
-                <div className="hero-carousel__slide__text text-center d-md-flex align-items-center rc-md-down">
+                <span className="rc-md-down">
+                  <Link
+                    to="/details/8a80808671d968b10171e6d2ba8c0016"
+                    style={{ marginBottom: '3.5rem' }}
+                    className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16 mt-2">
+                    <FormattedMessage id="header.toOrder" />
+                  </Link>
+                </span>
+                {/* <div className="hero-carousel__slide__text text-center d-md-flex align-items-center rc-md-up">
                   <div className="hero-carousel__slide__text__inner rc-padding-x--lg--mobile">
                     <div className="rc-delta inherit-fontsize children-nomargin">
                     </div>
@@ -114,7 +131,7 @@ class HeroCarousel extends React.Component {
                       <FormattedMessage id="header.toOrder" />
                     </Link>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="hero-carousel__slide">
