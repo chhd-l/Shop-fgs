@@ -7,9 +7,10 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import './index.css'
 import noPet from "@/assets/images/noPet.jpg"
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import {  getPetList } from '@/api/pet'
 import Loading from "@/components/Loading"
+import { getCustomerInfo } from "@/api/user"
 
 export default class Pet extends React.Component {
   constructor(props) {
@@ -27,9 +28,44 @@ export default class Pet extends React.Component {
     const { history } = this.props
     history.push('/account/pets/petForm')
   }
+  getUserInfo () {
+    let userinfo = {}
+    if (localStorage.getItem('rc-userinfo')) {
+      userinfo = JSON.parse(localStorage.getItem('rc-userinfo'))
+
+    }
+    return userinfo
+  }
+
+  getAccount= ()=>{
+    let consumerAccount = ''
+    if (this.getUserInfo() && this.getUserInfo().customerAccount) {
+      consumerAccount = this.getUserInfo().customerAccount
+    }
+    else {
+      getCustomerInfo()
+      .then(res => {
+        const context = res.context
+        localStorage.setItem('rc-userinfo', JSON.stringify(context))
+
+        consumerAccount = context.consumerAccount
+        
+      })
+    }
+    
+    return consumerAccount
+  }
+
   getPetList = async ()=>{
+    if(!this.getAccount()){
+      this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
+      this.setState({
+        loading: false
+      })
+      return false
+    }
     let params = {
-        "consumerAccount": "10086"
+        "consumerAccount": this.getAccount()
       }
     await getPetList(params).then( res =>{
       if(res.code === 'K-000000'){
@@ -89,7 +125,7 @@ export default class Pet extends React.Component {
                     <div className="rc-column">
                       <div className="rc-padding-right-lg rc-padding-y--sm ">
                           <div className="children-nomargin">
-                            <p>
+                            <p style={{wordBreak: 'break-all'}}>
                               <FormattedMessage id="account.noPet"></FormattedMessage>
                               
                             </p>
