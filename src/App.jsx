@@ -17,8 +17,8 @@ import { Container } from 'semantic-ui-react';
 import config from './config';
 
 import '@/assets/css/global.css'
-// import en_US from '@/lang/en_US'
-import es_ES from '@/lang/es_ES'
+import en_US from '@/lang/en_US'
+// import es_ES from '@/lang/es_ES'
 import { IntlProvider } from 'react-intl';
 import { Provider } from "mobx-react"
 // import Store from './store/store';
@@ -69,7 +69,7 @@ localStorage.setItem('rc-lang', 'es')
 const App = () => (
 
   // <Provider {...store}>
-  <IntlProvider locale="es" messages={es_ES}>
+  <IntlProvider locale="es" messages={en_US}>
     <Router path="/">
       <RouteFilter />
       <ScrollToTop>
