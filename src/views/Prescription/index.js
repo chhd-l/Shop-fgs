@@ -61,7 +61,7 @@ class Prescription extends React.Component {
       clinicArr: [],
       currentClinicArr: [],
       params: {
-        distance: 10000,
+        distance: 1000000,
         enabled: true,
         input: "",
         pageNum: 0,
