@@ -5,10 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
-import Selection from '@/components/Selection'
 import LoginButton from '@/components/LoginButton'
-import Rate from '@/components/Rate'
-import Reviews from './components/Reviews'
 import {
   formatMoney,
   translateHtmlCharater,
@@ -24,7 +21,7 @@ import {
 } from "@/utils/constant"
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { cloneDeep, findIndex, find } from 'lodash'
-import { getDetails, getLoginDetails, getLoginGoodsEvaluate } from '@/api/details'
+import { getDetails, getLoginDetails } from '@/api/details'
 import {
   miniPurchases,
   sitePurchase,
@@ -72,18 +69,7 @@ class Details extends React.Component {
       tradePrice: "",
       specList: [],
       tabsValue: [],
-      buyWay: 'Once',
-      selectedSortBy: 0,
-      saveMoney: 0,
-      deliveryWeekOptions: [
-        { name: 'foure weeks', value: 1 },
-        { name: 'three month', value: 2 },
-        { name: 'one year', value: 3 }
-      ],
-      selectedDelivery: 1,
-      goodsEvaluatesList: [],
-      evaluatesCurrentPage: 0,
-      valuatesTotalPages: 0
+      buyWay: 'Once'
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -107,12 +93,8 @@ class Details extends React.Component {
       {
         id: this.props.match.params.id
       },
-      () => {
-        this.queryDetails()
-        // this.getGoodsEvaluates(1, 10, this.state.id, null)
-      }
+      () => this.queryDetails()
     );
-    this.loadDeliveryWeekOptions()
   }
   matchGoods () {
     let { specList, details, currentUnitPrice, stock } = this.state
@@ -227,11 +209,11 @@ class Details extends React.Component {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                goodsDetailTab.tabName.push(key)
-                goodsDetailTab.tabContent.push(tmpGoodsDetail[key])
-                // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+                  goodsDetailTab.tabName.push(key)
+                  goodsDetailTab.tabContent.push(tmpGoodsDetail[key])
+                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+                }
               }
-            }
             }
             this.setState({
               goodsDetailTab: goodsDetailTab
@@ -597,22 +579,6 @@ class Details extends React.Component {
     }
     )
   }
-
-  loadDeliveryWeekOptions () {
-    this.setState({
-      deliveryWeekOptions: [
-        { name: 'foure weeks', value: 1 },
-        { name: 'three month', value: 2 },
-        { name: 'one year', value: 3 }
-      ]
-    })
-  }
-  handleSelectedItemChange (data) {
-    this.setState({ selectedDelivery: data.value }, () => {
-      console.log(this.state.selectedDelivery);
-    })
-  }
-
   render () {
     const createMarkup = (text) => ({ __html: text });
     const {
@@ -628,7 +594,6 @@ class Details extends React.Component {
       addToCartLoading,
       specList
     } = this.state;
-
     let event
     if (!this.state.initing) {
       event = {
@@ -638,8 +603,6 @@ class Details extends React.Component {
         }
       }
     }
-    const data = this.state
-
     return (
       <div>
         {event ? <GoogleTagManager additionalEvents={event} /> : null}
@@ -728,9 +691,6 @@ class Details extends React.Component {
                                   title={details.goodsName}>
                                   {details.goodsName}
                                 </h1>
-                                <div className="mgb28">
-                                  <Rate def={4} disabled={true}/>
-                                </div>
                                 <h3 className="text-break">{details.goodsSubtitle}</h3>
                                 <h3 className="text-break">
                                   <div className="rating-stars hidden-lg-down">
@@ -757,402 +717,160 @@ class Details extends React.Component {
                                   className="product-pricing__card singlepruchase selected"
                                   data-buybox="singlepruchase"
                                 >
-                                  <div className="product-pricing__card_contanier">
-                                    <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
-                                      <div className="rc-input product-pricing__card__head__title">
-                                        <div className="rc-input">
-                                          <input
-                                            className="rc-input__radio"
-                                            id="id-radio-cat-1"
-                                            value="Once"
-                                            checked={data.buyWay === 'Once'}
-                                            onChange={this.handleChange.bind(this)}
-                                            type="radio"
-                                            name="radio-2" />
-                                          <label className="rc-input__label--inline" htmlFor="id-radio-cat-1"><FormattedMessage id="details.OneOFF" /></label>
-                                        </div>
-                                      </div>
+                                  <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
+                                    <div className="rc-input product-pricing__card__head__title">
+                                      <label>
+                                        <FormattedMessage id="details.unitPrice" />
+                                      </label>
+                                    </div>
 
-                                      <b className="product-pricing__card__head__price rc-padding-y--none js-price">
+                                    <b className="product-pricing__card__head__price rc-padding-y--none js-price">
+                                      <span>
                                         <span>
-                                          <span>
-                                            <span className="sales">
-                                              <span className="value">
-                                                {formatMoney(currentUnitPrice)}
-                                              </span>
+                                          <span className="sales">
+                                            <span className="value">
+                                              {formatMoney(currentUnitPrice)}
                                             </span>
                                           </span>
                                         </span>
-                                      </b>
-                                    </div>
-                                    {details &&
-                                      find(details.sizeList, (s) => s.selected) &&
-                                      find(details.sizeList, (s) => s.selected)
-                                        .marketingLabels[0] &&
-                                      find(details.sizeList, (s) => s.selected)
-                                        .marketingLabels[0].marketingDesc ? (
-                                        <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
-                                          <div className="rc-input product-pricing__card__head__title red d-flex justify-content-between">
-                                            <span>
-                                              <FormattedMessage id="promotion" />{" "}
-                                            </span>
-                                            <span>25% OFF</span>
-                                          </div>
-                                        </div>
-                                      ) : null}
-                                    {data.buyWay === 'Once' ?
-                                      <div className="product-pricing__card__body rc-margin-top--xs pad10-container">
-                                        <div>
-                                          <FormattedMessage id="freeShipping" />
-                                        </div>
-                                        <div className="toggleVisibility">
-                                          <div className="product-selectors rc-padding-top--xs">
-                                            {specList.map((sItem, i) => (
-                                              <div id="choose-select" key={i}>
-                                                <div className="rc-margin-bottom--xs">
-                                                  {/* <FormattedMessage id="details.theSize" /> */}
-                                                  {sItem.specName}:
-                                                    </div>
-
-                                                <div data-attr="size">
-                                                  <div
-                                                    className="rc-swatch __select-size"
-                                                    id="id-single-select-size"
-                                                  >
-                                                    {/* {details.sizeList.map(
-                                                  (item, i) => (
-
-                                                  )
-                                                )} */}
-                                                    {sItem.chidren.map((sdItem, i) => (
-                                                      <div
-                                                        key={i}
-                                                        className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
-                                                        // item.selected
-                                                        //   ? "selected"
-                                                        //   : ""
-                                                        onClick={() =>
-                                                          this.handleChooseSize(sItem.specId, sdItem.specDetailId)
-                                                        }
-                                                      >
-                                                        <span>
-                                                          {sdItem.detailName}
-                                                        </span>
-                                                      </div>
-                                                    ))}
-                                                  </div>
-                                                </div>
-
-                                              </div>
-                                            ))}
-
-                                            <div
-                                              className="quantity-width start-lines"
-                                              data-attr="size"
-                                            >
-                                              <div className="quantity d-flex justify-content-between align-items-center">
-                                                <span>
-                                                  <FormattedMessage id="amount" />:
-                                          </span>
-                                                <input
-                                                  type="hidden"
-                                                  id="invalid-quantity"
-                                                  value="Пожалуйста, введите правильный номер."
-                                                />
-                                                <div className="rc-quantity text-right d-flex justify-content-end">
-                                                  <span
-                                                    className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                                    onClick={() =>
-                                                      this.hanldeAmountChange("minus")
-                                                    }
-                                                  ></span>
-                                                  <input
-                                                    className="rc-quantity__input"
-                                                    id="quantity"
-                                                    name="quantity"
-                                                    value={quantity}
-                                                    min={quantityMinLimit}
-                                                    max={stock}
-                                                    onChange={this.handleAmountInput}
-                                                    maxLength="5"
-                                                  />
-                                                  <span
-                                                    className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                                    onClick={() =>
-                                                      this.hanldeAmountChange("plus")
-                                                    }
-                                                  ></span>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="availability  product-availability" style={{ display: details.sizeList.filter(el => el.selected).length ? 'block' : 'none' }}>
-                                            <div className="align-left flex">
-                                              <div className="stock__wrapper">
-                                                <div className="stock">
-                                                  <label
-                                                    className={[
-                                                      "availability",
-                                                      instockStatus
-                                                        ? "instock"
-                                                        : "outofstock",
-                                                    ].join(" ")}
-                                                  >
-                                                    <span className="title-select">
-                                                      <FormattedMessage id="details.availability" />{" "}
-                                                  :
-                                              </span>
-                                                  </label>
-                                                  <span
-                                                    className="availability-msg"
-                                                    data-ready-to-order="true"
-                                                  >
-                                                    <div
-                                                      className={[
-                                                        instockStatus
-                                                          ? ""
-                                                          : "out-stock",
-                                                      ].join(" ")}
-                                                    >
-                                                      {instockStatus ? (
-                                                        <FormattedMessage id="details.inStock" />
-                                                      ) : (
-                                                          <FormattedMessage id="details.outStock" />
-                                                        )}
-                                                    </div>
-                                                  </span>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                            <div className="cart-and-ipay">
-                                              <button
-                                                className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                                data-loc="addToCart"
-                                                style={{ lineHeight: "30px" }}
-                                                onClick={() => this.hanldeAddToCart()}
-                                              >
-                                                <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
-                                                <FormattedMessage id="details.addToCart" />
-                                              </button>
-                                            </div>
-                                          </div>
-                                          <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                            <div className="cart-and-ipay">
-                                              <button
-                                                className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                                data-loc="addToCart"
-                                                style={{ lineHeight: "30px" }}
-                                                onClick={() =>
-                                                  this.hanldeAddToCart({
-                                                    redirect: true,
-                                                    needLogin: !jugeLoginStatus()
-                                                  })
-                                                }
-                                              >
-                                                <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
-                                                <FormattedMessage id="checkout" />
-                                              </button>
-                                            </div>
-                                          </div>
-                                          {
-                                            !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                              <div className="cart-and-ipay">
-                                                <button
-                                                  className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                                  data-loc="addToCart"
-                                                  onClick={() =>
-                                                    this.hanldeAddToCart({
-                                                      redirect: true
-                                                    })
-                                                  }
-                                                >
-                                                  <FormattedMessage id="GuestCheckout" />
-                                                </button>
-                                              </div>
-                                            </div>
-                                          }
-                                        </div>
-                                      </div>
-                                      : null}
+                                      </span>
+                                    </b>
                                   </div>
-                                  {/*Subscription*/}
-                                  <div className="product-pricing__card_contanier magt20px">
-                                    <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
-                                      <div className="rc-input product-pricing__card__head__title">
-                                        <div className="rc-input">
-                                          <input
-                                            className="rc-input__radio"
-                                            id="id-radio-cat-2"
-                                            value="Subscription"
-                                            checked={data.buyWay === 'Subscription'}
-                                            onChange={this.handleChange.bind(this)}
-                                            type="radio"
-                                            name="radio-2" />
-                                          <label className="rc-input__label--inline" htmlFor="id-radio-cat-2"><FormattedMessage id="details.Subscription" /></label>
+                                  {details &&
+                                    find(details.sizeList, (s) => s.selected) &&
+                                    find(details.sizeList, (s) => s.selected)
+                                      .marketingLabels[0] &&
+                                    find(details.sizeList, (s) => s.selected)
+                                      .marketingLabels[0].marketingDesc ? (
+                                      <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
+                                        <div className="rc-input product-pricing__card__head__title red d-flex justify-content-between">
+                                          <span>
+                                            <FormattedMessage id="promotion" />{" "}
+                                          </span>
+                                          <span>25% OFF</span>
                                         </div>
                                       </div>
-
-                                      <b className="product-pricing__card__head__price rc-padding-y--none js-price">
-                                        <span>
-                                          <span>
-                                            <span className="sales">
-                                              <span className="value">
-                                                {formatMoney(currentUnitPrice)}
-                                              </span>
-                                            </span>
-                                          </span>
-                                        </span>
-                                      </b>
-                                    </div>
+                                    ) : null}
+                                  <div className="product-pricing__card__body rc-margin-top--xs">
                                     <div>
-                                      <FormattedMessage id="details.youCanSave" /> {data.savedMoney} <FormattedMessage id="details.bySubscription" />
+                                      <FormattedMessage id="freeShipping" />
                                     </div>
-                                    <div>
-                                      <FormattedMessage id="details.deliveryEvery" />
-                                      <Selection
-                                        selectedItemChange={data => this.handleSelectedItemChange(data)}
-                                        optionList={data.deliveryWeekOptions}
-                                        selectedItemData={{
-                                          value: data.selectedDelivery
-                                        }}
-                                        customStyleType="select-one" />
-                                    </div>
-                                    {details &&
-                                      find(details.sizeList, (s) => s.selected) &&
-                                      find(details.sizeList, (s) => s.selected)
-                                        .marketingLabels[0] &&
-                                      find(details.sizeList, (s) => s.selected)
-                                        .marketingLabels[0].marketingDesc ? (
-                                        <div className="product-pricing__card__head rc-margin-bottom--none d-flex align-items-center">
-                                          <div className="rc-input product-pricing__card__head__title red d-flex justify-content-between">
-                                            <span>
-                                              <FormattedMessage id="promotion" />{" "}
-                                            </span>
-                                            <span>25% OFF</span>
+                                    <div className="toggleVisibility">
+                                      <div className="product-selectors rc-padding-top--xs">
+                                        {specList.map((sItem, i) => (
+                                          <div id="choose-select" key={i}>
+                                            <div className="rc-margin-bottom--xs">
+                                              {/* <FormattedMessage id="details.theSize" /> */}
+                                              {sItem.specName}:
                                           </div>
-                                        </div>
-                                      ) : null}
-                                    {data.buyWay === 'Subscription' ? <div className="product-pricing__card__body rc-margin-top--xs pad10-container">
 
-                                      <div className="toggleVisibility">
-                                        <div className="product-selectors rc-padding-top--xs">
-                                          {specList.map((sItem, i) => (
-                                            <div id="choose-select" key={i}>
-                                              <div className="rc-margin-bottom--xs">
-                                                {/* <FormattedMessage id="details.theSize" /> */}
-                                                {sItem.specName}:
-                                                </div>
-
-                                              <div data-attr="size">
-                                                <div
-                                                  className="rc-swatch __select-size"
-                                                  id="id-single-select-size"
-                                                >
-                                                  {/* {details.sizeList.map(
+                                            <div data-attr="size">
+                                              <div
+                                                className="rc-swatch __select-size"
+                                                id="id-single-select-size"
+                                              >
+                                                {/* {details.sizeList.map(
                                                   (item, i) => (
 
                                                   )
                                                 )} */}
-                                                  {sItem.chidren.map((sdItem, i) => (
-                                                    <div
-                                                      key={i}
-                                                      className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
-                                                      // item.selected
-                                                      //   ? "selected"
-                                                      //   : ""
-                                                      onClick={() =>
-                                                        this.handleChooseSize(sItem.specId, sdItem.specDetailId)
-                                                      }
-                                                    >
-                                                      <span>
-                                                        {sdItem.detailName}
-                                                      </span>
-                                                    </div>
-                                                  ))}
-                                                </div>
+                                                {sItem.chidren.map((sdItem, i) => (
+                                                  <div
+                                                    key={i}
+                                                    className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
+                                                    // item.selected
+                                                    //   ? "selected"
+                                                    //   : ""
+                                                    onClick={() =>
+                                                      this.handleChooseSize(sItem.specId, sdItem.specDetailId)
+                                                    }
+                                                  >
+                                                    <span>
+                                                      {sdItem.detailName}
+                                                    </span>
+                                                  </div>
+                                                ))}
                                               </div>
-
                                             </div>
-                                          ))}
 
-                                          <div
-                                            className="quantity-width start-lines"
-                                            data-attr="size"
-                                          >
-                                            <div className="quantity d-flex justify-content-between align-items-center">
-                                              <span>
-                                                <FormattedMessage id="amount" />:
+                                          </div>
+                                        ))}
+
+                                        <div
+                                          className="quantity-width start-lines"
+                                          data-attr="size"
+                                        >
+                                          <div className="quantity d-flex justify-content-between align-items-center">
+                                            <span>
+                                              <FormattedMessage id="amount" />:
                                           </span>
+                                            <input
+                                              type="hidden"
+                                              id="invalid-quantity"
+                                              value="Пожалуйста, введите правильный номер."
+                                            />
+                                            <div className="rc-quantity text-right d-flex justify-content-end">
+                                              <span
+                                                className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                                                onClick={() =>
+                                                  this.hanldeAmountChange("minus")
+                                                }
+                                              ></span>
                                               <input
-                                                type="hidden"
-                                                id="invalid-quantity"
-                                                value="Пожалуйста, введите правильный номер."
+                                                className="rc-quantity__input"
+                                                id="quantity"
+                                                name="quantity"
+                                                value={quantity}
+                                                min={quantityMinLimit}
+                                                max={stock}
+                                                onChange={this.handleAmountInput}
+                                                maxLength="5"
                                               />
-                                              <div className="rc-quantity text-right d-flex justify-content-end">
-                                                <span
-                                                  className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                                  onClick={() =>
-                                                    this.hanldeAmountChange("minus")
-                                                  }
-                                                ></span>
-                                                <input
-                                                  className="rc-quantity__input"
-                                                  id="quantity"
-                                                  name="quantity"
-                                                  value={quantity}
-                                                  min={quantityMinLimit}
-                                                  max={stock}
-                                                  onChange={this.handleAmountInput}
-                                                  maxLength="5"
-                                                />
-                                                <span
-                                                  className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                                  onClick={() =>
-                                                    this.hanldeAmountChange("plus")
-                                                  }
-                                                ></span>
-                                              </div>
+                                              <span
+                                                className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                                                onClick={() =>
+                                                  this.hanldeAmountChange("plus")
+                                                }
+                                              ></span>
                                             </div>
                                           </div>
                                         </div>
-                                        <div className="availability  product-availability" style={{ display: details.sizeList.filter(el => el.selected).length ? 'block' : 'none' }}>
-                                          <div className="align-left flex">
-                                            <div className="stock__wrapper">
-                                              <div className="stock">
-                                                <label
+                                      </div>
+                                      <div className="availability  product-availability" style={{ display: details.sizeList.filter(el => el.selected).length ? 'block' : 'none' }}>
+                                        <div className="align-left flex">
+                                          <div className="stock__wrapper">
+                                            <div className="stock">
+                                              <label
+                                                className={[
+                                                  "availability",
+                                                  instockStatus
+                                                    ? "instock"
+                                                    : "outofstock",
+                                                ].join(" ")}
+                                              >
+                                                <span className="title-select">
+                                                  <FormattedMessage id="details.availability" />{" "}
+                                                :
+                                              </span>
+                                              </label>
+                                              <span
+                                                className="availability-msg"
+                                                data-ready-to-order="true"
+                                              >
+                                                <div
                                                   className={[
-                                                    "availability",
                                                     instockStatus
-                                                      ? "instock"
-                                                      : "outofstock",
+                                                      ? ""
+                                                      : "out-stock",
                                                   ].join(" ")}
                                                 >
-                                                  <span className="title-select">
-                                                    <FormattedMessage id="details.availability" />{" "}
-                                                  :
+                                                  {instockStatus ? (
+                                                    <FormattedMessage id="details.inStock" />
+                                                  ) : (
+                                                      <FormattedMessage id="details.outStock" />
+                                                    )}
+                                                </div>
                                               </span>
-                                                </label>
-                                                <span
-                                                  className="availability-msg"
-                                                  data-ready-to-order="true"
-                                                >
-                                                  <div
-                                                    className={[
-                                                      instockStatus
-                                                        ? ""
-                                                        : "out-stock",
-                                                    ].join(" ")}
-                                                  >
-                                                    {instockStatus ? (
-                                                      <FormattedMessage id="details.inStock" />
-                                                    ) : (
-                                                        <FormattedMessage id="details.outStock" />
-                                                      )}
-                                                  </div>
-                                                </span>
-                                              </div>
                                             </div>
                                           </div>
                                         </div>
@@ -1203,68 +921,40 @@ class Details extends React.Component {
                                               </LoginButton>
                                           }
                                         </div>
-                                        <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                      </div>
+                                      {
+                                        !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                           <div className="cart-and-ipay">
                                             <button
-                                              className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
+                                              className={`btn-add-to-cart2 rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                                               data-loc="addToCart"
-                                              style={{ lineHeight: "30px" }}
                                               onClick={() =>
                                                 this.hanldeAddToCart({
-                                                  redirect: true,
-                                                  needLogin: !jugeLoginStatus()
+                                                  redirect: true
                                                 })
                                               }
                                             >
-                                              <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
-                                              <FormattedMessage id="checkout" />
+                                              <FormattedMessage id="GuestCheckout" />
                                             </button>
                                           </div>
                                         </div>
-                                        {
-                                          !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                            <div className="cart-and-ipay">
-                                              <button
-                                                className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
-                                                data-loc="addToCart"
-                                                onClick={() =>
-                                                  this.hanldeAddToCart({
-                                                    redirect: true
-                                                  })
-                                                }
-                                              >
-                                                <FormattedMessage id="GuestCheckout" />
-                                              </button>
-                                            </div>
-                                          </div>
-                                        }
-                                      </div>
-                                    </div> : null}
+                                      }
+                                    </div>
                                   </div>
-<<<<<<< .mine
-                                  <div className={`text-break ${this.state.checkOutErrMsg ? '' : 'hidden'}`}>
-
-=======
                                 </div>
                                 <div className={`text-break ${this.state.checkOutErrMsg ? '' : 'hidden'}`}>
->>>>>>> .theirs
-                                    <aside
-                                      className="rc-alert rc-alert--error rc-alert--with-close"
-                                      role="alert"
-                                      style={{ padding: ".5rem" }}
-                                    >
-<<<<<<< .mine
-                                      <span className="pl-0">
-=======
+                                  <aside
+                                    className="rc-alert rc-alert--error rc-alert--with-close"
+                                    role="alert"
+                                    style={{ padding: ".5rem" }}
+                                  >
                                     <span className="pl-0">
->>>>>>> .theirs
-                                        {this.state.checkOutErrMsg}
-                                      </span>
-                                    </aside>
-                                  </div>
+                                      {this.state.checkOutErrMsg}
+                                    </span>
+                                  </aside>
                                 </div>
-                                <div className="product-pricing__warranty rc-text--center"></div>
                               </div>
+                              <div className="product-pricing__warranty rc-text--center"></div>
                             </div>
                           </div>
                         </div>
@@ -1318,10 +1008,6 @@ class Details extends React.Component {
                     : null
                 }
               </div>
-              <div>
-                <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
-              </div>
-              <div><Reviews id={data.id}/></div>
               <div
                 className="sticky-addtocart"
                 style={{ transform: "translateY(-80px)" }}
