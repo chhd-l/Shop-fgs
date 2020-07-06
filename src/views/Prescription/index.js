@@ -66,8 +66,8 @@ class Prescription extends React.Component {
         input: "",
         pageNum: 0,
         pageSize: 3,
-        latitude: 0,
-        longitude: 0,
+        latitude: 19.09,
+        longitude: -99.24,
         storeId: STOREID,
       },
       currentSelectClinic: {
