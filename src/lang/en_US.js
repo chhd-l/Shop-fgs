@@ -471,7 +471,14 @@ const en_US = {
   'noSpecialNeeds': 'No special needs',
   'loginFailed': 'login failed',
   'choosePrescriber': 'Please choose the correct prescriber',
-  'cvvWarning': 'CVV is wrong'
-
+  'cvvWarning': 'CVV is wrong',
+  'replyComments': 'Reply comments',
+  'writeReview': 'Write a review',
+  'purchaseRating': 'Purchase experience  rating',
+  'logisticsRating': 'Logistics rating',
+  'productRating': 'Product rating',
+  'writeYourReview': 'Write your review',
+  'whatYouLike': 'What did you like or dislike?',
+  'anonymousReview': 'Anonymous review'
 }
 export default en_US;

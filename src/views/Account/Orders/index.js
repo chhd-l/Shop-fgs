@@ -363,7 +363,7 @@ class AccountOrders extends React.Component {
                                       }
                                       <div>
                                         <button className="rc-btn rc-btn--two">
-                                          <FormattedMessage id="subscription">
+                                          <FormattedMessage id="writeReview">
                                             {txt => (
                                                 <Link
                                                     to="/account/productReview"

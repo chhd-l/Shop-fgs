@@ -6,6 +6,8 @@ import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
 import LoginButton from '@/components/LoginButton'
+import Reviews from './components/Reviews'
+import Rate from '@/components/Rate'
 import {
   formatMoney,
   translateHtmlCharater,
@@ -691,6 +693,7 @@ class Details extends React.Component {
                                   title={details.goodsName}>
                                   {details.goodsName}
                                 </h1>
+                                <Rate def={5} disabled={true}/>
                                 <h3 className="text-break">{details.goodsSubtitle}</h3>
                                 <h3 className="text-break">
                                   <div className="rating-stars hidden-lg-down">
@@ -1007,6 +1010,10 @@ class Details extends React.Component {
                     </div>
                     : null
                 }
+              </div>
+
+              <div>
+                <Reviews id={this.state.id} />
               </div>
               <div
                 className="sticky-addtocart"
