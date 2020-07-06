@@ -70,7 +70,7 @@ localStorage.setItem('rc-lang', 'es')
 const App = () => (
 
   // <Provider {...store}>
-  <IntlProvider locale="es" messages={es_ES}>
+  <IntlProvider locale="en" messages={en_US}>
     <Router path="/">
       <RouteFilter />
       <ScrollToTop>
