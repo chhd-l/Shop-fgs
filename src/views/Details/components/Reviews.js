@@ -69,7 +69,7 @@ class Reviews extends React.Component {
                 valuatesTotalPages: obj.totalPages,
                 goodsEvaluatesList: list
             }, () => {
-                if(this.state.goodsEvaluatesList.length === 0 ) {
+                // if(this.state.goodsEvaluatesList.length === 0 ) {
                     this.setState({
                         goodsEvaluatesList: [
                             {
@@ -95,7 +95,7 @@ class Reviews extends React.Component {
                             }
                         ]
                     })
-                }
+                // }
             })
         }
     }
@@ -149,6 +149,13 @@ class Reviews extends React.Component {
                                                             <h5 className="mgb28">{item.title}</h5>
                                                             {item.description}
                                                             &nbsp;
+                                                            {
+                                                                item.evaluateAnswer?
+                                                                    <div>
+                                                                        <span className="red-text"><FormattedMessage id="replyComments" /></span>
+                                                                        {item.evaluateAnswer}
+                                                                    </div> : null
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
