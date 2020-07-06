@@ -22411,10 +22411,17 @@ tr.rc-table__row.inactive td:after {
   text-overflow: ellipsis;
 }
 
+<<<<<<< .mine
 .font-16 {
   font-size: 16px!important;
 }
 
+=======
+.font-16 {
+  font-size: 16px!important;
+}
+
+>>>>>>> .theirs
 @keyframes rotate {
   from {
       transform: rotatez(0deg);

@@ -226,10 +226,12 @@ class Details extends React.Component {
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
               for (let key in tmpGoodsDetail) {
+                if (tmpGoodsDetail[key]) {
                 goodsDetailTab.tabName.push(key)
                 goodsDetailTab.tabContent.push(tmpGoodsDetail[key])
                 // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
               }
+            }
             }
             this.setState({
               goodsDetailTab: goodsDetailTab
@@ -632,7 +634,7 @@ class Details extends React.Component {
       event = {
         page: {
           type: 'Product',
-          theme: [this.specie, this.productRange, this.format.join('&')].join('/')
+          theme: this.specie
         }
       }
     }
@@ -1239,13 +1241,23 @@ class Details extends React.Component {
                                       </div>
                                     </div> : null}
                                   </div>
+<<<<<<< .mine
                                   <div className={`text-break ${this.state.checkOutErrMsg ? '' : 'hidden'}`}>
+
+=======
+                                </div>
+                                <div className={`text-break ${this.state.checkOutErrMsg ? '' : 'hidden'}`}>
+>>>>>>> .theirs
                                     <aside
                                       className="rc-alert rc-alert--error rc-alert--with-close"
                                       role="alert"
                                       style={{ padding: ".5rem" }}
                                     >
+<<<<<<< .mine
                                       <span className="pl-0">
+=======
+                                    <span className="pl-0">
+>>>>>>> .theirs
                                         {this.state.checkOutErrMsg}
                                       </span>
                                     </aside>

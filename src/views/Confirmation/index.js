@@ -206,7 +206,7 @@ class Confirmation extends React.Component {
             brand: "Royal Canin",
             category: item.goodsCategory,
             quantity: item.quantity,
-            variant: selectedSize.detailName
+            variant: selectedSize.specText
           }
         })
       }

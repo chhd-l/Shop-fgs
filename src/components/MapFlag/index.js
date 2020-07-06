@@ -20,7 +20,7 @@ class MapFlag extends React.Component {
   handleConfirm=(item)=>{
     sessionStorage.setItem('rc-clinics-name-select',item.prescriberName)
     sessionStorage.setItem('rc-clinics-id-select', item.prescriberId)
-    const { history } = this.props
+    const { history } = this.props.props
     history.push('/payment/shipping')
   }
   handleClose=()=>{
@@ -37,7 +37,10 @@ class MapFlag extends React.Component {
     }
     
   }
-
+  componentDidMount(){
+    console.log();
+    
+  }
 
   render(h) {
     return(
