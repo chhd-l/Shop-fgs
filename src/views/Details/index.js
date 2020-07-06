@@ -109,7 +109,7 @@ class Details extends React.Component {
       },
       () => {
         this.queryDetails()
-        this.getGoodsEvaluates(1, 10, this.state.id, null)
+        // this.getGoodsEvaluates(1, 10, this.state.id, null)
       }
     );
     this.loadDeliveryWeekOptions()

@@ -34,7 +34,7 @@ class Reviews extends React.Component {
         let currentPage = this.state.evaluatesCurrentPage
         if(currentPage > 1) {
             currentPage--
-            this.getGoodsEvaluates(currentPage, 10, null)
+            this.getGoodsEvaluates(currentPage, 5, null)
         }
     }
     evaluatesNextPage() {
