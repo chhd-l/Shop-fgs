@@ -99,7 +99,7 @@ class LoginCart extends React.Component {
     await this.updateCartCache()
     this.headerRef.current.updateCartCache()
   }
-  async handleCheckout () {
+  async handleCheckout () {debugger
     const { productList } = this.state
 
     // 价格未达到底限，不能下单
@@ -479,7 +479,7 @@ class LoginCart extends React.Component {
                         </div>
                         <div className="row checkout-proccess">
                           <div className="col-lg-12 checkout-continue">
-                            <a className="" onClick={() => this.handleCheckout()}>
+                            <a onClick={() => this.handleCheckout()}>
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                                 <div
                                   data-oauthlogintargetendpoint="2"

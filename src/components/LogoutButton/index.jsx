@@ -16,7 +16,9 @@ import { getToken } from '@/api/login'
 import { getCustomerInfo } from "@/api/user"
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react';
-import Store from '@/store/store';
+import stores from '@/store/store';
+
+const Store = stores.loginStore
 
 const LogoutButton = () => {
   const [userInfo, setUserInfo] = useState(null);
