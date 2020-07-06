@@ -37,9 +37,9 @@ class PaymentComp extends React.Component {
         cardNumber: "",
         cardMmyy: "",
         cardCvv: "",
-        cardOwner: "",
+        cardOwner: this.props.cardOwner,
         email: "",
-        phoneNumber: "",
+        phoneNumber: this.props.phoneNumber,
         identifyNumber: "111",
         isDefault: false,
       },
@@ -51,10 +51,20 @@ class PaymentComp extends React.Component {
       isCurrentCvvConfirm: false,
       currentCardInfo: {},
       completeCardShow: false,
+      deliveryAddress: {}
     };
   }
   async componentDidMount() {
     if (Store.isLogin) {
+      if(localStorage.getItem('loginDeliveryInfo')) {
+        console.log(localStorage.getItem('loginDeliveryInfo'))
+        let deliveryInfo = JSON.parse(localStorage.getItem('loginDeliveryInfo'));
+        deliveryInfo.deliveryAddress.cardOwner = deliveryInfo.deliveryAddress.firstName + '' + deliveryInfo.deliveryAddress.lastName
+        this.setState({deliveryAddress: deliveryInfo.deliveryAddress}, () => {
+          this.initCardInfo()
+        })
+      }
+      
       await this.getPaymentMethodList();
       // this.state.creditCardList.map((el) => {
       //   if (el.isDefault === 1) {
@@ -101,15 +111,16 @@ class PaymentComp extends React.Component {
     }
   }
   initCardInfo() {
+    let { deliveryAddress } = this.state
     this.setState(
       {
         creditCardInfo: {
           cardNumber: "",
           cardMmyy: "",
           cardCvv: "",
-          cardOwner: "",
+          cardOwner: deliveryAddress.cardOwner || '',
           email: "",
-          phoneNumber: "",
+          phoneNumber: deliveryAddress.phoneNumber || '',
           identifyNumber: "111",
           isDefault: false,
         },
@@ -687,13 +698,13 @@ class PaymentComp extends React.Component {
                                     this.currentCvvChange(e);
                                   }}
                                   type="password"
-                                  maxLength="3"
+                                  maxLength="4"
                                   style={{ width: "100%" }}
                                   value={this.state.currentCvv}
                                 />
                               </div>
                               {/* <span className="creditCompleteInfo">
-                                    <input type="password" maxLength="3" />
+                                    <input type="password" maxLength="4" />
                                   </span> */}
                             </div>
                           </div>
@@ -1016,7 +1027,7 @@ class PaymentComp extends React.Component {
                                       this.cardInfoInputChange(e)
                                     }
                                     name="cardCvv"
-                                    maxLength="3"
+                                    maxLength="4"
                                     placeholder="CVV"
                                   />
                                 </span>
