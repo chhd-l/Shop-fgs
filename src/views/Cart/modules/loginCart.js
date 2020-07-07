@@ -99,7 +99,7 @@ class LoginCart extends React.Component {
     await this.updateCartCache()
     this.headerRef.current.updateCartCache()
   }
-  async handleCheckout () {
+  async handleCheckout () {debugger
     const { productList } = this.state
 
     // 价格未达到底限，不能下单
@@ -192,7 +192,7 @@ class LoginCart extends React.Component {
     const { checkoutLoading } = this.state
     const Lists = plist.map((pitem, index) => (
       <div
-        className="rc-border-all rc-border-colour--interface product-info uuid-3ab64fd26c17b64c44e4ba1a7e"
+        className="rc-border-all rc-border-colour--interface product-info"
         key={index}
       >
         <div className="d-flex">
@@ -230,18 +230,12 @@ class LoginCart extends React.Component {
                 updateChildDisplay={status => this.updateConfirmTooltipVisible(pitem, status)} />
             </span>
             <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
-              <div
-                className="product-quickview product-null product-wrapper product-detail"
-                data-pid="null"
-              >
+              <div className="product-quickview product-null product-wrapper product-detail">
                 <div className="detail-panel">
                   <section className="attributes">
                     <div data-attr="size" className="swatch">
                       <div className="cart-and-ipay">
-                        <div
-                          className="rc-swatch __select-size"
-                          id="id-single-select-size"
-                        >
+                        <div className="rc-swatch __select-size">
                           <div className="rc-swatch__item selected">
                             <span>
                               {pitem.specText}
@@ -279,7 +273,7 @@ class LoginCart extends React.Component {
                   <div className="line-item-total-price d-flex justify-content-center">
                     <p className="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">
                       =
-                      </p>
+                    </p>
                     <div className="price">
                       <b className="pricing line-item-total-price-amount light" style={{ lineHeight: checkoutLoading ? 1.2 : '' }}>
                         {checkoutLoading ? '--' : formatMoney(pitem.buyCount * pitem.salePrice)}
@@ -322,7 +316,6 @@ class LoginCart extends React.Component {
               <div className="rc-quantity d-flex">
                 <span
                   className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                  data-quantity-error-msg="Количество не может быть меньше 1"
                   onClick={() => this.subQuantity(pitem)}></span>
                 <input
                   className="rc-quantity__input"
@@ -356,15 +349,18 @@ class LoginCart extends React.Component {
                     <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
                   </label>
                   <span className="availability-msg">
-                    <div
-                      className={[pitem.buyCount <= pitem.stock ? '' : 'out-stock'].join(' ')}>
-                      {pitem.buyCount <= pitem.stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
+                    <div className={[pitem.buyCount <= pitem.stock ? '' : 'out-stock'].join(' ')}>
+                      {
+                        pitem.buyCount <= pitem.stock
+                          ? <FormattedMessage id="details.inStock" />
+                          : <FormattedMessage id="details.outStock" />
+                      }
                     </div>
                   </span>
                 </div>
                 <div className="promotion stock" style={{ marginTop: '7px', display: this.state.isPromote ? 'inline-block' : 'none' }}>
                   <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
-                    <span className=""><FormattedMessage id="promotion" /> :</span>
+                    <span><FormattedMessage id="promotion" /> :</span>
                   </label>
                   <span className="availability-msg">
                     25% OFF
@@ -483,7 +479,7 @@ class LoginCart extends React.Component {
                         </div>
                         <div className="row checkout-proccess">
                           <div className="col-lg-12 checkout-continue">
-                            <a className="" onClick={() => this.handleCheckout()}>
+                            <a onClick={() => this.handleCheckout()}>
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                                 <div
                                   data-oauthlogintargetendpoint="2"

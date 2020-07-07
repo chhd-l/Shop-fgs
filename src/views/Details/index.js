@@ -1,5 +1,6 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
+import { inject } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -12,7 +13,6 @@ import {
   formatMoney,
   translateHtmlCharater,
   hanldePurchases,
-  jugeLoginStatus,
   queryProps,
   flat
 } from '@/utils/utils'
@@ -33,6 +33,7 @@ import {
 import { getDict } from '@/api/dict'
 import './index.css'
 
+@inject("loginStore")
 @injectIntl
 class Details extends React.Component {
   constructor(props) {
@@ -98,6 +99,9 @@ class Details extends React.Component {
       () => this.queryDetails()
     );
   }
+  get isLogin () {
+    return this.props.loginStore.isLogin
+  }
   matchGoods () {
     let { specList, details, currentUnitPrice, stock } = this.state
     let selectedArr = []
@@ -130,7 +134,7 @@ class Details extends React.Component {
   }
   async queryDetails () {
     const { id } = this.state;
-    const tmpRequest = jugeLoginStatus() ? getLoginDetails : getDetails
+    const tmpRequest = this.isLogin ? getLoginDetails : getDetails
     Promise.all([
       tmpRequest(id),
       queryProps()
@@ -377,7 +381,7 @@ class Details extends React.Component {
     if (this.state.loading) {
       return false
     }
-    if (jugeLoginStatus()) {
+    if (this.isLogin) {
       this.hanldeLoginAddToCart({ redirect });
     } else {
       await this.hanldeUnloginAddToCart({ redirect, needLogin });
@@ -894,7 +898,7 @@ class Details extends React.Component {
                                       <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                         <div className="cart-and-ipay">
                                           {
-                                            jugeLoginStatus()
+                                            this.isLogin
                                               ? <button
                                                 className={`btn-add-to-cart add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                                                 data-loc="addToCart"
@@ -926,7 +930,7 @@ class Details extends React.Component {
                                         </div>
                                       </div>
                                       {
-                                        !jugeLoginStatus() && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                        !this.isLogin && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                           <div className="cart-and-ipay">
                                             <button
                                               className={`btn-add-to-cart2 rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
@@ -1030,7 +1034,7 @@ class Details extends React.Component {
                     </span>
                   </button>
                   {
-                    jugeLoginStatus()
+                    this.isLogin
                       ? <button
                         className={`rc-btn rc-btn--one js-sticky-cta btn-add-to-cart ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                         onClick={() => this.hanldeAddToCart({ redirect: true, needLogin: false })}>
@@ -1056,7 +1060,7 @@ class Details extends React.Component {
                       </LoginButton>
                   }
                   {
-                    !jugeLoginStatus() && <button
+                    !this.isLogin && <button
                       className={`btn-add-to-cart2 rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${instockStatus && quantity ? '' : 'disabled'}`}
                       onClick={() => this.hanldeAddToCart({ redirect: true })}>
                       <FormattedMessage id="GuestCheckout" />

@@ -1,10 +1,11 @@
 import React from "react"
-import { jugeLoginStatus } from '@/utils/utils'
+import { inject } from 'mobx-react'
 import UnloginCart from './modules/unLoginCart'
 import LoginCart from './modules/loginCart'
 import "./index.css"
 
-export default class Cart extends React.Component {
+@inject("loginStore")
+class Cart extends React.Component {
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
@@ -15,11 +16,14 @@ export default class Cart extends React.Component {
       return false
     }
   }
+  get isLogin () {
+    return this.props.loginStore.isLogin
+  }
   render () {
     return (
       <>
         {
-          jugeLoginStatus()
+          this.isLogin
             ? <LoginCart history={this.props.history} />
             : <UnloginCart history={this.props.history} />
         }
@@ -27,3 +31,5 @@ export default class Cart extends React.Component {
     )
   }
 }
+
+export default Cart
