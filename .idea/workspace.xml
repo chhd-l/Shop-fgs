@@ -27,12 +27,11 @@
   <component name="ChangeListManager">
     <list default="true" id="47401d03-5d3b-4db0-92ad-5095ad7961de" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lang/en_US.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lang/en_US.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lang/es_ES.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lang/es_ES.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Rate/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Rate/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Account/Orders/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/Orders/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Account/ProductReview/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/ProductReview/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Account/ProductReview/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/ProductReview/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Details/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +42,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>

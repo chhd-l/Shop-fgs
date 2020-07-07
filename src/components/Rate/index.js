@@ -48,6 +48,7 @@ export default class Rate extends Component {
                                 num = index + 1
                                 leave = num
                                 this.setState({ num, leave })
+                                this.props.selectRate(num)
                             }
                         }}
                         onMouseEnter={() => {
@@ -67,11 +68,11 @@ export default class Rate extends Component {
 
                     >
               {enter > index ? (
-                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs" disabled={this.state.disabled}></span>
+                  <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs" disabled={this.state.disabled}></span>
               ) : num > index ? (
-                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs" disabled={this.state.disabled}></span>
+                  <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs" disabled={this.state.disabled}></span>
               ) : (
-                  <span className="rc-icon rc-badge--icon-label  rc-padding-x--xs--mobile  rc-margin-right--xs rc-rate-fill--xs rc-iconography--xs" disabled={this.state.disabled}></span>
+                  <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-right--xs rc-rate-fill--xs rc-iconography--xs" disabled={this.state.disabled}></span>
               )}
             </span>
                 ))}

@@ -6,6 +6,9 @@ import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
 import Rate from '@/components/Rate'
+import ReviewForm from './components/ReviewForm'
+import ReviewList from './components/ReviewList'
+import ImgUpload from '@/components/ImgUpload'
 import './index.css'
 import Skeleton from "react-skeleton-loader";
 import {Link} from "react-router-dom";
@@ -15,8 +18,32 @@ class ProductReview extends React.Component {
 
     constructor() {
         super();
+        this.state = {
+            purchaseRate: 0,
+            logisticsRate: 0,
+            productRate: 0,
+            current: 1
+        }
+        this.selectPurchaseRate = this.selectPurchaseRate.bind(this);
+        this.selectLogisticsRate = this.selectLogisticsRate.bind(this);
+        this.updateCurrent = this.updateCurrent.bind(this)
+        this.imgUploaderRef = React.createRef();
     }
-
+    selectPurchaseRate(rate) {
+        this.setState({
+            purchaseRate: rate
+        })
+    }
+    selectLogisticsRate(rate) {
+        this.setState({
+            logisticsRate: rate
+        })
+    }
+    updateCurrent(id) {
+        this.setState({
+            current: id
+        })
+    }
     render() {
         // const lang = this.props.intl.locale || 'en'
         const event = {
@@ -41,132 +68,33 @@ class ProductReview extends React.Component {
                                     </h4>
                                 </div>
                                 {/*main*/}
-                                <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
-                                    <h4 className="rc-delta rc-margin--none pb-2">
+                                <div className="rc-border-bottom rc-border-colour--interface ">
+                                    <div className="rc-margin--none pb-2">
 
                                         <div className="rc-layout-container rc-three-column">
-                                            <div className="rc-column ">
+                                            <div className="rc-column">
                                                 <div>
-                                                    <FormattedMessage id="purchaseRating"></FormattedMessage>:
-                                                    <Rate def={5} disabled={true}/>
+                                                    <FormattedMessage id="purchaseRating"></FormattedMessage>
+                                                    <Rate def={5} disabled={false} selectRate={this.selectPurchaseRate}/>
                                                 </div>
                                             </div>
                                             <div className="rc-column rc-double-width">
-                                                <div>
-                                                    <FormattedMessage id="purchaseRating"></FormattedMessage>:
-                                                    <Rate def={5} disabled={true}/>
+                                                <div className="rc-margin-left--lg">
+                                                    <FormattedMessage id="logisticsRating" ></FormattedMessage>
+                                                    <Rate def={5} disabled={false} selectRate={this.selectLogisticsRate} />
                                                 </div>
                                             </div>
                                         </div>
-                                    </h4>
+                                    </div>
                                 </div>
                                 <div className="rc-layout-container rc-three-column">
-                                    <div className="rc-column ">
-                                        <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-colour--interface">
-                                            <div className="rc-column">
-                                                    <div className="rc-full-width">
-                                                        <div className="d-flex justify-content-center ui-margin-top-1-md-down">
-                                                            <div className="details-img-container">
-                                                                <div>
-                                                                    <img src="https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291813187993.png"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <div className="rc-column padt20">
-                                                    <div className="wrap-short-des">
-                                                        <div className="rc-gamma ui-text-overflow-line2 text-break">
-                                                            <h3>121212</h3>
-                                                        </div>
-                                                        <div className="text-break">
-                                                            <span>sssssssssss</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                        <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-colour--interface">
-                                            <div className="rc-column">
-                                                <div className="rc-full-width">
-                                                    <div className="d-flex justify-content-center ui-margin-top-1-md-down">
-                                                        <div className="details-img-container">
-                                                            <div>
-                                                                <img src="https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291813187993.png"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="rc-column padt20">
-                                                <div className="wrap-short-des">
-                                                    <div className="rc-gamma ui-text-overflow-line2 text-break">
-                                                        <h3>121212</h3>
-                                                    </div>
-                                                    <div className="text-break">
-                                                        <span>sssssssssss</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-colour--interface">
-                                            <div className="rc-column">
-                                                <div className="rc-full-width">
-                                                    <div className="d-flex justify-content-center ui-margin-top-1-md-down">
-                                                        <div className="details-img-container">
-                                                            <div>
-                                                                <img src="https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291813187993.png"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="rc-column padt20">
-                                                <div className="wrap-short-des">
-                                                    <div className="rc-gamma ui-text-overflow-line2 text-break">
-                                                        <h3>121212</h3>
-                                                    </div>
-                                                    <div className="text-break">
-                                                        <span>sssssssssss</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                    <div className="rc-column rc-triple-width pad-left0 pad-right0">
+                                        <ReviewList update={this.updateCurrent} />
                                     </div>
+                                    <div className="rc-padding-right--xs rc-bg-colour--brand4"></div>
+                                    {/*rc-double-width*/}
                                     <div className="rc-column rc-double-width">
-                                        <div>
-                                            <span><FormattedMessage id="productRating"/></span>
-                                            <Rate def={4} disabled={true}></Rate>
-
-                                            <span><FormattedMessage id="writeYourReview"/></span>
-                                            <div>
-                                                <span
-                                                    className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
-                                                    input-setup="true">
-                                                    <FormattedMessage id="whatYouLike">
-                                                        {
-                                                            txt => (<textarea
-                                                                className="rc-input__textarea noborder"
-                                                                maxLength="50"
-                                                                placeholder={txt}
-                                                                 />)
-                                                        }
-                                                    </FormattedMessage>
-                                                    {/*value={this.state.consumerComment}*/}
-                                                    {/*onChange={(e) => this.handleConsumerCommentChange(e)}*/}
-                                                </span>
-
-                                            </div>
-
-                                            <div className="rc-input rc-input--inline">
-                                                <input className="rc-input__checkbox" id="id-checkbox-cat" value="Cat"
-                                                       type="checkbox" name="checkbox-1"/>
-                                                <label className="rc-input__label--inline"
-                                                       htmlFor="id-checkbox-cat">
-                                                    <FormattedMessage id="anonymousReview" />
-                                                </label>
-                                            </div>
-                                        </div>
+                                        <ReviewForm currentId={this.state.current}/>
                                     </div>
                                 </div>
                             </div>
