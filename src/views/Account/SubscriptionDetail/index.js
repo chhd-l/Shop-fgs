@@ -61,7 +61,7 @@ export default class SubscriptionDetail extends React.Component {
     const data = this.state;
     return (
       <div>
-        <div>
+        <div className="subscriptionDetail">
           <Header
             showMiniIcons={true}
             showUserIcon={true}
@@ -73,7 +73,7 @@ export default class SubscriptionDetail extends React.Component {
             <div className="rc-padding--sm rc-max-width--xl">
               <div className="rc-layout-container rc-five-column">
                 {this.state.loading ? <Loading positionFixed="true" /> : null}
-                <SideMenu type="PaymentMethod" />
+                <SideMenu type="Subscription" />
                 <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                   <div
                     className="rc-border-bottom rc-border-colour--interface"
