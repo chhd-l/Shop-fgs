@@ -376,7 +376,7 @@ const en_US = {
   'subscription.shippingAddress': 'Shipping address',
   'subscription.BillingAddress': 'Billing address',
   'subscription.paymentMethod': 'Payment method',
-  'subscription.change': 'change',
+  'subscription.change': 'Change',
   'subscription.product': 'Product',
   'subscription.number': 'Subscription number',
   'subscription.subscriptionNumberTip': 'Please enter subscription number',

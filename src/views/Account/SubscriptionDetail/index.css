@@ -54,3 +54,14 @@
 .rc-layout-container {
   padding-top: 15px;
 }
+.col-md-3 {
+  display: inline-block;
+  padding: 0;
+}
+.col-md-6 {
+  display: inline-block;
+  padding: 0;
+}
+.col-12 {
+  padding: 0;
+}

@@ -43,7 +43,15 @@ export default class SubscriptionDetail extends React.Component {
       },
     };
   }
+  componentWillUnmount() {
+    localStorage.setItem("isRefresh", true);
+  }
   componentDidMount() {
+    if (localStorage.getItem("isRefresh")) {
+      localStorage.removeItem("isRefresh");
+      window.location.reload();
+      return false;
+    }
     console.log("enter detail");
     this.setState({
       subId: this.props.match.params.subscriptionNumber,
@@ -73,15 +81,29 @@ export default class SubscriptionDetail extends React.Component {
                   >
                     <h4
                       className="rc-delta rc-margin--none"
-                      style={{ flex: "2" }}
+                      style={{ flex: "7" }}
                     >
                       {/* <FormattedMessage id="subscription.sub"></FormattedMessage>{data.subId} */}
                       <i className="rc-icon rc-address--xs rc-brand1"></i>{" "}
                       Subscription
                     </h4>
-                    <div className="rightBox" style={{ flex: "1" }}>
+                    <div className="rightBox" style={{ flex: "5" }}>
                       <p>Order Status &nbsp; Not Yet Shipped</p>
-                      <p>Recent Order &nbsp; {data.subId}</p>
+                      {/* <p>Recent Order &nbsp; {data.subId}</p> */}
+                      <p className="col-12">
+                        <div className="col-md-3">
+                        Recent Order
+                          {/* <FormattedMessage id="subscription.number" /> */}
+                        </div>
+                        <div className="col-md-6">
+                          <span class="rc-select">
+                            <select data-js-select="" id="id-single-select">
+                              <option>O202007080936003217</option>
+                              <option>O202007080936003218</option>
+                            </select>
+                          </span>
+                        </div>
+                      </p>
                     </div>
                   </div>
                   <div className="content-asset">
@@ -281,7 +303,7 @@ export default class SubscriptionDetail extends React.Component {
                                     {data.shippingAddress.addressType}
                                   </h1>
                                   <a className="rc-styled-link red-text">
-                                    <FormattedMessage id="subscription.change"></FormattedMessage>
+                                    <FormattedMessage id="subscription.change"></FormattedMessage> Address
                                   </a>
                                 </div>
                                 {/* <div className="v-center">
@@ -314,7 +336,7 @@ export default class SubscriptionDetail extends React.Component {
                                     {data.billingAddress.addressType}
                                   </h1>
                                   <a className="rc-styled-link red-text">
-                                    <FormattedMessage id="subscription.change"></FormattedMessage>
+                                    <FormattedMessage id="subscription.change"></FormattedMessage> Address
                                   </a>
                                 </div>
                                 {/* <div className="v-center">
@@ -354,7 +376,7 @@ export default class SubscriptionDetail extends React.Component {
                                   </h1>
                                   
                                   <a className="rc-styled-link red-text">
-                                    <FormattedMessage id="subscription.change"></FormattedMessage>
+                                    <FormattedMessage id="subscription.change"></FormattedMessage> Card
                                   </a>
                                 </div>
                                 {/* <div className="v-center"> */}
@@ -389,7 +411,7 @@ export default class SubscriptionDetail extends React.Component {
                                   </h1>
                                   
                                   <a className="rc-styled-link red-text">
-                                    <FormattedMessage id="subscription.change"></FormattedMessage>
+                                    <FormattedMessage id="subscription.change"></FormattedMessage> Pet
                                   </a>
                                 </div>
                                 {/* <div className="v-center">
