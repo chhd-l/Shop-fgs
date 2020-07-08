@@ -805,7 +805,6 @@ class Payment extends React.Component {
       billingAddress,
       creditCardInfo
     } = this.state;
-
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {this.state.creditCardImgUrl.map((el, idx) => (
@@ -1222,7 +1221,7 @@ class Payment extends React.Component {
                             {
                               this.state.isLogin
                                 ? <div className="rc-border-colour--interface">
-                                  <PaymentComp getSelectedValue={cardItem => {
+                                  <PaymentComp cardOwner={deliveryAddress.firstName + '' + deliveryAddress.lastName} phoneNumber={creditCardInfo.phoneNumber}  getSelectedValue={cardItem => {
                                     this.setState({ selectedCardInfo: cardItem })
                                   }} />
                                 </div>

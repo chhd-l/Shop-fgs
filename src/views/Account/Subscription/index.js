@@ -101,7 +101,6 @@ export default class Subscription extends React.Component {
             pageNum: currentPage - 1,
             pageSize: this.pageSize
         }
-        debugger
         getOrderList(param)
             .then(res => {
                 let tmpList = Array.from(res.context.content, ele => {
@@ -169,7 +168,6 @@ export default class Subscription extends React.Component {
         })
         try {
             const detailRes = await getOrderDetails(order.id)
-            debugger
             const detailResCt = detailRes.context
             const tmpDeliveryAddress = {
                 firstName: detailResCt.consignee.firstName,  // todo
@@ -279,7 +277,7 @@ export default class Subscription extends React.Component {
                                                 </div>
                                                 : this.state.orderList.length
                                                     ? <>
-                                                        {this.state.orderList.map(order => (
+                                                        {this.state.orderList.map((order, i) => (
                                                             <div className="card-container" key={order.id}>
                                                                 <div className="card rc-margin-y--none ml-0">
                                                                     <div
@@ -295,8 +293,11 @@ export default class Subscription extends React.Component {
                                                                                 className="d-none d-md-block"/></p>
                                                                         </div>
                                                                         <div className="col-12 col-md-2">
-                                                                            <p><FormattedMessage
-                                                                                id="subscription.date"/></p>
+                                                                            <p>Frequency<br
+                                                                                className="d-none d-md-block"/></p>
+                                                                        </div>
+                                                                        <div className="col-12 col-md-2">
+                                                                            <p>Subscription status</p>
                                                                         </div>
                                                                         <div className="col-12 col-md-2">
                                                                             <p><FormattedMessage
@@ -335,9 +336,14 @@ export default class Subscription extends React.Component {
                                                                         2020-12-12
                                                                     </div>
                                                                     <div className="col-12 col-md-2">
-                                                                        2020-12-12
+                                                                        Every 4 Weeks
                                                                     </div>
-
+                                                                    <div className="col-12 col-md-2">
+                                                                        Active
+                                                                    </div>
+                                                                    <div className="col-12 col-md-2">
+                                                                        # {i + 1}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         ))}
