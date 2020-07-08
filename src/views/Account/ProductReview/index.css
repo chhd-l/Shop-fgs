@@ -1,0 +1,20 @@
+.padt20 {
+    padding-top: 20px!important;
+}
+.product-img {
+    width: 120px;
+    height: auto;
+}
+.product-active {
+    background-color: #ddd;
+}
+.noActive {
+    background-color: #fff;
+}
+
+pad-left0 {
+    padding-left: 0!important;
+}
+pad-right0 {
+    padding-right: 0!important;
+}

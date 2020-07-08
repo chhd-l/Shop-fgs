@@ -1,6 +1,7 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from 'react-intl'
+import { inject } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -10,11 +11,12 @@ import Pagination from '@/components/Pagination'
 import { cloneDeep, find, findIndex } from 'lodash'
 import titleCfg from './json/title.json'
 import { getList, getProps, getLoginList } from '@/api/list'
-import { queryStoreCateIds, formatMoney, jugeLoginStatus } from '@/utils/utils'
+import { queryStoreCateIds, formatMoney } from '@/utils/utils'
 import { STOREID, CATEID, STORE_CATE_ENUM } from '@/utils/constant'
 import Rate from '@/components/Rate'
 import './index.css'
 
+@inject("loginStore")
 class List extends React.Component {
   constructor(props) {
     super(props)
@@ -77,6 +79,9 @@ class List extends React.Component {
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
+  }
+  get isLogin () {
+    return this.props.loginStore.isLogin
   }
   toggleFilterModal (status) {
     this.setState({ filterModalVisible: status })
@@ -156,7 +161,7 @@ class List extends React.Component {
       }
     }
     let tmpList
-    if (jugeLoginStatus()) {
+    if (this.isLogin) {
       tmpList = getLoginList
     } else {
       tmpList = getList
@@ -395,7 +400,7 @@ class List extends React.Component {
                                             </span>
                                             <span className="rc-card__price rc-text--center flex-inline">
                                               {/*goodsEvaluateNum*/}
-                                              <div className="display-inline" ><Rate def={4} disabled={true}/></div><span className='comments'>{item.goodsEvaluateNum}</span>
+                                              <div className="display-inline" ><Rate def={4} disabled={true} /></div><span className='comments'>{item.goodsEvaluateNum}</span>
                                             </span>
                                           </div>
                                         </>

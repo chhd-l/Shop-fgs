@@ -11,19 +11,22 @@
  */
 
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 import config from './config';
 
 import '@/assets/css/global.css'
 import en_US from '@/lang/en_US'
+<<<<<<< HEAD
 // import es_ES from '@/lang/es_ES'
+=======
+import es_ES from '@/lang/es_ES'
+>>>>>>> c855810386f2a773a135728e1e6b16f1c79cd7bd
 import { IntlProvider } from 'react-intl';
 import { Provider } from "mobx-react"
-// import Store from './store/store';
-// import React from "react";
-import { HashRouter, Switch } from "react-router-dom";
+import stores from './store';
+
 import ScrollToTop from "@/components/ScrollToTop";
 import RouteFilter from "@/components/RouteFilter";
 import Home from "@/views/Home";
@@ -61,16 +64,13 @@ import AccountShippingAddressForm from "@/views/Account/ShippingAddressForm";
 import AccountReturnOrder from "@/views/Account/ReturnOrder";
 import ForgetPassword from "@/views/ForgetPassword";
 
-// const store = {
-//   store: new Store()
-// }
 const token = localStorage.getItem('rc-token')
 localStorage.setItem('rc-lang', 'es')
 
 const App = () => (
 
-  // <Provider {...store}>
-  <IntlProvider locale="es" messages={en_US}>
+  <Provider {...stores}>
+  <IntlProvider locale="en" messages={en_US}>
     <Router path="/">
       <RouteFilter />
       <ScrollToTop>
@@ -159,6 +159,6 @@ const App = () => (
       </ScrollToTop>
     </Router>
   </IntlProvider>
-  // </Provider>
+  </Provider>
 );
 export default App;

@@ -156,14 +156,6 @@ export function dateFormat (fmt, date) {
   return fmt;
 }
 
-export function jugeLoginStatus () {
-  if (localStorage.getItem('rc-token')) {
-    return true
-  } else {
-    return false
-  }
-}
-
 /**
  * 数组扁平化
  * @param {Array} array - 数组 

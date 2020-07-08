@@ -1,7 +1,9 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl'
-import { formatMoney, jugeLoginStatus } from "@/utils/utils"
+import { inject } from 'mobx-react'
+import { formatMoney } from "@/utils/utils"
 
+@inject("loginStore")
 class PayProductInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -9,9 +11,11 @@ class PayProductInfo extends React.Component {
       productList: [],
       totalPrice: '',
       tradePrice: '',
-      discountPrice: '',
-      isLogin: jugeLoginStatus()
+      discountPrice: ''
     };
+  }
+  get isLogin () {
+    return this.props.loginStore.isLogin
   }
   get totalCount () {
     return formatMoney(this.state.productList.reduce(
@@ -22,7 +26,7 @@ class PayProductInfo extends React.Component {
   componentDidMount () {
     let totalInfo = JSON.parse(sessionStorage.getItem('rc-totalInfo'))
     let productList
-    if (this.state.isLogin) {
+    if (this.isLogin) {
       productList = JSON.parse(localStorage.getItem("rc-cart-data-login"))
     } else {
       productList = JSON.parse(localStorage.getItem("rc-cart-data"))
@@ -111,7 +115,7 @@ class PayProductInfo extends React.Component {
   getTotalItems () {
     const { productList } = this.state
     let quantityKeyName = 'quantity'
-    if (this.state.isLogin) {
+    if (this.isLogin) {
       quantityKeyName = 'buyCount'
     }
     return (
@@ -124,7 +128,7 @@ class PayProductInfo extends React.Component {
   }
   render () {
     const { productList } = this.state
-    const List = this.state.isLogin ? this.getProductsForLogin(productList) : this.getProducts(productList)
+    const List = this.isLogin ? this.getProductsForLogin(productList) : this.getProducts(productList)
     return (
       <div className="product-summary__inner">
         <div className="product-summary__recap">

@@ -239,7 +239,7 @@ class UnLoginCart extends React.Component {
     const { checkoutLoading } = this.state
     const Lists = plist.map((pitem, index) => (
       <div
-        className="rc-border-all rc-border-colour--interface product-info  uuid-3ab64fd26c17b64c44e4ba1a7e"
+        className="rc-border-all rc-border-colour--interface product-info"
         key={index}
       >
         <div className="d-flex">
@@ -268,9 +268,7 @@ class UnLoginCart extends React.Component {
                 className="rc-icon rc-close--sm rc-iconography"
                 onClick={() => {
                   this.updateConfirmTooltipVisible(pitem, true)
-                  this.setState({
-                    currentProductIdx: index
-                  });
+                  this.setState({ currentProductIdx: index })
                 }}
               />
               <ConfirmTooltip
@@ -286,7 +284,7 @@ class UnLoginCart extends React.Component {
                     <div data-attr="size" className="swatch">
                       <div className="cart-and-ipay">
                         <div className="rc-swatch __select-size">
-                          <div className={`rc-swatch__item`}>
+                          <div className="rc-swatch__item selected">
                             <span>
                               {find(pitem.sizeList, s => s.selected).specText}
                               <i></i>

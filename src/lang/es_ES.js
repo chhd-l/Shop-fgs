@@ -458,7 +458,6 @@ const en_US = {
   'noSpecialNeeds':'Sin necesidades especiales',
   'loginFailed':'error de inicio de sesion',
   'choosePrescriber':'Por favor, elija el prescriptor correcto',
-  'cvvWarning': 'CVV incorrecto',
-  'replyComments': 'Reply comments'
+  'cvvWarning': 'CVV incorrecto'
 }
 export default en_US;

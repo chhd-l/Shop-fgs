@@ -2,6 +2,7 @@ import React from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { findIndex, find } from "lodash";
+import { inject } from 'mobx-react'
 import GoogleTagManager from "@/components/GoogleTagManager";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -16,7 +17,7 @@ import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import { STOREID } from "@/utils/constant";
-import { jugeLoginStatus, getDictionary } from "@/utils/utils";
+import { getDictionary } from "@/utils/utils";
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -25,10 +26,10 @@ import {
   rePay
 } from "@/api/payment";
 import PaymentComp from "@/components/PaymentComp"
-import Store from '@/store/store';
 import axios from 'axios'
 import "./index.css";
 
+@inject("loginStore")
 class Payment extends React.Component {
   constructor(props) {
     super(props);
@@ -89,7 +90,6 @@ class Payment extends React.Component {
       payosdata: {},
       selectedCardInfo: {},
       isToPayNow: sessionStorage.getItem('rc-tid'),
-      isLogin: jugeLoginStatus(),
       cityList: [],
       countryList: []
     };
@@ -105,11 +105,11 @@ class Payment extends React.Component {
       window.location.reload();
       return false
     }
-    
-    if (this.state.isLogin && !localStorage.getItem("rc-cart-data-login")) {
+
+    if (this.isLogin && !localStorage.getItem("rc-cart-data-login")) {
       this.props.history.push('/cart')
     }
-    if (!this.state.isLogin
+    if (!this.isLogin
       && (!localStorage.getItem("rc-cart-data")
         || !JSON.parse(localStorage.getItem("rc-cart-data")).length)) {
       this.props.history.push('/cart')
@@ -122,7 +122,7 @@ class Payment extends React.Component {
       })
     let countryRes = await getDictionary({ type: 'country' })
 
-    let deliveryInfoStr = localStorage.getItem(`${this.state.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo'}`);
+    let deliveryInfoStr = localStorage.getItem(`${this.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo'}`);
     const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
     this.setState({
       type: this.props.match.params.type,
@@ -130,7 +130,7 @@ class Payment extends React.Component {
     }, () => {
       if (deliveryInfoStr
         && (this.state.type === "payment"
-          || (!this.state.isLogin && this.state.type === "shipping"))) {
+          || (!this.isLogin && this.state.type === "shipping"))) {
         let deliveryInfo = JSON.parse(deliveryInfoStr);
         creditCardInfo.cardOwner =
           deliveryInfo.deliveryAddress.firstName +
@@ -145,7 +145,7 @@ class Payment extends React.Component {
           creditCardInfo: creditCardInfo
         });
       }
-      if (!deliveryInfoStr && this.state.type === "shipping" && !this.state.isLogin) {
+      if (!deliveryInfoStr && this.state.type === "shipping" && !this.isLogin) {
         let defaultCountryId = find(this.state.countryList, ele => ele.name.toLowerCase() == 'mexico')
           ? find(this.state.countryList, ele => ele.name.toLowerCase() == 'mexico').id
           : ''
@@ -162,6 +162,9 @@ class Payment extends React.Component {
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
     sessionStorage.removeItem('rc-tid')
+  }
+  get isLogin () {
+    return this.props.loginStore.isLogin
   }
   matchNamefromDict (dictList, id) {
     return find(dictList, ele => ele.id == id)
@@ -183,7 +186,7 @@ class Payment extends React.Component {
     } = this.state;
     let tmpDeliveryAddress = deliveryAddress;
     let tmpBillingAddress = billingAddress;
-    if (this.state.isLogin) {
+    if (this.isLogin) {
       const deliveryAddressEl = this.loginDeliveryAddressRef.current
       let tmpDeliveryAddressData = deliveryAddressEl && find(deliveryAddressEl.state.addressList, (ele) => ele.selected)
       // 若用户未存在任何地址，则自动触发保存操作
@@ -246,7 +249,7 @@ class Payment extends React.Component {
       if (param.deliveryAddress[k] === "" && k !== "address2" && k !== "rfc") {
         this.setState({
           errorShow: true,
-          errorMsg: this.state.isLogin
+          errorMsg: this.isLogin
             ? this.props.intl.messages.selectDeliveryAddress
             : this.props.intl.messages.CompleteRequiredItems
         });
@@ -313,7 +316,7 @@ class Payment extends React.Component {
         return
       }
     }
-    if (this.state.isLogin) {
+    if (this.isLogin) {
       localStorage.setItem("loginDeliveryInfo", JSON.stringify(param))
     } else {
       localStorage.setItem("deliveryInfo", JSON.stringify(param))
@@ -339,7 +342,7 @@ class Payment extends React.Component {
     })
   }
   async handleClickFurther () {
-    if (this.state.isLogin) {
+    if (this.isLogin) {
       if (!this.state.selectedCardInfo.cardNumber) {
         this.setState({
           errorShow: true,
@@ -447,7 +450,7 @@ class Payment extends React.Component {
           }
         })
       }
-      if (this.state.isLogin) {
+      if (this.isLogin) {
         const loginCartData = localStorage.getItem("rc-cart-data-login")
           ? JSON.parse(localStorage.getItem("rc-cart-data-login"))
           : []
@@ -524,8 +527,8 @@ class Payment extends React.Component {
         payPhoneNumber: creditCardInfo.phoneNumber
       };
       try {
-        sessionStorage.setItem("rc-paywith-login", this.state.isLogin);
-        if (!this.state.isLogin) {
+        sessionStorage.setItem("rc-paywith-login", this.isLogin);
+        if (!this.isLogin) {
           // 登录状态，不需要调用两个接口
           let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(param);
           sessionStorage.setItem(
@@ -545,7 +548,7 @@ class Payment extends React.Component {
           delete param3.tradeMarketingList
         }
 
-        const tmpCommitAndPay = this.state.isLogin
+        const tmpCommitAndPay = this.isLogin
           ? this.tid
             ? rePay
             : customerCommitAndPay
@@ -559,7 +562,7 @@ class Payment extends React.Component {
         sessionStorage.removeItem("payosdata");
         history.push("/confirmation");
       } catch (e) {
-        if (!this.state.isLogin) {
+        if (!this.isLogin) {
           sessionStorage.removeItem('rc-token')
         }
         console.log(e);
@@ -859,7 +862,7 @@ class Payment extends React.Component {
                     <div className="card-header">
                       <h5 className="pull-left">
                         {
-                          jugeLoginStatus()
+                          this.isLogin
                             ? <FormattedMessage id="payment.clinicTitle2" />
                             : <FormattedMessage id="payment.clinicTitle" />
                         }
@@ -883,7 +886,7 @@ class Payment extends React.Component {
                         || sessionStorage.getItem("rc-clinics-name-select")
                       }
                     </div>
-                    {this.state.isLogin
+                    {this.isLogin
                       ? (
                         <LoginDeliveryAddress
                           id="1"
@@ -915,7 +918,7 @@ class Payment extends React.Component {
                       </div>
                     </div>
 
-                    {this.state.isLogin ? (
+                    {this.isLogin ? (
                       <LoginDeliveryAddress
                         id="2"
                         type="billing"
@@ -1219,7 +1222,7 @@ class Payment extends React.Component {
                             }}
                           >
                             {
-                              this.state.isLogin
+                              this.isLogin
                                 ? <div className="rc-border-colour--interface">
                                   <PaymentComp cardOwner={deliveryAddress.firstName + '' + deliveryAddress.lastName} phoneNumber={creditCardInfo.phoneNumber}  getSelectedValue={cardItem => {
                                     this.setState({ selectedCardInfo: cardItem })

@@ -4,7 +4,7 @@ import { find } from 'lodash'
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
-import { getParaByName, jugeLoginStatus } from '@/utils/utils';
+import { getParaByName } from '@/utils/utils';
 import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import { getList } from '@/api/list'
@@ -15,9 +15,9 @@ import UnloginCart from './modules/unLoginCart'
 import LoginCart from './modules/loginCart'
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
-import Store from '@/store/store';
 import './index.css'
 
+@inject("loginStore")
 @observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
   static defaultProps = {
@@ -57,6 +57,9 @@ class Header extends React.Component {
 
     this.handleCenterMouseOver = this.handleCenterMouseOver.bind(this)
     this.handleCenterMouseOut = this.handleCenterMouseOut.bind(this)
+  }
+  get isLogin () {
+    return this.props.loginStore.isLogin
   }
   async componentDidMount () {
     if (sessionStorage.getItem('rc-token-lose')) {
@@ -104,7 +107,7 @@ class Header extends React.Component {
    * 登录状态，设置default clinic
    */
   setDefaultClinic () {
-    if (jugeLoginStatus() && localStorage.getItem('rc-userinfo') && !sessionStorage.getItem('rc-clinics-id-select')) {
+    if (this.isLogin && localStorage.getItem('rc-userinfo') && !sessionStorage.getItem('rc-clinics-id-select')) {
       let userInfo = JSON.parse(localStorage.getItem('rc-userinfo'))
       if (userInfo.defaultClinics) {
         sessionStorage.setItem('rc-clinics-id-default', userInfo.defaultClinics.clinicsId)
@@ -125,21 +128,21 @@ class Header extends React.Component {
     })
   }
   updateCartCache () {
-    if (jugeLoginStatus()) {
+    if (this.isLogin) {
       this.loginCartRef.current.updateCartCache()
     } else {
       this.unloginCartRef.current.updateCartCache()
     }
   }
   handleCartMouseOver () {
-    if (jugeLoginStatus()) {
+    if (this.isLogin) {
       this.loginCartRef.current.handleMouseOver()
     } else {
       this.unloginCartRef.current.handleMouseOver()
     }
   }
   handleCartMouseOut () {
-    if (jugeLoginStatus()) {
+    if (this.isLogin) {
       this.loginCartRef.current.handleMouseOut()
     } else {
       this.unloginCartRef.current.handleMouseOut()
@@ -281,8 +284,7 @@ class Header extends React.Component {
     }
   }
   clickLogin () {
-    const { history } = this.props
-    history.push('/login')
+    this.props.history.push('/login')
     localStorage.setItem('loginType', 'login')
   }
   clickLogoff () {
@@ -291,12 +293,8 @@ class Header extends React.Component {
     sessionStorage.removeItem('rc-clinics-id-default')
     localStorage.removeItem('rc-userinfo')
     localStorage.removeItem('rc-cart-data-login')
-    // this.setState({
-    //   isLogin: false
-    // })
-    Store.changeIsLogin(false)
-    const { history } = this.props
-    history.push('/')
+    this.props.loginStore.changeIsLogin(false)
+    this.props.history.push('/')
   }
   renderResultJsx () {
     return this.state.result ?
@@ -367,7 +365,7 @@ class Header extends React.Component {
     return (
       <>
         <div id="page-top" name="page-top"></div>
-        {Store.loginModal ? <Loading /> : null}
+        {this.props.loginStore.loginModal ? <Loading /> : null}
         <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`}>
           <nav className="rc-header__nav rc-header__nav--primary">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align" role="menubar">
@@ -448,7 +446,7 @@ class Header extends React.Component {
                         </div>
                       </div>
                       {
-                        Store.isLogin
+                        this.isLogin
                           ? <LoginCart ref={this.loginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
                           : <UnloginCart ref={this.unloginCartRef} showSearchInput={this.state.showSearchInput} history={this.props.history} />
                       }
@@ -462,7 +460,7 @@ class Header extends React.Component {
                       style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }}
                       onMouseOver={this.handleCenterMouseOver} onMouseOut={this.handleCenterMouseOut}>
                       {
-                        Store.isLogin ? (
+                        this.isLogin ? (
                           <FormattedMessage id="personal">
                             {txt => (
                               <Link
@@ -490,7 +488,7 @@ class Header extends React.Component {
 
 
                       {
-                        !Store.isLogin
+                        !this.isLogin
                           ?
                           <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{ minWidth: "13rem" }}>
                             <div className="container cart" >
