@@ -1,6 +1,8 @@
 import React from 'react';
 import { GTMID, GTM_SITE_ID } from "@/utils/constant"
+import { inject } from 'mobx-react'
 
+@inject("loginStore")
 class GoogleTagManager extends React.Component {
   componentDidMount () {
     const event = {
@@ -14,9 +16,8 @@ class GoogleTagManager extends React.Component {
         country: 'MX'
       }
     }
-    let userInfo = localStorage.getItem("rc-userinfo")
+    let userInfo = this.props.loginStore.userInfo
     if (userInfo) {
-      userInfo = JSON.parse(userInfo)
       event.user = {
         id: userInfo.customerId,
         country: 'MX',

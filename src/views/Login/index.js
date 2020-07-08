@@ -1,4 +1,5 @@
 import React from "react";
+import { inject } from 'mobx-react'
 import { injectIntl, FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import "./index.css";
@@ -11,6 +12,8 @@ import { getDictionary } from '@/utils/utils'
 import bg1 from "@/assets/images/login-bg3.jpg";
 import bg2 from "@/assets/images/register-bg1.jpg";
 
+@inject("loginStore")
+@injectIntl
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -111,9 +114,7 @@ class Login extends React.Component {
     if(localStorage.getItem("rc-token")){
       localStorage.removeItem("rc-token")
     }
-    if(localStorage.getItem("rc-userinfo")){
-      localStorage.removeItem("rc-userinfo")
-    }
+    this.props.loginStore.removeUserInfo()
 
     const { history } = this.props;
     login(this.state.loginForm).then(res=>{
@@ -125,7 +126,7 @@ class Login extends React.Component {
          getCustomerInfo().then(customerInfoRes=>{
           if(res.code==='K-000000'){
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
-            localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+            this.props.loginStore.setUserInfo(userinfo)
           }
     
           history.push(
@@ -206,7 +207,7 @@ class Login extends React.Component {
         localStorage.setItem("rc-token", res.context.token);
         let userinfo = res.context.customerDetail;
         userinfo.customerAccount = res.context.accountName;
-        localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+        this.props.loginStore.setUserInfo(userinfo)
         const { history } = this.props;
         history.push("/account")
 
@@ -1350,4 +1351,4 @@ class Login extends React.Component {
   }
 }
 
-export default injectIntl(Login);
+export default Login

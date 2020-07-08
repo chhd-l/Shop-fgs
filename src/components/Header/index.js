@@ -107,8 +107,8 @@ class Header extends React.Component {
    * 登录状态，设置default clinic
    */
   setDefaultClinic () {
-    if (this.isLogin && localStorage.getItem('rc-userinfo') && !sessionStorage.getItem('rc-clinics-id-select')) {
-      let userInfo = JSON.parse(localStorage.getItem('rc-userinfo'))
+    const userInfo = this.props.loginStore.userInfo
+    if (this.isLogin && userInfo && !sessionStorage.getItem('rc-clinics-id-select')) {
       if (userInfo.defaultClinics) {
         sessionStorage.setItem('rc-clinics-id-default', userInfo.defaultClinics.clinicsId)
         sessionStorage.setItem('rc-clinics-name-default', userInfo.defaultClinics.clinicsName)
@@ -126,13 +126,6 @@ class Header extends React.Component {
       prescriberId: sessionStorage.getItem('rc-clinics-id-link'),
       prescriberName: sessionStorage.getItem('rc-clinics-name-link')
     })
-  }
-  updateCartCache () {
-    if (this.isLogin) {
-      this.loginCartRef.current.updateCartCache()
-    } else {
-      this.unloginCartRef.current.updateCartCache()
-    }
   }
   handleCartMouseOver () {
     if (this.isLogin) {
@@ -291,8 +284,8 @@ class Header extends React.Component {
     localStorage.removeItem("rc-token");
     sessionStorage.removeItem('rc-clinics-name-default')
     sessionStorage.removeItem('rc-clinics-id-default')
-    localStorage.removeItem('rc-userinfo')
-    localStorage.removeItem('rc-cart-data-login')
+    this.props.loginStore.removeUserInfo()
+    this.props.checkoutStore.removeLoginCartData()
     this.props.loginStore.changeIsLogin(false)
     this.props.history.push('/')
   }
@@ -494,10 +487,6 @@ class Header extends React.Component {
                             <div className="container cart" >
                               <div className="login-style">
                                 <LoginButton
-                                  updateCartCache={() => {
-                                    this.updateCartCache()
-                                    this.setDefaultClinic()
-                                  }}
                                   btnStyle={{ width: "11rem", margin: "2rem 0" }}
                                   history={this.props.history} />
                                 {/* <button onClick={() => {

@@ -1,5 +1,6 @@
 import React from "react"
 import { injectIntl, FormattedMessage } from 'react-intl'
+import { inject } from 'mobx-react'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -25,6 +26,7 @@ const noSelect = {
   border: "3px solid #d7d7d7",
 }
 
+@inject("loginStore")
 class PetForm extends React.Component {
   constructor(props) {
     super(props)
@@ -65,8 +67,7 @@ class PetForm extends React.Component {
       currentPet: {},
       isEdit: false,
       errorMsg: "",
-      successMsg: "",
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
+      successMsg: ""
     }
     this.nextStep = this.nextStep.bind(this)
     this.selectPetType = this.selectPetType.bind(this)
@@ -131,35 +132,27 @@ class PetForm extends React.Component {
     // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
   }
   getUserInfo () {
-    let userinfo = {}
-    if (localStorage.getItem('rc-userinfo')) {
-      userinfo = JSON.parse(localStorage.getItem('rc-userinfo'))
-
-    }
-    return userinfo
+    return this.props.loginStore.userInfo
   }
 
-  getAccount= ()=>{
+  getAccount = () => {
     let consumerAccount = ''
     if (this.getUserInfo() && this.getUserInfo().customerAccount) {
       consumerAccount = this.getUserInfo().customerAccount
     }
     else {
       getCustomerInfo()
-      .then(res => {
-        const context = res.context
-        localStorage.setItem('rc-userinfo', JSON.stringify(context))
-
-        consumerAccount = context.consumerAccount
-        
-      })
+        .then(res => {
+          const context = res.context
+          this.props.loginStore.setUserInfo(context)
+          consumerAccount = context.consumerAccount
+        })
     }
-    
     return consumerAccount
   }
 
   getPetList = () => {
-    if(!this.getAccount()){
+    if (!this.getAccount()) {
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
       this.setState({
         loading: false
@@ -497,8 +490,8 @@ class PetForm extends React.Component {
       //如果是没有特殊需求
       if (val === 'Sin necesidades especiales') {
 
-        let tempArr=[]
-        if(val === 'Sin necesidades especiales' ){
+        let tempArr = []
+        if (val === 'Sin necesidades especiales') {
           tempArr = ['Sin necesidades especiales']
         }
         this.setState({
@@ -518,7 +511,7 @@ class PetForm extends React.Component {
         })
       }
     }
-    
+
 
   }
   selectedBreed = (item) => {
@@ -564,7 +557,7 @@ class PetForm extends React.Component {
       isInputDisabled: currentPet.petsBreed === "unknown Breed" ? true : false,
       isUnknownDisabled: currentPet.petsBreed === "unknown Breed" ? false : true,
       breed: currentPet.petsBreed === "unknown Breed" ? "" : currentPet.petsBreed,
-      weight:  currentPet.petsType === 'dog' ?currentPet.petsSizeValueName:'',
+      weight: currentPet.petsType === 'dog' ? currentPet.petsSizeValueName : '',
       isSterilized: currentPet.sterilized === 0 ? true : false,
       birthdate: currentPet.birthOfPets,
 
@@ -574,14 +567,14 @@ class PetForm extends React.Component {
     this.setState({ loading: true })
     getDict({ type, name })
       .then(res => {
-        if(res.code ==='K-000000'){
+        if (res.code === 'K-000000') {
           this.setState({
             breedList: res.context.sysDictionaryVOS,
             loading: false
           })
         }
         else this.showErrorMsg(res.message || this.props.intl.messages.getDataFailed)
-        
+
       })
       .catch(err => {
         this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
@@ -920,8 +913,8 @@ class PetForm extends React.Component {
                           {
                             this.state.sizeArr.map((item, i) => (
 
-                              <div className="wrap__input wrap-size pull-left " 
-                              onClick={() => this.selectWeight(item.name)}>
+                              <div className="wrap__input wrap-size pull-left "
+                                onClick={() => this.selectWeight(item.name)}>
                                 <input type="radio" className="radio input__radio"
                                   name="dwfrm_miaaPet_neuteredPet"
                                   value={item.name}
@@ -1080,10 +1073,10 @@ class PetForm extends React.Component {
                             {
                               this.state.selectedSpecialNeeds.includes('Sin necesidades especiales') ?
                                 <label className="rc-input__label--inline petPropChecked" >
-                                  <FormattedMessage id="noSpecialNeeds"/>
+                                  <FormattedMessage id="noSpecialNeeds" />
                                 </label> :
                                 <label className="rc-input__label--inline ">
-                                  <FormattedMessage id="noSpecialNeeds"/>
+                                  <FormattedMessage id="noSpecialNeeds" />
                                 </label>
                             }
                           </div>

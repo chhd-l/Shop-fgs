@@ -4,14 +4,12 @@ import { inject } from 'mobx-react'
 import { formatMoney } from "@/utils/utils"
 
 @inject("loginStore")
+@inject("checkoutStore")
 class PayProductInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productList: [],
-      totalPrice: '',
-      tradePrice: '',
-      discountPrice: ''
+      productList: []
     };
   }
   get isLogin () {
@@ -27,9 +25,9 @@ class PayProductInfo extends React.Component {
     let totalInfo = JSON.parse(sessionStorage.getItem('rc-totalInfo'))
     let productList
     if (this.isLogin) {
-      productList = JSON.parse(localStorage.getItem("rc-cart-data-login"))
+      productList = this.props.checkoutStore.loginCartData
     } else {
-      productList = JSON.parse(localStorage.getItem("rc-cart-data"))
+      productList = this.props.checkoutStore.cartData.filter(ele => ele.selected)
     }
     this.setState(Object.assign({
       productList: productList || []
@@ -146,12 +144,12 @@ class PayProductInfo extends React.Component {
                   <div className="col-4 end-lines">
                     <p className="text-right">
                       <span className="sub-total">
-                        {formatMoney(this.state.totalPrice)}
+                        {formatMoney(this.props.checkoutStore.loginCartPrice.totalPrice)}
                       </span>
                     </p>
                   </div>
                 </div>
-                <div className="row leading-lines shipping-item" style={{ display: parseInt(this.state.discountPrice) > 0 ? 'flex' : 'none' }}>
+                <div className="row leading-lines shipping-item" style={{ display: parseInt(this.props.checkoutStore.loginCartPrice.discountPrice) > 0 ? 'flex' : 'none' }}>
                   <div className="col-7 start-lines">
                     <p className="order-receipt-label order-shipping-cost" style={{ color: '#ec001a' }}>
                       <span><FormattedMessage id="promotion" /></span>
@@ -159,7 +157,7 @@ class PayProductInfo extends React.Component {
                   </div>
                   <div className="col-5 end-lines">
                     <p className="text-right">
-                      <span className="shipping-total-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.state.discountPrice)}</span>
+                      <span className="shipping-total-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.props.checkoutStore.loginCartPrice.discountPrice)}</span>
                     </p>
                   </div>
                 </div>
@@ -184,7 +182,7 @@ class PayProductInfo extends React.Component {
             </div>
             <div className="col-6 end-lines text-right">
               <span className="grand-total-sum">
-                {formatMoney(this.state.tradePrice)}
+                {formatMoney(this.props.checkoutStore.loginCartPrice.tradePrice)}
               </span>
             </div>
           </div>

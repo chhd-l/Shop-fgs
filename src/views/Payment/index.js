@@ -30,6 +30,7 @@ import axios from 'axios'
 import "./index.css";
 
 @inject("loginStore")
+@inject("checkoutStore")
 class Payment extends React.Component {
   constructor(props) {
     super(props);
@@ -106,12 +107,12 @@ class Payment extends React.Component {
       return false
     }
 
-    if (this.isLogin && !localStorage.getItem("rc-cart-data-login")) {
+    if (this.isLogin && !this.props.checkoutStore.loginCartData.length) {
       this.props.history.push('/cart')
     }
     if (!this.isLogin
-      && (!localStorage.getItem("rc-cart-data")
-        || !JSON.parse(localStorage.getItem("rc-cart-data")).length)) {
+      && (!this.props.checkoutStore.cartData.length
+        || !this.props.checkoutStore.cartData.filter(ele => ele.selected).length)) {
       this.props.history.push('/cart')
     }
     getDictionary({ type: 'city' })
@@ -166,6 +167,9 @@ class Payment extends React.Component {
   get isLogin () {
     return this.props.loginStore.isLogin
   }
+  get cartData () {
+    return this.props.checkoutStore.cartData
+  }
   matchNamefromDict (dictList, id) {
     return find(dictList, ele => ele.id == id)
       ? find(dictList, ele => ele.id == id).name
@@ -173,7 +177,7 @@ class Payment extends React.Component {
   }
   confirmCardInfo () {
     this.setState({
-      isCompleteCredit: true,
+      isCompleteCredit: true
     });
   }
   async ChoosePayment () {
@@ -404,9 +408,7 @@ class Payment extends React.Component {
       creditCardInfo,
       payMethod
     } = this.state;
-    const cartData = localStorage.getItem("rc-cart-data")
-      ? JSON.parse(localStorage.getItem("rc-cart-data"))
-      : [];
+    const cartData = this.cartData.filter(ele => ele.selected)
     if (!payMethod) {
       this.setState({ showPayMethodError: true })
     }
@@ -451,10 +453,7 @@ class Payment extends React.Component {
         })
       }
       if (this.isLogin) {
-        const loginCartData = localStorage.getItem("rc-cart-data-login")
-          ? JSON.parse(localStorage.getItem("rc-cart-data-login"))
-          : []
-        param2.goodsInfos = loginCartData.map((ele) => {
+        param2.goodsInfos = this.props.checkoutStore.loginCartData.map((ele) => {
           return {
             verifyStock: false,
             buyCount: ele.buyCount,
@@ -784,7 +783,7 @@ class Payment extends React.Component {
   }
   updateBillingAddress (data) {
     this.setState({
-      billingAddress: data,
+      billingAddress: data
     });
   }
   handleClickEditClinic (e) {

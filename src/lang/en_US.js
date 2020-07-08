@@ -472,6 +472,7 @@ const en_US = {
   'loginFailed': 'login failed',
   'choosePrescriber': 'Please choose the correct prescriber',
   'cvvWarning': 'CVV is wrong',
+  'moreChoicesAvailable': 'More Choices Available',
   'replyComments': 'Reply comments',
   'writeReview': 'Write a review',
   'purchaseRating': 'Purchase experience  rating',

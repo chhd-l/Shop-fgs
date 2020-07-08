@@ -122,9 +122,7 @@ class List extends React.Component {
   }
   async getProductList () {
     let { checkedList, currentPage, pageSize, storeCateIds, keywords, initingList, category } = this.state;
-    this.setState({
-      loading: true
-    })
+    this.setState({ loading: true })
 
     if (!initingList) {
       const widget = document.querySelector('#J-product-list')
@@ -177,7 +175,8 @@ class List extends React.Component {
               let ret = Object.assign({}, ele)
               const tmpItem = find(res.context.goodsList, g => g.goodsId === ele.id)
               if (tmpItem) {
-                ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
+                const { goodsCateName, goodsSubtitle, subscriptionStatus, ...others } = tmpItem
+                ret = Object.assign(ret, { goodsCateName, goodsSubtitle, subscriptionStatus })
               }
               return ret
             })
@@ -356,10 +355,9 @@ class List extends React.Component {
                         </div>
                       </>
                       :
-                      <div className={['rc-match-heights', 'rc-layout-container', 'rc-event-card--sidebar-present'].join(' ')}>
+                      <div className="d-flex flex-wrap">
                         {productList.map(item => (
-                          <div className={['rc-column'].join(' ')} key={item.id}>
-
+                          <div className="col-12 col-md-4 mb-5" key={item.id}>
                             <article className="rc-card rc-card--product" style={{ minHeight: '120px' }}>
                               <div className="fullHeight">
                                 <a onClick={() => this.hanldeItemClick(item)} className="ui-cursor-pointer">
@@ -368,6 +366,11 @@ class List extends React.Component {
                                       loading
                                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
                                         : <>
+                                          {
+                                            item.subscriptionStatus
+                                              ? <span class="rc-icon rc-rss--xs rc-brand1 position-absolute" style={{ right: '2%', top: '2%' }}></span>
+                                              : null
+                                          }
                                           <picture className="rc-card__image">
                                             <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center" style={{ minHeight: '202px' }}>
                                               <img
@@ -377,7 +380,7 @@ class List extends React.Component {
                                                 title={item.lowGoodsName} />
                                             </div>
                                           </picture>
-                                          <div className="rc-card__body rc-padding-top--none">
+                                          <div className="rc-card__body rc-padding-top--none pb-0">
                                             <div className="height-product-tile-plpOnly height-product-tile">
                                               <header className="rc-text--center">
                                                 <h3
@@ -386,6 +389,15 @@ class List extends React.Component {
                                                   {item.lowGoodsName}
                                                 </h3>
                                               </header>
+                                              {
+                                                item.goodsInfos.length > 1
+                                                  ? <div className="text-center mb-2">
+                                                    <button
+                                                      className="rc-bg-colour--brand4 border rounded font-weight-lighter"
+                                                      style={{ color: '#666' }}><FormattedMessage id="moreChoicesAvailable" /></button>
+                                                  </div>
+                                                  : null
+                                              }
                                               <div className="Product-Key-words rc-text--center"></div>
                                               <div
                                                 className="text-center ui-text-overflow-line3 text-break"
@@ -393,11 +405,20 @@ class List extends React.Component {
                                                 {item.goodsSubtitle}
                                               </div>
                                             </div>
-                                            <span className="rc-card__price rc-text--center">
-                                              <span className="range">
-                                                {formatMoney(item.goodsInfos[0].salePrice)}
-                                              </span>
-                                            </span>
+                                            <div className="rc-card__price">
+                                              {
+                                                item.subscriptionStatus
+                                                  ? <div className="range">
+                                                    {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.subscriptionPrice || 0)))}{' '}
+                                                    <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                                                    <span className="position-relative" style={{ fontSize: '.8em', top: '-4px' }}><FormattedMessage id="details.Subscription" /></span>
+                                                  </div>
+                                                  : null
+                                              }
+                                              <div className={`range ${!item.subscriptionStatus ? 'text-center' : ''}`}>
+                                                {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.salePrice)))}
+                                              </div>
+                                            </div>
                                             <span className="rc-card__price rc-text--center flex-inline">
                                               {/*goodsEvaluateNum*/}
                                               <div className="display-inline" ><Rate def={4} disabled={true} /></div><span className='comments'>{item.goodsEvaluateNum}</span>

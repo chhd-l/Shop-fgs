@@ -1,7 +1,9 @@
 import LoginStore from "./loginStore";
-let loginStore = new LoginStore();
+import CheckoutStore from "./checkoutStore";
+
 const stores = {
-  loginStore
+  loginStore: new LoginStore(),
+  checkoutStore: new CheckoutStore()
 };
 /// 默认导出接口
 export default stores;

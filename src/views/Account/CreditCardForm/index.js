@@ -1,5 +1,6 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
+import { inject } from 'mobx-react';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BreadCrumbs from "@/components/BreadCrumbs";
@@ -26,6 +27,7 @@ import axios from "axios";
 import { addOrUpdatePaymentMethod } from "@/api/payment";
 
 @injectIntl
+@inject("loginStore")
 class ShippingAddressFrom extends React.Component {
   constructor(props) {
     super(props);
@@ -95,6 +97,9 @@ class ShippingAddressFrom extends React.Component {
   }
   componentWillMount () {
     sessionStorage.removeItem("paymentMethodForm");
+  }
+  get userInfo () {
+    return this.props.loginStore.userInfo
   }
   cardInfoInputChange (e) {
     const target = e.target;
@@ -172,9 +177,7 @@ class ShippingAddressFrom extends React.Component {
         cardNumber: creditCardInfo.cardNumber,
         cardOwner: creditCardInfo.cardOwner,
         cardType: res.data.card_type,
-        customerId: JSON.parse(localStorage.getItem("rc-userinfo"))[
-          "customerId"
-        ],
+        customerId: this.userInfo ? this.userInfo.customerId : '',
         email: creditCardInfo.email,
         phoneNumber: creditCardInfo.phoneNumber,
         vendor: res.data.vendor,

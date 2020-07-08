@@ -3,52 +3,42 @@ import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
-import { find } from 'lodash'
-import {
-  sitePurchases,
-  siteMiniPurchases
-} from '@/api/cart'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
+import { inject } from 'mobx-react'
 
+@inject("checkoutStore")
 class LoginCart extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cartData: [],
       showCart: false,
       checkoutLoading: false,
-      tradePrice: '',
-      totalNum: 0,
-      loading: true
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
     this.handleCheckout = this.handleCheckout.bind(this)
   }
   async componentDidMount () {
-    const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
+    const unloginCartData = this.props.checkoutStore.cartData
     if (unloginCartData.length && this.props.history.location.pathname !== '/cart') {
       await mergeUnloginCartData()
-      this.updateCartCache()
-    } else {
-      this.updateCartCache()
     }
+    this.checkoutStore.updateLoginCart()
   }
-  async updateCartCache () {
-    // 获取购物车列表
-    this.setState({ loading: true })
-    try {
-      const siteMiniPurchasesRes = await siteMiniPurchases()
-      const context = siteMiniPurchasesRes.context
-      this.setState({
-        cartData: context.goodsList,
-        totalNum: context.num
-      })
-    } catch (err) {
-
-    } finally {
-      this.setState({ loading: false })
-    }
+  componentWillReceiveProps (nextProps) {
+    // debugger
+  }
+  get checkoutStore () {
+    return this.props.checkoutStore
+  }
+  get cartData () {
+    return this.props.checkoutStore.loginCartData
+  }
+  get totalNum () {
+    return this.cartData.reduce((prev, cur) => { return prev + cur.buyCount }, 0)
+  }
+  get loading () {
+    return this.checkoutStore.loadingCartData
   }
   handleMouseOver () {
     this.flag = 1
@@ -67,59 +57,27 @@ class LoginCart extends React.Component {
       }
     }, 500)
   }
-  get totalPrice () {
-    let ret = 0
-    this.state.cartData.map(item => {
-      return ret += item.salePrice * item.buyCount
-    })
-    return ret
-  }
   async handleCheckout () {
-    const { cartData } = this.state
-    this.setState({ checkoutLoading: true })
-    try {
-      // 获取总价
-      let sitePurchasesRes = await sitePurchases({ goodsInfoIds: cartData.map(ele => ele.goodsInfoId) })
-      sitePurchasesRes = sitePurchasesRes.context
-
+    if (this.checkoutStore.loginCartPrice.tradePrice < MINIMUM_AMOUNT) {
       this.setState({
-        tradePrice: sitePurchasesRes.tradePrice
-      }, () => {
-        if (this.state.tradePrice < MINIMUM_AMOUNT) {
-          this.setState({
-            errMsg: <FormattedMessage id="cart.errorInfo3" />
-          })
-          return false
-        }
-
-        // 库存不够，不能下单
-        const outOfstockProNames = cartData.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
-        if (outOfstockProNames.length) {
-          this.setState({
-            errMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />
-          })
-          return false
-        }
-
-        // promotion相关
-        sessionStorage.setItem('goodsMarketingMap', JSON.stringify(sitePurchasesRes.goodsMarketingMap))
-        sessionStorage.setItem('rc-totalInfo', JSON.stringify({
-          totalPrice: sitePurchasesRes.totalPrice,
-          tradePrice: sitePurchasesRes.tradePrice,
-          discountPrice: sitePurchasesRes.discountPrice
-        }))
-
-        localStorage.setItem('rc-cart-data-login', JSON.stringify(cartData))
-        this.props.history.push('/prescription')
+        errMsg: <FormattedMessage id="cart.errorInfo3" />
       })
-    } catch (err) {
-      console.log(err)
-    } finally {
-      this.setState({ checkoutLoading: false })
+      return false
     }
+
+    // 库存不够，不能下单
+    const outOfstockProNames = this.cartData.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
+    if (outOfstockProNames.length) {
+      this.setState({
+        errMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />
+      })
+      return false
+    }
+
+    this.props.history.push('/prescription')
   }
   render () {
-    const { cartData, totalNum, loading } = this.state
+    const { totalNum, cartData, loading } = this
     return (
       <span
         className="minicart inlineblock"
@@ -161,7 +119,7 @@ class LoginCart extends React.Component {
                         loading
                           ? <b>--</b>
                           : <>
-                            <FormattedMessage id="total" /> <b>{formatMoney(this.totalPrice)}</b>
+                            <FormattedMessage id="total" /> <b>{formatMoney(this.checkoutStore.loginCartPrice.tradePrice)}</b>
                           </>
                       }
                     </span>

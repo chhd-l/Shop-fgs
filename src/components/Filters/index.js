@@ -128,7 +128,7 @@ class Filter extends React.Component {
                         </ul>
                       </React.Fragment>
                     ))
-                    : <div className="ui-font-nothing">
+                    : <div className="ui-font-nothing mt-2">
                       <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
                       <FormattedMessage id="list.errMsg3" />
                     </div>
