@@ -5,10 +5,13 @@ import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ConfirmTooltip from '@/components/ConfirmTooltip'
+import PetModal from '@/components/PetModal'
 import { Link } from 'react-router-dom'
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { find } from 'lodash'
+import { getPetList } from '@/api/pet'
+import { getCustomerInfo } from "@/api/user"
 import {
   updateBackendCart,
   deleteItemFromBackendCart,
@@ -17,6 +20,7 @@ import {
 } from '@/api/cart'
 import CART_CAT from "@/assets/images/CART_CAT.webp";
 import CART_DOG from "@/assets/images/CART_DOG.webp";
+import {debug} from "semantic-ui-react/dist/commonjs/lib";
 
 class LoginCart extends React.Component {
   constructor(props) {
@@ -34,7 +38,9 @@ class LoginCart extends React.Component {
       checkoutLoading: false,
       validateAllItemsStock: true,
       isPromote: false,
-      totalNum: 0
+      totalNum: 0,
+      petModalVisible: false,
+      isAdd: 0
     }
     this.handleAmountChange = this.handleAmountChange.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
@@ -51,6 +57,7 @@ class LoginCart extends React.Component {
       this.updateCartCache()
     }
   }
+
   async updateCartCache () {
     // 获取购物车列表
     this.setState({ checkoutLoading: true })
@@ -92,7 +99,7 @@ class LoginCart extends React.Component {
   }
   /**
    * 删除某个产品
-   * 
+   *
    */
   async deleteItemFromBackendCart (param) {
     await deleteItemFromBackendCart(param)
@@ -101,7 +108,6 @@ class LoginCart extends React.Component {
   }
   async handleCheckout () {debugger
     const { productList } = this.state
-
     // 价格未达到底限，不能下单
     if (this.state.tradePrice < MINIMUM_AMOUNT) {
       window.scrollTo({ behavior: "smooth", top: 0 })
@@ -118,7 +124,18 @@ class LoginCart extends React.Component {
     }
 
     localStorage.setItem('rc-cart-data-login', JSON.stringify(productList))
-    this.props.history.push('/prescription')
+    this.openPetModal()
+    // this.props.history.push('/prescription')
+  }
+  openPetModal() {
+    this.setState({
+      petModalVisible: true
+    })
+  }
+  closePetModal() {
+    this.setState({
+      petModalVisible: false
+    })
   }
   showErrMsg (msg) {
     this.setState({
@@ -381,6 +398,22 @@ class LoginCart extends React.Component {
       productList: productList
     })
   }
+
+  petComfirm(){
+    this.props.history.push('/prescription')
+  }
+  openNew() {
+    this.setState({
+      isAdd: 1
+    })
+    this.openPetModal()
+  }
+  closeNew() {
+    this.setState({
+      isAdd: 2
+    })
+    this.openPetModal()
+  }
   render () {
     const { productList, checkoutLoading } = this.state;
     const List = this.getProducts(productList);
@@ -550,6 +583,13 @@ class LoginCart extends React.Component {
           </div>
         </main>
         <Footer />
+        <PetModal visible={this.state.petModalVisible}
+                  isAdd={this.state.isAdd}
+                  productList={this.state.productList}
+                  openNew={() => this.openNew()}
+                  closeNew={() => this.closeNew()}
+                  confirm={()=>this.petComfirm()}
+                  close={() => this.closePetModal()}/>
       </div>
     );
   }

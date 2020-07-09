@@ -479,6 +479,13 @@ const en_US = {
   'productRating': 'Product rating',
   'writeYourReview': 'Write your review',
   'whatYouLike': 'What did you like or dislike?',
-  'anonymousReview': 'Anonymous review'
+  'anonymousReview': 'Anonymous review',
+  'petInfo': 'Pet information',
+  'selectPet': 'Select a pet',
+  'addPet': 'Add a pet',
+  'continue': 'Continue',
+  'petName': 'Pet Name',
+  'petType': 'Pet Type',
+  'birthday': 'Birthday'
 }
 export default en_US;
