@@ -1,5 +1,6 @@
 import React from "react"
 import Skeleton from 'react-skeleton-loader'
+import { inject } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -21,6 +22,7 @@ import {
 import './index.css'
 
 @injectIntl
+@inject("checkoutStore")
 class AccountOrders extends React.Component {
   constructor(props) {
     super(props)
@@ -199,7 +201,8 @@ class AccountOrders extends React.Component {
         billingAddress: tmpBillingAddress,
         commentOnDelivery: detailResCt.buyerRemark
       }))
-      localStorage.setItem("rc-cart-data-login", JSON.stringify(tradeItems))
+
+      this.props.checkoutStore.setLoginCartData(tradeItems)
       sessionStorage.setItem('rc-tid', order.id)
       sessionStorage.setItem('rc-totalInfo', JSON.stringify({
         totalPrice: order.tradePrice.totalPrice,

@@ -1,4 +1,5 @@
 import React from "react";
+import { inject } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -13,49 +14,14 @@ import { getDictionary } from "@/utils/utils"
 import { addEvaluate } from "@/api/order"
 import "./index.css"
 
+@inject("checkoutStore")
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       deliveryAddress: {},
       billingAddress: {},
-      productList: [
-        {
-          id: "3003_RU",
-          name: "Miniddd adult",
-          url:
-            "https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png",
-          img:
-            "https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=300&amp;sfrm=png 2x",
-          description:
-            "Mini Edalt: dry food for dogs aged 10 months to 8 years. MINI Adult is specially designed for dogs of small breeds (weighing from 4 to 10 kg). In the nutrition of dogs of small breeds, not only the adapted croquet size is important. They need more energy than large dogs, their growth period is shorter and their growth is more intense. As a rule, they live longer than large dogs, and are more picky in their diet.<ul><li>dsdsds</li></ul>",
-          reference: 2323,
-          sizeList: [
-            {
-              label: "2.00",
-              price: 100,
-              originalPrice: 120,
-              unit: "kg",
-              selected: true,
-            },
-            {
-              label: "4.00",
-              price: 300,
-              originalPrice: 320,
-              unit: "kg",
-              selected: false,
-            },
-            {
-              label: "6.00",
-              price: 500,
-              originalPrice: 530,
-              unit: "kg",
-              selected: false,
-            },
-          ],
-          quantity: 1,
-        },
-      ],
+      productList: [],
       currentProduct: null,
       loading: true,
       commentOnDelivery: '',
@@ -78,9 +44,9 @@ class Confirmation extends React.Component {
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true)
     if (this.state.paywithLogin) {
-      localStorage.removeItem('rc-cart-data-login')
+      this.props.checkoutStore.removeLoginCartData()
     } else {
-      localStorage.removeItem('rc-cart-data')
+      this.props.checkoutStore.setCartData(this.props.checkoutStore.cartData.filter(ele => !ele.selected)) // 只移除selected
       sessionStorage.removeItem('rc-token')
     }
     sessionStorage.removeItem('rc-clinics-id-select')
@@ -95,9 +61,9 @@ class Confirmation extends React.Component {
     }
     let productList
     if (this.state.paywithLogin) {
-      productList = JSON.parse(localStorage.getItem("rc-cart-data-login"))
+      productList = this.props.checkoutStore.loginCartData
     } else {
-      productList = JSON.parse(localStorage.getItem("rc-cart-data"))
+      productList = this.props.checkoutStore.cartData.filter(ele => ele.selected)
     }
     this.setState({
       productList: productList,

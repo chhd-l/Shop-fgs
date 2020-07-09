@@ -83,13 +83,14 @@ class PaymentComp extends React.Component {
       this.setState({ creditCardList: this.state.creditCardList });
     }
   }
+  get userInfo () {
+    return this.props.loginStore.userInfo
+  }
   async getPaymentMethodList () {
     this.setState({ listLoading: true });
     try {
       let res = await getPaymentMethod({
-        customerId: JSON.parse(localStorage.getItem("rc-userinfo"))[
-          "customerId"
-        ],
+        customerId: this.userInfo ? this.userInfo.customerId : ''
       });
       this.setState({ creditCardList: res.context });
     } catch (err) {
@@ -332,9 +333,7 @@ class PaymentComp extends React.Component {
         cardNumber: creditCardInfo.cardNumber,
         cardOwner: creditCardInfo.cardOwner,
         cardType: res.data.card_type,
-        customerId: JSON.parse(localStorage.getItem("rc-userinfo"))[
-          "customerId"
-        ],
+        customerId: this.userInfo ? this.userInfo.customerId : '',
         email: creditCardInfo.email,
         phoneNumber: creditCardInfo.phoneNumber,
         vendor: res.data.vendor,
@@ -721,7 +720,7 @@ class PaymentComp extends React.Component {
                                 </div>
                                 <div className="col-md-4 col-12 border-left color-999">
                                   <button
-                                    class="rc-btn rc-btn--two"
+                                    className="rc-btn rc-btn--two"
                                     style={{
                                       display:
                                         el.selected && !isCurrentCvvConfirm

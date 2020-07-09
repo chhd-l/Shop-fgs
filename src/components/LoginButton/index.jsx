@@ -20,7 +20,8 @@ import stores from '@/store';
 import { FormattedMessage } from 'react-intl'
 import { mergeUnloginCartData } from '@/utils/utils'
 
-const Store = stores.loginStore
+const loginStore = stores.loginStore
+const checkoutStore = stores.checkoutStore
 
 const LoginButton = (props) => {
   // console.log(useOktaAuth)
@@ -36,30 +37,28 @@ const LoginButton = (props) => {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
     } else {
-      Store.changeLoginModal(true)
+      loginStore.changeLoginModal(true)
       authService.getUser().then((info) => {
         setUserInfo(info);
-        if (!localStorage.getItem('rc-token')) {
+        if (!loginStore.isLogin) {
           getToken({ oktaToken: `Bearer ${accessToken}` }).then(async res => {
             let userinfo = res.context.customerDetail
-            Store.changeLoginModal(false)
-            Store.changeIsLogin(true)
+            loginStore.changeLoginModal(false)
+            loginStore.changeIsLogin(true)
             localStorage.setItem("rc-token", res.context.token);
             let customerInfoRes = await getCustomerInfo()
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
-            localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
+            loginStore.setUserInfo(userinfo)
             if (sessionStorage.getItem('redirectUrl') === '/cart') {
               props.history.push(sessionStorage.getItem('redirectUrl'))
             } else {
-              const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
-              if (unloginCartData.length) {
+              if (checkoutStore.cartData.length) {
                 await mergeUnloginCartData()
               }
-              props.updateCartCache && props.updateCartCache()
             }
             sessionStorage.removeItem('redirectUrl')
           }).catch(e => {
-            Store.changeLoginModal(false)
+            loginStore.changeLoginModal(false)
           })
         }
       });
@@ -90,74 +89,3 @@ const LoginButton = (props) => {
   );
 };
 export default LoginButton;
-
-var LoginButton1 = inject("loginStore")(
-  observer(({ isLogin, changeLoginModal, changeIsLogin }, props) => {
-    const [userInfo, setUserInfo] = useState(null);
-    const { authState, authService } = useOktaAuth();
-
-    const { accessToken } = authState;
-
-    useEffect(() => {
-      if (!authState.isAuthenticated) {
-        // When user isn't authenticated, forget any user info
-        setUserInfo(null);
-      } else {
-        debugger
-        changeLoginModal(true)
-        authService.getUser().then((info) => {
-          setUserInfo(info);
-          if (!localStorage.getItem('rc-token')) {
-            getToken({ oktaToken: `Bearer ${accessToken}` }).then(async res => {
-              let userinfo = res.context.customerDetail
-              changeLoginModal(false)
-              changeIsLogin(true)
-              localStorage.setItem("rc-token", res.context.token);
-              let customerInfoRes = await getCustomerInfo()
-              userinfo.defaultClinics = customerInfoRes.context.defaultClinics
-              localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-              if (sessionStorage.getItem('redirectUrl') === '/cart') {
-                props.history.push(sessionStorage.getItem('redirectUrl'))
-              } else {
-                const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
-                if (unloginCartData.length) {
-                  await mergeUnloginCartData()
-                }
-                props.updateCartCache && props.updateCartCache()
-              }
-              sessionStorage.removeItem('redirectUrl')
-            }).catch(e => {
-              changeLoginModal(false)
-            })
-          }
-        });
-      }
-    }, [authState, authService]); // Update if authState changes
-
-    const login = async () => {
-      debugger
-      sessionStorage.removeItem('rc-token-lose')
-      sessionStorage.setItem('redirectUrl', '/')
-      if (props.beforeLoginCallback) {
-        debugger
-        let res = await props.beforeLoginCallback()
-        if (res === false) {
-          return false
-        }
-        sessionStorage.setItem('redirectUrl', '/cart')
-      }
-      authService.login('/');
-    };
-
-    return (
-      <button
-        className={props.btnClass || "rc-btn rc-btn--one"}
-        style={props.btnStyle || {}}
-        onClick={login}
-        id="J-btn-login">
-        {props.children || <FormattedMessage id='login' />}
-      </button>
-    );
-  })
-)
-// export default LoginButton;

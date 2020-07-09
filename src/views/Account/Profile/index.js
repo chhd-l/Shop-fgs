@@ -1,5 +1,5 @@
 import React from "react"
-import { FormattedMessage } from 'react-intl'
+import { inject } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -13,7 +13,8 @@ import PasswordForm from './modules/PasswordForm'
 import { getCustomerInfo } from "@/api/user"
 import './index.css'
 
-export default class AccountProfile extends React.Component {
+@inject("loginStore")
+class AccountProfile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -63,7 +64,7 @@ export default class AccountProfile extends React.Component {
         let prescriberName
         let prescriberId
         const context = res.context
-        localStorage.setItem('rc-userinfo', JSON.stringify(context))
+        this.props.loginStore.setUserInfo(context)
         if (context.defaultClinics) {
           prescriberName = context.defaultClinics.clinicsName
           prescriberId = context.defaultClinics.clinicsId
@@ -161,3 +162,5 @@ export default class AccountProfile extends React.Component {
     )
   }
 }
+
+export default AccountProfile

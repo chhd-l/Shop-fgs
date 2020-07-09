@@ -18,7 +18,7 @@ import config from './config';
 
 import '@/assets/css/global.css'
 import en_US from '@/lang/en_US'
-import es_ES from '@/lang/es_ES'
+// import es_ES from '@/lang/es_ES'
 import { IntlProvider } from 'react-intl';
 import { Provider } from "mobx-react"
 import stores from './store';

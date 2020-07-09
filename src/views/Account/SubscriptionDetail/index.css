@@ -8,3 +8,60 @@
       max-width:60%
   }
 }
+.rc-icon {
+  display: inline-block;
+  height: 36px;
+}
+.rightBox {
+  /* width: 100px;
+  height: 100%;
+  float: right; */
+  /* background-color: red; */
+}
+.column-contanier {
+  border: none;
+}
+.product-container {
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+.operationBox {
+  /* border-top: 1px solid #ddd; */
+  border-bottom: 1px solid #ddd;
+  padding-top: 0 !important;
+}
+.rc-baseline img {
+  display: inline-block !important;
+  width: 40px;
+}
+.rc-card-content {
+  margin-left: 0;
+}
+.footer-container {
+  margin-top: 30px;
+}
+.mt10 {
+  margin-top: 10px;
+}
+.img-container {
+  width: 80px;
+  height: 120px;
+  margin-right: 20px;
+}
+.subscriptionDetail .img-container img {
+  width: 100%;
+}
+.rc-layout-container {
+  padding-top: 15px;
+}
+.subscriptionDetail .col-md-3 {
+  display: inline-block;
+  padding: 0;
+}
+.subscriptionDetail .col-md-6 {
+  display: inline-block;
+  padding: 0;
+}
+.subscriptionDetail .col-12 {
+  padding: 0;
+}

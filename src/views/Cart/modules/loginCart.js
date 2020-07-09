@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { inject } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -22,6 +23,7 @@ import CART_CAT from "@/assets/images/CART_CAT.webp";
 import CART_DOG from "@/assets/images/CART_DOG.webp";
 import {debug} from "semantic-ui-react/dist/commonjs/lib";
 
+@inject("checkoutStore")
 class LoginCart extends React.Component {
   constructor(props) {
     super(props);
@@ -29,9 +31,9 @@ class LoginCart extends React.Component {
       errorShow: false,
       errorMsg: '',
       productList: [],
-      totalPrice: '',
-      tradePrice: '',
-      discountPrice: '',
+      totalPrice: 0,
+      tradePrice: 0,
+      discountPrice: 0,
       currentProductIdx: -1,
       quantityMinLimit: 1,
       deleteLoading: false,
@@ -48,54 +50,42 @@ class LoginCart extends React.Component {
   }
   async componentDidMount () {
     // 合并购物车(登录后合并非登录态的购物车数据)
-    const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
+    const unloginCartData = this.checkoutStore.cartData
     if (unloginCartData.length) {
       await mergeUnloginCartData()
-      this.updateCartCache()
-      this.headerRef.current.updateCartCache()
-    } else {
-      this.updateCartCache()
     }
+    // this.updateCartCache()
+    this.setData()
   }
-
+  get checkoutStore () {
+    return this.props.checkoutStore
+  }
+  get totalNum () {
+    return this.state.productList.reduce((prev, cur) => { return prev + cur.buyCount }, 0)
+  }
   async updateCartCache () {
-    // 获取购物车列表
     this.setState({ checkoutLoading: true })
-    let siteMiniPurchasesRes = await siteMiniPurchases()
-    siteMiniPurchasesRes = siteMiniPurchasesRes.context
+    await this.checkoutStore.updateLoginCart()
+    this.setData()
+  }
+  setData () {
+    const loginCartPrice = this.checkoutStore.loginCartPrice
     this.setState({
-      productList: siteMiniPurchasesRes.goodsList,
-      totalNum: siteMiniPurchasesRes.num
-    })
-    let sitePurchasesRes = await sitePurchases({ goodsInfoIds: siteMiniPurchasesRes.goodsList.map(ele => ele.goodsInfoId) })
-    sitePurchasesRes = sitePurchasesRes.context
-    this.setState({
-      totalPrice: sitePurchasesRes.totalPrice,
-      tradePrice: sitePurchasesRes.tradePrice,
-      discountPrice: sitePurchasesRes.discountPrice
-    })
+      productList: this.checkoutStore.loginCartData,
 
-    // promotion相关
-    let goodsMarketingMapStr = JSON.stringify(sitePurchasesRes.goodsMarketingMap)
-    sessionStorage.setItem('goodsMarketingMap', goodsMarketingMapStr)
-    sessionStorage.setItem('rc-totalInfo', JSON.stringify({
-      totalPrice: sitePurchasesRes.totalPrice,
-      tradePrice: sitePurchasesRes.tradePrice,
-      discountPrice: sitePurchasesRes.discountPrice
-    }))
-    this.setState({
-      isPromote: parseInt(sitePurchasesRes.discountPrice) > 0
+      totalPrice: loginCartPrice.totalPrice,
+      tradePrice: loginCartPrice.tradePrice,
+      discountPrice: loginCartPrice.discountPrice,
+      isPromote: parseInt(loginCartPrice.discountPrice) > 0,
+      checkoutLoading: false
     })
-
-    this.setState({ checkoutLoading: false })
   }
   /**
    * 加入后台购物车
    */
   async updateBackendCart (param) {
     await updateBackendCart(param)
-    await this.updateCartCache()
-    this.headerRef.current.updateCartCache()
+    this.updateCartCache()
   }
   /**
    * 删除某个产品
@@ -103,10 +93,10 @@ class LoginCart extends React.Component {
    */
   async deleteItemFromBackendCart (param) {
     await deleteItemFromBackendCart(param)
-    await this.updateCartCache()
-    this.headerRef.current.updateCartCache()
+    this.updateCartCache()
   }
-  async handleCheckout () {debugger
+  async handleCheckout () {
+    debugger
     const { productList } = this.state
     // 价格未达到底限，不能下单
     if (this.state.tradePrice < MINIMUM_AMOUNT) {
@@ -123,7 +113,7 @@ class LoginCart extends React.Component {
       return false
     }
 
-    localStorage.setItem('rc-cart-data-login', JSON.stringify(productList))
+    this.checkoutStore.setLoginCartData(productList)
     this.openPetModal()
     // this.props.history.push('/prescription')
   }
@@ -205,14 +195,38 @@ class LoginCart extends React.Component {
     sessionStorage.setItem('rc-goods-name', pitem.goodsName)
     this.props.history.push('/details/' + pitem.goodsInfoId)
   }
+  toggleSelect (pitem) {
+    // todo 请求接口
+    // pitem.selected = !pitem.selected
+    // this.setState({
+    //   productList: this.state.productList
+    // })
+  }
   getProducts (plist) {
     const { checkoutLoading } = this.state
     const Lists = plist.map((pitem, index) => (
       <div
         className="rc-border-all rc-border-colour--interface product-info"
-        key={index}
-      >
-        <div className="d-flex">
+        key={index}>
+        <div
+          className="rc-input rc-input--inline position-absolute"
+          style={{ left: '1%' }}
+          onClick={() => this.toggleSelect(pitem)}>
+          {
+            pitem.selected
+              ? <input
+                type="checkbox"
+                className="rc-input__checkbox"
+                key={1}
+                checked />
+              : <input
+                type="checkbox"
+                className="rc-input__checkbox"
+                key={2} />
+          }
+          <label className="rc-input__label--inline">&nbsp;</label>
+        </div>
+        <div className="d-flex pl-3">
           <div className="product-info__img w-100">
             <img
               className="product-image"
@@ -468,7 +482,7 @@ class LoginCart extends React.Component {
                     <div className="group-order rc-border-all rc-border-colour--interface cart__total__content">
                       <div className="row">
                         <div className="col-12 total-items medium">
-                          <span>{checkoutLoading ? '--' : this.state.totalNum}</span> {this.state.totalNum > 1 ? 'items' : 'item'} in the basket
+                          <span>{checkoutLoading ? '--' : this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
                         </div>
                       </div>
                       <div className="row">

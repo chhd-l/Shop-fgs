@@ -8,12 +8,13 @@ import {
 } from '@/utils/utils'
 import { find } from 'lodash'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
+import { inject } from 'mobx-react'
 
+@inject("checkoutStore")
 class UnloginCart extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : [],
       showCart: false,
       checkoutLoading: false
     }
@@ -37,28 +38,25 @@ class UnloginCart extends React.Component {
       }
     }, 500)
   }
+  get selectedCartData () {
+    return this.props.checkoutStore.cartData.filter(ele => ele.selected)
+  }
   get totalNum () {
-    return this.state.cartData.reduce((pre, cur) => { return pre + cur.quantity }, 0)
+    return this.selectedCartData.reduce((pre, cur) => { return pre + cur.quantity }, 0)
   }
   get totalPrice () {
     let ret = 0
-    this.state.cartData.map(item => {
+    this.selectedCartData.map(item => {
       return ret += item.currentAmount
     })
     return ret
   }
-  updateCartCache () {
-    this.setState({
-      cartData: localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
-    })
-  }
   async handleCheckout ({ needLogin = false } = {}) {
     const { history } = this.props
-    const { cartData } = this.state
     let tmpValidateAllItemsStock = true
     this.setState({ checkoutLoading: true })
-    if (cartData.length) {
-      let productList = cartData
+    if (this.selectedCartData.length) {
+      let productList = this.selectedCartData
       let param = productList.map(ele => {
         return {
           goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId,
@@ -112,7 +110,6 @@ class UnloginCart extends React.Component {
     }
   }
   render () {
-    const { cartData } = this.state
     return (
       <span
         className="minicart inlineblock"
@@ -167,9 +164,7 @@ class UnloginCart extends React.Component {
                     <LoginButton
                       beforeLoginCallback={async () => this.handleCheckout({ needLogin: true })}
                       btnClass={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn checkout-btn ${this.state.checkoutLoading ? 'ui-btn-loading' : ''}`}
-                      updateCartCache={() => this.updateCartCache()}
-                      history={this.props.history}
-                    >
+                      history={this.props.history}>
                       <FormattedMessage id="checkout" />
                     </LoginButton>
                   </div>
@@ -183,14 +178,14 @@ class UnloginCart extends React.Component {
                   <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                     <span className="rc-meta">
                       {
-                        cartData.length > 1
+                        this.selectedCartData.length > 1
                           ? <FormattedMessage
                             id="itemsInCart2"
-                            values={{ val: <b>{cartData.length}</b> }}
+                            values={{ val: <b>{this.selectedCartData.length}</b> }}
                           />
                           : <FormattedMessage
                             id="itemsInCart"
-                            values={{ val: <b>{cartData.length}</b> }}
+                            values={{ val: <b>{this.selectedCartData.length}</b> }}
                           />
                       }
                     </span>
@@ -198,7 +193,7 @@ class UnloginCart extends React.Component {
                   <div className="minicart-error cart-error">
                   </div>
                   <div className="product-summary limit">
-                    {cartData.map((item, idx) => (
+                    {this.selectedCartData.map((item, idx) => (
                       <div className="minicart__product" key={item.goodsId + idx}>
                         <div>
                           <div className="product-summary__products__item">
@@ -232,8 +227,6 @@ class UnloginCart extends React.Component {
                                 </div>
                               </div>
                               <div className="item-options">
-                              </div>
-                              <div className="line-item-promo item-07984de212e393df75a36856b6">
                               </div>
                             </div>
                           </div>

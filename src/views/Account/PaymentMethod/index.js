@@ -1,5 +1,6 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
+import { inject } from 'mobx-react'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BreadCrumbs from "@/components/BreadCrumbs";
@@ -25,6 +26,7 @@ import paypalImg from "@/assets/images/credit-cards/paypal.png";
 import { getPaymentMethod, deleteCard } from "@/api/payment";
 import PaymentComp from "@/components/PaymentComp"
 
+@inject("loginStore")
 class PaymentMethod extends React.Component {
   constructor(props) {
     super(props);
@@ -67,10 +69,13 @@ class PaymentMethod extends React.Component {
       return false
     }
   }
+  get userInfo () {
+    return this.props.loginStore.userInfo
+  }
   async getPaymentMethodList () {
     try {
       let res = await getPaymentMethod({
-        customerId: JSON.parse(localStorage.getItem('rc-userinfo'))['customerId'],
+        customerId: this.userInfo ? this.userInfo.customerId : ''
       });
       if (res.code === "K-000000") {
         this.setState({

@@ -16,9 +16,10 @@ import { getToken } from '@/api/login'
 import { getCustomerInfo } from "@/api/user"
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react';
-import stores from '@/store/store';
+import stores from '@/store';
 
-const Store = stores.loginStore
+const loginStore = stores.loginStore
+const checkoutStore = stores.checkoutStore
 
 const LogoutButton = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -54,8 +55,8 @@ const LogoutButton = () => {
     localStorage.removeItem("rc-token");
     sessionStorage.removeItem('rc-clinics-name-default')
     sessionStorage.removeItem('rc-clinics-id-default')
-    localStorage.removeItem('rc-userinfo')
-    localStorage.removeItem('rc-cart-data-login')
+    loginStore.removeUserInfo()
+    checkoutStore.removeCartData()
     logout()
   }
   return (

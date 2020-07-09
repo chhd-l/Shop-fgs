@@ -22415,6 +22415,17 @@ tr.rc-table__row.inactive td:after {
   font-size: 16px!important;
 }
 
+.rc-btn-solid-disabled {
+  opacity: .5!important;
+  background: grey!important;
+  border-color: grey!important;
+  cursor: not-allowed!important;
+}
+.rc-btn-disabled {
+  opacity: .5!important;
+  cursor: not-allowed!important;
+}
+
 @keyframes rotate {
   from {
       transform: rotatez(0deg);

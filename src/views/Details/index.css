@@ -1571,16 +1571,6 @@ label.availability {
 .show-image-magnifier #tns1-mw {overflow: visible;}
 .show-image-magnifier #tns1-ow{z-index: 1;}
 
-.btn-add-to-cart.disabled {
-  opacity: .5;
-  background: grey;
-  border-color: grey;
-  cursor: not-allowed;
-}
-.btn-add-to-cart2.disabled {
-  opacity: .5;
-  cursor: not-allowed;
-}
 .rc-img--square.rc-img--square-custom {
   border: 1px solid #999;
   background-size: contain;

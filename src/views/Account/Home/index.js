@@ -1,5 +1,6 @@
 import React from "react"
 import GoogleTagManager from '@/components/GoogleTagManager'
+import { inject } from 'mobx-react';
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -13,18 +14,20 @@ import myProfileImg from "@/assets/images/profile/My profile.jpg";
 import paymentImg from "@/assets/images/profile/Payment.jpg";
 import './index.css'
 
-export default class AccountHome extends React.Component {
+@inject("loginStore")
+class AccountHome extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      userInfo: localStorage.getItem("rc-userinfo") ? JSON.parse(localStorage.getItem("rc-userinfo")) : null
-    }
+    this.state = {}
   }
   componentWillUnmount () {
-    
+
   }
   componentDidMount () {
 
+  }
+  get userInfo () {
+    return this.props.loginStore.userInfo
   }
   render () {
     const event = {
@@ -43,7 +46,7 @@ export default class AccountHome extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <h4><FormattedMessage id="welcome" /> {this.state.userInfo && this.state.userInfo.firstName}</h4>
+                <h4><FormattedMessage id="welcome" /> {this.userInfo && this.userInfo.firstName}</h4>
                 <p><FormattedMessage id="account.warmNotice" /></p>
                 <div className="clearfix"></div>
                 <div className="dashboard__profile-cards">
@@ -201,3 +204,5 @@ export default class AccountHome extends React.Component {
     )
   }
 }
+
+export default AccountHome

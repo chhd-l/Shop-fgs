@@ -1,6 +1,7 @@
 
 import React from "react";
 import { FormattedMessage } from 'react-intl'
+import { inject } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -13,6 +14,7 @@ import { cloneDeep, find } from 'lodash'
 import CART_CAT from "@/assets/images/CART_CAT.webp";
 import CART_DOG from "@/assets/images/CART_DOG.webp";
 
+@inject("checkoutStore")
 class UnLoginCart extends React.Component {
   constructor(props) {
     super(props);
@@ -20,9 +22,9 @@ class UnLoginCart extends React.Component {
       errorShow: false,
       errorMsg: '',
       productList: [],
-      totalPrice: '',
-      tradePrice: '',
-      discountPrice: '',
+      totalPrice: 0,
+      tradePrice: 0,
+      discountPrice: 0,
       currentProductIdx: -1,
       loading: true,
       quantityMinLimit: 1,
@@ -37,7 +39,7 @@ class UnLoginCart extends React.Component {
     this.outOfstockProNames = []
   }
   get totalNum () {
-    return this.state.productList.reduce((pre, cur) => { return pre + cur.quantity }, 0)
+    return this.state.productList.filter(ele => ele.selected).reduce((pre, cur) => { return pre + cur.quantity }, 0)
   }
   async handleCheckout ({ needLogin = false } = {}) {
     const { history } = this.props;
@@ -122,14 +124,7 @@ class UnLoginCart extends React.Component {
     }
   }
   changeCache () {
-    this.state.productList.map(item => {
-      item.currentAmount = item.quantity * find(item.sizeList, s => s.selected).salePrice
-    })
-    localStorage.setItem(
-      "rc-cart-data",
-      JSON.stringify(this.state.productList)
-    )
-    this.headerRef.current.updateCartCache()
+    this.props.checkoutStore.setCartData(this.state.productList)
   }
   addQuantity (item) {
     this.setState({ errorShow: false })
@@ -181,15 +176,18 @@ class UnLoginCart extends React.Component {
     history.goBack()
   }
   componentDidMount () {
-    let productList = JSON.parse(localStorage.getItem("rc-cart-data"));
     this.setState({
-      productList: productList || []
+      productList: this.props.checkoutStore.cartData
     }, () => this.updateStock());
   }
   async updateStock () {
     const { productList } = this.state
-    this.setState({ validateAllItemsStock: true })
-    let param = productList.map(ele => {
+    const selectedProductList = productList.filter(ele => ele.selected)
+    this.setState({
+      validateAllItemsStock: true,
+      checkoutLoading: true
+    })
+    let param = selectedProductList.map(ele => {
       return {
         goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId,
         goodsNum: ele.quantity,
@@ -198,10 +196,8 @@ class UnLoginCart extends React.Component {
     })
     let res = await hanldePurchases(param)
     let latestGoodsInfos = res.goodsInfos
-    let goodsMarketingMapStr = JSON.stringify(res.goodsMarketingMap)
-    sessionStorage.setItem('goodsMarketingMap', goodsMarketingMapStr)
     this.outOfstockProNames = []
-    productList.map(item => {
+    selectedProductList.map(item => {
       let selectedSize = find(item.sizeList, s => s.selected)
       const tmpObj = find(latestGoodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
       if (tmpObj) {
@@ -215,19 +211,19 @@ class UnLoginCart extends React.Component {
         }
       }
     })
+    sessionStorage.setItem('goodsMarketingMap', JSON.stringify(res.goodsMarketingMap))
     sessionStorage.setItem('rc-totalInfo', JSON.stringify({
-      totalPrice: res.totalPrice,
-      tradePrice: res.tradePrice,
-      discountPrice: res.discountPrice
+      totalPrice: res.totalPrice || 0,
+      tradePrice: res.tradePrice || 0,
+      discountPrice: res.discountPrice || 0
     }))
     this.setState({
-      isPromote: parseInt(res.discountPrice) > 0
-    })
-    this.setState({
+      isPromote: parseInt(res.discountPrice) > 0,
       productList: productList,
-      totalPrice: res.totalPrice,
-      tradePrice: res.tradePrice,
-      discountPrice: res.discountPrice
+      totalPrice: res.totalPrice || 0,
+      tradePrice: res.tradePrice || 0,
+      discountPrice: res.discountPrice || 0,
+      checkoutLoading: false
     }, () => this.changeCache());
   }
   gotoDetails (pitem) {
@@ -235,14 +231,40 @@ class UnLoginCart extends React.Component {
     sessionStorage.setItem('rc-goods-name', pitem.goodsName)
     this.props.history.push('/details/' + pitem.sizeList[0].goodsInfoId)
   }
+  toggleSelect (pitem) {
+    pitem.selected = !pitem.selected
+    this.setState({
+      productList: this.state.productList
+    }, () => {
+      this.changeCache();
+      this.updateStock()
+    })
+  }
   getProducts (plist) {
     const { checkoutLoading } = this.state
     const Lists = plist.map((pitem, index) => (
       <div
         className="rc-border-all rc-border-colour--interface product-info"
-        key={index}
-      >
-        <div className="d-flex">
+        key={index}>
+        <div
+          className="rc-input rc-input--inline position-absolute"
+          style={{ left: '1%' }}
+          onClick={() => this.toggleSelect(pitem)}>
+          {
+            pitem.selected
+              ? <input
+                type="checkbox"
+                className="rc-input__checkbox"
+                key={1}
+                checked />
+              : <input
+                type="checkbox"
+                className="rc-input__checkbox"
+                key={2} />
+          }
+          <label className="rc-input__label--inline">&nbsp;</label>
+        </div>
+        <div className="d-flex pl-3">
           <div className="product-info__img w-100">
             <img
               className="product-image"
@@ -472,7 +494,7 @@ class UnLoginCart extends React.Component {
                 <div className="rc-layout-container rc-three-column cart cart-page">
                   <div className="rc-column rc-double-width">
                     <div className="rc-padding-bottom--xs cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
-                      <aside className="rc-alert rc-alert--error rc-alert--with-close" role="alert">
+                      <aside className="rc-alert rc-alert--error rc-alert--with-close text-break" role="alert">
                         <span style={{ paddingLeft: 0 }}>{this.state.errorMsg}</span>
                       </aside>
                     </div>
@@ -538,29 +560,35 @@ class UnLoginCart extends React.Component {
                           <div className="col-lg-12 checkout-continue">
                             <a className={[checkoutLoading ? 'ui-btn-loading' : ''].join(' ')}>
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                                {/* <div
-                                  className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
-                                  aria-pressed="true"
-                                  onClick={() => this.handleCheckout({ needLogin: true })}>
-                                  <FormattedMessage id="checkout" />
-                                </div> */}
-                                <LoginButton
-                                  beforeLoginCallback={async () => this.handleCheckout({ needLogin: true })}
-                                  btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
-                                  updateCartCache={() => this.headerRef.current.updateCartCache()}
-                                  history={this.props.history}
-                                >
-                                  <FormattedMessage id="checkout" />
-                                </LoginButton>
+                                {
+                                  this.totalNum > 0
+                                    ? <LoginButton
+                                      beforeLoginCallback={async () => this.handleCheckout({ needLogin: true })}
+                                      btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
+                                      history={this.props.history}>
+                                      <FormattedMessage id="checkout" />
+                                    </LoginButton>
+                                    : <div className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled">
+                                      <FormattedMessage id="checkout" />
+                                    </div>
+                                }
                               </div>
                               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                                <div className="text-center" onClick={() => this.handleCheckout()}>
-                                  <div
-                                    className="rc-styled-link color-999"
-                                    aria-pressed="true">
-                                    <FormattedMessage id="GuestCheckout" />
-                                  </div>
-                                </div>
+                                {
+                                  this.totalNum > 0
+                                    ? <div className="text-center" onClick={() => this.handleCheckout()}>
+                                      <div
+                                        className="rc-styled-link color-999"
+                                        aria-pressed="true">
+                                        <FormattedMessage id="GuestCheckout" />
+                                      </div>
+                                    </div>
+                                    : <div className="text-center">
+                                      <div className="rc-styled-link color-999 rc-btn-disabled">
+                                        <FormattedMessage id="GuestCheckout" />
+                                      </div>
+                                    </div>
+                                }
                               </div>
                             </a>
                           </div>
