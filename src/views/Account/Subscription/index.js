@@ -243,7 +243,7 @@ export default class Subscription extends React.Component {
       },
     };
     return (
-      <div>
+      <div className="subscription">
         <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
@@ -337,6 +337,12 @@ export default class Subscription extends React.Component {
                                 </div>
                                 <div className="col-12 col-md-2">
                                   <p>
+                                    {/* <FormattedMessage id="subscription.deliveryDate" /> */}
+                                    Subscription date
+                                  </p>
+                                </div>
+                                <div className="col-12 col-md-2">
+                                  <p>
                                     Frequency
                                     <br className="d-none d-md-block" />
                                   </p>
@@ -344,11 +350,7 @@ export default class Subscription extends React.Component {
                                 <div className="col-12 col-md-2">
                                   <p>Subscription status</p>
                                 </div>
-                                <div className="col-12 col-md-2">
-                                  <p>
-                                    <FormattedMessage id="subscription.deliveryDate" />
-                                  </p>
-                                </div>
+                                
                                 <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
                                   <Link
                                     className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
