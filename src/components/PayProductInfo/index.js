@@ -33,6 +33,15 @@ class PayProductInfo extends React.Component {
       productList: productList || []
     }, totalInfo));
   }
+  get totalPrice () {
+    return this.props.checkoutStore.cartPrice ? this.props.checkoutStore.cartPrice.totalPrice : 0
+  }
+  get tradePrice () {
+    return this.props.checkoutStore.cartPrice ? this.props.checkoutStore.cartPrice.tradePrice : 0
+  }
+  get discountPrice () {
+    return this.props.checkoutStore.cartPrice ? this.props.checkoutStore.cartPrice.discountPrice : 0
+  }
   getProducts (plist) {
     const List = plist.map((el, i) => {
       let selectedSizeItem = el.sizeList.filter((item) => item.selected)[0];
@@ -126,6 +135,7 @@ class PayProductInfo extends React.Component {
   }
   render () {
     const { productList } = this.state
+    const { checkoutStore } = this.props
     const List = this.isLogin ? this.getProductsForLogin(productList) : this.getProducts(productList)
     return (
       <div className="product-summary__inner">
@@ -144,12 +154,12 @@ class PayProductInfo extends React.Component {
                   <div className="col-4 end-lines">
                     <p className="text-right">
                       <span className="sub-total">
-                        {formatMoney(this.props.checkoutStore.loginCartPrice.totalPrice)}
+                        {formatMoney(this.totalPrice)}
                       </span>
                     </p>
                   </div>
                 </div>
-                <div className="row leading-lines shipping-item" style={{ display: parseInt(this.props.checkoutStore.loginCartPrice.discountPrice) > 0 ? 'flex' : 'none' }}>
+                <div className="row leading-lines shipping-item" style={{ display: parseInt(this.discountPrice) > 0 ? 'flex' : 'none' }}>
                   <div className="col-7 start-lines">
                     <p className="order-receipt-label order-shipping-cost" style={{ color: '#ec001a' }}>
                       <span><FormattedMessage id="promotion" /></span>
@@ -157,7 +167,7 @@ class PayProductInfo extends React.Component {
                   </div>
                   <div className="col-5 end-lines">
                     <p className="text-right">
-                      <span className="shipping-total-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.props.checkoutStore.loginCartPrice.discountPrice)}</span>
+                      <span className="shipping-total-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.discountPrice)}</span>
                     </p>
                   </div>
                 </div>
@@ -182,7 +192,7 @@ class PayProductInfo extends React.Component {
             </div>
             <div className="col-6 end-lines text-right">
               <span className="grand-total-sum">
-                {formatMoney(this.props.checkoutStore.loginCartPrice.tradePrice)}
+                {formatMoney(this.tradePrice)}
               </span>
             </div>
           </div>

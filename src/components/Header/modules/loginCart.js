@@ -32,7 +32,7 @@ class LoginCart extends React.Component {
     return this.props.checkoutStore
   }
   get cartData () {
-    return this.props.checkoutStore.loginCartData
+    return this.props.checkoutStore.loginCartData.slice()
   }
   get totalNum () {
     return this.cartData.reduce((prev, cur) => { return prev + cur.buyCount }, 0)
@@ -58,7 +58,7 @@ class LoginCart extends React.Component {
     }, 500)
   }
   async handleCheckout () {
-    if (this.checkoutStore.loginCartPrice.tradePrice < MINIMUM_AMOUNT) {
+    if (this.checkoutStore.cartPrice.tradePrice < MINIMUM_AMOUNT) {
       this.setState({
         errMsg: <FormattedMessage id="cart.errorInfo3" />
       })
@@ -66,10 +66,10 @@ class LoginCart extends React.Component {
     }
 
     // 库存不够，不能下单
-    const outOfstockProNames = this.cartData.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
-    if (outOfstockProNames.length) {
+    if (this.props.checkoutStoreoutOfstockProNames.length) {
       this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />
+        errMsg: <FormattedMessage id="cart.errorInfo2"
+          values={{ val: this.props.checkoutStoreoutOfstockProNames.join('/') }} />
       })
       return false
     }
@@ -119,7 +119,7 @@ class LoginCart extends React.Component {
                         loading
                           ? <b>--</b>
                           : <>
-                            <FormattedMessage id="total" /> <b>{formatMoney(this.checkoutStore.loginCartPrice.tradePrice)}</b>
+                            <FormattedMessage id="total" /> <b>{formatMoney(this.checkoutStore.tradePrice)}</b>
                           </>
                       }
                     </span>

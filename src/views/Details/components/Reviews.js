@@ -38,7 +38,6 @@ class Reviews extends React.Component {
         }
     }
     evaluatesNextPage() {
-        debugger
         let currentPage = this.state.evaluatesCurrentPage
         if(currentPage < this.state.valuatesTotalPages) {
             currentPage++
@@ -52,7 +51,6 @@ class Reviews extends React.Component {
             goodsId: this.state.id
         }
         let res = await getLoginGoodsEvaluate(parmas)
-        debugger
         if(res.context && res.context.goodsEvaluateVOPage ) {
             let obj = res.context.goodsEvaluateVOPage
             let list = obj.content

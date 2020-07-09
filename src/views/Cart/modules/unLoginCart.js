@@ -22,30 +22,43 @@ class UnLoginCart extends React.Component {
       errorShow: false,
       errorMsg: '',
       productList: [],
-      totalPrice: 0,
-      tradePrice: 0,
-      discountPrice: 0,
       currentProductIdx: -1,
       loading: true,
       quantityMinLimit: 1,
-      checkoutLoading: false,
-      validateAllItemsStock: true,
-      isPromote: false
+      checkoutLoading: false
     }
     this.handleAmountChange = this.handleAmountChange.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
     this.headerRef = React.createRef();
-
-    this.outOfstockProNames = []
   }
   get totalNum () {
     return this.state.productList.filter(ele => ele.selected).reduce((pre, cur) => { return pre + cur.quantity }, 0)
+  }
+  get totalPrice () {
+    return this.props.checkoutStore.totalPrice
+  }
+  get tradePrice () {
+    return this.props.checkoutStore.tradePrice
+  }
+  get discountPrice () {
+    return this.props.checkoutStore.discountPrice
+  }
+  get isPromote () {
+    return parseInt(this.discountPrice) > 0
+  }
+  componentDidMount () {
+    this.setCartData()
+  }
+  setCartData () {
+    this.setState({
+      productList: this.props.checkoutStore.cartData
+    })
   }
   async handleCheckout ({ needLogin = false } = {}) {
     const { history } = this.props;
 
     // 价格未达到底限，不能下单
-    if (this.state.tradePrice < MINIMUM_AMOUNT) {
+    if (this.tradePrice < MINIMUM_AMOUNT) {
       this.setState({
         errorShow: true,
         errorMsg: <FormattedMessage id="cart.errorInfo3" />
@@ -57,10 +70,11 @@ class UnLoginCart extends React.Component {
     try {
       await this.updateStock()
       // 库存不够，不能下单
-      if (!this.state.validateAllItemsStock) {
+      if (this.props.checkoutStore.outOfstockProNames.length) {
         this.setState({
           errorShow: true,
-          errorMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: this.outOfstockProNames.join('/') }} />
+          errorMsg: <FormattedMessage id="cart.errorInfo2"
+            values={{ val: this.props.checkoutStore.outOfstockProNames.length.join('/') }} />
         })
         return false
       }
@@ -118,13 +132,9 @@ class UnLoginCart extends React.Component {
       this.setState({
         productList: this.state.productList
       }, () => {
-        this.changeCache()
         this.updateStock()
       })
     }
-  }
-  changeCache () {
-    this.props.checkoutStore.setCartData(this.state.productList)
   }
   addQuantity (item) {
     this.setState({ errorShow: false })
@@ -132,7 +142,6 @@ class UnLoginCart extends React.Component {
     this.setState({
       productList: this.state.productList
     }, () => {
-      this.changeCache()
       this.updateStock()
     })
   }
@@ -143,7 +152,6 @@ class UnLoginCart extends React.Component {
       this.setState({
         productList: this.state.productList
       }, () => {
-        this.changeCache()
         this.updateStock()
       })
     } else {
@@ -166,7 +174,6 @@ class UnLoginCart extends React.Component {
     this.setState({
       productList: newProductList
     }, () => {
-      this.changeCache();
       this.updateStock()
     })
   }
@@ -175,56 +182,11 @@ class UnLoginCart extends React.Component {
     const { history } = this.props
     history.goBack()
   }
-  componentDidMount () {
-    this.setState({
-      productList: this.props.checkoutStore.cartData
-    }, () => this.updateStock());
-  }
   async updateStock () {
     const { productList } = this.state
-    const selectedProductList = productList.filter(ele => ele.selected)
-    this.setState({
-      validateAllItemsStock: true,
-      checkoutLoading: true
-    })
-    let param = selectedProductList.map(ele => {
-      return {
-        goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId,
-        goodsNum: ele.quantity,
-        invalid: false
-      }
-    })
-    let res = await hanldePurchases(param)
-    let latestGoodsInfos = res.goodsInfos
-    this.outOfstockProNames = []
-    selectedProductList.map(item => {
-      let selectedSize = find(item.sizeList, s => s.selected)
-      const tmpObj = find(latestGoodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
-      if (tmpObj) {
-        selectedSize.stock = tmpObj.stock
-        selectedSize.marketingLabels = tmpObj.marketingLabels
-        if (item.quantity > tmpObj.stock) {
-          this.outOfstockProNames.push(tmpObj.goodsInfoName + ' ' + tmpObj.specText)
-          this.setState({
-            validateAllItemsStock: false
-          })
-        }
-      }
-    })
-    sessionStorage.setItem('goodsMarketingMap', JSON.stringify(res.goodsMarketingMap))
-    sessionStorage.setItem('rc-totalInfo', JSON.stringify({
-      totalPrice: res.totalPrice || 0,
-      tradePrice: res.tradePrice || 0,
-      discountPrice: res.discountPrice || 0
-    }))
-    this.setState({
-      isPromote: parseInt(res.discountPrice) > 0,
-      productList: productList,
-      totalPrice: res.totalPrice || 0,
-      tradePrice: res.tradePrice || 0,
-      discountPrice: res.discountPrice || 0,
-      checkoutLoading: false
-    }, () => this.changeCache());
+    this.setState({ checkoutLoading: true })
+    await this.props.checkoutStore.updateUnloginCart(productList)
+    this.setState({ checkoutLoading: false })
   }
   gotoDetails (pitem) {
     sessionStorage.setItem('rc-goods-cate-name', pitem.goodsCateName || '')
@@ -236,7 +198,6 @@ class UnLoginCart extends React.Component {
     this.setState({
       productList: this.state.productList
     }, () => {
-      this.changeCache();
       this.updateStock()
     })
   }
@@ -367,7 +328,7 @@ class UnLoginCart extends React.Component {
                       </div>
                     </span>
                   </div>
-                  <div className="promotion stock" style={{ display: this.state.isPromote ? 'inline-block' : 'none' }}>
+                  <div className="promotion stock" style={{ display: this.isPromote ? 'inline-block' : 'none' }}>
                     <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                       <span><FormattedMessage id="promotion" /> :</span>
                     </label>
@@ -428,7 +389,7 @@ class UnLoginCart extends React.Component {
                     </div>
                   </span>
                 </div>
-                <div className="promotion stock" style={{ marginTop: '7px', display: this.state.isPromote ? 'inline-block' : 'none' }}>
+                <div className="promotion stock" style={{ marginTop: '7px', display: this.isPromote ? 'inline-block' : 'none' }}>
                   <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                     <span><FormattedMessage id="promotion" /> :</span>
                   </label>
@@ -522,17 +483,17 @@ class UnLoginCart extends React.Component {
                           <FormattedMessage id="total" />
                         </div>
                         <div className="col-4 no-padding-left">
-                          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.state.totalPrice)}</p>
+                          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.totalPrice)}</p>
                         </div>
                       </div>
-                      <div className="row" style={{ display: this.state.isPromote ? 'flex' : 'none' }}>
+                      <div className="row" style={{ display: this.isPromote ? 'flex' : 'none' }}>
                         <div className="col-4">
                           <p style={{ color: '#ec001a' }}>
                             <FormattedMessage id="promotion" />
                           </p>
                         </div>
                         <div className="col-8">
-                          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {checkoutLoading ? '--' : formatMoney(this.state.discountPrice)}</p>
+                          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {checkoutLoading ? '--' : formatMoney(this.discountPrice)}</p>
                         </div>
                       </div>
                       <div className="row">
@@ -553,7 +514,7 @@ class UnLoginCart extends React.Component {
                             </strong>
                           </div>
                           <div className="col-5">
-                            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.state.tradePrice)}</p>
+                            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.tradePrice)}</p>
                           </div>
                         </div>
                         <div className="row checkout-proccess">
