@@ -11914,7 +11914,7 @@ body {
 }
 
 .inlineblock {
-  display: inline-block
+  display: inline-block!important
 }
 
 .inherit-fontsize h1,.inherit-fontsize h2,.inherit-fontsize h3,.inherit-fontsize h4,.inherit-fontsize h5,.inherit-fontsize h6,.inherit-fontsize p {

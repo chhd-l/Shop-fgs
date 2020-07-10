@@ -4,7 +4,8 @@ import { find, findIndex } from 'lodash'
 export default class Selection extends React.Component {
   static defaultProps = {
     optionList: [],
-    customStyleType: '' // eg: select-one
+    customStyleType: '', // eg: select-one
+    customContainerStyle: null
   }
   constructor(props) {
     super(props)
@@ -63,7 +64,8 @@ export default class Selection extends React.Component {
     return (
       <div
         onBlur={() => this.onBlurHandler()}
-        onFocus={() => this.onFocusHandler()}>
+        onFocus={() => this.onFocusHandler()}
+        style={{ ...this.props.customContainerStyle }}>
         <div
           className={`choices ${optionsVisible ? 'is-open' : ''}`}
           role="listbox"

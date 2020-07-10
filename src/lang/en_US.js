@@ -220,7 +220,6 @@ const en_US = {
   'payment.DEBIT': 'DEBIT',
   'payment.confirmCard': 'Confirm Card',
   'payment.paymentInformation': 'Payment Information',
-
   'payment.cardOwner': 'Cardowner',
   'payment.socialId': 'Social id',
   'payment.email': 'Email',
@@ -228,6 +227,10 @@ const en_US = {
   'payment.rfc': 'Reference',
   'payment.addressTitle': 'Address and Shipping Method',
   'payment.apply': 'Apply',
+  'payment.frequencyTip1': 'Yes, Make my life easy!',
+  'payment.frequencyTip2': 'No, Thank you.',
+  'payment.frequencyTip3': 'Your items will only ship once.',
+  'payment.deliveryFrequency': 'Delivery Frequency',
 
   'confirmation.info1': 'Thank you for your order.',
   'confirmation.info2': 'In the near future, our staff will contact you to comfirm the order.',
