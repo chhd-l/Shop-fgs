@@ -58,10 +58,10 @@ class UnloginCart extends React.Component {
       })
       return false
     }
-    if (this.checkoutStore.outOfstockProNames.length) {
+    if (this.props.checkoutStore.outOfstockProNames.length) {
       this.setState({
         errMsg: <FormattedMessage id="cart.errorInfo2"
-          values={{ val: this.checkoutStore.outOfstockProNames.join('/') }} />
+          values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />
       })
       return false
     }
