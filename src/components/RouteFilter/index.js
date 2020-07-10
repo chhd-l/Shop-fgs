@@ -7,7 +7,7 @@ class RouteFilter extends Component {
     if (nextProps.location.pathname === "/prescription"
       && ((sessionStorage.getItem("rc-clinics-id-link") && sessionStorage.getItem("rc-clinics-name-link"))
         || (sessionStorage.getItem("rc-clinics-id-default") && sessionStorage.getItem("rc-clinics-name-default")))) {
-      this.props.history.replace("/payment/shipping");
+      this.props.history.replace("/payment/payment");
     }
     if (!localStorage.getItem('rc-token') && nextProps.location.pathname.indexOf("/account") !== -1) {
       this.props.history.push("/");
@@ -17,7 +17,7 @@ class RouteFilter extends Component {
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/')
     }
-    if (this.props.location.pathname === "/payment/payment" || this.props.location.pathname === "/payment/shipping") {
+    if (this.props.location.pathname === "/payment/payment") {
       loadJS(
         "https://js.paymentsos.com/v2/latest/secure-fields.min.js",
         function () {

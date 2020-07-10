@@ -97,7 +97,7 @@ class LoginCart extends React.Component {
   }
   async handleCheckout () {
     // 价格未达到底限，不能下单
-    if (this.state.tradePrice < MINIMUM_AMOUNT) {
+    if (this.tradePrice < MINIMUM_AMOUNT) {
       window.scrollTo({ behavior: "smooth", top: 0 })
       this.showErrMsg(<FormattedMessage id="cart.errorInfo3" />)
       return false
@@ -111,8 +111,8 @@ class LoginCart extends React.Component {
       return false
     }
 
-    this.openPetModal()
-    // this.props.history.push('/prescription')
+    // this.openPetModal()
+    this.props.history.push('/prescription')
   }
   openPetModal () {
     this.setState({
@@ -486,7 +486,7 @@ class LoginCart extends React.Component {
                           <FormattedMessage id="total" />
                         </div>
                         <div className="col-4 no-padding-left">
-                          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.state.totalPrice)}</p>
+                          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.totalPrice)}</p>
                         </div>
                       </div>
                       <div className="row" style={{ display: this.state.isPromote ? 'flex' : 'none' }}>
@@ -517,7 +517,7 @@ class LoginCart extends React.Component {
                             </strong>
                           </div>
                           <div className="col-5">
-                            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.state.tradePrice)}</p>
+                            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.tradePrice)}</p>
                           </div>
                         </div>
                         <div className="row checkout-proccess">
@@ -593,13 +593,13 @@ class LoginCart extends React.Component {
           </div>
         </main>
         <Footer />
-        <PetModal visible={this.state.petModalVisible}
+        {/* <PetModal visible={this.state.petModalVisible}
           isAdd={this.state.isAdd}
           productList={this.state.productList}
           openNew={() => this.openNew()}
           closeNew={() => this.closeNew()}
           confirm={() => this.petComfirm()}
-          close={() => this.closePetModal()} />
+          close={() => this.closePetModal()} /> */}
       </div>
     );
   }

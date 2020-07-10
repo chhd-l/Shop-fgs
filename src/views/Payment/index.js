@@ -307,10 +307,10 @@ class Payment extends React.Component {
     } else {
       param.billingAddress = tmpBillingAddress;
     }
-    if (!this.validInputsData(param.deliveryAddress)) {
+    if (this.validInputsData(param.deliveryAddress) === false) {
       return false
     }
-    if (!this.validInputsData(param.billingAddress)) {
+    if (this.validInputsData(param.billingAddress) === false) {
       return false
     }
 
