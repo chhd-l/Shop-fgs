@@ -7,7 +7,8 @@ import BreadCrumbs from "@/components/BreadCrumbs";
 import SideMenu from "@/components/SideMenu";
 import visaImg from "@/assets/images/credit-cards/visa.svg";
 import Loading from "@/components/Loading";
-import PaymentComp from './components/PaymentComp'
+import PaymentComp from "./components/PaymentComp";
+import AddressComp from "./components/AddressComp";
 export default class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -44,7 +45,76 @@ export default class SubscriptionDetail extends React.Component {
       },
       isChangeQuatity: false,
       discount: [],
-      type: 'main'
+      type: "main",
+      currentCardInfo: {
+        id: "PM202007100416145447",
+        customerId: "ff808081725658a001725a83be530084",
+        cardNumber: "4772910000000007",
+        cardType: "CREDIT",
+        cardMmyy: "12/20",
+        cardCvv: "888",
+        cardOwner: "zhuyuqi22",
+        email: "396838319@qq.com",
+        vendor: "VISA",
+        phoneNumber: "13080534977",
+        createTime: "2020-07-10 04:16:15.000",
+        updateTime: null,
+        isDefault: 0,
+        delFlag: 0,
+      },
+      currentDeliveryAddress: {
+        deliveryAddressId: "ff8080817291d3ce017292ca75d80002",
+        customerId: "ff808081725658a001725a83be530084",
+        consigneeName: "yumky zhu",
+        consigneeNumber: "13080534977",
+        provinceId: 0,
+        cityId: 1,
+        areaId: null,
+        deliveryAddress: "外滩中心",
+        isDefaltAddress: 1,
+        delFlag: 0,
+        createTime: "2020-06-08 15:17:21.000",
+        createPerson: null,
+        updateTime: "2020-07-09 13:51:33.000",
+        updatePerson: "ff808081725658a001725a83be530084",
+        deleteTime: null,
+        deletePerson: null,
+        countryId: 6,
+        postCode: "20000",
+        rfc: "德勤",
+        type: "DELIVERY",
+        address1: "外滩中心",
+        address2: "",
+        firstName: "yumky",
+        lastName: "zhu"
+      },
+      currentBillingAddress: {
+        deliveryAddressId: "ff8080817291d3ce017292ca75d80002",
+        customerId: "ff808081725658a001725a83be530084",
+        consigneeName: "yumky zhu",
+        consigneeNumber: "13080534977",
+        provinceId: 0,
+        cityId: 1,
+        areaId: null,
+        deliveryAddress: "外滩中心",
+        isDefaltAddress: 1,
+        delFlag: 0,
+        createTime: "2020-06-08 15:17:21.000",
+        createPerson: null,
+        updateTime: "2020-07-09 13:51:33.000",
+        updatePerson: "ff808081725658a001725a83be530084",
+        deleteTime: null,
+        deletePerson: null,
+        countryId: 6,
+        postCode: "20000",
+        rfc: "德勤",
+        type: "DELIVERY",
+        address1: "外滩中心",
+        address2: "",
+        firstName: "yumky",
+        lastName: "zhu"
+      },
+      addressType: "delivery",
     };
   }
   componentWillUnmount() {
@@ -63,7 +133,15 @@ export default class SubscriptionDetail extends React.Component {
   }
   render() {
     const data = this.state;
-    let { isChangeQuatity, discount, type } = this.state;
+    let {
+      isChangeQuatity,
+      discount,
+      type,
+      currentCardInfo,
+      currentDeliveryAddress,
+      currentBillingAddress,
+      addressType,
+    } = this.state;
     return (
       <div>
         <div>
@@ -79,10 +157,47 @@ export default class SubscriptionDetail extends React.Component {
               <div className="rc-layout-container rc-five-column">
                 {this.state.loading ? <Loading positionFixed="true" /> : null}
                 <SideMenu type="Subscription" />
-                <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscriptionDetail" style={{display: type === 'PaymentComp'? 'block': 'none' }}>
-                  <PaymentComp type={type} save={() => this.setState({type: 'main'})} cancel={() => this.setState({type: 'main'})}/>  
+                <div
+                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
+                  style={{ display: type === "PaymentComp" ? "block" : "none" }}
+                >
+                  <PaymentComp
+                    type={type}
+                    save={(el) => {
+                      console.log(el);
+                      this.setState({ type: "main", currentCardInfo: el });
+                    }}
+                    cancel={() => this.setState({ type: "main" })}
+                  />
                 </div>
-                <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscriptionDetail" style={{display: type === 'main'? 'block': 'none' }}>
+                <div
+                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
+                  style={{ display: type === "AddressComp" ? "block" : "none" }}
+                >
+                  <AddressComp
+                    type={addressType}
+                    save={(el) => {
+                      console.log(el);
+                      if(addressType === 'delivery') {
+                        this.setState({
+                          type: "main",
+                          currentDeliveryAddress: el,
+                        });
+                      }else {
+                        this.setState({
+                          type: "main",
+                          currentBillingAddress: el,
+                        });
+                      }
+                      
+                    }}
+                    cancel={() => this.setState({ type: "main" })}
+                  />
+                </div>
+                <div
+                  className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscriptionDetail"
+                  style={{ display: type === "main" ? "block" : "none" }}
+                >
                   <div
                     className="rc-border-bottom rc-border-colour--interface"
                     style={{ display: "flex" }}
@@ -417,11 +532,11 @@ export default class SubscriptionDetail extends React.Component {
                                       right: "-18px",
                                       fontSize: "22px",
                                       bottom: "8px",
-                                      cursor: 'pointer'
+                                      cursor: "pointer",
                                     }}
                                     onClick={() => {
-                                      discount.pop()
-                                      this.setState({discount: discount})
+                                      discount.pop();
+                                      this.setState({ discount: discount });
                                     }}
                                   >
                                     x
@@ -471,8 +586,8 @@ export default class SubscriptionDetail extends React.Component {
                               class="rc-btn rc-btn--sm rc-btn--two"
                               style={{ marginTop: "10px", float: "right" }}
                               onClick={() => {
-                                discount.push(1)
-                                this.setState({discount})
+                                discount.push(1);
+                                this.setState({ discount });
                               }}
                             >
                               Apply
@@ -498,18 +613,24 @@ export default class SubscriptionDetail extends React.Component {
                                     {data.shippingAddress.name}
                                   </b> */}
                                 <h1 className="rc-card__meta order-Id">
-                                  {/* {data.shippingAddress.address} */}
-                                  Cathy Lei
+                                  {currentDeliveryAddress.consigneeName}
                                 </h1>
                                 <h1 className="rc-card__meta order-Id">
-                                  {/* {data.shippingAddress.code} */}
-                                  Mexico, Monterry
+                                  {`${currentDeliveryAddress.cityId}, ${currentDeliveryAddress.provinceId}`}
                                 </h1>
                                 <h1 className="rc-card__meta order-Id">
-                                  {/* {data.shippingAddress.addressType} */}
-                                  ILIANA ROMO MANZANO12345
+                                  {currentDeliveryAddress.address1}
                                 </h1>
-                                <a className="rc-styled-link red-text">
+                                <a
+                                  className="rc-styled-link red-text"
+                                  onClick={() => {
+                                    window.scrollTo(0, 0);
+                                    this.setState({
+                                      type: "AddressComp",
+                                      addressType: "delivery",
+                                    });
+                                  }}
+                                >
                                   <FormattedMessage id="subscription.change"></FormattedMessage>{" "}
                                   Address
                                 </a>
@@ -536,18 +657,24 @@ export default class SubscriptionDetail extends React.Component {
                                     {data.billingAddress.name}
                                   </b> */}
                                 <h1 className="rc-card__meta order-Id">
-                                  {/* {data.shippingAddress.address} */}
-                                  Cathy Lei
+                                  {currentBillingAddress.consigneeName}
                                 </h1>
                                 <h1 className="rc-card__meta order-Id">
-                                  {/* {data.shippingAddress.code} */}
-                                  Mexico, Monterry
+                                  {`${currentBillingAddress.cityId}, ${currentBillingAddress.provinceId}`}
                                 </h1>
                                 <h1 className="rc-card__meta order-Id">
-                                  {/* {data.shippingAddress.addressType} */}
-                                  ILIANA ROMO MANZANO12345
+                                  {currentBillingAddress.address1}
                                 </h1>
-                                <a className="rc-styled-link red-text">
+                                <a
+                                  className="rc-styled-link red-text"
+                                  onClick={() => {
+                                    window.scrollTo(0, 0);
+                                    this.setState({
+                                      type: "AddressComp",
+                                      addressType: "billing",
+                                    });
+                                  }}
+                                >
                                   <FormattedMessage id="subscription.change"></FormattedMessage>{" "}
                                   Address
                                 </a>
@@ -583,14 +710,23 @@ export default class SubscriptionDetail extends React.Component {
                                     className="card-img"
                                     src={data.payment.cardImg}
                                   />
-                                  &nbsp;&nbsp; {data.payment.type}
+                                  &nbsp;&nbsp; {currentCardInfo.cardType}
                                 </h1>
                                 <h1 className="rc-card__meta order-Id">
                                   {/* {data.payment.card} */}
-                                  XXXXXX0423
+                                  xxxx xxxx xxxx{" "}
+                                  {currentCardInfo.cardNumber.substring(
+                                    currentCardInfo.cardNumber.length - 4
+                                  )}
                                 </h1>
 
-                                <a className="rc-styled-link red-text" onClick={() => this.setState({type: 'PaymentComp'})}>
+                                <a
+                                  className="rc-styled-link red-text"
+                                  onClick={() => {
+                                    window.scrollTo(0, 0);
+                                    this.setState({ type: "PaymentComp" });
+                                  }}
+                                >
                                   <FormattedMessage id="subscription.change"></FormattedMessage>{" "}
                                   Card
                                 </a>

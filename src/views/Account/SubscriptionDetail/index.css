@@ -12,12 +12,6 @@
   display: inline-block;
   height: 36px;
 }
-.rightBox {
-  /* width: 100px;
-  height: 100%;
-  float: right; */
-  /* background-color: red; */
-}
 .column-contanier {
   border: none;
 }
@@ -26,7 +20,6 @@
   border-bottom: 1px solid #ddd;
 }
 .operationBox {
-  /* border-top: 1px solid #ddd; */
   border-bottom: 1px solid #ddd;
   padding-top: 0 !important;
 }
@@ -72,4 +65,3 @@
 .subscriptionDetail .rc-input__label {
   height: 46px;
 }
-/* .subscriptionDetail  */
