@@ -12,6 +12,7 @@ import Loading from "@/components/Loading";
 import UnloginDeliveryAddress from "./modules/UnloginDeliveryAddress";
 import LoginDeliveryAddress from "./modules/LoginDeliveryAddress";
 import BillingAddressForm from "./modules/BillingAddressForm";
+import SubscriptionSelect from "./modules/SubscriptionSelect"
 import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
@@ -111,6 +112,10 @@ class Payment extends React.Component {
         email: "",
         phoneNumber: "",
         identifyNumber: "111",
+      },
+      subForm: {
+        buyWay: '',
+        frequencyVal: ''
       },
       errorShow: false,
       errorMsg: "",
@@ -392,8 +397,10 @@ class Payment extends React.Component {
       commentOnDelivery,
       billingChecked,
       creditCardInfo,
-      payMethod
+      payMethod,
+      subForm
     } = this.state;
+    const loginCartData = this.props.checkoutStore.loginCartData
     const cartData = this.cartData.filter(ele => ele.selected)
     if (!payMethod) {
       this.setState({ showPayMethodError: true })
@@ -427,7 +434,7 @@ class Payment extends React.Component {
         })
       }
       if (this.isLogin) {
-        param2.goodsInfos = this.props.checkoutStore.loginCartData.map((ele) => {
+        param2.goodsInfos = loginCartData.map((ele) => {
           return {
             verifyStock: false,
             buyCount: ele.buyCount,
@@ -442,7 +449,7 @@ class Payment extends React.Component {
           marketingLevelId: "",
           skuIds: [],
           giftSkuIds: []
-        },
+        }
       ];
       let goodsMarketingMapStr = sessionStorage.getItem("goodsMarketingMap")
       let goodsMarketingMap = JSON.parse(goodsMarketingMapStr)
@@ -490,24 +497,43 @@ class Payment extends React.Component {
             num: g.buyCount,
             skuId: g.goodsInfoId
           }
-        }),
+        }), // once order products
+        subTradeItems: [], // subscription order products
         tradeMarketingList,
         payAccountName: creditCardInfo.cardOwner,
-        payPhoneNumber: creditCardInfo.phoneNumber
+        payPhoneNumber: creditCardInfo.phoneNumber,
+        petsId: ''
       };
       try {
         sessionStorage.setItem("rc-paywith-login", this.isLogin);
         if (!this.isLogin) {
           // 登录状态，不需要调用两个接口
           let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(param);
-          sessionStorage.setItem(
-            "rc-token",
-            postVisitorRegisterAndLoginRes.context.token
-          );
+          sessionStorage.setItem("rc-token", postVisitorRegisterAndLoginRes.context.token);
           await batchAdd(param2);
         } else {
           param3.deliveryAddressId = deliveryAddress.addressId
           param3.billAddressId = billingAddress.addressId
+          if (subForm.buyWay === 'frequency') {
+            param3.tradeItems = param2.goodsInfos
+              .filter(ele => !ele.subscriptionStatus)
+              .map(g => {
+                return {
+                  num: g.buyCount,
+                  skuId: g.goodsInfoId
+                }
+              })
+            param3.subTradeItems = loginCartData
+              .filter(ele => ele.subscriptionStatus)
+              .map(g => {
+                return {
+                  num: g.buyCount,
+                  skuId: g.goodsInfoId,
+                  subFreq: subForm.frequencyVal,
+                  subscriptionStatus: 1
+                }
+              })
+          }
         }
         // rePay
         if (this.tid) {
@@ -687,16 +713,6 @@ class Payment extends React.Component {
       });
     }
   }
-  updateDeliveryAddress (data) {
-    this.setState({
-      deliveryAddress: data
-    });
-  }
-  updateBillingAddress (data) {
-    this.setState({
-      billingAddress: data
-    });
-  }
   handleClickEditClinic (e) {
     e.preventDefault()
     const tmpClinicsName = sessionStorage.getItem('rc-clinics-name-link') || sessionStorage.getItem('rc-clinics-name-default')
@@ -804,8 +820,22 @@ class Payment extends React.Component {
                       ) : (
                         <UnloginDeliveryAddress
                           data={deliveryAddress}
-                          updateData={(data) => this.updateDeliveryAddress(data)} />
+                          updateData={(data) => {
+                            this.setState({
+                              deliveryAddress: data
+                            });
+                          }} />
                       )}
+                    {
+                      this.isLogin && find(this.props.checkoutStore.loginCartData, ele => ele.subscriptionStatus)
+                        ? <SubscriptionSelect
+                          updateSelectedData={data => {
+                            this.setState({
+                              subForm: data
+                            })
+                          }} />
+                        : null
+                    }
                     <div className="card-header" style={{ zIndex: 2, width: '62%' }}>
                       <h5>
                         <FormattedMessage id="payment.billTitle" />
@@ -838,7 +868,11 @@ class Payment extends React.Component {
                         <BillingAddressForm
                           data={billingAddress}
                           billingChecked={this.state.billingChecked}
-                          updateData={(data) => this.updateBillingAddress(data)}
+                          updateData={(data) => {
+                            this.setState({
+                              billingAddress: data
+                            });
+                          }}
                         />
                       )}
 
@@ -1464,7 +1498,7 @@ class Payment extends React.Component {
                     <FormattedMessage id="edit" />
                   </Link>
                 }
-                <PayProductInfo />
+                <PayProductInfo frequencyVal={this.state.subForm.frequencyVal} />
               </div>
             </div>
           </div>

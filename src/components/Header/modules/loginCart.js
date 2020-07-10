@@ -66,10 +66,10 @@ class LoginCart extends React.Component {
     }
 
     // 库存不够，不能下单
-    if (this.props.checkoutStoreoutOfstockProNames.length) {
+    if (this.props.checkoutStore.outOfstockProNames.length) {
       this.setState({
         errMsg: <FormattedMessage id="cart.errorInfo2"
-          values={{ val: this.props.checkoutStoreoutOfstockProNames.join('/') }} />
+          values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />
       })
       return false
     }
