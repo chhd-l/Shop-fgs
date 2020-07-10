@@ -68,10 +68,7 @@ class Details extends React.Component {
       errMsg: "",
       checkOutErrMsg: "",
       addToCartLoading: false,
-      tradePrice: "",
-      specList: [],
-      tabsValue: [],
-      buyWay: 'Once'
+      specList: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -92,9 +89,7 @@ class Details extends React.Component {
       return false;
     }
     this.setState(
-      {
-        id: this.props.match.params.id
-      },
+      { id: this.props.match.params.id },
       () => this.queryDetails()
     );
   }
@@ -227,15 +222,13 @@ class Details extends React.Component {
               goodsDetailTab: goodsDetailTab
             })
           } catch (err) {
-            getDict({
-              type: 'goodsDetailTab',
-              storeId: STOREID
-            }).then(res => {
-              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(ele => ele.name)
-              this.setState({
-                goodsDetailTab: goodsDetailTab
+            getDict({ type: 'goodsDetailTab', storeId: STOREID })
+              .then(res => {
+                goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(ele => ele.name)
+                this.setState({
+                  goodsDetailTab: goodsDetailTab
+                })
               })
-            })
           }
           this.setState(
             {
@@ -299,32 +292,6 @@ class Details extends React.Component {
         this.updateInstockStatus();
       }
     );
-  }
-  async hanldePurchasesForCheckout (data) {
-    let param = data.map((ele) => {
-      return {
-        goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
-        goodsNum: ele.quantity,
-        invalid: false,
-      };
-    });
-    let res = await hanldePurchases(param);
-    sessionStorage.setItem(
-      "goodsMarketingMap",
-      JSON.stringify(res.goodsMarketingMap)
-    );
-    sessionStorage.setItem(
-      "rc-totalInfo",
-      JSON.stringify({
-        totalPrice: res.totalPrice,
-        tradePrice: res.tradePrice,
-        discountPrice: res.discountPrice,
-      })
-    );
-    this.setState({
-      tradePrice: res.tradePrice
-    })
-    return res
   }
   handleAmountInput (e) {
     this.setState({ checkOutErrMsg: "" });
@@ -407,7 +374,7 @@ class Details extends React.Component {
       }, 1000);
       this.setState({ addToCartLoading: false });
       if (redirect) {
-        if (this.checkoutStore.loginCartPrice.tradePrice < MINIMUM_AMOUNT) {
+        if (this.checkoutStore.tradePrice < MINIMUM_AMOUNT) {
           this.setState({
             checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />
           })
@@ -415,10 +382,10 @@ class Details extends React.Component {
         }
 
         // 库存不够，不能下单
-        const outOfstockProNames = this.checkoutStore.loginCartData.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
-        if (outOfstockProNames.length) {
+        if (this.props.checkoutStore.outOfstockProNames.length) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />
+            checkOutErrMsg: <FormattedMessage id="cart.errorInfo2"
+              values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />
           })
           return false
         }
@@ -510,34 +477,19 @@ class Details extends React.Component {
     } else {
       cartDataCopy.push(tmpData);
     }
-    this.props.checkoutStore.setCartData(cartDataCopy)
+    await this.props.checkoutStore.updateUnloginCart(cartDataCopy)
+    this.setState({ addToCartLoading: false });
     if (redirect) {
-      // 库存校验
-      let tmpValidateAllItemsStock = true
-      let purchasesRes = await this.hanldePurchasesForCheckout(cartDataCopy);
-      purchasesRes = purchasesRes.goodsInfos
-      let outOfstockProNames = []
-      cartDataCopy.map(item => {
-        let selectedSize = find(item.sizeList, s => s.selected)
-        const tmpObj = find(purchasesRes, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
-        if (tmpObj) {
-          selectedSize.stock = tmpObj.stock
-          if (item.quantity > tmpObj.stock) {
-            tmpValidateAllItemsStock = false
-            outOfstockProNames.push(tmpObj.goodsInfoName + ' ' + tmpObj.specText)
-          }
-        }
-      })
-      this.setState({ addToCartLoading: false });
-      if (this.state.tradePrice < MINIMUM_AMOUNT) {
+      if (this.checkoutStore.tradePrice < MINIMUM_AMOUNT) {
         this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />,
+          checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />
         });
         return false
       }
-      if (!tmpValidateAllItemsStock) {
+      if (this.checkoutStore.outOfstockProNames.length) {
         this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />
+          checkOutErrMsg: <FormattedMessage id="cart.errorInfo2"
+            values={{ val: this.checkoutStore.outOfstockProNames.join('/') }} />
         })
         return false
       }
@@ -547,7 +499,6 @@ class Details extends React.Component {
         history.push('/prescription')
       }
     }
-    this.setState({ addToCartLoading: false });
     // todo 改为mobx
     this.headerRef.current.handleCartMouseOver();
     setTimeout(() => {
@@ -556,12 +507,6 @@ class Details extends React.Component {
   }
   changeTab (e, i) {
     this.setState({ activeTabIdx: i })
-  }
-  handleChange (e) {
-    this.setState({
-      buyWay: e.target.value
-    }
-    )
   }
   render () {
     const createMarkup = (text) => ({ __html: text });

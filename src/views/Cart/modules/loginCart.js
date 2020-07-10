@@ -6,10 +6,13 @@ import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ConfirmTooltip from '@/components/ConfirmTooltip'
+import PetModal from '@/components/PetModal'
 import { Link } from 'react-router-dom'
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { find } from 'lodash'
+import { getPetList } from '@/api/pet'
+import { getCustomerInfo } from "@/api/user"
 import {
   updateBackendCart,
   deleteItemFromBackendCart,
@@ -18,6 +21,7 @@ import {
 } from '@/api/cart'
 import CART_CAT from "@/assets/images/CART_CAT.webp";
 import CART_DOG from "@/assets/images/CART_DOG.webp";
+import { debug } from "semantic-ui-react/dist/commonjs/lib";
 
 @inject("checkoutStore")
 class LoginCart extends React.Component {
@@ -27,15 +31,12 @@ class LoginCart extends React.Component {
       errorShow: false,
       errorMsg: '',
       productList: [],
-      totalPrice: 0,
-      tradePrice: 0,
-      discountPrice: 0,
       currentProductIdx: -1,
       quantityMinLimit: 1,
       deleteLoading: false,
       checkoutLoading: false,
-      validateAllItemsStock: true,
-      isPromote: false
+      petModalVisible: false,
+      isAdd: 0
     }
     this.handleAmountChange = this.handleAmountChange.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
@@ -47,7 +48,6 @@ class LoginCart extends React.Component {
     if (unloginCartData.length) {
       await mergeUnloginCartData()
     }
-    // this.updateCartCache()
     this.setData()
   }
   get checkoutStore () {
@@ -56,20 +56,27 @@ class LoginCart extends React.Component {
   get totalNum () {
     return this.state.productList.reduce((prev, cur) => { return prev + cur.buyCount }, 0)
   }
+  get totalPrice () {
+    return this.props.checkoutStore.totalPrice
+  }
+  get tradePrice () {
+    return this.props.checkoutStore.tradePrice
+  }
+  get discountPrice () {
+    return this.props.checkoutStore.discountPrice
+  }
+  get isPromote () {
+    return parseInt(this.discountPrice) > 0
+  }
   async updateCartCache () {
     this.setState({ checkoutLoading: true })
     await this.checkoutStore.updateLoginCart()
     this.setData()
+    this.setState({ checkoutLoading: false })
   }
   setData () {
-    const loginCartPrice = this.checkoutStore.loginCartPrice
     this.setState({
       productList: this.checkoutStore.loginCartData,
-
-      totalPrice: loginCartPrice.totalPrice,
-      tradePrice: loginCartPrice.tradePrice,
-      discountPrice: loginCartPrice.discountPrice,
-      isPromote: parseInt(loginCartPrice.discountPrice) > 0,
       checkoutLoading: false
     })
   }
@@ -82,16 +89,13 @@ class LoginCart extends React.Component {
   }
   /**
    * 删除某个产品
-   * 
+   *
    */
   async deleteItemFromBackendCart (param) {
     await deleteItemFromBackendCart(param)
     this.updateCartCache()
   }
   async handleCheckout () {
-    debugger
-    const { productList } = this.state
-
     // 价格未达到底限，不能下单
     if (this.state.tradePrice < MINIMUM_AMOUNT) {
       window.scrollTo({ behavior: "smooth", top: 0 })
@@ -100,15 +104,25 @@ class LoginCart extends React.Component {
     }
 
     // 库存不够，不能下单
-    const outOfstockProNames = productList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
-    if (outOfstockProNames.length) {
+    if (this.props.checkoutStore.outOfstockProNames.length) {
       window.scrollTo({ behavior: "smooth", top: 0 })
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />)
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo2"
+        values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />)
       return false
     }
 
-    this.checkoutStore.setLoginCartData(productList)
-    this.props.history.push('/prescription')
+    this.openPetModal()
+    // this.props.history.push('/prescription')
+  }
+  openPetModal () {
+    this.setState({
+      petModalVisible: true
+    })
+  }
+  closePetModal () {
+    this.setState({
+      petModalVisible: false
+    })
   }
   showErrMsg (msg) {
     this.setState({
@@ -395,6 +409,21 @@ class LoginCart extends React.Component {
       productList: productList
     })
   }
+  petComfirm () {
+    this.props.history.push('/prescription')
+  }
+  openNew () {
+    this.setState({
+      isAdd: 1
+    })
+    this.openPetModal()
+  }
+  closeNew () {
+    this.setState({
+      isAdd: 2
+    })
+    this.openPetModal()
+  }
   render () {
     const { productList, checkoutLoading } = this.state;
     const List = this.getProducts(productList);
@@ -564,6 +593,13 @@ class LoginCart extends React.Component {
           </div>
         </main>
         <Footer />
+        <PetModal visible={this.state.petModalVisible}
+          isAdd={this.state.isAdd}
+          productList={this.state.productList}
+          openNew={() => this.openNew()}
+          closeNew={() => this.closeNew()}
+          confirm={() => this.petComfirm()}
+          close={() => this.closePetModal()} />
       </div>
     );
   }

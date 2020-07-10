@@ -38,75 +38,37 @@ class UnloginCart extends React.Component {
       }
     }, 500)
   }
+  componentDidMount () {
+    this.props.checkoutStore.updateUnloginCart()
+  }
   get selectedCartData () {
     return this.props.checkoutStore.cartData.filter(ele => ele.selected)
   }
   get totalNum () {
     return this.selectedCartData.reduce((pre, cur) => { return pre + cur.quantity }, 0)
   }
-  get totalPrice () {
-    let ret = 0
-    this.selectedCartData.map(item => {
-      return ret += item.currentAmount
-    })
-    return ret
+  get tradePrice () {
+    return this.props.checkoutStore.tradePrice
   }
   async handleCheckout ({ needLogin = false } = {}) {
     const { history } = this.props
-    let tmpValidateAllItemsStock = true
-    this.setState({ checkoutLoading: true })
-    if (this.selectedCartData.length) {
-      let productList = this.selectedCartData
-      let param = productList.map(ele => {
-        return {
-          goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId,
-          goodsNum: ele.quantity,
-          invalid: false
-        }
-      })
-      let res = await hanldePurchases(param)
-      let latestGoodsInfos = res.goodsInfos
-      let outOfstockProNames = []
-      productList.map(item => {
-        let selectedSize = find(item.sizeList, s => s.selected)
-        const tmpObj = find(latestGoodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
-        if (tmpObj) {
-          selectedSize.stock = tmpObj.stock
-          if (item.quantity > tmpObj.stock) {
-            tmpValidateAllItemsStock = false
-            outOfstockProNames.push(tmpObj.goodsInfoName + ' ' + tmpObj.specText)
-          }
-        }
-      })
-
-      sessionStorage.setItem('rc-totalInfo', JSON.stringify({
-        totalPrice: res.totalPrice,
-        tradePrice: res.tradePrice,
-        discountPrice: res.discountPrice
-      }))
+    if (this.tradePrice < MINIMUM_AMOUNT) {
       this.setState({
-        checkoutLoading: false,
-        validateAllItemsStock: tmpValidateAllItemsStock,
-        tradePrice: res.tradePrice
+        errMsg: <FormattedMessage id="cart.errorInfo3" />
       })
-
-      if (res.tradePrice < MINIMUM_AMOUNT) {
-        this.setState({
-          errMsg: <FormattedMessage id="cart.errorInfo3" />
-        })
-        return false
-      }
-      if (!tmpValidateAllItemsStock) {
-        this.setState({
-          errMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />
-        })
-        return false
-      }
-      if (needLogin) {
-        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
-      } else {
-        history.push('/prescription')
-      }
+      return false
+    }
+    if (this.checkoutStore.outOfstockProNames.length) {
+      this.setState({
+        errMsg: <FormattedMessage id="cart.errorInfo2"
+          values={{ val: this.checkoutStore.outOfstockProNames.join('/') }} />
+      })
+      return false
+    }
+    if (needLogin) {
+      // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
+    } else {
+      history.push('/prescription')
     }
   }
   render () {
@@ -146,7 +108,7 @@ class UnloginCart extends React.Component {
                     </div>
                   </div>
                   <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
-                    <span className="rc-body rc-margin--none"><FormattedMessage id="total" /> <b>{formatMoney(this.totalPrice)}</b></span>
+                    <span className="rc-body rc-margin--none"><FormattedMessage id="total" /> <b>{formatMoney(this.tradePrice)}</b></span>
                     <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true"><FormattedMessage id="chang" /></Link>
                   </div>
                   <div style={{ margin: '0 2%', display: this.state.errMsg ? 'block' : 'none' }}>

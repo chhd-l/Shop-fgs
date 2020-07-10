@@ -61,7 +61,6 @@ import AccountReturnOrder from "@/views/Account/ReturnOrder";
 import ForgetPassword from "@/views/ForgetPassword";
 
 const token = localStorage.getItem('rc-token')
-localStorage.setItem('rc-lang', 'es')
 
 const App = () => (
 

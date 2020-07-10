@@ -17,7 +17,7 @@ class RouteFilter extends Component {
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/')
     }
-    if (this.props.location.pathname === "/payment/payment") {
+    if (this.props.location.pathname === "/payment/payment" || this.props.location.pathname === "/payment/shipping") {
       loadJS(
         "https://js.paymentsos.com/v2/latest/secure-fields.min.js",
         function () {
