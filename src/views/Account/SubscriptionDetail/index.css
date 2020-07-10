@@ -17,7 +17,7 @@
 }
 .product-container {
   border: none;
-  border-bottom: 1px solid #ddd;
+  /* border-bottom: 1px solid #ddd; */
 }
 .operationBox {
   border-bottom: 1px solid #ddd;
@@ -32,6 +32,7 @@
 }
 .subscriptionDetail .footer-container {
   margin-top: 30px;
+  padding-left: 20px !important;
 }
 .subscriptionDetail .mt10 {
   margin-top: 10px;

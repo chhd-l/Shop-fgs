@@ -391,10 +391,9 @@ export default class SubscriptionDetail extends React.Component {
                         </div>
                       </div>
                     </div>
-                    <div className="rc-layout-container rc-three-column mgb30">
+                    <div className="rc-layout-container rc-three-column mgb30" style={{borderBottom: '1px solid #ddd'}}>
                       <div
                         className="rc-column product-container"
-                        style={{ height: "200px" }}
                       >
                         <div
                           className="text-right"
@@ -491,6 +490,7 @@ export default class SubscriptionDetail extends React.Component {
                             </div>
                           </div>
                         </div>
+                        
                       </div>
                       <div
                         className="rc-column flex-layout"
@@ -598,8 +598,8 @@ export default class SubscriptionDetail extends React.Component {
                       </div>
                     </div>
                     {/*footer*/}
-                    <div className="rc-layout-container rc-two-column">
-                      <div className="rc-column footer-container ">
+                    <div className="rc-layout-container rc-three-column">
+                      <div className="rc-column footer-container">
                         <b className="font18">
                           <i className="rc-icon rc-shop--xs rc-brand1"></i>{" "}
                           <FormattedMessage id="subscription.shippingAddress"></FormattedMessage>
@@ -687,8 +687,6 @@ export default class SubscriptionDetail extends React.Component {
                           {/* </article> */}
                         </div>
                       </div>
-                    </div>
-                    <div className="rc-layout-container rc-two-column">
                       <div className="rc-column footer-container ">
                         <b className="b-text">
                           <i className="rc-icon rc-shelter--xs rc-brand1"></i>{" "}
@@ -739,27 +737,59 @@ export default class SubscriptionDetail extends React.Component {
                           {/* </article> */}
                         </div>
                       </div>
+                    </div>
+                    {/* <div className="rc-layout-container rc-two-column">
+                      <div className="rc-column footer-container ">
+                        <b className="b-text">
+                          <i className="rc-icon rc-shelter--xs rc-brand1"></i>{" "}
+                          <FormattedMessage id="subscription.paymentMethod"></FormattedMessage>
+                        </b>
+                        <div className="mt10">
+                          <div className="rc-card__body pdl0 ">
+                            <div className="rc-card-container">
+                              <div className="rc-card-content">
+                                <h1 className="rc-card__meta order-Id">
+                                  <img
+                                    className="card-img"
+                                    src={data.payment.cardImg}
+                                  />
+                                  &nbsp;&nbsp; {currentCardInfo.cardType}
+                                </h1>
+                                <h1 className="rc-card__meta order-Id">
+                                  xxxx xxxx xxxx{" "}
+                                  {currentCardInfo.cardNumber.substring(
+                                    currentCardInfo.cardNumber.length - 4
+                                  )}
+                                </h1>
+
+                                <a
+                                  className="rc-styled-link red-text"
+                                  onClick={() => {
+                                    window.scrollTo(0, 0);
+                                    this.setState({ type: "PaymentComp" });
+                                  }}
+                                >
+                                  <FormattedMessage id="subscription.change"></FormattedMessage>{" "}
+                                  Card
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       <div className="rc-column footer-container">
                         <b className="b-text">
                           <i className="rc-icon rc-new-window--xs rc-brand1"></i>{" "}
                           My Little Pet
                         </b>
                         <div className="mt10">
-                          {/* <article className="rc-card rc-card--a"> */}
                           <div className="rc-card__body pdl0 ">
                             <div className="rc-card-container">
-                              {/* <div className="card-wrapper flex-layout"> */}
-
-                              {/* </div> */}
                               <div className="rc-card-content">
                                 <h1 className="rc-card__meta order-Id">
                                   Ziggle
                                 </h1>
-                                {/* <b className="footer--title">
-                                    {data.payment.name}
-                                  </b> */}
                                 <h1 className="rc-card__meta order-Id">
-                                  {/* {data.payment.card} */}
                                   12.04.2019
                                 </h1>
 
@@ -768,15 +798,11 @@ export default class SubscriptionDetail extends React.Component {
                                   Pet
                                 </a>
                               </div>
-                              {/* <div className="v-center">
-                                  
-                                </div> */}
                             </div>
                           </div>
-                          {/* </article> */}
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                     {/* <div className="footer" style={{margin: '30px 0'}}>
                       <div className="text-right">
                       <button class="rc-btn rc-btn--sm rc-btn--two">Skip this order</button> or <a class="rc-styled-link " href="#/">Cancel All</a>

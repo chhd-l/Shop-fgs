@@ -10,7 +10,7 @@ import {
 import { getDictionary } from '@/utils/utils'
 import AddressForm from './form'
 import Loading from "@/components/Loading"
-import './index.css'
+import './index.less'
 
 
 class LoginDeliveryAddress extends React.Component {
