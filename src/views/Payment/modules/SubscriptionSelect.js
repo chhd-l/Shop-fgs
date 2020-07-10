@@ -90,7 +90,7 @@ class SubscriptionSelect extends Component {
             <span className="ml-2 d-flex align-items-center flex-wrap">
               {
                 this.props.checkoutStore.loginCartData.map((ele, i) => (
-                  <img className="inlineblock" style={{ width: '8%' }} key={i} src={ele.goodsInfoImg} />
+                  <img style={{ width: '8%', display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
                 ))
               }
             </span>
