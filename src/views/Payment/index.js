@@ -443,19 +443,15 @@ class Payment extends React.Component {
         })
       }
 
-      let tradeMarketingList = [
-        {
+      let tradeMarketingList = []
+      let goodsMarketingMap = this.props.checkoutStore.goodsMarketingMap
+      if (Object.keys(goodsMarketingMap).length) {
+        tradeMarketingList.push({
           marketingId: "",
           marketingLevelId: "",
           skuIds: [],
           giftSkuIds: []
-        }
-      ];
-      let goodsMarketingMapStr = sessionStorage.getItem("goodsMarketingMap")
-      let goodsMarketingMap = JSON.parse(goodsMarketingMapStr)
-      if (goodsMarketingMapStr === "{}") {
-        tradeMarketingList = []
-      } else {
+        })
         for (let k in goodsMarketingMap) {
           tradeMarketingList[0].skuIds.push(k);
           if (!tradeMarketingList[0].marketingLevelId) {

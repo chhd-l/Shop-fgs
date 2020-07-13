@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { inject } from 'mobx-react'
-
+import PetModal from '@/components/PetModal'
 @inject("checkoutStore")
 class LoginCart extends React.Component {
   constructor(props) {
@@ -13,6 +13,8 @@ class LoginCart extends React.Component {
     this.state = {
       showCart: false,
       checkoutLoading: false,
+      petModalVisible: false,
+      isAdd: 0
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -73,11 +75,42 @@ class LoginCart extends React.Component {
       })
       return false
     }
-
+    // this.openPetModal()
     this.props.history.push('/prescription')
+  }
+  openPetModal() {
+    this.setState({
+      petModalVisible: true
+    })
+  }
+  closePetModal() {
+    if(this.state.isAdd === 2) {
+      this.setState({
+        isAdd: 0
+      })
+    }
+    this.setState({
+      petModalVisible: false
+    })
+  }
+  petComfirm(){
+    this.props.history.push('/prescription')
+  }
+  openNew() {
+    this.setState({
+      isAdd: 1
+    })
+    this.openPetModal()
+  }
+  closeNew() {
+    this.setState({
+      isAdd: 2
+    })
+    this.openPetModal()
   }
   render () {
     const { totalNum, cartData, loading } = this
+    console.log(cartData, "cartData---------------")
     return (
       <span
         className="minicart inlineblock"
@@ -119,7 +152,7 @@ class LoginCart extends React.Component {
                         loading
                           ? <b>--</b>
                           : <>
-                            <FormattedMessage id="total" /> <b>{formatMoney(this.checkoutStore.tradePrice)}</b>
+                            <FormattedMessage id="total" /> <b>{formatMoney(this.checkoutStore.loginCartPrice ?this.checkoutStore.loginCartPrice.tradePrice: 0)}</b>
                           </>
                       }
                     </span>
@@ -207,6 +240,13 @@ class LoginCart extends React.Component {
               </div>
             </div>
         }
+        <PetModal visible={this.state.petModalVisible}
+                  isAdd={this.state.isAdd}
+                  productList={cartData}
+                  openNew={() => this.openNew()}
+                  closeNew={() => this.closeNew()}
+                  confirm={()=>this.petComfirm()}
+                  close={() => this.closePetModal()}/>
       </span>
     )
   }

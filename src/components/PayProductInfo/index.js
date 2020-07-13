@@ -22,7 +22,6 @@ class PayProductInfo extends React.Component {
     ))
   }
   componentDidMount () {
-    let totalInfo = JSON.parse(sessionStorage.getItem('rc-totalInfo'))
     let productList
     if (this.isLogin) {
       productList = this.props.checkoutStore.loginCartData
@@ -31,7 +30,8 @@ class PayProductInfo extends React.Component {
     }
     this.setState(Object.assign({
       productList: productList || []
-    }, totalInfo));
+    }));
+    window.addEventListener('scroll', e => this.handleScroll(e))
   }
   get totalPrice () {
     return this.props.checkoutStore.cartPrice ? this.props.checkoutStore.cartPrice.totalPrice : 0
@@ -133,6 +133,19 @@ class PayProductInfo extends React.Component {
         <FormattedMessage id="payment.totalProduct" />
       </div>
     )
+  }
+  handleScroll (e) {
+    // debugger
+    // window.pageYOffset
+    // 
+    // console.log(window.pageYOffset, this.getElementToPageTop(document.querySelector('.product-summary__inner')))
+    console.log(window.pageYOffset, document.querySelector('.product-summary__inner').offsetTop)
+  }
+  getElementToPageTop (el) {
+    if (el.parentElement) {
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
+    }
+    return el.offsetTop;
   }
   render () {
     const { productList } = this.state

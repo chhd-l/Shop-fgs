@@ -9,6 +9,7 @@ import ImageMagnifier from '@/components/ImageMagnifier'
 import LoginButton from '@/components/LoginButton'
 import Reviews from './components/Reviews'
 import Rate from '@/components/Rate'
+import PetModal from '@/components/PetModal'
 import {
   formatMoney,
   translateHtmlCharater,
@@ -68,7 +69,12 @@ class Details extends React.Component {
       errMsg: "",
       checkOutErrMsg: "",
       addToCartLoading: false,
-      specList: []
+      tradePrice: "",
+      specList: [],
+      tabsValue: [],
+      buyWay: 'Once',
+      petModalVisible: false,
+      isAdd: 0
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -389,7 +395,7 @@ class Details extends React.Component {
           })
           return false
         }
-
+        // this.openPetModal()
         this.props.history.push('/prescription')
       }
     } catch (err) {
@@ -507,6 +513,36 @@ class Details extends React.Component {
   }
   changeTab (e, i) {
     this.setState({ activeTabIdx: i })
+  }
+  openPetModal() {
+    this.setState({
+      petModalVisible: true
+    })
+  }
+  closePetModal() {
+    if(this.state.isAdd === 2) {
+      this.setState({
+        isAdd: 0
+      })
+    }
+    this.setState({
+      petModalVisible: false
+    })
+  }
+  petComfirm(){
+    this.props.history.push('/prescription')
+  }
+  openNew() {
+    this.setState({
+      isAdd: 1
+    })
+    this.openPetModal()
+  }
+  closeNew() {
+    this.setState({
+      isAdd: 2
+    })
+    this.openPetModal()
   }
   render () {
     const createMarkup = (text) => ({ __html: text });
@@ -999,6 +1035,13 @@ class Details extends React.Component {
             </main>
           )}
         <Footer />
+        <PetModal visible={this.state.petModalVisible}
+                  isAdd={this.state.isAdd}
+                  productList={this.state.productList}
+                  openNew={() => this.openNew()}
+                  closeNew={() => this.closeNew()}
+                  confirm={()=>this.petComfirm()}
+                  close={() => this.closePetModal()}/>
       </div>
     );
   }

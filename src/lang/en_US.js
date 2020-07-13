@@ -441,6 +441,7 @@ const en_US = {
   'deleteAddressSuccess': 'Delete Address Success',
   'queryDataFailed': 'Query Data Failed',
   'getConsumerAccountFailed': 'Get Consumer Account Failed',
+  'getPetFailed': 'Get Pet Failed',
 
   'emailAddress': 'Email Address *',
   'password': 'Password *',
@@ -478,6 +479,7 @@ const en_US = {
   'moreChoicesAvailable': 'More Choices Available',
   'replyComments': 'Reply comments',
   'writeReview': 'Write a review',
+  'rePurchase': 'Repurchase',
   'purchaseRating': 'Purchase experience  rating',
   'logisticsRating': 'Logistics rating',
   'productRating': 'Product rating',

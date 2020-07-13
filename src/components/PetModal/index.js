@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Modal from '@/components/Modal'
-import { FormattedMessage } from 'react-intl'
+import {FormattedMessage, injectIntl} from 'react-intl'
+import { inject } from 'mobx-react';
 import { findIndex } from "lodash"
 import NewPetModal from './components/NewPetModal'
 import SelectPetModal from './components/SelectPetModal'
@@ -9,7 +10,9 @@ import './index.css'
 import { addPet } from '@/api/pet'
 import { getPetList } from '@/api/pet'
 import { getCustomerInfo } from "@/api/user"
-export default class PetModal extends Component { // 新建Pet
+
+@injectIntl
+class PetModal extends Component { // 新建Pet
 
     constructor() {
         super();
@@ -49,7 +52,6 @@ export default class PetModal extends Component { // 新建Pet
 
     async getPetList() {
         if(!this.getAccount()){
-            this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
             this.setState({
                 loading: false
             })
@@ -103,3 +105,4 @@ export default class PetModal extends Component { // 新建Pet
         )
     }
 }
+export default injectIntl(PetModal)
