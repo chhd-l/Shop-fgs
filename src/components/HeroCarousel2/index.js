@@ -9,6 +9,8 @@ import Banner_Horizontal_Hot_Sale from "@/assets/images/Banner_Horizontal_Hot_Sa
 import Pomotion25offImg from "@/assets/images/pomotion_25off.png";
 import Banner_recommend_item from "@/assets/images/Banner_recommend_item.jpg";
 import Banner_recommend_item_m from "@/assets/images/Banner_recommend_item_m.jpg";
+import Banner_urinary from "@/assets/images/banner/banner_urinary.jpg";
+import Banner_urinary_m from "@/assets/images/banner/banner_urinary_m.jpg";
 import './index.less'
 
 function SampleNextArrow (props) {
@@ -132,6 +134,37 @@ class HeroCarousel extends React.Component {
                     </Link>
                   </div>
                 </div> */}
+              </div>
+            </div>
+            <div className="hero-carousel__slide center-img">
+              <img className="mh-100 rc-md-up" src={Banner_urinary} />
+              <Link
+                to="/list/keywords/urinary"
+                className="rc-md-up"
+                style={{
+                  position: 'absolute',
+                  width: '12%',
+                  height: '2.5rem',
+                  zIndex: 2,
+                  top: '76%',
+                  left: '58.5%',
+                }}
+                onClick={this.hanldeClick} />
+
+              <div>
+                <img className="rc-md-down" src={Banner_urinary_m} />
+                <Link
+                  to="/list/keywords/urinary"
+                  className="rc-md-down"
+                  style={{
+                    position: 'absolute',
+                    width: '32%',
+                    height: '2rem',
+                    zIndex: 2,
+                    top: '46%',
+                    left: '34%',
+                  }}
+                  onClick={this.hanldeClick} />
               </div>
             </div>
             <div className="hero-carousel__slide">
