@@ -96,7 +96,6 @@ class LoginCart extends React.Component {
     this.updateCartCache()
   }
   async handleCheckout () {
-    debugger
     const { productList } = this.state
     // 价格未达到底限，不能下单
     if (this.state.tradePrice < MINIMUM_AMOUNT) {
@@ -114,8 +113,8 @@ class LoginCart extends React.Component {
     }
 
     this.checkoutStore.setLoginCartData(productList)
-    this.openPetModal()
-    // this.props.history.push('/prescription')
+    // this.openPetModal()
+    this.props.history.push('/prescription')
   }
   openPetModal() {
     this.setState({
@@ -123,6 +122,11 @@ class LoginCart extends React.Component {
     })
   }
   closePetModal() {
+    if(this.state.isAdd === 2) {
+      this.setState({
+        isAdd: 0
+      })
+    }
     this.setState({
       petModalVisible: false
     })

@@ -9,14 +9,16 @@ import {
 import { find } from 'lodash'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { inject } from 'mobx-react'
-
+import PetModal from '@/components/PetModal'
 @inject("checkoutStore")
 class UnloginCart extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       showCart: false,
-      checkoutLoading: false
+      checkoutLoading: false,
+      petModalVisible: false,
+      isAdd: 0
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -105,9 +107,40 @@ class UnloginCart extends React.Component {
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
+        // this.openPetModal()
         history.push('/prescription')
       }
     }
+  }
+  openPetModal() {
+    this.setState({
+      petModalVisible: true
+    })
+  }
+  closePetModal() {
+    if(this.state.isAdd === 2) {
+      this.setState({
+        isAdd: 0
+      })
+    }
+    this.setState({
+      petModalVisible: false
+    })
+  }
+  petComfirm(){
+    this.props.history.push('/prescription')
+  }
+  openNew() {
+    this.setState({
+      isAdd: 1
+    })
+    this.openPetModal()
+  }
+  closeNew() {
+    this.setState({
+      isAdd: 2
+    })
+    this.openPetModal()
   }
   render () {
     return (
@@ -239,6 +272,13 @@ class UnloginCart extends React.Component {
               </div>
             </div>
         }
+        <PetModal visible={this.state.petModalVisible}
+                  isAdd={this.state.isAdd}
+                  productList={this.selectedCartData}
+                  openNew={() => this.openNew()}
+                  closeNew={() => this.closeNew()}
+                  confirm={()=>this.petComfirm()}
+                  close={() => this.closePetModal()}/>
       </span>
     )
   }

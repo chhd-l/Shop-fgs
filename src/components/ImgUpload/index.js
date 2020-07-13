@@ -26,6 +26,7 @@ export default class ImgUpload extends React.Component {
         this.setState({
           imgList: imgList
         })
+          this.props.handleChange()
       })
       .catch(err => {
         console.log(err)
@@ -37,6 +38,7 @@ export default class ImgUpload extends React.Component {
     this.setState({
       imgList: imgList
     })
+      this.props.handleChange()
   }
   hanldePreview (idx) {
     this.setState({
@@ -65,7 +67,12 @@ export default class ImgUpload extends React.Component {
             <input type="file" name="img" accept="image/jpg, image/png, image/jpeg, image/gif" onChange={e => this.handleChange(e)} />
           </div>
         </div>
-        <p style={{fontSize: '.8em', color: '#999'}}>Only jpg, jpeg, png, gif files are supported, up to 10 sheets can be uploaded, and the size does not exceed 5M</p>
+          {
+              this.props.tipVisible ?
+                  <p style={{fontSize: '.8em', color: '#999'}} >Only jpg, jpeg, png, gif files are supported, up to 10 sheets can be uploaded, and the size does not exceed 5M</p>
+                  : null
+
+          }
         {/* modal */}
         <div
           className={`modal-backdrop fade ${

@@ -475,6 +475,7 @@ const en_US = {
   'moreChoicesAvailable': 'More Choices Available',
   'replyComments': 'Reply comments',
   'writeReview': 'Write a review',
+  'rePurchase': 'Repurchase',
   'purchaseRating': 'Purchase experience  rating',
   'logisticsRating': 'Logistics rating',
   'productRating': 'Product rating',

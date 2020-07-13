@@ -13,7 +13,7 @@ import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { cloneDeep, find } from 'lodash'
 import CART_CAT from "@/assets/images/CART_CAT.webp";
 import CART_DOG from "@/assets/images/CART_DOG.webp";
-
+import PetModal from '@/components/PetModal'
 @inject("checkoutStore")
 class UnLoginCart extends React.Component {
   constructor(props) {
@@ -30,7 +30,9 @@ class UnLoginCart extends React.Component {
       quantityMinLimit: 1,
       checkoutLoading: false,
       validateAllItemsStock: true,
-      isPromote: false
+      isPromote: false,
+      petModalVisible: false,
+      isAdd: 0
     }
     this.handleAmountChange = this.handleAmountChange.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
@@ -67,6 +69,7 @@ class UnLoginCart extends React.Component {
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
+        // this.openPetModal()
         history.push('/prescription')
       }
     } catch (e) {
@@ -79,6 +82,36 @@ class UnLoginCart extends React.Component {
       this.setState({ checkoutLoading: false })
     }
   }
+  openPetModal() {
+    this.setState({
+      petModalVisible: true
+    })
+  }
+  closePetModal() {
+    if(this.state.isAdd === 2) {
+      this.setState({
+        isAdd: 0
+      })
+    }
+    this.setState({
+      petModalVisible: false
+    })
+  }
+petComfirm(){
+  this.props.history.push('/prescription')
+}
+openNew() {
+  this.setState({
+    isAdd: 1
+  })
+  this.openPetModal()
+}
+closeNew() {
+  this.setState({
+    isAdd: 2
+  })
+  this.openPetModal()
+}
   handleAmountChange (e, item) {
     this.setState({ errorShow: false })
     const val = e.target.value
@@ -652,6 +685,13 @@ class UnLoginCart extends React.Component {
           </div>
         </main>
         <Footer />
+        <PetModal visible={this.state.petModalVisible}
+                  isAdd={this.state.isAdd}
+                  productList={this.state.productList}
+                  openNew={() => this.openNew()}
+                  closeNew={() => this.closeNew()}
+                  confirm={()=>this.petComfirm()}
+                  close={() => this.closePetModal()}/>
       </div>
     );
   }

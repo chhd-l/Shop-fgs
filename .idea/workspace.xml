@@ -27,9 +27,22 @@
   <component name="ChangeListManager">
     <list default="true" id="47401d03-5d3b-4db0-92ad-5095ad7961de" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header/modules/loginCart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/modules/loginCart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header/modules/unLoginCart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/modules/unLoginCart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ImgUpload/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ImgUpload/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PetModal/components/SelectPetModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PetModal/components/SelectPetModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Rate/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Rate/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lang/en_US.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lang/en_US.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Account/Orders/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/Orders/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Account/Orders/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/Orders/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Account/ProductReview/components/ReviewForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/ProductReview/components/ReviewForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Account/ProductReview/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/ProductReview/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Account/ProductReview/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/ProductReview/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Cart/modules/loginCart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Cart/modules/loginCart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Cart/modules/unLoginCart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Cart/modules/unLoginCart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Details/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,6 +152,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1594203136080" />
+    <state x="514" y="212" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1594278197157">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="514" y="212" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1594278197157" />
     <state x="687" y="216" key="FileChooserDialogImpl" timestamp="1592635810862">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -211,19 +228,19 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="370" y="22" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1594198829594" />
-    <state x="471" y="155" width="879" height="536" key="find.popup" timestamp="1594197369692">
+    <state x="471" y="155" width="879" height="596" key="find.popup" timestamp="1594373317397">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="471" y="155" width="879" height="536" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1594197369692" />
+    <state x="471" y="155" width="879" height="596" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1594373317397" />
     <state x="589" y="195" width="742" height="650" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1592635787764" />
     <state x="509" y="263" key="git4idea.merge.GitPullDialog" timestamp="1592636329006">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="509" y="263" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1592636329006" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1594020003667">
+    <state x="425" y="187" key="run.anything.popup" timestamp="1594310098333">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1594020003667" />
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1594310098333" />
     <state x="431" y="4" width="672" height="820" key="search.everywhere.popup" timestamp="1594177910458">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -235,7 +252,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Cart/modules/loginCart.js</url>
-          <line>512</line>
+          <line>530</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="13" />
         </line-breakpoint>
@@ -256,6 +273,18 @@
           <line>157</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/Cart/modules/loginCart.js</url>
+          <line>8</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/PetModal/components/SelectPetModal.js</url>
+          <line>79</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

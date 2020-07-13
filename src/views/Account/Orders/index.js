@@ -12,7 +12,14 @@ import Pagination from '@/components/Pagination'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
+import {batchAdd} from "@/api/payment";
 import { getOrderList, getOrderDetails } from "@/api/order"
+import {
+  MINIMUM_AMOUNT,
+  STOREID,
+  STORE_CATE_ENUM
+} from "@/utils/constant"
+
 import {
   IMG_DEFAULT,
   DELIVER_STATUS_ENUM,
@@ -112,13 +119,15 @@ class AccountOrders extends React.Component {
       .then(res => {
         let tmpList = Array.from(res.context.content, ele => {
           const tradeState = ele.tradeState
+          console.log(tradeState.flowState, ele.storeEvaluateVO, 'canReview-------------')
           return Object.assign(ele,
             {
               canPayNow: tradeState.flowState === 'AUDIT'
                 && tradeState.deliverStatus === 'NOT_YET_SHIPPED'
                 && tradeState.payState === 'NOT_PAID'
                 && new Date(ele.orderTimeOut).getTime() > new Date().getTime(),
-              payNowLoading: false
+              payNowLoading: false,
+              canReview: tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO
             }
           )
         }
@@ -215,6 +224,42 @@ class AccountOrders extends React.Component {
     } finally {
       order.payNowLoading = true
       this.setState({ orderList: orderList })
+    }
+  }
+  rePurchase(order) {
+    this.hanldeLoginAddToCart(order)
+  }
+  async hanldeLoginAddToCart (order) {
+    const cartProduct = this.props.checkoutStore.loginCartData
+    const productList = order.tradeItems ? order.tradeItems : []
+    debugger
+    const tradeItems = productList.map(ele => {
+      return {
+        goodsInfoImg: ele.pic,
+        goodsName: ele.spuName,
+        specText: ele.specDetails,
+        buyCount: 1, //ele.num
+        salePrice: ele.price,
+        goodsInfoId: ele.skuId
+      }
+    })
+    const list = [...tradeItems, ...cartProduct]
+    const paramList = []
+    productList.forEach(item => {
+      let obj = {
+        verifyStock: false,
+        buyCount: 1,
+        goodsInfoId: item.skuId
+      }
+      paramList.push(obj)
+    })
+    const params = {
+      goodsInfos : paramList
+    }
+    let res = await batchAdd(params);
+    if (res.code === 'K-000000') {
+      this.props.checkoutStore.setLoginCartData(list)
+      this.props.history.push('/cart')
     }
   }
   render () {
@@ -364,18 +409,28 @@ class AccountOrders extends React.Component {
                                           </React.Fragment>
                                           : null
                                       }
-                                      <div >
-                                        <button className="rc-btn rc-btn--sm rc-btn--two">
-                                          <FormattedMessage id="writeReview">
-                                            {txt => (
-                                                <Link
-                                                    className="red-text"
-                                                    to="/account/productReview"
-                                                    title={txt}
-                                                    alt={txt}>
-                                                  {txt}
-                                                </Link>
-                                            )}
+                                      {
+                                        order.canReview ?
+                                            <div >
+                                              <button className="rc-btn rc-btn--sm rc-btn--two">
+                                                <FormattedMessage id="writeReview">
+                                                  {txt => (
+                                                      <Link
+                                                          className="red-text"
+                                                          to={`/account/productReview/${order.id}`}
+                                                          title={txt}
+                                                          alt={txt}>
+                                                        {txt}
+                                                      </Link>
+                                                  )}
+                                                </FormattedMessage>
+                                              </button>
+                                            </div>:
+                                            null
+                                      }
+                                      <div className="rc-margin-top--xs">
+                                        <button className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn" onClick={()=>this.rePurchase(order)}>
+                                          <FormattedMessage id="rePurchase">
                                           </FormattedMessage>
                                         </button>
                                       </div>

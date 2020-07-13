@@ -65,7 +65,7 @@ export default class SelectPetModal extends Component { // 新建Pet
 
     async getPetList() {
         if(!this.getAccount()){
-            this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
+            // this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
             this.setState({
                 loading: false
             })

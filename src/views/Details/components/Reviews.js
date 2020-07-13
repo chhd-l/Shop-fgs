@@ -69,7 +69,7 @@ class Reviews extends React.Component {
                 valuatesTotalPages: obj.totalPages,
                 goodsEvaluatesList: list
             }, () => {
-                // if(this.state.goodsEvaluatesList.length === 0 ) {
+                if(this.state.goodsEvaluatesList.length === 0 ) {
                     this.setState({
                         goodsEvaluatesList: [
                             {
@@ -95,7 +95,7 @@ class Reviews extends React.Component {
                             }
                         ]
                     })
-                // }
+                }
             })
         }
     }

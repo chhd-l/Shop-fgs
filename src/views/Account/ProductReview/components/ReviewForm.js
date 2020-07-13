@@ -2,61 +2,59 @@ import {FormattedMessage, injectIntl} from "react-intl";
 import React from "react";
 import Rate from '@/components/Rate'
 import ImgUpload from '@/components/ImgUpload'
-
+import '../index.css'
 @injectIntl
 class ReviewForm extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            consumerComment: '',
-            isAnonymous: false
+            consumerComment: ''
+            // productRate: 5
         }
-        this.selectProductRate = this.selectProductRate.bind(this);
         this.imgUploaderRef = React.createRef();
     }
-
-    handleSubmit() {
-        let imgsParam = this.imgUploaderRef.current.state.imgList.map((item, i) => {
-            return JSON.stringify({
-                uid: i + 1,
-                status: 'done',
-                url: item
-            })
-        })
-        let parmas = {
-            id: this.props.currentId,
-            productRate: this.state.productRate,
-            consumerComment: this.state.consumerComment,
-            images: imgsParam,
-            isAnonymous: this.state.isAnonymous
-        }
-
-        console.log(parmas, 'ddddddddd=-----------')
-    }
-    isSelectAnonymous(e) {
-        this.setState({
-            isAnonymous: e.target.checked
-        })
-    }
     selectProductRate(rate) {
-        this.setState({
-            productRate: rate
-        })
+       this.props.selectProductRate(rate, this.props.product)
     }
     handleConsumerCommentChange(e) {
         this.setState({
             consumerComment: e.target.value
         })
+        this.props.handleConsumerCommentChange(e, this.props.product)
     }
+    handelImgChange() {
+        if(this.imgUploaderRef) {
+            this.props.handleImgChange(this.imgUploaderRef, this.props.product)
+        }
+    }
+
     render() {
         return (
-            <div className="rc-margin-left--lg">
-                <div className="rc-padding-top--sm font-18"><FormattedMessage id="productRating"/></div>
-                <Rate def={4} disabled={false} selectRate={this.selectProductRate}></Rate>
-
-                <div className="rc-padding-top--xs"><FormattedMessage id="writeYourReview"/></div>
-                <div className="rc-padding-top--xs">
+            <div>
+                <div className="rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
+                    <div className="rc-layout-container rc-three-column">
+                        <div className="rc-column">
+                            <div className="rc-margin-top--md">
+                                <div className="rc-margin-top--xs">
+                                    <span className="ui-text-overflow-line2 text-break weight200 font-18">{this.props.product.skuName}</span>
+                                </div>
+                                <div className="rc-margin-top--xs">
+                                    <span className="text-break">{this.props.product.goodsWeight} {this.props.product.unit}</span>
+                                </div>
+                                <div className="rc-margin-top--xs">
+                                    <Rate def={5} disabled={false} selectRate={(rate) => this.selectProductRate(rate)}></Rate>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="rc-column text-right">
+                            <div className="img-container"><img className="product-img"  src={this.props.product.pic}/></div>
+                        </div>
+                    </div>
+                    <div className="rc-padding-top--xs rc-layout-container rc-one-column">
+                        <div className="rc-column">
+                            <FormattedMessage id="writeYourReview"/>
+                            <div className="rc-margin-top--xs">
                                                 <span
                                                     className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
                                                     input-setup="true">
@@ -65,6 +63,7 @@ class ReviewForm extends React.Component {
                                                             txt => (<textarea
                                                                 className="rc-input__textarea noborder"
                                                                 maxLength="50"
+                                                                rows={2}
                                                                 placeholder={txt}
                                                                 value={this.state.consumerComment}
                                                                 onChange={(e) => this.handleConsumerCommentChange(e)}
@@ -74,30 +73,27 @@ class ReviewForm extends React.Component {
 
                                                 </span>
 
-                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div className="rc-padding-top--sm">
-                    <ImgUpload ref={this.imgUploaderRef} />
-                </div>
-                <div className="rc-input rc-input--inline rc-padding-top--xs">
-                    <input className="rc-input__checkbox" id="id-checkbox-cat"
-                           value='isAnonymous'
-                           onChange={(e) => this.isSelectAnonymous(e)}
-                           type="checkbox" name="checkbox-1"/>
-                    />
-                    <label className="rc-input__label--inline"
-                           htmlFor="id-checkbox-cat">
-                        <FormattedMessage id="anonymousReview" />
-                    </label>
-                </div>
-                <div className="rc-padding-top--sm">
-                    <button
-                        className="rc-btn rc-btn--sm rc-btn--two"
-                        name="contactPreference"
-                        type="submit"
-                        onClick={() => this.handleSubmit()}>
-                        <FormattedMessage id="submit" />
-                    </button>
+                    <div className="rc-padding-top--xs rc-layout-container rc-one-column">
+                        <div className="rc-column">
+                            <ImgUpload ref={this.imgUploaderRef} tipVisible={false} handleChange={() => this.handelImgChange()} />
+                        </div>
+                    </div>
+                    <div className="rc-padding-top--xs rc-layout-container rc-one-column">
+                        <div className="rc-column">
+                            <label>
+                                <input
+                                    name="isAnonymous"
+                                    type="checkbox"
+                                    checked={this.props.product.isAnonymous ? this.props.product.isAnonymous : false}
+                                    onChange={(e)=>this.props.handleInputChange(e, this.props.product)} />
+                                    <span className="rc-margin-left--xs"><FormattedMessage id="anonymousReview"/></span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
         )
