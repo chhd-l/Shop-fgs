@@ -441,6 +441,7 @@ const en_US = {
   'deleteAddressSuccess': 'Delete Address Success',
   'queryDataFailed': 'Query Data Failed',
   'getConsumerAccountFailed': 'Get Consumer Account Failed',
+  'getPetFailed': 'Get Pet Failed',
 
   'emailAddress': 'Email Address *',
   'password': 'Password *',
