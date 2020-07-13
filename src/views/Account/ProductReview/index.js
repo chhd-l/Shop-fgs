@@ -22,9 +22,9 @@ class ProductReview extends React.Component {
         this.state = {
             orderId: 0,
             productList: [],
-            purchaseRate: 0,
-            logisticsRate: 0,
-            productRate: 0,
+            purchaseRate: 5,
+            logisticsRate: 5,
+            productRate: 5,
             current: 1,
             reviewList: [],
             imgList: []
@@ -81,13 +81,16 @@ class ProductReview extends React.Component {
     }
 
     async handleSubmit() {
-        debugger
         const list = this.state.reviewList
+        let isFillInfo = true
         const goodsParams = []
         if(list) {
             list.forEach(item => {
+                if(!item.consumerComment) {
+                    isFillInfo = false
+                }
                 let obj = {
-                    evaluateScore: item.productRate,
+                    evaluateScore: item.productRate ? item.productRate : 5,
                     evaluateContent: item.consumerComment,
                     isAnonymous: item.isAnonymous ? 1 : 0,
                     orderNo: this.state.orderId,
@@ -106,13 +109,16 @@ class ProductReview extends React.Component {
             }
         }
         console.log(params, 'ddddddddd=-----------')
-        let res = await addGoodsEvaluate(params)
-        if(res.code === 'K-000000') {
-            this.props.history.push('/account/orders')
+        if (isFillInfo) {
+            let res = await addGoodsEvaluate(params)
+            if(res.code === 'K-000000') {
+                this.props.history.push('/account/orders')
+            } else {
+                console.log(res.message, '评价接口错误信息----------')
+            }
         } else {
-            console.log(res.message, '评价接口错误信息----------')
+            console.log('not fill info')
         }
-
     }
     handleConsumerCommentChange(e, product) {
         const value = e.target.value
@@ -133,7 +139,6 @@ class ProductReview extends React.Component {
     }
 
     handleInputChange(e,product) {
-        debugger
         const target = e.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -184,14 +189,16 @@ class ProductReview extends React.Component {
     handleImgChange(imgRef, product) {
         const list = this.state.reviewList
         if(list.length > 0) {
+            let imgsParam = []
             list.forEach(item => {
                 if(item.id === product.skuId) {
-                    let imgsParam = imgRef.current.state.imgList.map((item, i) => {
-                        return JSON.stringify({
+                    imgRef.current.state.imgList.forEach((item, i) => {
+                        let obj = {
                             uid: i + 1,
                             status: 'done',
-                            url: item
-                        })
+                            artworkUrl: item
+                        }
+                        imgsParam.push(obj)
                     })
                     item.goodsEvaluateImageList = imgsParam
                 }

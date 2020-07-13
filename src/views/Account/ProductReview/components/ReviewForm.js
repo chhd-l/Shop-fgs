@@ -62,7 +62,6 @@ class ReviewForm extends React.Component {
                                                         {
                                                             txt => (<textarea
                                                                 className="rc-input__textarea noborder"
-                                                                maxLength="50"
                                                                 rows={2}
                                                                 placeholder={txt}
                                                                 value={this.state.consumerComment}
