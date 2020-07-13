@@ -67,17 +67,16 @@ class Header extends React.Component {
     window.addEventListener('click', (e) => this.hideMenu(e))
     window.addEventListener('wheel', e => this.handleMouseScroll(e))
     const { location } = this.props
-    let prescriberId
+    let prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
     let tmpName = ''
-
+    
     // 指定clinic链接进入，设置default clinic
     if (location
       && (location.pathname === '/'
         || location.pathname.includes('/list')
         || location.pathname.includes('/details'))
-      && !this.state.prescriberId) {
-      prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
-      if (prescriberId && !this.state.prescriberName) {
+      && this.state.prescriberId !== prescriberId) {
+      if (prescriberId) {
         try {
           let res = await getPrescriptionById({ prescriberId })
           if (res.context && res.context.enabled) {
@@ -85,14 +84,13 @@ class Header extends React.Component {
           }
         } catch (e) { }
       }
-      if (prescriberId && tmpName) {
-        sessionStorage.setItem('rc-clinics-id-link', prescriberId)
-        sessionStorage.setItem('rc-clinics-name-link', tmpName)
-        this.setState({
-          prescriberName: tmpName,
-          prescriberId: prescriberId
-        })
-      }
+
+      sessionStorage.setItem('rc-clinics-id-link', prescriberId)
+      sessionStorage.setItem('rc-clinics-name-link', tmpName)
+      this.setState({
+        prescriberId: prescriberId,
+        prescriberName: tmpName
+      })
     }
     this.setDefaultClinic()
   }
