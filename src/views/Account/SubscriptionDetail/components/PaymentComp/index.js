@@ -533,6 +533,11 @@ class PaymentComp extends React.Component {
         //     : ""
         //   }`}
       >
+        <div className="rc-border-bottom rc-border-colour--interface mb-3">
+                    <h4 className="rc-delta rc-margin--none">
+                      <FormattedMessage id="paymentMethod"></FormattedMessage>
+                    </h4>
+                  </div>
         {this.state.loading ? <Loading positionFixed="true" /> : null}
         <div
           className={`table-toolbar d-flex flex-wrap justify-content-between p-0 ${

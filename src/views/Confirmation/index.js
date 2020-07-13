@@ -94,6 +94,9 @@ class Confirmation extends React.Component {
         })
       })
   }
+  get tradePrice () {
+    return this.props.checkoutStore.cartPrice ? this.props.checkoutStore.cartPrice.tradePrice : 0
+  }
   matchNamefromDict (dictList, id) {
     return find(dictList, ele => ele.id == id)
       ? find(dictList, ele => ele.id == id).name
@@ -189,7 +192,7 @@ class Confirmation extends React.Component {
           purchase: {
             actionField: {
               id: localStorage.getItem('orderNumber'),
-              revenue: JSON.parse(sessionStorage.getItem('rc-totalInfo')).tradePrice
+              revenue: this.tradePrice
             },
             products
           }

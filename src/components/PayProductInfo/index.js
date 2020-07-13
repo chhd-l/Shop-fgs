@@ -22,7 +22,6 @@ class PayProductInfo extends React.Component {
     ))
   }
   componentDidMount () {
-    let totalInfo = JSON.parse(sessionStorage.getItem('rc-totalInfo'))
     let productList
     if (this.isLogin) {
       productList = this.props.checkoutStore.loginCartData
@@ -31,7 +30,7 @@ class PayProductInfo extends React.Component {
     }
     this.setState(Object.assign({
       productList: productList || []
-    }, totalInfo));
+    }));
     window.addEventListener('scroll', e => this.handleScroll(e))
   }
   get totalPrice () {
@@ -136,7 +135,7 @@ class PayProductInfo extends React.Component {
     )
   }
   handleScroll (e) {
-    debugger
+    // debugger
     // window.pageYOffset
     // 
     // console.log(window.pageYOffset, this.getElementToPageTop(document.querySelector('.product-summary__inner')))
