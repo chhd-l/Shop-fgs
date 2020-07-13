@@ -32,6 +32,16 @@ class PayProductInfo extends React.Component {
     this.setState(Object.assign({
       productList: productList || []
     }, totalInfo));
+    window.addEventListener('scroll', e => this.handleScroll(e))
+  }
+  get totalPrice () {
+    return this.props.checkoutStore.cartPrice ? this.props.checkoutStore.cartPrice.totalPrice : 0
+  }
+  get tradePrice () {
+    return this.props.checkoutStore.cartPrice ? this.props.checkoutStore.cartPrice.tradePrice : 0
+  }
+  get discountPrice () {
+    return this.props.checkoutStore.cartPrice ? this.props.checkoutStore.cartPrice.discountPrice : 0
   }
   getProducts (plist) {
     const List = plist.map((el, i) => {
@@ -89,15 +99,16 @@ class PayProductInfo extends React.Component {
                     <span className="light">{el.goodsName}</span>
                   </div>
                 </div>
-                <div className="line-item-total-price justify-content-start pull-left">
-                  <div className="item-attributes">
-                    <p className="line-item-attributes">
-                      {el.specText} - {el.buyCount} {el.buyCount > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}
-                    </p>
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="line-item-total-price" style={{ width: '73%' }}>
+                    {el.specText} - {el.buyCount} {el.buyCount > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}<br />
+                    {
+                      el.subscriptionStatus
+                        ? <><FormattedMessage id="subscription.frequency" /> : {this.props.frequencyVal} < span className="rc-icon rc-refresh--xs rc-brand1"></span></>
+                        : null
+                    }
                   </div>
-                </div>
-                <div className="line-item-total-price justify-content-end pull-right">
-                  <div>
+                  <div className="line-item-total-price sr-only">
                     {formatMoney(el.buyCount * el.salePrice)}
                   </div>
                 </div>
@@ -105,7 +116,7 @@ class PayProductInfo extends React.Component {
             </div>
             <div className="item-options"></div>
           </div>
-        </div>
+        </div >
       );
     });
     return List
@@ -124,8 +135,22 @@ class PayProductInfo extends React.Component {
       </div>
     )
   }
+  handleScroll (e) {
+    debugger
+    // window.pageYOffset
+    // 
+    // console.log(window.pageYOffset, this.getElementToPageTop(document.querySelector('.product-summary__inner')))
+    console.log(window.pageYOffset, document.querySelector('.product-summary__inner').offsetTop)
+  }
+  getElementToPageTop (el) {
+    if (el.parentElement) {
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
+    }
+    return el.offsetTop;
+  }
   render () {
     const { productList } = this.state
+    const { checkoutStore } = this.props
     const List = this.isLogin ? this.getProductsForLogin(productList) : this.getProducts(productList)
     return (
       <div className="product-summary__inner">
@@ -144,12 +169,12 @@ class PayProductInfo extends React.Component {
                   <div className="col-4 end-lines">
                     <p className="text-right">
                       <span className="sub-total">
-                        {formatMoney(this.props.checkoutStore.loginCartPrice.totalPrice)}
+                        {formatMoney(this.totalPrice)}
                       </span>
                     </p>
                   </div>
                 </div>
-                <div className="row leading-lines shipping-item" style={{ display: parseInt(this.props.checkoutStore.loginCartPrice.discountPrice) > 0 ? 'flex' : 'none' }}>
+                <div className="row leading-lines shipping-item" style={{ display: parseInt(this.discountPrice) > 0 ? 'flex' : 'none' }}>
                   <div className="col-7 start-lines">
                     <p className="order-receipt-label order-shipping-cost" style={{ color: '#ec001a' }}>
                       <span><FormattedMessage id="promotion" /></span>
@@ -157,7 +182,7 @@ class PayProductInfo extends React.Component {
                   </div>
                   <div className="col-5 end-lines">
                     <p className="text-right">
-                      <span className="shipping-total-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.props.checkoutStore.loginCartPrice.discountPrice)}</span>
+                      <span className="shipping-total-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.discountPrice)}</span>
                     </p>
                   </div>
                 </div>
@@ -182,7 +207,7 @@ class PayProductInfo extends React.Component {
             </div>
             <div className="col-6 end-lines text-right">
               <span className="grand-total-sum">
-                {formatMoney(this.props.checkoutStore.loginCartPrice.tradePrice)}
+                {formatMoney(this.tradePrice)}
               </span>
             </div>
           </div>

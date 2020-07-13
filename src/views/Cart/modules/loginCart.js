@@ -21,7 +21,7 @@ import {
 } from '@/api/cart'
 import CART_CAT from "@/assets/images/CART_CAT.webp";
 import CART_DOG from "@/assets/images/CART_DOG.webp";
-import {debug} from "semantic-ui-react/dist/commonjs/lib";
+import { debug } from "semantic-ui-react/dist/commonjs/lib";
 
 @inject("checkoutStore")
 class LoginCart extends React.Component {
@@ -31,16 +31,10 @@ class LoginCart extends React.Component {
       errorShow: false,
       errorMsg: '',
       productList: [],
-      totalPrice: 0,
-      tradePrice: 0,
-      discountPrice: 0,
       currentProductIdx: -1,
       quantityMinLimit: 1,
       deleteLoading: false,
       checkoutLoading: false,
-      validateAllItemsStock: true,
-      isPromote: false,
-      totalNum: 0,
       petModalVisible: false,
       isAdd: 0
     }
@@ -54,7 +48,6 @@ class LoginCart extends React.Component {
     if (unloginCartData.length) {
       await mergeUnloginCartData()
     }
-    // this.updateCartCache()
     this.setData()
   }
   get checkoutStore () {
@@ -63,20 +56,27 @@ class LoginCart extends React.Component {
   get totalNum () {
     return this.state.productList.reduce((prev, cur) => { return prev + cur.buyCount }, 0)
   }
+  get totalPrice () {
+    return this.props.checkoutStore.totalPrice
+  }
+  get tradePrice () {
+    return this.props.checkoutStore.tradePrice
+  }
+  get discountPrice () {
+    return this.props.checkoutStore.discountPrice
+  }
+  get isPromote () {
+    return parseInt(this.discountPrice) > 0
+  }
   async updateCartCache () {
     this.setState({ checkoutLoading: true })
     await this.checkoutStore.updateLoginCart()
     this.setData()
+    this.setState({ checkoutLoading: false })
   }
   setData () {
-    const loginCartPrice = this.checkoutStore.loginCartPrice
     this.setState({
       productList: this.checkoutStore.loginCartData,
-
-      totalPrice: loginCartPrice.totalPrice,
-      tradePrice: loginCartPrice.tradePrice,
-      discountPrice: loginCartPrice.discountPrice,
-      isPromote: parseInt(loginCartPrice.discountPrice) > 0,
       checkoutLoading: false
     })
   }
@@ -98,17 +98,17 @@ class LoginCart extends React.Component {
   async handleCheckout () {
     const { productList } = this.state
     // 价格未达到底限，不能下单
-    if (this.state.tradePrice < MINIMUM_AMOUNT) {
+    if (this.tradePrice < MINIMUM_AMOUNT) {
       window.scrollTo({ behavior: "smooth", top: 0 })
       this.showErrMsg(<FormattedMessage id="cart.errorInfo3" />)
       return false
     }
 
     // 库存不够，不能下单
-    const outOfstockProNames = productList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
-    if (outOfstockProNames.length) {
+    if (this.props.checkoutStore.outOfstockProNames.length) {
       window.scrollTo({ behavior: "smooth", top: 0 })
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />)
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo2"
+        values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />)
       return false
     }
 
@@ -116,12 +116,12 @@ class LoginCart extends React.Component {
     // this.openPetModal()
     this.props.history.push('/prescription')
   }
-  openPetModal() {
+  openPetModal () {
     this.setState({
       petModalVisible: true
     })
   }
-  closePetModal() {
+  closePetModal () {
     if(this.state.isAdd === 2) {
       this.setState({
         isAdd: 0
@@ -416,17 +416,16 @@ class LoginCart extends React.Component {
       productList: productList
     })
   }
-
-  petComfirm(){
+  petComfirm () {
     this.props.history.push('/prescription')
   }
-  openNew() {
+  openNew () {
     this.setState({
       isAdd: 1
     })
     this.openPetModal()
   }
-  closeNew() {
+  closeNew () {
     this.setState({
       isAdd: 2
     })
@@ -494,7 +493,7 @@ class LoginCart extends React.Component {
                           <FormattedMessage id="total" />
                         </div>
                         <div className="col-4 no-padding-left">
-                          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.state.totalPrice)}</p>
+                          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.totalPrice)}</p>
                         </div>
                       </div>
                       <div className="row" style={{ display: this.state.isPromote ? 'flex' : 'none' }}>
@@ -525,7 +524,7 @@ class LoginCart extends React.Component {
                             </strong>
                           </div>
                           <div className="col-5">
-                            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.state.tradePrice)}</p>
+                            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.tradePrice)}</p>
                           </div>
                         </div>
                         <div className="row checkout-proccess">
@@ -601,13 +600,13 @@ class LoginCart extends React.Component {
           </div>
         </main>
         <Footer />
-        <PetModal visible={this.state.petModalVisible}
-                  isAdd={this.state.isAdd}
-                  productList={this.state.productList}
-                  openNew={() => this.openNew()}
-                  closeNew={() => this.closeNew()}
-                  confirm={()=>this.petComfirm()}
-                  close={() => this.closePetModal()}/>
+        {/* <PetModal visible={this.state.petModalVisible}
+          isAdd={this.state.isAdd}
+          productList={this.state.productList}
+          openNew={() => this.openNew()}
+          closeNew={() => this.closeNew()}
+          confirm={() => this.petComfirm()}
+          close={() => this.closePetModal()} /> */}
       </div>
     );
   }

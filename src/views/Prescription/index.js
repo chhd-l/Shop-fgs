@@ -212,7 +212,7 @@ class Prescription extends React.Component {
     sessionStorage.setItem('rc-clinics-name-select', item.prescriberName)
 
     const { history } = this.props
-    history.push('/payment/shipping')
+    history.push('/payment/payment')
   }
   getSonMess (center) {
     this.setState({

@@ -21,7 +21,7 @@ class MapFlag extends React.Component {
     sessionStorage.setItem('rc-clinics-name-select',item.prescriberName)
     sessionStorage.setItem('rc-clinics-id-select', item.prescriberId)
     const { history } = this.props.props
-    history.push('/payment/shipping')
+    history.push('/payment/payment')
   }
   handleClose=()=>{
     this.setState({

@@ -7,7 +7,7 @@ class RouteFilter extends Component {
     if (nextProps.location.pathname === "/prescription"
       && ((sessionStorage.getItem("rc-clinics-id-link") && sessionStorage.getItem("rc-clinics-name-link"))
         || (sessionStorage.getItem("rc-clinics-id-default") && sessionStorage.getItem("rc-clinics-name-default")))) {
-      this.props.history.replace("/payment/shipping");
+      this.props.history.replace("/payment/payment");
     }
     if (!localStorage.getItem('rc-token') && nextProps.location.pathname.indexOf("/account") !== -1) {
       this.props.history.push("/");

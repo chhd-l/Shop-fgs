@@ -17,7 +17,7 @@ function Progress (props) {
                 <FormattedMessage id="prescription" />
               </span>
             </li>
-            <li
+            {/* <li
               className={['checkout-steps__item', props.type === 'shipping' ? 'active' : ''].join(' ')}
               data-step="shipping">
               <span className="rc-header-with-icon">
@@ -25,7 +25,7 @@ function Progress (props) {
                 <i className={['rc-icon', 'rc-icon-less-scale', 'rc-delivery--sm', props.type === 'shipping' ? 'rc-brand1' : 'rc-iconography'].join(' ')}></i>
                 <FormattedMessage id="delivery" />
               </span>
-            </li>
+            </li> */}
             <li
               className={['checkout-steps__item', props.type === 'payment' ? 'active' : ''].join(' ')}
               data-step="payment"

@@ -32,10 +32,10 @@ export function purchases (parameter) {
   parameter.goodsInfoDTOList.map(el => {
     goodsInfoIds.push(el.goodsInfoId)
     goodsMarketingDTOList.push({
-      "id": null,
-      "goodsInfoId": el.goodsInfoId,
-      "customerId": null,
-      "marketingId": 401
+      id: null,
+      goodsInfoId: el.goodsInfoId,
+      customerId: null,
+      marketingId: 401 // todo
     })
   })
   parameter.goodsMarketingDTOList = goodsMarketingDTOList
