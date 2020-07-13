@@ -52,42 +52,24 @@ class UnloginCart extends React.Component {
   get tradePrice () {
     return this.props.checkoutStore.tradePrice
   }
-  async handleCheckout ({ needLogin = false } = {}) {
-    const { history } = this.props
-    if (this.tradePrice < MINIMUM_AMOUNT) {
+  async handleCheckout ({ needLogin = false } = {}) {
+    const { history } = this.props
+    if (this.tradePrice < MINIMUM_AMOUNT) {
       this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo3" />
+        errMsg: <FormattedMessage id="cart.errorInfo3" />
       })
-      return false
+      return false
     }
-    if (this.props.checkoutStore.outOfstockProNames.length) {
+    if (this.props.checkoutStore.outOfstockProNames.length) {
       this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo2"
-          values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />
+        errMsg: <FormattedMessage id="cart.errorInfo2"
+                                  values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />
       })
-
-      if (res.tradePrice < MINIMUM_AMOUNT) {
-        this.setState({
-          errMsg: <FormattedMessage id="cart.errorInfo3" />
-        })
-        return false
-      }
-      if (!tmpValidateAllItemsStock) {
-        this.setState({
-          errMsg: <FormattedMessage id="cart.errorInfo2" values={{ val: outOfstockProNames.join('/') }} />
-        })
-        return false
-      }
-      if (needLogin) {
-        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
-      } else {
-        // this.openPetModal()
-        history.push('/prescription')
-      }
+      return false
     }
-    if (needLogin) {
-      // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
-    } else {
+    if (needLogin) {
+      // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
+    } else {
       history.push('/prescription')
     }
   }

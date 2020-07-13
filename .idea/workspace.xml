@@ -26,23 +26,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47401d03-5d3b-4db0-92ad-5095ad7961de" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/modules/loginCart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/modules/loginCart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Header/modules/unLoginCart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/modules/unLoginCart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ImgUpload/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ImgUpload/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PetModal/components/SelectPetModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PetModal/components/SelectPetModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Rate/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Rate/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lang/en_US.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lang/en_US.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Account/Orders/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/Orders/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Account/Orders/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/Orders/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Account/ProductReview/components/ReviewForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/ProductReview/components/ReviewForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Account/ProductReview/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/ProductReview/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Account/ProductReview/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/ProductReview/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Cart/modules/loginCart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Cart/modules/loginCart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Cart/modules/unLoginCart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Cart/modules/unLoginCart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Details/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +105,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a17a044e-0ebd-49b4-a5fe-5abdf6532280" name="Default Changelist" comment="" />
+      <changelist id="47401d03-5d3b-4db0-92ad-5095ad7961de" name="Default Changelist" comment="" />
       <created>1592448982210</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -129,6 +113,7 @@
       <workItem from="1592448983535" duration="1985000" />
       <workItem from="1592626824307" duration="914000" />
       <workItem from="1592635753495" duration="620000" />
+      <workItem from="1594603932547" duration="952000" />
     </task>
     <servers />
   </component>
@@ -252,38 +237,32 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Cart/modules/loginCart.js</url>
-          <line>530</line>
-          <properties lambdaOrdinal="-1" />
+          <line>529</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Account/ShippingAddressForm/index.js</url>
           <line>611</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/PetModal/index.js</url>
           <line>101</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/PetModal/components/SelectPetModal.js</url>
           <line>157</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Cart/modules/loginCart.js</url>
           <line>8</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/PetModal/components/SelectPetModal.js</url>
           <line>79</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
