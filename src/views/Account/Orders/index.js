@@ -12,7 +12,7 @@ import Pagination from '@/components/Pagination'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
-import {batchAdd} from "@/api/payment";
+import { batchAdd } from "@/api/payment";
 import { getOrderList, getOrderDetails } from "@/api/order"
 import {
   MINIMUM_AMOUNT,
@@ -213,11 +213,11 @@ class AccountOrders extends React.Component {
 
       this.props.checkoutStore.setLoginCartData(tradeItems)
       sessionStorage.setItem('rc-tid', order.id)
-      sessionStorage.setItem('rc-totalInfo', JSON.stringify({
+      this.props.checkoutStore.setCartPrice({
         totalPrice: order.tradePrice.totalPrice,
         tradePrice: order.tradePrice.originPrice,
         discountPrice: order.tradePrice.discountsPrice
-      }))
+      })
       this.props.history.push('/payment/payment')
     } catch (err) {
       console.log(err)
@@ -226,7 +226,7 @@ class AccountOrders extends React.Component {
       this.setState({ orderList: orderList })
     }
   }
-  rePurchase(order) {
+  rePurchase (order) {
     this.hanldeLoginAddToCart(order)
   }
   async hanldeLoginAddToCart (order) {
@@ -254,7 +254,7 @@ class AccountOrders extends React.Component {
       paramList.push(obj)
     })
     const params = {
-      goodsInfos : paramList
+      goodsInfos: paramList
     }
     let res = await batchAdd(params);
     if (res.code === 'K-000000') {
@@ -411,25 +411,25 @@ class AccountOrders extends React.Component {
                                       }
                                       {
                                         order.canReview ?
-                                            <div >
-                                              <button className="rc-btn rc-btn--sm rc-btn--two">
-                                                <FormattedMessage id="writeReview">
-                                                  {txt => (
-                                                      <Link
-                                                          className="red-text"
-                                                          to={`/account/productReview/${order.id}`}
-                                                          title={txt}
-                                                          alt={txt}>
-                                                        {txt}
-                                                      </Link>
-                                                  )}
-                                                </FormattedMessage>
-                                              </button>
-                                            </div>:
-                                            null
+                                          <div >
+                                            <button className="rc-btn rc-btn--sm rc-btn--two">
+                                              <FormattedMessage id="writeReview">
+                                                {txt => (
+                                                  <Link
+                                                    className="red-text"
+                                                    to={`/account/productReview/${order.id}`}
+                                                    title={txt}
+                                                    alt={txt}>
+                                                    {txt}
+                                                  </Link>
+                                                )}
+                                              </FormattedMessage>
+                                            </button>
+                                          </div> :
+                                          null
                                       }
                                       <div className="rc-margin-top--xs">
-                                        <button className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn" onClick={()=>this.rePurchase(order)}>
+                                        <button className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn" onClick={() => this.rePurchase(order)}>
                                           <FormattedMessage id="rePurchase">
                                           </FormattedMessage>
                                         </button>
