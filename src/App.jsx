@@ -73,6 +73,7 @@ const langMap = {
 const localLang = store.get('lang')
 let defaultLang = langMap[localLang] ? localLang : 'es'
 let defaultLangFile = langMap[localLang] || es_ES
+// let defaultLangFile = en_US
 
 async function getCountryByIp () {
   let response = await fetch('https://ipapi.co/json/');
