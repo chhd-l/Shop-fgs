@@ -371,6 +371,7 @@ const en_US = {
   'saveSuccessfullly': 'Save successfullly',
 
   'subscription.promotionTip': 'Save {val} on your first Subscription',
+  'subscription.OnYourFirst': 'on your first',
   'subscription.notYet': 'Not Yet Shipped',
   'subscription.frequency': 'Frequency',
   'subscription.nextOrder': 'Next Order',

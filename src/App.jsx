@@ -69,9 +69,10 @@ const langMap = {
   es: es_ES,
   ru: ru_RU
 }
-
+const DEFAULT_LANGUAGE = 'es'
+store.set('lang', 'en') // todo delete...
 const localLang = store.get('lang')
-let defaultLang = langMap[localLang] ? localLang : 'es'
+let defaultLang = langMap[localLang] ? localLang : DEFAULT_LANGUAGE
 let defaultLangFile = langMap[localLang] || es_ES
 
 async function getCountryByIp () {
@@ -79,7 +80,7 @@ async function getCountryByIp () {
   let data = response.json();
   data.then(res => {
     const tmpCountry = res.country.toLowerCase()
-    let tmpdefaultLang = langMap[tmpCountry] ? tmpCountry : 'es'
+    let tmpdefaultLang = langMap[tmpCountry] ? tmpCountry : DEFAULT_LANGUAGE
     if (defaultLang !== tmpdefaultLang) {
       window.location.reload()
       store.set('lang', tmpdefaultLang)
@@ -87,7 +88,7 @@ async function getCountryByIp () {
   })
 }
 
-getCountryByIp()
+// getCountryByIp() // todo release...
 
 const App = () => (
   <Provider {...stores}>

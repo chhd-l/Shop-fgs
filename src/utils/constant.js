@@ -1,6 +1,7 @@
 import store from 'storejs'
 
 export const ENUM_STOREID = {
+  en: '123456858',
   es: '123456858',
   ru: '123457907'
 }
