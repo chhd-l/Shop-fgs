@@ -370,6 +370,7 @@ const en_US = {
   'default': 'Default',
   'saveSuccessfullly': 'Save successfullly',
 
+  'subscription.promotionTip': 'Save {val} on your first Subscription',
   'subscription.notYet': 'Not Yet Shipped',
   'subscription.frequency': 'Frequency',
   'subscription.nextOrder': 'Next Order',

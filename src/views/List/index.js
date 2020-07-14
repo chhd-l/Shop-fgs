@@ -379,11 +379,11 @@ class List extends React.Component {
                                       loading
                                         ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
                                         : <>
-                                          {
+                                          {/* {
                                             item.subscriptionStatus
                                               ? <span class="rc-icon rc-rss--xs rc-brand1 position-absolute" style={{ right: '2%', top: '2%' }}></span>
                                               : null
-                                          }
+                                          } */}
                                           <picture className="rc-card__image">
                                             <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center" style={{ minHeight: '202px' }}>
                                               <img
