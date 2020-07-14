@@ -384,45 +384,48 @@ class List extends React.Component {
                                             <div className="height-product-tile-plpOnly height-product-tile">
                                               <header className="rc-text--center">
                                                 <h3
-                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break"
+                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break black-font-color"
                                                   title={item.lowGoodsName}>
                                                   {item.lowGoodsName}
                                                 </h3>
                                               </header>
+
                                               {
                                                 item.goodsInfos.length > 1
                                                   ? <div className="text-center mb-2">
                                                     <button
-                                                      className="rc-bg-colour--brand4 border rounded font-weight-lighter"
+                                                      className="rc-bg-colour--brand4 border rounded font-weight-lighter rc-full-width"
                                                       style={{ color: '#666' }}><FormattedMessage id="moreChoicesAvailable" /></button>
                                                   </div>
                                                   : null
                                               }
-                                              <div className="Product-Key-words rc-text--center"></div>
+                                              {/*<div className="Product-Key-words rc-text--center"></div>*/}
                                               <div
-                                                className="text-center ui-text-overflow-line3 text-break"
+                                                className="ui-text-overflow-line3 text-break rc-padding-top--xs"
                                                 title={item.goodsSubtitle}>
                                                 {item.goodsSubtitle}
                                               </div>
                                             </div>
-                                            <div className="rc-card__price">
+
+                                            <div className="rc-card__price  rc-padding-top--xs">
                                               {
                                                 item.subscriptionStatus
-                                                  ? <div className="range">
+                                                  ? <div className="range red-text">
                                                     {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.subscriptionPrice || 0)))}{' '}
                                                     <span className="rc-icon rc-refresh--xs rc-brand1"></span>
-                                                    <span className="position-relative" style={{ fontSize: '.8em', top: '-4px' }}><FormattedMessage id="details.Subscription" /></span>
+                                                    <span className="position-relative" style={{ fontSize: '.6em', top: '-4px' }}><FormattedMessage id="details.Subscription" /></span>
                                                   </div>
                                                   : null
                                               }
-                                              <div className={`range ${!item.subscriptionStatus ? 'text-center' : ''}`}>
-                                                {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.salePrice)))}
+                                              <div>
+                                                <span  className="red-text" >{formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.salePrice)))}</span>
                                               </div>
                                             </div>
-                                            <span className="rc-card__price rc-text--center flex-inline">
+
+                                            <div className="rc-card__price flex-inline">
                                               {/*goodsEvaluateNum*/}
-                                              <div className="display-inline" ><Rate def={4} disabled={true} /></div><span className='comments'>{item.goodsEvaluateNum}</span>
-                                            </span>
+                                              <div className="display-inline" ><Rate def={5} disabled={true} /></div><span className='comments'>{item.goodsEvaluateNum}</span>
+                                            </div>
                                           </div>
                                         </>
                                     }

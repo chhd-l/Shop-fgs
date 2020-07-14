@@ -981,7 +981,7 @@ class Details extends React.Component {
               </div>
 
               <div>
-                <Reviews id={this.state.id} />
+                <Reviews id={this.props.match.params.id} />
               </div>
               <div
                 className="sticky-addtocart"
