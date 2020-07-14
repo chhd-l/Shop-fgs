@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from 'storejs'
 
 let env = process.env.NODE_ENV
 let base_url
@@ -21,8 +22,11 @@ const service = axios.create({
 service.interceptors.request.use(config => {
   const token = sessionStorage.getItem('rc-token') || localStorage.getItem('rc-token')
   if (token) {
-    config.headers['Authorization'] = 'Bearer '
-      + token
+    config.headers['Authorization'] = 'Bearer ' + token
+  }
+  const lang = store.get('lang')
+  if (lang) {
+    config.headers['Language'] = lang
   }
   return config
 })

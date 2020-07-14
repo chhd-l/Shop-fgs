@@ -12,7 +12,8 @@ class SubscriptionSelect extends Component {
       frequencyList: [],
       form: {
         buyWay: 'once', // once/frequency
-        frequencyVal: ''
+        frequencyVal: '',
+        frequencyId: -1
       }
     }
   }
@@ -20,7 +21,7 @@ class SubscriptionSelect extends Component {
     let res = await getDictionary({ type: 'Frequency' })
     this.setState({
       frequencyList: res,
-      form: Object.assign(this.state.form, { frequencyVal: res[0].valueEn })
+      form: Object.assign(this.state.form, { frequencyVal: res[0].valueEn, frequencyId: res[0].id })
     }, () => {
       this.props.updateSelectedData(this.state.form)
     })
@@ -29,7 +30,7 @@ class SubscriptionSelect extends Component {
     return this.state.frequencyList.map(ele => {
       return {
         value: ele.valueEn,
-        name: ele.name
+        ...ele
       }
     })
   }
@@ -40,9 +41,10 @@ class SubscriptionSelect extends Component {
     this.setState({ form: form })
     this.props.updateSelectedData(this.state.form)
   }
-  handleSelectedItemChange (key, data) {
+  handleSelectedItemChange (data) {
     const { form } = this.state
-    form[key] = data.value
+    form.frequencyVal = data.value
+    form.frequencyId = data.id
     this.setState({ form: form })
     this.props.updateSelectedData(this.state.form)
   }
@@ -61,6 +63,7 @@ class SubscriptionSelect extends Component {
                 type="radio"
                 name="buyWay"
                 value="frequency"
+                key="1"
                 onChange={event => this.handleInputChange(event)}
                 checked />
               : <input
@@ -69,6 +72,7 @@ class SubscriptionSelect extends Component {
                 type="radio"
                 name="buyWay"
                 value="frequency"
+                key="2"
                 onChange={event => this.handleInputChange(event)} />
           }
           <label className="rc-input__label--inline" htmlFor="optsmobile">
@@ -80,7 +84,7 @@ class SubscriptionSelect extends Component {
           </label>
           <div style={{ marginLeft: '5%' }} className="d-flex align-items-center">
             <Selection
-              selectedItemChange={data => this.handleSelectedItemChange('frequencyVal', data)}
+              selectedItemChange={data => this.handleSelectedItemChange(data)}
               optionList={this.computedList}
               selectedItemData={{
                 value: form.frequencyVal
@@ -89,9 +93,11 @@ class SubscriptionSelect extends Component {
               customContainerStyle={{ minWidth: '20%' }} />
             <span className="ml-2 d-flex align-items-center flex-wrap">
               {
-                this.props.checkoutStore.loginCartData.map((ele, i) => (
-                  <img style={{ width: '8%', display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
-                ))
+                this.props.checkoutStore.loginCartData
+                  .filter(ele => ele.goods && ele.goods.subscriptionStatus)
+                  .map((ele, i) => (
+                    <img style={{ width: '8%', display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
+                  ))
               }
             </span>
           </div>

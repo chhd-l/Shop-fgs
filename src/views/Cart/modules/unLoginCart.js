@@ -8,12 +8,13 @@ import Footer from "@/components/Footer"
 import ConfirmTooltip from '@/components/ConfirmTooltip'
 import LoginButton from '@/components/LoginButton'
 import { Link } from "react-router-dom"
-import { formatMoney, hanldePurchases } from "@/utils/utils"
+import { formatMoney } from "@/utils/utils"
 import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { cloneDeep, find } from 'lodash'
 import CART_CAT from "@/assets/images/CART_CAT.webp";
 import CART_DOG from "@/assets/images/CART_DOG.webp";
 import PetModal from '@/components/PetModal'
+
 @inject("checkoutStore")
 class UnLoginCart extends React.Component {
   constructor(props) {
@@ -98,13 +99,13 @@ class UnLoginCart extends React.Component {
       this.setState({ checkoutLoading: false })
     }
   }
-  openPetModal() {
+  openPetModal () {
     this.setState({
       petModalVisible: true
     })
   }
-  closePetModal() {
-    if(this.state.isAdd === 2) {
+  closePetModal () {
+    if (this.state.isAdd === 2) {
       this.setState({
         isAdd: 0
       })
@@ -113,21 +114,21 @@ class UnLoginCart extends React.Component {
       petModalVisible: false
     })
   }
-petComfirm(){
-  this.props.history.push('/prescription')
-}
-openNew() {
-  this.setState({
-    isAdd: 1
-  })
-  this.openPetModal()
-}
-closeNew() {
-  this.setState({
-    isAdd: 2
-  })
-  this.openPetModal()
-}
+  petComfirm () {
+    this.props.history.push('/prescription')
+  }
+  openNew () {
+    this.setState({
+      isAdd: 1
+    })
+    this.openPetModal()
+  }
+  closeNew () {
+    this.setState({
+      isAdd: 2
+    })
+    this.openPetModal()
+  }
   handleAmountChange (e, item) {
     this.setState({ errorShow: false })
     const val = e.target.value
@@ -243,7 +244,7 @@ closeNew() {
         className="rc-border-all rc-border-colour--interface product-info"
         key={index}>
         <div
-          className="rc-input rc-input--inline position-absolute"
+          className="rc-input rc-input--inline position-absolute hidden"
           style={{ left: '1%' }}
           onClick={() => this.toggleSelect(pitem)}>
           {
@@ -649,12 +650,12 @@ closeNew() {
         </main>
         <Footer />
         <PetModal visible={this.state.petModalVisible}
-                  isAdd={this.state.isAdd}
-                  productList={this.state.productList}
-                  openNew={() => this.openNew()}
-                  closeNew={() => this.closeNew()}
-                  confirm={()=>this.petComfirm()}
-                  close={() => this.closePetModal()}/>
+          isAdd={this.state.isAdd}
+          productList={this.state.productList}
+          openNew={() => this.openNew()}
+          closeNew={() => this.closeNew()}
+          confirm={() => this.petComfirm()}
+          close={() => this.closePetModal()} />
       </div>
     );
   }

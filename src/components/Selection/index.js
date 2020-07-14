@@ -11,7 +11,7 @@ export default class Selection extends React.Component {
     super(props)
     this.state = {
       optionsVisible: false,
-      selectedItem: { value: '' },
+      selectedItem: { value: '', id: -1 },
       hoveredIdx: -1
     }
     this.timeOutId = null
@@ -29,9 +29,9 @@ export default class Selection extends React.Component {
       optionsVisible: false
     })
   }
-  handleClickOption (value) {
+  handleClickOption (value, item) {
     this.setState({
-      selectedItem: { value }
+      selectedItem: { value, id: item.id }
     }, () => {
       this.props.selectedItemChange(this.state.selectedItem)
     })
@@ -88,7 +88,7 @@ export default class Selection extends React.Component {
                   aria-selected="false"
                   title={item.name}
                   key={i}
-                  onClick={() => this.handleClickOption(item.value)} onMouseEnter={() => this.handleMouseEnterOption(i)}>
+                  onClick={() => this.handleClickOption(item.value, item)} onMouseEnter={() => this.handleMouseEnterOption(i)}>
                   {item.name}
                 </div>
               ))}

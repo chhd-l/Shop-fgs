@@ -42,6 +42,9 @@ class LoginCart extends React.Component {
   get loading () {
     return this.checkoutStore.loadingCartData
   }
+  get tradePrice () {
+    return this.props.checkoutStore.tradePrice
+  }
   handleMouseOver () {
     this.flag = 1
     this.setState({
@@ -60,7 +63,7 @@ class LoginCart extends React.Component {
     }, 500)
   }
   async handleCheckout () {
-    if (this.checkoutStore.cartPrice.tradePrice < MINIMUM_AMOUNT) {
+    if (this.tradePrice < MINIMUM_AMOUNT) {
       this.setState({
         errMsg: <FormattedMessage id="cart.errorInfo3" />
       })
@@ -78,13 +81,13 @@ class LoginCart extends React.Component {
     // this.openPetModal()
     this.props.history.push('/prescription')
   }
-  openPetModal() {
+  openPetModal () {
     this.setState({
       petModalVisible: true
     })
   }
-  closePetModal() {
-    if(this.state.isAdd === 2) {
+  closePetModal () {
+    if (this.state.isAdd === 2) {
       this.setState({
         isAdd: 0
       })
@@ -93,16 +96,16 @@ class LoginCart extends React.Component {
       petModalVisible: false
     })
   }
-  petComfirm(){
+  petComfirm () {
     this.props.history.push('/prescription')
   }
-  openNew() {
+  openNew () {
     this.setState({
       isAdd: 1
     })
     this.openPetModal()
   }
-  closeNew() {
+  closeNew () {
     this.setState({
       isAdd: 2
     })
@@ -152,7 +155,7 @@ class LoginCart extends React.Component {
                         loading
                           ? <b>--</b>
                           : <>
-                            <FormattedMessage id="total" /> <b>{formatMoney(this.checkoutStore.loginCartPrice ?this.checkoutStore.loginCartPrice.tradePrice: 0)}</b>
+                            <FormattedMessage id="total" /> <b>{formatMoney(this.tradePrice)}</b>
                           </>
                       }
                     </span>
@@ -241,12 +244,12 @@ class LoginCart extends React.Component {
             </div>
         }
         <PetModal visible={this.state.petModalVisible}
-                  isAdd={this.state.isAdd}
-                  productList={cartData}
-                  openNew={() => this.openNew()}
-                  closeNew={() => this.closeNew()}
-                  confirm={()=>this.petComfirm()}
-                  close={() => this.closePetModal()}/>
+          isAdd={this.state.isAdd}
+          productList={cartData}
+          openNew={() => this.openNew()}
+          closeNew={() => this.closeNew()}
+          confirm={() => this.petComfirm()}
+          close={() => this.closePetModal()} />
       </span>
     )
   }
