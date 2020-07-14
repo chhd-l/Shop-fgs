@@ -12,6 +12,7 @@ import myOrderImg from "@/assets/images/profile/My Order.jpg";
 import myPetImg from "@/assets/images/profile/My pet.jpg";
 import myProfileImg from "@/assets/images/profile/My profile.jpg";
 import paymentImg from "@/assets/images/profile/Payment.jpg";
+import subscriptionImg from "@/assets/images/profile/Subscription.jpg"
 import './index.css'
 
 @inject("loginStore")
@@ -107,6 +108,35 @@ class AccountHome extends React.Component {
                           </FormattedMessage>
                         </h3>
                         <p><FormattedMessage id="account.petsTip" /></p>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="profileDashboardImage">
+                        <Link to="/account/subscription">
+                          <FormattedMessage id="subscription">
+                            {txt => (
+                              <img
+                                src={subscriptionImg}
+                                alt={txt}
+                                title={txt} />
+                            )}
+                          </FormattedMessage>
+                        </Link>
+                      </div>
+                      <div>
+                        <h3 className="rc-delta profileTextColor">
+                          <FormattedMessage id="subscription">
+                            {txt => (
+                              <Link
+                                to="/account/subscription"
+                                title={txt}
+                                alt={txt}>
+                                <b>{txt}</b>
+                              </Link>
+                            )}
+                          </FormattedMessage>
+                        </h3>
+                        <p><FormattedMessage id="account.subscriptionTip" /></p>
                       </div>
                     </div>
                     <div className="col-12 col-md-4">

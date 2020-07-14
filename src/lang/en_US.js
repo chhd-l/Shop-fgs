@@ -370,6 +370,9 @@ const en_US = {
   'default': 'Default',
   'saveSuccessfullly': 'Save successfullly',
 
+  'subscription.promotionTip': 'Save {val} on your first Subscription',
+  'subscription.OnYourFirst': 'on your first',
+  'subscription.promotionTip2': 'Simply select Subscription at checkout for easy regular deliveries',
   'subscription.notYet': 'Not Yet Shipped',
   'subscription.frequency': 'Frequency',
   'subscription.nextOrder': 'Next Order',
@@ -387,8 +390,13 @@ const en_US = {
   'subscription.subscriptionNumberTip': 'Please enter subscription number',
   'subscription.date': 'Subscription date',
   'subscription.deliveryDate': 'Next delivery date',
+  'subscription.receiveDate': 'Next receive date',
+  'subscription.toBeDelivered': 'To be Delivered',
+  'subscription.skip': 'Skip Next Delivery',
+  'subscription.cancelAll': 'Cancel All',
   'subscription.detail': 'Subscription detail',
   'subscription.sub': 'Sub-',
+  'subscription.status': 'Subscription status',
   'login': 'Log in',
   'login.register': 'Create a personal account',
   'login.loginTip': ' To connect to the ROYAL CANIN® service,authorization is required. If you do not have a personal account, you can register now.',
@@ -494,6 +502,8 @@ const en_US = {
   'continue': 'Continue',
   'petName': 'Pet Name',
   'petType': 'Pet Type',
-  'birthday': 'Birthday'
+  'birthday': 'Birthday',
+  'active': 'Active',
+  'inactive': 'Inactive'
 }
 export default en_US;

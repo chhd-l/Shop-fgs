@@ -13,22 +13,18 @@ import PetModal from '@/components/PetModal'
 import {
   formatMoney,
   translateHtmlCharater,
-  hanldePurchases,
   queryProps
 } from '@/utils/utils'
 import {
   MINIMUM_AMOUNT,
   STOREID,
-  STORE_CATE_ENUM
+  STORE_CATE_ENUM,
+  SUBSCRIPTION_DISCOUNT_RATE
 } from "@/utils/constant"
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { cloneDeep, findIndex, find } from 'lodash'
 import { getDetails, getLoginDetails } from '@/api/details'
-import {
-  sitePurchase,
-  sitePurchases,
-  siteMiniPurchases
-} from '@/api/cart'
+import { sitePurchase } from '@/api/cart'
 import { getDict } from '@/api/dict'
 import './index.css'
 
@@ -514,13 +510,13 @@ class Details extends React.Component {
   changeTab (e, i) {
     this.setState({ activeTabIdx: i })
   }
-  openPetModal() {
+  openPetModal () {
     this.setState({
       petModalVisible: true
     })
   }
-  closePetModal() {
-    if(this.state.isAdd === 2) {
+  closePetModal () {
+    if (this.state.isAdd === 2) {
       this.setState({
         isAdd: 0
       })
@@ -529,16 +525,16 @@ class Details extends React.Component {
       petModalVisible: false
     })
   }
-  petComfirm(){
+  petComfirm () {
     this.props.history.push('/prescription')
   }
-  openNew() {
+  openNew () {
     this.setState({
       isAdd: 1
     })
     this.openPetModal()
   }
-  closeNew() {
+  closeNew () {
     this.setState({
       isAdd: 2
     })
@@ -691,7 +687,7 @@ class Details extends React.Component {
                                       <FormattedMessage id="details.unitPrice" />
                                     </div>
 
-                                    <b className="product-pricing__card__head__price rc-padding-y--none js-price">
+                                    <b className="product-pricing__card__head__price red rc-padding-y--none">
                                       {initing ? '--' : formatMoney(currentUnitPrice)}
                                     </b>
                                   </div>
@@ -702,12 +698,18 @@ class Details extends React.Component {
                                           <span className="rc-icon rc-refresh--xs rc-brand1 position-absolute" style={{ transform: 'translate(-100%, 8%)' }}></span>
                                           <div className="rc-input product-pricing__card__head__title">
                                             <FormattedMessage id="details.Subscription" />
+                                            <span className="red" style={{ fontSize: '.8em' }}>
+                                              {' '}
+                                              (<FormattedMessage id="save" />{' '}{SUBSCRIPTION_DISCOUNT_RATE})
+                                            </span>
                                           </div>
-                                          <b className="product-pricing__card__head__price rc-padding-y--none js-price">
+                                          <b className="product-pricing__card__head__price red rc-padding-y--none">
                                             {initing ? '--' : formatMoney(currentSubscriptionPrice || 0)}
                                           </b>
                                         </div>
-                                        <span className="red" style={{ fontSize: '.9em' }}>Save 35% on your first Subscription</span>
+                                        <span className="red" style={{ fontSize: '.9em' }}>
+                                          <FormattedMessage id="subscription.promotionTip2" />
+                                        </span>
                                       </>
                                       : null
                                   }
@@ -1038,12 +1040,12 @@ class Details extends React.Component {
           )}
         <Footer />
         <PetModal visible={this.state.petModalVisible}
-                  isAdd={this.state.isAdd}
-                  productList={this.state.productList}
-                  openNew={() => this.openNew()}
-                  closeNew={() => this.closeNew()}
-                  confirm={()=>this.petComfirm()}
-                  close={() => this.closePetModal()}/>
+          isAdd={this.state.isAdd}
+          productList={this.state.productList}
+          openNew={() => this.openNew()}
+          closeNew={() => this.closeNew()}
+          confirm={() => this.petComfirm()}
+          close={() => this.closePetModal()} />
       </div>
     );
   }
