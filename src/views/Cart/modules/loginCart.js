@@ -429,6 +429,73 @@ class LoginCart extends React.Component {
     })
     this.openPetModal()
   }
+  sideCart ({ className = '', style = {}, id = '' } = {}) {
+    const { productList, checkoutLoading } = this.state
+    return <div
+      className={`group-order rc-border-all rc-border-colour--interface cart__total__content ${className}`}
+      style={{ ...style }}
+      id={id}>
+      <div className="row">
+        <div className="col-12 total-items medium">
+          <span>{checkoutLoading ? '--' : this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
+      </div>
+      </div>
+      <div className="row">
+        <div className="col-8">
+          <FormattedMessage id="total" />
+        </div>
+        <div className="col-4 no-padding-left">
+          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.totalPrice)}</p>
+        </div>
+      </div>
+      <div className="row" style={{ display: this.state.isPromote ? 'flex' : 'none' }}>
+        <div className="col-4">
+          <p style={{ color: '#ec001a' }}>
+            <FormattedMessage id="promotion" />
+          </p>
+        </div>
+        <div className="col-8">
+          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {checkoutLoading ? '--' : formatMoney(this.state.discountPrice)}</p>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-8">
+          <p>
+            <FormattedMessage id="delivery" />
+          </p>
+        </div>
+        <div className="col-4">
+          <p className="text-right shipping-cost">0</p>
+        </div>
+      </div>
+      <div className="group-total">
+        <div className="row">
+          <div className="col-7 medium">
+            <strong>
+              <FormattedMessage id="totalIncluIVA" />
+            </strong>
+          </div>
+          <div className="col-5">
+            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.tradePrice)}</p>
+          </div>
+        </div>
+        <div className="row checkout-proccess">
+          <div className="col-lg-12 checkout-continue">
+            <a onClick={() => this.handleCheckout()}>
+              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
+                <div
+                  data-oauthlogintargetendpoint="2"
+                  className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${this.state.checkoutLoading ? 'ui-btn-loading' : ''} `}
+                  aria-pressed="true">
+                  <FormattedMessage id="checkout" />
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div >
+  }
   render () {
     const { productList, checkoutLoading } = this.state;
     const List = this.getProducts(productList);
@@ -480,66 +547,17 @@ class LoginCart extends React.Component {
                         <FormattedMessage id="total" />
                       </h5>
                     </div>
-                    <div className="group-order rc-border-all rc-border-colour--interface cart__total__content">
-                      <div className="row">
-                        <div className="col-12 total-items medium">
-                          <span>{checkoutLoading ? '--' : this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-8">
-                          <FormattedMessage id="total" />
-                        </div>
-                        <div className="col-4 no-padding-left">
-                          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.totalPrice)}</p>
-                        </div>
-                      </div>
-                      <div className="row" style={{ display: this.state.isPromote ? 'flex' : 'none' }}>
-                        <div className="col-4">
-                          <p style={{ color: '#ec001a' }}>
-                            <FormattedMessage id="promotion" />
-                          </p>
-                        </div>
-                        <div className="col-8">
-                          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {checkoutLoading ? '--' : formatMoney(this.state.discountPrice)}</p>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-8">
-                          <p>
-                            <FormattedMessage id="delivery" />
-                          </p>
-                        </div>
-                        <div className="col-4">
-                          <p className="text-right shipping-cost">0</p>
-                        </div>
-                      </div>
-                      <div className="group-total">
-                        <div className="row">
-                          <div className="col-7 medium">
-                            <strong>
-                              <FormattedMessage id="totalIncluIVA" />
-                            </strong>
-                          </div>
-                          <div className="col-5">
-                            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.tradePrice)}</p>
-                          </div>
-                        </div>
-                        <div className="row checkout-proccess">
-                          <div className="col-lg-12 checkout-continue">
-                            <a onClick={() => this.handleCheckout()}>
-                              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                                <div
-                                  data-oauthlogintargetendpoint="2"
-                                  className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${this.state.checkoutLoading ? 'ui-btn-loading' : ''}`}
-                                  aria-pressed="true">
-                                  <FormattedMessage id="checkout" />
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
+                    <div id="J_sidecart_container">
+                      {this.sideCart({
+                        className: 'hidden position-fixed',
+                        style: {
+                          background: '#fff',
+                          zIndex: 9,
+                          width: 320
+                        },
+                        id: 'J_sidecart_fix'
+                      })}
+                      {this.sideCart()}
                     </div>
                   </div>
                 </div>
