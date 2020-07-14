@@ -57,6 +57,8 @@ class Header extends React.Component {
 
     this.handleCenterMouseOver = this.handleCenterMouseOver.bind(this)
     this.handleCenterMouseOut = this.handleCenterMouseOut.bind(this)
+
+    this.preTop = 0
   }
   get isLogin () {
     return this.props.loginStore.isLogin
@@ -69,10 +71,11 @@ class Header extends React.Component {
 
     window.addEventListener('click', (e) => this.hideMenu(e))
     window.addEventListener('wheel', e => this.handleMouseScroll(e))
+    window.addEventListener('scroll', e => this.handleScroll(e))
     const { location } = this.props
     let prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
     let tmpName = ''
-    
+
     // 指定clinic链接进入，设置default clinic
     if (location
       && (location.pathname === '/'
@@ -100,6 +103,31 @@ class Header extends React.Component {
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
     window.removeEventListener('wheel', this.handleMouseScroll)
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+  handleScroll (e) {
+    let baseEl = document.querySelector('#J_sidecart_container')
+    if (!baseEl) {
+      return false
+    }
+    let targetEl = document.querySelector('#J_sidecart_fix')
+    let win_top = document.documentElement.scrollTop || document.body.scrollTop
+    let isScrollToTop = this.preTop > win_top
+    this.preTop = win_top
+    let top = this.getElementToPageTop(baseEl) - (isScrollToTop ? 120 : 80) - win_top
+    if (win_top >= top) {
+      targetEl.style.top = isScrollToTop ? '120px' : '80px'
+      targetEl.style.display = 'block'
+    } else {
+      targetEl.style.display = 'none'
+    }
+    // console.log(win_top, top)
+  }
+  getElementToPageTop (el) {
+    if (el.parentElement) {
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
+    }
+    return el.offsetTop;
   }
   /**
    * 登录状态，设置default clinic
