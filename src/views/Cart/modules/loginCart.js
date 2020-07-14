@@ -388,7 +388,20 @@ class LoginCart extends React.Component {
             </div>
           </div>
           <div className="availability  product-availability">
-            <div className="align-left flex rc-content-v-right">
+            <div className="flex justify-content-between flex-wrap">
+              <div>
+                {
+                  pitem.goods && pitem.goods.subscriptionStatus
+                    ? <>
+                      <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                      <FormattedMessage id="details.Subscription" />{' '}-{' '}
+                      <span style={{ fontSize: '.85em' }}>
+                        <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                      </span>
+                    </>
+                    : null
+                }
+              </div>
               <div className="stock__wrapper">
                 <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
                   <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
