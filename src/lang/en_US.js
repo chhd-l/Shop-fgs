@@ -372,6 +372,7 @@ const en_US = {
 
   'subscription.promotionTip': 'Save {val} on your first Subscription',
   'subscription.OnYourFirst': 'on your first',
+  'subscription.promotionTip2': 'Simply select Subscription at checkout for easy regular deliveries',
   'subscription.notYet': 'Not Yet Shipped',
   'subscription.frequency': 'Frequency',
   'subscription.nextOrder': 'Next Order',

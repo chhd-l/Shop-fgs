@@ -685,7 +685,7 @@ class Details extends React.Component {
                                       <FormattedMessage id="details.unitPrice" />
                                     </div>
 
-                                    <b className="product-pricing__card__head__price rc-padding-y--none js-price">
+                                    <b className="product-pricing__card__head__price red rc-padding-y--none">
                                       {initing ? '--' : formatMoney(currentUnitPrice)}
                                     </b>
                                   </div>
@@ -696,13 +696,17 @@ class Details extends React.Component {
                                           <span className="rc-icon rc-refresh--xs rc-brand1 position-absolute" style={{ transform: 'translate(-100%, 8%)' }}></span>
                                           <div className="rc-input product-pricing__card__head__title">
                                             <FormattedMessage id="details.Subscription" />
+                                            <span className="red" style={{ fontSize: '.8em' }}>
+                                              {' '}
+                                              (<FormattedMessage id="save" />{' '}{SUBSCRIPTION_DISCOUNT_RATE})
+                                            </span>
                                           </div>
-                                          <b className="product-pricing__card__head__price rc-padding-y--none js-price">
+                                          <b className="product-pricing__card__head__price red rc-padding-y--none">
                                             {initing ? '--' : formatMoney(currentSubscriptionPrice || 0)}
                                           </b>
                                         </div>
                                         <span className="red" style={{ fontSize: '.9em' }}>
-                                          <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                                          <FormattedMessage id="subscription.promotionTip2" />
                                         </span>
                                       </>
                                       : null
