@@ -26,5 +26,8 @@
   color: #ddd;
   font-size: 16px;
   position: relative;
-  top: -2px
+  top: -5px
+}
+.black-font-color{
+  color: #212529!important;
 }
