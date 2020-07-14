@@ -785,7 +785,6 @@ class Payment extends React.Component {
           <div
             id="checkout-main"
             className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
-          // data-checkout-stage="payment"
           >
             <Progress type="payment" />
             <div className="rc-layout-container rc-three-column rc-max-width--xl">
@@ -803,12 +802,7 @@ class Payment extends React.Component {
                     </span>
                   </aside>
                 </div>
-                <div
-                  className="shipping-form"
-                // style={{
-                //   display: this.state.type === "shipping" ? "block" : "none",
-                // }}
-                >
+                <div className="shipping-form">
                   <div className="card">
                     <div className="card-header">
                       <h5 className="pull-left">
@@ -820,13 +814,7 @@ class Payment extends React.Component {
                       </h5>
                       <p
                         onClick={e => this.handleClickEditClinic(e)}
-                        style={{
-                          // display: sessionStorage.getItem("rc-clinics-name")
-                          //   ? "none"
-                          //   : "inline",
-                        }}
-                        className="rc-styled-link rc-margin-top--xs pull-right m-0"
-                      >
+                        className="rc-styled-link rc-margin-top--xs pull-right m-0">
                         <FormattedMessage id="edit" />
                       </p>
                     </div>
@@ -968,212 +956,15 @@ class Payment extends React.Component {
                       </span>
                     </div>
                   </div>
-                  {/* <div className="place_order-btn card">
-                    <div className="next-step-button">
-                      <div className="rc-text--right">
-                        <button
-                          className="rc-btn rc-btn--one submit-payment"
-                          type="submit"
-                          name="submit"
-                          value="submit-shipping"
-                          onClick={() => this.ChoosePayment()}
-                        >
-                          <FormattedMessage id="payment.choosePayment" />
-                        </button>
-                      </div>
-                    </div>
-                  </div> */}
-                  {/* <p>
-                    <button
-                      className="rc-btn rc-btn--one pull-right rc-margin-bottom--sm"
-                      onClick={() => this.ChoosePayment()}
-                    >
-                      Choose a payment
-                    </button>
-                  </p> */}
                 </div>
-                <div
-                // style={{
-                //   display: this.state.type == "payment" ? "block" : "none",
-                // }}
-                >
-                  {/* <div className="card shipping-summary">
-                    <div className="card-header rc-padding-right--none clearfix">
-                      <h5 className="pull-left"><FormattedMessage id="payment.addressTitle" /></h5>
-                      {
-                        !this.state.isToPayNow && <a
-                          href="#"
-                          onClick={(e) => this.goDelivery(e)}
-                          className=" rc-styled-link rc-margin-top--xs pull-right pt-0">
-                          <FormattedMessage id="edit" />
-                        </a>
-                      }
-                    </div>
-                    <div className="card-body rc-padding--none">
-                      <p className="shipping-addr-label multi-shipping padding-y--sm">
-                        Addresses and shipping methods are indicated under your goods.
-                      </p>
-                      <div
-                        className="single-shipping"
-                        data-shipment-summary="8b50610f77571c1ac58b609278"
-                      >
-                        <div className="rc-border-all rc-border-colour--interface checkout--padding">
-                          <div className="summary-details shipping rc-margin-bottom--xs">
-                            <div className="address-summary row">
-                              <div className="col-md-12 deliveryAddress">
-                                <h5 className="center">
-                                  <FormattedMessage id="payment.deliveryTitle" />
-                                </h5>
-                                <div className="row">
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.firstName" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.firstName}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.lastName" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.lastName}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.address1" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.address1}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.address2" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.address2}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.country" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.matchNamefromDict(this.state.countryList, deliveryAddress.country)}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.city" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.matchNamefromDict(this.state.cityList, deliveryAddress.city)}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.postCode" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.postCode}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.phoneNumber" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.phoneNumber}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.rfc" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.rfc}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.normalDelivery2" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.forFree" />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-md-12 address-summary-left">
-                                <h5 className="center">
-                                  <FormattedMessage id="payment.billTitle" />
-                                </h5>
-                                <div className="row">
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.firstName" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.firstName}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.lastName" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.lastName}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.address1" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.address1}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.address2" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.address2}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.country" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.matchNamefromDict(this.state.countryList, billingAddress.country)}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.city" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.matchNamefromDict(this.state.cityList, billingAddress.city)}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.postCode" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.postCode}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.phoneNumber" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.phoneNumber}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.rfc" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.rfc}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.commentOnDelivery" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.state.commentOnDelivery}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            className="rc-margin-bottom--xs delivery-comment"
-                            style={{ display: "none" }}
-                          >
-                            <b>Delivery comment:</b> <span>null</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
+                <div>
                   <div className="card payment-form">
                     <div className="card-body rc-padding--none">
                       <form
                         method="POST"
                         data-address-mode="new"
                         name="dwfrm_billing"
-                        id="dwfrm_billing"
-                      >
+                        id="dwfrm_billing">
                         <div className="card-header with-tooltip-icon rc-margin-top--sm">
                           <h5>
                             <FormattedMessage id="payment.paymentInformation" />
@@ -1181,15 +972,8 @@ class Payment extends React.Component {
                         </div>
                         <div className="billing-payment">
                           <div
-                            className="rc-list__accordion-item border-0"
-                            data-method-id="CREDIT_CARD"
-                            style={{
-                              display:
-                                this.state.payMethod === "creditCard"
-                                  ? "block"
-                                  : "none",
-                            }}
-                          >
+                            className={`rc-list__accordion-item border-0 ${this.state.payMethod === "creditCard" ? '' : 'hidden'}`}
+                            data-method-id="CREDIT_CARD">
                             {
                               this.isLogin
                                 ? <div className="rc-border-colour--interface">
@@ -1224,8 +1008,7 @@ class Payment extends React.Component {
                                                     id="submit"
                                                     name="submit"
                                                     className="creadit"
-                                                    type="submit"
-                                                  >
+                                                    type="submit">
                                                     Pay
                                                 </button>
                                                 </form>
