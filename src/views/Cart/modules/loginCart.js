@@ -9,7 +9,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip'
 import PetModal from '@/components/PetModal'
 import { Link } from 'react-router-dom'
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
-import { MINIMUM_AMOUNT } from '@/utils/constant'
+import { MINIMUM_AMOUNT, SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant'
 import { find } from 'lodash'
 import { getPetList } from '@/api/pet'
 import { getCustomerInfo } from "@/api/user"
@@ -239,7 +239,7 @@ class LoginCart extends React.Component {
             />
           </div>
           <div className="product-info__desc w-100 relative">
-            <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
+            <div className="line-item-header rc-margin-top--xs rc-padding-right--sm" style={{ width: '80%' }}>
               <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(pitem)}>
                 <h4
                   className="rc-gamma rc-margin--none ui-text-overflow-line2 text-break"
@@ -317,7 +317,20 @@ class LoginCart extends React.Component {
               </div>
             </div>
             <div className="availability  product-availability">
-              <div className="align-left flex rc-content-v-right rc-md-up">
+              <div className="flex justify-content-between rc-md-up">
+                <div>
+                  {
+                    pitem.goods && pitem.goods.subscriptionStatus
+                      ? <>
+                        <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                        <FormattedMessage id="details.Subscription" />{' '}-{' '}
+                        <span style={{ fontSize: '.85em' }}>
+                          <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                        </span>
+                      </>
+                      : null
+                  }
+                </div>
                 <div className="stock__wrapper">
                   <div className="stock">
                     <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
@@ -375,7 +388,20 @@ class LoginCart extends React.Component {
             </div>
           </div>
           <div className="availability  product-availability">
-            <div className="align-left flex rc-content-v-right">
+            <div className="flex justify-content-between flex-wrap">
+              <div>
+                {
+                  pitem.goods && pitem.goods.subscriptionStatus
+                    ? <>
+                      <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                      <FormattedMessage id="details.Subscription" />{' '}-{' '}
+                      <span style={{ fontSize: '.85em' }}>
+                        <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                      </span>
+                    </>
+                    : null
+                }
+              </div>
               <div className="stock__wrapper">
                 <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
                   <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
@@ -403,7 +429,7 @@ class LoginCart extends React.Component {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     ));
     return Lists;
   }
@@ -428,6 +454,73 @@ class LoginCart extends React.Component {
       isAdd: 2
     })
     this.openPetModal()
+  }
+  sideCart ({ className = '', style = {}, id = '' } = {}) {
+    const { productList, checkoutLoading } = this.state
+    return <div
+      className={`group-order rc-border-all rc-border-colour--interface cart__total__content ${className}`}
+      style={{ ...style }}
+      id={id}>
+      <div className="row">
+        <div className="col-12 total-items medium">
+          <span>{checkoutLoading ? '--' : this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
+      </div>
+      </div>
+      <div className="row">
+        <div className="col-8">
+          <FormattedMessage id="total" />
+        </div>
+        <div className="col-4 no-padding-left">
+          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.totalPrice)}</p>
+        </div>
+      </div>
+      <div className="row" style={{ display: this.state.isPromote ? 'flex' : 'none' }}>
+        <div className="col-4">
+          <p style={{ color: '#ec001a' }}>
+            <FormattedMessage id="promotion" />
+          </p>
+        </div>
+        <div className="col-8">
+          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {checkoutLoading ? '--' : formatMoney(this.state.discountPrice)}</p>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-8">
+          <p>
+            <FormattedMessage id="delivery" />
+          </p>
+        </div>
+        <div className="col-4">
+          <p className="text-right shipping-cost">0</p>
+        </div>
+      </div>
+      <div className="group-total">
+        <div className="row">
+          <div className="col-7 medium">
+            <strong>
+              <FormattedMessage id="totalIncluIVA" />
+            </strong>
+          </div>
+          <div className="col-5">
+            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.tradePrice)}</p>
+          </div>
+        </div>
+        <div className="row checkout-proccess">
+          <div className="col-lg-12 checkout-continue">
+            <a onClick={() => this.handleCheckout()}>
+              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
+                <div
+                  data-oauthlogintargetendpoint="2"
+                  className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${this.state.checkoutLoading ? 'ui-btn-loading' : ''} `}
+                  aria-pressed="true">
+                  <FormattedMessage id="checkout" />
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div >
   }
   render () {
     const { productList, checkoutLoading } = this.state;
@@ -480,66 +573,17 @@ class LoginCart extends React.Component {
                         <FormattedMessage id="total" />
                       </h5>
                     </div>
-                    <div className="group-order rc-border-all rc-border-colour--interface cart__total__content">
-                      <div className="row">
-                        <div className="col-12 total-items medium">
-                          <span>{checkoutLoading ? '--' : this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-8">
-                          <FormattedMessage id="total" />
-                        </div>
-                        <div className="col-4 no-padding-left">
-                          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.totalPrice)}</p>
-                        </div>
-                      </div>
-                      <div className="row" style={{ display: this.state.isPromote ? 'flex' : 'none' }}>
-                        <div className="col-4">
-                          <p style={{ color: '#ec001a' }}>
-                            <FormattedMessage id="promotion" />
-                          </p>
-                        </div>
-                        <div className="col-8">
-                          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {checkoutLoading ? '--' : formatMoney(this.state.discountPrice)}</p>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-8">
-                          <p>
-                            <FormattedMessage id="delivery" />
-                          </p>
-                        </div>
-                        <div className="col-4">
-                          <p className="text-right shipping-cost">0</p>
-                        </div>
-                      </div>
-                      <div className="group-total">
-                        <div className="row">
-                          <div className="col-7 medium">
-                            <strong>
-                              <FormattedMessage id="totalIncluIVA" />
-                            </strong>
-                          </div>
-                          <div className="col-5">
-                            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.tradePrice)}</p>
-                          </div>
-                        </div>
-                        <div className="row checkout-proccess">
-                          <div className="col-lg-12 checkout-continue">
-                            <a onClick={() => this.handleCheckout()}>
-                              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                                <div
-                                  data-oauthlogintargetendpoint="2"
-                                  className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${this.state.checkoutLoading ? 'ui-btn-loading' : ''}`}
-                                  aria-pressed="true">
-                                  <FormattedMessage id="checkout" />
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
+                    <div id="J_sidecart_container">
+                      {this.sideCart({
+                        className: 'hidden position-fixed rc-md-up',
+                        style: {
+                          background: '#fff',
+                          zIndex: 9,
+                          width: 320
+                        },
+                        id: 'J_sidecart_fix'
+                      })}
+                      {this.sideCart()}
                     </div>
                   </div>
                 </div>

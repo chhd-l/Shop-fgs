@@ -9,7 +9,12 @@ import Banner_Horizontal_Hot_Sale from "@/assets/images/Banner_Horizontal_Hot_Sa
 import Pomotion25offImg from "@/assets/images/pomotion_25off.png";
 import Banner_recommend_item from "@/assets/images/Banner_recommend_item.jpg";
 import Banner_recommend_item_m from "@/assets/images/Banner_recommend_item_m.jpg";
+import Banner_urinary from "@/assets/images/banner/banner_urinary.jpg";
+import Banner_urinary_m from "@/assets/images/banner/banner_urinary_m.jpg";
+import Banner_subscritipon from "@/assets/images/banner/banner_subscritipon.png";
+import Banner_subscritipon_m from "@/assets/images/banner/banner_subscritipon_m.png";
 import './index.less'
+import { SUBSCRIPTION_DISCOUNT_RATE } from "@/utils/constant"
 
 function SampleNextArrow (props) {
   const { className, style, onClick } = props;
@@ -56,7 +61,7 @@ class HeroCarousel extends React.Component {
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
-      autoplay: true,
+      // autoplay: true,
       pauseOnHover: true,
       lazyLoad: true,
       adaptiveHeight: true,
@@ -76,7 +81,15 @@ class HeroCarousel extends React.Component {
                 {/* <div className="text-center" style={{ fontSize: '1.15em' }}>
                   <span className="pr-2 pl-2" style={{ background: '#ec001a', color: '#fff', borderRadius: '.3rem' }}>25% OFF</span> Hasta el 1ero de Junio 2020 o agotar existencias
                 </div> */}
-                <FormattedMessage id="home.note1" />&nbsp;
+                <div className="text-center" style={{ fontSize: '1.15em' }}>
+                  <span className="pr-2 pl-2" style={{ background: '#ec001a', color: '#fff', borderRadius: '1rem' }}>
+                    <FormattedMessage id="save" />{' '}{SUBSCRIPTION_DISCOUNT_RATE}
+                  </span>{' '}
+                  <FormattedMessage id="subscription.OnYourFirst" />
+                  <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                  <FormattedMessage id="details.Subscription" />
+                </div>
+                <FormattedMessage id="home.note1" />{' '}
                 <FormattedMessage id="home.note2" />
               </div>
               : null
@@ -91,6 +104,37 @@ class HeroCarousel extends React.Component {
                 <img src={Pomotion25offImg} className="rc-md-down" />
               </div>
             </div> */}
+            <div className="hero-carousel__slide center-img">
+              <img className="w-100 rc-md-up" src={Banner_subscritipon} />
+              <Link
+                to="/list/keywords"
+                className="rc-md-up"
+                style={{
+                  position: 'absolute',
+                  width: '17%',
+                  height: '4.5rem',
+                  zIndex: 2,
+                  top: '70%',
+                  left: '30.5%',
+                }}
+                onClick={this.hanldeClick} />
+
+              <div>
+                <img className="rc-md-down" src={Banner_subscritipon_m} />
+                <Link
+                  to="/list/keywords"
+                  className="rc-md-down"
+                  style={{
+                    position: 'absolute',
+                    width: '32%',
+                    height: '2rem',
+                    zIndex: 2,
+                    top: '40%',
+                    left: '34%',
+                  }}
+                  onClick={this.hanldeClick} />
+              </div>
+            </div>
             <div className="hero-carousel__slide">
               <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
                 <img
@@ -132,6 +176,37 @@ class HeroCarousel extends React.Component {
                     </Link>
                   </div>
                 </div> */}
+              </div>
+            </div>
+            <div className="hero-carousel__slide center-img">
+              <img className="mh-100 rc-md-up" src={Banner_urinary} />
+              <Link
+                to="/list/keywords/urinary"
+                className="rc-md-up"
+                style={{
+                  position: 'absolute',
+                  width: '12%',
+                  height: '2.5rem',
+                  zIndex: 2,
+                  top: '76%',
+                  left: '58.5%',
+                }}
+                onClick={this.hanldeClick} />
+
+              <div>
+                <img className="rc-md-down" src={Banner_urinary_m} />
+                <Link
+                  to="/list/keywords/urinary"
+                  className="rc-md-down"
+                  style={{
+                    position: 'absolute',
+                    width: '32%',
+                    height: '2rem',
+                    zIndex: 2,
+                    top: '46%',
+                    left: '34%',
+                  }}
+                  onClick={this.hanldeClick} />
               </div>
             </div>
             <div className="hero-carousel__slide">

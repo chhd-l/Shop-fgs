@@ -1,3 +1,4 @@
+// 注意：其他文件也存在多语言相关，搜en/es/ru
 const en_US = {
   'just': 'Just',
   'or': 'or',
@@ -369,6 +370,9 @@ const en_US = {
   'default': 'Default',
   'saveSuccessfullly': 'Save successfullly',
 
+  'subscription.promotionTip': 'Save {val} on your first Subscription',
+  'subscription.OnYourFirst': 'on your first',
+  'subscription.promotionTip2': 'Simply select Subscription at checkout for easy regular deliveries',
   'subscription.notYet': 'Not Yet Shipped',
   'subscription.frequency': 'Frequency',
   'subscription.nextOrder': 'Next Order',

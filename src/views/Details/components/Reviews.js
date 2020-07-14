@@ -16,14 +16,14 @@ class Reviews extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: this.props.id,
             goodsEvaluatesList: [],
             evaluatesCurrentPage: 0,
-            valuatesTotalPages: 0
+            valuatesTotalPages: 0,
+            selectedSortBy: 0
         }
     }
     componentDidMount() {
-        this.getGoodsEvaluates(1, 10, this.state.id, null)
+        this.getGoodsEvaluates(1, 10,null)
     }
     sortByChange(e) {
         this.setState({
@@ -48,7 +48,25 @@ class Reviews extends React.Component {
         let parmas = {
             pageNum: 1,
             pageSize: 5,
-            goodsId: this.state.id
+            goodsInfoId: this.props.id,
+            sortColumn: '',
+            sortRole: ''
+        }
+        switch (this.state.selectedSortBy) {
+            case 0:
+                parmas.sortColumn = 'createTime'
+                parmas.sortRole = 'asc'
+                break;
+            case 1:
+                parmas.sortColumn = 'evaluateScore'
+                parmas.sortRole = 'desc'
+                break
+            case 2:
+                parmas.sortColumn = 'evaluateScore'
+                parmas.sortRole = 'asc'
+                break
+            default:
+                break
         }
         let res = await getLoginGoodsEvaluate(parmas)
         if(res.context && res.context.goodsEvaluateVOPage ) {
@@ -104,24 +122,24 @@ class Reviews extends React.Component {
                 <div>
                     <div className="rc-layout-container rc-two-column rc-max-width--lg rc-padding-top--sm">
                         <div className="rc-column ">
-                            <h2 className="rc-beta">
+                            <h5 className="red-text">
                                 Customer reviews
-                            </h2>
+                            </h5>
                         </div>
                     </div>
                     <div className="rc-layout-container rc-padding-bottom--xs rc-max-width--lg">
                         <div className="rc-column">
                             <form>
-                      <span className="rc-select rc-select-processed">
-                        <label className="rc-select__label" htmlFor="id-single-select">Sort by</label>
-                        <select data-js-select="" id="id-single-select"
-                                onChange={this.sortByChange}
-                                value = {this.state.selectedSortBy}>
-                          <option value={0}>Most Recent</option>
-                          <option value={1}>Lowest to Highest Rating</option>
-                          <option value={2}>Hightest to Lowest Rating</option>
-                        </select>
-                      </span>
+                              <span className="rc-select rc-select-processed">
+                                <label className="rc-select__label" htmlFor="id-single-select">Sort by</label>
+                                <select data-js-select="" id="id-single-select"
+                                        onChange={(e) => this.sortByChange(e)}
+                                        value = {this.state.selectedSortBy}>
+                                  <option value={0}>Most Recent</option>
+                                  <option value={1}>Lowest to Highest Rating</option>
+                                  <option value={2}>Hightest to Lowest Rating</option>
+                                </select>
+                              </span>
                             </form>
                         </div>
                     </div>
@@ -137,21 +155,32 @@ class Reviews extends React.Component {
                                                 <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
                                                     <div className="rc-column">
                                                         <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                                                            <h5 className="rc-espilon">{item.commentator}</h5>
-                                                            {item.commentTime}
+                                                            <div className="red-text">{item.commentator}</div>
+                                                            <div>{item.commentTime}</div>
                                                         </div>
                                                     </div>
                                                     <div className="rc-column rc-quad-width">
                                                         <div className="rc-padding--md--desktop rc-padding--sm--mobile">
                                                             <Rate def={5} disabled={true}/>
-                                                            <h5 className="mgb28">{item.title}</h5>
-                                                            {item.description}
-                                                            &nbsp;
+                                                            <div className="rc-padding-bottom--xs">{item.title}</div>
+                                                            {/*{item.description}*/}
+                                                            <div className="img-box">
+                                                                {
+                                                                    item.evaluateImageList && item.evaluateImageList.length > 0 ?
+                                                                        item.evaluateImageList.map((img) =>
+                                                                            <div className="img-wrapper"><img className="rc-img--square rc-img--square-custom " src={img.goodsInfoImg}/></div>
+                                                                        )
+                                                                        : null
+                                                                }
+                                                            </div>
                                                             {
-                                                                item.evaluateAnswer?
+                                                                !item.evaluateAnswer?
                                                                     <div>
-                                                                        <span className="red-text"><FormattedMessage id="replyComments" /></span>
-                                                                        {item.evaluateAnswer}
+                                                                        <div>
+                                                                            <span className="red-text"><FormattedMessage id="replyComments" /></span>
+                                                                        </div>
+                                                                        <div className="rc-padding-top--xs">
+                                                                        </div>
                                                                     </div> : null
                                                             }
                                                         </div>
