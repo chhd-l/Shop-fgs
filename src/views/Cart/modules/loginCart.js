@@ -15,9 +15,7 @@ import { getPetList } from '@/api/pet'
 import { getCustomerInfo } from "@/api/user"
 import {
   updateBackendCart,
-  deleteItemFromBackendCart,
-  sitePurchases,
-  siteMiniPurchases
+  deleteItemFromBackendCart
 } from '@/api/cart'
 import CART_CAT from "@/assets/images/CART_CAT.webp";
 import CART_DOG from "@/assets/images/CART_DOG.webp";
@@ -122,7 +120,7 @@ class LoginCart extends React.Component {
     })
   }
   closePetModal () {
-    if(this.state.isAdd === 2) {
+    if (this.state.isAdd === 2) {
       this.setState({
         isAdd: 0
       })
@@ -213,7 +211,7 @@ class LoginCart extends React.Component {
         className="rc-border-all rc-border-colour--interface product-info"
         key={index}>
         <div
-          className="rc-input rc-input--inline position-absolute"
+          className="rc-input rc-input--inline position-absolute hidden"
           style={{ left: '1%' }}
           onClick={() => this.toggleSelect(pitem)}>
           {

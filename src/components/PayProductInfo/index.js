@@ -81,6 +81,9 @@ class PayProductInfo extends React.Component {
     });
     return List;
   }
+  isSubscription (el) {
+    return el.goods && el.goods.subscriptionStatus && this.props.buyWay === 'frequency'
+  }
   getProductsForLogin (plist) {
     const List = plist.map((el, i) => {
       return (
@@ -102,13 +105,13 @@ class PayProductInfo extends React.Component {
                   <div className="line-item-total-price" style={{ width: '73%' }}>
                     {el.specText} - {el.buyCount} {el.buyCount > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}<br />
                     {
-                      el.subscriptionStatus
+                      this.isSubscription(el)
                         ? <><FormattedMessage id="subscription.frequency" /> : {this.props.frequencyVal} < span className="rc-icon rc-refresh--xs rc-brand1"></span></>
                         : null
                     }
                   </div>
-                  <div className="line-item-total-price sr-only">
-                    {formatMoney(el.buyCount * el.salePrice)}
+                  <div className="line-item-total-price" style={{ whiteSpace: 'nowrap' }}>
+                    {formatMoney(this.isSubscription(el) ? el.subscriptionPrice : el.buyCount * el.salePrice)}
                   </div>
                 </div>
               </div>
