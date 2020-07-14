@@ -311,6 +311,7 @@ const en_US = {
   'datePicker.weekdaysShort': ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'],
 
   'account.pets': 'Pets',
+  'account.subscription': 'Subscription',
   'account.noPet': 'Create your pet profile today! Fill in the information and choose the most suitable diet',
   'account.addPet': 'Add Pet',
   'account.step': 'Step',

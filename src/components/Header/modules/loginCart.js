@@ -110,7 +110,6 @@ class LoginCart extends React.Component {
   }
   render () {
     const { totalNum, cartData, loading } = this
-    console.log(cartData, "cartData---------------")
     return (
       <span
         className="minicart inlineblock"

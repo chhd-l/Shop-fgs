@@ -13,6 +13,7 @@ export default class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      subDetail: {},
       loading: false,
       subId: 0,
       selectedTime: "Every 4 weeks",
@@ -129,6 +130,7 @@ export default class SubscriptionDetail extends React.Component {
     console.log("enter detail");
     this.setState({
       subId: this.props.match.params.subscriptionNumber,
+      subDetail: JSON.parse(localStorage.getItem('subDetail'))
     });
   }
   render() {

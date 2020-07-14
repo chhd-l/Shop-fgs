@@ -557,6 +557,11 @@ class Header extends React.Component {
                                   </Link>
                                 </div>
                                 <div className="link-style" >
+                                  <Link to="/account/subscription" className="click-hover" >
+                                    <FormattedMessage id="account.subscription" />
+                                  </Link>
+                                </div>
+                                <div className="link-style" >
                                   <Link to="/account/orders" className="click-hover" >
                                     <FormattedMessage id="account.orders" />
                                   </Link>
