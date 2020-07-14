@@ -24,7 +24,8 @@ import {
   batchAdd,
   confirmAndCommit,
   customerCommitAndPay,
-  rePay
+  rePay,
+  customerCommitAndPayMix
 } from "@/api/payment";
 import PaymentComp from "@/components/PaymentComp"
 import axios from 'axios'
@@ -115,7 +116,8 @@ class Payment extends React.Component {
       },
       subForm: {
         buyWay: '',
-        frequencyVal: ''
+        frequencyVal: '',
+        frequencyId: ''
       },
       errorShow: false,
       errorMsg: "",
@@ -124,6 +126,7 @@ class Payment extends React.Component {
       loading: false,
       modalShow: false,
       payosdata: {},
+      subPayosdata: {},
       selectedCardInfo: {},
       isToPayNow: sessionStorage.getItem('rc-tid'),
       cityList: [],
@@ -375,9 +378,29 @@ class Payment extends React.Component {
           }
         }
       );
+      let subRes = await axios.post(
+        "https://api.paymentsos.com/tokens",
+        {
+          token_type: "credit_card",
+          card_number: selectedCard.cardNumber,
+          expiration_date: selectedCard.cardMmyy.replace(/\//, "-"),
+          holder_name: selectedCard.cardOwner,
+          credit_card_cvv: selectedCard.cardCvv,
+        },
+        {
+          headers: {
+            "public_key": process.env.REACT_APP_PaymentKEY,
+            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
+            "Content-type": "application/json",
+            "app_id": "com.razorfish.dev_mexico",
+            "api-version": "1.3.0",
+          }
+        }
+      );
       console.log(res, 'res')
       this.setState({
         payosdata: res.data,
+        subPayosdata: subRes.data,
         creditCardInfo: Object.assign({}, selectedCard),
         loading: false
       }, () => {
@@ -438,7 +461,8 @@ class Payment extends React.Component {
           return {
             verifyStock: false,
             buyCount: ele.buyCount,
-            goodsInfoId: ele.goodsInfoId
+            goodsInfoId: ele.goodsInfoId,
+            goods: ele.goods
           }
         })
       }
@@ -464,7 +488,6 @@ class Payment extends React.Component {
           }
         }
       }
-
       let param3 = {
         firstName: deliveryAddress.firstName,
         lastName: deliveryAddress.lastName,
@@ -473,6 +496,8 @@ class Payment extends React.Component {
         country: payosdata.country_code,
         token: payosdata.token,
         creditDardCvv: payosdata.encrypted_cvv,
+        tokenSub: this.state.subPayosdata.token, // todo delete...
+        creditDardCvvSub: this.state.subPayosdata.encrypted_cvv,  // todo delete...
         phone: creditCardInfo.phoneNumber,
         email: creditCardInfo.email,
         last4Digits: payosdata.last_4_digits,
@@ -498,7 +523,10 @@ class Payment extends React.Component {
         tradeMarketingList,
         payAccountName: creditCardInfo.cardOwner,
         payPhoneNumber: creditCardInfo.phoneNumber,
-        petsId: ''
+        paymentId: 'PM202006241348431010',
+        petsId: 'ff808081731309fb01732ded3a390238',
+        cycleTypeId: subForm.frequencyId,
+        promotionCode: '1234'
       };
       try {
         sessionStorage.setItem("rc-paywith-login", this.isLogin);
@@ -512,7 +540,7 @@ class Payment extends React.Component {
           param3.billAddressId = billingAddress.addressId
           if (subForm.buyWay === 'frequency') {
             param3.tradeItems = param2.goodsInfos
-              .filter(ele => !ele.subscriptionStatus)
+              .filter(ele => !ele.goods || !ele.goods.subscriptionStatus)
               .map(g => {
                 return {
                   num: g.buyCount,
@@ -520,13 +548,11 @@ class Payment extends React.Component {
                 }
               })
             param3.subTradeItems = loginCartData
-              .filter(ele => ele.subscriptionStatus)
+              .filter(ele => ele.goods && ele.goods.subscriptionStatus)
               .map(g => {
                 return {
-                  num: g.buyCount,
-                  skuId: g.goodsInfoId,
-                  subFreq: subForm.frequencyVal,
-                  subscriptionStatus: 1
+                  subscribeNum: g.buyCount,
+                  skuId: g.goodsInfoId
                 }
               })
           }
@@ -542,9 +568,12 @@ class Payment extends React.Component {
         const tmpCommitAndPay = this.isLogin
           ? this.tid
             ? rePay
-            : customerCommitAndPay
+            : subForm.buyWay === 'frequency'
+              ? customerCommitAndPayMix
+              : customerCommitAndPay
           : confirmAndCommit
         let confirmAndCommitRes = await tmpCommitAndPay(param3);
+        //debugger
         console.log(confirmAndCommitRes);
         localStorage.setItem(
           "orderNumber", confirmAndCommitRes.context && confirmAndCommitRes.context[0]["tid"] || this.tid
@@ -756,7 +785,6 @@ class Payment extends React.Component {
           <div
             id="checkout-main"
             className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
-          // data-checkout-stage="payment"
           >
             <Progress type="payment" />
             <div className="rc-layout-container rc-three-column rc-max-width--xl">
@@ -774,12 +802,7 @@ class Payment extends React.Component {
                     </span>
                   </aside>
                 </div>
-                <div
-                  className="shipping-form"
-                // style={{
-                //   display: this.state.type === "shipping" ? "block" : "none",
-                // }}
-                >
+                <div className="shipping-form">
                   <div className="card">
                     <div className="card-header">
                       <h5 className="pull-left">
@@ -791,13 +814,7 @@ class Payment extends React.Component {
                       </h5>
                       <p
                         onClick={e => this.handleClickEditClinic(e)}
-                        style={{
-                          // display: sessionStorage.getItem("rc-clinics-name")
-                          //   ? "none"
-                          //   : "inline",
-                        }}
-                        className="rc-styled-link rc-margin-top--xs pull-right m-0"
-                      >
+                        className="rc-styled-link rc-margin-top--xs pull-right m-0">
                         <FormattedMessage id="edit" />
                       </p>
                     </div>
@@ -823,7 +840,7 @@ class Payment extends React.Component {
                           }} />
                       )}
                     {
-                      this.isLogin && find(this.props.checkoutStore.loginCartData, ele => ele.subscriptionStatus)
+                      this.isLogin && find(this.props.checkoutStore.loginCartData, ele => ele.goods && ele.goods.subscriptionStatus)
                         ? <SubscriptionSelect
                           updateSelectedData={data => {
                             this.setState({
@@ -939,212 +956,15 @@ class Payment extends React.Component {
                       </span>
                     </div>
                   </div>
-                  {/* <div className="place_order-btn card">
-                    <div className="next-step-button">
-                      <div className="rc-text--right">
-                        <button
-                          className="rc-btn rc-btn--one submit-payment"
-                          type="submit"
-                          name="submit"
-                          value="submit-shipping"
-                          onClick={() => this.ChoosePayment()}
-                        >
-                          <FormattedMessage id="payment.choosePayment" />
-                        </button>
-                      </div>
-                    </div>
-                  </div> */}
-                  {/* <p>
-                    <button
-                      className="rc-btn rc-btn--one pull-right rc-margin-bottom--sm"
-                      onClick={() => this.ChoosePayment()}
-                    >
-                      Choose a payment
-                    </button>
-                  </p> */}
                 </div>
-                <div
-                // style={{
-                //   display: this.state.type == "payment" ? "block" : "none",
-                // }}
-                >
-                  {/* <div className="card shipping-summary">
-                    <div className="card-header rc-padding-right--none clearfix">
-                      <h5 className="pull-left"><FormattedMessage id="payment.addressTitle" /></h5>
-                      {
-                        !this.state.isToPayNow && <a
-                          href="#"
-                          onClick={(e) => this.goDelivery(e)}
-                          className=" rc-styled-link rc-margin-top--xs pull-right pt-0">
-                          <FormattedMessage id="edit" />
-                        </a>
-                      }
-                    </div>
-                    <div className="card-body rc-padding--none">
-                      <p className="shipping-addr-label multi-shipping padding-y--sm">
-                        Addresses and shipping methods are indicated under your goods.
-                      </p>
-                      <div
-                        className="single-shipping"
-                        data-shipment-summary="8b50610f77571c1ac58b609278"
-                      >
-                        <div className="rc-border-all rc-border-colour--interface checkout--padding">
-                          <div className="summary-details shipping rc-margin-bottom--xs">
-                            <div className="address-summary row">
-                              <div className="col-md-12 deliveryAddress">
-                                <h5 className="center">
-                                  <FormattedMessage id="payment.deliveryTitle" />
-                                </h5>
-                                <div className="row">
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.firstName" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.firstName}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.lastName" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.lastName}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.address1" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.address1}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.address2" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.address2}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.country" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.matchNamefromDict(this.state.countryList, deliveryAddress.country)}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.city" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.matchNamefromDict(this.state.cityList, deliveryAddress.city)}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.postCode" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.postCode}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.phoneNumber" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.phoneNumber}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.rfc" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{deliveryAddress.rfc}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.normalDelivery2" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.forFree" />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-md-12 address-summary-left">
-                                <h5 className="center">
-                                  <FormattedMessage id="payment.billTitle" />
-                                </h5>
-                                <div className="row">
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.firstName" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.firstName}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.lastName" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.lastName}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.address1" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.address1}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.address2" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.address2}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.country" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.matchNamefromDict(this.state.countryList, billingAddress.country)}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.city" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.matchNamefromDict(this.state.cityList, billingAddress.city)}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.postCode" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.postCode}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.phoneNumber" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.phoneNumber}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.rfc" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{billingAddress.rfc}
-                                  </div>
-                                  <div className="col-md-6">
-                                    <FormattedMessage id="payment.commentOnDelivery" />
-                                  </div>
-                                  <div className="col-md-6">
-                                    &nbsp;{this.state.commentOnDelivery}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            className="rc-margin-bottom--xs delivery-comment"
-                            style={{ display: "none" }}
-                          >
-                            <b>Delivery comment:</b> <span>null</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
+                <div>
                   <div className="card payment-form">
                     <div className="card-body rc-padding--none">
                       <form
                         method="POST"
                         data-address-mode="new"
                         name="dwfrm_billing"
-                        id="dwfrm_billing"
-                      >
+                        id="dwfrm_billing">
                         <div className="card-header with-tooltip-icon rc-margin-top--sm">
                           <h5>
                             <FormattedMessage id="payment.paymentInformation" />
@@ -1152,15 +972,8 @@ class Payment extends React.Component {
                         </div>
                         <div className="billing-payment">
                           <div
-                            className="rc-list__accordion-item border-0"
-                            data-method-id="CREDIT_CARD"
-                            style={{
-                              display:
-                                this.state.payMethod === "creditCard"
-                                  ? "block"
-                                  : "none",
-                            }}
-                          >
+                            className={`rc-list__accordion-item border-0 ${this.state.payMethod === "creditCard" ? '' : 'hidden'}`}
+                            data-method-id="CREDIT_CARD">
                             {
                               this.isLogin
                                 ? <div className="rc-border-colour--interface">
@@ -1195,8 +1008,7 @@ class Payment extends React.Component {
                                                     id="submit"
                                                     name="submit"
                                                     className="creadit"
-                                                    type="submit"
-                                                  >
+                                                    type="submit">
                                                     Pay
                                                 </button>
                                                 </form>
@@ -1494,7 +1306,7 @@ class Payment extends React.Component {
                     <FormattedMessage id="edit" />
                   </Link>
                 }
-                <PayProductInfo frequencyVal={this.state.subForm.frequencyVal} />
+                <PayProductInfo frequencyVal={this.state.subForm.frequencyVal} buyWay={this.state.subForm.buyWay} />
               </div>
             </div>
           </div>

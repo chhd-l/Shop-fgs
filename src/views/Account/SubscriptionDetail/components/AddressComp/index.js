@@ -39,9 +39,7 @@ class LoginDeliveryAddress extends React.Component {
       successTipVisible: false,
       saveErrorMsg: "",
       selectedId: "",
-      local: {
-        isBillSame: false  
-      }
+      isBillSame: false
     };
     this.timer = null;
   }
@@ -307,9 +305,8 @@ class LoginDeliveryAddress extends React.Component {
       loading,
       foledMore,
       addressList,
-      local
+      isBillSame
     } = this.state;
-    console.log(local)
     return (
       <div className={`${this.props.visible ? "" : "hidden"} addressComp`}>
         <div
@@ -391,23 +388,25 @@ class LoginDeliveryAddress extends React.Component {
                           maxWidth: "400px",
                         }}
                         onClick={() => {
-                          local.isBillSame = !local.isBillSame;
-                          console.log(local.isBillSame)
-                          this.setState({ local });
+                          isBillSame = !isBillSame;
+                          console.log(isBillSame)
+                          this.setState({ isBillSame });
                         }}
                       >
-                        {!local.isBillSame ? (
+                        {!isBillSame ? (
                           <input
                             type="checkbox"
                             className="rc-input__checkbox"
-                            // value={true}
+                            value={true}
+                            key={1}
                             checked
                           />
                         ) : (
                           <input
                             type="checkbox"
                             className="rc-input__checkbox"
-                            // value={false}
+                            key={2}
+                            value={false}
                           />
                         )}
                         <label className="rc-input__label--inline text-break billingSame">

@@ -8,12 +8,13 @@ import Footer from "@/components/Footer"
 import ConfirmTooltip from '@/components/ConfirmTooltip'
 import LoginButton from '@/components/LoginButton'
 import { Link } from "react-router-dom"
-import { formatMoney, hanldePurchases } from "@/utils/utils"
+import { formatMoney } from "@/utils/utils"
 import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { cloneDeep, find } from 'lodash'
 import CART_CAT from "@/assets/images/CART_CAT.webp";
 import CART_DOG from "@/assets/images/CART_DOG.webp";
 import PetModal from '@/components/PetModal'
+
 @inject("checkoutStore")
 class UnLoginCart extends React.Component {
   constructor(props) {
@@ -98,13 +99,13 @@ class UnLoginCart extends React.Component {
       this.setState({ checkoutLoading: false })
     }
   }
-  openPetModal() {
+  openPetModal () {
     this.setState({
       petModalVisible: true
     })
   }
-  closePetModal() {
-    if(this.state.isAdd === 2) {
+  closePetModal () {
+    if (this.state.isAdd === 2) {
       this.setState({
         isAdd: 0
       })
@@ -113,21 +114,21 @@ class UnLoginCart extends React.Component {
       petModalVisible: false
     })
   }
-petComfirm(){
-  this.props.history.push('/prescription')
-}
-openNew() {
-  this.setState({
-    isAdd: 1
-  })
-  this.openPetModal()
-}
-closeNew() {
-  this.setState({
-    isAdd: 2
-  })
-  this.openPetModal()
-}
+  petComfirm () {
+    this.props.history.push('/prescription')
+  }
+  openNew () {
+    this.setState({
+      isAdd: 1
+    })
+    this.openPetModal()
+  }
+  closeNew () {
+    this.setState({
+      isAdd: 2
+    })
+    this.openPetModal()
+  }
   handleAmountChange (e, item) {
     this.setState({ errorShow: false })
     const val = e.target.value
@@ -243,7 +244,7 @@ closeNew() {
         className="rc-border-all rc-border-colour--interface product-info"
         key={index}>
         <div
-          className="rc-input rc-input--inline position-absolute"
+          className="rc-input rc-input--inline position-absolute hidden"
           style={{ left: '1%' }}
           onClick={() => this.toggleSelect(pitem)}>
           {
@@ -440,21 +441,102 @@ closeNew() {
     ));
     return Lists;
   }
-  get total () {
-    let total = 0;
-    this.state.productList.map((pitem) => {
-      total =
-        total +
-        pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice;
-    });
-    return total
-  }
   updateConfirmTooltipVisible (item, status) {
     let { productList } = this.state
     item.confirmTooltipVisible = status
     this.setState({
       productList: productList
     })
+  }
+  sideCart ({ className = '', style = {}, id = '' } = {}) {
+    const { checkoutLoading } = this.state;
+    return <div
+      className={`group-order rc-border-all rc-border-colour--interface cart__total__content ${className}`}
+      style={{ ...style }}
+      id={id}>
+      <div className="row">
+        <div className="col-12 total-items medium">
+          <span>{checkoutLoading ? '--' : this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
+      </div>
+      </div>
+      <div className="row">
+        <div className="col-8">
+          <FormattedMessage id="total" />
+        </div>
+        <div className="col-4 no-padding-left">
+          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.totalPrice)}</p>
+        </div>
+      </div>
+      <div className="row" style={{ display: this.isPromote ? 'flex' : 'none' }}>
+        <div className="col-4">
+          <p style={{ color: '#ec001a' }}>
+            <FormattedMessage id="promotion" />
+          </p>
+        </div>
+        <div className="col-8">
+          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {checkoutLoading ? '--' : formatMoney(this.discountPrice)}</p>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-8">
+          <p>
+            <FormattedMessage id="delivery" />
+          </p>
+        </div>
+        <div className="col-4">
+          <p className="text-right shipping-cost">0</p>
+        </div>
+      </div>
+      <div className="group-total">
+        <div className="row">
+          <div className="col-7 medium">
+            <strong>
+              <FormattedMessage id="totalIncluIVA" />
+            </strong>
+          </div>
+          <div className="col-5">
+            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.tradePrice)}</p>
+          </div>
+        </div>
+        <div className="row checkout-proccess">
+          <div className="col-lg-12 checkout-continue">
+            <a className={[checkoutLoading ? 'ui-btn-loading' : ''].join(' ')}>
+              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
+                {
+                  this.totalNum > 0
+                    ? <LoginButton
+                      beforeLoginCallback={async () => this.handleCheckout({ needLogin: true })}
+                      btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
+                      history={this.props.history}>
+                      <FormattedMessage id="checkout" />
+                    </LoginButton>
+                    : <div className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled">
+                      <FormattedMessage id="checkout" />
+                    </div>
+                }
+              </div>
+              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
+                {
+                  this.totalNum > 0
+                    ? <div className="text-center" onClick={() => this.handleCheckout()}>
+                      <div
+                        className="rc-styled-link color-999"
+                        aria-pressed="true">
+                        <FormattedMessage id="GuestCheckout" />
+                      </div>
+                    </div>
+                    : <div className="text-center">
+                      <div className="rc-styled-link color-999 rc-btn-disabled">
+                        <FormattedMessage id="GuestCheckout" />
+                      </div>
+                    </div>
+                }
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   }
   render () {
     const { productList, checkoutLoading } = this.state;
@@ -507,89 +589,17 @@ closeNew() {
                         <FormattedMessage id="total" />
                       </h5>
                     </div>
-                    <div className="group-order rc-border-all rc-border-colour--interface cart__total__content">
-                      <div className="row">
-                        <div className="col-12 total-items medium">
-                          <span>{checkoutLoading ? '--' : this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
-                    </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-8">
-                          <FormattedMessage id="total" />
-                        </div>
-                        <div className="col-4 no-padding-left">
-                          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.totalPrice)}</p>
-                        </div>
-                      </div>
-                      <div className="row" style={{ display: this.isPromote ? 'flex' : 'none' }}>
-                        <div className="col-4">
-                          <p style={{ color: '#ec001a' }}>
-                            <FormattedMessage id="promotion" />
-                          </p>
-                        </div>
-                        <div className="col-8">
-                          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {checkoutLoading ? '--' : formatMoney(this.discountPrice)}</p>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-8">
-                          <p>
-                            <FormattedMessage id="delivery" />
-                          </p>
-                        </div>
-                        <div className="col-4">
-                          <p className="text-right shipping-cost">0</p>
-                        </div>
-                      </div>
-                      <div className="group-total">
-                        <div className="row">
-                          <div className="col-7 medium">
-                            <strong>
-                              <FormattedMessage id="totalIncluIVA" />
-                            </strong>
-                          </div>
-                          <div className="col-5">
-                            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.tradePrice)}</p>
-                          </div>
-                        </div>
-                        <div className="row checkout-proccess">
-                          <div className="col-lg-12 checkout-continue">
-                            <a className={[checkoutLoading ? 'ui-btn-loading' : ''].join(' ')}>
-                              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                                {
-                                  this.totalNum > 0
-                                    ? <LoginButton
-                                      beforeLoginCallback={async () => this.handleCheckout({ needLogin: true })}
-                                      btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
-                                      history={this.props.history}>
-                                      <FormattedMessage id="checkout" />
-                                    </LoginButton>
-                                    : <div className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled">
-                                      <FormattedMessage id="checkout" />
-                                    </div>
-                                }
-                              </div>
-                              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                                {
-                                  this.totalNum > 0
-                                    ? <div className="text-center" onClick={() => this.handleCheckout()}>
-                                      <div
-                                        className="rc-styled-link color-999"
-                                        aria-pressed="true">
-                                        <FormattedMessage id="GuestCheckout" />
-                                      </div>
-                                    </div>
-                                    : <div className="text-center">
-                                      <div className="rc-styled-link color-999 rc-btn-disabled">
-                                        <FormattedMessage id="GuestCheckout" />
-                                      </div>
-                                    </div>
-                                }
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
+                    <div id="J_sidecart_container">
+                      {this.sideCart({
+                        className: 'hidden position-fixed rc-md-up',
+                        style: {
+                          background: '#fff',
+                          zIndex: 9,
+                          width: 320
+                        },
+                        id: 'J_sidecart_fix'
+                      })}
+                      {this.sideCart()}
                     </div>
                   </div>
                 </div>
@@ -649,12 +659,12 @@ closeNew() {
         </main>
         <Footer />
         <PetModal visible={this.state.petModalVisible}
-                  isAdd={this.state.isAdd}
-                  productList={this.state.productList}
-                  openNew={() => this.openNew()}
-                  closeNew={() => this.closeNew()}
-                  confirm={()=>this.petComfirm()}
-                  close={() => this.closePetModal()}/>
+          isAdd={this.state.isAdd}
+          productList={this.state.productList}
+          openNew={() => this.openNew()}
+          closeNew={() => this.closeNew()}
+          confirm={() => this.petComfirm()}
+          close={() => this.closePetModal()} />
       </div>
     );
   }

@@ -18,7 +18,7 @@ import { inject, observer } from 'mobx-react';
 import './index.css'
 
 @inject("loginStore")
-@observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
+// @observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
@@ -57,6 +57,8 @@ class Header extends React.Component {
 
     this.handleCenterMouseOver = this.handleCenterMouseOver.bind(this)
     this.handleCenterMouseOut = this.handleCenterMouseOut.bind(this)
+
+    this.preTop = 0
   }
   get isLogin () {
     return this.props.loginStore.isLogin
@@ -68,9 +70,9 @@ class Header extends React.Component {
     }
 
     window.addEventListener('click', (e) => this.hideMenu(e))
-    window.addEventListener('wheel', e => this.handleMouseScroll(e))
+    window.addEventListener('scroll', e => this.handleScroll(e))
     const { location } = this.props
-    let prescriberId
+    let prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
     let tmpName = ''
 
     // 指定clinic链接进入，设置default clinic
@@ -78,9 +80,8 @@ class Header extends React.Component {
       && (location.pathname === '/'
         || location.pathname.includes('/list')
         || location.pathname.includes('/details'))
-      && !this.state.prescriberId) {
-      prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
-      if (prescriberId && !this.state.prescriberName) {
+      && this.state.prescriberId !== prescriberId) {
+      if (prescriberId) {
         try {
           let res = await getPrescriptionById({ prescriberId })
           if (res.context && res.context.enabled) {
@@ -88,20 +89,44 @@ class Header extends React.Component {
           }
         } catch (e) { }
       }
-      if (prescriberId && tmpName) {
-        sessionStorage.setItem('rc-clinics-id-link', prescriberId)
-        sessionStorage.setItem('rc-clinics-name-link', tmpName)
-        this.setState({
-          prescriberName: tmpName,
-          prescriberId: prescriberId
-        })
-      }
+
+      sessionStorage.setItem('rc-clinics-id-link', prescriberId)
+      sessionStorage.setItem('rc-clinics-name-link', tmpName)
+      this.setState({
+        prescriberId: prescriberId,
+        prescriberName: tmpName
+      })
     }
     this.setDefaultClinic()
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
-    window.removeEventListener('wheel', this.handleMouseScroll)
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+  handleScroll (e) {
+    let baseEl = document.querySelector('#J_sidecart_container')
+    if (!baseEl) {
+      return false
+    }
+    let targetEl = document.querySelector('#J_sidecart_fix')
+    let win_top = document.documentElement.scrollTop || document.body.scrollTop
+    let isScrollToTop = this.preTop > win_top
+    this.preTop = win_top
+    let top = this.getElementToPageTop(baseEl) - (isScrollToTop ? 120 : 80) - win_top
+    if (win_top >= top) {
+      targetEl.style.top = isScrollToTop ? '120px' : '80px'
+      targetEl.style.display = 'block'
+    } else {
+      targetEl.style.display = 'none'
+    }
+    this.setState({ isScrollToTop })
+    // console.log(win_top, top)
+  }
+  getElementToPageTop (el) {
+    if (el.parentElement) {
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
+    }
+    return el.offsetTop;
   }
   /**
    * 登录状态，设置default clinic
@@ -114,12 +139,6 @@ class Header extends React.Component {
         sessionStorage.setItem('rc-clinics-name-default', userInfo.defaultClinics.clinicsName)
       }
     }
-  }
-
-  handleMouseScroll (e) {
-    this.setState({
-      isScrollToTop: e.deltaY < 0
-    })
   }
   updateDefaultClinic () {
     this.setState({
@@ -359,7 +378,8 @@ class Header extends React.Component {
       <>
         <div id="page-top" name="page-top"></div>
         {this.props.loginStore.loginModal ? <Loading /> : null}
-        <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}>
+        {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
+        <header className={`rc-header`} data-js-header-scroll>
           <nav className="rc-header__nav rc-header__nav--primary">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align" role="menubar">
               {this.props.showMiniIcons ?
@@ -554,6 +574,11 @@ class Header extends React.Component {
                                 <div className="link-style" >
                                   <Link to="/account/pets" className="click-hover" >
                                     <FormattedMessage id="account.pets" />
+                                  </Link>
+                                </div>
+                                <div className="link-style" >
+                                  <Link to="/account/subscription" className="click-hover" >
+                                    <FormattedMessage id="account.subscription" />
                                   </Link>
                                 </div>
                                 <div className="link-style" >

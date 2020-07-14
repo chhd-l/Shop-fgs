@@ -9,9 +9,10 @@ const api = {
   getPaymentMethod: '/payment-method/query-by-customer-id',
   deleteCard: '/payment-method/delete-by-id',
   // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
-  
+
   customerCommitAndPay: 'tradeCustom/customerCommitAndPay',
   rePay: 'tradeCustom/rePay',
+  customerCommitAndPayMix: '/tradeCustom/customerCommitAndPayMix'
 }
 
 export default api
@@ -48,7 +49,7 @@ export function addOrUpdatePaymentMethod (parameter) {
   })
 }
 
-export function getPaymentMethod(parameter) {
+export function getPaymentMethod (parameter) {
   return axios({
     url: api.getPaymentMethod,
     method: 'post',
@@ -56,7 +57,7 @@ export function getPaymentMethod(parameter) {
   })
 }
 
-export function deleteCard(para) {
+export function deleteCard (para) {
   return axios({
     url: api.deleteCard,
     method: 'post',
@@ -67,6 +68,14 @@ export function deleteCard(para) {
 export function customerCommitAndPay (parameter) {
   return axios({
     url: api.customerCommitAndPay,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function customerCommitAndPayMix (parameter) {
+  return axios({
+    url: api.customerCommitAndPayMix,
     method: 'post',
     data: parameter
   })

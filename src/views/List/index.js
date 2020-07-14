@@ -327,7 +327,20 @@ class List extends React.Component {
                 <div className="rc-text--right rc-meta rc-margin-bottom--none">
                   {results} <FormattedMessage id="results" />
                 </div>
-                <div className="rc-layout-container rc-four-column">
+                <div className="rc-layout-container rc-four-column" id="J_filter_contaner">
+                  <div className="refinements-fixed rc-column" style={{ position: 'fixed', display: 'none', background: '#fff', zIndex: 22 }}>
+                    <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
+                      data-filter-trigger="filter-example" onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
+                    <aside className={['rc-filters', this.state.filterModalVisible ? 'active' : ''].join(' ')}>
+                      <Filters
+                        initing={this.state.initingFilter}
+                        onChange={this.handleFilterChange}
+                        onRemove={this.handleRemove}
+                        onToggleFilterModal={this.toggleFilterModal}
+                        filterList={this.state.filterList}
+                        checkedList={checkedList} />
+                    </aside>
+                  </div>
                   <div className="refinements rc-column">
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
                       data-filter-trigger="filter-example" onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>

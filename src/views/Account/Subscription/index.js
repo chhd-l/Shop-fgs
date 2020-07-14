@@ -12,6 +12,7 @@ import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils";
 import { getOrderList, getOrderDetails } from "@/api/order";
+import { getSubList } from "@/api/subscription"
 import {
   IMG_DEFAULT,
   DELIVER_STATUS_ENUM,
@@ -25,6 +26,7 @@ export default class Subscription extends React.Component {
     super(props);
     this.state = {
       orderList: [],
+      subList: [],
       form: {
         duringTime: "7d",
         orderNumber: "",
@@ -97,40 +99,52 @@ export default class Subscription extends React.Component {
     } else if (form.duringTime.includes("m")) {
       createdFrom = getPreMonthDay(now, parseInt(form.duringTime));
     }
+    // let param = {
+    //   createdFrom,
+    //   createdTo: now,
+    //   keywords: form.orderNumber,
+    //   pageNum: currentPage - 1,
+    //   pageSize: this.pageSize,
+    // };
     let param = {
-      createdFrom,
-      createdTo: now,
-      keywords: form.orderNumber,
-      pageNum: currentPage - 1,
-      pageSize: this.pageSize,
-    };
-    getOrderList(param)
+        pageNum: currentPage - 1,
+        pageSize: this.pageSize,
+        // customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
+    }
+    getSubList(param)
       .then((res) => {
-        let tmpList = Array.from(res.context.content, (ele) => {
-          const tradeState = ele.tradeState;
-          return Object.assign(ele, {
-            canPayNow:
-              tradeState.flowState === "AUDIT" &&
-              tradeState.deliverStatus === "NOT_YET_SHIPPED" &&
-              tradeState.payState === "NOT_PAID" &&
-              new Date(ele.orderTimeOut).getTime() > new Date().getTime(),
-            payNowLoading: false,
-          });
-        });
-        this.setState({
-          orderList: tmpList,
-          currentPage: res.context.pageable.pageNumber + 1,
-          totalPage: res.context.totalPages,
-          loading: false,
-          initing: false,
-        });
+          console.log(res, '1111')
+          this.setState({
+              subList: res.context.subscriptionResponses,
+              loading: false
+            })
+        // let tmpList = Array.from(res.context.content, (ele) => {
+        //   const tradeState = ele.tradeState;
+        //   return Object.assign(ele, {
+        //     canPayNow:
+        //       tradeState.flowState === "AUDIT" &&
+        //       tradeState.deliverStatus === "NOT_YET_SHIPPED" &&
+        //       tradeState.payState === "NOT_PAID" &&
+        //       new Date(ele.orderTimeOut).getTime() > new Date().getTime(),
+        //     payNowLoading: false,
+        //   });
+        // });
+        // this.setState({
+        //   orderList: tmpList,
+        //   currentPage: res.context.pageable.pageNumber + 1,
+        //   totalPage: res.context.totalPages,
+        //   loading: false,
+        //   initing: false,
+        // });
       })
       .catch((err) => {
-        this.setState({
-          loading: false,
-          errMsg: err.toString(),
-          initing: false,
-        });
+        console.log(err)
+        this.setState({loading: false})
+        // this.setState({
+        //   loading: false,
+        //   errMsg: err.toString(),
+        //   initing: false,
+        // });
       });
   }
 
@@ -317,10 +331,10 @@ export default class Subscription extends React.Component {
                         <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
                         {this.state.errMsg}
                       </div>
-                    ) : this.state.orderList.length ? (
+                    ) : this.state.subList.length ? (
                       <>
-                        {this.state.orderList.map((order, i) => (
-                          <div className="card-container" key={order.id}>
+                        {this.state.subList.map((subItem, i) => (
+                          <div className="card-container" key={subItem.subscribeId}>
                             <div className="card rc-margin-y--none ml-0">
                               <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0">
                                 <div className="col-12 col-md-2">
@@ -354,7 +368,8 @@ export default class Subscription extends React.Component {
                                 <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
                                   <Link
                                     className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
-                                    to={`/account/subscription-detail/${order.id}`}
+                                    onClick={() => localStorage.setItem('subDetail', JSON.stringify(subItem))}
+                                    to={`/account/subscription-detail/${subItem.subscribeId}`}
                                   >
                                     <span className="medium pull-right--desktop rc-styled-link rc-padding-top--xs">
                                       <FormattedMessage id="subscription.detail" />
@@ -368,24 +383,24 @@ export default class Subscription extends React.Component {
                               style={{ padding: "1rem 0" }}
                             >
                               <div className="col-12 col-md-2 d-flex flex-wrap">
-                                {order.tradeItems.map((item) => (
+                                {subItem.goodsInfo.map((item) => (
                                   <img
                                     className="img-fluid"
-                                    key={item.oid}
-                                    src={item.pic || IMG_DEFAULT}
-                                    alt={item.spuName}
-                                    title={item.spuName}
+                                    key={item.spuId}
+                                    src={item.goodsPic || IMG_DEFAULT}
+                                    alt={item.goodsName}
+                                    title={item.goodsName}
                                   />
                                 ))}
                               </div>
                               <div className="col-12 col-md-2">
-                                0000000000022
+                                {subItem.subscribeId}
                               </div>
                               <div className="col-12 col-md-2">2020-12-12</div>
                               <div className="col-12 col-md-2">
                                 Every 4 Weeks
                               </div>
-                              <div className="col-12 col-md-2">Active</div>
+                              <div className="col-12 col-md-2">{subItem.subscribeStatus === '0'?'Inactive': 'Active'}</div>
                               <div className="col-12 col-md-2"># {i + 1}</div>
                             </div>
                           </div>
