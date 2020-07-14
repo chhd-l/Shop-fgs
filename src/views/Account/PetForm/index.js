@@ -114,20 +114,20 @@ class PetForm extends React.Component {
         this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
       })
 
-    try {
-      let timer = setInterval(() => {
-        const datePickerOptions = {
-          maxDate: new Date()
-        }
-        if (window.RCDL.features.Datepickers && document.querySelector('.birthdate')) {
-          document.querySelector('.birthdate').setAttribute("datepicker-setup", "false")
-          window.RCDL.features.Datepickers.init('.birthdate', null, datePickerOptions)
-          clearInterval(timer)
-        }
-      }, 1000)
-    } catch (e) {
-      console.log(e)
-    }
+    // try {
+    //   let timer = setInterval(() => {
+    //     const datePickerOptions = {
+    //       maxDate: new Date()
+    //     }
+    //     if (window.RCDL.features.Datepickers && document.querySelector('.birthdate')) {
+    //       document.querySelector('.birthdate').setAttribute("datepicker-setup", "false")
+    //       window.RCDL.features.Datepickers.init('.birthdate', null, datePickerOptions)
+    //       clearInterval(timer)
+    //     }
+    //   }, 1000)
+    // } catch (e) {
+    //   console.log(e)
+    // }
 
     // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
   }
@@ -460,6 +460,7 @@ class PetForm extends React.Component {
       isDisabled: false
     })
   }
+  
   handleInputChange (e) {
 
     console.log(this.state.birthdate);
@@ -467,6 +468,7 @@ class PetForm extends React.Component {
     console.log(e.target.value);
 
   }
+
   inputBlur (e) {
     if (e.target.value && e.target.value !== "") {
       this.setState({
@@ -1021,8 +1023,6 @@ class PetForm extends React.Component {
                           className="rc-input__date rc-js-custom rc-input__control birthdate"
                           id="birthdate"
                           data-js-dateformat="DD/MM/YYYY"
-
-                          max="2020-05-29"
                           name="birthdate"
                           type="date"
                           value={this.state.birthdate}
@@ -1033,7 +1033,6 @@ class PetForm extends React.Component {
                       </span>
                       <div className="invalid-birthdate invalid-feedback">
                         <FormattedMessage id="account.dateTip" />
-
                       </div>
                     </div>
                   }
