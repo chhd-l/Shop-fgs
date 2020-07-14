@@ -4,7 +4,7 @@ export const ENUM_STOREID = {
   es: '123456858',
   ru: '123457907'
 }
-export const STOREID = ENUM_STOREID[store.get('lang')]
+export const STOREID = ENUM_STOREID[store.get('lang') || 'es']
 export const CATEID = '1129'
 export const MINIMUM_AMOUNT = 400
 export const GTMID = 'GTM-NCWZQ3'
