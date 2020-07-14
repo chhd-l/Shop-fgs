@@ -591,7 +591,7 @@ class UnLoginCart extends React.Component {
                     </div>
                     <div id="J_sidecart_container">
                       {this.sideCart({
-                        className: 'hidden position-fixed',
+                        className: 'hidden position-fixed rc-md-up',
                         style: {
                           background: '#fff',
                           zIndex: 9,

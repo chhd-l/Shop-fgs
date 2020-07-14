@@ -18,7 +18,7 @@ import { inject, observer } from 'mobx-react';
 import './index.css'
 
 @inject("loginStore")
-@observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
+// @observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
@@ -70,7 +70,6 @@ class Header extends React.Component {
     }
 
     window.addEventListener('click', (e) => this.hideMenu(e))
-    window.addEventListener('wheel', e => this.handleMouseScroll(e))
     window.addEventListener('scroll', e => this.handleScroll(e))
     const { location } = this.props
     let prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
@@ -102,7 +101,6 @@ class Header extends React.Component {
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
-    window.removeEventListener('wheel', this.handleMouseScroll)
     window.removeEventListener('scroll', this.handleScroll)
   }
   handleScroll (e) {
@@ -121,6 +119,7 @@ class Header extends React.Component {
     } else {
       targetEl.style.display = 'none'
     }
+    this.setState({ isScrollToTop })
     // console.log(win_top, top)
   }
   getElementToPageTop (el) {
@@ -140,12 +139,6 @@ class Header extends React.Component {
         sessionStorage.setItem('rc-clinics-name-default', userInfo.defaultClinics.clinicsName)
       }
     }
-  }
-
-  handleMouseScroll (e) {
-    this.setState({
-      isScrollToTop: e.deltaY < 0
-    })
   }
   updateDefaultClinic () {
     this.setState({
@@ -385,7 +378,8 @@ class Header extends React.Component {
       <>
         <div id="page-top" name="page-top"></div>
         {this.props.loginStore.loginModal ? <Loading /> : null}
-        <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}>
+        {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
+        <header className={`rc-header`} data-js-header-scroll>
           <nav className="rc-header__nav rc-header__nav--primary">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align" role="menubar">
               {this.props.showMiniIcons ?
