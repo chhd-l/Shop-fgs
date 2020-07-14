@@ -407,14 +407,14 @@ class List extends React.Component {
                                                 item.goodsInfos.length > 1
                                                   ? <div className="text-center mb-2">
                                                     <button
-                                                      className="rc-bg-colour--brand4 border rounded font-weight-lighter rc-full-width"
-                                                      style={{ color: '#666' }}><FormattedMessage id="moreChoicesAvailable" /></button>
+                                                      className="rc-bg-colour--brand4 border rounded font-weight-lighter rc-full-width "
+                                                      style={{ color: '#666' }}><span className="o9rem"><FormattedMessage id="moreChoicesAvailable" /></span></button>
                                                   </div>
                                                   : null
                                               }
                                               {/*<div className="Product-Key-words rc-text--center"></div>*/}
                                               <div
-                                                className="ui-text-overflow-line3 text-break rc-padding-top--xs"
+                                                className="ui-text-overflow-line3 text-break rc-padding-top--xs sub-hover"
                                                 title={item.goodsSubtitle}>
                                                 {item.goodsSubtitle}
                                               </div>
@@ -423,15 +423,18 @@ class List extends React.Component {
                                             <div className="rc-card__price  rc-padding-top--xs">
                                               {
                                                 item.subscriptionStatus
-                                                  ? <div className="range red-text">
-                                                    {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.subscriptionPrice || 0)))}{' '}
+                                                  ? <div className="range">
+                                                      <span style={{'fontSize': '14px'}}>From : </span>
+                                                      <span className=" red-text">
+                                                        {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.subscriptionPrice || 0)))}{' '}
+                                                      </span>
                                                     <span className="rc-icon rc-refresh--xs rc-brand1"></span>
-                                                    <span className="position-relative" style={{ fontSize: '.6em', top: '-4px' }}><FormattedMessage id="details.Subscription" /></span>
+                                                    <span className="position-relative red-text" style={{ fontSize: '.6em', top: '-4px' }}><FormattedMessage id="details.Subscription" /></span>
                                                   </div>
                                                   : null
                                               }
                                               <div>
-                                                <span  className="red-text" >{formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.salePrice)))}</span>
+                                                <span style={{'fontSize': '14px'}}>From : </span><span  className="red-text" >{formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.salePrice)))}</span>
                                               </div>
                                             </div>
 
