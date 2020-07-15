@@ -42,7 +42,7 @@ class Subscription extends React.Component {
       subList: [],
       frequencyList: []
     };
-    this.pageSize = 6;
+    this.pageSize = 10;
   }
 
   componentWillUnmount() {
@@ -116,6 +116,7 @@ class Subscription extends React.Component {
     let param = {
         pageNum: currentPage - 1,
         pageSize: this.pageSize,
+        // subscribeId: 'S20200713113215362'
         // customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
     }
     getSubList(param)
@@ -396,7 +397,7 @@ class Subscription extends React.Component {
                                     onClick={() => localStorage.setItem('subDetail', JSON.stringify(subItem))}
                                     to={`/account/subscription-detail/${subItem.subscribeId}`}
                                   >
-                                    <span className="medium pull-right--desktop rc-styled-link rc-padding-top--xs">
+                                    <span className="medium pull-right--desktop rc-styled-link">
                                       <FormattedMessage id="subscription.detail" />
                                     </span>
                                   </Link>
@@ -408,7 +409,7 @@ class Subscription extends React.Component {
                               style={{ padding: "1rem 0" }}
                             >
                               <div className="col-12 col-md-2 d-flex flex-wrap">
-                                {subItem.goodsInfo.map((item) => (
+                                {subItem.goodsInfo && subItem.goodsInfo.map((item) => (
                                   <img
                                     className="img-fluid"
                                     key={item.spuId}
@@ -421,11 +422,11 @@ class Subscription extends React.Component {
                               <div className="col-12 col-md-2">
                                 {subItem.subscribeId}
                               </div>
-                              <div className="col-12 col-md-2">2020-12-12</div>
+                              <div className="col-12 col-md-2">{subItem.createTime.split(' ')[0]}</div>
                               <div className="col-12 col-md-2">
-                                Every 4 Weeks
+                                {subItem.frequency}
                               </div>
-                              <div className="col-12 col-md-2">{subItem.subscribeStatus === '0'?<FormattedMessage id="inactive"/>: <FormattedMessage id="active"/>}</div>
+                              <div className="col-12 col-md-2">{subItem.subscribeStatus === '0'?<FormattedMessage id="active"/> : <FormattedMessage id="inactive"/>}</div>
                               <div className="col-12 col-md-2"># {i + 1}</div>
                             </div>
                           </div>

@@ -507,6 +507,7 @@ const en_US = {
   'petType': 'Pet Type',
   'birthday': 'Birthday',
   'active': 'Active',
-  'inactive': 'Inactive'
+  'inactive': 'Inactive',
+  'card': 'Card'
 }
 export default en_US;

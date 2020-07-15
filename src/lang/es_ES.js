@@ -490,5 +490,6 @@ const en_US = {
   'subscription.skip': 'Saltar próxima entrega',
   'subscription.cancelAll': 'Cancelar todo',
   'subscription.promotionTip': 'Ahorre {val} en su primera suscripción',
+  'card': 'Tarjeta'
 }
 export default en_US;

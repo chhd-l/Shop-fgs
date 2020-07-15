@@ -39,7 +39,7 @@ class LoginDeliveryAddress extends React.Component {
       successTipVisible: false,
       saveErrorMsg: "",
       selectedId: "",
-      isBillSame: false
+      isBillSame: true
     };
     this.timer = null;
   }
@@ -379,7 +379,7 @@ class LoginDeliveryAddress extends React.Component {
               {!addOrEdit ? (
                 addressList.length ? (
                   <>
-                    <div style={{ height: "40px", lineHeight: "40px" }}>
+                    <div style={{ height: "40px", lineHeight: "40px", display: this.props.type === "delivery"? 'block': 'none' }}>
                       <div
                         className="rc-input rc-input--inline"
                         style={{
@@ -393,7 +393,7 @@ class LoginDeliveryAddress extends React.Component {
                           this.setState({ isBillSame });
                         }}
                       >
-                        {!isBillSame ? (
+                        {isBillSame ? (
                           <input
                             type="checkbox"
                             className="rc-input__checkbox"
@@ -532,7 +532,7 @@ class LoginDeliveryAddress extends React.Component {
                     class="rc-btn rc-btn--sm rc-btn--one"
                     onClick={() => {
                       this.props.save(
-                        addressList.filter((el) => el.selected)[0]
+                        addressList.filter((el) => el.selected)[0], isBillSame
                       );
                     }}
                   >
