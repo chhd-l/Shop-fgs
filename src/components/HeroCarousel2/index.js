@@ -11,8 +11,8 @@ import Banner_recommend_item from "@/assets/images/Banner_recommend_item.jpg";
 import Banner_recommend_item_m from "@/assets/images/Banner_recommend_item_m.jpg";
 import Banner_urinary from "@/assets/images/banner/banner_urinary.jpg";
 import Banner_urinary_m from "@/assets/images/banner/banner_urinary_m.jpg";
-import Banner_subscritipon from "@/assets/images/banner/banner_subscritipon.png";
-import Banner_subscritipon_m from "@/assets/images/banner/banner_subscritipon_m.png";
+import Banner_subscritipon from "@/assets/images/banner/banner_subscritipon.jpg";
+import Banner_subscritipon_m from "@/assets/images/banner/banner_subscritipon_m.jpg";
 import './index.less'
 import { SUBSCRIPTION_DISCOUNT_RATE } from "@/utils/constant"
 
@@ -61,7 +61,7 @@ class HeroCarousel extends React.Component {
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
-      autoplay: true,
+      // autoplay: true,
       pauseOnHover: true,
       lazyLoad: true,
       adaptiveHeight: true,
@@ -111,11 +111,11 @@ class HeroCarousel extends React.Component {
                 className="rc-md-up"
                 style={{
                   position: 'absolute',
-                  width: '17%',
-                  height: '4.5rem',
+                  width: '14.5%',
+                  height: '4rem',
                   zIndex: 2,
-                  top: '70%',
-                  left: '30.5%',
+                  top: '71%',
+                  left: '32%',
                 }}
                 onClick={this.hanldeClick} />
 
