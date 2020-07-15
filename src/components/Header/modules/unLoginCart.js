@@ -109,7 +109,6 @@ class UnloginCart extends React.Component {
     return (
       <span
         className="minicart inlineblock"
-        style={{ verticalAlign: this.props.showSearchInput ? 'initial' : '' }}
         onMouseOver={this.handleMouseOver}
         onMouseOut={this.handleMouseOut}>
         <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn" title="Basket">

@@ -413,7 +413,7 @@ class Header extends React.Component {
             </Link>
 
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right" role="menubar">
-              <li className="rc-list__item">
+              <li className="rc-list__item d-flex align-items-center">
                 {
                   this.props.showMiniIcons
                     ? <>
@@ -452,7 +452,7 @@ class Header extends React.Component {
                                 <span className="rc-input__label-text"></span>
                               </label>
                             </span>
-                            <span className="rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle rc-padding-top--xs" aria-label="Close" onClick={this.hanldeSearchCloseClick}>
+                            <span className="rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle" aria-label="Close" onClick={this.hanldeSearchCloseClick}>
                             </span>
                             <div className="suggestions-wrapper">{this.renderResultJsx()}</div>
                           </form>
@@ -470,7 +470,6 @@ class Header extends React.Component {
                   this.props.showUserIcon
                     ? <span
                       className="minicart inlineblock"
-                      style={{ verticalAlign: this.state.showSearchInput ? 'initial' : '' }}
                       onMouseOver={this.handleCenterMouseOver} onMouseOut={this.handleCenterMouseOut}>
                       {
                         this.isLogin ? (

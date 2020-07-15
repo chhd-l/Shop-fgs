@@ -32,11 +32,11 @@
 .clinic-card-boder{
   border: 1px solid #d7d7d7;
 }
-.headerSearchDesktop {
+.pres-search {
   width: 90%;
   margin-top: 2rem;
 }
-.headerSearchDesktop:after {
+.pres-search:after {
   background-color: #d7d7d7;
 }
 .modal-content {
