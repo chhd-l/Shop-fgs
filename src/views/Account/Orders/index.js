@@ -346,10 +346,17 @@ class AccountOrders extends React.Component {
                                   <div className="card rc-margin-y--none ml-0">
                                     <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0">
                                       <div className="col-12 col-md-2">
-                                        <p><FormattedMessage id="order.orderDate" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.tradeState.createTime.substr(0, 10)}</span></p>
+                                        <p>
+                                          <FormattedMessage id="order.orderDate" />: <br className="d-none d-md-block" />
+                                          <span className="medium orderHeaderTextColor">{order.tradeState.createTime.substr(0, 10)}</span>
+                                        </p>
                                       </div>
                                       <div className="col-12 col-md-2 mb-2 mb-md-0">
-                                        <p className="text-nowrap"><FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" /> <span className="medium orderHeaderTextColor">{order.id}</span></p>
+                                        <p className="text-nowrap">
+                                          <FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" />
+                                          <span className="medium orderHeaderTextColor">{order.id}</span>
+                                          {/* <span className="rc-icon rc-refresh--xs rc-brand1"></span> */}
+                                        </p>
                                       </div>
                                       <div className="col-4 col-md-2">
                                         <p><FormattedMessage id="order.orderStatus" /></p>
@@ -364,7 +371,7 @@ class AccountOrders extends React.Component {
                                         <Link
                                           className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
                                           to={`/account/orders-detail/${order.id}`}>
-                                          <span className="medium pull-right--desktop rc-styled-link rc-padding-top--xs">
+                                          <span className="medium pull-right--desktop rc-styled-link">
                                             <FormattedMessage id="order.orderDetails" />
                                           </span>
                                         </Link>

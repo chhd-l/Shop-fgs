@@ -396,7 +396,7 @@ class Subscription extends React.Component {
                                     onClick={() => localStorage.setItem('subDetail', JSON.stringify(subItem))}
                                     to={`/account/subscription-detail/${subItem.subscribeId}`}
                                   >
-                                    <span className="medium pull-right--desktop rc-styled-link rc-padding-top--xs">
+                                    <span className="medium pull-right--desktop rc-styled-link">
                                       <FormattedMessage id="subscription.detail" />
                                     </span>
                                   </Link>
@@ -408,7 +408,7 @@ class Subscription extends React.Component {
                               style={{ padding: "1rem 0" }}
                             >
                               <div className="col-12 col-md-2 d-flex flex-wrap">
-                                {subItem.goodsInfo.map((item) => (
+                                {subItem.goodsInfo && subItem.goodsInfo.map((item) => (
                                   <img
                                     className="img-fluid"
                                     key={item.spuId}
