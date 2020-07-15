@@ -72,7 +72,8 @@ class Details extends React.Component {
       petModalVisible: false,
       isAdd: 0,
       productRate: 0,
-      replyNum: 0
+      replyNum: 0,
+      goodsId: null
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -150,6 +151,18 @@ class Details extends React.Component {
     ])
       .then(resList => {
         const res = resList[0]
+        if(res && res.context) {
+          this.setState({
+            productRate: res.context.avgEvaluate
+          })
+        }
+        if(res && res.context && res.context.goods) {
+          this.setState({
+            productRate: res.context.goods.avgEvaluate,
+            replyNum:  res.context.goods.goodsEvaluateNum,
+            goodsId: res.context.goods.goodsId
+          })
+        }
         if (res && res.context && res.context.goodsSpecDetails && resList[1]) {
           // 获取产品所属类别
           let tmpSpecie = find(res.context.storeCates, ele => ele.cateName.toLowerCase().includes('dog')) && 'Dog'
@@ -664,8 +677,8 @@ class Details extends React.Component {
                                 </h1>
                                 <div className="rc-card__price flex-inline">
                                   <div className="display-inline" >
-                                    {/*<Rate def={this.state.productRate} disabled={true} /></div><span className='comments'>{this.state.replyNum}</span>*/}
-                                    <Rate def={5} disabled={true} /></div><span className='comments'>{this.state.replyNum}</span>
+                                    <Rate def={this.state.productRate} disabled={true} /></div><span className='comments'>{this.state.replyNum}</span>
+                                    {/*<Rate def={5} disabled={true} /></div><span className='comments'>{this.state.replyNum}</span>*/}
                                 </div>
                                 <h3 className="text-break">{details.goodsSubtitle}</h3>
                                 <h3 className="text-break">
@@ -996,7 +1009,7 @@ class Details extends React.Component {
               </div>
 
               <div>
-                <Reviews id={this.props.match.params.id} />
+                <Reviews id={this.state.goodsId} isLogin={this.isLogin}/>
               </div>
               <div
                 className="sticky-addtocart"

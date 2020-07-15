@@ -9,13 +9,14 @@ import Selection from '@/components/Selection'
 import LoginButton from '@/components/LoginButton'
 import Rate from '@/components/Rate'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { getLoginGoodsEvaluate } from '@/api/details'
+import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details'
 import Details from "../index";
 @injectIntl
 class Reviews extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: null,
             goodsEvaluatesList: [],
             evaluatesCurrentPage: 0,
             valuatesTotalPages: 0,
@@ -23,8 +24,19 @@ class Reviews extends React.Component {
         }
     }
     componentDidMount() {
-        this.getGoodsEvaluates(0, 5,null)
+
     }
+    componentWillReceiveProps(nextProps, nextContext) {
+        if(nextProps.id && nextProps.id !== this.state.id) {
+            this.setState({
+                id: nextProps.id
+            },() => {
+                this.getGoodsEvaluates(0, 5,null)
+            })
+
+        }
+    }
+
     sortByChange(e) {
         this.setState({
             selectedSortBy: e.target.value
@@ -46,11 +58,12 @@ class Reviews extends React.Component {
             this.getGoodsEvaluates(currentPage, 5, null)
         }
     }
+
     async getGoodsEvaluates (pageNum = 0, pageSize = 5, sort) {
         let parmas = {
             pageNum: pageNum,
             pageSize: pageSize,
-            goodsInfoId: this.props.id,
+            goodsId: this.state.id,
             sortColumn: '',
             sortRole: ''
         }
@@ -70,7 +83,12 @@ class Reviews extends React.Component {
             default:
                 break
         }
-        let res = await getLoginGoodsEvaluate(parmas)
+        let res
+        if (this.props.isLogin) {
+             res = await getLoginGoodsEvaluate(parmas)
+        } else {
+             res = await getUnLoginGoodsEvaluate(parmas)
+        }
         if(res.context && res.context.goodsEvaluateVOPage ) {
             let obj = res.context.goodsEvaluateVOPage
             let list = obj.content

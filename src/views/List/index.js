@@ -176,8 +176,8 @@ class List extends React.Component {
               let ret = Object.assign({}, ele)
               const tmpItem = find(res.context.goodsList, g => g.goodsId === ele.id)
               if (tmpItem) {
-                const { goodsCateName, goodsSubtitle, subscriptionStatus, ...others } = tmpItem
-                ret = Object.assign(ret, { goodsCateName, goodsSubtitle, subscriptionStatus })
+                const { goodsCateName, goodsSubtitle, subscriptionStatus, avgEvaluate, ...others } = tmpItem
+                ret = Object.assign(ret, { goodsCateName, goodsSubtitle, subscriptionStatus, avgEvaluate })
               }
               return ret
             })
@@ -425,7 +425,7 @@ class List extends React.Component {
                                               {
                                                 item.subscriptionStatus
                                                   ? <div className="range">
-                                                      <span style={{'fontSize': '14px'}}>From : </span>
+                                                      <span style={{'fontSize': '14px'}}>From </span>
                                                       <span className=" red-text">
                                                         {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.subscriptionPrice || 0)))}{' '}
                                                       </span>
@@ -435,13 +435,13 @@ class List extends React.Component {
                                                   : null
                                               }
                                               <div>
-                                                <span style={{'fontSize': '14px'}}>From : </span><span  className="red-text" >{formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.salePrice)))}</span>
+                                                <span style={{'fontSize': '14px'}}>From </span><span  className="red-text" >{formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.salePrice)))}</span>
                                               </div>
                                             </div>
 
                                             <div className="rc-card__price flex-inline">
                                               {/*goodsEvaluateNum*/}
-                                              <div className="display-inline" ><Rate def={5} disabled={true} /></div><span className='comments'>{item.goodsEvaluateNum}</span>
+                                              <div className="display-inline" ><Rate def={item.avgEvaluate} disabled={true} /></div><span className='comments'>{item.goodsEvaluateNum}</span>
                                             </div>
                                           </div>
                                         </>
