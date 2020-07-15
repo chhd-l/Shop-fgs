@@ -116,7 +116,7 @@ class Subscription extends React.Component {
     let param = {
         pageNum: currentPage - 1,
         pageSize: this.pageSize,
-        subscribeId: 'S20200713113215362'
+        // subscribeId: 'S20200713113215362'
         // customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
     }
     getSubList(param)
