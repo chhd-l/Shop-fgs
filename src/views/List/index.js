@@ -423,14 +423,16 @@ class List extends React.Component {
 
                                             <div className="rc-card__price  rc-padding-top--xs">
                                               {
-                                                item.subscriptionStatus
+                                                find(item.goodsInfos, ele => ele.subscriptionStatus)
                                                   ? <div className="range">
                                                       <span style={{'fontSize': '14px'}}>From </span>
                                                       <span className=" red-text">
                                                         {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.subscriptionPrice || 0)))}{' '}
                                                       </span>
                                                     <span className="rc-icon rc-refresh--xs rc-brand1"></span>
-                                                    <span className="position-relative red-text" style={{ fontSize: '.6em', top: '-4px' }}><FormattedMessage id="details.Subscription" /></span>
+                                                    <span className="position-relative red-text" style={{ fontSize: '.6em', top: '-4px' }}>
+                                                      <FormattedMessage id="details.Subscription" />
+                                                    </span>
                                                   </div>
                                                   : null
                                               }

@@ -383,9 +383,10 @@ class PaymentComp extends React.Component {
           currentCardInfo: addRes.context,
           creditCardInfo: addRes.context,
           completeCardShow: true,
+        }, () => {
+          this.props.getSelectedValue &&
+            this.props.getSelectedValue(this.state.creditCardInfo);
         });
-        this.props.getSelectedValue &&
-          this.props.getSelectedValue(creditCardInfo);
       }
 
       // if(filterList.length) {
@@ -1142,74 +1143,78 @@ class PaymentComp extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="text-right">
-                <div
-                  className="rc-input rc-input--inline"
-                  style={{
-                    marginTop: "10px",
-                    float: "left",
-                    textAlign: "left",
-                    maxWidth: '400px'
-                  }}
-                  onClick={() => {
-                    creditCardInfo.isDefault = !creditCardInfo.isDefault;
-                    this.setState({ creditCardInfo });
-                  }}
-                >
-                  {creditCardInfo.isDefault ? (
-                    <input
-                      type="checkbox"
-                      className="rc-input__checkbox"
-                      value={creditCardInfo.isDefault}
-                      checked
-                    />
-                  ) : (
+              <div className="overflow-hidden">
+                <div className="text-right">
+                  <div
+                    className="rc-input rc-input--inline"
+                    style={{
+                      marginTop: "10px",
+                      float: "left",
+                      textAlign: "left",
+                      maxWidth: '400px'
+                    }}
+                    onClick={() => {
+                      creditCardInfo.isDefault = !creditCardInfo.isDefault;
+                      this.setState({ creditCardInfo });
+                    }}
+                  >
+                    {creditCardInfo.isDefault ? (
                       <input
                         type="checkbox"
                         className="rc-input__checkbox"
                         value={creditCardInfo.isDefault}
+                        key="1"
+                        checked
                       />
-                    )}
-                  <label className="rc-input__label--inline text-break">
-                    <FormattedMessage id="setDefaultPaymentMethod" />
-                  </label>
-                </div>
-                <a
-                  className="rc-styled-link editPersonalInfoBtn"
-                  name="contactInformation"
-                  style={{
-                    display: this.state.creditCardList.length || pathname === '/account/paymentMethod'
-                      ? "inline-block"
-                      : "none",
-                  }}
-                  onClick={() => {
-                    this.initCardInfo();
-                    this.setState({ isEdit: false, currentCvv: '' });
-                    // this.scrollToPaymentComp();
-                  }}
-                >
-                  <FormattedMessage id="cancel" />
-                </a>
+                    ) : (
+                        <input
+                          type="checkbox"
+                          className="rc-input__checkbox"
+                          value={creditCardInfo.isDefault}
+                          key="2"
+                        />
+                      )}
+                    <label className="rc-input__label--inline text-break">
+                      <FormattedMessage id="setDefaultPaymentMethod" />
+                    </label>
+                  </div>
+                  <a
+                    className="rc-styled-link editPersonalInfoBtn"
+                    name="contactInformation"
+                    style={{
+                      display: this.state.creditCardList.length || pathname === '/account/paymentMethod'
+                        ? "inline-block"
+                        : "none",
+                    }}
+                    onClick={() => {
+                      this.initCardInfo();
+                      this.setState({ isEdit: false, currentCvv: '' });
+                      // this.scrollToPaymentComp();
+                    }}
+                  >
+                    <FormattedMessage id="cancel" />
+                  </a>
                 &nbsp;
                 <span
-                  style={{
-                    display: this.state.creditCardList.length || pathname === '/account/paymentMethod'
-                      ? "inline-block"
-                      : "none",
-                  }}
-                >
-                  <FormattedMessage id="or" />
-                </span>
+                    style={{
+                      display: this.state.creditCardList.length || pathname === '/account/paymentMethod'
+                        ? "inline-block"
+                        : "none",
+                    }}
+                  >
+                    <FormattedMessage id="or" />
+                  </span>
                 &nbsp;
                 <button
-                  className="rc-btn rc-btn--one submitBtn editAddress"
-                  data-sav="false"
-                  name="contactInformation"
-                  type="submit"
-                  onClick={(e) => this.handleSave(e)}
-                >
-                  <FormattedMessage id="save" />
-                </button>
+                    className="rc-btn rc-btn--one submitBtn editAddress"
+                    data-sav="false"
+                    name="contactInformation"
+                    type="submit"
+                    onClick={(e) => this.handleSave(e)}
+                  >
+                    <FormattedMessage id="save" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
