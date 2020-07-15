@@ -1,6 +1,6 @@
 import React from "react"
 import { injectIntl, FormattedMessage } from 'react-intl'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -27,6 +27,7 @@ const noSelect = {
 }
 
 @inject("loginStore")
+@observer
 class PetForm extends React.Component {
   constructor(props) {
     super(props)

@@ -21,6 +21,7 @@ export function getLoginDetails (parameter) {
   })
 }
 
+// 已登录查询评价
 export function getLoginGoodsEvaluate (data) {
   return axios({
     url: `/goodsEvaluate/spuGoodsEvaluatePageLogin`,
@@ -28,3 +29,12 @@ export function getLoginGoodsEvaluate (data) {
     data
   })
 }
+//未登录查询评价
+export function getUnLoginGoodsEvaluate (data) {
+  return axios({
+    url: `/goodsEvaluate/spuGoodsEvaluatePage`,
+    method: 'post',
+    data
+  })
+}
+

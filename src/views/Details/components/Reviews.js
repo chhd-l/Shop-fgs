@@ -9,13 +9,14 @@ import Selection from '@/components/Selection'
 import LoginButton from '@/components/LoginButton'
 import Rate from '@/components/Rate'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { getLoginGoodsEvaluate } from '@/api/details'
+import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details'
 import Details from "../index";
 @injectIntl
 class Reviews extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: null,
             goodsEvaluatesList: [],
             evaluatesCurrentPage: 0,
             valuatesTotalPages: 0,
@@ -23,8 +24,19 @@ class Reviews extends React.Component {
         }
     }
     componentDidMount() {
-        this.getGoodsEvaluates(0, 10,null)
+
     }
+    componentWillReceiveProps(nextProps, nextContext) {
+        if(nextProps.id && nextProps.id !== this.state.id) {
+            this.setState({
+                id: nextProps.id
+            },() => {
+                this.getGoodsEvaluates(0, 5,null)
+            })
+
+        }
+    }
+
     sortByChange(e) {
         this.setState({
             selectedSortBy: e.target.value
@@ -46,11 +58,12 @@ class Reviews extends React.Component {
             this.getGoodsEvaluates(currentPage, 5, null)
         }
     }
+
     async getGoodsEvaluates (pageNum = 0, pageSize = 5, sort) {
         let parmas = {
             pageNum: pageNum,
             pageSize: pageSize,
-            goodsInfoId: this.props.id,
+            goodsId: this.state.id,
             sortColumn: '',
             sortRole: ''
         }
@@ -70,7 +83,12 @@ class Reviews extends React.Component {
             default:
                 break
         }
-        let res = await getLoginGoodsEvaluate(parmas)
+        let res
+        if (this.props.isLogin) {
+             res = await getLoginGoodsEvaluate(parmas)
+        } else {
+             res = await getUnLoginGoodsEvaluate(parmas)
+        }
         if(res.context && res.context.goodsEvaluateVOPage ) {
             let obj = res.context.goodsEvaluateVOPage
             let list = obj.content
@@ -86,35 +104,8 @@ class Reviews extends React.Component {
                 evaluatesCurrentPage: obj.number ? obj.number : 0,
                 valuatesTotalPages: obj.total ? obj.totalPages : 0 ,
                 goodsEvaluatesList: list
-            }, () => {
-                // if(this.state.goodsEvaluatesList.length === 0 ) {
-                //     this.setState({
-                //         goodsEvaluatesList: [
-                //             {
-                //                 commentator: 'John Doe',
-                //                 commentTime: '02 Nov 2018',
-                //                 title: 'Excellent recommendation from Breeder and Vet.',
-                //                 description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
-                //                 rate: 5
-                //             },
-                //             {
-                //                 commentator: 'John Doe1',
-                //                 commentTime: '02 Nov 2018',
-                //                 title: 'Excellent recommendation from Breeder and Vet.',
-                //                 description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
-                //                 rate: 5
-                //             },
-                //             {
-                //                 commentator: 'John Doe2',
-                //                 commentTime: '02 Nov 2018',
-                //                 title: 'Excellent recommendation from Breeder and Vet.',
-                //                 description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
-                //                 rate: 4
-                //             }
-                //         ]
-                //     })
-                // }
             })
+            // this.props.updateEvaluate()
         }
     }
     render () {
@@ -185,6 +176,7 @@ class Reviews extends React.Component {
                                                                                         <span className="red-text"><FormattedMessage id="replyComments" /></span>
                                                                                     </div>
                                                                                     <div className="rc-padding-top--xs">
+                                                                                        {item.evaluateAnswer}
                                                                                     </div>
                                                                                 </div> : null
                                                                         }

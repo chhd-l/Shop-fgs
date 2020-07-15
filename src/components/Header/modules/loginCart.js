@@ -4,9 +4,11 @@ import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import PetModal from '@/components/PetModal'
+
 @inject("checkoutStore")
+@observer
 class LoginCart extends React.Component {
   constructor(props) {
     super(props)
@@ -116,7 +118,6 @@ class LoginCart extends React.Component {
     return (
       <span
         className="minicart inlineblock"
-        style={{ verticalAlign: this.props.showSearchInput ? 'initial' : '' }}
         onMouseOver={this.handleMouseOver}
         onMouseOut={this.handleMouseOut}>
         <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn" title="Basket">

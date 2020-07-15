@@ -3,7 +3,7 @@ import { injectIntl, FormattedMessage } from "react-intl";
 import Skeleton from "react-skeleton-loader";
 import { formatMoney } from "@/utils/utils";
 import { findIndex, find } from "lodash";
-import { inject } from "mobx-react";
+import { inject, observer } from "mobx-react";
 import axios from "axios";
 import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
@@ -21,6 +21,7 @@ import ConfirmTooltip from "@/components/ConfirmTooltip";
 import "./index.css";
 
 @inject("loginStore")
+@observer
 class PaymentComp extends React.Component {
   constructor(props) {
     super(props);

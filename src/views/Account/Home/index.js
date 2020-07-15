@@ -1,6 +1,6 @@
 import React from "react"
 import GoogleTagManager from '@/components/GoogleTagManager'
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -17,6 +17,7 @@ import addressImg from "@/assets/images/profile/Address.jpg"
 import './index.css'
 
 @inject("loginStore")
+@observer
 class AccountHome extends React.Component {
   constructor(props) {
     super(props)

@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -22,6 +22,7 @@ import CART_DOG from "@/assets/images/CART_DOG.webp";
 import { debug } from "semantic-ui-react/dist/commonjs/lib";
 
 @inject("checkoutStore")
+@observer
 class LoginCart extends React.Component {
   constructor(props) {
     super(props);
@@ -320,7 +321,7 @@ class LoginCart extends React.Component {
               <div className="flex justify-content-between rc-md-up">
                 <div>
                   {
-                    pitem.goods && pitem.goods.subscriptionStatus
+                    pitem.subscriptionStatus
                       ? <>
                         <span className="rc-icon rc-refresh--xs rc-brand1"></span>
                         <FormattedMessage id="details.Subscription" />{' '}-{' '}
@@ -391,7 +392,7 @@ class LoginCart extends React.Component {
             <div className="flex justify-content-between flex-wrap">
               <div>
                 {
-                  pitem.goods && pitem.goods.subscriptionStatus
+                  pitem.subscriptionStatus
                     ? <>
                       <span className="rc-icon rc-refresh--xs rc-brand1"></span>
                       <FormattedMessage id="details.Subscription" />{' '}-{' '}

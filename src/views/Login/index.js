@@ -1,5 +1,5 @@
 import React from "react";
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import { injectIntl, FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import "./index.css";
@@ -14,6 +14,7 @@ import bg2 from "@/assets/images/register-bg1.jpg";
 
 @inject("loginStore")
 @injectIntl
+@observer
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -83,7 +84,7 @@ class Login extends React.Component {
     })
   }
   // getQuestions=()=>{
-    
+
   // }
   // loginFormChange (e) {
   //     .catch((err) => {
@@ -118,17 +119,16 @@ class Login extends React.Component {
 
     const { history } = this.props;
     login(this.state.loginForm).then(res=>{
-        debugger
         localStorage.setItem("rc-token", res.context.token);
         let userinfo = res.context.customerDetail;
         userinfo.customerAccount = res.context.accountName;
-  
+
          getCustomerInfo().then(customerInfoRes=>{
           if(res.code==='K-000000'){
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
             this.props.loginStore.setUserInfo(userinfo)
           }
-    
+
           history.push(
             (this.props.location.state && this.props.location.state.redirectUrl) ||
               "/account"
@@ -140,13 +140,13 @@ class Login extends React.Component {
           );
           this.showErrorMsg(err.toString()|| this.props.intl.messages.loginFailed)
         })
-        
-      
+
+
     }).catch(err=>{
       this.showErrorMsg(err.toString()|| this.props.intl.messages.loginFailed)
     })
-    
-    
+
+
   }
   register = () => {
     this.setState({
@@ -203,7 +203,7 @@ class Login extends React.Component {
       debugger
       if(res.code==='K-000000'){
         console.log(res);
-        
+
         localStorage.setItem("rc-token", res.context.token);
         let userinfo = res.context.customerDetail;
         userinfo.customerAccount = res.context.accountName;
@@ -339,7 +339,7 @@ class Login extends React.Component {
                     <h3 style={{fontSize: '32px'}}><span style={{color: '#666'}}>
                       <FormattedMessage id='welcomeTo'/></span> <FormattedMessage id='royalCanin'/>
                     </h3>
-                   
+
                     <div className="loginBox">
                     <div className="message-tip">
                         <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
@@ -361,7 +361,7 @@ class Login extends React.Component {
                           <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
                         </aside>
                       </div>
-                      
+
                     <div style={{ marginTop: "40px" }}>
                       <div className="miaa_input required ">
                         <input
@@ -478,7 +478,7 @@ class Login extends React.Component {
                           <FormattedMessage id='forgetPassword'/>
                         </a>
                         {/* <Link to="/forgetPassword" style={{ color: "#666", fontSize: "14px" }}>
-                          <FormattedMessage id="login.forgetPassword" />  
+                          <FormattedMessage id="login.forgetPassword" />
                         </Link> */}
                       </p>
                     </div>
@@ -516,7 +516,7 @@ class Login extends React.Component {
                         this.props.location.state.redirectUrl === '/cart' ?
                         "/prescription" : "/"
                       }
-                        
+
                       }
                     >
                       <FormattedMessage id='continueAsGuest'/>{'>'}
@@ -549,7 +549,7 @@ class Login extends React.Component {
                     <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">{this.state.successMsg}</p>
                   </aside>
                 </div>
-              <img src={bg2} className="registerImg" 
+              <img src={bg2} className="registerImg"
                 style={{width: '270px', position: 'absolute', bottom: '-120px', right: '-270px'}} alt=""/>
                 <div class="rc-layout-container rc-two-column">
                   <div class="rc-column">
@@ -817,7 +817,7 @@ class Login extends React.Component {
                         </label>
               </div>
               </div>
-              
+
               <div style={{ textAlign: "center" }} class="rc-layout-container rc-two-column buttonGroup">
               <div class="rc-column" style={{ textAlign: "center" }}>
                 <button
@@ -841,13 +841,13 @@ class Login extends React.Component {
                   <FormattedMessage id='login'/>
                 </button>
               </div>
-                
+
               </div>
               </div>
-              
+
               <div style={{display: this.state.type === 'forgetPassword'?'block': 'none'}} className="forgetPassword">
                 <h3 style={{textAlign: 'center', fontSize: '30px'}}><FormattedMessage id='forgetPassword.createNewPassword'/></h3>
-                
+
                 <div className="forgetBox" style={{position: 'relative'}}>
                 <img src={bg2} className="registerImg" style={{width: '300px', position: 'absolute', bottom: '-120px', right: '-400px'}}/>
                 <p><FormattedMessage id='forgetPassword.forgetPasswordTip'/></p>
@@ -994,7 +994,7 @@ class Login extends React.Component {
                       </div>
                       <div className="text-center">
                         <Link to="/forgetPassword" className="text-muted small-medium">
-                          <FormattedMessage id="login.forgetPassword" />  
+                          <FormattedMessage id="login.forgetPassword" />
                         </Link>
 
                         <div className="text-center">

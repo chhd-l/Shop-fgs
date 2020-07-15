@@ -20194,7 +20194,6 @@ input.search-field {
 }
 
 .headerSearchDesktop {
-  width: 200px;
   margin-right: 20px;
   position: relative
 }
@@ -20205,7 +20204,7 @@ input.search-field {
   position: absolute;
   width: 100%;
   height: 2px;
-  background: #666;
+  background: #989898;
   top: 30px;
   right: 0
 }

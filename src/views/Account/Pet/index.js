@@ -1,6 +1,6 @@
 import React from "react"
 import { FormattedMessage } from 'react-intl'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -14,6 +14,7 @@ import Loading from "@/components/Loading"
 import { getCustomerInfo } from "@/api/user"
 
 @inject("loginStore")
+@observer
 class Pet extends React.Component {
   constructor(props) {
     super(props)

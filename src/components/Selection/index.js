@@ -11,7 +11,7 @@ export default class Selection extends React.Component {
     super(props)
     this.state = {
       optionsVisible: false,
-      selectedItem: { value: '', id: -1 },
+      selectedItem: { name: '', value: '', id: -1 },
       hoveredIdx: -1
     }
     this.timeOutId = null
@@ -31,7 +31,7 @@ export default class Selection extends React.Component {
   }
   handleClickOption (value, item) {
     this.setState({
-      selectedItem: { value, id: item.id }
+      selectedItem: { value, id: item.id, name: item.name }
     }, () => {
       this.props.selectedItemChange(this.state.selectedItem)
     })

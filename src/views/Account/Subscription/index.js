@@ -397,7 +397,7 @@ class Subscription extends React.Component {
                                     onClick={() => localStorage.setItem('subDetail', JSON.stringify(subItem))}
                                     to={`/account/subscription-detail/${subItem.subscribeId}`}
                                   >
-                                    <span className="medium pull-right--desktop rc-styled-link rc-padding-top--xs">
+                                    <span className="medium pull-right--desktop rc-styled-link">
                                       <FormattedMessage id="subscription.detail" />
                                     </span>
                                   </Link>

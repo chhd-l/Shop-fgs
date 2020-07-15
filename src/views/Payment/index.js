@@ -2,7 +2,7 @@ import React from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { findIndex, find } from "lodash";
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import GoogleTagManager from "@/components/GoogleTagManager";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -28,6 +28,7 @@ import {
   customerCommitAndPayMix
 } from "@/api/payment";
 import PaymentComp from "@/components/PaymentComp"
+import store from 'storejs'
 import axios from 'axios'
 import "./index.css";
 
@@ -64,6 +65,7 @@ const rules = [
 ]
 
 @inject("loginStore", "checkoutStore")
+@observer
 class Payment extends React.Component {
   constructor(props) {
     super(props);
@@ -116,7 +118,7 @@ class Payment extends React.Component {
       },
       subForm: {
         buyWay: '',
-        frequencyVal: '',
+        frequencyName: '',
         frequencyId: ''
       },
       errorShow: false,
@@ -126,7 +128,6 @@ class Payment extends React.Component {
       loading: false,
       modalShow: false,
       payosdata: {},
-      subPayosdata: {},
       selectedCardInfo: {},
       isToPayNow: sessionStorage.getItem('rc-tid'),
       cityList: [],
@@ -145,12 +146,12 @@ class Payment extends React.Component {
       return false
     }
 
-    if (this.isLogin && !this.props.checkoutStore.loginCartData.length) {
+    if (this.isLogin && !this.loginCartData.length) {
       this.props.history.push('/cart')
     }
     if (!this.isLogin
-      && (!this.props.checkoutStore.cartData.length
-        || !this.props.checkoutStore.cartData.filter(ele => ele.selected).length)) {
+      && (!this.cartData.length
+        || !this.cartData.filter(ele => ele.selected).length)) {
       this.props.history.push('/cart')
     }
     getDictionary({ type: 'city' })
@@ -164,9 +165,8 @@ class Payment extends React.Component {
     const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
 
     if (!this.isLogin) {
-      let deliveryInfoStr = localStorage.getItem('deliveryInfo');
-      if (deliveryInfoStr) {
-        const deliveryInfo = JSON.parse(deliveryInfoStr);
+      let deliveryInfo = store.get('deliveryInfo');
+      if (deliveryInfo) {
         creditCardInfo.cardOwner = deliveryInfo.deliveryAddress.firstName + " " + deliveryInfo.deliveryAddress.lastName;
         creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
         this.setState({
@@ -198,6 +198,9 @@ class Payment extends React.Component {
   }
   get cartData () {
     return this.props.checkoutStore.cartData
+  }
+  get loginCartData () {
+    return this.props.checkoutStore.loginCartData
   }
   showErrorMsg (msg) {
     this.setState({
@@ -323,7 +326,7 @@ class Payment extends React.Component {
     }
 
     if (!this.isLogin) {
-      localStorage.setItem("deliveryInfo", JSON.stringify(param))
+      store.set("deliveryInfo", param)
     }
     this.setState({
       creditCardInfo: creditCardInfo,
@@ -378,29 +381,9 @@ class Payment extends React.Component {
           }
         }
       );
-      let subRes = await axios.post(
-        "https://api.paymentsos.com/tokens",
-        {
-          token_type: "credit_card",
-          card_number: selectedCard.cardNumber,
-          expiration_date: selectedCard.cardMmyy.replace(/\//, "-"),
-          holder_name: selectedCard.cardOwner,
-          credit_card_cvv: selectedCard.cardCvv,
-        },
-        {
-          headers: {
-            "public_key": process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
-            "Content-type": "application/json",
-            "app_id": "com.razorfish.dev_mexico",
-            "api-version": "1.3.0",
-          }
-        }
-      );
       console.log(res, 'res')
       this.setState({
         payosdata: res.data,
-        subPayosdata: subRes.data,
         creditCardInfo: Object.assign({}, selectedCard),
         loading: false
       }, () => {
@@ -423,10 +406,11 @@ class Payment extends React.Component {
       payMethod,
       subForm
     } = this.state;
-    const loginCartData = this.props.checkoutStore.loginCartData
+    const loginCartData = this.loginCartData
     const cartData = this.cartData.filter(ele => ele.selected)
     if (!payMethod) {
       this.setState({ showPayMethodError: true })
+      return false
     }
     if (isEighteen && isReadPrivacyPolicy) {
       let payosdata = this.state.payosdata;
@@ -462,7 +446,7 @@ class Payment extends React.Component {
             verifyStock: false,
             buyCount: ele.buyCount,
             goodsInfoId: ele.goodsInfoId,
-            goods: ele.goods
+            subscriptionStatus: ele.subscriptionStatus
           }
         })
       }
@@ -496,11 +480,8 @@ class Payment extends React.Component {
         country: payosdata.country_code,
         token: payosdata.token,
         creditDardCvv: payosdata.encrypted_cvv,
-        tokenSub: this.state.subPayosdata.token, // todo delete...
-        creditDardCvvSub: this.state.subPayosdata.encrypted_cvv,  // todo delete...
         phone: creditCardInfo.phoneNumber,
         email: creditCardInfo.email,
-        last4Digits: payosdata.last_4_digits,
         line1: deliveryAddress.address1,
         line2: deliveryAddress.address2,
         clinicsId:
@@ -521,12 +502,13 @@ class Payment extends React.Component {
         }), // once order products
         subTradeItems: [], // subscription order products
         tradeMarketingList,
+
+        last4Digits: payosdata.last_4_digits,
         payAccountName: creditCardInfo.cardOwner,
         payPhoneNumber: creditCardInfo.phoneNumber,
-        paymentId: 'PM202006241348431010',
-        petsId: 'ff808081731309fb01732ded3a390238',
-        cycleTypeId: subForm.frequencyId,
-        promotionCode: '1234'
+
+        petsId: '1231',
+        // promotionCode: '1234',
       };
       try {
         sessionStorage.setItem("rc-paywith-login", this.isLogin);
@@ -540,7 +522,7 @@ class Payment extends React.Component {
           param3.billAddressId = billingAddress.addressId
           if (subForm.buyWay === 'frequency') {
             param3.tradeItems = param2.goodsInfos
-              .filter(ele => !ele.goods || !ele.goods.subscriptionStatus)
+              .filter(ele => !ele.subscriptionStatus)
               .map(g => {
                 return {
                   num: g.buyCount,
@@ -548,13 +530,16 @@ class Payment extends React.Component {
                 }
               })
             param3.subTradeItems = loginCartData
-              .filter(ele => ele.goods && ele.goods.subscriptionStatus)
+              .filter(ele => ele.subscriptionStatus)
               .map(g => {
                 return {
                   subscribeNum: g.buyCount,
                   skuId: g.goodsInfoId
                 }
               })
+            param3.cycleTypeId = subForm.frequencyId
+            param3.paymentMethodId = creditCardInfo.id
+            param3.nextDeliveryTime = '2020-03-01' // todo
           }
         }
         // rePay
@@ -573,9 +558,9 @@ class Payment extends React.Component {
               : customerCommitAndPay
           : confirmAndCommit
         let confirmAndCommitRes = await tmpCommitAndPay(param3);
-        //debugger
+        // debugger
         console.log(confirmAndCommitRes);
-        localStorage.setItem(
+        store.set(
           "orderNumber", confirmAndCommitRes.context && confirmAndCommitRes.context[0]["tid"] || this.tid
         );
         this.setState({ loading: false });
@@ -840,7 +825,7 @@ class Payment extends React.Component {
                           }} />
                       )}
                     {
-                      this.isLogin && find(this.props.checkoutStore.loginCartData, ele => ele.goods && ele.goods.subscriptionStatus)
+                      this.isLogin && find(this.loginCartData, ele => ele.subscriptionStatus)
                         ? <SubscriptionSelect
                           updateSelectedData={data => {
                             this.setState({
@@ -977,9 +962,12 @@ class Payment extends React.Component {
                             {
                               this.isLogin
                                 ? <div className="rc-border-colour--interface">
-                                  <PaymentComp cardOwner={deliveryAddress.firstName + '' + deliveryAddress.lastName} phoneNumber={creditCardInfo.phoneNumber} getSelectedValue={cardItem => {
-                                    this.setState({ selectedCardInfo: cardItem })
-                                  }} />
+                                  <PaymentComp
+                                    cardOwner={deliveryAddress.firstName + '' + deliveryAddress.lastName}
+                                    phoneNumber={creditCardInfo.phoneNumber}
+                                    getSelectedValue={cardItem => {
+                                      this.setState({ selectedCardInfo: cardItem })
+                                    }} />
                                 </div>
                                 : <div className={`rc-border-all rc-border-colour--interface ${!this.state.isCompleteCredit ? 'checkout--padding' : ''}`}>
                                   <div
@@ -1306,7 +1294,7 @@ class Payment extends React.Component {
                     <FormattedMessage id="edit" />
                   </Link>
                 }
-                <PayProductInfo frequencyVal={this.state.subForm.frequencyVal} buyWay={this.state.subForm.buyWay} />
+                <PayProductInfo frequencyName={this.state.subForm.frequencyName} buyWay={this.state.subForm.buyWay} />
               </div>
             </div>
           </div>
