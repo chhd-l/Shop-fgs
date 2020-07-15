@@ -514,10 +514,6 @@ class PaymentComp extends React.Component {
       </span>
     );
     const { isLogin } = this.props.loginStore;
-    console.log(this.props.type === "PaymentComp", "PaymentComp");
-    // if(this.props.type === 'PaymentComp') {
-    //   this.init()
-    // }
 
     return (
       <div
@@ -525,13 +521,6 @@ class PaymentComp extends React.Component {
         style={{
           display: this.props.type === "PaymentComp" ? "block" : "none",
         }}
-        // className={`loginCardBox ${isLogin ? "" : "hidden"} ${
-        //   (this.state.isEdit &&
-        //     window.location.pathname === "/payment/payment") ||
-        //     (!this.state.creditCardList.length && pathname !== '/account/paymentMethod')
-        //     ? "rc-border-all rc-border-colour--interface checkout--padding"
-        //     : ""
-        //   }`}
       >
         <div className="rc-border-bottom rc-border-colour--interface mb-3">
                     <h4 className="rc-delta rc-margin--none">
