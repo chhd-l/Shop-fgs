@@ -653,7 +653,9 @@ class Details extends React.Component {
                                   title={details.goodsName}>
                                   {details.goodsName}
                                 </h1>
-                                <Rate def={5} disabled={true} />
+                                <div className="rc-card__price flex-inline">
+                                  <div className="display-inline" ><Rate def={5} disabled={true} /></div><span className='comments'>10</span>
+                                </div>
                                 <h3 className="text-break">{details.goodsSubtitle}</h3>
                                 <h3 className="text-break">
                                   <div className="rating-stars hidden-lg-down">
