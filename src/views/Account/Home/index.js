@@ -1,6 +1,6 @@
 import React from "react"
 import GoogleTagManager from '@/components/GoogleTagManager'
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -13,9 +13,11 @@ import myPetImg from "@/assets/images/profile/My pet.jpg";
 import myProfileImg from "@/assets/images/profile/My profile.jpg";
 import paymentImg from "@/assets/images/profile/Payment.jpg";
 import subscriptionImg from "@/assets/images/profile/Subscription.jpg"
+import addressImg from "@/assets/images/profile/Address.jpg"
 import './index.css'
 
 @inject("loginStore")
+@observer
 class AccountHome extends React.Component {
   constructor(props) {
     super(props)
@@ -172,7 +174,7 @@ class AccountHome extends React.Component {
                               to="/account/shippingAddress"
                               title={txt}>
                               <img
-                                src={paymentImg}
+                                src={addressImg}
                                 alt={txt} />
                             </Link>
                           )}
@@ -192,6 +194,36 @@ class AccountHome extends React.Component {
                           </FormattedMessage>
                         </h3>
                         <p><FormattedMessage id="account.shippingAddressTip" /></p>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="profileDashboardImage">
+                        <FormattedMessage id="shippingAddress">
+                          {txt => (
+                            <Link
+                              to="/account/paymentMethod"
+                              title={txt}>
+                              <img
+                                src={paymentImg}
+                                alt={txt} />
+                            </Link>
+                          )}
+                        </FormattedMessage>
+                      </div>
+                      <div>
+                        <h3 className="rc-delta profileTextColor">
+                          <FormattedMessage id="paymentMethod">
+                            {txt => (
+                              <Link
+                                to="/account/paymentMethod"
+                                title={txt}
+                                alt={txt}>
+                                <b>{txt}</b>
+                              </Link>
+                            )}
+                          </FormattedMessage>
+                        </h3>
+                        <p><FormattedMessage id="account.paymentMethodTip" /></p>
                       </div>
                     </div>
                     <div className="col-12 col-md-4">

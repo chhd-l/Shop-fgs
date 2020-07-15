@@ -1,5 +1,5 @@
 import React from "react";
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -15,6 +15,7 @@ import { addEvaluate } from "@/api/order"
 import "./index.css"
 
 @inject("checkoutStore")
+@observer
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);

@@ -271,7 +271,7 @@ class Prescription extends React.Component {
               <div className="clinic-search-list">
                 <div><FormattedMessage id="clinic.selectVetClinics" /></div>
                 <form
-                  className={['inlineblock', 'headerSearch', 'headerSearchDesktop', 'relative'].join(' ')}
+                  className={['inlineblock', 'headerSearch', 'pres-search', 'relative'].join(' ')}
                   role="search"
                   name="simpleSearch"
                   onSubmit={e => { e.preventDefault() }}>

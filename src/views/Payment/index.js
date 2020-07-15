@@ -2,7 +2,7 @@ import React from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { findIndex, find } from "lodash";
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import GoogleTagManager from "@/components/GoogleTagManager";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -64,6 +64,7 @@ const rules = [
 ]
 
 @inject("loginStore", "checkoutStore")
+@observer
 class Payment extends React.Component {
   constructor(props) {
     super(props);

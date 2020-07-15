@@ -1,10 +1,10 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import { formatMoney } from "@/utils/utils"
 
-@inject("loginStore")
-@inject("checkoutStore")
+@inject("checkoutStore", "loginStore")
+@observer
 class PayProductInfo extends React.Component {
   constructor(props) {
     super(props);

@@ -1,5 +1,5 @@
 import React from "react";
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import { injectIntl, FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import "./index.css";
@@ -14,6 +14,7 @@ import bg2 from "@/assets/images/register-bg1.jpg";
 
 @inject("loginStore")
 @injectIntl
+@observer
 class Login extends React.Component {
   constructor(props) {
     super(props);

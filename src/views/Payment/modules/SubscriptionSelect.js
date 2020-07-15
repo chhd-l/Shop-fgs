@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import Selection from '@/components/Selection'
 import { getDictionary } from "@/utils/utils"
 
 @inject("checkoutStore")
+@observer
 class SubscriptionSelect extends Component {
   constructor(props) {
     super(props)
