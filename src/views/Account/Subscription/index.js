@@ -8,11 +8,12 @@ import SideMenu from "@/components/SideMenu";
 import TimeCount from "@/components/TimeCount";
 import Selection from "@/components/Selection";
 import Pagination from "@/components/Pagination";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
 import { Link } from "react-router-dom";
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils";
 import { getOrderList, getOrderDetails } from "@/api/order";
 import { getSubList } from "@/api/subscription"
+import { getDictionary } from "@/utils/utils";
 import {
   IMG_DEFAULT,
   DELIVER_STATUS_ENUM,
@@ -21,7 +22,7 @@ import {
 } from "@/utils/constant";
 import "./index.css";
 
-export default class Subscription extends React.Component {
+class Subscription extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,6 +40,7 @@ export default class Subscription extends React.Component {
       initing: true,
       errMsg: "",
       subList: [],
+      frequencyList: []
     };
     this.pageSize = 6;
   }
@@ -53,6 +55,11 @@ export default class Subscription extends React.Component {
       window.location.reload();
       return false;
     }
+    getDictionary({ type: "Frequency" }).then((res) => {
+      this.setState({
+        frequencyList: res,
+      });
+    });
     this.queryOrderList();
   }
 
@@ -283,33 +290,52 @@ export default class Subscription extends React.Component {
                     </div>
                     <div className="col-md-8">
                       <span className="rc-input rc-input--inline rc-full-width">
-                        <input
-                          className="rc-input__control"
-                          id="id-text8"
-                          type="text"
-                          name="orderNumber"
-                          maxLength="20"
-                          value={this.state.form.orderNumber}
-                          onChange={(e) => this.handleInputChange(e)}
-                        />
+                      <FormattedMessage id="subscription.subscriptionNumberTip" >
+                          {
+                              txt => (
+                                <input
+                                className="rc-input__control"
+                                id="id-text8"
+                                type="text"
+                                name="orderNumber"
+                                maxLength="20"
+                                value={this.state.form.orderNumber}
+                                onChange={(e) => this.handleInputChange(e)}
+                                placeholder={txt}
+                                />
+                              )
+                          }
+                        </FormattedMessage>
                         <label className="rc-input__label" htmlFor="id-text8">
-                          <span className="rc-input__label-text">
+                          {/* <span className="rc-input__label-text">
                             <FormattedMessage id="subscription.subscriptionNumberTip" />
-                          </span>
+                          </span> */}
                         </label>
                       </span>
                     </div>
                   </div>
                   <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
-                        Subscription status
-                      {/* <FormattedMessage id="subscription.number" /> */}
+                        {/* Subscription status */}
+                      <FormattedMessage id="subscription.status" />
                     </div>
                     <div className="col-md-8">
                       <span class="rc-select">
                         <select data-js-select="" id="id-single-select">
-                          <option>Active</option>
-                          <option>Inactive</option>
+                          <FormattedMessage id="active">
+                            {
+                              txt => (
+                                <option>{txt}</option>
+                              )
+                            }
+                          </FormattedMessage>
+                          <FormattedMessage id="inactive">
+                            {
+                              txt => (
+                                <option>{txt}</option>
+                              )
+                            }
+                          </FormattedMessage>
                         </select>
                       </span>
                     </div>
@@ -351,18 +377,17 @@ export default class Subscription extends React.Component {
                                 </div>
                                 <div className="col-12 col-md-2">
                                   <p>
-                                    {/* <FormattedMessage id="subscription.deliveryDate" /> */}
-                                    Subscription date
+                                    <FormattedMessage id="subscription.date" />
                                   </p>
                                 </div>
                                 <div className="col-12 col-md-2">
                                   <p>
-                                    Frequency
+                                    <FormattedMessage id="subscription.frequency" />
                                     <br className="d-none d-md-block" />
                                   </p>
                                 </div>
                                 <div className="col-12 col-md-2">
-                                  <p>Subscription status</p>
+                                  <p><FormattedMessage id="subscription.status" /></p>
                                 </div>
                                 
                                 <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
@@ -371,7 +396,7 @@ export default class Subscription extends React.Component {
                                     onClick={() => localStorage.setItem('subDetail', JSON.stringify(subItem))}
                                     to={`/account/subscription-detail/${subItem.subscribeId}`}
                                   >
-                                    <span className="medium pull-right--desktop rc-styled-link rc-padding-top--xs">
+                                    <span className="medium pull-right--desktop rc-styled-link">
                                       <FormattedMessage id="subscription.detail" />
                                     </span>
                                   </Link>
@@ -383,7 +408,7 @@ export default class Subscription extends React.Component {
                               style={{ padding: "1rem 0" }}
                             >
                               <div className="col-12 col-md-2 d-flex flex-wrap">
-                                {subItem.goodsInfo.map((item) => (
+                                {subItem.goodsInfo && subItem.goodsInfo.map((item) => (
                                   <img
                                     className="img-fluid"
                                     key={item.spuId}
@@ -400,7 +425,7 @@ export default class Subscription extends React.Component {
                               <div className="col-12 col-md-2">
                                 Every 4 Weeks
                               </div>
-                              <div className="col-12 col-md-2">{subItem.subscribeStatus === '0'?'Inactive': 'Active'}</div>
+                              <div className="col-12 col-md-2">{subItem.subscribeStatus === '0'?<FormattedMessage id="inactive"/>: <FormattedMessage id="active"/>}</div>
                               <div className="col-12 col-md-2"># {i + 1}</div>
                             </div>
                           </div>
@@ -432,3 +457,5 @@ export default class Subscription extends React.Component {
     );
   }
 }
+
+export default injectIntl(Subscription)

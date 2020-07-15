@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -9,7 +9,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip'
 import PetModal from '@/components/PetModal'
 import { Link } from 'react-router-dom'
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
-import { MINIMUM_AMOUNT } from '@/utils/constant'
+import { MINIMUM_AMOUNT, SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant'
 import { find } from 'lodash'
 import { getPetList } from '@/api/pet'
 import { getCustomerInfo } from "@/api/user"
@@ -22,6 +22,7 @@ import CART_DOG from "@/assets/images/CART_DOG.webp";
 import { debug } from "semantic-ui-react/dist/commonjs/lib";
 
 @inject("checkoutStore")
+@observer
 class LoginCart extends React.Component {
   constructor(props) {
     super(props);
@@ -239,7 +240,7 @@ class LoginCart extends React.Component {
             />
           </div>
           <div className="product-info__desc w-100 relative">
-            <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
+            <div className="line-item-header rc-margin-top--xs rc-padding-right--sm" style={{ width: '80%' }}>
               <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(pitem)}>
                 <h4
                   className="rc-gamma rc-margin--none ui-text-overflow-line2 text-break"
@@ -317,7 +318,20 @@ class LoginCart extends React.Component {
               </div>
             </div>
             <div className="availability  product-availability">
-              <div className="align-left flex rc-content-v-right rc-md-up">
+              <div className="flex justify-content-between rc-md-up">
+                <div>
+                  {
+                    pitem.subscriptionStatus
+                      ? <>
+                        <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                        <FormattedMessage id="details.Subscription" />{' '}-{' '}
+                        <span style={{ fontSize: '.85em' }}>
+                          <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                        </span>
+                      </>
+                      : null
+                  }
+                </div>
                 <div className="stock__wrapper">
                   <div className="stock">
                     <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
@@ -375,7 +389,20 @@ class LoginCart extends React.Component {
             </div>
           </div>
           <div className="availability  product-availability">
-            <div className="align-left flex rc-content-v-right">
+            <div className="flex justify-content-between flex-wrap">
+              <div>
+                {
+                  pitem.subscriptionStatus
+                    ? <>
+                      <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                      <FormattedMessage id="details.Subscription" />{' '}-{' '}
+                      <span style={{ fontSize: '.85em' }}>
+                        <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                      </span>
+                    </>
+                    : null
+                }
+              </div>
               <div className="stock__wrapper">
                 <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
                   <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
@@ -403,7 +430,7 @@ class LoginCart extends React.Component {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     ));
     return Lists;
   }

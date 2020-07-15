@@ -1,4 +1,4 @@
-import { action, observable, computed } from "mobx";
+import { action, observable, computed, runInAction } from "mobx";
 import store from 'storejs'
 import { purchases, sitePurchases, siteMiniPurchases } from '@/api/cart'
 import { find } from 'lodash'
@@ -33,7 +33,7 @@ class CheckoutStore {
     store.remove('rc-cart-data')
   }
 
-  @action.bound
+  @action
   setLoginCartData (data) {
     this.loginCartData = data
     store.set('rc-cart-data-login', data)
@@ -97,7 +97,7 @@ class CheckoutStore {
     this.outOfstockProNames = tmpOutOfstockProNames
   }
 
-  @action.bound
+  @action
   async updateLoginCart () {
     this.changeLoadingCartData(true)
     // 获取购物车列表
@@ -108,18 +108,20 @@ class CheckoutStore {
       goodsInfoIds: siteMiniPurchasesRes.goodsList.map(ele => ele.goodsInfoId)
     });
     sitePurchasesRes = sitePurchasesRes.context;
-    this.setLoginCartData(siteMiniPurchasesRes.goodsList)
-    this.setCartPrice({
-      totalPrice: sitePurchasesRes.totalPrice,
-      tradePrice: sitePurchasesRes.tradePrice,
-      discountPrice: sitePurchasesRes.discountPrice
+    runInAction(() => {
+      this.setLoginCartData(siteMiniPurchasesRes.goodsList)
+      this.setCartPrice({
+        totalPrice: sitePurchasesRes.totalPrice,
+        tradePrice: sitePurchasesRes.tradePrice,
+        discountPrice: sitePurchasesRes.discountPrice
+      })
+      this.outOfstockProNames = siteMiniPurchasesRes.goodsList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
+      this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap)
+      this.changeLoadingCartData(false)
     })
-    this.outOfstockProNames = siteMiniPurchasesRes.goodsList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
-    this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap)
-    this.changeLoadingCartData(false)
   }
 
-  @action.bound
+  @action
   changeLoadingCartData (data) {
     this.loadingCartData = data
   }

@@ -1,10 +1,10 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import { formatMoney } from "@/utils/utils"
 
-@inject("loginStore")
-@inject("checkoutStore")
+@inject("checkoutStore", "loginStore")
+@observer
 class PayProductInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -31,16 +31,15 @@ class PayProductInfo extends React.Component {
     this.setState(Object.assign({
       productList: productList || []
     }));
-    window.addEventListener('scroll', e => this.handleScroll(e))
   }
   get totalPrice () {
-    return this.props.checkoutStore.cartPrice ? this.props.checkoutStore.cartPrice.totalPrice : 0
+    return this.props.checkoutStore.totalPrice
   }
   get tradePrice () {
-    return this.props.checkoutStore.cartPrice ? this.props.checkoutStore.cartPrice.tradePrice : 0
+    return this.props.checkoutStore.tradePrice
   }
   get discountPrice () {
-    return this.props.checkoutStore.cartPrice ? this.props.checkoutStore.cartPrice.discountPrice : 0
+    return this.props.checkoutStore.discountPrice
   }
   getProducts (plist) {
     const List = plist.map((el, i) => {
@@ -82,7 +81,7 @@ class PayProductInfo extends React.Component {
     return List;
   }
   isSubscription (el) {
-    return el.goods && el.goods.subscriptionStatus && this.props.buyWay === 'frequency'
+    return el.subscriptionStatus && this.props.buyWay === 'frequency'
   }
   getProductsForLogin (plist) {
     const List = plist.map((el, i) => {
@@ -102,16 +101,21 @@ class PayProductInfo extends React.Component {
                   </div>
                 </div>
                 <div className="d-flex align-items-center justify-content-between">
-                  <div className="line-item-total-price" style={{ width: '73%' }}>
+                  <div className="line-item-total-price" style={{ width: '75%' }}>
                     {el.specText} - {el.buyCount} {el.buyCount > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}<br />
                     {
                       this.isSubscription(el)
-                        ? <><FormattedMessage id="subscription.frequency" /> : {this.props.frequencyVal} < span className="rc-icon rc-refresh--xs rc-brand1"></span></>
+                        ? <><FormattedMessage id="subscription.frequency" /> : {this.props.frequencyName} < span className="rc-icon rc-refresh--xs rc-brand1"></span></>
                         : null
                     }
                   </div>
                   <div className="line-item-total-price" style={{ whiteSpace: 'nowrap' }}>
-                    {formatMoney(this.isSubscription(el) ? el.subscriptionPrice : el.buyCount * el.salePrice)}
+                    {
+                      this.isSubscription(el)
+                        ? <><span style={{ textDecoration: 'line-through' }}>{formatMoney(el.buyCount * el.salePrice)}</span><br /></>
+                        : null
+                    }
+                    <span>{formatMoney(this.isSubscription(el) ? el.buyCount * el.subscriptionPrice : el.buyCount * el.salePrice)}</span>
                   </div>
                 </div>
               </div>
@@ -136,19 +140,6 @@ class PayProductInfo extends React.Component {
         <FormattedMessage id="payment.totalProduct" />
       </div>
     )
-  }
-  handleScroll (e) {
-    // debugger
-    // window.pageYOffset
-    // 
-    // console.log(window.pageYOffset, this.getElementToPageTop(document.querySelector('.product-summary__inner')))
-    console.log(window.pageYOffset, document.querySelector('.product-summary__inner').offsetTop)
-  }
-  getElementToPageTop (el) {
-    if (el.parentElement) {
-      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
-    }
-    return el.offsetTop;
   }
   render () {
     const { productList } = this.state

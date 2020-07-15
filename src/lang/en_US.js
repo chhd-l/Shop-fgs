@@ -263,7 +263,7 @@ const en_US = {
   'account.TheAddressBook': 'The address book',
   'account.preferredMmethodsOfCommunication': 'Preferred methods of communication',
   'account.preferredContactMethod': 'Preferred Contact Method',
-  'account.warmNotice': 'Here you can manage your profile, edit pet information and shipping address, and tracking your order status.',
+  'account.warmNotice': 'Here you can manage your profile, edit pet information, shipping address and payment method, check status on orders and subscriptions.',
   'account.requiredFields': 'Required fields',
   'account.Email': 'E-mail',
   'account.birthDate': 'Date of Birth',
@@ -334,6 +334,9 @@ const en_US = {
   'account.welcome': 'Welcome to the ROYAL CANIN® family!',
   'account.specialNeeds': 'Special Needs',
   'account.dateTip': 'Please select a past date.',
+  'account.subscriptionTip': 'Browse and change subscription settings.',
+  'account.paymentMethodTip': 'View and update payment information',
+  
   'shippingAddress': 'Address Management',
   'addShippingAddress': 'Add New Address',
   'editShippingAddress': 'Edit Shipping Address',
@@ -370,6 +373,9 @@ const en_US = {
   'default': 'Default',
   'saveSuccessfullly': 'Save successfullly',
 
+  'subscription.promotionTip': 'Save {val} on your first Subscription',
+  'subscription.OnYourFirst': 'on your first',
+  'subscription.promotionTip2': 'Simply select Subscription at checkout for easy regular deliveries',
   'subscription.notYet': 'Not Yet Shipped',
   'subscription.frequency': 'Frequency',
   'subscription.nextOrder': 'Next Order',
@@ -387,8 +393,13 @@ const en_US = {
   'subscription.subscriptionNumberTip': 'Please enter subscription number',
   'subscription.date': 'Subscription date',
   'subscription.deliveryDate': 'Next delivery date',
+  'subscription.receiveDate': 'Next receive date',
+  'subscription.toBeDelivered': 'To be Delivered',
+  'subscription.skip': 'Skip Next Delivery',
+  'subscription.cancelAll': 'Cancel All',
   'subscription.detail': 'Subscription detail',
   'subscription.sub': 'Sub-',
+  'subscription.status': 'Subscription status',
   'login': 'Log in',
   'login.register': 'Create a personal account',
   'login.loginTip': ' To connect to the ROYAL CANIN® service,authorization is required. If you do not have a personal account, you can register now.',
@@ -503,6 +514,9 @@ const en_US = {
   'inputYourEmailReceivePayment': 'Input your email to receive payment voucher & order status notices.',
   'remember48Hours' : 'Remember that you have 48 hours to make the deposit or the order will be canceled when the voucher expired.',
   'totalPay': ' Pay {val} at the nearest OXXO store',
-  'sendInformationByEmail': 'We will send the information to you by email, you can use it at any time.'
+  'sendInformationByEmail': 'We will send the information to you by email, you can use it at any time.',
+  'birthday': 'Birthday',
+  'active': 'Active',
+  'inactive': 'Inactive'
 }
 export default en_US;

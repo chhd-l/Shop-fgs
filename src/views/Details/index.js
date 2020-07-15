@@ -1,6 +1,6 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -13,28 +13,24 @@ import PetModal from '@/components/PetModal'
 import {
   formatMoney,
   translateHtmlCharater,
-  hanldePurchases,
   queryProps
 } from '@/utils/utils'
 import {
   MINIMUM_AMOUNT,
   STOREID,
-  STORE_CATE_ENUM
+  STORE_CATE_ENUM,
+  SUBSCRIPTION_DISCOUNT_RATE
 } from "@/utils/constant"
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { cloneDeep, findIndex, find } from 'lodash'
 import { getDetails, getLoginDetails } from '@/api/details'
-import {
-  sitePurchase,
-  sitePurchases,
-  siteMiniPurchases
-} from '@/api/cart'
+import { sitePurchase } from '@/api/cart'
 import { getDict } from '@/api/dict'
 import './index.css'
 
-@inject("loginStore")
-@inject("checkoutStore")
+@inject("checkoutStore", "loginStore")
 @injectIntl
+@observer
 class Details extends React.Component {
   constructor(props) {
     super(props);
@@ -74,11 +70,15 @@ class Details extends React.Component {
       tabsValue: [],
       buyWay: 'Once',
       petModalVisible: false,
-      isAdd: 0
+      isAdd: 0,
+      productRate: 0,
+      replyNum: 0,
+      goodsId: null
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
+    this.updateEvaluate = this.updateEvaluate.bind(this)
     this.headerRef = React.createRef();
 
     this.specie = ''
@@ -104,6 +104,12 @@ class Details extends React.Component {
   }
   get checkoutStore () {
     return this.props.checkoutStore
+  }
+  updateEvaluate ({ productRate, replyNum }) {
+    this.setState({
+      productRate: productRate,
+      replyNum: replyNum
+    })
   }
   matchGoods () {
     let { specList, details, currentUnitPrice, currentSubscriptionPrice, stock } = this.state
@@ -145,6 +151,18 @@ class Details extends React.Component {
     ])
       .then(resList => {
         const res = resList[0]
+        if(res && res.context) {
+          this.setState({
+            productRate: res.context.avgEvaluate
+          })
+        }
+        if(res && res.context && res.context.goods) {
+          this.setState({
+            productRate: res.context.goods.avgEvaluate,
+            replyNum:  res.context.goods.goodsEvaluateNum,
+            goodsId: res.context.goods.goodsId
+          })
+        }
         if (res && res.context && res.context.goodsSpecDetails && resList[1]) {
           // 获取产品所属类别
           let tmpSpecie = find(res.context.storeCates, ele => ele.cateName.toLowerCase().includes('dog')) && 'Dog'
@@ -514,13 +532,13 @@ class Details extends React.Component {
   changeTab (e, i) {
     this.setState({ activeTabIdx: i })
   }
-  openPetModal() {
+  openPetModal () {
     this.setState({
       petModalVisible: true
     })
   }
-  closePetModal() {
-    if(this.state.isAdd === 2) {
+  closePetModal () {
+    if (this.state.isAdd === 2) {
       this.setState({
         isAdd: 0
       })
@@ -529,16 +547,16 @@ class Details extends React.Component {
       petModalVisible: false
     })
   }
-  petComfirm(){
+  petComfirm () {
     this.props.history.push('/prescription')
   }
-  openNew() {
+  openNew () {
     this.setState({
       isAdd: 1
     })
     this.openPetModal()
   }
-  closeNew() {
+  closeNew () {
     this.setState({
       isAdd: 2
     })
@@ -600,11 +618,7 @@ class Details extends React.Component {
                   <BreadCrumbs />
                   <div className="rc-padding--sm--desktop">
                     <div className="rc-content-h-top">
-                      <div
-                        className={["rc-layout-container", "rc-six-column"].join(
-                          " "
-                        )}
-                      >
+                      <div className="rc-layout-container rc-six-column">
                         <div className="rc-column rc-double-width carousel-column imageBox">
                           {this.state.loading ? (
                             <Skeleton
@@ -613,20 +627,9 @@ class Details extends React.Component {
                               height="100%"
                             />
                           ) : (
-                              <div
-                                className={[
-                                  "rc-full-width",
-                                  this.state.imageMagnifierCfg.show
-                                    ? "show-image-magnifier"
-                                    : "",
-                                ].join(" ")}
-                              >
-                                <div
-                                  className="d-flex justify-content-center ui-margin-top-1-md-down"
-                                >
+                              <div className={`rc-full-width ${this.state.imageMagnifierCfg.show ? "show-image-magnifier" : ""}`}>
+                                <div className="d-flex justify-content-center ui-margin-top-1-md-down">
                                   {
-                                    // this.state.imageMagnifierCfg.show ?
-
                                     <div className="details-img-container">
                                       <ImageMagnifier
                                         sizeList={details.sizeList}
@@ -639,13 +642,10 @@ class Details extends React.Component {
                                     </div>
                                   }
                                 </div>
-                                {/* <div className="d-flex justify-content-center">
-                                <div className="rc-img--square rc-img--square-custom" style={{ backgroundImage: 'url(' + details.goodsImg + ')' }}></div>
-                              </div> */}
                               </div>
                             )}
                         </div>
-                        <div className="rc-column rc-triple-width product-column">
+                        <div className="rc-column product-column">
                           {this.state.loading ? (
                             <div>
                               <Skeleton color="#f5f5f5" width="100%" count={7} />
@@ -657,7 +657,11 @@ class Details extends React.Component {
                                   title={details.goodsName}>
                                   {details.goodsName}
                                 </h1>
-                                <Rate def={5} disabled={true} />
+                                <div className="rc-card__price flex-inline">
+                                  <div className="display-inline" >
+                                    <Rate def={this.state.productRate} disabled={true} /></div><span className='comments'>{this.state.replyNum}</span>
+                                    {/*<Rate def={5} disabled={true} /></div><span className='comments'>{this.state.replyNum}</span>*/}
+                                </div>
                                 <h3 className="text-break">{details.goodsSubtitle}</h3>
                                 <h3 className="text-break">
                                   <div className="rating-stars hidden-lg-down">
@@ -689,23 +693,29 @@ class Details extends React.Component {
                                       <FormattedMessage id="details.unitPrice" />
                                     </div>
 
-                                    <b className="product-pricing__card__head__price rc-padding-y--none js-price">
+                                    <b className="product-pricing__card__head__price red rc-padding-y--none">
                                       {initing ? '--' : formatMoney(currentUnitPrice)}
                                     </b>
                                   </div>
                                   {
-                                    details.subscriptionStatus
+                                    find(details.sizeList, s => s.selected) && find(details.sizeList, s => s.selected).subscriptionStatus
                                       ? <>
                                         <div className="product-pricing__card__head d-flex align-items-center">
                                           <span className="rc-icon rc-refresh--xs rc-brand1 position-absolute" style={{ transform: 'translate(-100%, 8%)' }}></span>
                                           <div className="rc-input product-pricing__card__head__title">
                                             <FormattedMessage id="details.Subscription" />
+                                            <span className="red" style={{ fontSize: '.8em' }}>
+                                              {' '}
+                                              (<FormattedMessage id="save" />{' '}{SUBSCRIPTION_DISCOUNT_RATE})
+                                            </span>
                                           </div>
-                                          <b className="product-pricing__card__head__price rc-padding-y--none js-price">
+                                          <b className="product-pricing__card__head__price red rc-padding-y--none">
                                             {initing ? '--' : formatMoney(currentSubscriptionPrice || 0)}
                                           </b>
                                         </div>
-                                        <span className="red" style={{ fontSize: '.9em' }}>Save 35% on your first Subscription</span>
+                                        <span className="red" style={{ fontSize: '.9em' }}>
+                                          <FormattedMessage id="subscription.promotionTip2" />
+                                        </span>
                                       </>
                                       : null
                                   }
@@ -981,7 +991,7 @@ class Details extends React.Component {
               </div>
 
               <div>
-                <Reviews id={this.state.id} />
+                <Reviews id={this.state.goodsId} isLogin={this.isLogin}/>
               </div>
               <div
                 className="sticky-addtocart"
@@ -1036,12 +1046,12 @@ class Details extends React.Component {
           )}
         <Footer />
         <PetModal visible={this.state.petModalVisible}
-                  isAdd={this.state.isAdd}
-                  productList={this.state.productList}
-                  openNew={() => this.openNew()}
-                  closeNew={() => this.closeNew()}
-                  confirm={()=>this.petComfirm()}
-                  close={() => this.closePetModal()}/>
+          isAdd={this.state.isAdd}
+          productList={this.state.productList}
+          openNew={() => this.openNew()}
+          closeNew={() => this.closeNew()}
+          confirm={() => this.petComfirm()}
+          close={() => this.closePetModal()} />
       </div>
     );
   }

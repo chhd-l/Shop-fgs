@@ -1,10 +1,11 @@
 import React from "react"
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import UnloginCart from './modules/unLoginCart'
 import LoginCart from './modules/loginCart'
 import "./index.css"
 
 @inject("loginStore")
+@observer
 class Cart extends React.Component {
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);

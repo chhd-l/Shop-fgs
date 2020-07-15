@@ -1,7 +1,7 @@
 
 import React from "react";
 import { FormattedMessage } from 'react-intl'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -16,6 +16,7 @@ import CART_DOG from "@/assets/images/CART_DOG.webp";
 import PetModal from '@/components/PetModal'
 
 @inject("checkoutStore")
+@observer
 class UnLoginCart extends React.Component {
   constructor(props) {
     super(props);

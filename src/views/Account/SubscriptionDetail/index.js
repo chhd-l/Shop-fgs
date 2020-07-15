@@ -9,6 +9,7 @@ import visaImg from "@/assets/images/credit-cards/visa.svg";
 import Loading from "@/components/Loading";
 import PaymentComp from "./components/PaymentComp";
 import AddressComp from "./components/AddressComp";
+import { getDictionary } from "@/utils/utils";
 export default class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -116,6 +117,7 @@ export default class SubscriptionDetail extends React.Component {
         lastName: "zhu"
       },
       addressType: "delivery",
+      frequencyList: []
     };
   }
   componentWillUnmount() {
@@ -127,7 +129,12 @@ export default class SubscriptionDetail extends React.Component {
       window.location.reload();
       return false;
     }
-    console.log("enter detail");
+    getDictionary({ type: "Frequency" }).then((res) => {
+      this.setState({
+        frequencyList: res,
+      });
+    });
+    console.log(JSON.parse(localStorage.getItem('subDetail')), 'subDetail');
     this.setState({
       subId: this.props.match.params.subscriptionNumber,
       subDetail: JSON.parse(localStorage.getItem('subDetail'))
@@ -210,15 +217,15 @@ export default class SubscriptionDetail extends React.Component {
                     >
                       {/* <FormattedMessage id="subscription.sub"></FormattedMessage>{data.subId} */}
                       <i className="rc-icon rc-address--xs rc-brand1"></i>{" "}
-                      Subscription
+                      <FormattedMessage id='subscription'/>
                     </h4>
                     <div className="rightBox" style={{ flex: "1" }}>
                       <a class="rc-styled-link " href="#/">
-                        Skip Next Delivery
+                        <FormattedMessage id='subscription.skip'/>
                       </a>{" "}
                       &nbsp;&nbsp;&nbsp;&nbsp;{" "}
                       <a class="rc-styled-link " href="#/">
-                        Cancel All
+                        <FormattedMessage id='subscription.cancelAll'/>
                       </a>
                       {/* <p>Order Status &nbsp; Not Yet Shipped</p>
                       <p className="col-12">
@@ -256,7 +263,7 @@ export default class SubscriptionDetail extends React.Component {
                                   aria-label="Search"></button> */}
                           {/* </div> */}
                           <div className="rc-card-content">
-                            <b className="">To be Delivered</b>
+                            <b className=""><FormattedMessage id='subscription.toBeDelivered'/></b>
                             <h4
                               className="rc-card__meta order-Id"
                               style={{ marginTop: "10px" }}
@@ -306,8 +313,13 @@ export default class SubscriptionDetail extends React.Component {
                             >
                               <span class="rc-select">
                                 <select data-js-select="" id="id-single-select">
-                                  <option>Every 2 Weeks</option>
-                                  <option>Every 4 Weeks</option>
+                                  {
+                                    this.state.frequencyList.map(el => (
+                                      <option>{el.valueEn}</option>
+                                    ))
+                                  }
+                                  
+                                  {/* <option>Every 4 Weeks</option> */}
                                 </select>
                               </span>
                               {/* Every 4 Weeks */}
@@ -362,8 +374,7 @@ export default class SubscriptionDetail extends React.Component {
                           </div>
                           <div className="rc-card-content">
                             <b className="">
-                              {/* <FormattedMessage id="subscription.nextOrder"></FormattedMessage> */}
-                              Next Receive Date
+                              <FormattedMessage id="subscription.receiveDate"></FormattedMessage>
                             </b>
                             <h1
                               className="rc-card__meta order-Id"

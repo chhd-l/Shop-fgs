@@ -1,21 +1,23 @@
 import React from "react";
-import { inject } from "mobx-react";
-import GoogleTagManager from "@/components/GoogleTagManager";
+import { inject, observer } from 'mobx-react'
+import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import PayProductInfo from "@/components/PayProductInfo";
-import Modal from "@/components/Modal";
-import { FormattedMessage } from "react-intl";
-import { Link } from "react-router-dom";
-import successImg from "@/assets/images/credit-cards/success.png";
-import { find } from "lodash";
-import { GTM_SITE_ID, STOREID } from "@/utils/constant";
-import { getDictionary } from "@/utils/utils";
-import { addEvaluate } from "@/api/order";
-import "./index.css";
 import OxxoModal from "./modules/OxxoModal"
+import PayProductInfo from "@/components/PayProductInfo"
+import Modal from '@/components/Modal'
+import { FormattedMessage } from 'react-intl'
+import { Link } from "react-router-dom"
+import successImg from "@/assets/images/credit-cards/success.png"
+import { find } from "lodash"
+import { GTM_SITE_ID, STOREID } from "@/utils/constant"
+import { getDictionary } from "@/utils/utils"
+import { addEvaluate } from "@/api/order"
+import store from 'storejs'
+import "./index.css"
 
 @inject("checkoutStore")
+@observer
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);
@@ -54,9 +56,9 @@ class Confirmation extends React.Component {
       ); // 只移除selected
       sessionStorage.removeItem("rc-token");
     }
-    sessionStorage.removeItem("rc-clinics-id-select");
-    sessionStorage.removeItem("rc-clinics-name-select");
-    localStorage.removeItem("orderNumber");
+    sessionStorage.removeItem('rc-clinics-id-select')
+    sessionStorage.removeItem('rc-clinics-name-select')
+    store.remove('orderNumber')
   }
   componentDidMount() {
     if (localStorage.getItem("isRefresh")) {
@@ -76,11 +78,8 @@ class Confirmation extends React.Component {
       productList: productList,
       loading: false,
     });
-    let deliveryInfoStr = this.state.paywithLogin
-      ? localStorage.getItem("loginDeliveryInfo")
-      : localStorage.getItem("deliveryInfo");
-    if (deliveryInfoStr) {
-      let deliveryInfo = JSON.parse(deliveryInfoStr);
+    let deliveryInfo = this.state.paywithLogin ? store.get("loginDeliveryInfo") : store.get("deliveryInfo");
+    if (deliveryInfo) {
       this.setState({
         deliveryAddress: deliveryInfo.deliveryAddress,
         billingAddress: deliveryInfo.billingAddress,
@@ -127,7 +126,7 @@ class Confirmation extends React.Component {
     try {
       await addEvaluate({
         storeId: STOREID,
-        orderNo: localStorage.getItem("orderNumber"),
+        orderNo: store.get('orderNumber'),
         goodsScore: evalutateScore + 1,
         consumerComment: this.state.consumerComment,
         serverScore: -1,
@@ -206,8 +205,8 @@ class Confirmation extends React.Component {
           currencyCode: "MXN",
           purchase: {
             actionField: {
-              id: localStorage.getItem("orderNumber"),
-              revenue: this.tradePrice,
+              id: store.get('orderNumber'),
+              revenue: this.tradePrice
             },
             products,
           },
@@ -273,8 +272,7 @@ class Confirmation extends React.Component {
                 </div>
                 <p className="rc-margin-top--sm">
                   <b>
-                    <FormattedMessage id="confirmation.orderNumber" />：
-                    {localStorage.getItem("orderNumber")}
+                    <FormattedMessage id="confirmation.orderNumber" />: {store.get('orderNumber')}
                   </b>
                 </p>
               </div>

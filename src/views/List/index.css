@@ -26,5 +26,22 @@
   color: #ddd;
   font-size: 16px;
   position: relative;
-  top: -2px
+  top: -5px
+}
+.black-font-color{
+  color: #666!important;
+  font-size: 1.5rem!important;
+}
+.sub-hover{
+  color: #444!important;
+}
+.sub-hover:hover {
+  color: #444!important;
+}
+
+.o9rem {
+  font-size: .9rem!important;
+}
+.height18 {
+  line-height: 18px;
 }
