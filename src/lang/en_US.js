@@ -517,6 +517,7 @@ const en_US = {
   'sendInformationByEmail': 'We will send the information to you by email, you can use it at any time.',
   'birthday': 'Birthday',
   'active': 'Active',
-  'inactive': 'Inactive'
+  'inactive': 'Inactive',
+  'card': 'Card'
 }
 export default en_US;

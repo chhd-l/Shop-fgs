@@ -42,7 +42,7 @@ class Subscription extends React.Component {
       subList: [],
       frequencyList: []
     };
-    this.pageSize = 6;
+    this.pageSize = 10;
   }
 
   componentWillUnmount() {
@@ -116,6 +116,7 @@ class Subscription extends React.Component {
     let param = {
         pageNum: currentPage - 1,
         pageSize: this.pageSize,
+        // subscribeId: 'S20200713113215362'
         // customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
     }
     getSubList(param)
@@ -421,11 +422,11 @@ class Subscription extends React.Component {
                               <div className="col-12 col-md-2">
                                 {subItem.subscribeId}
                               </div>
-                              <div className="col-12 col-md-2">2020-12-12</div>
+                              <div className="col-12 col-md-2">{subItem.createTime.split(' ')[0]}</div>
                               <div className="col-12 col-md-2">
-                                Every 4 Weeks
+                                {subItem.frequency}
                               </div>
-                              <div className="col-12 col-md-2">{subItem.subscribeStatus === '0'?<FormattedMessage id="inactive"/>: <FormattedMessage id="active"/>}</div>
+                              <div className="col-12 col-md-2">{subItem.subscribeStatus === '0'?<FormattedMessage id="active"/> : <FormattedMessage id="inactive"/>}</div>
                               <div className="col-12 col-md-2"># {i + 1}</div>
                             </div>
                           </div>
