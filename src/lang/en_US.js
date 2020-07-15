@@ -263,7 +263,7 @@ const en_US = {
   'account.TheAddressBook': 'The address book',
   'account.preferredMmethodsOfCommunication': 'Preferred methods of communication',
   'account.preferredContactMethod': 'Preferred Contact Method',
-  'account.warmNotice': 'Here you can manage your profile, edit pet information and shipping address, and tracking your order status.',
+  'account.warmNotice': 'Here you can manage your profile, edit pet information, shipping address and payment method, check status on orders and subscriptions.',
   'account.requiredFields': 'Required fields',
   'account.Email': 'E-mail',
   'account.birthDate': 'Date of Birth',
@@ -334,6 +334,9 @@ const en_US = {
   'account.welcome': 'Welcome to the ROYAL CANIN® family!',
   'account.specialNeeds': 'Special Needs',
   'account.dateTip': 'Please select a past date.',
+  'account.subscriptionTip': 'Browse and change subscription settings.',
+  'account.paymentMethodTip': 'View and update payment information',
+  
   'shippingAddress': 'Address Management',
   'addShippingAddress': 'Add New Address',
   'editShippingAddress': 'Edit Shipping Address',

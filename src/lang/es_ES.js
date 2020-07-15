@@ -265,7 +265,7 @@ const en_US = {
   'account.TheAddressBook': 'La libreta de direcciones',
   'account.preferredMmethodsOfCommunication': 'Métodos preferidos de comunicación.',
   'account.preferredContactMethod': 'Método de Contacto Preferido',
-  'account.warmNotice': 'Aquí puede administrar su perfil, editar información sobre mascotas, verificar el estado de los pedidos y suscripciones.',
+  'account.warmNotice': 'Aquí puede administrar su perfil, editar la información de la mascota y la dirección de envío, y hacer un seguimiento del estado de su pedido.',
 
   'account.requiredFields': 'Campos requeridos',
   'account.Email': 'Email',
