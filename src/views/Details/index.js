@@ -70,11 +70,14 @@ class Details extends React.Component {
       tabsValue: [],
       buyWay: 'Once',
       petModalVisible: false,
-      isAdd: 0
+      isAdd: 0,
+      productRate: 0,
+      replyNum: 0
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
+    this.updateEvaluate = this.updateEvaluate.bind(this)
     this.headerRef = React.createRef();
 
     this.specie = ''
@@ -100,6 +103,12 @@ class Details extends React.Component {
   }
   get checkoutStore () {
     return this.props.checkoutStore
+  }
+  updateEvaluate({productRate, replyNum}) {
+    this.setState({
+      productRate: productRate,
+      replyNum: replyNum
+    })
   }
   matchGoods () {
     let { specList, details, currentUnitPrice, currentSubscriptionPrice, stock } = this.state
@@ -654,7 +663,9 @@ class Details extends React.Component {
                                   {details.goodsName}
                                 </h1>
                                 <div className="rc-card__price flex-inline">
-                                  <div className="display-inline" ><Rate def={5} disabled={true} /></div><span className='comments'>10</span>
+                                  <div className="display-inline" >
+                                    {/*<Rate def={this.state.productRate} disabled={true} /></div><span className='comments'>{this.state.replyNum}</span>*/}
+                                    <Rate def={5} disabled={true} /></div><span className='comments'>{this.state.replyNum}</span>
                                 </div>
                                 <h3 className="text-break">{details.goodsSubtitle}</h3>
                                 <h3 className="text-break">

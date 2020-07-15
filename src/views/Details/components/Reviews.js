@@ -23,7 +23,7 @@ class Reviews extends React.Component {
         }
     }
     componentDidMount() {
-        this.getGoodsEvaluates(0, 10,null)
+        this.getGoodsEvaluates(0, 5,null)
     }
     sortByChange(e) {
         this.setState({
@@ -86,35 +86,8 @@ class Reviews extends React.Component {
                 evaluatesCurrentPage: obj.number ? obj.number : 0,
                 valuatesTotalPages: obj.total ? obj.totalPages : 0 ,
                 goodsEvaluatesList: list
-            }, () => {
-                // if(this.state.goodsEvaluatesList.length === 0 ) {
-                //     this.setState({
-                //         goodsEvaluatesList: [
-                //             {
-                //                 commentator: 'John Doe',
-                //                 commentTime: '02 Nov 2018',
-                //                 title: 'Excellent recommendation from Breeder and Vet.',
-                //                 description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
-                //                 rate: 5
-                //             },
-                //             {
-                //                 commentator: 'John Doe1',
-                //                 commentTime: '02 Nov 2018',
-                //                 title: 'Excellent recommendation from Breeder and Vet.',
-                //                 description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
-                //                 rate: 5
-                //             },
-                //             {
-                //                 commentator: 'John Doe2',
-                //                 commentTime: '02 Nov 2018',
-                //                 title: 'Excellent recommendation from Breeder and Vet.',
-                //                 description: 'We switched our boxer to Royal Canin 2 weeks ago and she is the happiest dog ever! Her coat is now so shiny and soft, she is constantly going to her food bowl to eat, the shape of the food makes it so much easier for her to eat. ',
-                //                 rate: 4
-                //             }
-                //         ]
-                //     })
-                // }
             })
+            // this.props.updateEvaluate()
         }
     }
     render () {
@@ -185,6 +158,7 @@ class Reviews extends React.Component {
                                                                                         <span className="red-text"><FormattedMessage id="replyComments" /></span>
                                                                                     </div>
                                                                                     <div className="rc-padding-top--xs">
+                                                                                        {item.evaluateAnswer}
                                                                                     </div>
                                                                                 </div> : null
                                                                         }
