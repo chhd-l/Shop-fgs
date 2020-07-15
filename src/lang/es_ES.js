@@ -458,6 +458,32 @@ const en_US = {
   'noSpecialNeeds':'Sin necesidades especiales',
   'loginFailed':'error de inicio de sesion',
   'choosePrescriber':'Por favor, elija el prescriptor correcto',
-  'cvvWarning': 'CVV incorrecto'
+  'cvvWarning': 'CVV incorrecto',
+  'moreChoicesAvailable': 'More Choices Available',
+  'replyComments': 'Reply comments',
+  'writeReview': 'Write a review',
+  'rePurchase': 'Repurchase',
+  'purchaseRating': 'Purchase experience  rating',
+  'logisticsRating': 'Logistics rating',
+  'productRating': 'Product rating',
+  'writeYourReview': 'Write your review',
+  'whatYouLike': 'What did you like or dislike?',
+  'anonymousReview': 'Anonymous review',
+  'petInfo': 'Pet information',
+  'selectPet': 'Select a pet',
+  'addPet': 'Add a pet',
+  'continue': 'Continue',
+  'petName': 'Pet Name',
+  'petType': 'Pet Type',
+  'birthday': 'Birthday',
+
+  'creditCard': 'Tarjeta de crédito',
+  'oxxo': 'OXXO',
+  'printEbanx' : 'Imprimir Ebanx',
+  'payAtOxxO': 'Pague en cualquier OXXO con efectivo en México',
+  'inputYourEmailReceivePayment': 'Ingrese su correo electrónico para recibir comprobantes de pago y avisos del estado del pedido.',
+  'remember48Hours' : 'Recuerde que tiene 48 horas para hacer el depósito o el pedido se cancelará cuando expire el comprobante.',
+  'totalPay': ' Pague {val} en la tienda OXXO más cercana',
+  'sendInformationByEmail': 'Le enviaremos la información por correo electrónico, puede usarla en cualquier momento.'
 }
 export default en_US;

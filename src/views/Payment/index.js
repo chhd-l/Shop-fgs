@@ -2,7 +2,7 @@ import React from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { findIndex, find } from "lodash";
-import { inject } from 'mobx-react'
+import { inject } from "mobx-react";
 import GoogleTagManager from "@/components/GoogleTagManager";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -12,7 +12,7 @@ import Loading from "@/components/Loading";
 import UnloginDeliveryAddress from "./modules/UnloginDeliveryAddress";
 import LoginDeliveryAddress from "./modules/LoginDeliveryAddress";
 import BillingAddressForm from "./modules/BillingAddressForm";
-import SubscriptionSelect from "./modules/SubscriptionSelect"
+import SubscriptionSelect from "./modules/SubscriptionSelect";
 import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
@@ -25,43 +25,44 @@ import {
   confirmAndCommit,
   customerCommitAndPay,
   rePay,
-  customerCommitAndPayMix
+  customerCommitAndPayMix,
 } from "@/api/payment";
-import PaymentComp from "@/components/PaymentComp"
-import axios from 'axios'
+import PaymentComp from "@/components/PaymentComp";
+import axios from "axios";
 import "./index.css";
+import OxxoConfirm from "./modules/OxxoConfirm";
 
 const rules = [
   {
-    key: 'firstName',
-    require: true
+    key: "firstName",
+    require: true,
   },
   {
-    key: 'lastName',
-    require: true
+    key: "lastName",
+    require: true,
   },
   {
-    key: 'address1',
-    require: true
+    key: "address1",
+    require: true,
   },
   {
-    key: 'country',
-    require: true
+    key: "country",
+    require: true,
   },
   {
-    key: 'city',
-    require: true
+    key: "city",
+    require: true,
   },
   {
-    key: 'phoneNumber',
-    require: true
+    key: "phoneNumber",
+    require: true,
   },
   {
-    key: 'postCode',
+    key: "postCode",
     regExp: /\d{5}/,
-    require: true
-  }
-]
+    require: true,
+  },
+];
 
 @inject("loginStore", "checkoutStore")
 class Payment extends React.Component {
@@ -115,9 +116,9 @@ class Payment extends React.Component {
         identifyNumber: "111",
       },
       subForm: {
-        buyWay: '',
-        frequencyVal: '',
-        frequencyId: ''
+        buyWay: "",
+        frequencyVal: "",
+        frequencyId: "",
       },
       errorShow: false,
       errorMsg: "",
@@ -128,144 +129,158 @@ class Payment extends React.Component {
       payosdata: {},
       subPayosdata: {},
       selectedCardInfo: {},
-      isToPayNow: sessionStorage.getItem('rc-tid'),
+      isToPayNow: sessionStorage.getItem("rc-tid"),
       cityList: [],
-      countryList: []
+      countryList: [],
+      paymentType: "creditCard",
     };
-    this.tid = sessionStorage.getItem('rc-tid')
+    this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
     this.confirmCardInfo = this.confirmCardInfo.bind(this);
     this.loginDeliveryAddressRef = React.createRef();
     this.loginBillingAddressRef = React.createRef();
   }
-  async componentDidMount () {
+  async componentDidMount() {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
-      return false
+      return false;
     }
 
     if (this.isLogin && !this.props.checkoutStore.loginCartData.length) {
-      this.props.history.push('/cart')
+      this.props.history.push("/cart");
     }
-    if (!this.isLogin
-      && (!this.props.checkoutStore.cartData.length
-        || !this.props.checkoutStore.cartData.filter(ele => ele.selected).length)) {
-      this.props.history.push('/cart')
+    if (
+      !this.isLogin &&
+      (!this.props.checkoutStore.cartData.length ||
+        !this.props.checkoutStore.cartData.filter((ele) => ele.selected).length)
+    ) {
+      this.props.history.push("/cart");
     }
-    getDictionary({ type: 'city' })
-      .then(res => {
-        this.setState({
-          cityList: res
-        })
-      })
-    let countryRes = await getDictionary({ type: 'country' })
-    this.setState({ countryList: countryRes })
+    getDictionary({ type: "city" }).then((res) => {
+      this.setState({
+        cityList: res,
+      });
+    });
+    let countryRes = await getDictionary({ type: "country" });
+    this.setState({ countryList: countryRes });
     const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
 
     if (!this.isLogin) {
-      let deliveryInfoStr = localStorage.getItem('deliveryInfo');
+      let deliveryInfoStr = localStorage.getItem("deliveryInfo");
       if (deliveryInfoStr) {
         const deliveryInfo = JSON.parse(deliveryInfoStr);
-        creditCardInfo.cardOwner = deliveryInfo.deliveryAddress.firstName + " " + deliveryInfo.deliveryAddress.lastName;
+        creditCardInfo.cardOwner =
+          deliveryInfo.deliveryAddress.firstName +
+          " " +
+          deliveryInfo.deliveryAddress.lastName;
         creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
         this.setState({
           deliveryAddress: deliveryInfo.deliveryAddress,
           billingAddress: deliveryInfo.billingAddress,
           commentOnDelivery: deliveryInfo.commentOnDelivery,
           billingChecked: deliveryInfo.billingChecked,
-          creditCardInfo: creditCardInfo
+          creditCardInfo: creditCardInfo,
         });
       } else {
-        const defaultCountryId = find(countryRes, ele => ele.name.toLowerCase() == 'mexico')
-          ? find(countryRes, ele => ele.name.toLowerCase() == 'mexico').id
-          : ''
-        deliveryAddress.country = defaultCountryId
-        billingAddress.country = defaultCountryId
+        const defaultCountryId = find(
+          countryRes,
+          (ele) => ele.name.toLowerCase() == "mexico"
+        )
+          ? find(countryRes, (ele) => ele.name.toLowerCase() == "mexico").id
+          : "";
+        deliveryAddress.country = defaultCountryId;
+        billingAddress.country = defaultCountryId;
         this.setState({
           deliveryAddress: deliveryAddress,
-          billingAddress: billingAddress
+          billingAddress: billingAddress,
         });
       }
     }
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
-    sessionStorage.removeItem('rc-tid')
+    sessionStorage.removeItem("rc-tid");
   }
-  get isLogin () {
-    return this.props.loginStore.isLogin
+  get isLogin() {
+    return this.props.loginStore.isLogin;
   }
-  get cartData () {
-    return this.props.checkoutStore.cartData
+  get cartData() {
+    return this.props.checkoutStore.cartData;
   }
-  showErrorMsg (msg) {
+  showErrorMsg(msg) {
     this.setState({
       errorShow: true,
-      errorMsg: msg
+      errorMsg: msg,
     });
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
-    clearTimeout(this.timer)
+    clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
-        errorShow: false
-      })
-    }, 5000)
+        errorShow: false,
+      });
+    }, 5000);
   }
-  validInputsData (data) {
+  validInputsData(data) {
     for (let key in data) {
-      const val = data[key]
-      const targetRule = find(rules, ele => ele.key === key)
+      const val = data[key];
+      const targetRule = find(rules, (ele) => ele.key === key);
       if (targetRule) {
         if (targetRule.require && !val) {
-          this.showErrorMsg(this.isLogin
-            ? this.props.intl.messages.selectDeliveryAddress
-            : this.props.intl.messages.CompleteRequiredItems)
-          return false
+          this.showErrorMsg(
+            this.isLogin
+              ? this.props.intl.messages.selectDeliveryAddress
+              : this.props.intl.messages.CompleteRequiredItems
+          );
+          return false;
         }
         if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          this.showErrorMsg(this.props.intl.messages.EnterCorrectPostCode)
-          return false
+          this.showErrorMsg(this.props.intl.messages.EnterCorrectPostCode);
+          return false;
         }
       }
     }
   }
-  matchNamefromDict (dictList, id) {
-    return find(dictList, ele => ele.id == id)
-      ? find(dictList, ele => ele.id == id).name
-      : id
+  matchNamefromDict(dictList, id) {
+    return find(dictList, (ele) => ele.id == id)
+      ? find(dictList, (ele) => ele.id == id).name
+      : id;
   }
-  confirmCardInfo () {
+  confirmCardInfo() {
     this.setState({
-      isCompleteCredit: true
+      isCompleteCredit: true,
     });
   }
   /**
    * save address/comment
    */
-  async saveAddressAndComment () {
+  async saveAddressAndComment() {
     const {
       deliveryAddress,
       billingAddress,
       billingChecked,
       commentOnDelivery,
-      creditCardInfo
+      creditCardInfo,
     } = this.state;
     let tmpDeliveryAddress = deliveryAddress;
     let tmpBillingAddress = billingAddress;
     if (this.isLogin) {
-      const deliveryAddressEl = this.loginDeliveryAddressRef.current
-      let tmpDeliveryAddressData = deliveryAddressEl && find(deliveryAddressEl.state.addressList, (ele) => ele.selected)
+      const deliveryAddressEl = this.loginDeliveryAddressRef.current;
+      let tmpDeliveryAddressData =
+        deliveryAddressEl &&
+        find(deliveryAddressEl.state.addressList, (ele) => ele.selected);
       // 若用户未存在任何地址，则自动触发保存操作
       if (!tmpDeliveryAddressData) {
-        let addressRes = await deliveryAddressEl.handleSave()
+        let addressRes = await deliveryAddressEl.handleSave();
         if (!addressRes) {
-          return false
+          return false;
         }
-        tmpDeliveryAddressData = deliveryAddressEl && find(deliveryAddressEl.state.addressList, (ele) => ele.selected)
+        tmpDeliveryAddressData =
+          deliveryAddressEl &&
+          find(deliveryAddressEl.state.addressList, (ele) => ele.selected);
       }
       tmpDeliveryAddress = {
         firstName: tmpDeliveryAddressData.firstName,
@@ -273,22 +288,30 @@ class Payment extends React.Component {
         address1: tmpDeliveryAddressData.address1,
         address2: tmpDeliveryAddressData.address2,
         rfc: tmpDeliveryAddressData.rfc,
-        country: tmpDeliveryAddressData.countryId ? tmpDeliveryAddressData.countryId.toString() : '',
-        city: tmpDeliveryAddressData.cityId ? tmpDeliveryAddressData.cityId.toString() : '',
+        country: tmpDeliveryAddressData.countryId
+          ? tmpDeliveryAddressData.countryId.toString()
+          : "",
+        city: tmpDeliveryAddressData.cityId
+          ? tmpDeliveryAddressData.cityId.toString()
+          : "",
         postCode: tmpDeliveryAddressData.postCode,
         phoneNumber: tmpDeliveryAddressData.consigneeNumber,
         addressId: tmpDeliveryAddressData.deliveryAddressId,
-      }
+      };
 
       if (!billingChecked) {
-        const billingAddressEl = this.loginBillingAddressRef.current
-        let tmpBillingAddressData = billingAddressEl && find(billingAddressEl.state.addressList, ele => ele.selected)
+        const billingAddressEl = this.loginBillingAddressRef.current;
+        let tmpBillingAddressData =
+          billingAddressEl &&
+          find(billingAddressEl.state.addressList, (ele) => ele.selected);
         if (!tmpBillingAddressData) {
-          let addressRes = await billingAddressEl.handleSave()
+          let addressRes = await billingAddressEl.handleSave();
           if (!addressRes) {
-            return false
+            return false;
           }
-          tmpBillingAddressData = billingAddressEl && find(billingAddressEl.state.addressList, ele => ele.selected)
+          tmpBillingAddressData =
+            billingAddressEl &&
+            find(billingAddressEl.state.addressList, (ele) => ele.selected);
         }
         tmpBillingAddress = {
           firstName: tmpBillingAddressData.firstName,
@@ -296,18 +319,22 @@ class Payment extends React.Component {
           address1: tmpBillingAddressData.address1,
           address2: tmpBillingAddressData.address2,
           rfc: tmpBillingAddressData.rfc,
-          country: tmpBillingAddressData.countryId ? tmpBillingAddressData.countryId.toString() : '',
-          city: tmpBillingAddressData.cityId ? tmpBillingAddressData.cityId.toString() : '',
+          country: tmpBillingAddressData.countryId
+            ? tmpBillingAddressData.countryId.toString()
+            : "",
+          city: tmpBillingAddressData.cityId
+            ? tmpBillingAddressData.cityId.toString()
+            : "",
           postCode: tmpBillingAddressData.postCode,
           phoneNumber: tmpBillingAddressData.consigneeNumber,
           addressId: tmpBillingAddressData.deliveryAddressId,
-        }
+        };
       }
     }
     const param = {
       billingChecked,
       deliveryAddress: tmpDeliveryAddress,
-      commentOnDelivery
+      commentOnDelivery,
     };
 
     if (billingChecked) {
@@ -316,24 +343,24 @@ class Payment extends React.Component {
       param.billingAddress = tmpBillingAddress;
     }
     if (this.validInputsData(param.deliveryAddress) === false) {
-      return false
+      return false;
     }
     if (this.validInputsData(param.billingAddress) === false) {
-      return false
+      return false;
     }
 
     if (!this.isLogin) {
-      localStorage.setItem("deliveryInfo", JSON.stringify(param))
+      localStorage.setItem("deliveryInfo", JSON.stringify(param));
     }
     this.setState({
       creditCardInfo: creditCardInfo,
       deliveryAddress: param.deliveryAddress,
       billingAddress: param.billingAddress,
       commentOnDelivery: param.commentOnDelivery,
-      billingChecked: param.billingChecked
-    })
+      billingChecked: param.billingChecked,
+    });
   }
-  initCardLoginInfo () {
+  initCardLoginInfo() {
     this.setState({
       creditCardLoginInfo: {
         cardNumber: "",
@@ -344,20 +371,20 @@ class Payment extends React.Component {
         phoneNumber: "",
         identifyNumber: "111",
         isDefault: false,
-      }
-    })
+      },
+    });
   }
-  async handleClickFurther () {
-    let tmpRes = await this.saveAddressAndComment()
+  async handleClickFurther() {
+    let tmpRes = await this.saveAddressAndComment();
     if (tmpRes === false) {
-      return false
+      return false;
     }
     if (this.isLogin) {
       if (!this.state.selectedCardInfo.cardNumber) {
-        this.showErrorMsg(this.props.intl.messages.clickConfirmCardButton)
-        return false
+        this.showErrorMsg(this.props.intl.messages.clickConfirmCardButton);
+        return false;
       }
-      let selectedCard = this.state.selectedCardInfo
+      let selectedCard = this.state.selectedCardInfo;
       this.setState({ loading: true });
       let res = await axios.post(
         "https://api.paymentsos.com/tokens",
@@ -370,12 +397,12 @@ class Payment extends React.Component {
         },
         {
           headers: {
-            "public_key": process.env.REACT_APP_PaymentKEY,
+            public_key: process.env.REACT_APP_PaymentKEY,
             "x-payments-os-env": process.env.REACT_APP_PaymentENV,
             "Content-type": "application/json",
-            "app_id": "com.razorfish.dev_mexico",
+            app_id: "com.razorfish.dev_mexico",
             "api-version": "1.3.0",
-          }
+          },
         }
       );
       let subRes = await axios.post(
@@ -389,28 +416,31 @@ class Payment extends React.Component {
         },
         {
           headers: {
-            "public_key": process.env.REACT_APP_PaymentKEY,
+            public_key: process.env.REACT_APP_PaymentKEY,
             "x-payments-os-env": process.env.REACT_APP_PaymentENV,
             "Content-type": "application/json",
-            "app_id": "com.razorfish.dev_mexico",
+            app_id: "com.razorfish.dev_mexico",
             "api-version": "1.3.0",
-          }
+          },
         }
       );
-      console.log(res, 'res')
-      this.setState({
-        payosdata: res.data,
-        subPayosdata: subRes.data,
-        creditCardInfo: Object.assign({}, selectedCard),
-        loading: false
-      }, () => {
-        this.goConfirmation()
-      })
+      console.log(res, "res");
+      this.setState(
+        {
+          payosdata: res.data,
+          subPayosdata: subRes.data,
+          creditCardInfo: Object.assign({}, selectedCard),
+          loading: false,
+        },
+        () => {
+          this.goConfirmation();
+        }
+      );
     } else {
-      this.goConfirmation()
+      this.goConfirmation();
     }
   }
-  async goConfirmation () {
+  async goConfirmation() {
     const { history } = this.props;
     let {
       isEighteen,
@@ -421,21 +451,25 @@ class Payment extends React.Component {
       billingChecked,
       creditCardInfo,
       payMethod,
-      subForm
+      subForm,
     } = this.state;
-    const loginCartData = this.props.checkoutStore.loginCartData
-    const cartData = this.cartData.filter(ele => ele.selected)
+    const loginCartData = this.props.checkoutStore.loginCartData;
+    const cartData = this.cartData.filter((ele) => ele.selected);
     if (!payMethod) {
-      this.setState({ showPayMethodError: true })
+      this.setState({ showPayMethodError: true });
     }
     if (isEighteen && isReadPrivacyPolicy) {
       let payosdata = this.state.payosdata;
       if (!payosdata.token) {
-        this.showErrorMsg(this.props.intl.messages.clickConfirmCardButton)
-        return false
+        this.showErrorMsg(this.props.intl.messages.clickConfirmCardButton);
+        return false;
       }
       this.setState({ loading: true });
-      let param = Object.assign({}, { useDeliveryAddress: billingChecked }, deliveryAddress);
+      let param = Object.assign(
+        {},
+        { useDeliveryAddress: billingChecked },
+        deliveryAddress
+      );
       param.billAddress1 = billingAddress.address1;
       param.billAddress2 = billingAddress.address2;
       param.billCity = billingAddress.city;
@@ -446,45 +480,49 @@ class Payment extends React.Component {
       param.billPostCode = billingAddress.postCode;
       param.rfc = deliveryAddress.rfc;
       param.billRfc = billingAddress.rfc;
-      param.email = creditCardInfo.email
+      param.email = creditCardInfo.email;
       let param2 = {
         goodsInfos: cartData.map((ele) => {
           return {
             verifyStock: false,
             buyCount: ele.quantity,
-            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
-          }
-        })
-      }
+            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
+          };
+        }),
+      };
       if (this.isLogin) {
         param2.goodsInfos = loginCartData.map((ele) => {
           return {
             verifyStock: false,
             buyCount: ele.buyCount,
             goodsInfoId: ele.goodsInfoId,
-            goods: ele.goods
-          }
-        })
+            goods: ele.goods,
+          };
+        });
       }
 
-      let tradeMarketingList = []
-      let goodsMarketingMap = this.props.checkoutStore.goodsMarketingMap
+      let tradeMarketingList = [];
+      let goodsMarketingMap = this.props.checkoutStore.goodsMarketingMap;
       if (Object.keys(goodsMarketingMap).length) {
         tradeMarketingList.push({
           marketingId: "",
           marketingLevelId: "",
           skuIds: [],
-          giftSkuIds: []
-        })
+          giftSkuIds: [],
+        });
         for (let k in goodsMarketingMap) {
           tradeMarketingList[0].skuIds.push(k);
           if (!tradeMarketingList[0].marketingLevelId) {
             tradeMarketingList[0].marketingLevelId =
-              goodsMarketingMap[k][0]["fullDiscountLevelList"][0]["discountLevelId"];
+              goodsMarketingMap[k][0]["fullDiscountLevelList"][0][
+                "discountLevelId"
+              ];
           }
           if (!tradeMarketingList[0].marketingId) {
             tradeMarketingList[0].marketingId =
-              goodsMarketingMap[k][0]["fullDiscountLevelList"][0]["marketingId"];
+              goodsMarketingMap[k][0]["fullDiscountLevelList"][0][
+                "marketingId"
+              ];
           }
         }
       }
@@ -497,99 +535,107 @@ class Payment extends React.Component {
         token: payosdata.token,
         creditDardCvv: payosdata.encrypted_cvv,
         tokenSub: this.state.subPayosdata.token, // todo delete...
-        creditDardCvvSub: this.state.subPayosdata.encrypted_cvv,  // todo delete...
+        creditDardCvvSub: this.state.subPayosdata.encrypted_cvv, // todo delete...
         phone: creditCardInfo.phoneNumber,
         email: creditCardInfo.email,
         last4Digits: payosdata.last_4_digits,
         line1: deliveryAddress.address1,
         line2: deliveryAddress.address2,
         clinicsId:
-          sessionStorage.getItem("rc-clinics-id-link")
-          || sessionStorage.getItem("rc-clinics-id-default")
-          || sessionStorage.getItem("rc-clinics-id-select"),
+          sessionStorage.getItem("rc-clinics-id-link") ||
+          sessionStorage.getItem("rc-clinics-id-default") ||
+          sessionStorage.getItem("rc-clinics-id-select"),
         clinicsName:
-          sessionStorage.getItem("rc-clinics-name-link")
-          || sessionStorage.getItem("rc-clinics-name-default")
-          || sessionStorage.getItem("rc-clinics-name-select"),
+          sessionStorage.getItem("rc-clinics-name-link") ||
+          sessionStorage.getItem("rc-clinics-name-default") ||
+          sessionStorage.getItem("rc-clinics-name-select"),
         remark: commentOnDelivery,
         storeId: STOREID,
         tradeItems: param2.goodsInfos.map((g) => {
           return {
             num: g.buyCount,
-            skuId: g.goodsInfoId
-          }
+            skuId: g.goodsInfoId,
+          };
         }), // once order products
         subTradeItems: [], // subscription order products
         tradeMarketingList,
         payAccountName: creditCardInfo.cardOwner,
         payPhoneNumber: creditCardInfo.phoneNumber,
-        paymentId: 'PM202006241348431010',
-        petsId: 'ff808081731309fb01732ded3a390238',
+        paymentId: "PM202006241348431010",
+        petsId: "ff808081731309fb01732ded3a390238",
         cycleTypeId: subForm.frequencyId,
-        promotionCode: '1234'
+        promotionCode: "1234",
       };
       try {
         sessionStorage.setItem("rc-paywith-login", this.isLogin);
         if (!this.isLogin) {
           // 登录状态，不需要调用两个接口
-          let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(param);
-          sessionStorage.setItem("rc-token", postVisitorRegisterAndLoginRes.context.token);
+          let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
+            param
+          );
+          sessionStorage.setItem(
+            "rc-token",
+            postVisitorRegisterAndLoginRes.context.token
+          );
           await batchAdd(param2);
         } else {
-          param3.deliveryAddressId = deliveryAddress.addressId
-          param3.billAddressId = billingAddress.addressId
-          if (subForm.buyWay === 'frequency') {
+          param3.deliveryAddressId = deliveryAddress.addressId;
+          param3.billAddressId = billingAddress.addressId;
+          if (subForm.buyWay === "frequency") {
             param3.tradeItems = param2.goodsInfos
-              .filter(ele => !ele.goods || !ele.goods.subscriptionStatus)
-              .map(g => {
+              .filter((ele) => !ele.goods || !ele.goods.subscriptionStatus)
+              .map((g) => {
                 return {
                   num: g.buyCount,
-                  skuId: g.goodsInfoId
-                }
-              })
+                  skuId: g.goodsInfoId,
+                };
+              });
             param3.subTradeItems = loginCartData
-              .filter(ele => ele.goods && ele.goods.subscriptionStatus)
-              .map(g => {
+              .filter((ele) => ele.goods && ele.goods.subscriptionStatus)
+              .map((g) => {
                 return {
                   subscribeNum: g.buyCount,
-                  skuId: g.goodsInfoId
-                }
-              })
+                  skuId: g.goodsInfoId,
+                };
+              });
           }
         }
         // rePay
         if (this.tid) {
-          param3.tid = this.tid
-          delete param3.remark
-          delete param3.tradeItems
-          delete param3.tradeMarketingList
+          param3.tid = this.tid;
+          delete param3.remark;
+          delete param3.tradeItems;
+          delete param3.tradeMarketingList;
         }
 
         const tmpCommitAndPay = this.isLogin
           ? this.tid
             ? rePay
-            : subForm.buyWay === 'frequency'
-              ? customerCommitAndPayMix
-              : customerCommitAndPay
-          : confirmAndCommit
+            : subForm.buyWay === "frequency"
+            ? customerCommitAndPayMix
+            : customerCommitAndPay
+          : confirmAndCommit;
         let confirmAndCommitRes = await tmpCommitAndPay(param3);
         //debugger
         console.log(confirmAndCommitRes);
         localStorage.setItem(
-          "orderNumber", confirmAndCommitRes.context && confirmAndCommitRes.context[0]["tid"] || this.tid
+          "orderNumber",
+          (confirmAndCommitRes.context &&
+            confirmAndCommitRes.context[0]["tid"]) ||
+            this.tid
         );
         this.setState({ loading: false });
         sessionStorage.removeItem("payosdata");
         history.push("/confirmation");
       } catch (e) {
         if (!this.isLogin) {
-          sessionStorage.removeItem('rc-token')
+          sessionStorage.removeItem("rc-token");
         }
         console.log(e);
         if (e.errorData) {
-          this.tid = e.errorData
+          this.tid = e.errorData;
         }
-        this.showErrorMsg(e.message ? e.message.toString() : e.toString())
+        this.showErrorMsg(e.message ? e.message.toString() : e.toString());
       } finally {
         this.setState({ loading: false });
       }
@@ -597,7 +643,7 @@ class Payment extends React.Component {
       this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
     }
   }
-  cardInfoInputChange (e) {
+  cardInfoInputChange(e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -606,7 +652,7 @@ class Payment extends React.Component {
     this.inputBlur(e);
     this.setState({ creditCardInfo: creditCardInfo });
   }
-  inputBlur (e) {
+  inputBlur(e) {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -619,17 +665,22 @@ class Payment extends React.Component {
       validDom.style.display = e.target.value ? "none" : "block";
     }
   }
-  commentChange (e) {
+  commentChange(e) {
     this.setState({ commentOnDelivery: e.target.value });
   }
-  cardConfirm () {
+  cardConfirm() {
     for (let k in this.state.creditCardInfo) {
       if (this.state.creditCardInfo[k] === "") {
-        this.showErrorMsg(this.props.intl.messages.CompleteRequiredItems)
+        this.showErrorMsg(this.props.intl.messages.CompleteRequiredItems);
         return;
       }
-      if (k === "email" && !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(this.state.creditCardInfo[k].replace(/\s*/g, ""))) {
-        this.showErrorMsg(this.props.intl.messages.EnterCorrectEmail)
+      if (
+        k === "email" &&
+        !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(
+          this.state.creditCardInfo[k].replace(/\s*/g, "")
+        )
+      ) {
+        this.showErrorMsg(this.props.intl.messages.EnterCorrectEmail);
         return;
       }
     }
@@ -669,18 +720,18 @@ class Payment extends React.Component {
       }
     }, 1000);
   }
-  insertStr (soure, start, newStr) {
+  insertStr(soure, start, newStr) {
     return soure.slice(0, start) + newStr + soure.slice(start);
   }
-  retextStr (soure, start, newStr) {
+  retextStr(soure, start, newStr) {
     return soure.slice(0, start) + newStr + soure.slice(start + 1);
   }
-  phoneNumberClick (e) {
+  phoneNumberClick(e) {
     let index = e.target.value.indexOf("_");
     e.target.selectionStart = index;
     e.target.selectionEnd = index;
   }
-  phoneNumberInput (e, obj, k) {
+  phoneNumberInput(e, obj, k) {
     let target = e.target;
     let textVal = target.value;
     let oldSelectionStart = target.selectionStart;
@@ -729,36 +780,36 @@ class Payment extends React.Component {
     target.value = target.value.slice(0, 16);
     obj[k] = target.value;
   }
-  billingCheckedChange () {
+  billingCheckedChange() {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
     if (!billingChecked) {
       this.setState({
-        billingAddress: this.state.deliveryAddress
+        billingAddress: this.state.deliveryAddress,
       });
     }
   }
-  handleClickEditClinic (e) {
-    e.preventDefault()
-    const tmpClinicsName = sessionStorage.getItem('rc-clinics-name-link') || sessionStorage.getItem('rc-clinics-name-default')
-    const tmpClinicsId = sessionStorage.getItem('rc-clinics-id-link') || sessionStorage.getItem('rc-clinics-id-default')
+  handleClickEditClinic(e) {
+    e.preventDefault();
+    const tmpClinicsName =
+      sessionStorage.getItem("rc-clinics-name-link") ||
+      sessionStorage.getItem("rc-clinics-name-default");
+    const tmpClinicsId =
+      sessionStorage.getItem("rc-clinics-id-link") ||
+      sessionStorage.getItem("rc-clinics-id-default");
     // 默认clini链接进来，仍然可以编辑
     if (tmpClinicsName) {
-      sessionStorage.setItem('rc-clinics-name-select', tmpClinicsName)
-      sessionStorage.setItem('rc-clinics-id-select', tmpClinicsId)
-      sessionStorage.removeItem('rc-clinics-name-link')
-      sessionStorage.removeItem('rc-clinics-id-link')
-      sessionStorage.removeItem('rc-clinics-name-default')
-      sessionStorage.removeItem('rc-clinics-id-default')
+      sessionStorage.setItem("rc-clinics-name-select", tmpClinicsName);
+      sessionStorage.setItem("rc-clinics-id-select", tmpClinicsId);
+      sessionStorage.removeItem("rc-clinics-name-link");
+      sessionStorage.removeItem("rc-clinics-id-link");
+      sessionStorage.removeItem("rc-clinics-name-default");
+      sessionStorage.removeItem("rc-clinics-id-default");
     }
-    this.props.history.push("/prescription")
+    this.props.history.push("/prescription");
   }
-  render () {
-    const {
-      deliveryAddress,
-      billingAddress,
-      creditCardInfo
-    } = this.state;
+  render() {
+    const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {this.state.creditCardImgUrl.map((el, idx) => (
@@ -768,15 +819,19 @@ class Payment extends React.Component {
     );
     const event = {
       page: {
-        type: 'Checkout',
-        theme: ''
-      }
-    }
+        type: "Checkout",
+        theme: "",
+      },
+    };
 
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header history={this.props.history} showMiniIcons={false} showUserIcon={true} />
+        <Header
+          history={this.props.history}
+          showMiniIcons={false}
+          showUserIcon={true}
+        />
         {this.state.loading ? <Loading /> : null}
         <main
           className="rc-content--fixed-header rc-bg-colour--brand3"
@@ -806,50 +861,56 @@ class Payment extends React.Component {
                   <div className="card">
                     <div className="card-header">
                       <h5 className="pull-left">
-                        {
-                          this.isLogin
-                            ? <FormattedMessage id="payment.clinicTitle2" />
-                            : <FormattedMessage id="payment.clinicTitle" />
-                        }
+                        {this.isLogin ? (
+                          <FormattedMessage id="payment.clinicTitle2" />
+                        ) : (
+                          <FormattedMessage id="payment.clinicTitle" />
+                        )}
                       </h5>
                       <p
-                        onClick={e => this.handleClickEditClinic(e)}
-                        className="rc-styled-link rc-margin-top--xs pull-right m-0">
+                        onClick={(e) => this.handleClickEditClinic(e)}
+                        className="rc-styled-link rc-margin-top--xs pull-right m-0"
+                      >
                         <FormattedMessage id="edit" />
                       </p>
                     </div>
                     <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
-                      {
-                        sessionStorage.getItem("rc-clinics-name-link")
-                        || sessionStorage.getItem("rc-clinics-name-default")
-                        || sessionStorage.getItem("rc-clinics-name-select")
-                      }
+                      {sessionStorage.getItem("rc-clinics-name-link") ||
+                        sessionStorage.getItem("rc-clinics-name-default") ||
+                        sessionStorage.getItem("rc-clinics-name-select")}
                     </div>
-                    {this.isLogin
-                      ? (
-                        <LoginDeliveryAddress
-                          id="1"
-                          ref={this.loginDeliveryAddressRef} />
-                      ) : (
-                        <UnloginDeliveryAddress
-                          data={deliveryAddress}
-                          updateData={(data) => {
-                            this.setState({
-                              deliveryAddress: data
-                            });
-                          }} />
-                      )}
-                    {
-                      this.isLogin && find(this.props.checkoutStore.loginCartData, ele => ele.goods && ele.goods.subscriptionStatus)
-                        ? <SubscriptionSelect
-                          updateSelectedData={data => {
-                            this.setState({
-                              subForm: data
-                            })
-                          }} />
-                        : null
-                    }
-                    <div className="card-header" style={{ zIndex: 2, width: '62%' }}>
+                    {this.isLogin ? (
+                      <LoginDeliveryAddress
+                        id="1"
+                        ref={this.loginDeliveryAddressRef}
+                      />
+                    ) : (
+                      <UnloginDeliveryAddress
+                        data={deliveryAddress}
+                        updateData={(data) => {
+                          this.setState({
+                            deliveryAddress: data,
+                          });
+                        }}
+                      />
+                    )}
+                    {this.isLogin &&
+                    find(
+                      this.props.checkoutStore.loginCartData,
+                      (ele) => ele.goods && ele.goods.subscriptionStatus
+                    ) ? (
+                      <SubscriptionSelect
+                        updateSelectedData={(data) => {
+                          this.setState({
+                            subForm: data,
+                          });
+                        }}
+                      />
+                    ) : null}
+                    <div
+                      className="card-header"
+                      style={{ zIndex: 2, width: "62%" }}
+                    >
                       <h5>
                         <FormattedMessage id="payment.billTitle" />
                       </h5>
@@ -876,18 +937,19 @@ class Payment extends React.Component {
                         id="2"
                         type="billing"
                         ref={this.loginBillingAddressRef}
-                        visible={!this.state.billingChecked} />
+                        visible={!this.state.billingChecked}
+                      />
                     ) : (
-                        <BillingAddressForm
-                          data={billingAddress}
-                          billingChecked={this.state.billingChecked}
-                          updateData={(data) => {
-                            this.setState({
-                              billingAddress: data
-                            });
-                          }}
-                        />
-                      )}
+                      <BillingAddressForm
+                        data={billingAddress}
+                        billingChecked={this.state.billingChecked}
+                        updateData={(data) => {
+                          this.setState({
+                            billingAddress: data,
+                          });
+                        }}
+                      />
+                    )}
 
                     <fieldset className="shipping-method-block rc-fieldset">
                       <div className="card-header">
@@ -957,33 +1019,95 @@ class Payment extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div>
-                  <div className="card payment-form">
-                    <div className="card-body rc-padding--none">
-                      <form
-                        method="POST"
-                        data-address-mode="new"
-                        name="dwfrm_billing"
-                        id="dwfrm_billing">
-                        <div className="card-header with-tooltip-icon rc-margin-top--sm">
-                          <h5>
-                            <FormattedMessage id="payment.paymentInformation" />
-                          </h5>
-                        </div>
-                        <div className="billing-payment">
-                          <div
-                            className={`rc-list__accordion-item border-0 ${this.state.payMethod === "creditCard" ? '' : 'hidden'}`}
-                            data-method-id="CREDIT_CARD">
-                            {
-                              this.isLogin
-                                ? <div className="rc-border-colour--interface">
-                                  <PaymentComp cardOwner={deliveryAddress.firstName + '' + deliveryAddress.lastName} phoneNumber={creditCardInfo.phoneNumber} getSelectedValue={cardItem => {
-                                    this.setState({ selectedCardInfo: cardItem })
-                                  }} />
+                <div className="card-header with-tooltip-icon rc-margin-top--sm">
+                  <h5>
+                    <FormattedMessage id="payment.paymentInformation" />
+                  </h5>
+                </div>
+                <nav
+                  class="rc-tabs__controller rc-fade--x "
+                  data-toggle-group=""
+                  style={{ marginBottom: "20px" }}
+                >
+                  <ul
+                    class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break"
+                    role="tablist"
+                  >
+                    <li className="rc-tabs-li">
+                      <button
+                        class="rc-tab text-break"
+                        onClick={() =>
+                          this.setState({ paymentType: "creditCard" })
+                        }
+                        style={{ padding: "8px 15px" }}
+                        data-toggle="creditCard"
+                        role="tab"
+                      >
+                        <FormattedMessage id="creditCard"></FormattedMessage>
+                      </button>
+                    </li>
+                    <li className="rc-tabs-li">
+                      <button
+                        class="rc-tab text-break"
+                        onClick={() => this.setState({ paymentType: "oxxo" })}
+                        style={{ padding: "8px 15px" }}
+                        data-toggle="oxxo"
+                        role="tab"
+                      >
+                        <FormattedMessage id="oxxo"></FormattedMessage>
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+                {this.state.paymentType === "creditCard" ? (
+                  <div>
+                    <div className="card payment-form">
+                      <div className="card-body rc-padding--none">
+                        <form
+                          method="POST"
+                          data-address-mode="new"
+                          name="dwfrm_billing"
+                          id="dwfrm_billing"
+                        >
+                          <div className="billing-payment">
+                            <div
+                              className={`rc-list__accordion-item border-0 ${
+                                this.state.payMethod === "creditCard"
+                                  ? ""
+                                  : "hidden"
+                              }`}
+                              data-method-id="CREDIT_CARD"
+                            >
+                              {this.isLogin ? (
+                                <div className="rc-border-colour--interface">
+                                  <PaymentComp
+                                    cardOwner={
+                                      deliveryAddress.firstName +
+                                      "" +
+                                      deliveryAddress.lastName
+                                    }
+                                    phoneNumber={creditCardInfo.phoneNumber}
+                                    getSelectedValue={(cardItem) => {
+                                      this.setState({
+                                        selectedCardInfo: cardItem,
+                                      });
+                                    }}
+                                  />
                                 </div>
-                                : <div className={`rc-border-all rc-border-colour--interface ${!this.state.isCompleteCredit ? 'checkout--padding' : ''}`}>
+                              ) : (
+                                <div
+                                  className={`rc-border-all rc-border-colour--interface ${
+                                    !this.state.isCompleteCredit
+                                      ? "checkout--padding"
+                                      : ""
+                                  }`}
+                                >
                                   <div
-                                    className={`credit-card-content ${!this.state.isCompleteCredit ? '' : 'hidden'}`}
+                                    className={`credit-card-content ${
+                                      !this.state.isCompleteCredit
+                                        ? ""
+                                        : "hidden"
+                                    }`}
                                     id="credit-card-content"
                                   >
                                     <div className="credit-card-form ">
@@ -1008,9 +1132,10 @@ class Payment extends React.Component {
                                                     id="submit"
                                                     name="submit"
                                                     className="creadit"
-                                                    type="submit">
+                                                    type="submit"
+                                                  >
                                                     Pay
-                                                </button>
+                                                  </button>
                                                 </form>
                                               </label>
                                             </div>
@@ -1031,11 +1156,15 @@ class Payment extends React.Component {
                                                   id="cardholder-name"
                                                   className="rc-input__control form-control cardOwner"
                                                   name="cardOwner"
-                                                  value={creditCardInfo.cardOwner}
+                                                  value={
+                                                    creditCardInfo.cardOwner
+                                                  }
                                                   onChange={(e) =>
                                                     this.cardInfoInputChange(e)
                                                   }
-                                                  onBlur={(e) => this.inputBlur(e)}
+                                                  onBlur={(e) =>
+                                                    this.inputBlur(e)
+                                                  }
                                                   maxLength="40"
                                                 />
                                                 <label
@@ -1067,7 +1196,9 @@ class Payment extends React.Component {
                                                   onChange={(e) =>
                                                     this.cardInfoInputChange(e)
                                                   }
-                                                  onBlur={(e) => this.inputBlur(e)}
+                                                  onBlur={(e) =>
+                                                    this.inputBlur(e)
+                                                  }
                                                   name="email"
                                                   maxLength="254"
                                                 />
@@ -1103,11 +1234,15 @@ class Payment extends React.Component {
                                                   data-phonelength="18"
                                                   data-js-pattern="(^\d{10}$)"
                                                   data-range-error="The phone number should contain 10 digits"
-                                                  value={creditCardInfo.phoneNumber}
+                                                  value={
+                                                    creditCardInfo.phoneNumber
+                                                  }
                                                   onChange={(e) =>
                                                     this.cardInfoInputChange(e)
                                                   }
-                                                  onBlur={(e) => this.inputBlur(e)}
+                                                  onBlur={(e) =>
+                                                    this.inputBlur(e)
+                                                  }
                                                   name="phoneNumber"
                                                   maxLength="2147483647"
                                                 />
@@ -1137,16 +1272,25 @@ class Payment extends React.Component {
                                       </div>
                                     </div>
                                   </div>
-                                  <div className={`creditCompleteInfoBox pb-3 ${!this.state.isCompleteCredit ? 'hidden' : ''}`}>
+                                  <div
+                                    className={`creditCompleteInfoBox pb-3 ${
+                                      !this.state.isCompleteCredit
+                                        ? "hidden"
+                                        : ""
+                                    }`}
+                                  >
                                     <p>
                                       <span
                                         className="pull-right ui-cursor-pointer-pure mr-2"
                                         onClick={() => {
                                           this.setState({
-                                            isCompleteCredit: false
+                                            isCompleteCredit: false,
                                           });
                                         }}
-                                        style={{ position: 'relative', top: -9 }}
+                                        style={{
+                                          position: "relative",
+                                          top: -9,
+                                        }}
                                       >
                                         <FormattedMessage id="edit" />
                                       </span>
@@ -1159,8 +1303,8 @@ class Payment extends React.Component {
                                               this.state.payosdata.vendor
                                             ]
                                               ? this.state.creditCardImgObj[
-                                              this.state.payosdata.vendor
-                                              ]
+                                                  this.state.payosdata.vendor
+                                                ]
                                               : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                                           }
                                           alt=""
@@ -1169,144 +1313,169 @@ class Payment extends React.Component {
                                       <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
                                         <div className="row creditCompleteInfo ui-margin-top-1-md-down">
                                           <div className="col-12 color-999">
-                                            <FormattedMessage id="name2" /><br />
-                                            <span className="creditCompleteInfo">{creditCardInfo.cardOwner}</span>
+                                            <FormattedMessage id="name2" />
+                                            <br />
+                                            <span className="creditCompleteInfo">
+                                              {creditCardInfo.cardOwner}
+                                            </span>
                                           </div>
                                         </div>
                                         <div className="row creditCompleteInfo ui-margin-top-1-md-down">
                                           <div className="col-6 color-999">
-                                            <FormattedMessage id="payment.cardNumber2" /><br />
-                                            <span className="creditCompleteInfo">xxxx xxxx xxxx{" "}{this.state.payosdata ? this.state.payosdata.last_4_digits : ""}</span>
+                                            <FormattedMessage id="payment.cardNumber2" />
+                                            <br />
+                                            <span className="creditCompleteInfo">
+                                              xxxx xxxx xxxx{" "}
+                                              {this.state.payosdata
+                                                ? this.state.payosdata
+                                                    .last_4_digits
+                                                : ""}
+                                            </span>
                                           </div>
                                           <div className="col-6 color-999">
-                                            <FormattedMessage id="payment.cardType" /><br />
-                                            <span className="creditCompleteInfo">{this.state.payosdata.card_type}</span>
+                                            <FormattedMessage id="payment.cardType" />
+                                            <br />
+                                            <span className="creditCompleteInfo">
+                                              {this.state.payosdata.card_type}
+                                            </span>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                            }
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      </form>
+                        </form>
+                      </div>
                     </div>
-                  </div>
-                  <div className="footerCheckbox rc-margin-top--sm">
-                    <input
-                      className="form-check-input"
-                      id="id-checkbox-cat-2"
-                      value=""
-                      type="checkbox"
-                      name="checkbox-2"
-                      onChange={() => {
-                        this.setState({
-                          isReadPrivacyPolicy: !this.state.isReadPrivacyPolicy,
-                          isReadPrivacyPolicyInit: false,
-                        });
-                      }}
-                      checked={this.state.isReadPrivacyPolicy}
-                    />
-                    <label
-                      htmlFor="id-checkbox-cat-2"
-                      className="rc-input__label--inline"
-                    >
-                      <FormattedMessage
-                        id="payment.confirmInfo3"
-                        values={{
-                          val1: (
-                            <Link
-                              className="red"
-                              target="_blank"
-                              to="/privacypolicy"
-                            >
-                              Política de privacidad
-                            </Link>
-                          ),
-                          val2: (
-                            <Link className="red" target="_blank" to="/termuse">
-                              la transferencia transfronteriza
-                            </Link>
-                          ),
+                    <div className="footerCheckbox rc-margin-top--sm">
+                      <input
+                        className="form-check-input"
+                        id="id-checkbox-cat-2"
+                        value=""
+                        type="checkbox"
+                        name="checkbox-2"
+                        onChange={() => {
+                          this.setState({
+                            isReadPrivacyPolicy: !this.state
+                              .isReadPrivacyPolicy,
+                            isReadPrivacyPolicyInit: false,
+                          });
                         }}
+                        checked={this.state.isReadPrivacyPolicy}
                       />
-                      <div
-                        className="warning"
-                        style={{
-                          display:
-                            this.state.isReadPrivacyPolicy ||
+                      <label
+                        htmlFor="id-checkbox-cat-2"
+                        className="rc-input__label--inline"
+                      >
+                        <FormattedMessage
+                          id="payment.confirmInfo3"
+                          values={{
+                            val1: (
+                              <Link
+                                className="red"
+                                target="_blank"
+                                to="/privacypolicy"
+                              >
+                                Política de privacidad
+                              </Link>
+                            ),
+                            val2: (
+                              <Link
+                                className="red"
+                                target="_blank"
+                                to="/termuse"
+                              >
+                                la transferencia transfronteriza
+                              </Link>
+                            ),
+                          }}
+                        />
+                        <div
+                          className="warning"
+                          style={{
+                            display:
+                              this.state.isReadPrivacyPolicy ||
                               this.state.isReadPrivacyPolicyInit
-                              ? "none"
-                              : "block",
-                        }}
-                      >
-                        <FormattedMessage id="payment.confirmInfo4" />
-                      </div>
-                    </label>
-                  </div>
-                  <div className="footerCheckbox">
-                    <input
-                      className="form-check-input"
-                      id="id-checkbox-cat-1"
-                      value="Cat"
-                      type="checkbox"
-                      name="checkbox-2"
-                      onChange={() => {
-                        this.setState({
-                          isEighteen: !this.state.isEighteen,
-                          isEighteenInit: false,
-                        });
-                      }}
-                      checked={this.state.isEighteen}
-                    />
-                    <label
-                      htmlFor="id-checkbox-cat-1"
-                      className="rc-input__label--inline"
-                    >
-                      <FormattedMessage id="payment.confirmInfo1" />
-                      <div
-                        className="warning"
-                        style={{
-                          display:
-                            this.state.isEighteen || this.state.isEighteenInit
-                              ? "none"
-                              : "block",
-                        }}
-                      >
-                        <FormattedMessage id="payment.confirmInfo2" />
-                      </div>
-                    </label>
-                  </div>
-                  <div className="place_order-btn card">
-                    <div className="next-step-button">
-                      <div className="rc-text--right">
-                        <button
-                          className="rc-btn rc-btn--one submit-payment"
-                          type="submit"
-                          name="submit"
-                          value="submit-shipping"
-                          onClick={() => this.handleClickFurther()}
+                                ? "none"
+                                : "block",
+                          }}
                         >
-                          <FormattedMessage id="payment.further" />
-                        </button>
+                          <FormattedMessage id="payment.confirmInfo4" />
+                        </div>
+                      </label>
+                    </div>
+                    <div className="footerCheckbox">
+                      <input
+                        className="form-check-input"
+                        id="id-checkbox-cat-1"
+                        value="Cat"
+                        type="checkbox"
+                        name="checkbox-2"
+                        onChange={() => {
+                          this.setState({
+                            isEighteen: !this.state.isEighteen,
+                            isEighteenInit: false,
+                          });
+                        }}
+                        checked={this.state.isEighteen}
+                      />
+                      <label
+                        htmlFor="id-checkbox-cat-1"
+                        className="rc-input__label--inline"
+                      >
+                        <FormattedMessage id="payment.confirmInfo1" />
+                        <div
+                          className="warning"
+                          style={{
+                            display:
+                              this.state.isEighteen || this.state.isEighteenInit
+                                ? "none"
+                                : "block",
+                          }}
+                        >
+                          <FormattedMessage id="payment.confirmInfo2" />
+                        </div>
+                      </label>
+                    </div>
+                    <div className="place_order-btn card">
+                      <div className="next-step-button">
+                        <div className="rc-text--right">
+                          <button
+                            className="rc-btn rc-btn--one submit-payment"
+                            type="submit"
+                            name="submit"
+                            value="submit-shipping"
+                            onClick={() => this.handleClickFurther()}
+                          >
+                            <FormattedMessage id="payment.further" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <OxxoConfirm history={this.props.history}/>
+                )}
               </div>
               <div className="product-summary rc-column">
                 <h5 className="product-summary__title rc-margin-bottom--xs">
                   <FormattedMessage id="payment.yourOrder" />
                 </h5>
-                {
-                  !this.state.isToPayNow && <Link
+                {!this.state.isToPayNow && (
+                  <Link
                     to="/cart"
-                    className="product-summary__cartlink rc-styled-link">
+                    className="product-summary__cartlink rc-styled-link"
+                  >
                     <FormattedMessage id="edit" />
                   </Link>
-                }
-                <PayProductInfo frequencyVal={this.state.subForm.frequencyVal} buyWay={this.state.subForm.buyWay} />
+                )}
+                <PayProductInfo
+                  frequencyVal={this.state.subForm.frequencyVal}
+                  buyWay={this.state.subForm.buyWay}
+                />
               </div>
             </div>
           </div>

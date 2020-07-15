@@ -1,0 +1,137 @@
+@media(min-width: 640px) {
+    #oxxoModal {
+        width: 18% !important;
+    }
+    #oxxoModal .mainBody {
+        max-height: 55vh;
+    }
+}
+#oxxoModal .print {
+    background-color: #ec001a;
+    border-color: #ec001a;
+    padding: 2px 35px;
+    color: #fff;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+#oxxoModal .printPanel {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#oxxoModal .modal-footer a{
+    color: #ec001a;
+    font-size:18px;
+}
+
+@media(max-width: 640px) {
+    #oxxoModalBody .commission li .firstSpan {
+        width: 100% !important;
+     }
+}
+
+#oxxoModalBody {
+    font-family: "RC TYPE", Roboto, Avenir, Helvetica, Arial, sans-serif;
+    color:rgb(51, 51, 51);
+}
+
+#oxxoModalBody .oxxoHeader {
+    border-bottom: 1px solid rgb(236, 238, 239);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 15px;
+}
+
+#oxxoModalBody .oxxoTitle {
+    text-align: center;
+    margin: 15px 0px;
+}
+#oxxoModalBody .oxxoTitle .totalAmount {
+    font-size: 18px;
+    font-weight: 600;
+}
+#oxxoModalBody ul li {
+    list-style: decimal;
+    margin-bottom: 15px;
+}
+#oxxoModalBody .commission li {
+    list-style: disc;
+    font-size: 12px;
+}
+
+#oxxoModalBody .commission li .firstSpan {
+   display: inline-block;
+   width: 50%;
+}
+
+#oxxoModalBody .oxxoNumberPanel {
+    text-align: center;
+    padding: 0px 10%;
+}
+
+#oxxoModalBody .barCode {
+    text-align: center;
+}
+
+#oxxoModalBody .barCode  img{
+    display: inline-block;
+    width: 80%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#oxxoModalBody .barCode .number {
+    font-size:17px;
+    margin-bottom: 20px;
+}
+
+#oxxoModalBody .barCode .expirationPayment {
+    font-size:18px;
+    margin-bottom: 25px;
+}
+
+#oxxoModalBody .barCode .expirationDate {
+    color:rgb(85, 85, 85);
+    font-size:18px;
+    font-weight:700;
+    margin-bottom: 20px;
+}
+
+#oxxoModalBody .oxxoNumber {
+    border: 1px solid rgb(121, 121, 121);
+    background-color: rgb(242, 242, 242);
+    width: 25%;
+    display: inline-block;
+    font-size: 18px;
+    border-radius: 8px;
+    margin-right: 15px;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#oxxoModalBody .concept {
+    border: 1px solid rgb(236, 238, 239);
+    border-radius: 8px;
+    font-size:18px
+}
+
+#oxxoModalBody .concept .conceptHeader{
+    border-bottom: 1px solid rgb(236, 238, 239);
+}
+
+#oxxoModalBody .shadowCircle {
+    border: 1.5px solid rgb(51, 51, 51, 0.6);
+    width: 6%;
+    height: 15px;
+    display: inline-block;
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+#oxxoModalBody .concept .feeTip{
+    font-size:13px;
+    margin-bottom: 20px;
+}

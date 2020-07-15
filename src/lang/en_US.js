@@ -494,6 +494,15 @@ const en_US = {
   'continue': 'Continue',
   'petName': 'Pet Name',
   'petType': 'Pet Type',
-  'birthday': 'Birthday'
+  'birthday': 'Birthday',
+
+  'creditCard': 'Credit Card',
+  'oxxo': 'OXXO',
+  'printEbanx' : 'Print Ebanx',
+  'payAtOxxO': 'Pay at any OXXO with cash in Mexico',
+  'inputYourEmailReceivePayment': 'Input your email to receive payment voucher & order status notices.',
+  'remember48Hours' : 'Remember that you have 48 hours to make the deposit or the order will be canceled when the voucher expired.',
+  'totalPay': ' Pay {val} at the nearest OXXO store',
+  'sendInformationByEmail': 'We will send the information to you by email, you can use it at any time.'
 }
 export default en_US;
