@@ -1,6 +1,6 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -28,9 +28,9 @@ import { sitePurchase } from '@/api/cart'
 import { getDict } from '@/api/dict'
 import './index.css'
 
-@inject("loginStore")
-@inject("checkoutStore")
+@inject("checkoutStore", "loginStore")
 @injectIntl
+@observer
 class Details extends React.Component {
   constructor(props) {
     super(props);

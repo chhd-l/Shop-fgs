@@ -18,7 +18,7 @@ import { inject, observer } from 'mobx-react';
 import './index.css'
 
 @inject("loginStore")
-// @observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
+@observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,

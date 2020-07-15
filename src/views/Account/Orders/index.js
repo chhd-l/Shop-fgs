@@ -1,6 +1,6 @@
 import React from "react"
 import Skeleton from 'react-skeleton-loader'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
@@ -30,6 +30,7 @@ import './index.css'
 
 @injectIntl
 @inject("checkoutStore")
+@observer
 class AccountOrders extends React.Component {
   constructor(props) {
     super(props)

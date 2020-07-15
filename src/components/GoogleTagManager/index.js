@@ -1,8 +1,9 @@
 import React from 'react';
 import { GTMID, GTM_SITE_ID } from "@/utils/constant"
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 
 @inject("loginStore")
+@observer
 class GoogleTagManager extends React.Component {
   componentDidMount () {
     const event = {

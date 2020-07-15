@@ -1,7 +1,7 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from 'react-intl'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -17,6 +17,7 @@ import Rate from '@/components/Rate'
 import './index.css'
 
 @inject("loginStore")
+@observer
 class List extends React.Component {
   constructor(props) {
     super(props)

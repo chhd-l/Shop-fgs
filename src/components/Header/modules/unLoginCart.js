@@ -8,9 +8,11 @@ import {
 } from '@/utils/utils'
 import { find } from 'lodash'
 import { MINIMUM_AMOUNT } from '@/utils/constant'
-import { inject } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import PetModal from '@/components/PetModal'
+
 @inject("checkoutStore")
+@observer
 class UnloginCart extends React.Component {
   constructor(props) {
     super(props)
