@@ -321,7 +321,7 @@ class LoginCart extends React.Component {
               <div className="flex justify-content-between rc-md-up">
                 <div>
                   {
-                    pitem.goods && pitem.goods.subscriptionStatus
+                    pitem.subscriptionStatus
                       ? <>
                         <span className="rc-icon rc-refresh--xs rc-brand1"></span>
                         <FormattedMessage id="details.Subscription" />{' '}-{' '}
@@ -392,7 +392,7 @@ class LoginCart extends React.Component {
             <div className="flex justify-content-between flex-wrap">
               <div>
                 {
-                  pitem.goods && pitem.goods.subscriptionStatus
+                  pitem.subscriptionStatus
                     ? <>
                       <span className="rc-icon rc-refresh--xs rc-brand1"></span>
                       <FormattedMessage id="details.Subscription" />{' '}-{' '}

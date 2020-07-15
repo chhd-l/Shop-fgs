@@ -104,7 +104,7 @@ class Details extends React.Component {
   get checkoutStore () {
     return this.props.checkoutStore
   }
-  updateEvaluate({productRate, replyNum}) {
+  updateEvaluate ({ productRate, replyNum }) {
     this.setState({
       productRate: productRate,
       replyNum: replyNum
@@ -605,11 +605,7 @@ class Details extends React.Component {
                   <BreadCrumbs />
                   <div className="rc-padding--sm--desktop">
                     <div className="rc-content-h-top">
-                      <div
-                        className={["rc-layout-container", "rc-six-column"].join(
-                          " "
-                        )}
-                      >
+                      <div className="rc-layout-container rc-six-column">
                         <div className="rc-column rc-double-width carousel-column imageBox">
                           {this.state.loading ? (
                             <Skeleton
@@ -618,20 +614,9 @@ class Details extends React.Component {
                               height="100%"
                             />
                           ) : (
-                              <div
-                                className={[
-                                  "rc-full-width",
-                                  this.state.imageMagnifierCfg.show
-                                    ? "show-image-magnifier"
-                                    : "",
-                                ].join(" ")}
-                              >
-                                <div
-                                  className="d-flex justify-content-center ui-margin-top-1-md-down"
-                                >
+                              <div className={`rc-full-width ${this.state.imageMagnifierCfg.show ? "show-image-magnifier" : ""}`}>
+                                <div className="d-flex justify-content-center ui-margin-top-1-md-down">
                                   {
-                                    // this.state.imageMagnifierCfg.show ?
-
                                     <div className="details-img-container">
                                       <ImageMagnifier
                                         sizeList={details.sizeList}
@@ -644,13 +629,10 @@ class Details extends React.Component {
                                     </div>
                                   }
                                 </div>
-                                {/* <div className="d-flex justify-content-center">
-                                <div className="rc-img--square rc-img--square-custom" style={{ backgroundImage: 'url(' + details.goodsImg + ')' }}></div>
-                              </div> */}
                               </div>
                             )}
                         </div>
-                        <div className="rc-column rc-triple-width product-column">
+                        <div className="rc-column product-column">
                           {this.state.loading ? (
                             <div>
                               <Skeleton color="#f5f5f5" width="100%" count={7} />
@@ -703,7 +685,7 @@ class Details extends React.Component {
                                     </b>
                                   </div>
                                   {
-                                    details.subscriptionStatus
+                                    find(details.sizeList, s => s.selected) && find(details.sizeList, s => s.selected).subscriptionStatus
                                       ? <>
                                         <div className="product-pricing__card__head d-flex align-items-center">
                                           <span className="rc-icon rc-refresh--xs rc-brand1 position-absolute" style={{ transform: 'translate(-100%, 8%)' }}></span>

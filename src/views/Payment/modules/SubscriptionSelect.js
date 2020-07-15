@@ -14,6 +14,7 @@ class SubscriptionSelect extends Component {
       form: {
         buyWay: 'once', // once/frequency
         frequencyVal: '',
+        frequencyName: '',
         frequencyId: -1
       }
     }
@@ -22,7 +23,11 @@ class SubscriptionSelect extends Component {
     let res = await getDictionary({ type: 'Frequency' })
     this.setState({
       frequencyList: res,
-      form: Object.assign(this.state.form, { frequencyVal: res[0].valueEn, frequencyId: res[0].id })
+      form: Object.assign(this.state.form, {
+        frequencyVal: res[0].valueEn,
+        frequencyName: res[0].name,
+        frequencyId: res[0].id
+      })
     }, () => {
       this.props.updateSelectedData(this.state.form)
     })
@@ -45,6 +50,7 @@ class SubscriptionSelect extends Component {
   handleSelectedItemChange (data) {
     const { form } = this.state
     form.frequencyVal = data.value
+    form.frequencyName = data.name
     form.frequencyId = data.id
     this.setState({ form: form })
     this.props.updateSelectedData(this.state.form)
@@ -95,7 +101,7 @@ class SubscriptionSelect extends Component {
             <span className="ml-2 d-flex align-items-center flex-wrap">
               {
                 this.props.checkoutStore.loginCartData
-                  .filter(ele => ele.goods && ele.goods.subscriptionStatus)
+                  .filter(ele => ele.subscriptionStatus)
                   .map((ele, i) => (
                     <img style={{ width: '8%', display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
                   ))
@@ -115,6 +121,7 @@ class SubscriptionSelect extends Component {
                   alt={txt}
                   name="buyWay"
                   value="once"
+                  key="1"
                   onChange={event => this.handleInputChange(event)}
                   checked />
                 : <input
@@ -124,6 +131,7 @@ class SubscriptionSelect extends Component {
                   alt={txt}
                   name="buyWay"
                   value="once"
+                  key="2"
                   onChange={event => this.handleInputChange(event)} />
             )}
           </FormattedMessage>
