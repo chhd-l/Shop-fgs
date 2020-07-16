@@ -962,16 +962,16 @@ class Payment extends React.Component {
                         <button class="rc-tab text-break"
                           onClick={() => this.setState({ showOxxoForm: false })}
                           style={{ padding: "8px 15px" }}
-                          data-toggle="deliveryAddress" role="tab">
-                          <FormattedMessage id="deliveryAddress"></FormattedMessage>
+                          data-toggle="creditCard" role="tab">
+                          <FormattedMessage id="creditCard"></FormattedMessage>
                         </button>
                       </li>
                       <li className="rc-tabs-li">
                         <button class="rc-tab text-break"
                           onClick={() => this.setState({ showOxxoForm: true })}
                           style={{ padding: "8px 15px" }}
-                          data-toggle="billingAddress" role="tab">
-                          <FormattedMessage id="billingAddress"></FormattedMessage>
+                          data-toggle="oxxo" role="tab">
+                          <FormattedMessage id="oxxo"></FormattedMessage>
                         </button>
                       </li>
                     </ul>

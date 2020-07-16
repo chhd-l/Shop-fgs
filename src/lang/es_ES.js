@@ -488,8 +488,11 @@ const en_US = {
   'totalPay': ' Pague {val} en la tienda OXXO más cercana',
   'sendInformationByEmail': 'Le enviaremos la información por correo electrónico, puede usarla en cualquier momento.',
   'cvvWarning': 'CVV incorrecto',
-  'subscription.subscriptionNumberTip': 'Por favor ingrese el número de retorno',
+  'card': 'Tarjeta',
+  'active': 'Activo',
+  'inactive': 'Inactivo',
 
+  'subscription.subscriptionNumberTip': 'Por favor ingrese el número de retorno',
   'subscription.notYet': 'Todavía no se ha enviado',
   'subscription.frequency': 'Frecuencia',
   'subscription.nextOrder': 'Siguiente pedido',
@@ -510,13 +513,10 @@ const en_US = {
   'subscription.detail': 'Detalle de suscripción',
   'subscription.sub': 'Sub-',
   'subscription.status': 'Estado de suscripción',
-  'active': 'Activo',
-  'inactive': 'Inactivo',
   'subscription.receiveDate': 'Siguiente fecha de recepción',
   'subscription.toBeDelivered': 'Para ser entregado',
   'subscription.skip': 'Saltar próxima entrega',
   'subscription.cancelAll': 'Cancelar todo',
-  'subscription.promotionTip': 'Ahorre {val} en su primera suscripción',
-  'card': 'Tarjeta'
+  'subscription.promotionTip': 'Ahorre {val} en su primera suscripción'
 }
 export default en_US;
