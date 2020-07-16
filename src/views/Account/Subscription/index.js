@@ -30,7 +30,7 @@ class Subscription extends React.Component {
       subList: [],
       form: {
         duringTime: "7d",
-        orderNumber: "",
+        subscribeId: "",
         startdate: "",
         enddate: "",
       },
@@ -40,7 +40,11 @@ class Subscription extends React.Component {
       initing: true,
       errMsg: "",
       subList: [],
-      frequencyList: []
+      frequencyList: [],
+      subStatus: [
+        { value: '2', name: <FormattedMessage id="active" values={{ val: 2 }} /> },
+        { value: '0', name: <FormattedMessage id="inactive" values={{ val: 0 }} /> }
+      ]
     };
     this.pageSize = 6;
   }
@@ -109,14 +113,14 @@ class Subscription extends React.Component {
     // let param = {
     //   createdFrom,
     //   createdTo: now,
-    //   keywords: form.orderNumber,
+    //   keywords: form.subscribeId,
     //   pageNum: currentPage - 1,
     //   pageSize: this.pageSize,
     // };
     let param = {
         pageNum: currentPage - 1,
         pageSize: this.pageSize,
-        // subscribeId: 'S20200713113215362'
+        subscribeId: form.subscribeId
         // customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
     }
     getSubList(param)
@@ -127,7 +131,8 @@ class Subscription extends React.Component {
               subList: res.context.subscriptionResponses,
               loading: false,
               currentPage: res.context.currentPage + 1,
-              totalPage: res.context.total
+              totalPage: res.context.total,
+              initing: false
             })
         // let tmpList = Array.from(res.context.content, (ele) => {
         //   const tradeState = ele.tradeState;
@@ -160,6 +165,7 @@ class Subscription extends React.Component {
   }
 
   hanldePageNumChange(params) {
+    console.log(params)
     this.setState(
       {
         currentPage: params.currentPage,
@@ -301,9 +307,9 @@ class Subscription extends React.Component {
                                 className="rc-input__control"
                                 id="id-text8"
                                 type="text"
-                                name="orderNumber"
+                                name="subscribeId"
                                 maxLength="20"
-                                value={this.state.form.orderNumber}
+                                value={this.state.form.subscribeId}
                                 onChange={(e) => this.handleInputChange(e)}
                                 placeholder={txt}
                                 />
@@ -324,7 +330,17 @@ class Subscription extends React.Component {
                       <FormattedMessage id="subscription.status" />
                     </div>
                     <div className="col-md-8">
-                      <span class="rc-select">
+                      <Selection
+                      optionList={this.state.subStatus}
+                      selectedItemChange={el => {
+                        const { history } = this.props
+                        history.push(`/account/orders-detail/${el.value}`)
+                      }}
+                      selectedItemData={{
+                        value: this.state.subStatus[0].value
+                      }}
+                      customStyleType="select-one" />
+                      {/* <span class="rc-select">
                         <select data-js-select="" id="id-single-select">
                           <FormattedMessage id="active">
                             {
@@ -341,7 +357,7 @@ class Subscription extends React.Component {
                             }
                           </FormattedMessage>
                         </select>
-                      </span>
+                      </span> */}
                     </div>
                   </div>
                 </div>
