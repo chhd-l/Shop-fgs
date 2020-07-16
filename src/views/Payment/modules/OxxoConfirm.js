@@ -5,12 +5,22 @@ import { injectIntl, FormattedMessage } from "react-intl";
 export default class OxxoConfirm extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      email: "",
+      showReqiredInfo: false,
+    };
   }
 
-  goConfirmation () {
+  goConfirmation() {
+    if (!this.state.email) {
+      this.setState({ showReqiredInfo: true });
+      return;
+    }
     this.props.history.push("/confirmation");
-    sessionStorage.setItem("rc-payment-oxxo",true);
+    sessionStorage.setItem("rc-payment-oxxo", true);
+  }
+  emailChange (e) {
+    this.setState({ email: e.target.value });
   }
 
   render() {
@@ -24,10 +34,12 @@ export default class OxxoConfirm extends Component {
             <img src={oxxo} alt="" style={{ display: "inline-block" }} />
           </div>
           <p>
-            <h6><FormattedMessage id="payAtOxxO" /></h6>
+            <h6>
+              <FormattedMessage id="payAtOxxO" />
+            </h6>
           </p>
           <p>
-           <FormattedMessage id="inputYourEmailReceivePayment" />
+            <FormattedMessage id="inputYourEmailReceivePayment" />
           </p>
           <div className="form-group required">
             <div className="row">
@@ -37,16 +49,22 @@ export default class OxxoConfirm extends Component {
                 </label>
               </div>
               <div className="col-md-7 col-sm-12">
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    maxLength="254"
-                    style={{ width: '100%' }}
-                  />
-                <div className="invalid-feedback">
-                  <FormattedMessage id="payment.errorInfo2" />
-                </div>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  maxLength="254"
+                  value={this.state.email}
+                  onChange={(e) => this.emailChange(e)}
+                  style={{ width: "100%" }}
+                />
+                {this.state.showReqiredInfo ? (
+                  <div className="invalid-feedback" style={{ display: 'block' }}>
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </div>
