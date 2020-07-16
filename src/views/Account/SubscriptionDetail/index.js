@@ -106,7 +106,7 @@ export default class SubscriptionDetail extends React.Component {
         return {
           id: el.id,
           name: el.name,
-          value: el.valueEn
+          value: el.name
         }
       })
       this.setState({
@@ -332,14 +332,14 @@ export default class SubscriptionDetail extends React.Component {
                                 selectedItemChange={el => {
                                   let param = {
                                     subscribeId: subDetail.subscribeId,
-                                    frequency: el.id
+                                    cycleTypeId: el.id
                                   }
                                   updateDetail(param).then(res => {
                                     window.location.reload()
                                   })
                                 }}
                                 selectedItemData={{
-                                  value: this.state.frequencyList.length? this.state.frequencyList.filter(el => el.id === subDetail.frequency): ''
+                                  value: subDetail.frequency || ''
                                 }}
                                 customStyleType="select-one" />
                               {/* <span class="rc-select">
