@@ -400,6 +400,7 @@ const en_US = {
   'subscription.detail': 'Subscription detail',
   'subscription.sub': 'Sub-',
   'subscription.status': 'Subscription status',
+  'subscription.chooseSubscription': 'Choose subscription',
   'login': 'Log in',
   'login.register': 'Create a personal account',
   'login.loginTip': ' To connect to the ROYAL CANIN® service,authorization is required. If you do not have a personal account, you can register now.',
