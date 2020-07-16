@@ -428,9 +428,7 @@ class LoginDeliveryAddress extends React.Component {
                     </div>
                     {addressList.map((item, i) => (
                       <div
-                        className={`address-item ${
-                          item.deliveryAddressId === this.props.deliveryAddressId || item.deliveryAddressId === this.props.billingAddressId ? "selected" : ""
-                        }`}
+                        className={`address-item ${item.selected ? 'selected' : ''}`}
                         key={item.deliveryAddressId}
                         onClick={() => this.selectAddress(i)}
                       >

@@ -12,6 +12,7 @@ import AddressComp from "./components/AddressComp";
 import Selection from '@/components/Selection'
 import { getDictionary } from "@/utils/utils";
 import { updateDetail , getAddressDetail, getSubDetail, skipNextSub, cancelAllSub } from "@/api/subscription"
+import Modal from '@/components/Modal'
 export default class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -78,7 +79,8 @@ export default class SubscriptionDetail extends React.Component {
       cityList: [],
       countryList: [],
       frequencyList: [],
-      orderOptions: []
+      orderOptions: [],
+      modalShow: true
     };
   }
   componentWillUnmount() {
@@ -116,12 +118,12 @@ export default class SubscriptionDetail extends React.Component {
     
     let subDetailRes = await getSubDetail(this.props.match.params.subscriptionNumber)
     let subDetail = subDetailRes.context
-    getAddressDetail(subDetail.deliveryAddressId).then(res => {
-      this.setState({currentDeliveryAddress: res.context})
-    })
-    getAddressDetail(subDetail.billingAddressId).then(res => {
-      this.setState({currentBillingAddress: res.context})
-    })
+    // getAddressDetail(subDetail.deliveryAddressId).then(res => {
+    //   this.setState({currentDeliveryAddress: res.context})
+    // })
+    // getAddressDetail(subDetail.billingAddressId).then(res => {
+    //   this.setState({currentBillingAddress: res.context})
+    // })
     console.log(JSON.parse(localStorage.getItem("subDetail")), "subDetail");
     let orderOptions = (subDetail.trades || []).map(el => {
       return { value: el.id, name: el.id + '' }
@@ -130,6 +132,9 @@ export default class SubscriptionDetail extends React.Component {
     this.setState({
       subId: this.props.match.params.subscriptionNumber,
       subDetail: subDetail,
+      currentCardInfo: subDetail.paymentInfo,
+      currentDeliveryAddress: subDetail.consignee,
+      currentBillingAddress: subDetail.invoice,
       orderOptions: orderOptions
     });
   }
@@ -156,6 +161,85 @@ export default class SubscriptionDetail extends React.Component {
           />
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
             <BreadCrumbs />
+            <Modal
+              key="1"
+              visible={this.state.modalShow}
+              confirmLoading={this.state.submitLoading}
+              modalTitle={<FormattedMessage id="order.rateModalTitle" />}
+              confirmBtnText={<FormattedMessage id="submit" />}
+              cancelBtnVisible={false}
+              close={() => {
+                this.setState({ modalShow: false });
+              }}
+              hanldeClickConfirm={() => this.hanldeClickSubmit()}
+            >
+              <div className="text-center pl-4 pr-4" style={{ lineHeight: 2 }}>
+                <div
+                  className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                    this.state.errorMsg ? "" : "hidden"
+                    }`}
+                >
+                  <aside
+                    className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                    role="alert"
+                  >
+                    <span>{this.state.errorMsg}</span>
+                    <button
+                      className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                      onClick={() => {
+                        this.setState({ errorMsg: "" });
+                      }}
+                      aria-label="Close"
+                    >
+                      <span className="rc-screen-reader-text">
+                        <FormattedMessage id="close" />
+                      </span>
+                    </button>
+                  </aside>
+                </div>
+                <h4>
+                  <FormattedMessage id="confirmation.rateTip" />
+                </h4>
+                <div
+                  className="d-flex justify-content-around"
+                  style={{ width: "40%", margin: "0 auto" }}
+                >
+                  {[0, 1, 2, 3, 4].map((item, idx) => (
+                    <span
+                      key={idx}
+                      className={`rc-icon ui-cursor-pointer ${
+                        this.state.evalutateScore >= idx
+                          ? "rc-rate-fill"
+                          : "rc-rate"
+                        } rc-brand1`}
+                      onClick={() => {
+                        this.setState({ evalutateScore: idx, errorMsg: "" });
+                      }}
+                    />
+                  ))}
+                </div>
+                <h4>
+                  <FormattedMessage id="confirmation.rateTip2" />
+                </h4>
+                <span
+                  className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
+                  input-setup="true"
+                >
+                  <FormattedMessage id="confirmation.rateTip3">
+                    {(txt) => (
+                      <textarea
+                        className="rc-input__textarea noborder"
+                        maxLength="50"
+                        placeholder={txt}
+                        style={{ height: 100 }}
+                        value={this.state.consumerComment}
+                        onChange={(e) => this.handleConsumerCommentChange(e)}
+                      />
+                    )}
+                  </FormattedMessage>
+                </span>
+              </div>
+            </Modal>
             <div className="rc-padding--sm rc-max-width--xl">
               <div className="rc-layout-container rc-five-column">
                 {this.state.loading ? <Loading positionFixed="true" /> : null}
@@ -165,10 +249,19 @@ export default class SubscriptionDetail extends React.Component {
                   style={{ display: type === "PaymentComp" ? "block" : "none" }}
                 >
                   <PaymentComp
+                    paymentId={currentCardInfo.id}
                     type={type}
                     save={(el) => {
                       console.log(el)
-                      // paymentId
+                      let param = {
+                        subscribeId: subDetail.subscribeId,
+                        paymentId: el.id
+                      }
+                      console.log(param)
+                      updateDetail(param).then(res => {
+                        console.log(res)
+                        window.location.reload()
+                      })
                       this.setState({ type: "main", currentCardInfo: el });
                     }}
                     cancel={() => this.setState({ type: "main" })}
