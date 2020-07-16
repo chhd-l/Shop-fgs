@@ -14,12 +14,12 @@ import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
 import { batchAdd } from "@/api/payment";
 import { getOrderList, getOrderDetails } from "@/api/order"
+import store from 'storejs'
 import {
   MINIMUM_AMOUNT,
   STOREID,
   STORE_CATE_ENUM
 } from "@/utils/constant"
-
 import {
   IMG_DEFAULT,
   DELIVER_STATUS_ENUM,
@@ -206,11 +206,11 @@ class AccountOrders extends React.Component {
         phoneNumber: detailResCt.invoice.phone,
         addressId: detailResCt.invoice.addressId
       }
-      localStorage.setItem("loginDeliveryInfo", JSON.stringify({
+      store.set("loginDeliveryInfo", {
         deliveryAddress: tmpDeliveryAddress,
         billingAddress: tmpBillingAddress,
         commentOnDelivery: detailResCt.buyerRemark
-      }))
+      })
 
       this.props.checkoutStore.setLoginCartData(tradeItems)
       sessionStorage.setItem('rc-tid', order.id)
@@ -436,15 +436,17 @@ class AccountOrders extends React.Component {
                                           </button> :
                                           null
                                       }
-                                      <div className="rc-margin-top--xs">
-                                        <button
-                                          className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn"
-                                          style={{ transform: 'scale(.85)' }}
-                                          onClick={() => this.rePurchase(order)}>
-                                          <FormattedMessage id="rePurchase">
-                                          </FormattedMessage>
-                                        </button>
-                                      </div>
+                                      {
+                                        !order.canPayNow
+                                          ? <button
+                                            className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn"
+                                            style={{ transform: 'scale(.85)' }}
+                                            onClick={() => this.rePurchase(order)}>
+                                            <FormattedMessage id="rePurchase">
+                                            </FormattedMessage>
+                                          </button>
+                                          : null
+                                      }
                                     </div>
                                   </div>
                                 </div>
