@@ -161,7 +161,7 @@ export default class SubscriptionDetail extends React.Component {
           />
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
             <BreadCrumbs />
-            <Modal
+            {/* <Modal
               key="1"
               visible={this.state.modalShow}
               confirmLoading={this.state.submitLoading}
@@ -239,7 +239,7 @@ export default class SubscriptionDetail extends React.Component {
                   </FormattedMessage>
                 </span>
               </div>
-            </Modal>
+            </Modal> */}
             <div className="rc-padding--sm rc-max-width--xl">
               <div className="rc-layout-container rc-five-column">
                 {this.state.loading ? <Loading positionFixed="true" /> : null}
