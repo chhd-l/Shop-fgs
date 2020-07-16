@@ -323,6 +323,8 @@ class AccountOrders extends React.Component {
                                             {item.spuName}
                                           </span>
                                           {item.specDetails}
+                                          {/* <br />
+                                          <span className="rc-icon rc-refresh--xs rc-brand1"></span><FormattedMessage id="details.Subscription" /> */}
                                         </span>
                                       </div>
                                       <div className="col-9 col-md-3 text-right text-md-left">

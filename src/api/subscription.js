@@ -5,7 +5,9 @@ const api = {
   getList: '/sub/findPage',
   getSubDetail: '/sub/getSubscriptionDetail/',
   updateDetail: '/sub/updateSubscription',
-  getAddressDetail: '/customer/address/'
+  getAddressDetail: '/customer/address/',
+  skipNextSub: '/sub/cancelNextSubscription',
+  cancelAllSub: '/sub/cancelSubscription'
 }
 
 export default api
@@ -36,5 +38,21 @@ export function getSubDetail (parameter) {
   return axios({
     url: `${api.getSubDetail}` + parameter,
     method: 'post'
+  })
+}
+
+export function skipNextSub (parameter) {
+  return axios({
+    url: `${api.skipNextSub}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function cancelAllSub (parameter) {
+  return axios({
+    url: `${api.cancelAllSub}`,
+    method: 'post',
+    data: parameter
   })
 }

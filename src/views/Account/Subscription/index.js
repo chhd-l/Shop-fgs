@@ -42,7 +42,7 @@ class Subscription extends React.Component {
       subList: [],
       frequencyList: []
     };
-    this.pageSize = 10;
+    this.pageSize = 6;
   }
 
   componentWillUnmount() {
@@ -122,9 +122,12 @@ class Subscription extends React.Component {
     getSubList(param)
       .then((res) => {
           console.log(res, '1111')
+          console.log(res.context.currentPage + 1, res.context.total)
           this.setState({
               subList: res.context.subscriptionResponses,
-              loading: false
+              loading: false,
+              currentPage: res.context.currentPage + 1,
+              totalPage: res.context.total
             })
         // let tmpList = Array.from(res.context.content, (ele) => {
         //   const tradeState = ele.tradeState;
@@ -435,6 +438,7 @@ class Subscription extends React.Component {
                           <Pagination
                             loading={this.state.loading}
                             totalPage={this.state.totalPage}
+                            currentPage={this.state.currentPage}
                             onPageNumChange={(params) =>
                               this.hanldePageNumChange(params)
                             }

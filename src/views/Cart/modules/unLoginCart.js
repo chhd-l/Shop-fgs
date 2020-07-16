@@ -9,7 +9,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip'
 import LoginButton from '@/components/LoginButton'
 import { Link } from "react-router-dom"
 import { formatMoney } from "@/utils/utils"
-import { MINIMUM_AMOUNT } from '@/utils/constant'
+import { MINIMUM_AMOUNT, SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant'
 import { cloneDeep, find } from 'lodash'
 import CART_CAT from "@/assets/images/CART_CAT.webp";
 import CART_DOG from "@/assets/images/CART_DOG.webp";
@@ -352,7 +352,20 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
             <div className="availability  product-availability">
-              <div className="align-left flex rc-content-v-right rc-md-up">
+              <div className="flex justify-content-between rc-md-up">
+                <div>
+                  {
+                    pitem.subscriptionStatus
+                      ? <>
+                        <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                        <FormattedMessage id="details.Subscription" />{' '}-{' '}
+                        <span style={{ fontSize: '.85em' }}>
+                          <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                        </span>
+                      </>
+                      : null
+                  }
+                </div>
                 <div className="stock__wrapper">
                   <div className="stock">
                     <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
@@ -410,7 +423,20 @@ class UnLoginCart extends React.Component {
             </div>
           </div>
           <div className="availability product-availability">
-            <div className="align-left flex rc-content-v-right">
+            <div className="flex justify-content-between flex-wrap">
+              <div>
+                {
+                  pitem.subscriptionStatus
+                    ? <>
+                      <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                      <FormattedMessage id="details.Subscription" />{' '}-{' '}
+                      <span style={{ fontSize: '.85em' }}>
+                        <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                      </span>
+                    </>
+                    : null
+                }
+              </div>
               <div className="stock__wrapper">
                 <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
                   <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
