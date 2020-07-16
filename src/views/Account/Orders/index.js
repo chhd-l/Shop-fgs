@@ -404,7 +404,7 @@ class AccountOrders extends React.Component {
                                     <div className="col-4 col-md-2 text-center">
                                       {
                                         order.canPayNow
-                                          ? <React.Fragment>
+                                          ? <>
                                             <TimeCount
                                               endTime={order.orderTimeOut}
                                               onTimeEnd={() => this.handlePayNowTimeEnd(order)} />
@@ -414,30 +414,33 @@ class AccountOrders extends React.Component {
                                               onClick={() => this.handleClickPayNow(order)}>
                                               <FormattedMessage id="order.payNow" />
                                             </button>
-                                          </React.Fragment>
+                                          </>
                                           : null
                                       }
                                       {
                                         order.canReview ?
-                                          <div >
-                                            <button className="rc-btn rc-btn--sm rc-btn--two">
-                                              <FormattedMessage id="writeReview">
-                                                {txt => (
-                                                  <Link
-                                                    className="red-text"
-                                                    to={`/account/productReview/${order.id}`}
-                                                    title={txt}
-                                                    alt={txt}>
-                                                    {txt}
-                                                  </Link>
-                                                )}
-                                              </FormattedMessage>
-                                            </button>
-                                          </div> :
+                                          <button
+                                            className="rc-btn rc-btn--sm rc-btn--two"
+                                            style={{ transform: 'scale(.85)' }}>
+                                            <FormattedMessage id="writeReview">
+                                              {txt => (
+                                                <Link
+                                                  className="red-text"
+                                                  to={`/account/productReview/${order.id}`}
+                                                  title={txt}
+                                                  alt={txt}>
+                                                  {txt}
+                                                </Link>
+                                              )}
+                                            </FormattedMessage>
+                                          </button> :
                                           null
                                       }
                                       <div className="rc-margin-top--xs">
-                                        <button className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn" onClick={() => this.rePurchase(order)}>
+                                        <button
+                                          className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn"
+                                          style={{ transform: 'scale(.85)' }}
+                                          onClick={() => this.rePurchase(order)}>
                                           <FormattedMessage id="rePurchase">
                                           </FormattedMessage>
                                         </button>
