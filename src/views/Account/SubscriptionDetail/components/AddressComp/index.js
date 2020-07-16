@@ -379,13 +379,14 @@ class LoginDeliveryAddress extends React.Component {
               {!addOrEdit ? (
                 addressList.length ? (
                   <>
-                    <div style={{ height: "40px", lineHeight: "40px", display: this.props.type === "delivery"? 'block': 'none' }}>
+                    <div style={{ height: "40px", lineHeight: "40px" }}>
                       <div
                         className="rc-input rc-input--inline"
                         style={{
                           float: "left",
                           textAlign: "left",
                           maxWidth: "400px",
+                          display: this.props.type === "delivery"? 'block': 'none'
                         }}
                         onClick={() => {
                           isBillSame = !isBillSame;
