@@ -540,7 +540,7 @@ class Payment extends React.Component {
               })
             param3.cycleTypeId = subForm.frequencyId
             param3.paymentMethodId = creditCardInfo.id
-            param3.nextDeliveryTime = '2020-03-01' // todo
+            // param3.nextDeliveryTime = '2020-03-01' // todo
           }
         }
         // rePay
@@ -559,13 +559,11 @@ class Payment extends React.Component {
               : customerCommitAndPay
           : confirmAndCommit
         const confirmAndCommitRes = await tmpCommitAndPay(param3);
-        // debugger
+        //debugger
         console.log(confirmAndCommitRes);
         const confirmAndCommitResContext = confirmAndCommitRes.context
-        store.set(
-          "orderNumber", confirmAndCommitResContext && confirmAndCommitResContext[0]['tid'] || this.tid,
-          "subscribeNumber", confirmAndCommitResContext && confirmAndCommitResContext[0]['subscribeId'] || '',
-        );
+        store.set("orderNumber", confirmAndCommitResContext && confirmAndCommitResContext[0]['tid'] || this.tid);
+        store.set("subNumber", confirmAndCommitResContext && confirmAndCommitResContext[0]['subscribeId'] || '')
         this.setState({ loading: false });
         sessionStorage.removeItem("payosdata");
         history.push("/confirmation");
