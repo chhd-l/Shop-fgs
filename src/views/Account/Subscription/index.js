@@ -45,11 +45,11 @@ class Subscription extends React.Component {
     this.pageSize = 6;
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
 
-  componentDidMount() {
+  componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -63,7 +63,7 @@ class Subscription extends React.Component {
     this.queryOrderList();
   }
 
-  handleDuringTimeChange(data) {
+  handleDuringTimeChange (data) {
     const { form } = this.state;
     form.duringTime = data.value;
     this.setState(
@@ -75,7 +75,7 @@ class Subscription extends React.Component {
     );
   }
 
-  handleInputChange(e) {
+  handleInputChange (e) {
     const target = e.target;
     const { form } = this.state;
     form[target.name] = target.value;
@@ -86,7 +86,7 @@ class Subscription extends React.Component {
     }, 500);
   }
 
-  queryOrderList() {
+  queryOrderList () {
     const { form, initing, currentPage } = this.state;
     if (!initing) {
       setTimeout(() => {
@@ -114,21 +114,19 @@ class Subscription extends React.Component {
     //   pageSize: this.pageSize,
     // };
     let param = {
-        pageNum: currentPage - 1,
-        pageSize: this.pageSize,
-        // subscribeId: 'S20200713113215362'
-        // customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
+      pageNum: currentPage - 1,
+      pageSize: this.pageSize,
+      // subscribeId: 'S20200713113215362'
+      // customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
     }
     getSubList(param)
       .then((res) => {
-          console.log(res, '1111')
-          console.log(res.context.currentPage + 1, res.context.total)
-          this.setState({
-              subList: res.context.subscriptionResponses,
-              loading: false,
-              currentPage: res.context.currentPage + 1,
-              totalPage: res.context.total
-            })
+        this.setState({
+          subList: res.context.subscriptionResponses,
+          loading: false,
+          currentPage: res.context.currentPage + 1,
+          totalPage: Math.ceil(res.context.total / this.pageSize)
+        })
         // let tmpList = Array.from(res.context.content, (ele) => {
         //   const tradeState = ele.tradeState;
         //   return Object.assign(ele, {
@@ -150,7 +148,7 @@ class Subscription extends React.Component {
       })
       .catch((err) => {
         console.log(err)
-        this.setState({loading: false})
+        this.setState({ loading: false })
         // this.setState({
         //   loading: false,
         //   errMsg: err.toString(),
@@ -159,7 +157,7 @@ class Subscription extends React.Component {
       });
   }
 
-  hanldePageNumChange(params) {
+  hanldePageNumChange (params) {
     this.setState(
       {
         currentPage: params.currentPage,
@@ -168,7 +166,7 @@ class Subscription extends React.Component {
     );
   }
 
-  updateFilterData(form) {
+  updateFilterData (form) {
     this.setState(
       {
         form: Object.assign({}, this.state.form, form),
@@ -178,13 +176,13 @@ class Subscription extends React.Component {
     );
   }
 
-  handlePayNowTimeEnd(order) {
+  handlePayNowTimeEnd (order) {
     const { orderList } = this.state;
     order.canPayNow = false;
     this.setState({ orderList: orderList });
   }
 
-  async handleClickPayNow(order) {
+  async handleClickPayNow (order) {
     const { orderList } = this.state;
     order.payNowLoading = true;
     this.setState({ orderList: orderList });
@@ -260,7 +258,7 @@ class Subscription extends React.Component {
     }
   }
 
-  render() {
+  render () {
     const event = {
       page: {
         type: "Account",
@@ -294,10 +292,10 @@ class Subscription extends React.Component {
                     </div>
                     <div className="col-md-8">
                       <span className="rc-input rc-input--inline rc-full-width">
-                      <FormattedMessage id="subscription.subscriptionNumberTip" >
+                        <FormattedMessage id="subscription.subscriptionNumberTip" >
                           {
-                              txt => (
-                                <input
+                            txt => (
+                              <input
                                 className="rc-input__control"
                                 id="id-text8"
                                 type="text"
@@ -306,8 +304,8 @@ class Subscription extends React.Component {
                                 value={this.state.form.orderNumber}
                                 onChange={(e) => this.handleInputChange(e)}
                                 placeholder={txt}
-                                />
-                              )
+                              />
+                            )
                           }
                         </FormattedMessage>
                         <label className="rc-input__label" htmlFor="id-text8">
@@ -320,7 +318,7 @@ class Subscription extends React.Component {
                   </div>
                   <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
-                        {/* Subscription status */}
+                      {/* Subscription status */}
                       <FormattedMessage id="subscription.status" />
                     </div>
                     <div className="col-md-8">
@@ -393,7 +391,7 @@ class Subscription extends React.Component {
                                 <div className="col-12 col-md-2">
                                   <p><FormattedMessage id="subscription.status" /></p>
                                 </div>
-                                
+
                                 <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
                                   <Link
                                     className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
@@ -429,12 +427,21 @@ class Subscription extends React.Component {
                               <div className="col-12 col-md-2">
                                 {subItem.frequency}
                               </div>
-                              <div className="col-12 col-md-2">{subItem.subscribeStatus === '0'?<FormattedMessage id="active"/> : <FormattedMessage id="inactive"/>}</div>
+                              <div className="col-12 col-md-2">{subItem.subscribeStatus === '0' ? <FormattedMessage id="active" /> : <FormattedMessage id="inactive" />}</div>
                               <div className="col-12 col-md-2"># {i + 1}</div>
                             </div>
                           </div>
                         ))}
-                        <div className="grid-footer rc-full-width mt-2">
+                      </>
+                    ) : (
+                            <div className="text-center mt-5">
+                              <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
+                              <FormattedMessage id="order.noDataTip" />
+                            </div>
+                          )}
+                    {
+                      !this.state.errMsg && this.state.subList.length
+                        ? <div className="grid-footer rc-full-width mt-2">
                           <Pagination
                             loading={this.state.loading}
                             totalPage={this.state.totalPage}
@@ -444,13 +451,8 @@ class Subscription extends React.Component {
                             }
                           />
                         </div>
-                      </>
-                    ) : (
-                      <div className="text-center mt-5">
-                        <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-                        <FormattedMessage id="order.noDataTip" />
-                      </div>
-                    )}
+                        : null
+                    }
                   </div>
                 </div>
               </div>
