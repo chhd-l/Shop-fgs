@@ -11,7 +11,8 @@ import PaymentComp from "./components/PaymentComp";
 import AddressComp from "./components/AddressComp";
 import Selection from '@/components/Selection'
 import { getDictionary } from "@/utils/utils";
-import { updateDetail, getAddressDetail, getSubDetail, skipNextSub, cancelAllSub } from "@/api/subscription"
+import { updateDetail , getAddressDetail, getSubDetail, skipNextSub, cancelAllSub } from "@/api/subscription"
+import Modal from '@/components/Modal'
 export default class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
