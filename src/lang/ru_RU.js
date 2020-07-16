@@ -532,6 +532,20 @@ const en_US = {
   'subscription.toBeDelivered': 'Para ser entregado',
   'subscription.skip': 'Saltar próxima entrega',
   'subscription.cancelAll': 'Cancelar todo',
-  'subscription.promotionTip': 'Ahorre {val} en su primera suscripción'
+  'subscription.promotionTip': 'Ahorre {val} en su primera suscripción',
+
+  'visitStoreMap': 'Visit store map',
+  'print': 'Print',
+  'deposited48Hours': 'Your payment will be deposited in 48 hours.',
+  'mentionPagoService':'Mention to the cashier that you want to pay for a Mercado Pago service',
+  'tellCashier' : "Tell this code to the cashier and you're done.",
+  'oxxoCommission' : 'OXXO Commission: $ 12.00',
+  'maximumAmount': 'Maximum amount : $ 10 000',
+  'expirationDate': 'Expiration Payment date:',
+  'before': 'Before',
+  'concept': 'Concept',
+  'buy':'Buy',
+  'purchaseHomeOnline':'Purchase made at The Home Depot online -',
+  'oxxoTransactionFee': '(Does not include the OXXO transaction fee)'
 }
 export default en_US;
