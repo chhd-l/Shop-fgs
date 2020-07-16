@@ -693,7 +693,8 @@ class Details extends React.Component {
                                     </div>
 
                                     <b className="product-pricing__card__head__price red rc-padding-y--none">
-                                      {initing ? '--' : formatMoney(this.state.minMarketPrice )}
+                                      {initing ? '--' : formatMoney(currentUnitPrice)}
+                                      {/*{initing ? '--' : formatMoney(this.state.minMarketPrice )}*/}
                                     </b>
                                   </div>
                                   {
@@ -709,7 +710,8 @@ class Details extends React.Component {
                                             </span>
                                           </div>
                                           <b className="product-pricing__card__head__price red rc-padding-y--none">
-                                            {initing ? '--' : formatMoney(this.state.minSubscriptionPrice || 0)}
+                                            {initing ? '--' : formatMoney(currentSubscriptionPrice || 0)}
+                                            {/*{initing ? '--' : formatMoney(this.state.minSubscriptionPrice || 0)}*/}
                                           </b>
                                         </div>
                                         <span className="red" style={{ fontSize: '.9em' }}>

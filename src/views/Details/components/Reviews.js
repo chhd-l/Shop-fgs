@@ -4,6 +4,7 @@ import Rate from '@/components/Rate'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details'
 import "../index.css";
+import Skeleton from "react-skeleton-loader";
 @injectIntl
 class Reviews extends React.Component {
     constructor(props) {
@@ -13,7 +14,9 @@ class Reviews extends React.Component {
             goodsEvaluatesList: [],
             evaluatesCurrentPage: 1,
             valuatesTotalPages: 0,
-            selectedSortBy: 0
+            selectedSortBy: 0,
+            loading: false,
+            noData: true
         }
     }
     componentDidMount() {
@@ -58,7 +61,6 @@ class Reviews extends React.Component {
         }, () => this.getGoodsEvaluates(this.state.evaluatesCurrentPage, 5))
     }
     async getGoodsEvaluates (pageNum = 1, pageSize = 5, sort) {
-        debugger
         let parmas = {
             pageNum: pageNum-1,
             pageSize: pageSize,
@@ -66,6 +68,10 @@ class Reviews extends React.Component {
             sortColumn: '',
             sortRole: ''
         }
+        this.setState({
+            loading: true,
+            goodsEvaluatesList: []
+        })
         switch (Number(this.state.selectedSortBy)) {
             case 0:
                 parmas.sortColumn = 'evaluateTime'
@@ -73,11 +79,11 @@ class Reviews extends React.Component {
                 break;
             case 1:
                 parmas.sortColumn = 'evaluateScore'
-                parmas.sortRole = 'desc'
+                parmas.sortRole = 'asc'
                 break
             case 2:
                 parmas.sortColumn = 'evaluateScore'
-                parmas.sortRole = 'asc'
+                parmas.sortRole = 'desc'
                 break
             default:
                 break
@@ -91,19 +97,27 @@ class Reviews extends React.Component {
         if(res.context && res.context.goodsEvaluateVOPage ) {
             let obj = res.context.goodsEvaluateVOPage
             let list = obj.content
-            list.forEach(item => {
-                item.commentator = item.customerName
-                item.commentTime = item.evaluateTime
-                item.title = item.evaluateContent
-                item.description = item.evaluateAnswer
-                item.rate = item.evaluateScore
-            })
-            console.log(list, 'review list')
-            this.setState({
-                // evaluatesCurrentPage: obj.number ? obj.number : 0,
-                valuatesTotalPages: obj.total ? obj.totalPages : 0 ,
-                goodsEvaluatesList: list
-            })
+            if (list.length > 0) {
+                list.forEach(item => {
+                    item.commentator = item.customerName
+                    item.commentTime = item.evaluateTime
+                    item.title = item.evaluateContent
+                    item.description = item.evaluateAnswer
+                    item.rate = item.evaluateScore
+                })
+                console.log(list, 'review list')
+                this.setState({
+                    // evaluatesCurrentPage: obj.number ? obj.number : 0,
+                    loading: false,
+                    noData: false,
+                    valuatesTotalPages: obj.total ? obj.totalPages : 0 ,
+                    goodsEvaluatesList: list
+                })
+            } else {
+                this.setState({
+                    noData: true
+                })
+            }
         }
     }
     render () {
@@ -111,7 +125,7 @@ class Reviews extends React.Component {
         return (
             <div>
                 {
-                    data.goodsEvaluatesList && data.goodsEvaluatesList.length > 0 ?
+                    !data.noData ?
                         <div>
                             <div>
                                 <div className="rc-layout-container rc-two-column rc-max-width--lg rc-padding-top--sm">
@@ -139,51 +153,62 @@ class Reviews extends React.Component {
                                 </div>
                             </div>
                             <div>
+
                                 <div className="rc-layout-container rc-one-column rc-max-width--lg">
                                     <div className="rc-column rc-margin-bottom--sm">
                                         <div className="rc-layout-container rc-margin-top--md rc-stacked">
                                             <div className="rc-column rc-padding-x--none--desktop">
-                                                {/*list*/}
                                                 {
-                                                    data.goodsEvaluatesList.map(item => (
-                                                            <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
-                                                                <div className="rc-column">
-                                                                    <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                                                                        <div className="red-text">{item.commentator}</div>
-                                                                        <div style={{'fontSize': '14px'}}>{item.commentTime}</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="rc-column rc-quad-width">
-                                                                    <div className="rc-padding--md--desktop rc-padding--sm--mobile">
-                                                                        <Rate def={item.evaluateScore} disabled={true}/>
-                                                                        <div className="break">{item.title}</div>
-                                                                        {/*{item.description}*/}
-                                                                        <div className="img-box rc-padding-bottom--xs rc-margin-top--sm">
-                                                                            {
-                                                                                item.evaluateImageList && item.evaluateImageList.length > 0 ?
-                                                                                    item.evaluateImageList.map((img) =>
-                                                                                        <div className="img-wrapper"><img className="rc-img--square rc-img--square-custom " src={img.artworkUrl}/></div>
-                                                                                    )
-                                                                                    : null
-                                                                            }
+                                                    this.state.loading ?
+                                                        (
+                                                            <Skeleton
+                                                                color="#f5f5f5"
+                                                                width="100%"
+                                                                height="100%"
+                                                            />
+                                                        ) :
+                                                        (
+                                                            data.goodsEvaluatesList.map(item => (
+                                                                    <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
+                                                                        <div className="rc-column">
+                                                                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                                                                                <div className="red-text">{item.commentator}</div>
+                                                                                <div style={{'fontSize': '14px'}}>{item.commentTime}</div>
+                                                                            </div>
                                                                         </div>
-                                                                        {
-                                                                            item.evaluateAnswer?
-                                                                                <div>
-                                                                                    <div>
-                                                                                        <span className="red-text rc-margin-right--xs" style={{'fontWeight': '400'}}><FormattedMessage id="replyComments" /></span>
-                                                                                        <span style={{'fontSize': '14px'}}>{item.evaluateAnswerTime}</span>
-                                                                                    </div>
-                                                                                    <div className="rc-padding-top--xs">
-                                                                                        {item.evaluateAnswer}
-                                                                                    </div>
-                                                                                </div> : null
-                                                                        }
+                                                                        <div className="rc-column rc-quad-width">
+                                                                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                                                                                <Rate def={item.evaluateScore} disabled={true}/>
+                                                                                <div className="break">{item.title}</div>
+                                                                                {/*{item.description}*/}
+                                                                                <div className="img-box rc-padding-bottom--xs rc-margin-top--sm">
+                                                                                    {
+                                                                                        item.evaluateImageList && item.evaluateImageList.length > 0 ?
+                                                                                            item.evaluateImageList.map((img) =>
+                                                                                                <div className="img-wrapper"><img className="rc-img--square rc-img--square-custom " src={img.artworkUrl}/></div>
+                                                                                            )
+                                                                                            : null
+                                                                                    }
+                                                                                </div>
+                                                                                {
+                                                                                    item.evaluateAnswer?
+                                                                                        <div>
+                                                                                            <div>
+                                                                                                <span className="red-text rc-margin-right--xs" style={{'fontWeight': '400'}}><FormattedMessage id="replyComments" /></span>
+                                                                                                <span style={{'fontSize': '14px'}}>{item.evaluateAnswerTime}</span>
+                                                                                            </div>
+                                                                                            <div className="rc-padding-top--xs">
+                                                                                                {item.evaluateAnswer}
+                                                                                            </div>
+                                                                                        </div> : null
+                                                                                }
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
+                                                                )
+                                                            )
                                                         )
-                                                    )}
+                                                }
                                             </div>
                                             {/*分頁*/}
                                             <div className="rc-column rc-margin-top--md">
