@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import oxxo from "@/assets/images/oxxo.png";
-import EBANX from "@/assets/images/EBANX.svg";
 import "./OxxoModal.css";
 import OxxoModalBody from "./OxxoModalBody";
 import ReactToPrint from "react-to-print";
+import { FormattedMessage } from "react-intl";
 
 export default class OxxoModal extends Component {
   constructor(props) {
@@ -44,14 +43,14 @@ export default class OxxoModal extends Component {
                   trigger={() => {
                     // NOTE: could just as easily return <SomeComponent />. Do NOT pass an `onClick` prop
                     // to the root node of the returned component as it will be overwritten.
-                    return <div className="printPanel"> <button className="print" href="#">Print</button></div>;
+                    return <div className="printPanel"> <button className="print" href="#"><FormattedMessage id="print" /></button></div>;
                   }}
                   content={() => this.componentRef}
                 />
               </div>
               <div className="modal-footer">
-                <a href="#" style={{ marginRight: '35px' }}>Visit store map</a>
-                <a href="#" onClick={() => this.close()}>Close</a>
+                <a href="#" style={{ marginRight: '35px' }}><FormattedMessage id="visitStoreMap" /></a>
+                <a href="#" onClick={() => this.close()}><FormattedMessage id="close" /></a>
               </div>
             </div>
           </div>
