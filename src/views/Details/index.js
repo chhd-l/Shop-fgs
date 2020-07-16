@@ -73,12 +73,13 @@ class Details extends React.Component {
       isAdd: 0,
       productRate: 0,
       replyNum: 0,
-      goodsId: null
+      goodsId: null,
+      minMarketPrice: 0,
+      minSubscriptionPrice: 0
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
-    this.updateEvaluate = this.updateEvaluate.bind(this)
     this.headerRef = React.createRef();
 
     this.specie = ''
@@ -105,12 +106,7 @@ class Details extends React.Component {
   get checkoutStore () {
     return this.props.checkoutStore
   }
-  updateEvaluate ({ productRate, replyNum }) {
-    this.setState({
-      productRate: productRate,
-      replyNum: replyNum
-    })
-  }
+
   matchGoods () {
     let { specList, details, currentUnitPrice, currentSubscriptionPrice, stock } = this.state
     let selectedArr = []
@@ -156,11 +152,14 @@ class Details extends React.Component {
             productRate: res.context.avgEvaluate
           })
         }
+        debugger
         if(res && res.context && res.context.goods) {
           this.setState({
             productRate: res.context.goods.avgEvaluate,
             replyNum:  res.context.goods.goodsEvaluateNum,
-            goodsId: res.context.goods.goodsId
+            goodsId: res.context.goods.goodsId,
+            minMarketPrice: res.context.goods.minMarketPrice,
+            minSubscriptionPrice: res.context.goods.minSubscriptionPrice,
           })
         }
         if (res && res.context && res.context.goodsSpecDetails && resList[1]) {
@@ -694,7 +693,7 @@ class Details extends React.Component {
                                     </div>
 
                                     <b className="product-pricing__card__head__price red rc-padding-y--none">
-                                      {initing ? '--' : formatMoney(currentUnitPrice)}
+                                      {initing ? '--' : formatMoney(this.state.minMarketPrice )}
                                     </b>
                                   </div>
                                   {
@@ -710,7 +709,7 @@ class Details extends React.Component {
                                             </span>
                                           </div>
                                           <b className="product-pricing__card__head__price red rc-padding-y--none">
-                                            {initing ? '--' : formatMoney(currentSubscriptionPrice || 0)}
+                                            {initing ? '--' : formatMoney(this.state.minSubscriptionPrice || 0)}
                                           </b>
                                         </div>
                                         <span className="red" style={{ fontSize: '.9em' }}>
