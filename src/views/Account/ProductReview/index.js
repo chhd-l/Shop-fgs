@@ -22,9 +22,9 @@ class ProductReview extends React.Component {
         this.state = {
             orderId: 0,
             productList: [],
-            purchaseRate: 5,
-            logisticsRate: 5,
-            productRate: 5,
+            purchaseRate: 0,
+            logisticsRate: 0,
+            productRate: 0,
             current: 1,
             reviewList: [],
             imgList: []
@@ -90,7 +90,7 @@ class ProductReview extends React.Component {
                     isFillInfo = false
                 }
                 let obj = {
-                    evaluateScore: item.productRate ? item.productRate : 5,
+                    evaluateScore: item.productRate ? item.productRate : 0,
                     evaluateContent: item.consumerComment,
                     isAnonymous: item.isAnonymous ? 1 : 0,
                     orderNo: this.state.orderId,
@@ -241,7 +241,7 @@ class ProductReview extends React.Component {
                                                         <strong className="rc-font-bold"><FormattedMessage id="purchaseRating"></FormattedMessage></strong>
                                                     </span>
                                                     <div className="rc-margin-top--xs">
-                                                        <Rate def={5} disabled={false} selectRate={this.selectPurchaseRate}/>
+                                                        <Rate def={this.state.purchaseRate} disabled={false} selectRate={this.selectPurchaseRate}/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -257,7 +257,7 @@ class ProductReview extends React.Component {
                                                         <strong className="rc-font-bold"><FormattedMessage id="logisticsRating"></FormattedMessage></strong>
                                                     </span>
                                                     <div className="rc-margin-top--xs">
-                                                        <Rate def={5} disabled={false} selectRate={this.selectPurchaseRate}/>
+                                                        <Rate def={this.state.logisticsRate} disabled={false} selectRate={this.selectLogisticsRate}/>
                                                     </div>
                                                 </div>
                                             </div>

@@ -1,16 +1,9 @@
 import React from 'react'
-import Skeleton from 'react-skeleton-loader'
-import GoogleTagManager from '@/components/GoogleTagManager'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import BreadCrumbs from '@/components/BreadCrumbs'
-import ImageMagnifier from '@/components/ImageMagnifier'
-import Selection from '@/components/Selection'
-import LoginButton from '@/components/LoginButton'
+import Pagination from '@/components/Pagination'
 import Rate from '@/components/Rate'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details'
-import Details from "../index";
+import "../index.css";
 @injectIntl
 class Reviews extends React.Component {
     constructor(props) {
@@ -18,7 +11,7 @@ class Reviews extends React.Component {
         this.state = {
             id: null,
             goodsEvaluatesList: [],
-            evaluatesCurrentPage: 0,
+            evaluatesCurrentPage: 1,
             valuatesTotalPages: 0,
             selectedSortBy: 0
         }
@@ -31,7 +24,7 @@ class Reviews extends React.Component {
             this.setState({
                 id: nextProps.id
             },() => {
-                this.getGoodsEvaluates(0, 5,null)
+                this.getGoodsEvaluates(1, 5,null)
             })
 
         }
@@ -58,10 +51,16 @@ class Reviews extends React.Component {
             this.getGoodsEvaluates(currentPage, 5, null)
         }
     }
-
-    async getGoodsEvaluates (pageNum = 0, pageSize = 5, sort) {
+    hanldePageNumChange (params) {
+        debugger
+        this.setState({
+            evaluatesCurrentPage: params.currentPage
+        }, () => this.getGoodsEvaluates(this.state.evaluatesCurrentPage, 5))
+    }
+    async getGoodsEvaluates (pageNum = 1, pageSize = 5, sort) {
+        debugger
         let parmas = {
-            pageNum: pageNum,
+            pageNum: pageNum-1,
             pageSize: pageSize,
             goodsId: this.state.id,
             sortColumn: '',
@@ -70,7 +69,7 @@ class Reviews extends React.Component {
         switch (Number(this.state.selectedSortBy)) {
             case 0:
                 parmas.sortColumn = 'evaluateTime'
-                parmas.sortRole = 'asc'
+                parmas.sortRole = 'desc'
                 break;
             case 1:
                 parmas.sortColumn = 'evaluateScore'
@@ -94,18 +93,17 @@ class Reviews extends React.Component {
             let list = obj.content
             list.forEach(item => {
                 item.commentator = item.customerName
-                item.commentTime = item.evaluateAnswerTime
+                item.commentTime = item.evaluateTime
                 item.title = item.evaluateContent
                 item.description = item.evaluateAnswer
                 item.rate = item.evaluateScore
             })
             console.log(list, 'review list')
             this.setState({
-                evaluatesCurrentPage: obj.number ? obj.number : 0,
+                // evaluatesCurrentPage: obj.number ? obj.number : 0,
                 valuatesTotalPages: obj.total ? obj.totalPages : 0 ,
                 goodsEvaluatesList: list
             })
-            // this.props.updateEvaluate()
         }
     }
     render () {
@@ -152,15 +150,15 @@ class Reviews extends React.Component {
                                                                 <div className="rc-column">
                                                                     <div className="rc-padding--md--desktop rc-padding--sm--mobile">
                                                                         <div className="red-text">{item.commentator}</div>
-                                                                        <div>{item.commentTime}</div>
+                                                                        <div style={{'fontSize': '14px'}}>{item.commentTime}</div>
                                                                     </div>
                                                                 </div>
                                                                 <div className="rc-column rc-quad-width">
                                                                     <div className="rc-padding--md--desktop rc-padding--sm--mobile">
                                                                         <Rate def={item.evaluateScore} disabled={true}/>
-                                                                        <div className="rc-padding-bottom--xs">{item.title}</div>
+                                                                        <div className="break">{item.title}</div>
                                                                         {/*{item.description}*/}
-                                                                        <div className="img-box rc-padding-bottom--xs">
+                                                                        <div className="img-box rc-padding-bottom--xs rc-margin-top--sm">
                                                                             {
                                                                                 item.evaluateImageList && item.evaluateImageList.length > 0 ?
                                                                                     item.evaluateImageList.map((img) =>
@@ -173,7 +171,8 @@ class Reviews extends React.Component {
                                                                             item.evaluateAnswer?
                                                                                 <div>
                                                                                     <div>
-                                                                                        <span className="red-text"><FormattedMessage id="replyComments" /></span>
+                                                                                        <span className="red-text rc-margin-right--xs" style={{'fontWeight': '400'}}><FormattedMessage id="replyComments" /></span>
+                                                                                        <span style={{'fontSize': '14px'}}>{item.evaluateAnswerTime}</span>
                                                                                     </div>
                                                                                     <div className="rc-padding-top--xs">
                                                                                         {item.evaluateAnswer}
@@ -188,25 +187,30 @@ class Reviews extends React.Component {
                                             </div>
                                             {/*分頁*/}
                                             <div className="rc-column rc-margin-top--md">
-                                                <nav className="rc-pagination" data-pagination="" data-pages={data.valuatesTotalPages}
-                                                     data-rc-feature-pagination-setup="true" data-rc-pagination-active="true">
-                                                    <form action="#" method="POST" className="rc-pagination__form">
-                                                        <button
-                                                            className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography "
-                                                            disabled={data.evaluatesCurrentPage===0}
-                                                            type="submit" data-prev="" aria-label="Previous step" onClick={this.evaluatesPrePage.bind(this)}></button>
-                                                        <div className="rc-pagination__steps">
-                                                            <input type="text" className="rc-pagination__step rc-pagination__step--current"
-                                                                   aria-label="Current step" value={data.evaluatesCurrentPage + 1}></input>
-                                                            <div className="rc-pagination__step rc-pagination__step--of">of <span
-                                                                data-total-steps-label="">{data.valuatesTotalPages}</span></div>
-                                                        </div>
-                                                        <button
-                                                            className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-                                                            disabled={data.evaluatesCurrentPage+1 >= data.valuatesTotalPages}
-                                                            type="submit" data-next="" aria-label="Previous step" onClick={this.evaluatesNextPage.bind(this)} ></button>
-                                                    </form>
-                                                </nav>
+                                                <Pagination
+                                                    loading={false}
+                                                    currentPage={data.evaluatesCurrentPage}
+                                                    totalPage={data.valuatesTotalPages}
+                                                    onPageNumChange={params => this.hanldePageNumChange(params)} />
+                                                {/*<nav className="rc-pagination" data-pagination="" data-pages={data.valuatesTotalPages}*/}
+                                                {/*     data-rc-feature-pagination-setup="true" data-rc-pagination-active="true">*/}
+                                                {/*    <form action="#" method="POST" className="rc-pagination__form">*/}
+                                                {/*        <button*/}
+                                                {/*            className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography "*/}
+                                                {/*            disabled={data.evaluatesCurrentPage===0}*/}
+                                                {/*            type="submit" data-prev="" aria-label="Previous step" onClick={this.evaluatesPrePage.bind(this)}></button>*/}
+                                                {/*        <div className="rc-pagination__steps">*/}
+                                                {/*            <input type="text" className="rc-pagination__step rc-pagination__step--current"*/}
+                                                {/*                   aria-label="Current step" value={data.evaluatesCurrentPage + 1}></input>*/}
+                                                {/*            <div className="rc-pagination__step rc-pagination__step--of">of <span*/}
+                                                {/*                data-total-steps-label="">{data.valuatesTotalPages}</span></div>*/}
+                                                {/*        </div>*/}
+                                                {/*        <button*/}
+                                                {/*            className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"*/}
+                                                {/*            disabled={data.evaluatesCurrentPage+1 >= data.valuatesTotalPages}*/}
+                                                {/*            type="submit" data-next="" aria-label="Previous step" onClick={this.evaluatesNextPage.bind(this)} ></button>*/}
+                                                {/*    </form>*/}
+                                                {/*</nav>*/}
                                             </div>
                                         </div>
                                     </div>

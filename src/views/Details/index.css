@@ -1664,3 +1664,6 @@ p {
 .mgb28 {
   margin-bottom: 28px;
 }
+.break {
+  word-break: break-all!important;
+}
