@@ -49,7 +49,7 @@ export default class OxxoModal extends Component {
                 />
               </div>
               <div className="modal-footer">
-                <a href="#" style={{ marginRight: '35px' }}><FormattedMessage id="visitStoreMap" /></a>
+                <a href="https://www.oxxo.cl/ubicaciones" target="blank" style={{ marginRight: '35px' }}><FormattedMessage id="visitStoreMap" /></a>
                 <a href="#" onClick={() => this.close()}><FormattedMessage id="close" /></a>
               </div>
             </div>

@@ -1,5 +1,6 @@
 // 注意：其他文件也存在多语言相关，搜en/es/ru
 const en_US = {
+  'all': 'All',
   'just': 'Just',
   'or': 'or',
   'submit': 'Submit',
