@@ -116,7 +116,7 @@ class Subscription extends React.Component {
     let param = {
         pageNum: currentPage - 1,
         pageSize: this.pageSize,
-        // subscribeId: 'S20200713113215362'
+        subscribeId: 'S20200713113215362'
         // customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
     }
     getSubList(param)
@@ -124,7 +124,9 @@ class Subscription extends React.Component {
           console.log(res, '1111')
           this.setState({
               subList: res.context.subscriptionResponses,
-              loading: false
+              loading: false,
+              currentPage: res.context.currentPage + 1,
+              total: res.context.total
             })
         // let tmpList = Array.from(res.context.content, (ele) => {
         //   const tradeState = ele.tradeState;
