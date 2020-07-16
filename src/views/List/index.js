@@ -398,12 +398,11 @@ class List extends React.Component {
                                             <div className="height-product-tile-plpOnly height-product-tile">
                                               <header className="rc-text--center">
                                                 <h3
-                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break black-font-color"
+                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break font15"
                                                   title={item.lowGoodsName}>
                                                   {item.lowGoodsName}
                                                 </h3>
                                               </header>
-
                                               {
                                                 item.goodsInfos.length > 1
                                                   ? <div className="text-center mb-2">
@@ -415,37 +414,48 @@ class List extends React.Component {
                                               }
                                               {/*<div className="Product-Key-words rc-text--center"></div>*/}
                                               <div
-                                                className="ui-text-overflow-line3 text-break rc-padding-top--xs sub-hover"
+                                                className={['ui-text-overflow-line3', 'text-break', 'rc-padding-top--xs', 'sub-hover', find(item.goodsInfos, ele => ele.subscriptionStatus) ? '' : 'rc-text--center'].join(' ')}
                                                 title={item.goodsSubtitle}>
                                                 {item.goodsSubtitle}
                                               </div>
                                             </div>
 
-                                            <div className="rc-card__price  rc-padding-top--xs">
+                                            <div className="rc-card__price  rc-padding-top--xs ">
                                               {
                                                 find(item.goodsInfos, ele => ele.subscriptionStatus)
                                                   ? <div className="range">
-                                                      <span style={{'fontSize': '14px'}}>From </span>
+                                                      {
+                                                        item.goodsInfos.length > 1 ?
+                                                          <span style={{'fontSize': '14px'}}>From </span>
+                                                          : null
+                                                      }
                                                       <span className=" red-text">
                                                         {/*{formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.subscriptionPrice || 0)))}{' '}*/}
                                                         {formatMoney(item.minSubscriptionPrice || 0 )}
                                                       </span>
-                                                    <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                                                    <span className="rc-icon rc-refresh--xs rc-brand1 "></span>
                                                     <span className="position-relative red-text" style={{ fontSize: '.6em', top: '-4px' }}>
                                                       <FormattedMessage id="details.Subscription" />
                                                     </span>
                                                   </div>
                                                   : null
                                               }
-                                              <div>
-                                                <span style={{'fontSize': '14px'}}>From </span><span  className="red-text" >
+
+
+                                              <div className={['rc-full-width', find(item.goodsInfos, ele => ele.subscriptionStatus) ? '' : 'rc-text--center'].join(' ')}  >
+                                                {
+                                                  item.goodsInfos.length > 1 ?
+                                                      <span style={{'fontSize': '14px'}}>From </span>
+                                                      : null
+                                                }
+                                                <span  className="red-text " >
                                                 {/*{formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.salePrice)))}*/}
                                                 {formatMoney(item.minMarketPrice || 0 )}
                                               </span>
                                               </div>
                                             </div>
 
-                                            <div className="rc-card__price flex-inline">
+                                            <div className={['rc-card__price', 'flex-inline', find(item.goodsInfos, ele => ele.subscriptionStatus) ? '' : 'margin-auto'].join(' ')}>
                                               {/*goodsEvaluateNum*/}
                                               <div className="display-inline" ><Rate def={item.avgEvaluate} disabled={true} /></div><span className='comments'>{item.goodsEvaluateNum}</span>
                                             </div>

@@ -13,7 +13,7 @@ import myPetImg from "@/assets/images/profile/My pet.jpg";
 import myProfileImg from "@/assets/images/profile/My profile.jpg";
 import paymentImg from "@/assets/images/profile/Payment.jpg";
 import subscriptionImg from "@/assets/images/profile/Subscription.jpg"
-import addressImg from "@/assets/images/profile/Address.jpg"
+import addressImg from "@/assets/images/profile/Address.png"
 import './index.css'
 
 @inject("loginStore")

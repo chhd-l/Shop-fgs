@@ -152,18 +152,10 @@ const App = () => (
               <Route path='/account/shippingAddress' exact component={AccountShippingAddress} />
               <Route path='/account/paymentMethod' exact component={AccountPaymentMethod} />
               <Route path='/account/return-order' exact component={AccountReturnOrder} />
-              <Route path='/account' exact render={() => (token ? <AccountHome></AccountHome> : <Redirect to='/' />)} />
               <Route path='/account/information' exact component={AccountProfile} />
               <Route path='/account/pets' exact component={AccountPets} />
-              <Route path='/account/orders' exact component={AccountOrders} />
-              <Route path='/account/orders-detail/:orderNumber' exact component={AccountOrdersDetail} />
-              <Route path='/account/pets/petForm' exact component={AccountPetForm} />
-              <Route path='/account/pets/petList' exact component={AccountPetList} />
-              <Route path='/account/shippingAddress' exact component={AccountShippingAddress} />
-              <Route path='/account/paymentMethod' exact component={AccountPaymentMethod} />
               <Route path='/account/subscription' exact component={AccountSubscription} />
               <Route path='/account/subscription-detail/:subscriptionNumber' exact component={AccountSubscriptionDetail} />
-              <Route path='/account/return-order' exact component={AccountReturnOrder} />
               <Route path='/account/orders-aftersale/:orderNumber' exact component={AccountOrdersAfterSale} />
               <Route path='/account/orders-aftersale/success/:returnNumber' exact component={AccountOrdersAfterSaleSuccess} />
               <Route path='/account/return-order-detail/:returnNumber' exact component={AccountOrdersAfterSaleDetail} />

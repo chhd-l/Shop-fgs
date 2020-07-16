@@ -14,12 +14,12 @@ import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
 import { batchAdd } from "@/api/payment";
 import { getOrderList, getOrderDetails } from "@/api/order"
+import store from 'storejs'
 import {
   MINIMUM_AMOUNT,
   STOREID,
   STORE_CATE_ENUM
 } from "@/utils/constant"
-
 import {
   IMG_DEFAULT,
   DELIVER_STATUS_ENUM,
@@ -206,11 +206,11 @@ class AccountOrders extends React.Component {
         phoneNumber: detailResCt.invoice.phone,
         addressId: detailResCt.invoice.addressId
       }
-      localStorage.setItem("loginDeliveryInfo", JSON.stringify({
+      store.set("loginDeliveryInfo", {
         deliveryAddress: tmpDeliveryAddress,
         billingAddress: tmpBillingAddress,
         commentOnDelivery: detailResCt.buyerRemark
-      }))
+      })
 
       this.props.checkoutStore.setLoginCartData(tradeItems)
       sessionStorage.setItem('rc-tid', order.id)
@@ -404,7 +404,7 @@ class AccountOrders extends React.Component {
                                     <div className="col-4 col-md-2 text-center">
                                       {
                                         order.canPayNow
-                                          ? <React.Fragment>
+                                          ? <>
                                             <TimeCount
                                               endTime={order.orderTimeOut}
                                               onTimeEnd={() => this.handlePayNowTimeEnd(order)} />
@@ -414,34 +414,39 @@ class AccountOrders extends React.Component {
                                               onClick={() => this.handleClickPayNow(order)}>
                                               <FormattedMessage id="order.payNow" />
                                             </button>
-                                          </React.Fragment>
+                                          </>
                                           : null
                                       }
                                       {
                                         order.canReview ?
-                                          <div >
-                                            <button className="rc-btn rc-btn--sm rc-btn--two">
-                                              <FormattedMessage id="writeReview">
-                                                {txt => (
-                                                  <Link
-                                                    className="red-text"
-                                                    to={`/account/productReview/${order.id}`}
-                                                    title={txt}
-                                                    alt={txt}>
-                                                    {txt}
-                                                  </Link>
-                                                )}
-                                              </FormattedMessage>
-                                            </button>
-                                          </div> :
+                                          <button
+                                            className="rc-btn rc-btn--sm rc-btn--two"
+                                            style={{ transform: 'scale(.85)' }}>
+                                            <FormattedMessage id="writeReview">
+                                              {txt => (
+                                                <Link
+                                                  className="red-text"
+                                                  to={`/account/productReview/${order.id}`}
+                                                  title={txt}
+                                                  alt={txt}>
+                                                  {txt}
+                                                </Link>
+                                              )}
+                                            </FormattedMessage>
+                                          </button> :
                                           null
                                       }
-                                      <div className="rc-margin-top--xs">
-                                        <button className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn" onClick={() => this.rePurchase(order)}>
-                                          <FormattedMessage id="rePurchase">
-                                          </FormattedMessage>
-                                        </button>
-                                      </div>
+                                      {
+                                        !order.canPayNow
+                                          ? <button
+                                            className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn"
+                                            style={{ transform: 'scale(.85)' }}
+                                            onClick={() => this.rePurchase(order)}>
+                                            <FormattedMessage id="rePurchase">
+                                            </FormattedMessage>
+                                          </button>
+                                          : null
+                                      }
                                     </div>
                                   </div>
                                 </div>

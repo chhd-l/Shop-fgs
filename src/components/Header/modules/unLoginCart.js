@@ -234,13 +234,13 @@ class UnloginCart extends React.Component {
               </div>
             </div>
         }
-        <PetModal visible={this.state.petModalVisible}
+        {/* <PetModal visible={this.state.petModalVisible}
                   isAdd={this.state.isAdd}
                   productList={this.selectedCartData}
                   openNew={() => this.openNew()}
                   closeNew={() => this.closeNew()}
                   confirm={()=>this.petComfirm()}
-                  close={() => this.closePetModal()}/>
+                  close={() => this.closePetModal()}/> */}
       </span>
     )
   }
