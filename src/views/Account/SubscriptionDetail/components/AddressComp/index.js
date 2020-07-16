@@ -429,7 +429,7 @@ class LoginDeliveryAddress extends React.Component {
                     {addressList.map((item, i) => (
                       <div
                         className={`address-item ${
-                          item.selected ? "selected" : ""
+                          item.deliveryAddressId === this.props.deliveryAddressId || item.deliveryAddressId === this.props.billingAddressId ? "selected" : ""
                         }`}
                         key={item.deliveryAddressId}
                         onClick={() => this.selectAddress(i)}
@@ -453,7 +453,6 @@ class LoginDeliveryAddress extends React.Component {
                                 ></path>
                               </svg>
                             )}
-                            {/* <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span> */}
                           </div>
                           <div className="col-10 col-md-9">
                             {[item.consigneeName, item.consigneeNumber].join(

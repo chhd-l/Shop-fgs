@@ -514,7 +514,7 @@ class Payment extends React.Component {
       };
       try {
         sessionStorage.setItem("rc-paywith-login", this.isLogin);
-        sessionStorage.setItem("rc-payment-oxxo",false);
+        sessionStorage.setItem("rc-payment-oxxo", false);
         if (!this.isLogin) {
           // 登录状态，不需要调用两个接口
           let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(param);
@@ -560,11 +560,13 @@ class Payment extends React.Component {
               ? customerCommitAndPayMix
               : customerCommitAndPay
           : confirmAndCommit
-        let confirmAndCommitRes = await tmpCommitAndPay(param3);
+        const confirmAndCommitRes = await tmpCommitAndPay(param3);
         // debugger
         console.log(confirmAndCommitRes);
+        const confirmAndCommitResContext = confirmAndCommitRes.context
         store.set(
-          "orderNumber", confirmAndCommitRes.context && confirmAndCommitRes.context[0]["tid"] || this.tid
+          "orderNumber", confirmAndCommitResContext && confirmAndCommitResContext[0]['tid'] || this.tid,
+          "subscribeNumber", confirmAndCommitResContext && confirmAndCommitResContext[0]['subscribeId'] || '',
         );
         this.setState({ loading: false });
         sessionStorage.removeItem("payosdata");
@@ -954,7 +956,7 @@ class Payment extends React.Component {
                   <h5>
                     <FormattedMessage id="payment.paymentInformation" />
                   </h5>
-                  <nav class="rc-tabs__controller rc-fade--x " data-toggle-group="" style={{ marginBottom:'20px' }}>
+                  <nav class="rc-tabs__controller rc-fade--x " data-toggle-group="" style={{ marginBottom: '20px' }}>
                     <ul class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break" role="tablist" >
                       <li className="rc-tabs-li">
                         <button class="rc-tab text-break"
@@ -974,7 +976,7 @@ class Payment extends React.Component {
                       </li>
                     </ul>
                   </nav>
-                  { this.state.showOxxoForm ?  <OxxoConfirm history={this.props.history}/> : 
+                  {this.state.showOxxoForm ? <OxxoConfirm history={this.props.history} /> :
                     <div>
                       <div className="card payment-form">
                         <div className="card-body rc-padding--none">
@@ -1295,22 +1297,22 @@ class Payment extends React.Component {
                         </label>
                       </div>
                       <div className="place_order-btn card">
-                      <div className="next-step-button">
-                        <div className="rc-text--right">
-                          <button
-                            className="rc-btn rc-btn--one submit-payment"
-                            type="submit"
-                            name="submit"
-                            value="submit-shipping"
-                            onClick={() => this.handleClickFurther()}
-                          >
-                            <FormattedMessage id="payment.further" />
-                          </button>
+                        <div className="next-step-button">
+                          <div className="rc-text--right">
+                            <button
+                              className="rc-btn rc-btn--one submit-payment"
+                              type="submit"
+                              name="submit"
+                              value="submit-shipping"
+                              onClick={() => this.handleClickFurther()}
+                            >
+                              <FormattedMessage id="payment.further" />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    </div>
-                  } 
+                  }
                 </div>
               </div>
               <div className="product-summary rc-column">

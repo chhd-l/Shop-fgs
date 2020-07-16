@@ -43,10 +43,13 @@ class Confirmation extends React.Component {
       oxxoModalShow: false,
       operateSuccessModalVisible: false,
       errorMsg: "",
+
+      subscribeNumber: store.get('subscribeNumber'),
+      orderNumber: store.get('orderNumber')
     };
     this.timer = null;
   }
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
     if (this.state.paywithLogin) {
       this.props.checkoutStore.removeLoginCartData();
@@ -59,8 +62,9 @@ class Confirmation extends React.Component {
     sessionStorage.removeItem('rc-clinics-id-select')
     sessionStorage.removeItem('rc-clinics-name-select')
     store.remove('orderNumber')
+    store.remove('subscribeNumber')
   }
-  componentDidMount() {
+  componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -87,7 +91,7 @@ class Confirmation extends React.Component {
       });
     }
     setTimeout(() => {
-      if(this.state.isOxxoPayment) {
+      if (this.state.isOxxoPayment) {
         this.setState({ modalShow: false, oxxoModalShow: true });
       } else {
         this.setState({ modalShow: true, oxxoModalShow: false });
@@ -104,17 +108,17 @@ class Confirmation extends React.Component {
       });
     });
   }
-  get tradePrice() {
+  get tradePrice () {
     return this.props.checkoutStore.cartPrice
       ? this.props.checkoutStore.cartPrice.tradePrice
       : 0;
   }
-  matchNamefromDict(dictList, id) {
+  matchNamefromDict (dictList, id) {
     return find(dictList, (ele) => ele.id == id)
       ? find(dictList, (ele) => ele.id == id).name
       : id;
   }
-  async hanldeClickSubmit() {
+  async hanldeClickSubmit () {
     const { evalutateScore } = this.state;
     if (evalutateScore === -1) {
       this.setState({
@@ -126,7 +130,7 @@ class Confirmation extends React.Component {
     try {
       await addEvaluate({
         storeId: STOREID,
-        orderNo: store.get('orderNumber'),
+        orderNo: this.state.orderNumber,
         goodsScore: evalutateScore + 1,
         consumerComment: this.state.consumerComment,
         serverScore: -1,
@@ -148,13 +152,13 @@ class Confirmation extends React.Component {
       this.setState({ submitLoading: false });
     }
   }
-  handleConsumerCommentChange(e) {
+  handleConsumerCommentChange (e) {
     this.setState({
       errorMsg: "",
       consumerComment: e.target.value,
     });
   }
-  render() {
+  render () {
     const {
       deliveryAddress,
       billingAddress,
@@ -205,7 +209,7 @@ class Confirmation extends React.Component {
           currencyCode: "MXN",
           purchase: {
             actionField: {
-              id: store.get('orderNumber'),
+              id: this.state.orderNumber,
               revenue: this.tradePrice
             },
             products,
@@ -241,40 +245,56 @@ class Confirmation extends React.Component {
                   <FormattedMessage id="confirmation.info2" />
                 </p>
                 <div className="d-flex align-items-center justify-content-center">
-                  {this.state.paywithLogin ? (
-                    <React.Fragment>
-                      {!this.state.isOxxoPayment ? (
-                        <Link
-                          to={`/account/orders-detail/${localStorage.getItem(
-                            "orderNumber"
-                          )}`}
-                          className="rc-btn rc-btn--one"
-                        >
-                          <FormattedMessage id="order.viewOrder" />
-                        </Link>
-                      ) : (
-                        <Link className="rc-btn rc-btn--one" 
+                  {
+                    this.state.isOxxoPayment
+                      ? <>
+                        <Link className="rc-btn rc-btn--one"
                           onClick={() => {
-                            this.setState({oxxoModalShow: true  });
-                          }}> 
+                            this.setState({ oxxoModalShow: true });
+                          }}>
                           <FormattedMessage id="printEbanx" />
                         </Link>
-                      )}
-                      &nbsp;or&nbsp;
-                    </React.Fragment>
-                  ) : null}
-                  <Link
-                    to="/"
-                    className="rc-meta rc-styled-link backtohome mb-0"
-                  >
-                    <FormattedMessage id="confirmation.visitOnlineStore" />
-                  </Link>
+                      &nbsp;<FormattedMessage id="or" />&nbsp;
+                      <Link
+                          to="/"
+                          className="rc-meta rc-styled-link backtohome mb-0">
+                          <FormattedMessage id="confirmation.visitOnlineStore" />
+                        </Link>
+                      </>
+                      : <Link
+                        to="/"
+                        className="rc-btn rc-btn--one"
+                        style={{ transform: 'scale(.85)' }}>
+                        <FormattedMessage id="confirmation.visitOnlineStore" />
+                      </Link>
+                  }
                 </div>
-                <p className="rc-margin-top--sm">
-                  <b>
-                    <FormattedMessage id="confirmation.orderNumber" />: {store.get('orderNumber')}
-                  </b>
-                </p>
+                {
+                  !this.state.isOxxoPayment && <p
+                    className={`rc-margin-top--sm ${this.state.subscribeNumber ? 'text-left' : ''} ml-auto mr-auto`}
+                    style={{ width: '25%' }}>
+                    {
+                      this.state.subscribeNumber && <>
+                        <b className="mb-3" style={{ display: 'inline-block' }}>
+                          <FormattedMessage id="subscription.number" />:{' '}
+                          <Link
+                            className="rc-meta rc-styled-link backtohome mb-0">
+                            {this.state.subscribeNumber}
+                          </Link>
+                        </b>
+                        <br />
+                      </>
+                    }
+                    <b>
+                      <FormattedMessage id="confirmation.orderNumber" />:{' '}
+                      <Link
+                        className="rc-meta rc-styled-link backtohome mb-0">
+                        {this.state.orderNumber}
+                      </Link>
+                    </b>
+                  </p>
+                }
+
               </div>
               <div className="rc-bg-colour--brand3 rc-max-width--xl rc-bottom-spacing rc-padding--sm imformation">
                 <div className="product-summary rc-column">
@@ -332,9 +352,9 @@ class Confirmation extends React.Component {
                                 <div className="col-md-6">
                                   &nbsp;
                                   {this.matchNamefromDict(
-                                    this.state.countryList,
-                                    deliveryAddress.country
-                                  )}
+                                  this.state.countryList,
+                                  deliveryAddress.country
+                                )}
                                 </div>
                                 <div className="col-md-6">
                                   <FormattedMessage id="payment.city" />
@@ -342,9 +362,9 @@ class Confirmation extends React.Component {
                                 <div className="col-md-6">
                                   &nbsp;
                                   {this.matchNamefromDict(
-                                    this.state.cityList,
-                                    deliveryAddress.city
-                                  )}
+                                  this.state.cityList,
+                                  deliveryAddress.city
+                                )}
                                 </div>
                                 <div className="col-md-6">
                                   <FormattedMessage id="payment.postCode" />
@@ -407,9 +427,9 @@ class Confirmation extends React.Component {
                                 <div className="col-md-6">
                                   &nbsp;
                                   {this.matchNamefromDict(
-                                    this.state.countryList,
-                                    billingAddress.country
-                                  )}
+                                  this.state.countryList,
+                                  billingAddress.country
+                                )}
                                 </div>
                                 <div className="col-md-6">
                                   <FormattedMessage id="payment.city" />
@@ -417,9 +437,9 @@ class Confirmation extends React.Component {
                                 <div className="col-md-6">
                                   &nbsp;
                                   {this.matchNamefromDict(
-                                    this.state.cityList,
-                                    billingAddress.city
-                                  )}
+                                  this.state.cityList,
+                                  billingAddress.city
+                                )}
                                 </div>
                                 <div className="col-md-6">
                                   <FormattedMessage id="payment.postCode" />
@@ -538,7 +558,7 @@ class Confirmation extends React.Component {
             <div
               className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
                 this.state.errorMsg ? "" : "hidden"
-              }`}
+                }`}
             >
               <aside
                 className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -572,7 +592,7 @@ class Confirmation extends React.Component {
                     this.state.evalutateScore >= idx
                       ? "rc-rate-fill"
                       : "rc-rate"
-                  } rc-brand1`}
+                    } rc-brand1`}
                   onClick={() => {
                     this.setState({ evalutateScore: idx, errorMsg: "" });
                   }}
@@ -612,9 +632,9 @@ class Confirmation extends React.Component {
             this.setState({ operateSuccessModalVisible: false });
           }}
         />
-        <OxxoModal visible={this.state.oxxoModalShow}  close={() => {
-            this.setState({ oxxoModalShow: false });
-          }}/>
+        <OxxoModal visible={this.state.oxxoModalShow} close={() => {
+          this.setState({ oxxoModalShow: false });
+        }} />
       </div>
     );
   }
