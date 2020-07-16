@@ -43,7 +43,7 @@ class ReviewForm extends React.Component {
                                     <span className="text-break">{this.props.product.goodsWeight} {this.props.product.unit}</span>
                                 </div>
                                 <div className="rc-margin-top--xs">
-                                    <Rate def={5} disabled={false} selectRate={(rate) => this.selectProductRate(rate)}></Rate>
+                                    <Rate def={0} disabled={false} selectRate={(rate) => this.selectProductRate(rate)}></Rate>
                                 </div>
                             </div>
                         </div>

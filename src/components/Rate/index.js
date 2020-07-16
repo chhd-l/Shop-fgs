@@ -38,6 +38,8 @@ export default class Rate extends Component {
     componentDidUpdate = () => {}
     render() {
         let { count, num, enter, leave } = this.state
+        const t = /^(([^0][0-9]+|0)$)|^(([1-9]+)$)/
+        const flag = t.test(num)
         return (
             <div className="rate">
                 {new Array(count).fill().map((item, index) => (
@@ -67,13 +69,21 @@ export default class Rate extends Component {
                         }}
 
                     >
-              {enter > index ? (
-                  <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs" disabled={this.state.disabled}></span>
-              ) : num > index ? (
-                  <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs" disabled={this.state.disabled}></span>
-              ) : (
-                  <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-iconography--xs " disabled={this.state.disabled}></span>
-              )}
+                        {
+                            enter > index || num-1 >= index ?
+                                (
+                                    <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs" disabled={this.state.disabled}></span>
+                                ) : (
+                                    flag ?
+                                        (
+                                            <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-iconography--xs " disabled={this.state.disabled}></span>
+                                        ) :
+                                        (
+                                            <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs half-star" disabled={this.state.disabled}></span>
+                                        )
+                                )
+
+                        }
             </span>
                 ))}
             </div>

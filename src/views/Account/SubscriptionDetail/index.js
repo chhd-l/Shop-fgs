@@ -123,7 +123,7 @@ export default class SubscriptionDetail extends React.Component {
       this.setState({currentBillingAddress: res.context})
     })
     console.log(JSON.parse(localStorage.getItem("subDetail")), "subDetail");
-    let orderOptions = subDetail.trades.map(el => {
+    let orderOptions = (subDetail.trades || []).map(el => {
       return { value: el.id, name: el.id + '' }
     })
     console.log(orderOptions, 'aaa')
