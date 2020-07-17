@@ -95,11 +95,6 @@ class SubscriptionDetail extends React.Component {
           type: 'cancelAll'
         }
       ],
-
-  //     'modalSkipTitle': 'SKIP NEXT DELIVERY?',
-  // 'modalSkipContent': 'Are you sure you want to cancel the next delivery?',
-  // 'modalCancelAllTitle': 'CANCEL ALL ORDERS?',
-  // 'modalCancelAllContent': 'Are you sure you want to cancel all the following deliveries?',
       currentModalObj: {
         title: this.props.intl.messages.modalSkipTitle,
         content: this.props.intl.messages.modalSkipContent,
@@ -162,6 +157,23 @@ class SubscriptionDetail extends React.Component {
       currentBillingAddress: subDetail.invoice,
       orderOptions: orderOptions
     });
+    // try {
+    //   let timer = setInterval(() => {
+    //     const datePickerOptions = {
+    //       maxDate: new Date()
+    //     }
+    //     if (window.RCDL.features.Datepickers && document.querySelector('.rc-input__date')) {
+    //       document.querySelector('.rc-input__date').setAttribute("datepicker-setup", "false")
+    //       window.RCDL.features.Datepickers.init('.rc-input__date', null, datePickerOptions)
+    //       clearInterval(timer)
+    //     }
+    //   }, 1000)
+    // } catch (e) {
+    //   console.log(e)
+    // }
+
+    // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
+
   }
   hanldeClickSubmit() {
     let { modalType, subDetail } = this.state
@@ -212,72 +224,6 @@ class SubscriptionDetail extends React.Component {
               hanldeClickConfirm={() => this.hanldeClickSubmit()}
             >
               <span>{currentModalObj.content}</span>
-              {/* <div className="text-center pl-4 pr-4" style={{ lineHeight: 2 }}>
-                <div
-                  className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                    this.state.errorMsg ? "" : "hidden"
-                    }`}
-                >
-                  <aside
-                    className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
-                    role="alert"
-                  >
-                    <span>{this.state.errorMsg}</span>
-                    <button
-                      className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
-                      onClick={() => {
-                        this.setState({ errorMsg: "" });
-                      }}
-                      aria-label="Close"
-                    >
-                      <span className="rc-screen-reader-text">
-                        <FormattedMessage id="close" />
-                      </span>
-                    </button>
-                  </aside>
-                </div>
-                <h4>
-                  <FormattedMessage id="confirmation.rateTip" />
-                </h4>
-                <div
-                  className="d-flex justify-content-around"
-                  style={{ width: "40%", margin: "0 auto" }}
-                >
-                  {[0, 1, 2, 3, 4].map((item, idx) => (
-                    <span
-                      key={idx}
-                      className={`rc-icon ui-cursor-pointer ${
-                        this.state.evalutateScore >= idx
-                          ? "rc-rate-fill"
-                          : "rc-rate"
-                        } rc-brand1`}
-                      onClick={() => {
-                        this.setState({ evalutateScore: idx, errorMsg: "" });
-                      }}
-                    />
-                  ))}
-                </div>
-                <h4>
-                  <FormattedMessage id="confirmation.rateTip2" />
-                </h4>
-                <span
-                  className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
-                  input-setup="true"
-                >
-                  <FormattedMessage id="confirmation.rateTip3">
-                    {(txt) => (
-                      <textarea
-                        className="rc-input__textarea noborder"
-                        maxLength="50"
-                        placeholder={txt}
-                        style={{ height: 100 }}
-                        value={this.state.consumerComment}
-                        onChange={(e) => this.handleConsumerCommentChange(e)}
-                      />
-                    )}
-                  </FormattedMessage>
-                </span>
-              </div> */}
             </Modal>
             <div className="rc-padding--sm rc-max-width--xl">
               <div className="rc-layout-container rc-five-column">
@@ -498,9 +444,10 @@ class SubscriptionDetail extends React.Component {
                               className="rc-card__meta order-Id"
                               style={{ marginTop: "10px" }}
                             >
-                              <span class="rc-input">
+                              {/* <span class="rc-input"> */}
+                              <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
                                 <input
-                                  class="rc-input__date"
+                                  class="rc-input__date rc-js-custom rc-input__control"
                                   data-js-dateformat="YYYY-MM-DD"
                                   id="id-date-2"
                                   type="date"

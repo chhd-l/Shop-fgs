@@ -137,8 +137,6 @@ export default class AddressForm extends React.Component {
               </div>
             </div>
           </div>
-        </div>
-        <div className="rc-layout-container">
           <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
               <label
@@ -219,8 +217,6 @@ export default class AddressForm extends React.Component {
               </div>
             </div>
           </div>
-        </div>
-        <div className="rc-layout-container">
           <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
             <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
               <label
@@ -270,8 +266,6 @@ export default class AddressForm extends React.Component {
               </span>
             </div>
           </div>
-        </div>
-        <div className="rc-layout-container">
           <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_city">
             <label
               className="form-control-label"

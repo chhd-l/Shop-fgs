@@ -94,7 +94,8 @@ class Subscription extends React.Component {
       pageNum: currentPage - 1,
       pageSize: this.pageSize,
       subscribeId: form.subscribeId,
-      subscribeStatus: form.subscribeStatus
+      subscribeStatus: form.subscribeStatus,
+      customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
     }
     getSubList(param)
       .then((res) => {
@@ -195,24 +196,6 @@ class Subscription extends React.Component {
                           value: this.state.form.subscribeStatus
                         }}
                         customStyleType="select-one" />
-                      {/* <span class="rc-select">
-                        <select data-js-select="" id="id-single-select">
-                          <FormattedMessage id="active">
-                            {
-                              txt => (
-                                <option>{txt}</option>
-                              )
-                            }
-                          </FormattedMessage>
-                          <FormattedMessage id="inactive">
-                            {
-                              txt => (
-                                <option>{txt}</option>
-                              )
-                            }
-                          </FormattedMessage>
-                        </select>
-                      </span> */}
                     </div>
                   </div>
                 </div>

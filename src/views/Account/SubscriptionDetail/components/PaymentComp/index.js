@@ -624,7 +624,7 @@ class PaymentComp extends React.Component {
                     >
                       <div
                         className="position-absolute"
-                        style={{ right: "1%", top: "2%", zIndex: "999" }}
+                        style={{ right: "1%", top: "2%", zIndex: "1" }}
                       >
                         <span className="pull-right position-relative border-left pl-2 ui-cursor-pointer-pure">
                           <span
@@ -1084,7 +1084,8 @@ class PaymentComp extends React.Component {
                                     name="cardMmyy"
                                     maxLength="5"
                                     placeholder={
-                                      this.props.intl.messages.cardNumber
+                                      // this.props.intl.messages.cardNumber
+                                      'MM/YY'
                                     }
                                   />
                                 </span>
@@ -1112,7 +1113,7 @@ class PaymentComp extends React.Component {
                                       this.cardInfoInputChange(e)
                                     }
                                     name="cardCvv"
-                                    maxLength="3"
+                                    maxLength="4"
                                     placeholder="CVV"
                                   />
                                 </span>
