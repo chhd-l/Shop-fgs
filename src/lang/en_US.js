@@ -518,8 +518,8 @@ const en_US = {
   'totalPay': ' Pay {val} at the nearest OXXO store',
   'sendInformationByEmail': 'We will send the information to you by email, you can use it at any time.',
   'cvvWarning': 'CVV Warning',
-  'active': 'Activo',
-  'inactive': 'Inactivo',
+  'active': 'Active',
+  'inactive': 'Inactive',
 
   'visitStoreMap': 'Visit store map',
   'print': 'Print',

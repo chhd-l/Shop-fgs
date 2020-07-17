@@ -588,17 +588,19 @@ class PaymentComp extends React.Component {
                           }`}
                         key={idx}
                         onClick={() => {
-                          creditCardList.map((el) => (el.selected = false));
-                          el.selected = true;
-                          // this.props.getSelectedValue &&
-                          //   this.props.getSelectedValue(el);
-                          this.props.getSelectedValue &&
-                            this.props.getSelectedValue({});
-                          this.setState({
-                            creditCardList,
-                            isCurrentCvvConfirm: false,
-                            currentCvv: "",
-                          });
+                          if(pathname !== '/account/paymentMethod') {
+                            creditCardList.map((el) => (el.selected = false));
+                            el.selected = true;
+                            // this.props.getSelectedValue &&
+                            //   this.props.getSelectedValue(el);
+                            this.props.getSelectedValue &&
+                              this.props.getSelectedValue({});
+                            this.setState({
+                              creditCardList,
+                              isCurrentCvvConfirm: false,
+                              currentCvv: "",
+                            });  
+                          }
                         }}
                       >
                         <div

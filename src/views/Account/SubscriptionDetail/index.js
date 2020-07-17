@@ -82,7 +82,7 @@ class SubscriptionDetail extends React.Component {
       countryList: [],
       frequencyList: [],
       orderOptions: [],
-      modalShow: true,
+      modalShow: false,
       modalList: [
         {
           title: this.props.intl.messages.modalSkipTitle,

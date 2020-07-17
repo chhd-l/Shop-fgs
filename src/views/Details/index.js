@@ -152,7 +152,6 @@ class Details extends React.Component {
             productRate: res.context.avgEvaluate
           })
         }
-        debugger
         if(res && res.context && res.context.goods) {
           this.setState({
             productRate: res.context.goods.avgEvaluate,
