@@ -46,8 +46,8 @@ const LoginButton = (props, ref) => {
             let customerInfoRes = await getCustomerInfo()
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
             localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-            if (sessionStorage.getItem('redirectUrl') === '/cart') {
-              props.history.push(sessionStorage.getItem('redirectUrl'))
+            if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {
+              props.history.push(sessionStorage.getItem('okta-redirectUrl'))
             } else {
               const unloginCartData = localStorage.getItem('rc-cart-data') ? JSON.parse(localStorage.getItem('rc-cart-data')) : []
               if (unloginCartData.length) {
@@ -55,7 +55,7 @@ const LoginButton = (props, ref) => {
               }
               props.updateCartCache && props.updateCartCache()
             }
-            sessionStorage.removeItem('redirectUrl')
+            sessionStorage.removeItem('okta-redirectUrl')
           }).catch(e => {
             Store.changeLoginModal(false)
           })
@@ -66,13 +66,13 @@ const LoginButton = (props, ref) => {
 
   const login = async () => {
     sessionStorage.removeItem('rc-token-lose')
-    sessionStorage.setItem('redirectUrl', '/')
+    sessionStorage.setItem('okta-redirectUrl', '/')
     if (props.beforeLoginCallback) {
       let res = await props.beforeLoginCallback()
       if (res === false) {
         return false
       }
-      sessionStorage.setItem('redirectUrl', '/cart')
+      sessionStorage.setItem('okta-redirectUrl', '/cart')
     }
     authService.login('/');
   };

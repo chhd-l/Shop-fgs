@@ -105,7 +105,7 @@ class Payment extends React.Component {
       window.location.reload();
       return false
     }
-    
+
     if (this.state.isLogin && !localStorage.getItem("rc-cart-data-login")) {
       this.props.history.push('/cart')
     }
@@ -867,12 +867,7 @@ class Payment extends React.Component {
                       </h5>
                       <p
                         onClick={e => this.handleClickEditClinic(e)}
-                        style={{
-                          // display: sessionStorage.getItem("rc-clinics-name")
-                          //   ? "none"
-                          //   : "inline",
-                        }}
-                        className="rc-styled-link rc-margin-top--xs pull-right m-0"
+                        className={`rc-styled-link rc-margin-top--xs pull-right m-0 ${sessionStorage.getItem("rc-clinics-name-link") && sessionStorage.getItem("rc-clinics-id-link") ? 'hidden' : ''}`}
                       >
                         <FormattedMessage id="edit" />
                       </p>
@@ -1222,7 +1217,7 @@ class Payment extends React.Component {
                             {
                               this.state.isLogin
                                 ? <div className="rc-border-colour--interface">
-                                  <PaymentComp cardOwner={deliveryAddress.firstName + '' + deliveryAddress.lastName} phoneNumber={creditCardInfo.phoneNumber}  getSelectedValue={cardItem => {
+                                  <PaymentComp cardOwner={deliveryAddress.firstName + '' + deliveryAddress.lastName} phoneNumber={creditCardInfo.phoneNumber} getSelectedValue={cardItem => {
                                     this.setState({ selectedCardInfo: cardItem })
                                   }} />
                                 </div>

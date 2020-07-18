@@ -69,13 +69,14 @@ class Header extends React.Component {
     const { location } = this.props
     let prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
     let tmpName = ''
-    
+
     // 指定clinic链接进入，设置default clinic
     if (location
       && (location.pathname === '/'
-        || location.pathname.includes('/list')
-        || location.pathname.includes('/details'))
-      && this.state.prescriberId !== prescriberId) {
+        // || location.pathname.includes('/list')
+        // || location.pathname.includes('/details')
+        )
+      && this.state.prescriberId !== prescriberId && !sessionStorage.getItem('okta-redirectUrl')) {
       if (prescriberId) {
         try {
           let res = await getPrescriptionById({ prescriberId })
@@ -102,7 +103,11 @@ class Header extends React.Component {
    * 登录状态，设置default clinic
    */
   setDefaultClinic () {
-    if (jugeLoginStatus() && localStorage.getItem('rc-userinfo') && !sessionStorage.getItem('rc-clinics-id-select')) {
+    if (jugeLoginStatus()
+      && localStorage.getItem('rc-userinfo')
+      && !sessionStorage.getItem('rc-clinics-id-select')
+      && !sessionStorage.getItem('rc-clinics-id-link')
+      && !sessionStorage.getItem('rc-clinics-name-link')) {
       let userInfo = JSON.parse(localStorage.getItem('rc-userinfo'))
       if (userInfo.defaultClinics) {
         sessionStorage.setItem('rc-clinics-id-default', userInfo.defaultClinics.clinicsId)
