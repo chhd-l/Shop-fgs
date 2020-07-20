@@ -546,6 +546,7 @@ const en_US = {
   'concept': 'Concept',
   'buy':'Buy',
   'purchaseHomeOnline':'Purchase made at The Home Depot online -',
-  'oxxoTransactionFee': '(Does not include the OXXO transaction fee)'
+  'oxxoTransactionFee': '(Does not include the OXXO transaction fee)',
+  'searchPrescriber':'searchPrescriber'
 }
 export default en_US;
