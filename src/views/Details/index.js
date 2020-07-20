@@ -55,6 +55,7 @@ class Details extends React.Component {
       stock: 0,
       instockStatus: true,
       quantityMinLimit: 1,
+      quantityMaxLimit: 30,
       currentUnitPrice: 0,
       currentSubscriptionPrice: 0,
       imageMagnifierCfg: {
@@ -304,7 +305,9 @@ class Details extends React.Component {
         res = quantity - 1;
       }
     } else {
-      res = (quantity || 0) + 1;
+      if(quantity >= 30) {
+        res = (quantity || 0) + 1;
+      }
     }
     this.setState(
       {
@@ -317,7 +320,7 @@ class Details extends React.Component {
   }
   handleAmountInput (e) {
     this.setState({ checkOutErrMsg: "" });
-    const { quantityMinLimit } = this.state;
+    const { quantityMinLimit, quantityMaxLimit } = this.state;
     const val = e.target.value;
     if (val === "") {
       this.setState({ quantity: val });
@@ -328,6 +331,9 @@ class Details extends React.Component {
       }
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit;
+      }
+      if(tmp > quantityMaxLimit) {
+        tmp = quantityMaxLimit
       }
       this.setState({ quantity: tmp }, () => this.updateInstockStatus());
     }
@@ -657,8 +663,8 @@ class Details extends React.Component {
                                 </h1>
                                 <div className="rc-card__price flex-inline">
                                   <div className="display-inline" >
-                                    <Rate def={this.state.productRate} tooltip={this.state.replyNum + ' Reviews'} disabled={true} /></div>
-                                  {/*<span className='comments rc-margin-left--xs rc-text-colour--text'>{this.state.replyNum} <FormattedMessage id="reviews"/></span>*/}
+                                    <Rate def={this.state.productRate} disabled={true} /></div>
+                                  <a href="#review-container" className='comments rc-margin-left--xs rc-text-colour--text'>{this.state.replyNum} <FormattedMessage id="reviews"/></a>
                                 </div>
                                 <h3 className="text-break">{details.goodsSubtitle}</h3>
                                 <h3 className="text-break">
@@ -997,7 +1003,7 @@ class Details extends React.Component {
               </div>
 
 
-              <div>
+              <div id="review-container">
                 <Reviews id={this.state.goodsId} isLogin={this.isLogin}/>
               </div>
               <div

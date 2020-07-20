@@ -128,7 +128,7 @@ class AccountOrders extends React.Component {
                 && tradeState.payState === 'NOT_PAID'
                 && new Date(ele.orderTimeOut).getTime() > new Date().getTime(),
               payNowLoading: false,
-              // canRePurchase:
+              canRePurchase: tradeState.flowState === 'COMPLETED' || tradeState.flowState === 'VOID',
               canReview: tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO
             }
           )
@@ -437,7 +437,7 @@ class AccountOrders extends React.Component {
                                           null
                                       }
                                       {
-                                        !order.canPayNow
+                                        order.canRePurchase
                                           ? <button
                                             className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn"
                                             style={{ transform: 'scale(.85)' }}
