@@ -271,7 +271,7 @@ class Prescription extends React.Component {
               <div className="clinic-search-list">
                 <div><FormattedMessage id="clinic.selectVetClinics" /></div>
                 <form
-                  className={['inlineblock', 'headerSearch', 'pres-search', 'relative'].join(' ')}
+                  className={['inlineblock', 'headerSearch', 'headerSearchDesktop', 'pres-search', 'relative'].join(' ')}
                   role="search"
                   name="simpleSearch"
                   onSubmit={e => { e.preventDefault() }}>
@@ -279,7 +279,7 @@ class Prescription extends React.Component {
                     <button className="rc-input__submit rc-input__submit--search" type="submit" onClick={this.handleSearch}>
                       <span className="rc-screen-reader-text">Submit</span>
                     </button>
-                    <FormattedMessage id="MMYY">
+                    <FormattedMessage id="searchPrescriber">
                       {txt => <input
                         ref={this.inputRef}
                         className="search-field"
