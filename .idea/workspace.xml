@@ -27,7 +27,13 @@
   <component name="ChangeListManager">
     <list default="true" id="47401d03-5d3b-4db0-92ad-5095ad7961de" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ConfirmTooltip/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ConfirmTooltip/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Rate/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Rate/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Rate/index.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Rate/index.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lang/en_US.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lang/en_US.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Account/Orders/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/Orders/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Details/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Details/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/List/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/List/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/List/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/List/index.js" afterDir="false" />
@@ -66,7 +72,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ogcio-epd" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -122,7 +128,8 @@
       <workItem from="1592448983535" duration="1985000" />
       <workItem from="1592626824307" duration="914000" />
       <workItem from="1592635753495" duration="620000" />
-      <workItem from="1594603932547" duration="67994000" />
+      <workItem from="1594603932547" duration="75098000" />
+      <workItem from="1595208558888" duration="18339000" />
     </task>
     <servers />
   </component>
@@ -150,9 +157,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="514" y="212" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1594278197157" />
-    <state x="687" y="216" key="FileChooserDialogImpl" timestamp="1592635810862">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="550" y="171" key="FileChooserDialogImpl" timestamp="1595212532425">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="550" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1595212532425" />
     <state x="687" y="216" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1592635810862" />
     <state width="1894" height="332" key="GridCell.Tab.0.bottom" timestamp="1592636232883">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -222,19 +230,19 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="370" y="22" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1594198829594" />
-    <state x="513" y="200" width="881" height="596" key="find.popup" timestamp="1594862573458">
+    <state x="513" y="200" width="881" height="596" key="find.popup" timestamp="1595231802315">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="513" y="200" width="881" height="596" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1594862573458" />
+    <state x="513" y="200" width="881" height="596" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1595231802315" />
     <state x="589" y="195" width="742" height="650" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1592635787764" />
     <state x="509" y="263" key="git4idea.merge.GitPullDialog" timestamp="1592636329006">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="509" y="263" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1592636329006" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1594310098333">
+    <state x="425" y="187" key="run.anything.popup" timestamp="1595212669266">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1594310098333" />
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1595212669266" />
     <state x="431" y="4" width="672" height="820" key="search.everywhere.popup" timestamp="1594709484777">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -277,25 +285,21 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/PetModal/index.js</url>
           <line>47</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Account/Orders/index.js</url>
           <line>30</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/Header/index.js</url>
           <line>19</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Details/components/Reviews.js</url>
-          <line>245</line>
-          <properties lambdaOrdinal="-1" />
+          <line>270</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>

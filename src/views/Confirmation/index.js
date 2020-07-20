@@ -93,8 +93,6 @@ class Confirmation extends React.Component {
     setTimeout(() => {
       if (this.state.isOxxoPayment) {
         this.setState({ modalShow: false, oxxoModalShow: true });
-      } else {
-        this.setState({ modalShow: true, oxxoModalShow: false });
       }
     }, 3000);
     getDictionary({ type: "city" }).then((res) => {
@@ -303,7 +301,7 @@ class Confirmation extends React.Component {
                   <h5 className="product-summary__title rc-margin-bottom--xs center">
                     <FormattedMessage id="total" />
                   </h5>
-                  <PayProductInfo />
+                  <PayProductInfo history={this.props.history} />
                 </div>
                 <div className="card shipping-summary">
                   <div className="card-header rc-margin-bottom--xs rc-padding-right--none clearfix center">

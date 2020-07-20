@@ -97,7 +97,8 @@ class ImageMagnifier extends Component {
       videoModalShow: true,
       listenerCount: 1,
       positionLeft: 0,
-      hoverIndex: 0
+      hoverIndex: 0,
+      offsetX: 0
     };
   }
 
@@ -128,7 +129,7 @@ class ImageMagnifier extends Component {
           hoverIndex = i
         }
       })
-      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex})
+      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*200})
     }
   }
   // props 变化时更新
@@ -154,7 +155,7 @@ class ImageMagnifier extends Component {
           hoverIndex = i
         }
       })
-      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex})
+      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*200})
     }
   }
 
@@ -250,7 +251,8 @@ class ImageMagnifier extends Component {
       currentImg: image,
       videoShow: false,
       cssStyle,
-      hoverIndex: i
+      hoverIndex: i,
+      offsetX: i * 200
     })
   }
   // 图片加载情况
@@ -290,13 +292,23 @@ class ImageMagnifier extends Component {
     return (
       <div>
         <div style={{ position: 'relative' }}>
-          <div style={cssStyle.imgContainer}>
+          <div className="bigImageOutBox" style={cssStyle.imgContainer}>
+            <div className="bigImageInnerBox rc-loaded--final" style={{transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`}}>
+              {
+                images.map(el => (
+                  <div>
+                    <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />
+                  </div>
+                ))
+              }
+              {(videoShow && video) && <div><video ref="video" style={cssStyle.imgStyle} src={video ? video : ''} controlslist="nodownload" oncontextmenu="return false;" controls></video></div>}
+            </div>
             {videoShow && videoModalShow && <div className="videoModal" onClick={() => {
               this.refs.video.play()
               this.setState({ videoModalShow: false })
             }}></div>}
-            {!(videoShow && video) && <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />}
-            {(videoShow && video) && <video ref="video" style={cssStyle.imgStyle} src={video ? video : ''} controlslist="nodownload" oncontextmenu="return false;" controls></video>}
+            {/* {!(videoShow && video) && <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />} */}
+            
             {!videoShow && <div
               style={cssStyle.maskBlock}
               onMouseEnter={this.mouseEnter}
@@ -339,7 +351,7 @@ class ImageMagnifier extends Component {
           {video && <video className={`rc-img--square rc-img--square-custom ${hoverIndex === images.length ? 'hover' : ''}`} onMouseEnter={() => {
             let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
             cssStyle.imgContainer.cursor = 'pointer'
-            this.setState({ videoShow: true, cssStyle ,hoverIndex: images.length})
+            this.setState({ videoShow: true, cssStyle ,hoverIndex: images.length, offsetX: images.length * 200})
           }} src={video ? video : ''}></video>}
         </div>
         </div>

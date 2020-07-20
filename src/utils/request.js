@@ -26,7 +26,12 @@ service.interceptors.request.use(config => {
   }
   const lang = store.get('lang')
   if (lang) {
-    config.headers['Language'] = lang
+    config.headers['Language'] = {
+      en: 'en-US',
+      es: 'es-MX',
+      de: 'de',
+      cn: 'zh-CN'
+    }[lang]
   }
   return config
 })
