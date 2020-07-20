@@ -9,10 +9,16 @@ import visaImg from "@/assets/images/credit-cards/visa.svg";
 import Loading from "@/components/Loading";
 import PaymentComp from "./components/PaymentComp";
 import AddressComp from "./components/AddressComp";
-import Selection from '@/components/Selection'
+import Selection from "@/components/Selection";
 import { getDictionary } from "@/utils/utils";
-import { updateDetail , getAddressDetail, getSubDetail, skipNextSub, cancelAllSub } from "@/api/subscription"
-import Modal from '@/components/Modal'
+import {
+  updateDetail,
+  getAddressDetail,
+  getSubDetail,
+  skipNextSub,
+  cancelAllSub,
+} from "@/api/subscription";
+import Modal from "@/components/Modal";
 
 @injectIntl
 class SubscriptionDetail extends React.Component {
@@ -71,11 +77,11 @@ class SubscriptionDetail extends React.Component {
       },
       currentDeliveryAddress: {
         cityId: 1,
-        countryId: 6
+        countryId: 6,
       },
       currentBillingAddress: {
         cityId: 1,
-        countryId: 6
+        countryId: 6,
       },
       addressType: "delivery",
       cityList: [],
@@ -88,26 +94,26 @@ class SubscriptionDetail extends React.Component {
         {
           title: this.props.intl.messages.modalSkipTitle,
           content: this.props.intl.messages.modalSkipContent,
-          type: 'skipNext'
+          type: "skipNext",
         },
         {
           title: this.props.intl.messages.modalCancelAllTitle,
           content: this.props.intl.messages.modalCancelAllContent,
-          type: 'cancelAll'
-        }
+          type: "cancelAll",
+        },
       ],
       currentModalObj: {
         title: this.props.intl.messages.modalSkipTitle,
         content: this.props.intl.messages.modalSkipContent,
-        type: 'skipNext'
+        type: "skipNext",
       },
-      modalType: ''
+      modalType: "",
     };
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
   }
-  async componentDidMount () {
+  async componentDidMount() {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -121,24 +127,26 @@ class SubscriptionDetail extends React.Component {
 
     getDictionary({ type: "country" }).then((res) => {
       this.setState({
-        countryList: res
+        countryList: res,
       });
     });
     getDictionary({ type: "Frequency" }).then((res) => {
-      let frequencyList = res.map(el => {
+      let frequencyList = res.map((el) => {
         return {
           id: el.id,
           name: el.name,
-          value: el.name
-        }
-      })
+          value: el.name,
+        };
+      });
       this.setState({
-        frequencyList: frequencyList
+        frequencyList: frequencyList,
       });
     });
 
-    let subDetailRes = await getSubDetail(this.props.match.params.subscriptionNumber)
-    let subDetail = subDetailRes.context
+    let subDetailRes = await getSubDetail(
+      this.props.match.params.subscriptionNumber
+    );
+    let subDetail = subDetailRes.context;
     // getAddressDetail(subDetail.deliveryAddressId).then(res => {
     //   this.setState({currentDeliveryAddress: res.context})
     // })
@@ -146,17 +154,17 @@ class SubscriptionDetail extends React.Component {
     //   this.setState({currentBillingAddress: res.context})
     // })
     console.log(JSON.parse(localStorage.getItem("subDetail")), "subDetail");
-    let orderOptions = (subDetail.trades || []).map(el => {
-      return { value: el.id, name: el.id + '' }
-    })
-    console.log(orderOptions, 'aaa')
+    let orderOptions = (subDetail.trades || []).map((el) => {
+      return { value: el.id, name: el.id + "" };
+    });
+    console.log(orderOptions, "aaa");
     this.setState({
       subId: this.props.match.params.subscriptionNumber,
       subDetail: subDetail,
       currentCardInfo: subDetail.paymentInfo,
       currentDeliveryAddress: subDetail.consignee,
       currentBillingAddress: subDetail.invoice,
-      orderOptions: orderOptions
+      orderOptions: orderOptions,
     });
     // try {
     //   let timer = setInterval(() => {
@@ -174,21 +182,20 @@ class SubscriptionDetail extends React.Component {
     // }
 
     // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
-
   }
   hanldeClickSubmit() {
-    let { modalType, subDetail } = this.state
-    if(modalType === 'skipNext') {
-      skipNextSub({ subscribeId: subDetail.subscribeId }).then(res => {
-        window.location.reload()
-      })
-    }else if( modalType === 'cancelAll' ) {
-      cancelAllSub({ subscribeId: subDetail.subscribeId }).then(res => {
-        window.location.reload()
-      })
+    let { modalType, subDetail } = this.state;
+    if (modalType === "skipNext") {
+      skipNextSub({ subscribeId: subDetail.subscribeId }).then((res) => {
+        window.location.reload();
+      });
+    } else if (modalType === "cancelAll") {
+      cancelAllSub({ subscribeId: subDetail.subscribeId }).then((res) => {
+        window.location.reload();
+      });
     }
   }
-  render () {
+  render() {
     const data = this.state;
     let {
       isChangeQuatity,
@@ -199,7 +206,7 @@ class SubscriptionDetail extends React.Component {
       currentBillingAddress,
       addressType,
       subDetail,
-      currentModalObj
+      currentModalObj,
     } = this.state;
     return (
       <div>
@@ -238,16 +245,16 @@ class SubscriptionDetail extends React.Component {
                     paymentId={currentCardInfo.id}
                     type={type}
                     save={(el) => {
-                      console.log(el)
+                      console.log(el);
                       let param = {
                         subscribeId: subDetail.subscribeId,
-                        paymentId: el.id
-                      }
-                      console.log(param)
-                      updateDetail(param).then(res => {
-                        console.log(res)
-                        window.location.reload()
-                      })
+                        paymentId: el.id,
+                      };
+                      console.log(param);
+                      updateDetail(param).then((res) => {
+                        console.log(res);
+                        window.location.reload();
+                      });
                       this.setState({ type: "main", currentCardInfo: el });
                     }}
                     cancel={() => this.setState({ type: "main" })}
@@ -266,16 +273,35 @@ class SubscriptionDetail extends React.Component {
                       if (addressType === "delivery") {
                         let param = {
                           subscribeId: subDetail.subscribeId,
-                          deliveryAddressId: el.deliveryAddressId
-                        }
+                          deliveryAddressId: el.deliveryAddressId,
+                        };
                         if (isBillSame) {
-                          param.billingAddressId = el.deliveryAddressId
+                          param.billingAddressId = el.deliveryAddressId;
                         }
-                        console.log(param)
-                        updateDetail(param).then(res => {
-                          console.log(res)
-                          window.location.reload()
-                        })
+                        //订阅寄送地址和发票地址更改,在更新接口里面加上changeField参数为deliveryAddressId和billingAddressId的title
+                        let title = "";
+                        //寄送地址
+                        title = this.props.intl.messages[
+                          "subscription.shippingAddress"
+                        ];
+                        //如果勾选了同步发票地址,两个地址以逗号隔开传给后台
+                        if (param.billingAddressId) {
+                          title =
+                            title +
+                            "," +
+                            this.props.intl.messages[
+                              "subscription.BillingAddress"
+                            ];
+                        }
+                        //增加返回changeField字段
+                        Object.assign(param, {
+                          changeField: title,
+                        });
+                        console.log(param);
+                        updateDetail(param).then((res) => {
+                          console.log(res);
+                          window.location.reload();
+                        });
                         this.setState({
                           type: "main",
                           currentDeliveryAddress: el,
@@ -283,13 +309,19 @@ class SubscriptionDetail extends React.Component {
                       } else {
                         let param = {
                           subscribeId: subDetail.subscribeId,
-                          billingAddressId: el.deliveryAddressId
-                        }
-                        console.log(param)
-                        updateDetail(param).then(res => {
-                          console.log(res)
-                          window.location.reload()
-                        })
+                          billingAddressId: el.deliveryAddressId,
+                        };
+                        //增加返回changeField字段
+                        Object.assign(param, {
+                          changeField: this.props.intl.messages[
+                            "subscription.BillingAddress"
+                          ],
+                        });
+                        console.log(param);
+                        updateDetail(param).then((res) => {
+                          console.log(res);
+                          window.location.reload();
+                        });
                         this.setState({
                           type: "main",
                           currentBillingAddress: el,
@@ -316,25 +348,37 @@ class SubscriptionDetail extends React.Component {
                       <FormattedMessage id="subscription" />
                     </h4>
                     <div className="rightBox" style={{ flex: "1" }}>
-                      <a class="rc-styled-link " href="#/" onClick={(e) => {
-                        e.preventDefault()
-                        this.setState({
-                          modalType: 'skipNext',
-                          modalShow: true,
-                          currentModalObj: this.state.modalList.filter(el => el.type === 'skipNext')[0]
-                        })
-                      }}>
+                      <a
+                        class="rc-styled-link "
+                        href="#/"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.setState({
+                            modalType: "skipNext",
+                            modalShow: true,
+                            currentModalObj: this.state.modalList.filter(
+                              (el) => el.type === "skipNext"
+                            )[0],
+                          });
+                        }}
+                      >
                         <FormattedMessage id="subscription.skip" />
                       </a>{" "}
                       &nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                      <a class="rc-styled-link " href="#/" onClick={(e) => {
-                        e.preventDefault()
-                        this.setState({
-                          modalType: 'cancelAll',
-                          modalShow: true,
-                          currentModalObj: this.state.modalList.filter(el => el.type === 'cancelAll')[0]
-                        })
-                      }}>
+                      <a
+                        class="rc-styled-link "
+                        href="#/"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.setState({
+                            modalType: "cancelAll",
+                            modalShow: true,
+                            currentModalObj: this.state.modalList.filter(
+                              (el) => el.type === "cancelAll"
+                            )[0],
+                          });
+                        }}
+                      >
                         <FormattedMessage id="subscription.cancelAll" />
                       </a>
                     </div>
@@ -368,14 +412,19 @@ class SubscriptionDetail extends React.Component {
                             >
                               <Selection
                                 optionList={this.state.orderOptions}
-                                selectedItemChange={el => {
-                                  const { history } = this.props
-                                  history.push(`/account/orders-detail/${el.value}`)
+                                selectedItemChange={(el) => {
+                                  const { history } = this.props;
+                                  history.push(
+                                    `/account/orders-detail/${el.value}`
+                                  );
                                 }}
                                 selectedItemData={{
-                                  value: this.state.orderOptions.length ? this.state.orderOptions[0].value : ''
+                                  value: this.state.orderOptions.length
+                                    ? this.state.orderOptions[0].value
+                                    : "",
                                 }}
-                                customStyleType="select-one" />
+                                customStyleType="select-one"
+                              />
                             </h4>
                           </div>
                           {/* <div className="v-center" style={{marginRight: '40px'}}>
@@ -412,19 +461,26 @@ class SubscriptionDetail extends React.Component {
                             >
                               <Selection
                                 optionList={this.state.frequencyList}
-                                selectedItemChange={el => {
+                                selectedItemChange={(el) => {
                                   let param = {
                                     subscribeId: subDetail.subscribeId,
-                                    cycleTypeId: el.id
-                                  }
-                                  updateDetail(param).then(res => {
-                                    window.location.reload()
-                                  })
+                                    cycleTypeId: el.id,
+                                  };
+                                  //增加返回changeField字段
+                                  Object.assign(param, {
+                                    changeField: this.props.intl.messages[
+                                      "subscription.frequency"
+                                    ],
+                                  });
+                                  updateDetail(param).then((res) => {
+                                    window.location.reload();
+                                  });
                                 }}
                                 selectedItemData={{
-                                  value: subDetail.frequency || ''
+                                  value: subDetail.frequency || "",
                                 }}
-                                customStyleType="select-one" />
+                                customStyleType="select-one"
+                              />
                             </h1>
                           </div>
                         </div>
@@ -460,7 +516,10 @@ class SubscriptionDetail extends React.Component {
 
                               <label className="rc-input__label" htmlFor="birthdate"></label>
                             </span> */}
-                              <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
+                              <span
+                                className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs"
+                                input-setup="true"
+                              >
                                 <input
                                   class="rc-input__date rc-js-custom rc-input__control"
                                   data-js-dateformat="YYYY-MM-DD"
@@ -468,20 +527,25 @@ class SubscriptionDetail extends React.Component {
                                   type="date"
                                   name="example-date-input"
                                   onBlur={(e) => {
-                                    const target = e.target
-                                    subDetail.nextDeliveryTime = target.value
+                                    const target = e.target;
+                                    subDetail.nextDeliveryTime = target.value;
 
                                     let param = {
                                       subscribeId: subDetail.subscribeId,
-                                      nextDeliveryTime: target.value
-                                    }
-                                    updateDetail(param).then(res => {
-                                      window.location.reload()
-                                    })
+                                      nextDeliveryTime: target.value,
+                                    };
+                                    //增加返回changeField字段
+                                    Object.assign(param, {
+                                      changeField: this.props.intl.messages[
+                                        "subscription.receiveDate"
+                                      ],
+                                    });
+                                    updateDetail(param).then((res) => {
+                                      window.location.reload();
+                                    });
                                   }}
                                   value={subDetail.nextDeliveryTime}
                                 />
-                                
                               </span>
                             </h1>
                           </div>
@@ -505,7 +569,12 @@ class SubscriptionDetail extends React.Component {
                                 : "none",
                             }}
                             onClick={() =>
-                              this.setState({ isChangeQuatity: true, currentGoodsInfo: JSON.parse(JSON.stringify(subDetail.goodsInfo)) })
+                              this.setState({
+                                isChangeQuatity: true,
+                                currentGoodsInfo: JSON.parse(
+                                  JSON.stringify(subDetail.goodsInfo)
+                                ),
+                              })
                             }
                           >
                             <FormattedMessage id="subscription.change"></FormattedMessage>
@@ -532,100 +601,134 @@ class SubscriptionDetail extends React.Component {
                                 : "none",
                             }}
                             onClick={() => {
-                              subDetail.goodsInfo = this.state.currentGoodsInfo
+                              subDetail.goodsInfo = this.state.currentGoodsInfo;
                               let param = {
                                 subscribeId: subDetail.subscribeId,
-                                goodsItems: subDetail.goodsInfo.map(el => {
-                                  return { skuId: el.skuId, subscribeNum: el.subscribeNum }
-                                })
-                              }
-                              console.log(param)
-                              updateDetail(param).then(res => {
-                                console.log(res)
-                                window.location.reload()
-                              })
-                              this.setState({ isChangeQuatity: false, subDetail })
+                                goodsItems: subDetail.goodsInfo.map((el) => {
+                                  return {
+                                    skuId: el.skuId,
+                                    subscribeNum: el.subscribeNum,
+                                  };
+                                }),
+                              };
+                              console.log(param);
+                              updateDetail(param).then((res) => {
+                                console.log(res);
+                                window.location.reload();
+                              });
+                              this.setState({
+                                isChangeQuatity: false,
+                                subDetail,
+                              });
                             }}
                           >
                             <FormattedMessage id="Save"></FormattedMessage>
                           </a>
                         </div>
-                        {subDetail.goodsInfo && subDetail.goodsInfo.map((el, index) => (
-                          <div className="rc-layout-container rc-five-column" style={{ height: '160px' }}>
-                            <div className="rc-column rc-triple-width flex-layout">
-                              <div className="img-container">
-                                <img
-                                  src={el.goodsPic}
-                                />
-                              </div>
-                              <div className="v-center" style={{
-                                width: '200px'
-                              }}>
-                                <h5>
-                                  {el.goodsName}
-                                </h5>
-                                <p>{el.specText}</p>
-                                <div>
-                                  <label className="font-weight-bold" style={{ textDecoration: 'line-through',textDecorationColor: '#ec001a' }}>
-                                    {el.originalPrice}
-                                  </label>
-                                  &nbsp;&nbsp;
-                                  <label className="font-weight-bold">
-                                    {el.subscribePrice}
-                                  </label>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="rc-column rc-double-width">
-                              <div className="p-container rc-quantity text-right d-flex justify-content-end rc-content-v-middle ">
-                                <div
-                                  className="v-center"
-                                  style={{
-                                    display: isChangeQuatity ? "block" : "none"
-                                  }}
-                                >
-                                  <span className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus" onClick={() => {
-                                    // if (el.subscribeNum > 1) {
-                                    //   el.subscribeNum = el.subscribeNum - 1
-                                    //   this.setState({ subDetail })
-                                    // }
-                                    let { currentGoodsInfo } = this.state
-                                    if (currentGoodsInfo[index].subscribeNum > 1) {
-                                      currentGoodsInfo[index].subscribeNum = currentGoodsInfo[index].subscribeNum - 1
-                                      this.setState({ currentGoodsInfo })
-                                    }
-                                  }}></span>
-                                  <input
-                                    className="rc-quantity__input"
-                                    id="quantity"
-                                    name="quantity"
-                                    min="1"
-                                    max="899"
-                                    maxLength="5"
-                                    // value={el.subscribeNum}
-                                    value={this.state.currentGoodsInfo.length && this.state.currentGoodsInfo[index].subscribeNum}
-                                  />
-                                  <span className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus" onClick={() => {
-                                    let { currentGoodsInfo } = this.state
-                                    currentGoodsInfo[index].subscribeNum = currentGoodsInfo[index].subscribeNum + 1
-                                    this.setState({ currentGoodsInfo })
-                                    console.log(el.subscribeNum)
-                                  }}></span>
+                        {subDetail.goodsInfo &&
+                          subDetail.goodsInfo.map((el, index) => (
+                            <div
+                              className="rc-layout-container rc-five-column"
+                              style={{ height: "160px" }}
+                            >
+                              <div className="rc-column rc-triple-width flex-layout">
+                                <div className="img-container">
+                                  <img src={el.goodsPic} />
                                 </div>
                                 <div
                                   className="v-center"
                                   style={{
-                                    display: !isChangeQuatity
-                                      ? "block"
-                                      : "none",
+                                    width: "200px",
                                   }}
                                 >
-                                  <b className="">Qty: {el.subscribeNum}</b>
+                                  <h5>{el.goodsName}</h5>
+                                  <p>{el.specText}</p>
+                                  <div>
+                                    <label
+                                      className="font-weight-bold"
+                                      style={{
+                                        textDecoration: "line-through",
+                                        textDecorationColor: "#ec001a",
+                                      }}
+                                    >
+                                      {el.originalPrice}
+                                    </label>
+                                    &nbsp;&nbsp;
+                                    <label className="font-weight-bold">
+                                      {el.subscribePrice}
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="rc-column rc-double-width">
+                                <div className="p-container rc-quantity text-right d-flex justify-content-end rc-content-v-middle ">
+                                  <div
+                                    className="v-center"
+                                    style={{
+                                      display: isChangeQuatity
+                                        ? "block"
+                                        : "none",
+                                    }}
+                                  >
+                                    <span
+                                      className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                                      onClick={() => {
+                                        // if (el.subscribeNum > 1) {
+                                        //   el.subscribeNum = el.subscribeNum - 1
+                                        //   this.setState({ subDetail })
+                                        // }
+                                        let { currentGoodsInfo } = this.state;
+                                        if (
+                                          currentGoodsInfo[index].subscribeNum >
+                                          1
+                                        ) {
+                                          currentGoodsInfo[index].subscribeNum =
+                                            currentGoodsInfo[index]
+                                              .subscribeNum - 1;
+                                          this.setState({ currentGoodsInfo });
+                                        }
+                                      }}
+                                    ></span>
+                                    <input
+                                      className="rc-quantity__input"
+                                      id="quantity"
+                                      name="quantity"
+                                      min="1"
+                                      max="899"
+                                      maxLength="5"
+                                      // value={el.subscribeNum}
+                                      value={
+                                        this.state.currentGoodsInfo.length &&
+                                        this.state.currentGoodsInfo[index]
+                                          .subscribeNum
+                                      }
+                                    />
+                                    <span
+                                      className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                                      onClick={() => {
+                                        let { currentGoodsInfo } = this.state;
+                                        currentGoodsInfo[index].subscribeNum =
+                                          currentGoodsInfo[index].subscribeNum +
+                                          1;
+                                        this.setState({ currentGoodsInfo });
+                                        console.log(el.subscribeNum);
+                                      }}
+                                    ></span>
+                                  </div>
+                                  <div
+                                    className="v-center"
+                                    style={{
+                                      display: !isChangeQuatity
+                                        ? "block"
+                                        : "none",
+                                    }}
+                                  >
+                                    <b className="">Qty: {el.subscribeNum}</b>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
                       </div>
                       <div
                         className="rc-column flex-layout"
@@ -710,8 +813,10 @@ class SubscriptionDetail extends React.Component {
                                 name="text"
                                 placeholder="Promotional Code"
                               />
-                              <label class="rc-input__label" for="id-text2">
-                              </label>
+                              <label
+                                class="rc-input__label"
+                                for="id-text2"
+                              ></label>
                             </span>
                             <button
                               class="rc-btn rc-btn--sm rc-btn--two"
@@ -742,13 +847,28 @@ class SubscriptionDetail extends React.Component {
                                   {currentDeliveryAddress.consigneeName}
                                 </h1>
                                 <h1 className="rc-card__meta order-Id">
-                                  {this.state.countryList.length
-                                    && this.state.countryList.filter(el => el.id === currentDeliveryAddress.countryId).length
-                                    ? this.state.countryList.filter(el => el.id === currentDeliveryAddress.countryId)[0].valueEn
-                                    : currentDeliveryAddress.countryId},{' '}
-                                  {this.state.cityList.length
-                                    && this.state.cityList.filter(el => el.id === currentDeliveryAddress.cityId).length
-                                    ? this.state.cityList.filter(el => el.id === currentDeliveryAddress.cityId)[0].valueEn
+                                  {this.state.countryList.length &&
+                                  this.state.countryList.filter(
+                                    (el) =>
+                                      el.id === currentDeliveryAddress.countryId
+                                  ).length
+                                    ? this.state.countryList.filter(
+                                        (el) =>
+                                          el.id ===
+                                          currentDeliveryAddress.countryId
+                                      )[0].valueEn
+                                    : currentDeliveryAddress.countryId}
+                                  ,{" "}
+                                  {this.state.cityList.length &&
+                                  this.state.cityList.filter(
+                                    (el) =>
+                                      el.id === currentDeliveryAddress.cityId
+                                  ).length
+                                    ? this.state.cityList.filter(
+                                        (el) =>
+                                          el.id ===
+                                          currentDeliveryAddress.cityId
+                                      )[0].valueEn
                                     : currentDeliveryAddress.cityId}
                                 </h1>
                                 <h1 className="rc-card__meta order-Id">
@@ -785,8 +905,18 @@ class SubscriptionDetail extends React.Component {
                                   {currentBillingAddress.consigneeName}
                                 </h1>
                                 <h1 className="rc-card__meta order-Id">
-                                  {this.state.countryList.length && this.state.countryList.filter(el => el.id === currentBillingAddress.countryId)[0].valueEn},{' '}
-                                  {this.state.cityList.length && this.state.cityList.filter(el => el.id === currentBillingAddress.cityId)[0].valueEn}
+                                  {this.state.countryList.length &&
+                                    this.state.countryList.filter(
+                                      (el) =>
+                                        el.id ===
+                                        currentBillingAddress.countryId
+                                    )[0].valueEn}
+                                  ,{" "}
+                                  {this.state.cityList.length &&
+                                    this.state.cityList.filter(
+                                      (el) =>
+                                        el.id === currentBillingAddress.cityId
+                                    )[0].valueEn}
                                 </h1>
                                 <h1 className="rc-card__meta order-Id">
                                   {currentBillingAddress.address1}
@@ -860,4 +990,4 @@ class SubscriptionDetail extends React.Component {
   }
 }
 
-export default SubscriptionDetail
+export default SubscriptionDetail;
