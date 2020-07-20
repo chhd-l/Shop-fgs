@@ -430,8 +430,8 @@ class List extends React.Component {
                                                       {/*    : null*/}
                                                       {/*}*/}
                                                       <span className=" red-text">
-                                                        {/*{formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.subscriptionPrice || 0)))}{' '}*/}
-                                                        {formatMoney(item.minSubscriptionPrice || 0 )}
+                                                        {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.subscriptionPrice || 0)))}{' '}
+                                                        {/*{formatMoney(item.minSubscriptionPrice || 0 )}*/}
                                                       </span>
                                                     <span className="rc-icon rc-refresh--xs rc-brand1 "></span>
                                                     <span className="position-relative red-text" style={{ fontSize: '.6em', top: '-4px' }}>
