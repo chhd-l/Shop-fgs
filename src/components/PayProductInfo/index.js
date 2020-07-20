@@ -1,6 +1,7 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react'
+import { find } from 'lodash'
 import { formatMoney } from "@/utils/utils"
 
 @inject("checkoutStore", "loginStore")
@@ -49,7 +50,7 @@ class PayProductInfo extends React.Component {
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
-                <img className="product-image" src={el.goodsImg} />
+                <img className="product-image" src={find(el.sizeList, s => s.selected).goodsInfoImg} />
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
