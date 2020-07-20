@@ -536,7 +536,7 @@ const en_US = {
   'modalSkipContent': '¿Estás seguro de que deseas cancelar la próxima entrega?',
   'modalCancelAllTitle': 'CANCELAR TODOS LOS PEDIDOS?',
   'modalCancelAllContent': '¿Está seguro de que desea cancelar todas las entregas siguientes?',
-  'searchPrescriber':'Buscar un prescriptor'
+  'searchPrescriber':'Buscar un prescriptor',
   'download': 'descargar'
 }
 export default en_US;

@@ -547,7 +547,7 @@ const en_US = {
   'buy':'Buy',
   'purchaseHomeOnline':'Purchase made at The Home Depot online -',
   'oxxoTransactionFee': '(Does not include the OXXO transaction fee)',
-  'searchPrescriber':'search a clinic'
+  'searchPrescriber':'search a clinic',
   'oxxoTransactionFee': '(Does not include the OXXO transaction fee)',
   'download': 'Download'
 }
