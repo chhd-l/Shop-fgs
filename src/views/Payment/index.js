@@ -323,9 +323,7 @@ class Payment extends React.Component {
       return false
     }
 
-    if (!this.isLogin) {
-      store.set("deliveryInfo", param)
-    }
+    store.set(!this.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo', param)
     this.setState({
       creditCardInfo: creditCardInfo,
       deliveryAddress: param.deliveryAddress,
@@ -1324,7 +1322,10 @@ class Payment extends React.Component {
                     <FormattedMessage id="edit" />
                   </Link>
                 }
-                <PayProductInfo frequencyName={this.state.subForm.frequencyName} buyWay={this.state.subForm.buyWay} />
+                <PayProductInfo
+                  history={this.props.history}
+                  frequencyName={this.state.subForm.frequencyName}
+                  buyWay={this.state.subForm.buyWay} />
               </div>
             </div>
           </div>

@@ -211,18 +211,20 @@ class PayProductInfo extends React.Component {
     );
   }
   render () {
-    return <div id="J_sidecart_container">
-      {this.sideCart({
-        className: 'hidden position-fixed rc-md-up',
-        style: {
-          background: '#fff',
-          zIndex: 9,
-          width: 345
-        },
-        id: 'J_sidecart_fix'
-      })}
-      {this.sideCart()}
-    </div>
+    return this.props.history && this.props.history.location.pathname === '/payment'
+      ? <div id="J_sidecart_container">
+        {this.sideCart({
+          className: 'hidden position-fixed rc-md-up',
+          style: {
+            background: '#fff',
+            zIndex: 9,
+            width: 345
+          },
+          id: 'J_sidecart_fix'
+        })}
+        {this.sideCart()}
+      </div>
+      : this.sideCart()
   }
 }
 
