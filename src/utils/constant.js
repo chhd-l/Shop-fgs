@@ -3,7 +3,8 @@ import store from 'storejs'
 export const ENUM_STOREID = {
   en: '123456858',
   es: '123456858',
-  ru: '123457907'
+  ru: '123457907',
+  de: '123457908'
 }
 export const STOREID = ENUM_STOREID[store.get('lang') || 'es']
 export const CATEID = '1129'
