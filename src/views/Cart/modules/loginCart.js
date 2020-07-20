@@ -309,8 +309,8 @@ class LoginCart extends React.Component {
                       =
                     </p>
                     <div className="price">
-                      <b className="pricing line-item-total-price-amount light" style={{ lineHeight: checkoutLoading ? 1.2 : '' }}>
-                        {checkoutLoading ? '--' : formatMoney(pitem.buyCount * pitem.salePrice)}
+                      <b className="pricing line-item-total-price-amount light">
+                        {formatMoney(pitem.buyCount * pitem.salePrice)}
                       </b>
                     </div>
                   </div>
@@ -464,7 +464,7 @@ class LoginCart extends React.Component {
       id={id}>
       <div className="row">
         <div className="col-12 total-items medium">
-          <span>{checkoutLoading ? '--' : this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
+          <span>{this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
       </div>
       </div>
       <div className="row">
@@ -472,7 +472,7 @@ class LoginCart extends React.Component {
           <FormattedMessage id="total" />
         </div>
         <div className="col-4 no-padding-left">
-          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.totalPrice)}</p>
+          <p className="text-right sub-total">{formatMoney(this.totalPrice)}</p>
         </div>
       </div>
       <div className="row" style={{ display: this.state.isPromote ? 'flex' : 'none' }}>
@@ -482,7 +482,7 @@ class LoginCart extends React.Component {
           </p>
         </div>
         <div className="col-8">
-          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {checkoutLoading ? '--' : formatMoney(this.state.discountPrice)}</p>
+          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.state.discountPrice)}</p>
         </div>
       </div>
       <div className="row">
@@ -503,7 +503,7 @@ class LoginCart extends React.Component {
             </strong>
           </div>
           <div className="col-5">
-            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.tradePrice)}</p>
+            <p className="text-right grand-total-sum medium">{formatMoney(this.tradePrice)}</p>
           </div>
         </div>
         <div className="row checkout-proccess">
@@ -512,7 +512,7 @@ class LoginCart extends React.Component {
               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                 <div
                   data-oauthlogintargetendpoint="2"
-                  className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${this.state.checkoutLoading ? 'ui-btn-loading' : ''} `}
+                  className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${checkoutLoading ? 'ui-btn-loading' : ''} `}
                   aria-pressed="true">
                   <FormattedMessage id="checkout" />
                 </div>
@@ -524,7 +524,7 @@ class LoginCart extends React.Component {
     </div >
   }
   render () {
-    const { productList, checkoutLoading } = this.state;
+    const { productList } = this.state;
     const List = this.getProducts(productList);
     const event = {
       page: {

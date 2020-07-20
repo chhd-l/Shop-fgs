@@ -343,8 +343,8 @@ class UnLoginCart extends React.Component {
                       =
                     </p>
                     <div className="price">
-                      <b className="pricing line-item-total-price-amount light" style={{ lineHeight: checkoutLoading ? 1.2 : '' }}>
-                        {checkoutLoading ? '--' : formatMoney(pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice)}
+                      <b className="pricing line-item-total-price-amount light">
+                        {formatMoney(pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice)}
                       </b>
                     </div>
                   </div>
@@ -483,7 +483,7 @@ class UnLoginCart extends React.Component {
       id={id}>
       <div className="row">
         <div className="col-12 total-items medium">
-          <span>{checkoutLoading ? '--' : this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
+          <span>{this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
       </div>
       </div>
       <div className="row">
@@ -491,7 +491,7 @@ class UnLoginCart extends React.Component {
           <FormattedMessage id="total" />
         </div>
         <div className="col-4 no-padding-left">
-          <p className="text-right sub-total">{checkoutLoading ? '--' : formatMoney(this.totalPrice)}</p>
+          <p className="text-right sub-total">{formatMoney(this.totalPrice)}</p>
         </div>
       </div>
       <div className="row" style={{ display: this.isPromote ? 'flex' : 'none' }}>
@@ -501,7 +501,7 @@ class UnLoginCart extends React.Component {
           </p>
         </div>
         <div className="col-8">
-          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {checkoutLoading ? '--' : formatMoney(this.discountPrice)}</p>
+          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.discountPrice)}</p>
         </div>
       </div>
       <div className="row">
@@ -522,12 +522,12 @@ class UnLoginCart extends React.Component {
             </strong>
           </div>
           <div className="col-5">
-            <p className="text-right grand-total-sum medium">{checkoutLoading ? '--' : formatMoney(this.tradePrice)}</p>
+            <p className="text-right grand-total-sum medium">{formatMoney(this.tradePrice)}</p>
           </div>
         </div>
         <div className="row checkout-proccess">
           <div className="col-lg-12 checkout-continue">
-            <a className={[checkoutLoading ? 'ui-btn-loading' : ''].join(' ')}>
+            <a className={`${checkoutLoading ? 'ui-btn-loading' : ''}`}>
               <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                 {
                   this.totalNum > 0
