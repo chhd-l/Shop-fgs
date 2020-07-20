@@ -355,7 +355,7 @@ class UnLoginCart extends React.Component {
               <div className="flex justify-content-between rc-md-up">
                 <div>
                   {
-                    pitem.subscriptionStatus
+                    find(pitem.sizeList, s => s.selected).subscriptionStatus
                       ? <>
                         <span className="rc-icon rc-refresh--xs rc-brand1"></span>
                         <FormattedMessage id="details.Subscription" />{' '}-{' '}
@@ -426,7 +426,7 @@ class UnLoginCart extends React.Component {
             <div className="flex justify-content-between flex-wrap">
               <div>
                 {
-                  pitem.subscriptionStatus
+                  find(pitem.sizeList, s => s.selected).subscriptionStatus
                     ? <>
                       <span className="rc-icon rc-refresh--xs rc-brand1"></span>
                       <FormattedMessage id="details.Subscription" />{' '}-{' '}
@@ -478,91 +478,100 @@ class UnLoginCart extends React.Component {
   sideCart ({ className = '', style = {}, id = '' } = {}) {
     const { checkoutLoading } = this.state;
     return <div
-      className={`group-order rc-border-all rc-border-colour--interface cart__total__content ${className}`}
+      className={`${className}`}
       style={{ ...style }}
       id={id}>
-      <div className="row">
-        <div className="col-12 total-items medium">
-          <span>{this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
-      </div>
-      </div>
-      <div className="row">
-        <div className="col-8">
-          <FormattedMessage id="total" />
-        </div>
-        <div className="col-4 no-padding-left">
-          <p className="text-right sub-total">{formatMoney(this.totalPrice)}</p>
-        </div>
-      </div>
-      <div className="row" style={{ display: this.isPromote ? 'flex' : 'none' }}>
-        <div className="col-4">
-          <p style={{ color: '#ec001a' }}>
-            <FormattedMessage id="promotion" />
-          </p>
-        </div>
-        <div className="col-8">
-          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.discountPrice)}</p>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-8">
-          <p>
-            <FormattedMessage id="delivery" />
-          </p>
-        </div>
-        <div className="col-4">
-          <p className="text-right shipping-cost">0</p>
-        </div>
-      </div>
-      <div className="group-total">
+      <div className="group-order rc-border-colour--interface cart__total__content rc-border-all" style={{ background: '#fff' }}>
         <div className="row">
-          <div className="col-7 medium">
-            <strong>
-              <FormattedMessage id="totalIncluIVA" />
-            </strong>
-          </div>
-          <div className="col-5">
-            <p className="text-right grand-total-sum medium">{formatMoney(this.tradePrice)}</p>
+          <div className="col-12 total-items medium">
+            <span>{this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
           </div>
         </div>
-        <div className="row checkout-proccess">
-          <div className="col-lg-12 checkout-continue">
-            <a className={`${checkoutLoading ? 'ui-btn-loading' : ''}`}>
-              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                {
-                  this.totalNum > 0
-                    ? <LoginButton
-                      beforeLoginCallback={async () => this.handleCheckout({ needLogin: true })}
-                      btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
-                      history={this.props.history}>
-                      <FormattedMessage id="checkout" />
-                    </LoginButton>
-                    : <div className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled">
-                      <FormattedMessage id="checkout" />
-                    </div>
-                }
-              </div>
-              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
-                {
-                  this.totalNum > 0
-                    ? <div className="text-center" onClick={() => this.handleCheckout()}>
-                      <div
-                        className="rc-styled-link color-999"
-                        aria-pressed="true">
-                        <FormattedMessage id="GuestCheckout" />
+        <div className="row">
+          <div className="col-8">
+            <FormattedMessage id="total" />
+          </div>
+          <div className="col-4 no-padding-left">
+            <p className="text-right sub-total">{formatMoney(this.totalPrice)}</p>
+          </div>
+        </div>
+        <div className="row" style={{ display: this.isPromote ? 'flex' : 'none' }}>
+          <div className="col-4">
+            <p style={{ color: '#ec001a' }}>
+              <FormattedMessage id="promotion" />
+            </p>
+          </div>
+          <div className="col-8">
+            <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.discountPrice)}</p>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-8">
+            <p>
+              <FormattedMessage id="delivery" />
+            </p>
+          </div>
+          <div className="col-4">
+            <p className="text-right shipping-cost">0</p>
+          </div>
+        </div>
+        <div className="group-total">
+          <div className="row">
+            <div className="col-7 medium">
+              <strong>
+                <FormattedMessage id="totalIncluIVA" />
+              </strong>
+            </div>
+            <div className="col-5">
+              <p className="text-right grand-total-sum medium">{formatMoney(this.tradePrice)}</p>
+            </div>
+          </div>
+          <div className="row checkout-proccess">
+            <div className="col-lg-12 checkout-continue">
+              <a className={`${checkoutLoading ? 'ui-btn-loading' : ''}`}>
+                <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
+                  {
+                    this.totalNum > 0
+                      ? <LoginButton
+                        beforeLoginCallback={async () => this.handleCheckout({ needLogin: true })}
+                        btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
+                        history={this.props.history}>
+                        <FormattedMessage id="checkout" />
+                      </LoginButton>
+                      : <div className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled">
+                        <FormattedMessage id="checkout" />
                       </div>
-                    </div>
-                    : <div className="text-center">
-                      <div className="rc-styled-link color-999 rc-btn-disabled">
-                        <FormattedMessage id="GuestCheckout" />
+                  }
+                </div>
+                <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
+                  {
+                    this.totalNum > 0
+                      ? <div className="text-center" onClick={() => this.handleCheckout()}>
+                        <div
+                          className="rc-styled-link color-999"
+                          aria-pressed="true">
+                          <FormattedMessage id="GuestCheckout" />
+                        </div>
                       </div>
-                    </div>
-                }
-              </div>
-            </a>
+                      : <div className="text-center">
+                        <div className="rc-styled-link color-999 rc-btn-disabled">
+                          <FormattedMessage id="GuestCheckout" />
+                        </div>
+                      </div>
+                  }
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
+      {this.state.productList.some(
+        (item) => find(item.sizeList, s => s.selected).subscriptionStatus
+      ) ? (
+          <div style={{ fontSize: "15px" }}>
+            <FormattedMessage id="unLoginSubscriptionTips" />
+          </div>
+        ) : null}
     </div>
   }
   render () {
@@ -620,7 +629,6 @@ class UnLoginCart extends React.Component {
                       {this.sideCart({
                         className: 'hidden position-fixed rc-md-up',
                         style: {
-                          background: '#fff',
                           zIndex: 9,
                           width: 320
                         },
@@ -628,6 +636,13 @@ class UnLoginCart extends React.Component {
                       })}
                       {this.sideCart()}
                     </div>
+                    {this.state.productList.some(
+                      (item) => item.subscriptionStatus
+                    ) ? (
+                      <div style={{ fontSize: "15px",textAlign:'center' }}>
+                        <FormattedMessage id="unLoginSubscriptionTips" />
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </>
@@ -645,7 +660,7 @@ class UnLoginCart extends React.Component {
                     <div className="rc-max-width--lg rc-padding-x--lg--mobile">
                       <div>
                         <div className="rc-alpha inherit-fontsize">
-                          <p style={{ textAlign: 'center' }}>
+                          <p className="text-center">
                             <FormattedMessage id="cart.fullPrice" />
                           </p>
                         </div>

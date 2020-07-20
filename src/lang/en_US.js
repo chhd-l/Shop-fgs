@@ -539,7 +539,9 @@ const en_US = {
   'modalSkipContent': 'Are you sure you want to cancel the next delivery?',
   'modalCancelAllTitle': 'CANCEL ALL ORDERS?',
   'modalCancelAllContent': 'Are you sure you want to cancel all the following deliveries?',
-  'searchPrescriber':'Search a clinic'
+  'searchPrescriber':'Search a clinic',
+  'unLoginSubscriptionTips': 'Subscription is possible only after registration',
+  'download': 'Download'
 
 }
 export default en_US;

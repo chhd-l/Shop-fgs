@@ -93,8 +93,6 @@ class Confirmation extends React.Component {
     setTimeout(() => {
       if (this.state.isOxxoPayment) {
         this.setState({ modalShow: false, oxxoModalShow: true });
-      } else {
-        this.setState({ modalShow: true, oxxoModalShow: false });
       }
     }, 3000);
     getDictionary({ type: "city" }).then((res) => {
