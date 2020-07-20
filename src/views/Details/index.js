@@ -940,7 +940,7 @@ class Details extends React.Component {
                         find(details.sizeList, (s) => s.selected) &&
                         find(details.sizeList, (s) => s.selected)
                           .subscriptionStatus ? (
-                          <div>
+                          <div style={{textAlign:'center'}}>
                             <FormattedMessage id="unLoginSubscriptionTips" />
                           </div>
                         ) : null}
