@@ -14,6 +14,10 @@ class RouteFilter extends Component {
     }
   }
   async componentDidMount () {
+    if (!localStorage.getItem('rc-token') && this.props.location.pathname.indexOf("/account") !== -1) {
+      this.props.history.push("/");
+    }
+
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/')
     }
@@ -74,6 +78,7 @@ class RouteFilter extends Component {
     if (this.props.location.pathname === "/confirmation" && !localStorage.getItem('orderNumber')) {
       this.props.history.push("/");
     }
+
     queryStoreCateIds();
   }
   render () {
