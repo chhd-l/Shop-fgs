@@ -233,7 +233,6 @@ class AccountOrders extends React.Component {
   async hanldeLoginAddToCart (order) {
     const cartProduct = this.props.checkoutStore.loginCartData
     const productList = order.tradeItems ? order.tradeItems : []
-    debugger
     const tradeItems = productList.map(ele => {
       return {
         goodsInfoImg: ele.pic,
@@ -254,14 +253,9 @@ class AccountOrders extends React.Component {
       }
       paramList.push(obj)
     })
-    const params = {
-      goodsInfos: paramList
-    }
-    let res = await batchAdd(params);
-    if (res.code === 'K-000000') {
-      this.props.checkoutStore.setLoginCartData(list)
-      this.props.history.push('/cart')
-    }
+    await batchAdd({ goodsInfos: paramList });
+    await this.props.checkoutStore.updateLoginCart()
+    this.props.history.push('/cart')
   }
   render () {
     const lang = this.props.intl.locale || 'en'
@@ -380,7 +374,7 @@ class AccountOrders extends React.Component {
                                   </div>
                                   <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
                                     <div className="col-8 col-md-2 d-flex flex-wrap align-items-center mb-2 mb-md-0">
-                                      {order.tradeItems.map(item => (
+                                      {order.tradeItems.slice(0, 2).map(item => (
                                         <img
                                           className="img-fluid"
                                           key={item.oid}
@@ -388,6 +382,11 @@ class AccountOrders extends React.Component {
                                           alt={item.spuName}
                                           title={item.spuName} />
                                       ))}
+                                      {
+                                        order.tradeItems.length > 2
+                                          ? <span className="font-weight-bold" style={{ alignSelf: 'flex-end' }}>...</span>
+                                          : null
+                                      }
                                     </div>
                                     <div className="col-4 col-md-2 text-right text-md-left">
                                       {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}

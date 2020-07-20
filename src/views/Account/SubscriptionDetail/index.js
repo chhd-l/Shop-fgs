@@ -577,7 +577,7 @@ class SubscriptionDetail extends React.Component {
                               })
                             }
                           >
-                            <FormattedMessage id="subscription.change"></FormattedMessage>
+                            <FormattedMessage id="edit"></FormattedMessage>
                           </a>
                           <a
                             className="rc-styled-link red-text"
@@ -631,7 +631,7 @@ class SubscriptionDetail extends React.Component {
                               className="rc-layout-container rc-five-column"
                               style={{ height: "160px" }}
                             >
-                              <div className="rc-column rc-triple-width flex-layout">
+                              <div className="rc-column flex-layout" style={{width: '80%'}}>
                                 <div className="img-container">
                                   <img src={el.goodsPic} />
                                 </div>
@@ -641,8 +641,8 @@ class SubscriptionDetail extends React.Component {
                                     width: "200px",
                                   }}
                                 >
-                                  <h5>{el.goodsName}</h5>
-                                  <p>{el.specText}</p>
+                                  <h5 style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>{el.goodsName}</h5>
+                                  <p style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>{el.specText}</p>
                                   <div>
                                     <label
                                       className="font-weight-bold"
@@ -660,7 +660,7 @@ class SubscriptionDetail extends React.Component {
                                   </div>
                                 </div>
                               </div>
-                              <div className="rc-column rc-double-width">
+                              <div className="rc-column" style={{width: '20%'}}>
                                 <div className="p-container rc-quantity text-right d-flex justify-content-end rc-content-v-middle ">
                                   <div
                                     className="v-center"
