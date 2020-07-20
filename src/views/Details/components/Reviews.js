@@ -220,7 +220,7 @@ class Reviews extends React.Component {
                                                                                         <div>
                                                                                             <div>
                                                                                                 <span className="red-text rc-margin-right--xs" style={{'fontWeight': '400'}}><FormattedMessage id="replyComments" /></span>
-                                                                                                <span style={{'fontSize': '14px'}}>{item.evaluateAnswerTime}</span>
+                                                                                                <span style={{'fontSize': '14px'}}>{new Date(item.evaluateAnswerTime).toGMTString().split(' ').splice(1, 3).join(' ')}</span>
                                                                                             </div>
                                                                                             <div className="rc-padding-top--xs">
                                                                                                 {item.evaluateAnswer}

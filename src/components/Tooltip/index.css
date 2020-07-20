@@ -7,35 +7,34 @@
     border-radius: 5px;
     color: #666;
     position: absolute;
-    bottom: 10px!important;
-    left: 80%!important;
+    bottom: 45px!important;
+    left: 150%!important;
     transform: translate(-50%, 105%);
     z-index: 9;
     border: 1px solid #d7d7d7;
     background-color: #fff;
 }
 .confirm-tool-arrow2 {
+    width: 0px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
     position: absolute;
-    width: 0;
-    height: 0;
-    top: -10px;
-    border-bottom: 10px solid #d7d7d7;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    left: 50%;
-    transform: translateX(-50%);
+    z-index: 1;
+    top: 10px;
+    left: -1%;
 }
 .confirm-tool-arrow2::after {
     content: "";
     position: absolute;
-    bottom: -11px;
-    border-bottom: 9px solid #f6f6f6;
-    left: -9px;
-    border-left: 9px solid transparent;
-    right: -9px;
-    border-right: 9px solid transparent;
-    width: 0;
-    height: 0;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #ddd transparent transparent;
 }
 .confirm-tool-footer {
     width: 100%;

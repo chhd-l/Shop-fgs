@@ -100,8 +100,8 @@ export default class Rate extends Component {
                {
                    tooltip && this.state.tooltipStatus?
                        <Tooltip
-                           containerStyle={{ transform: 'translate(-89%, 89%)' }}
-                           arrowStyle={{ left: '59%' }}
+                           // containerStyle={{ transform: 'translate(-89%, 89%)' }}
+                           // arrowStyle={{ left: '120%' }}
                            content={tooltip}
                        /> : null
                }

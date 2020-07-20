@@ -27,16 +27,9 @@
   <component name="ChangeListManager">
     <list default="true" id="47401d03-5d3b-4db0-92ad-5095ad7961de" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ConfirmTooltip/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ConfirmTooltip/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Rate/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Rate/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Rate/index.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Rate/index.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lang/en_US.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lang/en_US.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Account/Orders/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/Orders/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Tooltip/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Tooltip/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Details/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Details/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/List/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/List/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/List/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/List/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +122,7 @@
       <workItem from="1592626824307" duration="914000" />
       <workItem from="1592635753495" duration="620000" />
       <workItem from="1594603932547" duration="75098000" />
-      <workItem from="1595208558888" duration="18339000" />
+      <workItem from="1595208558888" duration="20700000" />
     </task>
     <servers />
   </component>
