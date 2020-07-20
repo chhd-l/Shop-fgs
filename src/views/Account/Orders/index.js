@@ -128,6 +128,7 @@ class AccountOrders extends React.Component {
                 && tradeState.payState === 'NOT_PAID'
                 && new Date(ele.orderTimeOut).getTime() > new Date().getTime(),
               payNowLoading: false,
+              // canRePurchase:
               canReview: tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO
             }
           )

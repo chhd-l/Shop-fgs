@@ -336,7 +336,7 @@ const en_US = {
   'account.dateTip': 'Please select a past date.',
   'account.subscriptionTip': 'Browse and change subscription settings.',
   'account.paymentMethodTip': 'View and update payment information',
-  
+
   'shippingAddress': 'Address Management',
   'addShippingAddress': 'Add New Address',
   'editShippingAddress': 'Edit Shipping Address',
@@ -500,6 +500,7 @@ const en_US = {
   'writeYourReview': 'Write your review',
   'whatYouLike': 'What did you like or dislike?',
   'anonymousReview': 'Anonymous review',
+  'reviews': 'Reviews',
   'petInfo': 'Pet information',
   'selectPet': 'Select a pet',
   'addPet': 'Add a pet',

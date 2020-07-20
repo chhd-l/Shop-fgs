@@ -424,11 +424,11 @@ class List extends React.Component {
                                               {
                                                 find(item.goodsInfos, ele => ele.subscriptionStatus)
                                                   ? <div className="range">
-                                                      {
-                                                        item.goodsInfos.length > 1 ?
-                                                          <span style={{'fontSize': '14px'}}>From </span>
-                                                          : null
-                                                      }
+                                                      {/*{*/}
+                                                      {/*  item.goodsInfos.length > 1 ?*/}
+                                                      {/*    <span style={{'fontSize': '14px'}}>From </span>*/}
+                                                      {/*    : null*/}
+                                                      {/*}*/}
                                                       <span className=" red-text">
                                                         {/*{formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.subscriptionPrice || 0)))}{' '}*/}
                                                         {formatMoney(item.minSubscriptionPrice || 0 )}
@@ -443,11 +443,11 @@ class List extends React.Component {
 
 
                                               <div className={['rc-full-width', find(item.goodsInfos, ele => ele.subscriptionStatus) ? '' : 'rc-text--center'].join(' ')}  >
-                                                {
-                                                  item.goodsInfos.length > 1 ?
-                                                      <span style={{'fontSize': '14px'}}>From </span>
-                                                      : null
-                                                }
+                                                {/*{*/}
+                                                {/*  item.goodsInfos.length > 1 ?*/}
+                                                {/*      <span style={{'fontSize': '14px'}}>From </span>*/}
+                                                {/*      : null*/}
+                                                {/*}*/}
                                                 <span  className="red-text " >
                                                 {/*{formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.salePrice)))}*/}
                                                 {formatMoney(item.minMarketPrice || 0 )}
@@ -457,7 +457,7 @@ class List extends React.Component {
 
                                             <div className={['rc-card__price', 'flex-inline', find(item.goodsInfos, ele => ele.subscriptionStatus) ? '' : 'margin-auto'].join(' ')}>
                                               {/*goodsEvaluateNum*/}
-                                              <div className="display-inline" ><Rate def={item.avgEvaluate} disabled={true} /></div><span className='comments'>{item.goodsEvaluateNum}</span>
+                                              <div className="display-inline" ><Rate def={item.avgEvaluate} disabled={true} /></div><span className='comments rc-margin-left--xs rc-text-colour--text'>[{item.goodsEvaluateNum}]</span>
                                             </div>
                                           </div>
                                         </>

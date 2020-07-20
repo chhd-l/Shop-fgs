@@ -152,7 +152,6 @@ class Details extends React.Component {
             productRate: res.context.avgEvaluate
           })
         }
-        debugger
         if(res && res.context && res.context.goods) {
           this.setState({
             productRate: res.context.goods.avgEvaluate,
@@ -658,8 +657,8 @@ class Details extends React.Component {
                                 </h1>
                                 <div className="rc-card__price flex-inline">
                                   <div className="display-inline" >
-                                    <Rate def={this.state.productRate} disabled={true} /></div><span className='comments'>{this.state.replyNum}</span>
-                                    {/*<Rate def={5} disabled={true} /></div><span className='comments'>{this.state.replyNum}</span>*/}
+                                    <Rate def={this.state.productRate} tooltip={this.state.replyNum + ' Reviews'} disabled={true} /></div>
+                                  {/*<span className='comments rc-margin-left--xs rc-text-colour--text'>{this.state.replyNum} <FormattedMessage id="reviews"/></span>*/}
                                 </div>
                                 <h3 className="text-break">{details.goodsSubtitle}</h3>
                                 <h3 className="text-break">
@@ -990,6 +989,7 @@ class Details extends React.Component {
                     : null
                 }
               </div>
+
 
               <div>
                 <Reviews id={this.state.goodsId} isLogin={this.isLogin}/>
