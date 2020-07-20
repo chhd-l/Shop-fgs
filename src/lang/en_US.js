@@ -337,7 +337,7 @@ const en_US = {
   'account.dateTip': 'Please select a past date.',
   'account.subscriptionTip': 'Browse and change subscription settings.',
   'account.paymentMethodTip': 'View and update payment information',
-  
+
   'shippingAddress': 'Address Management',
   'addShippingAddress': 'Add New Address',
   'editShippingAddress': 'Edit Shipping Address',
@@ -501,6 +501,7 @@ const en_US = {
   'writeYourReview': 'Write your review',
   'whatYouLike': 'What did you like or dislike?',
   'anonymousReview': 'Anonymous review',
+  'reviews': 'Reviews',
   'petInfo': 'Pet information',
   'selectPet': 'Select a pet',
   'addPet': 'Add a pet',
@@ -538,7 +539,9 @@ const en_US = {
   'modalSkipContent': 'Are you sure you want to cancel the next delivery?',
   'modalCancelAllTitle': 'CANCEL ALL ORDERS?',
   'modalCancelAllContent': 'Are you sure you want to cancel all the following deliveries?',
-  'searchPrescriber':'Search a clinic'
+  'searchPrescriber':'Search a clinic',
+  'unLoginSubscriptionTips': 'Subscription is possible only after registration',
+  'download': 'Download'
 
 }
 export default en_US;
