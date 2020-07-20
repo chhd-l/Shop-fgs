@@ -7,7 +7,9 @@ import { FormattedMessage } from "react-intl";
 export default class OxxoModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      oxxoUrl: 'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/receipt?vid=120264608Y233035cccf614a3Y02be9cd6a23a431#/mx/cash/receipt_OXXO'
+    };
   }
   close() {
     this.props.close();
@@ -37,8 +39,8 @@ export default class OxxoModal extends Component {
             style={{ top: "50%", transform: "translateY(-50%)" }}
           >
             <div className="modal-content mt-0">
-              <div id="mainBody" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-                <OxxoModalBody ref={(el) => (this.componentRef = el)} />
+              <div id="mainBody" style={{ maxHeight: '80vh',minHeight: '80vh', overflowY: 'auto' }}>
+                {/* <OxxoModalBody ref={(el) => (this.componentRef = el)} />
                 <ReactToPrint
                   trigger={() => {
                     // NOTE: could just as easily return <SomeComponent />. Do NOT pass an `onClick` prop
@@ -46,9 +48,11 @@ export default class OxxoModal extends Component {
                     return <div className="printPanel"> <button className="print" href="#"><FormattedMessage id="print" /></button></div>;
                   }}
                   content={() => this.componentRef}
-                />
+                /> */}
+                  <iframe src={this.state.oxxoUrl} width="100%" style={{ height: '78vh' }}>
+                  </iframe>
               </div>
-              <div className="modal-footer">
+              <div className="modal-footer" style={{ borderTop: 'none' }}>
                 <a href="https://www.oxxo.cl/ubicaciones" target="blank" style={{ marginRight: '35px' }}><FormattedMessage id="visitStoreMap" /></a>
                 <a href="#" onClick={() => this.close()}><FormattedMessage id="close" /></a>
               </div>

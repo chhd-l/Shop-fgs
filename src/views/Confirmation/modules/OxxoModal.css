@@ -1,6 +1,6 @@
 @media(min-width: 640px) {
     #oxxoModal {
-        width: 18% !important;
+        width: 20% !important;
     }
 }
 #oxxoModal .print {
@@ -28,6 +28,7 @@
      }
      #mainBody {
         max-height: 60vh !important;
+        min-height: 60vh !important;
     }
 }
 
