@@ -735,9 +735,6 @@ class Details extends React.Component {
                                       </div>
                                     ) : null}
                                   <div className="product-pricing__card__body rc-margin-top--xs">
-                                    <div>
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
                                     <div className="toggleVisibility">
                                       <div className="product-selectors rc-padding-top--xs">
                                         {specList.map((sItem, i) => (
