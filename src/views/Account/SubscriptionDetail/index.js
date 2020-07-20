@@ -83,6 +83,7 @@ class SubscriptionDetail extends React.Component {
       frequencyList: [],
       orderOptions: [],
       modalShow: false,
+      currentGoodsInfo: [],
       modalList: [
         {
           title: this.props.intl.messages.modalSkipTitle,
@@ -445,6 +446,20 @@ class SubscriptionDetail extends React.Component {
                               style={{ marginTop: "10px" }}
                             >
                               {/* <span class="rc-input"> */}
+
+                              {/* <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
+                              <input
+                                className="rc-input__date rc-js-custom rc-input__control birthdate"
+                                id="birthdate"
+                                data-js-dateformat="DD/MM/YYYY"
+                                name="birthdate"
+                                type="date"
+                                value={this.state.birthdate}
+                                onChange={e => this.handleInputChange(e)}
+                                onBlur={e => this.inputBlur(e)} />
+
+                              <label className="rc-input__label" htmlFor="birthdate"></label>
+                            </span> */}
                               <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
                                 <input
                                   class="rc-input__date rc-js-custom rc-input__control"
@@ -466,8 +481,7 @@ class SubscriptionDetail extends React.Component {
                                   }}
                                   value={subDetail.nextDeliveryTime}
                                 />
-                                <label class="rc-input__label" for="id-date-2">
-                                </label>
+                                
                               </span>
                             </h1>
                           </div>
@@ -491,7 +505,7 @@ class SubscriptionDetail extends React.Component {
                                 : "none",
                             }}
                             onClick={() =>
-                              this.setState({ isChangeQuatity: true })
+                              this.setState({ isChangeQuatity: true, currentGoodsInfo: JSON.parse(JSON.stringify(subDetail.goodsInfo)) })
                             }
                           >
                             <FormattedMessage id="subscription.change"></FormattedMessage>
@@ -518,6 +532,7 @@ class SubscriptionDetail extends React.Component {
                                 : "none",
                             }}
                             onClick={() => {
+                              subDetail.goodsInfo = this.state.currentGoodsInfo
                               let param = {
                                 subscribeId: subDetail.subscribeId,
                                 goodsItems: subDetail.goodsInfo.map(el => {
@@ -529,13 +544,13 @@ class SubscriptionDetail extends React.Component {
                                 console.log(res)
                                 window.location.reload()
                               })
-                              this.setState({ isChangeQuatity: false })
+                              this.setState({ isChangeQuatity: false, subDetail })
                             }}
                           >
                             <FormattedMessage id="Save"></FormattedMessage>
                           </a>
                         </div>
-                        {subDetail.goodsInfo && subDetail.goodsInfo.map((el) => (
+                        {subDetail.goodsInfo && subDetail.goodsInfo.map((el, index) => (
                           <div className="rc-layout-container rc-five-column" style={{ height: '160px' }}>
                             <div className="rc-column rc-triple-width flex-layout">
                               <div className="img-container">
@@ -551,7 +566,7 @@ class SubscriptionDetail extends React.Component {
                                 </h5>
                                 <p>{el.specText}</p>
                                 <div>
-                                  <label className="font-weight-bold" style={{ textDecoration: 'line-through' }}>
+                                  <label className="font-weight-bold" style={{ textDecoration: 'line-through',textDecorationColor: '#ec001a' }}>
                                     {el.originalPrice}
                                   </label>
                                   &nbsp;&nbsp;
@@ -570,9 +585,14 @@ class SubscriptionDetail extends React.Component {
                                   }}
                                 >
                                   <span className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus" onClick={() => {
-                                    if (el.subscribeNum > 1) {
-                                      el.subscribeNum = el.subscribeNum - 1
-                                      this.setState({ subDetail })
+                                    // if (el.subscribeNum > 1) {
+                                    //   el.subscribeNum = el.subscribeNum - 1
+                                    //   this.setState({ subDetail })
+                                    // }
+                                    let { currentGoodsInfo } = this.state
+                                    if (currentGoodsInfo[index].subscribeNum > 1) {
+                                      currentGoodsInfo[index].subscribeNum = currentGoodsInfo[index].subscribeNum - 1
+                                      this.setState({ currentGoodsInfo })
                                     }
                                   }}></span>
                                   <input
@@ -582,11 +602,13 @@ class SubscriptionDetail extends React.Component {
                                     min="1"
                                     max="899"
                                     maxLength="5"
-                                    value={el.subscribeNum}
+                                    // value={el.subscribeNum}
+                                    value={this.state.currentGoodsInfo.length && this.state.currentGoodsInfo[index].subscribeNum}
                                   />
                                   <span className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus" onClick={() => {
-                                    el.subscribeNum = el.subscribeNum + 1
-                                    this.setState({ subDetail })
+                                    let { currentGoodsInfo } = this.state
+                                    currentGoodsInfo[index].subscribeNum = currentGoodsInfo[index].subscribeNum + 1
+                                    this.setState({ currentGoodsInfo })
                                     console.log(el.subscribeNum)
                                   }}></span>
                                 </div>

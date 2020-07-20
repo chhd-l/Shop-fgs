@@ -22,7 +22,7 @@ class Subscription extends React.Component {
       subList: [],
       form: {
         subscribeId: "",
-        subscribeStatus: ""
+        subscribeStatus: "0"
       },
       loading: true,
       currentPage: 1,
@@ -284,7 +284,7 @@ class Subscription extends React.Component {
                                 {subItem.frequency}
                               </div>
                               <div className="col-12 col-md-2">{subItem.subscribeStatus === '0' ? <FormattedMessage id="active" /> : <FormattedMessage id="inactive" />}</div>
-                              <div className="col-12 col-md-2"># {i + 1}</div>
+                              {/* <div className="col-12 col-md-2"># {i + 1}</div> */}
                             </div>
                           </div>
                         ))}
