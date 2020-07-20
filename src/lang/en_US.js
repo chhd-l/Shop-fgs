@@ -138,7 +138,8 @@ const en_US = {
   'details.errMsg2': 'No details found, please try again later.',
 
   'cart.errorInfo': 'The number can\'t be less than 1',
-  'cart.errorMaxInfo': 'The number can\'t be more than 30',
+  'cart.errorMaxInfo': 'The number can\'t be exceed than 30',
+  'cart.errorMaxCate': 'The shopping cart can\'t exceed 30 items',
   'cart.errorInfo2': 'You cannot place your order, out of stock product: {val}',
   'cart.errorInfo3': '*Your order amount has not yet reached the minimum amount for free shipping （$400）',
   'cart.yourBasket': 'Your basket',
@@ -519,7 +520,6 @@ const en_US = {
   'remember48Hours' : 'Remember that you have 48 hours to make the deposit or the order will be canceled when the voucher expired.',
   'totalPay': ' Pay {val} at the nearest OXXO store',
   'sendInformationByEmail': 'We will send the information to you by email, you can use it at any time.',
-  'cvvWarning': 'CVV Warning',
   'active': 'Active',
   'inactive': 'Inactive',
 

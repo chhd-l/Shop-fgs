@@ -604,6 +604,7 @@ class PaymentComp extends React.Component {
                     }`}
                     key={idx}
                     onClick={() => {
+                      if(creditCardList[idx].selected) return;
                       creditCardList.map((el) => (el.selected = false));
                       el.selected = true;
                       // this.props.getSelectedValue &&
