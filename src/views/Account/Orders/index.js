@@ -128,6 +128,7 @@ class AccountOrders extends React.Component {
                 && tradeState.payState === 'NOT_PAID'
                 && new Date(ele.orderTimeOut).getTime() > new Date().getTime(),
               payNowLoading: false,
+              // canRePurchase:
               canReview: tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO
             }
           )
@@ -233,7 +234,6 @@ class AccountOrders extends React.Component {
   async hanldeLoginAddToCart (order) {
     const cartProduct = this.props.checkoutStore.loginCartData
     const productList = order.tradeItems ? order.tradeItems : []
-    debugger
     const tradeItems = productList.map(ele => {
       return {
         goodsInfoImg: ele.pic,
@@ -254,14 +254,9 @@ class AccountOrders extends React.Component {
       }
       paramList.push(obj)
     })
-    const params = {
-      goodsInfos: paramList
-    }
-    let res = await batchAdd(params);
-    if (res.code === 'K-000000') {
-      this.props.checkoutStore.setLoginCartData(list)
-      this.props.history.push('/cart')
-    }
+    await batchAdd({ goodsInfos: paramList });
+    await this.props.checkoutStore.updateLoginCart()
+    this.props.history.push('/cart')
   }
   render () {
     const lang = this.props.intl.locale || 'en'

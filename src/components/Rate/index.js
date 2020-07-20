@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './index.less'
-
+import Tooltip from "@/components/Tooltip";
 export default class Rate extends Component {
     state = {
         count: this.props.number || 5,
@@ -8,7 +8,8 @@ export default class Rate extends Component {
         disabled: this.props.disabled || false,
         enter: 0,
         leave: this.props.def || 0,
-        state: ['不满意', '满意', '超满意']
+        state: ['不满意', '满意', '超满意'],
+        tooltipStatus: false,
     }
     /** 页面渲染前 */
     componentWillMount = () => {}
@@ -38,55 +39,74 @@ export default class Rate extends Component {
     componentDidUpdate = () => {}
     render() {
         let { count, num, enter, leave } = this.state
-        const t = /^(([^0][0-9]+|0)$)|^(([1-9]+)$)/
-        const flag = t.test(num)
+        const t = /^(([^0][0-9]+|0)$)|^(([1-9]+)$)/  //整数
+        const flag = !t.test(num)
+        const numInt = parseInt(num)
+        const tooltip = this.props.tooltip ? this.props.tooltip : null
         return (
-            <div className="rate">
-                {new Array(count).fill().map((item, index) => (
-                    <span
-                        key={index}
-                        onClick={() => {
-                            if(!this.state.disabled) {
-                                num = index + 1
-                                leave = num
-                                this.setState({ num, leave })
-                                this.props.selectRate(num)
-                            }
-                        }}
-                        onMouseEnter={() => {
-                            if(!this.state.disabled) {
-                                enter = index + 1
-                                num = 0
-                                this.setState({ enter, num })
-                            }
-                        }}
-                        onMouseLeave={() => {
-                            if(!this.state.disabled) {
-                                enter = 0
-                                num = leave
-                                this.setState({ enter, num })
-                            }
-                        }}
+           <div >
+               <div className="rate">
+                   {new Array(count).fill().map((item, index) => (
+                       <span
+                           key={index}
+                           onClick={() => {
+                               if(!this.state.disabled) {
+                                   num = index + 1
+                                   leave = num
+                                   this.setState({ num, leave })
+                                   this.props.selectRate(num)
+                               }
+                           }}
+                           onMouseEnter={() => {
+                               if(!this.state.disabled) {
+                                   enter = index + 1
+                                   num = 0
+                                   this.setState({ enter, num })
+                               }
+                               if(tooltip) {
+                                   this.setState({tooltipStatus: true})
+                               }
+                           }}
+                           onMouseLeave={() => {
+                               if(!this.state.disabled) {
+                                   enter = 0
+                                   num = leave
+                                   this.setState({ enter, num })
+                               }
+                               if(tooltip) {
+                                   this.setState({tooltipStatus: false})
+                               }
+                           }}
 
-                    >
+                       >
                         {
                             enter > index || num-1 >= index ?
                                 (
-                                    <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-brand1--xs" disabled={this.state.disabled}></span>
+                                    <span className="rc-icon  hands c-padding-x--xs--mobile  rc-margin-bottom--xs rc-rate-fill--xs rc-brand1--xs" disabled={this.state.disabled}></span>
                                 ) : (
-                                    flag ?
+                                    flag  && index === numInt?
                                         (
-                                            <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs rc-iconography--xs " disabled={this.state.disabled}></span>
+                                            <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-rate-fill--xs half-star " disabled={this.state.disabled}></span>
                                         ) :
                                         (
-                                            <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-margin-right--xs rc-rate-fill--xs half-star" disabled={this.state.disabled}></span>
+                                            <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-rate-fill--xs rc-iconography--xs" disabled={this.state.disabled}></span>
                                         )
                                 )
 
                         }
-            </span>
-                ))}
-            </div>
+                    </span>
+                   ))}
+               </div>
+               {
+                   tooltip && this.state.tooltipStatus?
+                       <Tooltip
+                           // containerStyle={{ transform: 'translate(-89%, 89%)' }}
+                           // arrowStyle={{ left: '120%' }}
+                           content={tooltip}
+                       /> : null
+               }
+
+           </div>
         )
     }
 }

@@ -1650,7 +1650,11 @@ ul.ui-star-list .list_title {
     width: 100%;
   }
 }
-
+.comments {
+  font-size: 14px;
+  position: relative;
+  top: -3px
+}
 p {
   word-wrap: break-word;
 }
@@ -1666,4 +1670,7 @@ p {
 }
 .break {
   word-break: break-all!important;
+}
+.height70 {
+  height: 70px!important;
 }

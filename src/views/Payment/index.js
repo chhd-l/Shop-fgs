@@ -323,9 +323,7 @@ class Payment extends React.Component {
       return false
     }
 
-    if (!this.isLogin) {
-      store.set("deliveryInfo", param)
-    }
+    store.set(!this.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo', param)
     this.setState({
       creditCardInfo: creditCardInfo,
       deliveryAddress: param.deliveryAddress,
@@ -956,18 +954,18 @@ class Payment extends React.Component {
                   </h5>
                   <nav class="rc-tabs__controller rc-fade--x " data-toggle-group="" style={{ marginBottom: '20px' }}>
                     <ul class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break" role="tablist" >
-                      <li className="rc-tabs-li">
+                      <li className="rc-tabs-li" style={{ width: '40%' }}>
                         <button class="rc-tab text-break"
                           onClick={() => this.setState({ showOxxoForm: false })}
-                          style={{ padding: "8px 15px" }}
+                          style={{ padding: "8px 15px", width: '100%' }}
                           data-toggle="creditCard" role="tab">
                           <FormattedMessage id="creditCard"></FormattedMessage>
                         </button>
                       </li>
-                      <li className="rc-tabs-li">
+                      <li className="rc-tabs-li" style={{ width: '40%' }}>
                         <button class="rc-tab text-break"
                           onClick={() => this.setState({ showOxxoForm: true })}
-                          style={{ padding: "8px 15px" }}
+                          style={{ padding: "8px 15px", width: '100%' }}
                           data-toggle="oxxo" role="tab">
                           <FormattedMessage id="oxxo"></FormattedMessage>
                         </button>
@@ -975,7 +973,9 @@ class Payment extends React.Component {
                     </ul>
                   </nav>
                   {this.state.showOxxoForm ? <OxxoConfirm history={this.props.history} /> :
-                    <div>
+                    ''
+                  }
+                  <div style={{  display: this.state.showOxxoForm ? 'none' : 'block' }}>
                       <div className="card payment-form">
                         <div className="card-body rc-padding--none">
                           <form
@@ -1309,8 +1309,7 @@ class Payment extends React.Component {
                           </div>
                         </div>
                       </div>
-                    </div>
-                  }
+                  </div>
                 </div>
               </div>
               <div className="product-summary rc-column">
@@ -1324,7 +1323,10 @@ class Payment extends React.Component {
                     <FormattedMessage id="edit" />
                   </Link>
                 }
-                <PayProductInfo frequencyName={this.state.subForm.frequencyName} buyWay={this.state.subForm.buyWay} />
+                <PayProductInfo
+                  history={this.props.history}
+                  frequencyName={this.state.subForm.frequencyName}
+                  buyWay={this.state.subForm.buyWay} />
               </div>
             </div>
           </div>

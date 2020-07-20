@@ -1,6 +1,7 @@
 import React from "react";
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react'
+import { find } from 'lodash'
 import { formatMoney } from "@/utils/utils"
 
 @inject("checkoutStore", "loginStore")
@@ -49,7 +50,7 @@ class PayProductInfo extends React.Component {
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
-                <img className="product-image" src={el.goodsImg} />
+                <img className="product-image" src={find(el.sizeList, s => s.selected).goodsInfoImg} />
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
@@ -211,18 +212,20 @@ class PayProductInfo extends React.Component {
     );
   }
   render () {
-    return <div id="J_sidecart_container">
-      {this.sideCart({
-        className: 'hidden position-fixed rc-md-up',
-        style: {
-          background: '#fff',
-          zIndex: 9,
-          width: 345
-        },
-        id: 'J_sidecart_fix'
-      })}
-      {this.sideCart()}
-    </div>
+    return this.props.history && this.props.history.location.pathname === '/payment'
+      ? <div id="J_sidecart_container">
+        {this.sideCart({
+          className: 'hidden position-fixed rc-md-up',
+          style: {
+            background: '#fff',
+            zIndex: 9,
+            width: 345
+          },
+          id: 'J_sidecart_fix'
+        })}
+        {this.sideCart()}
+      </div>
+      : this.sideCart()
   }
 }
 
