@@ -115,20 +115,20 @@ class PetForm extends React.Component {
         this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
       })
 
-    // try {
-    //   let timer = setInterval(() => {
-    //     const datePickerOptions = {
-    //       maxDate: new Date()
-    //     }
-    //     if (window.RCDL.features.Datepickers && document.querySelector('.birthdate')) {
-    //       document.querySelector('.birthdate').setAttribute("datepicker-setup", "false")
-    //       window.RCDL.features.Datepickers.init('.birthdate', null, datePickerOptions)
-    //       clearInterval(timer)
-    //     }
-    //   }, 1000)
-    // } catch (e) {
-    //   console.log(e)
-    // }
+    try {
+      let timer = setInterval(() => {
+        const datePickerOptions = {
+          maxDate: new Date()
+        }
+        if (window.RCDL.features.Datepickers && document.querySelector('.birthdate')) {
+          document.querySelector('.birthdate').setAttribute("datepicker-setup", "false")
+          window.RCDL.features.Datepickers.init('.birthdate', null, datePickerOptions)
+          clearInterval(timer)
+        }
+      }, 1000)
+    } catch (e) {
+      console.log(e)
+    }
 
     // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
   }

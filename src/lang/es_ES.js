@@ -531,6 +531,11 @@ const en_US = {
   'concept': 'Concepto',
   'buy':'Comprar',
   'purchaseHomeOnline':'Compra realizada en The Home Depot en línea -',
-  'oxxoTransactionFee': '(No incluye la tarifa de transacción OXXO)'
+  'oxxoTransactionFee': '(No incluye la tarifa de transacción OXXO)',
+  'modalSkipTitle': 'SALTAR PRÓXIMA ENTREGA?',
+  'modalSkipContent': '¿Estás seguro de que deseas cancelar la próxima entrega?',
+  'modalCancelAllTitle': 'CANCELAR TODOS LOS PEDIDOS?',
+  'modalCancelAllContent': '¿Está seguro de que desea cancelar todas las entregas siguientes?',
+  'searchPrescriber':'Buscar un prescriptor'
 }
 export default en_US;

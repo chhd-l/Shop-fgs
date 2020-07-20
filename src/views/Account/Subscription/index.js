@@ -5,21 +5,13 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BreadCrumbs from "@/components/BreadCrumbs";
 import SideMenu from "@/components/SideMenu";
-import TimeCount from "@/components/TimeCount";
 import Selection from "@/components/Selection";
 import Pagination from "@/components/Pagination";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { Link } from "react-router-dom";
-import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils";
-import { getOrderList, getOrderDetails } from "@/api/order";
 import { getSubList } from "@/api/subscription"
 import { getDictionary } from "@/utils/utils";
-import {
-  IMG_DEFAULT,
-  DELIVER_STATUS_ENUM,
-  ORDER_STATUS_ENUM,
-  PAY_STATUS_ENUM,
-} from "@/utils/constant";
+import { IMG_DEFAULT } from "@/utils/constant";
 import "./index.css";
 
 class Subscription extends React.Component {
@@ -29,10 +21,8 @@ class Subscription extends React.Component {
       orderList: [],
       subList: [],
       form: {
-        duringTime: "7d",
         subscribeId: "",
-        startdate: "",
-        enddate: "",
+        subscribeStatus: "0"
       },
       loading: true,
       currentPage: 1,
@@ -42,8 +32,9 @@ class Subscription extends React.Component {
       subList: [],
       frequencyList: [],
       subStatus: [
-        { value: '2', name: <FormattedMessage id="active" values={{ val: 2 }} /> },
-        { value: '0', name: <FormattedMessage id="inactive" values={{ val: 0 }} /> }
+        { value: '', name: <FormattedMessage id="all" /> },
+        { value: '0', name: <FormattedMessage id="active" values={{ val: 0 }} /> },
+        { value: '2', name: <FormattedMessage id="inactive" values={{ val: 2 }} /> }
       ]
     };
     this.pageSize = 6;
@@ -61,22 +52,10 @@ class Subscription extends React.Component {
     }
     getDictionary({ type: "Frequency" }).then((res) => {
       this.setState({
-        frequencyList: res,
+        frequencyList: res
       });
     });
-    this.queryOrderList();
-  }
-
-  handleDuringTimeChange (data) {
-    const { form } = this.state;
-    form.duringTime = data.value;
-    this.setState(
-      {
-        form: form,
-        currentPage: 1,
-      },
-      () => this.queryOrderList()
-    );
+    this.getSubList();
   }
 
   handleInputChange (e) {
@@ -86,79 +65,54 @@ class Subscription extends React.Component {
     this.setState({ form: form });
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-      this.queryOrderList();
+      this.getSubList();
     }, 500);
   }
 
-  queryOrderList () {
+  hanldeStatusChange (data) {
+    const { form } = this.state
+    form.subscribeStatus = data.value
+    this.setState({
+      form: form,
+      currentPage: 1
+    }, () => this.getSubList())
+  }
+
+  getSubList () {
     const { form, initing, currentPage } = this.state;
     if (!initing) {
       setTimeout(() => {
         window.scrollTo({
           top: 0,
-          behavior: "smooth",
+          behavior: "smooth"
         });
       }, 0);
     }
-    let createdFrom = "";
-    this.setState({ loading: true });
-    let now = dateFormat("YYYY-mm-dd", new Date());
-    if (form.duringTime.includes("d")) {
-      let now2 = new Date();
-      now2.setDate(now2.getDate() - parseInt(form.duringTime));
-      createdFrom = dateFormat("YYYY-mm-dd", now2);
-    } else if (form.duringTime.includes("m")) {
-      createdFrom = getPreMonthDay(now, parseInt(form.duringTime));
-    }
-    // let param = {
-    //   createdFrom,
-    //   createdTo: now,
-    //   keywords: form.subscribeId,
-    //   pageNum: currentPage - 1,
-    //   pageSize: this.pageSize,
-    // };
+
+    this.setState({ loading: true })
     let param = {
       pageNum: currentPage - 1,
       pageSize: this.pageSize,
-      subscribeId: form.subscribeId
-      // subscribeId: 'S20200713113215362'
-      // customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
+      subscribeId: form.subscribeId,
+      subscribeStatus: form.subscribeStatus,
+      customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
     }
     getSubList(param)
       .then((res) => {
         this.setState({
           subList: res.context.subscriptionResponses,
           loading: false,
+          initing: false,
           currentPage: res.context.currentPage + 1,
           totalPage: Math.ceil(res.context.total / this.pageSize)
         })
-        // let tmpList = Array.from(res.context.content, (ele) => {
-        //   const tradeState = ele.tradeState;
-        //   return Object.assign(ele, {
-        //     canPayNow:
-        //       tradeState.flowState === "AUDIT" &&
-        //       tradeState.deliverStatus === "NOT_YET_SHIPPED" &&
-        //       tradeState.payState === "NOT_PAID" &&
-        //       new Date(ele.orderTimeOut).getTime() > new Date().getTime(),
-        //     payNowLoading: false,
-        //   });
-        // });
-        // this.setState({
-        //   orderList: tmpList,
-        //   currentPage: res.context.pageable.pageNumber + 1,
-        //   totalPage: res.context.totalPages,
-        //   loading: false,
-        //   initing: false,
-        // });
       })
       .catch((err) => {
         console.log(err)
-        this.setState({ loading: false })
-        // this.setState({
-        //   loading: false,
-        //   errMsg: err.toString(),
-        //   initing: false,
-        // });
+        this.setState({
+          loading: false,
+          initing: false
+        })
       });
   }
 
@@ -167,100 +121,8 @@ class Subscription extends React.Component {
       {
         currentPage: params.currentPage,
       },
-      () => this.queryOrderList()
+      () => this.getSubList()
     );
-  }
-
-  updateFilterData (form) {
-    this.setState(
-      {
-        form: Object.assign({}, this.state.form, form),
-        currentPage: 1,
-      },
-      () => this.queryOrderList()
-    );
-  }
-
-  handlePayNowTimeEnd (order) {
-    const { orderList } = this.state;
-    order.canPayNow = false;
-    this.setState({ orderList: orderList });
-  }
-
-  async handleClickPayNow (order) {
-    const { orderList } = this.state;
-    order.payNowLoading = true;
-    this.setState({ orderList: orderList });
-    const tradeItems = order.tradeItems.map((ele) => {
-      return {
-        goodsInfoImg: ele.pic,
-        goodsName: ele.spuName,
-        specText: ele.specDetails,
-        buyCount: ele.num,
-        salePrice: ele.price,
-        goodsInfoId: ele.skuId,
-      };
-    });
-    try {
-      const detailRes = await getOrderDetails(order.id);
-      const detailResCt = detailRes.context;
-      const tmpDeliveryAddress = {
-        firstName: detailResCt.consignee.firstName, // todo
-        lastName: detailResCt.consignee.lastName, // todo
-        address1: detailResCt.consignee.detailAddress1,
-        address2: detailResCt.consignee.detailAddress2,
-        rfc: detailResCt.consignee.rfc,
-        country: detailResCt.consignee.countryId
-          ? detailResCt.consignee.countryId.toString()
-          : "",
-        city: detailResCt.consignee.cityId
-          ? detailResCt.consignee.cityId.toString()
-          : "",
-        postCode: detailResCt.consignee.postCode,
-        phoneNumber: detailResCt.consignee.phone,
-        addressId: detailResCt.consignee.id,
-      };
-      const tmpBillingAddress = {
-        firstName: detailResCt.invoice.firstName, // todo
-        lastName: detailResCt.invoice.lastName, // todo
-        address1: detailResCt.invoice.address1,
-        address2: detailResCt.invoice.address2,
-        rfc: detailResCt.invoice.rfc,
-        country: detailResCt.invoice.countryId
-          ? detailResCt.invoice.countryId.toString()
-          : "",
-        city: detailResCt.invoice.cityId
-          ? detailResCt.invoice.cityId.toString()
-          : "",
-        postCode: detailResCt.invoice.postCode,
-        phoneNumber: detailResCt.invoice.phone,
-        addressId: detailResCt.invoice.addressId,
-      };
-      localStorage.setItem(
-        "loginDeliveryInfo",
-        JSON.stringify({
-          deliveryAddress: tmpDeliveryAddress,
-          billingAddress: tmpBillingAddress,
-          commentOnDelivery: detailResCt.buyerRemark,
-        })
-      );
-      localStorage.setItem("rc-cart-data-login", JSON.stringify(tradeItems));
-      sessionStorage.setItem("rc-tid", order.id);
-      sessionStorage.setItem(
-        "rc-totalInfo",
-        JSON.stringify({
-          totalPrice: order.tradePrice.totalPrice,
-          tradePrice: order.tradePrice.originPrice,
-          discountPrice: order.tradePrice.discountsPrice,
-        })
-      );
-      this.props.history.push("/payment/payment");
-    } catch (err) {
-      console.log(err);
-    } finally {
-      order.payNowLoading = true;
-      this.setState({ orderList: orderList });
-    }
   }
 
   render () {
@@ -328,33 +190,12 @@ class Subscription extends React.Component {
                     </div>
                     <div className="col-md-8">
                       <Selection
-                      optionList={this.state.subStatus}
-                      selectedItemChange={el => {
-                        const { history } = this.props
-                        history.push(`/account/orders-detail/${el.value}`)
-                      }}
-                      selectedItemData={{
-                        value: this.state.subStatus[0].value
-                      }}
-                      customStyleType="select-one" />
-                      {/* <span class="rc-select">
-                        <select data-js-select="" id="id-single-select">
-                          <FormattedMessage id="active">
-                            {
-                              txt => (
-                                <option>{txt}</option>
-                              )
-                            }
-                          </FormattedMessage>
-                          <FormattedMessage id="inactive">
-                            {
-                              txt => (
-                                <option>{txt}</option>
-                              )
-                            }
-                          </FormattedMessage>
-                        </select>
-                      </span> */}
+                        optionList={this.state.subStatus}
+                        selectedItemChange={el => this.hanldeStatusChange(el)}
+                        selectedItemData={{
+                          value: this.state.form.subscribeStatus
+                        }}
+                        customStyleType="select-one" />
                     </div>
                   </div>
                 </div>
@@ -443,7 +284,7 @@ class Subscription extends React.Component {
                                 {subItem.frequency}
                               </div>
                               <div className="col-12 col-md-2">{subItem.subscribeStatus === '0' ? <FormattedMessage id="active" /> : <FormattedMessage id="inactive" />}</div>
-                              <div className="col-12 col-md-2"># {i + 1}</div>
+                              {/* <div className="col-12 col-md-2"># {i + 1}</div> */}
                             </div>
                           </div>
                         ))}

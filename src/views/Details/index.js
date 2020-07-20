@@ -735,9 +735,6 @@ class Details extends React.Component {
                                       </div>
                                     ) : null}
                                   <div className="product-pricing__card__body rc-margin-top--xs">
-                                    <div>
-                                      <FormattedMessage id="freeShipping" />
-                                    </div>
                                     <div className="toggleVisibility">
                                       <div className="product-selectors rc-padding-top--xs">
                                         {specList.map((sItem, i) => (
@@ -1046,13 +1043,13 @@ class Details extends React.Component {
             </main>
           )}
         <Footer />
-        <PetModal visible={this.state.petModalVisible}
+        {/* <PetModal visible={this.state.petModalVisible}
           isAdd={this.state.isAdd}
           productList={this.state.productList}
           openNew={() => this.openNew()}
           closeNew={() => this.closeNew()}
           confirm={() => this.petComfirm()}
-          close={() => this.closePetModal()} />
+          close={() => this.closePetModal()} /> */}
       </div>
     );
   }

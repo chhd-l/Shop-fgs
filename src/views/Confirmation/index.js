@@ -44,7 +44,7 @@ class Confirmation extends React.Component {
       operateSuccessModalVisible: false,
       errorMsg: "",
 
-      subscribeNumber: store.get('subscribeNumber'),
+      subNumber: store.get('subNumber'),
       orderNumber: store.get('orderNumber')
     };
     this.timer = null;
@@ -62,7 +62,7 @@ class Confirmation extends React.Component {
     sessionStorage.removeItem('rc-clinics-id-select')
     sessionStorage.removeItem('rc-clinics-name-select')
     store.remove('orderNumber')
-    store.remove('subscribeNumber')
+    store.remove('subNumber')
   }
   componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
@@ -271,15 +271,16 @@ class Confirmation extends React.Component {
                 </div>
                 {
                   !this.state.isOxxoPayment && <p
-                    className={`rc-margin-top--sm ${this.state.subscribeNumber ? 'text-left' : ''} ml-auto mr-auto`}
+                    className={`rc-margin-top--sm ${this.state.subNumber ? 'text-left' : ''} ml-auto mr-auto`}
                     style={{ width: '25%' }}>
                     {
-                      this.state.subscribeNumber && <>
+                      this.state.subNumber && <>
                         <b className="mb-3" style={{ display: 'inline-block' }}>
                           <FormattedMessage id="subscription.number" />:{' '}
                           <Link
+                            to={`/account/subscription-detail/${this.state.subNumber}`}
                             className="rc-meta rc-styled-link backtohome mb-0">
-                            {this.state.subscribeNumber}
+                            {this.state.subNumber}
                           </Link>
                         </b>
                         <br />
@@ -288,6 +289,7 @@ class Confirmation extends React.Component {
                     <b>
                       <FormattedMessage id="confirmation.orderNumber" />:{' '}
                       <Link
+                        to={`/account/orders-detail/${this.state.orderNumber}`}
                         className="rc-meta rc-styled-link backtohome mb-0">
                         {this.state.orderNumber}
                       </Link>
@@ -301,7 +303,7 @@ class Confirmation extends React.Component {
                   <h5 className="product-summary__title rc-margin-bottom--xs center">
                     <FormattedMessage id="total" />
                   </h5>
-                  <PayProductInfo />
+                  <PayProductInfo history={this.props.history} />
                 </div>
                 <div className="card shipping-summary">
                   <div className="card-header rc-margin-bottom--xs rc-padding-right--none clearfix center">

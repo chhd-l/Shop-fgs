@@ -13,6 +13,7 @@ import UnloginDeliveryAddress from "./modules/UnloginDeliveryAddress";
 import LoginDeliveryAddress from "./modules/LoginDeliveryAddress";
 import BillingAddressForm from "./modules/BillingAddressForm";
 import SubscriptionSelect from "./modules/SubscriptionSelect"
+import InfosPreview from "./modules/InfosPreview"
 import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
@@ -238,11 +239,6 @@ class Payment extends React.Component {
       }
     }
   }
-  matchNamefromDict (dictList, id) {
-    return find(dictList, ele => ele.id == id)
-      ? find(dictList, ele => ele.id == id).name
-      : id
-  }
   confirmCardInfo () {
     this.setState({
       isCompleteCredit: true
@@ -327,9 +323,7 @@ class Payment extends React.Component {
       return false
     }
 
-    if (!this.isLogin) {
-      store.set("deliveryInfo", param)
-    }
+    store.set(!this.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo', param)
     this.setState({
       creditCardInfo: creditCardInfo,
       deliveryAddress: param.deliveryAddress,
@@ -353,9 +347,11 @@ class Payment extends React.Component {
     })
   }
   async handleClickFurther () {
-    let tmpRes = await this.saveAddressAndComment()
-    if (tmpRes === false) {
-      return false
+    if (!this.state.isToPayNow) {
+      let tmpRes = await this.saveAddressAndComment()
+      if (tmpRes === false) {
+        return false
+      }
     }
     if (this.isLogin) {
       if (!this.state.selectedCardInfo.cardNumber) {
@@ -542,7 +538,7 @@ class Payment extends React.Component {
               })
             param3.cycleTypeId = subForm.frequencyId
             param3.paymentMethodId = creditCardInfo.id
-            param3.nextDeliveryTime = '2020-03-01' // todo
+            // param3.nextDeliveryTime = '2020-03-01' // todo
           }
         }
         // rePay
@@ -561,13 +557,11 @@ class Payment extends React.Component {
               : customerCommitAndPay
           : confirmAndCommit
         const confirmAndCommitRes = await tmpCommitAndPay(param3);
-        // debugger
+        //debugger
         console.log(confirmAndCommitRes);
         const confirmAndCommitResContext = confirmAndCommitRes.context
-        store.set(
-          "orderNumber", confirmAndCommitResContext && confirmAndCommitResContext[0]['tid'] || this.tid,
-          "subscribeNumber", confirmAndCommitResContext && confirmAndCommitResContext[0]['subscribeId'] || '',
-        );
+        store.set("orderNumber", confirmAndCommitResContext && confirmAndCommitResContext[0]['tid'] || this.tid);
+        store.set("subNumber", confirmAndCommitResContext && confirmAndCommitResContext[0]['subscribeId'] || '')
         this.setState({ loading: false });
         sessionStorage.removeItem("payosdata");
         history.push("/confirmation");
@@ -779,178 +773,180 @@ class Payment extends React.Component {
             <Progress type="payment" />
             <div className="rc-layout-container rc-three-column rc-max-width--xl">
               <div className="rc-column rc-double-width shipping__address">
-                <div
-                  className="rc-padding-bottom--xs cart-error-messaging cart-error"
-                  style={{ display: this.state.errorShow ? "block" : "none" }}
-                >
+                <div className={`rc-padding-bottom--xs cart-error-messaging cart-error ${this.state.errorShow ? '' : 'hidden'}`}>
                   <aside
                     className="rc-alert rc-alert--error rc-alert--with-close"
                     role="alert"
                   >
-                    <span style={{ paddingLeft: 0 }}>
-                      {this.state.errorMsg}
-                    </span>
+                    {this.state.errorMsg}
                   </aside>
                 </div>
-                <div className="shipping-form">
-                  <div className="card">
-                    <div className="card-header">
-                      <h5 className="pull-left">
-                        {
-                          this.isLogin
-                            ? <FormattedMessage id="payment.clinicTitle2" />
-                            : <FormattedMessage id="payment.clinicTitle" />
-                        }
-                      </h5>
-                      <p
-                        onClick={e => this.handleClickEditClinic(e)}
-                        className="rc-styled-link rc-margin-top--xs pull-right m-0">
-                        <FormattedMessage id="edit" />
-                      </p>
-                    </div>
-                    <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
-                      {
-                        sessionStorage.getItem("rc-clinics-name-link")
-                        || sessionStorage.getItem("rc-clinics-name-default")
-                        || sessionStorage.getItem("rc-clinics-name-select")
-                      }
-                    </div>
-                    {this.isLogin
-                      ? (
-                        <LoginDeliveryAddress
-                          id="1"
-                          ref={this.loginDeliveryAddressRef} />
-                      ) : (
-                        <UnloginDeliveryAddress
-                          data={deliveryAddress}
-                          updateData={(data) => {
-                            this.setState({
-                              deliveryAddress: data
-                            });
-                          }} />
-                      )}
-                    <div className="card-header" style={{ zIndex: 2, width: '62%' }}>
-                      <h5>
-                        <FormattedMessage id="payment.billTitle" />
-                      </h5>
-                      <div className="billingCheckbox rc-margin-top--xs">
-                        <input
-                          className="form-check-input"
-                          id="id-checkbox-billing"
-                          value="Cat"
-                          type="checkbox"
-                          onChange={() => this.billingCheckedChange()}
-                          checked={this.state.billingChecked}
-                        />
-                        <label
-                          className="rc-input__label--inline"
-                          htmlFor="id-checkbox-billing"
-                        >
-                          <FormattedMessage id="payment.useDeliveryAddress" />
-                        </label>
-                      </div>
-                    </div>
-
-                    {this.isLogin ? (
-                      <LoginDeliveryAddress
-                        id="2"
-                        type="billing"
-                        ref={this.loginBillingAddressRef}
-                        visible={!this.state.billingChecked} />
-                    ) : (
-                        <BillingAddressForm
-                          data={billingAddress}
-                          billingChecked={this.state.billingChecked}
-                          updateData={(data) => {
-                            this.setState({
-                              billingAddress: data
-                            });
-                          }}
-                        />
-                      )}
-
-                    <fieldset className="shipping-method-block rc-fieldset">
-                      <div className="card-header">
-                        <h5>
-                          <FormattedMessage id="payment.howToDelivery" />
-                        </h5>
-                      </div>
-                      <div>
-                        <div className="leading-lines shipping-method-list rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
-                          <div className="row deliveryMethod">
-                            <div className="col-8">
-                              <span className="display-name pull-left">
-                                <FormattedMessage id="payment.normalDelivery2" />
-                              </span>
-                              <span className="text-muted arrival-time">
-                                <FormattedMessage id="payment.normalDelivery3" />
-                              </span>
-                            </div>
-                            <div className="col-4">
-                              <span
-                                className="shipping-method-pricing"
-                                style={{ whiteSpace: "nowrap" }}
-                              >
-                                <span className="shipping-cost">
-                                  <FormattedMessage id="payment.forFree" />
-                                </span>
-                                <span
-                                  className=" info-tooltip delivery-method-tooltip"
-                                  title="Top"
-                                  data-tooltip-placement="top"
-                                  data-tooltip="top-tooltip"
-                                >
-                                  i
-                                </span>
-                                <div id="top-tooltip" className="rc-tooltip">
-                                  <FormattedMessage id="payment.forFreeTip" />
-                                </div>
-                              </span>
-                            </div>
+                {this.state.isToPayNow
+                  ? <InfosPreview />
+                  : <>
+                    <div className="shipping-form">
+                      <div className="card">
+                        <div className="card-header">
+                          <h5 className="pull-left">
+                            {
+                              this.isLogin
+                                ? <FormattedMessage id="payment.clinicTitle2" />
+                                : <FormattedMessage id="payment.clinicTitle" />
+                            }
+                          </h5>
+                          <p
+                            onClick={e => this.handleClickEditClinic(e)}
+                            className="rc-styled-link rc-margin-top--xs pull-right m-0">
+                            <FormattedMessage id="edit" />
+                          </p>
+                        </div>
+                        <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
+                          {
+                            sessionStorage.getItem("rc-clinics-name-link")
+                            || sessionStorage.getItem("rc-clinics-name-default")
+                            || sessionStorage.getItem("rc-clinics-name-select")
+                          }
+                        </div>
+                        {this.isLogin
+                          ? (
+                            <LoginDeliveryAddress
+                              id="1"
+                              ref={this.loginDeliveryAddressRef} />
+                          ) : (
+                            <UnloginDeliveryAddress
+                              data={deliveryAddress}
+                              updateData={(data) => {
+                                this.setState({
+                                  deliveryAddress: data
+                                });
+                              }} />
+                          )}
+                        <div className="card-header" style={{ zIndex: 2, width: '62%' }}>
+                          <h5>
+                            <FormattedMessage id="payment.billTitle" />
+                          </h5>
+                          <div className="billingCheckbox rc-margin-top--xs">
+                            <input
+                              className="form-check-input"
+                              id="id-checkbox-billing"
+                              value="Cat"
+                              type="checkbox"
+                              onChange={() => this.billingCheckedChange()}
+                              checked={this.state.billingChecked}
+                            />
+                            <label
+                              className="rc-input__label--inline"
+                              htmlFor="id-checkbox-billing"
+                            >
+                              <FormattedMessage id="payment.useDeliveryAddress" />
+                            </label>
                           </div>
                         </div>
+
+                        {this.isLogin ? (
+                          <LoginDeliveryAddress
+                            id="2"
+                            type="billing"
+                            ref={this.loginBillingAddressRef}
+                            visible={!this.state.billingChecked} />
+                        ) : (
+                            <BillingAddressForm
+                              data={billingAddress}
+                              billingChecked={this.state.billingChecked}
+                              updateData={(data) => {
+                                this.setState({
+                                  billingAddress: data
+                                });
+                              }}
+                            />
+                          )}
+
+                        <fieldset className="shipping-method-block rc-fieldset">
+                          <div className="card-header">
+                            <h5>
+                              <FormattedMessage id="payment.howToDelivery" />
+                            </h5>
+                          </div>
+                          <div>
+                            <div className="leading-lines shipping-method-list rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
+                              <div className="row deliveryMethod">
+                                <div className="col-8">
+                                  <span className="display-name pull-left">
+                                    <FormattedMessage id="payment.normalDelivery2" />
+                                  </span>
+                                  <span className="text-muted arrival-time">
+                                    <FormattedMessage id="payment.normalDelivery3" />
+                                  </span>
+                                </div>
+                                <div className="col-4">
+                                  <span
+                                    className="shipping-method-pricing"
+                                    style={{ whiteSpace: "nowrap" }}
+                                  >
+                                    <span className="shipping-cost">
+                                      <FormattedMessage id="payment.forFree" />
+                                    </span>
+                                    <span
+                                      className=" info-tooltip delivery-method-tooltip"
+                                      title="Top"
+                                      data-tooltip-placement="top"
+                                      data-tooltip="top-tooltip"
+                                    >
+                                      i
+                                    </span>
+                                    <div id="top-tooltip" className="rc-tooltip">
+                                      <FormattedMessage id="payment.forFreeTip" />
+                                    </div>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                        <div className="card">
+                          <div className="card-header">
+                            <h5>
+                              <FormattedMessage id="payment.commentOnDelivery" />
+                            </h5>
+                          </div>
+                          <span
+                            className="rc-input nomaxwidth rc-border-all rc-border-colour--interface rc-input--full-width"
+                            input-setup="true"
+                          >
+                            <textarea
+                              className="rc-input__textarea noborder"
+                              maxLength="1000"
+                              name="dwfrm_shipping_shippingAddress_deliveryComment"
+                              id="delivery-comment"
+                              value={this.state.commentOnDelivery}
+                              onChange={(e) => this.commentChange(e)}
+                            ></textarea>
+                            <label
+                              className="rc-input__label"
+                              htmlFor="delivery-comment"
+                            ></label>
+                          </span>
+                        </div>
                       </div>
-                    </fieldset>
-                    <div className="card">
-                      <div className="card-header">
-                        <h5>
-                          <FormattedMessage id="payment.commentOnDelivery" />
-                        </h5>
-                      </div>
-                      <span
-                        className="rc-input nomaxwidth rc-border-all rc-border-colour--interface rc-input--full-width"
-                        input-setup="true"
-                      >
-                        <textarea
-                          className="rc-input__textarea noborder"
-                          maxLength="1000"
-                          name="dwfrm_shipping_shippingAddress_deliveryComment"
-                          id="delivery-comment"
-                          value={this.state.commentOnDelivery}
-                          onChange={(e) => this.commentChange(e)}
-                        ></textarea>
-                        <label
-                          className="rc-input__label"
-                          htmlFor="delivery-comment"
-                        ></label>
-                      </span>
                     </div>
-                  </div>
-                </div>
-                <div className="card-header">
-                  <h5>
-                    <FormattedMessage id="subscription.chooseSubscription" />
-                  </h5>
-                </div>
-                {
-                  this.isLogin && find(this.loginCartData, ele => ele.subscriptionStatus)
-                    ? <SubscriptionSelect
-                      updateSelectedData={data => {
-                        this.setState({
-                          subForm: data
-                        })
-                      }} />
-                    : null
+                    {
+                      this.isLogin && find(this.loginCartData, ele => ele.subscriptionStatus)
+                        ? <>
+                          <div className="card-header">
+                            <h5>
+                              <FormattedMessage id="subscription.chooseSubscription" />
+                            </h5>
+                          </div>
+                          <SubscriptionSelect
+                            updateSelectedData={data => {
+                              this.setState({
+                                subForm: data
+                              })
+                            }} />
+                        </>
+                        : null
+                    }
+                  </>
                 }
                 <div>
                   <h5>
@@ -1326,7 +1322,10 @@ class Payment extends React.Component {
                     <FormattedMessage id="edit" />
                   </Link>
                 }
-                <PayProductInfo frequencyName={this.state.subForm.frequencyName} buyWay={this.state.subForm.buyWay} />
+                <PayProductInfo
+                  history={this.props.history}
+                  frequencyName={this.state.subForm.frequencyName}
+                  buyWay={this.state.subForm.buyWay} />
               </div>
             </div>
           </div>

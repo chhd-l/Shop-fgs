@@ -10,7 +10,7 @@
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 105%);
-    z-index: 9;
+    z-index: 10;
     border: 1px solid #d7d7d7;
 }
 .confirm-tool-arrow {

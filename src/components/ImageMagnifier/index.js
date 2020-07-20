@@ -96,7 +96,9 @@ class ImageMagnifier extends Component {
       videoShow: false,
       videoModalShow: true,
       listenerCount: 1,
-      positionLeft: 0
+      positionLeft: 0,
+      hoverIndex: 0,
+      offsetX: 0
     };
   }
 
@@ -121,7 +123,13 @@ class ImageMagnifier extends Component {
 
     let selectedSizeInfo = sizeList.filter(item => item.selected)
     if (selectedSizeInfo.length) {
-      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false })
+      let hoverIndex = 0
+      images.map((el, i) => {
+        if(el.artworkUrl === selectedSizeInfo[0].goodsInfoImg || el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg) {
+          hoverIndex = i
+        }
+      })
+      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*200})
     }
   }
   // props 变化时更新
@@ -131,7 +139,8 @@ class ImageMagnifier extends Component {
     if (!currentImg && images && images.length > 0) {
       currentImg = images[0].artworkUrl
     }
-    console.log(currentImg, 'currentImg')
+    
+    console.log(currentImg, 'currentImg', images)
     this.setState({
       currentImg: currentImg
     })
@@ -140,7 +149,13 @@ class ImageMagnifier extends Component {
     console.log(sizeList.filter(item => item.selected))
     let selectedSizeInfo = sizeList.filter(item => item.selected)
     if (selectedSizeInfo.length) {
-      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false })
+      let hoverIndex = 0
+      images.map((el, i) => {
+        if(el.artworkUrl === selectedSizeInfo[0].goodsInfoImg || el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg) {
+          hoverIndex = i
+        }
+      })
+      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*200})
     }
   }
 
@@ -228,13 +243,16 @@ class ImageMagnifier extends Component {
       maxImg: props.maxImg
     });
   }
-  imageChange (e, image) {
+  imageChange (e, image, i) {
+    console.log(i)
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
     cssStyle.imgContainer.cursor = 'move'
     this.setState({
       currentImg: image,
       videoShow: false,
-      cssStyle
+      cssStyle,
+      hoverIndex: i,
+      offsetX: i * 200
     })
   }
   // 图片加载情况
@@ -264,7 +282,7 @@ class ImageMagnifier extends Component {
   //   this.setState()
   // }
   render () {
-    const { cssStyle, magnifierOff, imgLoad, currentImg, videoShow, videoModalShow } = this.state;
+    const { cssStyle, magnifierOff, imgLoad, currentImg, videoShow, videoModalShow, hoverIndex } = this.state;
     const { images, video } = this.props
     let imgCount = images.length 
     if(video) {
@@ -274,13 +292,23 @@ class ImageMagnifier extends Component {
     return (
       <div>
         <div style={{ position: 'relative' }}>
-          <div style={cssStyle.imgContainer}>
+          <div className="bigImageOutBox" style={cssStyle.imgContainer}>
+            <div className="bigImageInnerBox rc-loaded--final" style={{transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`}}>
+              {
+                images.map(el => (
+                  <div>
+                    <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />
+                  </div>
+                ))
+              }
+              {(videoShow && video) && <div><video ref="video" style={cssStyle.imgStyle} src={video ? video : ''} controlslist="nodownload" oncontextmenu="return false;" controls></video></div>}
+            </div>
             {videoShow && videoModalShow && <div className="videoModal" onClick={() => {
               this.refs.video.play()
               this.setState({ videoModalShow: false })
             }}></div>}
-            {!(videoShow && video) && <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />}
-            {(videoShow && video) && <video ref="video" style={cssStyle.imgStyle} src={video ? video : ''} controlslist="nodownload" oncontextmenu="return false;" controls></video>}
+            {/* {!(videoShow && video) && <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />} */}
+            
             {!videoShow && <div
               style={cssStyle.maskBlock}
               onMouseEnter={this.mouseEnter}
@@ -314,15 +342,16 @@ class ImageMagnifier extends Component {
             images && images.map((el, i) => (
               <div
                 key={i}
-                className={`rc-img--square rc-img--square-custom ${(el.artworkUrl || el.goodsInfoImg) === currentImg ? 'hover' : ''}`}
-                onMouseEnter={(e) => this.imageChange(e, el.artworkUrl || el.goodsInfoImg)}
+                // className={`rc-img--square rc-img--square-custom ${(el.artworkUrl || el.goodsInfoImg) === currentImg ? 'hover' : ''}`}
+                className={`rc-img--square rc-img--square-custom ${hoverIndex === i ? 'hover' : ''}`}
+                onMouseEnter={(e) => this.imageChange(e, el.artworkUrl || el.goodsInfoImg, i)}
                 style={{ backgroundImage: 'url(' + (el.artworkUrl || el.goodsInfoImg) + ')' }}></div>
             ))
           }
-          {video && <video className="rc-img--square rc-img--square-custom" onMouseEnter={() => {
+          {video && <video className={`rc-img--square rc-img--square-custom ${hoverIndex === images.length ? 'hover' : ''}`} onMouseEnter={() => {
             let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
             cssStyle.imgContainer.cursor = 'pointer'
-            this.setState({ videoShow: true, cssStyle })
+            this.setState({ videoShow: true, cssStyle ,hoverIndex: images.length, offsetX: images.length * 200})
           }} src={video ? video : ''}></video>}
         </div>
         </div>

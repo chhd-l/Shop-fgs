@@ -588,17 +588,19 @@ class PaymentComp extends React.Component {
                           }`}
                         key={idx}
                         onClick={() => {
-                          creditCardList.map((el) => (el.selected = false));
-                          el.selected = true;
-                          // this.props.getSelectedValue &&
-                          //   this.props.getSelectedValue(el);
-                          this.props.getSelectedValue &&
-                            this.props.getSelectedValue({});
-                          this.setState({
-                            creditCardList,
-                            isCurrentCvvConfirm: false,
-                            currentCvv: "",
-                          });
+                          if(pathname !== '/account/paymentMethod') {
+                            creditCardList.map((el) => (el.selected = false));
+                            el.selected = true;
+                            // this.props.getSelectedValue &&
+                            //   this.props.getSelectedValue(el);
+                            this.props.getSelectedValue &&
+                              this.props.getSelectedValue({});
+                            this.setState({
+                              creditCardList,
+                              isCurrentCvvConfirm: false,
+                              currentCvv: "",
+                            });  
+                          }
                         }}
                       >
                         <div
@@ -608,7 +610,7 @@ class PaymentComp extends React.Component {
                         >
                           <div
                             className="position-absolute"
-                            style={{ right: "1%", top: "2%", zIndex: "999" }}
+                            style={{ right: "1%", top: "2%", zIndex: "1" }}
                           >
                             <span className="pull-right position-relative border-left pl-2 ui-cursor-pointer-pure">
                               <span
@@ -1002,7 +1004,8 @@ class PaymentComp extends React.Component {
                                     name="cardMmyy"
                                     maxLength="5"
                                     placeholder={
-                                      this.props.intl.messages.cardNumber
+                                      'MM/YY'
+                                      // this.props.intl.messages.cardNumber
                                     }
                                   />
                                 </span>

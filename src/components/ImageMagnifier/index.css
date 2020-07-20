@@ -44,3 +44,18 @@
   top: -30px;
   cursor: pointer;
 }
+.bigImageOutBox {
+  position: relative;
+  overflow: hidden;
+}
+.bigImageInnerBox {
+  position: absolute;
+  overflow: hidden;
+  width: 9000px;
+  transition: all .2s linear !important;
+}
+.bigImageInnerBox div {
+  width: 200px;
+  height: 250px;
+  float: left;
+}

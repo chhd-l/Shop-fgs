@@ -1,5 +1,6 @@
 // 注意：其他文件也存在多语言相关，搜en/es/ru
 const en_US = {
+  'all': 'All',
   'just': 'Just',
   'or': 'or',
   'submit': 'Submit',
@@ -518,36 +519,8 @@ const en_US = {
   'totalPay': ' Pay {val} at the nearest OXXO store',
   'sendInformationByEmail': 'We will send the information to you by email, you can use it at any time.',
   'cvvWarning': 'CVV Warning',
-  'card': 'Card',
-  'active': 'Activo',
-  'inactive': 'Inactivo',
-
-  'subscription.subscriptionNumberTip': 'Por favor ingrese el número de retorno',
-  'subscription.notYet': 'Todavía no se ha enviado',
-  'subscription.frequency': 'Frecuencia',
-  'subscription.nextOrder': 'Siguiente pedido',
-  'subscription.order': 'Pedido',
-  'subscription.total': 'Total',
-  'subscription.totalInclu': 'Total(Inclu IVA)',
-  'subscription.saveDiscount': 'Subscription Save Discount',
-  'subscription.shipping': 'Envío',
-  'subscription.shippingAddress': 'Dirección de envío',
-  'subscription.BillingAddress': 'Dirección de facturación',
-  'subscription.paymentMethod': 'Método de pago',
-  'subscription.change': 'Cambio',
-  'subscription.product': 'Producto',
-  'subscription.number': 'Número de suscripción',
-  'subscription.subscriptionNumberTip': 'Ingrese el número de suscripción',
-  'subscription.date': 'Fecha de suscripción',
-  'subscription.deliveryDate': 'Próxima fecha de entrega',
-  'subscription.detail': 'Detalle de suscripción',
-  'subscription.sub': 'Sub-',
-  'subscription.status': 'Estado de suscripción',
-  'subscription.receiveDate': 'Siguiente fecha de recepción',
-  'subscription.toBeDelivered': 'Para ser entregado',
-  'subscription.skip': 'Saltar próxima entrega',
-  'subscription.cancelAll': 'Cancelar todo',
-  'subscription.promotionTip': 'Ahorre {val} en su primera suscripción',
+  'active': 'Active',
+  'inactive': 'Inactive',
 
   'visitStoreMap': 'Visit store map',
   'print': 'Print',
@@ -561,7 +534,12 @@ const en_US = {
   'concept': 'Concept',
   'buy':'Buy',
   'purchaseHomeOnline':'Purchase made at The Home Depot online -',
-  'oxxoTransactionFee': '(Does not include the OXXO transaction fee)'
+  'oxxoTransactionFee': '(Does not include the OXXO transaction fee)',
+  'modalSkipTitle': 'SKIP NEXT DELIVERY?',
+  'modalSkipContent': 'Are you sure you want to cancel the next delivery?',
+  'modalCancelAllTitle': 'CANCEL ALL ORDERS?',
+  'modalCancelAllContent': 'Are you sure you want to cancel all the following deliveries?',
+  'searchPrescriber':'Search a clinic'
 
 }
 export default en_US;

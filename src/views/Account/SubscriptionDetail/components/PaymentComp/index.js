@@ -58,27 +58,12 @@ class PaymentComp extends React.Component {
   async componentWillReceiveProps() {
     if (this.props.loginStore.isLogin) {
       await this.getPaymentMethodList();
-      // this.state.creditCardList.map((el) => {
-      //   if (el.isDefault === 1) {
-      //     el.selected = true;
-      //     this.props.getSelectedValue && this.props.getSelectedValue(el);
-      //   }else {
-      //     el.selected = false;
-      //   }
-      // });
-      let filterList = this.state.creditCardList.filter((el) => {
-        if (el.isDefault === 1) {
-          el.selected = true;
-          return true;
-        } else {
-          el.selected = false;
-          return false;
-        }
-      });
-      if (filterList.length) {
-        // this.props.getSelectedValue && this.props.getSelectedValue(filterList[0]);
-      } else if (this.state.creditCardList.length) {
-        this.state.creditCardList[0].selected = true;
+      if (this.state.creditCardList.length) {
+        this.state.creditCardList.map(el => {
+          if(el.id === this.props.paymentId) {
+            el.selected = true
+          }
+        })
         // this.props.getSelectedValue && this.props.getSelectedValue(this.state.creditCardList[0]);
       }
       this.setState({ creditCardList: this.state.creditCardList });
@@ -96,19 +81,24 @@ class PaymentComp extends React.Component {
       //     el.selected = false;
       //   }
       // });
-      let filterList = this.state.creditCardList.filter((el) => {
-        if (el.isDefault === 1) {
-          el.selected = true;
-          return true;
-        } else {
-          el.selected = false;
-          return false;
-        }
-      });
-      if (filterList.length) {
-        // this.props.getSelectedValue && this.props.getSelectedValue(filterList[0]);
-      } else if (this.state.creditCardList.length) {
-        this.state.creditCardList[0].selected = true;
+      // let filterList = this.state.creditCardList.filter((el) => {
+      //   if (el.isDefault === 1) {
+      //     el.selected = true;
+      //     return true;
+      //   } else {
+      //     el.selected = false;
+      //     return false;
+      //   }
+      // });
+      // if (filterList.length) {
+      //   // this.props.getSelectedValue && this.props.getSelectedValue(filterList[0]);
+      // } else 
+      if (this.state.creditCardList.length) {
+        this.state.creditCardList.map(el => {
+          if(el.id === this.props.paymentId) {
+            el.selected = true
+          }
+        })
         // this.props.getSelectedValue && this.props.getSelectedValue(this.state.creditCardList[0]);
       }
       this.setState({ creditCardList: this.state.creditCardList });
@@ -634,7 +624,7 @@ class PaymentComp extends React.Component {
                     >
                       <div
                         className="position-absolute"
-                        style={{ right: "1%", top: "2%", zIndex: "999" }}
+                        style={{ right: "1%", top: "2%", zIndex: "1" }}
                       >
                         <span className="pull-right position-relative border-left pl-2 ui-cursor-pointer-pure">
                           <span
@@ -693,7 +683,7 @@ class PaymentComp extends React.Component {
                           className={`col-12 col-sm-9 flex-column justify-content-around`}
                           style={{
                             display:
-                              pathname === "/payment/payment"
+                              pathname !== "/payment/payment"
                                 ? "flex "
                                 : "none ",
                           }}
@@ -809,7 +799,7 @@ class PaymentComp extends React.Component {
                           className={`col-12 col-sm-9 flex-column justify-content-around`}
                           style={{
                             display:
-                              pathname !== "/payment/payment"
+                              pathname === "/payment/payment"
                                 ? "flex "
                                 : "none",
                           }}
@@ -870,6 +860,10 @@ class PaymentComp extends React.Component {
             <button
               class="rc-btn rc-btn--sm rc-btn--one"
               onClick={() => {
+                if(!isCurrentCvvConfirm) {
+                  this.showErrorMsg(this.props.intl.messages.clickConfirmCardButton);
+                  return
+                }
                 this.props.save(creditCardList.filter((el) => el.selected)[0]);
               }}
             >
@@ -1090,7 +1084,8 @@ class PaymentComp extends React.Component {
                                     name="cardMmyy"
                                     maxLength="5"
                                     placeholder={
-                                      this.props.intl.messages.cardNumber
+                                      // this.props.intl.messages.cardNumber
+                                      'MM/YY'
                                     }
                                   />
                                 </span>
@@ -1118,7 +1113,7 @@ class PaymentComp extends React.Component {
                                       this.cardInfoInputChange(e)
                                     }
                                     name="cardCvv"
-                                    maxLength="3"
+                                    maxLength="4"
                                     placeholder="CVV"
                                   />
                                 </span>
