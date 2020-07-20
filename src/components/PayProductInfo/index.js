@@ -141,12 +141,14 @@ class PayProductInfo extends React.Component {
       </div>
     )
   }
-  render () {
+  sideCart ({ className = '', style = {}, id = '' } = {}) {
     const { productList } = this.state
     const { checkoutStore } = this.props
     const List = this.isLogin ? this.getProductsForLogin(productList) : this.getProducts(productList)
     return (
-      <div className="product-summary__inner">
+      <div className={`product-summary__inner ${className}`}
+        style={{ ...style }}
+        id={id}>
         <div className="product-summary__recap">
           {this.getTotalItems()}
           <div className="product-summary__recap__content">
@@ -207,6 +209,20 @@ class PayProductInfo extends React.Component {
         </div>
       </div>
     );
+  }
+  render () {
+    return <div id="J_sidecart_container">
+      {this.sideCart({
+        className: 'hidden position-fixed rc-md-up',
+        style: {
+          background: '#fff',
+          zIndex: 9,
+          width: 345
+        },
+        id: 'J_sidecart_fix'
+      })}
+      {this.sideCart()}
+    </div>
   }
 }
 
