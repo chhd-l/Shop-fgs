@@ -565,13 +565,6 @@ class UnLoginCart extends React.Component {
           </div>
         </div>
       </div>
-      {this.state.productList.some(
-        (item) => find(item.sizeList, s => s.selected).subscriptionStatus
-      ) ? (
-          <div style={{ fontSize: "15px" }}>
-            <FormattedMessage id="unLoginSubscriptionTips" />
-          </div>
-        ) : null}
     </div>
   }
   render () {
