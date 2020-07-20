@@ -3,6 +3,7 @@ import Pagination from '@/components/Pagination'
 import Rate from '@/components/Rate'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details'
+import Selection from '@/components/Selection'
 import "../index.css";
 import Skeleton from "react-skeleton-loader";
 @injectIntl
@@ -35,7 +36,7 @@ class Reviews extends React.Component {
 
     sortByChange(e) {
         this.setState({
-            selectedSortBy: e.target.value
+            selectedSortBy: e.value
         },() => {
             this.getGoodsEvaluates(this.state.evaluatesCurrentPage, 5, null)
         })
@@ -55,7 +56,6 @@ class Reviews extends React.Component {
         }
     }
     hanldePageNumChange (params) {
-        debugger
         this.setState({
             evaluatesCurrentPage: params.currentPage
         }, () => this.getGoodsEvaluates(this.state.evaluatesCurrentPage, 5))
@@ -100,7 +100,7 @@ class Reviews extends React.Component {
             if (list.length > 0) {
                 list.forEach(item => {
                     item.commentator = item.customerName
-                    item.commentTime = item.evaluateTime
+                    item.commentTime = new Date(item.evaluateTime ).toGMTString().split(' ').splice(1, 3).join(' ')
                     item.title = item.evaluateContent
                     item.description = item.evaluateAnswer
                     item.rate = item.evaluateScore
@@ -120,6 +120,22 @@ class Reviews extends React.Component {
             }
         }
     }
+    computedList() {
+        const list = [
+            {
+                value: 0,
+                name: 'Most Recent'
+            },  {
+                value: 1,
+                name: 'Lowest to Highest Rating'
+            },
+            {
+                value: 2,
+                name: 'Hightest to Lowest Rating'
+            }
+        ]
+        return list
+    }
     render () {
         const data = this.state
         return (
@@ -127,6 +143,9 @@ class Reviews extends React.Component {
                 {
                     !data.noData ?
                         <div>
+                            <div>
+                                <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
+                            </div>
                             <div>
                                 <div className="rc-layout-container rc-two-column rc-max-width--lg rc-padding-top--sm">
                                     <div className="rc-column ">
@@ -140,13 +159,19 @@ class Reviews extends React.Component {
                                         <form>
                               <span className="rc-select rc-select-processed">
                                 <label className="rc-select__label" htmlFor="id-single-select">Sort by</label>
-                                <select data-js-select="" id="id-single-select"
-                                        onChange={(e) => this.sortByChange(e)}
-                                        value = {this.state.selectedSortBy}>
-                                  <option value={0}>Most Recent</option>
-                                  <option value={1}>Lowest to Highest Rating</option>
-                                  <option value={2}>Hightest to Lowest Rating</option>
-                                </select>
+                                {/*<select data-js-select="" id="id-single-select"*/}
+                                {/*        onChange={(e) => this.sortByChange(e)}*/}
+                                {/*        value = {this.state.selectedSortBy}>*/}
+                                {/*  <option value={0}>Most Recent</option>*/}
+                                {/*  <option value={1}>Lowest to Highest Rating</option>*/}
+                                {/*  <option value={2}>Hightest to Lowest Rating</option>*/}
+                                {/*</select>*/}
+                                  <Selection
+                                       selectedItemChange={data => this.sortByChange(data)}
+                                       optionList={this.computedList()}
+                                       selectedItemData={{
+                                           value: this.state.selectedSortBy
+                                       }} />
                               </span>
                                         </form>
                                     </div>
@@ -181,11 +206,11 @@ class Reviews extends React.Component {
                                                                                 <Rate def={item.evaluateScore} disabled={true}/>
                                                                                 <div className="break">{item.title}</div>
                                                                                 {/*{item.description}*/}
-                                                                                <div className="img-box rc-padding-bottom--xs rc-margin-top--sm">
+                                                                                <div className="img-box rc-margin-bottom--xs rc-margin-top--xs">
                                                                                     {
                                                                                         item.evaluateImageList && item.evaluateImageList.length > 0 ?
                                                                                             item.evaluateImageList.map((img) =>
-                                                                                                <div className="img-wrapper"><img className="rc-img--square rc-img--square-custom " src={img.artworkUrl}/></div>
+                                                                                                <div className="img-wrapper"><img className="rc-img--square rc-img--square-custom height70" src={img.artworkUrl}/></div>
                                                                                             )
                                                                                             : null
                                                                                     }
