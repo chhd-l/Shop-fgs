@@ -138,6 +138,7 @@ const en_US = {
   'details.errMsg2': 'No details found, please try again later.',
 
   'cart.errorInfo': 'The number can\'t be less than 1',
+  'cart.errorMaxInfo': 'The number can\'t be more than 30',
   'cart.errorInfo2': 'You cannot place your order, out of stock product: {val}',
   'cart.errorInfo3': '*Your order amount has not yet reached the minimum amount for free shipping （$400）',
   'cart.yourBasket': 'Your basket',
@@ -394,7 +395,7 @@ const en_US = {
   'subscription.subscriptionNumberTip': 'Please enter subscription number',
   'subscription.date': 'Subscription date',
   'subscription.deliveryDate': 'Next delivery date',
-  'subscription.receiveDate': 'Next receive date',
+  'subscription.receiveDate': 'Next received date',
   'subscription.toBeDelivered': 'To be Delivered',
   'subscription.skip': 'Skip Next Delivery',
   'subscription.cancelAll': 'Cancel All',

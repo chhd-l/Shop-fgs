@@ -108,6 +108,8 @@ class SubscriptionDetail extends React.Component {
         type: "skipNext",
       },
       modalType: "",
+      errorShow: false,
+      errorMsg: ''
     };
   }
   componentWillUnmount() {
@@ -194,6 +196,18 @@ class SubscriptionDetail extends React.Component {
         window.location.reload();
       });
     }
+  }
+  showErrMsg (msg) {
+    this.setState({
+      errorShow: true,
+      errorMsg: msg
+    })
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      this.setState({
+        errorShow: false
+      })
+    }, 3000)
   }
   render() {
     const data = this.state;
@@ -556,6 +570,11 @@ class SubscriptionDetail extends React.Component {
                       className="rc-layout-container rc-three-column mgb30"
                       style={{ borderBottom: "1px solid #ddd" }}
                     >
+                      <div className="rc-padding-bottom--xs cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
+                        <aside className="rc-alert rc-alert--error rc-alert--with-close text-break" role="alert">
+                          <span style={{ paddingLeft: 0 }}>{this.state.errorMsg}</span>
+                        </aside>
+                      </div>
                       <div className="rc-column product-container">
                         <div
                           className="text-right"
@@ -645,16 +664,14 @@ class SubscriptionDetail extends React.Component {
                                   <p style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>{el.specText}</p>
                                   <div>
                                     <label
-                                      className="font-weight-bold"
                                       style={{
-                                        textDecoration: "line-through",
-                                        textDecorationColor: "#ec001a",
+                                        textDecoration: "line-through"
                                       }}
                                     >
                                       {el.originalPrice}
                                     </label>
                                     &nbsp;&nbsp;
-                                    <label className="font-weight-bold">
+                                    <label className="font-weight-bold" style={{color: '#ec001a'}}>
                                       {el.subscribePrice}
                                     </label>
                                   </div>
@@ -686,6 +703,8 @@ class SubscriptionDetail extends React.Component {
                                             currentGoodsInfo[index]
                                               .subscribeNum - 1;
                                           this.setState({ currentGoodsInfo });
+                                        }else {
+                                          this.showErrMsg(<FormattedMessage id="cart.errorInfo" />)
                                         }
                                       }}
                                     ></span>
@@ -697,6 +716,34 @@ class SubscriptionDetail extends React.Component {
                                       max="899"
                                       maxLength="5"
                                       // value={el.subscribeNum}
+                                      onChange={(e) => {
+
+
+                                        this.setState({ errorShow: false })
+                                        const val = e.target.value
+                                        let { currentGoodsInfo } = this.state
+                                        if (val === '') {
+                                          currentGoodsInfo[index].subscribeNum = val
+                                          this.setState({currentGoodsInfo})
+                                        } else {
+                                          let tmp = parseInt(val)
+                                          if (isNaN(tmp)) {
+                                            tmp = 1
+                                            this.showErrMsg(<FormattedMessage id="cart.errorInfo" />)
+                                          }
+                                          if (tmp < 1) {
+                                            tmp = 1
+                                            this.showErrMsg(<FormattedMessage id="cart.errorInfo" />)
+                                          }
+                                          if( tmp > 30) {
+                                            tmp = 30
+                                            this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" />)
+                                          }
+                                          currentGoodsInfo[index].subscribeNum = tmp
+                                          this.setState({currentGoodsInfo})
+                                          // this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
+                                        }
+                                      }}
                                       value={
                                         this.state.currentGoodsInfo.length &&
                                         this.state.currentGoodsInfo[index]
@@ -707,11 +754,16 @@ class SubscriptionDetail extends React.Component {
                                       className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                                       onClick={() => {
                                         let { currentGoodsInfo } = this.state;
-                                        currentGoodsInfo[index].subscribeNum =
-                                          currentGoodsInfo[index].subscribeNum +
-                                          1;
-                                        this.setState({ currentGoodsInfo });
-                                        console.log(el.subscribeNum);
+                                        if(currentGoodsInfo[index].subscribeNum < 30) {
+                                          currentGoodsInfo[index].subscribeNum =
+                                            currentGoodsInfo[index].subscribeNum +
+                                            1;
+                                          this.setState({ currentGoodsInfo });
+                                          console.log(el.subscribeNum);
+                                        }else {
+                                          this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" />)
+                                        }
+                                        
                                       }}
                                     ></span>
                                   </div>
@@ -847,6 +899,9 @@ class SubscriptionDetail extends React.Component {
                                   {currentDeliveryAddress.consigneeName}
                                 </h1>
                                 <h1 className="rc-card__meta order-Id">
+                                  {currentDeliveryAddress.consigneeNumber}
+                                </h1>
+                                <h1 className="rc-card__meta order-Id">
                                   {this.state.countryList.length &&
                                   this.state.countryList.filter(
                                     (el) =>
@@ -905,6 +960,9 @@ class SubscriptionDetail extends React.Component {
                                   {currentBillingAddress.consigneeName}
                                 </h1>
                                 <h1 className="rc-card__meta order-Id">
+                                  {currentBillingAddress.consigneeNumber}
+                                </h1>
+                                <h1 className="rc-card__meta order-Id">
                                   {this.state.countryList.length &&
                                     this.state.countryList.filter(
                                       (el) =>
@@ -953,15 +1011,18 @@ class SubscriptionDetail extends React.Component {
                                     className="card-img"
                                     src={data.payment.cardImg}
                                   />
-                                  &nbsp;&nbsp; {currentCardInfo.cardType}
-                                </h1>
-                                <h1 className="rc-card__meta order-Id">
-                                  xxxx xxxx xxxx{" "}
+                                  {/* &nbsp;&nbsp; {currentCardInfo.cardType} */}
+                                  &nbsp;&nbsp; xxxx xxxx xxxx{" "}
                                   {currentCardInfo.cardNumber.substring(
                                     currentCardInfo.cardNumber.length - 4
                                   )}
                                 </h1>
-
+                                <h1 className="rc-card__meta order-Id">
+                                  {currentCardInfo.cardOwner}
+                                </h1>
+                                <h1 className="rc-card__meta order-Id">
+                                  {currentCardInfo.phoneNumber}
+                                </h1>
                                 <a
                                   className="rc-styled-link red-text"
                                   onClick={() => {
