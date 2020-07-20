@@ -935,6 +935,15 @@ class Details extends React.Component {
                               <div className="product-pricing__warranty rc-text--center"></div>
                             </div>
                           </div>
+                           {/* 未登录的时候,只有这种显示了订阅信息的商品底部才显示Subscription is possible only after registration这句话 */}
+                        {!this.isLogin &&
+                        find(details.sizeList, (s) => s.selected) &&
+                        find(details.sizeList, (s) => s.selected)
+                          .subscriptionStatus ? (
+                          <div>
+                            <FormattedMessage id="unLoginSubscriptionTips" />
+                          </div>
+                        ) : null}
                         </div>
                       </div>
                     </div>
