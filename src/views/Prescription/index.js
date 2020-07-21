@@ -95,6 +95,7 @@ class Prescription extends React.Component {
     this.getAllPrescription()
   }
   componentWillUnmount () {
+    sessionStorage.removeItem('clinic-reselect')
     localStorage.setItem("isRefresh", true);
   }
   inputSearchValue = (e) => {
