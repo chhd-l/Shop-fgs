@@ -65,14 +65,12 @@ const en_US = {
   'confirmDelete': '¿Confirmas eliminar?',
   'billing': 'FACTURACIÓN',
   'billing2': 'Facturación',
-
   'header.basketEmpty': 'Tú carrito esta vacío',
   'header.startTypingToSearch': 'Empieza a escribir para buscar',
   'header.VCN': 'Dietas Veterinarias',
   'header.VD': 'Dietas de Prescripción Veterinaria',
   'header.carouselInfo1': 'Mantenga la salud de su mascota con una nutrición adecuada',
   'header.carouselInfo2': 'Elije el alimento de prescripción recomendado por tu veterinario',
-
   'header.carouselInfo3': 'Nutrición de mascotas',
   'header.carouselInfo4': 'Consultor personal',
   'header.carouselInfo5': 'Examinaciones veterinarias lIBRES',
@@ -85,7 +83,6 @@ const en_US = {
   'header.toBegin': 'Empezar',
   'header.toOrder': 'Compra ahora',
   'header.toLearnMore': 'Saber más',
-
   'home.productsCategory': 'Nuestros productos por categoría',
   'home.pageNotFound': 'Página no encontrada…',
   'home.pageNotFoundInfo': 'Apesadumbrada, la página que usted está buscando no existe.',
@@ -113,12 +110,10 @@ const en_US = {
   'home.catogery6': 'Perros',
   'home.note1': 'Afectado por la epidemia, el tiempo de entrega puede extenderse.',
   'home.note2': 'Nuestra área de distribución se limita a la Ciudad de México, Guadalajara y Monterrey.',
-
   'list.youSearchedFor': 'Has buscado',
   'list.errMsg': 'No se encontraron productos, cambie los criterios de búsqueda e intente nuevamente.',
   'list.errMsg2': 'No se encontraron productos, cambie las palabras clave y vuelva a intentarlo.',
   'list.errMsg3': 'No se encontraron filtros, intente más tarde',
-
   'details.unitPrice': 'Precio unitario',
   'details.OneOFF': 'Compra única',
   'details.Subscription': 'Suscripción',
@@ -133,7 +128,6 @@ const en_US = {
   'details.feedingRecommendations': 'Guía de alimentación',
   'details.errMsg': 'El producto no tiene especificaciones, intente nuevamente más tarde.',
   'details.errMsg2': 'No se encontraron detalles, intente nuevamente más tarde.',
-
   'cart.errorInfo': 'El número no puede ser inferior a 1',
   'cart.errorInfo2': 'No puede realizar su pedido, producto agotado: {val}',
   'cart.errorInfo3': '*El monto de su pedido aún no ha alcanzado el monto mínimo para envío gratuito ($400)',
@@ -143,7 +137,6 @@ const en_US = {
   'cart.catDiet': 'Dietas de veterinaria para gatos',
   'cart.deletInfo': '¿Eliminar producto?',
   'cart.deletInfo2': '¿Estás seguro de que deseas eliminar este artículo de tu carrito?',
-
   'footer.toTheTop': 'Volver arriba',
   'footer.aboutRoyalCanin': 'SOBRE ROYAL CANIN®',
   'footer.contactRoyalCanin': 'Contacto ROYAL CANIN®',
@@ -167,18 +160,12 @@ const en_US = {
   'footer.cookies': 'Galleta',
   'footer.legalTerms': 'Términos legales',
   'footer.copyrightInfo': 'Copyright © Mars 2020®, Marca registrada de Mars Incorporated y sus afiliados',
-
   'clinic.clinic': 'clínica',
   'clinic.confirm': 'Confirmar',
   'clinic.cancel': 'Cancelar',
   'clinic.selectVetClinics': 'Seleccionar clínicas veterinarias',
-  // 'clinic.sortResults': 'Sort results',
-  // 'clinic.sortResultsByDistance': 'Sort results by distance',
-  // 'clinic.sortResultsByStarRating': 'Sort results by star rating',
   'clinic.vet': 'Veterinary',
   'clinic.clinicTip': '¿Qué clínica le ha proporcionado una receta?',
-  // 'clinic.SortResultsByStarRating': 'Sort results by star rating',
-
   'payment.payment': 'PAGO',
   'payment.clinicTitle': 'Clínica seleccionada',
   'payment.clinicTitle2': 'Clínica predeterminada',
@@ -211,7 +198,6 @@ const en_US = {
   'payment.further': 'Confirmar',
   'payment.confirmInfo1': 'Confirmo que tengo 18 años',
   'payment.confirmInfo2': 'Debe tener 18 años o más para registrarse en el sitio.',
-  // 'payment.confirmInfo3': 'He leído el Acuerdo de usuario y la <a href="/">Política de privacidad</a> y acepto el procesamiento de datos personales, incluida la transferencia transfronteriza',
   'payment.confirmInfo3': 'He leído el Acuerdo de usuario y la {val1} y acepto el procesamiento de datos personales, incluida {val2}',
   'payment.confirmInfo4': 'Debe familiarizarse con el Acuerdo de usuario y la Política de privacidad y dar su consentimiento para el procesamiento de datos personales, incluida la transferencia transfronteriza.',
   'payment.cardNumber2': 'NÚMERO DE TARJETA',
@@ -220,7 +206,6 @@ const en_US = {
   'payment.DEBIT': 'DÉBITO',
   'payment.confirmCard': 'Confirmar tarjeta',
   'payment.paymentInformation': 'Información del pago',
-
   'payment.cardOwner': 'Nombre en la tarjeta',
   'payment.socialId': 'Identificación social',
   'payment.email': 'Correo electrónico',
@@ -228,7 +213,6 @@ const en_US = {
   'payment.rfc': 'Referencia',
   'payment.addressTitle': 'Dirección y método de envío',
   'payment.apply': 'Aplicar',
-
   'confirmation.info1': 'Gracias por su orden.',
   'confirmation.info2': 'En un futuro cercano, nuestro personal se comunicará con usted para confirmar el pedido.',
   'confirmation.info3': 'La dirección y el modo de transporte se enumeran debajo de sus productos.',
@@ -239,8 +223,6 @@ const en_US = {
   'confirmation.rateTip2': '¿Que podemos hacer para mejorar?',
   'confirmation.rateTip3': 'Ingrese hasta 50 caracteres',
   'confirmation.rateTip4': 'Por favor marque primero.',
-
-
   'help.needHelp': '¿Necesita ayuda?',
   'help.tip1': 'Nuestro personal de servicio al cliente es profesional y entusiasmado.',
   'help.tip4': 'Pueden responder cualquier problema en cualquier momento.',
@@ -266,7 +248,6 @@ const en_US = {
   'account.preferredMmethodsOfCommunication': 'Métodos preferidos de comunicación.',
   'account.preferredContactMethod': 'Método de Contacto Preferido',
   'account.warmNotice': 'Aquí puede administrar su perfil, editar la información de la mascota y la dirección de envío, y hacer un seguimiento del estado de su pedido.',
-
   'account.requiredFields': 'Campos requeridos',
   'account.Email': 'Email',
   'account.birthDate': 'Fecha de nacimiento',
@@ -306,7 +287,6 @@ const en_US = {
   'order.progress2': 'Pagado',
   'order.progress3': 'Entregado',
   'order.progress4': 'Terminado',
-
   'datePicker.previousMonth': 'Poprzedni miesiąc',
   'datePicker.nextMonth': 'Następny miesiąc',
   'datePicker.months': ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
@@ -347,7 +327,6 @@ const en_US = {
   'consigneeNumber': 'Número de destinatario',
   'area': 'Zona',
   'deliveryAddress': 'Dirección de entrega',
-
   'promotion': 'Promoción',
   'account.toComeIn': 'Entrar',
   'account.notRegistred': '¿Usted no está registrado?',
@@ -356,14 +335,12 @@ const en_US = {
   'account.myAccount': 'Mi cuenta',
   "account.basicInfomation": 'Información básica',
   'account.orders': 'Pedidos',
-
   "sterilized": "Esterilizado",
   "notSterilized": "No esterilizado",
   'paymentMethod': 'Método de pago',
   'addNewCreditCard': 'Agregar tarjeta de crédito',
   'delete': 'Eliminar',
   'setDefaultPaymentMethod': 'Establecer como método de pago predeterminado',
-
   "addressType": 'Tipo de dirección',
   "moreAddress": 'Más direccion',
   "unfoldAddress": 'Dirección desplegada',
@@ -385,7 +362,6 @@ const en_US = {
   'forgetPassword.back': 'Atrás para iniciar sesión',
   'changePassword': 'Cambia la contraseña',
   'passwordHide': 'Contraseña:********',
-
   'welcomeTo': 'Bienvenido a',
   'royalCanin': 'Royal Canin',
   'rememberMe': 'Recuérdame',
@@ -399,7 +375,6 @@ const en_US = {
   'privacyPolicy': 'Política de privacidad',
   'giveConsentPersonalData': 'y doy mi consentimiento para el procesamiento de datos personales, incluida la transferencia transfronteriza',
   'backToAuthorization': 'Volver a la autorización',
-
   'mandatoryFieldsError': '¡Tienes campos obligatorios no completados!',
   'firstNameLastName50characters!': '¡El nombre o el apellido no pueden superar los 50 caracteres!',
   'yourEmailNotVerified': '¡Tu email no se ha verificado!',
@@ -408,7 +383,6 @@ const en_US = {
   'registerFailed': 'Registro fallido',
   'resetPasswordEmail': 'El correo electrónico de restablecimiento de contraseña se ha enviado a su buzón, tenga en cuenta que marque',
   'systemError': 'error del sistema',
-
   'getDataFailed': 'Obtener datos fallidos',
   'saveFailed': '¡Error al guardar!',
   'setDefaltAddressFailed': 'Establecer dirección predeterminada fallida',
@@ -419,13 +393,11 @@ const en_US = {
   'cardCvvIsInvalid': 'su tarjeta cvv no es válida',
   'pleaseEnterTheCorrectEmail': 'Por favor ingrese el correo electrónico correcto',
   'pleasecompleteTheRequiredItem': 'Por favor complete el artículo requerido',
-
   'saveSuccess': 'Guardar el éxito',
   'setDefaltAddressSuccess': 'Establecer dirección predeterminada correcta',
   'deleteAddressSuccess': 'Eliminar dirección correcta',
   'queryDataFailed': 'Datos de consulta fallidos',
   'getConsumerAccountFailed': 'Obtener la cuenta del consumidor fallida',
-
   'emailAddress': 'Dirección de correo electrónico *',
   'password': 'Contraseña *',
   'firstName': 'Nombre de pila *',
@@ -433,7 +405,6 @@ const en_US = {
   'country': 'País *',
   'confirmPassword': 'Confirmar contraseña *',
   'answer': 'Responder *',
-
   'enterPasswordAgain': 'Ingrese la nueva contraseña nuevamente',
   'newPassword': 'Nueva contraseña',
   'oldPassword': 'Contraseña anterior *',
@@ -445,11 +416,8 @@ const en_US = {
   'MMYY': 'MM/AA',
   'cardNumber': 'Número de tarjeta',
   'findLocation': 'Buscar ubicación',
-
-
   'type': 'Tipo',
   'billingAddress': 'Dirección de facturación',
-
   'CompleteRequiredItems': 'Por favor complete los artículos requeridos',
   'EnterCorrectEmail': 'Por favor ingrese el correo electrónico correcto',
   'EnterCorrectPostCode': 'Por favor, introduzca el código postal correcto',
@@ -478,7 +446,6 @@ const en_US = {
   'petName': 'Pet Name',
   'petType': 'Pet Type',
   'birthday': 'Birthday',
-
   'creditCard': 'Tarjeta de crédito',
   'oxxo': 'OXXO',
   'printEbanx' : 'Imprimir Ebanx',
@@ -491,7 +458,6 @@ const en_US = {
   'card': 'Tarjeta',
   'active': 'Activo',
   'inactive': 'Inactivo',
-
   'subscription.subscriptionNumberTip': 'Por favor ingrese el número de retorno',
   'subscription.notYet': 'Todavía no se ha enviado',
   'subscription.frequency': 'Frecuencia',
@@ -518,6 +484,7 @@ const en_US = {
   'subscription.skip': 'Saltar próxima entrega',
   'subscription.cancelAll': 'Cancelar todo',
   'subscription.promotionTip': 'Ahorre {val} en su primera suscripción',
+  'subscription.orderNow': 'Ordenar ahora',
 
   'visitStoreMap': 'Visita el mapa de la tienda',
   'print': 'Impresión',
@@ -536,7 +503,23 @@ const en_US = {
   'modalSkipContent': '¿Estás seguro de que deseas cancelar la próxima entrega?',
   'modalCancelAllTitle': 'CANCELAR TODOS LOS PEDIDOS?',
   'modalCancelAllContent': '¿Está seguro de que desea cancelar todas las entregas siguientes?',
+  'modalOrderNowTitle': '¿ORDENAR AHORA?',
+  'modalOrderNowContent': '¿Seguro que quieres hacer este pedido ahora?',
   'searchPrescriber':'Buscar un prescriptor',
-  'download': 'descargar'
+  'download': 'descargar',
+  //qhx新增
+  'unLoginSubscriptionTips': 'Subscription is possible only after registration',
+  'apply':'Apply',
+  //qhx新增
+  'payment.deliveryFrequency':'Frecuencia de entrega',
+  'payment.frequencyTip1':'¡Sí, haz mi vida más fácil!',
+  'payment.frequencyTip2':'No gracias.',
+  'payment.frequencyTip3':'Sus artículos solo se enviarán una vez.',
+  'reviews':'Comentarios',
+  'subscription':'Suscripción',
+  'subscription.chooseSubscription':'Elige suscripción',
+  'subscription.OnYourFirst':'en tu primer',
+  'subscription.promotionTip2':'Simplemente seleccione Suscripción al finalizar la compra para entregas regulares fáciles',
+  'unLoginSubscriptionTips':'La suscripción solo es posible después del registro',
 }
 export default en_US;

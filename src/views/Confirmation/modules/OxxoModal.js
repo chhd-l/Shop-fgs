@@ -8,7 +8,6 @@ export default class OxxoModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      oxxoUrl: 'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/receipt?vid=120264608Y233035cccf614a3Y02be9cd6a23a431#/mx/cash/receipt_OXXO'
     };
   }
   close() {
@@ -49,7 +48,7 @@ export default class OxxoModal extends Component {
                   }}
                   content={() => this.componentRef}
                 /> */}
-                  <iframe src={this.state.oxxoUrl} width="100%" style={{ height: '78vh' }}>
+                  <iframe src={this.props.oxxoPayUrl} width="100%" style={{ height: '78vh' }}>
                   </iframe>
               </div>
               <div className="modal-footer" style={{ borderTop: 'none' }}>

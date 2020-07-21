@@ -65,8 +65,8 @@ class LoginCart extends React.Component {
   get discountPrice () {
     return this.props.checkoutStore.discountPrice
   }
-  get isPromote () {
-    return parseInt(this.discountPrice) > 0
+  get deliveryPrice () {
+    return this.props.checkoutStore.deliveryPrice
   }
   async updateCartCache () {
     this.setState({ checkoutLoading: true })
@@ -162,7 +162,7 @@ class LoginCart extends React.Component {
         tmp = quantityMinLimit
         this.showErrMsg(<FormattedMessage id="cart.errorInfo" />)
       }
-      if(tmp > quantityMaxLimit) {
+      if (tmp > quantityMaxLimit) {
         tmp = quantityMaxLimit
       }
       item.buyCount = tmp
@@ -171,13 +171,13 @@ class LoginCart extends React.Component {
   }
   addQuantity (item) {
     this.setState({ errorShow: false })
-    if(item.buyCount < 30) {
+    if (item.buyCount < 30) {
       item.buyCount++
       this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
-    }else {
+    } else {
       this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" />)
     }
-    
+
   }
   subQuantity (item) {
     this.setState({ errorShow: false })
@@ -353,7 +353,7 @@ class LoginCart extends React.Component {
                       </div>
                     </span>
                   </div>
-                  <div className="promotion stock" style={{ display: this.state.isPromote ? 'inline-block' : 'none' }}>
+                  <div className="promotion stock" style={{ display: parseInt(this.discountPrice) > 0 ? 'inline-block' : 'none' }}>
                     <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
                       <span><FormattedMessage id="promotion" /> :</span>
                     </label>
@@ -427,7 +427,7 @@ class LoginCart extends React.Component {
                     </div>
                   </span>
                 </div>
-                <div className="promotion stock" style={{ marginTop: '7px', display: this.state.isPromote ? 'inline-block' : 'none' }}>
+                <div className="promotion stock" style={{ marginTop: '7px', display: parseInt(this.discountPrice) > 0 ? 'inline-block' : 'none' }}>
                   <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
                     <span><FormattedMessage id="promotion" /> :</span>
                   </label>
@@ -484,14 +484,14 @@ class LoginCart extends React.Component {
           <p className="text-right sub-total">{formatMoney(this.totalPrice)}</p>
         </div>
       </div>
-      <div className="row" style={{ display: this.state.isPromote ? 'flex' : 'none' }}>
+      <div className="row" style={{ display: parseInt(this.discountPrice) > 0 ? 'flex' : 'none' }}>
         <div className="col-4">
           <p style={{ color: '#ec001a' }}>
             <FormattedMessage id="promotion" />
           </p>
         </div>
         <div className="col-8">
-          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.state.discountPrice)}</p>
+          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.discountPrice)}</p>
         </div>
       </div>
       <div className="row">
@@ -501,7 +501,7 @@ class LoginCart extends React.Component {
           </p>
         </div>
         <div className="col-4">
-          <p className="text-right shipping-cost">0</p>
+          <p className="text-right shipping-cost">{formatMoney(this.deliveryPrice)}</p>
         </div>
       </div>
       <div className="group-total">
@@ -553,7 +553,7 @@ class LoginCart extends React.Component {
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
                       {txt => (
-                        <a href="#" onClick={(e) => this.goBack(e)} title={txt}>
+                        <a onClick={(e) => this.goBack(e)} title={txt}>
                           <span className="rc-header-with-icon rc-header-with-icon--gamma">
                             <span className="rc-icon rc-left rc-iconography"></span>
                             {txt}
