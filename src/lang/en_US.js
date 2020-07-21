@@ -383,6 +383,7 @@ const en_US = {
   'subscription.sub': 'Sub-',
   'subscription.status': 'Subscription status',
   'subscription.chooseSubscription': 'Choose subscription',
+  'subscription.orderNow': 'Order Now',
   'login': 'Log in',
   'login.register': 'Create a personal account',
   'login.loginTip': ' To connect to the ROYAL CANIN® service,authorization is required. If you do not have a personal account, you can register now.',
@@ -511,6 +512,8 @@ const en_US = {
   'modalSkipContent': 'Are you sure you want to cancel the next delivery?',
   'modalCancelAllTitle': 'CANCEL ALL ORDERS?',
   'modalCancelAllContent': 'Are you sure you want to cancel all the following deliveries?',
+  'modalOrderNowTitle': 'ORDER NOW?',
+  'modalOrderNowContent': 'Are you sure you want to place this order now?',
   'searchPrescriber':'Search a clinic',
   'unLoginSubscriptionTips': 'Subscription is possible only after registration',
   'download': 'Download'

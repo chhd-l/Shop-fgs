@@ -17,6 +17,7 @@ import {
   getSubDetail,
   skipNextSub,
   cancelAllSub,
+  orderNowSub,
 } from "@/api/subscription";
 import Modal from "@/components/Modal";
 
@@ -101,6 +102,11 @@ class SubscriptionDetail extends React.Component {
           content: this.props.intl.messages.modalCancelAllContent,
           type: "cancelAll",
         },
+        {
+          title: this.props.intl.messages.modalOrderNowTitle,
+          content: this.props.intl.messages.modalOrderNowContent,
+          type: "orderNow",
+        },
       ],
       currentModalObj: {
         title: this.props.intl.messages.modalSkipTitle,
@@ -177,24 +183,30 @@ class SubscriptionDetail extends React.Component {
   }
   async getDetail() {
     this.setState({loading: true})
-    let subDetailRes = await getSubDetail(
+    getSubDetail(
       this.props.match.params.subscriptionNumber
-    );
-    let subDetail = subDetailRes.context;
-    
-    console.log(JSON.parse(localStorage.getItem("subDetail")), "subDetail");
-    let orderOptions = (subDetail.trades || []).map((el) => {
-      return { value: el.id, name: el.id + "" };
-    });
+    ).then(res => {
+      
+      let subDetail = res.context;
+      
+      console.log(JSON.parse(localStorage.getItem("subDetail")), "subDetail");
+      let orderOptions = (subDetail.trades || []).map((el) => {
+        return { value: el.id, name: el.id + "" };
+      });
 
-    this.setState({
-      loading: false,
-      subDetail: subDetail,
-      currentCardInfo: subDetail.paymentInfo,
-      currentDeliveryAddress: subDetail.consignee,
-      currentBillingAddress: subDetail.invoice,
-      orderOptions: orderOptions
+      this.setState({
+        loading: false,
+        subDetail: subDetail,
+        currentCardInfo: subDetail.paymentInfo,
+        currentDeliveryAddress: subDetail.consignee,
+        currentBillingAddress: subDetail.invoice,
+        orderOptions: orderOptions
+      })
+    }).catch(err => {
+      this.showErrMsg(err)
+      this.setState({loading: false})
     })
+    
   }
   hanldeClickSubmit() {
     let { modalType, subDetail } = this.state;
@@ -206,9 +218,13 @@ class SubscriptionDetail extends React.Component {
       cancelAllSub({ subscribeId: subDetail.subscribeId }).then((res) => {
         window.location.reload();
       });
+    } else if (modalType === 'orderNow') {
+      orderNowSub({ subscribeId: subDetail.subscribeId }).then((res) => {
+        window.location.reload();
+      });
     }
   }
-  showErrMsg (msg) {
+  showErrMsg (msg, fn) {
     this.setState({
       errorShow: true,
       errorMsg: msg
@@ -218,6 +234,7 @@ class SubscriptionDetail extends React.Component {
       this.setState({
         errorShow: false
       })
+      fn && fn()
     }, 3000)
   }
   render() {
@@ -274,11 +291,18 @@ class SubscriptionDetail extends React.Component {
                       let param = {
                         subscribeId: subDetail.subscribeId,
                         paymentId: el.id,
+                        goodsItems: subDetail.goodsInfo.map((el) => {
+                          return {
+                            skuId: el.skuId,
+                            subscribeNum: el.subscribeNum,
+                          };
+                        }),
                       };
                       console.log(param);
                       updateDetail(param).then((res) => {
-                        console.log(res);
-                        window.location.reload();
+                        // console.log(res);
+                        // window.location.reload();
+                        this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
                       });
                       this.setState({ type: "main", currentCardInfo: el });
                     }}
@@ -299,6 +323,12 @@ class SubscriptionDetail extends React.Component {
                         let param = {
                           subscribeId: subDetail.subscribeId,
                           deliveryAddressId: el.deliveryAddressId,
+                          goodsItems: subDetail.goodsInfo.map((el) => {
+                            return {
+                              skuId: el.skuId,
+                              subscribeNum: el.subscribeNum,
+                            };
+                          }),
                         };
                         if (isBillSame) {
                           param.billingAddressId = el.deliveryAddressId;
@@ -324,8 +354,10 @@ class SubscriptionDetail extends React.Component {
                         });
                         console.log(param);
                         updateDetail(param).then((res) => {
-                          console.log(res);
-                          window.location.reload();
+                          // console.log(res);
+                          // window.location.reload();
+                          this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
+                          
                         });
                         this.setState({
                           type: "main",
@@ -335,6 +367,12 @@ class SubscriptionDetail extends React.Component {
                         let param = {
                           subscribeId: subDetail.subscribeId,
                           billingAddressId: el.deliveryAddressId,
+                          goodsItems: subDetail.goodsInfo.map((el) => {
+                            return {
+                              skuId: el.skuId,
+                              subscribeNum: el.subscribeNum,
+                            };
+                          }),
                         };
                         //增加返回changeField字段
                         Object.assign(param, {
@@ -344,8 +382,10 @@ class SubscriptionDetail extends React.Component {
                         });
                         console.log(param);
                         updateDetail(param).then((res) => {
-                          console.log(res);
-                          window.location.reload();
+                          // console.log(res);
+                          // window.location.reload();
+                          this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
+                          
                         });
                         this.setState({
                           type: "main",
@@ -366,13 +406,30 @@ class SubscriptionDetail extends React.Component {
                   >
                     <h4
                       className="rc-delta rc-margin--none"
-                      style={{ flex: "3" }}
+                      style={{ flex: "4" }}
                     >
                       {/* <FormattedMessage id="subscription.sub"></FormattedMessage>{data.subId} */}
                       <i className="rc-icon rc-address--xs rc-brand1"></i>{" "}
                   <FormattedMessage id="subscription" />({subDetail.subscribeId})
                     </h4>
-                    <div className="rightBox" style={{ flex: "1" }}>
+                    <div className="rightBox" style={{ flex: "3", textAlign: 'right', lineHeight: '36px' }}>
+                      <a
+                        class="rc-styled-link "
+                        href="#/"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.setState({
+                            modalType: "orderNow",
+                            modalShow: true,
+                            currentModalObj: this.state.modalList.filter(
+                              (el) => el.type === "orderNow"
+                            )[0],
+                          });
+                        }}
+                      >
+                        <FormattedMessage id="subscription.orderNow" />
+                      </a>{" "}
+                      &nbsp;&nbsp;&nbsp;&nbsp;{" "}
                       <a
                         class="rc-styled-link "
                         href="#/"
@@ -490,6 +547,12 @@ class SubscriptionDetail extends React.Component {
                                   let param = {
                                     subscribeId: subDetail.subscribeId,
                                     cycleTypeId: el.id,
+                                    goodsItems: subDetail.goodsInfo.map((el) => {
+                                      return {
+                                        skuId: el.skuId,
+                                        subscribeNum: el.subscribeNum,
+                                      };
+                                    }),
                                   };
                                   //增加返回changeField字段
                                   Object.assign(param, {
@@ -498,7 +561,8 @@ class SubscriptionDetail extends React.Component {
                                     ],
                                   });
                                   updateDetail(param).then((res) => {
-                                    window.location.reload();
+                                    // window.location.reload();
+                                    this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
                                   });
                                 }}
                                 selectedItemData={{
@@ -558,6 +622,12 @@ class SubscriptionDetail extends React.Component {
                                     let param = {
                                       subscribeId: subDetail.subscribeId,
                                       nextDeliveryTime: target.value,
+                                      goodsItems: subDetail.goodsInfo.map((el) => {
+                                        return {
+                                          skuId: el.skuId,
+                                          subscribeNum: el.subscribeNum,
+                                        };
+                                      }),
                                     };
                                     //增加返回changeField字段
                                     Object.assign(param, {
@@ -566,7 +636,8 @@ class SubscriptionDetail extends React.Component {
                                       ],
                                     });
                                     updateDetail(param).then((res) => {
-                                      window.location.reload();
+                                      // window.location.reload();
+                                      this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
                                     });
                                   }}
                                   value={subDetail.nextDeliveryTime}
@@ -643,8 +714,9 @@ class SubscriptionDetail extends React.Component {
                               };
                               console.log(param);
                               updateDetail(param).then((res) => {
-                                console.log(res);
-                                window.location.reload();
+                                // console.log(res);
+                                // window.location.reload();
+                                this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
                               });
                               this.setState({
                                 isChangeQuatity: false,
@@ -671,7 +743,7 @@ class SubscriptionDetail extends React.Component {
                                     width: "200px"
                                   }}
                                 >
-                                  <p style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>{el.goodsName}</p>
+                                  <p style={{overflow: 'hidden', textOverflow: 'ellipsis', overflowWrap: 'normal'}}>{el.goodsName}</p>
                                   <p style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>{el.specText}</p>
                                   <div>
                                     <label
