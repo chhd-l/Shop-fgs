@@ -148,15 +148,15 @@ class Details extends React.Component {
     ])
       .then(resList => {
         const res = resList[0]
-        if(res && res.context) {
+        if (res && res.context) {
           this.setState({
             productRate: res.context.avgEvaluate
           })
         }
-        if(res && res.context && res.context.goods) {
+        if (res && res.context && res.context.goods) {
           this.setState({
             productRate: res.context.goods.avgEvaluate,
-            replyNum:  res.context.goods.goodsEvaluateNum,
+            replyNum: res.context.goods.goodsEvaluateNum,
             goodsId: res.context.goods.goodsId,
             minMarketPrice: res.context.goods.minMarketPrice,
             minSubscriptionPrice: res.context.goods.minSubscriptionPrice,
@@ -305,8 +305,9 @@ class Details extends React.Component {
         res = quantity - 1;
       }
     } else {
-      if(quantity >= 30) {
-        res = (quantity || 0) + 1;
+      res = (quantity || 0) + 1;
+      if (quantity >= 30) {
+        res = 30
       }
     }
     this.setState(
@@ -332,7 +333,7 @@ class Details extends React.Component {
       if (tmp < quantityMinLimit) {
         tmp = quantityMinLimit;
       }
-      if(tmp > quantityMaxLimit) {
+      if (tmp > quantityMaxLimit) {
         tmp = quantityMaxLimit
       }
       this.setState({ quantity: tmp }, () => this.updateInstockStatus());
@@ -503,11 +504,11 @@ class Details extends React.Component {
     if (idx > -1) {
       cartDataCopy.splice(idx, 1, tmpData);
     } else {
-      if(cartDataCopy.length >= 30) {
+      if (cartDataCopy.length >= 30) {
         this.setState({
           checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" />
         });
-        return 
+        return
       }
       cartDataCopy.push(tmpData);
     }
@@ -670,7 +671,7 @@ class Details extends React.Component {
                                 <div className="rc-card__price flex-inline">
                                   <div className="display-inline" >
                                     <Rate def={this.state.productRate} disabled={true} /></div>
-                                  <a href="#review-container" className='comments rc-margin-left--xs rc-text-colour--text'>{this.state.replyNum} <FormattedMessage id="reviews"/></a>
+                                  <a href="#review-container" className='comments rc-margin-left--xs rc-text-colour--text'>{this.state.replyNum} <FormattedMessage id="reviews" /></a>
                                 </div>
                                 <h3 className="text-break">{details.goodsSubtitle}</h3>
                                 <h3 className="text-break">
@@ -947,15 +948,15 @@ class Details extends React.Component {
                               <div className="product-pricing__warranty rc-text--center"></div>
                             </div>
                           </div>
-                           {/* 未登录的时候,只有这种显示了订阅信息的商品底部才显示Subscription is possible only after registration这句话 */}
-                        {!this.isLogin &&
-                        find(details.sizeList, (s) => s.selected) &&
-                        find(details.sizeList, (s) => s.selected)
-                          .subscriptionStatus ? (
-                          <div style={{textAlign:'center'}}>
-                            <FormattedMessage id="unLoginSubscriptionTips" />
-                          </div>
-                        ) : null}
+                          {/* 未登录的时候,只有这种显示了订阅信息的商品底部才显示Subscription is possible only after registration这句话 */}
+                          {!this.isLogin &&
+                            find(details.sizeList, (s) => s.selected) &&
+                            find(details.sizeList, (s) => s.selected)
+                              .subscriptionStatus ? (
+                              <div style={{ textAlign: 'center' }}>
+                                <FormattedMessage id="unLoginSubscriptionTips" />
+                              </div>
+                            ) : null}
                         </div>
                       </div>
                     </div>
@@ -1010,7 +1011,7 @@ class Details extends React.Component {
 
 
               <div id="review-container">
-                <Reviews id={this.state.goodsId} isLogin={this.isLogin}/>
+                <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
               </div>
               <div
                 className="sticky-addtocart"
