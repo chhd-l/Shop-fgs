@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { queryStoreCateIds } from "@/utils/utils";
+import { inject, observer } from 'mobx-react'
 
+// @inject("clinicStore")
+// @observer
 class RouteFilter extends Component {
   shouldComponentUpdate (nextProps) {
-    if (nextProps.location.pathname === "/prescription"
-      && ((sessionStorage.getItem("rc-clinics-id-link") && sessionStorage.getItem("rc-clinics-name-link"))
-        || (sessionStorage.getItem("rc-clinics-id-default") && sessionStorage.getItem("rc-clinics-name-default")))) {
-      this.props.history.replace("/payment/payment");
-      return false
-    }
+    // if (nextProps.location.pathname === "/prescription"
+    //   && ((sessionStorage.getItem("rc-clinics-id-link") && sessionStorage.getItem("rc-clinics-name-link"))
+    //     || (sessionStorage.getItem("rc-clinics-id-default") && sessionStorage.getItem("rc-clinics-name-default")))) {
+    //   this.props.history.replace("/payment/payment");
+    //   return false
+    // }
     if (!localStorage.getItem('rc-token') && nextProps.location.pathname.indexOf("/account") !== -1) {
       this.props.history.push("/");
       return false
