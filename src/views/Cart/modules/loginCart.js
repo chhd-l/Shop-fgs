@@ -32,6 +32,7 @@ class LoginCart extends React.Component {
       productList: [],
       currentProductIdx: -1,
       quantityMinLimit: 1,
+      quantityMaxLimit: 30,
       deleteLoading: false,
       checkoutLoading: false,
       petModalVisible: false,
@@ -151,7 +152,7 @@ class LoginCart extends React.Component {
         productList: this.state.productList
       })
     } else {
-      const { quantityMinLimit } = this.state
+      const { quantityMinLimit, quantityMaxLimit } = this.state
       let tmp = parseInt(val)
       if (isNaN(tmp)) {
         tmp = 1
@@ -161,14 +162,22 @@ class LoginCart extends React.Component {
         tmp = quantityMinLimit
         this.showErrMsg(<FormattedMessage id="cart.errorInfo" />)
       }
+      if (tmp > quantityMaxLimit) {
+        tmp = quantityMaxLimit
+      }
       item.buyCount = tmp
       this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
     }
   }
   addQuantity (item) {
     this.setState({ errorShow: false })
-    item.buyCount++
-    this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
+    if (item.buyCount < 30) {
+      item.buyCount++
+      this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
+    } else {
+      this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" />)
+    }
+
   }
   subQuantity (item) {
     this.setState({ errorShow: false })
@@ -544,7 +553,7 @@ class LoginCart extends React.Component {
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
                       {txt => (
-                        <a href="#" onClick={(e) => this.goBack(e)} title={txt}>
+                        <a onClick={(e) => this.goBack(e)} title={txt}>
                           <span className="rc-header-with-icon rc-header-with-icon--gamma">
                             <span className="rc-icon rc-left rc-iconography"></span>
                             {txt}

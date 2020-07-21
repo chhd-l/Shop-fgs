@@ -27,6 +27,7 @@ class UnLoginCart extends React.Component {
       currentProductIdx: -1,
       loading: true,
       quantityMinLimit: 1,
+      quantityMaxLimit: 30,
       checkoutLoading: false,
       validateAllItemsStock: true,
       isPromote: false,
@@ -80,7 +81,7 @@ class UnLoginCart extends React.Component {
         this.setState({
           errorShow: true,
           errorMsg: <FormattedMessage id="cart.errorInfo2"
-            values={{ val: this.props.checkoutStore.outOfstockProNames.length.join('/') }} />
+            values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />
         })
         return false
       }
@@ -139,7 +140,7 @@ class UnLoginCart extends React.Component {
         productList: this.state.productList
       })
     } else {
-      const { quantityMinLimit } = this.state
+      const { quantityMinLimit, quantityMaxLimit } = this.state
       let tmp = parseInt(val)
       if (isNaN(tmp)) {
         tmp = 1
@@ -164,6 +165,9 @@ class UnLoginCart extends React.Component {
             errorShow: false
           });
         }, 2000)
+        if(tmp > quantityMaxLimit) {
+          tmp = quantityMaxLimit
+        }
       }
       item.quantity = tmp
       this.setState({
@@ -175,12 +179,16 @@ class UnLoginCart extends React.Component {
   }
   addQuantity (item) {
     this.setState({ errorShow: false })
-    item.quantity++
-    this.setState({
-      productList: this.state.productList
-    }, () => {
-      this.updateStock()
-    })
+    if(item.quantity < 30) {
+      item.quantity++
+      this.setState({
+        productList: this.state.productList
+      }, () => {
+        this.updateStock()
+      })
+    }else {
+      this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" />)
+    }
   }
   subQuantity (item) {
     this.setState({ errorShow: false })
@@ -565,13 +573,6 @@ class UnLoginCart extends React.Component {
           </div>
         </div>
       </div>
-      {this.state.productList.some(
-        (item) => find(item.sizeList, s => s.selected).subscriptionStatus
-      ) ? (
-          <div style={{ fontSize: "15px" }}>
-            <FormattedMessage id="unLoginSubscriptionTips" />
-          </div>
-        ) : null}
     </div>
   }
   render () {
@@ -595,7 +596,7 @@ class UnLoginCart extends React.Component {
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
                       {txt => (
-                        <a href="#" onClick={(e) => this.goBack(e)} title={txt}>
+                        <a onClick={(e) => this.goBack(e)} title={txt}>
                           <span className="rc-header-with-icon rc-header-with-icon--gamma">
                             <span className="rc-icon rc-left rc-iconography"></span>
                             {txt}
