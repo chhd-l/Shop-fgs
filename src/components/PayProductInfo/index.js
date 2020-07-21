@@ -212,7 +212,7 @@ class PayProductInfo extends React.Component {
     );
   }
   render () {
-    return this.props.history && this.props.history.location.pathname === '/payment'
+    return this.props.history && this.props.history.location.pathname === '/payment/payment'
       ? <div id="J_sidecart_container">
         {this.sideCart({
           className: 'hidden position-fixed rc-md-up',
