@@ -16,6 +16,7 @@ class OxxoConfirm extends Component {
 
   async goConfirmation() {
     try {
+      debugger;
       this.props.startLoading();
       if (!this.state.email) {
         this.setState({ showReqiredInfo: true });

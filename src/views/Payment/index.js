@@ -500,6 +500,7 @@ class Payment extends React.Component {
       });
       for (let k in goodsMarketingMap) {
         tradeMarketingList[0].skuIds.push(k);
+        debugger;
         if (!tradeMarketingList[0].marketingLevelId) {
           tradeMarketingList[0].marketingLevelId =
             goodsMarketingMap[k][0]["fullDiscountLevelList"][0][
@@ -1011,6 +1012,11 @@ class Payment extends React.Component {
                         </div>
                         <SubscriptionSelect
                           updateSelectedData={(data) => {
+                            if (data.buyWay === "frequency") {
+                              this.setState({
+                                showOxxoForm: false,
+                              });
+                            }
                             this.setState({
                               subForm: data,
                             });
@@ -1027,7 +1033,13 @@ class Payment extends React.Component {
                   <nav
                     class="rc-tabs__controller rc-fade--x "
                     data-toggle-group=""
-                    style={{ marginBottom: "20px" }}
+                    style={{
+                      marginBottom: "20px",
+                      display:
+                        this.state.subForm.buyWay === "frequency"
+                          ? "none"
+                          : "block",
+                    }}
                   >
                     <ul
                       class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break"
@@ -1039,6 +1051,9 @@ class Payment extends React.Component {
                           onClick={() => this.setState({ showOxxoForm: false })}
                           style={{ padding: "8px 15px", width: "100%" }}
                           data-toggle="creditCard"
+                          aria-selected={
+                            this.state.showOxxoForm ? "false" : "true"
+                          }
                           role="tab"
                         >
                           <FormattedMessage id="creditCard"></FormattedMessage>
@@ -1050,6 +1065,9 @@ class Payment extends React.Component {
                           onClick={() => this.setState({ showOxxoForm: true })}
                           style={{ padding: "8px 15px", width: "100%" }}
                           data-toggle="oxxo"
+                          aria-selected={
+                            this.state.showOxxoForm ? "true" : "false"
+                          }
                           role="tab"
                         >
                           <FormattedMessage id="oxxo"></FormattedMessage>
