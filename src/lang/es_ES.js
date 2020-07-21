@@ -537,6 +537,10 @@ const en_US = {
   'modalCancelAllTitle': 'CANCELAR TODOS LOS PEDIDOS?',
   'modalCancelAllContent': '¿Está seguro de que desea cancelar todas las entregas siguientes?',
   'searchPrescriber':'Buscar un prescriptor',
-  'download': 'descargar'
+  'download': 'descargar',
+  //qhx新增
+  'unLoginSubscriptionTips': 'Subscription is possible only after registration',
+  'apply':'Apply'
+  //qhx新增
 }
 export default en_US;

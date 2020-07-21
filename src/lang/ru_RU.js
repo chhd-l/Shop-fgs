@@ -549,6 +549,10 @@ const en_US = {
   'oxxoTransactionFee': '(Does not include the OXXO transaction fee)',
   'searchPrescriber':'search a clinic',
   'oxxoTransactionFee': '(Does not include the OXXO transaction fee)',
-  'download': 'Download'
+  'download': 'Download',
+  //qhx新增
+  'unLoginSubscriptionTips': 'Subscription is possible only after registration',
+  'apply':'Apply'
+  //qhx新增
 }
 export default en_US;

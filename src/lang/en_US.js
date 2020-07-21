@@ -541,8 +541,10 @@ const en_US = {
   'modalCancelAllTitle': 'CANCEL ALL ORDERS?',
   'modalCancelAllContent': 'Are you sure you want to cancel all the following deliveries?',
   'searchPrescriber':'Search a clinic',
+  'download': 'Download',
+  //qhx新增
   'unLoginSubscriptionTips': 'Subscription is possible only after registration',
-  'download': 'Download'
-
+  'apply':'Apply'
+  //qhx新增
 }
 export default en_US;

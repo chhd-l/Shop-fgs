@@ -941,6 +941,8 @@ class Payment extends React.Component {
                             updateSelectedData={data => {
                               this.setState({
                                 subForm: data
+                              },()=>{
+                                this.state.subForm.buyWay == 'once' ? this.props.checkoutStore.updateLoginCart(false) :this.props.checkoutStore.updateLoginCart(true)
                               })
                             }} />
                         </>

@@ -20,6 +20,9 @@ class CheckoutStore {
   @computed get discountPrice () {
     return this.cartPrice && this.cartPrice.discountPrice ? this.cartPrice.discountPrice : 0
   }
+  @computed get deliveryPrice () {
+    return this.cartPrice && this.cartPrice.deliveryPrice ? this.cartPrice.deliveryPrice : 0
+  }
 
   @action.bound
   setCartData (data) {
@@ -58,7 +61,7 @@ class CheckoutStore {
   }
 
   @action.bound
-  async updateUnloginCart (data) {
+  async updateUnloginCart (data,promotionCode) {
     if (!data) {
       data = this.cartData
     }
@@ -69,17 +72,23 @@ class CheckoutStore {
         invalid: false
       }
     })
+   
     let purchasesRes = await purchases({
       goodsInfoDTOList: param,
       goodsInfoIds: [],
-      goodsMarketingDTOList: []
+      goodsMarketingDTOList: [],
+      promotionCode
     })
+    // console.log({purchasesRes});
+    // debugger
     purchasesRes = purchasesRes.context
+    
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap)
     this.setCartPrice({
       totalPrice: purchasesRes.totalPrice,
       tradePrice: purchasesRes.tradePrice,
-      discountPrice: purchasesRes.discountPrice
+      discountPrice: purchasesRes.discountPrice,
+      deliveryPrice:purchasesRes.deliveryPrice
     })
     // 更新stock值
     let tmpOutOfstockProNames = []
@@ -98,14 +107,15 @@ class CheckoutStore {
   }
 
   @action
-  async updateLoginCart () {
+  async updateLoginCart (subscriptionFlag) {
     this.changeLoadingCartData(true)
     // 获取购物车列表
     let siteMiniPurchasesRes = await siteMiniPurchases();
     siteMiniPurchasesRes = siteMiniPurchasesRes.context;
     // 获取总价
     let sitePurchasesRes = await sitePurchases({
-      goodsInfoIds: siteMiniPurchasesRes.goodsList.map(ele => ele.goodsInfoId)
+      goodsInfoIds: siteMiniPurchasesRes.goodsList.map(ele => ele.goodsInfoId),
+      subscriptionFlag
     });
     sitePurchasesRes = sitePurchasesRes.context;
     runInAction(() => {
@@ -113,7 +123,8 @@ class CheckoutStore {
       this.setCartPrice({
         totalPrice: sitePurchasesRes.totalPrice,
         tradePrice: sitePurchasesRes.tradePrice,
-        discountPrice: sitePurchasesRes.discountPrice
+        discountPrice: sitePurchasesRes.discountPrice,
+        deliveryPrice:sitePurchasesRes.deliveryPrice
       })
       this.outOfstockProNames = siteMiniPurchasesRes.goodsList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
       this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap)

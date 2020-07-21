@@ -65,6 +65,9 @@ class LoginCart extends React.Component {
   get discountPrice () {
     return this.props.checkoutStore.discountPrice
   }
+  get deliveryPrice () {
+    return this.props.checkoutStore.deliveryPrice
+  }
   get isPromote () {
     return parseInt(this.discountPrice) > 0
   }
@@ -501,7 +504,7 @@ class LoginCart extends React.Component {
           </p>
         </div>
         <div className="col-4">
-          <p className="text-right shipping-cost">0</p>
+          <p className="text-right shipping-cost">{formatMoney(this.deliveryPrice)}</p>
         </div>
       </div>
       <div className="group-total">
