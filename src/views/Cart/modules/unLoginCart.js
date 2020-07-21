@@ -596,7 +596,7 @@ class UnLoginCart extends React.Component {
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
                       {txt => (
-                        <a href="#" onClick={(e) => this.goBack(e)} title={txt}>
+                        <a onClick={(e) => this.goBack(e)} title={txt}>
                           <span className="rc-header-with-icon rc-header-with-icon--gamma">
                             <span className="rc-icon rc-left rc-iconography"></span>
                             {txt}

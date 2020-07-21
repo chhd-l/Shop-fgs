@@ -162,7 +162,7 @@ class LoginCart extends React.Component {
         tmp = quantityMinLimit
         this.showErrMsg(<FormattedMessage id="cart.errorInfo" />)
       }
-      if(tmp > quantityMaxLimit) {
+      if (tmp > quantityMaxLimit) {
         tmp = quantityMaxLimit
       }
       item.buyCount = tmp
@@ -171,13 +171,13 @@ class LoginCart extends React.Component {
   }
   addQuantity (item) {
     this.setState({ errorShow: false })
-    if(item.buyCount < 30) {
+    if (item.buyCount < 30) {
       item.buyCount++
       this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
-    }else {
+    } else {
       this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" />)
     }
-    
+
   }
   subQuantity (item) {
     this.setState({ errorShow: false })
@@ -553,7 +553,7 @@ class LoginCart extends React.Component {
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
                       {txt => (
-                        <a href="#" onClick={(e) => this.goBack(e)} title={txt}>
+                        <a onClick={(e) => this.goBack(e)} title={txt}>
                           <span className="rc-header-with-icon rc-header-with-icon--gamma">
                             <span className="rc-icon rc-left rc-iconography"></span>
                             {txt}
