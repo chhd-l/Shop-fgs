@@ -18,49 +18,49 @@ class CheckoutStore {
     return this.linkClinicName || this.selectClinicName || this.defaultClinicName
   }
 
-  @action
+  @action.bound
   setLinkClinicId (data) {
     this.linkClinicId = data
     store.set('rc-clinic-id-link', data)
   }
 
-  @action
+  @action.bound
   setLinkClinicName (data) {
     this.linkClinicName = data
     store.set('rc-clinic-name-link', data)
   }
 
-  @action
+  @action.bound
   removeLinkClinicId () {
     this.linkClinicId = ''
     store.remove('rc-clinic-id-link')
   }
 
-  @action
+  @action.bound
   removeLinkClinicName () {
     this.linkClinicName = ''
     store.remove('rc-clinic-name-link')
   }
 
-  @action
+  @action.bound
   setSelectClinicId (data) {
     this.linkClinicId = data
     store.set('rc-clinic-id-select', data)
   }
 
-  @action
+  @action.bound
   setSelectClinicName (data) {
     this.linkClinicName = data
     store.set('rc-clinic-name-select', data)
   }
 
-  @action
+  @action.bound
   setDefaultClinicId (data) {
     this.linkClinicId = data
     store.set('rc-clinic-id-default', data)
   }
 
-  @action
+  @action.bound
   setDefaultClinicName (data) {
     this.linkClinicName = data
     store.set('rc-clinic-name-default', data)
