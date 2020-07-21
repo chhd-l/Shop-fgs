@@ -1,4 +1,5 @@
 import { action, observable } from "mobx";
+import stores from './index'
 import store from 'storejs'
 
 class LoginStore {
@@ -21,6 +22,8 @@ class LoginStore {
   @action.bound
   setUserInfo (data) {
     this.userInfo = data
+    stores.clinicStore.setDefaultClinicId(data.defaultClinics ? data.defaultClinics.clinicsId : '')
+    stores.clinicStore.setDefaultClinicName(data.defaultClinics ? data.defaultClinics.clinicsName : '')
     store.set('rc-userinfo', data)
   }
   @action.bound
