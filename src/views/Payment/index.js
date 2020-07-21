@@ -1011,7 +1011,7 @@ class Payment extends React.Component {
                               this.setState({
                                 subForm: data
                               },()=>{
-                                this.state.subForm.buyWay == 'once' ? this.props.checkoutStore.updateLoginCart(false) :this.props.checkoutStore.updateLoginCart(true)
+                                this.state.subForm.buyWay == 'once' ? this.props.checkoutStore.updateLoginCart('',false) :this.props.checkoutStore.updateLoginCart('',true)
                               })
                             }} />
                         </>

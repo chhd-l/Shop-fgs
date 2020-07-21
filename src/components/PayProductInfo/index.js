@@ -47,6 +47,12 @@ class PayProductInfo extends React.Component {
   get deliveryPrice(){
     return this.props.checkoutStore.deliveryPrice
   }
+  get subscriptionPrice(){
+    return this.props.checkoutStore.subscriptionPrice
+  }
+  get promotionDesc(){
+    return this.props.checkoutStore.promotionDesc
+  }
   getProducts (plist) {
     const List = plist.map((el, i) => {
       let selectedSizeItem = el.sizeList.filter((item) => item.selected)[0];
@@ -175,6 +181,19 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
+                {/* 显示订阅折扣 */}
+                <div className="row leading-lines shipping-item" style={{ display: parseInt(this.subscriptionPrice) > 0 ? 'flex' : 'none' }}>
+                  <div className="col-7 start-lines">
+                    <p className="order-receipt-label order-shipping-cost" style={{ color: '#ec001a' }}>
+                      <span><FormattedMessage id="subscribeDiscount" /></span>
+                    </p>
+                  </div>
+                  <div className="col-5 end-lines">
+                    <p className="text-right">
+                      <span className="shipping-total-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.subscriptionPrice)}</span>
+                    </p>
+                  </div>
+                </div>
                 <div className="row leading-lines shipping-item" style={{ display: parseInt(this.discountPrice) > 0 ? 'flex' : 'none' }}>
                   <div className="col-7 start-lines">
                     <p className="order-receipt-label order-shipping-cost" style={{ color: '#ec001a' }}>
@@ -204,7 +223,7 @@ class PayProductInfo extends React.Component {
                   {this.state.discount.map((el) => (
                     <div className="flex-layout" style={{marginRight:"18px"}}>
                       <label className="saveDiscount font16">
-                        save amount
+                        {this.promotionDesc}
                       </label>
                       <div
                         className="text-right red-text"
@@ -282,7 +301,7 @@ class PayProductInfo extends React.Component {
                   await checkoutStore.updateUnloginCart('',this.state.promotionInputValue)
                  }else{
                   //会员
-                 await checkoutStore.updateLoginCart('',this.state.promotionInputValue)
+                 await checkoutStore.updateLoginCart(this.state.promotionInputValue,this.props.buyWay === 'frequency')
                  }
                  this.setState({
                    promotionInputValue:''
