@@ -11,8 +11,8 @@ class PayProductInfo extends React.Component {
     super(props);
     this.state = {
       productList: [],
-      discount:[],//促销码的折扣信息汇总
-      promotionInputValue:'',//输入的促销码
+      discount: [],//促销码的折扣信息汇总
+      promotionInputValue: '',//输入的促销码
     };
   }
   get isLogin () {
@@ -44,7 +44,7 @@ class PayProductInfo extends React.Component {
   get discountPrice () {
     return this.props.checkoutStore.discountPrice
   }
-  get deliveryPrice(){
+  get deliveryPrice () {
     return this.props.checkoutStore.deliveryPrice
   }
   getProducts (plist) {
@@ -148,7 +148,7 @@ class PayProductInfo extends React.Component {
     )
   }
   sideCart ({ className = '', style = {}, id = '' } = {}) {
-    const { productList,discount } = this.state
+    const { productList, discount } = this.state
     const { checkoutStore } = this.props
     const List = this.isLogin ? this.getProductsForLogin(productList) : this.getProducts(productList)
     return (
@@ -195,14 +195,14 @@ class PayProductInfo extends React.Component {
                   </div>
                   <div className="col-5 end-lines">
                     <p className="text-right">
-    <span className="shipping-total-cost">{formatMoney(this.deliveryPrice)}</span>
+                      <span className="shipping-total-cost">{formatMoney(this.deliveryPrice)}</span>
                     </p>
                   </div>
                 </div>
                 {/* 输入promotionCode显示获取的折扣 */}
-                <div style={{marginTop:"10px"}}>
+                <div style={{ marginTop: "10px" }}>
                   {this.state.discount.map((el) => (
-                    <div className="flex-layout" style={{marginRight:"18px"}}>
+                    <div className="flex-layout" style={{ marginRight: "18px" }}>
                       <label className="saveDiscount font16">
                         save amount
                       </label>
@@ -222,12 +222,12 @@ class PayProductInfo extends React.Component {
                           onClick={async () => {
                             discount.pop();
                             this.setState({ discount: discount });
-                            if(!this.isLogin){
+                            if (!this.isLogin) {
                               //游客
-                             await checkoutStore.updateUnloginCart()
-                            }else{
-                             //会员
-                            await checkoutStore.updateLoginCart()
+                              await checkoutStore.updateUnloginCart()
+                            } else {
+                              //会员
+                              await checkoutStore.updateLoginCart()
                             }
                           }}
                         >
@@ -236,7 +236,7 @@ class PayProductInfo extends React.Component {
                       </div>
                     </div>
                   ))}
-                </div>   
+                </div>
               </div>
             </div>
           </div>
@@ -250,54 +250,54 @@ class PayProductInfo extends React.Component {
               </span>
             </div>
           </div>
-           {/* 支付新增promotionCode(选填) */}
-           {
-             this.props.history && this.props.history.location.pathname === '/payment/payment'&&this.state.discount.length==0?<div className="footer" style={{ marginTop: "10px" }}>
-             <span
-               class="rc-input rc-input--inline rc-input--label"
-               style={{ width: "200px",marginLeft:"5px" }}
-             >
-               <input
-                 class="rc-input__control"
-                 id="id-text2"
-                 type="text"
-                 name="text"
-                 placeholder="Promotional Code"
-                 value={this.state.promotionInputValue}
-                 onChange={(e)=>this.handlerChange(e)}
-               />
-               <label
-                 class="rc-input__label"
-                 for="id-text2"
-               ></label>
-             </span>
-             <button
-               class="rc-btn rc-btn--sm rc-btn--two"
-               style={{ marginTop: "10px", float: "right" }}
-               onClick={async () => {
-                 discount.push(1);
-                 this.setState({ discount });
-                 if(!this.isLogin){
-                   //游客
-                  await checkoutStore.updateUnloginCart('',this.state.promotionInputValue)
-                 }else{
-                  //会员
-                 await checkoutStore.updateLoginCart('',this.state.promotionInputValue)
-                 }
-                 this.setState({
-                   promotionInputValue:''
-                 })
-               }}
-             >
-               <FormattedMessage id="apply" />
-             </button>
-           </div>:null
-           }
+          {/* 支付新增promotionCode(选填) */}
+          {
+            this.props.history && this.props.history.location.pathname === '/payment/payment' && this.state.discount.length == 0 ? <div className="footer" style={{ marginTop: "10px" }}>
+              <span
+                class="rc-input rc-input--inline rc-input--label"
+                style={{ width: "200px", marginLeft: "5px" }}
+              >
+                <input
+                  class="rc-input__control"
+                  id="id-text2"
+                  type="text"
+                  name="text"
+                  placeholder="Promotional Code"
+                  value={this.state.promotionInputValue}
+                  onChange={(e) => this.handlerChange(e)}
+                />
+                <label
+                  class="rc-input__label"
+                  for="id-text2"
+                ></label>
+              </span>
+              <button
+                class="rc-btn rc-btn--sm rc-btn--two"
+                style={{ marginTop: "10px", float: "right" }}
+                onClick={async () => {
+                  discount.push(1);
+                  this.setState({ discount });
+                  if (!this.isLogin) {
+                    //游客
+                    await checkoutStore.updateUnloginCart('', this.state.promotionInputValue)
+                  } else {
+                    //会员
+                    await checkoutStore.updateLoginCart('', this.state.promotionInputValue)
+                  }
+                  this.setState({
+                    promotionInputValue: ''
+                  })
+                }}
+              >
+                <FormattedMessage id="apply" />
+              </button>
+            </div> : null
+          }
         </div>
       </div>
     );
   }
-  handlerChange(e){
+  handlerChange (e) {
     let promotionInputValue = e.target.value
     this.setState({
       promotionInputValue
@@ -311,7 +311,9 @@ class PayProductInfo extends React.Component {
           style: {
             background: '#fff',
             zIndex: 9,
-            width: 345
+            width: 345,
+            maxHeight: '88vh',
+            overflowY: 'auto'
           },
           id: 'J_sidecart_fix'
         })}
