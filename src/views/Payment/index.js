@@ -390,36 +390,41 @@ class Payment extends React.Component {
       }
       let selectedCard = this.state.selectedCardInfo;
       this.startLoading();
-      let res = await axios.post(
-        "https://api.paymentsos.com/tokens",
-        {
-          token_type: "credit_card",
-          card_number: selectedCard.cardNumber,
-          expiration_date: selectedCard.cardMmyy.replace(/\//, "-"),
-          holder_name: selectedCard.cardOwner,
-          credit_card_cvv: selectedCard.cardCvv,
-        },
-        {
-          headers: {
-            public_key: process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
-            "Content-type": "application/json",
-            app_id: "com.razorfish.dev_mexico",
-            "api-version": "1.3.0",
+      try {
+        let res = await axios.post(
+          "https://api.paymentsos.com/tokens",
+          {
+            token_type: "credit_card",
+            card_number: selectedCard.cardNumber,
+            expiration_date: selectedCard.cardMmyy.replace(/\//, "-"),
+            holder_name: selectedCard.cardOwner,
+            credit_card_cvv: selectedCard.cardCvv,
           },
-        }
-      );
-      console.log(res, "res");
-      this.setState(
-        {
-          payosdata: res.data,
-          creditCardInfo: Object.assign({}, selectedCard),
-          loading: false,
-        },
-        () => {
-          this.goConfirmation();
-        }
-      );
+          {
+            headers: {
+              public_key: process.env.REACT_APP_PaymentKEY,
+              "x-payments-os-env": process.env.REACT_APP_PaymentENV,
+              "Content-type": "application/json",
+              app_id: "com.razorfish.dev_mexico",
+              "api-version": "1.3.0",
+            },
+          }
+        );
+        console.log(res, "res");
+        this.setState(
+          {
+            payosdata: res.data,
+            creditCardInfo: Object.assign({}, selectedCard),
+            loading: false,
+          },
+          () => {
+            this.goConfirmation();
+          }
+        );
+      } catch (err) {
+        this.showErrorMsg(err.toString());
+        this.setState({ loading: false });
+      }
     } else {
       this.goConfirmation();
     }
@@ -681,34 +686,42 @@ class Payment extends React.Component {
     this.startLoading();
     document.getElementById("payment-form").submit.click();
     let timer = setInterval(() => {
-      let payosdata = JSON.parse(sessionStorage.getItem("payosdata"));
-      if (payosdata) {
+      try {
+        let payosdata = JSON.parse(sessionStorage.getItem("payosdata"));
+        if (payosdata) {
+          clearInterval(timer);
+          this.setState({
+            payosdata: payosdata,
+            loading: false,
+          });
+          if (payosdata.category === "client_validation_error") {
+            this.setState({
+              errorShow: true,
+              errorMsg: payosdata.more_info,
+            });
+            sessionStorage.clear("payosdata");
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+            setTimeout(() => {
+              this.setState({
+                errorShow: false,
+              });
+            }, 5000);
+            return;
+          } else {
+            this.setState({
+              isCompleteCredit: true,
+            });
+          }
+        }
+      } catch (err) {
+        this.showErrorMsg(sessionStorage.getItem("payosdata") ? sessionStorage.getItem("payosdata") : err.toString());
         clearInterval(timer);
         this.setState({
-          payosdata: payosdata,
-          loading: false,
+          loading: false
         });
-        if (payosdata.category === "client_validation_error") {
-          this.setState({
-            errorShow: true,
-            errorMsg: payosdata.more_info,
-          });
-          sessionStorage.clear("payosdata");
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-          setTimeout(() => {
-            this.setState({
-              errorShow: false,
-            });
-          }, 5000);
-          return;
-        } else {
-          this.setState({
-            isCompleteCredit: true,
-          });
-        }
       }
     }, 1000);
   }
