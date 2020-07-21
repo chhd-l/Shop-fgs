@@ -507,6 +507,10 @@ const en_US = {
   'modalOrderNowContent': '¿Seguro que quieres hacer este pedido ahora?',
   'searchPrescriber':'Buscar un prescriptor',
   'download': 'descargar',
+  //qhx新增
+  'unLoginSubscriptionTips': 'Subscription is possible only after registration',
+  'apply':'Apply',
+  //qhx新增
   'payment.deliveryFrequency':'Frecuencia de entrega',
   'payment.frequencyTip1':'¡Sí, haz mi vida más fácil!',
   'payment.frequencyTip2':'No gracias.',

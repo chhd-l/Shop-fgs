@@ -999,31 +999,30 @@ class Payment extends React.Component {
                         </div>
                       </div>
                     </div>
-                    {this.isLogin &&
-                    find(
-                      this.loginCartData,
-                      (ele) => ele.subscriptionStatus
-                    ) ? (
-                      <>
-                        <div className="card-header">
-                          <h5>
-                            <FormattedMessage id="subscription.chooseSubscription" />
-                          </h5>
-                        </div>
-                        <SubscriptionSelect
-                          updateSelectedData={(data) => {
-                            if (data.buyWay === "frequency") {
+                    {
+                      this.isLogin && find(this.loginCartData, ele => ele.subscriptionStatus)
+                        ? <>
+                          <div className="card-header">
+                            <h5>
+                              <FormattedMessage id="subscription.chooseSubscription" />
+                            </h5>
+                          </div>
+                          <SubscriptionSelect
+                            updateSelectedData={data => {
+						    if (data.buyWay === "frequency") {
                               this.setState({
                                 showOxxoForm: false,
                               });
                             }
-                            this.setState({
-                              subForm: data,
-                            });
-                          }}
-                        />
-                      </>
-                    ) : null}
+                              this.setState({
+                                subForm: data
+                              },()=>{
+                                this.state.subForm.buyWay == 'once' ? this.props.checkoutStore.updateLoginCart(false) :this.props.checkoutStore.updateLoginCart(true)
+                              })
+                            }} />
+                        </>
+                        : null
+                    }
                   </>
                 )}
                 <div>
