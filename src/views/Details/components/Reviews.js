@@ -196,15 +196,15 @@ class Reviews extends React.Component {
                                                             data.goodsEvaluatesList.map(item => (
                                                                     <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
                                                                         <div className="rc-column">
-                                                                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                                                                            <div className="rc-padding--xs--desktop rc-padding--sm--mobile">
                                                                                 <div className="red-text">{item.commentator}</div>
                                                                                 <div style={{'fontSize': '14px'}}>{item.commentTime}</div>
                                                                             </div>
                                                                         </div>
                                                                         <div className="rc-column rc-quad-width">
-                                                                            <div className="rc-padding--md--desktop rc-padding--sm--mobile">
+                                                                            <div className="rc-padding--xs--desktop rc-padding--sm--mobile">
                                                                                 <Rate def={item.evaluateScore} disabled={true}/>
-                                                                                <div className="break">{item.title}</div>
+                                                                                <div className="break mgt-10">{item.title}</div>
                                                                                 {/*{item.description}*/}
                                                                                 <div className="img-box rc-margin-bottom--xs rc-margin-top--xs">
                                                                                     {

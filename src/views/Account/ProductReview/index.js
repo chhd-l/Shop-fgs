@@ -233,8 +233,8 @@ class ProductReview extends React.Component {
                                 </div>
                                 {/*main*/}
                                 <div className="rc-border-bottom rc-border-colour--interface ">
-                                    <div className="rc-margin--none pb-2">
-                                        <div className="rc-layout-container rc-one-column">
+                                    <div className="rc-margin--none">
+                                        <div className="">
                                             <div className="rc-column">
                                                 <div>
                                                     <span className="medium rc-text-colour--text ui-text-overflow-line2 text-break">
@@ -250,7 +250,8 @@ class ProductReview extends React.Component {
                                 </div>
                                 <div className="rc-border-bottom rc-border-colour--interface ">
                                     <div className="rc-margin--none pb-2">
-                                        <div className="rc-layout-container rc-one-column">
+                                        {/*rc-layout-container rc-one-column*/}
+                                        <div className="">
                                             <div className="rc-column">
                                                 <div>
                                                     <span className="medium rc-text-colour--text ui-text-overflow-line2 text-break">
@@ -272,7 +273,7 @@ class ProductReview extends React.Component {
                                     {/*<div className="rc-padding-right--xs rc-bg-colour--brand4"></div>*/}
                                     {/*rc-double-width*/}
                                     <div className="rc-column">
-                                        <div className="rc-padding-top--sm ">
+                                        <div className="rc-padding-top--xs">
                                                 <span className="medium rc-text-colour--text ui-text-overflow-line2 text-break">
                                                     <strong className="rc-font-bold"><FormattedMessage id="productRating"/></strong>
                                                 </span>

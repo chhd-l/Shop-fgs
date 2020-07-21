@@ -418,7 +418,7 @@ class AccountOrders extends React.Component {
                                           : null
                                       }
                                       {
-                                        order.canReview ?
+                                        order.canReview?
                                           <button
                                             className="rc-btn rc-btn--sm rc-btn--two"
                                             style={{ transform: 'scale(.85)' }}>
