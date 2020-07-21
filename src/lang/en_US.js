@@ -49,7 +49,7 @@ const en_US = {
   'item': 'item',
   'items': 'items',
   'edit': 'Edit',
-  'example': "Example",
+  'example': 'Example',
   'contactUs': 'Contact Us',
   'age': 'Age',
   'puppy': 'Puppy (0-1 year old)',
@@ -67,7 +67,6 @@ const en_US = {
   'confirmDelete': 'Do you confirm to delete?',
   'billing': 'BILLING',
   'billing2': 'Billing',
-
   'header.basketEmpty': 'your basket is empty',
   'header.startTypingToSearch': 'Start typing to search',
   'header.VCN': 'VCN',
@@ -85,7 +84,6 @@ const en_US = {
   'header.carouselInfo11': 'ROYAL CANIN® CLUB for kittens',
   'header.toBegin': 'To begin',
   'header.toLearnMore': 'To learn more',
-
   'home.productsCategory': 'Our products by category',
   'home.pageNotFound': 'Page not found…',
   'home.pageNotFoundInfo': 'Sorry, the page you are looking for does not exist.',
@@ -113,12 +111,10 @@ const en_US = {
   'home.catogery6': 'Perros',
   'home.note1': 'Afectado por la epidemia, el tiempo de entrega puede extenderse.',
   'home.note2': 'Nuestra área de distribución se limita a la Ciudad de México, Guadalajara y Monterrey.',
-
   'list.youSearchedFor': 'You searched for',
   'list.errMsg': 'No products found, please change the search criteria and try again.',
   'list.errMsg2': 'No products found, please change the keywords and try again.',
   'list.errMsg3': 'No filters found, please try again later.',
-
   'details.unitPrice': 'Unit price',
   'details.OneOFF': 'One-off purchase',
   'details.Subscription': 'Subscription',
@@ -136,7 +132,6 @@ const en_US = {
   'details.feedingRecommendations': 'Feeding recommendations',
   'details.errMsg': 'The product has no specs, please try again later.',
   'details.errMsg2': 'No details found, please try again later.',
-
   'cart.errorInfo': 'The number can\'t be less than 1',
   'cart.errorMaxInfo': 'The number can\'t be exceed than 30',
   'cart.errorMaxCate': 'The shopping cart can\'t exceed 30 items',
@@ -148,7 +143,6 @@ const en_US = {
   'cart.catDiet': 'Choose a diet for your cat',
   'cart.deletInfo': 'Delete product?',
   'cart.deletInfo2': 'Are you sure you want to remove this item from your cart?',
-
   'footer.toTheTop': 'To the top',
   'footer.aboutRoyalCanin': 'ABOUT ROYAL CANIN®',
   'footer.contactRoyalCanin': 'Contact ROYAL CANIN®',
@@ -172,18 +166,12 @@ const en_US = {
   'footer.cookies': 'Cookies',
   'footer.legalTerms': 'Legal Terms',
   'footer.copyrightInfo': 'Copyright © Mars 2020®, Trademark of Mars Incorporated and its affiliates',
-
   'clinic.clinic': 'clinic',
   'clinic.confirm': 'Confirm',
   'clinic.cancel': 'Cancel',
   'clinic.selectVetClinics': 'Select Vet Clinics',
-  //'clinic.sortResults': 'Sort results',
-  //'clinic.sortResultsByDistance': 'Sort results by distance',
-  //'clinic.sortResultsByStarRating': 'Sort results by star rating',
   'clinic.vet': 'Vet',
   'clinic.clinicTip': 'Which clinic has provided prescription for you？',
-  //'clinic.SortResultsByStarRating': 'Sort results by star rating',
-
   'payment.payment': 'PAYMENT',
   'payment.clinicTitle': 'Selected clinic',
   'payment.clinicTitle2': 'Default clinic',
@@ -235,7 +223,6 @@ const en_US = {
   'payment.frequencyTip2': 'No, Thank you.',
   'payment.frequencyTip3': 'Your items will only ship once.',
   'payment.deliveryFrequency': 'Delivery Frequency',
-
   'confirmation.info1': 'Thank you for your order.',
   'confirmation.info2': 'In the near future, our staff will contact you to comfirm the order.',
   'confirmation.info3': ' Addresses and shipping methods are indicated under your goods.',
@@ -246,7 +233,6 @@ const en_US = {
   'confirmation.rateTip2': 'What can we do to improve?',
   'confirmation.rateTip3': 'Enter up to 50 characters',
   'confirmation.rateTip4': 'Please score first.',
-
   'help.needHelp': 'Need help ?',
   'help.tip1': 'Our customer service staff is professional and enthusiam.',
   'help.tip4': 'They can answer any problems at any time.',
@@ -254,7 +240,6 @@ const en_US = {
   'help.tip3': 'We will reply to you within a maximum of 12 hours.',
   'help.byTelephone': 'By telephone',
   'help.byEmail': 'By email',
-
   'account.personalArea': 'Profile',
   'account.profile': 'Basic information',
   'account.profileTip': 'View and edit your personal information.',
@@ -270,7 +255,6 @@ const en_US = {
   'account.requiredFields': 'Required fields',
   'account.Email': 'E-mail',
   'account.birthDate': 'Date of Birth',
-
   'order.historyOfOrders': 'History of orders',
   'order.lastXDays': 'Last {val} days',
   'order.lastXMonths': 'Last {val} months',
@@ -307,13 +291,11 @@ const en_US = {
   'order.progress2': 'Paid',
   'order.progress3': 'Delivered',
   'order.progress4': 'Completed',
-
   'datePicker.previousMonth': 'previous Month',
   'datePicker.nextMonth': 'next Month',
   'datePicker.months': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   'datePicker.weekdays': ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
   'datePicker.weekdaysShort': ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'],
-
   'account.pets': 'Pets',
   'account.subscription': 'Subscription',
   'account.noPet': 'Create your pet profile today! Fill in the information and choose the most suitable diet',
@@ -339,7 +321,6 @@ const en_US = {
   'account.dateTip': 'Please select a past date.',
   'account.subscriptionTip': 'Browse and change subscription settings.',
   'account.paymentMethodTip': 'View and update payment information',
-
   'shippingAddress': 'Address Management',
   'addShippingAddress': 'Add New Address',
   'editShippingAddress': 'Edit Shipping Address',
@@ -352,30 +333,27 @@ const en_US = {
   'consigneeNumber': 'Consignee Number',
   'area': 'Area',
   'deliveryAddress': 'Delivery Address',
-
   'promotion': 'Promotion',
   'account.toComeIn': 'To come in',
   'account.notRegistred': 'You are not registred?',
   'signUp': 'Sign up',
-  'logOff': "Log off",
+  'logOff': 'Log off',
   'account.myAccount': 'My account',
-  "account.basicInfomation": 'Basic Infomation',
+  'account.basicInfomation': 'Basic Infomation',
   'account.orders': 'Orders',
-
-  "sterilized": "Sterilized",
-  "notSterilized": "Not sterilized",
+  'sterilized': 'Sterilized',
+  'notSterilized': 'Not sterilized',
   'paymentMethod': 'Payment method',
   'subscription': 'Subscription',
   'addNewCreditCard': 'Add new credit card',
   'delete': 'Delete',
   'setDefaultPaymentMethod': 'Set as Default Payment method',
-  "addressType": 'Address Type',
-  "moreAddress": 'More Address',
-  "unfoldAddress": 'Unfold Address',
-  "newAddress": 'New address',
+  'addressType': 'Address Type',
+  'moreAddress': 'More Address',
+  'unfoldAddress': 'Unfold Address',
+  'newAddress': 'New address',
   'default': 'Default',
   'saveSuccessfullly': 'Save successfullly',
-
   'subscription.promotionTip': 'Save {val} on your first Subscription',
   'subscription.OnYourFirst': 'on your first',
   'subscription.promotionTip2': 'Simply select Subscription at checkout for easy regular deliveries',
@@ -421,7 +399,6 @@ const en_US = {
   'forgetPassword.back': 'Back to log in',
   'changePassword': 'Change Password',
   'passwordHide': 'Password:********',
-
   'welcomeTo': 'Welcome to',
   'royalCanin': 'Royal Canin',
   'rememberMe': 'Remember Me',
@@ -443,7 +420,6 @@ const en_US = {
   'registerFailed': 'Register failed',
   'resetPasswordEmail': 'Reset password email has been sent to your mailbox, please note that check!',
   'systemError': 'system error',
-
   'getDataFailed': 'Get Data Failed',
   'saveFailed': 'Save Failed!',
   'setDefaltAddressFailed': 'Set Defalt Address Failed',
@@ -454,14 +430,12 @@ const en_US = {
   'cardCvvIsInvalid': 'your card cvv is invalid',
   'pleaseEnterTheCorrectEmail': 'Please enter the correct email',
   'pleasecompleteTheRequiredItem': 'Please complete the required item',
-
   'saveSuccess': 'Save Success',
   'setDefaltAddressSuccess': 'Set Defalt Address Success',
   'deleteAddressSuccess': 'Delete Address Success',
   'queryDataFailed': 'Query Data Failed',
   'getConsumerAccountFailed': 'Get Consumer Account Failed',
   'getPetFailed': 'Get Pet Failed',
-
   'emailAddress': 'Email Address *',
   'password': 'Password *',
   'firstName': 'First Name *',
@@ -469,7 +443,6 @@ const en_US = {
   'country': 'Country *',
   'confirmPassword': 'Confirm Password *',
   'answer': 'Answer *',
-
   'enterPasswordAgain': 'Enter new password again',
   'newPassword': 'New Password',
   'oldPassword': 'Old Password *',
@@ -483,7 +456,6 @@ const en_US = {
   'findLocation': 'Find Location',
   'type': 'TYPE',
   'billingAddress': 'Billing Address',
-
   'CompleteRequiredItems': 'Please complete the required items',
   'EnterCorrectEmail': 'Please enter the correct email',
   'EnterCorrectPostCode': 'Please enter the correct post code',
@@ -513,7 +485,6 @@ const en_US = {
   'petName': 'Pet Name',
   'petType': 'Pet Type',
   'birthday': 'Birthday',
-
   'creditCard': 'Credit Card',
   'oxxo': 'OXXO',
   'printEbanx' : 'Print Ebanx',
@@ -524,7 +495,6 @@ const en_US = {
   'sendInformationByEmail': 'We will send the information to you by email, you can use it at any time.',
   'active': 'Active',
   'inactive': 'Inactive',
-
   'visitStoreMap': 'Visit store map',
   'print': 'Print',
   'deposited48Hours': 'Your payment will be deposited in 48 hours.',
@@ -547,6 +517,5 @@ const en_US = {
   'searchPrescriber':'Search a clinic',
   'unLoginSubscriptionTips': 'Subscription is possible only after registration',
   'download': 'Download'
-
 }
 export default en_US;

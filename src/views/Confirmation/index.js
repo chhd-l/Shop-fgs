@@ -32,7 +32,7 @@ class Confirmation extends React.Component {
       tradePrice: "",
       discountPrice: "",
       paywithLogin: sessionStorage.getItem("rc-paywith-login") === "true",
-      isOxxoPayment: sessionStorage.getItem("rc-payment-oxxo") === "true",
+      oxxoPayUrl: sessionStorage.getItem("oxxoPayUrl"),
       cityList: [],
       countryList: [],
       submitLoading: false,
@@ -91,7 +91,7 @@ class Confirmation extends React.Component {
       });
     }
     setTimeout(() => {
-      if (this.state.isOxxoPayment) {
+      if (this.state.oxxoPayUrl) {
         this.setState({ modalShow: false, oxxoModalShow: true });
       }
     }, 3000);
@@ -244,7 +244,7 @@ class Confirmation extends React.Component {
                 </p>
                 <div className="d-flex align-items-center justify-content-center">
                   {
-                    this.state.isOxxoPayment
+                    this.state.oxxoPayUrl
                       ? <>
                         <Link className="rc-btn rc-btn--one"
                           onClick={() => {
@@ -268,7 +268,7 @@ class Confirmation extends React.Component {
                   }
                 </div>
                 {
-                  !this.state.isOxxoPayment && <p
+                  !this.state.oxxoPayUrl && <p
                     className={`rc-margin-top--sm ${this.state.subNumber ? 'text-left' : ''} ml-auto mr-auto`}
                     style={{ width: '25%' }}>
                     {
@@ -632,7 +632,7 @@ class Confirmation extends React.Component {
             this.setState({ operateSuccessModalVisible: false });
           }}
         />
-        <OxxoModal visible={this.state.oxxoModalShow} close={() => {
+        <OxxoModal visible={this.state.oxxoModalShow} oxxoPayUrl={ this.state.oxxoPayUrl } close={() => {
           this.setState({ oxxoModalShow: false });
         }} />
       </div>
