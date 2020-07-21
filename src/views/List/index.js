@@ -176,8 +176,8 @@ class List extends React.Component {
               let ret = Object.assign({}, ele)
               const tmpItem = find(res.context.goodsList, g => g.goodsId === ele.id)
               if (tmpItem) {
-                const { goodsCateName, goodsSubtitle, subscriptionStatus, avgEvaluate, minMarketPrice, ...others } = tmpItem
-                ret = Object.assign(ret, { goodsCateName, goodsSubtitle, subscriptionStatus, avgEvaluate, minMarketPrice })
+                const { goodsCateName, goodsSubtitle, subscriptionStatus, avgEvaluate, minMarketPrice, goodsImg, ...others } = tmpItem
+                ret = Object.assign(ret, { goodsCateName, goodsSubtitle, subscriptionStatus, avgEvaluate, minMarketPrice, goodsImg})
               }
               return ret
             })
@@ -388,8 +388,8 @@ class List extends React.Component {
                                           <picture className="rc-card__image">
                                             <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center" style={{ minHeight: '202px' }}>
                                               <img
-                                                src={item.goodsInfos[0].goodsInfoImg}
-                                                srcSet={item.goodsInfos[0].goodsInfoImg}
+                                                src={item.goodsImg}
+                                                srcSet={item.goodsImg}
                                                 alt={item.lowGoodsName}
                                                 title={item.lowGoodsName} />
                                             </div>
