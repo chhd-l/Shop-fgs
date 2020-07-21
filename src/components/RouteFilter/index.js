@@ -8,12 +8,19 @@ class RouteFilter extends Component {
       && ((sessionStorage.getItem("rc-clinics-id-link") && sessionStorage.getItem("rc-clinics-name-link"))
         || (sessionStorage.getItem("rc-clinics-id-default") && sessionStorage.getItem("rc-clinics-name-default")))) {
       this.props.history.replace("/payment/payment");
+      return false
     }
     if (!localStorage.getItem('rc-token') && nextProps.location.pathname.indexOf("/account") !== -1) {
       this.props.history.push("/");
+      return false
     }
+    return true
   }
   async componentDidMount () {
+    if (!localStorage.getItem('rc-token') && this.props.location.pathname.indexOf("/account") !== -1) {
+      this.props.history.push("/");
+    }
+
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/')
     }
@@ -74,6 +81,7 @@ class RouteFilter extends Component {
     if (this.props.location.pathname === "/confirmation" && !localStorage.getItem('orderNumber')) {
       this.props.history.push("/");
     }
+
     queryStoreCateIds();
   }
   render () {

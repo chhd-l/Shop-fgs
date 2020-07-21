@@ -48,7 +48,7 @@ const LoginButton = (props) => {
             localStorage.setItem("rc-token", res.context.token);
             let customerInfoRes = await getCustomerInfo()
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
-            loginStore.setUserInfo(userinfo)
+            loginStore.setUserInfo(customerInfoRes.context)
             if (sessionStorage.getItem('redirectUrl') === '/cart') {
               props.history.push(sessionStorage.getItem('redirectUrl'))
             } else {

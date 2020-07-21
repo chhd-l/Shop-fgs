@@ -66,7 +66,7 @@ const rules = [
   },
 ];
 
-@inject("loginStore", "checkoutStore")
+@inject("loginStore", "checkoutStore", "clinicStore")
 @observer
 class Payment extends React.Component {
   constructor(props) {
@@ -425,7 +425,7 @@ class Payment extends React.Component {
     }
   }
   async goConfirmation() {
-    const { history } = this.props;
+    const { history, clinicStore } = this.props;
     let {
       isEighteen,
       isReadPrivacyPolicy,
@@ -507,130 +507,134 @@ class Payment extends React.Component {
             goodsMarketingMap[k][0]["fullDiscountLevelList"][0]["marketingId"];
         }
       }
-    }
-    let param3 = {
-      firstName: deliveryAddress.firstName,
-      lastName: deliveryAddress.lastName,
-      zipcode: deliveryAddress.postCode,
-      city: deliveryAddress.city,
-      country: payosdata.country_code,
-      token: payosdata.token,
-      creditDardCvv: payosdata.encrypted_cvv,
-      phone: creditCardInfo.phoneNumber,
-      email: creditCardInfo.email,
-      line1: deliveryAddress.address1,
-      line2: deliveryAddress.address2,
-      clinicsId:
-        sessionStorage.getItem("rc-clinics-id-link") ||
-        sessionStorage.getItem("rc-clinics-id-default") ||
-        sessionStorage.getItem("rc-clinics-id-select"),
-      clinicsName:
-        sessionStorage.getItem("rc-clinics-name-link") ||
-        sessionStorage.getItem("rc-clinics-name-default") ||
-        sessionStorage.getItem("rc-clinics-name-select"),
-      remark: commentOnDelivery,
-      storeId: STOREID,
-      tradeItems: param2.goodsInfos.map((g) => {
-        return {
-          num: g.buyCount,
-          skuId: g.goodsInfoId,
-        };
-      }), // once order products
-      subTradeItems: [], // subscription order products
-      tradeMarketingList,
+      let param3 = {
+        firstName: deliveryAddress.firstName,
+        lastName: deliveryAddress.lastName,
+        zipcode: deliveryAddress.postCode,
+        city: deliveryAddress.city,
+        country: payosdata.country_code,
+        token: payosdata.token,
+        creditDardCvv: payosdata.encrypted_cvv,
+        phone: creditCardInfo.phoneNumber,
+        email: creditCardInfo.email,
+        line1: deliveryAddress.address1,
+        line2: deliveryAddress.address2,
+        clinicsId: this.props.clinicStore.clinicId,
+        clinicsName: this.props.clinicStore.clinicName,
+        remark: commentOnDelivery,
+        storeId: STOREID,
+        tradeItems: param2.goodsInfos.map((g) => {
+          return {
+            num: g.buyCount,
+            skuId: g.goodsInfoId,
+          };
+        }), // once order products
+        subTradeItems: [], // subscription order products
+        tradeMarketingList,
 
-      last4Digits: payosdata.last_4_digits,
-      payAccountName: creditCardInfo.cardOwner,
-      payPhoneNumber: creditCardInfo.phoneNumber,
+        last4Digits: payosdata.last_4_digits,
+        payAccountName: creditCardInfo.cardOwner,
+        payPhoneNumber: creditCardInfo.phoneNumber,
 
-      petsId: "1231",
-      // promotionCode: '1234',
-    };
-    try {
-      sessionStorage.setItem("rc-paywith-login", this.isLogin);
-      if (!this.isLogin) {
-        // 登录状态，不需要调用两个接口
-        let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
-          param
-        );
-        sessionStorage.setItem(
-          "rc-token",
-          postVisitorRegisterAndLoginRes.context.token
-        );
-        await batchAdd(param2);
-      } else {
-        param3.deliveryAddressId = deliveryAddress.addressId;
-        param3.billAddressId = billingAddress.addressId;
-        if (subForm.buyWay === "frequency") {
-          param3.tradeItems = param2.goodsInfos
-            .filter((ele) => !ele.subscriptionStatus)
-            .map((g) => {
-              return {
-                num: g.buyCount,
-                skuId: g.goodsInfoId,
-              };
-            });
-          param3.subTradeItems = loginCartData
-            .filter((ele) => ele.subscriptionStatus)
-            .map((g) => {
-              return {
-                subscribeNum: g.buyCount,
-                skuId: g.goodsInfoId,
-              };
-            });
-          param3.cycleTypeId = subForm.frequencyId;
-          param3.paymentMethodId = creditCardInfo.id;
-          // param3.nextDeliveryTime = '2020-03-01' // todo
+        petsId: "1231",
+        // promotionCode: '1234',
+      };
+      try {
+        sessionStorage.setItem("rc-paywith-login", this.isLogin);
+        if (!this.isLogin) {
+          // 登录状态，不需要调用两个接口
+          let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
+            param
+          );
+          sessionStorage.setItem(
+            "rc-token",
+            postVisitorRegisterAndLoginRes.context.token
+          );
+          await batchAdd(param2);
+        } else {
+          param3.deliveryAddressId = deliveryAddress.addressId;
+          param3.billAddressId = billingAddress.addressId;
+          if (subForm.buyWay === "frequency") {
+            param3.tradeItems = param2.goodsInfos
+              .filter((ele) => !ele.subscriptionStatus)
+              .map((g) => {
+                return {
+                  num: g.buyCount,
+                  skuId: g.goodsInfoId,
+                };
+              });
+            param3.subTradeItems = loginCartData
+              .filter((ele) => ele.subscriptionStatus)
+              .map((g) => {
+                return {
+                  subscribeNum: g.buyCount,
+                  skuId: g.goodsInfoId,
+                };
+              });
+            param3.cycleTypeId = subForm.frequencyId;
+            param3.paymentMethodId = creditCardInfo.id;
+            // param3.nextDeliveryTime = '2020-03-01' // todo
+          }
         }
-      }
-      // rePay
-      if (this.tid) {
-        param3.tid = this.tid;
-        delete param3.remark;
-        delete param3.tradeItems;
-        delete param3.tradeMarketingList;
-      }
+        // rePay
+        if (this.tid) {
+          param3.tid = this.tid;
+          delete param3.remark;
+          delete param3.tradeItems;
+          delete param3.tradeMarketingList;
+        }
 
-      if (showOxxoForm) {
-        return param3;
-      } // oxxo get param
+        if (showOxxoForm) {
+          return param3;
+        } // oxxo get param
 
-      sessionStorage.removeItem("oxxoPayUrl");
-      const tmpCommitAndPay = this.isLogin
-        ? this.tid
-          ? rePay
-          : subForm.buyWay === "frequency"
-          ? customerCommitAndPayMix
-          : customerCommitAndPay
-        : confirmAndCommit;
-      const confirmAndCommitRes = await tmpCommitAndPay(param3);
-      //debugger
-      console.log(confirmAndCommitRes);
-      const confirmAndCommitResContext = confirmAndCommitRes.context;
-      store.set(
-        "orderNumber",
-        (confirmAndCommitResContext && confirmAndCommitResContext[0]["tid"]) ||
-          this.tid
-      );
-      store.set(
-        "subNumber",
-        (confirmAndCommitResContext &&
-          confirmAndCommitResContext[0]["subscribeId"]) ||
-          ""
-      );
-      sessionStorage.removeItem("payosdata");
-      history.push("/confirmation");
-    } catch (e) {
-      if (!this.isLogin) {
-        sessionStorage.removeItem("rc-token");
+        sessionStorage.removeItem("oxxoPayUrl");
+        const tmpCommitAndPay = this.isLogin
+          ? this.tid
+            ? rePay
+            : subForm.buyWay === "frequency"
+            ? customerCommitAndPayMix
+            : customerCommitAndPay
+          : confirmAndCommit;
+        const confirmAndCommitRes = await tmpCommitAndPay(param3);
+        //debugger
+        console.log(confirmAndCommitRes);
+        const confirmAndCommitResContext = confirmAndCommitRes.context;
+        store.set(
+          "orderNumber",
+          (confirmAndCommitResContext &&
+            confirmAndCommitResContext[0]["tid"]) ||
+            this.tid
+        );
+        store.set(
+          "subNumber",
+          (confirmAndCommitResContext &&
+            confirmAndCommitResContext[0]["subscribeId"]) ||
+            ""
+        );
+        // update clinic
+        clinicStore.removeLinkClinicId();
+        clinicStore.removeLinkClinicName();
+        clinicStore.setSelectClinicId();
+        clinicStore.setSelectClinicName();
+        clinicStore.setDefaultClinicId();
+        clinicStore.setDefaultClinicName();
+
+        this.setState({ loading: false });
+        sessionStorage.removeItem("payosdata");
+        history.push("/confirmation");
+      } catch (e) {
+        if (!this.isLogin) {
+          sessionStorage.removeItem("rc-token");
+        }
+        console.log(e);
+        if (e.errorData) {
+          this.tid = e.errorData;
+        }
+        this.showErrorMsg(e.message ? e.message.toString() : e.toString());
+      } finally {
+        this.setState({ loading: false });
       }
-      console.log(e);
-      if (e.errorData) {
-        this.tid = e.errorData;
-      }
-      this.showErrorMsg(e.message ? e.message.toString() : e.toString());
-    } finally {
-      this.endLoading();
     }
   }
   cardInfoInputChange(e) {
@@ -779,21 +783,6 @@ class Payment extends React.Component {
   }
   handleClickEditClinic(e) {
     e.preventDefault();
-    const tmpClinicsName =
-      sessionStorage.getItem("rc-clinics-name-link") ||
-      sessionStorage.getItem("rc-clinics-name-default");
-    const tmpClinicsId =
-      sessionStorage.getItem("rc-clinics-id-link") ||
-      sessionStorage.getItem("rc-clinics-id-default");
-    // 默认clini链接进来，仍然可以编辑
-    if (tmpClinicsName) {
-      sessionStorage.setItem("rc-clinics-name-select", tmpClinicsName);
-      sessionStorage.setItem("rc-clinics-id-select", tmpClinicsId);
-      sessionStorage.removeItem("rc-clinics-name-link");
-      sessionStorage.removeItem("rc-clinics-id-link");
-      sessionStorage.removeItem("rc-clinics-name-default");
-      sessionStorage.removeItem("rc-clinics-id-default");
-    }
     this.props.history.push("/prescription");
   }
   render() {
@@ -866,9 +855,7 @@ class Payment extends React.Component {
                           </p>
                         </div>
                         <div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm">
-                          {sessionStorage.getItem("rc-clinics-name-link") ||
-                            sessionStorage.getItem("rc-clinics-name-default") ||
-                            sessionStorage.getItem("rc-clinics-name-select")}
+                          {this.props.clinicStore.clinicName}
                         </div>
                         {this.isLogin ? (
                           <LoginDeliveryAddress
@@ -1084,7 +1071,11 @@ class Payment extends React.Component {
                         >
                           <div className="billing-payment">
                             <div
-                              className={`rc-list__accordion-item border-0`}
+                              className={`rc-list__accordion-item border-0 ${
+                                this.state.payMethod === "creditCard"
+                                  ? ""
+                                  : "hidden"
+                              }`}
                               data-method-id="CREDIT_CARD"
                             >
                               {this.isLogin ? (
@@ -1279,6 +1270,18 @@ class Payment extends React.Component {
                                           </div>
                                         </div>
                                       </div>
+                                      <div className="row">
+                                        <div className="col-sm-12 rc-margin-y--xs rc-text--center">
+                                          <button
+                                            className="rc-btn rc-btn--two card-confirm"
+                                            id="card-confirm"
+                                            type="button"
+                                            onClick={() => this.cardConfirm()}
+                                          >
+                                            <FormattedMessage id="payment.confirmCard" />
+                                          </button>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                   <div
@@ -1348,6 +1351,13 @@ class Payment extends React.Component {
                                               {this.state.payosdata.card_type}
                                             </span>
                                           </div>
+                                        </div>
+                                        <div className="col-6 color-999">
+                                          <FormattedMessage id="payment.cardType" />
+                                          <br />
+                                          <span className="creditCompleteInfo">
+                                            {this.state.payosdata.card_type}
+                                          </span>
                                         </div>
                                       </div>
                                     </div>

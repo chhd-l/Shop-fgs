@@ -1653,7 +1653,11 @@ ul.ui-star-list .list_title {
 .comments {
   font-size: 14px;
   position: relative;
-  top: -3px
+  top: -4px;
+}
+.comments:hover {
+  color: #e2001a;
+  text-decoration: underline;
 }
 p {
   word-wrap: break-word;

@@ -18062,7 +18062,7 @@ div.quantity {
 }
 
 .product-pricing.v2 .product-pricing__card.selected {
-  border-color: #767676;
+  border-color: #D7D7D7;
   background-color: #f6f6f6
 }
 
@@ -18367,7 +18367,8 @@ button.rc-btn.tooltip-btn {
 }
 
 .rc-card--product .rc-card__image img {
-  width: 150px
+  width: 150px;
+  height: 170px
 }
 
 @media(min-width: 769px) {
