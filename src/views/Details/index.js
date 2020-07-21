@@ -69,7 +69,6 @@ class Details extends React.Component {
       tradePrice: "",
       specList: [],
       tabsValue: [],
-      buyWay: 'Once',
       petModalVisible: false,
       isAdd: 0,
       productRate: 0,
@@ -112,22 +111,26 @@ class Details extends React.Component {
     let { specList, details, currentUnitPrice, currentSubscriptionPrice, stock } = this.state
     let selectedArr = []
     let idArr = []
-    let specText = ''
     specList.map(el => {
       if (el.chidren.filter(item => item.selected).length) {
         selectedArr.push(el.chidren.filter(item => item.selected)[0])
       }
     })
     selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId)
-    selectedArr.map(el => {
-      idArr.push(el.specDetailId)
-      specText = specText + el.detailName + ' '
-    })
+    idArr = selectedArr.map(el => el.specDetailId)
     currentUnitPrice = details.marketPrice
     details.sizeList.map(item => {
+      let specTextArr = []
+      for (let specItem of specList) {
+        for (let specDetailItem of specItem.chidren) {
+          if (item.mockSpecIds.includes(specDetailItem.specId) && item.mockSpecDetailIds.includes(specDetailItem.specDetailId)) {
+            specTextArr.push(specDetailItem.detailName)
+          }
+        }
+      }
+      item.specText = specTextArr.join(' ')
       if (item.mockSpecDetailIds.join(',') === idArr.join(',')) {
         item.selected = true
-        item.specText = specText
         currentUnitPrice = item.salePrice
         currentSubscriptionPrice = item.subscriptionPrice
         stock = item.stock
