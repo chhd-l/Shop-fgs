@@ -1071,11 +1071,7 @@ class Payment extends React.Component {
                         >
                           <div className="billing-payment">
                             <div
-                              className={`rc-list__accordion-item border-0 ${
-                                this.state.payMethod === "creditCard"
-                                  ? ""
-                                  : "hidden"
-                              }`}
+                              className={`rc-list__accordion-item border-0`}
                               data-method-id="CREDIT_CARD"
                             >
                               {this.isLogin ? (
