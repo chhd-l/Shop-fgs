@@ -20,16 +20,20 @@ class SubscriptionSelect extends Component {
     }
   }
   async componentDidMount () {
-    let res = await getDictionary({ type: 'Frequency' })
-    this.setState({
-      frequencyList: res,
-      form: Object.assign(this.state.form, {
-        frequencyVal: res[0].valueEn,
-        frequencyName: res[0].name,
-        frequencyId: res[0].id
+    Promise.all([
+      getDictionary({ type: 'Frequency_week' }),
+      getDictionary({ type: 'Frequency_month' }),
+    ]).then(dictList => {
+      this.setState({
+        frequencyList: [...dictList[0], ...dictList[1]],
+        form: Object.assign(this.state.form, {
+          frequencyVal: dictList[0][0].valueEn,
+          frequencyName: dictList[0][0].name,
+          frequencyId: dictList[0][0].id
+        })
+      }, () => {
+        this.props.updateSelectedData(this.state.form)
       })
-    }, () => {
-      this.props.updateSelectedData(this.state.form)
     })
   }
   get computedList () {
