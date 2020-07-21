@@ -393,6 +393,7 @@ const en_US = {
   'subscription.change': 'Change',
   'subscription.product': 'Product',
   'subscription.number': 'Subscription number',
+  'subscription.numberFirstWordUpperCase': 'Subscription Number',
   'subscription.subscriptionNumberTip': 'Please enter subscription number',
   'subscription.date': 'Subscription date',
   'subscription.deliveryDate': 'Next delivery date',
