@@ -81,7 +81,7 @@ class UnLoginCart extends React.Component {
         this.setState({
           errorShow: true,
           errorMsg: <FormattedMessage id="cart.errorInfo2"
-            values={{ val: this.props.checkoutStore.outOfstockProNames.length.join('/') }} />
+            values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />
         })
         return false
       }

@@ -503,6 +503,12 @@ class Details extends React.Component {
     if (idx > -1) {
       cartDataCopy.splice(idx, 1, tmpData);
     } else {
+      if(cartDataCopy.length >= 30) {
+        this.setState({
+          checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" />
+        });
+        return 
+      }
       cartDataCopy.push(tmpData);
     }
     await this.props.checkoutStore.updateUnloginCart(cartDataCopy)
