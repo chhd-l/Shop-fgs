@@ -10,7 +10,7 @@ import LoginButton from '@/components/LoginButton'
 import { Link } from "react-router-dom"
 import { formatMoney } from "@/utils/utils"
 import { MINIMUM_AMOUNT, SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant'
-import { cloneDeep, find } from 'lodash'
+import { cloneDeep, find, findIndex } from 'lodash'
 import CART_CAT from "@/assets/images/CART_CAT.webp";
 import CART_DOG from "@/assets/images/CART_DOG.webp";
 import PetModal from '@/components/PetModal'
@@ -165,7 +165,7 @@ class UnLoginCart extends React.Component {
             errorShow: false
           });
         }, 2000)
-        if(tmp > quantityMaxLimit) {
+        if (tmp > quantityMaxLimit) {
           tmp = quantityMaxLimit
         }
       }
@@ -179,14 +179,14 @@ class UnLoginCart extends React.Component {
   }
   addQuantity (item) {
     this.setState({ errorShow: false })
-    if(item.quantity < 30) {
+    if (item.quantity < 30) {
       item.quantity++
       this.setState({
         productList: this.state.productList
       }, () => {
         this.updateStock()
       })
-    }else {
+    } else {
       this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" />)
     }
   }
@@ -312,12 +312,23 @@ class UnLoginCart extends React.Component {
                     <div data-attr="size" className="swatch">
                       <div className="cart-and-ipay">
                         <div className="rc-swatch __select-size">
-                          <div className="rc-swatch__item selected">
+                          {/* <div className="rc-swatch__item selected">
                             <span>
                               {find(pitem.sizeList, s => s.selected).specText}
                               <i></i>
                             </span>
-                          </div>
+                          </div> */}
+                          {pitem.sizeList.map((ele, i) => (
+                            <div
+                              className={`rc-swatch__item ${ele.selected ? 'selected' : ''}`}
+                              key={i}
+                              onClick={() => this.changeSize(pitem, ele, index)}>
+                              <span>
+                                {ele.specText}
+                                <i></i>
+                              </span>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -475,6 +486,28 @@ class UnLoginCart extends React.Component {
       </div>
     ));
     return Lists;
+  }
+  /**
+   * 
+   * @param {*} pItem 单条product info
+   * @param {*} sizeItem 当前product选中的规格信息
+   * @param {*} index 当前product的索引
+   */
+  changeSize (pItem, sizeItem, index) {
+    const { productList } = this.state
+    pItem.sizeList.map((el) => (el.selected = false));
+    sizeItem.selected = true;
+    // 合并购物车，有相同规格的，删除本条
+    const tmpIdx = findIndex(productList.filter((el, i) => i !== index), ele => ele.goodsId === pItem.goodsId
+      && sizeItem.goodsInfoId === ele.sizeList.filter(s => s.selected)[0].goodsInfoId)
+    if (tmpIdx > -1) {
+      productList.splice(tmpIdx, 1)
+    }
+    this.setState({
+      productList: productList
+    }, () => {
+      this.updateStock()
+    });
   }
   updateConfirmTooltipVisible (item, status) {
     let { productList } = this.state
@@ -640,10 +673,10 @@ class UnLoginCart extends React.Component {
                     {this.state.productList.some(
                       (item) => item.subscriptionStatus
                     ) ? (
-                      <div style={{ fontSize: "15px",textAlign:'center' }}>
-                        <FormattedMessage id="unLoginSubscriptionTips" />
-                      </div>
-                    ) : null}
+                        <div style={{ fontSize: "15px", textAlign: 'center' }}>
+                          <FormattedMessage id="unLoginSubscriptionTips" />
+                        </div>
+                      ) : null}
                   </div>
                 </div>
               </>

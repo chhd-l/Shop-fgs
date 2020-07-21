@@ -484,6 +484,8 @@ const en_US = {
   'subscription.skip': 'Saltar próxima entrega',
   'subscription.cancelAll': 'Cancelar todo',
   'subscription.promotionTip': 'Ahorre {val} en su primera suscripción',
+  'subscription.orderNow': 'Ordenar ahora',
+
   'visitStoreMap': 'Visita el mapa de la tienda',
   'print': 'Impresión',
   'deposited48Hours': 'Su pago será depositado en 48 horas.',
@@ -501,8 +503,14 @@ const en_US = {
   'modalSkipContent': '¿Estás seguro de que deseas cancelar la próxima entrega?',
   'modalCancelAllTitle': 'CANCELAR TODOS LOS PEDIDOS?',
   'modalCancelAllContent': '¿Está seguro de que desea cancelar todas las entregas siguientes?',
+  'modalOrderNowTitle': '¿ORDENAR AHORA?',
+  'modalOrderNowContent': '¿Seguro que quieres hacer este pedido ahora?',
   'searchPrescriber':'Buscar un prescriptor',
   'download': 'descargar',
+  //qhx新增
+  'unLoginSubscriptionTips': 'Subscription is possible only after registration',
+  'apply':'Apply',
+  //qhx新增
   'payment.deliveryFrequency':'Frecuencia de entrega',
   'payment.frequencyTip1':'¡Sí, haz mi vida más fácil!',
   'payment.frequencyTip2':'No gracias.',

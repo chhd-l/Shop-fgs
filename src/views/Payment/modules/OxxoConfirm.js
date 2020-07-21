@@ -17,7 +17,6 @@ class OxxoConfirm extends Component {
   async goConfirmation() {
     try {
       this.props.startLoading();
-      debugger;
       if (!this.state.email) {
         this.setState({ showReqiredInfo: true });
         this.showErrorMsg(
@@ -25,6 +24,7 @@ class OxxoConfirm extends Component {
         );
         return;
       }
+      this.setState({ showReqiredInfo: false });
       if (
         !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(
           this.state.email.replace(/\s*/g, "")
@@ -37,6 +37,7 @@ class OxxoConfirm extends Component {
       var parameters = Object.assign(addressParameter, {
         payChannelItem: "payuoxxo",
         email: this.state.email,
+        country: "MEX",
       });
       console.log(JSON.stringify(parameters));
       let res = await confirmAndCommit(parameters);
@@ -60,7 +61,6 @@ class OxxoConfirm extends Component {
       }
     } catch (e) {
       this.showErrorMsg(e.message ? e.message.toString() : e.toString());
-    } finally {
       this.props.endLoading();
     }
   }

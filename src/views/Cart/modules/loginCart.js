@@ -65,6 +65,9 @@ class LoginCart extends React.Component {
   get discountPrice () {
     return this.props.checkoutStore.discountPrice
   }
+  get deliveryPrice () {
+    return this.props.checkoutStore.deliveryPrice
+  }
   get isPromote () {
     return parseInt(this.discountPrice) > 0
   }
@@ -353,7 +356,7 @@ class LoginCart extends React.Component {
                       </div>
                     </span>
                   </div>
-                  <div className="promotion stock" style={{ display: this.state.isPromote ? 'inline-block' : 'none' }}>
+                  <div className="promotion stock" style={{ display: parseInt(this.discountPrice) > 0 ? 'inline-block' : 'none' }}>
                     <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
                       <span><FormattedMessage id="promotion" /> :</span>
                     </label>
@@ -427,7 +430,7 @@ class LoginCart extends React.Component {
                     </div>
                   </span>
                 </div>
-                <div className="promotion stock" style={{ marginTop: '7px', display: this.state.isPromote ? 'inline-block' : 'none' }}>
+                <div className="promotion stock" style={{ marginTop: '7px', display: parseInt(this.discountPrice) > 0 ? 'inline-block' : 'none' }}>
                   <label className={['availability', pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
                     <span><FormattedMessage id="promotion" /> :</span>
                   </label>
@@ -484,14 +487,14 @@ class LoginCart extends React.Component {
           <p className="text-right sub-total">{formatMoney(this.totalPrice)}</p>
         </div>
       </div>
-      <div className="row" style={{ display: this.state.isPromote ? 'flex' : 'none' }}>
+      <div className="row" style={{ display: parseInt(this.discountPrice) > 0 ? 'flex' : 'none' }}>
         <div className="col-4">
           <p style={{ color: '#ec001a' }}>
             <FormattedMessage id="promotion" />
           </p>
         </div>
         <div className="col-8">
-          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.state.discountPrice)}</p>
+          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.discountPrice)}</p>
         </div>
       </div>
       <div className="row">
@@ -501,7 +504,7 @@ class LoginCart extends React.Component {
           </p>
         </div>
         <div className="col-4">
-          <p className="text-right shipping-cost">0</p>
+          <p className="text-right shipping-cost">{formatMoney(this.deliveryPrice)}</p>
         </div>
       </div>
       <div className="group-total">

@@ -7,7 +7,8 @@ const api = {
   updateDetail: '/sub/updateSubscription',
   getAddressDetail: '/customer/address/',
   skipNextSub: '/sub/cancelNextSubscription',
-  cancelAllSub: '/sub/cancelSubscription'
+  cancelAllSub: '/sub/cancelSubscription',
+  orderNowSub: '/sub/orderNow',
 }
 
 export default api
@@ -52,6 +53,14 @@ export function skipNextSub (parameter) {
 export function cancelAllSub (parameter) {
   return axios({
     url: `${api.cancelAllSub}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function orderNowSub (parameter) {
+  return axios({
+    url: `${api.orderNowSub}`,
     method: 'post',
     data: parameter
   })

@@ -423,7 +423,7 @@ class Payment extends React.Component {
         );
       } catch (err) {
         this.showErrorMsg(err.toString());
-        this.setState({ loading: false });
+        this.endLoading();
       }
     } else {
       this.goConfirmation();
@@ -453,7 +453,6 @@ class Payment extends React.Component {
       this.showErrorMsg(this.props.intl.messages.clickConfirmCardButton);
       return false;
     }
-    this.startLoading();
     let param = Object.assign(
       {},
       { useDeliveryAddress: billingChecked },
@@ -603,7 +602,6 @@ class Payment extends React.Component {
           : customerCommitAndPay
         : confirmAndCommit;
       const confirmAndCommitRes = await tmpCommitAndPay(param3);
-      //debugger
       console.log(confirmAndCommitRes);
       const confirmAndCommitResContext = confirmAndCommitRes.context;
       store.set(
@@ -625,7 +623,6 @@ class Payment extends React.Component {
       clinicStore.setDefaultClinicId();
       clinicStore.setDefaultClinicName();
 
-      this.setState({ loading: false });
       sessionStorage.removeItem("payosdata");
       history.push("/confirmation");
     } catch (e) {
@@ -637,8 +634,7 @@ class Payment extends React.Component {
         this.tid = e.errorData;
       }
       this.showErrorMsg(e.message ? e.message.toString() : e.toString());
-    } finally {
-      this.setState({ loading: false });
+      this.endLoading();
     }
   }
   cardInfoInputChange(e) {
@@ -722,9 +718,7 @@ class Payment extends React.Component {
             : err.toString()
         );
         clearInterval(timer);
-        this.setState({
-          loading: false,
-        });
+        this.endLoading();
       }
     }, 1000);
   }
@@ -1004,26 +998,25 @@ class Payment extends React.Component {
                         </div>
                       </div>
                     </div>
-                    {this.isLogin &&
-                    find(
-                      this.loginCartData,
-                      (ele) => ele.subscriptionStatus
-                    ) ? (
-                      <>
-                        <div className="card-header">
-                          <h5>
-                            <FormattedMessage id="subscription.chooseSubscription" />
-                          </h5>
-                        </div>
-                        <SubscriptionSelect
-                          updateSelectedData={(data) => {
-                            this.setState({
-                              subForm: data,
-                            });
-                          }}
-                        />
-                      </>
-                    ) : null}
+                    {
+                      this.isLogin && find(this.loginCartData, ele => ele.subscriptionStatus)
+                        ? <>
+                          <div className="card-header">
+                            <h5>
+                              <FormattedMessage id="subscription.chooseSubscription" />
+                            </h5>
+                          </div>
+                          <SubscriptionSelect
+                            updateSelectedData={data => {
+                              this.setState({
+                                subForm: data
+                              },()=>{
+                                this.state.subForm.buyWay == 'once' ? this.props.checkoutStore.updateLoginCart(false) :this.props.checkoutStore.updateLoginCart(true)
+                              })
+                            }} />
+                        </>
+                        : null
+                    }
                   </>
                 )}
                 <div>
