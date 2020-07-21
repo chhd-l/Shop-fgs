@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import oxxo from "@/assets/images/oxxo.png";
 import { injectIntl, FormattedMessage } from "react-intl";
+import { confirmAndCommit } from "@/api/payment";
+import store from "storejs";
 
 class OxxoConfirm extends Component {
   constructor(props) {
@@ -12,22 +14,55 @@ class OxxoConfirm extends Component {
     };
   }
 
-  goConfirmation() {
-    if (!this.state.email) {
-      this.setState({ showReqiredInfo: true });
-      this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem);
-      return;
+  async goConfirmation() {
+    try {
+      this.props.startLoading();
+      debugger;
+      if (!this.state.email) {
+        this.setState({ showReqiredInfo: true });
+        this.showErrorMsg(
+          this.props.intl.messages.pleasecompleteTheRequiredItem
+        );
+        return;
+      }
+      if (
+        !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(
+          this.state.email.replace(/\s*/g, "")
+        )
+      ) {
+        this.showErrorMsg(this.props.intl.messages.pleaseEnterTheCorrectEmail);
+        return;
+      }
+      var addressParameter = await this.props.getParameter();
+      var parameters = Object.assign(addressParameter, {
+        payChannelItem: "payuoxxo",
+        email: this.state.email,
+      });
+      console.log(JSON.stringify(parameters));
+      let res = await confirmAndCommit(parameters);
+      if (res.code === "K-000000") {
+        var oxxoContent = res.context[0];
+        var oxxoArgs = oxxoContent.args;
+        var orderNumber = oxxoContent.tid;
+        var subNumber = oxxoContent.subscribeId;
+        store.set("orderNumber", orderNumber);
+        store.set("subNumber", subNumber);
+        if (
+          oxxoArgs &&
+          oxxoArgs.additionalDetails &&
+          oxxoArgs.additionalDetails.object &&
+          oxxoArgs.additionalDetails.object.data[0]
+        ) {
+          var url = oxxoArgs.additionalDetails.object.data[0].href;
+          sessionStorage.setItem("oxxoPayUrl", url);
+          this.props.history.push("/confirmation");
+        }
+      }
+    } catch (e) {
+      this.showErrorMsg(e.message ? e.message.toString() : e.toString());
+    } finally {
+      this.props.endLoading();
     }
-    if (
-      !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(
-        this.state.email.replace(/\s*/g, "")
-      )
-    ) {
-      this.showErrorMsg(this.props.intl.messages.pleaseEnterTheCorrectEmail);
-      return;
-    }
-    this.props.history.push("/confirmation");
-    sessionStorage.setItem("rc-payment-oxxo", true);
   }
   emailChange(e) {
     this.setState({ email: e.target.value });
