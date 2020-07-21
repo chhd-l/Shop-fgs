@@ -1,15 +1,19 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { queryStoreCateIds } from "@/utils/utils";
+import store from 'storejs'
 
 class RouteFilter extends Component {
   shouldComponentUpdate (nextProps) {
     if (nextProps.location.pathname === "/prescription"
-      && ((sessionStorage.getItem("rc-clinics-id-link") && sessionStorage.getItem("rc-clinics-name-link"))
-        || (sessionStorage.getItem("rc-clinics-id-default") && sessionStorage.getItem("rc-clinics-name-default")))) {
+      && (!sessionStorage.getItem('clinic-reselect')
+        || (store.get("rc-clinics-id-link") && store.get("rc-clinics-name-link"))
+        || (store.get("rc-clinics-id-select") && store.get("rc-clinics-name-select"))
+        || (store.get("rc-clinics-id-default") && store.get("rc-clinics-name-default")))) {
       this.props.history.replace("/payment/payment");
       return false
     }
+
     if (!localStorage.getItem('rc-token') && nextProps.location.pathname.indexOf("/account") !== -1) {
       this.props.history.push("/");
       return false

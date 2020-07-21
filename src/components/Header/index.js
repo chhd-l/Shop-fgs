@@ -15,9 +15,10 @@ import UnloginCart from './modules/unLoginCart'
 import LoginCart from './modules/loginCart'
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
+import store from 'storejs'
 import './index.css'
 
-@inject("loginStore")
+@inject("loginStore", "clinicStore")
 @observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
   static defaultProps = {
@@ -35,8 +36,8 @@ class Header extends React.Component {
       result: null,
       showMegaMenu: false,
       tradePrice: '',
-      prescriberId: sessionStorage.getItem('rc-clinics-id-link'),
-      prescriberName: sessionStorage.getItem('rc-clinics-name-link'),
+      clinicId: store.get('rc-clinics-id-link'),
+      clinicName: store.get('rc-clinics-name-link'),
       isScrollToTop: true
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
@@ -71,33 +72,24 @@ class Header extends React.Component {
 
     window.addEventListener('click', (e) => this.hideMenu(e))
     window.addEventListener('scroll', e => this.handleScroll(e))
-    const { location } = this.props
-    let prescriberId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
-    let tmpName = ''
+    const { location, clinicStore } = this.props
+    let linkClinicId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
+    let linkClinicName = ''
 
     // 指定clinic链接进入，设置default clinic
     if (location
       && (location.pathname === '/'
         || location.pathname.includes('/list')
         || location.pathname.includes('/details'))
-      && this.state.prescriberId !== prescriberId) {
-      if (prescriberId) {
-        try {
-          let res = await getPrescriptionById({ prescriberId })
-          if (res.context && res.context.enabled) {
-            tmpName = res.context.prescriberName
-          }
-        } catch (e) { }
+      && linkClinicId
+      && clinicStore.clinicId !== linkClinicId) {
+      const res = await getPrescriptionById({ prescriberId: linkClinicId })
+      if (res.context && res.context.enabled) {
+        linkClinicName = res.context.prescriberName
       }
-
-      sessionStorage.setItem('rc-clinics-id-link', prescriberId)
-      sessionStorage.setItem('rc-clinics-name-link', tmpName)
-      this.setState({
-        prescriberId: prescriberId,
-        prescriberName: tmpName
-      })
+      clinicStore.setLinkClinicId(linkClinicId)
+      clinicStore.setLinkClinicName(linkClinicName)
     }
-    this.setDefaultClinic()
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
@@ -127,24 +119,6 @@ class Header extends React.Component {
       return this.getElementToPageTop(el.parentElement) + el.offsetTop;
     }
     return el.offsetTop;
-  }
-  /**
-   * 登录状态，设置default clinic
-   */
-  setDefaultClinic () {
-    const userInfo = this.props.loginStore.userInfo
-    if (this.isLogin && userInfo && !sessionStorage.getItem('rc-clinics-id-select')) {
-      if (userInfo.defaultClinics) {
-        sessionStorage.setItem('rc-clinics-id-default', userInfo.defaultClinics.clinicsId)
-        sessionStorage.setItem('rc-clinics-name-default', userInfo.defaultClinics.clinicsName)
-      }
-    }
-  }
-  updateDefaultClinic () {
-    this.setState({
-      prescriberId: sessionStorage.getItem('rc-clinics-id-link'),
-      prescriberName: sessionStorage.getItem('rc-clinics-name-link')
-    })
   }
   handleCartMouseOver () {
     if (this.isLogin) {
@@ -363,13 +337,20 @@ class Header extends React.Component {
                   </div> :
                   null
               }
-
             </div>
           </div>
           <span className="d-sm-none_ more-below">
             <i className="fa fa-long-arrow-down" aria-hidden="true"></i>
           </span>
         </div>
+      </div>
+      : null
+  }
+  renderClinic () {
+    const { clinicId, clinicName } = this.props.clinicStore
+    return clinicId && clinicName && this.props.showMiniIcons
+      ? <div className="tip-clinics" title={clinicName}>
+        <FormattedMessage id="clinic.clinic" /> : {clinicName}
       </div>
       : null
   }
@@ -690,13 +671,7 @@ class Header extends React.Component {
           {this.state.loading ? <Loading /> : null}
           <MegaMenu show={this.state.showMegaMenu} />
         </header>
-        {
-          this.state.prescriberId && this.state.prescriberName && this.props.showMiniIcons
-            ? <div className="tip-clinics" title={this.state.prescriberName}>
-              <FormattedMessage id="clinic.clinic" /> : {this.state.prescriberName}
-            </div>
-            : null
-        }
+        {this.renderClinic()}
       </>
     )
   }

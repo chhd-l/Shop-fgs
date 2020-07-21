@@ -1,6 +1,7 @@
 import React from "react"
 import Skeleton from 'react-skeleton-loader'
 import GoogleTagManager from '@/components/GoogleTagManager'
+import { Link } from "react-router-dom"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -285,7 +286,19 @@ class AccountOrders extends React.Component {
                                 : null
                             }
                             <div className="d-flex justify-content-between align-items-center flex-wrap ml-4 mr-4">
-                              <div className="">
+                              {
+                                details.subscriptionResponseVO
+                                  ? <div>
+                                    <FormattedMessage id="subscription.numberFirstWordUpperCase" />:<br />
+                                    <Link
+                                      to={`/account/subscription-detail/${details.subscriptionResponseVO.subscribeId}`}
+                                      className="rc-meta rc-styled-link medium mb-0">
+                                      {details.subscriptionResponseVO.subscribeId}
+                                    </Link>
+                                  </div>
+                                  : null
+                              }
+                              <div>
                                 <FormattedMessage id="order.orderNumber" />:<br />
                                 <span className="medium">{this.state.orderNumber}</span>
                               </div>

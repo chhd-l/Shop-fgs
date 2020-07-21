@@ -1,4 +1,5 @@
 import React from 'react'
+import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -12,7 +13,7 @@ import { getPrescription, getAllPrescription } from '@/api/clinic'
 import meImg from "@/assets/images/map-default-marker.png"
 import { STOREID } from "@/utils/constant";
 
-const AnyReactComponent = ({ obj, show, sonMess , props }) => {
+const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   if (obj.type !== 'customer') {
     return (
       <MapFlag obj={obj} show={show} sonMess={sonMess} props={props}></MapFlag>
@@ -32,6 +33,8 @@ const AnyReactComponent = ({ obj, show, sonMess , props }) => {
   }
 }
 
+@inject("clinicStore")
+@observer
 class Prescription extends React.Component {
   constructor(props) {
     super(props)
@@ -84,7 +87,7 @@ class Prescription extends React.Component {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
-      
+
       return false
     }
     this.handleInit()
@@ -92,6 +95,7 @@ class Prescription extends React.Component {
     this.getAllPrescription()
   }
   componentWillUnmount () {
+    sessionStorage.removeItem('clinic-reselect')
     localStorage.setItem("isRefresh", true);
   }
   inputSearchValue = (e) => {
@@ -208,11 +212,12 @@ class Prescription extends React.Component {
 
   }
   handleConfirm = (item) => {
-    sessionStorage.setItem('rc-clinics-id-select', item.prescriberId)
-    sessionStorage.setItem('rc-clinics-name-select', item.prescriberName)
-
-    const { history } = this.props
-    history.push('/payment/payment')
+    const { setSelectClinicId, setSelectClinicName, removeLinkClinicId, removeLinkClinicName } = this.props.clinicStore
+    removeLinkClinicId()
+    removeLinkClinicName()
+    setSelectClinicId(item.prescriberId)
+    setSelectClinicName(item.prescriberName)
+    this.props.history.push('/payment/payment')
   }
   getSonMess (center) {
     this.setState({

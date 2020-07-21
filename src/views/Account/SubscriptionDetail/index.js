@@ -17,6 +17,7 @@ import {
   getSubDetail,
   skipNextSub,
   cancelAllSub,
+  orderNowSub,
 } from "@/api/subscription";
 import Modal from "@/components/Modal";
 
@@ -101,6 +102,11 @@ class SubscriptionDetail extends React.Component {
           content: this.props.intl.messages.modalCancelAllContent,
           type: "cancelAll",
         },
+        {
+          title: this.props.intl.messages.modalOrderNowTitle,
+          content: this.props.intl.messages.modalOrderNowContent,
+          type: "orderNow",
+        },
       ],
       currentModalObj: {
         title: this.props.intl.messages.modalSkipTitle,
@@ -132,7 +138,7 @@ class SubscriptionDetail extends React.Component {
         countryList: res,
       });
     });
-    getDictionary({ type: "Frequency" }).then((res) => {
+    getDictionary({ type: "Frequency_week" }).then((res) => {
       let frequencyList = res.map((el) => {
         return {
           id: el.id,
@@ -140,33 +146,23 @@ class SubscriptionDetail extends React.Component {
           value: el.name,
         };
       });
-      this.setState({
-        frequencyList: frequencyList,
-      });
+      getDictionary({ type: "Frequency_month" }).then((res) => {
+        frequencyList = frequencyList.concat(res.map(el => {
+          return {
+            id: el.id,
+            name: el.name,
+            value: el.name,
+          };
+        }))
+        this.setState({
+          frequencyList: frequencyList,
+        });
+      })
     });
+    this.getDetail()
 
-    let subDetailRes = await getSubDetail(
-      this.props.match.params.subscriptionNumber
-    );
-    let subDetail = subDetailRes.context;
-    // getAddressDetail(subDetail.deliveryAddressId).then(res => {
-    //   this.setState({currentDeliveryAddress: res.context})
-    // })
-    // getAddressDetail(subDetail.billingAddressId).then(res => {
-    //   this.setState({currentBillingAddress: res.context})
-    // })
-    console.log(JSON.parse(localStorage.getItem("subDetail")), "subDetail");
-    let orderOptions = (subDetail.trades || []).map((el) => {
-      return { value: el.id, name: el.id + "" };
-    });
-    console.log(orderOptions, "aaa");
     this.setState({
-      subId: this.props.match.params.subscriptionNumber,
-      subDetail: subDetail,
-      currentCardInfo: subDetail.paymentInfo,
-      currentDeliveryAddress: subDetail.consignee,
-      currentBillingAddress: subDetail.invoice,
-      orderOptions: orderOptions,
+      subId: this.props.match.params.subscriptionNumber
     });
     // try {
     //   let timer = setInterval(() => {
@@ -185,6 +181,33 @@ class SubscriptionDetail extends React.Component {
 
     // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
   }
+  async getDetail() {
+    this.setState({loading: true})
+    getSubDetail(
+      this.props.match.params.subscriptionNumber
+    ).then(res => {
+      
+      let subDetail = res.context;
+      
+      console.log(JSON.parse(localStorage.getItem("subDetail")), "subDetail");
+      let orderOptions = (subDetail.trades || []).map((el) => {
+        return { value: el.id, name: el.id + "" };
+      });
+
+      this.setState({
+        loading: false,
+        subDetail: subDetail,
+        currentCardInfo: subDetail.paymentInfo,
+        currentDeliveryAddress: subDetail.consignee,
+        currentBillingAddress: subDetail.invoice,
+        orderOptions: orderOptions
+      })
+    }).catch(err => {
+      this.showErrMsg(err)
+      this.setState({loading: false})
+    })
+    
+  }
   hanldeClickSubmit() {
     let { modalType, subDetail } = this.state;
     if (modalType === "skipNext") {
@@ -195,9 +218,13 @@ class SubscriptionDetail extends React.Component {
       cancelAllSub({ subscribeId: subDetail.subscribeId }).then((res) => {
         window.location.reload();
       });
+    } else if (modalType === 'orderNow') {
+      orderNowSub({ subscribeId: subDetail.subscribeId }).then((res) => {
+        window.location.reload();
+      });
     }
   }
-  showErrMsg (msg) {
+  showErrMsg (msg, fn) {
     this.setState({
       errorShow: true,
       errorMsg: msg
@@ -207,6 +234,7 @@ class SubscriptionDetail extends React.Component {
       this.setState({
         errorShow: false
       })
+      fn && fn()
     }, 3000)
   }
   render() {
@@ -263,11 +291,18 @@ class SubscriptionDetail extends React.Component {
                       let param = {
                         subscribeId: subDetail.subscribeId,
                         paymentId: el.id,
+                        goodsItems: subDetail.goodsInfo.map((el) => {
+                          return {
+                            skuId: el.skuId,
+                            subscribeNum: el.subscribeNum,
+                          };
+                        }),
                       };
                       console.log(param);
                       updateDetail(param).then((res) => {
-                        console.log(res);
-                        window.location.reload();
+                        // console.log(res);
+                        // window.location.reload();
+                        this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
                       });
                       this.setState({ type: "main", currentCardInfo: el });
                     }}
@@ -288,6 +323,12 @@ class SubscriptionDetail extends React.Component {
                         let param = {
                           subscribeId: subDetail.subscribeId,
                           deliveryAddressId: el.deliveryAddressId,
+                          goodsItems: subDetail.goodsInfo.map((el) => {
+                            return {
+                              skuId: el.skuId,
+                              subscribeNum: el.subscribeNum,
+                            };
+                          }),
                         };
                         if (isBillSame) {
                           param.billingAddressId = el.deliveryAddressId;
@@ -313,8 +354,10 @@ class SubscriptionDetail extends React.Component {
                         });
                         console.log(param);
                         updateDetail(param).then((res) => {
-                          console.log(res);
-                          window.location.reload();
+                          // console.log(res);
+                          // window.location.reload();
+                          this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
+                          
                         });
                         this.setState({
                           type: "main",
@@ -324,6 +367,12 @@ class SubscriptionDetail extends React.Component {
                         let param = {
                           subscribeId: subDetail.subscribeId,
                           billingAddressId: el.deliveryAddressId,
+                          goodsItems: subDetail.goodsInfo.map((el) => {
+                            return {
+                              skuId: el.skuId,
+                              subscribeNum: el.subscribeNum,
+                            };
+                          }),
                         };
                         //增加返回changeField字段
                         Object.assign(param, {
@@ -333,8 +382,10 @@ class SubscriptionDetail extends React.Component {
                         });
                         console.log(param);
                         updateDetail(param).then((res) => {
-                          console.log(res);
-                          window.location.reload();
+                          // console.log(res);
+                          // window.location.reload();
+                          this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
+                          
                         });
                         this.setState({
                           type: "main",
@@ -355,13 +406,30 @@ class SubscriptionDetail extends React.Component {
                   >
                     <h4
                       className="rc-delta rc-margin--none"
-                      style={{ flex: "3" }}
+                      style={{ flex: "4" }}
                     >
                       {/* <FormattedMessage id="subscription.sub"></FormattedMessage>{data.subId} */}
                       <i className="rc-icon rc-address--xs rc-brand1"></i>{" "}
-                      <FormattedMessage id="subscription" />
+                  <FormattedMessage id="subscription" />({subDetail.subscribeId})
                     </h4>
-                    <div className="rightBox" style={{ flex: "1" }}>
+                    <div className="rightBox" style={{ flex: "3", textAlign: 'right', lineHeight: '36px' }}>
+                      <a
+                        class="rc-styled-link "
+                        href="#/"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.setState({
+                            modalType: "orderNow",
+                            modalShow: true,
+                            currentModalObj: this.state.modalList.filter(
+                              (el) => el.type === "orderNow"
+                            )[0],
+                          });
+                        }}
+                      >
+                        <FormattedMessage id="subscription.orderNow" />
+                      </a>{" "}
+                      &nbsp;&nbsp;&nbsp;&nbsp;{" "}
                       <a
                         class="rc-styled-link "
                         href="#/"
@@ -479,6 +547,12 @@ class SubscriptionDetail extends React.Component {
                                   let param = {
                                     subscribeId: subDetail.subscribeId,
                                     cycleTypeId: el.id,
+                                    goodsItems: subDetail.goodsInfo.map((el) => {
+                                      return {
+                                        skuId: el.skuId,
+                                        subscribeNum: el.subscribeNum,
+                                      };
+                                    }),
                                   };
                                   //增加返回changeField字段
                                   Object.assign(param, {
@@ -487,7 +561,8 @@ class SubscriptionDetail extends React.Component {
                                     ],
                                   });
                                   updateDetail(param).then((res) => {
-                                    window.location.reload();
+                                    // window.location.reload();
+                                    this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
                                   });
                                 }}
                                 selectedItemData={{
@@ -547,6 +622,12 @@ class SubscriptionDetail extends React.Component {
                                     let param = {
                                       subscribeId: subDetail.subscribeId,
                                       nextDeliveryTime: target.value,
+                                      goodsItems: subDetail.goodsInfo.map((el) => {
+                                        return {
+                                          skuId: el.skuId,
+                                          subscribeNum: el.subscribeNum,
+                                        };
+                                      }),
                                     };
                                     //增加返回changeField字段
                                     Object.assign(param, {
@@ -555,7 +636,8 @@ class SubscriptionDetail extends React.Component {
                                       ],
                                     });
                                     updateDetail(param).then((res) => {
-                                      window.location.reload();
+                                      // window.location.reload();
+                                      this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
                                     });
                                   }}
                                   value={subDetail.nextDeliveryTime}
@@ -575,10 +657,10 @@ class SubscriptionDetail extends React.Component {
                           <span style={{ paddingLeft: 0 }}>{this.state.errorMsg}</span>
                         </aside>
                       </div>
-                      <div className="rc-column product-container">
+                      <div className="rc-column product-container rc-double-width">
                         <div
                           className="text-right"
-                          style={{ position: "absolute" }}
+                          style={{ position: "absolute", paddingRight: '60px' }}
                         >
                           <a
                             className="rc-styled-link red-text"
@@ -632,8 +714,9 @@ class SubscriptionDetail extends React.Component {
                               };
                               console.log(param);
                               updateDetail(param).then((res) => {
-                                console.log(res);
-                                window.location.reload();
+                                // console.log(res);
+                                // window.location.reload();
+                                this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
                               });
                               this.setState({
                                 isChangeQuatity: false,
@@ -648,7 +731,7 @@ class SubscriptionDetail extends React.Component {
                           subDetail.goodsInfo.map((el, index) => (
                             <div
                               className="rc-layout-container rc-five-column"
-                              style={{ height: "160px" }}
+                              style={{ height: "160px", paddingRight: '60px' }}
                             >
                               <div className="rc-column flex-layout" style={{width: '80%'}}>
                                 <div className="img-container">
@@ -657,10 +740,10 @@ class SubscriptionDetail extends React.Component {
                                 <div
                                   className="v-center"
                                   style={{
-                                    width: "200px",
+                                    width: "200px"
                                   }}
                                 >
-                                  <h5 style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>{el.goodsName}</h5>
+                                  <p style={{overflow: 'hidden', textOverflow: 'ellipsis', overflowWrap: 'normal'}}>{el.goodsName}</p>
                                   <p style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>{el.specText}</p>
                                   <div>
                                     <label
@@ -671,7 +754,10 @@ class SubscriptionDetail extends React.Component {
                                       {el.originalPrice}
                                     </label>
                                     &nbsp;&nbsp;
-                                    <label className="font-weight-bold" style={{color: '#ec001a'}}>
+                                    <label 
+                                    // className="font-weight-bold"
+                                    // style={{color: '#ec001a'}}
+                                    >
                                       {el.subscribePrice}
                                     </label>
                                   </div>
@@ -784,7 +870,7 @@ class SubscriptionDetail extends React.Component {
                       </div>
                       <div
                         className="rc-column flex-layout"
-                        style={{ paddingLeft: "80px" }}
+                        // style={{ paddingLeft: "80px" }}
                       >
                         <div className="v-center total-container">
                           <div className="border-b">
@@ -856,7 +942,7 @@ class SubscriptionDetail extends React.Component {
                           <div className="footer" style={{ marginTop: "10px" }}>
                             <span
                               class="rc-input rc-input--inline rc-input--label"
-                              style={{ width: "260px" }}
+                              style={{ width: "180px" }}
                             >
                               <input
                                 class="rc-input__control"

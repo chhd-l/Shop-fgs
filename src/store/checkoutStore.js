@@ -8,7 +8,7 @@ class CheckoutStore {
   @observable loginCartData = store.get('rc-cart-data-login') || [] // 商品列表
   @observable cartPrice = store.get('rc-totalInfo') || null // 价格数据
   @observable goodsMarketingMap = store.get('goodsMarketingMap') || null // promotion
-  @observable loadingCartData = false // todo loading无效，不会更新到header里
+  @observable loadingCartData = false
   @observable outOfstockProNames = []
 
   @computed get tradePrice () {
