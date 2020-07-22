@@ -12,7 +12,7 @@ import { cloneDeep, find, findIndex } from 'lodash'
 import titleCfg from './json/title.json'
 import { getList, getProps, getLoginList } from '@/api/list'
 import { queryStoreCateIds, formatMoney } from '@/utils/utils'
-import { STOREID, CATEID, STORE_CATE_ENUM } from '@/utils/constant'
+import { CATEID, STORE_CATE_ENUM } from '@/utils/constant'
 import Rate from '@/components/Rate'
 import './index.css'
 
@@ -138,7 +138,7 @@ class List extends React.Component {
     }
 
     let params = {
-      storeId: STOREID,
+      storeId: process.env.REACT_APP_STOREID,
       cateId: CATEID,
       propDetails: [],
       pageNum: currentPage - 1,

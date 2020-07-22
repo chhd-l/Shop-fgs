@@ -17,7 +17,6 @@ import {
 } from '@/utils/utils'
 import {
   MINIMUM_AMOUNT,
-  STOREID,
   STORE_CATE_ENUM,
   SUBSCRIPTION_DISCOUNT_RATE
 } from "@/utils/constant"
@@ -248,7 +247,7 @@ class Details extends React.Component {
               goodsDetailTab: goodsDetailTab
             })
           } catch (err) {
-            getDict({ type: 'goodsDetailTab', storeId: STOREID })
+            getDict({ type: 'goodsDetailTab', storeId: process.env.REACT_APP_STOREID })
               .then(res => {
                 goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(ele => ele.name)
                 this.setState({

@@ -15,7 +15,7 @@ import edit from "@/assets/images/edit.svg"
 import { getPetList, addPet, petsById, delPets, editPets } from '@/api/pet'
 import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
-import { MINIMUM_AMOUNT, STOREID } from "@/utils/constant"
+import { MINIMUM_AMOUNT } from "@/utils/constant"
 import { getCustomerInfo } from "@/api/user"
 import { getDict } from "@/api/dict"
 
@@ -279,12 +279,12 @@ class PetForm extends React.Component {
       "petsSizeValueName": this.state.weight,
       "petsType": this.state.isCat ? 'cat' : 'dog',
       "sterilized": this.state.isSterilized ? "0" : "1",
-      "storeId": STOREID
+      "storeId": process.env.REACT_APP_STOREID
     }
     let param = {
       "customerPets": pets,
       "customerPetsPropRelations": customerPetsPropRelations,
-      "storeId": STOREID,
+      "storeId": process.env.REACT_APP_STOREID,
       "userId": consumerAccount
     }
     if (pets.petsId) {
