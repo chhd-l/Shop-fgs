@@ -210,7 +210,7 @@ class LoginCart extends React.Component {
                                     <div className="wrap-item-title">
                                       <div className="item-title">
                                         <div
-                                          className="line-item-name capitalize ui-text-overflow-line2 text-break"
+                                          className="line-item-name ui-text-overflow-line2 text-break"
                                           title={item.goodsName}>
                                           <span className="light">{item.goodsName}</span>
                                         </div>
