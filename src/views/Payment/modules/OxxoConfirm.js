@@ -16,7 +16,6 @@ class OxxoConfirm extends Component {
 
   async goConfirmation() {
     try {
-      debugger;
       this.props.startLoading();
       if (!this.state.email) {
         this.setState({ showReqiredInfo: true });
@@ -125,12 +124,12 @@ class OxxoConfirm extends Component {
           </p>
           <div className="form-group required">
             <div className="row">
-              <div className="col-md-1  col-sm-12">
+              <div className="col-md-3  col-sm-12">
                 <label className="form-control-label">
                   <FormattedMessage id="payment.email" />
                 </label>
               </div>
-              <div className="col-md-8 col-sm-12">
+              <div className="col-md-8 col-sm-12" style={{paddingLeft: '0px'}}>
                 <input
                   type="email"
                   id="email"
@@ -154,7 +153,16 @@ class OxxoConfirm extends Component {
             </div>
           </div>
           <p>
-            <FormattedMessage id="remember48Hours" />
+            <FormattedMessage
+              id="remember48Hours"
+              values={{
+                val: (
+                  <span style={{ color: "#e2001a" }}>
+                    {this.props.intl.messages.rememberHours}
+                  </span>
+                ),
+              }}
+            />
           </p>
         </div>
         <div className="place_order-btn card">

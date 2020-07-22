@@ -177,7 +177,14 @@ class List extends React.Component {
               const tmpItem = find(res.context.goodsList, g => g.goodsId === ele.id)
               if (tmpItem) {
                 const { goodsCateName, goodsSubtitle, subscriptionStatus, avgEvaluate, minMarketPrice, goodsImg, ...others } = tmpItem
-                ret = Object.assign(ret, { goodsCateName, goodsSubtitle, subscriptionStatus, avgEvaluate, minMarketPrice, goodsImg})
+                ret = Object.assign(ret, {
+                  goodsCateName,
+                  goodsSubtitle,
+                  subscriptionStatus,
+                  avgEvaluate,
+                  minMarketPrice,
+                  goodsImg
+                })
               }
               return ret
             })
