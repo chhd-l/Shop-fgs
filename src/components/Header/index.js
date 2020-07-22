@@ -306,7 +306,7 @@ class Header extends React.Component {
                                 className="swatch__img"
                                 alt={item.lowGoodsName}
                                 title={item.lowGoodsName}
-                                src={item.goodsImg || IMG_DEFAULT} />
+                                src={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg || IMG_DEFAULT} />
                             </a>
                           </div>
                           <div className="col-8 col-md-9 col-lg-10">

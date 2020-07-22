@@ -577,7 +577,6 @@ class Payment extends React.Component {
             });
           param3.cycleTypeId = subForm.frequencyId;
           param3.paymentMethodId = creditCardInfo.id;
-          // param3.nextDeliveryTime = '2020-03-01' // todo
         }
       }
       // rePay

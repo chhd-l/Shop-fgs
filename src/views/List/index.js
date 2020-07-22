@@ -395,8 +395,8 @@ class List extends React.Component {
                                           <picture className="rc-card__image">
                                             <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center" style={{ minHeight: '202px' }}>
                                               <img
-                                                src={item.goodsImg}
-                                                srcSet={item.goodsImg}
+                                                src={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg}
+                                                srcSet={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg}
                                                 alt={item.lowGoodsName}
                                                 title={item.lowGoodsName} />
                                             </div>
