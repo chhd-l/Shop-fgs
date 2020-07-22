@@ -617,10 +617,10 @@ class Payment extends React.Component {
       // update clinic
       clinicStore.removeLinkClinicId();
       clinicStore.removeLinkClinicName();
-      clinicStore.setSelectClinicId();
-      clinicStore.setSelectClinicName();
-      clinicStore.setDefaultClinicId();
-      clinicStore.setDefaultClinicName();
+      clinicStore.setSelectClinicId(this.props.clinicStore.clinicId);
+      clinicStore.setSelectClinicName(this.props.clinicStore.clinicName);
+      clinicStore.setDefaultClinicId(this.props.clinicStore.clinicId);
+      clinicStore.setDefaultClinicName(this.props.clinicStore.clinicName);
 
       sessionStorage.removeItem("payosdata");
       history.push("/confirmation");
