@@ -13,7 +13,7 @@ class PayProductInfo extends React.Component {
       productList: [],
       discount:[],//促销码的折扣信息汇总
       promotionInputValue:'',//输入的促销码
-      isClickApply: false
+      isClickApply: false,//是否点击apply按钮
     };
   }
   get isLogin () {
@@ -321,8 +321,6 @@ class PayProductInfo extends React.Component {
                   this.setState({
                     promotionInputValue:''
                   })
-                 }else{
-                   alert(backCode)
                  }  
                  this.setState({
                   isClickApply: false
