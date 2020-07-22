@@ -44,7 +44,15 @@ class LoginDeliveryAddress extends React.Component {
     this.timer = null;
   }
   async componentWillReceiveProps() {
-    this.queryAddressList();
+    if(this.props.type === 'delivery') {
+      this.setState({selectedId: this.props.deliveryAddressId}, () => {
+        this.queryAddressList();
+      })
+    }else {
+      this.setState({selectedId: this.props.billingAddressId}, () => {
+        this.queryAddressList();
+      })
+    }
   }
   async componentDidMount() {
     getDictionary({ type: "city" }).then((res) => {
@@ -96,8 +104,8 @@ class LoginDeliveryAddress extends React.Component {
         );
         tmpId = defaultAddressItem.deliveryAddressId;
       } else if (addressList.length) {
-        Array.from(addressList, (ele, i) => (ele.selected = !i));
-        tmpId = addressList[0].deliveryAddressId;
+        // Array.from(addressList, (ele, i) => (ele.selected = !i));
+        // tmpId = addressList[0].deliveryAddressId;
       }
       this.setState({
         addressList: addressList,
@@ -520,12 +528,26 @@ class LoginDeliveryAddress extends React.Component {
               ) : null}
               {!addOrEdit && (
                 <div className="text-right" style={{ marginTop: "10px" }}>
-                  <button
+                  {/* <button
                     class="rc-btn rc-btn--sm rc-btn--two"
                     onClick={() => this.props.cancel()}
                   >
                     Cancel
-                  </button>
+                  </button> */}
+                  <a
+                    className="rc-styled-link editPersonalInfoBtn"
+                    onClick={() => {
+                      this.props.cancel()
+                      // this.scrollToPaymentComp();
+                    }}
+                  >
+                    <FormattedMessage id="cancel" />
+                  </a>
+                  &nbsp;
+                  <span>
+                    <FormattedMessage id="or" />
+                  </span>
+                  &nbsp;
                   <button
                     class="rc-btn rc-btn--sm rc-btn--one"
                     onClick={() => {
