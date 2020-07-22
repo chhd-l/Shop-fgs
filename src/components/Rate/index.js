@@ -82,14 +82,14 @@ export default class Rate extends Component {
                         {
                             enter > index || num-1 >= index ?
                                 (
-                                    <span className="rc-icon  hands c-padding-x--xs--mobile  rc-margin-bottom--xs rc-rate-fill--xs rc-brand1--xs" disabled={this.state.disabled}></span>
+                                    <span className="rc-icon  hands rc-margin-bottom--xs rc-rate-fill--xs rc-brand1--xs" disabled={this.state.disabled}></span>
                                 ) : (
                                     flag  && index === numInt?
                                         (
-                                            <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-rate-fill--xs half-star " disabled={this.state.disabled}></span>
+                                            <span className="rc-icon rc-margin-bottom--xs rc-rate-fill--xs half-star " disabled={this.state.disabled}></span>
                                         ) :
                                         (
-                                            <span className="rc-icon rc-padding-x--xs--mobile  rc-margin-bottom--xs rc-rate-fill--xs rc-iconography--xs" disabled={this.state.disabled}></span>
+                                            <span className="rc-icon rc-margin-bottom--xs rc-rate-fill--xs rc-iconography--xs" disabled={this.state.disabled}></span>
                                         )
                                 )
 

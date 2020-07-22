@@ -27,7 +27,8 @@ class ProductReview extends React.Component {
             productRate: 0,
             current: 1,
             reviewList: [],
-            imgList: []
+            imgList: [],
+            isSubmit: false
         }
         this.selectPurchaseRate = this.selectPurchaseRate.bind(this);
         this.selectLogisticsRate = this.selectLogisticsRate.bind(this);
@@ -84,9 +85,12 @@ class ProductReview extends React.Component {
         const list = this.state.reviewList
         let isFillInfo = true
         const goodsParams = []
+        this.setState({
+            isSubmit: true
+        })
         if(list) {
             list.forEach(item => {
-                if(!item.consumerComment) {
+                if(!item.consumerComment || item.consumerComment.length > 500) {
                     isFillInfo = false
                 }
                 let obj = {
@@ -109,16 +113,16 @@ class ProductReview extends React.Component {
             }
         }
         console.log(params, 'ddddddddd=-----------')
-        if (isFillInfo) {
-            let res = await addGoodsEvaluate(params)
-            if(res.code === 'K-000000') {
-                this.props.history.push('/account/orders')
-            } else {
-                console.log(res.message, '评价接口错误信息----------')
-            }
-        } else {
-            console.log('not fill info')
-        }
+        // if (isFillInfo) {
+        //     let res = await addGoodsEvaluate(params)
+        //     if(res.code === 'K-000000') {
+        //         this.props.history.push('/account/orders')
+        //     } else {
+        //         console.log(res.message, '评价接口错误信息----------')
+        //     }
+        // } else {
+        //     console.log('not fill info')
+        // }
     }
     handleConsumerCommentChange(e, product) {
         const value = e.target.value
@@ -237,8 +241,8 @@ class ProductReview extends React.Component {
                                         <div className="">
                                             <div className="rc-column">
                                                 <div>
-                                                    <span className="medium rc-text-colour--text ui-text-overflow-line2 text-break">
-                                                        <strong className="rc-font-bold"><FormattedMessage id="purchaseRating"></FormattedMessage></strong>
+                                                    <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
+                                                        <span className="rc-font-bold"><FormattedMessage id="purchaseRating"></FormattedMessage></span>
                                                     </span>
                                                     <div className="rc-margin-top--xs">
                                                         <Rate def={this.state.purchaseRate} disabled={false} selectRate={this.selectPurchaseRate}/>
@@ -254,8 +258,8 @@ class ProductReview extends React.Component {
                                         <div className="">
                                             <div className="rc-column">
                                                 <div>
-                                                    <span className="medium rc-text-colour--text ui-text-overflow-line2 text-break">
-                                                        <strong className="rc-font-bold"><FormattedMessage id="logisticsRating"></FormattedMessage></strong>
+                                                    <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
+                                                        <span className="rc-font-bold"><FormattedMessage id="logisticsRating"></FormattedMessage></span>
                                                     </span>
                                                     <div className="rc-margin-top--xs">
                                                         <Rate def={this.state.logisticsRate} disabled={false} selectRate={this.selectLogisticsRate}/>
@@ -274,8 +278,8 @@ class ProductReview extends React.Component {
                                     {/*rc-double-width*/}
                                     <div className="rc-column">
                                         <div className="rc-padding-top--xs">
-                                                <span className="medium rc-text-colour--text ui-text-overflow-line2 text-break">
-                                                    <strong className="rc-font-bold"><FormattedMessage id="productRating"/></strong>
+                                                <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
+                                                    <span className="rc-font-bold "><FormattedMessage id="productRating"/></span>
                                                 </span>
                                         </div>
                                         {

@@ -2,6 +2,7 @@ import {FormattedMessage, injectIntl} from "react-intl";
 import React from "react";
 import Rate from '@/components/Rate'
 import ImgUpload from '@/components/ImgUpload'
+import { findIndex } from "lodash"
 import '../index.css'
 @injectIntl
 class ReviewForm extends React.Component {
@@ -9,11 +10,15 @@ class ReviewForm extends React.Component {
     constructor() {
         super();
         this.state = {
-            consumerComment: ''
+            consumerComment: '',
+            textErrorInfo: ''
             // productRate: 5
         }
         this.imgUploaderRef = React.createRef();
     }
+    // componentDidMount() {
+    //     this.textarea.focus();
+    // }
     selectProductRate(rate) {
        this.props.selectProductRate(rate, this.props.product)
     }
@@ -22,10 +27,45 @@ class ReviewForm extends React.Component {
             consumerComment: e.target.value
         })
         this.props.handleConsumerCommentChange(e, this.props.product)
+        this.inputBlur(e)
     }
     handelImgChange() {
         if(this.imgUploaderRef) {
             this.props.handleImgChange(this.imgUploaderRef, this.props.product)
+        }
+    }
+
+    inputBlur (e) {
+        let validDom = Array.from(
+            e.target.parentElement.parentElement.children
+        ).filter((el) => {
+            let i = findIndex(Array.from(el.classList), (classItem) => {
+                return classItem === "invalid-feedback";
+            });
+            return i > -1;
+        })[0];
+        if (validDom) {
+            if (!e.target.value) {
+                validDom.style.display = "block"
+                if(e.target.name==='whatYouLike') {
+                    this.setState({
+                        textErrorInfo: 'Review is required.'
+                    })
+                }
+            } else {
+                if(e.target.name==='whatYouLike') {
+                    if (e.target.textLength < 500) {
+                        validDom.style.display = "none"
+                    } else {
+                        validDom.style.display = "block"
+                        this.setState({
+                            textErrorInfo: 'Please enter less than 500 characters.'
+                        })
+                    }
+                } else {
+                    validDom.style.display = "none"
+                }
+            }
         }
     }
 
@@ -37,7 +77,7 @@ class ReviewForm extends React.Component {
                         <div className="rc-column padb0 padt0">
                             <div className="">
                                 <div className="rc-margin-top--xs">
-                                    <span className="ui-text-overflow-line2 text-break weight200 font-18">{this.props.product.skuName}</span>
+                                    <span className="ui-text-overflow-line2 text-break">{this.props.product.skuName}</span>
                                 </div>
                                 <div className="rc-margin-top--xs">
                                     <span className="text-break">{this.props.product.goodsWeight} {this.props.product.unit}</span>
@@ -63,18 +103,23 @@ class ReviewForm extends React.Component {
                                             txt => (<textarea
                                                 className="rc-input__textarea noborder"
                                                 rows={2}
+                                                // ref={(textarea)=> this.textarea = textarea}
+                                                name="whatYouLike"
                                                 id="whatYouLike"
+                                                required={true}
                                                 placeholder={txt}
                                                 value={this.state.consumerComment}
                                                 onChange={(e) => this.handleConsumerCommentChange(e)}
+                                                onBlur={e => this.inputBlur(e)}
                                             />)
                                         }
                                     </FormattedMessage>
                                 </span>
-                                {/*<div className="invalid-feedback">*/}
-                                {/*    error info.*/}
-                                {/*</div>*/}
-
+                                <div className="invalid-feedback" style={{ display: 'none' }}>
+                                    {
+                                        this.state.textErrorInfo
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
