@@ -107,7 +107,7 @@ class PayProductInfo extends React.Component {
                   </div>
                 </div>
                 <div className="d-flex align-items-center justify-content-between">
-                  <div className="line-item-total-price" style={{ width: '75%' }}>
+                  <div className="line-item-total-price" style={{ width: '77%' }}>
                     {el.specText} - {el.buyCount} {el.buyCount > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}<br />
                     {
                       this.isSubscription(el)
