@@ -518,7 +518,7 @@ class LoginCart extends React.Component {
         <div className="row checkout-proccess">
           <div className="col-lg-12 checkout-continue">
             <a onClick={() => this.handleCheckout()}>
-              <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
+              <div className="rc-padding-y--xs rc-column">
                 <div
                   data-oauthlogintargetendpoint="2"
                   className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${checkoutLoading ? 'ui-btn-loading' : ''} `}
@@ -553,7 +553,7 @@ class LoginCart extends React.Component {
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
                       {txt => (
-                        <a onClick={(e) => this.goBack(e)} title={txt}>
+                        <a className="ui-cursor-pointer-pure" onClick={(e) => this.goBack(e)} title={txt}>
                           <span className="rc-header-with-icon rc-header-with-icon--gamma">
                             <span className="rc-icon rc-left rc-iconography"></span>
                             {txt}

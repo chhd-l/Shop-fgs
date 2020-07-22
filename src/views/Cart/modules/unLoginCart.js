@@ -584,7 +584,7 @@ class UnLoginCart extends React.Component {
                       </div>
                   }
                 </div>
-                <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
+                <div className="rc-padding-y--xs rc-column">
                   {
                     this.totalNum > 0
                       ? <div className="text-center" onClick={() => this.handleCheckout()}>
@@ -629,7 +629,7 @@ class UnLoginCart extends React.Component {
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
                       {txt => (
-                        <a onClick={(e) => this.goBack(e)} title={txt}>
+                        <a className="ui-cursor-pointer-pure" onClick={(e) => this.goBack(e)} title={txt}>
                           <span className="rc-header-with-icon rc-header-with-icon--gamma">
                             <span className="rc-icon rc-left rc-iconography"></span>
                             {txt}
