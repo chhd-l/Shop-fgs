@@ -859,8 +859,7 @@ class Payment extends React.Component {
                             </h5>
                             <p
                               onClick={(e) => this.handleClickEditClinic(e)}
-                              className="rc-styled-link rc-margin-top--xs pull-right m-0"
-                            >
+                              className="rc-styled-link rc-margin-top--xs pull-right m-0">
                               <FormattedMessage id="edit" />
                             </p>
                           </div>

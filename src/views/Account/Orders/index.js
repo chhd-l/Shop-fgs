@@ -350,7 +350,11 @@ class AccountOrders extends React.Component {
                                         <p className="text-nowrap">
                                           <FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">{order.id}</span>
-                                          {/* <span className="rc-icon rc-refresh--xs rc-brand1"></span> */}
+                                          {
+                                            order.isAutoSub
+                                              ? <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                                              : null
+                                          }
                                         </p>
                                       </div>
                                       <div className="col-4 col-md-2">
@@ -375,6 +379,7 @@ class AccountOrders extends React.Component {
                                   </div>
                                   <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
                                     <div className="col-8 col-md-2 d-flex flex-wrap align-items-center mb-2 mb-md-0">
+
                                       {order.tradeItems.slice(0, 2).map(item => (
                                         <img
                                           className="img-fluid"
@@ -418,7 +423,7 @@ class AccountOrders extends React.Component {
                                           : null
                                       }
                                       {
-                                        order.canReview?
+                                        order.canReview ?
                                           <button
                                             className="rc-btn rc-btn--sm rc-btn--two"
                                             style={{ transform: 'scale(.85)' }}>

@@ -657,7 +657,7 @@ class PaymentComp extends React.Component {
                             this.setState(
                               {
                                 isEdit: true,
-                                creditCardInfo: el,
+                                creditCardInfo: {...el},
                               },
                               () => {
                                 this.scrollToPaymentComp();
@@ -693,7 +693,7 @@ class PaymentComp extends React.Component {
                             <div
                               className="col-12 color-999"
                               style={{
-                                display: el.selected ? "none" : "block",
+                                display: el.selected && !isCurrentCvvConfirm? "none" : "block",
                               }}
                             >
                               <span style={{ fontSize: "14px" }}>
@@ -707,7 +707,7 @@ class PaymentComp extends React.Component {
                             <div
                               className="col-12 color-999"
                               style={{
-                                display: el.selected ? "block" : "none",
+                                display: el.selected && !isCurrentCvvConfirm ? "block" : "none",
                               }}
                             >
                               <span style={{ fontSize: "14px" }}>
@@ -852,12 +852,26 @@ class PaymentComp extends React.Component {
         ) : null}
         {!this.state.isEdit && (
           <div className="text-right" style={{ marginTop: "10px" }}>
-            <button
+            {/* <button
               class="rc-btn rc-btn--sm rc-btn--two"
               onClick={() => this.props.cancel()}
             >
               Cancel
-            </button>
+            </button> */}
+            <a
+              className="rc-styled-link editPersonalInfoBtn"
+              onClick={() => {
+                this.props.cancel()
+                // this.scrollToPaymentComp();
+              }}
+            >
+              <FormattedMessage id="cancel" />
+            </a>
+            &nbsp;
+            <span>
+              <FormattedMessage id="or" />
+            </span>
+            &nbsp;
             <button
               class="rc-btn rc-btn--sm rc-btn--one"
               onClick={() => {
