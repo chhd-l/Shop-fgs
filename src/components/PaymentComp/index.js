@@ -998,8 +998,8 @@ class PaymentComp extends React.Component {
                                     }
                                     name="cardMmyy"
                                     maxLength="5"
-                                    placeholder={
-                                      this.props.intl.messages.cardNumber
+                                    placeholder={'MM/YY'
+                                      // this.props.intl.messages.cardNumber
                                     }
                                   />
                                 </span>
