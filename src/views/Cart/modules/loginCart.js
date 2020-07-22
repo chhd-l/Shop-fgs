@@ -97,6 +97,7 @@ class LoginCart extends React.Component {
   }
   async handleCheckout () {
     const { productList } = this.state
+    // todo 后代校验购物车数据
     // 价格未达到底限，不能下单
     if (this.tradePrice < MINIMUM_AMOUNT) {
       window.scrollTo({ behavior: "smooth", top: 0 })

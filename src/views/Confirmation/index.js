@@ -5,36 +5,29 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import OxxoModal from "./modules/OxxoModal"
 import PayProductInfo from "@/components/PayProductInfo"
+import AddressPreview from "@/components/AddressPreview";
 import Modal from '@/components/Modal'
 import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
 import successImg from "@/assets/images/credit-cards/success.png"
 import { find } from "lodash"
-import { GTM_SITE_ID, STOREID } from "@/utils/constant"
+import { GTM_SITE_ID } from "@/utils/constant"
 import { getDictionary } from "@/utils/utils"
 import { addEvaluate } from "@/api/order"
 import store from 'storejs'
 import "./index.css"
 
-@inject("checkoutStore")
+@inject("checkoutStore", "frequencyStore")
 @observer
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      deliveryAddress: {},
-      billingAddress: {},
       productList: [],
       currentProduct: null,
       loading: true,
-      commentOnDelivery: "",
-      totalPrice: "",
-      tradePrice: "",
-      discountPrice: "",
       paywithLogin: sessionStorage.getItem("rc-paywith-login") === "true",
       oxxoPayUrl: sessionStorage.getItem("oxxoPayUrl"),
-      cityList: [],
-      countryList: [],
       submitLoading: false,
       evalutateScore: -1,
       consumerComment: "",
@@ -59,8 +52,6 @@ class Confirmation extends React.Component {
       ); // 只移除selected
       sessionStorage.removeItem("rc-token");
     }
-    sessionStorage.removeItem('rc-clinics-id-select')
-    sessionStorage.removeItem('rc-clinics-name-select')
     store.remove('orderNumber')
     store.remove('subNumber')
   }
@@ -80,36 +71,16 @@ class Confirmation extends React.Component {
     }
     this.setState({
       productList: productList,
-      loading: false,
+      loading: false
     });
-    let deliveryInfo = this.state.paywithLogin ? store.get("loginDeliveryInfo") : store.get("deliveryInfo");
-    if (deliveryInfo) {
-      this.setState({
-        deliveryAddress: deliveryInfo.deliveryAddress,
-        billingAddress: deliveryInfo.billingAddress,
-        commentOnDelivery: deliveryInfo.commentOnDelivery,
-      });
-    }
     setTimeout(() => {
       if (this.state.oxxoPayUrl) {
         this.setState({ modalShow: false, oxxoModalShow: true });
       }
     }, 3000);
-    getDictionary({ type: "city" }).then((res) => {
-      this.setState({
-        cityList: res,
-      });
-    });
-    getDictionary({ type: "country" }).then((res) => {
-      this.setState({
-        countryList: res,
-      });
-    });
   }
   get tradePrice () {
-    return this.props.checkoutStore.cartPrice
-      ? this.props.checkoutStore.cartPrice.tradePrice
-      : 0;
+    return this.props.checkoutStore.tradePrice
   }
   matchNamefromDict (dictList, id) {
     return find(dictList, (ele) => ele.id == id)
@@ -127,7 +98,7 @@ class Confirmation extends React.Component {
     this.setState({ submitLoading: true });
     try {
       await addEvaluate({
-        storeId: STOREID,
+        storeId: process.env.REACT_APP_STOREID,
         orderNo: this.state.orderNumber,
         goodsScore: evalutateScore + 1,
         consumerComment: this.state.consumerComment,
@@ -158,11 +129,8 @@ class Confirmation extends React.Component {
   }
   render () {
     const {
-      deliveryAddress,
-      billingAddress,
-      commentOnDelivery,
       productList,
-      loading,
+      loading
     } = this.state;
 
     let event;
@@ -301,242 +269,12 @@ class Confirmation extends React.Component {
                   <h5 className="product-summary__title rc-margin-bottom--xs center">
                     <FormattedMessage id="total" />
                   </h5>
-                  <PayProductInfo history={this.props.history} />
+                  <PayProductInfo history={this.props.history}
+                    buyWay={this.props.frequencyStore.buyWay}
+                    frequencyName={this.props.frequencyStore.frequencyName}
+                  />
                 </div>
-                <div className="card shipping-summary">
-                  <div className="card-header rc-margin-bottom--xs rc-padding-right--none clearfix center">
-                    <h5>
-                      <FormattedMessage id="confirmation.customerInformation" />
-                    </h5>
-                  </div>
-                  <div className="card-body rc-padding--none">
-                    <p className="shipping-addr-label multi-shipping padding-y--sm">
-                      <FormattedMessage id="confirmation.info3" />
-                    </p>
-                    <div className="single-shipping">
-                      <div className="rc-border-all rc-border-colour--interface checkout--padding">
-                        <div className="summary-details shipping rc-margin-bottom--xs">
-                          <div className="address-summary row">
-                            <div className="col-md-12 deliveryAddress">
-                              <h5 className="center">
-                                <FormattedMessage id="payment.deliveryTitle" />
-                              </h5>
-                              <div className="row">
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.firstName" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{deliveryAddress.firstName}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.lastName" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{deliveryAddress.lastName}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.address1" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{deliveryAddress.address1}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.address2" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{deliveryAddress.address2}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.country" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;
-                                  {this.matchNamefromDict(
-                                  this.state.countryList,
-                                  deliveryAddress.country
-                                )}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.city" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;
-                                  {this.matchNamefromDict(
-                                  this.state.cityList,
-                                  deliveryAddress.city
-                                )}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.postCode" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{deliveryAddress.postCode}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.phoneNumber" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{deliveryAddress.phoneNumber}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.normalDelivery2" />
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.forFree" />
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.commentOnDelivery" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{this.state.commentOnDelivery}
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-md-12 address-summary-left">
-                              <h5 className="center">
-                                <FormattedMessage id="payment.billTitle" />
-                              </h5>
-                              <div className="row">
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.firstName" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{billingAddress.firstName}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.lastName" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{billingAddress.lastName}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.address1" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{billingAddress.address1}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.address2" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{billingAddress.address2}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.country" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;
-                                  {this.matchNamefromDict(
-                                  this.state.countryList,
-                                  billingAddress.country
-                                )}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.city" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;
-                                  {this.matchNamefromDict(
-                                  this.state.cityList,
-                                  billingAddress.city
-                                )}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.postCode" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{billingAddress.postCode}
-                                </div>
-                                <div className="col-md-6">
-                                  <FormattedMessage id="payment.phoneNumber" />
-                                </div>
-                                <div className="col-md-6">
-                                  &nbsp;{billingAddress.phoneNumber}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          className="rc-margin-bottom--xs delivery-comment"
-                          style={{ display: "none" }}
-                        >
-                          <b>Delivery comment:</b> <span>null</span>
-                        </div>
-                      </div>
-                      {/* <div
-                        className="rc-border-all rc-border-colour--interface checkout--padding"
-                        data-loc="placeOrderBillingSummary"
-                      >
-                        <div className="summary-details shipping rc-margin-bottom--xs">
-                          <div
-                            className="address-summary row"
-                            data-loc="confirmOrderCustomerInfo"
-                          >
-                            <div className="col-md-6">
-                              <div>
-                                <span className="firstName">minya</span>
-                                <span className="lastName">tang</span>
-                              </div>
-                              <div className="country">Russia</div>
-                              <div className="districtCode">Moscow</div>
-                              <div className="stateCode">Other</div>
-                              <div>
-                                <span className="city">1st Worker</span>
-                                <span className="postalCode">123456</span>
-                              </div>
-                            </div>
-                            <div className="col-md-6 address-summary-left">
-                              <div className="address1">1-1</div>
-                              <div>
-                                <span className="houselabel">House</span>
-                                <span className="house">1</span>
-                              </div>
-                              <div>
-                                <span className="housinglabel">
-                                  Building / Building
-                                </span>
-                                <span className="housing">1</span>
-                                <span className="housingdash">-</span>
-                                <span className="entrancelabel">Entrance</span>
-                                <span className="entrance">1</span>
-                                <span className="entrancedash">-</span>
-                                <span className="appartmentlabel">Apartment</span>
-                                <span className="appartment">1</span>
-                              </div>
-                              <div className="shipping-phone">
-                                +7 (923) 456-78-90
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          className="rc-margin-bottom--xs delivery-comment"
-                          style={{ display: "none" }}
-                        >
-                          <b>Delivery comment:</b> <span>null</span>
-                        </div>
-                        <div className="row summary-details leading-lines">
-                          <div className="col-6 start-lines">
-                            <div className="shipping-method">
-                              <span className="shipping-method-title">
-                                Moscow region and Moscow beyond the MKAD
-                              </span>
-                              <span className="shipping-method-arrival-time">
-                                (1-4 days)
-                              </span>
-                            </div>
-                          </div>
-                          <div className="col-6">
-                            <div className="pricing shipping-method-price">
-                              500 ₽
-                            </div>
-                          </div>
-                        </div>
-                      </div> */}
-                    </div>
-                  </div>
-                </div>
+                <AddressPreview info={this.state.paywithLogin ? store.get("loginDeliveryInfo") : store.get("deliveryInfo")} />
               </div>
             </div>
           </div>
@@ -632,7 +370,7 @@ class Confirmation extends React.Component {
             this.setState({ operateSuccessModalVisible: false });
           }}
         />
-        <OxxoModal visible={this.state.oxxoModalShow} oxxoPayUrl={ this.state.oxxoPayUrl } close={() => {
+        <OxxoModal visible={this.state.oxxoModalShow} oxxoPayUrl={this.state.oxxoPayUrl} close={() => {
           this.setState({ oxxoModalShow: false });
         }} />
       </div>
