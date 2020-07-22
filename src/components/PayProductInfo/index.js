@@ -13,6 +13,7 @@ class PayProductInfo extends React.Component {
       productList: [],
       discount:[],//促销码的折扣信息汇总
       promotionInputValue:'',//输入的促销码
+      isClickApply: false
     };
   }
   get isLogin () {
@@ -194,7 +195,8 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
-                <div className="row leading-lines shipping-item" style={{ display: parseInt(this.discountPrice) > 0 ? 'flex' : 'none' }}>
+                {/* 显示 默认折扣 */}
+                <div className="row leading-lines shipping-item" style={{ display: parseInt(this.discountPrice) > 0&&this.state.discount.length==0 ? 'flex' : 'none' }}>
                   <div className="col-7 start-lines">
                     <p className="order-receipt-label order-shipping-cost" style={{ color: '#ec001a' }}>
                       <span><FormattedMessage id="promotion" /></span>
@@ -206,23 +208,12 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
-                <div className="row leading-lines shipping-item">
-                  <div className="col-7 start-lines">
-                    <p className="order-receipt-label order-shipping-cost">
-                      <span><FormattedMessage id="delivery" /></span>
-                    </p>
-                  </div>
-                  <div className="col-5 end-lines">
-                    <p className="text-right">
-    <span className="shipping-total-cost">{formatMoney(this.deliveryPrice)}</span>
-                    </p>
-                  </div>
-                </div>
-                {/* 输入promotionCode显示获取的折扣 */}
+                
+                {/* 显示 promotionCode */}
                 <div style={{marginTop:"10px"}}>
                   {this.state.discount.map((el) => (
                     <div className="flex-layout" style={{marginRight:"18px"}}>
-                      <label className="saveDiscount font16">
+                      <label className="saveDiscount font16" style={{color: "rgb(236, 0, 26)"}}>
                         {this.promotionDesc}
                       </label>
                       <div
@@ -239,14 +230,17 @@ class PayProductInfo extends React.Component {
                             cursor: "pointer",
                           }}
                           onClick={async () => {
-                            discount.pop();
-                            this.setState({ discount: discount });
+                            let backCode = ''
                             if(!this.isLogin){
                               //游客
-                             await checkoutStore.updateUnloginCart()
+                             backCode =  await checkoutStore.updateUnloginCart()
                             }else{
                              //会员
-                            await checkoutStore.updateLoginCart()
+                             backCode = await checkoutStore.updateLoginCart('',this.props.buyWay === 'frequency')                     
+                            }
+                            if (backCode == 'K-000000') {
+                              discount.pop();
+                              this.setState({ discount: discount });
                             }
                           }}
                         >
@@ -255,6 +249,19 @@ class PayProductInfo extends React.Component {
                       </div>
                     </div>
                   ))}
+                </div>
+                {/* 显示 delivereyPrice */}
+                <div className="row leading-lines shipping-item">
+                  <div className="col-7 start-lines">
+                    <p className="order-receipt-label order-shipping-cost">
+                      <span><FormattedMessage id="delivery" /></span>
+                    </p>
+                  </div>
+                  <div className="col-5 end-lines">
+                    <p className="text-right">
+    <span className="shipping-total-cost">{formatMoney(this.deliveryPrice)}</span>
+                    </p>
+                  </div>
                 </div>   
               </div>
             </div>
@@ -277,7 +284,7 @@ class PayProductInfo extends React.Component {
                style={{ width: "200px",marginLeft:"5px" }}
              >
                <input
-                 class="rc-input__control"
+                 className="rc-input__control"
                  id="id-text2"
                  type="text"
                  name="text"
@@ -291,21 +298,35 @@ class PayProductInfo extends React.Component {
                ></label>
              </span>
              <button
-               class="rc-btn rc-btn--sm rc-btn--two"
+               className={["rc-btn","rc-btn--sm","rc-btn--two",this.state.isClickApply&&"ui-btn-loading ui-btn-loading-border-red"].join(" ")}
                style={{ marginTop: "10px", float: "right" }}
                onClick={async () => {
-                 discount.push(1);
-                 this.setState({ discount });
+                 let backCode = ''
+                if (!this.state.promotionInputValue) return
+                 this.setState({
+                  isClickApply: true
+                 })
                  if(!this.isLogin){
                    //游客
-                  await checkoutStore.updateUnloginCart('',this.state.promotionInputValue)
+                 backCode =  await checkoutStore.updateUnloginCart('',this.state.promotionInputValue)
+                 console.log(backCode);
                  }else{
                   //会员
-                 await checkoutStore.updateLoginCart(this.state.promotionInputValue,this.props.buyWay === 'frequency')
+                 backCode = await checkoutStore.updateLoginCart(this.state.promotionInputValue,this.props.buyWay === 'frequency')
+                 console.log(backCode);
                  }
+                 if (backCode == 'K-000000'){ //表示输入apply promotionCode成功 
+                  discount.push(1);
+                  this.setState({ discount });
+                  this.setState({
+                    promotionInputValue:''
+                  })
+                 }else{
+                   alert(backCode)
+                 }  
                  this.setState({
-                   promotionInputValue:''
-                 })
+                  isClickApply: false
+                 })    
                }}
              >
                <FormattedMessage id="apply" />

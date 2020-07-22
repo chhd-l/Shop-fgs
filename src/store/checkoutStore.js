@@ -85,8 +85,7 @@ class CheckoutStore {
       goodsMarketingDTOList: [],
       promotionCode
     })
-    // console.log({purchasesRes});
-    // debugger
+    let backCode = purchasesRes.code
     purchasesRes = purchasesRes.context
     
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap)
@@ -112,6 +111,7 @@ class CheckoutStore {
     })
     this.setCartData(data)
     this.outOfstockProNames = tmpOutOfstockProNames
+    return backCode
   }
 
   @action
@@ -126,6 +126,7 @@ class CheckoutStore {
       promotionCode,
       subscriptionFlag
     });
+    let backCode = sitePurchasesRes.code
     sitePurchasesRes = sitePurchasesRes.context;
     runInAction(() => {
       this.setLoginCartData(siteMiniPurchasesRes.goodsList)
@@ -141,6 +142,7 @@ class CheckoutStore {
       this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap)
       this.changeLoadingCartData(false)
     })
+    return backCode
   }
 
   @action
