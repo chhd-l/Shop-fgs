@@ -100,14 +100,13 @@ class SubscriptionSelect extends Component {
               selectedItemData={{
                 value: form.frequencyVal
               }}
-              customStyleType="select-one"
-              customContainerStyle={{ minWidth: '20%' }} />
+              customStyleType="select-one" />
             <span className="ml-2 d-flex align-items-center flex-wrap">
               {
                 this.props.checkoutStore.loginCartData
                   .filter(ele => ele.subscriptionStatus)
                   .map((ele, i) => (
-                    <img style={{ width: '8%', display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
+                    <img className="width-sub-img" style={{ display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
                   ))
               }
             </span>

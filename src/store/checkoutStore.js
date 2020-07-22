@@ -61,7 +61,7 @@ class CheckoutStore {
   }
 
   @action.bound
-  async updateUnloginCart (data,promotionCode) {
+  async updateUnloginCart (data, promotionCode) {
     if (!data) {
       data = this.cartData
     }
@@ -72,7 +72,7 @@ class CheckoutStore {
         invalid: false
       }
     })
-   
+
     let purchasesRes = await purchases({
       goodsInfoDTOList: param,
       goodsInfoIds: [],
@@ -82,13 +82,13 @@ class CheckoutStore {
     // console.log({purchasesRes});
     // debugger
     purchasesRes = purchasesRes.context
-    
+
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap)
     this.setCartPrice({
       totalPrice: purchasesRes.totalPrice,
       tradePrice: purchasesRes.tradePrice,
       discountPrice: purchasesRes.discountPrice,
-      deliveryPrice:purchasesRes.deliveryPrice
+      deliveryPrice: purchasesRes.deliveryPrice
     })
     // 更新stock值
     let tmpOutOfstockProNames = []
@@ -97,7 +97,11 @@ class CheckoutStore {
       const tmpObj = find(purchasesRes.goodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
       if (tmpObj) {
         selectedSize.stock = tmpObj.stock
-        if (item.quantity > tmpObj.stock) {
+        // handle product off shelves logic
+        if (!tmpObj.addedFlag) {
+          selectedSize.stock = 0
+        }
+        if (item.quantity > selectedSize.stock) {
           tmpOutOfstockProNames.push(tmpObj.goodsInfoName + ' ' + tmpObj.specText)
         }
       }
@@ -108,7 +112,7 @@ class CheckoutStore {
 
   @action
   async updateLoginCart (subscriptionFlag) {
-    this.changeLoadingCartData(true)
+    // this.changeLoadingCartData(true)
     // 获取购物车列表
     let siteMiniPurchasesRes = await siteMiniPurchases();
     siteMiniPurchasesRes = siteMiniPurchasesRes.context;
@@ -119,12 +123,20 @@ class CheckoutStore {
     });
     sitePurchasesRes = sitePurchasesRes.context;
     runInAction(() => {
-      this.setLoginCartData(siteMiniPurchasesRes.goodsList)
+      let goodsList = siteMiniPurchasesRes.goodsList
+      // handle product off shelves logic
+      goodsList = Array.from(goodsList, g => {
+        if (!g.addedFlag) {
+          g.stock = 0
+        }
+        return g
+      })
+      this.setLoginCartData(goodsList)
       this.setCartPrice({
         totalPrice: sitePurchasesRes.totalPrice,
         tradePrice: sitePurchasesRes.tradePrice,
         discountPrice: sitePurchasesRes.discountPrice,
-        deliveryPrice:sitePurchasesRes.deliveryPrice
+        deliveryPrice: sitePurchasesRes.deliveryPrice
       })
       this.outOfstockProNames = siteMiniPurchasesRes.goodsList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
       this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap)

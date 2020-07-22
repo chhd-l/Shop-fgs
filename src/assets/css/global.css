@@ -415,6 +415,10 @@ hr {
   color: #6c757d
 }
 
+.width-sub-img {
+  width: 50%;
+}
+
 code {
   font-size: 87.5%;
   color: #e83e8c;
@@ -1223,6 +1227,9 @@ pre code {
 
   .offset-md-11 {
       margin-left: 91.66667%
+  }
+  .width-sub-img {
+    width: 10%;
   }
 }
 

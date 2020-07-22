@@ -674,7 +674,7 @@ class PaymentComp extends React.Component {
                                 <div
                                   className="col-12 color-999"
                                   style={{
-                                    display: el.selected ? "none" : "block",
+                                    display: el.selected && !isCurrentCvvConfirm ? "none" : "block",
                                   }}
                                 >
                                   <span style={{ fontSize: '14px' }}><FormattedMessage id="name2" /></span>
@@ -686,7 +686,7 @@ class PaymentComp extends React.Component {
                                 <div
                                   className="col-12 color-999"
                                   style={{
-                                    display: el.selected ? "block" : "none",
+                                    display: el.selected && !isCurrentCvvConfirm ? "block" : "none",
                                   }}
                                 >
                                   <span style={{ fontSize: '14px' }}><FormattedMessage id="CVV" /></span>

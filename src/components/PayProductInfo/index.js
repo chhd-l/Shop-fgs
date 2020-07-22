@@ -60,7 +60,7 @@ class PayProductInfo extends React.Component {
               <div className="wrap-item-title">
                 <div className="item-title">
                   <div
-                    className="line-item-name capitalize ui-text-overflow-line2 text-break"
+                    className="line-item-name ui-text-overflow-line2 text-break"
                     title={el.goodsName}>
                     <span className="light">{el.goodsName}</span>
                   </div>
@@ -101,13 +101,13 @@ class PayProductInfo extends React.Component {
               <div className="wrap-item-title">
                 <div className="item-title">
                   <div
-                    className="line-item-name capitalize ui-text-overflow-line2 text-break"
+                    className="line-item-name ui-text-overflow-line2 text-break"
                     title={el.goodsName}>
                     <span className="light">{el.goodsName}</span>
                   </div>
                 </div>
                 <div className="d-flex align-items-center justify-content-between">
-                  <div className="line-item-total-price" style={{ width: '75%' }}>
+                  <div className="line-item-total-price" style={{ width: '77%' }}>
                     {el.specText} - {el.buyCount} {el.buyCount > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}<br />
                     {
                       this.isSubscription(el)

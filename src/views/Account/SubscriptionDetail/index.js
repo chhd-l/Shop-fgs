@@ -617,28 +617,32 @@ class SubscriptionDetail extends React.Component {
                                   name="example-date-input"
                                   onBlur={(e) => {
                                     const target = e.target;
-                                    subDetail.nextDeliveryTime = target.value;
-
-                                    let param = {
-                                      subscribeId: subDetail.subscribeId,
-                                      nextDeliveryTime: target.value,
-                                      goodsItems: subDetail.goodsInfo.map((el) => {
-                                        return {
-                                          skuId: el.skuId,
-                                          subscribeNum: el.subscribeNum,
-                                        };
-                                      }),
-                                    };
-                                    //增加返回changeField字段
-                                    Object.assign(param, {
-                                      changeField: this.props.intl.messages[
-                                        "subscription.receiveDate"
-                                      ],
-                                    });
-                                    updateDetail(param).then((res) => {
-                                      // window.location.reload();
-                                      this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
-                                    });
+                                    console.log(subDetail.nextDeliveryTime, target.value)
+                                    if(subDetail.nextDeliveryTime !== target.value) {
+                                      
+                                      subDetail.nextDeliveryTime = target.value;
+                                      let param = {
+                                        subscribeId: subDetail.subscribeId,
+                                        nextDeliveryTime: target.value,
+                                        goodsItems: subDetail.goodsInfo.map((el) => {
+                                          return {
+                                            skuId: el.skuId,
+                                            subscribeNum: el.subscribeNum,
+                                          };
+                                        }),
+                                      };
+                                      //增加返回changeField字段
+                                      Object.assign(param, {
+                                        changeField: this.props.intl.messages[
+                                          "subscription.receiveDate"
+                                        ],
+                                      });
+                                      updateDetail(param).then((res) => {
+                                        // window.location.reload();
+                                        this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
+                                      });
+                                    }
+                                    
                                   }}
                                   value={subDetail.nextDeliveryTime}
                                 />
