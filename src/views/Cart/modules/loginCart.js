@@ -268,6 +268,8 @@ class LoginCart extends React.Component {
                 }}
               />
               <ConfirmTooltip
+                containerStyle={{ transform: 'translate(-89%, 105%)' }}
+                arrowStyle={{ left: '89%' }}
                 display={pitem.confirmTooltipVisible}
                 confirm={e => this.deleteProduct(pitem)}
                 updateChildDisplay={status => this.updateConfirmTooltipVisible(pitem, status)} />
