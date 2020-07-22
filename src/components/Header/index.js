@@ -35,9 +35,6 @@ class Header extends React.Component {
       loading: false,
       result: null,
       showMegaMenu: false,
-      tradePrice: '',
-      clinicId: store.get('rc-clinics-id-link'),
-      clinicName: store.get('rc-clinics-name-link'),
       isScrollToTop: true
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
@@ -87,8 +84,10 @@ class Header extends React.Component {
       if (res.context && res.context.enabled) {
         linkClinicName = res.context.prescriberName
       }
-      clinicStore.setLinkClinicId(linkClinicId)
-      clinicStore.setLinkClinicName(linkClinicName)
+      if (linkClinicName) {
+        clinicStore.setLinkClinicId(linkClinicId)
+        clinicStore.setLinkClinicName(linkClinicName)
+      }
     }
   }
   componentWillUnmount () {
