@@ -229,7 +229,11 @@ class Header extends React.Component {
               let ret = Object.assign({}, ele)
               const tmpItem = find(res.context.goodsList, g => g.goodsId === ele.id)
               if (tmpItem) {
-                ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
+                ret = Object.assign(ret, {
+                  goodsCateName: tmpItem.goodsCateName,
+                  goodsSubtitle: tmpItem.goodsSubtitle,
+                  goodsImg: tmpItem.goodsImg
+                })
               }
               return ret
             })
@@ -302,7 +306,7 @@ class Header extends React.Component {
                                 className="swatch__img"
                                 alt={item.lowGoodsName}
                                 title={item.lowGoodsName}
-                                src={item.goodsInfos[0].goodsInfoImg || IMG_DEFAULT} />
+                                src={item.goodsImg || IMG_DEFAULT} />
                             </a>
                           </div>
                           <div className="col-8 col-md-9 col-lg-10">
