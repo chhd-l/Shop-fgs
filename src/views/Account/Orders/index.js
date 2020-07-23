@@ -17,7 +17,6 @@ import { getOrderList, getOrderDetails } from "@/api/order"
 import store from 'storejs'
 import {
   MINIMUM_AMOUNT,
-  STOREID,
   STORE_CATE_ENUM
 } from "@/utils/constant"
 import {

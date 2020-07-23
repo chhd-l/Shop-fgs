@@ -23,6 +23,12 @@ class CheckoutStore {
   @computed get deliveryPrice () {
     return this.cartPrice && this.cartPrice.deliveryPrice ? this.cartPrice.deliveryPrice : 0
   }
+  @computed get subscriptionPrice () {
+    return this.cartPrice && this.cartPrice.deliveryPrice ? this.cartPrice.subscriptionPrice : 0
+  }
+  @computed get promotionDesc () {
+    return this.cartPrice && this.cartPrice.promotionDesc ? this.cartPrice.promotionDesc : ''
+  }
 
   @action.bound
   setCartData (data) {
@@ -61,7 +67,7 @@ class CheckoutStore {
   }
 
   @action.bound
-  async updateUnloginCart (data,promotionCode) {
+  async updateUnloginCart (data, promotionCode) {
     if (!data) {
       data = this.cartData
     }
@@ -72,23 +78,24 @@ class CheckoutStore {
         invalid: false
       }
     })
-   
+
     let purchasesRes = await purchases({
       goodsInfoDTOList: param,
       goodsInfoIds: [],
       goodsMarketingDTOList: [],
       promotionCode
     })
-    // console.log({purchasesRes});
-    // debugger
+    let backCode = purchasesRes.code
     purchasesRes = purchasesRes.context
-    
+
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap)
     this.setCartPrice({
       totalPrice: purchasesRes.totalPrice,
       tradePrice: purchasesRes.tradePrice,
       discountPrice: purchasesRes.discountPrice,
-      deliveryPrice:purchasesRes.deliveryPrice
+      deliveryPrice:purchasesRes.deliveryPrice,
+      promotionDesc: purchasesRes.promotionDesc,
+      subscriptionPrice:purchasesRes.subscriptionPrice
     })
     // 更新stock值
     let tmpOutOfstockProNames = []
@@ -97,17 +104,22 @@ class CheckoutStore {
       const tmpObj = find(purchasesRes.goodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
       if (tmpObj) {
         selectedSize.stock = tmpObj.stock
-        if (item.quantity > tmpObj.stock) {
+        // handle product off shelves logic
+        if (!tmpObj.addedFlag) {
+          selectedSize.stock = 0
+        }
+        if (item.quantity > selectedSize.stock) {
           tmpOutOfstockProNames.push(tmpObj.goodsInfoName + ' ' + tmpObj.specText)
         }
       }
     })
     this.setCartData(data)
     this.outOfstockProNames = tmpOutOfstockProNames
+    return backCode
   }
 
   @action
-  async updateLoginCart (subscriptionFlag) {
+  async updateLoginCart (promotionCode="",subscriptionFlag='') {
     this.changeLoadingCartData(true)
     // 获取购物车列表
     let siteMiniPurchasesRes = await siteMiniPurchases();
@@ -115,21 +127,34 @@ class CheckoutStore {
     // 获取总价
     let sitePurchasesRes = await sitePurchases({
       goodsInfoIds: siteMiniPurchasesRes.goodsList.map(ele => ele.goodsInfoId),
+      promotionCode,
       subscriptionFlag
     });
+    let backCode = sitePurchasesRes.code
     sitePurchasesRes = sitePurchasesRes.context;
     runInAction(() => {
-      this.setLoginCartData(siteMiniPurchasesRes.goodsList)
+      let goodsList = siteMiniPurchasesRes.goodsList
+      // handle product off shelves logic
+      goodsList = Array.from(goodsList, g => {
+        if (!g.addedFlag) {
+          g.stock = 0
+        }
+        return g
+      })
+      this.setLoginCartData(goodsList)
       this.setCartPrice({
         totalPrice: sitePurchasesRes.totalPrice,
         tradePrice: sitePurchasesRes.tradePrice,
         discountPrice: sitePurchasesRes.discountPrice,
-        deliveryPrice:sitePurchasesRes.deliveryPrice
+        deliveryPrice:sitePurchasesRes.deliveryPrice,
+        promotionDesc: sitePurchasesRes.promotionDesc,
+        subscriptionPrice:sitePurchasesRes.subscriptionPrice
       })
       this.outOfstockProNames = siteMiniPurchasesRes.goodsList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
       this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap)
       this.changeLoadingCartData(false)
     })
+    return backCode
   }
 
   @action

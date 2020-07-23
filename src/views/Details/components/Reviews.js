@@ -147,14 +147,14 @@ class Reviews extends React.Component {
                                 <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
                             </div>
                             <div>
-                                <div className="rc-layout-container rc-two-column rc-max-width--lg rc-padding-top--sm">
+                                <div className="rc-layout-container rc-two-column rc-padding-top--sm rc-padding-left--lg">
                                     <div className="rc-column ">
                                         <h5 className="red-text">
                                             Customer reviews
                                         </h5>
                                     </div>
                                 </div>
-                                <div className="rc-layout-container rc-padding-bottom--xs rc-max-width--lg">
+                                <div className="rc-layout-container rc-padding-bottom--xs rc-padding-left--lg">
                                     <div className="rc-column">
                                         <form>
                               <span className="rc-select rc-select-processed">

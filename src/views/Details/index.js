@@ -17,7 +17,6 @@ import {
 } from '@/utils/utils'
 import {
   MINIMUM_AMOUNT,
-  STOREID,
   STORE_CATE_ENUM,
   SUBSCRIPTION_DISCOUNT_RATE
 } from "@/utils/constant"
@@ -248,7 +247,7 @@ class Details extends React.Component {
               goodsDetailTab: goodsDetailTab
             })
           } catch (err) {
-            getDict({ type: 'goodsDetailTab', storeId: STOREID })
+            getDict({ type: 'goodsDetailTab', storeId: process.env.REACT_APP_STOREID })
               .then(res => {
                 goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(ele => ele.name)
                 this.setState({
@@ -703,32 +702,35 @@ class Details extends React.Component {
                                   data-buybox="singlepruchase"
                                 >
                                   <div className="product-pricing__card__head d-flex align-items-center">
-                                    <div className="rc-input product-pricing__card__head__title">
-                                      <FormattedMessage id="details.unitPrice" />
-                                    </div>
-
-                                    <b className="product-pricing__card__head__price red rc-padding-y--none">
-                                      {initing ? '--' : formatMoney(currentUnitPrice)}
-                                      {/*{initing ? '--' : formatMoney(this.state.minMarketPrice )}*/}
-                                    </b>
+                                    {
+                                      !initing && <>
+                                        <div className="rc-input product-pricing__card__head__title">
+                                          <FormattedMessage id="details.unitPrice" />
+                                        </div>
+                                        <b className="product-pricing__card__head__price red rc-padding-y--none">
+                                          {formatMoney(currentUnitPrice)}
+                                        </b>
+                                      </>
+                                    }
                                   </div>
                                   {
                                     find(details.sizeList, s => s.selected) && find(details.sizeList, s => s.selected).subscriptionStatus
                                       ? <>
-                                        <div className="product-pricing__card__head d-flex align-items-center">
-                                          <span className="rc-icon rc-refresh--xs rc-brand1 position-absolute" style={{ transform: 'translate(-100%, 8%)' }}></span>
-                                          <div className="rc-input product-pricing__card__head__title">
-                                            <FormattedMessage id="details.Subscription" />
-                                            <span className="red" style={{ fontSize: '.8em' }}>
-                                              {' '}
-                                              (<FormattedMessage id="save" />{' '}{SUBSCRIPTION_DISCOUNT_RATE})
-                                            </span>
+                                        {
+                                          !initing && <div className="product-pricing__card__head d-flex align-items-center">
+                                            <span className="rc-icon rc-refresh--xs rc-brand1 position-absolute" style={{ transform: 'translate(-100%, 8%)' }}></span>
+                                            <div className="rc-input product-pricing__card__head__title">
+                                              <FormattedMessage id="details.Subscription" />
+                                              <span className="red" style={{ fontSize: '.8em' }}>
+                                                {' '}
+                                            (<FormattedMessage id="save" />{' '}{SUBSCRIPTION_DISCOUNT_RATE})
+                                          </span>
+                                            </div>
+                                            <b className="product-pricing__card__head__price red rc-padding-y--none">
+                                              {formatMoney(currentSubscriptionPrice || 0)}
+                                            </b>
                                           </div>
-                                          <b className="product-pricing__card__head__price red rc-padding-y--none">
-                                            {initing ? '--' : formatMoney(currentSubscriptionPrice || 0)}
-                                            {/*{initing ? '--' : formatMoney(this.state.minSubscriptionPrice || 0)}*/}
-                                          </b>
-                                        </div>
+                                        }
                                         <span className="red" style={{ fontSize: '.9em' }}>
                                           <FormattedMessage id="subscription.promotionTip2" />
                                         </span>

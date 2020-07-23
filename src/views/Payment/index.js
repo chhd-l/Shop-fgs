@@ -13,12 +13,11 @@ import UnloginDeliveryAddress from "./modules/UnloginDeliveryAddress";
 import LoginDeliveryAddress from "./modules/LoginDeliveryAddress";
 import BillingAddressForm from "./modules/BillingAddressForm";
 import SubscriptionSelect from "./modules/SubscriptionSelect";
-import InfosPreview from "./modules/InfosPreview";
+import AddressPreview from "@/components/AddressPreview";
 import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
-import { STOREID } from "@/utils/constant";
 import { getDictionary } from "@/utils/utils";
 import {
   postVisitorRegisterAndLogin,
@@ -26,7 +25,7 @@ import {
   confirmAndCommit,
   customerCommitAndPay,
   rePay,
-  customerCommitAndPayMix,
+  customerCommitAndPayMix
 } from "@/api/payment";
 import PaymentComp from "@/components/PaymentComp";
 import store from "storejs";
@@ -66,7 +65,7 @@ const rules = [
   },
 ];
 
-@inject("loginStore", "checkoutStore", "clinicStore")
+@inject("loginStore", "checkoutStore", "clinicStore", "frequencyStore")
 @observer
 class Payment extends React.Component {
   constructor(props) {
@@ -414,8 +413,7 @@ class Payment extends React.Component {
         this.setState(
           {
             payosdata: res.data,
-            creditCardInfo: Object.assign({}, selectedCard),
-            loading: false,
+            creditCardInfo: Object.assign({}, selectedCard)
           },
           () => {
             this.goConfirmation();
@@ -453,6 +451,7 @@ class Payment extends React.Component {
       this.showErrorMsg(this.props.intl.messages.clickConfirmCardButton);
       return false;
     }
+    this.setState({ loading: true });
     let param = Object.assign(
       {},
       { useDeliveryAddress: billingChecked },
@@ -526,7 +525,7 @@ class Payment extends React.Component {
       clinicsId: this.props.clinicStore.clinicId,
       clinicsName: this.props.clinicStore.clinicName,
       remark: commentOnDelivery,
-      storeId: STOREID,
+      storeId: process.env.REACT_APP_STOREID,
       tradeItems: param2.goodsInfos.map((g) => {
         return {
           num: g.buyCount,
@@ -577,7 +576,6 @@ class Payment extends React.Component {
             });
           param3.cycleTypeId = subForm.frequencyId;
           param3.paymentMethodId = creditCardInfo.id;
-          // param3.nextDeliveryTime = '2020-03-01' // todo
         }
       }
       // rePay
@@ -617,10 +615,10 @@ class Payment extends React.Component {
       // update clinic
       clinicStore.removeLinkClinicId();
       clinicStore.removeLinkClinicName();
-      clinicStore.setSelectClinicId();
-      clinicStore.setSelectClinicName();
-      clinicStore.setDefaultClinicId();
-      clinicStore.setDefaultClinicName();
+      clinicStore.setSelectClinicId(this.props.clinicStore.clinicId);
+      clinicStore.setSelectClinicName(this.props.clinicStore.clinicName);
+      clinicStore.setDefaultClinicId(this.props.clinicStore.clinicId);
+      clinicStore.setDefaultClinicName(this.props.clinicStore.clinicName);
 
       sessionStorage.removeItem("payosdata");
       history.push("/confirmation");
@@ -844,7 +842,7 @@ class Payment extends React.Component {
                   </aside>
                 </div>
                 {this.state.isToPayNow ? (
-                  <InfosPreview />
+                  <AddressPreview />
                 ) : (
                     <>
                       <div className="shipping-form">
@@ -1009,6 +1007,8 @@ class Payment extends React.Component {
                             </div>
                             <SubscriptionSelect
                               updateSelectedData={(data) => {
+                                this.props.frequencyStore.updateBuyWay(data.buyWay)
+                                this.props.frequencyStore.updateFrequencyName(data.frequencyName)
                                 if (data.buyWay === "frequency") {
                                   this.setState({
                                     showOxxoForm: false,

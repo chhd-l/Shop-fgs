@@ -68,6 +68,15 @@ class LoginCart extends React.Component {
   get deliveryPrice () {
     return this.props.checkoutStore.deliveryPrice
   }
+  get subscriptionPrice () {
+    return this.props.checkoutStore.subscriptionPrice
+  }
+  get promotionDesc () {
+    return this.props.checkoutStore.promotionDesc
+  }
+  get isPromote () {
+    return parseInt(this.discountPrice) > 0
+  }
   async updateCartCache () {
     this.setState({ checkoutLoading: true })
     await this.checkoutStore.updateLoginCart()
@@ -97,6 +106,7 @@ class LoginCart extends React.Component {
   }
   async handleCheckout () {
     const { productList } = this.state
+    // todo 后代校验购物车数据
     // 价格未达到底限，不能下单
     if (this.tradePrice < MINIMUM_AMOUNT) {
       window.scrollTo({ behavior: "smooth", top: 0 })

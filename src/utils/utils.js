@@ -1,5 +1,5 @@
 import { getStoreCate, getProps } from '@/api'
-import { STOREID, CATEID } from '@/utils/constant'
+import { CATEID } from '@/utils/constant'
 import { purchases, mergePurchase } from '@/api/cart'
 import { getDict } from '@/api/dict'
 import { find } from 'lodash'
@@ -25,7 +25,7 @@ export function formatMoney (val, currency = 1) {
 export async function queryStoreCateIds () {
   let tmp = sessionStorage.getItem('rc-storeId-list')
   if (!tmp) {
-    let res = await getStoreCate({ storeId: STOREID })
+    let res = await getStoreCate({ storeId: process.env.REACT_APP_STOREID })
     if (res.context && res.context.length) {
       sessionStorage.setItem('rc-storeId-list', JSON.stringify(res.context))
     }
@@ -187,7 +187,7 @@ export async function getDictionary ({ type, name = '' }) {
   } else {
     let res = await getDict({
       delFlag: 0,
-      storeId: STOREID,
+      storeId: process.env.REACT_APP_STOREID,
       type,
       name
     })

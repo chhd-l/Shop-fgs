@@ -12,7 +12,7 @@ import { cloneDeep, find, findIndex } from 'lodash'
 import titleCfg from './json/title.json'
 import { getList, getProps, getLoginList } from '@/api/list'
 import { queryStoreCateIds, formatMoney } from '@/utils/utils'
-import { STOREID, CATEID, STORE_CATE_ENUM } from '@/utils/constant'
+import { CATEID, STORE_CATE_ENUM } from '@/utils/constant'
 import Rate from '@/components/Rate'
 import './index.css'
 
@@ -138,7 +138,7 @@ class List extends React.Component {
     }
 
     let params = {
-      storeId: STOREID,
+      storeId: process.env.REACT_APP_STOREID,
       cateId: CATEID,
       propDetails: [],
       pageNum: currentPage - 1,
@@ -395,8 +395,8 @@ class List extends React.Component {
                                           <picture className="rc-card__image">
                                             <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center" style={{ minHeight: '202px' }}>
                                               <img
-                                                src={item.goodsImg}
-                                                srcSet={item.goodsImg}
+                                                src={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg}
+                                                srcSet={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg}
                                                 alt={item.lowGoodsName}
                                                 title={item.lowGoodsName} />
                                             </div>

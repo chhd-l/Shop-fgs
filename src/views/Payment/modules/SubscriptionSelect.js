@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react'
 import Selection from '@/components/Selection'
 import { getDictionary } from "@/utils/utils"
 
-@inject("checkoutStore")
+@inject("checkoutStore", "frequencyStore")
 @observer
 class SubscriptionSelect extends Component {
   constructor(props) {
@@ -48,22 +48,26 @@ class SubscriptionSelect extends Component {
     const target = e.target
     const { form } = this.state
     form[target.name] = target.value
-    this.setState({ form: form })
-    this.props.updateSelectedData(this.state.form)
+    this.setState({ form: form }, () => {
+      this.props.updateSelectedData(this.state.form)
+    })
   }
   handleSelectedItemChange (data) {
     const { form } = this.state
     form.frequencyVal = data.value
     form.frequencyName = data.name
     form.frequencyId = data.id
-    this.setState({ form: form })
-    this.props.updateSelectedData(this.state.form)
+    this.setState({ form: form }, () => {
+      this.props.updateSelectedData(this.state.form)
+    })
   }
   render () {
     const { form } = this.state
     return (<div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm pt-3 pb-2">
-      Save your first <span className="rc-icon rc-refresh--xs rc-brand1"></span> Subscription order and save <span className="red">30%($ 18.5)</span> today!<br />
-      Plus, save 5% on eligible items on future Subscription orders.
+      Save your first <span className="rc-icon rc-refresh--xs rc-brand1"></span> Subscription order and save <span className="red">35%
+      ($ 18.5)
+      {/* todo 优惠金额接口获取 */}
+      </span> today!<br />
       <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
         <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2">
           {
@@ -88,7 +92,10 @@ class SubscriptionSelect extends Component {
           }
           <label className="rc-input__label--inline" htmlFor="optsmobile">
             <span className="red"><FormattedMessage id="payment.frequencyTip1" /></span><br />
-            You will save an additional $ 18.5 on this order!<br />
+            You will save an additional $
+            18.5
+            {/* todo 优惠金额接口获取 */}
+             on this order!<br />
             <span className="font-weight-normal mt-1 inlineblock">
               <FormattedMessage id="payment.deliveryFrequency" />:
             </span>
@@ -100,14 +107,13 @@ class SubscriptionSelect extends Component {
               selectedItemData={{
                 value: form.frequencyVal
               }}
-              customStyleType="select-one"
-              customContainerStyle={{ minWidth: '20%' }} />
+              customStyleType="select-one" />
             <span className="ml-2 d-flex align-items-center flex-wrap">
               {
                 this.props.checkoutStore.loginCartData
                   .filter(ele => ele.subscriptionStatus)
                   .map((ele, i) => (
-                    <img style={{ width: '8%', display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
+                    <img className="width-sub-img" style={{ display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
                   ))
               }
             </span>

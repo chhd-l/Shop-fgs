@@ -11,7 +11,6 @@ import GoogleMap from '@/components/GoogleMap'
 import { FormattedMessage } from 'react-intl'
 import { getPrescription, getAllPrescription } from '@/api/clinic'
 import meImg from "@/assets/images/map-default-marker.png"
-import { STOREID } from "@/utils/constant";
 
 const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   if (obj.type !== 'customer') {
@@ -71,7 +70,7 @@ class Prescription extends React.Component {
         pageSize: 3,
         latitude: 19.09,
         longitude: -99.24,
-        storeId: STOREID,
+        storeId: process.env.REACT_APP_STOREID
       },
       currentSelectClinic: {
         lat: 0,
@@ -147,7 +146,7 @@ class Prescription extends React.Component {
   }
   async getAllPrescription () {
     let params = {
-      "storeId": STOREID
+      "storeId": process.env.REACT_APP_STOREID
     }
     const res = await getAllPrescription(params)
     if (res.code === 'K-000000') {
