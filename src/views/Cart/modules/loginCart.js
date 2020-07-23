@@ -9,7 +9,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip'
 import PetModal from '@/components/PetModal'
 import { Link } from 'react-router-dom'
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
-import { MINIMUM_AMOUNT, SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant'
+import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant'
 import { find } from 'lodash'
 import { getPetList } from '@/api/pet'
 import { getCustomerInfo } from "@/api/user"
@@ -108,7 +108,7 @@ class LoginCart extends React.Component {
     const { productList } = this.state
     // todo 后代校验购物车数据
     // 价格未达到底限，不能下单
-    if (this.tradePrice < MINIMUM_AMOUNT) {
+    if (this.tradePrice < process.envREACT_APP_MINIMUM_AMOUNT) {
       window.scrollTo({ behavior: "smooth", top: 0 })
       this.showErrMsg(<FormattedMessage id="cart.errorInfo3" />)
       return false

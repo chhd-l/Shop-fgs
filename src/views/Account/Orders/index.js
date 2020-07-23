@@ -16,7 +16,6 @@ import { batchAdd } from "@/api/payment";
 import { getOrderList, getOrderDetails } from "@/api/order"
 import store from 'storejs'
 import {
-  MINIMUM_AMOUNT,
   STORE_CATE_ENUM
 } from "@/utils/constant"
 import {

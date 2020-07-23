@@ -16,7 +16,6 @@ import {
   queryProps
 } from '@/utils/utils'
 import {
-  MINIMUM_AMOUNT,
   STORE_CATE_ENUM,
   SUBSCRIPTION_DISCOUNT_RATE
 } from "@/utils/constant"
@@ -405,7 +404,7 @@ class Details extends React.Component {
       }, 1000);
       this.setState({ addToCartLoading: false });
       if (redirect) {
-        if (this.checkoutStore.tradePrice < MINIMUM_AMOUNT) {
+        if (this.checkoutStore.tradePrice < process.envREACT_APP_MINIMUM_AMOUNT) {
           this.setState({
             checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />
           })
@@ -517,7 +516,7 @@ class Details extends React.Component {
     await this.props.checkoutStore.updateUnloginCart(cartDataCopy)
     this.setState({ addToCartLoading: false });
     if (redirect) {
-      if (this.checkoutStore.tradePrice < MINIMUM_AMOUNT) {
+      if (this.checkoutStore.tradePrice < process.envREACT_APP_MINIMUM_AMOUNT) {
         this.setState({
           checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />
         });

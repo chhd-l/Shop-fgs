@@ -9,7 +9,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip'
 import LoginButton from '@/components/LoginButton'
 import { Link } from "react-router-dom"
 import { formatMoney } from "@/utils/utils"
-import { MINIMUM_AMOUNT, SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant'
+import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant'
 import { cloneDeep, find, findIndex } from 'lodash'
 import CART_CAT from "@/assets/images/CART_CAT.webp";
 import CART_DOG from "@/assets/images/CART_DOG.webp";
@@ -65,7 +65,7 @@ class UnLoginCart extends React.Component {
     const { history } = this.props;
 
     // 价格未达到底限，不能下单
-    if (this.tradePrice < MINIMUM_AMOUNT) {
+    if (this.tradePrice < process.envREACT_APP_MINIMUM_AMOUNT) {
       this.setState({
         errorShow: true,
         errorMsg: <FormattedMessage id="cart.errorInfo3" />

@@ -15,7 +15,6 @@ import edit from "@/assets/images/edit.svg"
 import { getPetList, addPet, petsById, delPets, editPets } from '@/api/pet'
 import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
-import { MINIMUM_AMOUNT } from "@/utils/constant"
 import { getCustomerInfo } from "@/api/user"
 import { getDict } from "@/api/dict"
 
