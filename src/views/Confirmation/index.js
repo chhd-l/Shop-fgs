@@ -269,7 +269,7 @@ class Confirmation extends React.Component {
 
               </div>
               <div className="rc-bg-colour--brand3 rc-max-width--xl rc-bottom-spacing rc-padding--sm imformation">
-                <div className="product-summary rc-column">
+                <div className="product-summary rc-column" style={{padding:0}}>
                   <h5 className="product-summary__title rc-margin-bottom--xs center">
                     <FormattedMessage id="total" />
                   </h5>

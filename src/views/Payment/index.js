@@ -824,6 +824,7 @@ class Payment extends React.Component {
     this.setState({
       promotionCode
     })
+    console.log(111,this.state.promotionCode)
   }
   render () {
     const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
@@ -1052,10 +1053,10 @@ class Payment extends React.Component {
                                   },
                                   () => {
                                     this.state.subForm.buyWay == "once"
-                                      ? this.props.checkoutStore.updateLoginCart('',
+                                      ? this.props.checkoutStore.updateLoginCart(this.state.promotionCode,
                                         false
                                       )
-                                      : this.props.checkoutStore.updateLoginCart('',
+                                      : this.props.checkoutStore.updateLoginCart(this.state.promotionCode,
                                         true
                                       );
                                   }
