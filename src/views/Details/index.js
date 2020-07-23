@@ -406,7 +406,7 @@ class Details extends React.Component {
       if (redirect) {
         if (this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" value={{ val: process.env.REACT_APP_MINIMUM_AMOUNT }} />
+            checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
           })
           return false
         }
@@ -518,7 +518,7 @@ class Details extends React.Component {
     if (redirect) {
       if (this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
         this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" value={{ val: process.env.REACT_APP_MINIMUM_AMOUNT }} />
+          checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
         });
         return false
       }
