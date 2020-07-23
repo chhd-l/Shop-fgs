@@ -23,6 +23,12 @@ class CheckoutStore {
   @computed get deliveryPrice () {
     return this.cartPrice && this.cartPrice.deliveryPrice ? this.cartPrice.deliveryPrice : 0
   }
+  @computed get subscriptionPrice () {
+    return this.cartPrice && this.cartPrice.deliveryPrice ? this.cartPrice.subscriptionPrice : 0
+  }
+  @computed get promotionDesc () {
+    return this.cartPrice && this.cartPrice.promotionDesc ? this.cartPrice.promotionDesc : ''
+  }
 
   @action.bound
   setCartData (data) {
@@ -79,8 +85,7 @@ class CheckoutStore {
       goodsMarketingDTOList: [],
       promotionCode
     })
-    // console.log({purchasesRes});
-    // debugger
+    let backCode = purchasesRes.code
     purchasesRes = purchasesRes.context
 
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap)
@@ -88,7 +93,9 @@ class CheckoutStore {
       totalPrice: purchasesRes.totalPrice,
       tradePrice: purchasesRes.tradePrice,
       discountPrice: purchasesRes.discountPrice,
-      deliveryPrice: purchasesRes.deliveryPrice
+      deliveryPrice:purchasesRes.deliveryPrice,
+      promotionDesc: purchasesRes.promotionDesc,
+      subscriptionPrice:purchasesRes.subscriptionPrice
     })
     // 更新stock值
     let tmpOutOfstockProNames = []
@@ -108,19 +115,22 @@ class CheckoutStore {
     })
     this.setCartData(data)
     this.outOfstockProNames = tmpOutOfstockProNames
+    return backCode
   }
 
   @action
-  async updateLoginCart (subscriptionFlag) {
-    // this.changeLoadingCartData(true)
+  async updateLoginCart (promotionCode="",subscriptionFlag='') {
+    this.changeLoadingCartData(true)
     // 获取购物车列表
     let siteMiniPurchasesRes = await siteMiniPurchases();
     siteMiniPurchasesRes = siteMiniPurchasesRes.context;
     // 获取总价
     let sitePurchasesRes = await sitePurchases({
       goodsInfoIds: siteMiniPurchasesRes.goodsList.map(ele => ele.goodsInfoId),
+      promotionCode,
       subscriptionFlag
     });
+    let backCode = sitePurchasesRes.code
     sitePurchasesRes = sitePurchasesRes.context;
     runInAction(() => {
       let goodsList = siteMiniPurchasesRes.goodsList
@@ -136,12 +146,15 @@ class CheckoutStore {
         totalPrice: sitePurchasesRes.totalPrice,
         tradePrice: sitePurchasesRes.tradePrice,
         discountPrice: sitePurchasesRes.discountPrice,
-        deliveryPrice: sitePurchasesRes.deliveryPrice
+        deliveryPrice:sitePurchasesRes.deliveryPrice,
+        promotionDesc: sitePurchasesRes.promotionDesc,
+        subscriptionPrice:sitePurchasesRes.subscriptionPrice
       })
       this.outOfstockProNames = siteMiniPurchasesRes.goodsList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
       this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap)
       this.changeLoadingCartData(false)
     })
+    return backCode
   }
 
   @action

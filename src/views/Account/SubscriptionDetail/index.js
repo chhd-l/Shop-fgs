@@ -1,6 +1,7 @@
 import React from "react";
 import "./index.css";
 import { FormattedMessage, injectIntl } from "react-intl";
+import { inject, observer } from 'mobx-react'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BreadCrumbs from "@/components/BreadCrumbs";
@@ -20,12 +21,17 @@ import {
   orderNowSub,
 } from "@/api/subscription";
 import Modal from "@/components/Modal";
+import { formatMoney } from "@/utils/utils"
 
+@inject("checkoutStore", "loginStore")
 @injectIntl
 class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      discount: [],//促销码的折扣信息汇总
+      promotionInputValue:'',//输入的促销码
+      isClickApply: false,//是否点击apply按钮
       subDetail: {},
       loading: false,
       subId: 0,
@@ -36,7 +42,6 @@ class SubscriptionDetail extends React.Component {
       productUrl:
         "https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291741049919.png",
       totalMoney: 10,
-      discount: 10,
       shipping: "FREE",
       totalRealPay: 0,
       shippingAddress: {
@@ -58,7 +63,7 @@ class SubscriptionDetail extends React.Component {
         cardImg: visaImg,
       },
       isChangeQuatity: false,
-      discount: [],
+   
       type: "main",
       currentCardInfo: {
         id: "PM202007100416145447",
@@ -181,6 +186,27 @@ class SubscriptionDetail extends React.Component {
 
     // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
   }
+  get isLogin () {
+    return this.props.loginStore.isLogin
+  }
+  get totalPrice () {
+    return this.props.checkoutStore.totalPrice
+  }
+  get tradePrice () {
+    return this.props.checkoutStore.tradePrice
+  }
+  get discountPrice () {
+    return this.props.checkoutStore.discountPrice
+  }
+  get deliveryPrice(){
+    return this.props.checkoutStore.deliveryPrice
+  }
+  get subscriptionPrice(){
+    return this.props.checkoutStore.subscriptionPrice
+  }
+  get promotionDesc(){
+    return this.props.checkoutStore.promotionDesc
+  }
   async getDetail() {
     this.setState({loading: true})
     getSubDetail(
@@ -237,8 +263,15 @@ class SubscriptionDetail extends React.Component {
       fn && fn()
     }, 3000)
   }
+  handlerChange(e){
+    let promotionInputValue = e.target.value
+    this.setState({
+      promotionInputValue
+    })
+  }
   render() {
     const data = this.state;
+    const { checkoutStore } = this.props
     let {
       isChangeQuatity,
       discount,
@@ -884,7 +917,7 @@ class SubscriptionDetail extends React.Component {
                                 :
                               </label>
                               <div className="text-right">
-                                <b>${data.totalMoney}</b>
+                                <b>{formatMoney(this.totalPrice)}</b>
                               </div>
                             </div>
                             <div className="flex-layout">
@@ -893,19 +926,19 @@ class SubscriptionDetail extends React.Component {
                                 :
                               </label>
                               <div className="text-right red-text">
-                                <b>-${data.discount}</b>
+                                <b>-{formatMoney(this.subscriptionPrice)}</b>
                               </div>
                             </div>
-                            {this.state.discount.map((el) => (
+                            {discount.map((el) => (
                               <div className="flex-layout">
                                 <label className="saveDiscount font18">
-                                  25% save amount
+                                {this.promotionDesc}
                                 </label>
                                 <div
                                   className="text-right red-text"
                                   style={{ position: "relative" }}
                                 >
-                                  <b>-${8}</b>
+                                  <b>-{formatMoney(this.discountPrice)}</b>
                                   <span
                                     style={{
                                       position: "absolute",
@@ -930,7 +963,7 @@ class SubscriptionDetail extends React.Component {
                                 :
                               </label>
                               <div className="text-right red-text">
-                                <b>{data.shipping}</b>
+                                <b>{formatMoney(this.deliveryPrice)}</b>
                               </div>
                             </div>
                           </div>
@@ -940,10 +973,11 @@ class SubscriptionDetail extends React.Component {
                               :
                             </label>
                             <div className="text-right">
-                              <b>${data.totalRealPay}</b>
+                              <b>{formatMoney(this.tradePrice)}</b>
                             </div>
                           </div>
-                          <div className="footer" style={{ marginTop: "10px" }}>
+                          {/* 支付新增promotionCode(选填) */}
+                          {discount.length==0?<div className="footer" style={{ marginTop: "10px" }}>
                             <span
                               class="rc-input rc-input--inline rc-input--label"
                               style={{ width: "180px" }}
@@ -954,6 +988,8 @@ class SubscriptionDetail extends React.Component {
                                 type="text"
                                 name="text"
                                 placeholder="Promotional Code"
+                                value={this.state.promotionInputValue}
+                                onChange={(e)=>this.handlerChange(e)}
                               />
                               <label
                                 class="rc-input__label"
@@ -961,16 +997,33 @@ class SubscriptionDetail extends React.Component {
                               ></label>
                             </span>
                             <button
-                              class="rc-btn rc-btn--sm rc-btn--two"
+                              className={["rc-btn","rc-btn--sm","rc-btn--two",this.state.isClickApply&&"ui-btn-loading ui-btn-loading-border-red"].join(" ")}
                               style={{ marginTop: "10px", float: "right" }}
-                              onClick={() => {
-                                discount.push(1);
-                                this.setState({ discount });
+                              onClick={async () => {
+                                let backCode = ''
+                               if (!this.state.promotionInputValue) return
+                                this.setState({
+                                 isClickApply: true
+                                })
+                                 //会员
+                                 backCode = await checkoutStore.updateLoginCart(this.state.promotionInputValue,true)
+                                 console.log(backCode);
+                                if (backCode == 'K-000000'){ //表示输入apply promotionCode成功 
+                                 discount.push(1);
+                                 this.setState({ discount });
+                                 this.setState({
+                                   promotionInputValue:''
+                                 })
+                                }  
+                                this.setState({
+                                 isClickApply: false
+                                })    
                               }}
                             >
                               Apply
                             </button>
-                          </div>
+                          </div>:null}
+                          
                         </div>
                       </div>
                     </div>

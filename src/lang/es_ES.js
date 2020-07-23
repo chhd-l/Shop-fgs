@@ -497,6 +497,7 @@ const en_US = {
   //qhx新增
   'unLoginSubscriptionTips': 'Subscription is possible only after registration',
   'apply':'Apply',
+  'subscribeDiscount':'Subscription Save Discount',
   //qhx新增
   'payment.deliveryFrequency':'Frecuencia de entrega',
   'payment.frequencyTip1':'¡Sí, haz mi vida más fácil!',

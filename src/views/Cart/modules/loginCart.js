@@ -68,6 +68,15 @@ class LoginCart extends React.Component {
   get deliveryPrice () {
     return this.props.checkoutStore.deliveryPrice
   }
+  get subscriptionPrice () {
+    return this.props.checkoutStore.subscriptionPrice
+  }
+  get promotionDesc () {
+    return this.props.checkoutStore.promotionDesc
+  }
+  get isPromote () {
+    return parseInt(this.discountPrice) > 0
+  }
   async updateCartCache () {
     this.setState({ checkoutLoading: true })
     await this.checkoutStore.updateLoginCart()
