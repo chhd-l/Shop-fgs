@@ -64,6 +64,9 @@ class LoginCart extends React.Component {
     }, 500)
   }
   async handleCheckout () {
+    this.setState({ checkoutLoading: true })
+    this.checkoutStore.updateLoginCart()
+    this.setState({ checkoutLoading: false })
     if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       this.setState({
         errMsg: <FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
