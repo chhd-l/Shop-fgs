@@ -120,7 +120,8 @@ class SubscriptionDetail extends React.Component {
       },
       modalType: "",
       errorShow: false,
-      errorMsg: ''
+      errorMsg: '',
+      successTipVisible: false
     };
   }
   componentWillUnmount() {
@@ -171,9 +172,7 @@ class SubscriptionDetail extends React.Component {
     });
     // try {
     //   let timer = setInterval(() => {
-    //     const datePickerOptions = {
-    //       maxDate: new Date()
-    //     }
+        
     //     if (window.RCDL.features.Datepickers && document.querySelector('.rc-input__date')) {
     //       document.querySelector('.rc-input__date').setAttribute("datepicker-setup", "false")
     //       window.RCDL.features.Datepickers.init('.rc-input__date', null, datePickerOptions)
@@ -183,8 +182,19 @@ class SubscriptionDetail extends React.Component {
     // } catch (e) {
     //   console.log(e)
     // }
-
-    // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
+    // try {
+    //   setTimeout(() => {
+    //     const datePickerOptions = {
+    //       maxDate: new Date(),
+    //       format: 'YYYYYearMMMonthDDDay'
+    //     }
+    //     document.querySelector('#receiveDate').setAttribute("datepicker-setup", "false")
+    //     window.RCDL.features.Datepickers.init('#receiveDate', null, datePickerOptions);
+    //   },3000)
+    // }catch(e) {
+    //   console.log(e)
+    // }
+    
   }
   get isLogin () {
     return this.props.loginStore.isLogin
@@ -250,18 +260,32 @@ class SubscriptionDetail extends React.Component {
       });
     }
   }
-  showErrMsg (msg, fn) {
-    this.setState({
-      errorShow: true,
-      errorMsg: msg
-    })
-    clearTimeout(this.timer)
-    this.timer = setTimeout(() => {
+  showErrMsg (msg, type,fn) {
+    if(type === 'success') {
       this.setState({
-        errorShow: false
+        successTipVisible: true,
       })
-      fn && fn()
-    }, 3000)
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.setState({
+          successTipVisible: false
+        })
+        fn && fn()
+      }, 1000)
+    }else {
+      this.setState({
+        errorShow: true,
+        errorMsg: msg
+      })
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.setState({
+          errorShow: false
+        })
+        fn && fn()
+      }, 3000)
+    }
+    
   }
   handlerChange(e){
     let promotionInputValue = e.target.value
@@ -292,7 +316,9 @@ class SubscriptionDetail extends React.Component {
             location={this.props.location}
             history={this.props.history}
           />
+          
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <input type="date" />
             <BreadCrumbs />
             <Modal
               key="1"
@@ -332,10 +358,12 @@ class SubscriptionDetail extends React.Component {
                         }),
                       };
                       console.log(param);
+                      this.setState({loading: true})
                       updateDetail(param).then((res) => {
+                        this.setState({loading: false})
                         // console.log(res);
                         // window.location.reload();
-                        this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
+                        this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
                       });
                       this.setState({ type: "main", currentCardInfo: el });
                     }}
@@ -386,10 +414,12 @@ class SubscriptionDetail extends React.Component {
                           changeField: title,
                         });
                         console.log(param);
+                        this.setState({loading: true})
                         updateDetail(param).then((res) => {
+                          this.setState({loading: false})
                           // console.log(res);
                           // window.location.reload();
-                          this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
+                          this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
                           
                         });
                         this.setState({
@@ -414,10 +444,12 @@ class SubscriptionDetail extends React.Component {
                           ],
                         });
                         console.log(param);
+                        this.setState({loading: true})
                         updateDetail(param).then((res) => {
+                          this.setState({loading: false})
                           // console.log(res);
                           // window.location.reload();
-                          this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
+                          this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
                           
                         });
                         this.setState({
@@ -542,11 +574,6 @@ class SubscriptionDetail extends React.Component {
                               />
                             </h4>
                           </div>
-                          {/* <div className="v-center" style={{marginRight: '40px'}}>
-                            <a className="rc-styled-link red-text">
-                              <FormattedMessage id="subscription.change"></FormattedMessage>
-                            </a>
-                          </div> */}
                         </div>
                       </div>
                       <div className="rc-column column-contanier">
@@ -554,18 +581,12 @@ class SubscriptionDetail extends React.Component {
                           className="rc-card-container"
                           style={{ borderRight: "1px solid #ddd" }}
                         >
-                          {/* <div className="bt-icon"> */}
                           <div
                             className="v-center"
                             style={{ marginRight: "20px" }}
                           >
                             <i className="rc-icon rc-refresh--xs rc-brand1"></i>
                           </div>
-
-                          {/* <button
-                                  className="rc-btn less-width-xs rc-btn--icon rc-icon rc-search--xs rc-iconography not-yet-btn"
-                                  aria-label="Search"></button> */}
-                          {/* </div> */}
                           <div className="rc-card-content">
                             <b className="">
                               <FormattedMessage id="subscription.frequency"></FormattedMessage>
@@ -593,9 +614,11 @@ class SubscriptionDetail extends React.Component {
                                       "subscription.frequency"
                                     ],
                                   });
+                                  this.setState({loading: true})
                                   updateDetail(param).then((res) => {
+                                    this.setState({loading: false})
                                     // window.location.reload();
-                                    this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
+                                    this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
                                   });
                                 }}
                                 selectedItemData={{
@@ -642,10 +665,11 @@ class SubscriptionDetail extends React.Component {
                                 className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs"
                                 input-setup="true"
                               >
+                                
                                 <input
                                   class="rc-input__date rc-js-custom rc-input__control"
                                   data-js-dateformat="YYYY-MM-DD"
-                                  id="id-date-2"
+                                  id="receiveDate"
                                   type="date"
                                   name="example-date-input"
                                   onBlur={(e) => {
@@ -670,9 +694,11 @@ class SubscriptionDetail extends React.Component {
                                           "subscription.receiveDate"
                                         ],
                                       });
+                                      this.setState({loading: true})
                                       updateDetail(param).then((res) => {
+                                        this.setState({loading: false})
                                         // window.location.reload();
-                                        this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
+                                        this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
                                       });
                                     }
                                     
@@ -694,6 +720,16 @@ class SubscriptionDetail extends React.Component {
                           <span style={{ paddingLeft: 0 }}>{this.state.errorMsg}</span>
                         </aside>
                       </div>
+                      <aside
+                        className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                          this.state.successTipVisible ? "" : "hidden"
+                          }`}
+                        role="alert"
+                      >
+                        <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+                          <FormattedMessage id="saveSuccessfullly" />
+                        </p>
+                      </aside>
                       <div className="rc-column product-container rc-double-width">
                         <div
                           className="text-right"
@@ -750,10 +786,12 @@ class SubscriptionDetail extends React.Component {
                                 }),
                               };
                               console.log(param);
+                              this.setState({loading: true})
                               updateDetail(param).then((res) => {
+                                this.setState({loading: false})
                                 // console.log(res);
                                 // window.location.reload();
-                                this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
+                                this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
                               });
                               this.setState({
                                 isChangeQuatity: false,
