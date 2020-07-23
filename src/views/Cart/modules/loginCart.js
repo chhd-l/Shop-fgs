@@ -108,9 +108,9 @@ class LoginCart extends React.Component {
     const { productList } = this.state
     // todo 后代校验购物车数据
     // 价格未达到底限，不能下单
-    if (this.tradePrice < process.envREACT_APP_MINIMUM_AMOUNT) {
+    if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       window.scrollTo({ behavior: "smooth", top: 0 })
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo3" />)
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo3" value={{ val: process.env.REACT_APP_MINIMUM_AMOUNT }} />)
       return false
     }
 

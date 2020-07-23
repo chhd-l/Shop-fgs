@@ -209,7 +209,7 @@ class Home extends React.Component {
                             alt="  " title="  " />
                           <div className="pl-3 d-flex align-items-center value-proposition__text">
                             <p className="rc-margin-bottom--none rc-intro">
-                              <FormattedMessage id="home.convenientTip2" />
+                              <FormattedMessage id="home.convenientTip2" value={{ val: process.env.REACT_APP_MINIMUM_AMOUNT }} />
                             </p>
                           </div>
                         </div>

@@ -65,10 +65,10 @@ class UnLoginCart extends React.Component {
     const { history } = this.props;
 
     // 价格未达到底限，不能下单
-    if (this.tradePrice < process.envREACT_APP_MINIMUM_AMOUNT) {
+    if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       this.setState({
         errorShow: true,
-        errorMsg: <FormattedMessage id="cart.errorInfo3" />
+        errorMsg: <FormattedMessage id="cart.errorInfo3" value={{ val: process.env.REACT_APP_MINIMUM_AMOUNT }} />
       })
       return false
     }
