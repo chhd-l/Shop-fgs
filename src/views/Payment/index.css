@@ -15,10 +15,10 @@
   cursor: auto;
 }
 .footerCheckbox>.form-check-input {
-  width: 12px;
-  height: 12px;
+  width: 15px;
+  height: 15px;
   font-size: 10px !important;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .footerCheckbox {
