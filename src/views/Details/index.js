@@ -16,7 +16,6 @@ import {
   queryProps
 } from '@/utils/utils'
 import {
-  MINIMUM_AMOUNT,
   STORE_CATE_ENUM,
   SUBSCRIPTION_DISCOUNT_RATE
 } from "@/utils/constant"
@@ -405,9 +404,18 @@ class Details extends React.Component {
       }, 1000);
       this.setState({ addToCartLoading: false });
       if (redirect) {
-        if (this.checkoutStore.tradePrice < MINIMUM_AMOUNT) {
+        if (this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />
+            checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
+          })
+          return false
+        }
+
+        // 存在下架商品，不能下单
+        if (this.props.checkoutStore.offShelvesProNames.length) {
+          this.setState({
+            checkOutErrMsg: <FormattedMessage id="cart.errorInfo4"
+              values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />
           })
           return false
         }
@@ -438,12 +446,7 @@ class Details extends React.Component {
     const { goodsId, sizeList } = this.state.details;
     const currentSelectedSize = find(sizeList, (s) => s.selected);
     let quantityNew = quantity;
-    let tmpData = Object.assign(
-      {},
-      this.state.details,
-      { quantity: quantityNew },
-      // { currentAmount: currentUnitPrice * quantityNew }
-    );
+    let tmpData = Object.assign({}, this.state.details, { quantity: quantityNew });
     let cartDataCopy = cloneDeep(this.props.checkoutStore.cartData);
 
     if (!instockStatus || !quantityNew) {
@@ -517,10 +520,18 @@ class Details extends React.Component {
     await this.props.checkoutStore.updateUnloginCart(cartDataCopy)
     this.setState({ addToCartLoading: false });
     if (redirect) {
-      if (this.checkoutStore.tradePrice < MINIMUM_AMOUNT) {
+      if (this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
         this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />
+          checkOutErrMsg: <FormattedMessage id="cart.errorInfo3"
+            values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
         });
+        return false
+      }
+      if (this.props.checkoutStore.offShelvesProNames.length) {
+        this.setState({
+          checkOutErrMsg: <FormattedMessage id="cart.errorInfo4"
+            values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />
+        })
         return false
       }
       if (this.checkoutStore.outOfstockProNames.length) {

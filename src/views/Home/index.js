@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import { formatMoney } from '@/utils/utils'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -209,7 +210,7 @@ class Home extends React.Component {
                             alt="  " title="  " />
                           <div className="pl-3 d-flex align-items-center value-proposition__text">
                             <p className="rc-margin-bottom--none rc-intro">
-                              <FormattedMessage id="home.convenientTip2" />
+                              <FormattedMessage id="home.convenientTip2" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
                             </p>
                           </div>
                         </div>

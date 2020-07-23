@@ -22453,3 +22453,6 @@ tr.rc-table__row.inactive td:after {
  input[type=number]{
   -moz-appearance:textfield;
 }
+.outline-none:before {
+  outline: none!important;
+}

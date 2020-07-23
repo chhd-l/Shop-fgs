@@ -236,7 +236,7 @@ class PayProductInfo extends React.Component {
                              backCode =  await checkoutStore.updateUnloginCart()
                             }else{
                              //会员
-                             backCode = await checkoutStore.updateLoginCart('',this.props.buyWay === 'frequency')                     
+                             backCode = await checkoutStore.updateLoginCart(this.props.promotionCode,this.props.buyWay === 'frequency')                     
                             }
                             if (backCode == 'K-000000') {
                               discount.pop();
@@ -281,7 +281,7 @@ class PayProductInfo extends React.Component {
              this.props.history && this.props.history.location.pathname === '/payment/payment'&&this.state.discount.length==0?<div className="footer" style={{ marginTop: "10px" }}>
              <span
                class="rc-input rc-input--inline rc-input--label"
-               style={{ width: "200px",marginLeft:"5px" }}
+               style={{ width: "180px",marginLeft:"5px" }}
              >
                <input
                  className="rc-input__control"
@@ -309,15 +309,14 @@ class PayProductInfo extends React.Component {
                  if(!this.isLogin){
                    //游客
                  backCode =  await checkoutStore.updateUnloginCart('',this.state.promotionInputValue)
-                 console.log(backCode);
                  }else{
                   //会员
                  backCode = await checkoutStore.updateLoginCart(this.state.promotionInputValue,this.props.buyWay === 'frequency')
-                 console.log(backCode);
                  }
                  if (backCode == 'K-000000'){ //表示输入apply promotionCode成功 
                   discount.push(1);
                   this.setState({ discount });
+                  this.props.sendPromotionCode(this.state.promotionInputValue);
                   this.setState({
                     promotionInputValue:''
                   })

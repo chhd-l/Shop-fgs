@@ -13,19 +13,23 @@ export default class CommunicationDataEditForm extends React.Component {
       errorMsg: '',
       form: {
         contactMethod: ''
-      }
+      },
+      oldForm:{}
     }
   }
   componentDidMount () {
     const { data } = this.props
     this.setState({
-      form: Object.assign({}, data)
+      form: Object.assign({}, data),
+      oldForm:data
+
     })
   }
   componentWillReceiveProps (nextProps) {
     if (nextProps.data !== this.state.form) {
       this.setState({
-        form: Object.assign({}, nextProps.data)
+        form: Object.assign({}, nextProps.data),
+        oldForm:nextProps.data
       })
     }
   }
@@ -65,9 +69,16 @@ export default class CommunicationDataEditForm extends React.Component {
       })
     }
   }
+  handleCancel=()=>{
+    const{oldForm}=this.state
+    this.setState({ 
+      editFormVisible: false,
+      form:oldForm
+     }) 
+  }
+
   render () {
     const { editFormVisible, form } = this.state
-    const { data } = this.props
     return (
       <div>
         {this.state.loading ? <Loading positionAbsolute="true" /> : null}
@@ -124,12 +135,12 @@ export default class CommunicationDataEditForm extends React.Component {
                     disabled="disabled"
                     alt={txt}
                     name="phone"
-                    checked={data.contactMethod === 'phone'}
+                    checked={form.contactMethod === 'phone'}
                     readOnly
                   />
                 )}
               </FormattedMessage>
-              <label className="rc-input__label--inline">
+              <label className="rc-input__label--inline outline-none">
                 <FormattedMessage id="phone" />
               </label>
             </div>
@@ -142,12 +153,12 @@ export default class CommunicationDataEditForm extends React.Component {
                     disabled="disabled"
                     alt={txt}
                     name="email"
-                    checked={data.contactMethod === 'email'}
+                    checked={form.contactMethod === 'email'}
                     readOnly
                   />
                 )}
               </FormattedMessage>
-              <label className="rc-input__label--inline">
+              <label className="rc-input__label--inline outline-none">
                 <FormattedMessage id="email" />
               </label>
             </div>
@@ -164,7 +175,7 @@ export default class CommunicationDataEditForm extends React.Component {
                   onChange={event => this.handleInputChange(event)}
                   checked={this.state.form.contactMethod === 'phone'}
                 />
-                <label className="rc-input__label--inline" htmlFor="optsmobile">
+                <label className="rc-input__label--inline outline-none" htmlFor="optsmobile">
                   <FormattedMessage id="phone" />
                 </label>
               </div>
@@ -182,7 +193,7 @@ export default class CommunicationDataEditForm extends React.Component {
                       checked={this.state.form.contactMethod === 'email'} />
                   )}
                 </FormattedMessage>
-                <label className="rc-input__label--inline" htmlFor="optsemail">
+                <label className="rc-input__label--inline outline-none" htmlFor="optsemail">
                   <FormattedMessage id="email" />
                 </label>
               </div>
@@ -191,7 +202,7 @@ export default class CommunicationDataEditForm extends React.Component {
               <a
                 className="rc-styled-link editPersonalInfoBtn"
                 name="contactPreference"
-                onClick={() => { this.setState({ editFormVisible: false }) }}>
+                onClick={()=>this.handleCancel()}>
                 <FormattedMessage id="cancel" />
               </a>
               &nbsp;<FormattedMessage id="or" />&nbsp;

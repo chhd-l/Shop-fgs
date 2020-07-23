@@ -16,9 +16,15 @@ class ReviewForm extends React.Component {
         }
         this.imgUploaderRef = React.createRef();
     }
-    // componentDidMount() {
-    //     this.textarea.focus();
-    // }
+    componentDidMount() {
+    }
+    componentWillReceiveProps(nextProps, nextContext) {
+        // debugger
+        // if(nextProps.isSubmit) {
+        //     this.textarea.blur();
+        // }
+    }
+
     selectProductRate(rate) {
        this.props.selectProductRate(rate, this.props.product)
     }
@@ -92,9 +98,9 @@ class ReviewForm extends React.Component {
                         </div>
                     </div>
                     <div className="">
-                        <div className="rc-column padt0">
+                        <div className="rc-column padt0 padb0">
                             <FormattedMessage id="writeYourReview"/>
-                            <div className="rc-margin-top--xs">
+                            <div className="padt20">
                                 <span
                                     className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
                                     input-setup="true">
@@ -103,7 +109,7 @@ class ReviewForm extends React.Component {
                                             txt => (<textarea
                                                 className="rc-input__textarea noborder"
                                                 rows={2}
-                                                // ref={(textarea)=> this.textarea = textarea}
+                                                ref={(textarea)=> this.textarea = textarea}
                                                 name="whatYouLike"
                                                 id="whatYouLike"
                                                 required={true}
@@ -124,13 +130,13 @@ class ReviewForm extends React.Component {
                         </div>
                     </div>
 
-                    <div className="rc-padding-top--xs rc-layout-container rc-one-column">
+                    <div className="rc-layout-container rc-one-column padt0">
                         <div className="rc-column">
                             <ImgUpload ref={this.imgUploaderRef} tipVisible={false} handleChange={() => this.handelImgChange()} />
                         </div>
                     </div>
-                    <div className="rc-padding-top--xs rc-layout-container rc-one-column">
-                        <div className="rc-column">
+                    <div className="rc-layout-container rc-one-column padt0">
+                        <div className="rc-column padt0">
                             <label>
                                 <input
                                     name="isAnonymous"

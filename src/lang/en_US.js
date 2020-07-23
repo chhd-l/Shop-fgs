@@ -89,7 +89,7 @@ const en_US = {
   'home.pageNotFoundInfo': 'Sorry, the page you are looking for does not exist.',
   'home.convenientTitle': 'Why is it convenient to shop with ROYAL CANIN®?',
   'home.convenientTip1': 'Selection of a diet according to the needs of your pet',
-  'home.convenientTip2': 'Fast free shipping when ordering from $400.',
+  'home.convenientTip2': 'Fast free shipping when ordering from {val}.',
   'home.convenientTip3': 'Support service: ask a question about your pet to a specialist',
   'home.point1': 'Secure payments',
   'home.point2': 'Quality assurance',
@@ -125,6 +125,7 @@ const en_US = {
   'details.availability': 'Availability',
   'details.inStock': 'In stock',
   'details.outStock': 'Out of stock',
+  'details.OffShelves': 'off shelves',
   'details.addToCart': 'Add to Cart',
   'details.description': 'Description',
   'details.beneficialFeatures': 'Beneficial features',
@@ -136,7 +137,8 @@ const en_US = {
   'cart.errorMaxInfo': 'The number can\'t be exceed than 30',
   'cart.errorMaxCate': 'The shopping cart can\'t exceed 30 items',
   'cart.errorInfo2': 'You cannot place your order, out of stock product: {val}',
-  'cart.errorInfo3': '*Your order amount has not yet reached the minimum amount for free shipping （$400）',
+  'cart.errorInfo3': '*Your order amount has not yet reached the minimum amount for free shipping （{val}）',
+  'cart.errorInfo4': 'You cannot place your order, Off shelves product: {val}',
   'cart.yourBasket': 'Your basket',
   'cart.fullPrice': 'FULL RICE FOR YOUR PET',
   'cart.dogDiet': 'Choose a diet for your dog',
@@ -487,10 +489,10 @@ const en_US = {
   'birthday': 'Birthday',
   'creditCard': 'Credit Card',
   'oxxo': 'OXXO',
-  'printEbanx' : 'Print Ebanx',
+  'printEbanx': 'Print Ebanx',
   'payAtOxxO': 'Pay at any OXXO with cash in Mexico',
   'inputYourEmailReceivePayment': 'Input your email to receive payment voucher & order status notices.',
-  'remember48Hours' : 'Remember that you have {val} to make the deposit or the order will be canceled when the voucher expired.',
+  'remember48Hours': 'Remember that you have {val} to make the deposit or the order will be canceled when the voucher expired.',
   'rememberHours': '48 hours',
   'active': 'Active',
   'inactive': 'Inactive',
@@ -502,12 +504,12 @@ const en_US = {
   'modalCancelAllContent': 'Are you sure you want to cancel all the following deliveries?',
   'modalOrderNowTitle': 'ORDER NOW?',
   'modalOrderNowContent': 'Are you sure you want to place this order now?',
-  'searchPrescriber':'Search a clinic',
+  'searchPrescriber': 'Search a clinic',
   'download': 'Download',
   //qhx新增
   'unLoginSubscriptionTips': 'Subscription is possible only after registration',
-  'apply':'Apply',
-  'subscribeDiscount':'Subscription Save Discount'
+  'apply': 'Apply',
+  'subscribeDiscount': 'Subscription Save Discount'
   //qhx新增
 }
 export default en_US;

@@ -1,6 +1,5 @@
-export const GTMID = 'GTM-NCWZQ3' // 区分uat/prd todo
+export const GTMID = 'GTM-NCWZQ3'
 export const GTM_SITE_ID = 'RCMXPCO1'
-export const MINIMUM_AMOUNT = 400 // 最低限额 后端？todo
 
 export const CATEID = '1129'
 
