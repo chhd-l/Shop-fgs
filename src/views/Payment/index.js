@@ -823,8 +823,7 @@ class Payment extends React.Component {
   savePromotionCode(promotionCode){
     this.setState({
       promotionCode
-    })
-    console.log(111,this.state.promotionCode)
+    }) 
   }
   render () {
     const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
@@ -1547,7 +1546,7 @@ class Payment extends React.Component {
                   history={this.props.history}
                   frequencyName={this.state.subForm.frequencyName}
                   buyWay={this.state.subForm.buyWay}
-                  sendPromotionCode={()=>this.savePromotionCode}
+                  sendPromotionCode={(e)=>this.savePromotionCode(e)}
                   promotionCode={this.state.promotionCode}
                 />
               </div>

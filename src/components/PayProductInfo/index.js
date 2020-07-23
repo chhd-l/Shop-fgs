@@ -326,6 +326,7 @@ class PayProductInfo extends React.Component {
                    this.setState({
                     isShowValidCode:true
                    })
+                   this.props.sendPromotionCode("");
                  }  
                  this.setState({
                   isClickApply: false,
