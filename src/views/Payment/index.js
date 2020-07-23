@@ -1546,7 +1546,7 @@ class Payment extends React.Component {
                   history={this.props.history}
                   frequencyName={this.state.subForm.frequencyName}
                   buyWay={this.state.subForm.buyWay}
-                  sendPromotionCode={this.savePromotionCode}
+                  sendPromotionCode={()=>this.savePromotionCode}
                   promotionCode={this.state.promotionCode}
                 />
               </div>

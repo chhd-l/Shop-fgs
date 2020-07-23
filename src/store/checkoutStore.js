@@ -121,7 +121,7 @@ class CheckoutStore {
     this.offShelvesProNames = tmpOffShelvesProNames
     this.outOfstockProNames = tmpOutOfstockProNames
     return new Promise(function(resolve){
-      resolve(backCode)
+      resolve({backCode,context:purchasesRes})
     })
   }
 
@@ -156,7 +156,7 @@ class CheckoutStore {
       this.changeLoadingCartData(false)
     })
     return new Promise(function(resolve){
-      resolve(backCode)
+      resolve({backCode,context:siteMiniPurchasesRes})
     })
   }
 
