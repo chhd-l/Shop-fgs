@@ -130,7 +130,7 @@ class LoginCart extends React.Component {
         onMouseOut={this.handleMouseOut}>
         <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn" title="Basket">
           <i className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
-          <span className="minicart-quantity">{loading ? '--' : totalNum}</span>
+          <span className="minicart-quantity">{totalNum}</span>
         </Link>
         {
           !totalNum && !loading
@@ -159,13 +159,7 @@ class LoginCart extends React.Component {
                   </div>
                   <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
                     <span className="rc-body rc-margin--none">
-                      {
-                        loading
-                          ? <b>--</b>
-                          : <>
-                            <FormattedMessage id="total" /> <b>{formatMoney(this.tradePrice)}</b>
-                          </>
-                      }
+                      <FormattedMessage id="total" /> <b>{formatMoney(this.tradePrice)}</b>
                     </span>
                     <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true"><FormattedMessage id="chang" /></Link>
                   </div>
