@@ -19,7 +19,7 @@ import {
 } from '@/api/cart'
 import CART_CAT from "@/assets/images/CART_CAT.webp";
 import CART_DOG from "@/assets/images/CART_DOG.webp";
-import { debug } from "semantic-ui-react/dist/commonjs/lib";
+import Loading from "@/components/Loading"
 
 @inject("checkoutStore")
 @observer
@@ -36,7 +36,7 @@ class LoginCart extends React.Component {
       deleteLoading: false,
       checkoutLoading: false,
       petModalVisible: false,
-      isAdd: 0
+      isAdd: 0,
     }
     this.handleAmountChange = this.handleAmountChange.bind(this)
     this.gotoDetails = this.gotoDetails.bind(this)
@@ -93,8 +93,10 @@ class LoginCart extends React.Component {
    * 加入后台购物车
    */
   async updateBackendCart (param) {
+    this.setState({ checkoutLoading: true })
     await updateBackendCart(param)
     this.updateCartCache()
+    this.setState({ checkoutLoading: false })
   }
   /**
    * 删除某个产品
@@ -106,6 +108,9 @@ class LoginCart extends React.Component {
   }
   async handleCheckout () {
     const { productList } = this.state
+    this.setState({ checkoutLoading: true })
+    await this.updateCartCache()
+    this.setState({ checkoutLoading: false })
     // 价格未达到底限，不能下单
     if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       window.scrollTo({ behavior: "smooth", top: 0 })
@@ -161,7 +166,8 @@ class LoginCart extends React.Component {
     }, 3000)
   }
   handleAmountChange (e, item) {
-    this.setState({ errorShow: false })
+    this.setState({ 
+      errorShow: false})
     const val = e.target.value
     if (val === '') {
       item.buyCount = val
@@ -187,6 +193,9 @@ class LoginCart extends React.Component {
     }
   }
   addQuantity (item) {
+    if(this.state.checkoutLoading){
+      return
+    }
     this.setState({ errorShow: false })
     if (item.buyCount < 30) {
       item.buyCount++
@@ -197,6 +206,9 @@ class LoginCart extends React.Component {
 
   }
   subQuantity (item) {
+    if(this.state.checkoutLoading){
+      return
+    }
     this.setState({ errorShow: false })
     if (item.buyCount > 1) {
       item.buyCount--
