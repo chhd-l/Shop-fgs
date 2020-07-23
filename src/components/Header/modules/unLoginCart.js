@@ -57,10 +57,20 @@ class UnloginCart extends React.Component {
     const { history } = this.props
     if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo3" value={{ val: process.env.REACT_APP_MINIMUM_AMOUNT }} />
+        errMsg: <FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
       })
       return false
     }
+
+    // 存在下架商品，不能下单
+    if (this.props.checkoutStore.offShelvesProNames.length) {
+      this.setState({
+        errMsg: <FormattedMessage id="cart.errorInfo4"
+          values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />
+      })
+      return false
+    }
+
     if (this.props.checkoutStore.outOfstockProNames.length) {
       this.setState({
         errMsg: <FormattedMessage id="cart.errorInfo2"

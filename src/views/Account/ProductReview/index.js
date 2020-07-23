@@ -113,16 +113,16 @@ class ProductReview extends React.Component {
             }
         }
         console.log(params, 'ddddddddd=-----------')
-        // if (isFillInfo) {
-        //     let res = await addGoodsEvaluate(params)
-        //     if(res.code === 'K-000000') {
-        //         this.props.history.push('/account/orders')
-        //     } else {
-        //         console.log(res.message, '评价接口错误信息----------')
-        //     }
-        // } else {
-        //     console.log('not fill info')
-        // }
+        if (isFillInfo) {
+            let res = await addGoodsEvaluate(params)
+            if(res.code === 'K-000000') {
+                this.props.history.push('/account/orders')
+            } else {
+                console.log(res.message, '评价接口错误信息----------')
+            }
+        } else {
+            console.log('not fill info')
+        }
     }
     handleConsumerCommentChange(e, product) {
         const value = e.target.value
@@ -287,6 +287,7 @@ class ProductReview extends React.Component {
                                                 this.state.productList.map((item) => (
                                                         <ReviewForm currentId={this.state.current}
                                                                     product={item}
+                                                                    isSubmit={this.state.isSubmit}
                                                                     handleImgChange={(imgRef, product)=>this.handleImgChange(imgRef, product)}
                                                                     selectProductRate={(rate,product) => this.selectProductRate(rate, product)}
                                                                     handleConsumerCommentChange={(e, product) => this.handleConsumerCommentChange(e, product)}

@@ -18,7 +18,7 @@ import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
-import { getDictionary } from "@/utils/utils";
+import { getDictionary, formatMoney } from "@/utils/utils";
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -71,6 +71,7 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      promotionCode:'',
       billingChecked: true,
       isCompleteCredit: false,
       showPayMethodError: false,
@@ -209,6 +210,9 @@ class Payment extends React.Component {
   }
   get loginCartData () {
     return this.props.checkoutStore.loginCartData;
+  }
+  get tradePrice () {
+    return this.props.checkoutStore.tradePrice
   }
   showErrorMsg (msg) {
     this.setState({
@@ -382,7 +386,30 @@ class Payment extends React.Component {
         return false;
       }
     }
+
     if (this.isLogin) {
+      // 价格未达到底限，不能下单
+      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrorMsg(<FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />)
+        return false
+      }
+      // 存在下架商品，不能下单
+      if (this.props.checkoutStore.offShelvesProNames.length) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrorMsg(<FormattedMessage id="cart.errorInfo4"
+          values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />)
+        return false
+      }
+
+      // 库存不够，不能下单
+      if (this.props.checkoutStore.outOfstockProNames.length) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrorMsg(<FormattedMessage id="cart.errorInfo2"
+          values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />)
+        return false
+      }
+
       if (!this.state.selectedCardInfo.cardNumber) {
         this.showErrorMsg(this.props.intl.messages.clickConfirmCardButton);
         return false;
@@ -793,6 +820,11 @@ class Payment extends React.Component {
     sessionStorage.setItem("clinic-reselect", 1);
     this.props.history.push("/prescription");
   }
+  savePromotionCode(promotionCode){
+    this.setState({
+      promotionCode
+    })
+  }
   render () {
     const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
     const CreditCardImg = (
@@ -1020,10 +1052,10 @@ class Payment extends React.Component {
                                   },
                                   () => {
                                     this.state.subForm.buyWay == "once"
-                                      ? this.props.checkoutStore.updateLoginCart(
+                                      ? this.props.checkoutStore.updateLoginCart('',
                                         false
                                       )
-                                      : this.props.checkoutStore.updateLoginCart(
+                                      : this.props.checkoutStore.updateLoginCart('',
                                         true
                                       );
                                   }
@@ -1514,6 +1546,8 @@ class Payment extends React.Component {
                   history={this.props.history}
                   frequencyName={this.state.subForm.frequencyName}
                   buyWay={this.state.subForm.buyWay}
+                  sendPromotionCode={this.savePromotionCode}
+                  promotionCode={this.state.promotionCode}
                 />
               </div>
             </div>

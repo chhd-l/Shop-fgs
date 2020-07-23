@@ -10,6 +10,7 @@ class CheckoutStore {
   @observable goodsMarketingMap = store.get('goodsMarketingMap') || null // promotion
   @observable loadingCartData = false
   @observable outOfstockProNames = []
+  @observable offShelvesProNames = []
 
   @computed get tradePrice () {
     return this.cartPrice && this.cartPrice.tradePrice ? this.cartPrice.tradePrice : 0
@@ -67,7 +68,7 @@ class CheckoutStore {
   }
 
   @action.bound
-  async updateUnloginCart (data, promotionCode) {
+  async updateUnloginCart (data, promotionCode="") {
     if (!data) {
       data = this.cartData
     }
@@ -99,23 +100,29 @@ class CheckoutStore {
     })
     // 更新stock值
     let tmpOutOfstockProNames = []
+    let tmpOffShelvesProNames = []
     Array.from(data, item => {
       let selectedSize = find(item.sizeList, s => s.selected)
       const tmpObj = find(purchasesRes.goodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
       if (tmpObj) {
+        item.addedFlag = tmpObj.addedFlag
         selectedSize.stock = tmpObj.stock
+        const tmpName = tmpObj.goodsInfoName + ' ' + tmpObj.specText
         // handle product off shelves logic
         if (!tmpObj.addedFlag) {
-          selectedSize.stock = 0
+          tmpOffShelvesProNames.push(tmpName)
         }
         if (item.quantity > selectedSize.stock) {
-          tmpOutOfstockProNames.push(tmpObj.goodsInfoName + ' ' + tmpObj.specText)
+          tmpOutOfstockProNames.push(tmpName)
         }
       }
     })
     this.setCartData(data)
+    this.offShelvesProNames = tmpOffShelvesProNames
     this.outOfstockProNames = tmpOutOfstockProNames
-    return backCode
+    return new Promise(function(resolve){
+      resolve(backCode)
+    })
   }
 
   @action
@@ -134,13 +141,6 @@ class CheckoutStore {
     sitePurchasesRes = sitePurchasesRes.context;
     runInAction(() => {
       let goodsList = siteMiniPurchasesRes.goodsList
-      // handle product off shelves logic
-      goodsList = Array.from(goodsList, g => {
-        if (!g.addedFlag) {
-          g.stock = 0
-        }
-        return g
-      })
       this.setLoginCartData(goodsList)
       this.setCartPrice({
         totalPrice: sitePurchasesRes.totalPrice,
@@ -150,11 +150,14 @@ class CheckoutStore {
         promotionDesc: sitePurchasesRes.promotionDesc,
         subscriptionPrice:sitePurchasesRes.subscriptionPrice
       })
+      this.offShelvesProNames = siteMiniPurchasesRes.goodsList.filter(ele => !ele.addedFlag).map(ele => ele.goodsInfoName + ' ' + ele.specText)
       this.outOfstockProNames = siteMiniPurchasesRes.goodsList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
       this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap)
       this.changeLoadingCartData(false)
     })
-    return backCode
+    return new Promise(function(resolve){
+      resolve(backCode)
+    })
   }
 
   @action

@@ -147,15 +147,15 @@ class Reviews extends React.Component {
                                 <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
                             </div>
                             <div>
-                                <div className="rc-layout-container rc-two-column rc-padding-top--sm rc-padding-left--lg">
-                                    <div className="rc-column ">
+                                <div className="rc-max-width--xl rc-padding-x--sm">
+                                    <div className="rc-column padl0">
                                         <h5 className="red-text">
                                             Customer reviews
                                         </h5>
                                     </div>
                                 </div>
-                                <div className="rc-layout-container rc-padding-bottom--xs rc-padding-left--lg">
-                                    <div className="rc-column">
+                                <div className="rc-max-width--xl rc-padding-x--sm">
+                                    <div className="rc-column padl0">
                                         <form>
                               <span className="rc-select rc-select-processed">
                                 <label className="rc-select__label" htmlFor="id-single-select">Sort by</label>
