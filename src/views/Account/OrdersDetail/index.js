@@ -336,18 +336,31 @@ class AccountOrders extends React.Component {
                                             {item.spuName}
                                           </span>
                                           {item.specDetails}
-                                          {/* <br />
-                                          <span className="rc-icon rc-refresh--xs rc-brand1"></span><FormattedMessage id="details.Subscription" /> */}
+                                          {
+                                            details.subscriptionResponseVO && item.subscriptionStatus && <>
+                                              <br />
+                                              <span className="rc-icon rc-refresh--xs rc-brand1"></span><FormattedMessage id="details.Subscription" />
+                                            </>
+                                          }
                                         </span>
                                       </div>
                                       <div className="col-9 col-md-3 text-right text-md-left">
                                         x{' '}{item.num}
                                       </div>
                                       <div className="col-3 col-md-4 text-right text-md-left">
-                                        {formatMoney(item.price)}
+                                        {
+                                          details.subscriptionResponseVO && item.subscriptionStatus
+                                            ? <>
+                                              <span style={{ textDecoration: 'line-through' }}>{formatMoney(item.price)}</span><br />
+                                              {formatMoney(item.subscriptionPrice)}
+                                            </>
+                                            : formatMoney(item.price)
+                                        }
                                       </div>
                                       <div className="col-12 col-md-1 text-right text-md-left text-nowrap">
-                                        {formatMoney(item.price * item.num)}
+                                        {details.subscriptionResponseVO && item.subscriptionStatus
+                                          ? formatMoney(item.subscriptionPrice * item.num)
+                                          : formatMoney(item.price * item.num)}
                                       </div>
                                     </div>
                                   ))}
@@ -359,12 +372,12 @@ class AccountOrders extends React.Component {
                               <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="total" />
                               </div>
-                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(details.tradePrice.originPrice)}</div>
+                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(details.tradePrice.goodsPrice)}</div>
                               {
                                 details.tradePrice.discountsPrice
                                   ? <>
                                     <div className="col-9 col-xxl-11 text-right color-999 red">
-                                      <FormattedMessage id="promotion" />
+                                      {details.tradePrice.promotionDesc}
                                     </div>
                                     <div className="col-3 col-xxl-1 red medium text-nowrap">-{formatMoney(details.tradePrice.discountsPrice)}</div>
                                   </>
@@ -373,7 +386,7 @@ class AccountOrders extends React.Component {
                               <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="shipping" />
                               </div>
-                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(0)}</div>
+                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(details.tradePrice.deliveryPrice)}</div>
                               <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="totalIncluIVA" />
                               </div>

@@ -55,6 +55,9 @@ class UnloginCart extends React.Component {
   }
   async handleCheckout ({ needLogin = false } = {}) {
     const { history } = this.props
+    this.setState({ checkoutLoading: true })
+    this.props.checkoutStore.updateUnloginCart()
+    this.setState({ checkoutLoading: false })
     if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       this.setState({
         errMsg: <FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />

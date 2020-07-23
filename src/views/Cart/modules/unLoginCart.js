@@ -75,17 +75,15 @@ class UnLoginCart extends React.Component {
   }
   async handleCheckout ({ needLogin = false } = {}) {
     const { history } = this.props;
-
-    // 价格未达到底限，不能下单
-    if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-      window.scrollTo({ behavior: "smooth", top: 0 })
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />)
-      return false
-    }
-
     this.setState({ checkoutLoading: true })
     try {
       await this.updateStock()
+      // 价格未达到底限，不能下单
+      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrMsg(<FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />)
+        return false
+      }
       // 存在下架商品，不能下单
       if (this.props.checkoutStore.offShelvesProNames.length) {
         window.scrollTo({ behavior: "smooth", top: 0 })
