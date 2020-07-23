@@ -3,7 +3,6 @@ import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
-import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { inject, observer } from 'mobx-react'
 import PetModal from '@/components/PetModal'
 
@@ -65,9 +64,9 @@ class LoginCart extends React.Component {
     }, 500)
   }
   async handleCheckout () {
-    if (this.tradePrice < MINIMUM_AMOUNT) {
+    if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo3" />
+        errMsg: <FormattedMessage id="cart.errorInfo3" value={{ val: process.env.REACT_APP_MINIMUM_AMOUNT }} />
       })
       return false
     }

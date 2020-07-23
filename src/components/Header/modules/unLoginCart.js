@@ -7,7 +7,6 @@ import {
   hanldePurchases
 } from '@/utils/utils'
 import { find } from 'lodash'
-import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { inject, observer } from 'mobx-react'
 import PetModal from '@/components/PetModal'
 
@@ -54,34 +53,34 @@ class UnloginCart extends React.Component {
   get tradePrice () {
     return this.props.checkoutStore.tradePrice
   }
-  async handleCheckout ({ needLogin = false } = {}) {
-    const { history } = this.props
-    if (this.tradePrice < MINIMUM_AMOUNT) {
+  async handleCheckout ({ needLogin = false } = {}) {
+    const { history } = this.props
+    if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo3" />
+        errMsg: <FormattedMessage id="cart.errorInfo3" value={{ val: process.env.REACT_APP_MINIMUM_AMOUNT }} />
       })
-      return false
+      return false
     }
-    if (this.props.checkoutStore.outOfstockProNames.length) {
+    if (this.props.checkoutStore.outOfstockProNames.length) {
       this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo2"
-                                  values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />
+        errMsg: <FormattedMessage id="cart.errorInfo2"
+          values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />
       })
-      return false
+      return false
     }
-    if (needLogin) {
+    if (needLogin) {
       // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
-    } else {
+    } else {
       history.push('/prescription')
     }
   }
-  openPetModal() {
+  openPetModal () {
     this.setState({
       petModalVisible: true
     })
   }
-  closePetModal() {
-    if(this.state.isAdd === 2) {
+  closePetModal () {
+    if (this.state.isAdd === 2) {
       this.setState({
         isAdd: 0
       })
@@ -90,16 +89,16 @@ class UnloginCart extends React.Component {
       petModalVisible: false
     })
   }
-  petComfirm(){
+  petComfirm () {
     this.props.history.push('/prescription')
   }
-  openNew() {
+  openNew () {
     this.setState({
       isAdd: 1
     })
     this.openPetModal()
   }
-  closeNew() {
+  closeNew () {
     this.setState({
       isAdd: 2
     })
