@@ -71,6 +71,15 @@ class LoginCart extends React.Component {
       return false
     }
 
+    // 存在下架商品，不能下单
+    if (this.props.checkoutStore.offShelvesProNames.length) {
+      this.setState({
+        errMsg: <FormattedMessage id="cart.errorInfo4"
+          values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />
+      })
+      return false
+    }
+
     // 库存不够，不能下单
     if (this.props.checkoutStore.outOfstockProNames.length) {
       this.setState({

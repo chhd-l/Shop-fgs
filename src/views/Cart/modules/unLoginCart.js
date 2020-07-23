@@ -61,28 +61,41 @@ class UnLoginCart extends React.Component {
       productList: this.props.checkoutStore.cartData
     })
   }
+  showErrMsg (msg) {
+    this.setState({
+      errorShow: true,
+      errorMsg: msg
+    })
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      this.setState({
+        errorShow: false
+      })
+    }, 3000)
+  }
   async handleCheckout ({ needLogin = false } = {}) {
     const { history } = this.props;
 
     // 价格未达到底限，不能下单
     if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-      this.setState({
-        errorShow: true,
-        errorMsg: <FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
-      })
+      window.scrollTo({ behavior: "smooth", top: 0 })
+      this.showErrMsg(<FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />)
       return false
     }
 
     this.setState({ checkoutLoading: true })
     try {
       await this.updateStock()
+      // 存在下架商品，不能下单
+      if (this.props.checkoutStore.offShelvesProNames.length) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrMsg(<FormattedMessage id="cart.errorInfo4" values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />)
+        return false
+      }
       // 库存不够，不能下单
       if (this.props.checkoutStore.outOfstockProNames.length) {
-        this.setState({
-          errorShow: true,
-          errorMsg: <FormattedMessage id="cart.errorInfo2"
-            values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />
-        })
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrMsg(<FormattedMessage id="cart.errorInfo2" values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />)
         return false
       }
       if (needLogin) {
@@ -387,20 +400,25 @@ class UnLoginCart extends React.Component {
                       : null
                   }
                 </div>
-                <div className="stock__wrapper">
+                <div className="stock__wrapper 1111">
                   <div className="stock">
-                    <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
+                    <label className={['availability', pitem.addedFlag, pitem.addedFlag && pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                       <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
                     </label>
                     <span className="availability-msg">
-                      <div
-                        className={[pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? '' : 'out-stock'].join(' ')}>
-                        {pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? <FormattedMessage id="details.inStock" /> : <FormattedMessage id="details.outStock" />}
-                      </div>
+                      {
+                        pitem.addedFlag && pitem.quantity <= find(pitem.sizeList, s => s.selected).stock
+                          ? <div>
+                            <FormattedMessage id="details.inStock" />
+                          </div>
+                          : <div className="out-stock">
+                            {pitem.addedFlag ? <FormattedMessage id="details.outStock" /> : <FormattedMessage id="details.OffShelves" />}
+                          </div>
+                      }
                     </span>
                   </div>
                   <div className="promotion stock" style={{ display: this.isPromote ? 'inline-block' : 'none' }}>
-                    <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
+                    <label className={`availability ${pitem.addedFlag && pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'}`}>
                       <span><FormattedMessage id="promotion" /> :</span>
                     </label>
                     <span className="availability-msg">
@@ -466,15 +484,17 @@ class UnLoginCart extends React.Component {
                   <span className="availability-msg">
                     <div className={`${pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? '' : 'out-stock'}`}>
                       {
-                        pitem.quantity <= find(pitem.sizeList, s => s.selected).stock
+                        pitem.addedFlag && pitem.quantity <= find(pitem.sizeList, s => s.selected).stock
                           ? <FormattedMessage id="details.inStock" />
-                          : <FormattedMessage id="details.outStock" />
+                          : pitem.addedFlag
+                            ? <FormattedMessage id="details.outStock" />
+                            : <FormattedMessage id="details.OffShelves" />
                       }
                     </div>
                   </span>
                 </div>
                 <div className="promotion stock" style={{ marginTop: '7px', display: this.isPromote ? 'inline-block' : 'none' }}>
-                  <label className={['availability', pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
+                  <label className={['availability', pitem.addedFlag && pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                     <span><FormattedMessage id="promotion" /> :</span>
                   </label>
                   <span className="availability-msg">

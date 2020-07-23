@@ -394,6 +394,21 @@ class Payment extends React.Component {
         this.showErrorMsg(<FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />)
         return false
       }
+      // 存在下架商品，不能下单
+      if (this.props.checkoutStore.offShelvesProNames.length) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrorMsg(<FormattedMessage id="cart.errorInfo4"
+          values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />)
+        return false
+      }
+
+      // 库存不够，不能下单
+      if (this.props.checkoutStore.outOfstockProNames.length) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrorMsg(<FormattedMessage id="cart.errorInfo2"
+          values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />)
+        return false
+      }
 
       if (!this.state.selectedCardInfo.cardNumber) {
         this.showErrorMsg(this.props.intl.messages.clickConfirmCardButton);
