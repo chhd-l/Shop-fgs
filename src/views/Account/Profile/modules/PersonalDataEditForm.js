@@ -23,13 +23,15 @@ class PersonalDataEditForm extends React.Component {
         phoneNumber: '',
         rfc: ''
       },
+      oldForm:{},
       countryList: []
     }
   }
   componentDidMount () {
     const { data } = this.props
     this.setState({
-      form: Object.assign({}, data)
+      form: Object.assign({}, data),
+      oldForm:data
     })
     getDictionary({ type: 'country' })
       .then(res => {
@@ -41,7 +43,8 @@ class PersonalDataEditForm extends React.Component {
   componentWillReceiveProps (nextProps) {
     if (nextProps.data !== this.state.form) {
       this.setState({
-        form: Object.assign({}, nextProps.data)
+        form: Object.assign({}, nextProps.data),
+        oldForm:nextProps.data
       })
     }
   }
@@ -80,7 +83,9 @@ class PersonalDataEditForm extends React.Component {
     }, 5000)
   }
   handleCancel () {
+    const{oldForm}=this.state
     this.setState({
+      form:oldForm,
       editFormVisible: false,
       errorMsg: ''
     })
