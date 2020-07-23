@@ -254,11 +254,15 @@ class Confirmation extends React.Component {
                     }
                     <b>
                       <FormattedMessage id="confirmation.orderNumber" />:{' '}
-                      <Link
-                        to={`/account/orders-detail/${this.state.orderNumber}`}
-                        className="rc-meta rc-styled-link backtohome mb-0">
-                        {this.state.orderNumber}
-                      </Link>
+                      {
+                        this.paywithLogin
+                          ? <Link
+                            to={`/account/orders-detail/${this.state.orderNumber}`}
+                            className="rc-meta rc-styled-link backtohome mb-0">
+                            {this.state.orderNumber}
+                          </Link>
+                          : this.state.orderNumber
+                      }
                     </b>
                   </p>
                 }
