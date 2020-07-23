@@ -67,7 +67,7 @@ class CheckoutStore {
   }
 
   @action.bound
-  async updateUnloginCart (data, promotionCode) {
+  async updateUnloginCart (data, promotionCode="") {
     if (!data) {
       data = this.cartData
     }
@@ -115,7 +115,9 @@ class CheckoutStore {
     })
     this.setCartData(data)
     this.outOfstockProNames = tmpOutOfstockProNames
-    return backCode
+    return new Promise(function(resolve){
+      resolve(backCode)
+    })
   }
 
   @action
@@ -154,7 +156,9 @@ class CheckoutStore {
       this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap)
       this.changeLoadingCartData(false)
     })
-    return backCode
+    return new Promise(function(resolve){
+      resolve(backCode)
+    })
   }
 
   @action

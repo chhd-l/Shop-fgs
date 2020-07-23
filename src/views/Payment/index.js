@@ -71,6 +71,7 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      promotionCode:'',
       billingChecked: true,
       isCompleteCredit: false,
       showPayMethodError: false,
@@ -793,6 +794,11 @@ class Payment extends React.Component {
     sessionStorage.setItem("clinic-reselect", 1);
     this.props.history.push("/prescription");
   }
+  savePromotionCode(promotionCode){
+    this.setState({
+      promotionCode
+    })
+  }
   render () {
     const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
     const CreditCardImg = (
@@ -1020,10 +1026,10 @@ class Payment extends React.Component {
                                   },
                                   () => {
                                     this.state.subForm.buyWay == "once"
-                                      ? this.props.checkoutStore.updateLoginCart(
+                                      ? this.props.checkoutStore.updateLoginCart('',
                                         false
                                       )
-                                      : this.props.checkoutStore.updateLoginCart(
+                                      : this.props.checkoutStore.updateLoginCart('',
                                         true
                                       );
                                   }
@@ -1514,6 +1520,8 @@ class Payment extends React.Component {
                   history={this.props.history}
                   frequencyName={this.state.subForm.frequencyName}
                   buyWay={this.state.subForm.buyWay}
+                  sendPromotionCode={this.savePromotionCode}
+                  promotionCode={this.state.promotionCode}
                 />
               </div>
             </div>
