@@ -445,6 +445,7 @@ const en_US = {
   'personal': 'Personal',
   'selectDeliveryAddress': 'Please select a delivery address',
   'clickConfirmCardButton': 'Please click the confirm card button',
+  'clickConfirmRequireCvv': 'If you want to use this credit card, please enter CVV and click the Apply button',
   'selectProduct': 'Please select product',
   'noSpecialNeeds': 'No special needs',
   'loginFailed': 'login failed',
