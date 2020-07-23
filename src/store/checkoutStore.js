@@ -126,7 +126,7 @@ class CheckoutStore {
   }
 
   @action
-  async updateLoginCart (promotionCode="",subscriptionFlag='') {
+  async updateLoginCart (promotionCode="",subscriptionFlag=false) {
     this.changeLoadingCartData(true)
     // 获取购物车列表
     let siteMiniPurchasesRes = await siteMiniPurchases();
