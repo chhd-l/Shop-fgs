@@ -350,7 +350,7 @@ class Payment extends React.Component {
       return false;
     }
 
-    store.set(!this.isLogin ? "loginDeliveryInfo" : "deliveryInfo", param);
+    store.set(this.isLogin ? "loginDeliveryInfo" : "deliveryInfo", param);
     this.setState({
       creditCardInfo: creditCardInfo,
       deliveryAddress: param.deliveryAddress,
