@@ -156,7 +156,7 @@ class CheckoutStore {
       this.changeLoadingCartData(false)
     })
     return new Promise(function(resolve){
-      resolve({backCode,context:siteMiniPurchasesRes})
+      resolve({backCode,context:sitePurchasesRes})
     })
   }
 
