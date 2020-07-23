@@ -353,7 +353,7 @@ class PaymentComp extends React.Component {
       };
 
       let addRes = await addOrUpdatePaymentMethod(params);
-
+      console.log(addRes, 'res')
       if (this.state.creditCardList.length ) {
         this.setState({
           loading: false,
@@ -361,19 +361,34 @@ class PaymentComp extends React.Component {
         });
         this.initCardInfo();
         await this.getPaymentMethodList();
-        let filterList = this.state.creditCardList.filter((el) => {
-          if (el.isDefault === 1) {
-            el.selected = true;
-            return true;
-          } else {
-            el.selected = false;
-            return false;
+        if(window.location.pathname === "/payment/payment") {
+          let creditCardInfo = {}
+          this.state.creditCardList.map(el => {
+            if(el.id === addRes.context.id) {
+              el.selected = true
+              creditCardInfo = el
+            }
+          })
+          console.log(this.state.creditCardList, 'list')
+          this.props.getSelectedValue &&
+          this.props.getSelectedValue(creditCardInfo);
+          this.setState({isCurrentCvvConfirm: true})
+        }else {
+          let filterList = this.state.creditCardList.filter((el) => {
+            if (el.isDefault === 1) {
+              el.selected = true;
+              return true;
+            } else {
+              el.selected = false;
+              return false;
+            }
+          });
+          if (filterList.length) {
+          } else if (this.state.creditCardList.length) {
+            this.state.creditCardList[0].selected = true;
           }
-        });
-        if (filterList.length) {
-        } else if (this.state.creditCardList.length) {
-          this.state.creditCardList[0].selected = true;
         }
+        
       } else {
         
         // params.id = addRes.context.id
@@ -634,10 +649,12 @@ class PaymentComp extends React.Component {
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
+                            let creditCardInfo = {...el}
+                            creditCardInfo.cardCvv = ''
                             this.setState(
                               {
                                 isEdit: true,
-                                creditCardInfo: el,
+                                creditCardInfo
                               },
                               () => {
                                 this.scrollToPaymentComp();
@@ -668,7 +685,7 @@ class PaymentComp extends React.Component {
                             <div
                               className="col-12 color-999"
                               style={{
-                                display: el.selected ? "none" : "block",
+                                display: el.selected && !isCurrentCvvConfirm ? "none" : "block",
                               }}
                             >
                               <span style={{ fontSize: '14px' }}><FormattedMessage id="name2" /></span>
@@ -680,7 +697,7 @@ class PaymentComp extends React.Component {
                             <div
                               className="col-12 color-999"
                               style={{
-                                display: el.selected ? "block" : "none",
+                                display: el.selected && !isCurrentCvvConfirm ? "block" : "none",
                               }}
                             >
                               <span style={{ fontSize: '14px' }}><FormattedMessage id="CVV" /></span>
