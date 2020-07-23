@@ -18,7 +18,7 @@ import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
-import { getDictionary } from "@/utils/utils";
+import { getDictionary, formatMoney } from "@/utils/utils";
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -210,6 +210,9 @@ class Payment extends React.Component {
   get loginCartData () {
     return this.props.checkoutStore.loginCartData;
   }
+  get tradePrice () {
+    return this.props.checkoutStore.tradePrice
+  }
   showErrorMsg (msg) {
     this.setState({
       errorShow: true,
@@ -382,7 +385,15 @@ class Payment extends React.Component {
         return false;
       }
     }
+
     if (this.isLogin) {
+      // 价格未达到底限，不能下单
+      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrorMsg(<FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />)
+        return false
+      }
+
       if (!this.state.selectedCardInfo.cardNumber) {
         this.showErrorMsg(this.props.intl.messages.clickConfirmCardButton);
         return false;

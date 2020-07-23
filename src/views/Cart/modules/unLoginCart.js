@@ -68,7 +68,7 @@ class UnLoginCart extends React.Component {
     if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       this.setState({
         errorShow: true,
-        errorMsg: <FormattedMessage id="cart.errorInfo3" value={{ val: process.env.REACT_APP_MINIMUM_AMOUNT }} />
+        errorMsg: <FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
       })
       return false
     }

@@ -66,7 +66,7 @@ class LoginCart extends React.Component {
   async handleCheckout () {
     if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo3" value={{ val: process.env.REACT_APP_MINIMUM_AMOUNT }} />
+        errMsg: <FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
       })
       return false
     }
