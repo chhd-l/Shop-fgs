@@ -129,7 +129,7 @@ export default class CommunicationDataEditForm extends React.Component {
                   />
                 )}
               </FormattedMessage>
-              <label className="rc-input__label--inline">
+              <label className="rc-input__label--inline outline-none">
                 <FormattedMessage id="phone" />
               </label>
             </div>
@@ -147,7 +147,7 @@ export default class CommunicationDataEditForm extends React.Component {
                   />
                 )}
               </FormattedMessage>
-              <label className="rc-input__label--inline">
+              <label className="rc-input__label--inline outline-none">
                 <FormattedMessage id="email" />
               </label>
             </div>
@@ -164,7 +164,7 @@ export default class CommunicationDataEditForm extends React.Component {
                   onChange={event => this.handleInputChange(event)}
                   checked={this.state.form.contactMethod === 'phone'}
                 />
-                <label className="rc-input__label--inline" htmlFor="optsmobile">
+                <label className="rc-input__label--inline outline-none" htmlFor="optsmobile">
                   <FormattedMessage id="phone" />
                 </label>
               </div>
@@ -182,7 +182,7 @@ export default class CommunicationDataEditForm extends React.Component {
                       checked={this.state.form.contactMethod === 'email'} />
                   )}
                 </FormattedMessage>
-                <label className="rc-input__label--inline" htmlFor="optsemail">
+                <label className="rc-input__label--inline outline-none" htmlFor="optsemail">
                   <FormattedMessage id="email" />
                 </label>
               </div>
