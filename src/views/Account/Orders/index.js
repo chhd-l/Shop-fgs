@@ -50,7 +50,8 @@ class AccountOrders extends React.Component {
         { value: '30d', name: <FormattedMessage id="order.lastXDays" values={{ val: 30 }} /> },
         { value: '3m', name: <FormattedMessage id="order.lastXMonths" values={{ val: 3 }} /> },
         { value: '6m', name: <FormattedMessage id="order.lastXMonths" values={{ val: 6 }} /> }
-      ]
+      ],
+      defaultLocalDateTime: ''
     }
 
     this.pageSize = 6
@@ -124,7 +125,7 @@ class AccountOrders extends React.Component {
               canPayNow: tradeState.flowState === 'AUDIT'
                 && tradeState.deliverStatus === 'NOT_YET_SHIPPED'
                 && tradeState.payState === 'NOT_PAID'
-                && new Date(ele.orderTimeOut).getTime() < new Date(res.defaultLocalDateTime).getTime(),
+                && new Date(ele.orderTimeOut).getTime() > new Date(res.defaultLocalDateTime).getTime(),
               payNowLoading: false,
               canRePurchase: tradeState.flowState === 'COMPLETED' || tradeState.flowState === 'VOID',
               canReview: tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO
@@ -136,6 +137,7 @@ class AccountOrders extends React.Component {
           orderList: tmpList,
           currentPage: res.context.pageable.pageNumber + 1,
           totalPage: res.context.totalPages,
+          defaultLocalDateTime: res.defaultLocalDateTime,
           loading: false,
           initing: false
         })
@@ -409,6 +411,7 @@ class AccountOrders extends React.Component {
                                         order.canPayNow
                                           ? <>
                                             <TimeCount
+                                              startTime={this.state.defaultLocalDateTime}
                                               endTime={order.orderTimeOut}
                                               onTimeEnd={() => this.handlePayNowTimeEnd(order)} />
                                             <button

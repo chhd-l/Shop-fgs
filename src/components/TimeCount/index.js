@@ -19,7 +19,7 @@ export default class TimeCount extends React.Component {
     this.countFun(end)
   }
   countFun = (end) => {
-    let now_time = Date.parse(new Date());
+    let now_time = Date.parse(this.props.startTime ? new Date(this.props.startTime) : new Date());
     var remaining = end - now_time;
 
     this.timer = setInterval(() => {
