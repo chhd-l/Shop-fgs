@@ -82,7 +82,7 @@ class RouteFilter extends Component {
     if (this.props.location.pathname !== "/login") {
       loadJS(process.env.REACT_APP_ONTRUST_SRC, function () { })
     }
-    if (this.props.location.pathname === "/confirmation" && !localStorage.getItem('orderNumber')) {
+    if (this.props.location.pathname === "/confirmation" && !sessionStorage.getItem('orderNumber')) {
       this.props.history.push("/");
     }
 
