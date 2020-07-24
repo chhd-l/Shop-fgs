@@ -386,6 +386,7 @@ const en_US = {
   'subscription.status': 'Subscription status',
   'subscription.chooseSubscription': 'Choose subscription',
   'subscription.orderNow': 'Order Now',
+  'subscription.noDataTip': 'No subscription',
   'login': 'Log in',
   'login.register': 'Create a personal account',
   'login.loginTip': ' To connect to the ROYAL CANIN® service,authorization is required. If you do not have a personal account, you can register now.',
@@ -464,6 +465,7 @@ const en_US = {
   'personal': 'Personal',
   'selectDeliveryAddress': 'Please select a delivery address',
   'clickConfirmCardButton': 'Please click the confirm card button',
+  'clickConfirmCvvButton': 'If you want to use this credit card, please enter CVV and click the Apply button',
   'selectProduct': 'Please select product',
   'noSpecialNeeds': 'No special needs',
   'loginFailed': 'login failed',
@@ -509,7 +511,9 @@ const en_US = {
   //qhx新增
   'unLoginSubscriptionTips': 'Subscription is possible only after registration',
   'apply': 'Apply',
-  'subscribeDiscount': 'Subscription Save Discount'
+  'subscribeDiscount': 'Subscription Save Discount',
+  'customerReviews' : 'Customer reviews',
+  'sortBy': 'Sort by',
   //qhx新增
 }
 export default en_US;

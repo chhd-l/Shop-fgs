@@ -150,7 +150,7 @@ class Reviews extends React.Component {
                                 <div className="rc-max-width--xl rc-padding-x--sm">
                                     <div className="rc-column padl0">
                                         <h5 className="red-text">
-                                            Customer reviews
+                                            <FormattedMessage id="customerReviews" />
                                         </h5>
                                     </div>
                                 </div>
@@ -158,7 +158,7 @@ class Reviews extends React.Component {
                                     <div className="rc-column padl0">
                                         <form>
                               <span className="rc-select rc-select-processed">
-                                <label className="rc-select__label" htmlFor="id-single-select">Sort by</label>
+                                <label className="rc-select__label" htmlFor="id-single-select"><FormattedMessage id="sortBy" /></label>
                                 {/*<select data-js-select="" id="id-single-select"*/}
                                 {/*        onChange={(e) => this.sortByChange(e)}*/}
                                 {/*        value = {this.state.selectedSortBy}>*/}
@@ -180,7 +180,7 @@ class Reviews extends React.Component {
                             <div>
 
                                 <div className="rc-layout-container rc-one-column rc-max-width--lg">
-                                    <div className="rc-column rc-margin-bottom--sm">
+                                    <div className="rc-column rc-margin-bottom--sm padl0">
                                         <div className="rc-layout-container rc-margin-top--md rc-stacked">
                                             <div className="rc-column rc-padding-x--none--desktop">
                                                 {
@@ -195,14 +195,15 @@ class Reviews extends React.Component {
                                                         (
                                                             data.goodsEvaluatesList.map(item => (
                                                                     <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
-                                                                        <div className="rc-column">
-                                                                            <div className="rc-padding--xs--desktop rc-padding--sm--mobile">
+                                                                        <div className="rc-column padl0 padr0">
+                                                                            <div className="">
+                                                                                {/*rc-padding--xs--desktop rc-padding--sm--mobile*/}
                                                                                 <div className="red-text">{item.commentator}</div>
                                                                                 <div style={{'fontSize': '14px'}}>{item.commentTime}</div>
                                                                             </div>
                                                                         </div>
-                                                                        <div className="rc-column rc-quad-width">
-                                                                            <div className="rc-padding--xs--desktop rc-padding--sm--mobile">
+                                                                        <div className="rc-column rc-quad-width padl0">
+                                                                            <div className="">
                                                                                 <Rate def={item.evaluateScore} disabled={true}/>
                                                                                 <div className="break mgt-10">{item.title}</div>
                                                                                 {/*{item.description}*/}
@@ -242,25 +243,6 @@ class Reviews extends React.Component {
                                                     currentPage={data.evaluatesCurrentPage}
                                                     totalPage={data.valuatesTotalPages}
                                                     onPageNumChange={params => this.hanldePageNumChange(params)} />
-                                                {/*<nav className="rc-pagination" data-pagination="" data-pages={data.valuatesTotalPages}*/}
-                                                {/*     data-rc-feature-pagination-setup="true" data-rc-pagination-active="true">*/}
-                                                {/*    <form action="#" method="POST" className="rc-pagination__form">*/}
-                                                {/*        <button*/}
-                                                {/*            className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography "*/}
-                                                {/*            disabled={data.evaluatesCurrentPage===0}*/}
-                                                {/*            type="submit" data-prev="" aria-label="Previous step" onClick={this.evaluatesPrePage.bind(this)}></button>*/}
-                                                {/*        <div className="rc-pagination__steps">*/}
-                                                {/*            <input type="text" className="rc-pagination__step rc-pagination__step--current"*/}
-                                                {/*                   aria-label="Current step" value={data.evaluatesCurrentPage + 1}></input>*/}
-                                                {/*            <div className="rc-pagination__step rc-pagination__step--of">of <span*/}
-                                                {/*                data-total-steps-label="">{data.valuatesTotalPages}</span></div>*/}
-                                                {/*        </div>*/}
-                                                {/*        <button*/}
-                                                {/*            className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"*/}
-                                                {/*            disabled={data.evaluatesCurrentPage+1 >= data.valuatesTotalPages}*/}
-                                                {/*            type="submit" data-next="" aria-label="Previous step" onClick={this.evaluatesNextPage.bind(this)} ></button>*/}
-                                                {/*    </form>*/}
-                                                {/*</nav>*/}
                                             </div>
                                         </div>
                                     </div>

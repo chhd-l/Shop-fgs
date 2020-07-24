@@ -74,6 +74,9 @@ class LoginCart extends React.Component {
   get promotionDesc () {
     return this.props.checkoutStore.promotionDesc
   }
+  get promotionDiscount () {
+    return this.props.checkoutStore.promotionDiscount
+  }
   get isPromote () {
     return parseInt(this.discountPrice) > 0
   }
@@ -166,8 +169,9 @@ class LoginCart extends React.Component {
     }, 3000)
   }
   handleAmountChange (e, item) {
-    this.setState({ 
-      errorShow: false})
+    this.setState({
+      errorShow: false
+    })
     const val = e.target.value
     if (val === '') {
       item.buyCount = val
@@ -193,7 +197,7 @@ class LoginCart extends React.Component {
     }
   }
   addQuantity (item) {
-    if(this.state.checkoutLoading){
+    if (this.state.checkoutLoading) {
       return
     }
     this.setState({ errorShow: false })
@@ -206,7 +210,7 @@ class LoginCart extends React.Component {
 
   }
   subQuantity (item) {
-    if(this.state.checkoutLoading){
+    if (this.state.checkoutLoading) {
       return
     }
     this.setState({ errorShow: false })
@@ -389,14 +393,14 @@ class LoginCart extends React.Component {
                       }
                     </span>
                   </div>
-                  <div className="promotion stock" style={{ display: parseInt(this.discountPrice) > 0 ? 'inline-block' : 'none' }}>
+                  {/* <div className="promotion stock" style={{ display: parseInt(this.discountPrice) > 0 ? 'inline-block' : 'none' }}>
                     <label className={['availability', pitem.addedFlag && pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
                       <span><FormattedMessage id="promotion" /> :</span>
                     </label>
                     <span className="availability-msg">
                       25% OFF
                     </span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -465,14 +469,14 @@ class LoginCart extends React.Component {
                     </div>
                   </span>
                 </div>
-                <div className="promotion stock" style={{ marginTop: '7px', display: parseInt(this.discountPrice) > 0 ? 'inline-block' : 'none' }}>
+                {/* <div className="promotion stock" style={{ marginTop: '7px', display: parseInt(this.discountPrice) > 0 ? 'inline-block' : 'none' }}>
                   <label className={['availability', pitem.addedFlag && pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
                     <span><FormattedMessage id="promotion" /> :</span>
                   </label>
                   <span className="availability-msg">
                     25% OFF
                   </span>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -522,14 +526,14 @@ class LoginCart extends React.Component {
           <p className="text-right sub-total">{formatMoney(this.totalPrice)}</p>
         </div>
       </div>
-      <div className="row" style={{ display: parseInt(this.discountPrice) > 0 ? 'flex' : 'none' }}>
-        <div className="col-4">
-          <p style={{ color: '#ec001a' }}>
-            <FormattedMessage id="promotion" />
+      <div className={`row red ${parseInt(this.discountPrice) > 0 ? 'd-flex' : 'hidden'}`}>
+        <div className="col-8">
+          <p>
+            {this.promotionDesc}({this.promotionDiscount})
           </p>
         </div>
-        <div className="col-8">
-          <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.discountPrice)}</p>
+        <div className="col-4">
+          <p className="text-right shipping-cost">- {formatMoney(this.discountPrice)}</p>
         </div>
       </div>
       <div className="row">

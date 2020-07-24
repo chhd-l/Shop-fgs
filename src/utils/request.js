@@ -57,7 +57,7 @@ service.interceptors.response.use((response) => {
         || response.data.message.toLowerCase().includes('pay order error'))) {
       ret = {
         message: response.data.message,
-        errorData: response.data.errorData.split('|')[0]
+        errorData: response.data.errorData ? response.data.errorData.split('|')[0] : ''
       }
     }
     return Promise.reject(ret)

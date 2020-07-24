@@ -54,7 +54,8 @@ class PaymentComp extends React.Component {
       isCurrentCvvConfirm: false,
       currentCardInfo: {},
       completeCardShow: false,
-      deliveryAddress: {}
+      deliveryAddress: {},
+      confirmCardInfo: {}
     };
   }
   async componentDidMount () {
@@ -98,13 +99,23 @@ class PaymentComp extends React.Component {
     return this.props.loginStore.userInfo
   }
   async getPaymentMethodList () {
+    let { confirmCardInfo } = this.state
     this.setState({ listLoading: true });
     try {
       let res = await getPaymentMethod({
         customerId: this.userInfo ? this.userInfo.customerId : ''
       });
+      if(confirmCardInfo.id && res.context.filter(el => confirmCardInfo.id === el.id).length) {
+        console.log(res.context.filter(el => confirmCardInfo.id === el.id).length)
+        this.setState({isCurrentCvvConfirm: true})
+      }else {
+        console.log(3)
+        this.props.getSelectedValue && this.props.getSelectedValue({})
+      }
+      console.log(1)
       this.setState({ creditCardList: res.context });
     } catch (err) {
+      console.log(err)
       this.setState({ listErr: err.toString() });
     } finally {
       this.setState({
@@ -151,7 +162,7 @@ class PaymentComp extends React.Component {
       this.showErrorMsg(this.props.intl.messages.cvvWarning);
     }
     console.log(isCurrentCvvConfirm)
-    this.setState({ isCurrentCvvConfirm: isCurrentCvvConfirm })
+    this.setState({ isCurrentCvvConfirm: isCurrentCvvConfirm, confirmCardInfo: el })
   }
   showErrorMsg = (message) => {
     this.setState({
@@ -354,7 +365,7 @@ class PaymentComp extends React.Component {
       };
 
       let addRes = await addOrUpdatePaymentMethod(params);
-
+      
       if (this.state.creditCardList.length) {
         this.setState({
           loading: false,
@@ -362,18 +373,33 @@ class PaymentComp extends React.Component {
         });
         this.initCardInfo();
         await this.getPaymentMethodList();
-        let filterList = this.state.creditCardList.filter((el) => {
-          if (el.isDefault === 1) {
-            el.selected = true;
-            return true;
-          } else {
-            el.selected = false;
-            return false;
-          }
-        });
-        if (filterList.length) {
-        } else if (this.state.creditCardList.length) {
-          this.state.creditCardList[0].selected = true;
+
+        if(window.location.pathname === "/payment/payment") {
+          let creditCardInfo = {}
+          this.state.creditCardList.map(el => {
+            if(el.id === addRes.context.id) {
+              el.selected = true
+              creditCardInfo = el
+            }
+          })
+          console.log(this.state.creditCardList, 'list')
+          this.props.getSelectedValue &&
+          this.props.getSelectedValue(creditCardInfo);
+          this.setState({isCurrentCvvConfirm: true})
+        }else {
+          let filterList = this.state.creditCardList.filter((el) => {
+            if (el.isDefault === 1) {
+              el.selected = true;
+              return true;
+            } else {
+              el.selected = false;
+              return false;
+            }
+          });
+          if (filterList.length) {
+          } else if (this.state.creditCardList.length) {
+            this.state.creditCardList[0].selected = true;
+          }  
         }
       } else {
 
@@ -640,10 +666,12 @@ class PaymentComp extends React.Component {
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
+                                let creditCardInfo = {...el}
+                                creditCardInfo.cardCvv = ''
                                 this.setState(
                                   {
                                     isEdit: true,
-                                    creditCardInfo: el,
+                                    creditCardInfo,
                                   },
                                   () => {
                                     this.scrollToPaymentComp();

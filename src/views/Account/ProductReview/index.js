@@ -28,7 +28,8 @@ class ProductReview extends React.Component {
             current: 1,
             reviewList: [],
             imgList: [],
-            isSubmit: false
+            isSubmit: false,
+            loading: false
         }
         this.selectPurchaseRate = this.selectPurchaseRate.bind(this);
         this.selectLogisticsRate = this.selectLogisticsRate.bind(this);
@@ -58,10 +59,15 @@ class ProductReview extends React.Component {
         })
     }
     async getGoodsList(orderId) {
+        this.setState({
+            loading: true
+        })
         const res = await getGoodsList(orderId)
+        this.setState({
+            loading: false
+        })
         if(res.code = "K-000000") {
             const productList = res.context
-            console.log(productList, 'productlist--------------')
             const list = []
             if(productList.length > 0 ) {
                 productList.forEach(item => {
@@ -70,7 +76,6 @@ class ProductReview extends React.Component {
                     }
                     list.push(obj)
                 })
-                console.log(productList, 'ddddddddddddddddd')
                 this.setState({
                     productList: productList,
                     reviewList: list
@@ -236,85 +241,97 @@ class ProductReview extends React.Component {
                                     </h4>
                                 </div>
                                 {/*main*/}
-                                <div className="rc-border-bottom rc-border-colour--interface ">
-                                    <div className="rc-margin--none">
-                                        <div className="">
-                                            <div className="rc-column">
-                                                <div>
+                                {
+                                    this.state.loading ?
+                                        <Skeleton
+                                            color="#f5f5f5"
+                                            width="100%"
+                                            height="100%"
+                                        /> :
+                                        (
+                                            <div>
+                                                <div className="rc-border-bottom rc-border-colour--interface ">
+                                                    <div className="rc-margin--none">
+                                                        <div className="">
+                                                            <div className="rc-column">
+                                                                <div>
                                                     <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
                                                         <span className="rc-font-bold"><FormattedMessage id="purchaseRating"></FormattedMessage></span>
                                                     </span>
-                                                    <div className="rc-margin-top--xs">
-                                                        <Rate def={this.state.purchaseRate} disabled={false} selectRate={this.selectPurchaseRate}/>
+                                                                    <div className="rc-margin-top--xs">
+                                                                        <Rate def={this.state.purchaseRate} disabled={false} selectRate={this.selectPurchaseRate}/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="rc-border-bottom rc-border-colour--interface ">
-                                    <div className="rc-margin--none pb-2">
-                                        {/*rc-layout-container rc-one-column*/}
-                                        <div className="">
-                                            <div className="rc-column">
-                                                <div>
+                                                <div className="rc-border-bottom rc-border-colour--interface ">
+                                                    <div className="rc-margin--none pb-2">
+                                                        {/*rc-layout-container rc-one-column*/}
+                                                        <div className="">
+                                                            <div className="rc-column">
+                                                                <div>
                                                     <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
                                                         <span className="rc-font-bold"><FormattedMessage id="logisticsRating"></FormattedMessage></span>
                                                     </span>
-                                                    <div className="rc-margin-top--xs">
-                                                        <Rate def={this.state.logisticsRate} disabled={false} selectRate={this.selectLogisticsRate}/>
+                                                                    <div className="rc-margin-top--xs">
+                                                                        <Rate def={this.state.logisticsRate} disabled={false} selectRate={this.selectLogisticsRate}/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div className="rc-layout-container rc-three-column">
-                                    {/*<div className="rc-column rc-triple-width pad-left0 pad-right0">*/}
-                                    {/*    <ReviewList update={this.updateCurrent} />*/}
-                                    {/*</div>*/}
-                                    {/*<div className="rc-padding-right--xs rc-bg-colour--brand4"></div>*/}
-                                    {/*rc-double-width*/}
-                                    <div className="rc-column">
-                                        <div className="rc-padding-top--xs">
+                                                <div className="rc-layout-container rc-three-column">
+                                                    {/*<div className="rc-column rc-triple-width pad-left0 pad-right0">*/}
+                                                    {/*    <ReviewList update={this.updateCurrent} />*/}
+                                                    {/*</div>*/}
+                                                    {/*<div className="rc-padding-right--xs rc-bg-colour--brand4"></div>*/}
+                                                    {/*rc-double-width*/}
+                                                    <div className="rc-column">
+                                                        <div className="rc-padding-top--xs">
                                                 <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
                                                     <span className="rc-font-bold "><FormattedMessage id="productRating"/></span>
                                                 </span>
-                                        </div>
-                                        {
-                                            this.state.productList.length > 0 ?
-                                                this.state.productList.map((item) => (
-                                                        <ReviewForm currentId={this.state.current}
-                                                                    product={item}
-                                                                    isSubmit={this.state.isSubmit}
-                                                                    handleImgChange={(imgRef, product)=>this.handleImgChange(imgRef, product)}
-                                                                    selectProductRate={(rate,product) => this.selectProductRate(rate, product)}
-                                                                    handleConsumerCommentChange={(e, product) => this.handleConsumerCommentChange(e, product)}
-                                                                    handleInputChange={(e, product)=>this.handleInputChange(e, product)}
-                                                        />
-                                                        )
-                                                )
+                                                        </div>
+                                                        {
+                                                            this.state.productList.length > 0 ?
+                                                                this.state.productList.map((item) => (
+                                                                        <ReviewForm currentId={this.state.current}
+                                                                                    product={item}
+                                                                                    isSubmit={this.state.isSubmit}
+                                                                                    handleImgChange={(imgRef, product)=>this.handleImgChange(imgRef, product)}
+                                                                                    selectProductRate={(rate,product) => this.selectProductRate(rate, product)}
+                                                                                    handleConsumerCommentChange={(e, product) => this.handleConsumerCommentChange(e, product)}
+                                                                                    handleInputChange={(e, product)=>this.handleInputChange(e, product)}
+                                                                        />
+                                                                    )
+                                                                )
 
-                                                : null
-                                        }
-                                        {
-                                            this.state.productList.length > 0 ?
-                                            (
-                                                <div className="rc-padding-top--sm">
-                                                    <button
-                                                        className="rc-btn rc-btn--sm rc-btn--two"
-                                                        name="contactPreference"
-                                                        type="submit"
-                                                        onClick={() => this.handleSubmit()}>
-                                                        <FormattedMessage id="submit" />
-                                                    </button>
+                                                                : null
+                                                        }
+                                                        {
+                                                            this.state.productList.length > 0 ?
+                                                                (
+                                                                    <div className="rc-padding-top--sm">
+                                                                        <button
+                                                                            className="rc-btn rc-btn--sm rc-btn--two"
+                                                                            name="contactPreference"
+                                                                            type="submit"
+                                                                            onClick={() => this.handleSubmit()}>
+                                                                            <FormattedMessage id="submit" />
+                                                                        </button>
+                                                                    </div>
+                                                                ): null
+                                                        }
+
+                                                    </div>
                                                 </div>
-                                            ): null
-                                        }
-
-                                    </div>
-                                </div>
+                                            </div>
+                                        )
+                                }
                             </div>
                         </div>
                     </div>

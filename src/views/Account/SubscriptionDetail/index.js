@@ -12,6 +12,7 @@ import PaymentComp from "./components/PaymentComp";
 import AddressComp from "./components/AddressComp";
 import Selection from "@/components/Selection";
 import { getDictionary } from "@/utils/utils";
+import DatePicker from 'react-datepicker';
 import {
   updateDetail,
   getAddressDetail,
@@ -23,7 +24,12 @@ import {
 } from "@/api/subscription";
 import Modal from "@/components/Modal";
 import { formatMoney } from "@/utils/utils"
+<<<<<<< HEAD
 import resolve from "resolve";
+=======
+import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment'
+>>>>>>> 7b84bbeed8fb833f8e16c8a97e0787604e6a7a5a
 
 @inject("checkoutStore", "loginStore")
 @injectIntl
@@ -132,13 +138,19 @@ class SubscriptionDetail extends React.Component {
       modalType: "",
       errorShow: false,
       errorMsg: '',
-      successTipVisible: false
+      successTipVisible: false,
+      minDate: new Date(),
+      todaydate: new Date()
     };
   }
   componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
   }
+  
   async componentDidMount() {
+    let now = new Date()
+    now.setDate(now.getDate() + 4)
+    this.setState({minDate: now})
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -194,31 +206,29 @@ class SubscriptionDetail extends React.Component {
     this.setState({
       subId: this.props.match.params.subscriptionNumber
     });
-    // try {
-    //   let timer = setInterval(() => {
-        
-    //     if (window.RCDL.features.Datepickers && document.querySelector('.rc-input__date')) {
-    //       document.querySelector('.rc-input__date').setAttribute("datepicker-setup", "false")
-    //       window.RCDL.features.Datepickers.init('.rc-input__date', null, datePickerOptions)
-    //       clearInterval(timer)
-    //     }
-    //   }, 1000)
-    // } catch (e) {
-    //   console.log(e)
-    // }
-    // try {
-    //   setTimeout(() => {
-    //     const datePickerOptions = {
-    //       maxDate: new Date(),
-    //       format: 'YYYYYearMMMonthDDDay'
-    //     }
-    //     document.querySelector('#receiveDate').setAttribute("datepicker-setup", "false")
-    //     window.RCDL.features.Datepickers.init('#receiveDate', null, datePickerOptions);
-    //   },3000)
-    // }catch(e) {
-    //   console.log(e)
-    // }
-    
+  }
+  onDateChange(date) {
+    let { subDetail } = this.state
+    subDetail.nextDeliveryTime = moment(date).format('YYYY-MM-DD')
+    let param = {
+      subscribeId: subDetail.subscribeId,
+      nextDeliveryTime: subDetail.nextDeliveryTime,
+      goodsItems: subDetail.goodsInfo.map((el) => {
+        return {
+          skuId: el.skuId,
+          subscribeNum: el.subscribeNum,
+          subscribeGoodsId: el.subscribeGoodsId
+        };
+      }),
+    };
+    this.setState({loading: true})
+    updateDetail(param).then((res) => {
+      this.setState({loading: false})
+      // window.location.reload();
+      this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
+    }).catch(err => {
+      this.setState({loading: false})
+    })
   }
   get isLogin () {
     return this.props.loginStore.isLogin
@@ -361,7 +371,10 @@ class SubscriptionDetail extends React.Component {
       addressType,
       subDetail,
       currentModalObj,
+      todaydate
     } = this.state;
+    console.log(todaydate, this.state.minDate, 'date')
+    // const [startDate, setStartDate] = useState(new Date());
     return (
       <div>
         <div>
@@ -373,7 +386,7 @@ class SubscriptionDetail extends React.Component {
           />
           
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-          <input type="date" />
+          
             <BreadCrumbs />
             <Modal
               key="1"
@@ -409,6 +422,7 @@ class SubscriptionDetail extends React.Component {
                           return {
                             skuId: el.skuId,
                             subscribeNum: el.subscribeNum,
+                            subscribeGoodsId: el.subscribeGoodsId
                           };
                         }),
                       };
@@ -419,7 +433,9 @@ class SubscriptionDetail extends React.Component {
                         // console.log(res);
                         // window.location.reload();
                         this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-                      });
+                      }).catch(err => {
+                        this.setState({loading: false})
+                      })
                       this.setState({ type: "main", currentCardInfo: el });
                     }}
                     cancel={() => this.setState({ type: "main" })}
@@ -443,6 +459,7 @@ class SubscriptionDetail extends React.Component {
                             return {
                               skuId: el.skuId,
                               subscribeNum: el.subscribeNum,
+                              subscribeGoodsId: el.subscribeGoodsId
                             };
                           }),
                         };
@@ -475,8 +492,9 @@ class SubscriptionDetail extends React.Component {
                           // console.log(res);
                           // window.location.reload();
                           this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-                          
-                        });
+                        }).catch(err => {
+                          this.setState({loading: false})
+                        })
                         this.setState({
                           type: "main",
                           currentDeliveryAddress: el,
@@ -489,6 +507,7 @@ class SubscriptionDetail extends React.Component {
                             return {
                               skuId: el.skuId,
                               subscribeNum: el.subscribeNum,
+                              subscribeGoodsId: el.subscribeGoodsId
                             };
                           }),
                         };
@@ -505,8 +524,9 @@ class SubscriptionDetail extends React.Component {
                           // console.log(res);
                           // window.location.reload();
                           this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-                          
-                        });
+                        }).catch(err => {
+                          this.setState({loading: false})
+                        })
                         this.setState({
                           type: "main",
                           currentBillingAddress: el,
@@ -660,6 +680,7 @@ class SubscriptionDetail extends React.Component {
                                       return {
                                         skuId: el.skuId,
                                         subscribeNum: el.subscribeNum,
+                                        subscribeGoodsId: el.subscribeGoodsId
                                       };
                                     }),
                                   };
@@ -674,7 +695,9 @@ class SubscriptionDetail extends React.Component {
                                     this.setState({loading: false})
                                     // window.location.reload();
                                     this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-                                  });
+                                  }).catch(err => {
+                                    this.setState({loading: false})
+                                  })
                                 }}
                                 selectedItemData={{
                                   value: subDetail.frequency || "",
@@ -702,65 +725,20 @@ class SubscriptionDetail extends React.Component {
                               style={{ marginTop: "10px" }}
                             >
                               {/* <span class="rc-input"> */}
-
-                              {/* <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
-                              <input
-                                className="rc-input__date rc-js-custom rc-input__control birthdate"
-                                id="birthdate"
-                                data-js-dateformat="DD/MM/YYYY"
-                                name="birthdate"
-                                type="date"
-                                value={this.state.birthdate}
-                                onChange={e => this.handleInputChange(e)}
-                                onBlur={e => this.inputBlur(e)} />
-
-                              <label className="rc-input__label" htmlFor="birthdate"></label>
-                            </span> */}
-                              <span
+                              {/* <span
                                 className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs"
                                 input-setup="true"
-                              >
+                              > */}
                                 
-                                <input
-                                  class="rc-input__date rc-js-custom rc-input__control"
-                                  data-js-dateformat="YYYY-MM-DD"
-                                  id="receiveDate"
-                                  type="date"
-                                  name="example-date-input"
-                                  onBlur={(e) => {
-                                    const target = e.target;
-                                    console.log(subDetail.nextDeliveryTime, target.value)
-                                    if(subDetail.nextDeliveryTime !== target.value) {
-                                      
-                                      subDetail.nextDeliveryTime = target.value;
-                                      let param = {
-                                        subscribeId: subDetail.subscribeId,
-                                        nextDeliveryTime: target.value,
-                                        goodsItems: subDetail.goodsInfo.map((el) => {
-                                          return {
-                                            skuId: el.skuId,
-                                            subscribeNum: el.subscribeNum,
-                                          };
-                                        }),
-                                      };
-                                      //增加返回changeField字段
-                                      Object.assign(param, {
-                                        changeField: this.props.intl.messages[
-                                          "subscription.receiveDate"
-                                        ],
-                                      });
-                                      this.setState({loading: true})
-                                      updateDetail(param).then((res) => {
-                                        this.setState({loading: false})
-                                        // window.location.reload();
-                                        this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-                                      });
-                                    }
-                                    
-                                  }}
-                                  value={subDetail.nextDeliveryTime}
+                                <DatePicker
+                                    className="receiveDate"
+                                    placeholder="Select Date"
+                                    dateFormat="yyyy-MM-dd"
+                                    minDate={this.state.minDate}
+                                    selected={subDetail.nextDeliveryTime?new Date(subDetail.nextDeliveryTime) : new Date()}
+                                    onChange={(date) => this.onDateChange(date)}
                                 />
-                              </span>
+                              {/* </span> */}
                             </h1>
                           </div>
                         </div>
@@ -837,6 +815,7 @@ class SubscriptionDetail extends React.Component {
                                   return {
                                     skuId: el.skuId,
                                     subscribeNum: el.subscribeNum,
+                                    subscribeGoodsId: el.subscribeGoodsId
                                   };
                                 }),
                               };
@@ -847,7 +826,9 @@ class SubscriptionDetail extends React.Component {
                                 // console.log(res);
                                 // window.location.reload();
                                 this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-                              });
+                              }).catch(err => {
+                                this.setState({loading: false})
+                              })
                               this.setState({
                                 isChangeQuatity: false,
                                 subDetail,
