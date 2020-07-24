@@ -343,6 +343,7 @@ class SubscriptionDetail extends React.Component {
                           return {
                             skuId: el.skuId,
                             subscribeNum: el.subscribeNum,
+                            subscribeGoodsId: el.subscribeGoodsId
                           };
                         }),
                       };
@@ -379,6 +380,7 @@ class SubscriptionDetail extends React.Component {
                             return {
                               skuId: el.skuId,
                               subscribeNum: el.subscribeNum,
+                              subscribeGoodsId: el.subscribeGoodsId
                             };
                           }),
                         };
@@ -426,6 +428,7 @@ class SubscriptionDetail extends React.Component {
                             return {
                               skuId: el.skuId,
                               subscribeNum: el.subscribeNum,
+                              subscribeGoodsId: el.subscribeGoodsId
                             };
                           }),
                         };
@@ -598,6 +601,7 @@ class SubscriptionDetail extends React.Component {
                                       return {
                                         skuId: el.skuId,
                                         subscribeNum: el.subscribeNum,
+                                        subscribeGoodsId: el.subscribeGoodsId
                                       };
                                     }),
                                   };
@@ -747,6 +751,7 @@ class SubscriptionDetail extends React.Component {
                                   return {
                                     skuId: el.skuId,
                                     subscribeNum: el.subscribeNum,
+                                    subscribeGoodsId: el.subscribeGoodsId
                                   };
                                 }),
                               };
