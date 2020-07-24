@@ -19,9 +19,11 @@ import {
   skipNextSub,
   cancelAllSub,
   orderNowSub,
+  getPromotionPrice
 } from "@/api/subscription";
 import Modal from "@/components/Modal";
 import { formatMoney } from "@/utils/utils"
+import resolve from "resolve";
 
 @inject("checkoutStore", "loginStore")
 @injectIntl
@@ -29,6 +31,13 @@ class SubscriptionDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      //订阅购物车参数
+      subTotal: 0,
+      subDiscount:0,
+      subShipping:0,
+      promotionDiscount:0,
+      subTradeTotal:0,
+       //订阅购物车参数
       discount: [],//促销码的折扣信息汇总
       promotionInputValue:'',//输入的促销码
       isClickApply: false,//是否点击apply按钮
@@ -167,7 +176,20 @@ class SubscriptionDetail extends React.Component {
         });
       })
     });
-    this.getDetail()
+    await this.getDetail()
+
+    const res =  await this.doGetPromotionPrice()
+    //拼装订阅购物车参数
+    if (res.code=="K-000000") {
+      let subTradeTotal = this.state.subTotal + Number(res.context.deliveryPrice) - Number(res.context.discountsPrice) - Number(res.context.promotionDiscount)
+      this.setState({
+        loading:false,
+        subDiscount:res.context.discountsPrice,
+        subShipping:res.context.subShipping,
+        promotionDiscount: res.context.promotionDiscount,
+        subTradeTotal
+      })
+    }
 
     this.setState({
       subId: this.props.match.params.subscriptionNumber
@@ -220,14 +242,10 @@ class SubscriptionDetail extends React.Component {
     return this.props.checkoutStore.promotionDesc
   }
   async getDetail() {
-    this.setState({loading: true})
-    getSubDetail(
-      this.props.match.params.subscriptionNumber
-    ).then(res => {
-      
+    try{
+      this.setState({loading: true})
+      const res =  await getSubDetail(this.props.match.params.subscriptionNumber)
       let subDetail = res.context;
-      
-      console.log(JSON.parse(localStorage.getItem("subDetail")), "subDetail");
       let orderOptions = (subDetail.trades || []).map((el) => {
         return { value: el.id, name: el.id + "" };
       });
@@ -240,11 +258,46 @@ class SubscriptionDetail extends React.Component {
         currentBillingAddress: subDetail.invoice,
         orderOptions: orderOptions
       })
-    }).catch(err => {
+    }catch(err){
       this.showErrMsg(err)
       this.setState({loading: false})
-    })
-    
+    }
+  }
+  async doGetPromotionPrice(promotionCode=""){
+    try{
+      //计算Total
+      this.setState({loading: true})
+      let goodsInfo = this.state.subDetail.goodsInfo
+ 
+      let subTotal = 0
+      for (let goods of goodsInfo) {
+        subTotal+=Number(goods.subscribePrice)*goods.subscribeNum
+      }
+      this.setState({
+        subTotal
+      }) 
+      //拼装goodsInfoList参数
+      let goodsInfoList =  this.state.subDetail.goodsInfo.map((ele)=>{
+        return {
+          goodsInfoId:ele.skuId,
+          buyCount:ele.subscribeNum
+        }
+      })
+
+      //根据参数查询促销的金额与订单运费
+      const res = await getPromotionPrice({
+        goodsInfoList,   
+        promotionCode,
+        isAutoSub: true,
+      })
+
+      return new Promise(function(resolve){
+        resolve(res)
+      })
+    }catch(err){
+      this.showErrMsg(err)
+      this.setState({loading: false})
+    }   
   }
   hanldeClickSubmit() {
     let { modalType, subDetail } = this.state;
@@ -915,7 +968,7 @@ class SubscriptionDetail extends React.Component {
                                     />
                                     <span
                                       className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                      onClick={() => {
+                                      onClick={async () => {
                                         let { currentGoodsInfo } = this.state;
                                         if(currentGoodsInfo[index].subscribeNum < 30) {
                                           currentGoodsInfo[index].subscribeNum =
@@ -923,6 +976,8 @@ class SubscriptionDetail extends React.Component {
                                             1;
                                           this.setState({ currentGoodsInfo });
                                           console.log(el.subscribeNum);
+                                          await this.getDetail()
+                                          await this.doGetPromotionPrice()
                                         }else {
                                           this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" />)
                                         }
@@ -957,7 +1012,7 @@ class SubscriptionDetail extends React.Component {
                                 :
                               </label>
                               <div className="text-right">
-                                <b>{formatMoney(this.totalPrice)}</b>
+                                <b>{formatMoney(this.state.subTotal)}</b>
                               </div>
                             </div>
                             <div className="flex-layout">
@@ -966,19 +1021,19 @@ class SubscriptionDetail extends React.Component {
                                 :
                               </label>
                               <div className="text-right red-text">
-                                <b>-{formatMoney(this.subscriptionPrice)}</b>
+                                <b>-{formatMoney(this.state.subDiscount)}</b>
                               </div>
                             </div>
                             {!this.state.isShowValidCode&&discount.map((el) => (
                               <div className="flex-layout">
                                 <label className="saveDiscount font18 red-text">
-                                {this.promotionDesc}
+                                Promotion Save
                                 </label>
                                 <div
                                   className="text-right red-text"
                                   style={{ position: "relative" }}
                                 >
-                                  <b>-{formatMoney(this.discountPrice)}</b>
+                                  <b>-{formatMoney(this.state.promotionDiscount)}</b>
                                   <span
                                     style={{
                                       position: "absolute",
@@ -1003,7 +1058,7 @@ class SubscriptionDetail extends React.Component {
                                 :
                               </label>
                               <div className="text-right red-text">
-                                <b>{formatMoney(this.deliveryPrice)}</b>
+                                <b>{formatMoney(this.state.subShipping)}</b>
                               </div>
                             </div>
                           </div>
@@ -1013,7 +1068,7 @@ class SubscriptionDetail extends React.Component {
                               :
                             </label>
                             <div className="text-right">
-                              <b>{formatMoney(this.tradePrice)}</b>
+                              <b>{formatMoney(this.state.subTradeTotal)}</b>
                             </div>
                           </div>
                           {/* 支付新增promotionCode(选填) */}
@@ -1048,9 +1103,9 @@ class SubscriptionDetail extends React.Component {
                                  lastPromotionInputValue:this.state.promotionInputValue
                                 })
                                  //会员
-                                 result = await checkoutStore.updateLoginCart(this.state.promotionInputValue,true)
+                                 result = await this.doGetPromotionPrice(this.state.promotionInputValue)
                                  console.log({result})
-                                if (result.backCode == 'K-000000'&&result.context.promotionDesc){ //表示输入apply promotionCode成功 
+                                if (result.backCode == 'K-000000'){ //表示输入apply promotionCode成功 
                                   discount.splice(0,1,1);//(起始位置,替换个数,插入元素)
                                   this.setState({ discount });
                                 } else{
@@ -1060,7 +1115,8 @@ class SubscriptionDetail extends React.Component {
                                 } 
                                 this.setState({
                                  isClickApply: false,
-                                 promotionInputValue:''
+                                 promotionInputValue:'',
+                                 loading: false
                                 })    
                               }}
                             >
