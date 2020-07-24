@@ -21,7 +21,7 @@ export default class CommunicationDataEditForm extends React.Component {
     const { data } = this.props
     this.setState({
       form: Object.assign({}, data),
-      oldForm:data
+      oldForm:Object.assign({}, data)
 
     })
   }
@@ -29,7 +29,7 @@ export default class CommunicationDataEditForm extends React.Component {
     if (nextProps.data !== this.state.form) {
       this.setState({
         form: Object.assign({}, nextProps.data),
-        oldForm:nextProps.data
+        oldForm:Object.assign({}, nextProps.data)
       })
     }
   }
@@ -73,7 +73,7 @@ export default class CommunicationDataEditForm extends React.Component {
     const{oldForm}=this.state
     this.setState({ 
       editFormVisible: false,
-      form:oldForm
+      form:Object.assign({}, oldForm)
      }) 
   }
 
