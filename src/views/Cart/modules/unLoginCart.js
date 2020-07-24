@@ -53,6 +53,12 @@ class UnLoginCart extends React.Component {
   get isPromote () {
     return parseInt(this.discountPrice) > 0
   }
+  get promotionDesc () {
+    return this.props.checkoutStore.promotionDesc
+  }
+  get promotionDiscount () {
+    return this.props.checkoutStore.promotionDiscount
+  }
   componentDidMount () {
     this.setCartData()
   }
@@ -415,14 +421,14 @@ class UnLoginCart extends React.Component {
                       }
                     </span>
                   </div>
-                  <div className="promotion stock" style={{ display: this.isPromote ? 'inline-block' : 'none' }}>
+                  {/* <div className="promotion stock" style={{ display: this.isPromote ? 'inline-block' : 'none' }}>
                     <label className={`availability ${pitem.addedFlag && pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'}`}>
                       <span><FormattedMessage id="promotion" /> :</span>
                     </label>
                     <span className="availability-msg">
                       25% OFF
                     </span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -491,14 +497,14 @@ class UnLoginCart extends React.Component {
                     </div>
                   </span>
                 </div>
-                <div className="promotion stock" style={{ marginTop: '7px', display: this.isPromote ? 'inline-block' : 'none' }}>
+                {/* <div className="promotion stock" style={{ marginTop: '7px', display: this.isPromote ? 'inline-block' : 'none' }}>
                   <label className={['availability', pitem.addedFlag && pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                     <span><FormattedMessage id="promotion" /> :</span>
                   </label>
                   <span className="availability-msg">
                     25% OFF
                   </span>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -556,14 +562,14 @@ class UnLoginCart extends React.Component {
             <p className="text-right sub-total">{formatMoney(this.totalPrice)}</p>
           </div>
         </div>
-        <div className="row" style={{ display: this.isPromote ? 'flex' : 'none' }}>
-          <div className="col-4">
-            <p style={{ color: '#ec001a' }}>
-              <FormattedMessage id="promotion" />
-            </p>
-          </div>
+        <div className={`row red ${parseInt(this.discountPrice) > 0 ? 'd-flex' : 'hidden'}`}>
           <div className="col-8">
-            <p className="text-right shipping-cost" style={{ color: '#ec001a' }}>- {formatMoney(this.discountPrice)}</p>
+            <p>
+              {this.promotionDesc}({this.promotionDiscount})
+          </p>
+          </div>
+          <div className="col-4">
+            <p className="text-right shipping-cost">- {formatMoney(this.discountPrice)}</p>
           </div>
         </div>
         <div className="row">

@@ -748,7 +748,7 @@ class Details extends React.Component {
                                       </>
                                       : null
                                   }
-                                  {details &&
+                                  {/* {details &&
                                     find(details.sizeList, (s) => s.selected) &&
                                     find(details.sizeList, (s) => s.selected)
                                       .marketingLabels[0] &&
@@ -762,7 +762,7 @@ class Details extends React.Component {
                                           <span>25% OFF</span>
                                         </div>
                                       </div>
-                                    ) : null}
+                                    ) : null} */}
                                   <div className="product-pricing__card__body rc-margin-top--xs">
                                     <div className="toggleVisibility">
                                       <div className="product-selectors rc-padding-top--xs">

@@ -424,6 +424,7 @@ const en_US = {
   'personal': 'Personal',
   'selectDeliveryAddress': 'Por favor seleccione una dirección de entrega',
   'clickConfirmCardButton': 'Por favor, haga clic en el botón confirmar tarjeta',
+  'clickConfirmCvvButton': 'Si desea utilizar esta tarjeta de crédito, ingrese CVV y haga clic en el botón Aplicar',
   'selectProduct': 'Por favor seleccione producto',
   'noSpecialNeeds':'Sin necesidades especiales',
   'loginFailed':'error de inicio de sesion',

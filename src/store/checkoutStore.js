@@ -30,7 +30,10 @@ class CheckoutStore {
   @computed get promotionDesc () {
     return this.cartPrice && this.cartPrice.promotionDesc ? this.cartPrice.promotionDesc : ''
   }
-
+  @computed get promotionDiscount () {
+    return this.cartPrice && this.cartPrice.promotionDiscount ? this.cartPrice.promotionDiscount : ''
+  }
+  
   @action.bound
   setCartData (data) {
     this.cartData = data
@@ -96,6 +99,7 @@ class CheckoutStore {
       discountPrice: purchasesRes.discountPrice,
       deliveryPrice:purchasesRes.deliveryPrice,
       promotionDesc: purchasesRes.promotionDesc,
+      promotionDiscount: purchasesRes.promotionDiscount,
       subscriptionPrice:purchasesRes.subscriptionPrice
     })
     // 更新stock值
@@ -148,6 +152,7 @@ class CheckoutStore {
         discountPrice: sitePurchasesRes.discountPrice,
         deliveryPrice:sitePurchasesRes.deliveryPrice,
         promotionDesc: sitePurchasesRes.promotionDesc,
+        promotionDiscount: sitePurchasesRes.promotionDiscount,
         subscriptionPrice:sitePurchasesRes.subscriptionPrice
       })
       this.offShelvesProNames = siteMiniPurchasesRes.goodsList.filter(ele => !ele.addedFlag).map(ele => ele.goodsInfoName + ' ' + ele.specText)

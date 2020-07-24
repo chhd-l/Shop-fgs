@@ -654,10 +654,12 @@ class PaymentComp extends React.Component {
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
+                            let creditCardInfo = {...el}
+                            creditCardInfo.cardCvv = ''
                             this.setState(
                               {
                                 isEdit: true,
-                                creditCardInfo: {...el},
+                                creditCardInfo,
                               },
                               () => {
                                 this.scrollToPaymentComp();
@@ -1284,8 +1286,12 @@ class PaymentComp extends React.Component {
                         : "none",
                   }}
                   onClick={() => {
-                    this.initCardInfo();
-                    this.setState({ isEdit: false, currentCvv: "" });
+                    if(this.state.creditCardList.length) {
+                      this.initCardInfo();
+                      this.setState({ isEdit: false, currentCvv: "" });
+                    }else {
+                      this.props.cancel()
+                    }
                     // this.scrollToPaymentComp();
                   }}
                 >
