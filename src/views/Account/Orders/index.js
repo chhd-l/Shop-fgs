@@ -124,7 +124,7 @@ class AccountOrders extends React.Component {
               canPayNow: tradeState.flowState === 'AUDIT'
                 && tradeState.deliverStatus === 'NOT_YET_SHIPPED'
                 && tradeState.payState === 'NOT_PAID'
-                && new Date(ele.orderTimeOut).getTime() > new Date(res.defaultLocalDateTime).getTime(),
+                && new Date(ele.orderTimeOut).getTime() < new Date(res.defaultLocalDateTime).getTime(),
               payNowLoading: false,
               canRePurchase: tradeState.flowState === 'COMPLETED' || tradeState.flowState === 'VOID',
               canReview: tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO
