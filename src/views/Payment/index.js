@@ -809,7 +809,7 @@ class Payment extends React.Component {
   }
   handleClickEditClinic (e) {
     e.preventDefault();
-    sessionStorage.setItem("clinic-reselect", 1);
+    sessionStorage.setItem("clinic-reselect", true);
     this.props.history.push("/prescription");
   }
   savePromotionCode (promotionCode) {

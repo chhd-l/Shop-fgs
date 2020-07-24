@@ -5,11 +5,18 @@ import store from 'storejs'
 
 class RouteFilter extends Component {
   shouldComponentUpdate (nextProps) {
+    //debugger
+    if (nextProps.location.pathname === "/prescription" && sessionStorage.getItem('clinic-reselect') === "true") {
+      return false
+    }
+    console.log(store.get("rc-clinic-id-select"))
+    console.log(store.get("rc-clinic-name-select"))
     if (nextProps.location.pathname === "/prescription"
-      && (!sessionStorage.getItem('clinic-reselect')
-        || (store.get("rc-clinics-id-link") && store.get("rc-clinics-name-link"))
-        || (store.get("rc-clinics-id-select") && store.get("rc-clinics-name-select"))
-        || (store.get("rc-clinics-id-default") && store.get("rc-clinics-name-default")))) {
+      && (
+        // sessionStorage.getItem('clinic-reselect') !== "true" || 
+        (store.get("rc-clinic-id-link") && store.get("rc-clinic-name-link"))
+        || (store.get("rc-clinic-id-select") && store.get("rc-clinic-name-select"))
+        || (store.get("rc-clinic-id-default") && store.get("rc-clinic-name-default")))) {
       this.props.history.replace("/payment/payment");
       return false
     }
