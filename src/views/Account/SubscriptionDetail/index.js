@@ -24,6 +24,7 @@ import {
 import Modal from "@/components/Modal";
 import { formatMoney } from "@/utils/utils"
 import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment'
 
 @inject("checkoutStore", "loginStore")
 @injectIntl
@@ -182,8 +183,27 @@ class SubscriptionDetail extends React.Component {
     });
   }
   onDateChange(date) {
-    console.log(date, 'date')
-    this.setState({ todaydate: date });
+    let { subDetail } = this.state
+    subDetail.nextDeliveryTime = moment(date).format('YYYY-MM-DD')
+    let param = {
+      subscribeId: subDetail.subscribeId,
+      nextDeliveryTime: subDetail.nextDeliveryTime,
+      goodsItems: subDetail.goodsInfo.map((el) => {
+        return {
+          skuId: el.skuId,
+          subscribeNum: el.subscribeNum,
+          subscribeGoodsId: el.subscribeGoodsId
+        };
+      }),
+    };
+    this.setState({loading: true})
+    updateDetail(param).then((res) => {
+      this.setState({loading: false})
+      // window.location.reload();
+      this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
+    }).catch(err => {
+      this.setState({loading: false})
+    })
   }
   get isLogin () {
     return this.props.loginStore.isLogin
@@ -298,6 +318,7 @@ class SubscriptionDetail extends React.Component {
       todaydate
     } = this.state;
     console.log(todaydate, this.state.minDate, 'date')
+    // const [startDate, setStartDate] = useState(new Date());
     return (
       <div>
         <div>
@@ -678,16 +699,19 @@ class SubscriptionDetail extends React.Component {
                                     // onChange={(date) => this.onDateChange(date)}
                                 /> */}
                                 <DatePicker
-                                    // className="rc-input__date"
+                                    className="receiveDate"
+                                    
                                     // readOnly="readonly"
                                     // placeholder="Select Date"
-                                    // dateFormat="YYYY-MM-DD"
-                                    // minDate={this.state.minDate}
-                                    // selected={subDetail.nextDeliveryTime?new Date(subDetail.nextDeliveryTime) : new Date()}
+                                    dateFormat="yyyy-MM-dd"
+                                    minDate={this.state.minDate}
+                                    selected={subDetail.nextDeliveryTime?new Date(subDetail.nextDeliveryTime) : new Date()}
                                     // selected={'2020-10-11'}
                                     // value={new Date('2020-07-21')}
                                     // value={'2020-01-01'}
                                     onChange={(date) => this.onDateChange(date)}
+                                    // selected={new Date()}
+                                    // onChange={date => setStartDate(date)}
                                 />
                               {/* </span> */}
                             </h1>
