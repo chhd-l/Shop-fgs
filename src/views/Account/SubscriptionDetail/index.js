@@ -125,26 +125,18 @@ class SubscriptionDetail extends React.Component {
       errorShow: false,
       errorMsg: '',
       successTipVisible: false,
+      minDate: new Date(),
       todaydate: new Date()
     };
   }
   componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
   }
-
-  getInitialState() {
-    return {
-      date: null
-    };
-  }
- 
-  handleChange (date) {
-    this.setState({
-      date: date
-    });
-  }
   
   async componentDidMount() {
+    let now = new Date()
+    now.setDate(now.getDate() + 4)
+    this.setState({minDate: now})
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -187,38 +179,6 @@ class SubscriptionDetail extends React.Component {
     this.setState({
       subId: this.props.match.params.subscriptionNumber
     });
-    // try {
-    //   let timer = setInterval(() => {
-        
-    //     if (window.RCDL.features.Datepickers && document.querySelector('.rc-input__date')) {
-    //       document.querySelector('.rc-input__date').setAttribute("datepicker-setup", "false")
-    //       window.RCDL.features.Datepickers.init('.rc-input__date', null, datePickerOptions)
-    //       clearInterval(timer)
-    //     }
-    //   }, 1000)
-    // } catch (e) {
-    //   console.log(e)
-    // }
-    // try {
-    //   setTimeout(() => {
-    //     const datePickerOptions = {
-    //       // maxDate: new Date(),
-    //       // format: 'YYYYYearMMMonthDDDay'
-    //       i18n: {
-    //         previousMonth: 'Poprzedni miesiąc',
-    //         nextMonth: 'Następny miesiąc',
-    //         months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
-    //         weekdays: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwaretk', 'Piątek', 'Sobota'],
-    //         weekdaysShort: ['Nd', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb']
-    //       }
-    //     }
-    //     // document.querySelector('#receiveDate').setAttribute("datepicker-setup", "false")
-    //     window.RCDL.features.Datepickers.init('#receiveDate', null, datePickerOptions);
-    //   },3000)
-    // }catch(e) {
-    //   console.log(e)
-    // }
-    
   }
   onDateChange(date) {
     console.log(date, 'date')
@@ -336,7 +296,7 @@ class SubscriptionDetail extends React.Component {
       currentModalObj,
       todaydate
     } = this.state;
-    console.log(todaydate, 'date')
+    console.log(todaydate, this.state.minDate, 'date')
     return (
       <div>
         <div>
@@ -393,7 +353,9 @@ class SubscriptionDetail extends React.Component {
                         // console.log(res);
                         // window.location.reload();
                         this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-                      });
+                      }).catch(err => {
+                        this.setState({loading: false})
+                      })
                       this.setState({ type: "main", currentCardInfo: el });
                     }}
                     cancel={() => this.setState({ type: "main" })}
@@ -449,8 +411,9 @@ class SubscriptionDetail extends React.Component {
                           // console.log(res);
                           // window.location.reload();
                           this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-                          
-                        });
+                        }).catch(err => {
+                          this.setState({loading: false})
+                        })
                         this.setState({
                           type: "main",
                           currentDeliveryAddress: el,
@@ -479,8 +442,9 @@ class SubscriptionDetail extends React.Component {
                           // console.log(res);
                           // window.location.reload();
                           this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-                          
-                        });
+                        }).catch(err => {
+                          this.setState({loading: false})
+                        })
                         this.setState({
                           type: "main",
                           currentBillingAddress: el,
@@ -648,7 +612,9 @@ class SubscriptionDetail extends React.Component {
                                     this.setState({loading: false})
                                     // window.location.reload();
                                     this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-                                  });
+                                  }).catch(err => {
+                                    this.setState({loading: false})
+                                  })
                                 }}
                                 selectedItemData={{
                                   value: subDetail.frequency || "",
@@ -699,8 +665,9 @@ class SubscriptionDetail extends React.Component {
                                     readOnly="readonly"
                                     placeholder="Select Date"
                                     format="YYYY-MM-DD"
-                                    maxDate={new Date('2020-07-26')}
-                                    value={new Date(todaydate)}
+                                    minDate={this.state.minDate}
+                                    value={subDetail.nextDeliveryTime?new Date(subDetail.nextDeliveryTime) : new Date()}
+                                    // value={new Date('2020-07-21')}
                                     onChange={(date) => this.onDateChange(date)}
                                 />
                               </span>
@@ -790,7 +757,9 @@ class SubscriptionDetail extends React.Component {
                                 // console.log(res);
                                 // window.location.reload();
                                 this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-                              });
+                              }).catch(err => {
+                                this.setState({loading: false})
+                              })
                               this.setState({
                                 isChangeQuatity: false,
                                 subDetail,
