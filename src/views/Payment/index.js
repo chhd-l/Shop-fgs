@@ -403,7 +403,7 @@ class Payment extends React.Component {
       }
 
       if (!this.state.selectedCardInfo.cardNumber) {
-        this.showErrorMsg(this.props.intl.messages.clickConfirmCardButton);
+        this.showErrorMsg(this.props.intl.messages.clickConfirmCvvButton);
         return false;
       }
       let selectedCard = this.state.selectedCardInfo;

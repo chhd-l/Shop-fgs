@@ -105,7 +105,7 @@ class PaymentComp extends React.Component {
       let res = await getPaymentMethod({
         customerId: this.userInfo ? this.userInfo.customerId : ''
       });
-      if(confirmCardInfo.id && !res.context.filter(el => confirmCardInfo.id === el.id).length) {
+      if(confirmCardInfo.id && res.context.filter(el => confirmCardInfo.id === el.id).length) {
         console.log(res.context.filter(el => confirmCardInfo.id === el.id).length)
         this.setState({isCurrentCvvConfirm: true})
       }else {
