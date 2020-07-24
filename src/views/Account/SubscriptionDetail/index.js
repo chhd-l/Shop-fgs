@@ -12,7 +12,7 @@ import PaymentComp from "./components/PaymentComp";
 import AddressComp from "./components/AddressComp";
 import Selection from "@/components/Selection";
 import { getDictionary } from "@/utils/utils";
-import DatePicker from 'react-pikaday-datepicker';
+import DatePicker from 'react-datepicker';
 import {
   updateDetail,
   getAddressDetail,
@@ -23,6 +23,7 @@ import {
 } from "@/api/subscription";
 import Modal from "@/components/Modal";
 import { formatMoney } from "@/utils/utils"
+import "react-datepicker/dist/react-datepicker.css";
 
 @inject("checkoutStore", "loginStore")
 @injectIntl
@@ -308,6 +309,7 @@ class SubscriptionDetail extends React.Component {
           />
           
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          
             <BreadCrumbs />
             <Modal
               key="1"
@@ -660,21 +662,34 @@ class SubscriptionDetail extends React.Component {
 
                               <label className="rc-input__label" htmlFor="birthdate"></label>
                             </span> */}
-                              <span
+                              {/* <span
                                 className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs"
                                 input-setup="true"
-                              >
+                              > */}
+                                {/* <DatePicker
+                                    // className="rc-input__date"
+                                    // readOnly="readonly"
+                                    // placeholder="Select Date"
+                                    format="YYYY/MM/DD"
+                                    // minDate={this.state.minDate}
+                                    // value={subDetail.nextDeliveryTime?new Date(subDetail.nextDeliveryTime) : new Date()}
+                                    // value={new Date('2020-07-21')}
+                                    // value={'2020-01-01'}
+                                    // onChange={(date) => this.onDateChange(date)}
+                                /> */}
                                 <DatePicker
                                     // className="rc-input__date"
-                                    readOnly="readonly"
-                                    placeholder="Select Date"
-                                    format="YYYY-MM-DD"
-                                    minDate={this.state.minDate}
-                                    value={subDetail.nextDeliveryTime?new Date(subDetail.nextDeliveryTime) : new Date()}
+                                    // readOnly="readonly"
+                                    // placeholder="Select Date"
+                                    // dateFormat="YYYY-MM-DD"
+                                    // minDate={this.state.minDate}
+                                    // selected={subDetail.nextDeliveryTime?new Date(subDetail.nextDeliveryTime) : new Date()}
+                                    // selected={'2020-10-11'}
                                     // value={new Date('2020-07-21')}
+                                    // value={'2020-01-01'}
                                     onChange={(date) => this.onDateChange(date)}
                                 />
-                              </span>
+                              {/* </span> */}
                             </h1>
                           </div>
                         </div>

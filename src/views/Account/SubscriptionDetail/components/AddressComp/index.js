@@ -226,8 +226,12 @@ class LoginDeliveryAddress extends React.Component {
     return el.offsetTop;
   }
   handleClickCancel () {
-    this.setState({ addOrEdit: false, saveErrorMsg: "" });
-    this.scrollToTitle();
+    if(this.state.addressList.length) {
+      this.setState({ addOrEdit: false, saveErrorMsg: "" });
+      this.scrollToTitle();
+    }else {
+      this.props.cancel()
+    }
   }
   async handleSave () {
     const { deliveryAddress, addressList } = this.state;
