@@ -12,6 +12,7 @@ import PaymentComp from "./components/PaymentComp";
 import AddressComp from "./components/AddressComp";
 import Selection from "@/components/Selection";
 import { getDictionary } from "@/utils/utils";
+import DatePicker from 'react-pikaday-datepicker';
 import {
   updateDetail,
   getAddressDetail,
@@ -121,12 +122,26 @@ class SubscriptionDetail extends React.Component {
       modalType: "",
       errorShow: false,
       errorMsg: '',
-      successTipVisible: false
+      successTipVisible: false,
+      todaydate: new Date()
     };
   }
   componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
   }
+
+  getInitialState() {
+    return {
+      date: null
+    };
+  }
+ 
+  handleChange (date) {
+    this.setState({
+      date: date
+    });
+  }
+  
   async componentDidMount() {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
@@ -185,16 +200,27 @@ class SubscriptionDetail extends React.Component {
     // try {
     //   setTimeout(() => {
     //     const datePickerOptions = {
-    //       maxDate: new Date(),
-    //       format: 'YYYYYearMMMonthDDDay'
+    //       // maxDate: new Date(),
+    //       // format: 'YYYYYearMMMonthDDDay'
+    //       i18n: {
+    //         previousMonth: 'Poprzedni miesiąc',
+    //         nextMonth: 'Następny miesiąc',
+    //         months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
+    //         weekdays: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwaretk', 'Piątek', 'Sobota'],
+    //         weekdaysShort: ['Nd', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb']
+    //       }
     //     }
-    //     document.querySelector('#receiveDate').setAttribute("datepicker-setup", "false")
+    //     // document.querySelector('#receiveDate').setAttribute("datepicker-setup", "false")
     //     window.RCDL.features.Datepickers.init('#receiveDate', null, datePickerOptions);
     //   },3000)
     // }catch(e) {
     //   console.log(e)
     // }
     
+  }
+  onDateChange(date) {
+    console.log(date, 'date')
+    this.setState({ todaydate: date });
   }
   get isLogin () {
     return this.props.loginStore.isLogin
@@ -306,7 +332,9 @@ class SubscriptionDetail extends React.Component {
       addressType,
       subDetail,
       currentModalObj,
+      todaydate
     } = this.state;
+    console.log(todaydate, 'date')
     return (
       <div>
         <div>
@@ -318,7 +346,6 @@ class SubscriptionDetail extends React.Component {
           />
           
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-          <input type="date" />
             <BreadCrumbs />
             <Modal
               key="1"
@@ -665,45 +692,14 @@ class SubscriptionDetail extends React.Component {
                                 className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs"
                                 input-setup="true"
                               >
-                                
-                                <input
-                                  class="rc-input__date rc-js-custom rc-input__control"
-                                  data-js-dateformat="YYYY-MM-DD"
-                                  id="receiveDate"
-                                  type="date"
-                                  name="example-date-input"
-                                  onBlur={(e) => {
-                                    const target = e.target;
-                                    console.log(subDetail.nextDeliveryTime, target.value)
-                                    if(subDetail.nextDeliveryTime !== target.value) {
-                                      
-                                      subDetail.nextDeliveryTime = target.value;
-                                      let param = {
-                                        subscribeId: subDetail.subscribeId,
-                                        nextDeliveryTime: target.value,
-                                        goodsItems: subDetail.goodsInfo.map((el) => {
-                                          return {
-                                            skuId: el.skuId,
-                                            subscribeNum: el.subscribeNum,
-                                          };
-                                        }),
-                                      };
-                                      //增加返回changeField字段
-                                      Object.assign(param, {
-                                        changeField: this.props.intl.messages[
-                                          "subscription.receiveDate"
-                                        ],
-                                      });
-                                      this.setState({loading: true})
-                                      updateDetail(param).then((res) => {
-                                        this.setState({loading: false})
-                                        // window.location.reload();
-                                        this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-                                      });
-                                    }
-                                    
-                                  }}
-                                  value={subDetail.nextDeliveryTime}
+                                <DatePicker
+                                    // className="rc-input__date"
+                                    readOnly="readonly"
+                                    placeholder="Select Date"
+                                    format="YYYY-MM-DD"
+                                    maxDate={new Date('2020-07-26')}
+                                    value={new Date(todaydate)}
+                                    onChange={(date) => this.onDateChange(date)}
                                 />
                               </span>
                             </h1>
