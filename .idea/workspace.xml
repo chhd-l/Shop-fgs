@@ -27,8 +27,7 @@
   <component name="ChangeListManager">
     <list default="true" id="47401d03-5d3b-4db0-92ad-5095ad7961de" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Account/ProductReview/components/ReviewForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/ProductReview/components/ReviewForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Account/ProductReview/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/ProductReview/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lang/en_US.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lang/en_US.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Account/ProductReview/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/ProductReview/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Details/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/index.css" afterDir="false" />
@@ -124,7 +123,7 @@
       <workItem from="1592626824307" duration="914000" />
       <workItem from="1592635753495" duration="620000" />
       <workItem from="1594603932547" duration="75098000" />
-      <workItem from="1595208558888" duration="49914000" />
+      <workItem from="1595208558888" duration="52928000" />
     </task>
     <servers />
   </component>
@@ -284,7 +283,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Account/Orders/index.js</url>
-          <line>29</line>
+          <line>28</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -294,7 +293,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Details/components/Reviews.js</url>
-          <line>270</line>
+          <line>252</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>

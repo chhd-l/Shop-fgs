@@ -507,7 +507,9 @@ const en_US = {
   //qhx新增
   'unLoginSubscriptionTips': 'Subscription is possible only after registration',
   'apply': 'Apply',
-  'subscribeDiscount': 'Subscription Save Discount'
+  'subscribeDiscount': 'Subscription Save Discount',
+  'customerReviews' : 'Customer reviews',
+  'sortBy': 'Sort by',
   //qhx新增
 }
 export default en_US;
