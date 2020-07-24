@@ -68,7 +68,6 @@ class ProductReview extends React.Component {
         })
         if(res.code = "K-000000") {
             const productList = res.context
-            console.log(productList, 'productlist--------------')
             const list = []
             if(productList.length > 0 ) {
                 productList.forEach(item => {
@@ -77,7 +76,6 @@ class ProductReview extends React.Component {
                     }
                     list.push(obj)
                 })
-                console.log(productList, 'ddddddddddddddddd')
                 this.setState({
                     productList: productList,
                     reviewList: list

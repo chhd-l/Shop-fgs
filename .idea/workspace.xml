@@ -27,10 +27,7 @@
   <component name="ChangeListManager">
     <list default="true" id="47401d03-5d3b-4db0-92ad-5095ad7961de" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lang/en_US.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lang/en_US.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Account/ProductReview/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Account/ProductReview/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Details/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +120,7 @@
       <workItem from="1592626824307" duration="914000" />
       <workItem from="1592635753495" duration="620000" />
       <workItem from="1594603932547" duration="75098000" />
-      <workItem from="1595208558888" duration="52928000" />
+      <workItem from="1595208558888" duration="56111000" />
     </task>
     <servers />
   </component>
@@ -248,7 +245,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Cart/modules/loginCart.js</url>
-          <line>608</line>
+          <line>638</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
