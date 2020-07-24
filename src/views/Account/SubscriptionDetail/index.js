@@ -669,49 +669,18 @@ class SubscriptionDetail extends React.Component {
                               style={{ marginTop: "10px" }}
                             >
                               {/* <span class="rc-input"> */}
-
-                              {/* <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
-                              <input
-                                className="rc-input__date rc-js-custom rc-input__control birthdate"
-                                id="birthdate"
-                                data-js-dateformat="DD/MM/YYYY"
-                                name="birthdate"
-                                type="date"
-                                value={this.state.birthdate}
-                                onChange={e => this.handleInputChange(e)}
-                                onBlur={e => this.inputBlur(e)} />
-
-                              <label className="rc-input__label" htmlFor="birthdate"></label>
-                            </span> */}
                               {/* <span
                                 className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs"
                                 input-setup="true"
                               > */}
-                                {/* <DatePicker
-                                    // className="rc-input__date"
-                                    // readOnly="readonly"
-                                    // placeholder="Select Date"
-                                    format="YYYY/MM/DD"
-                                    // minDate={this.state.minDate}
-                                    // value={subDetail.nextDeliveryTime?new Date(subDetail.nextDeliveryTime) : new Date()}
-                                    // value={new Date('2020-07-21')}
-                                    // value={'2020-01-01'}
-                                    // onChange={(date) => this.onDateChange(date)}
-                                /> */}
+                                
                                 <DatePicker
                                     className="receiveDate"
-                                    
-                                    // readOnly="readonly"
-                                    // placeholder="Select Date"
+                                    placeholder="Select Date"
                                     dateFormat="yyyy-MM-dd"
                                     minDate={this.state.minDate}
                                     selected={subDetail.nextDeliveryTime?new Date(subDetail.nextDeliveryTime) : new Date()}
-                                    // selected={'2020-10-11'}
-                                    // value={new Date('2020-07-21')}
-                                    // value={'2020-01-01'}
                                     onChange={(date) => this.onDateChange(date)}
-                                    // selected={new Date()}
-                                    // onChange={date => setStartDate(date)}
                                 />
                               {/* </span> */}
                             </h1>
