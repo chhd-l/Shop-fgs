@@ -12,7 +12,6 @@ import { Link } from "react-router-dom"
 import successImg from "@/assets/images/credit-cards/success.png"
 import { find } from "lodash"
 import { GTM_SITE_ID } from "@/utils/constant"
-import { getDictionary } from "@/utils/utils"
 import { addEvaluate } from "@/api/order"
 import store from 'storejs'
 import "./index.css"
@@ -37,8 +36,8 @@ class Confirmation extends React.Component {
       operateSuccessModalVisible: false,
       errorMsg: "",
 
-      subNumber: store.get('subNumber'),
-      orderNumber: store.get('orderNumber')
+      subNumber: sessionStorage.getItem('subNumber'),
+      orderNumber: sessionStorage.getItem('orderNumber')
     };
     this.timer = null;
   }
@@ -52,8 +51,8 @@ class Confirmation extends React.Component {
       ); // 只移除selected
       sessionStorage.removeItem("rc-token");
     }
-    store.remove('orderNumber')
-    store.remove('subNumber')
+    sessionStorage.removeItem('orderNumber')
+    sessionStorage.removeItem('subNumber')
   }
   componentDidMount () {
     if (localStorage.getItem("isRefresh")) {

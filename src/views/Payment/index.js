@@ -71,7 +71,7 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      promotionCode:'',
+      promotionCode: '',
       billingChecked: true,
       isCompleteCredit: false,
       showPayMethodError: false,
@@ -131,9 +131,7 @@ class Payment extends React.Component {
       payosdata: {},
       selectedCardInfo: {},
       isToPayNow: sessionStorage.getItem("rc-tid"),
-      cityList: [],
-      countryList: [],
-      showOxxoForm: false,
+      showOxxoForm: false
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
@@ -158,13 +156,7 @@ class Payment extends React.Component {
     ) {
       this.props.history.push("/cart");
     }
-    getDictionary({ type: "city" }).then((res) => {
-      this.setState({
-        cityList: res,
-      });
-    });
     let countryRes = await getDictionary({ type: "country" });
-    this.setState({ countryList: countryRes });
     const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
 
     if (!this.isLogin) {
@@ -217,16 +209,16 @@ class Payment extends React.Component {
   showErrorMsg (msg) {
     this.setState({
       errorShow: true,
-      errorMsg: msg,
+      errorMsg: msg
     });
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "smooth"
     });
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
-        errorShow: false,
+        errorShow: false
       });
     }, 5000);
   }
@@ -252,7 +244,7 @@ class Payment extends React.Component {
   }
   confirmCardInfo () {
     this.setState({
-      isCompleteCredit: true,
+      isCompleteCredit: true
     });
   }
   /**
@@ -264,7 +256,7 @@ class Payment extends React.Component {
       billingAddress,
       billingChecked,
       commentOnDelivery,
-      creditCardInfo,
+      creditCardInfo
     } = this.state;
     let tmpDeliveryAddress = deliveryAddress;
     let tmpBillingAddress = billingAddress;
@@ -369,7 +361,7 @@ class Payment extends React.Component {
         email: "",
         phoneNumber: "",
         identifyNumber: "111",
-        isDefault: false,
+        isDefault: false
       },
     });
   }
@@ -566,7 +558,7 @@ class Payment extends React.Component {
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
 
-      petsId: "1231",
+      petsId: "1231"
       // promotionCode: '1234',
     };
     try {
@@ -586,19 +578,19 @@ class Payment extends React.Component {
         param3.billAddressId = billingAddress.addressId;
         if (subForm.buyWay === "frequency") {
           param3.tradeItems = param2.goodsInfos
-            .filter((ele) => !ele.subscriptionStatus)
-            .map((g) => {
+            .filter(ele => !ele.subscriptionStatus)
+            .map(g => {
               return {
                 num: g.buyCount,
-                skuId: g.goodsInfoId,
+                skuId: g.goodsInfoId
               };
             });
           param3.subTradeItems = loginCartData
-            .filter((ele) => ele.subscriptionStatus)
-            .map((g) => {
+            .filter(ele => ele.subscriptionStatus)
+            .map(g => {
               return {
                 subscribeNum: g.buyCount,
-                skuId: g.goodsInfoId,
+                skuId: g.goodsInfoId
               };
             });
           param3.cycleTypeId = subForm.frequencyId;
@@ -628,12 +620,12 @@ class Payment extends React.Component {
       const confirmAndCommitRes = await tmpCommitAndPay(param3);
       console.log(confirmAndCommitRes);
       const confirmAndCommitResContext = confirmAndCommitRes.context;
-      store.set(
+      sessionStorage.setItem(
         "orderNumber",
         (confirmAndCommitResContext && confirmAndCommitResContext[0]["tid"]) ||
         this.tid
       );
-      store.set(
+      sessionStorage.setItem(
         "subNumber",
         (confirmAndCommitResContext &&
           confirmAndCommitResContext[0]["subscribeId"]) ||
@@ -711,27 +703,27 @@ class Payment extends React.Component {
           clearInterval(timer);
           this.setState({
             payosdata: payosdata,
-            loading: false,
+            loading: false
           });
           if (payosdata.category === "client_validation_error") {
             this.setState({
               errorShow: true,
-              errorMsg: payosdata.more_info,
+              errorMsg: payosdata.more_info
             });
             sessionStorage.clear("payosdata");
             window.scrollTo({
               top: 0,
-              behavior: "smooth",
+              behavior: "smooth"
             });
             setTimeout(() => {
               this.setState({
-                errorShow: false,
+                errorShow: false
               });
             }, 5000);
             return;
           } else {
             this.setState({
-              isCompleteCredit: true,
+              isCompleteCredit: true
             });
           }
         }
@@ -820,10 +812,10 @@ class Payment extends React.Component {
     sessionStorage.setItem("clinic-reselect", 1);
     this.props.history.push("/prescription");
   }
-  savePromotionCode(promotionCode){
+  savePromotionCode (promotionCode) {
     this.setState({
       promotionCode
-    }) 
+    })
   }
   render () {
     const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
@@ -837,7 +829,7 @@ class Payment extends React.Component {
     const event = {
       page: {
         type: "Checkout",
-        theme: "",
+        theme: ""
       },
     };
 
@@ -1546,7 +1538,7 @@ class Payment extends React.Component {
                   history={this.props.history}
                   frequencyName={this.state.subForm.frequencyName}
                   buyWay={this.state.subForm.buyWay}
-                  sendPromotionCode={(e)=>this.savePromotionCode(e)}
+                  sendPromotionCode={(e) => this.savePromotionCode(e)}
                   promotionCode={this.state.promotionCode}
                 />
               </div>
