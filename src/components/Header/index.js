@@ -92,7 +92,19 @@ class Header extends React.Component {
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
-    window.removeEventListener('scroll', this.handleScroll)
+    // window.removeEventListener('scroll', this.handleScroll)
+    window.addEventListener('scroll',function(){
+      var timer ;//使用闭包，缓存变量
+      var startTime = new Date();
+      return function(){
+          var curTime = new Date();
+          if(curTime - startTime >= 200){
+              timer = setTimeout(this.handleScroll,200);
+              startTime = curTime;
+          }
+   
+      }
+  }());
   }
   handleScroll (e) {
     let baseEl = document.querySelector('#J_sidecart_container')

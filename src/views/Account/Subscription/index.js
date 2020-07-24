@@ -95,7 +95,7 @@ class Subscription extends React.Component {
       pageSize: this.pageSize,
       subscribeId: form.subscribeId,
       subscribeStatus: form.subscribeStatus,
-      customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
+      // customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
     }
     getSubList(param)
       .then((res) => {
@@ -292,7 +292,7 @@ class Subscription extends React.Component {
                     ) : (
                             <div className="text-center mt-5">
                               <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-                              <FormattedMessage id="order.noDataTip" />
+                              <FormattedMessage id="subscription.noDataTip" />
                             </div>
                           )}
                     {

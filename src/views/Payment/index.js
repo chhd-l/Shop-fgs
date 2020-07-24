@@ -18,7 +18,7 @@ import visaImg from "@/assets/images/credit-cards/visa.svg";
 import amexImg from "@/assets/images/credit-cards/amex.svg";
 import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
 import discoverImg from "@/assets/images/credit-cards/discover.svg";
-import { getDictionary } from "@/utils/utils";
+import { getDictionary, formatMoney } from "@/utils/utils";
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -71,6 +71,7 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      promotionCode: '',
       billingChecked: true,
       isCompleteCredit: false,
       showPayMethodError: false,
@@ -130,9 +131,7 @@ class Payment extends React.Component {
       payosdata: {},
       selectedCardInfo: {},
       isToPayNow: sessionStorage.getItem("rc-tid"),
-      cityList: [],
-      countryList: [],
-      showOxxoForm: false,
+      showOxxoForm: false
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
@@ -157,13 +156,7 @@ class Payment extends React.Component {
     ) {
       this.props.history.push("/cart");
     }
-    getDictionary({ type: "city" }).then((res) => {
-      this.setState({
-        cityList: res,
-      });
-    });
     let countryRes = await getDictionary({ type: "country" });
-    this.setState({ countryList: countryRes });
     const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
 
     if (!this.isLogin) {
@@ -210,19 +203,22 @@ class Payment extends React.Component {
   get loginCartData () {
     return this.props.checkoutStore.loginCartData;
   }
+  get tradePrice () {
+    return this.props.checkoutStore.tradePrice
+  }
   showErrorMsg (msg) {
     this.setState({
       errorShow: true,
-      errorMsg: msg,
+      errorMsg: msg
     });
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "smooth"
     });
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
-        errorShow: false,
+        errorShow: false
       });
     }, 5000);
   }
@@ -248,7 +244,7 @@ class Payment extends React.Component {
   }
   confirmCardInfo () {
     this.setState({
-      isCompleteCredit: true,
+      isCompleteCredit: true
     });
   }
   /**
@@ -260,7 +256,7 @@ class Payment extends React.Component {
       billingAddress,
       billingChecked,
       commentOnDelivery,
-      creditCardInfo,
+      creditCardInfo
     } = this.state;
     let tmpDeliveryAddress = deliveryAddress;
     let tmpBillingAddress = billingAddress;
@@ -346,7 +342,7 @@ class Payment extends React.Component {
       return false;
     }
 
-    store.set(!this.isLogin ? "loginDeliveryInfo" : "deliveryInfo", param);
+    store.set(this.isLogin ? "loginDeliveryInfo" : "deliveryInfo", param);
     this.setState({
       creditCardInfo: creditCardInfo,
       deliveryAddress: param.deliveryAddress,
@@ -365,7 +361,7 @@ class Payment extends React.Component {
         email: "",
         phoneNumber: "",
         identifyNumber: "111",
-        isDefault: false,
+        isDefault: false
       },
     });
   }
@@ -382,7 +378,30 @@ class Payment extends React.Component {
         return false;
       }
     }
+
     if (this.isLogin) {
+      // 价格未达到底限，不能下单
+      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrorMsg(<FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />)
+        return false
+      }
+      // 存在下架商品，不能下单
+      if (this.props.checkoutStore.offShelvesProNames.length) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrorMsg(<FormattedMessage id="cart.errorInfo4"
+          values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />)
+        return false
+      }
+
+      // 库存不够，不能下单
+      if (this.props.checkoutStore.outOfstockProNames.length) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrorMsg(<FormattedMessage id="cart.errorInfo2"
+          values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />)
+        return false
+      }
+
       if (!this.state.selectedCardInfo.cardNumber) {
         this.showErrorMsg(this.props.intl.messages.clickConfirmCardButton);
         return false;
@@ -539,7 +558,7 @@ class Payment extends React.Component {
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
 
-      petsId: "1231",
+      petsId: "1231"
       // promotionCode: '1234',
     };
     try {
@@ -559,19 +578,19 @@ class Payment extends React.Component {
         param3.billAddressId = billingAddress.addressId;
         if (subForm.buyWay === "frequency") {
           param3.tradeItems = param2.goodsInfos
-            .filter((ele) => !ele.subscriptionStatus)
-            .map((g) => {
+            .filter(ele => !ele.subscriptionStatus)
+            .map(g => {
               return {
                 num: g.buyCount,
-                skuId: g.goodsInfoId,
+                skuId: g.goodsInfoId
               };
             });
           param3.subTradeItems = loginCartData
-            .filter((ele) => ele.subscriptionStatus)
-            .map((g) => {
+            .filter(ele => ele.subscriptionStatus)
+            .map(g => {
               return {
                 subscribeNum: g.buyCount,
-                skuId: g.goodsInfoId,
+                skuId: g.goodsInfoId
               };
             });
           param3.cycleTypeId = subForm.frequencyId;
@@ -601,12 +620,12 @@ class Payment extends React.Component {
       const confirmAndCommitRes = await tmpCommitAndPay(param3);
       console.log(confirmAndCommitRes);
       const confirmAndCommitResContext = confirmAndCommitRes.context;
-      store.set(
+      sessionStorage.setItem(
         "orderNumber",
         (confirmAndCommitResContext && confirmAndCommitResContext[0]["tid"]) ||
         this.tid
       );
-      store.set(
+      sessionStorage.setItem(
         "subNumber",
         (confirmAndCommitResContext &&
           confirmAndCommitResContext[0]["subscribeId"]) ||
@@ -684,27 +703,27 @@ class Payment extends React.Component {
           clearInterval(timer);
           this.setState({
             payosdata: payosdata,
-            loading: false,
+            loading: false
           });
           if (payosdata.category === "client_validation_error") {
             this.setState({
               errorShow: true,
-              errorMsg: payosdata.more_info,
+              errorMsg: payosdata.more_info
             });
             sessionStorage.clear("payosdata");
             window.scrollTo({
               top: 0,
-              behavior: "smooth",
+              behavior: "smooth"
             });
             setTimeout(() => {
               this.setState({
-                errorShow: false,
+                errorShow: false
               });
             }, 5000);
             return;
           } else {
             this.setState({
-              isCompleteCredit: true,
+              isCompleteCredit: true
             });
           }
         }
@@ -793,6 +812,11 @@ class Payment extends React.Component {
     sessionStorage.setItem("clinic-reselect", 1);
     this.props.history.push("/prescription");
   }
+  savePromotionCode (promotionCode) {
+    this.setState({
+      promotionCode
+    })
+  }
   render () {
     const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
     const CreditCardImg = (
@@ -805,7 +829,7 @@ class Payment extends React.Component {
     const event = {
       page: {
         type: "Checkout",
-        theme: "",
+        theme: ""
       },
     };
 
@@ -1020,10 +1044,10 @@ class Payment extends React.Component {
                                   },
                                   () => {
                                     this.state.subForm.buyWay == "once"
-                                      ? this.props.checkoutStore.updateLoginCart(
+                                      ? this.props.checkoutStore.updateLoginCart(this.state.promotionCode,
                                         false
                                       )
-                                      : this.props.checkoutStore.updateLoginCart(
+                                      : this.props.checkoutStore.updateLoginCart(this.state.promotionCode,
                                         true
                                       );
                                   }
@@ -1514,6 +1538,8 @@ class Payment extends React.Component {
                   history={this.props.history}
                   frequencyName={this.state.subForm.frequencyName}
                   buyWay={this.state.subForm.buyWay}
+                  sendPromotionCode={(e) => this.savePromotionCode(e)}
+                  promotionCode={this.state.promotionCode}
                 />
               </div>
             </div>

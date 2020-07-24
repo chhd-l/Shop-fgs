@@ -12,6 +12,7 @@ import PaymentComp from "./components/PaymentComp";
 import AddressComp from "./components/AddressComp";
 import Selection from "@/components/Selection";
 import { getDictionary } from "@/utils/utils";
+import DatePicker from 'react-pikaday-datepicker';
 import {
   updateDetail,
   getAddressDetail,
@@ -32,6 +33,8 @@ class SubscriptionDetail extends React.Component {
       discount: [],//促销码的折扣信息汇总
       promotionInputValue:'',//输入的促销码
       isClickApply: false,//是否点击apply按钮
+      lastPromotionInputValue:"",//上一次输入的促销码
+      isShowValidCode:false,//是否显示无效promotionCode
       subDetail: {},
       loading: false,
       subId: 0,
@@ -120,13 +123,20 @@ class SubscriptionDetail extends React.Component {
       },
       modalType: "",
       errorShow: false,
-      errorMsg: ''
+      errorMsg: '',
+      successTipVisible: false,
+      minDate: new Date(),
+      todaydate: new Date()
     };
   }
   componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
   }
+  
   async componentDidMount() {
+    let now = new Date()
+    now.setDate(now.getDate() + 4)
+    this.setState({minDate: now})
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -169,22 +179,10 @@ class SubscriptionDetail extends React.Component {
     this.setState({
       subId: this.props.match.params.subscriptionNumber
     });
-    // try {
-    //   let timer = setInterval(() => {
-    //     const datePickerOptions = {
-    //       maxDate: new Date()
-    //     }
-    //     if (window.RCDL.features.Datepickers && document.querySelector('.rc-input__date')) {
-    //       document.querySelector('.rc-input__date').setAttribute("datepicker-setup", "false")
-    //       window.RCDL.features.Datepickers.init('.rc-input__date', null, datePickerOptions)
-    //       clearInterval(timer)
-    //     }
-    //   }, 1000)
-    // } catch (e) {
-    //   console.log(e)
-    // }
-
-    // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
+  }
+  onDateChange(date) {
+    console.log(date, 'date')
+    this.setState({ todaydate: date });
   }
   get isLogin () {
     return this.props.loginStore.isLogin
@@ -250,18 +248,32 @@ class SubscriptionDetail extends React.Component {
       });
     }
   }
-  showErrMsg (msg, fn) {
-    this.setState({
-      errorShow: true,
-      errorMsg: msg
-    })
-    clearTimeout(this.timer)
-    this.timer = setTimeout(() => {
+  showErrMsg (msg, type,fn) {
+    if(type === 'success') {
       this.setState({
-        errorShow: false
+        successTipVisible: true,
       })
-      fn && fn()
-    }, 3000)
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.setState({
+          successTipVisible: false
+        })
+        fn && fn()
+      }, 1000)
+    }else {
+      this.setState({
+        errorShow: true,
+        errorMsg: msg
+      })
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.setState({
+          errorShow: false
+        })
+        fn && fn()
+      }, 3000)
+    }
+    
   }
   handlerChange(e){
     let promotionInputValue = e.target.value
@@ -282,7 +294,9 @@ class SubscriptionDetail extends React.Component {
       addressType,
       subDetail,
       currentModalObj,
+      todaydate
     } = this.state;
+    console.log(todaydate, this.state.minDate, 'date')
     return (
       <div>
         <div>
@@ -292,6 +306,7 @@ class SubscriptionDetail extends React.Component {
             location={this.props.location}
             history={this.props.history}
           />
+          
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
             <BreadCrumbs />
             <Modal
@@ -328,15 +343,20 @@ class SubscriptionDetail extends React.Component {
                           return {
                             skuId: el.skuId,
                             subscribeNum: el.subscribeNum,
+                            subscribeGoodsId: el.subscribeGoodsId
                           };
                         }),
                       };
                       console.log(param);
+                      this.setState({loading: true})
                       updateDetail(param).then((res) => {
+                        this.setState({loading: false})
                         // console.log(res);
                         // window.location.reload();
-                        this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
-                      });
+                        this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
+                      }).catch(err => {
+                        this.setState({loading: false})
+                      })
                       this.setState({ type: "main", currentCardInfo: el });
                     }}
                     cancel={() => this.setState({ type: "main" })}
@@ -360,6 +380,7 @@ class SubscriptionDetail extends React.Component {
                             return {
                               skuId: el.skuId,
                               subscribeNum: el.subscribeNum,
+                              subscribeGoodsId: el.subscribeGoodsId
                             };
                           }),
                         };
@@ -386,12 +407,15 @@ class SubscriptionDetail extends React.Component {
                           changeField: title,
                         });
                         console.log(param);
+                        this.setState({loading: true})
                         updateDetail(param).then((res) => {
+                          this.setState({loading: false})
                           // console.log(res);
                           // window.location.reload();
-                          this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
-                          
-                        });
+                          this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
+                        }).catch(err => {
+                          this.setState({loading: false})
+                        })
                         this.setState({
                           type: "main",
                           currentDeliveryAddress: el,
@@ -404,6 +428,7 @@ class SubscriptionDetail extends React.Component {
                             return {
                               skuId: el.skuId,
                               subscribeNum: el.subscribeNum,
+                              subscribeGoodsId: el.subscribeGoodsId
                             };
                           }),
                         };
@@ -414,12 +439,15 @@ class SubscriptionDetail extends React.Component {
                           ],
                         });
                         console.log(param);
+                        this.setState({loading: true})
                         updateDetail(param).then((res) => {
+                          this.setState({loading: false})
                           // console.log(res);
                           // window.location.reload();
-                          this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
-                          
-                        });
+                          this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
+                        }).catch(err => {
+                          this.setState({loading: false})
+                        })
                         this.setState({
                           type: "main",
                           currentBillingAddress: el,
@@ -542,11 +570,6 @@ class SubscriptionDetail extends React.Component {
                               />
                             </h4>
                           </div>
-                          {/* <div className="v-center" style={{marginRight: '40px'}}>
-                            <a className="rc-styled-link red-text">
-                              <FormattedMessage id="subscription.change"></FormattedMessage>
-                            </a>
-                          </div> */}
                         </div>
                       </div>
                       <div className="rc-column column-contanier">
@@ -554,18 +577,12 @@ class SubscriptionDetail extends React.Component {
                           className="rc-card-container"
                           style={{ borderRight: "1px solid #ddd" }}
                         >
-                          {/* <div className="bt-icon"> */}
                           <div
                             className="v-center"
                             style={{ marginRight: "20px" }}
                           >
                             <i className="rc-icon rc-refresh--xs rc-brand1"></i>
                           </div>
-
-                          {/* <button
-                                  className="rc-btn less-width-xs rc-btn--icon rc-icon rc-search--xs rc-iconography not-yet-btn"
-                                  aria-label="Search"></button> */}
-                          {/* </div> */}
                           <div className="rc-card-content">
                             <b className="">
                               <FormattedMessage id="subscription.frequency"></FormattedMessage>
@@ -584,6 +601,7 @@ class SubscriptionDetail extends React.Component {
                                       return {
                                         skuId: el.skuId,
                                         subscribeNum: el.subscribeNum,
+                                        subscribeGoodsId: el.subscribeGoodsId
                                       };
                                     }),
                                   };
@@ -593,10 +611,14 @@ class SubscriptionDetail extends React.Component {
                                       "subscription.frequency"
                                     ],
                                   });
+                                  this.setState({loading: true})
                                   updateDetail(param).then((res) => {
+                                    this.setState({loading: false})
                                     // window.location.reload();
-                                    this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
-                                  });
+                                    this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
+                                  }).catch(err => {
+                                    this.setState({loading: false})
+                                  })
                                 }}
                                 selectedItemData={{
                                   value: subDetail.frequency || "",
@@ -642,42 +664,15 @@ class SubscriptionDetail extends React.Component {
                                 className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs"
                                 input-setup="true"
                               >
-                                <input
-                                  class="rc-input__date rc-js-custom rc-input__control"
-                                  data-js-dateformat="YYYY-MM-DD"
-                                  id="id-date-2"
-                                  type="date"
-                                  name="example-date-input"
-                                  onBlur={(e) => {
-                                    const target = e.target;
-                                    console.log(subDetail.nextDeliveryTime, target.value)
-                                    if(subDetail.nextDeliveryTime !== target.value) {
-                                      
-                                      subDetail.nextDeliveryTime = target.value;
-                                      let param = {
-                                        subscribeId: subDetail.subscribeId,
-                                        nextDeliveryTime: target.value,
-                                        goodsItems: subDetail.goodsInfo.map((el) => {
-                                          return {
-                                            skuId: el.skuId,
-                                            subscribeNum: el.subscribeNum,
-                                          };
-                                        }),
-                                      };
-                                      //增加返回changeField字段
-                                      Object.assign(param, {
-                                        changeField: this.props.intl.messages[
-                                          "subscription.receiveDate"
-                                        ],
-                                      });
-                                      updateDetail(param).then((res) => {
-                                        // window.location.reload();
-                                        this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
-                                      });
-                                    }
-                                    
-                                  }}
-                                  value={subDetail.nextDeliveryTime}
+                                <DatePicker
+                                    // className="rc-input__date"
+                                    readOnly="readonly"
+                                    placeholder="Select Date"
+                                    format="YYYY-MM-DD"
+                                    minDate={this.state.minDate}
+                                    value={subDetail.nextDeliveryTime?new Date(subDetail.nextDeliveryTime) : new Date()}
+                                    // value={new Date('2020-07-21')}
+                                    onChange={(date) => this.onDateChange(date)}
                                 />
                               </span>
                             </h1>
@@ -694,6 +689,16 @@ class SubscriptionDetail extends React.Component {
                           <span style={{ paddingLeft: 0 }}>{this.state.errorMsg}</span>
                         </aside>
                       </div>
+                      <aside
+                        className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                          this.state.successTipVisible ? "" : "hidden"
+                          }`}
+                        role="alert"
+                      >
+                        <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+                          <FormattedMessage id="saveSuccessfullly" />
+                        </p>
+                      </aside>
                       <div className="rc-column product-container rc-double-width">
                         <div
                           className="text-right"
@@ -746,15 +751,20 @@ class SubscriptionDetail extends React.Component {
                                   return {
                                     skuId: el.skuId,
                                     subscribeNum: el.subscribeNum,
+                                    subscribeGoodsId: el.subscribeGoodsId
                                   };
                                 }),
                               };
                               console.log(param);
+                              this.setState({loading: true})
                               updateDetail(param).then((res) => {
+                                this.setState({loading: false})
                                 // console.log(res);
                                 // window.location.reload();
-                                this.showErrMsg(this.props.intl.messages.saveSuccessfullly, () => this.getDetail());
-                              });
+                                this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
+                              }).catch(err => {
+                                this.setState({loading: false})
+                              })
                               this.setState({
                                 isChangeQuatity: false,
                                 subDetail,
@@ -921,7 +931,7 @@ class SubscriptionDetail extends React.Component {
                               </div>
                             </div>
                             <div className="flex-layout">
-                              <label className="saveDiscount font18">
+                              <label className="saveDiscount font18 red-text">
                                 <FormattedMessage id="subscription.saveDiscount"></FormattedMessage>
                                 :
                               </label>
@@ -929,9 +939,9 @@ class SubscriptionDetail extends React.Component {
                                 <b>-{formatMoney(this.subscriptionPrice)}</b>
                               </div>
                             </div>
-                            {discount.map((el) => (
+                            {!this.state.isShowValidCode&&discount.map((el) => (
                               <div className="flex-layout">
-                                <label className="saveDiscount font18">
+                                <label className="saveDiscount font18 red-text">
                                 {this.promotionDesc}
                                 </label>
                                 <div
@@ -977,7 +987,7 @@ class SubscriptionDetail extends React.Component {
                             </div>
                           </div>
                           {/* 支付新增promotionCode(选填) */}
-                          {discount.length==0?<div className="footer" style={{ marginTop: "10px" }}>
+                          <div className="footer" style={{ marginTop: "10px" }}>
                             <span
                               class="rc-input rc-input--inline rc-input--label"
                               style={{ width: "180px" }}
@@ -1000,30 +1010,34 @@ class SubscriptionDetail extends React.Component {
                               className={["rc-btn","rc-btn--sm","rc-btn--two",this.state.isClickApply&&"ui-btn-loading ui-btn-loading-border-red"].join(" ")}
                               style={{ marginTop: "10px", float: "right" }}
                               onClick={async () => {
-                                let backCode = ''
+                                let result = {}
                                if (!this.state.promotionInputValue) return
                                 this.setState({
-                                 isClickApply: true
+                                 isClickApply: true,
+                                 isShowValidCode:false,
+                                 lastPromotionInputValue:this.state.promotionInputValue
                                 })
                                  //会员
-                                 backCode = await checkoutStore.updateLoginCart(this.state.promotionInputValue,true)
-                                 console.log(backCode);
-                                if (backCode == 'K-000000'){ //表示输入apply promotionCode成功 
-                                 discount.push(1);
-                                 this.setState({ discount });
-                                 this.setState({
-                                   promotionInputValue:''
-                                 })
-                                }  
+                                 result = await checkoutStore.updateLoginCart(this.state.promotionInputValue,true)
+                                 console.log({result})
+                                if (result.backCode == 'K-000000'&&result.context.promotionDesc){ //表示输入apply promotionCode成功 
+                                  discount.splice(0,1,1);//(起始位置,替换个数,插入元素)
+                                  this.setState({ discount });
+                                } else{
+                                  this.setState({
+                                    isShowValidCode:true
+                                   })
+                                } 
                                 this.setState({
-                                 isClickApply: false
+                                 isClickApply: false,
+                                 promotionInputValue:''
                                 })    
                               }}
                             >
                               Apply
                             </button>
-                          </div>:null}
-                          
+                          </div>
+                          {this.state.isShowValidCode ? <div style={{margin:"25px 0 0 6px",color:"rgb(236, 0, 26)"}}>Promotion code({this.state.lastPromotionInputValue}) is not Valid</div>: null}
                         </div>
                       </div>
                     </div>

@@ -12,7 +12,6 @@ import { Link } from "react-router-dom"
 import successImg from "@/assets/images/credit-cards/success.png"
 import { find } from "lodash"
 import { GTM_SITE_ID } from "@/utils/constant"
-import { getDictionary } from "@/utils/utils"
 import { addEvaluate } from "@/api/order"
 import store from 'storejs'
 import "./index.css"
@@ -37,8 +36,8 @@ class Confirmation extends React.Component {
       operateSuccessModalVisible: false,
       errorMsg: "",
 
-      subNumber: store.get('subNumber'),
-      orderNumber: store.get('orderNumber')
+      subNumber: sessionStorage.getItem('subNumber'),
+      orderNumber: sessionStorage.getItem('orderNumber')
     };
     this.timer = null;
   }
@@ -52,8 +51,8 @@ class Confirmation extends React.Component {
       ); // 只移除selected
       sessionStorage.removeItem("rc-token");
     }
-    store.remove('orderNumber')
-    store.remove('subNumber')
+    sessionStorage.removeItem('orderNumber')
+    sessionStorage.removeItem('subNumber')
   }
   componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
@@ -254,18 +253,22 @@ class Confirmation extends React.Component {
                     }
                     <b>
                       <FormattedMessage id="confirmation.orderNumber" />:{' '}
-                      <Link
-                        to={`/account/orders-detail/${this.state.orderNumber}`}
-                        className="rc-meta rc-styled-link backtohome mb-0">
-                        {this.state.orderNumber}
-                      </Link>
+                      {
+                        this.state.paywithLogin
+                          ? <Link
+                            to={`/account/orders-detail/${this.state.orderNumber}`}
+                            className="rc-meta rc-styled-link backtohome mb-0">
+                            {this.state.orderNumber}
+                          </Link>
+                          : this.state.orderNumber
+                      }
                     </b>
                   </p>
                 }
 
               </div>
               <div className="rc-bg-colour--brand3 rc-max-width--xl rc-bottom-spacing rc-padding--sm imformation">
-                <div className="product-summary rc-column">
+                <div className="product-summary rc-column" style={{padding:0}}>
                   <h5 className="product-summary__title rc-margin-bottom--xs center">
                     <FormattedMessage id="total" />
                   </h5>
