@@ -24,12 +24,9 @@ import {
 } from "@/api/subscription";
 import Modal from "@/components/Modal";
 import { formatMoney } from "@/utils/utils"
-<<<<<<< HEAD
 import resolve from "resolve";
-=======
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment'
->>>>>>> 7b84bbeed8fb833f8e16c8a97e0787604e6a7a5a
 
 @inject("checkoutStore", "loginStore")
 @injectIntl
