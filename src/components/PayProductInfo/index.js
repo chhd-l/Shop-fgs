@@ -13,7 +13,9 @@ class PayProductInfo extends React.Component {
       productList: [],
       discount:[],//促销码的折扣信息汇总
       promotionInputValue:'',//输入的促销码
+      lastPromotionInputValue:"",//上一次输入的促销码
       isClickApply: false,//是否点击apply按钮
+      isShowValidCode:false,//是否显示无效promotionCode
     };
   }
   get isLogin () {
@@ -211,10 +213,10 @@ class PayProductInfo extends React.Component {
                 
                 {/* 显示 promotionCode */}
                 <div style={{marginTop:"10px"}}>
-                  {this.state.discount.map((el) => (
+                  {!this.state.isShowValidCode&&this.state.discount.map((el) => (
                     <div className="flex-layout" style={{marginRight:"18px"}}>
                       <label className="saveDiscount font16" style={{color: "rgb(236, 0, 26)"}}>
-                        {this.promotionDesc}
+                        {this.promotionDesc||'No promotionDesc'}
                       </label>
                       <div
                         className="text-right red-text"
@@ -230,17 +232,17 @@ class PayProductInfo extends React.Component {
                             cursor: "pointer",
                           }}
                           onClick={async () => {
-                            let backCode = ''
+                            let result = {}
                             if(!this.isLogin){
                               //游客
-                             backCode =  await checkoutStore.updateUnloginCart()
+                              result =  await checkoutStore.updateUnloginCart()
                             }else{
                              //会员
-                             backCode = await checkoutStore.updateLoginCart(this.props.promotionCode,this.props.buyWay === 'frequency')                     
+                             result = await checkoutStore.updateLoginCart(this.props.promotionCode,this.props.buyWay === 'frequency')                     
                             }
-                            if (backCode == 'K-000000') {
+                            if (result.backCode == 'K-000000') {
                               discount.pop();
-                              this.setState({ discount: discount });
+                              this.setState({ discount: discount,isShowValidCode:false });
                             }
                           }}
                         >
@@ -278,7 +280,7 @@ class PayProductInfo extends React.Component {
           </div>
            {/* 支付新增promotionCode(选填) */}
            {
-             this.props.history && this.props.history.location.pathname === '/payment/payment'&&this.state.discount.length==0?<div className="footer" style={{ marginTop: "10px" }}>
+             this.props.history && this.props.history.location.pathname === '/payment/payment'?<div className="footer" style={{ marginTop: "10px" }}>
              <span
                class="rc-input rc-input--inline rc-input--label"
                style={{ width: "180px",marginLeft:"5px" }}
@@ -301,35 +303,43 @@ class PayProductInfo extends React.Component {
                className={["rc-btn","rc-btn--sm","rc-btn--two",this.state.isClickApply&&"ui-btn-loading ui-btn-loading-border-red"].join(" ")}
                style={{ marginTop: "10px", float: "right" }}
                onClick={async () => {
-                 let backCode = ''
+                 let result = {}
                 if (!this.state.promotionInputValue) return
                  this.setState({
-                  isClickApply: true
+                  isClickApply: true,
+                  isShowValidCode:false,
+                  lastPromotionInputValue:this.state.promotionInputValue
                  })
                  if(!this.isLogin){
                    //游客
-                 backCode =  await checkoutStore.updateUnloginCart('',this.state.promotionInputValue)
+                   result =  await checkoutStore.updateUnloginCart('',this.state.promotionInputValue)
                  }else{
                   //会员
-                 backCode = await checkoutStore.updateLoginCart(this.state.promotionInputValue,this.props.buyWay === 'frequency')
+                  result = await checkoutStore.updateLoginCart(this.state.promotionInputValue,this.props.buyWay === 'frequency')
                  }
-                 if (backCode == 'K-000000'){ //表示输入apply promotionCode成功 
-                  discount.push(1);
+                 if (result.backCode == 'K-000000'&&result.context.promotionDesc){ //表示输入apply promotionCode成功 
+                  discount.splice(0,1,1);//(起始位置,替换个数,插入元素)
                   this.setState({ discount });
                   this.props.sendPromotionCode(this.state.promotionInputValue);
-                  this.setState({
-                    promotionInputValue:''
-                  })
+                  
+                 }else{
+                   this.setState({
+                    isShowValidCode:true
+                   })
+                   this.props.sendPromotionCode("");
                  }  
                  this.setState({
-                  isClickApply: false
-                 })    
+                  isClickApply: false,
+                  promotionInputValue:''
+                 })   
                }}
              >
                <FormattedMessage id="apply" />
              </button>
            </div>:null
            }
+           {this.state.isShowValidCode ? <div style={{margin:"25px 0 0 6px",color:"rgb(236, 0, 26)"}}>Promotion code({this.state.lastPromotionInputValue}) is not Valid</div>: null}
+           
         </div>
       </div>
     );

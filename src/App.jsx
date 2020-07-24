@@ -169,12 +169,6 @@ const App = () => (
                 component={AccountReturnOrder}
               />
               <Route
-                path="/account/information"
-                exact
-                component={AccountProfile}
-              />
-              <Route path="/account/pets" exact component={AccountPets} />
-              <Route
                 path="/account/subscription"
                 exact
                 component={AccountSubscription}

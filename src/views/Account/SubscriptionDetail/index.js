@@ -33,6 +33,8 @@ class SubscriptionDetail extends React.Component {
       discount: [],//促销码的折扣信息汇总
       promotionInputValue:'',//输入的促销码
       isClickApply: false,//是否点击apply按钮
+      lastPromotionInputValue:"",//上一次输入的促销码
+      isShowValidCode:false,//是否显示无效promotionCode
       subDetail: {},
       loading: false,
       subId: 0,
@@ -955,7 +957,7 @@ class SubscriptionDetail extends React.Component {
                               </div>
                             </div>
                             <div className="flex-layout">
-                              <label className="saveDiscount font18">
+                              <label className="saveDiscount font18 red-text">
                                 <FormattedMessage id="subscription.saveDiscount"></FormattedMessage>
                                 :
                               </label>
@@ -963,9 +965,9 @@ class SubscriptionDetail extends React.Component {
                                 <b>-{formatMoney(this.subscriptionPrice)}</b>
                               </div>
                             </div>
-                            {discount.map((el) => (
+                            {!this.state.isShowValidCode&&discount.map((el) => (
                               <div className="flex-layout">
-                                <label className="saveDiscount font18">
+                                <label className="saveDiscount font18 red-text">
                                 {this.promotionDesc}
                                 </label>
                                 <div
@@ -1011,7 +1013,7 @@ class SubscriptionDetail extends React.Component {
                             </div>
                           </div>
                           {/* 支付新增promotionCode(选填) */}
-                          {discount.length==0?<div className="footer" style={{ marginTop: "10px" }}>
+                          <div className="footer" style={{ marginTop: "10px" }}>
                             <span
                               class="rc-input rc-input--inline rc-input--label"
                               style={{ width: "180px" }}
@@ -1034,30 +1036,34 @@ class SubscriptionDetail extends React.Component {
                               className={["rc-btn","rc-btn--sm","rc-btn--two",this.state.isClickApply&&"ui-btn-loading ui-btn-loading-border-red"].join(" ")}
                               style={{ marginTop: "10px", float: "right" }}
                               onClick={async () => {
-                                let backCode = ''
+                                let result = {}
                                if (!this.state.promotionInputValue) return
                                 this.setState({
-                                 isClickApply: true
+                                 isClickApply: true,
+                                 isShowValidCode:false,
+                                 lastPromotionInputValue:this.state.promotionInputValue
                                 })
                                  //会员
-                                 backCode = await checkoutStore.updateLoginCart(this.state.promotionInputValue,true)
-                                 console.log(backCode);
-                                if (backCode == 'K-000000'){ //表示输入apply promotionCode成功 
-                                 discount.push(1);
-                                 this.setState({ discount });
-                                 this.setState({
-                                   promotionInputValue:''
-                                 })
-                                }  
+                                 result = await checkoutStore.updateLoginCart(this.state.promotionInputValue,true)
+                                 console.log({result})
+                                if (result.backCode == 'K-000000'&&result.context.promotionDesc){ //表示输入apply promotionCode成功 
+                                  discount.splice(0,1,1);//(起始位置,替换个数,插入元素)
+                                  this.setState({ discount });
+                                } else{
+                                  this.setState({
+                                    isShowValidCode:true
+                                   })
+                                } 
                                 this.setState({
-                                 isClickApply: false
+                                 isClickApply: false,
+                                 promotionInputValue:''
                                 })    
                               }}
                             >
                               Apply
                             </button>
-                          </div>:null}
-                          
+                          </div>
+                          {this.state.isShowValidCode ? <div style={{margin:"25px 0 0 6px",color:"rgb(236, 0, 26)"}}>Promotion code({this.state.lastPromotionInputValue}) is not Valid</div>: null}
                         </div>
                       </div>
                     </div>

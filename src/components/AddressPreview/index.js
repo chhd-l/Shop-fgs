@@ -35,7 +35,7 @@ class InfosPreview extends React.Component {
     const info = this.props.info || store.get('info')
     return (
       <div className="card shipping-summary">
-        <div className="card-header rc-padding-right--none clearfix">
+        <div className="card-header rc-padding-right--none clearfix" style={{margin:"auto"}}>
           <h5 className="pull-left"><FormattedMessage id="payment.addressTitle" /></h5>
         </div>
         <div className="card-body rc-padding--none">
