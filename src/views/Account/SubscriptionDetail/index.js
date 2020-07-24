@@ -39,6 +39,7 @@ class SubscriptionDetail extends React.Component {
       subDiscount:0,
       subShipping:0,
       promotionDiscount:0,
+      promotionDesc:'',
       subTradeTotal:0,
        //订阅购物车参数
       discount: [],//促销码的折扣信息汇总
@@ -230,24 +231,24 @@ class SubscriptionDetail extends React.Component {
   get isLogin () {
     return this.props.loginStore.isLogin
   }
-  get totalPrice () {
-    return this.props.checkoutStore.totalPrice
-  }
-  get tradePrice () {
-    return this.props.checkoutStore.tradePrice
-  }
-  get discountPrice () {
-    return this.props.checkoutStore.discountPrice
-  }
-  get deliveryPrice(){
-    return this.props.checkoutStore.deliveryPrice
-  }
-  get subscriptionPrice(){
-    return this.props.checkoutStore.subscriptionPrice
-  }
-  get promotionDesc(){
-    return this.props.checkoutStore.promotionDesc
-  }
+  // get totalPrice () {
+  //   return this.props.checkoutStore.totalPrice
+  // }
+  // get tradePrice () {
+  //   return this.props.checkoutStore.tradePrice
+  // }
+  // get discountPrice () {
+  //   return this.props.checkoutStore.discountPrice
+  // }
+  // get deliveryPrice(){
+  //   return this.props.checkoutStore.deliveryPrice
+  // }
+  // get subscriptionPrice(){
+  //   return this.props.checkoutStore.subscriptionPrice
+  // }
+  // get promotionDesc(){
+  //   return this.props.checkoutStore.promotionDesc
+  // }
   async getDetail() {
     try{
       this.setState({loading: true})
@@ -954,8 +955,8 @@ class SubscriptionDetail extends React.Component {
                                             1;
                                           this.setState({ currentGoodsInfo });
                                           console.log(el.subscribeNum);
-                                          await this.getDetail()
-                                          await this.doGetPromotionPrice()
+                                          // await this.getDetail()
+                                          // await this.doGetPromotionPrice()
                                         }else {
                                           this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" />)
                                         }
@@ -1005,7 +1006,7 @@ class SubscriptionDetail extends React.Component {
                             {!this.state.isShowValidCode&&discount.map((el) => (
                               <div className="flex-layout">
                                 <label className="saveDiscount font18 red-text">
-                                Promotion Save
+                                {this.state.promotionDesc}
                                 </label>
                                 <div
                                   className="text-right red-text"
@@ -1083,7 +1084,10 @@ class SubscriptionDetail extends React.Component {
                                  //会员
                                  result = await this.doGetPromotionPrice(this.state.promotionInputValue)
                                  console.log({result})
-                                if (result.backCode == 'K-000000'){ //表示输入apply promotionCode成功 
+                                 this.setState({
+                                  promotionDesc: result.context.promotionDesc
+                                 })
+                                if (result.code == 'K-000000'&&result.context.promotionDiscount){ //表示输入apply promotionCode成功 
                                   discount.splice(0,1,1);//(起始位置,替换个数,插入元素)
                                   this.setState({ discount });
                                 } else{
