@@ -42,7 +42,9 @@ class Details extends React.Component {
         goodsDescription: "",
         sizeList: [],
         images: [],
-        goodsCategory: ''
+        goodsCategory: '',
+        goodsSpecDetails: [],
+        goodsSpecs: []
       },
       activeTabIdx: 0,
       goodsDetailTab: {
@@ -104,7 +106,6 @@ class Details extends React.Component {
   get checkoutStore () {
     return this.props.checkoutStore
   }
-
   matchGoods () {
     let { specList, details, currentUnitPrice, currentSubscriptionPrice, stock } = this.state
     let selectedArr = []
@@ -259,7 +260,12 @@ class Details extends React.Component {
               details: Object.assign({},
                 this.state.details,
                 res.context.goods,
-                { sizeList },
+                {
+                  sizeList,
+                  goodsInfos: res.context.goodsInfos,
+                  goodsSpecDetails: res.context.goodsSpecDetails,
+                  goodsSpecs: res.context.goodsSpecs
+                },
                 { goodsCategory: [this.specie, this.productRange.join('&'), this.format.join('&')].join('/') }),
               images: res.context.images.concat(res.context.goodsInfos),
               specList

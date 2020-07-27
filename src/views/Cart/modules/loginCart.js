@@ -314,12 +314,28 @@ class LoginCart extends React.Component {
                     <div data-attr="size" className="swatch">
                       <div className="cart-and-ipay">
                         <div className="rc-swatch __select-size">
-                          <div className="rc-swatch__item selected">
+                          {/* <div className="rc-swatch__item selected">
                             <span>
                               {pitem.specText}
                               <i></i>
                             </span>
-                          </div>
+                          </div> */}
+                          {pitem.goodsSpecs.map((sItem, i) => (
+                            <div key={i} className="overflow-hidden">
+                              <div className="text-left ml-1">{sItem.specName}:</div>
+                              {sItem.chidren.map((sdItem, i2) => (
+                                <div
+                                  className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
+                                  key={i2}
+                                  onClick={() => this.handleChooseSize(sdItem, pitem)}>
+                                  <span key={i2}>
+                                    {sdItem.detailName}
+                                    <i></i>
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -573,6 +589,26 @@ class LoginCart extends React.Component {
         </div>
       </div>
     </div >
+  }
+  async handleChooseSize (sdItem, pitem) {
+    const otherGoodsSpecs = pitem.goodsSpecs.filter(s => s.specId !== sdItem.specId)
+    let selectedSpecIds = [sdItem.specId]
+    let selectedSpecDetailId = [sdItem.specDetailId]
+    for (let item of otherGoodsSpecs) {
+      const selectedItem = find(item.chidren, ele => ele.selected)
+      selectedSpecIds.push(selectedItem.specId)
+      selectedSpecDetailId.push(selectedItem.specDetailId)
+    }
+    // debugger
+
+    const selectedGoodsInfo = pitem.goodsInfos.filter(ele => ele.mockSpecIds.sort().toString() === selectedSpecIds.sort().toString()
+      && ele.mockSpecDetailIds.sort().toString() === selectedSpecDetailId.sort().toString())[0]
+    this.setState({ deleteLoading: true })
+    // 先删除改之前sku
+    await this.deleteItemFromBackendCart({ goodsInfoIds: [pitem.goodsInfoId] })
+    // 再增加当前sku
+    this.updateBackendCart({ goodsInfoId: selectedGoodsInfo.goodsInfoId, goodsNum: pitem.buyCount, verifyStock: false })
+    this.setState({ deleteLoading: false })
   }
   render () {
     const { productList } = this.state;
