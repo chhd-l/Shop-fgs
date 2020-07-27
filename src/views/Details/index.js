@@ -1,6 +1,7 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
 import { inject, observer } from 'mobx-react'
+import { toJS } from 'mobx'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -42,7 +43,9 @@ class Details extends React.Component {
         goodsDescription: "",
         sizeList: [],
         images: [],
-        goodsCategory: ''
+        goodsCategory: '',
+        goodsSpecDetails: [],
+        goodsSpecs: []
       },
       activeTabIdx: 0,
       goodsDetailTab: {
@@ -84,10 +87,10 @@ class Details extends React.Component {
     this.productRange = []
     this.format = []
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
   }
-  componentDidMount () {
+  componentDidMount() {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -98,14 +101,13 @@ class Details extends React.Component {
       () => this.queryDetails()
     );
   }
-  get isLogin () {
+  get isLogin() {
     return this.props.loginStore.isLogin
   }
-  get checkoutStore () {
+  get checkoutStore() {
     return this.props.checkoutStore
   }
-
-  matchGoods () {
+  matchGoods() {
     let { specList, details, currentUnitPrice, currentSubscriptionPrice, stock } = this.state
     let selectedArr = []
     let idArr = []
@@ -140,7 +142,7 @@ class Details extends React.Component {
       this.updateInstockStatus();
     })
   }
-  async queryDetails () {
+  async queryDetails() {
     const { id } = this.state;
     const tmpRequest = this.isLogin ? getLoginDetails : getDetails
     Promise.all([
@@ -259,7 +261,12 @@ class Details extends React.Component {
               details: Object.assign({},
                 this.state.details,
                 res.context.goods,
-                { sizeList },
+                {
+                  sizeList,
+                  goodsInfos: res.context.goodsInfos,
+                  goodsSpecDetails: res.context.goodsSpecDetails,
+                  goodsSpecs: res.context.goodsSpecs
+                },
                 { goodsCategory: [this.specie, this.productRange.join('&'), this.format.join('&')].join('/') }),
               images: res.context.images.concat(res.context.goodsInfos),
               specList
@@ -289,12 +296,12 @@ class Details extends React.Component {
         })
       })
   }
-  updateInstockStatus () {
+  updateInstockStatus() {
     this.setState({
       instockStatus: this.state.quantity <= this.state.stock
     });
   }
-  hanldeAmountChange (type) {
+  hanldeAmountChange(type) {
     this.setState({ checkOutErrMsg: "" });
     if (!type) return;
     const { quantity } = this.state;
@@ -320,7 +327,7 @@ class Details extends React.Component {
       }
     );
   }
-  handleAmountInput (e) {
+  handleAmountInput(e) {
     this.setState({ checkOutErrMsg: "" });
     const { quantityMinLimit, quantityMaxLimit } = this.state;
     const val = e.target.value;
@@ -340,7 +347,7 @@ class Details extends React.Component {
       this.setState({ quantity: tmp }, () => this.updateInstockStatus());
     }
   }
-  handleChooseSize (sId, sdId) {
+  handleChooseSize(sId, sdId) {
     let { specList } = this.state
     specList.filter(item => item.specId === sId)[0].chidren.map(item => {
       if (item.specDetailId === sdId) {
@@ -375,7 +382,7 @@ class Details extends React.Component {
     //   () => this.updateInstockStatus()
     // );
   }
-  async hanldeAddToCart ({ redirect = false, needLogin = false } = {}) {
+  async hanldeAddToCart({ redirect = false, needLogin = false } = {}) {
     this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
       return false
@@ -386,7 +393,7 @@ class Details extends React.Component {
       await this.hanldeUnloginAddToCart({ redirect, needLogin });
     }
   }
-  async hanldeLoginAddToCart ({ redirect }) {
+  async hanldeLoginAddToCart({ redirect }) {
     this.setState({ addToCartLoading: true });
     const { quantity } = this.state;
     const { sizeList } = this.state.details;
@@ -436,7 +443,8 @@ class Details extends React.Component {
       this.setState({ errMsg: err.toString() })
     }
   }
-  async hanldeUnloginAddToCart ({ redirect = false, needLogin = false }) {
+  async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
+
     this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
       return false
@@ -447,12 +455,11 @@ class Details extends React.Component {
     const currentSelectedSize = find(sizeList, (s) => s.selected);
     let quantityNew = quantity;
     let tmpData = Object.assign({}, this.state.details, { quantity: quantityNew });
-    let cartDataCopy = cloneDeep(this.props.checkoutStore.cartData);
+    let cartDataCopy = cloneDeep(toJS(this.checkoutStore.cartData).filter(el => el));
 
     if (!instockStatus || !quantityNew) {
       return false
     }
-
     this.setState({ addToCartLoading: true });
     let flag = true;
     if (cartDataCopy && cartDataCopy.length) {
@@ -461,7 +468,7 @@ class Details extends React.Component {
         (c) =>
           c.goodsId === goodsId &&
           currentSelectedSize.goodsInfoId ===
-          find(c.sizeList, (s) => s.selected).goodsInfoId
+          c.sizeList.filter((s) => s.selected)[0].goodsInfoId
       );
       if (historyItem) {
         flag = false;
@@ -553,15 +560,15 @@ class Details extends React.Component {
       this.headerRef.current.handleCartMouseOut();
     }, 1000);
   }
-  changeTab (e, i) {
+  changeTab(e, i) {
     this.setState({ activeTabIdx: i })
   }
-  openPetModal () {
+  openPetModal() {
     this.setState({
       petModalVisible: true
     })
   }
-  closePetModal () {
+  closePetModal() {
     if (this.state.isAdd === 2) {
       this.setState({
         isAdd: 0
@@ -571,22 +578,22 @@ class Details extends React.Component {
       petModalVisible: false
     })
   }
-  petComfirm () {
+  petComfirm() {
     this.props.history.push('/prescription')
   }
-  openNew () {
+  openNew() {
     this.setState({
       isAdd: 1
     })
     this.openPetModal()
   }
-  closeNew () {
+  closeNew() {
     this.setState({
       isAdd: 2
     })
     this.openPetModal()
   }
-  render () {
+  render() {
     const createMarkup = (text) => ({ __html: text });
     const {
       details,

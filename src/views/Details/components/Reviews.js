@@ -193,8 +193,8 @@ class Reviews extends React.Component {
                                                             />
                                                         ) :
                                                         (
-                                                            data.goodsEvaluatesList.map(item => (
-                                                                    <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
+                                                            data.goodsEvaluatesList.map((item,i) => (
+                                                                    <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface" key={i}>
                                                                         <div className="rc-column padl0 padr0">
                                                                             <div className="">
                                                                                 {/*rc-padding--xs--desktop rc-padding--sm--mobile*/}
@@ -210,8 +210,8 @@ class Reviews extends React.Component {
                                                                                 <div className="img-box rc-margin-bottom--xs rc-margin-top--xs">
                                                                                     {
                                                                                         item.evaluateImageList && item.evaluateImageList.length > 0 ?
-                                                                                            item.evaluateImageList.map((img) =>
-                                                                                                <div className="img-wrapper"><img className="rc-img--square rc-img--square-custom height70" src={img.artworkUrl}/></div>
+                                                                                            item.evaluateImageList.map((img,i) =>
+                                                                                                <div className="img-wrapper" key={i}><img className="rc-img--square rc-img--square-custom height70" src={img.artworkUrl}/></div>
                                                                                             )
                                                                                             : null
                                                                                     }

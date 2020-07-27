@@ -492,7 +492,7 @@ class Payment extends React.Component {
         return {
           verifyStock: false,
           buyCount: ele.quantity,
-          goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
+          goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
         };
       }),
     };
@@ -502,7 +502,7 @@ class Payment extends React.Component {
           verifyStock: false,
           buyCount: ele.buyCount,
           goodsInfoId: ele.goodsInfoId,
-          subscriptionStatus: ele.subscriptionStatus,
+          subscriptionStatus: ele.subscriptionStatus
         };
       });
     }
@@ -520,12 +520,19 @@ class Payment extends React.Component {
       for (let k in goodsMarketingMap) {
         const firstList = tradeMarketingList[0]
         firstList.skuIds.push(k);
-        const fullDiscountLevelList = goodsMarketingMap[k][0]["fullDiscountLevelList"]
-        if (!firstList.marketingLevelId && fullDiscountLevelList) {
-          firstList.marketingLevelId = fullDiscountLevelList[0]["discountLevelId"];
+        // marketingType 0-满减fullReductionLevelList-reductionLevelId 1-满折fullDiscountLevelList-discountLevelId
+        const tmpMarketing = goodsMarketingMap[k][0]
+        let targetLevelId = ''
+        if (tmpMarketing.marketingType == 0) {
+          targetLevelId = tmpMarketing.fullReductionLevelList[0].reductionLevelId
+        } else if (tmpMarketing.marketingType == 1) {
+          targetLevelId = tmpMarketing.fullDiscountLevelList[0].discountLevelId
         }
-        if (!firstList.marketingId && fullDiscountLevelList) {
-          firstList.marketingId = fullDiscountLevelList[0]["marketingId"];
+        if (!firstList.marketingLevelId && targetLevelId) {
+          firstList.marketingLevelId = targetLevelId
+        }
+        if (!firstList.marketingId && tmpMarketing.marketingId) {
+          firstList.marketingId = tmpMarketing.marketingId
         }
       }
     }

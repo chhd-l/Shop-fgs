@@ -14,7 +14,7 @@ class OxxoConfirm extends Component {
     };
   }
 
-  async goConfirmation() {
+  async goConfirmation () {
     try {
       this.props.startLoading();
       if (!this.state.email) {
@@ -46,7 +46,7 @@ class OxxoConfirm extends Component {
         var oxxoArgs = oxxoContent.args;
         var orderNumber = oxxoContent.tid;
         var subNumber = oxxoContent.subscribeId;
-        store.set("orderNumber", orderNumber);
+        sessionStorage.setItem("orderNumber", orderNumber);
         store.set("subNumber", subNumber);
         if (
           oxxoArgs &&
@@ -64,7 +64,7 @@ class OxxoConfirm extends Component {
       this.props.endLoading();
     }
   }
-  emailChange(e) {
+  emailChange (e) {
     this.setState({ email: e.target.value });
   }
 
@@ -80,7 +80,7 @@ class OxxoConfirm extends Component {
     }, 3000);
   };
 
-  render() {
+  render () {
     return (
       <div>
         <div
@@ -90,7 +90,7 @@ class OxxoConfirm extends Component {
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
               this.state.errorMsg ? "" : "hidden"
-            }`}
+              }`}
           >
             <aside
               className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -129,7 +129,7 @@ class OxxoConfirm extends Component {
                   <FormattedMessage id="payment.email" />
                 </label>
               </div>
-              <div className="col-md-8 col-sm-12" style={{paddingLeft: '0px'}}>
+              <div className="col-md-8 col-sm-12" style={{ paddingLeft: '0px' }}>
                 <input
                   type="email"
                   id="email"
@@ -147,8 +147,8 @@ class OxxoConfirm extends Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
               </div>
             </div>
           </div>

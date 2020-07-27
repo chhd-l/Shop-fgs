@@ -33,7 +33,7 @@ class CheckoutStore {
   @computed get promotionDiscount () {
     return this.cartPrice && this.cartPrice.promotionDiscount ? this.cartPrice.promotionDiscount : ''
   }
-  
+
   @action.bound
   setCartData (data) {
     this.cartData = data
@@ -71,7 +71,7 @@ class CheckoutStore {
   }
 
   @action.bound
-  async updateUnloginCart (data, promotionCode="") {
+  async updateUnloginCart (data, promotionCode = "") {
     if (!data) {
       data = this.cartData
     }
@@ -97,19 +97,21 @@ class CheckoutStore {
       totalPrice: purchasesRes.totalPrice,
       tradePrice: purchasesRes.tradePrice,
       discountPrice: purchasesRes.discountPrice,
-      deliveryPrice:purchasesRes.deliveryPrice,
+      deliveryPrice: purchasesRes.deliveryPrice,
       promotionDesc: purchasesRes.promotionDesc,
       promotionDiscount: purchasesRes.promotionDiscount,
-      subscriptionPrice:purchasesRes.subscriptionPrice
+      subscriptionPrice: purchasesRes.subscriptionPrice
     })
     // 更新stock值
     let tmpOutOfstockProNames = []
     let tmpOffShelvesProNames = []
+
     Array.from(data, item => {
       let selectedSize = find(item.sizeList, s => s.selected)
       const tmpObj = find(purchasesRes.goodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
       if (tmpObj) {
         item.addedFlag = tmpObj.addedFlag
+        item.goodsPromotion = tmpObj.goodsPromotion
         selectedSize.stock = tmpObj.stock
         const tmpName = tmpObj.goodsInfoName + ' ' + tmpObj.specText
         // handle product off shelves logic
@@ -124,13 +126,13 @@ class CheckoutStore {
     this.setCartData(data)
     this.offShelvesProNames = tmpOffShelvesProNames
     this.outOfstockProNames = tmpOutOfstockProNames
-    return new Promise(function(resolve){
-      resolve({backCode,context:purchasesRes})
+    return new Promise(function (resolve) {
+      resolve({ backCode, context: purchasesRes })
     })
   }
 
   @action
-  async updateLoginCart (promotionCode="",subscriptionFlag=false) {
+  async updateLoginCart (promotionCode = "", subscriptionFlag = false) {
     this.changeLoadingCartData(true)
     // 获取购物车列表
     let siteMiniPurchasesRes = await siteMiniPurchases();
@@ -145,23 +147,40 @@ class CheckoutStore {
     sitePurchasesRes = sitePurchasesRes.context;
     runInAction(() => {
       let goodsList = siteMiniPurchasesRes.goodsList
+
+      for (let good of goodsList) {
+        const selectdSkuInfo = find(good.goodsInfos || [], g => g.goodsInfoId === good.goodsInfoId)
+        let specList = good.goodsSpecs;
+        let specDetailList = good.goodsSpecDetails;
+        specList.map((sItem) => {
+          sItem.chidren = specDetailList.filter(
+            (sdItem) => {
+              if (selectdSkuInfo.mockSpecDetailIds && selectdSkuInfo.mockSpecIds && selectdSkuInfo.mockSpecDetailIds.includes(sdItem.specDetailId) && selectdSkuInfo.mockSpecIds.includes(sdItem.specId)) {
+                sdItem.selected = true
+              }
+              return sdItem.specId === sItem.specId
+            }
+          )
+        });
+      }
+      
       this.setLoginCartData(goodsList)
       this.setCartPrice({
         totalPrice: sitePurchasesRes.totalPrice,
         tradePrice: sitePurchasesRes.tradePrice,
         discountPrice: sitePurchasesRes.discountPrice,
-        deliveryPrice:sitePurchasesRes.deliveryPrice,
+        deliveryPrice: sitePurchasesRes.deliveryPrice,
         promotionDesc: sitePurchasesRes.promotionDesc,
         promotionDiscount: sitePurchasesRes.promotionDiscount,
-        subscriptionPrice:sitePurchasesRes.subscriptionPrice
+        subscriptionPrice: sitePurchasesRes.subscriptionPrice
       })
       this.offShelvesProNames = siteMiniPurchasesRes.goodsList.filter(ele => !ele.addedFlag).map(ele => ele.goodsInfoName + ' ' + ele.specText)
       this.outOfstockProNames = siteMiniPurchasesRes.goodsList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
       this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap)
       this.changeLoadingCartData(false)
     })
-    return new Promise(function(resolve){
-      resolve({backCode,context:sitePurchasesRes})
+    return new Promise(function (resolve) {
+      resolve({ backCode, context: sitePurchasesRes })
     })
   }
 

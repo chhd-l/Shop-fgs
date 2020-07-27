@@ -11,8 +11,8 @@ import { Link } from "react-router-dom"
 import { formatMoney } from "@/utils/utils"
 import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant'
 import { cloneDeep, find, findIndex } from 'lodash'
-import CART_CAT from "@/assets/images/CART_CAT.webp";
-import CART_DOG from "@/assets/images/CART_DOG.webp";
+import CART_CAT from "@/assets/images/CART_CAT.jpg";
+import CART_DOG from "@/assets/images/CART_DOG.jpg";
 import PetModal from '@/components/PetModal'
 
 @inject("checkoutStore")
@@ -49,6 +49,9 @@ class UnLoginCart extends React.Component {
   }
   get discountPrice () {
     return this.props.checkoutStore.discountPrice
+  }
+  get deliveryPrice () {
+    return this.props.checkoutStore.deliveryPrice
   }
   get isPromote () {
     return parseInt(this.discountPrice) > 0
@@ -337,15 +340,20 @@ class UnLoginCart extends React.Component {
                               <i></i>
                             </span>
                           </div> */}
-                          {pitem.sizeList.map((ele, i) => (
-                            <div
-                              className={`rc-swatch__item ${ele.selected ? 'selected' : ''}`}
-                              key={i}
-                              onClick={() => this.changeSize(pitem, ele, index)}>
-                              <span>
-                                {ele.specText}
-                                <i></i>
-                              </span>
+                          {pitem.goodsSpecs.map((sItem, i) => (
+                            <div key={i} className="overflow-hidden">
+                              <div className="text-left ml-1">{sItem.specName}:</div>
+                              {sItem.chidren.map((sdItem, i2) => (
+                                <div
+                                  className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
+                                  key={i2}
+                                  onClick={() => this.handleChooseSize(sdItem, pitem, index)}>
+                                  <span key={i2}>
+                                    {sdItem.detailName}
+                                    <i></i>
+                                  </span>
+                                </div>
+                              ))}
                             </div>
                           ))}
                         </div>
@@ -398,7 +406,7 @@ class UnLoginCart extends React.Component {
                         <span className="rc-icon rc-refresh--xs rc-brand1"></span>
                         <FormattedMessage id="details.Subscription" />{' '}-{' '}
                         <span style={{ fontSize: '.85em' }}>
-                          <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                          <FormattedMessage id="subscription.promotionTip" values={{ val: pitem.goodsPromotion }} />
                         </span>
                       </>
                       : null
@@ -474,7 +482,7 @@ class UnLoginCart extends React.Component {
                       <span className="rc-icon rc-refresh--xs rc-brand1"></span>
                       <FormattedMessage id="details.Subscription" />{' '}-{' '}
                       <span style={{ fontSize: '.85em' }}>
-                        <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                        <FormattedMessage id="subscription.promotionTip" values={{ val: pitem.goodsPromotion }} />
                       </span>
                     </>
                     : null
@@ -519,16 +527,42 @@ class UnLoginCart extends React.Component {
    * @param {*} sizeItem 当前product选中的规格信息
    * @param {*} index 当前product的索引
    */
-  changeSize (pItem, sizeItem, index) {
+  handleChooseSize (sdItem, pitem, index) {
+    pitem.goodsSpecs.filter(item => item.specId === sdItem.specId)[0].chidren.map(item => {
+      if (item.specDetailId === sdItem.specDetailId) {
+        item.selected = true
+      } else {
+        item.selected = false
+      }
+    })
+
+    let selectedSpecIds = []
+    let selectedSpecDetailId = []
+    for (let item of pitem.goodsSpecs) {
+      const selectedItem = item.chidren.filter(ele => ele.selected)[0]
+      selectedSpecIds.push(selectedItem.specId)
+      selectedSpecDetailId.push(selectedItem.specDetailId)
+    }
+
+    const selectedGoodsInfo = pitem.goodsInfos.filter(ele => ele.mockSpecIds.sort().toString() === selectedSpecIds.sort().toString()
+      && ele.mockSpecDetailIds.sort().toString() === selectedSpecDetailId.sort().toString())[0]
+    // 之前sku pitem.goodsInfoId
+    // 增加当前sku selectedGoodsInfo.goodsInfoId
+    Array.from(pitem.sizeList, ele => {
+      if (selectedGoodsInfo.goodsInfoId === ele.goodsInfoId) {
+        ele.selected = true
+      } else {
+        ele.selected = false
+      }
+    })
+
     const { productList } = this.state
-    pItem.sizeList.map((el) => (el.selected = false));
-    sizeItem.selected = true;
     // 合并购物车，有相同规格的，删除本条
-    const tmpIdx = findIndex(productList.filter((el, i) => i !== index), ele => ele.goodsId === pItem.goodsId
-      && sizeItem.goodsInfoId === ele.sizeList.filter(s => s.selected)[0].goodsInfoId)
+    const tmpIdx = findIndex(productList.filter((el, i) => i !== index), ele => find(ele.sizeList, s => s.selected).goodsInfoId === selectedGoodsInfo.goodsInfoId)
     if (tmpIdx > -1) {
       productList.splice(tmpIdx, 1)
     }
+
     this.setState({
       productList: productList
     }, () => {
@@ -579,7 +613,7 @@ class UnLoginCart extends React.Component {
             </p>
           </div>
           <div className="col-4">
-            <p className="text-right shipping-cost">0</p>
+            <p className="text-right shipping-cost">{formatMoney(this.deliveryPrice)}</p>
           </div>
         </div>
         <div className="group-total">

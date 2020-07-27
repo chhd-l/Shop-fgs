@@ -234,41 +234,39 @@ class Confirmation extends React.Component {
                       </Link>
                   }
                 </div>
-                {
-                  !this.state.oxxoPayUrl && <p
-                    className={`rc-margin-top--sm ${this.state.subNumber ? 'text-left' : ''} ml-auto mr-auto`}
-                    style={{ width: '25%' }}>
+                <p
+                  className={`rc-margin-top--sm ${this.state.subNumber ? 'text-left' : ''} ml-auto mr-auto`}
+                  style={{ width: '25%' }}>
+                  {
+                    this.state.subNumber && <>
+                      <b className="mb-3" style={{ display: 'inline-block' }}>
+                        <FormattedMessage id="subscription.number" />:{' '}
+                        <Link
+                          to={`/account/subscription-detail/${this.state.subNumber}`}
+                          className="rc-meta rc-styled-link backtohome mb-0">
+                          {this.state.subNumber}
+                        </Link>
+                      </b>
+                      <br />
+                    </>
+                  }
+                  <b>
+                    <FormattedMessage id="confirmation.orderNumber" />:{' '}
                     {
-                      this.state.subNumber && <>
-                        <b className="mb-3" style={{ display: 'inline-block' }}>
-                          <FormattedMessage id="subscription.number" />:{' '}
-                          <Link
-                            to={`/account/subscription-detail/${this.state.subNumber}`}
-                            className="rc-meta rc-styled-link backtohome mb-0">
-                            {this.state.subNumber}
-                          </Link>
-                        </b>
-                        <br />
-                      </>
+                      this.state.paywithLogin
+                        ? <Link
+                          to={`/account/orders-detail/${this.state.orderNumber}`}
+                          className="rc-meta rc-styled-link backtohome mb-0">
+                          {this.state.orderNumber}
+                        </Link>
+                        : this.state.orderNumber
                     }
-                    <b>
-                      <FormattedMessage id="confirmation.orderNumber" />:{' '}
-                      {
-                        this.state.paywithLogin
-                          ? <Link
-                            to={`/account/orders-detail/${this.state.orderNumber}`}
-                            className="rc-meta rc-styled-link backtohome mb-0">
-                            {this.state.orderNumber}
-                          </Link>
-                          : this.state.orderNumber
-                      }
-                    </b>
-                  </p>
-                }
+                  </b>
+                </p>
 
               </div>
               <div className="rc-bg-colour--brand3 rc-max-width--xl rc-bottom-spacing rc-padding--sm imformation">
-                <div className="product-summary rc-column" style={{padding:0}}>
+                <div className="product-summary rc-column" style={{ padding: 0 }}>
                   <h5 className="product-summary__title rc-margin-bottom--xs center">
                     <FormattedMessage id="total" />
                   </h5>

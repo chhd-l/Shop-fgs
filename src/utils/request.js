@@ -30,6 +30,7 @@ service.interceptors.request.use(config => {
     de: 'de',
     cn: 'zh-CN'
   }[process.env.REACT_APP_LANG]
+  config.headers['storeId'] = process.env.REACT_APP_STOREID
   return config
 })
 
