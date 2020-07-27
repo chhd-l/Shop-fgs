@@ -11,8 +11,8 @@ import { Link } from "react-router-dom"
 import { formatMoney } from "@/utils/utils"
 import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant'
 import { cloneDeep, find, findIndex } from 'lodash'
-import CART_CAT from "@/assets/images/CART_CAT.webp";
-import CART_DOG from "@/assets/images/CART_DOG.webp";
+import CART_CAT from "@/assets/images/CART_CAT.jpg";
+import CART_DOG from "@/assets/images/CART_DOG.jpg";
 import PetModal from '@/components/PetModal'
 
 @inject("checkoutStore")

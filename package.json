@@ -48,7 +48,7 @@
     "less": "^3.11.3",
     "less-loader": "^6.1.2",
     "mini-css-extract-plugin": "0.9.0",
-    "mobx": "^5.15.4",
+    "mobx": "4",
     "mobx-react": "^6.2.2",
     "moment": "^2.27.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
@@ -103,12 +103,14 @@
     "production": [
       ">0.2%",
       "not dead",
-      "not op_mini all"
+      "not op_mini all",
+      "ie 11"
     ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 safari version",
+      "ie 11"
     ]
   },
   "jest": {

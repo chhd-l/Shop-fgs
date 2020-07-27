@@ -382,6 +382,7 @@ class Details extends React.Component {
     // );
   }
   async hanldeAddToCart ({ redirect = false, needLogin = false } = {}) {
+    debugger
     this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
       return false

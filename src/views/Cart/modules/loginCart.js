@@ -17,8 +17,8 @@ import {
   updateBackendCart,
   deleteItemFromBackendCart
 } from '@/api/cart'
-import CART_CAT from "@/assets/images/CART_CAT.webp";
-import CART_DOG from "@/assets/images/CART_DOG.webp";
+import CART_CAT from "@/assets/images/CART_CAT.jpg";
+import CART_DOG from "@/assets/images/CART_DOG.jpg";
 import Loading from "@/components/Loading"
 
 @inject("checkoutStore")
