@@ -29,7 +29,7 @@ class List extends React.Component {
         // 占位用，不能删
         {
           id: '3003_RU',
-          lowGoodsName: 'Mini adult',
+          goodsName: 'Mini adult',
           goodsInfos: [
             {
               goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
@@ -40,7 +40,7 @@ class List extends React.Component {
         },
         {
           id: '3004_RU',
-          lowGoodsName: 'Mini adult',
+          goodsName: 'Mini adult',
           goodsInfos: [
             {
               goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
@@ -51,7 +51,7 @@ class List extends React.Component {
         },
         {
           id: '3005_RU',
-          lowGoodsName: 'Mini adult',
+          goodsName: 'Mini adult',
           goodsInfos: [
             {
               goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
@@ -265,7 +265,7 @@ class List extends React.Component {
       return false
     }
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
-    sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
+    sessionStorage.setItem('rc-goods-name', item.goodsName)
     const { history } = this.props
     history.push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
@@ -397,8 +397,8 @@ class List extends React.Component {
                                               <img
                                                 src={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg}
                                                 srcSet={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg}
-                                                alt={item.lowGoodsName}
-                                                title={item.lowGoodsName} />
+                                                alt={item.goodsName}
+                                                title={item.goodsName} />
                                             </div>
                                           </picture>
                                           <div className="rc-card__body rc-padding-top--none pb-0">
@@ -406,8 +406,8 @@ class List extends React.Component {
                                               <header className="rc-text--center">
                                                 <h3
                                                   className="rc-card__title rc-gamma ui-text-overflow-line2 text-break font15"
-                                                  title={item.lowGoodsName}>
-                                                  {item.lowGoodsName}
+                                                  title={item.goodsName}>
+                                                  {item.goodsName}
                                                 </h3>
                                               </header>
                                               {

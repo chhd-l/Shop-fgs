@@ -2,6 +2,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react'
+import Skeleton from 'react-skeleton-loader'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -47,6 +48,7 @@ class LoginCart extends React.Component {
     const unloginCartData = this.checkoutStore.cartData
     if (unloginCartData.length) {
       await mergeUnloginCartData()
+      await this.checkoutStore.updateLoginCart()
     }
     this.setData()
   }
@@ -98,7 +100,7 @@ class LoginCart extends React.Component {
   async updateBackendCart (param) {
     this.setState({ checkoutLoading: true })
     await updateBackendCart(param)
-    this.updateCartCache()
+    await this.updateCartCache()
     this.setState({ checkoutLoading: false })
   }
   /**
@@ -106,8 +108,9 @@ class LoginCart extends React.Component {
    *
    */
   async deleteItemFromBackendCart (param) {
+    this.setState({ checkoutLoading: true })
     await deleteItemFromBackendCart(param)
-    this.updateCartCache()
+    await this.updateCartCache()
   }
   async handleCheckout () {
     const { productList } = this.state
@@ -248,7 +251,6 @@ class LoginCart extends React.Component {
     // })
   }
   getProducts (plist) {
-    const { checkoutLoading } = this.state
     const Lists = plist.map((pitem, index) => (
       <div
         className="rc-border-all rc-border-colour--interface product-info"
@@ -386,7 +388,7 @@ class LoginCart extends React.Component {
                         <span className="rc-icon rc-refresh--xs rc-brand1"></span>
                         <FormattedMessage id="details.Subscription" />{' '}-{' '}
                         <span style={{ fontSize: '.85em' }}>
-                          <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                          <FormattedMessage id="subscription.promotionTip" values={{ val: pitem.goodsPromotion }} />
                         </span>
                       </>
                       : null
@@ -437,17 +439,16 @@ class LoginCart extends React.Component {
                   max="10" />
                 <span
                   className=" rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                  data-quantity-error-msg="Вы не можете заказать больше 10"
                   onClick={() => this.addQuantity(pitem)}></span>
               </div>
             </div>
             <div className="line-item-total-price d-flex justify-content-center">
               <p className="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">=</p>
-              <div className="item-total-f6a6279ea1978964b8bf0e3524 price">
+              <div className="price">
                 <div className="strike-through non-adjusted-price">
                   null
                 </div>
-                <b className="pricing line-item-total-price-amount item-total-f6a6279ea1978964b8bf0e3524 light">
+                <b className="pricing line-item-total-price-amount light">
                   {formatMoney(pitem.buyCount * pitem.salePrice)}
                 </b>
               </div>
@@ -462,7 +463,7 @@ class LoginCart extends React.Component {
                       <span className="rc-icon rc-refresh--xs rc-brand1"></span>
                       <FormattedMessage id="details.Subscription" />{' '}-{' '}
                       <span style={{ fontSize: '.85em' }}>
-                        <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                        <FormattedMessage id="subscription.promotionTip" values={{ val: pitem.goodsPromotion }} />
                       </span>
                     </>
                     : null
@@ -591,6 +592,7 @@ class LoginCart extends React.Component {
     </div >
   }
   async handleChooseSize (sdItem, pitem) {
+    this.setState({ changSizeLoading: true })
     const otherGoodsSpecs = pitem.goodsSpecs.filter(s => s.specId !== sdItem.specId)
     let selectedSpecIds = [sdItem.specId]
     let selectedSpecDetailId = [sdItem.specDetailId]
@@ -607,11 +609,11 @@ class LoginCart extends React.Component {
     // 先删除改之前sku
     await this.deleteItemFromBackendCart({ goodsInfoIds: [pitem.goodsInfoId] })
     // 再增加当前sku
-    this.updateBackendCart({ goodsInfoId: selectedGoodsInfo.goodsInfoId, goodsNum: pitem.buyCount, verifyStock: false })
-    this.setState({ deleteLoading: false })
+    await this.updateBackendCart({ goodsInfoId: selectedGoodsInfo.goodsInfoId, goodsNum: pitem.buyCount, verifyStock: false })
+    this.setState({ changSizeLoading: false })
   }
   render () {
-    const { productList } = this.state;
+    const { productList, checkoutLoading, changSizeLoading } = this.state;
     const List = this.getProducts(productList);
     const event = {
       page: {
@@ -625,58 +627,64 @@ class LoginCart extends React.Component {
         <Header ref={this.headerRef} showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
-            {productList.length
-              ? <>
-                <div className="rc-layout-container rc-one-column">
-                  <div className="rc-column">
-                    <FormattedMessage id="continueShopping">
-                      {txt => (
-                        <a className="ui-cursor-pointer-pure" onClick={(e) => this.goBack(e)} title={txt}>
-                          <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                            <span className="rc-icon rc-left rc-iconography"></span>
-                            {txt}
-                          </span>
-                        </a>
-                      )}
-                    </FormattedMessage>
+            {(changSizeLoading || productList.length > 0) && <>
+              <div className="rc-layout-container rc-one-column">
+                <div className="rc-column">
+                  <FormattedMessage id="continueShopping">
+                    {txt => (
+                      <a className="ui-cursor-pointer-pure" onClick={(e) => this.goBack(e)} title={txt}>
+                        <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                          <span className="rc-icon rc-left rc-iconography"></span>
+                          {txt}
+                        </span>
+                      </a>
+                    )}
+                  </FormattedMessage>
+                </div>
+              </div>
+              <div className="rc-layout-container rc-three-column cart cart-page">
+                <div className="rc-column rc-double-width">
+                  <div className="rc-padding-bottom--xs cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
+                    <aside className="rc-alert rc-alert--error rc-alert--with-close text-break" role="alert">
+                      <span style={{ paddingLeft: 0 }}>{this.state.errorMsg}</span>
+                    </aside>
+                  </div>
+                  <div className="rc-padding-bottom--xs">
+                    <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
+                      <FormattedMessage id="cart.yourBasket" />
+                    </h5>
+                  </div>
+                  <div id="product-cards-container">
+                    {changSizeLoading
+                      ? <Skeleton color="#f5f5f5" width="100%" height="100%" count={4} />
+                      : List
+                    }
                   </div>
                 </div>
-                <div className="rc-layout-container rc-three-column cart cart-page">
-                  <div className="rc-column rc-double-width">
-                    <div className="rc-padding-bottom--xs cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
-                      <aside className="rc-alert rc-alert--error rc-alert--with-close text-break" role="alert">
-                        <span style={{ paddingLeft: 0 }}>{this.state.errorMsg}</span>
-                      </aside>
-                    </div>
-                    <div className="rc-padding-bottom--xs">
-                      <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                        <FormattedMessage id="cart.yourBasket" />
-                      </h5>
-                    </div>
-                    <div id="product-cards-container">{List}</div>
+                <div className="rc-column totals cart__total">
+                  <div className="rc-padding-bottom--xs">
+                    <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
+                      <FormattedMessage id="total" />
+                    </h5>
                   </div>
-                  <div className="rc-column totals cart__total">
-                    <div className="rc-padding-bottom--xs">
-                      <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                        <FormattedMessage id="total" />
-                      </h5>
-                    </div>
-                    <div id="J_sidecart_container">
-                      {this.sideCart({
-                        className: 'hidden position-fixed rc-md-up',
-                        style: {
-                          background: '#fff',
-                          zIndex: 9,
-                          width: 320
-                        },
-                        id: 'J_sidecart_fix'
-                      })}
-                      {this.sideCart()}
-                    </div>
+                  <div id="J_sidecart_container">
+                    {this.sideCart({
+                      className: 'hidden position-fixed rc-md-up',
+                      style: {
+                        background: '#fff',
+                        zIndex: 9,
+                        width: 320
+                      },
+                      id: 'J_sidecart_fix'
+                    })}
+                    {this.sideCart()}
                   </div>
                 </div>
-              </>
-              : <>
+              </div>
+            </>
+            }
+            {
+              productList.length == 0 && !checkoutLoading && <>
                 <div className="rc-text-center">
                   <div className="rc-beta rc-margin-bottom--sm">
                     <FormattedMessage id="cart.yourBasket" />

@@ -268,7 +268,7 @@ class Header extends React.Component {
   }
   gotoDetails (item) {
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
-    sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
+    sessionStorage.setItem('rc-goods-name', item.goodsName)
     this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   toggleMenu () {
@@ -316,8 +316,8 @@ class Header extends React.Component {
                             <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(item)}>
                               <img
                                 className="swatch__img"
-                                alt={item.lowGoodsName}
-                                title={item.lowGoodsName}
+                                alt={item.goodsName}
+                                title={item.goodsName}
                                 src={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg || IMG_DEFAULT} />
                             </a>
                           </div>
@@ -325,10 +325,10 @@ class Header extends React.Component {
                             <a
                               onClick={() => this.gotoDetails(item)}
                               className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
-                              alt={item.lowGoodsName}
-                              title={item.lowGoodsName}
+                              alt={item.goodsName}
+                              title={item.goodsName}
                             >
-                              {item.lowGoodsName}
+                              {item.goodsName}
                             </a>
                             <div className="rc-meta searchProductKeyword"></div>
                           </div>

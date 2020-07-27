@@ -22,11 +22,6 @@ class LoginCart extends React.Component {
     this.handleCheckout = this.handleCheckout.bind(this)
   }
   async componentDidMount () {
-    const unloginCartData = this.props.checkoutStore.cartData
-    if (unloginCartData.length && this.props.history.location.pathname !== '/cart') {
-      await mergeUnloginCartData()
-    }
-    this.checkoutStore.updateLoginCart()
   }
   componentWillReceiveProps (nextProps) {
     // debugger

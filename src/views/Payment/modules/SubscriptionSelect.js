@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import Selection from '@/components/Selection'
-import { getDictionary } from "@/utils/utils"
+import { getDictionary, formatMoney } from "@/utils/utils";
 
 @inject("checkoutStore", "frequencyStore")
 @observer
@@ -64,10 +64,14 @@ class SubscriptionSelect extends Component {
   render () {
     const { form } = this.state
     return (<div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm pt-3 pb-2">
-      Save your first <span className="rc-icon rc-refresh--xs rc-brand1"></span> Subscription order and save <span className="red">35%
-      ($ 18.5)
-      {/* todo 优惠金额接口获取 */}
-      </span> today!<br />
+      <FormattedMessage
+        id="payment.subTip2"
+        values={{
+          icon: <span className="rc-icon rc-refresh--xs rc-brand1"></span>,
+          val: <span className="red">35%</span>
+          // todo
+        }} />
+      <br />
       <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
         <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2">
           {
@@ -92,10 +96,13 @@ class SubscriptionSelect extends Component {
           }
           <label className="rc-input__label--inline" htmlFor="optsmobile">
             <span className="red"><FormattedMessage id="payment.frequencyTip1" /></span><br />
-            You will save an additional $
-            18.5
-            {/* todo 优惠金额接口获取 */}
-             on this order!<br />
+            <FormattedMessage
+              id="payment.subTip1"
+              values={{
+                val: formatMoney(18.88)
+                // todo
+              }} />
+            <br />
             <span className="font-weight-normal mt-1 inlineblock">
               <FormattedMessage id="payment.deliveryFrequency" />:
             </span>

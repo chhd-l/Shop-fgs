@@ -225,6 +225,8 @@ const en_US = {
   'payment.frequencyTip2': 'No, Thank you.',
   'payment.frequencyTip3': 'Your items will only ship once.',
   'payment.deliveryFrequency': 'Delivery Frequency',
+  'payment.subTip1': 'You will save an additional {val} on this order!',
+  'payment.subTip2': 'Save your first {icon} Subscription order and save {val} today!',
   'confirmation.info1': 'Thank you for your order.',
   'confirmation.info2': 'In the near future, our staff will contact you to comfirm the order.',
   'confirmation.info3': ' Addresses and shipping methods are indicated under your goods.',
@@ -356,7 +358,7 @@ const en_US = {
   'newAddress': 'New address',
   'default': 'Default',
   'saveSuccessfullly': 'Save successfullly',
-  'subscription.promotionTip': 'Save {val} on your first Subscription',
+  'subscription.promotionTip': '{val} on your first order of the subscription',
   'subscription.OnYourFirst': 'on your first',
   'subscription.promotionTip2': 'Simply select Subscription at checkout for easy regular deliveries',
   'subscription.notYet': 'Not Yet Shipped',
@@ -512,7 +514,7 @@ const en_US = {
   'unLoginSubscriptionTips': 'Subscription is possible only after registration',
   'apply': 'Apply',
   'subscribeDiscount': 'Subscription Save Discount',
-  'customerReviews' : 'Customer reviews',
+  'customerReviews': 'Customer reviews',
   'sortBy': 'Sort by',
   //qhx新增
 }
