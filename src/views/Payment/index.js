@@ -492,7 +492,7 @@ class Payment extends React.Component {
         return {
           verifyStock: false,
           buyCount: ele.quantity,
-          goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
+          goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
         };
       }),
     };
@@ -502,7 +502,7 @@ class Payment extends React.Component {
           verifyStock: false,
           buyCount: ele.buyCount,
           goodsInfoId: ele.goodsInfoId,
-          subscriptionStatus: ele.subscriptionStatus,
+          subscriptionStatus: ele.subscriptionStatus
         };
       });
     }

@@ -406,7 +406,7 @@ class UnLoginCart extends React.Component {
                         <span className="rc-icon rc-refresh--xs rc-brand1"></span>
                         <FormattedMessage id="details.Subscription" />{' '}-{' '}
                         <span style={{ fontSize: '.85em' }}>
-                          <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                          <FormattedMessage id="subscription.promotionTip" values={{ val: pitem.goodsPromotion }} />
                         </span>
                       </>
                       : null
@@ -482,7 +482,7 @@ class UnLoginCart extends React.Component {
                       <span className="rc-icon rc-refresh--xs rc-brand1"></span>
                       <FormattedMessage id="details.Subscription" />{' '}-{' '}
                       <span style={{ fontSize: '.85em' }}>
-                        <FormattedMessage id="subscription.promotionTip" values={{ val: SUBSCRIPTION_DISCOUNT_RATE }} />
+                        <FormattedMessage id="subscription.promotionTip" values={{ val: pitem.goodsPromotion }} />
                       </span>
                     </>
                     : null
@@ -548,11 +548,17 @@ class UnLoginCart extends React.Component {
       && ele.mockSpecDetailIds.sort().toString() === selectedSpecDetailId.sort().toString())[0]
     // 之前sku pitem.goodsInfoId
     // 增加当前sku selectedGoodsInfo.goodsInfoId
-    pitem.goodsInfoId = selectedGoodsInfo.goodsInfoId
+    Array.from(pitem.sizeList, ele => {
+      if (selectedGoodsInfo.goodsInfoId === ele.goodsInfoId) {
+        ele.selected = true
+      } else {
+        ele.selected = false
+      }
+    })
 
     const { productList } = this.state
     // 合并购物车，有相同规格的，删除本条
-    const tmpIdx = findIndex(productList.filter((el, i) => i !== index), ele => ele.goodsInfoId === pitem.goodsInfoId)
+    const tmpIdx = findIndex(productList.filter((el, i) => i !== index), ele => find(ele.sizeList, s => s.selected).goodsInfoId === selectedGoodsInfo.goodsInfoId)
     if (tmpIdx > -1) {
       productList.splice(tmpIdx, 1)
     }

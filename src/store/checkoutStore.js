@@ -105,11 +105,13 @@ class CheckoutStore {
     // 更新stock值
     let tmpOutOfstockProNames = []
     let tmpOffShelvesProNames = []
+
     Array.from(data, item => {
       let selectedSize = find(item.sizeList, s => s.selected)
       const tmpObj = find(purchasesRes.goodsInfos, l => l.goodsId === item.goodsId && l.goodsInfoId === selectedSize.goodsInfoId)
       if (tmpObj) {
         item.addedFlag = tmpObj.addedFlag
+        item.goodsPromotion = tmpObj.goodsPromotion
         selectedSize.stock = tmpObj.stock
         const tmpName = tmpObj.goodsInfoName + ' ' + tmpObj.specText
         // handle product off shelves logic
@@ -161,7 +163,7 @@ class CheckoutStore {
           )
         });
       }
-      // debugger
+      
       this.setLoginCartData(goodsList)
       this.setCartPrice({
         totalPrice: sitePurchasesRes.totalPrice,
