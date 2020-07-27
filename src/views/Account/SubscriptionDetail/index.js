@@ -335,7 +335,7 @@ class SubscriptionDetail extends React.Component {
         this.setState({
           loading: false,
           subDiscount: res.context.discountsPrice,
-          subShipping: res.context.subShipping,
+          subShipping: res.context.deliveryPrice,
           promotionDiscount: res.context.promotionDiscount,
           subTradeTotal,
         });
