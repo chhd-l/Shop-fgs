@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import Selection from '@/components/Selection'
 import { getDictionary, formatMoney } from "@/utils/utils";
+import { getMarketingDiscount } from "@/api/payment";
 
 @inject("checkoutStore", "frequencyStore")
 @observer
@@ -16,10 +17,21 @@ class SubscriptionSelect extends Component {
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
-      }
+      },
+      discountInfo: null
     }
   }
   async componentDidMount () {
+    getMarketingDiscount({
+      totalAmount: this.props.checkoutStore.loginCartData
+        .filter(ele => ele.subscriptionStatus)
+        .reduce((total, item) => total + item.subscriptionPrice, 0)
+    })
+      .then(res => {
+        this.setState({
+          discountInfo: res.context
+        })
+      })
     Promise.all([
       getDictionary({ type: 'Frequency_week' }),
       getDictionary({ type: 'Frequency_month' }),
@@ -68,8 +80,7 @@ class SubscriptionSelect extends Component {
         id="payment.subTip2"
         values={{
           icon: <span className="rc-icon rc-refresh--xs rc-brand1"></span>,
-          val: <span className="red">35%</span>
-          // todo
+          val: <span className="red">{this.state.discountInfo ? this.state.discountInfo.promotionDiscount : ''}</span>
         }} />
       <br />
       <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
@@ -99,8 +110,7 @@ class SubscriptionSelect extends Component {
             <FormattedMessage
               id="payment.subTip1"
               values={{
-                val: formatMoney(18.88)
-                // todo
+                val: formatMoney(this.state.discountInfo ? this.state.discountInfo.discountAmount : 0)
               }} />
             <br />
             <span className="font-weight-normal mt-1 inlineblock">

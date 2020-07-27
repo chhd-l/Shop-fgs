@@ -507,13 +507,13 @@ class Payment extends React.Component {
       });
     }
 
-    // 拼接promotion 25%参数
+    // 拼接promotion参数
     let tradeMarketingList = [];
     let goodsMarketingMap = this.props.checkoutStore.goodsMarketingMap;
     if (Object.keys(goodsMarketingMap).length) {
       tradeMarketingList.push({
-        marketingId: "",
-        marketingLevelId: "",
+        marketingId: [],
+        marketingLevelId: [],
         skuIds: [],
         giftSkuIds: [],
       });
@@ -528,12 +528,8 @@ class Payment extends React.Component {
         } else if (tmpMarketing.marketingType == 1) {
           targetLevelId = tmpMarketing.fullDiscountLevelList[0].discountLevelId
         }
-        if (!firstList.marketingLevelId && targetLevelId) {
-          firstList.marketingLevelId = targetLevelId
-        }
-        if (!firstList.marketingId && tmpMarketing.marketingId) {
-          firstList.marketingId = tmpMarketing.marketingId
-        }
+        firstList.marketingLevelId.push(targetLevelId)
+        firstList.marketingId.push(tmpMarketing.marketingId)
       }
     }
     let param3 = {
@@ -566,7 +562,6 @@ class Payment extends React.Component {
       payPhoneNumber: creditCardInfo.phoneNumber,
 
       petsId: "1231"
-      // promotionCode: '1234',
     };
     try {
       sessionStorage.setItem("rc-paywith-login", this.isLogin);
