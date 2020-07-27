@@ -845,6 +845,11 @@ class SubscriptionDetail extends React.Component {
                                     };
                                   }),
                                 };
+                                Object.assign(param, {
+                                  changeField: this.props.intl.messages[
+                                  "subscription.change"
+                                  ],
+                                  });
                                 await this.doUpdateDetail(param)
                                 await this.getDetail()
                                 this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success')
