@@ -1,6 +1,7 @@
 import React from "react";
 import "./index.css";
 import { FormattedMessage, injectIntl } from "react-intl";
+import Skeleton from "react-skeleton-loader";
 import { inject, observer } from 'mobx-react'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -146,9 +147,6 @@ class SubscriptionDetail extends React.Component {
   }
   
   async componentDidMount() {
-    let now = new Date()
-    now.setDate(now.getDate() + 4)
-    this.setState({minDate: now})
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -268,13 +266,17 @@ class SubscriptionDetail extends React.Component {
       let orderOptions = (subDetail.trades || []).map((el) => {
         return { value: el.id, name: el.id + "" };
       });
-
+      let now = new Date(res.defaultLocalDateTime)
+      now.setDate(now.getDate() + 4)
       this.setState({
         subDetail: subDetail,
-        currentCardInfo: subDetail.paymentInfo,
+        currentCardInfo: subDetail.paymentInfo? subDetail.paymentInfo: {
+          cardNumber: "xxxx",
+        },
         currentDeliveryAddress: subDetail.consignee,
         currentBillingAddress: subDetail.invoice,
-        orderOptions: orderOptions
+        orderOptions: orderOptions,
+        minDate: now
       })
     }catch(err){
       this.showErrMsg(err)
@@ -427,7 +429,7 @@ class SubscriptionDetail extends React.Component {
             </Modal>
             <div className="rc-padding--sm rc-max-width--xl">
               <div className="rc-layout-container rc-five-column">
-                {this.state.loading ? <Loading positionFixed="true" /> : null}
+                {/* {this.state.loading ? <Loading positionFixed="true" /> : null} */}
                 <SideMenu type="Subscription" />
                 <div
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
@@ -629,7 +631,14 @@ class SubscriptionDetail extends React.Component {
                     </div>
                   </div>
                   <div className="content-asset">
-                    <div className="rc-layout-container rc-three-column mgb30 operationBox">
+                    {this.state.loading? 
+                    (
+                      <div className="mt-4">
+                        <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
+                      </div>
+                    ): (
+                      <div>
+                        <div className="rc-layout-container rc-three-column mgb30 operationBox">
                       <div className="rc-column column-contanier">
                         <div
                           className="rc-card-container"
@@ -1269,7 +1278,6 @@ class SubscriptionDetail extends React.Component {
                                     className="card-img"
                                     src={data.payment.cardImg}
                                   />
-                                  {/* &nbsp;&nbsp; {currentCardInfo.cardType} */}
                                   &nbsp;&nbsp; xxxx xxxx xxxx{" "}
                                   {currentCardInfo.cardNumber.substring(
                                     currentCardInfo.cardNumber.length - 4
@@ -1297,6 +1305,9 @@ class SubscriptionDetail extends React.Component {
                         </div>
                       </div>
                     </div>
+                      </div>
+                    )}
+                    
                   </div>
                 </div>
               </div>

@@ -243,27 +243,50 @@ class PaymentComp extends React.Component {
       console.log(value, value.replace(/\s*/g, ""));
       creditCardInfo[name] = value.replace(/\s*/g, "");
     } else if (name === "cardMmyy") {
-      let beforeValue = value.substr(0, value.length - 1);
-      let inputValue = value.substr(value.length - 1, 1);
-
-      if (
-        creditCardInfo[name] !== beforeValue &&
-        creditCardInfo[name].substr(0, creditCardInfo[name].length - 1) !==
-          value
-      )
-        return;
-      if (
-        isNaN(parseInt(inputValue)) &&
-        value.length > creditCardInfo[name].length
-      )
-        return;
-      if (creditCardInfo[name].length == 2 && value.length == 3) {
-        creditCardInfo[name] = value.slice(0, 2) + "/" + value.slice(2);
-      } else if (creditCardInfo[name].length == 4 && value.length == 3) {
-        creditCardInfo[name] = creditCardInfo[name].slice(0, 2);
-      } else {
-        creditCardInfo[name] = value;
+      // 获取 / 前后数字
+      let splitArr = value.split('/')
+      console.log(value, splitArr)
+      let noFormatStr = ''
+      let finalValue = ''
+      // 获得不带/的数字
+      if(splitArr[1] || splitArr[0].length > 2) {
+        noFormatStr = splitArr[0].concat(splitArr[1]?splitArr[1]: '')
+        console.log(noFormatStr)
+        finalValue = noFormatStr.slice(0,2) + '/' + noFormatStr.slice(2)
+      }else {
+        noFormatStr = splitArr[0]
+        finalValue = noFormatStr.slice(0,2)
       }
+      creditCardInfo[name] = finalValue;
+      // let beforeValue = value.substr(0, value.length - 1);
+      // let inputValue = value.substr(value.length - 1, 1);
+      // console.log(creditCardInfo[name], beforeValue, creditCardInfo[name].substr(0, creditCardInfo[name].length - 1), value)
+      // if (
+      //   creditCardInfo[name] !== beforeValue &&
+      //   creditCardInfo[name].substr(0, creditCardInfo[name].length - 1) !==
+      //     value
+      // ){
+      //   console.log(1)
+      //   return;
+      // }
+        
+      // if (
+      //   isNaN(parseInt(inputValue)) &&
+      //   value.length > creditCardInfo[name].length
+      // ) {
+      //   console.log(2)
+      //   return;
+      // }
+      // if (creditCardInfo[name].length == 2 && value.length == 3) {
+      //   creditCardInfo[name] = value.slice(0, 2) + "/" + value.slice(2);
+      //   console.log(3)
+      // } else if (creditCardInfo[name].length == 4 && value.length == 3) {
+      //   creditCardInfo[name] = creditCardInfo[name].slice(0, 2);
+      //   console.log(4)
+      // } else {
+      //   creditCardInfo[name] = value;
+      //   console.log(5)
+      // }
     } else {
       creditCardInfo[name] = value;
     }
@@ -1029,7 +1052,7 @@ class PaymentComp extends React.Component {
                 <div className="col-sm-12">
                   <div className="form-group">
                     <label className="form-control-label" htmlFor="cardNumber">
-                      <FormattedMessage id="payment.cardNumber" />*
+                      <FormattedMessage id="payment.cardNumber" /><span style={{color: 'red'}}>*</span>
                       {CreditCardImg}
                       <div className="cardFormBox">
                         <span className="cardImage">
