@@ -8,7 +8,7 @@ const api = {
   getAddressDetail: '/customer/address/',
   skipNextSub: '/sub/cancelNextSubscription',
   cancelAllSub: '/sub/cancelSubscription',
-  orderNowSub: '/sub/orderNow',
+  orderNowSub: '/sub/createOrderNow',
 }
 
 export default api
