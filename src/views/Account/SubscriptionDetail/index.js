@@ -188,18 +188,8 @@ class SubscriptionDetail extends React.Component {
     });
     await this.getDetail()
 
-    const res =  await this.doGetPromotionPrice()
-    //拼装订阅购物车参数
-    if (res.code=="K-000000") {
-      let subTradeTotal = this.state.subTotal + Number(res.context.deliveryPrice) - Number(res.context.discountsPrice) - Number(res.context.promotionDiscount)
-      this.setState({
-        loading:false,
-        subDiscount:res.context.discountsPrice,
-        subShipping:res.context.subShipping,
-        promotionDiscount: res.context.promotionDiscount,
-        subTradeTotal
-      })
-    }
+    await this.doGetPromotionPrice()
+    
 
     this.setState({
       subId: this.props.match.params.subscriptionNumber
@@ -228,6 +218,17 @@ class SubscriptionDetail extends React.Component {
       this.setState({loading: false})
     })
   }
+  //订阅数量更改
+  async onQtyChange(){
+    try {
+       // this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
+     //await this.doUpdateDetail(param)
+     await this.doGetPromotionPrice(this.state.lastPromotionInputValue)
+     //await this.getDetail()
+    }catch(err){
+      this.showErrMsg(err)
+    }
+  }
   get isLogin () {
     return this.props.loginStore.isLogin
   }
@@ -249,6 +250,16 @@ class SubscriptionDetail extends React.Component {
   // get promotionDesc(){
   //   return this.props.checkoutStore.promotionDesc
   // }
+  async doUpdateDetail(param){
+    try {
+      this.setState({loading: true})
+      await updateDetail(param)
+    }catch(err){
+      throw new Error(err)
+    }finally{
+      this.setState({loading: false})
+    }
+  }
   async getDetail() {
     try{
       this.setState({loading: true})
@@ -259,7 +270,6 @@ class SubscriptionDetail extends React.Component {
       });
 
       this.setState({
-        loading: false,
         subDetail: subDetail,
         currentCardInfo: subDetail.paymentInfo,
         currentDeliveryAddress: subDetail.consignee,
@@ -268,12 +278,14 @@ class SubscriptionDetail extends React.Component {
       })
     }catch(err){
       this.showErrMsg(err)
+      throw new Error(err) 
+    } finally{
       this.setState({loading: false})
     }
   }
   async doGetPromotionPrice(promotionCode=""){
     try{
-      //计算Total
+      //计算Tota
       this.setState({loading: true})
       let goodsInfo = this.state.subDetail.goodsInfo
  
@@ -299,11 +311,24 @@ class SubscriptionDetail extends React.Component {
         isAutoSub: true,
       })
 
-      return new Promise(function(resolve){
+      //拼装订阅购物车参数
+      if (res.code=="K-000000") {
+        let subTradeTotal = this.state.subTotal + Number(res.context.deliveryPrice) - Number(res.context.discountsPrice) - Number(res.context.promotionDiscount)
+        this.setState({
+          loading:false,
+          subDiscount:res.context.discountsPrice,
+          subShipping:res.context.subShipping,
+          promotionDiscount: res.context.promotionDiscount,
+          subTradeTotal
+        })
+      }
+      return new Promise((resolve)=>{
         resolve(res)
       })
     }catch(err){
       this.showErrMsg(err)
+      throw new Error(err)
+    }finally{
       this.setState({loading: false})
     }   
   }
@@ -791,8 +816,10 @@ class SubscriptionDetail extends React.Component {
                                 ? "inline-block"
                                 : "none",
                             }}
-                            onClick={() =>
-                              this.setState({ isChangeQuatity: false })
+                            onClick={() =>{
+                                this.setState({ loading: true })
+                                window.location.reload()
+                              }                              
                             }
                           >
                             <FormattedMessage id="Cancel"></FormattedMessage>
@@ -805,32 +832,31 @@ class SubscriptionDetail extends React.Component {
                                 ? "inline-block"
                                 : "none",
                             }}
-                            onClick={() => {
-                              subDetail.goodsInfo = this.state.currentGoodsInfo;
-                              let param = {
-                                subscribeId: subDetail.subscribeId,
-                                goodsItems: subDetail.goodsInfo.map((el) => {
-                                  return {
-                                    skuId: el.skuId,
-                                    subscribeNum: el.subscribeNum,
-                                    subscribeGoodsId: el.subscribeGoodsId
-                                  };
-                                }),
-                              };
-                              console.log(param);
-                              this.setState({loading: true})
-                              updateDetail(param).then((res) => {
+                            onClick={async () => {
+                              try{
+                                subDetail.goodsInfo = this.state.currentGoodsInfo;
+                                let param = {
+                                  subscribeId: subDetail.subscribeId,
+                                  goodsItems: subDetail.goodsInfo.map((el) => {
+                                    return {
+                                      skuId: el.skuId,
+                                      subscribeNum: el.subscribeNum,
+                                      subscribeGoodsId: el.subscribeGoodsId
+                                    };
+                                  }),
+                                };
+                                await this.doUpdateDetail(param)
+                                await this.getDetail()
+                                this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success')
+                                this.setState({
+                                  isChangeQuatity: false,
+                                  subDetail,
+                                });
+                              }catch(err){
+                                this.showErrMsg(err)
+                              }finally{
                                 this.setState({loading: false})
-                                // console.log(res);
-                                // window.location.reload();
-                                this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
-                              }).catch(err => {
-                                this.setState({loading: false})
-                              })
-                              this.setState({
-                                isChangeQuatity: false,
-                                subDetail,
-                              });
+                              }                            
                             }}
                           >
                             <FormattedMessage id="Save"></FormattedMessage>
@@ -898,6 +924,9 @@ class SubscriptionDetail extends React.Component {
                                             currentGoodsInfo[index]
                                               .subscribeNum - 1;
                                           this.setState({ currentGoodsInfo });
+                                          //数量变更后
+                                          subDetail.goodsInfo[index].subscribeNum = currentGoodsInfo[index].subscribeNum
+                                          this.onQtyChange()
                                         }else {
                                           this.showErrMsg(<FormattedMessage id="cart.errorInfo" />)
                                         }
@@ -912,13 +941,11 @@ class SubscriptionDetail extends React.Component {
                                       maxLength="5"
                                       // value={el.subscribeNum}
                                       onChange={(e) => {
-
-
                                         this.setState({ errorShow: false })
                                         const val = e.target.value
                                         let { currentGoodsInfo } = this.state
                                         if (val === '') {
-                                          currentGoodsInfo[index].subscribeNum = val
+                                          currentGoodsInfo[index].subscribeNum = 1
                                           this.setState({currentGoodsInfo})
                                         } else {
                                           let tmp = parseInt(val)
@@ -938,6 +965,9 @@ class SubscriptionDetail extends React.Component {
                                           this.setState({currentGoodsInfo})
                                           // this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
                                         }
+                                         //数量变更后
+                                         subDetail.goodsInfo[index].subscribeNum = currentGoodsInfo[index].subscribeNum
+                                         this.onQtyChange()
                                       }}
                                       value={
                                         this.state.currentGoodsInfo.length &&
@@ -947,20 +977,19 @@ class SubscriptionDetail extends React.Component {
                                     />
                                     <span
                                       className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                      onClick={async () => {
+                                      onClick={() => {
                                         let { currentGoodsInfo } = this.state;
                                         if(currentGoodsInfo[index].subscribeNum < 30) {
                                           currentGoodsInfo[index].subscribeNum =
                                             currentGoodsInfo[index].subscribeNum +
                                             1;
                                           this.setState({ currentGoodsInfo });
-                                          console.log(el.subscribeNum);
-                                          // await this.getDetail()
-                                          // await this.doGetPromotionPrice()
-                                        }else {
+                                          //数量变更后
+                                          subDetail.goodsInfo[index].subscribeNum = currentGoodsInfo[index].subscribeNum
+                                          this.onQtyChange()
+                                        }else {//数量不能超过30
                                           this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" />)
                                         }
-                                        
                                       }}
                                     ></span>
                                   </div>
@@ -1083,7 +1112,6 @@ class SubscriptionDetail extends React.Component {
                                 })
                                  //会员
                                  result = await this.doGetPromotionPrice(this.state.promotionInputValue)
-                                 console.log({result})
                                  this.setState({
                                   promotionDesc: result.context.promotionDesc
                                  })
