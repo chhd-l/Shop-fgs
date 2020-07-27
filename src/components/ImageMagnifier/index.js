@@ -295,13 +295,14 @@ class ImageMagnifier extends Component {
           <div className="bigImageOutBox" style={cssStyle.imgContainer}>
             <div className="bigImageInnerBox rc-loaded--final" style={{transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`}}>
               {
-                images.map(el => (
-                  <div>
+                images.map((el,i) => (
+                  <div key={i}>
                     <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />
                   </div>
                 ))
               }
-              {(videoShow && video) && <div><video ref="video" style={cssStyle.imgStyle} src={video ? video : ''} controlslist="nodownload" oncontextmenu="return false;" controls></video></div>}
+              {(videoShow && video) && <div><video ref="video" style={cssStyle.imgStyle} src={video ? video : ''} 
+                controlsList="nodownload" onContextMenu="return false;" controls></video></div>}
             </div>
             {videoShow && videoModalShow && <div className="videoModal" onClick={() => {
               this.refs.video.play()
