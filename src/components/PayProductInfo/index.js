@@ -238,7 +238,7 @@ class PayProductInfo extends React.Component {
                               result =  await checkoutStore.updateUnloginCart()
                             }else{
                              //会员
-                             result = await checkoutStore.updateLoginCart(this.props.promotionCode,this.props.buyWay === 'frequency')                     
+                             result = await checkoutStore.updateLoginCart('',this.props.buyWay === 'frequency')                     
                             }
                             if (result.backCode == 'K-000000') {
                               discount.pop();
