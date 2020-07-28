@@ -305,8 +305,8 @@ class SubscriptionDetail extends React.Component {
         minDate: now,
       });
     } catch (err) {
-      this.showErrMsg(err);
-      throw new Error(err);
+      // this.showErrMsg(err);
+      // throw new Error(err);
     } finally {
       this.setState({ loading: false });
     }

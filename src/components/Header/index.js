@@ -8,6 +8,7 @@ import { getParaByName } from '@/utils/utils';
 import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import { getList } from '@/api/list'
+import { getConfig } from '@/api/user'
 import { CATEID, IMG_DEFAULT } from '@/utils/constant'
 import { getPrescriptionById } from '@/api/clinic'
 import LoginButton from '@/components/LoginButton'
@@ -62,6 +63,9 @@ class Header extends React.Component {
     return this.props.loginStore.isLogin
   }
   async componentDidMount () {
+    // getConfig().then(res => {
+    //   console.log(res, 'resssssss')
+    // })
     if (sessionStorage.getItem('rc-token-lose')) {
       document.querySelector('#J-btn-logoff') && document.querySelector('#J-btn-logoff').click()
       document.querySelector('#J-btn-login') && document.querySelector('#J-btn-login').click()
