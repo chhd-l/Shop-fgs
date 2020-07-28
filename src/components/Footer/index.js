@@ -1,13 +1,43 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import { getContactInfo } from '../../api/phone'
 import './index.css'
 
-function Footer () {
-  const scrollToTop = () => {
-    const widget = document.querySelector('#page-top')
-    widget && widget.scrollIntoView()
-  }
+// function Footer () {
+  class Footer extends React.Component{
+    constructor(props){
+      super(props);
+      this.state={
+        storeContactPhoneNumber: null,
+        privacyPolicyUrl: null,
+        cookiesUrl: null,
+        legalTerms: null
+      }
+    }
+    componentDidMount(){
+      getContactInfo(process.env.REACT_APP_STOREID)
+      .then(res=>{
+        // console.log("number 请求成功 ")
+        const {storeContactPhoneNumber, privacyPolicyUrl, cookiesUrl, legalTerms}=res.context;
+        this.setState({
+          storeContactPhoneNumber,
+          privacyPolicyUrl,
+          cookiesUrl,
+          legalTerms
+        })
+      })
+      .catch(err=>{
+        // console.log("number 请求失败 ")
+        console.log(err)
+      })
+
+    }
+  render(){ 
+    const scrollToTop = () => {
+      const widget = document.querySelector('#page-top')
+      widget && widget.scrollIntoView()
+    } 
   return (
     <footer className="rc-bg-colour--interface-dark" id="footer">
       <div className="rc-max-width--lg rc-scroll--y">
@@ -139,7 +169,7 @@ function Footer () {
         <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
           <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
             <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3" role="menuitem" href="tel:8000247764">
-              800 024 77 64
+              {this.state.storeContactPhoneNumber}
             </a>
             <Link className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" to="/help">
               <FormattedMessage id="footer.contactUs" />
@@ -150,28 +180,28 @@ function Footer () {
           <div className="mars-footer-container">
             <ul className="mars-footer-list-right" style={{ fontSize: '10px', fontFamily: 'Inherit' }}>
               <li>
-                <Link target="_blank" to="/privacypolicy">
+                <a target="_blank" href={this.state.privacyPolicyUrl}>
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.confidentiality" />
                   </span>
-                </Link>
+                </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/cookies-spain">
+                <a target="_blank" href={this.state.cookiesUrl}>
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.cookies" />
                   </span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/legal-mexico">
+                <a target="_blank" href={this.state.legalTerms}>
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.legalTerms" />
                   </span>
                 </a>
               </li>
             </ul>
-            <div className="mars-footer-legal" style={{ fontSize: '10px', fontFamily: 'Inherit' }}>
+            <div className="mars-footer-legal" style={{ fontSize: '10px' }}>
               <p style={{ textAlign: 'center' }}><FormattedMessage id="footer.copyrightInfo" /></p>
             </div>
           </div>
@@ -182,6 +212,7 @@ function Footer () {
       {/* <!-- OneTrust Cookies Settings button end --> */}
     </footer>
   )
-}
+    }
+  }
 
 export default Footer;

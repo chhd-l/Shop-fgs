@@ -335,7 +335,7 @@ class SubscriptionDetail extends React.Component {
         this.setState({
           loading: false,
           subDiscount: res.context.discountsPrice,
-          subShipping: res.context.subShipping,
+          subShipping: res.context.deliveryPrice,
           promotionDiscount: res.context.promotionDiscount,
           subTradeTotal,
         });
@@ -1202,7 +1202,8 @@ class SubscriptionDetail extends React.Component {
                                     <b>{formatMoney(this.state.subTotal)}</b>
                                   </div>
                                 </div>
-                                <div className="flex-layout">
+                                {
+                                  this.state.subDiscount?<div className="flex-layout">
                                   <label className="saveDiscount font18 red-text">
                                     <FormattedMessage id="subscription.saveDiscount"></FormattedMessage>
                                     :
@@ -1212,7 +1213,8 @@ class SubscriptionDetail extends React.Component {
                                       -{formatMoney(this.state.subDiscount)}
                                     </b>
                                   </div>
-                                </div>
+                                </div>:null
+                                }                                
                                 {!this.state.isShowValidCode &&
                                   discount.map((el) => (
                                     <div className="flex-layout">

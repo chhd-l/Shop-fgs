@@ -12,7 +12,8 @@ const api = {
 
   customerCommitAndPay: 'tradeCustom/customerCommitAndPay',
   rePay: 'tradeCustom/rePay',
-  customerCommitAndPayMix: '/tradeCustom/customerCommitAndPayMix'
+  customerCommitAndPayMix: '/tradeCustom/customerCommitAndPayMix',
+  getMarketingDiscount: '/marketing/getMarketingDiscount'
 }
 
 export default api
@@ -84,6 +85,14 @@ export function customerCommitAndPayMix (parameter) {
 export function rePay (parameter) {
   return axios({
     url: api.rePay,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getMarketingDiscount (parameter) {
+  return axios({
+    url: api.getMarketingDiscount,
     method: 'post',
     data: parameter
   })

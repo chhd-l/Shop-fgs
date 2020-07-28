@@ -507,19 +507,18 @@ class Payment extends React.Component {
       });
     }
 
-    // 拼接promotion 25%参数
+    // 拼接promotion参数
     let tradeMarketingList = [];
     let goodsMarketingMap = this.props.checkoutStore.goodsMarketingMap;
     if (Object.keys(goodsMarketingMap).length) {
-      tradeMarketingList.push({
-        marketingId: "",
-        marketingLevelId: "",
-        skuIds: [],
-        giftSkuIds: [],
-      });
       for (let k in goodsMarketingMap) {
-        const firstList = tradeMarketingList[0]
-        firstList.skuIds.push(k);
+        let param = {
+          marketingId: '',
+          marketingLevelId: '',
+          skuIds: [],
+          giftSkuIds: [],
+        }
+        param.skuIds.push(k);
         // marketingType 0-满减fullReductionLevelList-reductionLevelId 1-满折fullDiscountLevelList-discountLevelId
         const tmpMarketing = goodsMarketingMap[k][0]
         let targetLevelId = ''
@@ -528,14 +527,12 @@ class Payment extends React.Component {
         } else if (tmpMarketing.marketingType == 1) {
           targetLevelId = tmpMarketing.fullDiscountLevelList[0].discountLevelId
         }
-        if (!firstList.marketingLevelId && targetLevelId) {
-          firstList.marketingLevelId = targetLevelId
-        }
-        if (!firstList.marketingId && tmpMarketing.marketingId) {
-          firstList.marketingId = tmpMarketing.marketingId
-        }
+        param.marketingLevelId = targetLevelId
+        param.marketingId = tmpMarketing.marketingId
+        tradeMarketingList.push(param)
       }
     }
+    
     let param3 = {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
@@ -566,7 +563,6 @@ class Payment extends React.Component {
       payPhoneNumber: creditCardInfo.phoneNumber,
 
       petsId: "1231"
-      // promotionCode: '1234',
     };
     try {
       sessionStorage.setItem("rc-paywith-login", this.isLogin);
@@ -912,7 +908,7 @@ class Payment extends React.Component {
                             )}
                           <div
                             className="card-header"
-                            style={{ zIndex: 2, width: "62%" }}
+                            style={{ zIndex: 2, width: "62%" , position:'relative' }}
                           >
                             <h5>
                               <FormattedMessage id="payment.billTitle" />
@@ -1038,6 +1034,10 @@ class Payment extends React.Component {
                             </div>
                             <SubscriptionSelect
                               updateSelectedData={(data) => {
+                                //let isShowValidCode = this.refs.payProductInfo.state.isShowValidCode
+                                this.refs.payProductInfo.setState({
+                                  isShowValidCode: false
+                                })
                                 this.props.frequencyStore.updateBuyWay(data.buyWay)
                                 this.props.frequencyStore.updateFrequencyName(data.frequencyName)
                                 if (data.buyWay === "frequency") {
@@ -1070,7 +1070,7 @@ class Payment extends React.Component {
                     <FormattedMessage id="payment.paymentInformation" />
                   </h5>
                   <nav
-                    class="rc-tabs__controller rc-fade--x "
+                    className="rc-tabs__controller rc-fade--x "
                     data-toggle-group=""
                     style={{
                       marginBottom: "20px",
@@ -1081,12 +1081,12 @@ class Payment extends React.Component {
                     }}
                   >
                     <ul
-                      class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break"
+                      className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break"
                       role="tablist"
                     >
                       <li className="rc-tabs-li" style={{ width: "40%" }}>
                         <button
-                          class="rc-tab text-break"
+                          className="rc-tab text-break"
                           onClick={() => this.setState({ showOxxoForm: false })}
                           style={{ padding: "8px 15px", width: "100%" }}
                           data-toggle="creditCard"
@@ -1100,7 +1100,7 @@ class Payment extends React.Component {
                       </li>
                       <li className="rc-tabs-li" style={{ width: "40%" }}>
                         <button
-                          class="rc-tab text-break"
+                          className="rc-tab text-break"
                           onClick={() => this.setState({ showOxxoForm: true })}
                           style={{ padding: "8px 15px", width: "100%" }}
                           data-toggle="oxxo"
@@ -1535,6 +1535,7 @@ class Payment extends React.Component {
                   </Link>
                 )}
                 <PayProductInfo
+                  ref="payProductInfo"
                   history={this.props.history}
                   frequencyName={this.state.subForm.frequencyName}
                   buyWay={this.state.subForm.buyWay}
