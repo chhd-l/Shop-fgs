@@ -510,7 +510,7 @@ class Payment extends React.Component {
     // 拼接promotion参数
     let tradeMarketingList = [];
     let goodsMarketingMap = this.props.checkoutStore.goodsMarketingMap;
-    if (Object.keys(goodsMarketingMap).length) {
+    if (goodsMarketingMap && Object.keys(goodsMarketingMap).length) {
       for (let k in goodsMarketingMap) {
         let param = {
           marketingId: '',
@@ -532,7 +532,7 @@ class Payment extends React.Component {
         tradeMarketingList.push(param)
       }
     }
-    
+
     let param3 = {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
@@ -869,7 +869,7 @@ class Payment extends React.Component {
                   </aside>
                 </div>
                 {this.state.isToPayNow ? (
-                  <AddressPreview />
+                  <AddressPreview info={store.get("loginDeliveryInfo")} />
                 ) : (
                     <>
                       <div className="shipping-form">
@@ -908,7 +908,7 @@ class Payment extends React.Component {
                             )}
                           <div
                             className="card-header"
-                            style={{ zIndex: 2, width: "62%" , position:'relative' }}
+                            style={{ zIndex: 2, width: "62%", position: 'relative' }}
                           >
                             <h5>
                               <FormattedMessage id="payment.billTitle" />
@@ -1189,7 +1189,7 @@ class Payment extends React.Component {
                                                   htmlFor="cardNumber"
                                                 >
                                                   <FormattedMessage id="payment.cardNumber" />
-                                                  <span style={{color: 'red'}}>*</span>{CreditCardImg}
+                                                  <span style={{ color: 'red' }}>*</span>{CreditCardImg}
                                                   <form id="payment-form">
                                                     <div id="card-secure-fields"></div>
                                                     <button
