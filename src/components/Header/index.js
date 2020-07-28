@@ -117,18 +117,20 @@ class Header extends React.Component {
     let isScrollToTop = this.preTop > win_top
     this.preTop = win_top
     const baseTop = this.getElementToPageTop(baseEl) - (isScrollToTop ? 120 : 80) - win_top
-    const footerTop = this.getElementToPageTop(footerEl) - (isScrollToTop ? 120 : 80) - win_top + targetEl.offsetHeight
+    const footerTop = this.getElementToPageTop(footerEl) - (isScrollToTop ? 120 : 80) - win_top
+      + targetEl.offsetHeight
     if (win_top >= footerTop) {
-      targetEl.style.top = (parseInt(footerTop) - 50) + 'px'
-      targetEl.style.display = 'block'
-      targetEl.style.position = 'absolute'
-    } else if (win_top >= baseTop) {
-      targetEl.style.top = isScrollToTop ? '120px' : '80px'
-      targetEl.style.display = 'block'
-      targetEl.style.position = 'fixed'
-    } else {
+      targetEl.style.top = (parseInt(footerTop)) + 'px'
       targetEl.style.display = 'none'
-    }
+      targetEl.style.position = 'absolute'
+    } else
+      if (win_top >= baseTop) {
+        targetEl.style.top = isScrollToTop ? '120px' : '80px'
+        targetEl.style.display = 'block'
+        targetEl.style.position = 'fixed'
+      } else {
+        targetEl.style.display = 'none'
+      }
     this.setState({ isScrollToTop })
   }
   getElementToPageTop (el) {
