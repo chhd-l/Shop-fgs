@@ -43,6 +43,9 @@ export default class Selection extends React.Component {
   }
   toggleShowOptions (e) {
     const { optionsVisible, selectedItem } = this.state
+    if(this.props.disabled) {
+      return
+    }
     this.setState(currentState => ({
       optionsVisible: !currentState.optionsVisible,
       hoveredIdx: !currentState.optionsVisible ? findIndex(this.props.optionList, o => o.value === selectedItem.value) : -1,
@@ -71,6 +74,7 @@ export default class Selection extends React.Component {
           role="listbox"
           tabIndex="1"
           data-type={this.props.customStyleType}
+          style={{cursor: this.props.disabled? 'auto': 'pointer'}}
           onClick={e => this.toggleShowOptions(e)}>
           <div className="choices__inner">
             <div className="choices__list choices__list--single">

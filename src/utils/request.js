@@ -24,7 +24,7 @@ service.interceptors.request.use(config => {
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token
   }
-  config.headers['Language'] = {
+  config.headers['Accept-Language'] = {
     en: 'en-US',
     es: 'es-MX',
     de: 'de',

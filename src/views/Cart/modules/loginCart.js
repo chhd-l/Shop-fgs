@@ -607,7 +607,7 @@ class LoginCart extends React.Component {
       && ele.mockSpecDetailIds.sort().toString() === selectedSpecDetailId.sort().toString())[0]
     this.setState({ deleteLoading: true })
     // 先删除改之前sku
-    await this.deleteItemFromBackendCart({ goodsInfoIds: [pitem.goodsInfoId] })
+    await deleteItemFromBackendCart({ goodsInfoIds: [pitem.goodsInfoId] })
     // 再增加当前sku
     await this.updateBackendCart({ goodsInfoId: selectedGoodsInfo.goodsInfoId, goodsNum: pitem.buyCount, verifyStock: false })
     this.setState({ changSizeLoading: false })
