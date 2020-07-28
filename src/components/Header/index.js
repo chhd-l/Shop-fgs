@@ -93,37 +93,43 @@ class Header extends React.Component {
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
     // window.removeEventListener('scroll', this.handleScroll)
-    window.addEventListener('scroll',function(){
-      var timer ;//使用闭包，缓存变量
+    window.addEventListener('scroll', function () {
+      var timer;//使用闭包，缓存变量
       var startTime = new Date();
-      return function(){
-          var curTime = new Date();
-          if(curTime - startTime >= 200){
-              timer = setTimeout(this.handleScroll,200);
-              startTime = curTime;
-          }
-   
+      return function () {
+        var curTime = new Date();
+        if (curTime - startTime >= 200) {
+          timer = setTimeout(this.handleScroll, 200);
+          startTime = curTime;
+        }
+
       }
-  }());
+    }());
   }
   handleScroll (e) {
     let baseEl = document.querySelector('#J_sidecart_container')
     if (!baseEl) {
       return false
     }
+    const footerEl = document.querySelector('#footer')
     let targetEl = document.querySelector('#J_sidecart_fix')
     let win_top = document.documentElement.scrollTop || document.body.scrollTop
     let isScrollToTop = this.preTop > win_top
     this.preTop = win_top
-    let top = this.getElementToPageTop(baseEl) - (isScrollToTop ? 120 : 80) - win_top
-    if (win_top >= top) {
+    const baseTop = this.getElementToPageTop(baseEl) - (isScrollToTop ? 120 : 80) - win_top
+    const footerTop = this.getElementToPageTop(footerEl) - (isScrollToTop ? 120 : 80) - win_top + footerEl.offsetHeight
+    if (win_top >= footerTop) {
+      targetEl.style.top = parseInt(footerTop) + 'px'
+      targetEl.style.display = 'block'
+      targetEl.style.position = 'absolute'
+    } else if (win_top >= baseTop) {
       targetEl.style.top = isScrollToTop ? '120px' : '80px'
       targetEl.style.display = 'block'
+      targetEl.style.position = 'fixed'
     } else {
       targetEl.style.display = 'none'
     }
     this.setState({ isScrollToTop })
-    // console.log(win_top, top)
   }
   getElementToPageTop (el) {
     if (el.parentElement) {
