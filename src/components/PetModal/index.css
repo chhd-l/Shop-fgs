@@ -5,7 +5,7 @@
     flex-display: row;
 }
 .img-wrapper {
-    width: 100px;
+    /* width: 100px; */
     height: auto;
 }
 .flex-row {
