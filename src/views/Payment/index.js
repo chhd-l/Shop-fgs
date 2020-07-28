@@ -513,8 +513,8 @@ class Payment extends React.Component {
     if (Object.keys(goodsMarketingMap).length) {
       for (let k in goodsMarketingMap) {
         let param = {
-          marketingId: [],
-          marketingLevelId: [],
+          marketingId: '',
+          marketingLevelId: '',
           skuIds: [],
           giftSkuIds: [],
         }
@@ -527,8 +527,8 @@ class Payment extends React.Component {
         } else if (tmpMarketing.marketingType == 1) {
           targetLevelId = tmpMarketing.fullDiscountLevelList[0].discountLevelId
         }
-        param.marketingLevelId.push(targetLevelId)
-        param.marketingId.push(tmpMarketing.marketingId)
+        param.marketingLevelId = targetLevelId
+        param.marketingId = tmpMarketing.marketingId
         tradeMarketingList.push(param)
       }
     }
