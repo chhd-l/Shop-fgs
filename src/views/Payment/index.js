@@ -912,7 +912,7 @@ class Payment extends React.Component {
                             )}
                           <div
                             className="card-header"
-                            style={{ zIndex: 2, width: "62%" }}
+                            style={{ zIndex: 2, width: "62%" , position:'relative' }}
                           >
                             <h5>
                               <FormattedMessage id="payment.billTitle" />
