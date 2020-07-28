@@ -511,15 +511,14 @@ class Payment extends React.Component {
     let tradeMarketingList = [];
     let goodsMarketingMap = this.props.checkoutStore.goodsMarketingMap;
     if (Object.keys(goodsMarketingMap).length) {
-      tradeMarketingList.push({
-        marketingId: [],
-        marketingLevelId: [],
-        skuIds: [],
-        giftSkuIds: [],
-      });
       for (let k in goodsMarketingMap) {
-        const firstList = tradeMarketingList[0]
-        firstList.skuIds.push(k);
+        let param = {
+          marketingId: [],
+          marketingLevelId: [],
+          skuIds: [],
+          giftSkuIds: [],
+        }
+        param.skuIds.push(k);
         // marketingType 0-满减fullReductionLevelList-reductionLevelId 1-满折fullDiscountLevelList-discountLevelId
         const tmpMarketing = goodsMarketingMap[k][0]
         let targetLevelId = ''
@@ -528,10 +527,12 @@ class Payment extends React.Component {
         } else if (tmpMarketing.marketingType == 1) {
           targetLevelId = tmpMarketing.fullDiscountLevelList[0].discountLevelId
         }
-        firstList.marketingLevelId.push(targetLevelId)
-        firstList.marketingId.push(tmpMarketing.marketingId)
+        param.marketingLevelId.push(targetLevelId)
+        param.marketingId.push(tmpMarketing.marketingId)
+        tradeMarketingList.push(param)
       }
     }
+    
     let param3 = {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
