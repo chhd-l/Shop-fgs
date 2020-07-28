@@ -232,9 +232,10 @@ class UnLoginCart extends React.Component {
     }
   }
   deleteProduct (item) {
+    // debugger
     let { currentProductIdx, productList } = this.state
     item.confirmTooltipVisible = false
-    let newProductList = cloneDeep(productList)
+    let newProductList = cloneDeep(productList.filter(el => el))
     newProductList.splice(currentProductIdx, 1)
     this.setState({
       productList: newProductList
@@ -721,10 +722,11 @@ class UnLoginCart extends React.Component {
                     </div>
                     <div id="J_sidecart_container">
                       {this.sideCart({
-                        className: 'hidden position-fixed rc-md-up',
+                        className: 'hidden rc-md-up',
                         style: {
                           zIndex: 9,
-                          width: 320
+                          width: 320,
+                          position: 'relative'
                         },
                         id: 'J_sidecart_fix'
                       })}

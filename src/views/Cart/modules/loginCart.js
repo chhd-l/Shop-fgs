@@ -669,11 +669,12 @@ class LoginCart extends React.Component {
                   </div>
                   <div id="J_sidecart_container">
                     {this.sideCart({
-                      className: 'hidden position-fixed rc-md-up',
+                      className: 'hidden rc-md-up',
                       style: {
                         background: '#fff',
                         zIndex: 9,
-                        width: 320
+                        width: 320,
+                        position: 'relative'
                       },
                       id: 'J_sidecart_fix'
                     })}

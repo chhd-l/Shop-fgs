@@ -11,11 +11,11 @@ class PayProductInfo extends React.Component {
     super(props);
     this.state = {
       productList: [],
-      discount:[],//促销码的折扣信息汇总
-      promotionInputValue:'',//输入的促销码
-      lastPromotionInputValue:"",//上一次输入的促销码
+      discount: [],//促销码的折扣信息汇总
+      promotionInputValue: '',//输入的促销码
+      lastPromotionInputValue: "",//上一次输入的促销码
       isClickApply: false,//是否点击apply按钮
-      isShowValidCode:false,//是否显示无效promotionCode
+      isShowValidCode: false,//是否显示无效promotionCode
     };
   }
   get isLogin () {
@@ -28,9 +28,9 @@ class PayProductInfo extends React.Component {
     ))
   }
   componentWillReceiveProps (nextProps) {
-//     if (nextProps.buyWay === 'once') {
-//       this.setState({isShowValidCode:false})
-//     }
+    //     if (nextProps.buyWay === 'once') {
+    //       this.setState({isShowValidCode:false})
+    //     }
   }
   componentDidMount () {
     let productList
@@ -55,10 +55,10 @@ class PayProductInfo extends React.Component {
   get deliveryPrice () {
     return this.props.checkoutStore.deliveryPrice
   }
-  get subscriptionPrice(){
+  get subscriptionPrice () {
     return this.props.checkoutStore.subscriptionPrice
   }
-  get promotionDesc(){
+  get promotionDesc () {
     return this.props.checkoutStore.promotionDesc
   }
   getProducts (plist) {
@@ -203,7 +203,7 @@ class PayProductInfo extends React.Component {
                   </div>
                 </div>
                 {/* 显示 默认折扣 */}
-                <div className="row leading-lines shipping-item" style={{ display: parseInt(this.discountPrice) > 0&&this.state.discount.length==0 ? 'flex' : 'none' }}>
+                <div className="row leading-lines shipping-item" style={{ display: parseInt(this.discountPrice) > 0 && this.state.discount.length == 0 ? 'flex' : 'none' }}>
                   <div className="col-7 start-lines">
                     <p className="order-receipt-label order-shipping-cost" style={{ color: '#ec001a' }}>
                       <span><FormattedMessage id="promotion" /></span>
@@ -215,13 +215,13 @@ class PayProductInfo extends React.Component {
                     </p>
                   </div>
                 </div>
-                
+
                 {/* 显示 promotionCode */}
-                <div style={{marginTop:"10px"}}>
-                  {!this.state.isShowValidCode&&this.state.discount.map((el) => (
-                    <div className="flex-layout" style={{marginRight:"18px"}}>
-                      <label className="saveDiscount font16" style={{color: "rgb(236, 0, 26)"}}>
-                        {this.promotionDesc||'No promotionDesc'}
+                <div style={{ marginTop: "10px" }}>
+                  {!this.state.isShowValidCode && this.state.discount.map((el) => (
+                    <div className="flex-layout" style={{ marginRight: "18px" }}>
+                      <label className="saveDiscount font16" style={{ color: "rgb(236, 0, 26)" }}>
+                        {this.promotionDesc || 'No promotionDesc'}
                       </label>
                       <div
                         className="text-right red-text"
@@ -238,16 +238,16 @@ class PayProductInfo extends React.Component {
                           }}
                           onClick={async () => {
                             let result = {}
-                            if(!this.isLogin){
+                            if (!this.isLogin) {
                               //游客
-                              result =  await checkoutStore.updateUnloginCart()
-                            }else{
-                             //会员
-                             result = await checkoutStore.updateLoginCart('',this.props.buyWay === 'frequency')                     
+                              result = await checkoutStore.updateUnloginCart()
+                            } else {
+                              //会员
+                              result = await checkoutStore.updateLoginCart('', this.props.buyWay === 'frequency')
                             }
                             if (result.backCode == 'K-000000') {
                               discount.pop();
-                              this.setState({ discount: discount,isShowValidCode:false });
+                              this.setState({ discount: discount, isShowValidCode: false });
                             }
                           }}
                         >
@@ -266,10 +266,10 @@ class PayProductInfo extends React.Component {
                   </div>
                   <div className="col-5 end-lines">
                     <p className="text-right">
-    <span className="shipping-total-cost">{formatMoney(this.deliveryPrice)}</span>
+                      <span className="shipping-total-cost">{formatMoney(this.deliveryPrice)}</span>
                     </p>
                   </div>
-                </div>   
+                </div>
               </div>
             </div>
           </div>
@@ -283,68 +283,68 @@ class PayProductInfo extends React.Component {
               </span>
             </div>
           </div>
-           {/* 支付新增promotionCode(选填) */}
-           {
-             this.props.history && this.props.history.location.pathname === '/payment/payment'?<div className="footer" style={{ marginTop: "10px" }}>
-             <span
-               class="rc-input rc-input--inline rc-input--label"
-               style={{ width: "180px",marginLeft:"5px" }}
-             >
-               <input
-                 className="rc-input__control"
-                 id="id-text2"
-                 type="text"
-                 name="text"
-                 placeholder="Promotional Code"
-                 value={this.state.promotionInputValue}
-                 onChange={(e)=>this.handlerChange(e)}
-               />
-               <label
-                 class="rc-input__label"
-                 for="id-text2"
-               ></label>
-             </span>
-             <button
-               className={["rc-btn","rc-btn--sm","rc-btn--two",this.state.isClickApply&&"ui-btn-loading ui-btn-loading-border-red"].join(" ")}
-               style={{ marginTop: "10px", float: "right" }}
-               onClick={async () => {
-                 let result = {}
-                if (!this.state.promotionInputValue) return
-                 this.setState({
-                  isClickApply: true,
-                  isShowValidCode:false,
-                  lastPromotionInputValue:this.state.promotionInputValue
-                 })
-                 if(!this.isLogin){
-                   //游客
-                   result =  await checkoutStore.updateUnloginCart('',this.state.promotionInputValue)
-                 }else{
-                  //会员
-                  result = await checkoutStore.updateLoginCart(this.state.promotionInputValue,this.props.buyWay === 'frequency')
-                 }
-                 if (result.backCode == 'K-000000'&&result.context.promotionDiscount){ //表示输入apply promotionCode成功 
-                  discount.splice(0,1,1);//(起始位置,替换个数,插入元素)
-                  this.setState({ discount });
-                  this.props.sendPromotionCode(this.state.promotionInputValue);
-                  
-                 }else{
-                   this.setState({
-                    isShowValidCode:true
-                   })
-                   this.props.sendPromotionCode("");
-                 }  
-                 this.setState({
-                  isClickApply: false,
-                  promotionInputValue:''
-                 })   
-               }}
-             >
-               <FormattedMessage id="apply" />
-             </button>
-           </div>:null
-           }
-           {this.state.isShowValidCode ? <div style={{margin:"25px 0 0 6px",color:"rgb(236, 0, 26)"}}>Promotion code({this.state.lastPromotionInputValue}) is not Valid</div>: null}
-           
+          {/* 支付新增promotionCode(选填) */}
+          {
+            this.props.history && this.props.history.location.pathname === '/payment/payment' ? <div className="footer" style={{ marginTop: "10px" }}>
+              <span
+                class="rc-input rc-input--inline rc-input--label"
+                style={{ width: "180px", marginLeft: "5px" }}
+              >
+                <input
+                  className="rc-input__control"
+                  id="id-text2"
+                  type="text"
+                  name="text"
+                  placeholder="Promotional Code"
+                  value={this.state.promotionInputValue}
+                  onChange={(e) => this.handlerChange(e)}
+                />
+                <label
+                  class="rc-input__label"
+                  for="id-text2"
+                ></label>
+              </span>
+              <button
+                className={["rc-btn", "rc-btn--sm", "rc-btn--two", this.state.isClickApply && "ui-btn-loading ui-btn-loading-border-red"].join(" ")}
+                style={{ marginTop: "10px", float: "right" }}
+                onClick={async () => {
+                  let result = {}
+                  if (!this.state.promotionInputValue) return
+                  this.setState({
+                    isClickApply: true,
+                    isShowValidCode: false,
+                    lastPromotionInputValue: this.state.promotionInputValue
+                  })
+                  if (!this.isLogin) {
+                    //游客
+                    result = await checkoutStore.updateUnloginCart('', this.state.promotionInputValue)
+                  } else {
+                    //会员
+                    result = await checkoutStore.updateLoginCart(this.state.promotionInputValue, this.props.buyWay === 'frequency')
+                  }
+                  if (result.backCode == 'K-000000' && result.context.promotionDiscount) { //表示输入apply promotionCode成功 
+                    discount.splice(0, 1, 1);//(起始位置,替换个数,插入元素)
+                    this.setState({ discount });
+                    this.props.sendPromotionCode(this.state.promotionInputValue);
+
+                  } else {
+                    this.setState({
+                      isShowValidCode: true
+                    })
+                    this.props.sendPromotionCode("");
+                  }
+                  this.setState({
+                    isClickApply: false,
+                    promotionInputValue: ''
+                  })
+                }}
+              >
+                <FormattedMessage id="apply" />
+              </button>
+            </div> : null
+          }
+          {this.state.isShowValidCode ? <div style={{ margin: "25px 0 0 6px", color: "rgb(236, 0, 26)" }}>Promotion code({this.state.lastPromotionInputValue}) is not Valid</div> : null}
+
         </div>
       </div>
     );
@@ -359,13 +359,14 @@ class PayProductInfo extends React.Component {
     return this.props.history && this.props.history.location.pathname === '/payment/payment'
       ? <div id="J_sidecart_container">
         {this.sideCart({
-          className: 'hidden position-fixed rc-md-up',
+          className: 'hidden rc-md-up',
           style: {
             background: '#fff',
             zIndex: 9,
             width: 345,
             maxHeight: '88vh',
-            overflowY: 'auto'
+            overflowY: 'auto',
+            position: 'relative'
           },
           id: 'J_sidecart_fix'
         })}

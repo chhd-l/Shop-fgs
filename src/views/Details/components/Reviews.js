@@ -205,7 +205,7 @@ class Reviews extends React.Component {
                                                                         <div className="rc-column rc-quad-width padl0">
                                                                             <div className="">
                                                                                 <Rate def={item.evaluateScore} disabled={true}/>
-                                                                                <div className="break mgt-10">{item.title}</div>
+                                                                                <div className="break mgt-10 mt-3">{item.title}</div>
                                                                                 {/*{item.description}*/}
                                                                                 <div className="img-box rc-margin-bottom--xs rc-margin-top--xs flex-wrap">
                                                                                     {

@@ -13,3 +13,4 @@ export function getContactInfo (parameter) {
     method: 'get'
   })
 }
+// footer 部分 contact 等动态获取
