@@ -34,7 +34,7 @@ class SubscriptionSelect extends Component {
       })
     Promise.all([
       getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' }),
+      getDictionary({ type: 'Frequency_month' })
     ]).then(dictList => {
       this.setState({
         frequencyList: [...dictList[0], ...dictList[1]],
@@ -80,7 +80,8 @@ class SubscriptionSelect extends Component {
         id="payment.subTip2"
         values={{
           icon: <span className="rc-icon rc-refresh--xs rc-brand1"></span>,
-          val: <span className="red">{this.state.discountInfo ? this.state.discountInfo.promotionDiscount : ''}</span>
+          val: <span className="red">{this.state.discountInfo ? this.state.discountInfo.promotionDiscount : ''}</span>,
+          val2: formatMoney(this.state.discountInfo && this.state.discountInfo.discountAmount ? this.state.discountInfo.discountAmount : 0)
         }} />
       <br />
       <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
@@ -110,7 +111,7 @@ class SubscriptionSelect extends Component {
             <FormattedMessage
               id="payment.subTip1"
               values={{
-                val: formatMoney(this.state.discountInfo ? this.state.discountInfo.discountAmount : 0)
+                val: formatMoney(this.state.discountInfo && this.state.discountInfo.discountAmount ? this.state.discountInfo.discountAmount : 0)
               }} />
             <br />
             <span className="font-weight-normal mt-1 inlineblock">
