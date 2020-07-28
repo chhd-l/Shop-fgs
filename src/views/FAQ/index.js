@@ -4,6 +4,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import dataFAQ from './FAQ.json'
 import { Link } from "react-router-dom"
+import { getFaq } from '../../api/faq'
 import FAQ1 from "@/assets/images/FAQ1.jpg"
 import './index.less'
 
@@ -17,6 +18,18 @@ class FAQ extends React.Component {
       window.location.reload();
       return false
     }
+    this.getFAQList({});
+  }
+
+  getFAQList(){
+    getFaq().then(res=>{
+      console.log("FAQ数据请求成功");
+      console.log(res);
+    }).catch(err=>{
+      console.log("FAQ请求失败")
+      console.log(err)
+    })
+
   }
   render (h) {
     console.log(dataFAQ);
