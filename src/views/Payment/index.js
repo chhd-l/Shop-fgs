@@ -1189,7 +1189,7 @@ class Payment extends React.Component {
                                                   htmlFor="cardNumber"
                                                 >
                                                   <FormattedMessage id="payment.cardNumber" />
-                                                *{CreditCardImg}
+                                                  <span style={{color: 'red'}}>*</span>{CreditCardImg}
                                                   <form id="payment-form">
                                                     <div id="card-secure-fields"></div>
                                                     <button
@@ -1403,13 +1403,6 @@ class Payment extends React.Component {
                                                 {this.state.payosdata.card_type}
                                               </span>
                                             </div>
-                                          </div>
-                                          <div className="col-6 color-999">
-                                            <FormattedMessage id="payment.cardType" />
-                                            <br />
-                                            <span className="creditCompleteInfo">
-                                              {this.state.payosdata.card_type}
-                                            </span>
                                           </div>
                                         </div>
                                       </div>

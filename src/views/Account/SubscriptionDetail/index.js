@@ -413,7 +413,7 @@ class SubscriptionDetail extends React.Component {
       currentModalObj,
       todaydate,
     } = this.state;
-    console.log(todaydate, this.state.minDate, "date");
+    console.log(todaydate, this.state.minDate, "date", subDetail.frequency);
     // const [startDate, setStartDate] = useState(new Date());
     return (
       <div>
@@ -791,6 +791,7 @@ class SubscriptionDetail extends React.Component {
                                       value: subDetail.frequency || "",
                                     }}
                                     customStyleType="select-one"
+                                    type="freqency"
                                     disabled={subDetail.subscribeStatus !== '0'}
                                   />
                                 </h1>
@@ -1270,7 +1271,7 @@ class SubscriptionDetail extends React.Component {
                               {/* 支付新增promotionCode(选填) */}
                               <div
                                 className="footer"
-                                style={{ marginTop: "10px" }}
+                                style={{ marginTop: "10px" , display: subDetail.subscribeStatus === '0'? 'block': 'none'}}
                               >
                                 <span
                                   class="rc-input rc-input--inline rc-input--label"
