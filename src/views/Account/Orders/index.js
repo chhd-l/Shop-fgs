@@ -395,7 +395,7 @@ class AccountOrders extends React.Component {
                                       }
                                     </div>
                                     <div className="col-4 col-md-2 text-right text-md-left">
-                                      {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
+                                      {formatMoney(order.tradePrice.totalPrice)}
                                     </div>
                                     <div className="col-4 col-md-2">
                                       {ORDER_STATUS_ENUM[lang][order.tradeState.flowState] || order.tradeState.flowState}
