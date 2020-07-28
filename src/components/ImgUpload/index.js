@@ -100,16 +100,29 @@ export default class ImgUpload extends React.Component {
               <img className="" src={src} id={`cropedBigImg_${i}`} />
             </div>
           ))}
-          <div className="icon-add">
-            <div id="upImg">
-              <input
-                type="file"
-                name="img"
-                accept="image/jpg, image/png, image/jpeg, image/gif"
-                onChange={(e) => this.handleChange(e)}
-              />
-            </div>
-          </div>
+            {
+              this.state.imgList.length<=8? ( <div className="icon-add">
+              <div id="upImg">
+                <input
+                  type="file"
+                  name="img"
+                  accept="image/jpg, image/png, image/jpeg, image/gif"
+                  onChange={(e) => this.handleChange(e)}
+                />
+              </div>
+            </div>):null
+            }
+              {/* <div className="icon-add">
+              <div id="upImg">
+                <input
+                  type="file"
+                  name="img"
+                  accept="image/jpg, image/png, image/jpeg, image/gif"
+                  onChange={(e) => this.handleChange(e)}
+                />
+              </div>
+            </div> */}
+            
         </div>
 
         {this.props.tipVisible ? (
