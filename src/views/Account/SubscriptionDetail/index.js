@@ -8,6 +8,9 @@ import Footer from "@/components/Footer";
 import BreadCrumbs from "@/components/BreadCrumbs";
 import SideMenu from "@/components/SideMenu";
 import visaImg from "@/assets/images/credit-cards/visa.svg";
+import amexImg from "@/assets/images/credit-cards/amex.svg";
+import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
+import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import Loading from "@/components/Loading";
 import PaymentComp from "./components/PaymentComp";
 import AddressComp from "./components/AddressComp";
@@ -140,6 +143,12 @@ class SubscriptionDetail extends React.Component {
       successTipVisible: false,
       minDate: new Date(),
       todaydate: new Date(),
+      creditCardImgObj: {
+        VISA: visaImg,
+        MASTERCARD: mastercardImg,
+        "AMERICAN EXPRESS": amexImg,
+        DISCOVER: discoverImg,
+      },
     };
   }
   componentWillUnmount() {
@@ -1492,7 +1501,8 @@ class SubscriptionDetail extends React.Component {
                                     <h1 className="rc-card__meta order-Id">
                                       <img
                                         className="card-img"
-                                        src={data.payment.cardImg}
+                                        // src={data.payment.cardImg}
+                                        src={this.state.creditCardImgObj[currentCardInfo.vendor]}
                                       />
                                       &nbsp;&nbsp; xxxx xxxx xxxx{" "}
                                       {currentCardInfo.cardNumber.substring(
