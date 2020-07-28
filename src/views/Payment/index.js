@@ -1033,6 +1033,10 @@ class Payment extends React.Component {
                             </div>
                             <SubscriptionSelect
                               updateSelectedData={(data) => {
+                                //let isShowValidCode = this.refs.payProductInfo.state.isShowValidCode
+                                this.refs.payProductInfo.setState({
+                                  isShowValidCode: false
+                                })
                                 this.props.frequencyStore.updateBuyWay(data.buyWay)
                                 this.props.frequencyStore.updateFrequencyName(data.frequencyName)
                                 if (data.buyWay === "frequency") {
@@ -1065,7 +1069,7 @@ class Payment extends React.Component {
                     <FormattedMessage id="payment.paymentInformation" />
                   </h5>
                   <nav
-                    class="rc-tabs__controller rc-fade--x "
+                    className="rc-tabs__controller rc-fade--x "
                     data-toggle-group=""
                     style={{
                       marginBottom: "20px",
@@ -1076,12 +1080,12 @@ class Payment extends React.Component {
                     }}
                   >
                     <ul
-                      class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break"
+                      className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break"
                       role="tablist"
                     >
                       <li className="rc-tabs-li" style={{ width: "40%" }}>
                         <button
-                          class="rc-tab text-break"
+                          className="rc-tab text-break"
                           onClick={() => this.setState({ showOxxoForm: false })}
                           style={{ padding: "8px 15px", width: "100%" }}
                           data-toggle="creditCard"
@@ -1095,7 +1099,7 @@ class Payment extends React.Component {
                       </li>
                       <li className="rc-tabs-li" style={{ width: "40%" }}>
                         <button
-                          class="rc-tab text-break"
+                          className="rc-tab text-break"
                           onClick={() => this.setState({ showOxxoForm: true })}
                           style={{ padding: "8px 15px", width: "100%" }}
                           data-toggle="oxxo"
@@ -1537,6 +1541,7 @@ class Payment extends React.Component {
                   </Link>
                 )}
                 <PayProductInfo
+                  ref="payProductInfo"
                   history={this.props.history}
                   frequencyName={this.state.subForm.frequencyName}
                   buyWay={this.state.subForm.buyWay}

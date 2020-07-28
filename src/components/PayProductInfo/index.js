@@ -27,6 +27,11 @@ class PayProductInfo extends React.Component {
       0
     ))
   }
+  componentWillReceiveProps (nextProps) {
+//     if (nextProps.buyWay === 'once') {
+//       this.setState({isShowValidCode:false})
+//     }
+  }
   componentDidMount () {
     let productList
     if (this.isLogin) {
@@ -317,7 +322,7 @@ class PayProductInfo extends React.Component {
                   //会员
                   result = await checkoutStore.updateLoginCart(this.state.promotionInputValue,this.props.buyWay === 'frequency')
                  }
-                 if (result.backCode == 'K-000000'&&result.context.promotionDesc){ //表示输入apply promotionCode成功 
+                 if (result.backCode == 'K-000000'&&result.context.promotionDiscount){ //表示输入apply promotionCode成功 
                   discount.splice(0,1,1);//(起始位置,替换个数,插入元素)
                   this.setState({ discount });
                   this.props.sendPromotionCode(this.state.promotionInputValue);
