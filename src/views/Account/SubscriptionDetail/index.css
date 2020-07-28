@@ -61,7 +61,7 @@
   padding: 0;
 }
 .subscriptionDetail .choices {
-  width: 80%;
+  width: 100%;
   height: 46px;
 }
 .subscriptionDetail .rc-input__label {
