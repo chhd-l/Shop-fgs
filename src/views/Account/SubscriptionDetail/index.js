@@ -18,6 +18,9 @@ import Selection from "@/components/Selection";
 import { getDictionary } from "@/utils/utils";
 import DatePicker from "react-datepicker";
 import {
+  ORDER_STATUS_ENUM,
+} from '@/utils/constant'
+import {
   updateDetail,
   getAddressDetail,
   getSubDetail,
@@ -275,6 +278,7 @@ class SubscriptionDetail extends React.Component {
     }
   }
   async getDetail() {
+    const lang = this.props.intl.locale || 'en'
     try {
       this.setState({ loading: true });
       const res = await getSubDetail(
@@ -282,7 +286,8 @@ class SubscriptionDetail extends React.Component {
       );
       let subDetail = res.context;
       let orderOptions = (subDetail.trades || []).map((el) => {
-        return { value: el.id, name: el.id + "" };
+        let orderStatus = ORDER_STATUS_ENUM[lang][el.tradeState.flowState] || el.tradeState.flowState
+        return { value: el.id, name: el.id + " " + orderStatus };
       });
       
       let now = new Date(res.defaultLocalDateTime);
@@ -694,7 +699,7 @@ class SubscriptionDetail extends React.Component {
                     ) : (
                       <div>
                         <div className="rc-layout-container rc-three-column mgb30 operationBox">
-                          <div className="rc-column column-contanier">
+                          <div className="rc-column column-contanier" style={{width: '50%'}}>
                             <div
                               className="rc-card-container"
                               style={{ borderRight: "1px solid #ddd" }}
