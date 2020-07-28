@@ -8,12 +8,18 @@ import Footer from "@/components/Footer";
 import BreadCrumbs from "@/components/BreadCrumbs";
 import SideMenu from "@/components/SideMenu";
 import visaImg from "@/assets/images/credit-cards/visa.svg";
+import amexImg from "@/assets/images/credit-cards/amex.svg";
+import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
+import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import Loading from "@/components/Loading";
 import PaymentComp from "./components/PaymentComp";
 import AddressComp from "./components/AddressComp";
 import Selection from "@/components/Selection";
 import { getDictionary } from "@/utils/utils";
 import DatePicker from "react-datepicker";
+import {
+  ORDER_STATUS_ENUM,
+} from '@/utils/constant'
 import {
   updateDetail,
   getAddressDetail,
@@ -140,6 +146,12 @@ class SubscriptionDetail extends React.Component {
       successTipVisible: false,
       minDate: new Date(),
       todaydate: new Date(),
+      creditCardImgObj: {
+        VISA: visaImg,
+        MASTERCARD: mastercardImg,
+        "AMERICAN EXPRESS": amexImg,
+        DISCOVER: discoverImg,
+      },
     };
   }
   componentWillUnmount() {
@@ -266,6 +278,7 @@ class SubscriptionDetail extends React.Component {
     }
   }
   async getDetail() {
+    const lang = this.props.intl.locale || 'en'
     try {
       this.setState({ loading: true });
       const res = await getSubDetail(
@@ -273,7 +286,8 @@ class SubscriptionDetail extends React.Component {
       );
       let subDetail = res.context;
       let orderOptions = (subDetail.trades || []).map((el) => {
-        return { value: el.id, name: el.id + "" };
+        let orderStatus = ORDER_STATUS_ENUM[lang][el.tradeState.flowState] || el.tradeState.flowState
+        return { value: el.id, name: el.id + " " + orderStatus };
       });
       
       let now = new Date(res.defaultLocalDateTime);
@@ -413,7 +427,7 @@ class SubscriptionDetail extends React.Component {
       currentModalObj,
       todaydate,
     } = this.state;
-    console.log(todaydate, this.state.minDate, "date");
+    console.log(todaydate, this.state.minDate, "date", subDetail.frequency);
     // const [startDate, setStartDate] = useState(new Date());
     return (
       <div>
@@ -685,7 +699,7 @@ class SubscriptionDetail extends React.Component {
                     ) : (
                       <div>
                         <div className="rc-layout-container rc-three-column mgb30 operationBox">
-                          <div className="rc-column column-contanier">
+                          <div className="rc-column column-contanier" style={{width: '50%'}}>
                             <div
                               className="rc-card-container"
                               style={{ borderRight: "1px solid #ddd" }}
@@ -791,6 +805,7 @@ class SubscriptionDetail extends React.Component {
                                       value: subDetail.frequency || "",
                                     }}
                                     customStyleType="select-one"
+                                    type="freqency"
                                     disabled={subDetail.subscribeStatus !== '0'}
                                   />
                                 </h1>
@@ -1272,7 +1287,7 @@ class SubscriptionDetail extends React.Component {
                               {/* 支付新增promotionCode(选填) */}
                               <div
                                 className="footer"
-                                style={{ marginTop: "10px" }}
+                                style={{ marginTop: "10px" , display: subDetail.subscribeStatus === '0'? 'block': 'none'}}
                               >
                                 <span
                                   class="rc-input rc-input--inline rc-input--label"
@@ -1491,7 +1506,8 @@ class SubscriptionDetail extends React.Component {
                                     <h1 className="rc-card__meta order-Id">
                                       <img
                                         className="card-img"
-                                        src={data.payment.cardImg}
+                                        // src={data.payment.cardImg}
+                                        src={this.state.creditCardImgObj[currentCardInfo.vendor]}
                                       />
                                       &nbsp;&nbsp; xxxx xxxx xxxx{" "}
                                       {currentCardInfo.cardNumber.substring(

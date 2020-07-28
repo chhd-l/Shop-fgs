@@ -1,0 +1,3 @@
+.choices.disabled:after {
+  display: none;
+}

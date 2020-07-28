@@ -1,5 +1,6 @@
 import React from 'react'
 import { find, findIndex } from 'lodash'
+import './index.css'
 
 export default class Selection extends React.Component {
   static defaultProps = {
@@ -17,8 +18,12 @@ export default class Selection extends React.Component {
     this.timeOutId = null
   }
   componentWillReceiveProps (nextProps) {
+    
+    if(this.props.type === 'freqency') {
+      console.log(nextProps, nextProps.selectedItemData,'date' ,this.state.selectedItem)
+    }
     const selectedItemData = nextProps.selectedItemData
-    if (selectedItemData !== this.state.selectedItem) {
+    if (selectedItemData.value !== this.state.selectedItem.value) {
       this.setState({
         selectedItem: { value: selectedItemData.value }
       })
@@ -70,7 +75,7 @@ export default class Selection extends React.Component {
         onFocus={() => this.onFocusHandler()}
         style={{ ...this.props.customContainerStyle }}>
         <div
-          className={`choices ${optionsVisible ? 'is-open' : ''}`}
+          className={`choices ${optionsVisible ? 'is-open' : ''} ${this.props.disabled? 'disabled': ''}`}
           role="listbox"
           tabIndex="1"
           data-type={this.props.customStyleType}

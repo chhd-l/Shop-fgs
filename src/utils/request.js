@@ -50,12 +50,12 @@ service.interceptors.response.use((response) => {
     }
     console.log(response, response.data, response.data.message)
     let ret = response.data && response.data.message ? response.data.message : 'Error'
-
+    
     // 支付失败获取订单号处理
     if (response.data
       && response.data.message
-      && (response.data.message.toLowerCase().includes('payment error')
-        || response.data.message.toLowerCase().includes('pay order error'))) {
+      && (response.data.message.replace(/\s+/g, '').toLowerCase().includes('paymenterror')
+        || response.data.message.replace(/\s+/g, '').toLowerCase().includes('payordererror'))) {
       ret = {
         message: response.data.message,
         errorData: response.data.errorData ? response.data.errorData.split('|')[0] : ''
