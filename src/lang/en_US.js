@@ -295,6 +295,7 @@ const en_US = {
   'order.progress2': 'Paid',
   'order.progress3': 'Delivered',
   'order.progress4': 'Completed',
+  'order.expireTime': 'Expire time',
   'datePicker.previousMonth': 'previous Month',
   'datePicker.nextMonth': 'next Month',
   'datePicker.months': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],

@@ -408,7 +408,7 @@ class AccountOrders extends React.Component {
                                     </div>
                                     <div className="col-4 col-md-2 text-center">
                                       {
-                                        order.canPayNow
+                                        (!order.payWay || order.payWay.toUpperCase() !== 'OXXO') && order.canPayNow
                                           ? <>
                                             <TimeCount
                                               startTime={this.state.defaultLocalDateTime}
@@ -452,6 +452,11 @@ class AccountOrders extends React.Component {
                                             </FormattedMessage>
                                           </button>
                                           : null
+                                      }
+                                      {
+                                        order.payWay && order.payWay.toUpperCase() === 'OXXO' && <span className="red">
+                                          <FormattedMessage id="order.expireTime" />: <br />{order.orderTimeOut}
+                                        </span>
                                       }
                                     </div>
                                   </div>
