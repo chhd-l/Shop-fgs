@@ -119,13 +119,19 @@ class AccountOrders extends React.Component {
       .then(res => {
         let tmpList = Array.from(res.context.content, ele => {
           const tradeState = ele.tradeState
-          console.log(tradeState.flowState, ele.storeEvaluateVO, 'canReview-------------')
           return Object.assign(ele,
             {
               canPayNow: tradeState.flowState === 'AUDIT'
                 && tradeState.deliverStatus === 'NOT_YET_SHIPPED'
                 && tradeState.payState === 'NOT_PAID'
-                && new Date(ele.orderTimeOut).getTime() > new Date(res.defaultLocalDateTime).getTime(),
+                && new Date(ele.orderTimeOut).getTime() > new Date(res.defaultLocalDateTime).getTime()
+                && (!ele.payWay || ele.payWay.toUpperCase() !== 'OXXO'),
+              showOXXOExpireTime: tradeState.flowState === 'AUDIT'
+                && tradeState.deliverStatus === 'NOT_YET_SHIPPED'
+                && tradeState.payState === 'NOT_PAID'
+                && new Date(ele.orderTimeOut).getTime() > new Date(res.defaultLocalDateTime).getTime()
+                && ele.payWay
+                && ele.payWay.toUpperCase() === 'OXXO',
               payNowLoading: false,
               canRePurchase: tradeState.flowState === 'COMPLETED' || tradeState.flowState === 'VOID',
               canReview: tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO
@@ -408,7 +414,7 @@ class AccountOrders extends React.Component {
                                     </div>
                                     <div className="col-4 col-md-2 text-center">
                                       {
-                                        (!order.payWay || order.payWay.toUpperCase() !== 'OXXO') && order.canPayNow
+                                        order.canPayNow
                                           ? <>
                                             <TimeCount
                                               startTime={this.state.defaultLocalDateTime}
@@ -422,6 +428,11 @@ class AccountOrders extends React.Component {
                                             </button>
                                           </>
                                           : null
+                                      }
+                                      {
+                                        order.showOXXOExpireTime && <span className="red">
+                                          <FormattedMessage id="order.expireTime" />: <br />{order.orderTimeOut}
+                                        </span>
                                       }
                                       {
                                         order.canReview ?
@@ -452,11 +463,6 @@ class AccountOrders extends React.Component {
                                             </FormattedMessage>
                                           </button>
                                           : null
-                                      }
-                                      {
-                                        order.payWay && order.payWay.toUpperCase() === 'OXXO' && <span className="red">
-                                          <FormattedMessage id="order.expireTime" />: <br />{order.orderTimeOut}
-                                        </span>
                                       }
                                     </div>
                                   </div>

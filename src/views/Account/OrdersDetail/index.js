@@ -65,7 +65,8 @@ class AccountOrders extends React.Component {
           displayName: this.props.intl.messages['order.progress4']
         }
       ],
-      currentProgerssIndex: -1
+      currentProgerssIndex: -1,
+      defaultLocalDateTime: ''
     }
   }
   componentDidMount () {
@@ -131,7 +132,8 @@ class AccountOrders extends React.Component {
           details: res.context,
           loading: false,
           currentProgerssIndex: tmpIndex,
-          progressList: progressList
+          progressList: progressList,
+          defaultLocalDateTime: res.defaultLocalDateTime
         })
       })
       .catch(err => {
@@ -213,7 +215,7 @@ class AccountOrders extends React.Component {
   cancelOrderBtnJSX () {
     const { details } = this.state
     let ret = <span />
-    if (new Date().getTime() < new Date(details.orderTimeOut).getTime()
+    if (new Date(this.state.defaultLocalDateTime).getTime() < new Date(details.orderTimeOut).getTime()
       && details.tradeState.flowState === 'AUDIT'
       && details.tradeState.deliverStatus === 'NOT_YET_SHIPPED') {
       ret = <>
