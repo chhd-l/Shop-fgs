@@ -22375,6 +22375,11 @@ tr.rc-table__row.inactive td:after {
   clip-path: polygon(0% 0%, 100% 0%, 100% 30%, 0% 30%);
   animation: rotate 1s linear infinite;
 }
+.ui-text-overflow-line1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .ui-text-overflow-line2 {
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;
@@ -22434,7 +22439,9 @@ tr.rc-table__row.inactive td:after {
   opacity: .5!important;
   cursor: not-allowed!important;
 }
-
+.text-line-through {
+  text-decoration: line-through
+}
 @keyframes rotate {
   from {
       transform: rotatez(0deg);

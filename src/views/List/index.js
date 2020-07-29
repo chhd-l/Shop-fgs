@@ -9,7 +9,8 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import Filters from '@/components/Filters'
 import Pagination from '@/components/Pagination'
 import { cloneDeep, find, findIndex } from 'lodash'
-import titleCfg from './json/title.json'
+import titleCfg from './title'
+
 import { getList, getProps, getLoginList } from '@/api/list'
 import { queryStoreCateIds, formatMoney } from '@/utils/utils'
 import { CATEID, STORE_CATE_ENUM } from '@/utils/constant'
@@ -304,7 +305,7 @@ class List extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           {titleData ?
-            <div className="content-block__wrapper_ rc-bg-colour--brand3 rc-padding--sm rc-margin-bottom--xs ">
+            <div className="content-block__wrapper_ rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="layout-container_ two-column_ rc-layout-container rc-two-column rc-max-width--lg rc-content-h-middle">
                 <div className="rc-column ">
                   <div className="rc-full-width rc-text--left rc-padding-x--sm">
@@ -378,20 +379,15 @@ class List extends React.Component {
                       :
                       <div className="d-flex flex-wrap">
                         {productList.map(item => (
-                          <div className="col-12 col-md-4 mb-5" key={item.id}>
+                          <div className="col-12 col-md-4 mb-3" key={item.id}>
                             <article className="rc-card rc-card--product" style={{ minHeight: '120px' }}>
                               <div className="fullHeight">
                                 <a onClick={() => this.hanldeItemClick(item)} className="ui-cursor-pointer">
-                                  <article className="rc-card--a rc-text--center rc-padding-top--sm">
+                                  <article className="rc-card--a rc-text--center text-center">
                                     {
                                       loading
-                                        ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
+                                        ? <span className="mt-4"><Skeleton color="#f5f5f5" width="100%" height="50%" count={2} /></span>
                                         : <>
-                                          {/* {
-                                            item.subscriptionStatus
-                                              ? <span class="rc-icon rc-rss--xs rc-brand1 position-absolute" style={{ right: '2%', top: '2%' }}></span>
-                                              : null
-                                          } */}
                                           <picture className="rc-card__image">
                                             <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center" style={{ minHeight: '202px' }}>
                                               <img
@@ -401,42 +397,41 @@ class List extends React.Component {
                                                 title={item.goodsName} />
                                             </div>
                                           </picture>
-                                          <div className="rc-card__body rc-padding-top--none pb-0">
-                                            <div className="height-product-tile-plpOnly height-product-tile">
+                                          <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
+                                            <div className="height-product-tile-plpOnly">
                                               <header className="rc-text--center">
                                                 <h3
-                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break font15"
-                                                  title={item.goodsName}>
+                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break font16 mb-1"
+                                                  title={item.goodsName}
+                                                  style={{ lineHeight: 1.2, minHeight: '3.4rem' }}>
                                                   {item.goodsName}
                                                 </h3>
                                               </header>
-                                              {
-                                                item.goodsInfos.length > 1
-                                                  ? <div className="text-center mb-2">
-                                                    <button
-                                                      className="rc-bg-colour--brand4 border rounded font-weight-lighter rc-full-width "
-                                                      style={{ color: '#666' }}><span className="o9rem"><FormattedMessage id="moreChoicesAvailable" /></span></button>
-                                                  </div>
-                                                  : null
-                                              }
-                                              {/*<div className="Product-Key-words rc-text--center"></div>*/}
                                               <div
-                                                className={['ui-text-overflow-line3', 'text-break', 'rc-padding-top--xs', 'sub-hover', find(item.goodsInfos, ele => ele.subscriptionStatus) ? '' : 'rc-text--center'].join(' ')}
-                                                title={item.goodsSubtitle}>
+                                                className={`ui-text-overflow-line1 text-break sub-hover text-center`}
+                                                title={item.goodsSubtitle}
+                                                style={{ color: '#4a4a4a' }}>
                                                 {item.goodsSubtitle}
                                               </div>
                                             </div>
-
-                                            <div className="rc-card__price  rc-padding-top--xs ">
+                                            <div className={`rc-card__price text-center`}>
+                                              <div className="display-inline">
+                                                <Rate def={item.avgEvaluate} disabled={true} />
+                                              </div>
+                                              <span className='comments rc-margin-left--xs rc-text-colour--text'>({item.goodsEvaluateNum})</span>
+                                            </div>
+                                            <div className="rc-card__price rc-text--center">
+                                              <div className={`rc-full-width`} >
+                                                <span style={{ color: '#4a4a4a', fontSize: '.9em' }}><FormattedMessage id="startFrom" /></span><br />
+                                                <span className="" style={{ color: '#323232', fontWeight: 400 }} >
+                                                  {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.marketPrice || 0)))}{' '}
+                                                  <span className="text-line-through" style={{ fontSize: '.8em' }}>{formatMoney(item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice)}</span>
+                                                </span>
+                                              </div>
                                               {
                                                 find(item.goodsInfos, ele => ele.subscriptionStatus)
-                                                  ? <div className="range">
-                                                    {/*{*/}
-                                                    {/*  item.goodsInfos.length > 1 ?*/}
-                                                    {/*    <span style={{'fontSize': '14px'}}>From </span>*/}
-                                                    {/*    : null*/}
-                                                    {/*}*/}
-                                                    <span className=" red-text">
+                                                  ? <div className="range" style={{ marginLeft: '20%' }}>
+                                                    <span className=" " style={{ color: '#323232', fontWeight: 400 }}>
                                                       {formatMoney(Math.min.apply(null, item.goodsInfos.filter(g => g.subscriptionStatus).map(g => g.subscriptionPrice || 0)))}{' '}
                                                     </span>
                                                     <span className="rc-icon rc-refresh--xs rc-brand1 "></span>
@@ -446,24 +441,6 @@ class List extends React.Component {
                                                   </div>
                                                   : null
                                               }
-
-
-                                              <div className={['rc-full-width', find(item.goodsInfos, ele => ele.subscriptionStatus) ? '' : 'rc-text--center'].join(' ')}  >
-                                                {/*{*/}
-                                                {/*  item.goodsInfos.length > 1 ?*/}
-                                                {/*      <span style={{'fontSize': '14px'}}>From </span>*/}
-                                                {/*      : null*/}
-                                                {/*}*/}
-                                                <span className="red-text " >
-                                                  {/*{formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.salePrice)))}*/}
-                                                  {formatMoney(item.minMarketPrice || 0)}
-                                                </span>
-                                              </div>
-                                            </div>
-
-                                            <div className={['rc-card__price', 'flex-inline', find(item.goodsInfos, ele => ele.subscriptionStatus) ? '' : 'margin-auto'].join(' ')}>
-                                              {/*goodsEvaluateNum*/}
-                                              <div className="display-inline" ><Rate def={item.avgEvaluate} disabled={true} /></div><span className='comments rc-margin-left--xs rc-text-colour--text'>[{item.goodsEvaluateNum}]</span>
                                             </div>
                                           </div>
                                         </>

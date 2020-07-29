@@ -519,5 +519,6 @@ const en_US = {
   'customerReviews': 'Customer reviews',
   'sortBy': 'Sort by',
   //qhx新增
+  'startFrom': 'Start from'
 }
 export default en_US;
