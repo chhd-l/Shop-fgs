@@ -32,6 +32,9 @@ import store from "storejs";
 import axios from "axios";
 import "./index.css";
 import OxxoConfirm from "./modules/OxxoConfirm";
+import {
+  initAdyenPay
+} from "./adyen/card"
 
 const rules = [
   {
@@ -131,7 +134,8 @@ class Payment extends React.Component {
       payosdata: {},
       selectedCardInfo: {},
       isToPayNow: sessionStorage.getItem("rc-tid"),
-      showOxxoForm: false
+      showOxxoForm: false,
+      tab:0,//0:Credit Card 1: OXXO 2: Ayden
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
@@ -205,6 +209,10 @@ class Payment extends React.Component {
   }
   get tradePrice () {
     return this.props.checkoutStore.tradePrice
+  }
+  showAdyenPay(){
+    this.setState({ showOxxoForm: true,tab:2 })
+    initAdyenPay()
   }
   showErrorMsg (msg) {
     this.setState({
@@ -1084,37 +1092,51 @@ class Payment extends React.Component {
                       className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break"
                       role="tablist"
                     >
-                      <li className="rc-tabs-li" style={{ width: "40%" }}>
+                      <li className="rc-tabs-li" style={{ width: "33%" }}>
                         <button
                           className="rc-tab text-break"
-                          onClick={() => this.setState({ showOxxoForm: false })}
+                          onClick={() => this.setState({ showOxxoForm: false,tab:0 })}
                           style={{ padding: "8px 15px", width: "100%" }}
                           data-toggle="creditCard"
                           aria-selected={
-                            this.state.showOxxoForm ? "false" : "true"
+                            this.state.tab===0 ? "true" : "false"
                           }
                           role="tab"
                         >
                           <FormattedMessage id="creditCard"></FormattedMessage>
                         </button>
                       </li>
-                      <li className="rc-tabs-li" style={{ width: "40%" }}>
+                      <li className="rc-tabs-li" style={{ width: "33%" }}>
                         <button
                           className="rc-tab text-break"
-                          onClick={() => this.setState({ showOxxoForm: true })}
+                          onClick={() => this.setState({ showOxxoForm: true,tab:1 })}
                           style={{ padding: "8px 15px", width: "100%" }}
                           data-toggle="oxxo"
                           aria-selected={
-                            this.state.showOxxoForm ? "true" : "false"
+                            this.state.showOxxoForm===1 ? "true" : "false"
                           }
                           role="tab"
                         >
                           <FormattedMessage id="oxxo"></FormattedMessage>
                         </button>
                       </li>
+                      <li className="rc-tabs-li" style={{ width: "33%" }}>
+                        <button
+                          className="rc-tab text-break"
+                          onClick={() => this.showAdyenPay()}
+                          style={{ padding: "8px 15px", width: "100%" }}
+                          data-toggle="oxxo"
+                          aria-selected={
+                            this.state.showOxxoForm===2 ? "true" : "false"
+                          }
+                          role="tab"
+                        >
+                          <FormattedMessage id="adyen"></FormattedMessage>
+                        </button>
+                      </li>
                     </ul>
                   </nav>
-                  {this.state.showOxxoForm ? (
+                  {this.state.tab===0 ? (
                     <OxxoConfirm
                       history={this.props.history}
                       getParameter={() => this.goConfirmation()}
@@ -1126,7 +1148,7 @@ class Payment extends React.Component {
                     )}
                   <div
                     style={{
-                      display: this.state.showOxxoForm ? "none" : "block",
+                      display: this.state.tab===1 ? "block" : "none",
                     }}
                   >
                     <div className="card payment-form">
@@ -1518,6 +1540,15 @@ class Payment extends React.Component {
                           </button>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                  <div style={{
+                      display: this.state.tab===2 ? "block" : "none",
+                    }}>
+                     <div class="payment-method">
+                        <div id="card-container" class="payment-method__container">
+                            {/* Card Component will be rendered here */}
+                        </div>
                     </div>
                   </div>
                 </div>

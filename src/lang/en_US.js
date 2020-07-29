@@ -518,6 +518,7 @@ const en_US = {
   'subscribeDiscount': 'Subscription Save Discount',
   'customerReviews': 'Customer reviews',
   'sortBy': 'Sort by',
+  'adyen':'Adyen'
   //qhx新增
 }
 export default en_US;
