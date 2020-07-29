@@ -62,6 +62,7 @@ class Header extends React.Component {
     return this.props.loginStore.isLogin
   }
   async componentDidMount () {
+    
     if (sessionStorage.getItem('rc-token-lose')) {
       document.querySelector('#J-btn-logoff') && document.querySelector('#J-btn-logoff').click()
       document.querySelector('#J-btn-login') && document.querySelector('#J-btn-login').click()

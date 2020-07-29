@@ -485,6 +485,7 @@ const en_US = {
   'subscription.cancelAll': 'Cancelar todo',
   'subscription.promotionTip': 'Ahorre {val} en su primera suscripción',
   'subscription.orderNow': 'Ordenar ahora',
+  'subscription.previousOrders': 'Órdenes previas',
 
   'visitStoreMap': 'Visita el mapa de la tienda',
   'modalSkipTitle': 'SALTAR PRÓXIMA ENTREGA?',
