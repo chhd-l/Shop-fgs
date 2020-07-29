@@ -307,13 +307,13 @@ class List extends React.Component {
           {titleData ?
             <div className="content-block__wrapper_ rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="layout-container_ two-column_ rc-layout-container rc-two-column rc-max-width--lg rc-content-h-middle">
-                <div className="rc-column ">
+                <div className="rc-column pt-0 pb-0">
                   <div className="rc-full-width rc-text--left rc-padding-x--sm">
                     <h1 className="rc-alpha">{titleData.title}</h1>
                     <p>{titleData.description}</p>
                   </div>
                 </div>
-                <div className="rc-column ">
+                <div className="rc-column pt-0 pb-0">
                   <img
                     className="mw-100"
                     src={titleData.img}
@@ -420,27 +420,33 @@ class List extends React.Component {
                                               </div>
                                               <span className='comments rc-margin-left--xs rc-text-colour--text'>({item.goodsEvaluateNum})</span>
                                             </div>
-                                            <div className="rc-card__price rc-text--center">
-                                              <div className={`rc-full-width`} >
-                                                <span style={{ color: '#4a4a4a', fontSize: '.9em' }}><FormattedMessage id="startFrom" /></span><br />
-                                                <span className="" style={{ color: '#323232', fontWeight: 400 }} >
-                                                  {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.marketPrice || 0)))}{' '}
-                                                  <span className="text-line-through" style={{ fontSize: '.8em' }}>{formatMoney(item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice)}</span>
-                                                </span>
+                                            <div className="text-center" style={{ color: '#4a4a4a' }}>
+                                              <FormattedMessage id="startFrom" />
+                                            </div>
+                                            <div className="d-flex justify-content-center">
+                                              <div className="rc-card__price text-left">
+                                                <div className={`rc-full-width`} >
+                                                  <span style={{ color: '#323232', fontWeight: 400 }} >
+                                                    {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.marketPrice || 0)))}{' '}
+                                                    <span className="text-line-through" style={{ fontSize: '.8em' }}>{formatMoney(item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice)}</span>
+                                                  </span>
+                                                </div>
+                                                {
+                                                  find(item.goodsInfos, ele => ele.subscriptionStatus)
+                                                    ? <div className="range position-relative">
+                                                      <span style={{ color: '#323232', fontWeight: 400 }}>
+                                                        {formatMoney(Math.min.apply(null, item.goodsInfos.filter(g => g.subscriptionStatus).map(g => g.subscriptionPrice || 0)))}{' '}
+                                                      </span>
+                                                      <span className="rc-icon rc-refresh--xs rc-brand1 "></span>
+                                                      <span
+                                                        className="position-relative red-text position-absolute"
+                                                        style={{ fontSize: '.6em', top: '50%', transform: 'translateY(-50%)' }}>
+                                                        <FormattedMessage id="details.Subscription" />
+                                                      </span>
+                                                    </div>
+                                                    : null
+                                                }
                                               </div>
-                                              {
-                                                find(item.goodsInfos, ele => ele.subscriptionStatus)
-                                                  ? <div className="range" style={{ marginLeft: '20%' }}>
-                                                    <span className=" " style={{ color: '#323232', fontWeight: 400 }}>
-                                                      {formatMoney(Math.min.apply(null, item.goodsInfos.filter(g => g.subscriptionStatus).map(g => g.subscriptionPrice || 0)))}{' '}
-                                                    </span>
-                                                    <span className="rc-icon rc-refresh--xs rc-brand1 "></span>
-                                                    <span className="position-relative red-text" style={{ fontSize: '.6em', top: '-4px' }}>
-                                                      <FormattedMessage id="details.Subscription" />
-                                                    </span>
-                                                  </div>
-                                                  : null
-                                              }
                                             </div>
                                           </div>
                                         </>
