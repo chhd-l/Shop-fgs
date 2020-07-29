@@ -56,7 +56,7 @@ const LogoutButton = () => {
     sessionStorage.removeItem('rc-clinics-name-default')
     sessionStorage.removeItem('rc-clinics-id-default')
     loginStore.removeUserInfo()
-    checkoutStore.removeCartData()
+    checkoutStore.removeLoginCartData()
     logout()
   }
   return (

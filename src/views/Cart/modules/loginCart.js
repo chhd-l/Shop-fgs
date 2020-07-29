@@ -16,7 +16,8 @@ import { getPetList } from '@/api/pet'
 import { getCustomerInfo } from "@/api/user"
 import {
   updateBackendCart,
-  deleteItemFromBackendCart
+  deleteItemFromBackendCart,
+  switchSize
 } from '@/api/cart'
 import CART_CAT from "@/assets/images/CART_CAT.jpg";
 import CART_DOG from "@/assets/images/CART_DOG.jpg";
@@ -592,7 +593,8 @@ class LoginCart extends React.Component {
     </div >
   }
   async handleChooseSize (sdItem, pitem) {
-    this.setState({ changSizeLoading: true })
+    // this.setState({ changSizeLoading: true })
+
     const otherGoodsSpecs = pitem.goodsSpecs.filter(s => s.specId !== sdItem.specId)
     let selectedSpecIds = [sdItem.specId]
     let selectedSpecDetailId = [sdItem.specDetailId]
@@ -601,15 +603,20 @@ class LoginCart extends React.Component {
       selectedSpecIds.push(selectedItem.specId)
       selectedSpecDetailId.push(selectedItem.specDetailId)
     }
+    
     // debugger
-
     const selectedGoodsInfo = pitem.goodsInfos.filter(ele => ele.mockSpecIds.sort().toString() === selectedSpecIds.sort().toString()
       && ele.mockSpecDetailIds.sort().toString() === selectedSpecDetailId.sort().toString())[0]
-    this.setState({ deleteLoading: true })
-    // 先删除改之前sku
-    await deleteItemFromBackendCart({ goodsInfoIds: [pitem.goodsInfoId] })
-    // 再增加当前sku
-    await this.updateBackendCart({ goodsInfoId: selectedGoodsInfo.goodsInfoId, goodsNum: pitem.buyCount, verifyStock: false })
+    // this.setState({ deleteLoading: true })
+    // // 先删除改之前sku
+    // await deleteItemFromBackendCart({ goodsInfoIds: [pitem.goodsInfoId] })
+    // // 再增加当前sku
+    // await this.updateBackendCart({ goodsInfoId: selectedGoodsInfo.goodsInfoId, goodsNum: pitem.buyCount, verifyStock: false })
+    await switchSize({
+      purchaseId: pitem.purchaseId,
+      goodsInfoId: selectedGoodsInfo.goodsInfoId
+    })
+    this.updateCartCache()
     this.setState({ changSizeLoading: false })
   }
   render () {

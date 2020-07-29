@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="Web site created using create-react-app" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
   <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -60,7 +61,7 @@
   <!-- OneTrust Cookies Consent Notice (Production Standard, shop.royalcanin.mx, es-MX) end -->
   <link type="text/css" rel="stylesheet"
     href="https://d1a19ys8w1wkc1.cloudfront.net/one-trust-rc-styles.css?v=one-trust-rc-styles--001">
-    
+
   <!-- Global dataLayer, DO NOT REMOVE, contact: analytics@royalcanin.zendesk.com -->
   <!-- <script>
     window.dataLayer = window.dataLayer || [];
@@ -86,7 +87,7 @@
     })(window,document,'script','dataLayer','GTM-NCWZQ3');</script> -->
   <!-- End Google Tag Manager -->
 
-  <title>TIENDA OFICIAL DE PRODUCTOS VETERINARIOS ROYAL CANIN MEXICO</title>
+  <title><%= process.env.REACT_APP_TITLE %></title>
 </head>
 
 <body>

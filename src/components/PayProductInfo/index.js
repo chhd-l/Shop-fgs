@@ -132,7 +132,7 @@ class PayProductInfo extends React.Component {
                   <div className="line-item-total-price" style={{ whiteSpace: 'nowrap' }}>
                     {
                       this.isSubscription(el)
-                        ? <><span style={{ textDecoration: 'line-through' }}>{formatMoney(el.buyCount * el.salePrice)}</span><br /></>
+                        ? <><span className="text-line-through">{formatMoney(el.buyCount * el.salePrice)}</span><br /></>
                         : null
                     }
                     <span>{formatMoney(this.isSubscription(el) ? el.buyCount * el.subscriptionPrice : el.buyCount * el.salePrice)}</span>
