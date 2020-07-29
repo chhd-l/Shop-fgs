@@ -384,6 +384,7 @@ class Details extends React.Component {
     // );
   }
   async hanldeAddToCart({ redirect = false, needLogin = false } = {}) {
+    if(!(!this.state.initing && this.state.instockStatus && this.state.quantity)) return;
     this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
       return false
