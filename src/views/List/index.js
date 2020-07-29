@@ -324,7 +324,7 @@ class List extends React.Component {
             : ''}
           <div id="J-product-list"></div>
           <div className="search-results rc-padding--sm rc-max-width--xl">
-            <div className="search-nav">
+            <div className="search-nav border-bottom-0">
               {this.state.keywords ?
                 <div className="nav-tabs-wrapper rc-text--center">
                   <div className="rc-intro"><FormattedMessage id="list.youSearchedFor" />:</div>
@@ -350,7 +350,7 @@ class List extends React.Component {
                         checkedList={checkedList} />
                     </aside>
                   </div>
-                  <div className="refinements rc-column">
+                  <div className="refinements rc-column" style={{ top: '-53px' }}>
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
                       data-filter-trigger="filter-example" onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
                     <aside className={['rc-filters', this.state.filterModalVisible ? 'active' : ''].join(' ')}>
@@ -377,9 +377,9 @@ class List extends React.Component {
                         </div>
                       </>
                       :
-                      <div className="d-flex flex-wrap">
+                      <div className="row">
                         {productList.map(item => (
-                          <div className="col-12 col-md-4 mb-3" key={item.id}>
+                          <div className="col-12 col-md-4 mb-3 pl-2 pr-2" key={item.id}>
                             <article className="rc-card rc-card--product" style={{ minHeight: '120px' }}>
                               <div className="fullHeight">
                                 <a onClick={() => this.hanldeItemClick(item)} className="ui-cursor-pointer">
