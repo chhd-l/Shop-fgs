@@ -207,11 +207,20 @@ class Reviews extends React.Component {
                                                                                 <Rate def={item.evaluateScore} disabled={true}/>
                                                                                 <div className="break mgt-10 mt-3">{item.title}</div>
                                                                                 {/*{item.description}*/}
-                                                                                <div className="img-box rc-margin-bottom--xs rc-margin-top--xs flex-wrap">
+                                                                                <div className="img-box rc-margin-bottom--xs rc-margin-top--xs flex-wrap"
+                                                                                    style={{width:'220px'}}
+                                                                                >
                                                                                     {
                                                                                         item.evaluateImageList && item.evaluateImageList.length > 0 ?
-                                                                                            item.evaluateImageList.map((img,i) =>
-                                                                                                <div className="img-wrapper mb-2" key={i}><img className="rc-img--square rc-img--square-custom height70" src={img.artworkUrl}/></div>
+                                                                                            item.evaluateImageList.map((img,i) =>{
+                                                                                                if(i<=8){
+                                                                                                   return  <div className="img-wrapper mb-2" key={i}><img className="rc-img--square rc-img--square-custom height70" src={img.artworkUrl}/></div>
+                                                                                                }
+                                                                                                else{
+                                                                                                    return null
+                                                                                                }
+                                                                                            }
+                                                                                                
                                                                                             )
                                                                                             : null
                                                                                     }
