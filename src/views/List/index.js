@@ -333,10 +333,7 @@ class List extends React.Component {
             </div>
             <section className="rc-bg-colour--brand3">
               <div>
-                <div className="rc-text--right rc-meta rc-margin-bottom--none">
-                  {results} <FormattedMessage id="results" />
-                </div>
-                <div className="rc-layout-container rc-four-column" id="J_filter_contaner">
+                <div className="rc-layout-container rc-four-column position-relative" id="J_filter_contaner">
                   <div className="refinements-fixed rc-column" style={{ position: 'fixed', display: 'none', background: '#fff', zIndex: 22 }}>
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
                       data-filter-trigger="filter-example" onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
@@ -350,7 +347,7 @@ class List extends React.Component {
                         checkedList={checkedList} />
                     </aside>
                   </div>
-                  <div className="refinements rc-column" style={{ top: '-53px' }}>
+                  <div className="refinements rc-column" style={{ top: '-45px' }}>
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
                       data-filter-trigger="filter-example" onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
                     <aside className={['rc-filters', this.state.filterModalVisible ? 'active' : ''].join(' ')}>
@@ -364,6 +361,11 @@ class List extends React.Component {
                     </aside>
                   </div>
                   <div className={['rc-column', 'rc-triple-width', !productList.length ? 'd-flex justify-content-center align-items-center' : ''].join(' ')}>
+                    {
+                      !loading && <div className="position-absolute" style={{ top: '-20px' }}>
+                        {results} <FormattedMessage id="results" />
+                      </div>
+                    }
                     {!productList.length
                       ?
                       <>

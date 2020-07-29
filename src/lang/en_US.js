@@ -85,6 +85,7 @@ const en_US = {
   "header.carouselInfo11": "ROYAL CANIN® CLUB for kittens",
   "header.toBegin": "To begin",
   "header.toLearnMore": "To learn more",
+'home.promotionTip': '10% off first purchase + 5% off every autoship order',
   "home.productsCategory": "Our products by category",
   "home.pageNotFound": "Page not found…",
   "home.pageNotFoundInfo":
