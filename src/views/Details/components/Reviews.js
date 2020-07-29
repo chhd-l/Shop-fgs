@@ -214,6 +214,7 @@ class Reviews extends React.Component {
                                                                                         item.evaluateImageList && item.evaluateImageList.length > 0 ?
                                                                                             item.evaluateImageList.map((img,i) =>{
                                                                                                 if(i<=8){
+                                                                                                    // 评论显示九宫格
                                                                                                    return  <div className="img-wrapper mb-2" key={i}><img className="rc-img--square rc-img--square-custom height70" src={img.artworkUrl}/></div>
                                                                                                 }
                                                                                                 else{
