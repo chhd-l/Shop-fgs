@@ -27,7 +27,7 @@ class AccountHome extends React.Component {
 
   }
   componentDidMount () {
-
+    
   }
   get userInfo () {
     return this.props.loginStore.userInfo

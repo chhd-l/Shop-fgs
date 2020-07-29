@@ -12,6 +12,7 @@ import CAREDOG from "@/assets/images/MX-L-VET-CARE-DOG.jpg";
 import DIETCAT from "@/assets/images/MX-L-VET-DIET-CAT.jpg";
 import DIETDOG from "@/assets/images/MX-L-VET-DIET-DOG.jpg";
 import Pomotion25offImg from "@/assets/images/pomotion_25off.png";
+import { getBanner } from '@/api/home.js'
 
 class Home extends React.Component {
   constructor(props) {
@@ -20,7 +21,10 @@ class Home extends React.Component {
       promotionVisible: false
     }
   }
-  componentDidMount () {
+  async componentDidMount () {
+    getBanner().then(res => {
+      console.log(res, 'ressssss')
+    })
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();

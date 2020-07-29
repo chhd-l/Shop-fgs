@@ -5,6 +5,9 @@ import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
 import { updateCustomerBaseInfo } from "@/api/user"
 import Selection from '@/components/Selection'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
 class PersonalDataEditForm extends React.Component {
   constructor(props) {
@@ -158,6 +161,11 @@ class PersonalDataEditForm extends React.Component {
     } else {
       return id
     }
+  }
+  onDateChange(date) {
+    const { form } = this.state
+    form['birthdate'] = moment(date).format("YYYY-MM-DD")
+    this.setState({ form: form })
   }
   computedList (key) {
     let tmp = this.state[`${key}List`].map(c => {
@@ -319,8 +327,20 @@ class PersonalDataEditForm extends React.Component {
                 <label className="form-control-label rc-full-width" htmlFor="birthdate">
                   <FormattedMessage id="account.birthDate" />
                 </label>
-                <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
-                  <input
+                {/* <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true" style={{height: '50px'}}> */}
+                <DatePicker
+                  className="receiveDate"
+                  placeholder="Select Date"
+                  dateFormat="yyyy-MM-dd"
+                  maxDate={new Date()}
+                  selected={
+                    form.birthdate
+                      ? new Date(form.birthdate)
+                      : new Date()
+                  }
+                  onChange={(date) => this.onDateChange(date)}
+                />
+                  {/* <input
                     className="rc-input__date rc-js-custom rc-input__control"
                     id="birthdate"
                     data-js-dateformat="YYYY/MM/DD"
@@ -330,8 +350,8 @@ class PersonalDataEditForm extends React.Component {
                     onBlur={e => this.handleInputChange(e)}
                     style={{ padding: '.95rem 0' }}
                   />
-                  <label className="rc-input__label" htmlFor="birthdate"></label>
-                </span>
+                  <label className="rc-input__label" htmlFor="birthdate"></label> */}
+                {/* </span> */}
                 <div className="invalid-feedback" style={{ display: 'none' }}>
                   <FormattedMessage id="payment.errorInfo2" />
                 </div>
