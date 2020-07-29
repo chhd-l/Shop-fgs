@@ -305,7 +305,7 @@ class SubscriptionDetail extends React.Component {
         minDate: now,
       });
     } catch (err) {
-      // this.showErrMsg(err);
+      this.showErrMsg(err);
       // throw new Error(err);
     } finally {
       this.setState({ loading: false });
@@ -366,18 +366,34 @@ class SubscriptionDetail extends React.Component {
   }
   hanldeClickSubmit() {
     let { modalType, subDetail } = this.state;
+    this.setState({loading: true, modalShow: false})
     if (modalType === "skipNext") {
       skipNextSub({ subscribeId: subDetail.subscribeId }).then((res) => {
         window.location.reload();
-      });
+      }).catch(err => {
+        this.setState({
+          loading: false
+        })
+        this.showErrMsg(err)
+      })
     } else if (modalType === "cancelAll") {
       cancelAllSub({ subscribeId: subDetail.subscribeId }).then((res) => {
         window.location.reload();
-      });
+      }).catch(err => {
+        this.setState({
+          loading: false
+        })
+        this.showErrMsg(err)
+      })
     } else if (modalType === "orderNow") {
       orderNowSub({ subscribeId: subDetail.subscribeId }).then((res) => {
         window.location.reload();
-      });
+      }).catch(err => {
+        this.setState({
+          loading: false
+        })
+        this.showErrMsg(err)
+      })
     }
   }
   showErrMsg(msg, type, fn) {
@@ -718,7 +734,7 @@ class SubscriptionDetail extends React.Component {
                               {/* </div> */}
                               <div className="rc-card-content">
                                 <b className="">
-                                  <FormattedMessage id="subscription.toBeDelivered" />
+                                  <FormattedMessage id="subscription.previousOrders" />
                                 </b>
                                 <h4
                                   className="rc-card__meta order-Id"
