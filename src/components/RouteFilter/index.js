@@ -33,10 +33,10 @@ class RouteFilter extends Component {
       this.props.history.push("/");
     }
 
-    await getConfig().then(res => {
-      console.log(res, 'resssssss')
-      sessionStorage.setItem('currency', JSON.stringify(res.context.currency))
-    })
+    // await getConfig().then(res => {
+    //   console.log(res, 'resssssss')
+    //   sessionStorage.setItem('currency', JSON.stringify(res.context.currency))
+    // })
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/')
     }
