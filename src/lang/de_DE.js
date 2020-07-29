@@ -102,12 +102,18 @@ const en_US = {
   "home.specialInfo4": "Seit mehr als 50 Jahren folgen wir dem Prinzip 'Wohlbefinden vor allem für Hunde und Katzen '. Wir stellen angepasste Futtermittel für Tiere her, die ihren besonderen Bedürfnissen entsprechen. ",
   "home.viewProducts": "Produkte anzeigen",
   "home.specialAnimalNutrition": "Spezielle Tierernährung",
-  "home.catogery1": "Dietas Veterinarias Perros",
-  "home.catogery2": "Dietas Veterinarias Gatos",
-  "home.catogery3": "Dietas de Prescripción Veterinaria Perros",
-  "home.catogery4": "Dietas de Prescripción Veterinaria Gatos",
+
+  "home.catogery1": "Urin",
+  "home.catogery2": "Dermatologie",
+  "home.catogery3": "Gewichtsmanagement",
+  "home.catogery4": "Magen-Darmtrakt",
+
   "home.catogery5": "Gatos",
   "home.catogery6": "Perros",
+
+  "home.catogery7": "Magen-Darmtrakt",
+  "home.catogery8": "Gesundheitsmanagement",
+
   "home.note1": "Afectado por la epidemia, el tiempo de entrega puede extenderse.",
   "home.note2": "Nuestra área de Distribución se Limita a la Ciudad de México, Guadalajara y Monterrey.",
   "list.youSearchedFor": "Sie suchten nach",

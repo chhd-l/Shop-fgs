@@ -588,7 +588,9 @@ const en_US = {
   //qhx新增
   delivery: "delivery",
   FrequentQuestions: "Frequent questions",
-  clickHere:'Click here',
-  FAQdesc:"If you have a question. Look below to see if there is an answer. If You can't find what you are looking for. {val} to contact us."
+  clickHere: "Click here",
+  FAQdesc:
+    "If you have a question. Look below to see if there is an answer. If You can't find what you are looking for. {val} to contact us.",
+  startFrom: "Start from",
 };
 export default en_US;

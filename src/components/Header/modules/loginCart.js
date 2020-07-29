@@ -22,6 +22,7 @@ class LoginCart extends React.Component {
     this.handleCheckout = this.handleCheckout.bind(this)
   }
   async componentDidMount () {
+    this.checkoutStore.updateLoginCart()
   }
   componentWillReceiveProps (nextProps) {
     // debugger
