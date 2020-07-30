@@ -13,6 +13,7 @@ class ReviewForm extends React.Component {
       textErrorInfo: "",
       // productRate: 5
       errMessage: 0,
+      title:''
     };
     this.imgUploaderRef = React.createRef();
   }
@@ -32,6 +33,13 @@ class ReviewForm extends React.Component {
       consumerComment: e.target.value,
     });
     this.props.handleConsumerCommentChange(e, this.props.product);
+    this.inputBlur(e);
+  }
+  handleTitleChange(e){
+    this.setState({
+      title: e.target.value,
+    });
+    this.props.handleTitleChange(e, this.props.product);
     this.inputBlur(e);
   }
   handelImgChange() {
@@ -111,8 +119,35 @@ class ReviewForm extends React.Component {
                   ></Rate>
                 </div>
               </div>
+              <div class="row">
+              <div class="form-group col-lg-6 pull-left">
+                <label class="form-control-label rc-full-width" for="reference">
+                 title
+                </label>
+                <span
+                  class="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width"
+                  input-setup="true"
+                >
+                  <input
+                    type="text"
+                    class="rc-input__control input__phoneField"
+                    id="reference"
+                    name="rfc"
+                    maxlength="50"
+                    value={this.state.title}
+                    style={{padding:0}}
+                    onChange={(e) => this.handleTitleChange(e)}
+                    onBlur={(e) => this.inputBlur(e)}
+                  ></input>
+                  <label class="rc-input__label" for="reference"></label>
+                </span>
+              </div>
             </div>
+
+            </div>
+
             <div className="rc-column text-right padb0">
+
               <div className="img-container">
                 <img className="product-img" src={this.props.product.pic} />
               </div>

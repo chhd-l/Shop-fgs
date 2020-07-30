@@ -4,6 +4,7 @@ import Rate from '@/components/Rate'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details'
 import Selection from '@/components/Selection'
+import Mask from '@/components/Mask'
 import "../index.css";
 import Skeleton from "react-skeleton-loader";
 @injectIntl
@@ -17,7 +18,9 @@ class Reviews extends React.Component {
             valuatesTotalPages: 0,
             selectedSortBy: 0,
             loading: false,
-            noData: true
+            noData: true,
+            showPicIndex:-1,
+            imgList:-1,
         }
     }
     componentDidMount() {
@@ -136,10 +139,69 @@ class Reviews extends React.Component {
         ]
         return list
     }
+    handleImgClick(j,imgList){
+        console.log("被点击的是：",j)
+        this.setState({
+            showPicIndex:j,
+            imgList
+        })
+    }
+    handleCancelMask(){
+        this.setState({
+            showPicIndex:-1,
+            imgList:-1
+        })
+    }
+    handleDirectionClick(direction){console.log()
+        console.log("点击方向是：",direction)
+        console.log("当前是第",this.state.showPicIndex)
+        if(direction>0){
+            if(this.state.showPicIndex+1==this.state.imgList.length-1){
+                this.setState({
+                    showPicIndex:0
+                })
+            }
+            else{
+                this.setState({
+                    showPicIndex:this.state.showPicIndex+direction
+                })
+            }
+        }
+        else{
+            if(this.state.showPicIndex==0){
+                this.setState({
+                    showPicIndex:this.state.imgList.length-2
+                })
+            }
+            else{
+                this.setState({
+                    showPicIndex:this.state.showPicIndex+direction
+                })
+            }
+        }
+
+    }
     render () {
         const data = this.state
         return (
             <div>
+
+            {
+                this.state.showPicIndex>=0&&this.state.imgList? (
+                    <div>
+                        <div className="showBigImg">
+                            <div className="direction" onClick={()=>this.handleDirectionClick(-1)}> 《 </div>
+                            <div className="ImgBox">
+                            <img src={this.state.imgList[this.state.showPicIndex].artworkUrl}></img>
+                            <span className="desc">{this.state.showPicIndex+1} of {this.state.imgList.length}</span>
+                            </div>
+                            <div className="direction" onClick={()=>this.handleDirectionClick(1)}> 》 </div>
+                       
+                        </div>                   
+                        <div className="Mask" onClick={this.handleCancelMask.bind(this)}></div>
+                    </div>
+                ):null
+            }
                 {
                     !data.noData ?
                         <div>
@@ -159,13 +221,6 @@ class Reviews extends React.Component {
                                         <form>
                               <span className="rc-select rc-select-processed">
                                 <label className="rc-select__label" htmlFor="id-single-select"><FormattedMessage id="sortBy" /></label>
-                                {/*<select data-js-select="" id="id-single-select"*/}
-                                {/*        onChange={(e) => this.sortByChange(e)}*/}
-                                {/*        value = {this.state.selectedSortBy}>*/}
-                                {/*  <option value={0}>Most Recent</option>*/}
-                                {/*  <option value={1}>Lowest to Highest Rating</option>*/}
-                                {/*  <option value={2}>Hightest to Lowest Rating</option>*/}
-                                {/*</select>*/}
                                   <Selection
                                        selectedItemChange={data => this.sortByChange(data)}
                                        optionList={this.computedList()}
@@ -205,17 +260,21 @@ class Reviews extends React.Component {
                                                                         <div className="rc-column rc-quad-width padl0">
                                                                             <div className="">
                                                                                 <Rate def={item.evaluateScore} disabled={true}/>
-                                                                                <div className="break mgt-10 mt-3">{item.title}</div>
+                                                                                <h3 style={{marginTop:'1%',marginBottom:'6%'}}>Title{item.evaluateReviewTitle}</h3>
+                                                                                <div className="break mgt-10 mgb-3">{item.title}</div>
                                                                                 {/*{item.description}*/}
                                                                                 <div className="img-box rc-margin-bottom--xs rc-margin-top--xs flex-wrap"
-                                                                                    style={{width:'220px'}}
+                                                                                
                                                                                 >
                                                                                     {
                                                                                         item.evaluateImageList && item.evaluateImageList.length > 0 ?
-                                                                                            item.evaluateImageList.map((img,i) =>{
-                                                                                                if(i<=8){
+                                                                                            item.evaluateImageList.map((img,j) =>{
+                                                                                                if(j<3){
+                                                        
                                                                                                     // 评论显示九宫格
-                                                                                                   return  <div className="img-wrapper mb-2" key={i}><img className="rc-img--square rc-img--square-custom height70" src={img.artworkUrl}/></div>
+                                                                                                   return  <div className="img-wrapper mb-2 mr-2 mt-1" key={j} style={{width:"26%",height:"170px"}}>
+                                                                                                       <img className="rc-img--square rc-img--square-custom" src={img.artworkUrl}
+                                                                                                        style={{width:'100%',height:'100%'}} onClick={this.handleImgClick.bind(this,j,item.evaluateImageList)} /></div>
                                                                                                 }
                                                                                                 else{
                                                                                                     return null

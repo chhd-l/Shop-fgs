@@ -1687,3 +1687,38 @@ p {
 .padr0{
   padding-right: 0!important;
 }
+
+.showBigImg{
+  max-width: 300px;
+  max-height: 300px;
+  position: fixed;
+  z-index: 61;
+  left: 38%;
+  top: 20%;
+  display: flex;
+  align-items: center;
+  margin: 5%;
+}
+.Mask{
+  background-color: black;
+  opacity: .5;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 60;
+}
+.desc{
+  display: inline-block;
+  color: white;
+  width: 100%;
+  text-align: center
+}
+.direction{
+  color: white;
+  font-size: 20px;
+  justify-self: start;
+  cursor: pointer;
+}
+
