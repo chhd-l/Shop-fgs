@@ -640,7 +640,6 @@ class PetForm extends React.Component {
       this.setState({
         selectedSpecialNeeds: needs
       })
-
     }
 
 

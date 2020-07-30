@@ -15,6 +15,7 @@ import Banner_subscritipon from "@/assets/images/banner/banner_subscritipon.jpg"
 import Banner_subscritipon_m from "@/assets/images/banner/banner_subscritipon_m.jpg";
 import './index.less'
 import { SUBSCRIPTION_DISCOUNT_RATE } from "@/utils/constant"
+import { getBanner } from '@/api/home.js'
 
 function SampleNextArrow (props) {
   const { className, style, onClick } = props;
@@ -40,10 +41,17 @@ class HeroCarousel extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      noticeVisible: true
+      noticeVisible: true,
+      banner: []
     }
     this.hanldeClick = this.hanldeClick.bind(this)
     this.hideNotice = this.hideNotice.bind(this)
+  }
+  async componentWillMount() {
+    getBanner().then(res => {
+      console.log(res, 'ressssss')
+      this.setState({banner: res.context})
+    })
   }
   hideNotice () {
     this.setState({
@@ -104,7 +112,7 @@ class HeroCarousel extends React.Component {
                 <img src={Pomotion25offImg} className="rc-md-down" />
               </div>
             </div> */}
-            <div className="hero-carousel__slide center-img">
+            {/* <div className="hero-carousel__slide center-img">
               <img className="w-100 rc-md-up" src={Banner_subscritipon} />
               <Link
                 to="/list/keywords"
@@ -134,21 +142,23 @@ class HeroCarousel extends React.Component {
                   }}
                   onClick={this.hanldeClick} />
               </div>
-            </div>
-            <div className="hero-carousel__slide">
+            </div> */}
+            {
+              this.state.banner.map(el => (
+                <div className="hero-carousel__slide">
               <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
                 <img
                   className="rc-md-up"
-                  src={Banner_recommend_item}
+                  src={el.webUrl}
                   style={{ maxHeight: '100%' }} />
                 <img
                   className="rc-md-down w-100"
-                  src={Banner_recommend_item_m}
+                  src={el.mobiUrl}
                   style={{ maxHeight: '100%' }} />
-                <span className="font-weight-normal red font-16 mb-1 ml-3 mr-3 text-center inlineblock">
+                {/* <span className="font-weight-normal red font-16 mb-1 ml-3 mr-3 text-center inlineblock">
                   Monitorea en casa la salud urinaria de tu gato con Hematuria Detection(Detecta sangre en la orina)
-                </span>
-                <span className="rc-md-up btn-cheat">
+                </span> */}
+                {/* <span className="rc-md-up btn-cheat">
                   <Link
                     to="/details/8a80808671d968b10171e6d2ba8c0016"
                     className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16">
@@ -162,7 +172,7 @@ class HeroCarousel extends React.Component {
                     className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16 mt-2">
                     <FormattedMessage id="header.toOrder" />
                   </Link>
-                </span>
+                </span> */}
                 {/* <div className="hero-carousel__slide__text text-center d-md-flex align-items-center rc-md-up">
                   <div className="hero-carousel__slide__text__inner rc-padding-x--lg--mobile">
                     <div className="rc-delta inherit-fontsize children-nomargin">
@@ -178,7 +188,10 @@ class HeroCarousel extends React.Component {
                 </div> */}
               </div>
             </div>
-            <div className="hero-carousel__slide center-img">
+              ))
+            }
+            
+            {/* <div className="hero-carousel__slide center-img">
               <img className="mh-100 rc-md-up" src={Banner_urinary} />
               <Link
                 to="/list/keywords/urinary"
@@ -275,7 +288,7 @@ class HeroCarousel extends React.Component {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </Slider>
         </div>
         {/* <input id="hero-carousel-scrolltime" type="hidden" value="7000" />
