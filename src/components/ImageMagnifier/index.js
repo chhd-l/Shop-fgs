@@ -17,7 +17,7 @@ class ImageMagnifier extends Component {
         // 组件宽
         width: (props.config && props.config.width) || "400",
         // 组件高
-        height: (props.config && props.config.height) || "350"
+        height: (props.config && props.config.height) || "450"
       },
       // 缩略图
       minImg: "",
@@ -222,7 +222,9 @@ class ImageMagnifier extends Component {
   initParam () {
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
     let params = JSON.parse(JSON.stringify(this.state.params));
-    cssStyle.imgContainer.width = params.width + "px";
+    console.log('params', params)
+    // cssStyle.imgContainer.width = params.width + "px";
+    cssStyle.imgContainer.width = 400 + "px";
     cssStyle.imgContainer.height = params.height + "px";
     cssStyle.magnifierContainer.width = params.width + "px";
     cssStyle.magnifierContainer.height = params.height + "px";
@@ -292,6 +294,7 @@ class ImageMagnifier extends Component {
     return (
       <div>
         <div style={{ position: 'relative' }}>
+          {/* <div className="bigImageOutBox" style={cssStyle.imgContainer}> */}
           <div className="bigImageOutBox" style={cssStyle.imgContainer}>
             <div className="bigImageInnerBox rc-loaded--final" style={{transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`}}>
               {

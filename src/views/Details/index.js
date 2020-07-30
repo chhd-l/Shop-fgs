@@ -63,7 +63,7 @@ class Details extends React.Component {
       currentSubscriptionPrice: 0,
       imageMagnifierCfg: {
         show: false,
-        config: {},
+        // config: {},
       },
       loading: true,
       errMsg: "",
@@ -663,7 +663,7 @@ class Details extends React.Component {
               <div className="product-detail product-wrapper rc-bg-colour--brand3">
                 <div className="rc-max-width--xl">
                   <BreadCrumbs />
-                  <div className="rc-padding--sm--desktop">
+                  <div className="rc-padding--sm--desktop" style={{height: '650px'}}>
                     <div className="rc-content-h-top">
                       <div className="rc-layout-container rc-six-column">
                         <div className="rc-column rc-double-width carousel-column imageBox">

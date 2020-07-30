@@ -412,7 +412,7 @@ class Payment extends React.Component {
           values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />)
         return false
       }
-
+      
       if (!this.state.selectedCardInfo.cardNumber) {
         this.showErrorMsg(this.props.intl.messages.clickConfirmCvvButton);
         return false;
