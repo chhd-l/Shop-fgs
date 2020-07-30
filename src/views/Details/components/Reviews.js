@@ -4,7 +4,6 @@ import Rate from '@/components/Rate'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details'
 import Selection from '@/components/Selection'
-import Mask from '@/components/Mask'
 import "../index.css";
 import Skeleton from "react-skeleton-loader";
 @injectIntl
@@ -42,6 +41,7 @@ class Reviews extends React.Component {
       this.getGoodsEvaluates(this.state.evaluatesCurrentPage, 5, null)
     })
   }
+
   evaluatesPrePage () {
     let currentPage = this.state.evaluatesCurrentPage
     if (currentPage > 1) {
@@ -49,6 +49,7 @@ class Reviews extends React.Component {
       this.getGoodsEvaluates(currentPage, 5, null)
     }
   }
+
   evaluatesNextPage () {
     let currentPage = this.state.evaluatesCurrentPage
     if (currentPage < this.state.valuatesTotalPages) {
@@ -56,11 +57,13 @@ class Reviews extends React.Component {
       this.getGoodsEvaluates(currentPage, 5, null)
     }
   }
+
   hanldePageNumChange (params) {
     this.setState({
       evaluatesCurrentPage: params.currentPage
     }, () => this.getGoodsEvaluates(this.state.evaluatesCurrentPage, 5))
   }
+
   async getGoodsEvaluates (pageNum = 1, pageSize = 5, sort) {
     let parmas = {
       pageNum: pageNum - 1,
@@ -120,20 +123,24 @@ class Reviews extends React.Component {
         })
       }
     }
-    handleImgClick (j,imgList) {
+  }
+
+handleImgClick(j,imgList){
         console.log("被点击的是：",j)
         this.setState({
             showPicIndex:j,
             imgList
         })
-    }
-    handleCancelMask(){
+  }
+
+ handleCancelMask(){
         this.setState({
             showPicIndex:-1,
             imgList:-1
         })
-    }
-    handleDirectionClick(direction){console.log()
+  }
+
+handleDirectionClick(direction){
         console.log("点击方向是：",direction)
         console.log("当前是第",this.state.showPicIndex)
         if(direction>0){
@@ -162,6 +169,7 @@ class Reviews extends React.Component {
         }
 
     }  
+
     computedList () {
       const list = [
         {
@@ -178,6 +186,7 @@ class Reviews extends React.Component {
       ]
       return list
     }
+
     render () {
         const data = this.state
         return (
@@ -199,7 +208,7 @@ class Reviews extends React.Component {
                     </div>
                 ):null
             }
-                {
+              {
                     !data.noData ?
                         <div>
                             <div>
@@ -228,26 +237,7 @@ class Reviews extends React.Component {
                                         </form>
                                     </div>
                                   </div>
-                                  <div className="rc-column rc-quad-width padl0">
-                                    <div className="">
-                                      <Rate def={item.evaluateScore} disabled={true} />
-                                      <div className="break mgt-10 mt-3">{item.title}</div>
-                                      {/*{item.description}*/}
-                                      <div className="img-box rc-margin-bottom--xs rc-margin-top--xs flex-wrap"
-                                        style={{ width: '220px' }}
-                                      >
-                                        {
-                                          item.evaluateImageList && item.evaluateImageList.length > 0 ?
-                                            item.evaluateImageList.map((img, i) => {
-                                              if (i <= 8) {
-                                                // 评论显示九宫格
-                                                return <div className="img-wrapper mb-2" key={i}><img className="rc-img--square rc-img--square-custom height70" src={img.artworkUrl} /></div>
-                                              }
-                                              else {
-                                                return null
-                                              }
-                                            }
-
+   
                                 <div className="rc-layout-container rc-one-column rc-max-width--lg">
                                     <div className="rc-column rc-margin-bottom--sm padl0">
                                         <div className="rc-layout-container rc-margin-top--md rc-stacked">
@@ -312,31 +302,14 @@ class Reviews extends React.Component {
                                                                                         </div> : null
                                                                                 }
                                                                             </div>
-                                                                            {
-                                        item.evaluateAnswer ?
-                                          <div>
-                                            <div>
-                                              <span className="red-text rc-margin-right--xs" style={{ 'fontWeight': '400' }}><FormattedMessage id="replyComments" /></span>
-                                              <span style={{ 'fontSize': '14px' }}>{new Date(item.evaluateAnswerTime).toGMTString().split(' ').splice(1, 3).join(' ')}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                )
-                                                            )
-                                                        )
-                                                }
-                                            </div>
-                                            <div className="rc-padding-top--xs">
-                                              {item.evaluateAnswer}
-                                            </div>
-                                          </div> : null
-                                      }
-                                    </div>
+                                                                            
+
                                   </div>
                                 </div>
                               )
                               )
                             )
-                        }
+                                                                              }
                       </div>
                       {/*分頁*/}
                       <div className="rc-column rc-margin-top--md">
@@ -349,12 +322,11 @@ class Reviews extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div> : null
-        }
-      </div>
-
+                            </div>          
+                        </div>:null
+              }
+             </div>
     )
-  }
+}
 }
 export default Reviews
