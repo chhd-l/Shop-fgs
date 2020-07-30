@@ -595,6 +595,8 @@ const en_US = {
     "If you have a question. Look below to see if there is an answer. If You can't find what you are looking for. {val} to contact us.",
   startFrom: "Start from",
   'autoship': 'Autoship',
-  'orderSummary': 'Order Summary'
+  'orderSummary': 'Order Summary',
+  'price': 'Price',
+  'listPrice': 'List price',
 };
 export default en_US;
