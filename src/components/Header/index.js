@@ -8,7 +8,7 @@ import { getParaByName } from '@/utils/utils';
 import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import { getList } from '@/api/list'
-import { CATEID, IMG_DEFAULT } from '@/utils/constant'
+import { IMG_DEFAULT } from '@/utils/constant'
 import { getPrescriptionById } from '@/api/clinic'
 import LoginButton from '@/components/LoginButton'
 import UnloginCart from './modules/unLoginCart'
@@ -231,7 +231,7 @@ class Header extends React.Component {
     this.setState({ loading: true })
 
     let params = {
-      cateId: CATEID,
+      cateId: process.env.REACT_APP_CATEID,
       keywords,
       propDetails: [],
       pageNum: 0,

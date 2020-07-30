@@ -1,5 +1,4 @@
 import { getStoreCate, getProps } from '@/api'
-import { CATEID } from '@/utils/constant'
 import { purchases, mergePurchase } from '@/api/cart'
 import { getDict } from '@/api/dict'
 import { find } from 'lodash'
@@ -55,7 +54,7 @@ export async function queryStoreCateIds () {
 export async function queryProps () {
   let tmp = sessionStorage.getItem('rc-goodsprop-list')
   if (!tmp) {
-    let res = await getProps(CATEID)
+    let res = await getProps(process.env.REACT_APP_CATEID)
     if (res.context && res.context.length) {
       sessionStorage.setItem('rc-goodsprop-list', JSON.stringify(res.context))
     }
