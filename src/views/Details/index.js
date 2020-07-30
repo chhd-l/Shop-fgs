@@ -8,6 +8,7 @@ import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
 import LoginButton from '@/components/LoginButton'
+import ConfirmTooltip from '@/components/ConfirmTooltip'
 import Reviews from './components/Reviews'
 import Rate from '@/components/Rate'
 import PetModal from '@/components/PetModal'
@@ -58,6 +59,7 @@ class Details extends React.Component {
       quantityMinLimit: 1,
       quantityMaxLimit: 30,
       currentUnitPrice: 0,
+      currentLinePrice: 0,
       currentSubscriptionPrice: 0,
       imageMagnifierCfg: {
         show: false,
@@ -76,7 +78,8 @@ class Details extends React.Component {
       replyNum: 0,
       goodsId: null,
       minMarketPrice: 0,
-      minSubscriptionPrice: 0
+      minSubscriptionPrice: 0,
+      toolTipVisible: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -87,10 +90,10 @@ class Details extends React.Component {
     this.productRange = []
     this.format = []
   }
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
-  componentDidMount() {
+  componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -101,14 +104,14 @@ class Details extends React.Component {
       () => this.queryDetails()
     );
   }
-  get isLogin() {
+  get isLogin () {
     return this.props.loginStore.isLogin
   }
-  get checkoutStore() {
+  get checkoutStore () {
     return this.props.checkoutStore
   }
-  matchGoods() {
-    let { specList, details, currentUnitPrice, currentSubscriptionPrice, stock } = this.state
+  matchGoods () {
+    let { specList, details, currentUnitPrice, currentLinePrice, currentSubscriptionPrice, stock } = this.state
     let selectedArr = []
     let idArr = []
     specList.map(el => {
@@ -129,20 +132,21 @@ class Details extends React.Component {
         }
       }
       item.specText = specTextArr.join(' ')
-      if (item.mockSpecDetailIds.join(',') === idArr.join(',')) {
+      if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
         item.selected = true
         currentUnitPrice = item.salePrice
+        currentLinePrice = item.linePrice
         currentSubscriptionPrice = item.subscriptionPrice
         stock = item.stock
       } else {
         item.selected = false
       }
     })
-    this.setState({ details, currentUnitPrice, currentSubscriptionPrice, stock }, () => {
+    this.setState({ details, currentUnitPrice, currentLinePrice, currentSubscriptionPrice, stock }, () => {
       this.updateInstockStatus();
     })
   }
-  async queryDetails() {
+  async queryDetails () {
     const { id } = this.state;
     const tmpRequest = this.isLogin ? getLoginDetails : getDetails
     Promise.all([
@@ -256,6 +260,14 @@ class Details extends React.Component {
                 })
               })
           }
+          let images = []
+          if(res.context.goodsInfos.every(el => !el.goodsInfoImg)) {
+            if(res.context.images.length) {
+              images = res.context.images
+            }
+          }else {
+            images = res.context.goodsInfos.filter(el => el.goodsInfoImg)
+          }
           this.setState(
             {
               details: Object.assign({},
@@ -268,8 +280,9 @@ class Details extends React.Component {
                   goodsSpecs: res.context.goodsSpecs
                 },
                 { goodsCategory: [this.specie, this.productRange.join('&'), this.format.join('&')].join('/') }),
+                images: images,
               // images: res.context.images.concat(res.context.goodsInfos),
-              images: res.context.goodsInfos,
+              // images: res.context.goodsInfos.every(el => !el.goodsInfoImg)?res.context.images: res.context.goodsInfos,
               specList
             },
             () => {
@@ -297,12 +310,12 @@ class Details extends React.Component {
         })
       })
   }
-  updateInstockStatus() {
+  updateInstockStatus () {
     this.setState({
       instockStatus: this.state.quantity <= this.state.stock
     });
   }
-  hanldeAmountChange(type) {
+  hanldeAmountChange (type) {
     this.setState({ checkOutErrMsg: "" });
     if (!type) return;
     const { quantity } = this.state;
@@ -328,7 +341,7 @@ class Details extends React.Component {
       }
     );
   }
-  handleAmountInput(e) {
+  handleAmountInput (e) {
     this.setState({ checkOutErrMsg: "" });
     const { quantityMinLimit, quantityMaxLimit } = this.state;
     const val = e.target.value;
@@ -348,7 +361,7 @@ class Details extends React.Component {
       this.setState({ quantity: tmp }, () => this.updateInstockStatus());
     }
   }
-  handleChooseSize(sId, sdId) {
+  handleChooseSize (sId, sdId) {
     let { specList } = this.state
     specList.filter(item => item.specId === sId)[0].chidren.map(item => {
       if (item.specDetailId === sdId) {
@@ -383,8 +396,8 @@ class Details extends React.Component {
     //   () => this.updateInstockStatus()
     // );
   }
-  async hanldeAddToCart({ redirect = false, needLogin = false } = {}) {
-    if(!(!this.state.initing && this.state.instockStatus && this.state.quantity)) return;
+  async hanldeAddToCart ({ redirect = false, needLogin = false } = {}) {
+    if (!(!this.state.initing && this.state.instockStatus && this.state.quantity)) return;
     this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
       return false
@@ -395,7 +408,7 @@ class Details extends React.Component {
       await this.hanldeUnloginAddToCart({ redirect, needLogin });
     }
   }
-  async hanldeLoginAddToCart({ redirect }) {
+  async hanldeLoginAddToCart ({ redirect }) {
     this.setState({ addToCartLoading: true });
     const { quantity } = this.state;
     const { sizeList } = this.state.details;
@@ -445,7 +458,7 @@ class Details extends React.Component {
       this.setState({ errMsg: err.toString() })
     }
   }
-  async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
+  async hanldeUnloginAddToCart ({ redirect = false, needLogin = false }) {
 
     this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
@@ -562,15 +575,15 @@ class Details extends React.Component {
       this.headerRef.current.handleCartMouseOut();
     }, 1000);
   }
-  changeTab(e, i) {
+  changeTab (e, i) {
     this.setState({ activeTabIdx: i })
   }
-  openPetModal() {
+  openPetModal () {
     this.setState({
       petModalVisible: true
     })
   }
-  closePetModal() {
+  closePetModal () {
     if (this.state.isAdd === 2) {
       this.setState({
         isAdd: 0
@@ -580,22 +593,22 @@ class Details extends React.Component {
       petModalVisible: false
     })
   }
-  petComfirm() {
+  petComfirm () {
     this.props.history.push('/prescription')
   }
-  openNew() {
+  openNew () {
     this.setState({
       isAdd: 1
     })
     this.openPetModal()
   }
-  closeNew() {
+  closeNew () {
     this.setState({
       isAdd: 2
     })
     this.openPetModal()
   }
-  render() {
+  render () {
     const createMarkup = (text) => ({ __html: text });
     const {
       details,
@@ -605,6 +618,7 @@ class Details extends React.Component {
       quantityMinLimit,
       instockStatus,
       currentUnitPrice,
+      currentLinePrice,
       currentSubscriptionPrice,
       errMsg,
       addToCartLoading,
@@ -686,23 +700,18 @@ class Details extends React.Component {
                           ) : (
                               <div className="wrap-short-des">
                                 <h1
-                                  className="rc-gamma ui-text-overflow-line2 text-break"
+                                  className="rc-gamma ui-text-overflow-line2 text-break mb-0"
                                   title={details.goodsName}>
                                   {details.goodsName}
                                 </h1>
                                 <div className="rc-card__price flex-inline">
                                   <div className="display-inline" >
                                     <Rate def={this.state.productRate} disabled={true} /></div>
-                                  <a href="#review-container" className='comments rc-margin-left--xs rc-text-colour--text'>{this.state.replyNum} <FormattedMessage id="reviews" /></a>
+                                  <a href="#review-container" className='comments rc-margin-left--xs rc-text-colour--text'>
+                                    {this.state.replyNum} <FormattedMessage id="reviews" />
+                                  </a>
                                 </div>
-                                <h3 className="text-break">{details.goodsSubtitle}</h3>
-                                <h3 className="text-break">
-                                  <div className="rating-stars hidden-lg-down">
-                                    <div className="product-number-rating clearfix">
-                                      <div className="ratings pull-left"></div>
-                                    </div>
-                                  </div>
-                                </h3>
+                                <h3 className="text-break mb-1 mt-2">{details.goodsSubtitle}</h3>
                                 <div
                                   className="description"
                                   dangerouslySetInnerHTML={createMarkup(
@@ -721,18 +730,28 @@ class Details extends React.Component {
                                   className="product-pricing__card singlepruchase selected"
                                   data-buybox="singlepruchase"
                                 >
-                                  <div className="product-pricing__card__head d-flex align-items-center">
+                                  {!initing && <>
                                     {
-                                      !initing && <>
-                                        <div className="rc-input product-pricing__card__head__title">
-                                          <FormattedMessage id="details.unitPrice" />
+                                      currentLinePrice && currentLinePrice > 0
+                                        ? <div className="product-pricing__card__head d-flex align-items-center">
+                                          <div className="rc-input product-pricing__card__head__title">
+                                            <FormattedMessage id="listPrice" />
+                                          </div>
+                                          <b className="product-pricing__card__head__price red rc-padding-y--none">
+                                            {formatMoney(currentLinePrice)}
+                                          </b>
                                         </div>
-                                        <b className="product-pricing__card__head__price red rc-padding-y--none">
-                                          {formatMoney(currentUnitPrice)}
-                                        </b>
-                                      </>
+                                        : null
                                     }
-                                  </div>
+                                    <div className="product-pricing__card__head d-flex align-items-center">
+                                      < div className="rc-input product-pricing__card__head__title">
+                                        <FormattedMessage id="price" />
+                                      </div>
+                                      <b className="product-pricing__card__head__price red rc-padding-y--none">
+                                        {formatMoney(currentUnitPrice)}
+                                      </b>
+                                    </div>
+                                  </>}
                                   {
                                     find(details.sizeList, s => s.selected) && find(details.sizeList, s => s.selected).subscriptionStatus
                                       ? <>
@@ -740,20 +759,27 @@ class Details extends React.Component {
                                           !initing && <div className="product-pricing__card__head d-flex align-items-center">
                                             <span className="rc-icon rc-refresh--xs rc-brand1 position-absolute" style={{ transform: 'translate(-100%, 8%)' }}></span>
                                             <div className="rc-input product-pricing__card__head__title">
-                                              <FormattedMessage id="details.Subscription" />
-                                              <span className="red" style={{ fontSize: '.8em' }}>
-                                                {' '}
-                                            (<FormattedMessage id="save" />{' '}{SUBSCRIPTION_DISCOUNT_RATE})
-                                          </span>
+                                              <FormattedMessage id="autoship" />
+                                              <span
+                                                className="info-tooltip delivery-method-tooltip"
+                                                onClick={() => {
+                                                  this.setState({
+                                                    toolTipVisible: !this.state.toolTipVisible
+                                                  })
+                                                }}>i</span>
+                                              <ConfirmTooltip
+                                                arrowStyle={{ left: '35%' }}
+                                                display={this.state.toolTipVisible}
+                                                cancelBtnVisible={false}
+                                                confirmBtnVisible={false}
+                                                updateChildDisplay={status => this.setState({ toolTipVisible: status })}
+                                                content={<FormattedMessage id="subscription.promotionTip2" />} />
                                             </div>
                                             <b className="product-pricing__card__head__price red rc-padding-y--none">
                                               {formatMoney(currentSubscriptionPrice || 0)}
                                             </b>
                                           </div>
                                         }
-                                        <span className="red" style={{ fontSize: '.9em' }}>
-                                          <FormattedMessage id="subscription.promotionTip2" />
-                                        </span>
                                       </>
                                       : null
                                   }
@@ -1088,7 +1114,8 @@ class Details extends React.Component {
                 </div>
               </div>
             </main>
-          )}
+          )
+        }
         <Footer />
         {/* <PetModal visible={this.state.petModalVisible}
           isAdd={this.state.isAdd}
@@ -1097,7 +1124,7 @@ class Details extends React.Component {
           closeNew={() => this.closeNew()}
           confirm={() => this.petComfirm()}
           close={() => this.closePetModal()} /> */}
-      </div>
+      </div >
     );
   }
 }

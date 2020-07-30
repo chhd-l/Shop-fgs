@@ -1,5 +1,4 @@
 import { getStoreCate, getProps } from '@/api'
-import { CATEID } from '@/utils/constant'
 import { purchases, mergePurchase } from '@/api/cart'
 import { getDict } from '@/api/dict'
 import { find } from 'lodash'
@@ -19,8 +18,8 @@ export function formatMoney (val, currency = 1) {
   }
   val = val + ''
   let ret = val.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-  const mapEnum = { 1: '$', 2: 'Mex$' }
-  return `${mapEnum[currency]} ${ret}`
+  // const mapEnum = { 1: '$', 2: 'Mex$' }
+  // return `${mapEnum[currency]} ${ret}`
 
   let currencyObj = {}
   if(sessionStorage.getItem('currency')) {
@@ -33,7 +32,7 @@ export function formatMoney (val, currency = 1) {
   //     currencyObj = res.context.currency
   //   })
   // }
-  
+  // console.log(currencyObj.valueEn, 'currencyObj.valueEn')
   return `${currencyObj.valueEn} ${ret}`
 
 }
@@ -55,7 +54,7 @@ export async function queryStoreCateIds () {
 export async function queryProps () {
   let tmp = sessionStorage.getItem('rc-goodsprop-list')
   if (!tmp) {
-    let res = await getProps(CATEID)
+    let res = await getProps(process.env.REACT_APP_CATEID)
     if (res.context && res.context.length) {
       sessionStorage.setItem('rc-goodsprop-list', JSON.stringify(res.context))
     }

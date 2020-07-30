@@ -17,6 +17,9 @@ import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
 import { getCustomerInfo } from "@/api/user"
 import { getDict } from "@/api/dict"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
 const selectedPet = {
   border: "3px solid #ec001a",
@@ -637,7 +640,6 @@ class PetForm extends React.Component {
       this.setState({
         selectedSpecialNeeds: needs
       })
-
     }
 
 
@@ -656,10 +658,15 @@ class PetForm extends React.Component {
       currentPet: currentPet
     })
   }
+  onDateChange(date) {
+    // const { form } = this.state
+    // form['birthdate'] = moment(date).format("YYYY-MM-DD")
+    this.setState({ birthdate: moment(date).format("YYYY-MM-DD"), isDisabled: false })
+  }
   render () {
     const { petList, currentPet } = this.state
     return (
-      <div>
+      <div className="petForm">
         <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
@@ -1019,7 +1026,19 @@ class PetForm extends React.Component {
 
                     <div id="step-7" className="section next-step" style={{ display: this.state.currentStep === 'step7' ? 'block' : 'none' }}>
                       <h2><FormattedMessage id="account.enterBirthDare"></FormattedMessage></h2>
-                      <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
+                      <DatePicker
+                        className="receiveDate"
+                        placeholder="Select Date"
+                        dateFormat="yyyy-MM-dd"
+                        maxDate={new Date()}
+                        selected={
+                          this.state.birthdate
+                            ? new Date(this.state.birthdate)
+                            : new Date()
+                        }
+                        onChange={(date) => this.onDateChange(date)}
+                      />
+                      {/* <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
                         <input
                           className="rc-input__date rc-js-custom rc-input__control birthdate"
                           id="birthdate"
@@ -1031,7 +1050,7 @@ class PetForm extends React.Component {
                           onBlur={e => this.inputBlur(e)} />
 
                         <label className="rc-input__label" htmlFor="birthdate"></label>
-                      </span>
+                      </span> */}
                       <div className="invalid-birthdate invalid-feedback">
                         <FormattedMessage id="account.dateTip" />
                       </div>

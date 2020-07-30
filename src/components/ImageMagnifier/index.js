@@ -15,9 +15,9 @@ class ImageMagnifier extends Component {
         // 放大倍数
         scale: (props.config && props.config.scale) || 2,
         // 组件宽
-        width: (props.config && props.config.width) || "200",
+        width: (props.config && props.config.width) || "300",
         // 组件高
-        height: (props.config && props.config.height) || "250"
+        height: (props.config && props.config.height) || "350"
       },
       // 缩略图
       minImg: "",
@@ -76,7 +76,7 @@ class ImageMagnifier extends Component {
         },
         // 图片样式
         imgStyle: {
-          width: "200",
+          width: "300",
           height: "100%",
           margin: "0 auto",
           display: 'block'
@@ -129,7 +129,7 @@ class ImageMagnifier extends Component {
           hoverIndex = i
         }
       })
-      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*200})
+      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*300})
     }
   }
   // props 变化时更新
@@ -155,7 +155,7 @@ class ImageMagnifier extends Component {
           hoverIndex = i
         }
       })
-      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*200})
+      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*300})
     }
   }
 
@@ -252,7 +252,7 @@ class ImageMagnifier extends Component {
       videoShow: false,
       cssStyle,
       hoverIndex: i,
-      offsetX: i * 200
+      offsetX: i * 300
     })
   }
   // 图片加载情况
@@ -352,7 +352,7 @@ class ImageMagnifier extends Component {
           {video && <video className={`rc-img--square rc-img--square-custom ${hoverIndex === images.length ? 'hover' : ''}`} onMouseEnter={() => {
             let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
             cssStyle.imgContainer.cursor = 'pointer'
-            this.setState({ videoShow: true, cssStyle ,hoverIndex: images.length, offsetX: images.length * 200})
+            this.setState({ videoShow: true, cssStyle ,hoverIndex: images.length, offsetX: images.length * 300})
           }} src={video ? video : ''}></video>}
         </div>
         </div>

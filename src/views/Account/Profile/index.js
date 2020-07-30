@@ -121,7 +121,7 @@ class AccountProfile extends React.Component {
       }
     }
     return (
-      <div>
+      <div className="accountProfile">
         <GoogleTagManager additionalEvents={event} />
         <Header ref={this.headerRef} showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">

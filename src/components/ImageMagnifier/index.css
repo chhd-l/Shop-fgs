@@ -55,7 +55,7 @@
   transition: all .2s linear !important;
 }
 .bigImageInnerBox div {
-  width: 200px;
-  height: 250px;
+  width: 300px;
+  height: 350px;
   float: left;
 }

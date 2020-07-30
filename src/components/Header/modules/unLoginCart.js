@@ -149,7 +149,7 @@ class UnloginCart extends React.Component {
                     <span className="minicart__pointer"></span>
                     <div className="d-flex minicart_freeshipping_info align-items-center">
                       <i className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></i>
-                      <p><FormattedMessage id="miniBasket" /></p>
+                      <p><FormattedMessage id="cart.miniCartTitle" /></p>
                     </div>
                   </div>
                   <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">

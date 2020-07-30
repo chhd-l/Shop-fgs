@@ -8,6 +8,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ConfirmTooltip from '@/components/ConfirmTooltip'
 import PetModal from '@/components/PetModal'
+import BannerTip from '@/components/BannerTip'
 import { Link } from 'react-router-dom'
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
 import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant'
@@ -19,8 +20,8 @@ import {
   deleteItemFromBackendCart,
   switchSize
 } from '@/api/cart'
-import CART_CAT from "@/assets/images/CART_CAT.jpg";
-import CART_DOG from "@/assets/images/CART_DOG.jpg";
+import catsImg from "@/assets/images/banner-list/cats.jpg"
+import dogsImg from "@/assets/images/banner-list/dogs.jpg"
 import Loading from "@/components/Loading"
 
 @inject("checkoutStore")
@@ -172,11 +173,11 @@ class LoginCart extends React.Component {
       })
     }, 3000)
   }
-  handleAmountChange (e, item) {
+  handleAmountChange (value, item) {
     this.setState({
       errorShow: false
     })
-    const val = e.target.value
+    const val = value
     if (val === '') {
       item.buyCount = val
       this.setState({
@@ -197,7 +198,10 @@ class LoginCart extends React.Component {
         tmp = quantityMaxLimit
       }
       item.buyCount = tmp
-      this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
+      clearTimeout(this.amountTimer);
+      this.amountTimer = setTimeout(() => {
+        this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
+      }, 500)
     }
   }
   addQuantity (item) {
@@ -358,7 +362,7 @@ class LoginCart extends React.Component {
                         value={pitem.buyCount}
                         min="1"
                         max="10"
-                        onChange={(e) => this.handleAmountChange(e, pitem)}
+                        onChange={(e) => this.handleAmountChange(e.target.value, pitem)}
                       />
                       <span
                         className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
@@ -435,7 +439,7 @@ class LoginCart extends React.Component {
                 <input
                   className="rc-quantity__input"
                   value={pitem.buyCount}
-                  onChange={(e) => this.handleAmountChange(e, pitem)}
+                  onChange={(e) => this.handleAmountChange(e.target.value, pitem)}
                   min="1"
                   max="10" />
                 <span
@@ -603,8 +607,7 @@ class LoginCart extends React.Component {
       selectedSpecIds.push(selectedItem.specId)
       selectedSpecDetailId.push(selectedItem.specDetailId)
     }
-    
-    // debugger
+
     const selectedGoodsInfo = pitem.goodsInfos.filter(ele => ele.mockSpecIds.sort().toString() === selectedSpecIds.sort().toString()
       && ele.mockSpecDetailIds.sort().toString() === selectedSpecDetailId.sort().toString())[0]
     // this.setState({ deleteLoading: true })
@@ -633,13 +636,14 @@ class LoginCart extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Header ref={this.headerRef} showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
+          <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
             {(changSizeLoading || productList.length > 0) && <>
               <div className="rc-layout-container rc-one-column">
                 <div className="rc-column">
                   <FormattedMessage id="continueShopping">
                     {txt => (
-                      <a className="ui-cursor-pointer-pure" onClick={(e) => this.goBack(e)} title={txt}>
+                      <a tabIndex="1" className="ui-cursor-pointer-pure" onClick={(e) => this.goBack(e)} title={txt}>
                         <span className="rc-header-with-icon rc-header-with-icon--gamma">
                           <span className="rc-icon rc-left rc-iconography"></span>
                           {txt}
@@ -649,7 +653,7 @@ class LoginCart extends React.Component {
                   </FormattedMessage>
                 </div>
               </div>
-              <div className="rc-layout-container rc-three-column cart cart-page">
+              <div className="rc-layout-container rc-three-column cart cart-page pt-0">
                 <div className="rc-column rc-double-width">
                   <div className="rc-padding-bottom--xs cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
                     <aside className="rc-alert rc-alert--error rc-alert--with-close text-break" role="alert">
@@ -658,7 +662,7 @@ class LoginCart extends React.Component {
                   </div>
                   <div className="rc-padding-bottom--xs">
                     <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                      <FormattedMessage id="cart.yourBasket" />
+                      <FormattedMessage id="cart.yourShoppingCart" />
                     </h5>
                   </div>
                   <div id="product-cards-container">
@@ -671,7 +675,7 @@ class LoginCart extends React.Component {
                 <div className="rc-column totals cart__total">
                   <div className="rc-padding-bottom--xs">
                     <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                      <FormattedMessage id="total" />
+                      <FormattedMessage id="orderSummary" />
                     </h5>
                   </div>
                   <div id="J_sidecart_container">
@@ -694,29 +698,28 @@ class LoginCart extends React.Component {
             {
               productList.length == 0 && !checkoutLoading && <>
                 <div className="rc-text-center">
-                  <div className="rc-beta rc-margin-bottom--sm">
-                    <FormattedMessage id="cart.yourBasket" />
+                  <div className="rc-beta mb-1">
+                    <FormattedMessage id="cart.yourShoppingCart" />
                   </div>
-                  <div className="rc-gamma title-empty">
+                  <div className="rc-gamma title-empty mb-0">
                     <FormattedMessage id="header.basketEmpty" />
                   </div>
                 </div>
                 <div className="content-asset">
-                  <div className="rc-bg-colour--brand3 rc-padding--sm">
+                  <div className="rc-bg-colour--brand3 rc-padding--sm pt-0 pb-0">
                     <div className="rc-max-width--lg rc-padding-x--lg--mobile">
                       <div>
                         <div className="rc-alpha inherit-fontsize">
-                          <p style={{ textAlign: 'center' }}>
+                          <p className="text-center">
                             <FormattedMessage id="cart.fullPrice" />
                           </p>
                         </div>
-                        <div className="d-flex justify-content-between flex-wrap ui-pet-item text-center">
+                        <div className="d-flex justify-content-between flex-wrap ui-pet-item text-center" style={{ margin: '0 10%' }}>
                           <div className="ui-item border radius-3">
                             <Link to="/list/dogs">
                               <img
                                 className="w-100"
-                                style={{ transform: 'scale(.8)' }}
-                                src={CART_DOG}
+                                src={dogsImg}
                                 alt="Dog" />
                               <br /><h4 className="card__title red">
                                 <FormattedMessage id="cart.dogDiet" />
@@ -727,8 +730,7 @@ class LoginCart extends React.Component {
                             <Link to="/list/cats">
                               <img
                                 className="w-100"
-                                style={{ padding: '3rem 0 4rem' }}
-                                src={CART_CAT}
+                                src={catsImg}
                                 alt="Cat" />
                               <br />
                               <h4 className="card__title red">

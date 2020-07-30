@@ -1001,7 +1001,7 @@ class PaymentComp extends React.Component {
                                   input-setup="true"
                                 >
                                   <input
-                                    type="text"
+                                    type="number"
                                     className="rc-input__control form-control email"
                                     id="number"
                                     value={creditCardInfo.cardNumber}

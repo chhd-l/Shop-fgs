@@ -85,6 +85,7 @@ const en_US = {
   "header.carouselInfo11": "ROYAL CANIN® CLUB for kittens",
   "header.toBegin": "To begin",
   "header.toLearnMore": "To learn more",
+  'home.promotionTip': '10% off first purchase + 5% off every autoship order',
   "home.productsCategory": "Our products by category",
   "home.pageNotFound": "Page not found…",
   "home.pageNotFoundInfo":
@@ -149,13 +150,14 @@ const en_US = {
   "cart.errorInfo3":
     "*Your order amount has not yet reached the minimum amount for free shipping （{val}）",
   "cart.errorInfo4": "You cannot place your order, Off shelves product: {val}",
-  "cart.yourBasket": "Your basket",
+  "cart.yourShoppingCart": "Your shopping cart",
   "cart.fullPrice": "FULL RICE FOR YOUR PET",
   "cart.dogDiet": "Choose a diet for your dog",
   "cart.catDiet": "Choose a diet for your cat",
   "cart.deletInfo": "Delete product?",
   "cart.deletInfo2":
     "Are you sure you want to remove this item from your cart?",
+  "cart.miniCartTitle": "10% off first purchase, plus 5% off every order with autoship",
   "footer.toTheTop": "To the top",
   "footer.aboutRoyalCanin": "ABOUT ROYAL CANIN®",
   "footer.contactRoyalCanin": "Contact ROYAL CANIN®",
@@ -417,7 +419,7 @@ const en_US = {
   "subscription.promotionTip": "{val} on your first order of the subscription",
   "subscription.OnYourFirst": "on your first",
   "subscription.promotionTip2":
-    "Simply select Subscription at checkout for easy regular deliveries",
+    "Simply select autoship at checkout for easy regular deliveries. With automatic shipping, you'll become a member and get 10% off your first order and 5% off every autoship order.",
   "subscription.notYet": "Not Yet Shipped",
   "subscription.frequency": "Frequency",
   "subscription.nextOrder": "Next Order",
@@ -592,5 +594,10 @@ const en_US = {
   FAQdesc:
     "If you have a question. Look below to see if there is an answer. If You can't find what you are looking for. {val} to contact us.",
   startFrom: "Start from",
+  'autoship': 'Autoship',
+  'orderSummary': 'Order Summary',
+  'price': 'Price',
+  'listPrice': 'List price',
+  'anonymous': 'Anonymous'
 };
 export default en_US;
