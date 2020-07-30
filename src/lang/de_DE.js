@@ -142,7 +142,7 @@ const en_US = {
   "cart.errorMaxCate": "Der Warenkorb darf 30 Artikel nicht überschreiten",
   "cart.errorInfo2": "Sie können Ihre Bestellung nicht aufgeben, nicht vorrätiges Produkt:{val}",
   "cart.errorInfo3": "* Ihr Bestellbetrag hat noch nicht den Mindestbetrag für kostenlosen Versand erreicht ({val})",
-  "cart.yourBasket": "Dein Korb",
+  "cart.yourShoppingCart": "Ihr Warenkorb",
   "cart.fullPrice": "VOLLREIS FÜR IHR HAUSTIER",
   "cart.dogDiet": "Wählen Sie eine Diät für Ihren Hund",
   "cart.catDiet": "Wählen Sie eine Diät für Ihre Katze",

@@ -405,7 +405,7 @@ class List extends React.Component {
                                                 <h3
                                                   className="rc-card__title rc-gamma ui-text-overflow-line2 text-break font16 mb-1"
                                                   title={item.goodsName}
-                                                  style={{ lineHeight: 1.2, minHeight: '3.4rem' }}>
+                                                  style={{ lineHeight: 1.2, minHeight: '3.7rem' }}>
                                                   {item.goodsName}
                                                 </h3>
                                               </header>
@@ -422,7 +422,7 @@ class List extends React.Component {
                                               </div>
                                               <span className='comments rc-margin-left--xs rc-text-colour--text'>({item.goodsEvaluateNum})</span>
                                             </div>
-                                            <div className="text-center" style={{ color: '#4a4a4a' }}>
+                                            <div className="text-center" style={{ color: '#4a4a4a', opacity: item.goodsInfos.length > 1 ? 1 : 0 }}>
                                               <FormattedMessage id="startFrom" />
                                             </div>
                                             <div className="d-flex justify-content-center">
@@ -430,7 +430,14 @@ class List extends React.Component {
                                                 <div className={`rc-full-width`} >
                                                   <span style={{ color: '#323232', fontWeight: 400 }} >
                                                     {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.marketPrice || 0)))}{' '}
-                                                    <span className="text-line-through" style={{ fontSize: '.8em' }}>{formatMoney(item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice)}</span>
+                                                    {
+                                                      item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice && item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice > 0
+                                                        ? <span className="text-line-through" style={{ fontSize: '.8em' }}>
+                                                          {formatMoney(item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice)}
+                                                        </span>
+                                                        : null
+                                                    }
+
                                                   </span>
                                                 </div>
                                                 {
@@ -442,8 +449,8 @@ class List extends React.Component {
                                                       <span className="rc-icon rc-refresh--xs rc-brand1 "></span>
                                                       <span
                                                         className="position-relative red-text position-absolute"
-                                                        style={{ fontSize: '.6em', top: '50%', transform: 'translateY(-50%)' }}>
-                                                        <FormattedMessage id="details.Subscription" />
+                                                        style={{ fontSize: '.7em', top: '50%', transform: 'translateY(-50%)' }}>
+                                                        <FormattedMessage id="autoship" />
                                                       </span>
                                                     </div>
                                                     : null

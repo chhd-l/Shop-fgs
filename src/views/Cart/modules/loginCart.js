@@ -641,7 +641,7 @@ class LoginCart extends React.Component {
                 <div className="rc-column">
                   <FormattedMessage id="continueShopping">
                     {txt => (
-                      <a className="ui-cursor-pointer-pure" onClick={(e) => this.goBack(e)} title={txt}>
+                      <a tabIndex="1" className="ui-cursor-pointer-pure" onClick={(e) => this.goBack(e)} title={txt}>
                         <span className="rc-header-with-icon rc-header-with-icon--gamma">
                           <span className="rc-icon rc-left rc-iconography"></span>
                           {txt}
@@ -651,7 +651,7 @@ class LoginCart extends React.Component {
                   </FormattedMessage>
                 </div>
               </div>
-              <div className="rc-layout-container rc-three-column cart cart-page">
+              <div className="rc-layout-container rc-three-column cart cart-page pt-0">
                 <div className="rc-column rc-double-width">
                   <div className="rc-padding-bottom--xs cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
                     <aside className="rc-alert rc-alert--error rc-alert--with-close text-break" role="alert">
@@ -660,7 +660,7 @@ class LoginCart extends React.Component {
                   </div>
                   <div className="rc-padding-bottom--xs">
                     <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                      <FormattedMessage id="cart.yourBasket" />
+                      <FormattedMessage id="cart.yourShoppingCart" />
                     </h5>
                   </div>
                   <div id="product-cards-container">
@@ -673,7 +673,7 @@ class LoginCart extends React.Component {
                 <div className="rc-column totals cart__total">
                   <div className="rc-padding-bottom--xs">
                     <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                      <FormattedMessage id="total" />
+                      <FormattedMessage id="orderSummary" />
                     </h5>
                   </div>
                   <div id="J_sidecart_container">
@@ -697,7 +697,7 @@ class LoginCart extends React.Component {
               productList.length == 0 && !checkoutLoading && <>
                 <div className="rc-text-center">
                   <div className="rc-beta rc-margin-bottom--sm">
-                    <FormattedMessage id="cart.yourBasket" />
+                    <FormattedMessage id="cart.yourShoppingCart" />
                   </div>
                   <div className="rc-gamma title-empty">
                     <FormattedMessage id="header.basketEmpty" />
