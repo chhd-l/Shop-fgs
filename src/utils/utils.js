@@ -18,8 +18,8 @@ export function formatMoney (val, currency = 1) {
   }
   val = val + ''
   let ret = val.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-  const mapEnum = { 1: '$', 2: 'Mex$' }
-  return `${mapEnum[currency]} ${ret}`
+  // const mapEnum = { 1: '$', 2: 'Mex$' }
+  // return `${mapEnum[currency]} ${ret}`
 
   let currencyObj = {}
   if(sessionStorage.getItem('currency')) {
@@ -32,7 +32,7 @@ export function formatMoney (val, currency = 1) {
   //     currencyObj = res.context.currency
   //   })
   // }
-  
+  // console.log(currencyObj.valueEn, 'currencyObj.valueEn')
   return `${currencyObj.valueEn} ${ret}`
 
 }
