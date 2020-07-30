@@ -260,6 +260,14 @@ class Details extends React.Component {
                 })
               })
           }
+          let images = []
+          if(res.context.goodsInfos.every(el => !el.goodsInfoImg)) {
+            if(res.context.images.length) {
+              images = res.context.images
+            }
+          }else {
+            images = res.context.goodsInfos.filter(el => el.goodsInfoImg)
+          }
           this.setState(
             {
               details: Object.assign({},
@@ -272,8 +280,9 @@ class Details extends React.Component {
                   goodsSpecs: res.context.goodsSpecs
                 },
                 { goodsCategory: [this.specie, this.productRange.join('&'), this.format.join('&')].join('/') }),
+                images: images,
               // images: res.context.images.concat(res.context.goodsInfos),
-              images: res.context.goodsInfos,
+              // images: res.context.goodsInfos.every(el => !el.goodsInfoImg)?res.context.images: res.context.goodsInfos,
               specList
             },
             () => {
