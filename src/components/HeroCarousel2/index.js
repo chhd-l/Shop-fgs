@@ -37,7 +37,7 @@ function SamplePrevArrow (props) {
   );
 }
 
-class HeroCarousel extends React.Component {
+class HeroCarousel2 extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -279,4 +279,4 @@ class HeroCarousel extends React.Component {
   }
 }
 
-export default HeroCarousel
+export default HeroCarousel2

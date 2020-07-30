@@ -23,9 +23,6 @@ class Home extends React.Component {
     }
   }
   async componentDidMount () {
-    getBanner().then(res => {
-      console.log(res, 'ressssss')
-    })
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
