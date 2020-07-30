@@ -58,6 +58,7 @@ class Details extends React.Component {
       quantityMinLimit: 1,
       quantityMaxLimit: 30,
       currentUnitPrice: 0,
+      currentLinePrice: 0,
       currentSubscriptionPrice: 0,
       imageMagnifierCfg: {
         show: false,
@@ -108,7 +109,7 @@ class Details extends React.Component {
     return this.props.checkoutStore
   }
   matchGoods () {
-    let { specList, details, currentUnitPrice, currentSubscriptionPrice, stock } = this.state
+    let { specList, details, currentUnitPrice, currentLinePrice, currentSubscriptionPrice, stock } = this.state
     let selectedArr = []
     let idArr = []
     specList.map(el => {
@@ -129,16 +130,17 @@ class Details extends React.Component {
         }
       }
       item.specText = specTextArr.join(' ')
-      if (item.mockSpecDetailIds.join(',') === idArr.join(',')) {
+      if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
         item.selected = true
         currentUnitPrice = item.salePrice
+        currentLinePrice = item.linePrice
         currentSubscriptionPrice = item.subscriptionPrice
         stock = item.stock
       } else {
         item.selected = false
       }
     })
-    this.setState({ details, currentUnitPrice, currentSubscriptionPrice, stock }, () => {
+    this.setState({ details, currentUnitPrice, currentLinePrice, currentSubscriptionPrice, stock }, () => {
       this.updateInstockStatus();
     })
   }
@@ -605,6 +607,7 @@ class Details extends React.Component {
       quantityMinLimit,
       instockStatus,
       currentUnitPrice,
+      currentLinePrice,
       currentSubscriptionPrice,
       errMsg,
       addToCartLoading,
@@ -717,14 +720,18 @@ class Details extends React.Component {
                                   data-buybox="singlepruchase"
                                 >
                                   {!initing && <>
-                                    <div className="product-pricing__card__head d-flex align-items-center">
-                                      <div className="rc-input product-pricing__card__head__title">
-                                        <FormattedMessage id="listPrice" />
-                                      </div>
-                                      <b className="product-pricing__card__head__price red rc-padding-y--none">
-                                        {formatMoney(currentUnitPrice)}
-                                      </b>
-                                    </div>
+                                    {
+                                      currentLinePrice && currentLinePrice > 0
+                                        ? <div className="product-pricing__card__head d-flex align-items-center">
+                                          <div className="rc-input product-pricing__card__head__title">
+                                            <FormattedMessage id="listPrice" />
+                                          </div>
+                                          <b className="product-pricing__card__head__price red rc-padding-y--none">
+                                            {formatMoney(currentLinePrice)}
+                                          </b>
+                                        </div>
+                                        : null
+                                    }
                                     <div className="product-pricing__card__head d-flex align-items-center">
                                       < div className="rc-input product-pricing__card__head__title">
                                         <FormattedMessage id="price" />
