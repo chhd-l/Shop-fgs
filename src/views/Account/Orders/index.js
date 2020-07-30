@@ -11,7 +11,7 @@ import Selection from '@/components/Selection'
 import Pagination from '@/components/Pagination'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Link } from 'react-router-dom';
-import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
+import { formatMoney, getPreMonthDay, dateFormat, getDictionary } from "@/utils/utils"
 import { batchAdd } from "@/api/payment";
 import { getOrderList, getOrderDetails } from "@/api/order"
 import store from 'storejs'
@@ -183,7 +183,9 @@ class AccountOrders extends React.Component {
         specText: ele.specDetails,
         buyCount: ele.num,
         salePrice: ele.price,
-        goodsInfoId: ele.skuId
+        goodsInfoId: ele.skuId,
+        subscriptionPrice: ele.subscriptionPrice,
+        subscriptionStatus: ele.subscriptionStatus
       }
     })
     try {
@@ -218,14 +220,31 @@ class AccountOrders extends React.Component {
         billingAddress: tmpBillingAddress,
         commentOnDelivery: detailResCt.buyerRemark
       })
-
       this.props.checkoutStore.setLoginCartData(tradeItems)
+      if (detailResCt.subscriptionResponseVO) {
+        const cycleTypeId = detailResCt.subscriptionResponseVO.cycleTypeId
+
+        let dictList = await Promise.all([
+          getDictionary({ type: 'Frequency_week' }),
+          getDictionary({ type: 'Frequency_month' })
+        ])
+        sessionStorage.setItem('rc-subform', JSON.stringify({
+          buyWay: 'frequency',
+          frequencyName: [...dictList[0], ...dictList[1]].filter(el => el.id === cycleTypeId)[0].name,
+          frequencyId: cycleTypeId
+        }))
+      }
       sessionStorage.setItem('rc-tid', order.id)
       this.props.checkoutStore.setCartPrice({
         totalPrice: order.tradePrice.totalPrice,
         tradePrice: order.tradePrice.originPrice,
-        discountPrice: order.tradePrice.discountsPrice
+        discountPrice: order.tradePrice.discountsPrice,
+        deliveryPrice: order.tradePrice.deliveryPrice,
+        promotionDesc: order.tradePrice.promotionDesc,
+        promotionDiscount: order.tradePrice.deliveryPrice,
+        subscriptionPrice: order.tradePrice.subscriptionPrice
       })
+
       this.props.history.push('/payment/payment')
     } catch (err) {
       console.log(err)

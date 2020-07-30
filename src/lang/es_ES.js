@@ -131,7 +131,7 @@ const en_US = {
   'cart.errorInfo': 'El número no puede ser inferior a 1',
   'cart.errorInfo2': 'No puede realizar su pedido, producto agotado: {val}',
   'cart.errorInfo3': '*El monto de su pedido aún no ha alcanzado el monto mínimo para envío gratuito ({val})',
-  'cart.yourBasket': 'Tu canasta',
+  "cart.yourShoppingCart": "Tu carrito de la compra",
   'cart.fullPrice': 'Descubre nuestras dietas veterinarias',
   'cart.dogDiet': 'Dietas de veterinaria para perros',
   'cart.catDiet': 'Dietas de veterinaria para gatos',

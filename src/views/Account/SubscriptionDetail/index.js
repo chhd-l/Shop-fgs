@@ -154,11 +154,11 @@ class SubscriptionDetail extends React.Component {
       },
     };
   }
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
 
-  async componentDidMount() {
+  async componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -206,7 +206,7 @@ class SubscriptionDetail extends React.Component {
       subId: this.props.match.params.subscriptionNumber,
     });
   }
-  onDateChange(date) {
+  onDateChange (date) {
     let { subDetail } = this.state;
     subDetail.nextDeliveryTime = moment(date).format("YYYY-MM-DD");
     let param = {
@@ -236,7 +236,7 @@ class SubscriptionDetail extends React.Component {
       });
   }
   //订阅数量更改
-  async onQtyChange() {
+  async onQtyChange () {
     try {
       // this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
       //await this.doUpdateDetail(param)
@@ -246,7 +246,7 @@ class SubscriptionDetail extends React.Component {
       this.showErrMsg(err);
     }
   }
-  get isLogin() {
+  get isLogin () {
     return this.props.loginStore.isLogin;
   }
   // get totalPrice () {
@@ -258,7 +258,7 @@ class SubscriptionDetail extends React.Component {
   // get discountPrice () {
   //   return this.props.checkoutStore.discountPrice
   // }
-  // get deliveryPrice(){
+  // get deliveryPrice(){ 
   //   return this.props.checkoutStore.deliveryPrice
   // }
   // get subscriptionPrice(){
@@ -267,7 +267,7 @@ class SubscriptionDetail extends React.Component {
   // get promotionDesc(){
   //   return this.props.checkoutStore.promotionDesc
   // }
-  async doUpdateDetail(param) {
+  async doUpdateDetail (param) {
     try {
       this.setState({ loading: true });
       await updateDetail(param);
@@ -277,7 +277,7 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   }
-  async getDetail() {
+  async getDetail () {
     const lang = this.props.intl.locale || 'en'
     try {
       this.setState({ loading: true });
@@ -289,7 +289,7 @@ class SubscriptionDetail extends React.Component {
         let orderStatus = ORDER_STATUS_ENUM[lang][el.tradeState.flowState] || el.tradeState.flowState
         return { value: el.id, name: el.id + " " + orderStatus };
       });
-      
+
       let now = new Date(res.defaultLocalDateTime);
       now.setDate(now.getDate() + 4);
       this.setState({
@@ -297,8 +297,8 @@ class SubscriptionDetail extends React.Component {
         currentCardInfo: subDetail.paymentInfo
           ? subDetail.paymentInfo
           : {
-              cardNumber: "xxxx",
-            },
+            cardNumber: "xxxx",
+          },
         currentDeliveryAddress: subDetail.consignee,
         currentBillingAddress: subDetail.invoice,
         orderOptions: orderOptions,
@@ -311,7 +311,7 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   }
-  async doGetPromotionPrice(promotionCode = "") {
+  async doGetPromotionPrice (promotionCode = "") {
     try {
       //计算Tota
       this.setState({ loading: true });
@@ -364,9 +364,9 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   }
-  hanldeClickSubmit() {
+  hanldeClickSubmit () {
     let { modalType, subDetail } = this.state;
-    this.setState({loading: true, modalShow: false})
+    this.setState({ loading: true, modalShow: false })
     if (modalType === "skipNext") {
       skipNextSub({ subscribeId: subDetail.subscribeId }).then((res) => {
         window.location.reload();
@@ -396,7 +396,7 @@ class SubscriptionDetail extends React.Component {
       })
     }
   }
-  showErrMsg(msg, type, fn) {
+  showErrMsg (msg, type, fn) {
     if (type === "success") {
       this.setState({
         successTipVisible: true,
@@ -422,13 +422,13 @@ class SubscriptionDetail extends React.Component {
       }, 3000);
     }
   }
-  handlerChange(e) {
+  handlerChange (e) {
     let promotionInputValue = e.target.value;
     this.setState({
       promotionInputValue,
     });
   }
-  render() {
+  render () {
     const data = this.state;
     const { checkoutStore } = this.props;
     let {
@@ -553,7 +553,7 @@ class SubscriptionDetail extends React.Component {
                             title +
                             "," +
                             this.props.intl.messages[
-                              "subscription.BillingAddress"
+                            "subscription.BillingAddress"
                             ];
                         }
                         //增加返回changeField字段
@@ -703,256 +703,85 @@ class SubscriptionDetail extends React.Component {
                     )}
                   </div>
                   <div className="content-asset">
-                    {this.state.loading ? (
-                      <div className="mt-4">
-                        <Skeleton
-                          color="#f5f5f5"
-                          width="100%"
-                          height="50%"
-                          count={4}
-                        />
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="rc-layout-container rc-three-column mgb30 operationBox">
-                          <div className="rc-column column-contanier" style={{width: '50%'}}>
+                    {this.state.loading && <div className="mt-4">
+                      <Skeleton
+                        color="#f5f5f5"
+                        width="100%"
+                        height="50%"
+                        count={4}
+                      />
+                    </div>}
+                    <div className={`${this.state.loading ? 'hidden' : ''} `}>
+                      <div className="rc-layout-container rc-three-column mgb30 operationBox">
+                        <div className="rc-column column-contanier" style={{ width: '50%' }}>
+                          <div
+                            className="rc-card-container"
+                            style={{ borderRight: "1px solid #ddd" }}
+                          >
+                            {/* <div className="bt-icon"> */}
                             <div
-                              className="rc-card-container"
-                              style={{ borderRight: "1px solid #ddd" }}
+                              className="v-center"
+                              style={{ marginRight: "20px" }}
                             >
-                              {/* <div className="bt-icon"> */}
-                              <div
-                                className="v-center"
-                                style={{ marginRight: "20px" }}
-                              >
-                                <i className="rc-icon rc-refresh--xs rc-brand1"></i>
-                              </div>
+                              <i className="rc-icon rc-refresh--xs rc-brand1"></i>
+                            </div>
 
-                              {/* <button
+                            {/* <button
                                   className="rc-btn less-width-xs rc-btn--icon rc-icon rc-search--xs rc-iconography not-yet-btn"
                                   aria-label="Search"></button> */}
-                              {/* </div> */}
-                              <div className="rc-card-content">
-                                <b className="">
-                                  <FormattedMessage id="subscription.previousOrders" />
-                                </b>
-                                <h4
-                                  className="rc-card__meta order-Id"
-                                  style={{ marginTop: "10px" }}
-                                >
-                                  <Selection
-                                    optionList={this.state.orderOptions}
-                                    selectedItemChange={(el) => {
-                                      const { history } = this.props;
-                                      history.push(
-                                        `/account/orders-detail/${el.value}`
-                                      );
-                                    }}
-                                    selectedItemData={{
-                                      value: this.state.orderOptions.length
-                                        ? this.state.orderOptions[0].value
-                                        : "",
-                                    }}
-                                    customStyleType="select-one"
-                                  />
-                                </h4>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="rc-column column-contanier">
-                            <div
-                              className="rc-card-container"
-                              style={{ borderRight: "1px solid #ddd" }}
-                            >
-                              <div
-                                className="v-center"
-                                style={{ marginRight: "20px" }}
+                            {/* </div> */}
+                            <div className="rc-card-content">
+                              <b className="">
+                                <FormattedMessage id="subscription.previousOrders" />
+                              </b>
+                              <h4
+                                className="rc-card__meta order-Id"
+                                style={{ marginTop: "10px" }}
                               >
-                                <i className="rc-icon rc-refresh--xs rc-brand1"></i>
-                              </div>
-                              <div className="rc-card-content">
-                                <b className="">
-                                  <FormattedMessage id="subscription.frequency"></FormattedMessage>
-                                </b>
-                                <h1
-                                  className="rc-card__meta order-Id"
-                                  style={{ marginTop: "10px" }}
-                                >
-                                  <Selection
-                                    optionList={this.state.frequencyList}
-                                    selectedItemChange={(el) => {
-                                      let param = {
-                                        subscribeId: subDetail.subscribeId,
-                                        cycleTypeId: el.id,
-                                        goodsItems: subDetail.goodsInfo.map(
-                                          (el) => {
-                                            return {
-                                              skuId: el.skuId,
-                                              subscribeNum: el.subscribeNum,
-                                              subscribeGoodsId:
-                                                el.subscribeGoodsId,
-                                            };
-                                          }
-                                        ),
-                                      };
-                                      //增加返回changeField字段
-                                      Object.assign(param, {
-                                        changeField: this.props.intl.messages[
-                                          "subscription.frequency"
-                                        ],
-                                      });
-                                      this.setState({ loading: true });
-                                      updateDetail(param)
-                                        .then((res) => {
-                                          this.setState({ loading: false });
-                                          // window.location.reload();
-                                          this.showErrMsg(
-                                            this.props.intl.messages
-                                              .saveSuccessfullly,
-                                            "success",
-                                            () => this.getDetail()
-                                          );
-                                        })
-                                        .catch((err) => {
-                                          this.setState({ loading: false });
-                                        });
-                                    }}
-                                    selectedItemData={{
-                                      value: subDetail.frequency || "",
-                                    }}
-                                    customStyleType="select-one"
-                                    type="freqency"
-                                    disabled={subDetail.subscribeStatus !== '0'}
-                                  />
-                                </h1>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="rc-column">
-                            <div className="rc-card-container">
-                              <div
-                                className="v-center"
-                                style={{ marginRight: "20px" }}
-                              >
-                                <i className="rc-icon rc-refresh--xs rc-brand1"></i>
-                              </div>
-                              <div className="rc-card-content">
-                                <b className="">
-                                  <FormattedMessage id="subscription.receiveDate"></FormattedMessage>
-                                </b>
-                                <h1
-                                  className="rc-card__meta order-Id"
-                                  style={{ marginTop: "10px" }}
-                                >
-                                  {/* <span class="rc-input"> */}
-                                  {/* <span
-                                className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs"
-                                input-setup="true"
-                              > */}
-
-                                  <DatePicker
-                                    className="receiveDate"
-                                    placeholder="Select Date"
-                                    dateFormat="yyyy-MM-dd"
-                                    minDate={this.state.minDate}
-                                    selected={
-                                      subDetail.nextDeliveryTime
-                                        ? new Date(subDetail.nextDeliveryTime)
-                                        : new Date()
-                                    }
-                                    disabled={subDetail.subscribeStatus !== '0'}
-                                    onChange={(date) => this.onDateChange(date)}
-                                  />
-                                  {/* </span> */}
-                                </h1>
-                              </div>
+                                <Selection
+                                  optionList={this.state.orderOptions}
+                                  selectedItemChange={(el) => {
+                                    const { history } = this.props;
+                                    history.push(
+                                      `/account/orders-detail/${el.value}`
+                                    );
+                                  }}
+                                  selectedItemData={{
+                                    value: this.state.orderOptions.length
+                                      ? this.state.orderOptions[0].value
+                                      : "",
+                                  }}
+                                  customStyleType="select-one"
+                                />
+                              </h4>
                             </div>
                           </div>
                         </div>
-                        <div
-                          className="rc-layout-container rc-three-column mgb30"
-                          style={{ borderBottom: "1px solid #ddd" }}
-                        >
+                        <div className="rc-column column-contanier">
                           <div
-                            className="rc-padding-bottom--xs cart-error-messaging cart-error"
-                            style={{
-                              display: this.state.errorShow ? "block" : "none",
-                            }}
+                            className="rc-card-container"
+                            style={{ borderRight: "1px solid #ddd" }}
                           >
-                            <aside
-                              className="rc-alert rc-alert--error rc-alert--with-close text-break"
-                              role="alert"
+                            <div
+                              className="v-center"
+                              style={{ marginRight: "20px" }}
                             >
-                              <span style={{ paddingLeft: 0 }}>
-                                {this.state.errorMsg}
-                              </span>
-                            </aside>
-                          </div>
-                          <aside
-                            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-                              this.state.successTipVisible ? "" : "hidden"
-                            }`}
-                            role="alert"
-                          >
-                            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
-                              <FormattedMessage id="saveSuccessfullly" />
-                            </p>
-                          </aside>
-                          <div className="rc-column product-container rc-double-width">
-                            {
-                              subDetail.subscribeStatus === '0' && (
-                                <div
-                              className="text-right"
-                              style={{
-                                position: "absolute",
-                                paddingRight: "60px",
-                              }}
-                            >
-                              <a
-                                className="rc-styled-link red-text"
-                                style={{
-                                  display: !isChangeQuatity
-                                    ? "inline-block"
-                                    : "none",
-                                }}
-                                onClick={() =>
-                                  this.setState({
-                                    isChangeQuatity: true,
-                                    currentGoodsInfo: JSON.parse(
-                                      JSON.stringify(subDetail.goodsInfo)
-                                    ),
-                                  })
-                                }
+                              <i className="rc-icon rc-refresh--xs rc-brand1"></i>
+                            </div>
+                            <div className="rc-card-content">
+                              <b className="">
+                                <FormattedMessage id="subscription.frequency"></FormattedMessage>
+                              </b>
+                              <h1
+                                className="rc-card__meta order-Id"
+                                style={{ marginTop: "10px" }}
                               >
-                                <FormattedMessage id="edit"></FormattedMessage>
-                              </a>
-                              <a
-                                className="rc-styled-link red-text"
-                                style={{
-                                  display: isChangeQuatity
-                                    ? "inline-block"
-                                    : "none",
-                                }}
-                                onClick={() => {
-                                  this.setState({ loading: true });
-                                  window.location.reload();
-                                }}
-                              >
-                                <FormattedMessage id="Cancel"></FormattedMessage>
-                              </a>
-                              &nbsp;&nbsp;&nbsp;
-                              <a
-                                className="rc-styled-link red-text"
-                                style={{
-                                  display: isChangeQuatity
-                                    ? "inline-block"
-                                    : "none",
-                                }}
-                                onClick={async () => {
-                                  try {
-                                    subDetail.goodsInfo = this.state.currentGoodsInfo;
+                                <Selection
+                                  optionList={this.state.frequencyList}
+                                  selectedItemChange={(el) => {
                                     let param = {
                                       subscribeId: subDetail.subscribeId,
+                                      cycleTypeId: el.id,
                                       goodsItems: subDetail.goodsInfo.map(
                                         (el) => {
                                           return {
@@ -964,191 +793,296 @@ class SubscriptionDetail extends React.Component {
                                         }
                                       ),
                                     };
+                                    //增加返回changeField字段
                                     Object.assign(param, {
                                       changeField: this.props.intl.messages[
-                                        "subscription.change"
+                                        "subscription.frequency"
                                       ],
                                     });
-                                    await this.doUpdateDetail(param);
-                                    await this.getDetail();
-                                    this.showErrMsg(
-                                      this.props.intl.messages
-                                        .saveSuccessfullly,
-                                      "success"
-                                    );
-                                    this.setState({
-                                      isChangeQuatity: false,
-                                      subDetail,
-                                    });
-                                  } catch (err) {
-                                    this.showErrMsg(err);
-                                  } finally {
-                                    this.setState({ loading: false });
+                                      this.setState({ loading: true });
+                                    updateDetail(param)
+                                      .then((res) => {
+                                        this.setState({ loading: false });
+                                        // window.location.reload();
+                                        this.showErrMsg(
+                                          this.props.intl.messages
+                                            .saveSuccessfullly,
+                                          "success",
+                                          () => this.getDetail()
+                                        );
+                                      })
+                                      .catch((err) => {
+                                        this.setState({ loading: false });
+                                      });
+                                  }}
+                                  selectedItemData={{
+                                      value: subDetail.frequency || "",
+                                  }}
+                                  customStyleType="select-one"
+                                  type="freqency"
+                                  disabled={subDetail.subscribeStatus !== '0'}
+                                />
+                              </h1>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="rc-column">
+                          <div className="rc-card-container">
+                            <div
+                              className="v-center"
+                              style={{ marginRight: "20px" }}
+                            >
+                              <i className="rc-icon rc-refresh--xs rc-brand1"></i>
+                            </div>
+                            <div className="rc-card-content">
+                              <b className="">
+                                <FormattedMessage id="subscription.receiveDate"></FormattedMessage>
+                              </b>
+                              <h1
+                                className="rc-card__meta order-Id"
+                                style={{ marginTop: "10px" }}
+                              >
+                                {/* <span class="rc-input"> */}
+                                {/* <span
+                                className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs"
+                                input-setup="true"
+                              > */}
+
+                                <DatePicker
+                                  className="receiveDate"
+                                  placeholder="Select Date"
+                                  dateFormat="yyyy-MM-dd"
+                                  minDate={this.state.minDate}
+                                  selected={
+                                    subDetail.nextDeliveryTime
+                                      ? new Date(subDetail.nextDeliveryTime)
+                                      : new Date()
                                   }
+                                  disabled={subDetail.subscribeStatus !== '0'}
+                                  onChange={(date) => this.onDateChange(date)}
+                                />
+                                {/* </span> */}
+                              </h1>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="rc-layout-container rc-three-column mgb30"
+                        style={{ borderBottom: "1px solid #ddd" }}
+                      >
+                        <div
+                          className="rc-padding-bottom--xs cart-error-messaging cart-error"
+                          style={{
+                            display: this.state.errorShow ? "block" : "none",
+                          }}
+                        >
+                          <aside
+                            className="rc-alert rc-alert--error rc-alert--with-close text-break"
+                            role="alert"
+                          >
+                            <span style={{ paddingLeft: 0 }}>
+                              {this.state.errorMsg}
+                            </span>
+                          </aside>
+                        </div>
+                        <aside
+                          className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                            this.state.successTipVisible ? "" : "hidden"
+                            }`}
+                          role="alert"
+                        >
+                          <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+                            <FormattedMessage id="saveSuccessfullly" />
+                          </p>
+                        </aside>
+                        <div className="rc-column product-container rc-double-width">
+                          {
+                            subDetail.subscribeStatus === '0' && (
+                              <div
+                                className="text-right"
+                                style={{
+                                  position: "absolute",
+                                  paddingRight: "60px",
                                 }}
                               >
-                                <FormattedMessage id="Save"></FormattedMessage>
-                              </a>
-                            </div>
-                              )
-                            }
-                            
-                            {subDetail.goodsInfo &&
-                              subDetail.goodsInfo.map((el, index) => (
-                                <div
-                                  className="rc-layout-container rc-five-column"
+                                <a
+                                  className="rc-styled-link red-text"
                                   style={{
-                                    height: "160px",
-                                    paddingRight: "60px",
+                                    display: !isChangeQuatity
+                                      ? "inline-block"
+                                      : "none",
+                                  }}
+                                  onClick={() =>
+                                    this.setState({
+                                      isChangeQuatity: true,
+                                      currentGoodsInfo: JSON.parse(
+                                        JSON.stringify(subDetail.goodsInfo)
+                                      ),
+                                    })
+                                  }
+                                >
+                                  <FormattedMessage id="edit"></FormattedMessage>
+                                </a>
+                                <a
+                                  className="rc-styled-link red-text"
+                                  style={{
+                                    display: isChangeQuatity
+                                      ? "inline-block"
+                                      : "none",
+                                  }}
+                                  onClick={() => {
+                                    this.setState({ loading: true });
+                                    window.location.reload();
                                   }}
                                 >
+                                  <FormattedMessage id="Cancel"></FormattedMessage>
+                                </a>
+                              &nbsp;&nbsp;&nbsp;
+                                <a
+                                  className="rc-styled-link red-text"
+                                  style={{
+                                    display: isChangeQuatity
+                                      ? "inline-block"
+                                      : "none",
+                                  }}
+                                  onClick={async () => {
+                                    try {
+                                      subDetail.goodsInfo = this.state.currentGoodsInfo;
+                                      let param = {
+                                        subscribeId: subDetail.subscribeId,
+                                        goodsItems: subDetail.goodsInfo.map(
+                                          (el) => {
+                                            return {
+                                              skuId: el.skuId,
+                                              subscribeNum: el.subscribeNum,
+                                              subscribeGoodsId:
+                                                el.subscribeGoodsId,
+                                            };
+                                          }
+                                        ),
+                                      };
+                                      Object.assign(param, {
+                                        changeField: this.props.intl.messages[
+                                          "subscription.change"
+                                        ],
+                                      });
+                                      await this.doUpdateDetail(param);
+                                      await this.getDetail();
+                                      this.showErrMsg(
+                                        this.props.intl.messages
+                                          .saveSuccessfullly,
+                                        "success"
+                                      );
+                                      this.setState({
+                                        isChangeQuatity: false,
+                                        subDetail,
+                                      });
+                                    } catch (err) {
+                                      this.showErrMsg(err);
+                                    } finally {
+                                      this.setState({ loading: false });
+                                    }
+                                  }}
+                                >
+                                  <FormattedMessage id="Save"></FormattedMessage>
+                                </a>
+                              </div>
+                            )
+                          }
+
+                          {subDetail.goodsInfo &&
+                            subDetail.goodsInfo.map((el, index) => (
+                              <div
+                                className="rc-layout-container rc-five-column"
+                                style={{
+                                  height: "160px",
+                                  paddingRight: "60px",
+                                }}
+                              >
+                                <div
+                                  className="rc-column flex-layout"
+                                  style={{ width: "80%" }}
+                                >
+                                  <div className="img-container">
+                                    <img src={el.goodsPic} />
+                                  </div>
                                   <div
-                                    className="rc-column flex-layout"
-                                    style={{ width: "80%" }}
+                                    className="v-center"
+                                    style={{
+                                      width: "200px",
+                                    }}
                                   >
-                                    <div className="img-container">
-                                      <img src={el.goodsPic} />
+                                    <p
+                                      style={{
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        overflowWrap: "normal",
+                                      }}
+                                    >
+                                      {el.goodsName}
+                                    </p>
+                                    <p
+                                      style={{
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                      }}
+                                    >
+                                      {el.specText}
+                                    </p>
+                                    <div>
+                                      <label
+                                        style={{
+                                          textDecoration: "line-through",
+                                        }}
+                                      >
+                                        {el.originalPrice}
+                                      </label>
+                                        &nbsp;&nbsp;
+                                        <label
+                                      // className="font-weight-bold"
+                                      // style={{color: '#ec001a'}}
+                                      >
+                                        {el.subscribePrice}
+                                      </label>
                                     </div>
+                                  </div>
+                                </div>
+                                <div
+                                  className="rc-column"
+                                  style={{ width: "20%" }}
+                                >
+                                  <div className="p-container rc-quantity text-right d-flex justify-content-end rc-content-v-middle ">
                                     <div
                                       className="v-center"
                                       style={{
-                                        width: "200px",
+                                        display: isChangeQuatity
+                                          ? "block"
+                                          : "none",
                                       }}
                                     >
-                                      <p
-                                        style={{
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
-                                          overflowWrap: "normal",
-                                        }}
-                                      >
-                                        {el.goodsName}
-                                      </p>
-                                      <p
-                                        style={{
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
-                                        }}
-                                      >
-                                        {el.specText}
-                                      </p>
-                                      <div>
-                                        <label
-                                          style={{
-                                            textDecoration: "line-through",
-                                          }}
-                                        >
-                                          {el.originalPrice}
-                                        </label>
-                                        &nbsp;&nbsp;
-                                        <label
-                                        // className="font-weight-bold"
-                                        // style={{color: '#ec001a'}}
-                                        >
-                                          {el.subscribePrice}
-                                        </label>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="rc-column"
-                                    style={{ width: "20%" }}
-                                  >
-                                    <div className="p-container rc-quantity text-right d-flex justify-content-end rc-content-v-middle ">
-                                      <div
-                                        className="v-center"
-                                        style={{
-                                          display: isChangeQuatity
-                                            ? "block"
-                                            : "none",
-                                        }}
-                                      >
-                                        <span
-                                          className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                          onClick={() => {
-                                            // if (el.subscribeNum > 1) {
-                                            //   el.subscribeNum = el.subscribeNum - 1
-                                            //   this.setState({ subDetail })
-                                            // }
-                                            let {
-                                              currentGoodsInfo,
-                                            } = this.state;
-                                            if (
+                                      <span
+                                        className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                                        onClick={() => {
+                                          // if (el.subscribeNum > 1) {
+                                          //   el.subscribeNum = el.subscribeNum - 1
+                                          //   this.setState({ subDetail })
+                                          // }
+                                          let {
+                                            currentGoodsInfo,
+                                          } = this.state;
+                                          if (
+                                            currentGoodsInfo[index]
+                                              .subscribeNum > 1
+                                          ) {
+                                            currentGoodsInfo[
+                                              index
+                                            ].subscribeNum =
                                               currentGoodsInfo[index]
-                                                .subscribeNum > 1
-                                            ) {
-                                              currentGoodsInfo[
-                                                index
-                                              ].subscribeNum =
-                                                currentGoodsInfo[index]
-                                                  .subscribeNum - 1;
-                                              this.setState({
-                                                currentGoodsInfo,
-                                              });
-                                              //数量变更后
-                                              subDetail.goodsInfo[
-                                                index
-                                              ].subscribeNum =
-                                                currentGoodsInfo[
-                                                  index
-                                                ].subscribeNum;
-                                              this.onQtyChange();
-                                            } else {
-                                              this.showErrMsg(
-                                                <FormattedMessage id="cart.errorInfo" />
-                                              );
-                                            }
-                                          }}
-                                        ></span>
-                                        <input
-                                          className="rc-quantity__input"
-                                          id="quantity"
-                                          name="quantity"
-                                          min="1"
-                                          max="899"
-                                          maxLength="5"
-                                          // value={el.subscribeNum}
-                                          onChange={(e) => {
-                                            this.setState({ errorShow: false });
-                                            const val = e.target.value;
-                                            let {
+                                                .subscribeNum - 1;
+                                            this.setState({
                                               currentGoodsInfo,
-                                            } = this.state;
-                                            if (val === "") {
-                                              currentGoodsInfo[
-                                                index
-                                              ].subscribeNum = 1;
-                                              this.setState({
-                                                currentGoodsInfo,
-                                              });
-                                            } else {
-                                              let tmp = parseInt(val);
-                                              if (isNaN(tmp)) {
-                                                tmp = 1;
-                                                this.showErrMsg(
-                                                  <FormattedMessage id="cart.errorInfo" />
-                                                );
-                                              }
-                                              if (tmp < 1) {
-                                                tmp = 1;
-                                                this.showErrMsg(
-                                                  <FormattedMessage id="cart.errorInfo" />
-                                                );
-                                              }
-                                              if (tmp > 30) {
-                                                tmp = 30;
-                                                this.showErrMsg(
-                                                  <FormattedMessage id="cart.errorMaxInfo" />
-                                                );
-                                              }
-                                              currentGoodsInfo[
-                                                index
-                                              ].subscribeNum = tmp;
-                                              this.setState({
-                                                currentGoodsInfo,
-                                              });
-                                              // this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
-                                            }
+                                            });
                                             //数量变更后
                                             subDetail.goodsInfo[
                                               index
@@ -1157,83 +1091,147 @@ class SubscriptionDetail extends React.Component {
                                                 index
                                               ].subscribeNum;
                                             this.onQtyChange();
-                                          }}
-                                          value={
-                                            this.state.currentGoodsInfo
-                                              .length &&
-                                            this.state.currentGoodsInfo[index]
-                                              .subscribeNum
+                                          } else {
+                                            this.showErrMsg(
+                                              <FormattedMessage id="cart.errorInfo" />
+                                            );
                                           }
-                                        />
-                                        <span
-                                          className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                          onClick={() => {
-                                            let {
+                                        }}
+                                      ></span>
+                                      <input
+                                        className="rc-quantity__input"
+                                        id="quantity"
+                                        name="quantity"
+                                        min="1"
+                                        max="899"
+                                        maxLength="5"
+                                        // value={el.subscribeNum}
+                                        onChange={(e) => {
+                                          this.setState({ errorShow: false });
+                                          const val = e.target.value;
+                                          let {
+                                            currentGoodsInfo,
+                                          } = this.state;
+                                          if (val === "") {
+                                            currentGoodsInfo[
+                                              index
+                                            ].subscribeNum = 1;
+                                            this.setState({
                                               currentGoodsInfo,
-                                            } = this.state;
-                                            if (
-                                              currentGoodsInfo[index]
-                                                .subscribeNum < 30
-                                            ) {
-                                              currentGoodsInfo[
-                                                index
-                                              ].subscribeNum =
-                                                currentGoodsInfo[index]
-                                                  .subscribeNum + 1;
-                                              this.setState({
-                                                currentGoodsInfo,
-                                              });
-                                              //数量变更后
-                                              subDetail.goodsInfo[
-                                                index
-                                              ].subscribeNum =
-                                                currentGoodsInfo[
-                                                  index
-                                                ].subscribeNum;
-                                              this.onQtyChange();
-                                            } else {
-                                              //数量不能超过30
+                                            });
+                                          } else {
+                                            let tmp = parseInt(val);
+                                            if (isNaN(tmp)) {
+                                              tmp = 1;
+                                              this.showErrMsg(
+                                                <FormattedMessage id="cart.errorInfo" />
+                                              );
+                                            }
+                                            if (tmp < 1) {
+                                              tmp = 1;
+                                              this.showErrMsg(
+                                                <FormattedMessage id="cart.errorInfo" />
+                                              );
+                                            }
+                                            if (tmp > 30) {
+                                              tmp = 30;
                                               this.showErrMsg(
                                                 <FormattedMessage id="cart.errorMaxInfo" />
                                               );
                                             }
-                                          }}
-                                        ></span>
-                                      </div>
-                                      <div
-                                        className="v-center"
-                                        style={{
-                                          display: !isChangeQuatity
-                                            ? "block"
-                                            : "none",
+                                            currentGoodsInfo[
+                                              index
+                                            ].subscribeNum = tmp;
+                                            this.setState({
+                                              currentGoodsInfo,
+                                            });
+                                            // this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
+                                          }
+                                          //数量变更后
+                                          subDetail.goodsInfo[
+                                            index
+                                          ].subscribeNum =
+                                            currentGoodsInfo[
+                                              index
+                                            ].subscribeNum;
+                                          this.onQtyChange();
                                         }}
-                                      >
-                                        <b className="">
-                                          Qty: {el.subscribeNum}
-                                        </b>
-                                      </div>
+                                        value={
+                                          this.state.currentGoodsInfo
+                                            .length &&
+                                          this.state.currentGoodsInfo[index]
+                                            .subscribeNum
+                                        }
+                                      />
+                                      <span
+                                        className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                                        onClick={() => {
+                                          let {
+                                            currentGoodsInfo,
+                                          } = this.state;
+                                          if (
+                                            currentGoodsInfo[index]
+                                              .subscribeNum < 30
+                                          ) {
+                                            currentGoodsInfo[
+                                              index
+                                            ].subscribeNum =
+                                              currentGoodsInfo[index]
+                                                .subscribeNum + 1;
+                                            this.setState({
+                                              currentGoodsInfo,
+                                            });
+                                            //数量变更后
+                                            subDetail.goodsInfo[
+                                              index
+                                            ].subscribeNum =
+                                              currentGoodsInfo[
+                                                index
+                                              ].subscribeNum;
+                                            this.onQtyChange();
+                                          } else {
+                                            //数量不能超过30
+                                            this.showErrMsg(
+                                              <FormattedMessage id="cart.errorMaxInfo" />
+                                            );
+                                          }
+                                        }}
+                                      ></span>
+                                    </div>
+                                    <div
+                                      className="v-center"
+                                      style={{
+                                        display: !isChangeQuatity
+                                          ? "block"
+                                          : "none",
+                                      }}
+                                    >
+                                      <b className="">
+                                        Qty: {el.subscribeNum}
+                                      </b>
                                     </div>
                                   </div>
                                 </div>
-                              ))}
-                          </div>
-                          <div
-                            className="rc-column flex-layout"
-                            // style={{ paddingLeft: "80px" }}
-                          >
-                            <div className="v-center total-container">
-                              <div className="border-b">
-                                <div className="flex-layout">
-                                  <label className="font18">
-                                    <FormattedMessage id="subscription.total"></FormattedMessage>
+                              </div>
+                            ))}
+                        </div>
+                        <div
+                          className="rc-column flex-layout"
+                        // style={{ paddingLeft: "80px" }}
+                        >
+                          <div className="v-center total-container">
+                            <div className="border-b">
+                              <div className="flex-layout">
+                                <label className="font18">
+                                  <FormattedMessage id="subscription.total"></FormattedMessage>
                                     :
                                   </label>
-                                  <div className="text-right">
-                                    <b>{formatMoney(this.state.subTotal)}</b>
-                                  </div>
+                                <div className="text-right">
+                                  <b>{formatMoney(this.state.subTotal)}</b>
                                 </div>
-                                {
-                                  this.state.subDiscount?<div className="flex-layout">
+                              </div>
+                              {
+                                this.state.subDiscount ? <div className="flex-layout">
                                   <label className="saveDiscount font18 red-text">
                                     <FormattedMessage id="subscription.saveDiscount"></FormattedMessage>
                                     :
@@ -1243,321 +1241,320 @@ class SubscriptionDetail extends React.Component {
                                       -{formatMoney(this.state.subDiscount)}
                                     </b>
                                   </div>
-                                </div>:null
-                                }                                
-                                {!this.state.isShowValidCode &&
-                                  discount.map((el) => (
-                                    <div className="flex-layout">
-                                      <label className="saveDiscount font18 red-text">
-                                        {this.state.promotionDesc}
-                                      </label>
-                                      <div
-                                        className="text-right red-text"
-                                        style={{ position: "relative" }}
-                                      >
-                                        <b>
-                                          -
+                                </div> : null
+                              }
+                              {!this.state.isShowValidCode &&
+                                discount.map((el) => (
+                                  <div className="flex-layout">
+                                    <label className="saveDiscount font18 red-text">
+                                      {this.state.promotionDesc}
+                                    </label>
+                                    <div
+                                      className="text-right red-text"
+                                      style={{ position: "relative" }}
+                                    >
+                                      <b>
+                                        -
                                           {formatMoney(
-                                            this.state.promotionDiscount
-                                          )}
-                                        </b>
-                                        <span
-                                          style={{
-                                            position: "absolute",
-                                            right: "-18px",
-                                            fontSize: "22px",
-                                            bottom: "8px",
-                                            cursor: "pointer",
-                                          }}
-                                          onClick={() => {
-                                            discount.pop();
-                                            this.setState({
-                                              discount: discount,
-                                            });
-                                          }}
-                                        >
-                                          x
+                                        this.state.promotionDiscount
+                                      )}
+                                      </b>
+                                      <span
+                                        style={{
+                                          position: "absolute",
+                                          right: "-18px",
+                                          fontSize: "22px",
+                                          bottom: "8px",
+                                          cursor: "pointer",
+                                        }}
+                                        onClick={() => {
+                                          discount.pop();
+                                          this.setState({
+                                            discount: discount,
+                                          });
+                                        }}
+                                      >
+                                        x
                                         </span>
-                                      </div>
                                     </div>
-                                  ))}
-                                <div className="flex-layout">
-                                  <label className="font18">
-                                    <FormattedMessage id="subscription.shipping"></FormattedMessage>
+                                  </div>
+                                ))}
+                              <div className="flex-layout">
+                                <label className="font18">
+                                  <FormattedMessage id="subscription.shipping"></FormattedMessage>
                                     :
                                   </label>
-                                  <div className="text-right red-text">
-                                    <b>{formatMoney(this.state.subShipping)}</b>
-                                  </div>
+                                <div className="text-right red-text">
+                                  <b>{formatMoney(this.state.subShipping)}</b>
                                 </div>
                               </div>
-                              <div className="flex-layout mgt20">
-                                <label className="saveDiscount font18">
-                                  <FormattedMessage id="subscription.totalInclu"></FormattedMessage>
+                            </div>
+                            <div className="flex-layout mgt20">
+                              <label className="saveDiscount font18">
+                                <FormattedMessage id="subscription.totalInclu"></FormattedMessage>
                                   :
                                 </label>
-                                <div className="text-right">
-                                  <b>{formatMoney(this.state.subTradeTotal)}</b>
-                                </div>
+                              <div className="text-right">
+                                <b>{formatMoney(this.state.subTradeTotal)}</b>
                               </div>
-                              {/* 支付新增promotionCode(选填) */}
-                              <div
-                                className="footer"
-                                style={{ marginTop: "10px" , display: subDetail.subscribeStatus === '0'? 'block': 'none'}}
-                              >
-                                <span
-                                  class="rc-input rc-input--inline rc-input--label"
-                                  style={{ width: "180px" }}
-                                >
-                                  <input
-                                    class="rc-input__control"
-                                    id="id-text2"
-                                    type="text"
-                                    name="text"
-                                    placeholder="Promotional Code"
-                                    value={this.state.promotionInputValue}
-                                    onChange={(e) => this.handlerChange(e)}
-                                  />
-                                  <label
-                                    class="rc-input__label"
-                                    for="id-text2"
-                                  ></label>
-                                </span>
-                                <button
-                                  className={[
-                                    "rc-btn",
-                                    "rc-btn--sm",
-                                    "rc-btn--two",
-                                    this.state.isClickApply &&
-                                      "ui-btn-loading ui-btn-loading-border-red",
-                                  ].join(" ")}
-                                  style={{ marginTop: "10px", float: "right" }}
-                                  onClick={async () => {
-                                    let result = {};
-                                    if (!this.state.promotionInputValue) return;
-                                    this.setState({
-                                      isClickApply: true,
-                                      isShowValidCode: false,
-                                      lastPromotionInputValue: this.state
-                                        .promotionInputValue,
-                                    });
-                                    //会员
-                                    result = await this.doGetPromotionPrice(
-                                      this.state.promotionInputValue
-                                    );
-                                    this.setState({
-                                      promotionDesc:
-                                        result.context.promotionDesc,
-                                    });
-                                    if (
-                                      result.code == "K-000000" &&
-                                      result.context.promotionDiscount
-                                    ) {
-                                      //表示输入apply promotionCode成功
-                                      discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                                      this.setState({ discount });
-                                    } else {
-                                      this.setState({
-                                        isShowValidCode: true,
-                                      });
-                                    }
-                                    this.setState({
-                                      isClickApply: false,
-                                      promotionInputValue: "",
-                                      loading: false,
-                                    });
-                                  }}
-                                >
-                                  Apply
-                                </button>
-                              </div>
-                              {this.state.isShowValidCode ? (
-                                <div
-                                  style={{
-                                    margin: "25px 0 0 6px",
-                                    color: "rgb(236, 0, 26)",
-                                  }}
-                                >
-                                  Promotion code(
-                                  {this.state.lastPromotionInputValue}) is not
-                                  Valid
-                                </div>
-                              ) : null}
                             </div>
+                            {/* 支付新增promotionCode(选填) */}
+                            <div
+                              className="footer"
+                              style={{ marginTop: "10px", display: subDetail.subscribeStatus === '0' ? 'block' : 'none' }}
+                            >
+                              <span
+                                class="rc-input rc-input--inline rc-input--label"
+                                style={{ width: "180px" }}
+                              >
+                                <input
+                                  class="rc-input__control"
+                                  id="id-text2"
+                                  type="text"
+                                  name="text"
+                                  placeholder="Promotional Code"
+                                  value={this.state.promotionInputValue}
+                                  onChange={(e) => this.handlerChange(e)}
+                                />
+                                <label
+                                  class="rc-input__label"
+                                  for="id-text2"
+                                ></label>
+                              </span>
+                              <button
+                                className={[
+                                  "rc-btn",
+                                  "rc-btn--sm",
+                                  "rc-btn--two",
+                                  this.state.isClickApply &&
+                                  "ui-btn-loading ui-btn-loading-border-red",
+                                ].join(" ")}
+                                style={{ marginTop: "10px", float: "right" }}
+                                onClick={async () => {
+                                  let result = {};
+                                  if (!this.state.promotionInputValue) return;
+                                  this.setState({
+                                    isClickApply: true,
+                                    isShowValidCode: false,
+                                    lastPromotionInputValue: this.state
+                                      .promotionInputValue,
+                                  });
+                                  //会员
+                                  result = await this.doGetPromotionPrice(
+                                    this.state.promotionInputValue
+                                  );
+                                  this.setState({
+                                    promotionDesc:
+                                      result.context.promotionDesc,
+                                  });
+                                  if (
+                                    result.code == "K-000000" &&
+                                    result.context.promotionDiscount
+                                  ) {
+                                    //表示输入apply promotionCode成功
+                                    discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+                                    this.setState({ discount });
+                                  } else {
+                                    this.setState({
+                                      isShowValidCode: true,
+                                    });
+                                  }
+                                  this.setState({
+                                    isClickApply: false,
+                                    promotionInputValue: "",
+                                    loading: false,
+                                  });
+                                }}
+                              >
+                                Apply
+                                </button>
+                            </div>
+                            {this.state.isShowValidCode ? (
+                              <div
+                                style={{
+                                  margin: "25px 0 0 6px",
+                                  color: "rgb(236, 0, 26)",
+                                }}
+                              >
+                                Promotion code(
+                                {this.state.lastPromotionInputValue}) is not
+                                  Valid
+                              </div>
+                            ) : null}
                           </div>
                         </div>
-                        {/*footer*/}
-                        <div className="rc-layout-container rc-three-column">
-                          <div className="rc-column footer-container">
-                            <b className="font18">
-                              <i className="rc-icon rc-shop--xs rc-brand1"></i>{" "}
-                              <FormattedMessage id="subscription.shippingAddress"></FormattedMessage>
-                            </b>
-                            <div className="mt10">
-                              <div className="rc-card__body pdl0">
-                                <div className="rc-card-container">
-                                  <div className="rc-card-content">
-                                    <h1 className="rc-card__meta order-Id">
-                                      {currentDeliveryAddress.consigneeName}
-                                    </h1>
-                                    <h1 className="rc-card__meta order-Id">
-                                      {currentDeliveryAddress.consigneeNumber}
-                                    </h1>
-                                    <h1 className="rc-card__meta order-Id">
-                                      {this.state.countryList.length &&
+                      </div>
+                      {/*footer*/}
+                      <div className="rc-layout-container rc-three-column">
+                        <div className="rc-column footer-container">
+                          <b className="font18">
+                            <i className="rc-icon rc-shop--xs rc-brand1"></i>{" "}
+                            <FormattedMessage id="subscription.shippingAddress"></FormattedMessage>
+                          </b>
+                          <div className="mt10">
+                            <div className="rc-card__body pdl0">
+                              <div className="rc-card-container">
+                                <div className="rc-card-content">
+                                  <h1 className="rc-card__meta order-Id">
+                                    {currentDeliveryAddress.consigneeName}
+                                  </h1>
+                                  <h1 className="rc-card__meta order-Id">
+                                    {currentDeliveryAddress.consigneeNumber}
+                                  </h1>
+                                  <h1 className="rc-card__meta order-Id">
+                                    {this.state.countryList.length &&
                                       this.state.countryList.filter(
                                         (el) =>
                                           el.id ===
                                           currentDeliveryAddress.countryId
                                       ).length
-                                        ? this.state.countryList.filter(
-                                            (el) =>
-                                              el.id ===
-                                              currentDeliveryAddress.countryId
-                                          )[0].valueEn
-                                        : currentDeliveryAddress.countryId}
+                                      ? this.state.countryList.filter(
+                                        (el) =>
+                                          el.id ===
+                                          currentDeliveryAddress.countryId
+                                      )[0].valueEn
+                                      : currentDeliveryAddress.countryId}
                                       ,{" "}
-                                      {this.state.cityList.length &&
+                                    {this.state.cityList.length &&
                                       this.state.cityList.filter(
                                         (el) =>
                                           el.id ===
                                           currentDeliveryAddress.cityId
                                       ).length
-                                        ? this.state.cityList.filter(
-                                            (el) =>
-                                              el.id ===
-                                              currentDeliveryAddress.cityId
-                                          )[0].valueEn
-                                        : currentDeliveryAddress.cityId}
-                                    </h1>
-                                    <h1 className="rc-card__meta order-Id">
-                                      {currentDeliveryAddress.address1}
-                                    </h1>
-                                    {
-                                      subDetail.subscribeStatus === '0' && (
-                                        <a
-                                          className="rc-styled-link red-text"
-                                          onClick={() => {
-                                            window.scrollTo(0, 0);
-                                            this.setState({
-                                              type: "AddressComp",
-                                              addressType: "delivery",
-                                            });
-                                          }}
-                                        >
-                                          <FormattedMessage id="edit" />{" "}
-                                          <FormattedMessage id="address" />
-                                        </a>
-                                      )
-                                    }
-                                  </div>
+                                      ? this.state.cityList.filter(
+                                        (el) =>
+                                          el.id ===
+                                          currentDeliveryAddress.cityId
+                                      )[0].valueEn
+                                      : currentDeliveryAddress.cityId}
+                                  </h1>
+                                  <h1 className="rc-card__meta order-Id">
+                                    {currentDeliveryAddress.address1}
+                                  </h1>
+                                  {
+                                    subDetail.subscribeStatus === '0' && (
+                                      <a
+                                        className="rc-styled-link red-text"
+                                        onClick={() => {
+                                          window.scrollTo(0, 0);
+                                          this.setState({
+                                            type: "AddressComp",
+                                            addressType: "delivery",
+                                          });
+                                        }}
+                                      >
+                                        <FormattedMessage id="edit" />{" "}
+                                        <FormattedMessage id="address" />
+                                      </a>
+                                    )
+                                  }
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div className="rc-column footer-container">
-                            <b className="font18">
-                              <i className="rc-icon rc-news--xs rc-brand1"></i>{" "}
-                              <FormattedMessage id="subscription.BillingAddress"></FormattedMessage>
-                            </b>
-                            <div className="mt10">
-                              <div className="rc-card__body pdl0">
-                                <div className="rc-card-container">
-                                  <div className="rc-card-content">
-                                    <h1 className="rc-card__meta order-Id">
-                                      {currentBillingAddress.consigneeName}
-                                    </h1>
-                                    <h1 className="rc-card__meta order-Id">
-                                      {currentBillingAddress.consigneeNumber}
-                                    </h1>
-                                    <h1 className="rc-card__meta order-Id">
-                                      {this.state.countryList.length &&
-                                        this.state.countryList.filter(
-                                          (el) =>
-                                            el.id ===
-                                            currentBillingAddress.countryId
-                                        )[0].valueEn}
+                        </div>
+                        <div className="rc-column footer-container">
+                          <b className="font18">
+                            <i className="rc-icon rc-news--xs rc-brand1"></i>{" "}
+                            <FormattedMessage id="subscription.BillingAddress"></FormattedMessage>
+                          </b>
+                          <div className="mt10">
+                            <div className="rc-card__body pdl0">
+                              <div className="rc-card-container">
+                                <div className="rc-card-content">
+                                  <h1 className="rc-card__meta order-Id">
+                                    {currentBillingAddress.consigneeName}
+                                  </h1>
+                                  <h1 className="rc-card__meta order-Id">
+                                    {currentBillingAddress.consigneeNumber}
+                                  </h1>
+                                  <h1 className="rc-card__meta order-Id">
+                                    {this.state.countryList.length &&
+                                      this.state.countryList.filter(
+                                        (el) =>
+                                          el.id ===
+                                          currentBillingAddress.countryId
+                                      )[0].valueEn}
                                       ,{" "}
-                                      {this.state.cityList.length &&
-                                        this.state.cityList.filter(
-                                          (el) =>
-                                            el.id ===
-                                            currentBillingAddress.cityId
-                                        )[0].valueEn}
-                                    </h1>
-                                    <h1 className="rc-card__meta order-Id">
-                                      {currentBillingAddress.address1}
-                                    </h1>
-                                    {
-                                      subDetail.subscribeStatus === '0' && (
-                                        <a
-                                          className="rc-styled-link red-text"
-                                          onClick={() => {
-                                            window.scrollTo(0, 0);
-                                            this.setState({
-                                              type: "AddressComp",
-                                              addressType: "billing",
-                                            });
-                                          }}
-                                        >
-                                          <FormattedMessage id="edit" />{" "}
-                                          <FormattedMessage id="address" />
-                                        </a>
-                                      )
-                                    }
-                                  </div>
+                                    {this.state.cityList.length &&
+                                      this.state.cityList.filter(
+                                        (el) =>
+                                          el.id ===
+                                          currentBillingAddress.cityId
+                                      )[0].valueEn}
+                                  </h1>
+                                  <h1 className="rc-card__meta order-Id">
+                                    {currentBillingAddress.address1}
+                                  </h1>
+                                  {
+                                    subDetail.subscribeStatus === '0' && (
+                                      <a
+                                        className="rc-styled-link red-text"
+                                        onClick={() => {
+                                          window.scrollTo(0, 0);
+                                          this.setState({
+                                            type: "AddressComp",
+                                            addressType: "billing",
+                                          });
+                                        }}
+                                      >
+                                        <FormattedMessage id="edit" />{" "}
+                                        <FormattedMessage id="address" />
+                                      </a>
+                                    )
+                                  }
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div className="rc-column footer-container ">
-                            <b className="b-text">
-                              <i className="rc-icon rc-shelter--xs rc-brand1"></i>{" "}
-                              <FormattedMessage id="subscription.paymentMethod"></FormattedMessage>
-                            </b>
-                            <div className="mt10">
-                              <div className="rc-card__body pdl0 ">
-                                <div className="rc-card-container">
-                                  <div className="rc-card-content">
-                                    <h1 className="rc-card__meta order-Id">
-                                      <img
-                                        className="card-img"
-                                        // src={data.payment.cardImg}
-                                        src={this.state.creditCardImgObj[currentCardInfo.vendor]}
-                                      />
+                        </div>
+                        <div className="rc-column footer-container ">
+                          <b className="b-text">
+                            <i className="rc-icon rc-shelter--xs rc-brand1"></i>{" "}
+                            <FormattedMessage id="subscription.paymentMethod"></FormattedMessage>
+                          </b>
+                          <div className="mt10">
+                            <div className="rc-card__body pdl0 ">
+                              <div className="rc-card-container">
+                                <div className="rc-card-content">
+                                  <h1 className="rc-card__meta order-Id">
+                                    <img
+                                      className="card-img"
+                                      // src={data.payment.cardImg}
+                                      src={this.state.creditCardImgObj[currentCardInfo.vendor]}
+                                    />
                                       &nbsp;&nbsp; xxxx xxxx xxxx{" "}
-                                      {currentCardInfo.cardNumber.substring(
-                                        currentCardInfo.cardNumber.length - 4
-                                      )}
-                                    </h1>
-                                    <h1 className="rc-card__meta order-Id">
-                                      {currentCardInfo.cardOwner}
-                                    </h1>
-                                    <h1 className="rc-card__meta order-Id">
-                                      {currentCardInfo.phoneNumber}
-                                    </h1>
-                                    {
-                                      subDetail.subscribeStatus === '0' && (
-                                        <a
-                                          className="rc-styled-link red-text"
-                                          onClick={() => {
-                                            window.scrollTo(0, 0);
-                                            this.setState({ type: "PaymentComp" });
-                                          }}
-                                        >
-                                          <FormattedMessage id="edit" />{" "}
-                                          <FormattedMessage id="card" />
-                                        </a>
-                                      )
-                                    }
-                                  </div>
+                                    {currentCardInfo.cardNumber.substring(
+                                      currentCardInfo.cardNumber.length - 4
+                                    )}
+                                  </h1>
+                                  <h1 className="rc-card__meta order-Id">
+                                    {currentCardInfo.cardOwner}
+                                  </h1>
+                                  <h1 className="rc-card__meta order-Id">
+                                    {currentCardInfo.phoneNumber}
+                                  </h1>
+                                  {
+                                    subDetail.subscribeStatus === '0' && (
+                                      <a
+                                        className="rc-styled-link red-text"
+                                        onClick={() => {
+                                          window.scrollTo(0, 0);
+                                          this.setState({ type: "PaymentComp" });
+                                        }}
+                                      >
+                                        <FormattedMessage id="edit" />{" "}
+                                        <FormattedMessage id="card" />
+                                      </a>
+                                    )
+                                  }
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    )}
+                    </div>
                   </div>
                 </div>
               </div>

@@ -80,29 +80,6 @@ class HeroCarousel extends React.Component {
     return (
       <div className="hero-carousel with-shadow">
         <div className="rc-max-width--xl">
-          {
-            this.state.noticeVisible
-              ? <div className="red font-weight-normal p-1 position-relative text-center pr-4 pl-4" style={{ background: '#f6f6f6' }}>
-                <span
-                  className="rc-icon rc-close--xs rc-iconography searchBtnToggle rc-stick-right rc-vertical-align"
-                  style={{ transform: 'translateY(-40%)' }} onClick={this.hideNotice}></span>
-                {/* <div className="text-center" style={{ fontSize: '1.15em' }}>
-                  <span className="pr-2 pl-2" style={{ background: '#ec001a', color: '#fff', borderRadius: '.3rem' }}>25% OFF</span> Hasta el 1ero de Junio 2020 o agotar existencias
-                </div> */}
-                <div className="text-center" style={{ fontSize: '1.15em' }}>
-                  <span className="pr-2 pl-2" style={{ background: '#ec001a', color: '#fff', borderRadius: '1rem' }}>
-                    <FormattedMessage id="save" />{' '}{SUBSCRIPTION_DISCOUNT_RATE}
-                  </span>{' '}
-                  <FormattedMessage id="subscription.OnYourFirst" />
-                  <span className="rc-icon rc-refresh--xs rc-brand1"></span>
-                  <FormattedMessage id="details.Subscription" />
-                </div>
-                <FormattedMessage id="home.note1" />{' '}
-                <FormattedMessage id="home.note2" />
-              </div>
-              : null
-          }
-
           <Slider {...settings}>
             {/* <div className="hero-carousel__slide">
               <div className="d-md-flex align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">

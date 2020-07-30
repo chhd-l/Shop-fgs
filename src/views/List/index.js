@@ -333,10 +333,7 @@ class List extends React.Component {
             </div>
             <section className="rc-bg-colour--brand3">
               <div>
-                <div className="rc-text--right rc-meta rc-margin-bottom--none">
-                  {results} <FormattedMessage id="results" />
-                </div>
-                <div className="rc-layout-container rc-four-column" id="J_filter_contaner">
+                <div className="rc-layout-container rc-four-column position-relative" id="J_filter_contaner">
                   <div className="refinements-fixed rc-column" style={{ position: 'fixed', display: 'none', background: '#fff', zIndex: 22 }}>
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
                       data-filter-trigger="filter-example" onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
@@ -350,7 +347,7 @@ class List extends React.Component {
                         checkedList={checkedList} />
                     </aside>
                   </div>
-                  <div className="refinements rc-column" style={{ top: '-53px' }}>
+                  <div className="refinements rc-column" style={{ top: '-45px' }}>
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
                       data-filter-trigger="filter-example" onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
                     <aside className={['rc-filters', this.state.filterModalVisible ? 'active' : ''].join(' ')}>
@@ -364,6 +361,11 @@ class List extends React.Component {
                     </aside>
                   </div>
                   <div className={['rc-column', 'rc-triple-width', !productList.length ? 'd-flex justify-content-center align-items-center' : ''].join(' ')}>
+                    {
+                      !loading && <div className="position-absolute" style={{ top: '-20px' }}>
+                        {results} <FormattedMessage id="results" />
+                      </div>
+                    }
                     {!productList.length
                       ?
                       <>
@@ -403,7 +405,7 @@ class List extends React.Component {
                                                 <h3
                                                   className="rc-card__title rc-gamma ui-text-overflow-line2 text-break font16 mb-1"
                                                   title={item.goodsName}
-                                                  style={{ lineHeight: 1.2, minHeight: '3.4rem' }}>
+                                                  style={{ lineHeight: 1.2, minHeight: '3.7rem' }}>
                                                   {item.goodsName}
                                                 </h3>
                                               </header>
@@ -420,7 +422,7 @@ class List extends React.Component {
                                               </div>
                                               <span className='comments rc-margin-left--xs rc-text-colour--text'>({item.goodsEvaluateNum})</span>
                                             </div>
-                                            <div className="text-center" style={{ color: '#4a4a4a' }}>
+                                            <div className="text-center" style={{ color: '#4a4a4a', opacity: item.goodsInfos.length > 1 ? 1 : 0 }}>
                                               <FormattedMessage id="startFrom" />
                                             </div>
                                             <div className="d-flex justify-content-center">
@@ -428,7 +430,14 @@ class List extends React.Component {
                                                 <div className={`rc-full-width`} >
                                                   <span style={{ color: '#323232', fontWeight: 400 }} >
                                                     {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.marketPrice || 0)))}{' '}
-                                                    <span className="text-line-through" style={{ fontSize: '.8em' }}>{formatMoney(item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice)}</span>
+                                                    {
+                                                      item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice && item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice > 0
+                                                        ? <span className="text-line-through" style={{ fontSize: '.8em' }}>
+                                                          {formatMoney(item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice)}
+                                                        </span>
+                                                        : null
+                                                    }
+
                                                   </span>
                                                 </div>
                                                 {
@@ -440,8 +449,8 @@ class List extends React.Component {
                                                       <span className="rc-icon rc-refresh--xs rc-brand1 "></span>
                                                       <span
                                                         className="position-relative red-text position-absolute"
-                                                        style={{ fontSize: '.6em', top: '50%', transform: 'translateY(-50%)' }}>
-                                                        <FormattedMessage id="details.Subscription" />
+                                                        style={{ fontSize: '.7em', top: '50%', transform: 'translateY(-50%)' }}>
+                                                        <FormattedMessage id="autoship" />
                                                       </span>
                                                     </div>
                                                     : null

@@ -8,6 +8,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ConfirmTooltip from '@/components/ConfirmTooltip'
 import PetModal from '@/components/PetModal'
+import BannerTip from '@/components/BannerTip'
 import { Link } from 'react-router-dom'
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
 import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant'
@@ -603,7 +604,7 @@ class LoginCart extends React.Component {
       selectedSpecIds.push(selectedItem.specId)
       selectedSpecDetailId.push(selectedItem.specDetailId)
     }
-    
+
     // debugger
     const selectedGoodsInfo = pitem.goodsInfos.filter(ele => ele.mockSpecIds.sort().toString() === selectedSpecIds.sort().toString()
       && ele.mockSpecDetailIds.sort().toString() === selectedSpecDetailId.sort().toString())[0]
@@ -633,13 +634,14 @@ class LoginCart extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Header ref={this.headerRef} showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
+          <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
             {(changSizeLoading || productList.length > 0) && <>
               <div className="rc-layout-container rc-one-column">
                 <div className="rc-column">
                   <FormattedMessage id="continueShopping">
                     {txt => (
-                      <a className="ui-cursor-pointer-pure" onClick={(e) => this.goBack(e)} title={txt}>
+                      <a tabIndex="1" className="ui-cursor-pointer-pure" onClick={(e) => this.goBack(e)} title={txt}>
                         <span className="rc-header-with-icon rc-header-with-icon--gamma">
                           <span className="rc-icon rc-left rc-iconography"></span>
                           {txt}
@@ -649,7 +651,7 @@ class LoginCart extends React.Component {
                   </FormattedMessage>
                 </div>
               </div>
-              <div className="rc-layout-container rc-three-column cart cart-page">
+              <div className="rc-layout-container rc-three-column cart cart-page pt-0">
                 <div className="rc-column rc-double-width">
                   <div className="rc-padding-bottom--xs cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
                     <aside className="rc-alert rc-alert--error rc-alert--with-close text-break" role="alert">
@@ -658,7 +660,7 @@ class LoginCart extends React.Component {
                   </div>
                   <div className="rc-padding-bottom--xs">
                     <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                      <FormattedMessage id="cart.yourBasket" />
+                      <FormattedMessage id="cart.yourShoppingCart" />
                     </h5>
                   </div>
                   <div id="product-cards-container">
@@ -671,7 +673,7 @@ class LoginCart extends React.Component {
                 <div className="rc-column totals cart__total">
                   <div className="rc-padding-bottom--xs">
                     <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                      <FormattedMessage id="total" />
+                      <FormattedMessage id="orderSummary" />
                     </h5>
                   </div>
                   <div id="J_sidecart_container">
@@ -695,7 +697,7 @@ class LoginCart extends React.Component {
               productList.length == 0 && !checkoutLoading && <>
                 <div className="rc-text-center">
                   <div className="rc-beta rc-margin-bottom--sm">
-                    <FormattedMessage id="cart.yourBasket" />
+                    <FormattedMessage id="cart.yourShoppingCart" />
                   </div>
                   <div className="rc-gamma title-empty">
                     <FormattedMessage id="header.basketEmpty" />
