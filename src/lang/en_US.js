@@ -518,7 +518,8 @@ const en_US = {
   'subscribeDiscount': 'Subscription Save Discount',
   'customerReviews': 'Customer reviews',
   'sortBy': 'Sort by',
-  'adyen':'Adyen'
+  'adyen':'Adyen',
+  'adyenPayFail':'AdyenPayFail',
   //qhx新增
 }
 export default en_US;

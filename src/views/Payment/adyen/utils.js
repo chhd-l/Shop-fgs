@@ -1,4 +1,7 @@
+import axios from "axios"
 const url = 'http://localhost:3001'
+
+
 export const paymentMethodsConfig = {
     shopperReference: 'Checkout Components sample code test',
     reference: 'Checkout Components sample code test',
@@ -59,17 +62,31 @@ export const makePayment = (paymentMethod, config = {}) => {
     const paymentsConfig = { ...paymentsDefaultConfig, ...config };
     const paymentRequest = { ...paymentsConfig, ...paymentMethod };
 
-    //updateRequestContainer(paymentRequest);
 
     return httpPost('payments', paymentRequest)
         .then(response => {
             if (response.error) throw 'Payment initiation failed';
 
-            // updateResponseContainer(response);
-
             return response;
         })
         .catch(console.error);
+};
+
+// Posts a new adyenPayment into the local server
+export const makeAdyenPayment = (cardData, config = {}) => {
+    let {paymentMethod:{encryptedCardNumber,encryptedExpiryMonth,encryptedExpiryYear,encryptedSecurityCode}} = cardData
+    // const paymentsConfig = { ...paymentsDefaultConfig, ...config };
+    // const paymentRequest = { ...paymentsConfig, ...paymentMethod };
+
+    let parameters = {
+        currency:'EUR',
+        adyenBrands:'visa',
+        adyenName:'Credit Card',
+        adyenType:'scheme',
+        payChannelItem:'adyen',
+    }
+    let param = {...parameters,encryptedCardNumber,encryptedExpiryMonth,encryptedExpiryYear,encryptedSecurityCode}
+    return param
 };
 
 // Fetches an originKey from the local server
@@ -81,3 +98,16 @@ export const getOriginKey = () =>
             return response.originKeys[Object.keys(response.originKeys)[0]];
         })
         .catch(console.error);
+
+export const axiosGetOriginKey = (domain)=> {
+    return axios({
+        url: 'https://checkout-test.adyen.com/originKeys',
+        method: 'post',
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'X-API-Key':'AQErhmfuXNWTK0Qc+iSdk3YrjuqYR5ldAoFLTGBSrF51ENJOAzIOrvI655613hDBXVsNvuR83LVYjEgiTGAH-1IAk3WNsFHn9OQTCs1zqAgfITuuhrk2BSWACax6iq4g=-~7C;smxATY88pe*7'
+        },
+        data: { originDomains:[domain] }
+    })
+}

@@ -33,8 +33,8 @@ import axios from "axios";
 import "./index.css";
 import OxxoConfirm from "./modules/OxxoConfirm";
 import {
-  initAdyenPay
-} from "./adyen/card"
+  makeAdyenPayment,
+} from "./adyen/utils"
 
 const rules = [
   {
@@ -135,7 +135,8 @@ class Payment extends React.Component {
       selectedCardInfo: {},
       isToPayNow: sessionStorage.getItem("rc-tid"),
       showOxxoForm: false,
-      tab:0,//0:Credit Card 1: OXXO 2: Ayden
+      tab:0,//0:Credit Card 1: OXXO 2: Adyen
+      adyenPayParam:{}
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
@@ -210,10 +211,6 @@ class Payment extends React.Component {
   get tradePrice () {
     return this.props.checkoutStore.tradePrice
   }
-  showAdyenPay(){
-    this.setState({ showOxxoForm: true,tab:2 })
-    initAdyenPay()
-  }
   showErrorMsg (msg) {
     this.setState({
       errorShow: true,
@@ -254,6 +251,58 @@ class Payment extends React.Component {
     this.setState({
       isCompleteCredit: true
     });
+  }
+  showAdyenPay(){
+    this.setState({ showOxxoForm: true,tab:2 })
+    this.initAdyenPay()
+  }
+  //1.初始化adyen
+  initAdyenPay(){
+    const AdyenCheckout = window.AdyenCheckout
+    // (1) Create an instance of AdyenCheckout
+    const checkout = new AdyenCheckout({
+        environment: 'test',
+        originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
+    });
+    // (2). Create and mount the Component
+    const card = checkout
+        .create('card', {
+            styles: {},
+            placeholders: {},
+            showPayButton: true,
+            onSubmit: (state, component) => {
+                if (state.isValid) {
+                    //makePayment(card.data);
+                   let adyenPayParam = makeAdyenPayment(card.data);
+                   this.setState({
+                    adyenPayParam
+                   },()=>{
+                     console.log({adyenPayParam:this.state.adyenPayParam})  
+                     this.makeAdyenPayment()                 
+                   })
+                }
+            },
+            onChange: (state, component) => {}
+        })
+        .mount('#card-container');
+    
+  }
+  //2.进行支付
+  async makeAdyenPayment () {
+    try{
+      var addressParameter = await this.goConfirmation();
+      var parameters = Object.assign(addressParameter, {
+        ...this.state.adyenPayParam
+      },{country: "MEX"});
+      let res = await confirmAndCommit(parameters);
+      if (res.code === "K-000000") {
+        //this.props.history.push("/confirmation");
+      }
+    }catch(err){
+      this.showErrorMsg(this.props.intl.messages.adyenPayFail);
+    }finally{
+      this.endLoading()
+    }
   }
   /**
    * save address/comment
@@ -1136,7 +1185,7 @@ class Payment extends React.Component {
                       </li>
                     </ul>
                   </nav>
-                  {this.state.tab===0 ? (
+                  {this.state.tab===1 ? (
                     <OxxoConfirm
                       history={this.props.history}
                       getParameter={() => this.goConfirmation()}
@@ -1148,7 +1197,7 @@ class Payment extends React.Component {
                     )}
                   <div
                     style={{
-                      display: this.state.tab===1 ? "block" : "none",
+                      display: this.state.tab===0 ? "block" : "none",
                     }}
                   >
                     <div className="card payment-form">
