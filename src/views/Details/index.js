@@ -661,7 +661,7 @@ class Details extends React.Component {
         ) : (
             <main className="rc-content--fixed-header">
               <div className="product-detail product-wrapper rc-bg-colour--brand3">
-                <div className="rc-max-width--xl">
+                <div className="rc-max-width--xl mb-4">
                   <BreadCrumbs />
                   <div className="rc-padding--sm--desktop" style={{height: '650px'}}>
                     <div className="rc-content-h-top">
@@ -737,7 +737,7 @@ class Details extends React.Component {
                                           <div className="rc-input product-pricing__card__head__title">
                                             <FormattedMessage id="listPrice" />
                                           </div>
-                                          <b className="product-pricing__card__head__price red rc-padding-y--none">
+                                          <b className="product-pricing__card__head__price red rc-padding-y--none text-line-through">
                                             {formatMoney(currentLinePrice)}
                                           </b>
                                         </div>
@@ -757,7 +757,6 @@ class Details extends React.Component {
                                       ? <>
                                         {
                                           !initing && <div className="product-pricing__card__head d-flex align-items-center">
-                                            <span className="rc-icon rc-refresh--xs rc-brand1 position-absolute" style={{ transform: 'translate(-100%, 8%)' }}></span>
                                             <div className="rc-input product-pricing__card__head__title">
                                               <FormattedMessage id="autoship" />
                                               <span
@@ -1017,7 +1016,7 @@ class Details extends React.Component {
                 {
                   this.state.goodsDetailTab.tabName.length
                     ? <div className="rc-max-width--xl rc-padding-x--sm">
-                      <div className="rc-match-heights rc-content-h-middle rc-reverse-layout rc-padding-bottom--lg">
+                      <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
                         <div>
                           <div className="rc-border-bottom rc-border-colour--interface">
                             <nav className="rc-fade--x">
