@@ -148,6 +148,7 @@ class Payment extends React.Component {
 
     if (this.isLogin && !this.loginCartData.length) {
       this.props.history.push("/cart");
+      return false;
     }
     if (
       !this.isLogin &&
@@ -155,6 +156,7 @@ class Payment extends React.Component {
         !this.cartData.filter((ele) => ele.selected).length)
     ) {
       this.props.history.push("/cart");
+      return false;
     }
     let countryRes = await getDictionary({ type: "country" });
     const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
@@ -188,6 +190,15 @@ class Payment extends React.Component {
           billingAddress: billingAddress,
         });
       }
+    }
+
+    // fill default subform data
+    let cacheSubForm = sessionStorage.getItem('rc-subform')
+    if (cacheSubForm) {
+      cacheSubForm = JSON.parse(cacheSubForm)
+      this.setState({
+        subForm: cacheSubForm
+      })
     }
   }
   componentWillUnmount () {
