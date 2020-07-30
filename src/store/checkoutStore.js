@@ -138,27 +138,13 @@ class CheckoutStore {
     let siteMiniPurchasesRes = await siteMiniPurchases();
     siteMiniPurchasesRes = siteMiniPurchasesRes.context;
     // 获取总价
-    sitePurchases({
+    let sitePurchasesRes = await sitePurchases({
       goodsInfoIds: siteMiniPurchasesRes.goodsList.map(ele => ele.goodsInfoId),
       promotionCode,
       subscriptionFlag
-    }).then(sitePurchasesRes => {
-      let backCode = sitePurchasesRes.code
-      sitePurchasesRes = sitePurchasesRes.context;
-      this.setCartPrice({
-        totalPrice: sitePurchasesRes.totalPrice,
-        tradePrice: sitePurchasesRes.tradePrice,
-        discountPrice: sitePurchasesRes.discountPrice,
-        deliveryPrice: sitePurchasesRes.deliveryPrice,
-        promotionDesc: sitePurchasesRes.promotionDesc,
-        promotionDiscount: sitePurchasesRes.promotionDiscount,
-        subscriptionPrice: sitePurchasesRes.subscriptionPrice
-      })
-      this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap)
-      return new Promise(function (resolve) {
-        resolve({ backCode, context: sitePurchasesRes })
-      })
-    })
+    });
+    let backCode = sitePurchasesRes.code
+    sitePurchasesRes = sitePurchasesRes.context;
     runInAction(() => {
       let goodsList = siteMiniPurchasesRes.goodsList
 
@@ -177,12 +163,24 @@ class CheckoutStore {
           )
         });
       }
-
+      
       this.setLoginCartData(goodsList)
-
+      this.setCartPrice({
+        totalPrice: sitePurchasesRes.totalPrice,
+        tradePrice: sitePurchasesRes.tradePrice,
+        discountPrice: sitePurchasesRes.discountPrice,
+        deliveryPrice: sitePurchasesRes.deliveryPrice,
+        promotionDesc: sitePurchasesRes.promotionDesc,
+        promotionDiscount: sitePurchasesRes.promotionDiscount,
+        subscriptionPrice: sitePurchasesRes.subscriptionPrice
+      })
       this.offShelvesProNames = siteMiniPurchasesRes.goodsList.filter(ele => !ele.addedFlag).map(ele => ele.goodsInfoName + ' ' + ele.specText)
       this.outOfstockProNames = siteMiniPurchasesRes.goodsList.filter(ele => ele.buyCount > ele.stock).map(ele => ele.goodsInfoName + ' ' + ele.specText)
+      this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap)
       this.changeLoadingCartData(false)
+    })
+    return new Promise(function (resolve) {
+      resolve({ backCode, context: sitePurchasesRes })
     })
   }
 
