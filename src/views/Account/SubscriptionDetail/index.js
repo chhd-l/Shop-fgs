@@ -314,7 +314,7 @@ class SubscriptionDetail extends React.Component {
   async doGetPromotionPrice (promotionCode = "") {
     try {
       //计算Tota
-      this.setState({ loading: true });
+      // this.setState({ loading: true });
       let goodsInfo = this.state.subDetail.goodsInfo;
 
       let subTotal = 0;
@@ -347,7 +347,7 @@ class SubscriptionDetail extends React.Component {
           Number(res.context.discountsPrice) -
           Number(res.context.promotionDiscount);
         this.setState({
-          loading: false,
+          // loading: false,
           subDiscount: res.context.discountsPrice,
           subShipping: res.context.deliveryPrice,
           promotionDiscount: res.context.promotionDiscount,
