@@ -46,7 +46,7 @@ class ConfirmTooltip extends React.Component {
               {
                 this.props.cancelBtnVisible ?
                   (
-                    <div className="rc-btn rc-btn--two rc-btn--sm pt-3" onClick={(e) => { this.cancel(e) }}>
+                    <div className="rc-btn rc-btn--two rc-btn--sm mt-3" onClick={(e) => { this.cancel(e) }}>
                       <FormattedMessage id="cancel" />
                     </div>
                   ) : null
@@ -54,7 +54,7 @@ class ConfirmTooltip extends React.Component {
               {
                 this.props.confirmBtnVisible ?
                   (
-                    <div className="rc-btn rc-btn--one rc-btn--sm mgl10 pt-3" onClick={(e) => { this.props.confirm(e) }}>
+                    <div className="rc-btn rc-btn--one rc-btn--sm mgl10 mt-3" onClick={(e) => { this.props.confirm(e) }}>
                       <FormattedMessage id="clinic.confirm" />
                     </div>
                   ) : null

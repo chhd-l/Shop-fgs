@@ -20,8 +20,8 @@ import {
   deleteItemFromBackendCart,
   switchSize
 } from '@/api/cart'
-import CART_CAT from "@/assets/images/CART_CAT.jpg";
-import CART_DOG from "@/assets/images/CART_DOG.jpg";
+import catsImg from "@/assets/images/banner-list/cats.jpg"
+import dogsImg from "@/assets/images/banner-list/dogs.jpg"
 import Loading from "@/components/Loading"
 
 @inject("checkoutStore")
@@ -698,29 +698,28 @@ class LoginCart extends React.Component {
             {
               productList.length == 0 && !checkoutLoading && <>
                 <div className="rc-text-center">
-                  <div className="rc-beta rc-margin-bottom--sm">
+                  <div className="rc-beta mb-1">
                     <FormattedMessage id="cart.yourShoppingCart" />
                   </div>
-                  <div className="rc-gamma title-empty">
+                  <div className="rc-gamma title-empty mb-0">
                     <FormattedMessage id="header.basketEmpty" />
                   </div>
                 </div>
                 <div className="content-asset">
-                  <div className="rc-bg-colour--brand3 rc-padding--sm">
+                  <div className="rc-bg-colour--brand3 rc-padding--sm pt-0 pb-0">
                     <div className="rc-max-width--lg rc-padding-x--lg--mobile">
                       <div>
                         <div className="rc-alpha inherit-fontsize">
-                          <p style={{ textAlign: 'center' }}>
+                          <p className="text-center">
                             <FormattedMessage id="cart.fullPrice" />
                           </p>
                         </div>
-                        <div className="d-flex justify-content-between flex-wrap ui-pet-item text-center">
+                        <div className="d-flex justify-content-between flex-wrap ui-pet-item text-center" style={{ margin: '0 10%' }}>
                           <div className="ui-item border radius-3">
                             <Link to="/list/dogs">
                               <img
                                 className="w-100"
-                                style={{ transform: 'scale(.8)' }}
-                                src={CART_DOG}
+                                src={dogsImg}
                                 alt="Dog" />
                               <br /><h4 className="card__title red">
                                 <FormattedMessage id="cart.dogDiet" />
@@ -731,8 +730,7 @@ class LoginCart extends React.Component {
                             <Link to="/list/cats">
                               <img
                                 className="w-100"
-                                style={{ padding: '3rem 0 4rem' }}
-                                src={CART_CAT}
+                                src={catsImg}
                                 alt="Cat" />
                               <br />
                               <h4 className="card__title red">
