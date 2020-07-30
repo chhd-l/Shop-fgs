@@ -8,6 +8,7 @@ import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
 import LoginButton from '@/components/LoginButton'
+import ConfirmTooltip from '@/components/ConfirmTooltip'
 import Reviews from './components/Reviews'
 import Rate from '@/components/Rate'
 import PetModal from '@/components/PetModal'
@@ -77,7 +78,8 @@ class Details extends React.Component {
       replyNum: 0,
       goodsId: null,
       minMarketPrice: 0,
-      minSubscriptionPrice: 0
+      minSubscriptionPrice: 0,
+      toolTipVisible: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -749,19 +751,26 @@ class Details extends React.Component {
                                             <span className="rc-icon rc-refresh--xs rc-brand1 position-absolute" style={{ transform: 'translate(-100%, 8%)' }}></span>
                                             <div className="rc-input product-pricing__card__head__title">
                                               <FormattedMessage id="autoship" />
-                                              <span className="red" style={{ fontSize: '.8em' }}>
-                                                {' '}
-                                            (<FormattedMessage id="save" />{' '}{SUBSCRIPTION_DISCOUNT_RATE})
-                                          </span>
+                                              <span
+                                                className="info-tooltip delivery-method-tooltip"
+                                                onClick={() => {
+                                                  this.setState({
+                                                    toolTipVisible: !this.state.toolTipVisible
+                                                  })
+                                                }}>i</span>
+                                              <ConfirmTooltip
+                                                arrowStyle={{ left: '35%' }}
+                                                display={this.state.toolTipVisible}
+                                                cancelBtnVisible={false}
+                                                confirmBtnVisible={false}
+                                                updateChildDisplay={status => this.setState({ toolTipVisible: status })}
+                                                content={<FormattedMessage id="subscription.promotionTip2" />} />
                                             </div>
                                             <b className="product-pricing__card__head__price red rc-padding-y--none">
                                               {formatMoney(currentSubscriptionPrice || 0)}
                                             </b>
                                           </div>
                                         }
-                                        <span className="red" style={{ fontSize: '.9em' }}>
-                                          <FormattedMessage id="subscription.promotionTip2" />
-                                        </span>
                                       </>
                                       : null
                                   }

@@ -157,7 +157,7 @@ const en_US = {
   "cart.deletInfo": "Delete product?",
   "cart.deletInfo2":
     "Are you sure you want to remove this item from your cart?",
-  "cart.miniCartTitle": "10% off first subscription order + 5% off every subscription order",
+  "cart.miniCartTitle": "10% off first purchase, plus 5% off every order with autoship",
   "footer.toTheTop": "To the top",
   "footer.aboutRoyalCanin": "ABOUT ROYAL CANIN®",
   "footer.contactRoyalCanin": "Contact ROYAL CANIN®",
@@ -419,7 +419,7 @@ const en_US = {
   "subscription.promotionTip": "{val} on your first order of the subscription",
   "subscription.OnYourFirst": "on your first",
   "subscription.promotionTip2":
-    "Simply select Subscription at checkout for easy regular deliveries",
+    "Simply select autoship at checkout for easy regular deliveries. With automatic shipping, you'll become a member and get 10% off your first order and 5% off every autoship order.",
   "subscription.notYet": "Not Yet Shipped",
   "subscription.frequency": "Frequency",
   "subscription.nextOrder": "Next Order",
