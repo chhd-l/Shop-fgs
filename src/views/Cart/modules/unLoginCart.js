@@ -406,10 +406,7 @@ class UnLoginCart extends React.Component {
                     find(pitem.sizeList, s => s.selected).subscriptionStatus
                       ? <>
                         <span className="rc-icon rc-refresh--xs rc-brand1"></span>
-                        <FormattedMessage id="details.Subscription" />{' '}-{' '}
-                        <span style={{ fontSize: '.85em' }}>
-                          <FormattedMessage id="subscription.promotionTip" values={{ val: pitem.goodsPromotion }} />
-                        </span>
+                        <FormattedMessage id="autoship" />
                       </>
                       : null
                   }
@@ -481,10 +478,7 @@ class UnLoginCart extends React.Component {
                   find(pitem.sizeList, s => s.selected).subscriptionStatus
                     ? <>
                       <span className="rc-icon rc-refresh--xs rc-brand1"></span>
-                      <FormattedMessage id="details.Subscription" />{' '}-{' '}
-                      <span style={{ fontSize: '.85em' }}>
-                        <FormattedMessage id="subscription.promotionTip" values={{ val: pitem.goodsPromotion }} />
-                      </span>
+                      <FormattedMessage id="details.Subscription" />
                     </>
                     : null
                 }
@@ -684,10 +678,10 @@ class UnLoginCart extends React.Component {
         <Header ref={this.headerRef} showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
           <BannerTip />
-          <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing">
+          <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
             {productList.length
               ? <>
-                <div className="rc-layout-container rc-one-column">
+                <div className="rc-layout-container rc-one-column pt-1">
                   <div className="rc-column">
                     <FormattedMessage id="continueShopping">
                       {txt => (
@@ -702,7 +696,7 @@ class UnLoginCart extends React.Component {
                   </div>
                 </div>
                 <div className="rc-layout-container rc-three-column cart cart-page pt-0">
-                  <div className="rc-column rc-double-width">
+                  <div className="rc-column rc-double-width pt-0">
                     <div className="rc-padding-bottom--xs cart-error-messaging cart-error" style={{ display: this.state.errorShow ? 'block' : 'none' }}>
                       <aside className="rc-alert rc-alert--error rc-alert--with-close text-break" role="alert">
                         <span style={{ paddingLeft: 0 }}>{this.state.errorMsg}</span>
@@ -715,7 +709,7 @@ class UnLoginCart extends React.Component {
                     </div>
                     <div id="product-cards-container">{List}</div>
                   </div>
-                  <div className="rc-column totals cart__total">
+                  <div className="rc-column totals cart__total pt-0">
                     <div className="rc-padding-bottom--xs">
                       <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
                         <FormattedMessage id="orderSummary" />

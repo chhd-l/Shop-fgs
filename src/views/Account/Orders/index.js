@@ -16,9 +16,6 @@ import { batchAdd } from "@/api/payment";
 import { getOrderList, getOrderDetails } from "@/api/order"
 import store from 'storejs'
 import {
-  STORE_CATE_ENUM
-} from "@/utils/constant"
-import {
   IMG_DEFAULT,
   DELIVER_STATUS_ENUM,
   ORDER_STATUS_ENUM,
