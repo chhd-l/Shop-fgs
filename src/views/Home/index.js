@@ -5,7 +5,6 @@ import { formatMoney } from '@/utils/utils'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import BannerTip from '@/components/BannerTip'
 import HeroCarousel from '@/components/HeroCarousel2'
 import './index.css'
 import CARECAT from "@/assets/images/MX-L-VET-CARE-CAT.jpg";
@@ -13,7 +12,7 @@ import CAREDOG from "@/assets/images/MX-L-VET-CARE-DOG.jpg";
 import DIETCAT from "@/assets/images/MX-L-VET-DIET-CAT.jpg";
 import DIETDOG from "@/assets/images/MX-L-VET-DIET-DOG.jpg";
 import Pomotion25offImg from "@/assets/images/pomotion_25off.png";
-import { getBanner } from '@/api/home.js'
+
 
 class Home extends React.Component {
   constructor(props) {
@@ -66,7 +65,6 @@ class Home extends React.Component {
             : null
         }
         <main className="rc-content--fixed-header rc-main-content__wrapper ">
-          <BannerTip />
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
               <HeroCarousel history={this.props.history} />

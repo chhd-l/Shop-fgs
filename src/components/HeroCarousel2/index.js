@@ -37,7 +37,7 @@ function SamplePrevArrow (props) {
   );
 }
 
-class HeroCarousel2 extends React.Component {
+class HeroCarousel extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -47,14 +47,11 @@ class HeroCarousel2 extends React.Component {
     this.hanldeClick = this.hanldeClick.bind(this)
     this.hideNotice = this.hideNotice.bind(this)
   }
-  async componentDidMount () {
+  async componentWillMount() {
     getBanner().then(res => {
       console.log(res, 'ressssss')
       this.setState({banner: res.context})
     })
-  }
-  async componentWillMount() {
-    
   }
   hideNotice () {
     this.setState({
@@ -279,4 +276,4 @@ class HeroCarousel2 extends React.Component {
   }
 }
 
-export default HeroCarousel2
+export default HeroCarousel

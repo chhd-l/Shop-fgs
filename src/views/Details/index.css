@@ -1667,7 +1667,7 @@ p {
   width: 100%;
 }
 .imageBox {
-  padding: 0 !important;
+  padding: 16px 0 0 0 !important;
 }
 .mgb28 {
   margin-bottom: 28px;

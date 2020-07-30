@@ -15,9 +15,9 @@ class ImageMagnifier extends Component {
         // 放大倍数
         scale: (props.config && props.config.scale) || 2,
         // 组件宽
-        width: (props.config && props.config.width) || "300",
+        width: (props.config && props.config.width) || "400",
         // 组件高
-        height: (props.config && props.config.height) || "350"
+        height: (props.config && props.config.height) || "450"
       },
       // 缩略图
       minImg: "",
@@ -76,7 +76,7 @@ class ImageMagnifier extends Component {
         },
         // 图片样式
         imgStyle: {
-          width: "300",
+          width: "400",
           height: "100%",
           margin: "0 auto",
           display: 'block'
@@ -129,7 +129,7 @@ class ImageMagnifier extends Component {
           hoverIndex = i
         }
       })
-      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*300})
+      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*400})
     }
   }
   // props 变化时更新
@@ -155,7 +155,7 @@ class ImageMagnifier extends Component {
           hoverIndex = i
         }
       })
-      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*300})
+      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*400})
     }
   }
 
@@ -222,7 +222,9 @@ class ImageMagnifier extends Component {
   initParam () {
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
     let params = JSON.parse(JSON.stringify(this.state.params));
-    cssStyle.imgContainer.width = params.width + "px";
+    console.log('params', params)
+    // cssStyle.imgContainer.width = params.width + "px";
+    cssStyle.imgContainer.width = 400 + "px";
     cssStyle.imgContainer.height = params.height + "px";
     cssStyle.magnifierContainer.width = params.width + "px";
     cssStyle.magnifierContainer.height = params.height + "px";
@@ -252,7 +254,7 @@ class ImageMagnifier extends Component {
       videoShow: false,
       cssStyle,
       hoverIndex: i,
-      offsetX: i * 300
+      offsetX: i * 400
     })
   }
   // 图片加载情况
@@ -292,6 +294,7 @@ class ImageMagnifier extends Component {
     return (
       <div>
         <div style={{ position: 'relative' }}>
+          {/* <div className="bigImageOutBox" style={cssStyle.imgContainer}> */}
           <div className="bigImageOutBox" style={cssStyle.imgContainer}>
             <div className="bigImageInnerBox rc-loaded--final" style={{transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`}}>
               {
@@ -352,7 +355,7 @@ class ImageMagnifier extends Component {
           {video && <video className={`rc-img--square rc-img--square-custom ${hoverIndex === images.length ? 'hover' : ''}`} onMouseEnter={() => {
             let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
             cssStyle.imgContainer.cursor = 'pointer'
-            this.setState({ videoShow: true, cssStyle ,hoverIndex: images.length, offsetX: images.length * 300})
+            this.setState({ videoShow: true, cssStyle ,hoverIndex: images.length, offsetX: images.length * 400})
           }} src={video ? video : ''}></video>}
         </div>
         </div>

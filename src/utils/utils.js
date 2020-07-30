@@ -33,7 +33,7 @@ export function formatMoney (val, currency = 1) {
   //   })
   // }
   // console.log(currencyObj.valueEn, 'currencyObj.valueEn')
-  return `${currencyObj.valueEn} ${ret}`
+  return `${currencyObj?currencyObj.valueEn: ''} ${ret}`
 
 }
 
