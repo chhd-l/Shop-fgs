@@ -173,11 +173,11 @@ class LoginCart extends React.Component {
       })
     }, 3000)
   }
-  handleAmountChange (e, item) {
+  handleAmountChange (value, item) {
     this.setState({
       errorShow: false
     })
-    const val = e.target.value
+    const val = value
     if (val === '') {
       item.buyCount = val
       this.setState({
@@ -198,7 +198,10 @@ class LoginCart extends React.Component {
         tmp = quantityMaxLimit
       }
       item.buyCount = tmp
-      this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
+      clearTimeout(this.amountTimer);
+      this.amountTimer = setTimeout(() => {
+        this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
+      }, 500)
     }
   }
   addQuantity (item) {
@@ -359,7 +362,7 @@ class LoginCart extends React.Component {
                         value={pitem.buyCount}
                         min="1"
                         max="10"
-                        onChange={(e) => this.handleAmountChange(e, pitem)}
+                        onChange={(e) => this.handleAmountChange(e.target.value, pitem)}
                       />
                       <span
                         className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
@@ -436,7 +439,7 @@ class LoginCart extends React.Component {
                 <input
                   className="rc-quantity__input"
                   value={pitem.buyCount}
-                  onChange={(e) => this.handleAmountChange(e, pitem)}
+                  onChange={(e) => this.handleAmountChange(e.target.value, pitem)}
                   min="1"
                   max="10" />
                 <span
@@ -605,7 +608,6 @@ class LoginCart extends React.Component {
       selectedSpecDetailId.push(selectedItem.specDetailId)
     }
 
-    // debugger
     const selectedGoodsInfo = pitem.goodsInfos.filter(ele => ele.mockSpecIds.sort().toString() === selectedSpecIds.sort().toString()
       && ele.mockSpecDetailIds.sort().toString() === selectedSpecDetailId.sort().toString())[0]
     // this.setState({ deleteLoading: true })

@@ -13,7 +13,7 @@ import titleCfg from './title'
 
 import { getList, getProps, getLoginList } from '@/api/list'
 import { queryStoreCateIds, formatMoney } from '@/utils/utils'
-import { CATEID, STORE_CATE_ENUM } from '@/utils/constant'
+import { STORE_CATE_ENUM } from '@/utils/constant'
 import Rate from '@/components/Rate'
 import './index.css'
 
@@ -140,7 +140,7 @@ class List extends React.Component {
 
     let params = {
       storeId: process.env.REACT_APP_STOREID,
-      cateId: CATEID,
+      cateId: process.env.REACT_APP_CATEID,
       propDetails: [],
       pageNum: currentPage - 1,
       brandIds: [],
@@ -209,7 +209,7 @@ class List extends React.Component {
 
 
     if (!this.state.filterList.length) {
-      getProps(CATEID)
+      getProps(process.env.REACT_APP_CATEID)
         .then(res => {
           let tmpList = res.context
           let tmpItem = find(tmpList, v => v.propName === 'Etapa de Vida')

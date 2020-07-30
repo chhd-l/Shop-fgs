@@ -598,5 +598,6 @@ const en_US = {
   'orderSummary': 'Order Summary',
   'price': 'Price',
   'listPrice': 'List price',
+  'anonymous': 'Anonymous'
 };
 export default en_US;
