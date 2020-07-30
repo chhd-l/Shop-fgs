@@ -666,7 +666,7 @@ class PetForm extends React.Component {
   render () {
     const { petList, currentPet } = this.state
     return (
-      <div>
+      <div className="petForm">
         <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />

@@ -1255,3 +1255,6 @@
   flex-grow: 1;
   margin: 1rem 0;
 }
+.accountProfile .react-datepicker-wrapper {
+  border-bottom: 2px solid #d7d7d7;
+}
