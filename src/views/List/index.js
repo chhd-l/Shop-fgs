@@ -1,6 +1,6 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
@@ -19,6 +19,7 @@ import './index.css'
 
 @inject("loginStore")
 @observer
+@injectIntl
 class List extends React.Component {
   constructor(props) {
     super(props)
@@ -72,7 +73,8 @@ class List extends React.Component {
       filterList: [],
       initingFilter: true,
       initingList: true,
-      filterModalVisible: false
+      filterModalVisible: false,
+      currentCatogery: ''
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
@@ -98,7 +100,7 @@ class List extends React.Component {
     const t = find(STORE_CATE_ENUM, ele => ele.category == category)
     if (t) {
       let tmpArr = Array.from(storeIdList, s => t.cateName.includes(s.cateName) ? s.storeCateId : '').filter(s => !!s)
-      this.setState({ storeCateIds: tmpArr })
+      this.setState({ storeCateIds: tmpArr, currentCatogery: t.text[this.props.intl.locale] })
     }
 
     this.getProductList()
@@ -363,7 +365,7 @@ class List extends React.Component {
                   <div className={['rc-column', 'rc-triple-width', !productList.length ? 'd-flex justify-content-center align-items-center' : ''].join(' ')}>
                     {
                       !loading && <div className="position-absolute" style={{ top: '-20px' }}>
-                        {results} <FormattedMessage id="results" />
+                        <span style={{ fontWeight: 500 }}>{this.state.currentCatogery}{' '}</span>({results} <FormattedMessage id="results" />)
                       </div>
                     }
                     {!productList.length
@@ -432,7 +434,7 @@ class List extends React.Component {
                                                     {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.marketPrice || 0)))}{' '}
                                                     {
                                                       item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice && item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice > 0
-                                                        ? <span className="text-line-through" style={{ fontSize: '.8em' }}>
+                                                        ? <span className="text-line-through rc-text-colour--text" style={{ fontSize: '.8em' }}>
                                                           {formatMoney(item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice)}
                                                         </span>
                                                         : null

@@ -12,8 +12,8 @@ import { Link } from "react-router-dom"
 import { formatMoney } from "@/utils/utils"
 import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant'
 import { cloneDeep, find, findIndex } from 'lodash'
-import CART_CAT from "@/assets/images/CART_CAT.jpg";
-import CART_DOG from "@/assets/images/CART_DOG.jpg";
+import catsImg from "@/assets/images/banner-list/cats.jpg"
+import dogsImg from "@/assets/images/banner-list/dogs.jpg"
 import PetModal from '@/components/PetModal'
 
 @inject("checkoutStore")
@@ -414,7 +414,7 @@ class UnLoginCart extends React.Component {
                       : null
                   }
                 </div>
-                <div className="stock__wrapper 1111">
+                <div className="stock__wrapper">
                   <div className="stock">
                     <label className={['availability', pitem.addedFlag, pitem.addedFlag && pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
                       <span className="title-select"><FormattedMessage id="details.availability" /> :</span>
@@ -459,17 +459,16 @@ class UnLoginCart extends React.Component {
                   max="10" />
                 <span
                   className=" rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                  data-quantity-error-msg="Вы не можете заказать больше 10"
                   onClick={() => this.addQuantity(pitem)}></span>
               </div>
             </div>
             <div className="line-item-total-price d-flex justify-content-center">
               <p className="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">=</p>
-              <div className="item-total-f6a6279ea1978964b8bf0e3524 price">
+              <div className="price">
                 <div className="strike-through non-adjusted-price">
                   null
                 </div>
-                <b className="pricing line-item-total-price-amount item-total-f6a6279ea1978964b8bf0e3524 light">
+                <b className="pricing line-item-total-price-amount light">
                   {formatMoney(pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice)}
                 </b>
               </div>
@@ -746,15 +745,15 @@ class UnLoginCart extends React.Component {
               </>
               : <>
                 <div className="rc-text-center">
-                  <div className="rc-beta rc-margin-bottom--sm">
+                  <div className="rc-beta mb-1">
                     <FormattedMessage id="cart.yourShoppingCart" />
                   </div>
-                  <div className="rc-gamma title-empty">
+                  <div className="rc-gamma title-empty mb-0">
                     <FormattedMessage id="header.basketEmpty" />
                   </div>
                 </div>
                 <div className="content-asset">
-                  <div className="rc-bg-colour--brand3 rc-padding--sm">
+                  <div className="rc-bg-colour--brand3 rc-padding--sm pt-0 pb-0">
                     <div className="rc-max-width--lg rc-padding-x--lg--mobile">
                       <div>
                         <div className="rc-alpha inherit-fontsize">
@@ -762,13 +761,12 @@ class UnLoginCart extends React.Component {
                             <FormattedMessage id="cart.fullPrice" />
                           </p>
                         </div>
-                        <div className="d-flex justify-content-between flex-wrap ui-pet-item text-center">
+                        <div className="d-flex justify-content-between flex-wrap ui-pet-item text-center" style={{ margin: '0 10%' }}>
                           <div className="ui-item border radius-3">
                             <Link to="/list/dogs">
                               <img
                                 className="w-100"
-                                style={{ transform: 'scale(.8)' }}
-                                src={CART_DOG}
+                                src={dogsImg}
                                 alt="Dog" />
                               <br />
                               <h4 className="card__title red">
@@ -780,8 +778,7 @@ class UnLoginCart extends React.Component {
                             <Link to="/list/cats">
                               <img
                                 className="w-100"
-                                style={{ padding: '3rem 0 4rem' }}
-                                src={CART_CAT}
+                                src={catsImg}
                                 alt="Cat" />
                               <br /><h4 className="card__title red">
                                 <FormattedMessage id="cart.catDiet" />
