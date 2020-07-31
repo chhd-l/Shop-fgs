@@ -560,7 +560,7 @@ class PaymentComp extends React.Component {
           (this.state.isEdit &&
             window.location.pathname === "/payment/payment") ||
             (!this.state.creditCardList.length && pathname !== '/account/paymentMethod')
-            ? "rc-border-all rc-border-colour--interface checkout--padding"
+            ? ""
             : ""
           }`}
       >

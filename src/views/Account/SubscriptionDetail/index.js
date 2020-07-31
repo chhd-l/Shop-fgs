@@ -1373,9 +1373,9 @@ class SubscriptionDetail extends React.Component {
                             {this.state.isShowValidCode ? (
                               <div
                                 style={{
-                                  margin: "25px 0 0 6px",
-                                  color: "rgb(236, 0, 26)",
+                                  margin: "25px 0 0 6px"
                                 }}
+                                className="red"
                               >
                                 Promotion code(
                                 {this.state.lastPromotionInputValue}) is not
