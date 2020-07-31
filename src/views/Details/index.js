@@ -17,10 +17,7 @@ import {
   translateHtmlCharater,
   queryProps
 } from '@/utils/utils'
-import {
-  STORE_CATE_ENUM,
-  SUBSCRIPTION_DISCOUNT_RATE
-} from "@/utils/constant"
+import { STORE_CATE_ENUM } from "@/utils/constant"
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { cloneDeep, findIndex, find } from 'lodash'
 import { getDetails, getLoginDetails } from '@/api/details'
@@ -181,7 +178,7 @@ class Details extends React.Component {
           for (let item of res.context.storeCates) {
             const t = find(STORE_CATE_ENUM, ele => ele.cateName.includes(item.cateName))
             if (t) {
-              this.productRange.push(t.text[this.props.intl && this.props.intl.locale || 'en'])
+              this.productRange.push(t.text)
             }
           }
 
@@ -261,11 +258,11 @@ class Details extends React.Component {
               })
           }
           let images = []
-          if(res.context.goodsInfos.every(el => !el.goodsInfoImg)) {
-            if(res.context.images.length) {
+          if (res.context.goodsInfos.every(el => !el.goodsInfoImg)) {
+            if (res.context.images.length) {
               images = res.context.images
             }
-          }else {
+          } else {
             images = res.context.goodsInfos.filter(el => el.goodsInfoImg)
           }
           this.setState(
@@ -280,7 +277,7 @@ class Details extends React.Component {
                   goodsSpecs: res.context.goodsSpecs
                 },
                 { goodsCategory: [this.specie, this.productRange.join('&'), this.format.join('&')].join('/') }),
-                images: images,
+              images: images,
               // images: res.context.images.concat(res.context.goodsInfos),
               // images: res.context.goodsInfos.every(el => !el.goodsInfoImg)?res.context.images: res.context.goodsInfos,
               specList
@@ -663,7 +660,7 @@ class Details extends React.Component {
               <div className="product-detail product-wrapper rc-bg-colour--brand3">
                 <div className="rc-max-width--xl mb-4">
                   <BreadCrumbs />
-                  <div className="rc-padding--sm--desktop" style={{height: '650px'}}>
+                  <div className="rc-padding--sm--desktop" style={{ height: '650px' }}>
                     <div className="rc-content-h-top">
                       <div className="rc-layout-container rc-six-column">
                         <div className="rc-column rc-double-width carousel-column imageBox">

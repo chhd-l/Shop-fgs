@@ -1,3 +1,9 @@
+import ENUM_LANGFILE from "@/lang";
+import catsImg from "@/assets/images/banner-list/cats.jpg"
+import dogsImg from "@/assets/images/banner-list/dogs.jpg"
+
+const CURRENT_LANGFILE = ENUM_LANGFILE[process.env.REACT_APP_LANG]
+
 export const GTMID = 'GTM-NCWZQ3'
 export const GTM_SITE_ID = 'RCMXPCO1'
 
@@ -58,56 +64,104 @@ export const PAY_STATUS_ENUM = {
 export const STORE_CATE_ENUM = [
   {
     url: '/list/prescription-dogs',
-    category: 'prescription-dogs',
-    cateName: ['Prescription dogs'],
-    text: {
-      en: 'Prescription dogs',
-      es: 'Dietas de Prescripción Veterinaria Perros'
-    }
+    category: 'prescription-dogs', // url的查询参数
+    cateName: ['Prescription dogs'], // 匹配接口storelist相同的名字
+    text: CURRENT_LANGFILE['product.catogery1.name'], // 该分类名字，用于导航显示和GTM插码
+    title: CURRENT_LANGFILE['product.catogery1.title'], // 该分类标题(用于列表页顶部显示)
+    desc: CURRENT_LANGFILE['product.catogery1.desc'], // 该分类描述(用于列表页顶部显示)
+    img: dogsImg
   },
   {
     url: '/list/prescription-cats',
     category: 'prescription-cats',
     cateName: ['Prescription cats'],
-    text: {
-      en: 'Prescription dogs',
-      es: 'Dietas de Prescripción Veterinaria Gatos'
-    }
-  },
-  {
-    url: '/list/dogs',
-    category: 'dogs',
-    cateName: ['Prescription dogs', 'VD dogs'],
-    text: {
-      en: 'dogs',
-      es: 'Perros'
-    }
-  },
-  {
-    url: '/list/cats',
-    category: 'cats',
-    cateName: ['Prescription cats', 'VD cats'],
-    text: {
-      en: 'cats',
-      es: 'Gatos'
-    }
+    text: CURRENT_LANGFILE['product.catogery2.name'],
+    title: CURRENT_LANGFILE['product.catogery2.title'],
+    desc: CURRENT_LANGFILE['product.catogery2.desc'],
+    img: catsImg
   },
   {
     url: '/list/vcn',
     category: 'vcn',
     cateName: ['VD dogs'],
-    text: {
-      en: 'VD dogs',
-      es: 'Dietas Veterinarias Perros'
-    }
+    text: CURRENT_LANGFILE['product.catogery3.name'], 
+    title: CURRENT_LANGFILE['product.catogery3.title'],
+    desc: CURRENT_LANGFILE['product.catogery3.desc'],
+    img: dogsImg
   },
   {
     url: '/list/vd',
     category: 'vd',
     cateName: ['VD cats'],
-    text: {
-      en: 'VD cats',
-      es: 'Dietas Veterinarias Gatos'
-    }
-  }
+    text: CURRENT_LANGFILE['product.catogery4.name'],
+    title: CURRENT_LANGFILE['product.catogery4.title'],
+    desc: CURRENT_LANGFILE['product.catogery4.desc'],
+    img: catsImg
+  },
+  {
+    url: '/list/dogs',
+    category: 'dogs',
+    cateName: ['Prescription dogs', 'VD dogs'],
+    text: CURRENT_LANGFILE['product.catogery5.name']
+  },
+  {
+    url: '/list/cats',
+    category: 'cats',
+    cateName: ['Prescription cats', 'VD cats'],
+    text: CURRENT_LANGFILE['product.catogery6.name']
+  },
+  {
+    url: '/list/urinary',
+    category: 'urinary',
+    cateName: ['Urinary'],
+    text: CURRENT_LANGFILE['product.de.catogery1.name'],
+    title: CURRENT_LANGFILE['product.de.catogery1.title'],
+    desc: CURRENT_LANGFILE['product.de.catogery1.desc'],
+    img: dogsImg // ???
+  },
+  {
+    url: '/list/dermatology',
+    category: 'dermatology',
+    cateName: ['Dermatology'],
+    text: CURRENT_LANGFILE['product.de.catogery2.name'],
+    title: CURRENT_LANGFILE['product.de.catogery2.title'],
+    desc: CURRENT_LANGFILE['product.de.catogery2.desc'],
+    img: dogsImg // ???
+  },
+  {
+    url: '/list/weight-management',
+    category: 'weight-management',
+    cateName: ['Weight Management'],
+    text: CURRENT_LANGFILE['product.de.catogery3.name'],
+    title: CURRENT_LANGFILE['product.de.catogery3.title'],
+    desc: CURRENT_LANGFILE['product.de.catogery3.desc'],
+    img: dogsImg // ???
+  },
+  {
+    url: '/list/gastrointestinal-tract',
+    category: 'gastrointestinal-tract',
+    cateName: ['Gastrointestinal Tract'],
+    text: CURRENT_LANGFILE['product.de.catogery4.name'],
+    title: CURRENT_LANGFILE['product.de.catogery4.title'],
+    desc: CURRENT_LANGFILE['product.de.catogery4.desc'],
+    img: dogsImg // ???
+  },
+  {
+    url: '/list/vital-support',
+    category: 'vital-support',
+    cateName: ['Vital Support'],
+    text: CURRENT_LANGFILE['product.de.catogery5.name'],
+    title: CURRENT_LANGFILE['product.de.catogery5.title'],
+    desc: CURRENT_LANGFILE['product.de.catogery5.desc'],
+    img: dogsImg // ???
+  },
+  {
+    url: '/list/health-management',
+    category: 'health-management',
+    cateName: ['Health Management'],
+    text: CURRENT_LANGFILE['product.de.catogery6.name'],
+    title: CURRENT_LANGFILE['product.de.catogery6.title'],
+    desc: CURRENT_LANGFILE['product.de.catogery6.desc'],
+    img: dogsImg // ???
+  },
 ]

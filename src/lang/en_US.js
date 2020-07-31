@@ -598,6 +598,42 @@ const en_US = {
   'orderSummary': 'Order Summary',
   'price': 'Price',
   'listPrice': 'List price',
-  'anonymous': 'Anonymous'
+  'anonymous': 'Anonymous',
+
+  // 产品分类
+  'product.catogery1.name': 'Prescription dogs',
+  'product.catogery1.title': 'Dietas de prescripción veterinaria para perros',
+  'product.catogery1.desc': 'Dietas terapéuticas que ayudan a mantener la salud de los perros con problemas diagnosticados',
+  'product.catogery2.name': 'Prescription cats',
+  'product.catogery2.title': 'Dietas de prescripción veterinaria para gatos',
+  'product.catogery2.desc': 'Dietas terapéuticas que ayudan a mantener la salud de los gatos con problemas diagnosticados',
+  'product.catogery3.name': 'VD dogs',
+  'product.catogery3.title': 'Dietas de Prescripción Veterinaria Perros',
+  'product.catogery3.desc': 'Dietas terapéuticas que ayudan a mantener la salud de los perros con problemas diagnosticados',
+  'product.catogery4.name': 'VD cats',
+  'product.catogery4.title': 'Dietas de Prescripción Veterinaria Gatos',
+  'product.catogery4.desc': 'Dietas terapéuticas que ayudan a mantener la salud de los gatos con problemas diagnosticados',
+  'product.catogery5.name': 'dogs',
+  'product.catogery6.name': 'cats',
+
+  'product.de.catogery1.name': 'Urinary',
+  'product.de.catogery1.title': 'Urinary',
+  'product.de.catogery1.desc': 'Erkrankungen der ableitenden Harnwege',
+  'product.de.catogery2.name': 'Dermatology',
+  'product.de.catogery2.title': 'Dermatology',
+  'product.de.catogery2.desc': 'Adverse Futtermittelreaktionen, Dermatosen und Haarausfall',
+  'product.de.catogery3.name': 'Weight Management',
+  'product.de.catogery3.title': 'Weight Management',
+  'product.de.catogery3.desc': 'Übergewicht/Adipositas, Diabetes mellitus',
+  'product.de.catogery4.name': 'Gastrointestinal Tract',
+  'product.de.catogery4.title': 'Gastrointestinal Tract',
+  'product.de.catogery4.desc': 'Magen-Darm-Erkrankungen, Lebererkrankungen, Rekonvaleszenz',
+  'product.de.catogery5.name': 'Vital Support',
+  'product.de.catogery5.title': 'Vital Support',
+  'product.de.catogery5.desc': 'Nierenerkrankungen, Mobilität, Herzerkrankungen',
+  'product.de.catogery6.name': 'Health Management',
+  'product.de.catogery6.title': 'Health Management',
+  'product.de.catogery6.desc': 'Optimales Gewicht, Seniorengesundheit, Zahnhygiene, Nahrungsumstellung',
+
 };
 export default en_US;

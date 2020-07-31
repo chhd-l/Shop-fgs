@@ -505,6 +505,25 @@ const en_US = {
   "modalCancelAllContent": "Sind Sie sicher, dass Sie alle folgenden Lieferungen stornieren möchten?",
   "searchPrescriber": "Suche eine Klinik",
   "unLoginSubscriptionTips": "Abonnement ist erst nach Anmeldung möglich",
-  "download": "Herunterladen"
+  "download": "Herunterladen",
+
+  'product.de.catogery1.name': 'Urin',
+  'product.de.catogery1.title': 'Urinary',
+  'product.de.catogery1.desc': 'Erkrankungen der ableitenden Harnwege',
+  'product.de.catogery2.name': 'Dermatologie',
+  'product.de.catogery2.title': 'Dermatology',
+  'product.de.catogery2.desc': 'Adverse Futtermittelreaktionen, Dermatosen und Haarausfall',
+  'product.de.catogery3.name': 'Gewichtsmanagement',
+  'product.de.catogery3.title': 'Weight Management',
+  'product.de.catogery3.desc': 'Übergewicht/Adipositas, Diabetes mellitus',
+  'product.de.catogery4.name': 'Magen-Darmtrakt',
+  'product.de.catogery4.title': 'Gastrointestinal Tract',
+  'product.de.catogery4.desc': 'Magen-Darm-Erkrankungen, Lebererkrankungen, Rekonvaleszenz',
+  'product.de.catogery5.name': 'Lebenswichtige Unterstützung',
+  'product.de.catogery5.title': 'Vital Support',
+  'product.de.catogery5.desc': 'Nierenerkrankungen, Mobilität, Herzerkrankungen',
+  'product.de.catogery6.name': 'Gesundheitsmanagement',
+  'product.de.catogery6.title': 'Health Management',
+  'product.de.catogery6.desc': 'Optimales Gewicht, Seniorengesundheit, Zahnhygiene, Nahrungsumstellung',
 }
 export default en_US;

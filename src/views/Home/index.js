@@ -11,6 +11,14 @@ import CARECAT from "@/assets/images/MX-L-VET-CARE-CAT.jpg";
 import CAREDOG from "@/assets/images/MX-L-VET-CARE-DOG.jpg";
 import DIETCAT from "@/assets/images/MX-L-VET-DIET-CAT.jpg";
 import DIETDOG from "@/assets/images/MX-L-VET-DIET-DOG.jpg";
+
+import Urinary from "@/assets/images/home-catogery/Urinary.jpg";
+import Dermatology from "@/assets/images/home-catogery/Dermatology.jpg";
+import WeightManagement from "@/assets/images/home-catogery/Weight-Management.jpg";
+import Gastrointestinal from "@/assets/images/home-catogery/Gastrointestinal.jpg";
+import VitalSupport from "@/assets/images/home-catogery/Vital-Support.jpg";
+import HealthManagement from "@/assets/images/home-catogery/Health-Management.jpg";
+
 import Pomotion25offImg from "@/assets/images/pomotion_25off.png";
 
 
@@ -85,17 +93,17 @@ class Home extends React.Component {
                       {process.env.REACT_APP_LANG === 'de'
                         ? <>
                           <div className="col-md-4 col-6">
-                            <FormattedMessage id="home.catogery1">
+                            <FormattedMessage id="product.de.catogery1.name">
                               {(txt) => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/vcn"
+                                  to="/list/urinary"
                                   title={txt}>
                                   <picture className="category-cards__card__img">
                                     <source
-                                      srcSet={CAREDOG} />
+                                      srcSet={Urinary} />
                                     <img
-                                      src={CAREDOG}
+                                      src={Urinary}
                                       alt={txt}
                                       title={txt} />
                                   </picture>
@@ -109,17 +117,17 @@ class Home extends React.Component {
                             </FormattedMessage>
                           </div>
                           <div className="col-md-4 col-6">
-                            <FormattedMessage id="home.catogery2">
+                            <FormattedMessage id="product.de.catogery2.name">
                               {(txt) => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/vd"
+                                  to="/list/dermatology"
                                   title={txt}>
                                   <picture className="category-cards__card__img">
                                     <source
-                                      srcSet={CARECAT} />
+                                      srcSet={Dermatology} />
                                     <img
-                                      src={CARECAT}
+                                      src={Dermatology}
                                       alt={txt}
                                       title={txt} />
                                   </picture>
@@ -132,17 +140,17 @@ class Home extends React.Component {
                             </FormattedMessage>
                           </div>
                           <div className="col-md-4 col-6">
-                            <FormattedMessage id="home.catogery3">
+                            <FormattedMessage id="product.de.catogery3.name">
                               {txt => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/prescription-dogs"
+                                  to="/list/weight-management"
                                   title={txt}>
                                   <picture className="category-cards__card__img">
                                     <source
-                                      srcSet={DIETDOG} />
+                                      srcSet={WeightManagement} />
                                     <img
-                                      src={DIETDOG}
+                                      src={WeightManagement}
                                       alt={txt}
                                       title={txt} />
                                   </picture>
@@ -155,17 +163,17 @@ class Home extends React.Component {
                             </FormattedMessage>
                           </div>
                           <div className="col-md-4 col-6">
-                            <FormattedMessage id="home.catogery4">
+                            <FormattedMessage id="product.de.catogery4.name">
                               {txt => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/prescription-cats"
+                                  to="/list/gastrointestinal-tract"
                                   title={txt}>
                                   <picture className="category-cards__card__img">
                                     <source
-                                      srcSet={DIETCAT} />
+                                      srcSet={Gastrointestinal} />
                                     <img
-                                      src={DIETCAT}
+                                      src={Gastrointestinal}
                                       alt={txt}
                                       title={txt} />
                                   </picture>
@@ -178,17 +186,17 @@ class Home extends React.Component {
                             </FormattedMessage>
                           </div>
                           <div className="col-md-4 col-6">
-                            <FormattedMessage id="home.catogery7">
+                            <FormattedMessage id="product.de.catogery5.name">
                               {txt => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/prescription-cats"
+                                  to="/list/vital-support"
                                   title={txt}>
                                   <picture className="category-cards__card__img">
                                     <source
-                                      srcSet={DIETCAT} />
+                                      srcSet={VitalSupport} />
                                     <img
-                                      src={DIETCAT}
+                                      src={VitalSupport}
                                       alt={txt}
                                       title={txt} />
                                   </picture>
@@ -201,17 +209,17 @@ class Home extends React.Component {
                             </FormattedMessage>
                           </div>
                           <div className="col-md-4 col-6">
-                            <FormattedMessage id="home.catogery8">
+                            <FormattedMessage id="product.de.catogery6.name">
                               {txt => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/prescription-cats"
+                                  to="/list/health-management"
                                   title={txt}>
                                   <picture className="category-cards__card__img">
                                     <source
-                                      srcSet={DIETCAT} />
+                                      srcSet={HealthManagement} />
                                     <img
-                                      src={DIETCAT}
+                                      src={HealthManagement}
                                       alt={txt}
                                       title={txt} />
                                   </picture>
