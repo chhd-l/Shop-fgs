@@ -56,18 +56,19 @@ class PaymentComp extends React.Component {
     };
   }
   async componentWillReceiveProps() {
-    if (this.props.loginStore.isLogin) {
-      await this.getPaymentMethodList();
-      if (this.state.creditCardList.length) {
-        this.state.creditCardList.map(el => {
-          if(el.id === this.props.paymentId) {
-            el.selected = true
-          }
-        })
-        // this.props.getSelectedValue && this.props.getSelectedValue(this.state.creditCardList[0]);
-      }
-      this.setState({ creditCardList: this.state.creditCardList });
-    }
+    // console.log('props')
+    // if (this.props.loginStore.isLogin) {
+    //   await this.getPaymentMethodList();
+    //   if (this.state.creditCardList.length) {
+    //     this.state.creditCardList.map(el => {
+    //       if(el.id === this.props.paymentId) {
+    //         el.selected = true
+    //       }
+    //     })
+    //     // this.props.getSelectedValue && this.props.getSelectedValue(this.state.creditCardList[0]);
+    //   }
+    //   this.setState({ creditCardList: this.state.creditCardList });
+    // }
   }
   async componentDidMount() {
     console.log("111");

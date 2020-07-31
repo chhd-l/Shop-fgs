@@ -41,20 +41,25 @@ class LoginDeliveryAddress extends React.Component {
       successTipVisible: false,
       saveErrorMsg: "",
       selectedId: "",
-      isBillSame: true
+      isBillSame: true,
+      type: ''
     };
     this.timer = null;
   }
-  async componentWillReceiveProps () {
-    if (this.props.type === 'delivery') {
-      this.setState({ selectedId: this.props.deliveryAddressId }, () => {
-        this.queryAddressList();
-      })
-    } else {
-      this.setState({ selectedId: this.props.billingAddressId }, () => {
-        this.queryAddressList();
-      })
+  async componentWillReceiveProps (props) {
+    if(props.type !== this.state.type) {
+      if (props.type === 'delivery') {
+        this.setState({ selectedId: props.deliveryAddressId }, () => {
+          this.queryAddressList();
+        })
+      } else {
+        this.setState({ selectedId: props.billingAddressId }, () => {
+          this.queryAddressList();
+        })
+      }
     }
+    console.log(this.props.type ,'props', this.props.type !== this.state.type, props)
+    this.setState({type: props.type})
   }
   async componentDidMount () {
     getDictionary({ type: "city" }).then((res) => {
@@ -76,7 +81,16 @@ class LoginDeliveryAddress extends React.Component {
         deliveryAddress: deliveryAddress,
       });
     });
-    this.queryAddressList();
+    // this.queryAddressList();
+    // if (this.props.type === 'delivery') {
+    //   this.setState({ selectedId: this.props.deliveryAddressId }, () => {
+    //     this.queryAddressList();
+    //   })
+    // } else {
+    //   this.setState({ selectedId: this.props.billingAddressId }, () => {
+    //     this.queryAddressList();
+    //   })
+    // }
   }
   async queryAddressList () {
     const { selectedId } = this.state;

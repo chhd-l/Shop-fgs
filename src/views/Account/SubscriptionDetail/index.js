@@ -359,7 +359,7 @@ class SubscriptionDetail extends React.Component {
       });
     } catch (err) {
       this.showErrMsg(err);
-      throw new Error(err);
+      // throw new Error(err);
     } finally {
       this.setState({ loading: false });
     }
@@ -444,6 +444,7 @@ class SubscriptionDetail extends React.Component {
       todaydate,
     } = this.state;
     console.log(todaydate, this.state.minDate, "date", subDetail.frequency);
+    console.log('props11', addressType)
     // const [startDate, setStartDate] = useState(new Date());
     return (
       <div>
