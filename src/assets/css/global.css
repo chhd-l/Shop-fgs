@@ -22442,6 +22442,15 @@ tr.rc-table__row.inactive td:after {
 .text-line-through {
   text-decoration: line-through
 }
+.icon-refresh {
+  background-image: url(../../assets/images/half-start.png);
+  width: 24px;
+  background-repeat: no-repeat;
+  background-size: 1.04rem;
+  position: relative;
+  top: 0.45rem;
+  left: 4px;
+}
 @keyframes rotate {
   from {
       transform: rotatez(0deg);
