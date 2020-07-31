@@ -582,11 +582,13 @@ const en_US = {
   searchPrescriber: "Search a clinic",
   download: "Download",
   //qhx新增
-  unLoginSubscriptionTips: "Subscription is possible only after registration",
-  apply: "Apply",
-  subscribeDiscount: "Subscription Save Discount",
-  customerReviews: "Customer reviews",
-  sortBy: "Sort by",
+  'unLoginSubscriptionTips': 'Subscription is possible only after registration',
+  'apply': 'Apply',
+  'subscribeDiscount': 'Subscription Save Discount',
+  'customerReviews': 'Customer reviews',
+  'sortBy': 'Sort by',
+  'adyen':'Adyen',
+  'adyenPayFail':'AdyenPayFail',
   //qhx新增
   delivery: "delivery",
   FrequentQuestions: "Frequent questions",
