@@ -156,7 +156,7 @@ class OxxoConfirm extends Component {
               values={{
                 val: (
                   <span style={{ color: "#e2001a" }}>
-                    {this.props.intl.messages.rememberHours}
+                    7:00
                   </span>
                 ),
               }}

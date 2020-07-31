@@ -566,8 +566,7 @@ const en_US = {
   inputYourEmailReceivePayment:
     "Input your email to receive payment voucher & order status notices.",
   remember48Hours:
-    "Remember that you have {val} to make the deposit or the order will be canceled when the voucher expired.",
-  rememberHours: "48 hours",
+    "Remember that the order before {val}, the payment will expire before {val} pm two days later, or after {val} pm, the payment will expire before {val} pm three days later.",
   active: "Active",
   inactive: "Inactive",
   visitStoreMap: "Visit store map",
