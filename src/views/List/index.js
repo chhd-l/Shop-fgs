@@ -326,7 +326,8 @@ class List extends React.Component {
                   <img
                     className="mw-100"
                     src={titleData.img}
-                    alt="" />
+                    alt=""
+                    style={{ width: '63%', margin: '0 auto' }} />
                 </div>
               </div>
             </div>

@@ -1564,9 +1564,8 @@ label.availability {
 .show-image-magnifier #tns1-ow{z-index: 1;}
 
 .rc-img--square.rc-img--square-custom {
-  border: 1px solid #999;
+  border: 1px solid rgba(0,0,0,.2);
   background-size: contain;
-  margin-left: 5px;
 }
 
 .rc-img--square.rc-img--square-custom:hover,
