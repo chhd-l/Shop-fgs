@@ -56,18 +56,19 @@ class PaymentComp extends React.Component {
     };
   }
   async componentWillReceiveProps() {
-    if (this.props.loginStore.isLogin) {
-      await this.getPaymentMethodList();
-      if (this.state.creditCardList.length) {
-        this.state.creditCardList.map(el => {
-          if(el.id === this.props.paymentId) {
-            el.selected = true
-          }
-        })
-        // this.props.getSelectedValue && this.props.getSelectedValue(this.state.creditCardList[0]);
-      }
-      this.setState({ creditCardList: this.state.creditCardList });
-    }
+    // console.log('props')
+    // if (this.props.loginStore.isLogin) {
+    //   await this.getPaymentMethodList();
+    //   if (this.state.creditCardList.length) {
+    //     this.state.creditCardList.map(el => {
+    //       if(el.id === this.props.paymentId) {
+    //         el.selected = true
+    //       }
+    //     })
+    //     // this.props.getSelectedValue && this.props.getSelectedValue(this.state.creditCardList[0]);
+    //   }
+    //   this.setState({ creditCardList: this.state.creditCardList });
+    // }
   }
   async componentDidMount() {
     console.log("111");
@@ -240,8 +241,15 @@ class PaymentComp extends React.Component {
     const name = target.name;
     const { creditCardInfo } = this.state;
     if (name === "cardNumber") {
-      console.log(value, value.replace(/\s*/g, ""));
-      creditCardInfo[name] = value.replace(/\s*/g, "");
+      let beforeValue = value.substr(0, value.length - 1);
+      let inputValue = value.substr(value.length - 1, 1);
+      if(isNaN(inputValue)) {
+        creditCardInfo[name] = beforeValue
+      }else {
+        creditCardInfo[name] = value.replace(/\s*/g, "");  
+      }
+      
+      // creditCardInfo[name] = value.replace(/\s*/g, "");
     } else if (name === "cardMmyy") {
       // 获取 / 前后数字
       let splitArr = value.split('/')
@@ -1079,7 +1087,7 @@ class PaymentComp extends React.Component {
                                   input-setup="true"
                                 >
                                   <input
-                                    type="number"
+                                    type="tel"
                                     className="rc-input__control form-control email"
                                     id="number"
                                     value={creditCardInfo.cardNumber}

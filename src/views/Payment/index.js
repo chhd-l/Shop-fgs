@@ -32,6 +32,9 @@ import store from "storejs";
 import axios from "axios";
 import "./index.css";
 import OxxoConfirm from "./modules/OxxoConfirm";
+import {
+  getAdyenParam,
+} from "./adyen/utils"
 
 const rules = [
   {
@@ -131,7 +134,9 @@ class Payment extends React.Component {
       payosdata: {},
       selectedCardInfo: {},
       isToPayNow: sessionStorage.getItem("rc-tid"),
-      showOxxoForm: false
+      showOxxoForm: false,
+      tab:0,//0:Credit Card 1: OXXO 2: Adyen
+      adyenPayParam:{}
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
@@ -257,6 +262,57 @@ class Payment extends React.Component {
     this.setState({
       isCompleteCredit: true
     });
+  }
+  showAdyenPay(){
+    this.setState({ showOxxoForm: true,tab:2 })
+    this.initAdyenPay()
+  }
+  //1.初始化adyen
+  initAdyenPay(){
+    const AdyenCheckout = window.AdyenCheckout
+    // (1) Create an instance of AdyenCheckout
+    const checkout = new AdyenCheckout({
+        environment: 'test',
+        originKey: process.env.REACT_APP_AdyenOriginKEY,
+    });
+    // (2). Create and mount the Component
+    const card = checkout
+        .create('card', {
+            styles: {},
+            placeholders: {},
+            showPayButton: true,
+            onSubmit: (state, component) => {
+                if (state.isValid) {
+                   let adyenPayParam = getAdyenParam(card.data);
+                   this.setState({
+                    adyenPayParam
+                   },()=>{
+                     console.log({adyenPayParam:this.state.adyenPayParam})  
+                     this.adyenPayment()                 
+                   })
+                }
+            },
+            onChange: (state, component) => {}
+        })
+        .mount('#card-container');
+    
+  }
+  //2.进行支付
+  async adyenPayment () {
+    try{
+      var addressParameter = await this.goConfirmation();
+      var parameters = Object.assign(addressParameter, {
+        ...this.state.adyenPayParam
+      },{country: "MEX"});//国家暂时填的任意,后台接口需要
+      let res = await confirmAndCommit(parameters);
+      if (res.code === "K-000000") {
+        this.props.history.push("/confirmation");
+      }
+    }catch(err){
+      this.showErrorMsg(this.props.intl.messages.adyenPayFail);
+    }finally{
+      this.endLoading()
+    }
   }
   /**
    * save address/comment
@@ -1095,37 +1151,51 @@ class Payment extends React.Component {
                       className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break"
                       role="tablist"
                     >
-                      <li className="rc-tabs-li" style={{ width: "40%" }}>
+                      <li className="rc-tabs-li" style={{ width: "33%" }}>
                         <button
                           className="rc-tab text-break"
-                          onClick={() => this.setState({ showOxxoForm: false })}
+                          onClick={() => this.setState({ showOxxoForm: false,tab:0 })}
                           style={{ padding: "8px 15px", width: "100%" }}
                           data-toggle="creditCard"
                           aria-selected={
-                            this.state.showOxxoForm ? "false" : "true"
+                            this.state.tab===0 ? "true" : "false"
                           }
                           role="tab"
                         >
                           <FormattedMessage id="creditCard"></FormattedMessage>
                         </button>
                       </li>
-                      <li className="rc-tabs-li" style={{ width: "40%" }}>
+                      <li className="rc-tabs-li" style={{ width: "33%" }}>
                         <button
                           className="rc-tab text-break"
-                          onClick={() => this.setState({ showOxxoForm: true })}
+                          onClick={() => this.setState({ showOxxoForm: true,tab:1 })}
                           style={{ padding: "8px 15px", width: "100%" }}
                           data-toggle="oxxo"
                           aria-selected={
-                            this.state.showOxxoForm ? "true" : "false"
+                            this.state.showOxxoForm===1 ? "true" : "false"
                           }
                           role="tab"
                         >
                           <FormattedMessage id="oxxo"></FormattedMessage>
                         </button>
                       </li>
+                      <li className="rc-tabs-li" style={{ width: "33%" }}>
+                        <button
+                          className="rc-tab text-break"
+                          onClick={() => this.showAdyenPay()}
+                          style={{ padding: "8px 15px", width: "100%" }}
+                          data-toggle="oxxo"
+                          aria-selected={
+                            this.state.showOxxoForm===2 ? "true" : "false"
+                          }
+                          role="tab"
+                        >
+                          <FormattedMessage id="adyen"></FormattedMessage>
+                        </button>
+                      </li>
                     </ul>
                   </nav>
-                  {this.state.showOxxoForm ? (
+                  {this.state.tab===1 ? (
                     <OxxoConfirm
                       history={this.props.history}
                       getParameter={() => this.goConfirmation()}
@@ -1137,7 +1207,7 @@ class Payment extends React.Component {
                     )}
                   <div
                     style={{
-                      display: this.state.showOxxoForm ? "none" : "block",
+                      display: this.state.tab===0 ? "block" : "none",
                     }}
                   >
                     <div className="card payment-form">
@@ -1529,6 +1599,15 @@ class Payment extends React.Component {
                           </button>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                  <div style={{
+                      display: this.state.tab===2 ? "block" : "none",
+                    }}>
+                     <div class="payment-method">
+                        <div id="card-container" class="payment-method__container">
+                            {/* Card Component will be rendered here */}
+                        </div>
                     </div>
                   </div>
                 </div>

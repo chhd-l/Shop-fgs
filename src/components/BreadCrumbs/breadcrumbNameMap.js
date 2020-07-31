@@ -1,10 +1,10 @@
 const breadcrumbNameMap = {
   '/list/dogs': [{ name: 'home.catogery6' }],
   '/list/cats': [{ name: 'home.catogery5' }],
-  '/list/vcn': [{ name: 'home.catogery1' }],
-  '/list/vd': [{ name: 'home.catogery2' }],
-  '/list/prescription-dogs': [{ name: 'home.catogery3' }],
-  '/list/prescription-cats': [{ name: 'home.catogery4' }],
+  '/list/vcn': [{ name: 'product.catogery3.name' }],
+  '/list/vd': [{ name: 'product.catogery4.name' }],
+  '/list/prescription-dogs': [{ name: 'product.catogery1.name' }],
+  '/list/prescription-cats': [{ name: 'product.catogery2.name' }], 
   '/list/keywords': [{ name: 'viewResults' }],
   '/account': [
     { name: 'account.personalArea' }
@@ -44,7 +44,6 @@ const breadcrumbNameMap = {
     { name: 'order.orderDetails' }
   ],
 
-  // subscription-detail/S20200717090236209
   '/account/subscription-detail/:subscriptionNumber': [
     { name: 'account.personalArea', href: '/account' },
     { name: 'subscription', href: '/account/subscription' },

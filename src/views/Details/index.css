@@ -1564,9 +1564,8 @@ label.availability {
 .show-image-magnifier #tns1-ow{z-index: 1;}
 
 .rc-img--square.rc-img--square-custom {
-  border: 1px solid #999;
+  border: 1px solid rgba(0,0,0,.2);
   background-size: contain;
-  margin-left: 5px;
 }
 
 .rc-img--square.rc-img--square-custom:hover,
@@ -1688,16 +1687,22 @@ p {
   padding-right: 0!important;
 }
 
-.showBigImg{
-  max-width: 300px;
-  max-height: 300px;
+.showBigImg {
+  width: 70vw;
+  height: 65vh;
   position: fixed;
   z-index: 61;
-  left: 38%;
+  left: 15%;
   top: 20%;
   display: flex;
   align-items: center;
-  margin: 5%;
+  /* margin: 5%; */
+  background: black;
+  justify-content: space-evenly;
+  padding: 5rem;
+}
+.ImgBox{
+max-width: 80%;
 }
 .Mask{
   background-color: black;
@@ -1722,3 +1727,19 @@ p {
   cursor: pointer;
 }
 
+.cancelIcon{
+  position: fixed;
+    width: 20px;
+    height: 20px;
+    left: 85;
+    left: 84%;
+    top: 21%;
+    color: white;
+    z-index: 1000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background: grey;
+    cursor: pointer;
+}

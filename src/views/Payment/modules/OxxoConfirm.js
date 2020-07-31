@@ -39,7 +39,6 @@ class OxxoConfirm extends Component {
         email: this.state.email,
         country: "MEX",
       });
-      console.log(JSON.stringify(parameters));
       let res = await confirmAndCommit(parameters);
       if (res.code === "K-000000") {
         var oxxoContent = res.context[0];

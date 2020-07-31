@@ -82,7 +82,7 @@ class ClinicEditForm extends React.Component {
     e.nativeEvent.stopImmediatePropagation()
     const { form } = this.state
     form.clinicName = item.prescriberName
-    form.clinicId = item.prescriberId
+    form.clinicId = item.id
     this.setState({
       form: form,
       clinicList: []
