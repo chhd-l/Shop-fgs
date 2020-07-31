@@ -144,7 +144,7 @@ class Reviews extends React.Component {
     console.log("点击方向是：", direction)
     console.log("当前是第", this.state.showPicIndex)
     if (direction > 0) {
-      if (this.state.showPicIndex + 1 == this.state.imgList.length - 1) {
+      if (this.state.showPicIndex + 1 == this.state.imgList.length) {
         this.setState({
           showPicIndex: 0
         })
@@ -196,15 +196,14 @@ class Reviews extends React.Component {
           this.state.showPicIndex >= 0 && this.state.imgList ? (
             <div>
               <div className="showBigImg">
-                <div className="direction" onClick={() => this.handleDirectionClick(-1)}> 《 </div>
-                <div className="ImgBox">
-                  <img src={this.state.imgList[this.state.showPicIndex].artworkUrl}></img>
-                  <span className="desc">{this.state.showPicIndex + 1} of {this.state.imgList.length}</span>
-                </div>
-                <div className="direction" onClick={() => this.handleDirectionClick(1)}> 》 </div>
-
+                <div className="direction rc-icon rc-left rc-iconography  " onClick={() => this.handleDirectionClick(-1)}></div>
+                  <img style={{maxWidth:'100%',maxHeight:'100%'}}src={this.state.imgList[this.state.showPicIndex].artworkUrl}></img>
+                  <span className="desc" style={{position:"absolute",width:"100%",bottom:'10%'}}>{this.state.showPicIndex + 1} of {this.state.imgList.length}</span>
+            
+                <div className="direction rc-icon rc-right rc-iconography  " onClick={() => this.handleDirectionClick(1)}></div>
               </div>
               <div className="Mask" onClick={this.handleCancelMask.bind(this)}></div>
+              <div className="cancelIcon" onClick={this.handleCancelMask.bind(this)}>X</div>
             </div>
           ) : null
         }
@@ -214,15 +213,15 @@ class Reviews extends React.Component {
               <div>
                 <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
               </div>
-              <div>
+              <div style={{marginLeft:'8rem'}}>
                 <div className="rc-max-width--xl rc-padding-x--sm">
-                  <div className="rc-column padl0">
-                    <h5 className="red-text">
+                  <div className="rc-column padl0" style={{marginBottom:'2rem'}}>
+                    <h3 className="red-text" style={{fontSize:'30px'}}>
                       <FormattedMessage id="customerReviews" />
-                    </h5>
+                    </h3>
                   </div>
                 </div>
-                <div className="rc-max-width--xl rc-padding-x--sm">
+                <div className="rc-max-width--xl rc-padding-x--sm" style={{marginBottom:'4rem'}}>
                   <div className="rc-column padl0">
                     <form>
                       <span className="rc-select rc-select-processed">
@@ -238,7 +237,7 @@ class Reviews extends React.Component {
                   </div>
                 </div>
 
-                <div className="rc-layout-container rc-one-column rc-max-width--lg">
+                <div className="rc-layout-container rc-one-column rc-max-width--lg" style={{maxWidth:'1200px'}}>
                   <div className="rc-column rc-margin-bottom--sm padl0">
                     <div className="rc-layout-container rc-margin-top--md rc-stacked">
                       <div className="rc-column rc-padding-x--none--desktop">
@@ -253,18 +252,18 @@ class Reviews extends React.Component {
                             ) :
                             (
                               data.goodsEvaluatesList.map((item, i) => (
-                                <div className="rc-layout-container rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface" key={i}>
+                                <div className="rc-layout-container rc-five-column rc-padding-bottom--md rc-border-bottom rc-border-colour--interface" key={i}>
                                   <div className="rc-column padl0 padr0">
                                     <div className="">
                                       {/*rc-padding--xs--desktop rc-padding--sm--mobile*/}
-                                      <div className="red-text">{item.commentator}</div>
-                                      <div style={{ 'fontSize': '14px' }}>{item.commentTime}</div>
+                                      <h4 className="red-text">{item.commentator}</h4>
+                                      <div style={{ 'fontSize': '14px' ,marginTop:'1rem'}}>{item.commentTime}</div>
                                     </div>
                                   </div>
                                   <div className="rc-column rc-quad-width padl0">
                                     <div className="">
                                       <Rate def={item.evaluateScore} disabled={true} />
-                                      <h3 style={{ marginTop: '1%', marginBottom: '6%' }}>Title{item.evaluateReviewTitle}</h3>
+                                      <h5 style={{ marginTop: '.5rem', marginBottom: '2rem' }}>{item.evaluateReviewTitle}</h5>
                                       <div className="break mgt-10 mgb-3">{item.title}</div>
                                       {/*{item.description}*/}
                                       <div className="img-box rc-margin-bottom--xs rc-margin-top--xs flex-wrap align-items-start">
@@ -277,7 +276,7 @@ class Reviews extends React.Component {
                                                   className="rc-img--square rc-img--square-custom mr-1"
                                                   src={img.artworkUrl}
                                                   key={j}
-                                                  style={{ width: '13%' }}
+                                                  style={{ width: '13%'}}
                                                   onClick={this.handleImgClick.bind(this, j, item.evaluateImageList)} />
                                               }
                                               else {
