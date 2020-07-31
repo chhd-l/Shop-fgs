@@ -101,7 +101,7 @@ export default class ImgUpload extends React.Component {
             </div>
           ))}
             {
-              this.state.imgList.length<=8? ( <div className="icon-add">
+              this.state.imgList.length<=2? ( <div className="icon-add">
               <div id="upImg">
                 <input
                   type="file"

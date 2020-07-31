@@ -29,7 +29,9 @@ class ProductReview extends React.Component {
             reviewList: [],
             imgList: [],
             isSubmit: false,
-            loading: false
+            loading: false,
+            title:'',
+            titleList:[]
         }
         this.selectPurchaseRate = this.selectPurchaseRate.bind(this);
         this.selectLogisticsRate = this.selectLogisticsRate.bind(this);
@@ -95,7 +97,7 @@ class ProductReview extends React.Component {
         })
         if(list) {
             list.forEach(item => {
-                if(!item.consumerComment || item.consumerComment.length > 500) {
+                if(!item.consumerComment || !item.title ||item.consumerComment.length > 500) {
                     isFillInfo = false
                 }
                 let obj = {
@@ -104,9 +106,11 @@ class ProductReview extends React.Component {
                     isAnonymous: item.isAnonymous ? 1 : 0,
                     orderNo: this.state.orderId,
                     goodsInfoId: item.id,
-                    goodsEvaluateImageList: item.goodsEvaluateImageList ? item.goodsEvaluateImageList : []
+                    goodsEvaluateImageList: item.goodsEvaluateImageList ? item.goodsEvaluateImageList : [],
+                    evaluateReviewTitle : item.title
                 }
                 goodsParams.push (obj)
+                
             })
         }
         const params = {
@@ -115,7 +119,8 @@ class ProductReview extends React.Component {
                 orderNo: this.state.orderId,
                 serverScore: this.state.purchaseRate,
                 logisticsScore: this.state.logisticsRate
-            }
+            },
+
         }
         console.log(params, 'ddddddddd=-----------')
         if (isFillInfo) {
@@ -139,12 +144,28 @@ class ProductReview extends React.Component {
                 }
             })
         }
-        // list[product.skuId].consumerComment = value
         this.setState({
             reviewList: list
         },()=>{
             console.log(this.state.reviewList, '-----------')
         })
+    }
+    handleTitleChange(e, product){
+        const value = e.target.value
+        const list = this.state.reviewList
+        if(list.length > 0) {
+            list.forEach(item => {
+                if(item.id === product.skuId) {
+                    item.title = value
+                }
+            })
+        }
+        this.setState({
+            reviewList: list
+        },()=>{
+            console.log(this.state.reviewList, '-----------')
+        })
+
     }
 
     handleInputChange(e,product) {
@@ -305,6 +326,7 @@ class ProductReview extends React.Component {
                                                                                     handleImgChange={(imgRef, product)=>this.handleImgChange(imgRef, product)}
                                                                                     selectProductRate={(rate,product) => this.selectProductRate(rate, product)}
                                                                                     handleConsumerCommentChange={(e, product) => this.handleConsumerCommentChange(e, product)}
+                                                                                    handleTitleChange={(e,product)=>this.handleTitleChange(e,product)}
                                                                                     handleInputChange={(e, product)=>this.handleInputChange(e, product)}
                                                                         />
                                                                     )
