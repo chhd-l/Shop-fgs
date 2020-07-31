@@ -220,12 +220,12 @@ class PayProductInfo extends React.Component {
                 <div style={{ marginTop: "10px" }}>
                   {!this.state.isShowValidCode && this.state.discount.map((el) => (
                     <div className="flex-layout" style={{ marginRight: "18px" }}>
-                      <label className="saveDiscount font16" style={{ color: "rgb(236, 0, 26)" }}>
-                        {this.promotionDesc || 'No promotionDesc'}
+                      <label className="saveDiscount font14" style={{ color: "rgb(236, 0, 26)" }}>
+                        {this.promotionDesc || <FormattedMessage id="NoPromotionDesc" />}
                       </label>
                       <div
                         className="text-right red-text"
-                        style={{ position: "relative" }}
+                        style={{ position: "relative",paddingTop:"7px" }}
                       >
                         <b>-{formatMoney(this.discountPrice)}</b>
                         <span
@@ -233,7 +233,7 @@ class PayProductInfo extends React.Component {
                             position: "absolute",
                             right: "-18px",
                             fontSize: "18px",
-                            bottom: "8px",
+                            top:"6px",
                             cursor: "pointer",
                           }}
                           onClick={async () => {
@@ -322,7 +322,7 @@ class PayProductInfo extends React.Component {
                     //会员
                     result = await checkoutStore.updateLoginCart(this.state.promotionInputValue, this.props.buyWay === 'frequency')
                   }
-                  if (result.backCode == 'K-000000' && result.context.promotionDiscount) { //表示输入apply promotionCode成功 
+                  if (result.backCode == 'K-000000'&&result.context.promotionDiscount) { //表示输入apply promotionCode成功,result.context.promotionDiscount
                     discount.splice(0, 1, 1);//(起始位置,替换个数,插入元素)
                     this.setState({ discount });
                     this.props.sendPromotionCode(this.state.promotionInputValue);
