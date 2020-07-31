@@ -1689,7 +1689,7 @@ class Payment extends React.Component {
                     </div>
                   </div>
                   <div className={`${this.state.paymentTypeVal === "adyen" ? '' : 'hidden'}`}>
-                    <div class="payment-method">
+                    <div class="payment-method checkout--padding">
                       <div id="card-container" class="payment-method__container">
                         {/* Card Component will be rendered here */}
                       </div>
