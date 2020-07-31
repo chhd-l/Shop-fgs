@@ -488,6 +488,9 @@ class Payment extends React.Component {
               ];
           }
         }
+        if (!tradeMarketingList[0].marketingId) {
+          tradeMarketingList = []
+        }
       }
 
       let param3 = {
