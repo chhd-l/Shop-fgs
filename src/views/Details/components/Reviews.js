@@ -158,7 +158,7 @@ class Reviews extends React.Component {
     else {
       if (this.state.showPicIndex == 0) {
         this.setState({
-          showPicIndex: this.state.imgList.length - 2
+          showPicIndex: this.state.imgList.length - 1
         })
       }
       else {
