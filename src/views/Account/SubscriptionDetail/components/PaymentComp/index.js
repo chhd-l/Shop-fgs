@@ -417,7 +417,9 @@ class PaymentComp extends React.Component {
         }
       } else {
         // params.id = addRes.context.id
+        await this.getPaymentMethodList();
         this.setState({
+          isEdit: false,
           loading: false,
           currentCardInfo: addRes.context,
           creditCardInfo: addRes.context,

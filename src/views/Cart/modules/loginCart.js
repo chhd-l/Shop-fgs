@@ -692,7 +692,7 @@ class LoginCart extends React.Component {
             {
               productList.length == 0 && !checkoutLoading && <>
                 <div className="rc-text-center">
-                  <div className="rc-beta mb-1">
+                  <div className="rc-beta mb-1 mt-3">
                     <FormattedMessage id="cart.yourShoppingCart" />
                   </div>
                   <div className="rc-gamma title-empty mb-0">

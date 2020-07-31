@@ -3,6 +3,7 @@ import { purchases, mergePurchase } from '@/api/cart'
 import { getDict } from '@/api/dict'
 import { find } from 'lodash'
 import stores from '@/store';
+import { getContactInfo } from '@/api/phone'
 import { getConfig } from '@/api/user'
 
 const checkoutStore = stores.checkoutStore
@@ -35,6 +36,21 @@ export function formatMoney (val, currency = 1) {
   // console.log(currencyObj.valueEn, 'currencyObj.valueEn')
   return `${currencyObj?currencyObj.valueEn: ''} ${ret}`
 
+}
+export async function getStoreContentInfo() {
+  let storeContentInfo = {}
+  if(sessionStorage.getItem('storeContentInfo')) {
+    storeContentInfo = JSON.parse(sessionStorage.getItem('storeContentInfo'))
+    return storeContentInfo
+  }else {
+    try {
+      let res = await getContactInfo(process.env.REACT_APP_STOREID)
+      sessionStorage.setItem('storeContentInfo', JSON.stringify(res.context))
+      return res.context
+    }catch(err) {
+      console.log(err)
+    }
+  }
 }
 
 export async function queryStoreCateIds () {

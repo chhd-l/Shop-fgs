@@ -100,16 +100,10 @@ export default class AddressForm extends React.Component {
         <div className="rc-layout-container">
           <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
-              <label
-                className="form-control-label"
-                htmlFor="shippingFirstName"
-              >
+              <label className="form-control-label" htmlFor="shippingFirstName">
                 <FormattedMessage id="payment.firstName" />
               </label>
-              <span
-                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-                input-setup="true"
-              >
+              <span className="rc-input rc-input--inline rc-full-width rc-input--full-width" input-setup="true">
                 <input
                   className="rc-input__control shippingFirstName"
                   id="shippingFirstName"
@@ -120,10 +114,7 @@ export default class AddressForm extends React.Component {
                   name="firstName"
                   maxLength="50"
                 />
-                <label
-                  className="rc-input__label"
-                  htmlFor="id-text1"
-                ></label>
+                <label className="rc-input__label" htmlFor="id-text1" />
               </span>
               <div className="invalid-feedback">
                 <FormattedMessage
@@ -137,20 +128,12 @@ export default class AddressForm extends React.Component {
               </div>
             </div>
           </div>
-        </div>
-        <div className="rc-layout-container">
           <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
-              <label
-                className="form-control-label"
-                htmlFor="shippingLastName"
-              >
+              <label className="form-control-label" htmlFor="shippingLastName">
                 <FormattedMessage id="payment.lastName" />
               </label>
-              <span
-                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-                input-setup="true"
-              >
+              <span className="rc-input rc-input--inline rc-full-width rc-input--full-width" input-setup="true">
                 <input
                   className="rc-input__control shippingLastName"
                   id="shippingLastName"
@@ -161,10 +144,7 @@ export default class AddressForm extends React.Component {
                   name="lastName"
                   maxLength="50"
                 />
-                <label
-                  className="rc-input__label"
-                  htmlFor="id-text1"
-                ></label>
+                <label className="rc-input__label" htmlFor="id-text1" />
               </span>
               <div className="invalid-feedback">
                 <FormattedMessage
@@ -177,6 +157,41 @@ export default class AddressForm extends React.Component {
                 />
               </div>
             </div>
+          </div>
+        </div>
+        <div className="rc-layout-container">
+          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
+            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
+              <label
+                className="form-control-label"
+                htmlFor="shippingCountry"
+              >
+                <FormattedMessage id="payment.country" />
+              </label>
+              <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+                <Selection
+                  selectedItemChange={data => this.handleSelectedItemChange('country', data)}
+                  optionList={this.computedList('country')}
+                  selectedItemData={{
+                    value: this.state.deliveryAddress.country
+                  }} />
+              </span>
+            </div>
+          </div>
+          <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_city">
+            <label
+              className="form-control-label"
+              htmlFor="shippingAddressCity">
+              <FormattedMessage id="payment.city" />
+            </label>
+            <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+              <Selection
+                selectedItemChange={data => this.handleSelectedItemChange('city', data)}
+                optionList={this.computedList('city')}
+                selectedItemData={{
+                  value: this.state.deliveryAddress.city
+                }} />
+            </span>
           </div>
         </div>
         <div className="rc-layout-container">
@@ -219,8 +234,6 @@ export default class AddressForm extends React.Component {
               </div>
             </div>
           </div>
-        </div>
-        <div className="rc-layout-container">
           <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
             <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
               <label
@@ -249,43 +262,6 @@ export default class AddressForm extends React.Component {
                 ></label>
               </span>
             </div>
-          </div>
-        </div>
-        <div className="rc-layout-container">
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
-              <label
-                className="form-control-label"
-                htmlFor="shippingCountry"
-              >
-                <FormattedMessage id="payment.country" />
-              </label>
-              <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-                <Selection
-                  selectedItemChange={data => this.handleSelectedItemChange('country', data)}
-                  optionList={this.computedList('country')}
-                  selectedItemData={{
-                    value: this.state.deliveryAddress.country
-                  }} />
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="rc-layout-container">
-          <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_city">
-            <label
-              className="form-control-label"
-              htmlFor="shippingAddressCity">
-              <FormattedMessage id="payment.city" />
-            </label>
-            <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-              <Selection
-                selectedItemChange={data => this.handleSelectedItemChange('city', data)}
-                optionList={this.computedList('city')}
-                selectedItemData={{
-                  value: this.state.deliveryAddress.city
-                }} />
-            </span>
           </div>
         </div>
         <div className="rc-layout-container">

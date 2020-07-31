@@ -35,6 +35,7 @@ class Home extends React.Component {
       window.location.reload();
       return false
     }
+    console.log(222222, process.env.REACT_APP_AdyenOriginKEY)
     if (new Date().getTime() < new Date('2020/6/2').getTime()) {
       this.setState({
         // promotionVisible: true

@@ -6,7 +6,7 @@ export default class UnloginDeliveryAddress extends React.Component {
   render () {
     return (
       <React.Fragment>
-        <div className="card-header">
+        <div className="card-header bg-transparent">
           <h5>
             <FormattedMessage id="payment.deliveryTitle" />
           </h5>

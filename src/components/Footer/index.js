@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { getContactInfo } from '../../api/phone'
+import { getStoreContentInfo } from '@/utils/utils'
 import './index.css'
 
 // function Footer () {
@@ -12,25 +13,34 @@ import './index.css'
         storeContactPhoneNumber: null,
         privacyPolicyUrl: null,
         cookiesUrl: null,
-        legalTerms: null
+        legalTerms: null,
+        contactTimePeriod: ''
       }
     }
-    componentDidMount(){
-      getContactInfo(process.env.REACT_APP_STOREID)
-      .then(res=>{
-        // console.log("number 请求成功 ")
-        const {storeContactPhoneNumber, privacyPolicyUrl, cookiesUrl, legalTerms}=res.context;
-        this.setState({
-          storeContactPhoneNumber,
-          privacyPolicyUrl,
-          cookiesUrl,
-          legalTerms
-        })
+    async componentDidMount(){
+      let res = await getStoreContentInfo()
+      const {storeContactPhoneNumber, privacyPolicyUrl, cookiesUrl, legalTerms, contactTimePeriod}=res
+      this.setState({
+        storeContactPhoneNumber,
+        privacyPolicyUrl,
+        cookiesUrl,
+        legalTerms
       })
-      .catch(err=>{
-        // console.log("number 请求失败 ")
-        console.log(err)
-      })
+      // getContactInfo(process.env.REACT_APP_STOREID)
+      // .then(res=>{
+      //   // console.log("number 请求成功 ")
+      //   const {storeContactPhoneNumber, privacyPolicyUrl, cookiesUrl, legalTerms}=res.context;
+      //   this.setState({
+      //     storeContactPhoneNumber,
+      //     privacyPolicyUrl,
+      //     cookiesUrl,
+      //     legalTerms
+      //   })
+      // })
+      // .catch(err=>{
+      //   // console.log("number 请求失败 ")
+      //   console.log(err)
+      // })
 
     }
   render(){ 
@@ -162,7 +172,8 @@ import './index.css'
               <FormattedMessage id="footer.contactRoyalCanin" />
             </p>
             <div className="rc-text--inverse">
-              <p><FormattedMessage id="footer.contactUsInfo" /></p>
+              {/* <p><FormattedMessage id="footer.contactUsInfo" /></p> */}
+              <p>{this.state.contactTimePeriod}</p>
             </div>
           </div>
         </div>

@@ -75,7 +75,7 @@ class SubscriptionSelect extends Component {
   }
   render () {
     const { form } = this.state
-    return (<div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm pt-3 pb-2">
+    return (<div className="">
       <FormattedMessage
         id="payment.subTip2"
         values={{
