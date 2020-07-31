@@ -199,7 +199,7 @@ handleDirectionClick(direction){
                             <div className="direction" onClick={()=>this.handleDirectionClick(-1)}> 《 </div>
                             <div className="ImgBox">
                             <img src={this.state.imgList[this.state.showPicIndex].artworkUrl}></img>
-                            <span className="desc">{this.state.showPicIndex+1} of {this.state.imgList.length}</span>
+                            <span className="desc">{this.state.showPicIndex+1} of {this.state.imgList.length+1}</span>
                             </div>
                             <div className="direction" onClick={()=>this.handleDirectionClick(1)}> 》 </div>
                        
