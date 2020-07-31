@@ -589,6 +589,7 @@ const en_US = {
   'sortBy': 'Sort by',
   'adyen':'Adyen',
   'adyenPayFail':'AdyenPayFail',
+  'NoPromotionDesc':'No PromotionDesc',
   //qhx新增
   delivery: "delivery",
   FrequentQuestions: "Frequent questions",
