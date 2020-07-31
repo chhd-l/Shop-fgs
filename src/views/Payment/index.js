@@ -33,7 +33,7 @@ import axios from "axios";
 import "./index.css";
 import OxxoConfirm from "./modules/OxxoConfirm";
 import {
-  makeAdyenPayment,
+  getAdyenParam,
 } from "./adyen/utils"
 
 const rules = [
@@ -262,7 +262,7 @@ class Payment extends React.Component {
     // (1) Create an instance of AdyenCheckout
     const checkout = new AdyenCheckout({
         environment: 'test',
-        originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
+        originKey: process.env.REACT_APP_AdyenOriginKEY,
     });
     // (2). Create and mount the Component
     const card = checkout
@@ -272,13 +272,12 @@ class Payment extends React.Component {
             showPayButton: true,
             onSubmit: (state, component) => {
                 if (state.isValid) {
-                    //makePayment(card.data);
-                   let adyenPayParam = makeAdyenPayment(card.data);
+                   let adyenPayParam = getAdyenParam(card.data);
                    this.setState({
                     adyenPayParam
                    },()=>{
                      console.log({adyenPayParam:this.state.adyenPayParam})  
-                     this.makeAdyenPayment()                 
+                     this.adyenPayment()                 
                    })
                 }
             },
@@ -288,15 +287,15 @@ class Payment extends React.Component {
     
   }
   //2.进行支付
-  async makeAdyenPayment () {
+  async adyenPayment () {
     try{
       var addressParameter = await this.goConfirmation();
       var parameters = Object.assign(addressParameter, {
         ...this.state.adyenPayParam
-      },{country: "MEX"});
+      },{country: "MEX"});//国家暂时填的任意,后台接口需要
       let res = await confirmAndCommit(parameters);
       if (res.code === "K-000000") {
-        //this.props.history.push("/confirmation");
+        this.props.history.push("/confirmation");
       }
     }catch(err){
       this.showErrorMsg(this.props.intl.messages.adyenPayFail);

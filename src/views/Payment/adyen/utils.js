@@ -73,13 +73,11 @@ export const makePayment = (paymentMethod, config = {}) => {
 };
 
 // Posts a new adyenPayment into the local server
-export const makeAdyenPayment = (cardData, config = {}) => {
+export const getAdyenParam = (cardData, config = {}) => {
     let {paymentMethod:{encryptedCardNumber,encryptedExpiryMonth,encryptedExpiryYear,encryptedSecurityCode}} = cardData
-    // const paymentsConfig = { ...paymentsDefaultConfig, ...config };
-    // const paymentRequest = { ...paymentsConfig, ...paymentMethod };
 
     let parameters = {
-        currency:'EUR',
+        currency:'EUR',//暂时以欧元
         adyenBrands:'visa',
         adyenName:'Credit Card',
         adyenType:'scheme',
