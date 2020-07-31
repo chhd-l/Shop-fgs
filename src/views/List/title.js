@@ -7,7 +7,7 @@ const TITLE_JSON = {
     "description": "Dietas terapéuticas que ayudan a mantener la salud de los perros con problemas diagnosticados",
     "img": dogsImg,
     "imgAlt": "dog category"
-  },
+  }, 
   "prescription-cats": {
     "title": "Dietas de prescripción veterinaria para gatos",
     "description": "Dietas terapéuticas que ayudan a mantener la salud de los gatos con problemas diagnosticados",

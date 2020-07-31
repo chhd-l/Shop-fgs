@@ -9,8 +9,6 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import Filters from '@/components/Filters'
 import Pagination from '@/components/Pagination'
 import { cloneDeep, find, findIndex } from 'lodash'
-import titleCfg from './title'
-
 import { getList, getProps, getLoginList } from '@/api/list'
 import { queryStoreCateIds, formatMoney } from '@/utils/utils'
 import { STORE_CATE_ENUM } from '@/utils/constant'
@@ -92,15 +90,24 @@ class List extends React.Component {
   }
   async initData () {
     const { category } = this.state
-    this.setState({
-      titleData: titleCfg[category]
-    })
-
     let storeIdList = await queryStoreCateIds()
     const t = find(STORE_CATE_ENUM, ele => ele.category == category)
     if (t) {
       let tmpArr = Array.from(storeIdList, s => t.cateName.includes(s.cateName) ? s.storeCateId : '').filter(s => !!s)
-      this.setState({ storeCateIds: tmpArr, currentCatogery: t.text[this.props.intl.locale] })
+      this.setState({
+        storeCateIds: tmpArr,
+        currentCatogery: t.text[this.props.intl.locale]
+      })
+      if (t.title && t.desc && t.img) {
+        this.setState({
+          titleData: {
+            title: t.title,
+            description: t.desc,
+            img: t.img
+          }
+        })
+      }
+      console.log(t)
     }
 
     this.getProductList()
@@ -319,13 +326,14 @@ class List extends React.Component {
                   <img
                     className="mw-100"
                     src={titleData.img}
-                    alt={titleData.imgAlt} />
+                    alt=""
+                    style={{ width: '63%', margin: '0 auto' }} />
                 </div>
               </div>
             </div>
             : ''}
           <div id="J-product-list"></div>
-          <div className="search-results rc-padding--sm rc-max-width--xl">
+          <div className="search-results rc-padding--sm rc-max-width--xl pt-1">
             <div className="search-nav border-bottom-0">
               {this.state.keywords ?
                 <div className="nav-tabs-wrapper rc-text--center">
@@ -451,7 +459,7 @@ class List extends React.Component {
                                                       <span className="rc-icon rc-refresh--xs rc-brand1 "></span>
                                                       <span
                                                         className="position-relative red-text position-absolute"
-                                                        style={{ fontSize: '.7em', top: '50%', transform: 'translateY(-50%)' }}>
+                                                        style={{ fontSize: '.7em', top: '43%', transform: 'translateY(-50%)' }}>
                                                         <FormattedMessage id="autoship" />
                                                       </span>
                                                     </div>
