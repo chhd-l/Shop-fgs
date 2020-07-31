@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import BreadCrumbs from "@/components/BreadCrumbs";
 import SideMenu from "@/components/SideMenu";
 import "./index.css";
+import paymentImg from "./img/payment.jpg";
 import {
   getAddressList,
   saveAddress,
@@ -57,235 +58,22 @@ class PaymentMethod extends React.Component {
         DISCOVER: discoverImg,
       },
       creditCardList: [],
+      paymentCompShow: false,
+      isAddNewCard: false
     };
   }
 
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
-  async componentDidMount () {
+  componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
       return false
     }
   }
-  get userInfo () {
-    return this.props.loginStore.userInfo
-  }
-  async getPaymentMethodList () {
-    try {
-      let res = await getPaymentMethod({
-        customerId: this.userInfo ? this.userInfo.customerId : ''
-      });
-      if (res.code === "K-000000") {
-        this.setState({
-          creditCardList: res.context
-        });
-      }
-      this.setState({
-        loading: false
-      })
-    } catch {
-      this.showErrorMsg(this.props.intl.messages.getDataFailed)
-      this.setState({
-        loading: false
-      })
-    }
-  }
-  onFormChange = ({ field, value }) => {
-    let data = this.state.addressForm;
-    data[field] = value;
-    this.setState({
-      addressForm: data,
-    });
-  };
-  isDefalt = () => {
-    let data = this.state.addressForm;
-    data.isDefalt = !data.isDefalt;
-    this.setState({
-      addressForm: data,
-    });
-  };
-  saveAddress = async () => {
-    this.setState({
-      loading: true,
-    });
-    let data = this.state.addressForm;
-    let params = {
-      areaId: +data.country,
-      cityId: +data.city,
-      consigneeName: data.firstName + " " + data.lastName,
-      consigneeNumber: data.phoneNumber,
-      customerId: data.customerId,
-      deliveryAddress: data.address1 + " " + data.address2,
-      deliveryAddressId: data.deliveryAddressId,
-      isDefaltAddress: data.isDefalt ? 1 : 0,
-      postCode: data.postCode,
-      provinceId: 0,
-      rfc: data.rfc,
-    };
-    if (this.state.isAdd) {
-      const res = await saveAddress(params);
-      if (res.code === "K-000000") {
-        this.getAddressList();
-        this.closeModal();
-      }
-    } else {
-      const res = await editAddress(params);
-      if (res.code === "K-000000") {
-        this.getAddressList();
-        this.closeModal();
-      }
-    }
-  };
-  setDefaltAddress = async (id) => {
-    this.setState({
-      loading: true,
-    });
-    let params = {
-      deliveryAddressId: id,
-    };
-    await setDefaltAddress(params)
-      .then((res) => {
-        if (res.code === "K-000000") {
-          this.showSuccessMsg(res.message || this.props.intl.messages.setDefaltAddressSuccess);
-          this.getAddressList();
-        } else {
-          this.showErrorMsg(res.message || this.props.intl.messages.setDefaltAddressFailed);
-          this.setState({
-            loading: false,
-          });
-        }
-      })
-      .catch((err) => {
-        this.showErrorMsg(this.props.intl.messages.setDefaltAddressFailed);
-        this.setState({
-          loading: false,
-        });
-      });
-  };
-  async deleteCard (id) {
-    this.setState({
-      loading: true,
-    });
-    let params = {
-      id: id,
-    };
-    await deleteCard(params)
-      .then((res) => {
-        if (res.code === "K-000000") {
-          this.showSuccessMsg(res.message || this.props.intl.messages.deleteAddressSuccess);
-          this.getPaymentMethodList();
-        } else {
-          this.showErrorMsg(res.message || this.props.intl.messages.deleteAddressFailed);
-          this.setState({
-            loading: false,
-          });
-        }
-      })
-      .catch((err) => {
-        this.showErrorMsg(this.props.intl.messages.deleteAddressFailed);
-        this.setState({
-          loading: false,
-        });
-      });
-  }
-  deleteAddress = async (id) => {
-    this.setState({
-      loading: true,
-    });
-    let params = {
-      id: id,
-    };
-    await deleteAddress(params)
-      .then((res) => {
-        if (res.code === "K-000000") {
-          this.showSuccessMsg(res.message || this.props.intl.messages.deleteAddressSuccess);
-          this.getAddressList();
-        } else {
-          this.showErrorMsg(res.message || this.props.intl.messages.deleteAddressFailed);
-          this.setState({
-            loading: false,
-          });
-        }
-      })
-      .catch((err) => {
-        this.showErrorMsg(this.props.intl.messages.deleteAddressFailed);
-        this.setState({
-          loading: false,
-        });
-      });
-  };
-  showErrorMsg = (message) => {
-    this.setState({
-      errorMsg: message,
-    });
-    this.scrollToErrorMsg();
-    setTimeout(() => {
-      this.setState({
-        errorMsg: "",
-      });
-    }, 3000);
-  };
-
-  showSuccessMsg = (message) => {
-    this.setState({
-      successMsg: message,
-    });
-    this.scrollToErrorMsg();
-    setTimeout(() => {
-      this.setState({
-        successMsg: "",
-      });
-    }, 2000);
-  };
-
-  //定位
-  scrollToErrorMsg () {
-    const widget = document.querySelector(".content-asset");
-    // widget && widget.scrollIntoView()
-    // console.log(this.getElementToPageTop(widget))
-    if (widget) {
-      window.scrollTo({
-        top: this.getElementToPageTop(widget),
-        behavior: 'smooth'
-      })
-    }
-  }
-  getElementToPageTop (el) {
-    if (el.parentElement) {
-      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
-    }
-    return el.offsetTop;
-  }
-  openCreatePage = () => {
-    const { history } = this.props;
-    if (this.state.creditCardList.length >= 10) {
-      this.showErrorMsg(this.props.intl.messages.quantityCannotExceed10)
-      return false
-    }
-    history.push("/account/paymentMethod/create");
-  };
-  openEditPage = (id) => {
-    const { history } = this.props;
-    history.push("/account/shippingAddress/" + id);
-  };
-
-  getDictValue = (list, id) => {
-    if (list && list.length > 0) {
-      let item = list.find((item) => {
-        return item.id === id;
-      });
-      if (item) {
-        return item.name;
-      } else {
-        return id;
-      }
-    } else {
-      return id;
-    }
-  };
+  
   render () {
     const event = {
       page: {
@@ -293,7 +81,7 @@ class PaymentMethod extends React.Component {
         theme: "",
       },
     };
-    const { creditCardInfo, creditCardList } = this.state;
+    const { creditCardInfo, creditCardList, paymentCompShow, isAddNewCard } = this.state;
     return (
       <div>
         <div>
@@ -315,93 +103,23 @@ class PaymentMethod extends React.Component {
                       <FormattedMessage id="paymentMethod"></FormattedMessage>
                     </h4>
                   </div>
-                  <div className="content-asset">
-                    <PaymentComp />
-                    {/* <div className="table-toolbar">
-                      <span className="t-gray">
-                        <FormattedMessage
-                          id="creditCardTip"
-                          values={{ number: <b>{this.state.creditCardList.length}</b> }}
-                        />
-                      </span>
-                      <button
-                        type="button"
-                        className="address-btn"
-                        onClick={() => this.openCreatePage()}
-                      >
-                        <span>
-                          {" "}
-                          <FormattedMessage id="addNewCreditCard"></FormattedMessage>
-                        </span>
-                      </button>
-                    </div>
-                    {creditCardList.map((el) => (
-                      <div
-                        className={`creditCompleteInfoBox ${el.isDefault === 1?'active': ''}`}
-                        style={{
-                          display: "block",
-                        }}
-                      >
+                  <div className="content-asset" style={{display: paymentCompShow? 'block': 'none'}}>
+                    <PaymentComp noCardCallback={(isZero) => this.setState({paymentCompShow: !isZero})} isAddNewCard={isAddNewCard}/>
+                  </div>
+                  <div className="content-asset" style={{display: paymentCompShow? 'none': 'block'}}>
+                    <div class="rc-layout-container rc-two-column">
+                      <div class="rc-column" style={{display: 'flex',alignItems: 'center', justifyContent: 'center'}}>
+                        <div>
                         <p>
-                          <span
-                            className="pull-right"
-                            onClick={() => {
-                              const { history } = this.props
-                              history.push({pathname: '/account/paymentMethod/create', query: el})
-                            }}
-                          >
-                            <FormattedMessage id="edit" />
-                          </span>
-                          <span
-                            className="pull-right"
-                            onClick={() => {
-                              this.deleteCard(el.id)
-                            }}
-                          >
-                            <FormattedMessage id="delete" />
-                          </span>
+                          You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!
                         </p>
-                        <div className="row">
-                          <div className="col-sm-3">
-                            <img
-                              src={
-                                this.state.creditCardImgObj[
-                                  el.vendor
-                                ]
-                                  ? this.state.creditCardImgObj[
-                                      el.vendor
-                                    ]
-                                  : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
-                              }
-                              alt=""
-                            />
-                          </div>
-                          <div className="col-sm-9">
-                            <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                              <div className="col-4">
-                                <p>
-                                  <FormattedMessage id="name" />
-                                </p>
-                                <p>
-                                  <FormattedMessage id="payment.cardNumber" />
-                                </p>
-                                <p>{el.cardType}</p>
-                              </div>
-                              <div className="col-8">
-                                <p>&nbsp;{el.cardOwner}</p>
-                                <p>
-                                  &nbsp;xxxx xxxx xxxx{" "}
-                                  {el.cardNumber
-                                    ? el.cardNumber.substring(el.cardNumber.length - 4)
-                                    : ""}
-                                </p>
-                                <p>&nbsp;</p>
-                              </div>
-                            </div>
-                          </div>
+                        <button class="rc-btn rc-btn--one" onClick={() => this.setState({isAddNewCard: true, paymentCompShow: true})}>Add Payment</button>
                         </div>
                       </div>
-                    ))} */}
+                      <div class="rc-column">
+                        <img src={paymentImg} style={{width: '100%'}}/>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

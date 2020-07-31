@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { formatMoney, getPreMonthDay, dateFormat, getDictionary } from "@/utils/utils"
 import { batchAdd } from "@/api/payment";
 import { getOrderList, getOrderDetails } from "@/api/order"
+import orderImg from "./img/order.jpg";
 import store from 'storejs'
 import {
   IMG_DEFAULT,
@@ -48,7 +49,8 @@ class AccountOrders extends React.Component {
         { value: '3m', name: <FormattedMessage id="order.lastXMonths" values={{ val: 3 }} /> },
         { value: '6m', name: <FormattedMessage id="order.lastXMonths" values={{ val: 6 }} /> }
       ],
-      defaultLocalDateTime: ''
+      defaultLocalDateTime: '',
+      haveList: true
     }
 
     this.pageSize = 6
@@ -136,6 +138,11 @@ class AccountOrders extends React.Component {
           )
         }
         )
+        if(!tmpList.length) {
+          this.setState({haveList: false})
+        }else {
+          this.setState({haveList: true})
+        }
         this.setState({
           orderList: tmpList,
           currentPage: res.context.pageable.pageNumber + 1,
@@ -288,6 +295,7 @@ class AccountOrders extends React.Component {
         theme: ''
       }
     }
+    let { haveList } = this.state
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -303,7 +311,7 @@ class AccountOrders extends React.Component {
                     <FormattedMessage id="order.historyOfOrders" />
                   </h4>
                 </div>
-                <div className="row justify-content-around">
+                <div className="row justify-content-around" style={{display: haveList? 'flex': 'none'}}>
                   <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
                       <FormattedMessage id="order.orderNumber" />
@@ -346,7 +354,7 @@ class AccountOrders extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="order__listing">
+                <div className="order__listing" style={{display: haveList? 'block': 'none'}}>
                   <div className="order-list-container">
                     {
                       this.state.loading
@@ -498,6 +506,21 @@ class AccountOrders extends React.Component {
                             onPageNumChange={params => this.hanldePageNumChange(params)} />
                         </div>
                     }
+                  </div>
+                </div>
+                <div className="content-asset" style={{display: haveList? 'none': 'block'}}>
+                  <div class="rc-layout-container rc-two-column">
+                    <div class="rc-column">
+                      <img src={orderImg} style={{width: '100%'}}/>
+                    </div>
+                    <div class="rc-column" style={{display: 'flex',alignItems: 'center', justifyContent: 'center'}}>
+                      <div>
+                      <p>
+                        You haven't placed any orders yet! Start shopping now for precise nutrition for your pet.
+                      </p>
+                      <button class="rc-btn rc-btn--one" onClick={() => this.props.history.push('/')}>Start Shopping</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

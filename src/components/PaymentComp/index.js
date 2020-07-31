@@ -58,6 +58,14 @@ class PaymentComp extends React.Component {
       confirmCardInfo: {}
     };
   }
+  componentWillReceiveProps(props) {
+    if(props.isAddNewCard) {
+      this.setState({ isEdit: true }, () => {
+        this.scrollToPaymentComp();
+      });
+      this.initCardInfo();
+    }
+  }
   async componentDidMount () {
     if (this.props.loginStore.isLogin) {
       if (store.get('loginDeliveryInfo')) {
@@ -105,14 +113,18 @@ class PaymentComp extends React.Component {
       let res = await getPaymentMethod({
         customerId: this.userInfo ? this.userInfo.customerId : ''
       });
+      if(!res.context.length) {
+        this.props.noCardCallback && this.props.noCardCallback(true)
+      }else {
+        this.props.noCardCallback && this.props.noCardCallback(false)
+      }
+
       if(confirmCardInfo.id && res.context.filter(el => confirmCardInfo.id === el.id).length) {
         console.log(res.context.filter(el => confirmCardInfo.id === el.id).length)
         this.setState({isCurrentCvvConfirm: true})
       }else {
-        console.log(3)
         this.props.getSelectedValue && this.props.getSelectedValue({})
       }
-      console.log(1)
       this.setState({ creditCardList: res.context });
     } catch (err) {
       console.log(err)
@@ -309,6 +321,7 @@ class PaymentComp extends React.Component {
     }
   }
   async handleSave (e) {
+    console.log('haha')
     e.preventDefault();
     const { creditCardInfo } = this.state;
     for (let k in creditCardInfo) {
@@ -421,10 +434,25 @@ class PaymentComp extends React.Component {
           }  
         }
       } else {
-
-        // params.id = addRes.context.id
+        await this.getPaymentMethodList();
+        if(window.location.pathname !== "/payment/payment") {
+          let filterList = this.state.creditCardList.filter((el) => {
+            if (el.isDefault === 1) {
+              el.selected = true;
+              return true;
+            } else {
+              el.selected = false;
+              return false;
+            }
+          });
+          if (filterList.length) {
+          } else if (this.state.creditCardList.length) {
+            this.state.creditCardList[0].selected = true;
+          }
+        }
         this.setState({
           loading: false,
+          isEdit: false,
           currentCardInfo: addRes.context,
           creditCardInfo: addRes.context,
           completeCardShow: true,
@@ -433,21 +461,6 @@ class PaymentComp extends React.Component {
             this.props.getSelectedValue(this.state.creditCardInfo);
         });
       }
-
-      // if(filterList.length) {
-      //   this.props.getSelectedValue && this.props.getSelectedValue(filterList[0]);
-      // }else if(this.state.creditCardList.length){
-      //   this.state.creditCardList[0].selected = true
-      //   this.props.getSelectedValue && this.props.getSelectedValue(this.state.creditCardList[0]);
-      // }
-      // this.state.creditCardList.map((el) => {
-      //   if (el.isDefault === 1) {
-      //     el.selected = true;
-      //     this.props.getSelectedValue && this.props.getSelectedValue(el);
-      //   }else {
-      //     el.selected = false
-      //   }
-      // });
       this.setState({ creditCardList: this.state.creditCardList, currentCvv: '' });
     } catch (e) {
       let res = e.response;
