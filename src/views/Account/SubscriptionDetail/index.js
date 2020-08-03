@@ -331,7 +331,7 @@ class SubscriptionDetail extends React.Component {
       });
 
       //拼装订阅购物车参数
-      if (res.code == "K-000000"&&!res.context.promotionFlag) {
+      if (res.code == "K-000000"&&!res.context.promotionFlag) {//只有promotionFlag为false的时候表示prootionCode生效
         let subTradeTotal =
           this.state.subTotal +
           Number(res.context.deliveryPrice) -
@@ -342,6 +342,7 @@ class SubscriptionDetail extends React.Component {
           subDiscount: res.context.discountsPrice,
           subShipping: res.context.deliveryPrice,
           promotionDiscount: res.context.promotionDiscount,
+          promotionDesc:res.context.promotionDesc,
           subTradeTotal,
         });
       }
@@ -1191,7 +1192,8 @@ class SubscriptionDetail extends React.Component {
                               {
                                 this.state.subDiscount ? <div className="flex-layout">
                                   <label className="saveDiscount  red-text">
-                                    <FormattedMessage id="subscription.saveDiscount"></FormattedMessage>
+                                    {/* <FormattedMessage id="subscription.saveDiscount"></FormattedMessage> */}
+                                    {this.state.promotionDesc}
                                     :
                                   </label>
                                   <div className="text-right red-text">
@@ -1301,17 +1303,18 @@ class SubscriptionDetail extends React.Component {
                                   result = await this.doGetPromotionPrice(
                                     this.state.promotionInputValue
                                   );
-                                  this.setState({
-                                    promotionDesc:
-                                      result.context.promotionDesc,
-                                  });
+                                  // this.setState({
+                                  //   promotionDesc:
+                                  //     result.context.promotionDesc,
+                                  // });
                                   if (
                                     result.code == "K-000000" &&
                                     !result.context.promotionFlag
                                   ) {
                                     //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
                                     discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                                    this.setState({ discount });
+                                    this.setState({ discount,promotionDesc:
+                                      result.context.promotionDesc, });
                                   } else {
                                     this.setState({
                                       isShowValidCode: true,
