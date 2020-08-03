@@ -514,7 +514,7 @@ class Payment extends React.Component {
       this.goConfirmation();
     }
   }
-  async goConfirmation () {
+  async goConfirmation () {debugger
     const { history, clinicStore } = this.props;
     let {
       isEighteen,
@@ -677,7 +677,7 @@ class Payment extends React.Component {
         delete param3.tradeMarketingList;
       }
 
-      if (paymentTypeVal === 'oxxo') {
+      if (paymentTypeVal !== 'creditCard') {
         return param3;
       } // oxxo get param
 
