@@ -79,7 +79,7 @@ class SubscriptionSelect extends Component {
       <FormattedMessage
         id="payment.subTip2"
         values={{
-          icon: <span className="rc-icon rc-refresh--xs rc-brand1"></span>,
+          icon: <span className="iconfont font-weight-bold red" style={{ fontSize: '.8em' }}>&#xe675;</span>,
           val: <span className="red">{this.state.discountInfo ? this.state.discountInfo.promotionDiscount : ''}</span>,
           val2: formatMoney(this.state.discountInfo && this.state.discountInfo.discountAmount ? this.state.discountInfo.discountAmount : 0)
         }} />

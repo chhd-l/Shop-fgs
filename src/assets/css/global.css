@@ -10020,6 +10020,9 @@ a.bg-dark:focus,a.bg-dark:hover,button.bg-dark:focus,button.bg-dark:hover {
   .ml-md-auto,.mx-md-auto {
       margin-left: auto!important
   }
+  .border-right-md-1 {
+    border-right: 1px solid #dee2e6!important
+  }
 }
 
 @media(min-width: 992px) {
@@ -22441,15 +22444,6 @@ tr.rc-table__row.inactive td:after {
 }
 .text-line-through {
   text-decoration: line-through
-}
-.icon-refresh {
-  background-image: url(../../assets/images/half-start.png);
-  width: 24px;
-  background-repeat: no-repeat;
-  background-size: 1.04rem;
-  position: relative;
-  top: 0.45rem;
-  left: 4px;
 }
 @keyframes rotate {
   from {

@@ -129,7 +129,7 @@ class PayProductInfo extends React.Component {
                     {el.specText} - {el.buyCount} {el.buyCount > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}<br />
                     {
                       this.isSubscription(el)
-                        ? <><FormattedMessage id="subscription.frequency" /> : {this.props.frequencyName} < span className="rc-icon rc-refresh--xs rc-brand1"></span></>
+                        ? <><FormattedMessage id="subscription.frequency" /> : {this.props.frequencyName} <span className="iconfont font-weight-bold red" style={{ fontSize: '.8em' }}>&#xe675;</span></>
                         : null
                     }
                   </div>

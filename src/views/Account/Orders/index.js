@@ -381,7 +381,7 @@ class AccountOrders extends React.Component {
                                           <span className="medium orderHeaderTextColor">{order.id}</span>
                                           {
                                             order.isAutoSub
-                                              ? <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                                              ? <span className="iconfont font-weight-bold red ml-1" style={{ fontSize: '.8em' }}>&#xe675;</span>
                                               : null
                                           }
                                         </p>

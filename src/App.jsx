@@ -21,6 +21,7 @@ import { Security, SecureRoute, LoginCallback } from "@okta/okta-react";
 import { Container } from "semantic-ui-react";
 import config from "./config";
 
+import "@/assets/iconfont/iconfont.css"
 import "@/assets/css/global.css";
 import ENUM_LANGFILE from "@/lang";
 import { IntlProvider } from "react-intl";
