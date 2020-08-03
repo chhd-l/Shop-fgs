@@ -203,3 +203,9 @@
 }
 .shippingPhoneNumber::-ms-clear,::-ms-reveal{display:none;} */
 
+.ml-custom {
+  margin-left: 1.25rem!important;
+}
+.mr-custom {
+  margin-right: 1.25rem!important;
+}

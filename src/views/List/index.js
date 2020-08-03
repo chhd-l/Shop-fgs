@@ -96,7 +96,7 @@ class List extends React.Component {
       let tmpArr = Array.from(storeIdList, s => t.cateName.includes(s.cateName) ? s.storeCateId : '').filter(s => !!s)
       this.setState({
         storeCateIds: tmpArr,
-        currentCatogery: t.text[this.props.intl.locale]
+        currentCatogery: t.text
       })
       if (t.title && t.desc && t.img) {
         this.setState({
@@ -326,7 +326,6 @@ class List extends React.Component {
                   <img
                     className="mw-100"
                     src={titleData.img}
-                    alt=""
                     style={{ width: '63%', margin: '0 auto' }} />
                 </div>
               </div>
@@ -359,7 +358,8 @@ class List extends React.Component {
                   </div>
                   <div className="refinements rc-column" style={{ top: '-45px' }}>
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
-                      data-filter-trigger="filter-example" onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
+                      data-filter-trigger="filter-example"
+                      onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
                     <aside className={['rc-filters', this.state.filterModalVisible ? 'active' : ''].join(' ')}>
                       <Filters
                         initing={this.state.initingFilter}

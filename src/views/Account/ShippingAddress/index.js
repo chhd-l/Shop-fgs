@@ -295,7 +295,7 @@ class ShippingAddress extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              {this.state.loading ? <Loading positionFixed="true" /> : null}
+              {/* {this.state.loading ? <Loading positionFixed="true" /> : null} */}
               <SideMenu type="ShippingAddress" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 {/* <div className="rc-border-bottom rc-border-colour--interface mb-2">

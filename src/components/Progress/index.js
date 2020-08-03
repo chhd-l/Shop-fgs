@@ -10,24 +10,15 @@ function Progress (props) {
         <div className="rc-column rc-padding-x--none--mobile">
           <ul className="rc-list rc-list--inline rc-content-v-middle rc-padding--none flex-wrap justify-content-start-md-down">
             <li
-              className={['checkout-steps__item', props.type === 'perscription' ? 'active' : ''].join(' ')}
+              className={`checkout-steps__item item_process ${props.type === 'perscription' ? 'active' : ''}`}
               data-step="perscription">
               <span className="rc-header-with-icon">
                 <i className={['rc-icon', 'rc-health', props.type === 'perscription' ? 'rc-brand1' : 'rc-iconography'].join(' ')}></i>
                 <FormattedMessage id="prescription" />
               </span>
             </li>
-            {/* <li
-              className={['checkout-steps__item', props.type === 'shipping' ? 'active' : ''].join(' ')}
-              data-step="shipping">
-              <span className="rc-header-with-icon">
-                <hr />
-                <i className={['rc-icon', 'rc-icon-less-scale', 'rc-delivery--sm', props.type === 'shipping' ? 'rc-brand1' : 'rc-iconography'].join(' ')}></i>
-                <FormattedMessage id="delivery" />
-              </span>
-            </li> */}
             <li
-              className={['checkout-steps__item', props.type === 'payment' ? 'active' : ''].join(' ')}
+              className={`checkout-steps__item item_process ${props.type === 'payment' ? 'active' : ''}`}
               data-step="payment"
             >
               <span className="rc-header-with-icon">
@@ -37,7 +28,7 @@ function Progress (props) {
               </span>
             </li>
             <li
-              className={['checkout-steps__item', props.type === 'confirmation' ? 'active' : ''].join(' ')}
+              className={`checkout-steps__item item_process ${props.type === 'confirmation' ? 'active' : ''}`}
               data-step="confirmation"
             >
               <span className="rc-header-with-icon">

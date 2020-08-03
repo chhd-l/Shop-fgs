@@ -81,10 +81,9 @@ class OxxoConfirm extends Component {
 
   render () {
     return (
-      <div>
+      <div className="mt-3">
         <div
-          className="rc-border-all rc-border-colour--interface checkout--padding"
-          style={{ marginBottom: "20px" }}
+          className="rc-border-all rc-border-colour--interface checkout--padding ml-custom mr-custom mb-3"
         >
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
@@ -157,14 +156,14 @@ class OxxoConfirm extends Component {
               values={{
                 val: (
                   <span style={{ color: "#e2001a" }}>
-                    {this.props.intl.messages.rememberHours}
+                    7:00
                   </span>
                 ),
               }}
             />
           </p>
         </div>
-        <div className="place_order-btn card">
+        <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
           <div className="next-step-button">
             <div className="rc-text--right">
               <button
