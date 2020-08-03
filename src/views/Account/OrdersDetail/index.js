@@ -13,12 +13,9 @@ import { find, findIndex } from 'lodash'
 import { getOrderDetails, cancelOrder, getPayRecord, returnFindByTid } from "@/api/order"
 import {
   IMG_DEFAULT,
-  ORDER_STATUS_ENUM
+  ORDER_STATUS_ENUM,
+  CREDIT_CARD_IMG_ENUM
 } from '@/utils/constant'
-import visaImg from "@/assets/images/credit-cards/visa.svg";
-import amexImg from "@/assets/images/credit-cards/amex.svg";
-import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
-import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import './index.css'
 
 @injectIntl
@@ -26,12 +23,6 @@ class AccountOrders extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      creditCardImgObj: {
-        VISA: visaImg,
-        MASTERCARD: mastercardImg,
-        "AMERICAN EXPRESS": amexImg,
-        DISCOVER: discoverImg,
-      },
       orderNumber: '',
       details: null,
       payRecord: null,
@@ -441,13 +432,15 @@ class AccountOrders extends React.Component {
                                           className="d-inline-block mr-1"
                                           style={{ width: '20%' }}
                                           src={
-                                            this.state.creditCardImgObj[payRecord.vendor]
-                                              ? this.state.creditCardImgObj[payRecord.vendor]
+                                            CREDIT_CARD_IMG_ENUM[payRecord.vendor]
+                                              ? CREDIT_CARD_IMG_ENUM[payRecord.vendor]
                                               : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                                           } />
-                                        <span className="medium">********{payRecord.last4Digits}</span><br />
-                                        {payRecord.accountName}<br />
-                                        {payRecord.phone}<br />
+                                        {payRecord.last4Digits
+                                          ? <><span className="medium">********{payRecord.last4Digits}</span><br /></>
+                                          : null}
+                                        {payRecord.accountName ? <>{payRecord.accountName}<br /></> : null}
+                                        {payRecord.phone ? <>{payRecord.phone}<br /></> : null}
                                         {payRecord.email}
                                       </div>
                                     </>

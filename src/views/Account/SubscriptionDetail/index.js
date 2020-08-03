@@ -8,10 +8,6 @@ import Footer from "@/components/Footer";
 import BreadCrumbs from "@/components/BreadCrumbs";
 import SideMenu from "@/components/SideMenu";
 import visaImg from "@/assets/images/credit-cards/visa.svg";
-import amexImg from "@/assets/images/credit-cards/amex.svg";
-import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
-import discoverImg from "@/assets/images/credit-cards/discover.svg";
-import Loading from "@/components/Loading";
 import PaymentComp from "./components/PaymentComp";
 import AddressComp from "./components/AddressComp";
 import Selection from "@/components/Selection";
@@ -19,6 +15,8 @@ import { getDictionary } from "@/utils/utils";
 import DatePicker from "react-datepicker";
 import {
   ORDER_STATUS_ENUM,
+  CREDIT_CARD_IMG_ENUM,
+  // CREDIT_CARD_IMGURL_ENUM
 } from '@/utils/constant'
 import {
   updateDetail,
@@ -145,13 +143,7 @@ class SubscriptionDetail extends React.Component {
       errorMsg: "",
       successTipVisible: false,
       minDate: new Date(),
-      todaydate: new Date(),
-      creditCardImgObj: {
-        VISA: visaImg,
-        MASTERCARD: mastercardImg,
-        "AMERICAN EXPRESS": amexImg,
-        DISCOVER: discoverImg,
-      },
+      todaydate: new Date()
     };
   }
   componentWillUnmount () {
@@ -799,7 +791,7 @@ class SubscriptionDetail extends React.Component {
                                         "subscription.frequency"
                                       ],
                                     });
-                                      this.setState({ loading: true });
+                                    this.setState({ loading: true });
                                     updateDetail(param)
                                       .then((res) => {
                                         this.setState({ loading: false });
@@ -816,7 +808,7 @@ class SubscriptionDetail extends React.Component {
                                       });
                                   }}
                                   selectedItemData={{
-                                      value: subDetail.frequency || "",
+                                    value: subDetail.frequency || "",
                                   }}
                                   customStyleType="select-one"
                                   type="freqency"
@@ -1521,7 +1513,7 @@ class SubscriptionDetail extends React.Component {
                                     <img
                                       className="card-img"
                                       // src={data.payment.cardImg}
-                                      src={this.state.creditCardImgObj[currentCardInfo.vendor]}
+                                      src={CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]}
                                     />
                                       &nbsp;&nbsp; xxxx xxxx xxxx{" "}
                                     {currentCardInfo.cardNumber.substring(
