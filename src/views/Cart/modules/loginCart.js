@@ -591,7 +591,10 @@ class LoginCart extends React.Component {
     </div >
   }
   async handleChooseSize (sdItem, pitem) {
-    // this.setState({ changSizeLoading: true })
+    if (this.state.changSizeLoading) {
+      return false
+    }
+    this.setState({ changSizeLoading: true })
 
     const otherGoodsSpecs = pitem.goodsSpecs.filter(s => s.specId !== sdItem.specId)
     let selectedSpecIds = [sdItem.specId]
@@ -617,7 +620,7 @@ class LoginCart extends React.Component {
     this.setState({ changSizeLoading: false })
   }
   render () {
-    const { productList, checkoutLoading, changSizeLoading } = this.state;
+    const { productList, checkoutLoading } = this.state;
     const List = this.getProducts(productList);
     const event = {
       page: {
@@ -632,7 +635,7 @@ class LoginCart extends React.Component {
         <main className={['rc-content--fixed-header', productList.length ? '' : 'cart-empty'].join(' ')}>
           <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
-            {(changSizeLoading || productList.length > 0) && <>
+            {productList.length > 0 && <>
               <div className="rc-layout-container rc-one-column pt-1">
                 <div className="rc-column">
                   <FormattedMessage id="continueShopping">
@@ -660,10 +663,7 @@ class LoginCart extends React.Component {
                     </h5>
                   </div>
                   <div id="product-cards-container">
-                    {changSizeLoading
-                      ? <Skeleton color="#f5f5f5" width="100%" height="100%" count={4} />
-                      : List
-                    }
+                    {List}
                   </div>
                 </div>
                 <div className="rc-column totals cart__total pt-0">
