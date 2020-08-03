@@ -127,7 +127,8 @@ export default class CommunicationDataEditForm extends React.Component {
           </aside>
           <span className="rc-meta">
             <b>
-              <FormattedMessage id="account.preferredContactMethod" />
+              {/* <FormattedMessage id="account.preferredContactMethod" /> */}
+              <FormattedMessage id="account.emailCommunication" />
             </b>
           </span>
 
