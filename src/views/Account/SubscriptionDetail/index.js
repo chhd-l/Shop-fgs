@@ -1303,10 +1303,6 @@ class SubscriptionDetail extends React.Component {
                                   result = await this.doGetPromotionPrice(
                                     this.state.promotionInputValue
                                   );
-                                  // this.setState({
-                                  //   promotionDesc:
-                                  //     result.context.promotionDesc,
-                                  // });
                                   if (
                                     result.code == "K-000000" &&
                                     !result.context.promotionFlag
