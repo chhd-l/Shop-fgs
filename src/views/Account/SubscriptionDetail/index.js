@@ -331,7 +331,7 @@ class SubscriptionDetail extends React.Component {
       });
 
       //拼装订阅购物车参数
-      if (res.code == "K-000000"&&!res.context.promotionFlag) {
+      if (res.code == "K-000000"&&!res.context.promotionFlag) {//只有promotionFlag为false的时候表示prootionCode生效
         let subTradeTotal =
           this.state.subTotal +
           Number(res.context.deliveryPrice) -
@@ -342,6 +342,7 @@ class SubscriptionDetail extends React.Component {
           subDiscount: res.context.discountsPrice,
           subShipping: res.context.deliveryPrice,
           promotionDiscount: res.context.promotionDiscount,
+          promotionDesc:res.context.promotionDesc,
           subTradeTotal,
         });
       }
@@ -619,7 +620,7 @@ class SubscriptionDetail extends React.Component {
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscriptionDetail"
                   style={{ display: type === "main" ? "block" : "none" }}
                 >
-                  <div className="rc-border-bottom rc-border-colour--interface d-flex justify-content-between align-items-center flex-wrap">
+                  <div className="d-flex justify-content-between align-items-center flex-wrap">
                     <h4 className="rc-delta font-weight-normal mb-2">
                       <FormattedMessage id="subscription" />{subDetail.subscribeId ? `(${subDetail.subscribeId})` : null}
                     </h4>
@@ -667,6 +668,7 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                   </div>
+                  <hr class="rc-margin-top---none" />
                   <div className="content-asset">
                     {this.state.loading && <div className="mt-4">
                       <Skeleton
@@ -677,21 +679,15 @@ class SubscriptionDetail extends React.Component {
                       />
                     </div>}
                     <div className={`${this.state.loading ? 'hidden' : ''} `}>
-                      <div className="rc-layout-container rc-three-column mgb30">
-                        <div className="rc-column column-contanier pb-1" style={{ width: '50%' }}>
+                      <div className="rc-layout-container rc-three-column pt-0">
+                        <div className="rc-column column-contanier pb-1" style={{ width: '88%' }}>
                           <div className="rc-card-container border-right-0 border-right-md-1">
-                            {/* <div className="bt-icon"> */}
                             <div
                               className="v-center"
                               style={{ marginRight: "20px" }}
                             >
                               <span className="iconfont font-weight-bold red" style={{ fontSize: '1.4em' }}>&#xe639;</span>
                             </div>
-
-                            {/* <button
-                                  className="rc-btn less-width-xs rc-btn--icon rc-icon rc-search--xs rc-iconography not-yet-btn"
-                                  aria-label="Search"></button> */}
-                            {/* </div> */}
                             <div className="rc-card-content">
                               <b className="">
                                 <FormattedMessage id="subscription.previousOrders" />
@@ -828,7 +824,7 @@ class SubscriptionDetail extends React.Component {
                         </div>
                       </div>
                       <hr class="rc-margin-top---none" />
-                      <div className="rc-layout-container rc-three-column mgb30">
+                      <div className="rc-layout-container rc-three-column">
                         <div
                           className="rc-padding-bottom--xs cart-error-messaging cart-error"
                           style={{
@@ -1191,7 +1187,8 @@ class SubscriptionDetail extends React.Component {
                               {
                                 this.state.subDiscount ? <div className="flex-layout">
                                   <label className="saveDiscount  red-text">
-                                    <FormattedMessage id="subscription.saveDiscount"></FormattedMessage>
+                                    {/* <FormattedMessage id="subscription.saveDiscount"></FormattedMessage> */}
+                                    {this.state.promotionDesc}
                                     :
                                   </label>
                                   <div className="text-right red-text">
@@ -1301,17 +1298,18 @@ class SubscriptionDetail extends React.Component {
                                   result = await this.doGetPromotionPrice(
                                     this.state.promotionInputValue
                                   );
-                                  this.setState({
-                                    promotionDesc:
-                                      result.context.promotionDesc,
-                                  });
+                                  // this.setState({
+                                  //   promotionDesc:
+                                  //     result.context.promotionDesc,
+                                  // });
                                   if (
                                     result.code == "K-000000" &&
                                     !result.context.promotionFlag
                                   ) {
                                     //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
                                     discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                                    this.setState({ discount });
+                                    this.setState({ discount,promotionDesc:
+                                      result.context.promotionDesc, });
                                   } else {
                                     this.setState({
                                       isShowValidCode: true,
