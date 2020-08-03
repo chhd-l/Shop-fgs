@@ -307,6 +307,8 @@ class Payment extends React.Component {
       }, { country: "MEX" });//国家暂时填的任意,后台接口需要
       let res = await confirmAndCommit(parameters);
       if (res.code === "K-000000") {
+        var orderNumber =  res.context[0].tid;
+        sessionStorage.setItem("orderNumber", orderNumber);
         this.props.history.push("/confirmation");
       }
     } catch (err) {
@@ -514,7 +516,7 @@ class Payment extends React.Component {
       this.goConfirmation();
     }
   }
-  async goConfirmation () {debugger
+  async goConfirmation () {
     const { history, clinicStore } = this.props;
     let {
       isEighteen,

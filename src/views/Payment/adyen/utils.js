@@ -1,6 +1,3 @@
-import axios from "axios"
-const url = 'http://localhost:3001'
-
 
 export const paymentMethodsConfig = {
     shopperReference: 'Checkout Components sample code test',
@@ -38,7 +35,7 @@ export const paymentsDefaultConfig = {
 
 // Generic POST Helper
 export const httpPost = (endpoint, data) =>
-    fetch(`${url}/${endpoint}`, {
+    fetch(`${endpoint}`, {
         method: 'POST',
         headers: {
             Accept: 'application/json, text/plain, */*',
@@ -72,7 +69,22 @@ export const makePayment = (paymentMethod, config = {}) => {
         .catch(console.error);
 };
 
-// Posts a new adyenPayment into the local server
+// Fetches an originKey from the local server
+export const getOriginKey = () =>
+    httpPost('originKeys')
+        .then(response => {
+            if (response.error || !response.originKeys) throw 'No originKey available';
+
+            return response.originKeys[Object.keys(response.originKeys)[0]];
+        })
+        .catch(console.error);
+
+
+/////////////////////////////////////////////////
+
+
+
+// qhx新增  获取adyen分支
 export const getAdyenParam = (cardData, config = {}) => {
     let {paymentMethod:{encryptedCardNumber,encryptedExpiryMonth,encryptedExpiryYear,encryptedSecurityCode}} = cardData
 
@@ -86,26 +98,3 @@ export const getAdyenParam = (cardData, config = {}) => {
     let param = {...parameters,encryptedCardNumber,encryptedExpiryMonth,encryptedExpiryYear,encryptedSecurityCode}
     return param
 };
-
-// Fetches an originKey from the local server
-export const getOriginKey = () =>
-    httpPost('originKeys')
-        .then(response => {
-            if (response.error || !response.originKeys) throw 'No originKey available';
-
-            return response.originKeys[Object.keys(response.originKeys)[0]];
-        })
-        .catch(console.error);
-
-export const axiosGetOriginKey = (domain)=> {
-    return axios({
-        url: 'https://checkout-test.adyen.com/originKeys',
-        method: 'post',
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json',
-            'X-API-Key':'AQErhmfuXNWTK0Qc+iSdk3YrjuqYR5ldAoFLTGBSrF51ENJOAzIOrvI655613hDBXVsNvuR83LVYjEgiTGAH-1IAk3WNsFHn9OQTCs1zqAgfITuuhrk2BSWACax6iq4g=-~7C;smxATY88pe*7'
-        },
-        data: { originDomains:[domain] }
-    })
-}
