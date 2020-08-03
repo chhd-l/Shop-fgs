@@ -902,7 +902,7 @@ class Payment extends React.Component {
     const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
-        {CREDIT_CARD_IMG_ENUM.map((el, idx) => (
+        {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
           <img key={idx} className="logo-payment-card" src={el} />
         ))}
       </span>
