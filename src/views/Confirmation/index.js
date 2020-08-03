@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import OxxoModal from "./modules/OxxoModal"
 import PayProductInfo from "@/components/PayProductInfo"
-import AddressPreview from "@/components/AddressPreview";
+import AddressPreview from "@/components/AddressPreview/index2";
 import Modal from '@/components/Modal'
 import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
@@ -37,7 +37,11 @@ class Confirmation extends React.Component {
       errorMsg: "",
 
       subNumber: sessionStorage.getItem('subNumber'),
-      orderNumber: sessionStorage.getItem('orderNumber')
+      orderNumber: sessionStorage.getItem('orderNumber'),
+
+      paymentInfo: sessionStorage.getItem("confirmation-info-payment")
+        ? JSON.parse(sessionStorage.getItem("confirmation-info-payment"))
+        : null
     };
     this.timer = null;
   }
@@ -51,6 +55,7 @@ class Confirmation extends React.Component {
       ); // 只移除selected
       sessionStorage.removeItem("rc-token");
     }
+    sessionStorage.removeItem('confirmation-info-payment')
     sessionStorage.removeItem('orderNumber')
     sessionStorage.removeItem('subNumber')
   }
@@ -192,91 +197,90 @@ class Confirmation extends React.Component {
           />
         ) : null}
         <Header history={this.props.history} />
-        <main className="rc-content--fixed-header">
-          <div className="rc-layout-container rc-three-column rc-max-width--xl">
-            <div className="rc-column rc-double-width shipping__address">
-              <div className="center">
-                <img
-                  src={successImg}
-                  alt=""
-                  style={{ display: "inline-block" }}
-                />
-                <h4>
-                  <b>
-                    <FormattedMessage id="confirmation.info1" />
-                  </b>
-                </h4>
-                <p style={{ marginBottom: "5px" }}>
-                  <FormattedMessage id="confirmation.info2" />
-                </p>
-                <div className="d-flex align-items-center justify-content-center">
-                  {
-                    this.state.oxxoPayUrl
-                      ? <>
-                        <Link className="rc-btn rc-btn--one"
-                          onClick={() => {
-                            this.setState({ oxxoModalShow: true });
-                          }}>
-                          <FormattedMessage id="printEbanx" />
-                        </Link>
+        <main className="rc-content--fixed-header rc-bg-colour--brand4">
+          <div className="rc-max-width--xl pb-4">
+            <div className="text-center mt-3">
+              <img
+                src={successImg}
+                className="mb-3"
+                style={{ display: "inline-block" }}
+              />
+              <h4 className="rc-text-colour--iconography">
+                <b>
+                  <FormattedMessage id="confirmation.info1" />
+                </b>
+              </h4>
+              <p style={{ marginBottom: "5px" }}>
+                <FormattedMessage id="confirmation.info2" />
+              </p>
+              <div className="d-flex align-items-center justify-content-center">
+                {
+                  this.state.oxxoPayUrl
+                    ? <>
+                      <Link className="rc-btn rc-btn--one"
+                        onClick={() => {
+                          this.setState({ oxxoModalShow: true });
+                        }}>
+                        <FormattedMessage id="printEbanx" />
+                      </Link>
                       &nbsp;<FormattedMessage id="or" />&nbsp;
                       <Link
-                          to="/"
-                          className="rc-meta rc-styled-link backtohome mb-0">
-                          <FormattedMessage id="confirmation.visitOnlineStore" />
-                        </Link>
-                      </>
-                      : <Link
                         to="/"
-                        className="rc-btn rc-btn--one"
-                        style={{ transform: 'scale(.85)' }}>
-                        <FormattedMessage id="confirmation.visitOnlineStore" />
+                        className="rc-meta rc-styled-link backtohome mb-0">
+                        <FormattedMessage id="continueShopping" />
                       </Link>
-                  }
-                </div>
-                <p
-                  className={`rc-margin-top--sm ${this.state.subNumber ? 'text-left' : ''} ml-auto mr-auto`}
-                  style={{ width: '25%' }}>
-                  {
-                    this.state.subNumber && <>
-                      <b className="mb-3" style={{ display: 'inline-block' }}>
-                        <FormattedMessage id="subscription.number" />:{' '}
-                        <Link
-                          to={`/account/subscription-detail/${this.state.subNumber}`}
-                          className="rc-meta rc-styled-link backtohome mb-0">
-                          {this.state.subNumber}
-                        </Link>
-                      </b>
-                      <br />
                     </>
+                    : <Link
+                      to="/"
+                      className="rc-btn rc-btn--one"
+                      style={{ transform: 'scale(.85)' }}>
+                      <FormattedMessage id="continueShopping" />
+                    </Link>
+                }
+              </div>
+              <p
+                className={`rc-margin-top--sm ${this.state.subNumber ? 'text-left' : ''} ml-auto mr-auto`}
+                style={{ width: '25%' }}>
+                {
+                  this.state.subNumber && <>
+                    <b className="mb-3" style={{ display: 'inline-block' }}>
+                      <FormattedMessage id="subscription.number" />:{' '}
+                      <Link
+                        to={`/account/subscription-detail/${this.state.subNumber}`}
+                        className="rc-meta rc-styled-link backtohome mb-0">
+                        {this.state.subNumber}
+                      </Link>
+                    </b>
+                    <br />
+                  </>
+                }
+                <b>
+                  <FormattedMessage id="confirmation.orderNumber" />:{' '}
+                  {
+                    this.state.paywithLogin
+                      ? <Link
+                        to={`/account/orders-detail/${this.state.orderNumber}`}
+                        className="rc-meta rc-styled-link backtohome mb-0">
+                        {this.state.orderNumber}
+                      </Link>
+                      : this.state.orderNumber
                   }
-                  <b>
-                    <FormattedMessage id="confirmation.orderNumber" />:{' '}
-                    {
-                      this.state.paywithLogin
-                        ? <Link
-                          to={`/account/orders-detail/${this.state.orderNumber}`}
-                          className="rc-meta rc-styled-link backtohome mb-0">
-                          {this.state.orderNumber}
-                        </Link>
-                        : this.state.orderNumber
-                    }
-                  </b>
-                </p>
+                </b>
+              </p>
 
+            </div>
+            <div className="rc-max-width--xl rc-bottom-spacing imformation">
+              <div className="red mb-2"><FormattedMessage id="order.orderInformation" /></div>
+              <div className="product-summary rc-bg-colour--brand3 mb-4">
+                <PayProductInfo history={this.props.history}
+                  buyWay={this.props.frequencyStore.buyWay}
+                  frequencyName={this.props.frequencyStore.frequencyName}
+                />
               </div>
-              <div className="rc-bg-colour--brand3 rc-max-width--xl rc-bottom-spacing rc-padding--sm imformation">
-                <div className="product-summary rc-column" style={{ padding: 0 }}>
-                  <h5 className="product-summary__title rc-margin-bottom--xs center">
-                    <FormattedMessage id="total" />
-                  </h5>
-                  <PayProductInfo history={this.props.history}
-                    buyWay={this.props.frequencyStore.buyWay}
-                    frequencyName={this.props.frequencyStore.frequencyName}
-                  />
-                </div>
-                <AddressPreview info={this.state.paywithLogin ? store.get("loginDeliveryInfo") : store.get("deliveryInfo")} />
-              </div>
+              <div className="red mb-2"><FormattedMessage id="confirmation.customerInformation" /></div>
+              <AddressPreview
+                info={this.state.paywithLogin ? store.get("loginDeliveryInfo") : store.get("deliveryInfo")}
+                paymentInfo={this.state.paymentInfo} />
             </div>
           </div>
         </main>

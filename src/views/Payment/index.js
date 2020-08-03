@@ -703,6 +703,20 @@ class Payment extends React.Component {
           confirmAndCommitResContext[0]["subscribeId"]) ||
         ""
       );
+      if (this.state.paymentTypeVal === 'creditCard') {
+        sessionStorage.setItem(
+          "confirmation-info-payment",
+          JSON.stringify({
+            img: this.state.creditCardImgObj[this.state.payosdata.vendor]
+              ? this.state.creditCardImgObj[this.state.payosdata.vendor]
+              : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg",
+            last4Digits: payosdata.last_4_digits,
+            payAccountName: creditCardInfo.cardOwner,
+            payPhoneNumber: creditCardInfo.phoneNumber,
+            email: creditCardInfo.email
+          })
+        )
+      }
       // update clinic
       clinicStore.removeLinkClinicId();
       clinicStore.removeLinkClinicName();
