@@ -620,7 +620,7 @@ class SubscriptionDetail extends React.Component {
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscriptionDetail"
                   style={{ display: type === "main" ? "block" : "none" }}
                 >
-                  <div className="rc-border-bottom rc-border-colour--interface d-flex justify-content-between align-items-center flex-wrap">
+                  <div className="d-flex justify-content-between align-items-center flex-wrap">
                     <h4 className="rc-delta font-weight-normal mb-2">
                       <FormattedMessage id="subscription" />{subDetail.subscribeId ? `(${subDetail.subscribeId})` : null}
                     </h4>
@@ -668,6 +668,7 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                   </div>
+                  <hr class="rc-margin-top---none" />
                   <div className="content-asset">
                     {this.state.loading && <div className="mt-4">
                       <Skeleton
@@ -678,21 +679,15 @@ class SubscriptionDetail extends React.Component {
                       />
                     </div>}
                     <div className={`${this.state.loading ? 'hidden' : ''} `}>
-                      <div className="rc-layout-container rc-three-column mgb30">
-                        <div className="rc-column column-contanier pb-1" style={{ width: '50%' }}>
+                      <div className="rc-layout-container rc-three-column pt-0">
+                        <div className="rc-column column-contanier pb-1" style={{ width: '88%' }}>
                           <div className="rc-card-container border-right-0 border-right-md-1">
-                            {/* <div className="bt-icon"> */}
                             <div
                               className="v-center"
                               style={{ marginRight: "20px" }}
                             >
                               <span className="iconfont font-weight-bold red" style={{ fontSize: '1.4em' }}>&#xe639;</span>
                             </div>
-
-                            {/* <button
-                                  className="rc-btn less-width-xs rc-btn--icon rc-icon rc-search--xs rc-iconography not-yet-btn"
-                                  aria-label="Search"></button> */}
-                            {/* </div> */}
                             <div className="rc-card-content">
                               <b className="">
                                 <FormattedMessage id="subscription.previousOrders" />
@@ -829,7 +824,7 @@ class SubscriptionDetail extends React.Component {
                         </div>
                       </div>
                       <hr class="rc-margin-top---none" />
-                      <div className="rc-layout-container rc-three-column mgb30">
+                      <div className="rc-layout-container rc-three-column">
                         <div
                           className="rc-padding-bottom--xs cart-error-messaging cart-error"
                           style={{
