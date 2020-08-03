@@ -637,6 +637,7 @@ const en_US = {
   'product.de.catogery6.name': 'Health Management',
   'product.de.catogery6.title': 'Health Management',
   'product.de.catogery6.desc': 'Optimales Gewicht, Seniorengesundheit, Zahnhygiene, Nahrungsumstellung',
+  'profile.emailChoose': 'Yes, I would like to receive exclusive savings, product information, pet care tips & more from Royal Canin.',
 
 };
 export default en_US;

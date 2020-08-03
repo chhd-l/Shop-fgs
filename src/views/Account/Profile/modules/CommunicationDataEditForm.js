@@ -36,7 +36,12 @@ export default class CommunicationDataEditForm extends React.Component {
   handleInputChange (e) {
     const target = e.target
     const { form } = this.state
-    form[target.name] = target.value
+    if(target.name === 'contactMethod') {
+      form[target.name] = form[target.name]? '': 'email'
+    }else {
+      form[target.name] = target.value  
+    }
+    
     this.setState({ form: form })
   }
   async handleSave () {
@@ -125,7 +130,102 @@ export default class CommunicationDataEditForm extends React.Component {
               <FormattedMessage id="account.preferredContactMethod" />
             </b>
           </span>
+
+          {/* <div class="rc-input rc-input--stacked">
+            <input class="rc-input__checkbox" id="id-checkbox-cat-2" value="Cat" type="checkbox" name="checkbox-2" />
+            <label class="rc-input__label--inline" for="id-checkbox-cat-2">Cat</label>
+          </div> */}
           <div className={`row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer ${editFormVisible ? 'hidden' : ''}`}>
+            {/* <div className="rc-input rc-input--inline rc-margin-y--xs">
+              <FormattedMessage id="phone">
+                {txt => (
+                  <input
+                    className="rc-input__checkbox"
+                    type="checkbox"
+                    disabled="disabled"
+                    alt={txt}
+                    name="phone"
+                    checked={form.contactMethod === 'phone'}
+                    readOnly
+                  />
+                )}
+              </FormattedMessage>
+              <label className="rc-input__label--inline outline-none">
+                <FormattedMessage id="phone" />
+              </label>
+            </div> */}
+            <div className="rc-input rc-input--inline rc-margin-y--xs">
+              <FormattedMessage id="profile.emailChoose">
+                {txt => (
+                  <input
+                    className="rc-input__checkbox"
+                    type="checkbox"
+                    disabled="disabled"
+                    alt={txt}
+                    name="email"
+                    checked={form.contactMethod === 'email'}
+                    readOnly
+                  />
+                )}
+              </FormattedMessage>
+              <label className="rc-input__label--inline outline-none">
+                <FormattedMessage id="profile.emailChoose" />
+              </label>
+            </div>
+          </div>
+          <div className={`${editFormVisible ? '' : 'hidden'}`}>
+            <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
+              {/* <div className="rc-input rc-input--inline rc-margin-y--xs">
+                <input
+                  className="rc-input__checkbox"
+                  id="optsmobile"
+                  type="checkbox"
+                  name="contactMethod"
+                  value="phone"
+                  onChange={event => this.handleInputChange(event)}
+                  checked={this.state.form.contactMethod === 'phone'}
+                />
+                <label className="rc-input__label--inline outline-none" htmlFor="optsmobile">
+                  <FormattedMessage id="phone" />
+                </label>
+              </div> */}
+              <div className="rc-input rc-input--inline rc-margin-y--xs">
+                <FormattedMessage id="profile.emailChoose">
+                  {txt => (
+                    <input
+                      className="rc-input__checkbox"
+                      id="optsemail"
+                      type="checkbox"
+                      alt={txt}
+                      name="contactMethod"
+                      value="email"
+                      onChange={event => this.handleInputChange(event)}
+                      checked={this.state.form.contactMethod === 'email'} />
+                  )}
+                </FormattedMessage>
+                <label className="rc-input__label--inline outline-none" htmlFor="optsemail">
+                  <FormattedMessage id="profile.emailChoose" />
+                </label>
+              </div>
+            </div>
+            <div className="text-right contactPreferenceFormBtn">
+              <a
+                className="rc-styled-link editPersonalInfoBtn"
+                name="contactPreference"
+                onClick={()=>this.handleCancel()}>
+                <FormattedMessage id="cancel" />
+              </a>
+              &nbsp;<FormattedMessage id="or" />&nbsp;
+                <button
+                className="rc-btn rc-btn--one submitBtn"
+                name="contactPreference"
+                type="submit"
+                onClick={() => this.handleSave()}>
+                <FormattedMessage id="save" />
+              </button>
+            </div>
+          </div>
+          {/* <div className={`row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer ${editFormVisible ? 'hidden' : ''}`}>
             <div className="rc-input rc-input--inline rc-margin-y--xs">
               <FormattedMessage id="phone">
                 {txt => (
@@ -214,7 +314,7 @@ export default class CommunicationDataEditForm extends React.Component {
                 <FormattedMessage id="save" />
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     )
