@@ -129,7 +129,7 @@
       <workItem from="1595925154126" duration="175000" />
       <workItem from="1596174203101" duration="1094000" />
       <workItem from="1596418334525" duration="3517000" />
-      <workItem from="1596421930953" duration="455000" />
+      <workItem from="1596421930953" duration="2032000" />
     </task>
     <servers />
   </component>
@@ -299,7 +299,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Details/components/Reviews.js</url>
-          <line>310</line>
+          <line>308</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
