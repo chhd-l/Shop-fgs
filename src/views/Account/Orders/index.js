@@ -138,10 +138,10 @@ class AccountOrders extends React.Component {
           )
         }
         )
-        if(!tmpList.length) {
-          this.setState({haveList: false})
-        }else {
-          this.setState({haveList: true})
+        if (!tmpList.length) {
+          this.setState({ haveList: false })
+        } else {
+          this.setState({ haveList: true })
         }
         this.setState({
           orderList: tmpList,
@@ -288,7 +288,6 @@ class AccountOrders extends React.Component {
     this.props.history.push('/cart')
   }
   render () {
-    const lang = this.props.intl.locale || 'en'
     const event = {
       page: {
         type: 'Account',
@@ -311,7 +310,7 @@ class AccountOrders extends React.Component {
                     <FormattedMessage id="order.historyOfOrders" />
                   </h4>
                 </div>
-                <div className="row justify-content-around" style={{display: haveList? 'flex': 'none'}}>
+                <div className="row justify-content-around" style={{ display: haveList ? 'flex' : 'none' }}>
                   <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
                       <FormattedMessage id="order.orderNumber" />
@@ -354,7 +353,7 @@ class AccountOrders extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="order__listing" style={{display: haveList? 'block': 'none'}}>
+                <div className="order__listing" style={{ display: haveList ? 'block' : 'none' }}>
                   <div className="order-list-container">
                     {
                       this.state.loading
@@ -428,13 +427,13 @@ class AccountOrders extends React.Component {
                                       {formatMoney(order.tradePrice.totalPrice)}
                                     </div>
                                     <div className="col-4 col-md-2">
-                                      {ORDER_STATUS_ENUM[lang][order.tradeState.flowState] || order.tradeState.flowState}
+                                      {ORDER_STATUS_ENUM[order.tradeState.flowState] || order.tradeState.flowState}
                                     </div>
                                     <div className="col-4 col-md-2">
-                                      {DELIVER_STATUS_ENUM[lang][order.tradeState.deliverStatus] || order.tradeState.deliverStatus}
+                                      {DELIVER_STATUS_ENUM[order.tradeState.deliverStatus] || order.tradeState.deliverStatus}
                                     </div>
                                     <div className="col-4 col-md-2">
-                                      {PAY_STATUS_ENUM[lang][order.tradeState.payState] || order.tradeState.payState}
+                                      {PAY_STATUS_ENUM[order.tradeState.payState] || order.tradeState.payState}
                                     </div>
                                     <div className="col-4 col-md-2 text-center">
                                       {
@@ -508,17 +507,17 @@ class AccountOrders extends React.Component {
                     }
                   </div>
                 </div>
-                <div className="content-asset" style={{display: haveList? 'none': 'block'}}>
+                <div className="content-asset" style={{ display: haveList ? 'none' : 'block' }}>
                   <div class="rc-layout-container rc-two-column">
                     <div class="rc-column">
-                      <img src={orderImg} style={{width: '100%'}}/>
+                      <img src={orderImg} style={{ width: '100%' }} />
                     </div>
-                    <div class="rc-column" style={{display: 'flex',alignItems: 'center', justifyContent: 'center'}}>
+                    <div class="rc-column" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <div>
-                      <p>
-                        You haven't placed any orders yet! Start shopping now for precise nutrition for your pet.
+                        <p>
+                          You haven't placed any orders yet! Start shopping now for precise nutrition for your pet.
                       </p>
-                      <button class="rc-btn rc-btn--one" onClick={() => this.props.history.push('/')}>Start Shopping</button>
+                        <button class="rc-btn rc-btn--one" onClick={() => this.props.history.push('/')}>Start Shopping</button>
                       </div>
                     </div>
                   </div>

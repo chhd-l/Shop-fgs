@@ -11,54 +11,26 @@ export const IMG_DEFAULT = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATYAAA
 export const SUBSCRIPTION_DISCOUNT_RATE = '35%'
 
 export const DELIVER_STATUS_ENUM = {
-  en: {
-    'NOT_YET_SHIPPED': 'Not shipped',
-    'SHIPPED': 'All shipped',
-    'PART_SHIPPED': 'Partially shipped',
-    'VOID': 'To be delivered'
-  },
-  es: {
-    'NOT_YET_SHIPPED': 'No enviado',
-    'SHIPPED': 'Todo enviado',
-    'PART_SHIPPED': 'Parcialmente Enviado',
-    'VOID': 'Para ser entregado'
-  }
+  'NOT_YET_SHIPPED': CURRENT_LANGFILE['deliveryStatus.NOT_YET_SHIPPED'],
+  'SHIPPED': CURRENT_LANGFILE['deliveryStatus.SHIPPED'],
+  'PART_SHIPPED': CURRENT_LANGFILE['deliveryStatus.PART_SHIPPED'],
+  'VOID': CURRENT_LANGFILE['deliveryStatus.VOID']
 }
 export const ORDER_STATUS_ENUM = {
-  en: {
-    'INIT': 'To be paid',
-    'REMEDY': 'To be delivered',
-    'REFUND': 'Canceled',
-    'AUDIT': 'To be delivered',
-    'DELIVERED_PART': 'Delivered',
-    'DELIVERED': 'Delivered',
-    'CONFIRMED': 'Completed',
-    'COMPLETED': 'Completed',
-    'VOID': 'Canceled'
-  },
-  es: {
-    'INIT': 'A pagar',
-    'REMEDY': 'Para ser entregado',
-    'REFUND': 'Cancelado',
-    'AUDIT': 'Para ser entregado',
-    'DELIVERED_PART': 'Entregado',
-    'DELIVERED': 'Entregado',
-    'CONFIRMED': 'Terminado',
-    'COMPLETED': 'Terminado',
-    'VOID': 'Cancelado'
-  }
+  'INIT': CURRENT_LANGFILE['orderStatus.INIT'],
+  'REMEDY': CURRENT_LANGFILE['orderStatus.REMEDY'],
+  'REFUND': CURRENT_LANGFILE['orderStatus.REFUND'],
+  'AUDIT': CURRENT_LANGFILE['orderStatus.AUDIT'],
+  'DELIVERED_PART': CURRENT_LANGFILE['orderStatus.DELIVERED_PART'],
+  'DELIVERED': CURRENT_LANGFILE['orderStatus.DELIVERED'],
+  'CONFIRMED': CURRENT_LANGFILE['orderStatus.CONFIRMED'],
+  'COMPLETED': CURRENT_LANGFILE['orderStatus.COMPLETED'],
+  'VOID': CURRENT_LANGFILE['orderStatus.VOID']
 }
 export const PAY_STATUS_ENUM = {
-  en: {
-    'REFUND': 'Refund',
-    'NOT_PAID': 'Unpaid',
-    'PAID': 'Paid'
-  },
-  es: {
-    'REFUND': 'Reembolso',
-    'NOT_PAID': 'No pagado',
-    'PAID': 'Pagado'
-  }
+  'REFUND': CURRENT_LANGFILE['payStatus.REFUND'],
+  'NOT_PAID': CURRENT_LANGFILE['payStatus.NOT_PAID'],
+  'PAID': CURRENT_LANGFILE['payStatus.PAID']
 }
 
 export const STORE_CATE_ENUM = [
@@ -84,7 +56,7 @@ export const STORE_CATE_ENUM = [
     url: '/list/vcn',
     category: 'vcn',
     cateName: ['VD dogs'],
-    text: CURRENT_LANGFILE['product.catogery3.name'], 
+    text: CURRENT_LANGFILE['product.catogery3.name'],
     title: CURRENT_LANGFILE['product.catogery3.title'],
     desc: CURRENT_LANGFILE['product.catogery3.desc'],
     img: dogsImg

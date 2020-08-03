@@ -278,7 +278,6 @@ class SubscriptionDetail extends React.Component {
     }
   }
   async getDetail () {
-    const lang = this.props.intl.locale || 'en'
     try {
       this.setState({ loading: true });
       const res = await getSubDetail(
@@ -286,7 +285,7 @@ class SubscriptionDetail extends React.Component {
       );
       let subDetail = res.context;
       let orderOptions = (subDetail.trades || []).map((el) => {
-        let orderStatus = ORDER_STATUS_ENUM[lang][el.tradeState.flowState] || el.tradeState.flowState
+        let orderStatus = ORDER_STATUS_ENUM[el.tradeState.flowState] || el.tradeState.flowState
         return { value: el.id, name: el.id + " " + orderStatus };
       });
 
