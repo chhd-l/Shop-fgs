@@ -199,7 +199,7 @@ class Reviews extends React.Component {
                 <div className="direction rc-icon rc-left rc-iconography  " onClick={() => this.handleDirectionClick(-1)}></div>
                   <img style={{maxWidth:'100%',maxHeight:'100%'}}src={this.state.imgList[this.state.showPicIndex].artworkUrl}></img>
                   <span className="desc" style={{position:"absolute",width:"100%",bottom:'10%'}}>{this.state.showPicIndex + 1} of {this.state.imgList.length}</span>
-            
+
                 <div className="direction rc-icon rc-right rc-iconography  " onClick={() => this.handleDirectionClick(1)}></div>
               </div>
               <div className="Mask" onClick={this.handleCancelMask.bind(this)}></div>
@@ -213,7 +213,7 @@ class Reviews extends React.Component {
               <div>
                 <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
               </div>
-              <div style={{marginLeft:'8rem'}}>
+              <div >
                 <div className="rc-max-width--xl rc-padding-x--sm">
                   <div className="rc-column padl0" style={{marginBottom:'2rem'}}>
                     <h3 className="red-text" style={{fontSize:'30px'}}>
