@@ -294,7 +294,7 @@ class Payment extends React.Component {
 
       let res = {}
       if(orderNumber){//存在订单号,进行repay
-        rePay(parameters)
+        res = await rePay(parameters)
       }else{
         if(this.isLogin){//会员正常
           if(this.state.subForm.buyWay == "once"){//正常购买非订阅
