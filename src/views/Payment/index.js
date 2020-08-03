@@ -14,10 +14,6 @@ import LoginDeliveryAddress from "./modules/LoginDeliveryAddress";
 import BillingAddressForm from "./modules/BillingAddressForm";
 import SubscriptionSelect from "./modules/SubscriptionSelect";
 import AddressPreview from "@/components/AddressPreview";
-import visaImg from "@/assets/images/credit-cards/visa.svg";
-import amexImg from "@/assets/images/credit-cards/amex.svg";
-import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
-import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import { getDictionary, formatMoney } from "@/utils/utils";
 import {
   postVisitorRegisterAndLogin,
@@ -35,6 +31,7 @@ import OxxoConfirm from "./modules/OxxoConfirm";
 import {
   getAdyenParam,
 } from "./adyen/utils"
+import { CREDIT_CARD_IMG_ENUM, CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant'
 
 const rules = [
   {
@@ -82,13 +79,6 @@ class Payment extends React.Component {
       isEighteenInit: true,
       isReadPrivacyPolicy: false,
       isEighteen: false,
-      creditCardImgUrl: [visaImg, amexImg, mastercardImg],
-      creditCardImgObj: {
-        VISA: visaImg,
-        MASTERCARD: mastercardImg,
-        "AMERICAN EXPRESS": amexImg,
-        DISCOVER: discoverImg,
-      },
       deliveryAddress: {
         firstName: "",
         lastName: "",
@@ -136,7 +126,6 @@ class Payment extends React.Component {
       selectedCardInfo: {},
       isToPayNow: sessionStorage.getItem("rc-tid"),
       showOxxoForm: false,
-      tab: 0,//0:Credit Card 1: OXXO 2: Adyen
       adyenPayParam: {}
     };
     this.tid = sessionStorage.getItem("rc-tid");
@@ -264,10 +253,6 @@ class Payment extends React.Component {
       isCompleteCredit: true
     });
   }
-  showAdyenPay () {
-    this.setState({ showOxxoForm: true, tab: 2 })
-    this.initAdyenPay()
-  }
   //1.初始化adyen
   initAdyenPay () {
     const AdyenCheckout = window.AdyenCheckout
@@ -307,6 +292,8 @@ class Payment extends React.Component {
       }, { country: "MEX" });//国家暂时填的任意,后台接口需要
       let res = await confirmAndCommit(parameters);
       if (res.code === "K-000000") {
+        var orderNumber =  res.context[0].tid;
+        sessionStorage.setItem("orderNumber", orderNumber);
         this.props.history.push("/confirmation");
       }
     } catch (err) {
@@ -514,7 +501,7 @@ class Payment extends React.Component {
       this.goConfirmation();
     }
   }
-  async goConfirmation () {debugger
+  async goConfirmation () {
     const { history, clinicStore } = this.props;
     let {
       isEighteen,
@@ -707,8 +694,8 @@ class Payment extends React.Component {
         sessionStorage.setItem(
           "confirmation-info-payment",
           JSON.stringify({
-            img: this.state.creditCardImgObj[this.state.payosdata.vendor]
-              ? this.state.creditCardImgObj[this.state.payosdata.vendor]
+            img: CREDIT_CARD_IMG_ENUM[this.state.payosdata.vendor]
+              ? CREDIT_CARD_IMG_ENUM[this.state.payosdata.vendor]
               : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg",
             last4Digits: payosdata.last_4_digits,
             payAccountName: creditCardInfo.cardOwner,
@@ -916,7 +903,7 @@ class Payment extends React.Component {
     const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
-        {this.state.creditCardImgUrl.map((el, idx) => (
+        {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
           <img key={idx} className="logo-payment-card" src={el} />
         ))}
       </span>
@@ -1244,65 +1231,6 @@ class Payment extends React.Component {
                       </label>
                     </div>
                   </div>
-                  {/* <nav
-                    className="rc-tabs__controller rc-fade--x "
-                    data-toggle-group=""
-                    style={{
-                      marginBottom: "20px",
-                      display:
-                        this.state.subForm.buyWay === "frequency"
-                          ? "none"
-                          : "block",
-                    }}
-                  >
-                    <ul
-                      className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break"
-                      role="tablist"
-                    >
-                      <li className="rc-tabs-li" style={{ width: "33%" }}>
-                        <button
-                          className="rc-tab text-break"
-                          onClick={() => this.setState({ showOxxoForm: false, tab: 0 })}
-                          style={{ padding: "8px 15px", width: "100%" }}
-                          data-toggle="creditCard"
-                          aria-selected={
-                            this.state.tab === 0 ? "true" : "false"
-                          }
-                          role="tab"
-                        >
-                          <FormattedMessage id="creditCard"></FormattedMessage>
-                        </button>
-                      </li>
-                      <li className="rc-tabs-li" style={{ width: "33%" }}>
-                        <button
-                          className="rc-tab text-break"
-                          onClick={() => this.setState({ showOxxoForm: true, tab: 1 })}
-                          style={{ padding: "8px 15px", width: "100%" }}
-                          data-toggle="oxxo"
-                          aria-selected={
-                            this.state.showOxxoForm === 1 ? "true" : "false"
-                          }
-                          role="tab"
-                        >
-                          <FormattedMessage id="oxxo"></FormattedMessage>
-                        </button>
-                      </li>
-                      <li className="rc-tabs-li" style={{ width: "33%" }}>
-                        <button
-                          className="rc-tab text-break"
-                          onClick={() => this.showAdyenPay()}
-                          style={{ padding: "8px 15px", width: "100%" }}
-                          data-toggle="oxxo"
-                          aria-selected={
-                            this.state.showOxxoForm === 2 ? "true" : "false"
-                          }
-                          role="tab"
-                        >
-                          <FormattedMessage id="adyen"></FormattedMessage>
-                        </button>
-                      </li>
-                    </ul>
-                  </nav> */}
 
                   {this.state.paymentTypeVal === "oxxo" && <OxxoConfirm
                     history={this.props.history}
@@ -1545,15 +1473,10 @@ class Payment extends React.Component {
                                         <div className="col-6 col-sm-3 d-flex flex-column justify-content-center">
                                           <img
                                             src={
-                                              this.state.creditCardImgObj[
-                                                this.state.payosdata.vendor
-                                              ]
-                                                ? this.state.creditCardImgObj[
-                                                this.state.payosdata.vendor
-                                                ]
+                                              CREDIT_CARD_IMG_ENUM[this.state.payosdata.vendor]
+                                                ? CREDIT_CARD_IMG_ENUM[this.state.payosdata.vendor]
                                                 : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                                             }
-                                            alt=""
                                           />
                                         </div>
                                         <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">

@@ -1,6 +1,11 @@
 import ENUM_LANGFILE from "@/lang";
 import catsImg from "@/assets/images/banner-list/cats.jpg"
 import dogsImg from "@/assets/images/banner-list/dogs.jpg"
+import visaImg from "@/assets/images/credit-cards/visa.svg";
+import amexImg from "@/assets/images/credit-cards/amex.svg";
+import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
+import discoverImg from "@/assets/images/credit-cards/discover.svg";
+import oxxo from "@/assets/images/oxxo.png";
 
 const CURRENT_LANGFILE = ENUM_LANGFILE[process.env.REACT_APP_LANG]
 
@@ -137,3 +142,13 @@ export const STORE_CATE_ENUM = [
     img: dogsImg // ???
   },
 ]
+
+export const CREDIT_CARD_IMG_ENUM = {
+  VISA: visaImg,
+  MASTERCARD: mastercardImg,
+  "AMERICAN EXPRESS": amexImg,
+  DISCOVER: discoverImg,
+  OXXO: oxxo
+}
+
+export const CREDIT_CARD_IMGURL_ENUM = [visaImg, amexImg, mastercardImg]
