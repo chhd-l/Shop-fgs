@@ -286,6 +286,7 @@ class Payment extends React.Component {
   //2.进行支付
   async adyenPayment () {
     var orderNumber =  sessionStorage.getItem("orderNumber");
+    console.log(orderNumber)
     try {
       var addressParameter = await this.goConfirmation();
       var parameters = Object.assign(addressParameter, {
@@ -297,12 +298,15 @@ class Payment extends React.Component {
         res = await rePay(parameters)
       }else{
         if(this.isLogin){//会员正常
-          if(this.state.subForm.buyWay == "once"){//正常购买非订阅
-            res = await customerCommitAndPay(parameters);
+          if(this.state.subForm.buyWay == "once"||this.state.subForm.buyWay == ""){//正常购买非订阅
+            var param =  Object.assign(parameters,{deliveryAddressId:this.deliveryAddress.addressId},
+            {billAddressId:this.billingAddress.addressId})
+            res = await customerCommitAndPay(param);
            
           }else{//会员订阅
             res = await customerCommitAndPayMix(parameters);
           }
+          res = await customerCommitAndPay(parameters);
         }else{//游客
             res = await confirmAndCommit(parameters);
         }
@@ -606,7 +610,6 @@ class Payment extends React.Component {
         tradeMarketingList.push(param)
       }
     }
-
     let param3 = {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
