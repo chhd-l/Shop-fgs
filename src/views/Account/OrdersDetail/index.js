@@ -331,7 +331,7 @@ class AccountOrders extends React.Component {
                                           {
                                             details.subscriptionResponseVO && item.subscriptionStatus && <>
                                               <br />
-                                              <span className="rc-icon rc-refresh--xs rc-brand1"></span><FormattedMessage id="details.Subscription" />
+                                              <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.8em' }}>&#xe675;</span><FormattedMessage id="details.Subscription" />
                                             </>
                                           }
                                         </span>

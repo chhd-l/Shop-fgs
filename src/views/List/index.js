@@ -372,7 +372,7 @@ class List extends React.Component {
                   </div>
                   <div className={['rc-column', 'rc-triple-width', !productList.length ? 'd-flex justify-content-center align-items-center' : ''].join(' ')}>
                     {
-                      !loading && <div className="position-absolute" style={{ top: '-20px' }}>
+                      !loading && <div className="position-absolute" style={{ top: '-20px', left: 0 }}>
                         <span style={{ fontWeight: 500 }}>{this.state.currentCatogery}{' '}</span>({results} <FormattedMessage id="results" />)
                       </div>
                     }
@@ -442,7 +442,7 @@ class List extends React.Component {
                                                     {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.marketPrice || 0)))}{' '}
                                                     {
                                                       item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice && item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice > 0
-                                                        ? <span className="text-line-through rc-text-colour--text" style={{ fontSize: '.8em' }}>
+                                                        ? <span className="text-line-through rc-text-colour--text font-weight-lighter" style={{ fontSize: '.8em' }}>
                                                           {formatMoney(item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice)}
                                                         </span>
                                                         : null
@@ -456,10 +456,10 @@ class List extends React.Component {
                                                       <span style={{ color: '#323232', fontWeight: 400 }}>
                                                         {formatMoney(Math.min.apply(null, item.goodsInfos.filter(g => g.subscriptionStatus).map(g => g.subscriptionPrice || 0)))}{' '}
                                                       </span>
-                                                      <span className="rc-icon rc-refresh--xs rc-brand1 "></span>
+                                                      <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.65em' }}>&#xe675;</span>
                                                       <span
                                                         className="position-relative red-text position-absolute"
-                                                        style={{ fontSize: '.7em', top: '43%', transform: 'translateY(-50%)' }}>
+                                                        style={{ fontSize: '.7em', top: '52%', transform: 'translateY(-50%)' }}>
                                                         <FormattedMessage id="autoship" />
                                                       </span>
                                                     </div>

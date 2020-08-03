@@ -715,7 +715,7 @@ class SubscriptionDetail extends React.Component {
                               className="v-center"
                               style={{ marginRight: "20px" }}
                             >
-                              <i className="rc-icon rc-refresh--xs rc-brand1"></i>
+                              <span className="iconfont font-weight-bold red">&#xe675;</span>
                             </div>
 
                             {/* <button
@@ -758,7 +758,7 @@ class SubscriptionDetail extends React.Component {
                               className="v-center"
                               style={{ marginRight: "20px" }}
                             >
-                              <i className="rc-icon rc-refresh--xs rc-brand1"></i>
+                              <span className="iconfont font-weight-bold red">&#xe639;</span>
                             </div>
                             <div className="rc-card-content">
                               <b className="">
@@ -824,7 +824,7 @@ class SubscriptionDetail extends React.Component {
                               className="v-center"
                               style={{ marginRight: "20px" }}
                             >
-                              <i className="rc-icon rc-refresh--xs rc-brand1"></i>
+                              <span className="iconfont font-weight-bold red" style={{ fontSize: '1.1em' }}>&#xe74e;</span>
                             </div>
                             <div className="rc-card-content">
                               <b className="">

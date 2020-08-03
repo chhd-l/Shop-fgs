@@ -405,7 +405,7 @@ class UnLoginCart extends React.Component {
                   {
                     find(pitem.sizeList, s => s.selected).subscriptionStatus
                       ? <>
-                        <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                        <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.9em' }}>&#xe675;</span>
                         <FormattedMessage id="autoship" />
                       </>
                       : null
@@ -477,7 +477,7 @@ class UnLoginCart extends React.Component {
                 {
                   find(pitem.sizeList, s => s.selected).subscriptionStatus
                     ? <>
-                      <span className="rc-icon rc-refresh--xs rc-brand1"></span>
+                      <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.9em' }}>&#xe675;</span>
                       <FormattedMessage id="details.Subscription" />
                     </>
                     : null

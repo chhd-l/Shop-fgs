@@ -1,0 +1,30 @@
+{
+  "id": "1982813",
+  "name": "FGS RC SHOP",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "6760140",
+      "name": "calendar",
+      "font_class": "calendar",
+      "unicode": "e74e",
+      "unicode_decimal": 59214
+    },
+    {
+      "icon_id": "11891846",
+      "name": "refresh",
+      "font_class": "refresh",
+      "unicode": "e675",
+      "unicode_decimal": 58997
+    },
+    {
+      "icon_id": "14259944",
+      "name": "形状2",
+      "font_class": "xingzhuang21",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    }
+  ]
+}
