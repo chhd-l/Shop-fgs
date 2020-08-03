@@ -637,5 +637,22 @@ const en_US = {
   'product.de.catogery6.title': 'Health Management',
   'product.de.catogery6.desc': 'Optimales Gewicht, Seniorengesundheit, Zahnhygiene, Nahrungsumstellung',
 
+  // 订单状态相关
+  'deliveryStatus.NOT_YET_SHIPPED': 'Not shipped',
+  'deliveryStatus.SHIPPED': 'All shipped',
+  'deliveryStatus.PART_SHIPPED': 'Partially shipped',
+  'deliveryStatus.VOID': 'To be delivered',
+  'orderStatus.INIT': 'To be paid',
+  'orderStatus.REMEDY': 'To be delivered',
+  'orderStatus.REFUND': 'Canceled',
+  'orderStatus.AUDIT': 'To be delivered',
+  'orderStatus.DELIVERED_PART': 'Delivered',
+  'orderStatus.DELIVERED': 'Delivered',
+  'orderStatus.CONFIRMED': 'Completed',
+  'orderStatus.COMPLETED': 'Completed',
+  'orderStatus.VOID': 'Canceled',
+  'payStatus.REFUND': 'Refund',
+  'payStatus.NOT_PAID': 'Unpaid',
+  'payStatus.PAID': 'Paid',
 };
 export default en_US;

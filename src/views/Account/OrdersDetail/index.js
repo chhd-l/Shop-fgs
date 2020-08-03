@@ -232,7 +232,6 @@ class AccountOrders extends React.Component {
     return ret
   }
   render () {
-    const lang = this.props.intl.locale || 'en'
     const event = {
       page: {
         type: 'Account',
@@ -310,7 +309,7 @@ class AccountOrders extends React.Component {
                               </div>
                               <div className="text-center">
                                 <FormattedMessage id="order.orderStatus" />:<br />
-                                <span className="medium">{ORDER_STATUS_ENUM[lang][details.tradeState.flowState] || details.tradeState.flowState}</span>
+                                <span className="medium">{ORDER_STATUS_ENUM[details.tradeState.flowState] || details.tradeState.flowState}</span>
                               </div>
                               <div className="text-center">
                                 <FormattedMessage id="payment.clinicTitle3" />:<br />

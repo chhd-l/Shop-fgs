@@ -1051,7 +1051,7 @@ class Payment extends React.Component {
                               </h5>
                             </div>
                             <div className="leading-lines shipping-method-list">
-                              <div className="row deliveryMethod">
+                              <div className="row deliveryMethod ml-0 mr-0">
                                 <div className="col-8">
                                   <span className="display-name pull-left">
                                     <FormattedMessage id="payment.normalDelivery2" />
