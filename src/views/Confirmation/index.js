@@ -170,8 +170,8 @@ class Confirmation extends React.Component {
       event = {
         page: {
           type: "Order Confirmation",
-          theme: "",
-        },
+          theme: ""
+        }
       };
       eEvents = {
         event: `${GTM_SITE_ID}eComTransaction`,
@@ -182,9 +182,9 @@ class Confirmation extends React.Component {
               id: this.state.orderNumber,
               revenue: this.tradePrice
             },
-            products,
-          },
-        },
+            products
+          }
+        }
       };
     }
 
@@ -197,7 +197,7 @@ class Confirmation extends React.Component {
           />
         ) : null}
         <Header history={this.props.history} />
-        <main className="rc-content--fixed-header rc-bg-colour--brand4">
+        <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 pl-md-0 pr-md-0">
           <div className="rc-max-width--xl pb-4">
             <div className="text-center mt-3">
               <img

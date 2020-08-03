@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import { find } from 'lodash'
@@ -7,6 +8,9 @@ import { formatMoney } from "@/utils/utils"
 @inject("checkoutStore", "loginStore")
 @observer
 class PayProductInfo extends React.Component {
+  static defaultProps = {
+    operateBtnVisible: false
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -154,10 +158,19 @@ class PayProductInfo extends React.Component {
       quantityKeyName = 'buyCount'
     }
     return (
-      <div className="product-summary__itemnbr checkout--padding border-bottom">
-        {productList.reduce((total, item) => total + item[quantityKeyName], 0)}&nbsp;
-        {productList.reduce((total, item) => total + item[quantityKeyName], 0) > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}&nbsp;
-        <FormattedMessage id="payment.totalProduct" />
+      <div className="product-summary__itemnbr checkout--padding border-bottom d-flex align-items-center justify-content-between">
+        <span>
+          {productList.reduce((total, item) => total + item[quantityKeyName], 0)}{' '}
+          {productList.reduce((total, item) => total + item[quantityKeyName], 0) > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}{' '}
+          <FormattedMessage id="payment.totalProduct" />
+        </span>
+        {
+          this.props.operateBtnVisible && <Link
+            to="/cart"
+            className="product-summary__cartlink rc-styled-link">
+            <FormattedMessage id="edit" />
+          </Link>
+        }
       </div>
     )
   }

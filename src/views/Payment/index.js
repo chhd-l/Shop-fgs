@@ -1342,11 +1342,11 @@ class Payment extends React.Component {
                                 </div>
                               ) : (
                                   <div
-                                    className={`rc-border-all rc-border-colour--interface ${
-                                      !this.state.isCompleteCredit
-                                        ? "checkout--padding"
-                                        : ""
-                                      }`}
+                                  // className={`rc-border-all rc-border-colour--interface ${
+                                  //   !this.state.isCompleteCredit
+                                  //     ? "checkout--padding"
+                                  //     : ""
+                                  //   }`}
                                   >
                                     <div
                                       className={`credit-card-content ${
@@ -1712,18 +1712,6 @@ class Payment extends React.Component {
                 </div>
               </div>
               <div className="product-summary rc-column">
-                {/* <h5 className="product-summary__title rc-margin-bottom--xs">
-                  <FormattedMessage id="payment.yourOrder" />
-                </h5> */}
-                {!this.state.isToPayNow && (
-                  <Link
-                    to="/cart"
-                    className="product-summary__cartlink rc-styled-link"
-                    style={{ right: '2rem', top: '2.2rem' }}
-                  >
-                    <FormattedMessage id="edit" />
-                  </Link>
-                )}
                 <PayProductInfo
                   ref="payProductInfo"
                   history={this.props.history}
@@ -1731,6 +1719,7 @@ class Payment extends React.Component {
                   buyWay={this.state.subForm.buyWay}
                   sendPromotionCode={(e) => this.savePromotionCode(e)}
                   promotionCode={this.state.promotionCode}
+                  operateBtnVisible={!this.state.isToPayNow}
                 />
               </div>
             </div>
