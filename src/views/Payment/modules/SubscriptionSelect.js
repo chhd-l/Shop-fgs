@@ -25,7 +25,9 @@ class SubscriptionSelect extends Component {
     getMarketingDiscount({
       totalAmount: this.props.checkoutStore.loginCartData
         .filter(ele => ele.subscriptionStatus)
-        .reduce((total, item) => total + item.subscriptionPrice, 0)
+        .reduce((total, item) => total + item.subscriptionPrice, 0),
+      goodsInfoIds: this.props.checkoutStore.loginCartData
+        .filter(ele => ele.subscriptionStatus).map(ele => ele.goodsInfoId)
     })
       .then(res => {
         this.setState({
