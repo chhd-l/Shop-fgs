@@ -278,7 +278,7 @@ const en_US = {
   "account.personalData": "Personal data",
   "account.TheAddressBook": "The address book",
   "account.preferredMmethodsOfCommunication":
-    "Preferred methods of communication",
+    "Communication Preferences",
   "account.preferredContactMethod": "Preferred Contact Method",
   "account.warmNotice":
     "Here you can manage your profile, edit pet information, shipping address and payment method, check status on orders and subscriptions.",
