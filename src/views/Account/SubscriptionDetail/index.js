@@ -331,12 +331,12 @@ class SubscriptionDetail extends React.Component {
       });
 
       //拼装订阅购物车参数
-      if (res.code == "K-000000") {
+      if (res.code == "K-000000"&&!res.context.promotionFlag) {
         let subTradeTotal =
           this.state.subTotal +
           Number(res.context.deliveryPrice) -
-          Number(res.context.discountsPrice) -
-          Number(res.context.promotionDiscount);
+          Number(res.context.discountsPrice)
+          //Number(res.context.promotionDiscount);
         this.setState({
           // loading: false,
           subDiscount: res.context.discountsPrice,
@@ -1307,9 +1307,9 @@ class SubscriptionDetail extends React.Component {
                                   });
                                   if (
                                     result.code == "K-000000" &&
-                                    result.context.promotionDiscount
+                                    !result.context.promotionFlag
                                   ) {
-                                    //表示输入apply promotionCode成功
+                                    //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
                                     discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
                                     this.setState({ discount });
                                   } else {
