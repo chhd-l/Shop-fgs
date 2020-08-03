@@ -5,11 +5,6 @@ import { formatMoney } from "@/utils/utils";
 import { findIndex, find } from "lodash";
 import { inject, observer } from 'mobx-react';
 import axios from "axios";
-import visaImg from "@/assets/images/credit-cards/visa.svg";
-import amexImg from "@/assets/images/credit-cards/amex.svg";
-import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
-import discoverImg from "@/assets/images/credit-cards/discover.svg";
-import paypalImg from "@/assets/images/credit-cards/paypal.png";
 import successImg from "@/assets/images/success.png";
 import {
   getPaymentMethod,
@@ -18,6 +13,7 @@ import {
 } from "@/api/payment";
 import Loading from "@/components/Loading";
 import ConfirmTooltip from "@/components/ConfirmTooltip";
+import { CREDIT_CARD_IMG_ENUM, CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant'
 import store from 'storejs'
 import "./index.css";
 
@@ -27,13 +23,6 @@ class PaymentComp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      creditCardImgUrl: [visaImg, amexImg, mastercardImg],
-      creditCardImgObj: {
-        VISA: visaImg,
-        MASTERCARD: mastercardImg,
-        "AMERICAN EXPRESS": amexImg,
-        DISCOVER: discoverImg,
-      },
       creditCardList: [],
       isEdit: false,
       creditCardInfo: {
@@ -58,8 +47,8 @@ class PaymentComp extends React.Component {
       confirmCardInfo: {}
     };
   }
-  componentWillReceiveProps(props) {
-    if(props.isAddNewCard) {
+  componentWillReceiveProps (props) {
+    if (props.isAddNewCard) {
       this.setState({ isEdit: true }, () => {
         this.scrollToPaymentComp();
       });
@@ -113,16 +102,16 @@ class PaymentComp extends React.Component {
       let res = await getPaymentMethod({
         customerId: this.userInfo ? this.userInfo.customerId : ''
       });
-      if(!res.context.length) {
+      if (!res.context.length) {
         this.props.noCardCallback && this.props.noCardCallback(true)
-      }else {
+      } else {
         this.props.noCardCallback && this.props.noCardCallback(false)
       }
 
-      if(confirmCardInfo.id && res.context.filter(el => confirmCardInfo.id === el.id).length) {
+      if (confirmCardInfo.id && res.context.filter(el => confirmCardInfo.id === el.id).length) {
         console.log(res.context.filter(el => confirmCardInfo.id === el.id).length)
-        this.setState({isCurrentCvvConfirm: true})
-      }else {
+        this.setState({ isCurrentCvvConfirm: true })
+      } else {
         this.props.getSelectedValue && this.props.getSelectedValue({})
       }
       this.setState({ creditCardList: res.context });
@@ -256,10 +245,10 @@ class PaymentComp extends React.Component {
     if (name === "cardNumber") {
       let beforeValue = value.substr(0, value.length - 1);
       let inputValue = value.substr(value.length - 1, 1);
-      if(isNaN(inputValue)) {
+      if (isNaN(inputValue)) {
         creditCardInfo[name] = beforeValue
-      }else {
-        creditCardInfo[name] = value.replace(/\s*/g, "");  
+      } else {
+        creditCardInfo[name] = value.replace(/\s*/g, "");
       }
       // creditCardInfo[name] = value.replace(/\s*/g, "");
     } else if (name === "cardMmyy") {
@@ -268,12 +257,12 @@ class PaymentComp extends React.Component {
       let noFormatStr = ''
       let finalValue = ''
       // 获得不带/的数字
-      if(splitArr[1] || splitArr[0].length > 2) {
-        noFormatStr = splitArr[0].concat(splitArr[1]?splitArr[1]: '')
-        finalValue = noFormatStr.slice(0,2) + '/' + noFormatStr.slice(2)
-      }else {
+      if (splitArr[1] || splitArr[0].length > 2) {
+        noFormatStr = splitArr[0].concat(splitArr[1] ? splitArr[1] : '')
+        finalValue = noFormatStr.slice(0, 2) + '/' + noFormatStr.slice(2)
+      } else {
         noFormatStr = splitArr[0]
-        finalValue = noFormatStr.slice(0,2)
+        finalValue = noFormatStr.slice(0, 2)
       }
       creditCardInfo[name] = finalValue;
       // let beforeValue = value.substr(0, value.length - 1);
@@ -397,7 +386,7 @@ class PaymentComp extends React.Component {
       };
 
       let addRes = await addOrUpdatePaymentMethod(params);
-      
+
       if (this.state.creditCardList.length) {
         this.setState({
           loading: false,
@@ -406,19 +395,19 @@ class PaymentComp extends React.Component {
         this.initCardInfo();
         await this.getPaymentMethodList();
 
-        if(window.location.pathname === "/payment/payment") {
+        if (window.location.pathname === "/payment/payment") {
           let creditCardInfo = {}
           this.state.creditCardList.map(el => {
-            if(el.id === addRes.context.id) {
+            if (el.id === addRes.context.id) {
               el.selected = true
               creditCardInfo = el
             }
           })
           console.log(this.state.creditCardList, 'list')
           this.props.getSelectedValue &&
-          this.props.getSelectedValue(creditCardInfo);
-          this.setState({isCurrentCvvConfirm: true})
-        }else {
+            this.props.getSelectedValue(creditCardInfo);
+          this.setState({ isCurrentCvvConfirm: true })
+        } else {
           let filterList = this.state.creditCardList.filter((el) => {
             if (el.isDefault === 1) {
               el.selected = true;
@@ -431,11 +420,11 @@ class PaymentComp extends React.Component {
           if (filterList.length) {
           } else if (this.state.creditCardList.length) {
             this.state.creditCardList[0].selected = true;
-          }  
+          }
         }
       } else {
         await this.getPaymentMethodList();
-        if(window.location.pathname !== "/payment/payment") {
+        if (window.location.pathname !== "/payment/payment") {
           let filterList = this.state.creditCardList.filter((el) => {
             if (el.isDefault === 1) {
               el.selected = true;
@@ -541,13 +530,12 @@ class PaymentComp extends React.Component {
     const {
       creditCardInfo,
       creditCardList,
-      creditCardImgUrl,
       isCurrentCvvConfirm,
       currentCardInfo,
     } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
-        {creditCardImgUrl.map((el, idx) => (
+        {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
           <img key={idx} className="logo-payment-card" src={el} />
         ))}
       </span>
@@ -646,8 +634,8 @@ class PaymentComp extends React.Component {
                           }`}
                         key={idx}
                         onClick={() => {
-                          if(pathname !== '/account/paymentMethod') {
-                            if(creditCardList[idx].selected) return;
+                          if (pathname !== '/account/paymentMethod') {
+                            if (creditCardList[idx].selected) return;
                             creditCardList.map((el) => (el.selected = false));
                             el.selected = true;
                             // this.props.getSelectedValue &&
@@ -658,7 +646,7 @@ class PaymentComp extends React.Component {
                               creditCardList,
                               isCurrentCvvConfirm: false,
                               currentCvv: "",
-                            });  
+                            });
                           }
                         }}
                       >
@@ -698,7 +686,7 @@ class PaymentComp extends React.Component {
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                let creditCardInfo = {...el}
+                                let creditCardInfo = { ...el }
                                 creditCardInfo.cardCvv = ''
                                 this.setState(
                                   {
@@ -720,8 +708,8 @@ class PaymentComp extends React.Component {
                             >
                               <img
                                 src={
-                                  this.state.creditCardImgObj[el.vendor]
-                                    ? this.state.creditCardImgObj[el.vendor]
+                                  CREDIT_CARD_IMG_ENUM[el.vendor]
+                                    ? CREDIT_CARD_IMG_ENUM[el.vendor]
                                     : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                                 }
                               />
@@ -905,8 +893,8 @@ class PaymentComp extends React.Component {
               <div className="col-6 col-sm-3 d-flex flex-column justify-content-center">
                 <img
                   src={
-                    this.state.creditCardImgObj[currentCardInfo.vendor]
-                      ? this.state.creditCardImgObj[currentCardInfo.vendor]
+                    CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]
+                      ? CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]
                       : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                   }
                   alt=""
@@ -993,7 +981,7 @@ class PaymentComp extends React.Component {
                 <div className="col-sm-12">
                   <div className="form-group">
                     <label className="form-control-label" htmlFor="cardNumber">
-                      <FormattedMessage id="payment.cardNumber" /><span style={{color: 'red'}}>*</span>
+                      <FormattedMessage id="payment.cardNumber" /><span style={{ color: 'red' }}>*</span>
                       {CreditCardImg}
                       <div className="cardFormBox">
                         <span className="cardImage">
@@ -1001,12 +989,8 @@ class PaymentComp extends React.Component {
                             alt="Card"
                             // src="https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                             src={
-                              this.state.creditCardImgObj[
-                                this.state.currentVendor
-                              ]
-                                ? this.state.creditCardImgObj[
-                                this.state.currentVendor
-                                ]
+                              CREDIT_CARD_IMG_ENUM[this.state.currentVendor]
+                                ? CREDIT_CARD_IMG_ENUM[this.state.currentVendor]
                                 : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                             }
                           />
