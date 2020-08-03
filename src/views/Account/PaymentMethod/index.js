@@ -7,25 +7,9 @@ import BreadCrumbs from "@/components/BreadCrumbs";
 import SideMenu from "@/components/SideMenu";
 import "./index.css";
 import paymentImg from "./img/payment.jpg";
-import {
-  getAddressList,
-  saveAddress,
-  setDefaltAddress,
-  deleteAddress,
-  getAddressById,
-  editAddress,
-} from "@/api/address";
-import { Link } from "react-router-dom";
 import Loading from "@/components/Loading";
-import { getDict } from "@/api/dict";
-
-import visaImg from "@/assets/images/credit-cards/visa.svg";
-import amexImg from "@/assets/images/credit-cards/amex.svg";
-import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
-import discoverImg from "@/assets/images/credit-cards/discover.svg";
-import paypalImg from "@/assets/images/credit-cards/paypal.png";
-import { getPaymentMethod, deleteCard } from "@/api/payment";
 import PaymentComp from "@/components/PaymentComp"
+import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant'
 
 @inject("loginStore")
 @observer
@@ -50,13 +34,6 @@ class PaymentMethod extends React.Component {
         identifyNumber: "111",
       },
       payosdata: {},
-      creditCardImgUrl: [visaImg, amexImg, mastercardImg],
-      creditCardImgObj: {
-        VISA: visaImg,
-        MASTERCARD: mastercardImg,
-        "AMERICAN EXPRESS": amexImg,
-        DISCOVER: discoverImg,
-      },
       creditCardList: [],
       paymentCompShow: false,
       isAddNewCard: false
