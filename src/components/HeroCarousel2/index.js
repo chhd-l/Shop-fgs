@@ -47,10 +47,10 @@ class HeroCarousel extends React.Component {
     this.hanldeClick = this.hanldeClick.bind(this)
     this.hideNotice = this.hideNotice.bind(this)
   }
-  async componentWillMount() {
+  async componentWillMount () {
     getBanner().then(res => {
       console.log(res, 'ressssss')
-      this.setState({banner: res.context})
+      this.setState({ banner: res.context })
     })
   }
   hideNotice () {
@@ -123,19 +123,47 @@ class HeroCarousel extends React.Component {
             {
               this.state.banner.map(el => (
                 <div className="hero-carousel__slide">
-              <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
-                <img
-                  className="rc-md-up"
-                  src={el.webUrl}
-                  style={{ maxHeight: '100%' }} />
-                <img
-                  className="rc-md-down w-100"
-                  src={el.mobiUrl}
-                  style={{ maxHeight: '100%' }} />
-                {/* <span className="font-weight-normal red font-16 mb-1 ml-3 mr-3 text-center inlineblock">
+                  <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
+                    {el.webUrl.indexOf('mp4') > -1
+                      ? <>
+                        <div className="hero-carousel__slide__video">
+                          <video autoPlay={true} muted={true} loop={true} id="myVideo">
+                            <source src={el.webUrl} type="video/mp4" />
+                          </video>
+                        </div>
+                        <div className="hero-carousel__slide__content">
+                          <div className="rc-gamma inherit-fontsize">
+                            <h1><FormattedMessage id="header.carouselInfo1" /></h1>
+                          </div>
+                          <div className="rc-margin-bottom--sm rc-body inherit-fontsize">
+                            <p><FormattedMessage id="header.carouselInfo2" /></p>
+                          </div>
+                          <div className="hero-carousel__slide__content__btn text-center">
+                            <Link
+                              className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16 rc-text-colour--brand3"
+                              to={`/list/keywords`}>
+                              <FormattedMessage id="header.toBegin" />
+                            </Link>
+                          </div>
+                        </div>
+                      </>
+                      : <>
+                        <img
+                          className="rc-md-up"
+                          src={el.webUrl}
+                          style={{ maxHeight: '100%' }} />
+                        < img
+                          className="rc-md-down w-100"
+                          src={el.mobiUrl}
+                          style={{ maxHeight: '100%' }} />
+                      </>}
+
+
+
+                    {/* <span className="font-weight-normal red font-16 mb-1 ml-3 mr-3 text-center inlineblock">
                   Monitorea en casa la salud urinaria de tu gato con Hematuria Detection(Detecta sangre en la orina)
                 </span> */}
-                {/* <span className="rc-md-up btn-cheat">
+                    {/* <span className="rc-md-up btn-cheat">
                   <Link
                     to="/details/8a80808671d968b10171e6d2ba8c0016"
                     className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16">
@@ -150,7 +178,7 @@ class HeroCarousel extends React.Component {
                     <FormattedMessage id="header.toOrder" />
                   </Link>
                 </span> */}
-                {/* <div className="hero-carousel__slide__text text-center d-md-flex align-items-center rc-md-up">
+                    {/* <div className="hero-carousel__slide__text text-center d-md-flex align-items-center rc-md-up">
                   <div className="hero-carousel__slide__text__inner rc-padding-x--lg--mobile">
                     <div className="rc-delta inherit-fontsize children-nomargin">
                     </div>
@@ -163,11 +191,11 @@ class HeroCarousel extends React.Component {
                     </Link>
                   </div>
                 </div> */}
-              </div>
-            </div>
+                  </div>
+                </div>
               ))
             }
-            
+
             {/* <div className="hero-carousel__slide center-img">
               <img className="mh-100 rc-md-up" src={Banner_urinary} />
               <Link
