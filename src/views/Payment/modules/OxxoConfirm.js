@@ -14,7 +14,7 @@ class OxxoConfirm extends Component {
     };
   }
 
-  async goConfirmation() {
+  async goConfirmation () {
     try {
       this.props.startLoading();
       if (!this.state.email) {
@@ -39,14 +39,13 @@ class OxxoConfirm extends Component {
         email: this.state.email,
         country: "MEX",
       });
-      console.log(JSON.stringify(parameters));
       let res = await confirmAndCommit(parameters);
       if (res.code === "K-000000") {
         var oxxoContent = res.context[0];
         var oxxoArgs = oxxoContent.args;
         var orderNumber = oxxoContent.tid;
         var subNumber = oxxoContent.subscribeId;
-        store.set("orderNumber", orderNumber);
+        sessionStorage.setItem("orderNumber", orderNumber);
         store.set("subNumber", subNumber);
         if (
           oxxoArgs &&
@@ -64,7 +63,7 @@ class OxxoConfirm extends Component {
       this.props.endLoading();
     }
   }
-  emailChange(e) {
+  emailChange (e) {
     this.setState({ email: e.target.value });
   }
 
@@ -80,17 +79,16 @@ class OxxoConfirm extends Component {
     }, 3000);
   };
 
-  render() {
+  render () {
     return (
-      <div>
+      <div className="mt-3">
         <div
-          className="rc-border-all rc-border-colour--interface checkout--padding"
-          style={{ marginBottom: "20px" }}
+          className="rc-border-all rc-border-colour--interface checkout--padding ml-custom mr-custom mb-3"
         >
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
               this.state.errorMsg ? "" : "hidden"
-            }`}
+              }`}
           >
             <aside
               className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -124,12 +122,12 @@ class OxxoConfirm extends Component {
           </p>
           <div className="form-group required">
             <div className="row">
-              <div className="col-md-1  col-sm-12">
+              <div className="col-md-3  col-sm-12">
                 <label className="form-control-label">
                   <FormattedMessage id="payment.email" />
                 </label>
               </div>
-              <div className="col-md-8 col-sm-12">
+              <div className="col-md-8 col-sm-12" style={{ paddingLeft: '0px' }}>
                 <input
                   type="email"
                   id="email"
@@ -147,16 +145,25 @@ class OxxoConfirm extends Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
               </div>
             </div>
           </div>
           <p>
-            <FormattedMessage id="remember48Hours" />
+            <FormattedMessage
+              id="remember48Hours"
+              values={{
+                val: (
+                  <span style={{ color: "#e2001a" }}>
+                    7:00
+                  </span>
+                ),
+              }}
+            />
           </p>
         </div>
-        <div className="place_order-btn card">
+        <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
           <div className="next-step-button">
             <div className="rc-text--right">
               <button

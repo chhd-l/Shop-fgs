@@ -11,7 +11,9 @@ class ConfirmTooltip extends React.Component {
   static defaultProps = {
     content: <FormattedMessage id="confirmDelete" />,
     containerStyle: {},
-    arrowStyle: {}
+    arrowStyle: {},
+    cancelBtnVisible: true,
+    confirmBtnVisible: true
   }
   componentWillReceiveProps (nextProps) {
     if (nextProps.display) {
@@ -29,8 +31,6 @@ class ConfirmTooltip extends React.Component {
     this.props.updateChildDisplay(false)
   }
   render () {
-    const cancelBtn = this.props.cancelBtn ? this.props.cancelBtn : true
-    const confirmBtn = this.props.confirmBtn ? this.props.confirmBtn : true
     return (
       this.props.display ?
         <div
@@ -41,23 +41,23 @@ class ConfirmTooltip extends React.Component {
             style={this.props.containerStyle}
             tabIndex="1">
             <div className="confirm-tool-arrow" style={this.props.arrowStyle}></div>
-            <div className="pt-1 pb-3">{this.props.content}</div>
+            <div className="pt-1">{this.props.content}</div>
             <div className="d-flex justify-content-between">
               {
-                cancelBtn ?
-                    (
-                        <div className="rc-btn rc-btn--two rc-btn--sm" onClick={(e) => { this.cancel(e) }}>
-                          <FormattedMessage id="cancel" />
-                        </div>
-                    ) : null
+                this.props.cancelBtnVisible ?
+                  (
+                    <div className="rc-btn rc-btn--two rc-btn--sm mt-3" onClick={(e) => { this.cancel(e) }}>
+                      <FormattedMessage id="cancel" />
+                    </div>
+                  ) : null
               }
               {
-                confirmBtn ?
-                    (
-                        <div className="rc-btn rc-btn--one rc-btn--sm mgl10" onClick={(e) => { this.props.confirm(e) }}>
-                          <FormattedMessage id="clinic.confirm" />
-                        </div>
-                    ) : null
+                this.props.confirmBtnVisible ?
+                  (
+                    <div className="rc-btn rc-btn--one rc-btn--sm mgl10 mt-3" onClick={(e) => { this.props.confirm(e) }}>
+                      <FormattedMessage id="clinic.confirm" />
+                    </div>
+                  ) : null
               }
             </div>
           </div>

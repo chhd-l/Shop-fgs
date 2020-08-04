@@ -8,7 +8,7 @@ import { getParaByName } from '@/utils/utils';
 import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import { getList } from '@/api/list'
-import { CATEID, IMG_DEFAULT } from '@/utils/constant'
+import { IMG_DEFAULT } from '@/utils/constant'
 import { getPrescriptionById } from '@/api/clinic'
 import LoginButton from '@/components/LoginButton'
 import UnloginCart from './modules/unLoginCart'
@@ -35,9 +35,6 @@ class Header extends React.Component {
       loading: false,
       result: null,
       showMegaMenu: false,
-      tradePrice: '',
-      clinicId: store.get('rc-clinics-id-link'),
-      clinicName: store.get('rc-clinics-name-link'),
       isScrollToTop: true
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
@@ -65,6 +62,7 @@ class Header extends React.Component {
     return this.props.loginStore.isLogin
   }
   async componentDidMount () {
+    
     if (sessionStorage.getItem('rc-token-lose')) {
       document.querySelector('#J-btn-logoff') && document.querySelector('#J-btn-logoff').click()
       document.querySelector('#J-btn-login') && document.querySelector('#J-btn-login').click()
@@ -83,36 +81,60 @@ class Header extends React.Component {
         || location.pathname.includes('/details'))
       && linkClinicId
       && clinicStore.clinicId !== linkClinicId) {
-      const res = await getPrescriptionById({ linkClinicId })
+      const res = await getPrescriptionById({ prescriberId: linkClinicId })
       if (res.context && res.context.enabled) {
         linkClinicName = res.context.prescriberName
       }
-      clinicStore.clinicId.setLinkClinicId(linkClinicId)
-      clinicStore.clinicId.setLinkClinicName(linkClinicName)
+      if (linkClinicName) {
+        clinicStore.setLinkClinicId(linkClinicId)
+        clinicStore.setLinkClinicName(linkClinicName)
+      }
     }
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)
-    window.removeEventListener('scroll', this.handleScroll)
+    // window.removeEventListener('scroll', this.handleScroll)
+    window.addEventListener('scroll', function () {
+      var timer;//使用闭包，缓存变量
+      var startTime = new Date();
+      return function () {
+        var curTime = new Date();
+        if (curTime - startTime >= 200) {
+          timer = setTimeout(this.handleScroll, 200);
+          startTime = curTime;
+        }
+
+      }
+    }());
   }
   handleScroll (e) {
     let baseEl = document.querySelector('#J_sidecart_container')
     if (!baseEl) {
       return false
     }
+    const footerEl = document.querySelector('#footer')
     let targetEl = document.querySelector('#J_sidecart_fix')
     let win_top = document.documentElement.scrollTop || document.body.scrollTop
     let isScrollToTop = this.preTop > win_top
     this.preTop = win_top
-    let top = this.getElementToPageTop(baseEl) - (isScrollToTop ? 120 : 80) - win_top
-    if (win_top >= top) {
-      targetEl.style.top = isScrollToTop ? '120px' : '80px'
-      targetEl.style.display = 'block'
-    } else {
+    const baseTop = this.getElementToPageTop(baseEl) - (isScrollToTop ? 120 : 80) - win_top
+    const footerTop = this.getElementToPageTop(footerEl)
+      - (isScrollToTop ? 120 : 80)
+      - win_top
+      + targetEl.offsetHeight
+    if (win_top >= footerTop) {
+      targetEl.style.top = (parseInt(footerTop)) + 'px'
       targetEl.style.display = 'none'
-    }
+      targetEl.style.position = 'absolute'
+    } else
+      if (win_top >= baseTop) {
+        targetEl.style.top = isScrollToTop ? '120px' : '80px'
+        targetEl.style.display = 'block'
+        targetEl.style.position = 'fixed'
+      } else {
+        targetEl.style.display = 'none'
+      }
     this.setState({ isScrollToTop })
-    // console.log(win_top, top)
   }
   getElementToPageTop (el) {
     if (el.parentElement) {
@@ -209,7 +231,7 @@ class Header extends React.Component {
     this.setState({ loading: true })
 
     let params = {
-      cateId: CATEID,
+      cateId: process.env.REACT_APP_CATEID,
       keywords,
       propDetails: [],
       pageNum: 0,
@@ -230,7 +252,11 @@ class Header extends React.Component {
               let ret = Object.assign({}, ele)
               const tmpItem = find(res.context.goodsList, g => g.goodsId === ele.id)
               if (tmpItem) {
-                ret = Object.assign(ret, { goodsCateName: tmpItem.goodsCateName, goodsSubtitle: tmpItem.goodsSubtitle })
+                ret = Object.assign(ret, {
+                  goodsCateName: tmpItem.goodsCateName,
+                  goodsSubtitle: tmpItem.goodsSubtitle,
+                  goodsImg: tmpItem.goodsImg
+                })
               }
               return ret
             })
@@ -253,7 +279,7 @@ class Header extends React.Component {
   }
   gotoDetails (item) {
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
-    sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
+    sessionStorage.setItem('rc-goods-name', item.goodsName)
     this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
   toggleMenu () {
@@ -301,19 +327,19 @@ class Header extends React.Component {
                             <a className="ui-cursor-pointer" onClick={() => this.gotoDetails(item)}>
                               <img
                                 className="swatch__img"
-                                alt={item.lowGoodsName}
-                                title={item.lowGoodsName}
-                                src={item.goodsInfos[0].goodsInfoImg || IMG_DEFAULT} />
+                                alt={item.goodsName}
+                                title={item.goodsName}
+                                src={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg || IMG_DEFAULT} />
                             </a>
                           </div>
                           <div className="col-8 col-md-9 col-lg-10">
                             <a
                               onClick={() => this.gotoDetails(item)}
                               className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
-                              alt={item.lowGoodsName}
-                              title={item.lowGoodsName}
+                              alt={item.goodsName}
+                              title={item.goodsName}
                             >
-                              {item.lowGoodsName}
+                              {item.goodsName}
                             </a>
                             <div className="rc-meta searchProductKeyword"></div>
                           </div>

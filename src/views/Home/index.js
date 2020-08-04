@@ -1,40 +1,35 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import { formatMoney } from '@/utils/utils'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import BannerTip from '@/components/BannerTip'
 import HeroCarousel from '@/components/HeroCarousel2'
 import './index.css'
 import CARECAT from "@/assets/images/MX-L-VET-CARE-CAT.jpg";
 import CAREDOG from "@/assets/images/MX-L-VET-CARE-DOG.jpg";
 import DIETCAT from "@/assets/images/MX-L-VET-DIET-CAT.jpg";
 import DIETDOG from "@/assets/images/MX-L-VET-DIET-DOG.jpg";
-import Pomotion25offImg from "@/assets/images/pomotion_25off.png";
+
+import Urinary from "@/assets/images/home-catogery/Urinary.jpg";
+import Dermatology from "@/assets/images/home-catogery/Dermatology.jpg";
+import WeightManagement from "@/assets/images/home-catogery/Weight-Management.jpg";
+import Gastrointestinal from "@/assets/images/home-catogery/Gastrointestinal.jpg";
+import VitalSupport from "@/assets/images/home-catogery/Vital-Support.jpg";
+import HealthManagement from "@/assets/images/home-catogery/Health-Management.jpg";
 
 class Home extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      promotionVisible: false
-    }
   }
-  componentDidMount () {
+  async componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
       return false
     }
-    if (new Date().getTime() < new Date('2020/6/2').getTime()) {
-      this.setState({
-        // promotionVisible: true
-        promotionVisible: false
-      })
-    }
-  }
-  closePromotionPop () {
-    this.setState({ promotionVisible: false })
-    sessionStorage.setItem('rc-promotion-pop-close', true)
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
@@ -49,20 +44,9 @@ class Home extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-
         <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
-        {
-          this.state.promotionVisible && !sessionStorage.getItem('rc-promotion-pop-close')
-            ? <div className="ui-pop" onClick={() => this.closePromotionPop()}>
-              <div className="img-container" onClick={e => { e.stopPropagation() }}>
-                <span className="pop-close" onClick={() => this.closePromotionPop()}>X</span>
-                <span className="btn-cheat" onClick={() => this.closePromotionPop()}></span>
-                <img src={Pomotion25offImg} style={{ width: '100%' }} />
-              </div>
-            </div>
-            : null
-        }
         <main className="rc-content--fixed-header rc-main-content__wrapper ">
+          <BannerTip />
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
               <HeroCarousel history={this.props.history} />
@@ -80,91 +64,243 @@ class Home extends React.Component {
                   </div>
                   <div className="col-lg-9">
                     <div className="row custom-gutter">
-                      <div className="col-md-3 col-6">
-                        <FormattedMessage id="home.catogery1">
-                          {(txt) => (
-                            <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                              to="/list/vcn" title={txt}>
-                              <picture className="category-cards__card__img">
-                                <source
-                                  srcSet={CAREDOG} />
-                                <img
-                                  src={CAREDOG}
-                                  alt={txt}
-                                  title={txt} />
-                              </picture>
-                              <div
-                                className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                <h3 className="rc-margin--none">
-                                  {txt}
-                                </h3>
-                              </div>
-                            </Link>)}
-                        </FormattedMessage>
-                      </div>
-                      <div className="col-md-3 col-6">
-                        <FormattedMessage id="home.catogery2">
-                          {(txt) => (
-                            <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                              to="/list/vd" title={txt}>
-                              <picture className="category-cards__card__img">
-                                <source
-                                  srcSet={CARECAT} />
-                                <img
-                                  src={CARECAT}
-                                  alt={txt}
-                                  title={txt} />
-                              </picture>
-                              <div
-                                className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                <h3 className="rc-margin--none">{txt}</h3>
-                              </div>
-                            </Link>
-                          )}
-                        </FormattedMessage>
-                      </div>
-                      <div className="col-md-3 col-6">
-                        <FormattedMessage id="home.catogery3">
-                          {txt => (
-                            <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                              to="/list/prescription-dogs" title={txt}>
-                              <picture className="category-cards__card__img">
-                                <source
-                                  srcSet={DIETDOG} />
-                                <img
-                                  src={DIETDOG}
-                                  alt={txt}
-                                  title={txt} />
-                              </picture>
-                              <div
-                                className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                <h3 className="rc-margin--none">{txt}</h3>
-                              </div>
-                            </Link>
-                          )}
-                        </FormattedMessage>
-                      </div>
-                      <div className="col-md-3 col-6">
-                        <FormattedMessage id="home.catogery4">
-                          {txt => (
-                            <Link className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                              to="/list/prescription-cats" title={txt}>
-                              <picture className="category-cards__card__img">
-                                <source
-                                  srcSet={DIETCAT} />
-                                <img
-                                  src={DIETCAT}
-                                  alt={txt}
-                                  title={txt} />
-                              </picture>
-                              <div
-                                className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                <h3 className="rc-margin--none">{txt}</h3>
-                              </div>
-                            </Link>
-                          )}
-                        </FormattedMessage>
-                      </div>
+                      {process.env.REACT_APP_LANG === 'de'
+                        ? <>
+                          <div className="col-md-4 col-6">
+                            <FormattedMessage id="product.de.catogery1.name">
+                              {(txt) => (
+                                <Link
+                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                                  to="/list/urinary"
+                                  title={txt}>
+                                  <picture className="category-cards__card__img">
+                                    <source
+                                      srcSet={Urinary} />
+                                    <img
+                                      src={Urinary}
+                                      alt={txt}
+                                      title={txt} />
+                                  </picture>
+                                  <div
+                                    className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                                    <h3 className="rc-margin--none">
+                                      {txt}
+                                    </h3>
+                                  </div>
+                                </Link>)}
+                            </FormattedMessage>
+                          </div>
+                          <div className="col-md-4 col-6">
+                            <FormattedMessage id="product.de.catogery2.name">
+                              {(txt) => (
+                                <Link
+                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                                  to="/list/dermatology"
+                                  title={txt}>
+                                  <picture className="category-cards__card__img">
+                                    <source
+                                      srcSet={Dermatology} />
+                                    <img
+                                      src={Dermatology}
+                                      alt={txt}
+                                      title={txt} />
+                                  </picture>
+                                  <div
+                                    className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                                    <h3 className="rc-margin--none">{txt}</h3>
+                                  </div>
+                                </Link>
+                              )}
+                            </FormattedMessage>
+                          </div>
+                          <div className="col-md-4 col-6">
+                            <FormattedMessage id="product.de.catogery3.name">
+                              {txt => (
+                                <Link
+                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                                  to="/list/weight-management"
+                                  title={txt}>
+                                  <picture className="category-cards__card__img">
+                                    <source
+                                      srcSet={WeightManagement} />
+                                    <img
+                                      src={WeightManagement}
+                                      alt={txt}
+                                      title={txt} />
+                                  </picture>
+                                  <div
+                                    className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                                    <h3 className="rc-margin--none">{txt}</h3>
+                                  </div>
+                                </Link>
+                              )}
+                            </FormattedMessage>
+                          </div>
+                          <div className="col-md-4 col-6">
+                            <FormattedMessage id="product.de.catogery4.name">
+                              {txt => (
+                                <Link
+                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                                  to="/list/gastrointestinal-tract"
+                                  title={txt}>
+                                  <picture className="category-cards__card__img">
+                                    <source
+                                      srcSet={Gastrointestinal} />
+                                    <img
+                                      src={Gastrointestinal}
+                                      alt={txt}
+                                      title={txt} />
+                                  </picture>
+                                  <div
+                                    className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                                    <h3 className="rc-margin--none">{txt}</h3>
+                                  </div>
+                                </Link>
+                              )}
+                            </FormattedMessage>
+                          </div>
+                          <div className="col-md-4 col-6">
+                            <FormattedMessage id="product.de.catogery5.name">
+                              {txt => (
+                                <Link
+                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                                  to="/list/vital-support"
+                                  title={txt}>
+                                  <picture className="category-cards__card__img">
+                                    <source
+                                      srcSet={VitalSupport} />
+                                    <img
+                                      src={VitalSupport}
+                                      alt={txt}
+                                      title={txt} />
+                                  </picture>
+                                  <div
+                                    className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                                    <h3 className="rc-margin--none">{txt}</h3>
+                                  </div>
+                                </Link>
+                              )}
+                            </FormattedMessage>
+                          </div>
+                          <div className="col-md-4 col-6">
+                            <FormattedMessage id="product.de.catogery6.name">
+                              {txt => (
+                                <Link
+                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                                  to="/list/health-management"
+                                  title={txt}>
+                                  <picture className="category-cards__card__img">
+                                    <source
+                                      srcSet={HealthManagement} />
+                                    <img
+                                      src={HealthManagement}
+                                      alt={txt}
+                                      title={txt} />
+                                  </picture>
+                                  <div
+                                    className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                                    <h3 className="rc-margin--none">{txt}</h3>
+                                  </div>
+                                </Link>
+                              )}
+                            </FormattedMessage>
+                          </div>
+                        </>
+                        : <>
+                          <div className="col-md-3 col-6">
+                            <FormattedMessage id="home.catogery1">
+                              {(txt) => (
+                                <Link
+                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                                  to="/list/vcn"
+                                  title={txt}>
+                                  <picture className="category-cards__card__img">
+                                    <source
+                                      srcSet={CAREDOG} />
+                                    <img
+                                      src={CAREDOG}
+                                      alt={txt}
+                                      title={txt} />
+                                  </picture>
+                                  <div
+                                    className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                                    <h3 className="rc-margin--none">
+                                      {txt}
+                                    </h3>
+                                  </div>
+                                </Link>)}
+                            </FormattedMessage>
+                          </div>
+                          <div className="col-md-3 col-6">
+                            <FormattedMessage id="home.catogery2">
+                              {(txt) => (
+                                <Link
+                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                                  to="/list/vd"
+                                  title={txt}>
+                                  <picture className="category-cards__card__img">
+                                    <source
+                                      srcSet={CARECAT} />
+                                    <img
+                                      src={CARECAT}
+                                      alt={txt}
+                                      title={txt} />
+                                  </picture>
+                                  <div
+                                    className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                                    <h3 className="rc-margin--none">{txt}</h3>
+                                  </div>
+                                </Link>
+                              )}
+                            </FormattedMessage>
+                          </div>
+                          <div className="col-md-3 col-6">
+                            <FormattedMessage id="home.catogery3">
+                              {txt => (
+                                <Link
+                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                                  to="/list/prescription-dogs"
+                                  title={txt}>
+                                  <picture className="category-cards__card__img">
+                                    <source
+                                      srcSet={DIETDOG} />
+                                    <img
+                                      src={DIETDOG}
+                                      alt={txt}
+                                      title={txt} />
+                                  </picture>
+                                  <div
+                                    className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                                    <h3 className="rc-margin--none">{txt}</h3>
+                                  </div>
+                                </Link>
+                              )}
+                            </FormattedMessage>
+                          </div>
+                          <div className="col-md-3 col-6">
+                            <FormattedMessage id="home.catogery4">
+                              {txt => (
+                                <Link
+                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                                  to="/list/prescription-cats"
+                                  title={txt}>
+                                  <picture className="category-cards__card__img">
+                                    <source
+                                      srcSet={DIETCAT} />
+                                    <img
+                                      src={DIETCAT}
+                                      alt={txt}
+                                      title={txt} />
+                                  </picture>
+                                  <div
+                                    className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                                    <h3 className="rc-margin--none">{txt}</h3>
+                                  </div>
+                                </Link>
+                              )}
+                            </FormattedMessage>
+                          </div>
+                        </>}
                     </div>
                   </div>
                 </div>
@@ -209,7 +345,7 @@ class Home extends React.Component {
                             alt="  " title="  " />
                           <div className="pl-3 d-flex align-items-center value-proposition__text">
                             <p className="rc-margin-bottom--none rc-intro">
-                              <FormattedMessage id="home.convenientTip2" />
+                              <FormattedMessage id="home.convenientTip2" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
                             </p>
                           </div>
                         </div>

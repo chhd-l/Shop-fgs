@@ -13,12 +13,9 @@ import { find, findIndex } from 'lodash'
 import { getOrderDetails, cancelOrder, getPayRecord, returnFindByTid } from "@/api/order"
 import {
   IMG_DEFAULT,
-  ORDER_STATUS_ENUM
+  ORDER_STATUS_ENUM,
+  CREDIT_CARD_IMG_ENUM
 } from '@/utils/constant'
-import visaImg from "@/assets/images/credit-cards/visa.svg";
-import amexImg from "@/assets/images/credit-cards/amex.svg";
-import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
-import discoverImg from "@/assets/images/credit-cards/discover.svg";
 import './index.css'
 
 @injectIntl
@@ -26,12 +23,6 @@ class AccountOrders extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      creditCardImgObj: {
-        VISA: visaImg,
-        MASTERCARD: mastercardImg,
-        "AMERICAN EXPRESS": amexImg,
-        DISCOVER: discoverImg,
-      },
       orderNumber: '',
       details: null,
       payRecord: null,
@@ -65,7 +56,8 @@ class AccountOrders extends React.Component {
           displayName: this.props.intl.messages['order.progress4']
         }
       ],
-      currentProgerssIndex: -1
+      currentProgerssIndex: -1,
+      defaultLocalDateTime: ''
     }
   }
   componentDidMount () {
@@ -131,7 +123,8 @@ class AccountOrders extends React.Component {
           details: res.context,
           loading: false,
           currentProgerssIndex: tmpIndex,
-          progressList: progressList
+          progressList: progressList,
+          defaultLocalDateTime: res.defaultLocalDateTime
         })
       })
       .catch(err => {
@@ -213,7 +206,7 @@ class AccountOrders extends React.Component {
   cancelOrderBtnJSX () {
     const { details } = this.state
     let ret = <span />
-    if (new Date().getTime() < new Date(details.orderTimeOut).getTime()
+    if (new Date(this.state.defaultLocalDateTime).getTime() < new Date(details.orderTimeOut).getTime()
       && details.tradeState.flowState === 'AUDIT'
       && details.tradeState.deliverStatus === 'NOT_YET_SHIPPED') {
       ret = <>
@@ -230,7 +223,6 @@ class AccountOrders extends React.Component {
     return ret
   }
   render () {
-    const lang = this.props.intl.locale || 'en'
     const event = {
       page: {
         type: 'Account',
@@ -308,7 +300,7 @@ class AccountOrders extends React.Component {
                               </div>
                               <div className="text-center">
                                 <FormattedMessage id="order.orderStatus" />:<br />
-                                <span className="medium">{ORDER_STATUS_ENUM[lang][details.tradeState.flowState] || details.tradeState.flowState}</span>
+                                <span className="medium">{ORDER_STATUS_ENUM[details.tradeState.flowState] || details.tradeState.flowState}</span>
                               </div>
                               <div className="text-center">
                                 <FormattedMessage id="payment.clinicTitle3" />:<br />
@@ -336,18 +328,31 @@ class AccountOrders extends React.Component {
                                             {item.spuName}
                                           </span>
                                           {item.specDetails}
-                                          {/* <br />
-                                          <span className="rc-icon rc-refresh--xs rc-brand1"></span><FormattedMessage id="details.Subscription" /> */}
+                                          {
+                                            details.subscriptionResponseVO && item.subscriptionStatus && <>
+                                              <br />
+                                              <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.8em' }}>&#xe675;</span><FormattedMessage id="details.Subscription" />
+                                            </>
+                                          }
                                         </span>
                                       </div>
                                       <div className="col-9 col-md-3 text-right text-md-left">
                                         x{' '}{item.num}
                                       </div>
                                       <div className="col-3 col-md-4 text-right text-md-left">
-                                        {formatMoney(item.price)}
+                                        {
+                                          details.subscriptionResponseVO && item.subscriptionStatus
+                                            ? <>
+                                              <span style={{ textDecoration: 'line-through' }}>{formatMoney(item.price)}</span><br />
+                                              {formatMoney(item.subscriptionPrice)}
+                                            </>
+                                            : formatMoney(item.price)
+                                        }
                                       </div>
                                       <div className="col-12 col-md-1 text-right text-md-left text-nowrap">
-                                        {formatMoney(item.price * item.num)}
+                                        {details.subscriptionResponseVO && item.subscriptionStatus
+                                          ? formatMoney(item.subscriptionPrice * item.num)
+                                          : formatMoney(item.price * item.num)}
                                       </div>
                                     </div>
                                   ))}
@@ -359,12 +364,12 @@ class AccountOrders extends React.Component {
                               <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="total" />
                               </div>
-                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(details.tradePrice.originPrice)}</div>
+                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(details.tradePrice.goodsPrice)}</div>
                               {
                                 details.tradePrice.discountsPrice
                                   ? <>
                                     <div className="col-9 col-xxl-11 text-right color-999 red">
-                                      <FormattedMessage id="promotion" />
+                                      {details.tradePrice.promotionDesc}
                                     </div>
                                     <div className="col-3 col-xxl-1 red medium text-nowrap">-{formatMoney(details.tradePrice.discountsPrice)}</div>
                                   </>
@@ -373,7 +378,7 @@ class AccountOrders extends React.Component {
                               <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="shipping" />
                               </div>
-                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(0)}</div>
+                              <div className="col-3 col-xxl-1 medium text-nowrap">{formatMoney(details.tradePrice.deliveryPrice)}</div>
                               <div className="col-9 col-xxl-11 text-right color-999">
                                 <FormattedMessage id="totalIncluIVA" />
                               </div>
@@ -427,13 +432,15 @@ class AccountOrders extends React.Component {
                                           className="d-inline-block mr-1"
                                           style={{ width: '20%' }}
                                           src={
-                                            this.state.creditCardImgObj[payRecord.vendor]
-                                              ? this.state.creditCardImgObj[payRecord.vendor]
+                                            CREDIT_CARD_IMG_ENUM[payRecord.vendor]
+                                              ? CREDIT_CARD_IMG_ENUM[payRecord.vendor]
                                               : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                                           } />
-                                        <span className="medium">********{payRecord.last4Digits}</span><br />
-                                        {payRecord.accountName}<br />
-                                        {payRecord.phone}<br />
+                                        {payRecord.last4Digits
+                                          ? <><span className="medium">********{payRecord.last4Digits}</span><br /></>
+                                          : null}
+                                        {payRecord.accountName ? <>{payRecord.accountName}<br /></> : null}
+                                        {payRecord.phone ? <>{payRecord.phone}<br /></> : null}
                                         {payRecord.email}
                                       </div>
                                     </>

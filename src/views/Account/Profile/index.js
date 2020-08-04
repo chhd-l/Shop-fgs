@@ -1,6 +1,7 @@
 import React from "react"
 import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
+import Skeleton from 'react-skeleton-loader'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -44,7 +45,8 @@ class AccountProfile extends React.Component {
         clinicName: '',
         clinicId: ''
       },
-      originData: null
+      originData: null,
+      loading: true
     }
     this.headerRef = React.createRef()
   }
@@ -60,8 +62,10 @@ class AccountProfile extends React.Component {
     this.queryCustomerBaseInfo()
   }
   queryCustomerBaseInfo () {
+    this.setState({ loading: true })
     getCustomerInfo()
       .then(res => {
+        this.setState({ loading: false })
         let prescriberName
         let prescriberId
         const context = res.context
@@ -82,7 +86,7 @@ class AccountProfile extends React.Component {
             email: context.email,
             birthdate: context.birthDay ? context.birthDay.split('-').join('/') : context.birthDay,
             // country: context.countryId,
-            country:6, //先写死墨西哥id
+            country: 6, //先写死墨西哥id
             phoneNumber: context.contactPhone,
             rfc: context.reference
           },
@@ -104,8 +108,12 @@ class AccountProfile extends React.Component {
           }
         })
       })
+      .catch(err => {
+        this.setState({ loading: false })
+      })
   }
   render () {
+    const { loading } = this.state
     const event = {
       page: {
         type: 'Account',
@@ -113,7 +121,7 @@ class AccountProfile extends React.Component {
       }
     }
     return (
-      <div>
+      <div className="accountProfile">
         <GoogleTagManager additionalEvents={event} />
         <Header ref={this.headerRef} showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
@@ -123,36 +131,51 @@ class AccountProfile extends React.Component {
               <SideMenu type="Profile" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div className="card-body_">
-
-                  <div className="rc-layout-container rc-two-column">
-                    <div className="rc-column rc-padding-x--none--mobile">
-                      <PersonalDataEditForm
-                        originData={this.state.originData}
-                        data={this.state.personalData}
-                        updateData={() => this.queryCustomerBaseInfo()} />
-                    </div>
-                    <div className="rc-column rc-padding-x--none--mobile">
-                      {/* <AddressBookEditForm
+                  {false
+                    ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
+                    : <>
+                      <div className="rc-layout-container rc-two-column">
+                        <div className="rc-column rc-padding-x--none--mobile">
+                          {
+                            loading
+                              ? <Skeleton color="#f5f5f5" width="100%" height="10%" count={5} />
+                              : <PersonalDataEditForm
+                                originData={this.state.originData}
+                                data={this.state.personalData}
+                                updateData={() => this.queryCustomerBaseInfo()} />
+                          }
+                        </div>
+                        <div className="rc-column rc-padding-x--none--mobile">
+                          {/* <AddressBookEditForm
                         originData={this.state.originData}
                         data={this.state.addressBookData}
                         updateData={() => this.queryCustomerBaseInfo()} /> */}
-                      <CommunicationDataEditForm
-                        originData={this.state.originData}
-                        data={this.state.communicationData}
-                        updateData={() => this.queryCustomerBaseInfo()} />
-                    </div>
-                  </div>
-                  <div className="rc-layout-container rc-two-column">
-                    <div className="rc-column rc-padding-x--none--mobile">
-                      <ClinicEditForm
-                        originData={this.state.originData}
-                        data={this.state.clinicData}
-                        updateData={() => this.queryCustomerBaseInfo()} />
-                    </div>
-                    {/* <div className="rc-column rc-padding-x--none--mobile">
+                          {
+                            loading
+                              ? <Skeleton color="#f5f5f5" width="100%" height="10%" count={5} />
+                              : <CommunicationDataEditForm
+                                originData={this.state.originData}
+                                data={this.state.communicationData}
+                                updateData={() => this.queryCustomerBaseInfo()} />
+                          }
+                        </div>
+                      </div>
+                      <div className="rc-layout-container rc-two-column">
+                        <div className="rc-column rc-padding-x--none--mobile">
+                          {
+                            loading
+                              ? <Skeleton color="#f5f5f5" width="100%" height="10%" count={5} />
+                              : <ClinicEditForm
+                                originData={this.state.originData}
+                                data={this.state.clinicData}
+                                updateData={() => this.queryCustomerBaseInfo()} />
+                          }
+                        </div>
+                        {/* <div className="rc-column rc-padding-x--none--mobile">
                       <PasswordForm />
                     </div> */}
-                  </div>
+                      </div>
+                    </>}
                 </div>
               </div>
             </div>

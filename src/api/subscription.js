@@ -8,7 +8,8 @@ const api = {
   getAddressDetail: '/customer/address/',
   skipNextSub: '/sub/cancelNextSubscription',
   cancelAllSub: '/sub/cancelSubscription',
-  orderNowSub: '/sub/orderNow',
+  orderNowSub: '/sub/createOrderNow',
+  getPromotionPrice: '/sub/getPromotionPrice'
 }
 
 export default api
@@ -61,6 +62,14 @@ export function cancelAllSub (parameter) {
 export function orderNowSub (parameter) {
   return axios({
     url: `${api.orderNowSub}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getPromotionPrice (parameter) {
+  return axios({
+    url: `${api.getPromotionPrice}`,
     method: 'post',
     data: parameter
   })

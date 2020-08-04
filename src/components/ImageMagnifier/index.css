@@ -31,6 +31,9 @@
   /* left: 0; */
   top: 0;
 }
+.imageInnerBox .rc-img--square {
+  margin-left: 5px;
+}
 .moveImg {
   width: 30px;
   /* height: 64px; */
@@ -55,7 +58,7 @@
   transition: all .2s linear !important;
 }
 .bigImageInnerBox div {
-  width: 200px;
-  height: 250px;
+  width: 400px;
+  height: 450px;
   float: left;
 }

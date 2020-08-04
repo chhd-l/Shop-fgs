@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= process.env.REACT_APP_LANG %>">
 
 <head>
   <meta charset="utf-8" />
@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="Web site created using create-react-app" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
   <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -26,6 +27,7 @@
 
 
   <link id="royal-canin" rel="stylesheet" type='text/css' href="%PUBLIC_URL%/royal/royal-canin.css" />
+  <link rel="stylesheet" href="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.9.5/adyen.css">
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"></script>
   <script type="text/javascript" src="%PUBLIC_URL%/royal/royal-canin.js" id="js-royal-canin"></script>
   <script>
@@ -60,33 +62,8 @@
   <!-- OneTrust Cookies Consent Notice (Production Standard, shop.royalcanin.mx, es-MX) end -->
   <link type="text/css" rel="stylesheet"
     href="https://d1a19ys8w1wkc1.cloudfront.net/one-trust-rc-styles.css?v=one-trust-rc-styles--001">
-    
-  <!-- Global dataLayer, DO NOT REMOVE, contact: analytics@royalcanin.zendesk.com -->
-  <!-- <script>
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      "page": {
-        "type": "Product",
-        "hitTimestamp": "2019-01-23T10:00:20.8310901+00:00",
-        "theme": "Cat"
-      },
-      "site": {
-        "id": "RCMXPCO1",
-        "environment": "prd",
-        "country": "FR"
-      }
-    });
-  </script> -->
-  <!-- End Data Layer -->
-  <!-- Global Google Tag Manager, DO NOT REMOVE, contact: analytics@royalcanin.zendesk.com -->
-  <!-- <script id="js-analytics-script" class="optanon-category-2">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-NCWZQ3');</script> -->
-  <!-- End Google Tag Manager -->
 
-  <title>TIENDA OFICIAL DE PRODUCTOS VETERINARIOS ROYAL CANIN MEXICO</title>
+  <title><%= process.env.REACT_APP_TITLE %></title>
 </head>
 
 <body>
@@ -104,6 +81,7 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+  <script src="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.9.5/adyen.js"></script>
 </body>
 
 </html>

@@ -3,7 +3,6 @@ import { injectIntl, FormattedMessage } from 'react-intl'
 import Loading from "@/components/Loading"
 import { updateCustomerBaseInfo } from "@/api/user"
 import { getAllPrescription } from '@/api/clinic'
-import { STOREID } from "@/utils/constant"
 
 
 class ClinicEditForm extends React.Component {
@@ -73,7 +72,7 @@ class ClinicEditForm extends React.Component {
   }
   async getClinicList () {
     this.setState({ loadingList: true })
-    let res = await getAllPrescription({ storeId: STOREID, prescriberName: this.state.form.clinicName })
+    let res = await getAllPrescription({ storeId: process.env.REACT_APP_STOREID, prescriberName: this.state.form.clinicName })
     this.setState({
       clinicList: (res.context && res.context.prescriberVo) || [],
       loadingList: false
@@ -83,7 +82,7 @@ class ClinicEditForm extends React.Component {
     e.nativeEvent.stopImmediatePropagation()
     const { form } = this.state
     form.clinicName = item.prescriberName
-    form.clinicId = item.prescriberId
+    form.clinicId = item.id
     this.setState({
       form: form,
       clinicList: []

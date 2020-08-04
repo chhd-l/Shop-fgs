@@ -1,6 +1,6 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
@@ -9,15 +9,15 @@ import BreadCrumbs from '@/components/BreadCrumbs'
 import Filters from '@/components/Filters'
 import Pagination from '@/components/Pagination'
 import { cloneDeep, find, findIndex } from 'lodash'
-import titleCfg from './json/title.json'
 import { getList, getProps, getLoginList } from '@/api/list'
 import { queryStoreCateIds, formatMoney } from '@/utils/utils'
-import { STOREID, CATEID, STORE_CATE_ENUM } from '@/utils/constant'
+import { STORE_CATE_ENUM } from '@/utils/constant'
 import Rate from '@/components/Rate'
 import './index.css'
 
 @inject("loginStore")
 @observer
+@injectIntl
 class List extends React.Component {
   constructor(props) {
     super(props)
@@ -29,7 +29,7 @@ class List extends React.Component {
         // 占位用，不能删
         {
           id: '3003_RU',
-          lowGoodsName: 'Mini adult',
+          goodsName: 'Mini adult',
           goodsInfos: [
             {
               goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
@@ -40,7 +40,7 @@ class List extends React.Component {
         },
         {
           id: '3004_RU',
-          lowGoodsName: 'Mini adult',
+          goodsName: 'Mini adult',
           goodsInfos: [
             {
               goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
@@ -51,7 +51,7 @@ class List extends React.Component {
         },
         {
           id: '3005_RU',
-          lowGoodsName: 'Mini adult',
+          goodsName: 'Mini adult',
           goodsInfos: [
             {
               goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
@@ -71,7 +71,8 @@ class List extends React.Component {
       filterList: [],
       initingFilter: true,
       initingList: true,
-      filterModalVisible: false
+      filterModalVisible: false,
+      currentCatogery: ''
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
@@ -89,15 +90,24 @@ class List extends React.Component {
   }
   async initData () {
     const { category } = this.state
-    this.setState({
-      titleData: titleCfg[category]
-    })
-
     let storeIdList = await queryStoreCateIds()
     const t = find(STORE_CATE_ENUM, ele => ele.category == category)
     if (t) {
       let tmpArr = Array.from(storeIdList, s => t.cateName.includes(s.cateName) ? s.storeCateId : '').filter(s => !!s)
-      this.setState({ storeCateIds: tmpArr })
+      this.setState({
+        storeCateIds: tmpArr,
+        currentCatogery: t.text
+      })
+      if (t.title && t.desc && t.img) {
+        this.setState({
+          titleData: {
+            title: t.title,
+            description: t.desc,
+            img: t.img
+          }
+        })
+      }
+      console.log(t)
     }
 
     this.getProductList()
@@ -138,8 +148,8 @@ class List extends React.Component {
     }
 
     let params = {
-      storeId: STOREID,
-      cateId: CATEID,
+      storeId: process.env.REACT_APP_STOREID,
+      cateId: process.env.REACT_APP_CATEID,
       propDetails: [],
       pageNum: currentPage - 1,
       brandIds: [],
@@ -177,7 +187,14 @@ class List extends React.Component {
               const tmpItem = find(res.context.goodsList, g => g.goodsId === ele.id)
               if (tmpItem) {
                 const { goodsCateName, goodsSubtitle, subscriptionStatus, avgEvaluate, minMarketPrice, goodsImg, ...others } = tmpItem
-                ret = Object.assign(ret, { goodsCateName, goodsSubtitle, subscriptionStatus, avgEvaluate, minMarketPrice, goodsImg})
+                ret = Object.assign(ret, {
+                  goodsCateName,
+                  goodsSubtitle,
+                  subscriptionStatus,
+                  avgEvaluate,
+                  minMarketPrice,
+                  goodsImg
+                })
               }
               return ret
             })
@@ -201,7 +218,7 @@ class List extends React.Component {
 
 
     if (!this.state.filterList.length) {
-      getProps(CATEID)
+      getProps(process.env.REACT_APP_CATEID)
         .then(res => {
           let tmpList = res.context
           let tmpItem = find(tmpList, v => v.propName === 'Etapa de Vida')
@@ -258,7 +275,7 @@ class List extends React.Component {
       return false
     }
     sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
-    sessionStorage.setItem('rc-goods-name', item.lowGoodsName)
+    sessionStorage.setItem('rc-goods-name', item.goodsName)
     const { history } = this.props
     history.push('/details/' + item.goodsInfos[0].goodsInfoId)
   }
@@ -297,26 +314,26 @@ class List extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           {titleData ?
-            <div className="content-block__wrapper_ rc-bg-colour--brand3 rc-padding--sm rc-margin-bottom--xs ">
+            <div className="content-block__wrapper_ rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="layout-container_ two-column_ rc-layout-container rc-two-column rc-max-width--lg rc-content-h-middle">
-                <div className="rc-column ">
+                <div className="rc-column pt-0 pb-0">
                   <div className="rc-full-width rc-text--left rc-padding-x--sm">
                     <h1 className="rc-alpha">{titleData.title}</h1>
                     <p>{titleData.description}</p>
                   </div>
                 </div>
-                <div className="rc-column ">
+                <div className="rc-column pt-0 pb-0">
                   <img
                     className="mw-100"
                     src={titleData.img}
-                    alt={titleData.imgAlt} />
+                    style={{ width: '63%', margin: '0 auto' }} />
                 </div>
               </div>
             </div>
             : ''}
           <div id="J-product-list"></div>
-          <div className="search-results rc-padding--sm rc-max-width--xl">
-            <div className="search-nav">
+          <div className="search-results rc-padding--sm rc-max-width--xl pt-1">
+            <div className="search-nav border-bottom-0">
               {this.state.keywords ?
                 <div className="nav-tabs-wrapper rc-text--center">
                   <div className="rc-intro"><FormattedMessage id="list.youSearchedFor" />:</div>
@@ -325,10 +342,7 @@ class List extends React.Component {
             </div>
             <section className="rc-bg-colour--brand3">
               <div>
-                <div className="rc-text--right rc-meta rc-margin-bottom--none">
-                  {results} <FormattedMessage id="results" />
-                </div>
-                <div className="rc-layout-container rc-four-column" id="J_filter_contaner">
+                <div className="rc-layout-container rc-four-column position-relative" id="J_filter_contaner">
                   <div className="refinements-fixed rc-column" style={{ position: 'fixed', display: 'none', background: '#fff', zIndex: 22 }}>
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
                       data-filter-trigger="filter-example" onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
@@ -342,9 +356,10 @@ class List extends React.Component {
                         checkedList={checkedList} />
                     </aside>
                   </div>
-                  <div className="refinements rc-column">
+                  <div className="refinements rc-column" style={{ top: '-45px' }}>
                     <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
-                      data-filter-trigger="filter-example" onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
+                      data-filter-trigger="filter-example"
+                      onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
                     <aside className={['rc-filters', this.state.filterModalVisible ? 'active' : ''].join(' ')}>
                       <Filters
                         initing={this.state.initingFilter}
@@ -356,6 +371,11 @@ class List extends React.Component {
                     </aside>
                   </div>
                   <div className={['rc-column', 'rc-triple-width', !productList.length ? 'd-flex justify-content-center align-items-center' : ''].join(' ')}>
+                    {
+                      !loading && <div className="position-absolute" style={{ top: '-20px', left: 0 }}>
+                        <span style={{ fontWeight: 500 }}>{this.state.currentCatogery}{' '}</span>({results} <FormattedMessage id="results" />)
+                      </div>
+                    }
                     {!productList.length
                       ?
                       <>
@@ -369,94 +389,83 @@ class List extends React.Component {
                         </div>
                       </>
                       :
-                      <div className="d-flex flex-wrap">
+                      <div className="row">
                         {productList.map(item => (
-                          <div className="col-12 col-md-4 mb-5" key={item.id}>
+                          <div className="col-12 col-md-4 mb-3 pl-2 pr-2" key={item.id}>
                             <article className="rc-card rc-card--product" style={{ minHeight: '120px' }}>
                               <div className="fullHeight">
                                 <a onClick={() => this.hanldeItemClick(item)} className="ui-cursor-pointer">
-                                  <article className="rc-card--a rc-text--center rc-padding-top--sm">
+                                  <article className="rc-card--a rc-text--center text-center">
                                     {
                                       loading
-                                        ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
+                                        ? <span className="mt-4"><Skeleton color="#f5f5f5" width="100%" height="50%" count={2} /></span>
                                         : <>
-                                          {/* {
-                                            item.subscriptionStatus
-                                              ? <span class="rc-icon rc-rss--xs rc-brand1 position-absolute" style={{ right: '2%', top: '2%' }}></span>
-                                              : null
-                                          } */}
                                           <picture className="rc-card__image">
                                             <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center" style={{ minHeight: '202px' }}>
                                               <img
-                                                src={item.goodsImg}
-                                                srcSet={item.goodsImg}
-                                                alt={item.lowGoodsName}
-                                                title={item.lowGoodsName} />
+                                                src={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg}
+                                                srcSet={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg}
+                                                alt={item.goodsName}
+                                                title={item.goodsName} />
                                             </div>
                                           </picture>
-                                          <div className="rc-card__body rc-padding-top--none pb-0">
-                                            <div className="height-product-tile-plpOnly height-product-tile">
+                                          <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
+                                            <div className="height-product-tile-plpOnly">
                                               <header className="rc-text--center">
                                                 <h3
-                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break font15"
-                                                  title={item.lowGoodsName}>
-                                                  {item.lowGoodsName}
+                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break font16 mb-1"
+                                                  title={item.goodsName}
+                                                  style={{ lineHeight: 1.2, minHeight: '3.7rem' }}>
+                                                  {item.goodsName}
                                                 </h3>
                                               </header>
-                                              {
-                                                item.goodsInfos.length > 1
-                                                  ? <div className="text-center mb-2">
-                                                    <button
-                                                      className="rc-bg-colour--brand4 border rounded font-weight-lighter rc-full-width "
-                                                      style={{ color: '#666' }}><span className="o9rem"><FormattedMessage id="moreChoicesAvailable" /></span></button>
-                                                  </div>
-                                                  : null
-                                              }
-                                              {/*<div className="Product-Key-words rc-text--center"></div>*/}
                                               <div
-                                                className={['ui-text-overflow-line3', 'text-break', 'rc-padding-top--xs', 'sub-hover', find(item.goodsInfos, ele => ele.subscriptionStatus) ? '' : 'rc-text--center'].join(' ')}
-                                                title={item.goodsSubtitle}>
+                                                className={`ui-text-overflow-line1 text-break sub-hover text-center`}
+                                                title={item.goodsSubtitle}
+                                                style={{ color: '#4a4a4a' }}>
                                                 {item.goodsSubtitle}
                                               </div>
                                             </div>
-
-                                            <div className="rc-card__price  rc-padding-top--xs ">
-                                              {
-                                                find(item.goodsInfos, ele => ele.subscriptionStatus)
-                                                  ? <div className="range">
-                                                    {/*{*/}
-                                                    {/*  item.goodsInfos.length > 1 ?*/}
-                                                    {/*    <span style={{'fontSize': '14px'}}>From </span>*/}
-                                                    {/*    : null*/}
-                                                    {/*}*/}
-                                                    <span className=" red-text">
-                                                      {formatMoney(Math.min.apply(null, item.goodsInfos.filter(g => g.subscriptionStatus).map(g => g.subscriptionPrice || 0)))}{' '}
-                                                    </span>
-                                                    <span className="rc-icon rc-refresh--xs rc-brand1 "></span>
-                                                    <span className="position-relative red-text" style={{ fontSize: '.6em', top: '-4px' }}>
-                                                      <FormattedMessage id="details.Subscription" />
-                                                    </span>
-                                                  </div>
-                                                  : null
-                                              }
-
-
-                                              <div className={['rc-full-width', find(item.goodsInfos, ele => ele.subscriptionStatus) ? '' : 'rc-text--center'].join(' ')}  >
-                                                {/*{*/}
-                                                {/*  item.goodsInfos.length > 1 ?*/}
-                                                {/*      <span style={{'fontSize': '14px'}}>From </span>*/}
-                                                {/*      : null*/}
-                                                {/*}*/}
-                                                <span className="red-text " >
-                                                  {/*{formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.salePrice)))}*/}
-                                                  {formatMoney(item.minMarketPrice || 0)}
-                                                </span>
+                                            <div className={`rc-card__price text-center`}>
+                                              <div className="display-inline">
+                                                <Rate def={item.avgEvaluate} disabled={true} />
                                               </div>
+                                              <span className='comments rc-margin-left--xs rc-text-colour--text'>({item.goodsEvaluateNum})</span>
                                             </div>
+                                            <div className="text-center" style={{ color: '#4a4a4a', opacity: item.goodsInfos.length > 1 ? 1 : 0 }}>
+                                              <FormattedMessage id="startFrom" />
+                                            </div>
+                                            <div className="d-flex justify-content-center">
+                                              <div className="rc-card__price text-left">
+                                                <div className={`rc-full-width`} >
+                                                  <span style={{ color: '#323232', fontWeight: 400 }} >
+                                                    {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.marketPrice || 0)))}{' '}
+                                                    {
+                                                      item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice && item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice > 0
+                                                        ? <span className="text-line-through rc-text-colour--text font-weight-lighter" style={{ fontSize: '.8em' }}>
+                                                          {formatMoney(item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].linePrice)}
+                                                        </span>
+                                                        : null
+                                                    }
 
-                                            <div className={['rc-card__price', 'flex-inline', find(item.goodsInfos, ele => ele.subscriptionStatus) ? '' : 'margin-auto'].join(' ')}>
-                                              {/*goodsEvaluateNum*/}
-                                              <div className="display-inline" ><Rate def={item.avgEvaluate} disabled={true} /></div><span className='comments rc-margin-left--xs rc-text-colour--text'>[{item.goodsEvaluateNum}]</span>
+                                                  </span>
+                                                </div>
+                                                {
+                                                  find(item.goodsInfos, ele => ele.subscriptionStatus)
+                                                    ? <div className="range position-relative">
+                                                      <span style={{ color: '#323232', fontWeight: 400 }}>
+                                                        {formatMoney(Math.min.apply(null, item.goodsInfos.filter(g => g.subscriptionStatus).map(g => g.subscriptionPrice || 0)))}{' '}
+                                                      </span>
+                                                      <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.65em' }}>&#xe675;</span>
+                                                      <span
+                                                        className="position-relative red-text position-absolute"
+                                                        style={{ fontSize: '.7em', top: '52%', transform: 'translateY(-50%)' }}>
+                                                        <FormattedMessage id="autoship" />
+                                                      </span>
+                                                    </div>
+                                                    : null
+                                                }
+                                              </div>
                                             </div>
                                           </div>
                                         </>

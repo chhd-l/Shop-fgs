@@ -1,5 +1,6 @@
 import React from 'react'
 import { find, findIndex } from 'lodash'
+import './index.css'
 
 export default class Selection extends React.Component {
   static defaultProps = {
@@ -17,8 +18,12 @@ export default class Selection extends React.Component {
     this.timeOutId = null
   }
   componentWillReceiveProps (nextProps) {
+    
+    if(this.props.type === 'freqency') {
+      console.log(nextProps, nextProps.selectedItemData,'date' ,this.state.selectedItem)
+    }
     const selectedItemData = nextProps.selectedItemData
-    if (selectedItemData !== this.state.selectedItem) {
+    if (selectedItemData.value !== this.state.selectedItem.value) {
       this.setState({
         selectedItem: { value: selectedItemData.value }
       })
@@ -43,6 +48,9 @@ export default class Selection extends React.Component {
   }
   toggleShowOptions (e) {
     const { optionsVisible, selectedItem } = this.state
+    if(this.props.disabled) {
+      return
+    }
     this.setState(currentState => ({
       optionsVisible: !currentState.optionsVisible,
       hoveredIdx: !currentState.optionsVisible ? findIndex(this.props.optionList, o => o.value === selectedItem.value) : -1,
@@ -67,10 +75,11 @@ export default class Selection extends React.Component {
         onFocus={() => this.onFocusHandler()}
         style={{ ...this.props.customContainerStyle }}>
         <div
-          className={`choices ${optionsVisible ? 'is-open' : ''}`}
+          className={`choices ${optionsVisible ? 'is-open' : ''} ${this.props.disabled? 'disabled': ''}`}
           role="listbox"
           tabIndex="1"
           data-type={this.props.customStyleType}
+          style={{cursor: this.props.disabled? 'auto': 'pointer'}}
           onClick={e => this.toggleShowOptions(e)}>
           <div className="choices__inner">
             <div className="choices__list choices__list--single">

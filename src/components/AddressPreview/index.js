@@ -32,10 +32,10 @@ class InfosPreview extends React.Component {
       : id
   }
   render () {
-    const loginDeliveryInfo = store.get('loginDeliveryInfo')
+    const info = this.props.info || store.get('info')
     return (
-      <div className="card shipping-summary">
-        <div className="card-header rc-padding-right--none clearfix">
+      <div className="card mb-0 shipping-summary">
+        <div className="card-header rc-padding-right--none clearfix" style={{margin:"auto"}}>
           <h5 className="pull-left"><FormattedMessage id="payment.addressTitle" /></h5>
         </div>
         <div className="card-body rc-padding--none">
@@ -55,55 +55,55 @@ class InfosPreview extends React.Component {
                         <FormattedMessage id="payment.firstName" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.deliveryAddress.firstName}
+                        &nbsp;{info.deliveryAddress.firstName}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.lastName" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.deliveryAddress.lastName}
+                        &nbsp;{info.deliveryAddress.lastName}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.address1" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.deliveryAddress.address1}
+                        &nbsp;{info.deliveryAddress.address1}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.address2" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.deliveryAddress.address2}
+                        &nbsp;{info.deliveryAddress.address2}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.country" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{this.matchNamefromDict(this.state.countryList, loginDeliveryInfo.deliveryAddress.country)}
+                        &nbsp;{this.matchNamefromDict(this.state.countryList, info.deliveryAddress.country)}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.city" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{this.matchNamefromDict(this.state.cityList, loginDeliveryInfo.deliveryAddress.city)}
+                        &nbsp;{this.matchNamefromDict(this.state.cityList, info.deliveryAddress.city)}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.postCode" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.deliveryAddress.postCode}
+                        &nbsp;{info.deliveryAddress.postCode}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.phoneNumber" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.deliveryAddress.phoneNumber}
+                        &nbsp;{info.deliveryAddress.phoneNumber}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.rfc" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.deliveryAddress.rfc}
+                        &nbsp;{info.deliveryAddress.rfc}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.normalDelivery2" />
@@ -122,61 +122,61 @@ class InfosPreview extends React.Component {
                         <FormattedMessage id="payment.firstName" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.billingAddress.firstName}
+                        &nbsp;{info.billingAddress.firstName}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.lastName" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.billingAddress.lastName}
+                        &nbsp;{info.billingAddress.lastName}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.address1" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.billingAddress.address1}
+                        &nbsp;{info.billingAddress.address1}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.address2" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.billingAddress.address2}
+                        &nbsp;{info.billingAddress.address2}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.country" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{this.matchNamefromDict(this.state.countryList, loginDeliveryInfo.billingAddress.country)}
+                        &nbsp;{this.matchNamefromDict(this.state.countryList, info.billingAddress.country)}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.city" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{this.matchNamefromDict(this.state.cityList, loginDeliveryInfo.billingAddress.city)}
+                        &nbsp;{this.matchNamefromDict(this.state.cityList, info.billingAddress.city)}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.postCode" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.billingAddress.postCode}
+                        &nbsp;{info.billingAddress.postCode}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.phoneNumber" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.billingAddress.phoneNumber}
+                        &nbsp;{info.billingAddress.phoneNumber}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.rfc" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.billingAddress.rfc}
+                        &nbsp;{info.billingAddress.rfc}
                       </div>
                       <div className="col-md-6">
                         <FormattedMessage id="payment.commentOnDelivery" />
                       </div>
                       <div className="col-md-6">
-                        &nbsp;{loginDeliveryInfo.commentOnDelivery}
+                        &nbsp;{info.commentOnDelivery}
                       </div>
                     </div>
                   </div>

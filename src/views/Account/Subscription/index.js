@@ -292,7 +292,7 @@ class Subscription extends React.Component {
                     ) : (
                             <div className="text-center mt-5">
                               <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-                              <FormattedMessage id="order.noDataTip" />
+                              <FormattedMessage id="subscription.noDataTip" />
                             </div>
                           )}
                     {

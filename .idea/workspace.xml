@@ -25,7 +25,12 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="47401d03-5d3b-4db0-92ad-5095ad7961de" name="Default Changelist" comment="20200724" />
+    <list default="true" id="47401d03-5d3b-4db0-92ad-5095ad7961de" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Details/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Details/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/index.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,6 +51,9 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/views/Details/index.js" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1dTVHbdRmckFZVrd62VSsJsvYDO" />
   <component name="ProjectLevelVcsManager">
@@ -117,7 +125,11 @@
       <workItem from="1592626824307" duration="914000" />
       <workItem from="1592635753495" duration="620000" />
       <workItem from="1594603932547" duration="75098000" />
-      <workItem from="1595208558888" duration="24215000" />
+      <workItem from="1595208558888" duration="61390000" />
+      <workItem from="1595925154126" duration="175000" />
+      <workItem from="1596174203101" duration="1094000" />
+      <workItem from="1596418334525" duration="3517000" />
+      <workItem from="1596421930953" duration="2032000" />
     </task>
     <servers />
   </component>
@@ -218,10 +230,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="370" y="22" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1594198829594" />
-    <state x="513" y="200" width="881" height="596" key="find.popup" timestamp="1595238821445">
+    <state x="513" y="200" width="881" height="596" key="find.popup" timestamp="1595920484156">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="513" y="200" width="881" height="596" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1595238821445" />
+    <state x="513" y="200" width="881" height="596" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1595920484156" />
     <state x="589" y="195" width="742" height="650" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1592635787764" />
     <state x="509" y="263" key="git4idea.merge.GitPullDialog" timestamp="1592636329006">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -242,7 +254,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Cart/modules/loginCart.js</url>
-          <line>596</line>
+          <line>587</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -262,7 +274,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Cart/modules/loginCart.js</url>
-          <line>8</line>
+          <line>9</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -277,17 +289,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Account/Orders/index.js</url>
-          <line>30</line>
+          <line>26</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/Header/index.js</url>
-          <line>19</line>
+          <line>20</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Details/components/Reviews.js</url>
-          <line>270</line>
+          <line>308</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>

@@ -266,12 +266,15 @@ class LoginDeliveryAddress extends React.Component {
     const { deliveryAddress, addOrEdit, loading, foledMore, addressList } = this.state;
     return (
       <div className={`${this.props.visible ? '' : 'hidden'}`}>
-        <div id={`J-address-title-${this.props.id}`} className="card-header" style={{ marginTop: this.props.type === 'billing' ? -56 : 0 }}>
-          <h5 className="pull-left">
+        <div id={`J-address-title-${this.props.id}`} className="card-header bg-transparent pt-0 pb-0"
+          style={{ marginTop: this.props.type === 'billing' ? -29 : 0 }}
+        >
+          <h5 className="pull-left" style={{ opacity: this.props.type === 'billing' ? 0 : 1 }}>
+            <i className="rc-icon rc-home--xs rc-iconography"></i>{' '}
             <FormattedMessage id="payment.deliveryTitle" />
           </h5>
           <p
-            className={`red rc-margin-top--xs ui-cursor-pointer pull-right inlineblock m-0 d-flex align-items-center ${addOrEdit ? 'hidden' : ''}`}
+            className={`red rc-margin-top--xs ui-cursor-pointer pull-right inlineblock m-0 align-items-center ${addOrEdit ? 'hidden' : ''}`}
             onClick={() => this.addOrEditAddress()}>
             <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
             <span><FormattedMessage id="newAddress" /></span>
@@ -297,7 +300,7 @@ class LoginDeliveryAddress extends React.Component {
             <FormattedMessage id="saveSuccessfullly" />
           </p>
         </aside>
-        <div className={`rc-border-all rc-border-colour--interface rc-margin-bottom--sm ${!addOrEdit ? 'addr-container' : 'checkout--padding'} ${loading ? 'pt-3 pb-3' : ''}`}>
+        <div className={`${!addOrEdit ? 'addr-container' : ''} ${loading ? 'pt-3 pb-3' : ''}`}>
           {
             loading
               ? <Skeleton color="#f5f5f5" count={2} width="100%" />
@@ -311,9 +314,10 @@ class LoginDeliveryAddress extends React.Component {
                           {
                             addressList.map((item, i) => (
                               <div
-                                className={`address-item ${item.selected ? 'selected' : ''} ${foledMore && !item.selected ? 'hidden' : ''}`} key={item.deliveryAddressId}
+                                className={`rounded address-item ${item.selected ? 'selected' : 'border'} ${foledMore && !item.selected ? 'hidden' : ''} ${!item.selected && i !== addressList.length - 1 ? 'border-bottom-0' : ''}`}
+                                key={item.deliveryAddressId}
                                 onClick={() => this.selectAddress(i)}>
-                                <div className="row align-items-center pt-3 pb-3 ml-2 mr-2 border-bottom">
+                                <div className="row align-items-center pt-3 pb-3 ml-2 mr-2">
                                   <div className="d-flex align-items-center justify-content-between col-2 col-md-1 address-name">
                                     {
                                       item.selected
@@ -344,7 +348,6 @@ class LoginDeliveryAddress extends React.Component {
                                   </div>
                                   <div className="col-12 col-md-2 mt-md-0 mt-1 text-right">
                                     <a className="addr-btn-edit border-left pl-2" onClick={() => this.addOrEditAddress(i)}>
-                                      {/* <span className="rc-icon rc-edit--xs rc-iconography"></span> */}
                                       <FormattedMessage id="edit" />
                                     </a>
                                   </div>

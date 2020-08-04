@@ -7,24 +7,12 @@ import BreadCrumbs from "@/components/BreadCrumbs";
 import SideMenu from "@/components/SideMenu";
 import "./index.css";
 import { findIndex } from "lodash";
-import {
-  saveAddress,
-  setDefaltAddress,
-  deleteAddress,
-  getAddressById,
-  editAddress,
-} from "@/api/address";
 import { Link } from "react-router-dom";
 import Loading from "@/components/Loading";
 import { getDict } from "@/api/dict";
-
-import visaImg from "@/assets/images/credit-cards/visa.svg";
-import amexImg from "@/assets/images/credit-cards/amex.svg";
-import mastercardImg from "@/assets/images/credit-cards/mastercard.svg";
-import discoverImg from "@/assets/images/credit-cards/discover.svg";
-import paypalImg from "@/assets/images/credit-cards/paypal.png";
 import axios from "axios";
 import { addOrUpdatePaymentMethod } from "@/api/payment";
+import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant'
 
 @injectIntl
 @inject("loginStore")
@@ -56,13 +44,6 @@ class ShippingAddressFrom extends React.Component {
       },
       cityList: [],
       countryList: [],
-      creditCardImgUrl: [visaImg, amexImg, mastercardImg],
-      creditCardImgObj: {
-        VISA: visaImg,
-        MASTERCARD: mastercardImg,
-        "AMERICAN EXPRESS": amexImg,
-        DISCOVER: discoverImg,
-      },
       creditCardInfo: {
         cardNumber: "",
         cardMmyy: "",
@@ -262,7 +243,7 @@ class ShippingAddressFrom extends React.Component {
     const { addressForm, creditCardInfo } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
-        {this.state.creditCardImgUrl.map((el, idx) => (
+        {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
           <img key={idx} className="logo-payment-card" src={el} />
         ))}
       </span>

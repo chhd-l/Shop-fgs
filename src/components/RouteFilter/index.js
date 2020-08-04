@@ -2,14 +2,19 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { queryStoreCateIds } from "@/utils/utils";
 import store from 'storejs'
+import { getConfig } from '@/api/user'
 
 class RouteFilter extends Component {
   shouldComponentUpdate (nextProps) {
+    //debugger
+    if (nextProps.location.pathname === "/prescription" && sessionStorage.getItem('clinic-reselect') === "true") {
+      return false
+    }
+
     if (nextProps.location.pathname === "/prescription"
-      && (!sessionStorage.getItem('clinic-reselect')
-        || (store.get("rc-clinics-id-link") && store.get("rc-clinics-name-link"))
-        || (store.get("rc-clinics-id-select") && store.get("rc-clinics-name-select"))
-        || (store.get("rc-clinics-id-default") && store.get("rc-clinics-name-default")))) {
+      && ((store.get("rc-clinic-id-link") && store.get("rc-clinic-name-link"))
+        || (store.get("rc-clinic-id-select") && store.get("rc-clinic-name-select"))
+        || (store.get("rc-clinic-id-default") && store.get("rc-clinic-name-default")))) {
       this.props.history.replace("/payment/payment");
       return false
     }
@@ -25,6 +30,9 @@ class RouteFilter extends Component {
       this.props.history.push("/");
     }
 
+    await getConfig().then(res => {
+      sessionStorage.setItem('currency', JSON.stringify(res.context.currency))
+    })
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/')
     }
@@ -80,9 +88,14 @@ class RouteFilter extends Component {
       );
     }
     if (this.props.location.pathname !== "/login") {
-      loadJS(process.env.REACT_APP_ONTRUST_SRC, function () { })
+      loadJS(process.env.REACT_APP_ONTRUST_SRC,
+        function () { },
+        {
+          domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
+          documentLanguage: 'true'
+        })
     }
-    if (this.props.location.pathname === "/confirmation" && !localStorage.getItem('orderNumber')) {
+    if (this.props.location.pathname === "/confirmation" && !sessionStorage.getItem('orderNumber')) {
       this.props.history.push("/");
     }
 
@@ -93,10 +106,17 @@ class RouteFilter extends Component {
   }
 }
 
-function loadJS (url, callback) {
+function loadJS (url, callback, dataSets) {
   var script = document.createElement("script"),
     fn = callback || function () { };
   script.type = "text/javascript";
+  script.charset = "UTF-8";
+
+  if (dataSets) {
+    for (let key in dataSets) {
+      script.dataset[key] = dataSets[key]
+    }
+  }
   //IE
   if (script.readyState) {
     script.onreadystatechange = function () {

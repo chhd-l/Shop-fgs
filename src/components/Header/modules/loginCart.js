@@ -3,7 +3,6 @@ import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
-import { MINIMUM_AMOUNT } from '@/utils/constant'
 import { inject, observer } from 'mobx-react'
 import PetModal from '@/components/PetModal'
 
@@ -23,10 +22,6 @@ class LoginCart extends React.Component {
     this.handleCheckout = this.handleCheckout.bind(this)
   }
   async componentDidMount () {
-    const unloginCartData = this.props.checkoutStore.cartData
-    if (unloginCartData.length && this.props.history.location.pathname !== '/cart') {
-      await mergeUnloginCartData()
-    }
     this.checkoutStore.updateLoginCart()
   }
   componentWillReceiveProps (nextProps) {
@@ -65,9 +60,21 @@ class LoginCart extends React.Component {
     }, 500)
   }
   async handleCheckout () {
-    if (this.tradePrice < MINIMUM_AMOUNT) {
+    this.setState({ checkoutLoading: true })
+    this.checkoutStore.updateLoginCart()
+    this.setState({ checkoutLoading: false })
+    if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo3" />
+        errMsg: <FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
+      })
+      return false
+    }
+
+    // 存在下架商品，不能下单
+    if (this.props.checkoutStore.offShelvesProNames.length) {
+      this.setState({
+        errMsg: <FormattedMessage id="cart.errorInfo4"
+          values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />
       })
       return false
     }
@@ -122,7 +129,7 @@ class LoginCart extends React.Component {
         onMouseOut={this.handleMouseOut}>
         <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn" title="Basket">
           <i className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
-          <span className="minicart-quantity">{loading ? '--' : totalNum}</span>
+          <span className="minicart-quantity">{totalNum}</span>
         </Link>
         {
           !totalNum && !loading
@@ -146,18 +153,12 @@ class LoginCart extends React.Component {
                     <span className="minicart__pointer"></span>
                     <div className="d-flex minicart_freeshipping_info align-items-center">
                       <i className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></i>
-                      <p><FormattedMessage id="miniBasket" /></p>
+                      <p><FormattedMessage id="cart.miniCartTitle" /></p>
                     </div>
                   </div>
                   <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
                     <span className="rc-body rc-margin--none">
-                      {
-                        loading
-                          ? <b>--</b>
-                          : <>
-                            <FormattedMessage id="total" /> <b>{formatMoney(this.tradePrice)}</b>
-                          </>
-                      }
+                      <FormattedMessage id="total" /> <b>{formatMoney(this.tradePrice)}</b>
                     </span>
                     <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true"><FormattedMessage id="chang" /></Link>
                   </div>
@@ -210,7 +211,7 @@ class LoginCart extends React.Component {
                                     <div className="wrap-item-title">
                                       <div className="item-title">
                                         <div
-                                          className="line-item-name capitalize ui-text-overflow-line2 text-break"
+                                          className="line-item-name ui-text-overflow-line2 text-break"
                                           title={item.goodsName}>
                                           <span className="light">{item.goodsName}</span>
                                         </div>

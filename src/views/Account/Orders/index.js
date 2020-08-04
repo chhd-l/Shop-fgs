@@ -11,15 +11,11 @@ import Selection from '@/components/Selection'
 import Pagination from '@/components/Pagination'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Link } from 'react-router-dom';
-import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
+import { formatMoney, getPreMonthDay, dateFormat, getDictionary } from "@/utils/utils"
 import { batchAdd } from "@/api/payment";
 import { getOrderList, getOrderDetails } from "@/api/order"
+import orderImg from "./img/order.jpg";
 import store from 'storejs'
-import {
-  MINIMUM_AMOUNT,
-  STOREID,
-  STORE_CATE_ENUM
-} from "@/utils/constant"
 import {
   IMG_DEFAULT,
   DELIVER_STATUS_ENUM,
@@ -52,7 +48,9 @@ class AccountOrders extends React.Component {
         { value: '30d', name: <FormattedMessage id="order.lastXDays" values={{ val: 30 }} /> },
         { value: '3m', name: <FormattedMessage id="order.lastXMonths" values={{ val: 3 }} /> },
         { value: '6m', name: <FormattedMessage id="order.lastXMonths" values={{ val: 6 }} /> }
-      ]
+      ],
+      defaultLocalDateTime: '',
+      haveList: true
     }
 
     this.pageSize = 6
@@ -120,13 +118,19 @@ class AccountOrders extends React.Component {
       .then(res => {
         let tmpList = Array.from(res.context.content, ele => {
           const tradeState = ele.tradeState
-          console.log(tradeState.flowState, ele.storeEvaluateVO, 'canReview-------------')
           return Object.assign(ele,
             {
               canPayNow: tradeState.flowState === 'AUDIT'
                 && tradeState.deliverStatus === 'NOT_YET_SHIPPED'
                 && tradeState.payState === 'NOT_PAID'
-                && new Date(ele.orderTimeOut).getTime() > new Date().getTime(),
+                && new Date(ele.orderTimeOut).getTime() > new Date(res.defaultLocalDateTime).getTime()
+                && (!ele.payWay || ele.payWay.toUpperCase() !== 'OXXO'),
+              showOXXOExpireTime: tradeState.flowState === 'AUDIT'
+                && tradeState.deliverStatus === 'NOT_YET_SHIPPED'
+                && tradeState.payState === 'NOT_PAID'
+                && new Date(ele.orderTimeOut).getTime() > new Date(res.defaultLocalDateTime).getTime()
+                && ele.payWay
+                && ele.payWay.toUpperCase() === 'OXXO',
               payNowLoading: false,
               canRePurchase: tradeState.flowState === 'COMPLETED' || tradeState.flowState === 'VOID',
               canReview: tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO
@@ -134,10 +138,16 @@ class AccountOrders extends React.Component {
           )
         }
         )
+        if (!tmpList.length) {
+          this.setState({ haveList: false })
+        } else {
+          this.setState({ haveList: true })
+        }
         this.setState({
           orderList: tmpList,
           currentPage: res.context.pageable.pageNumber + 1,
           totalPage: res.context.totalPages,
+          defaultLocalDateTime: res.defaultLocalDateTime,
           loading: false,
           initing: false
         })
@@ -177,7 +187,9 @@ class AccountOrders extends React.Component {
         specText: ele.specDetails,
         buyCount: ele.num,
         salePrice: ele.price,
-        goodsInfoId: ele.skuId
+        goodsInfoId: ele.skuId,
+        subscriptionPrice: ele.subscriptionPrice,
+        subscriptionStatus: ele.subscriptionStatus
       }
     })
     try {
@@ -212,14 +224,31 @@ class AccountOrders extends React.Component {
         billingAddress: tmpBillingAddress,
         commentOnDelivery: detailResCt.buyerRemark
       })
-
       this.props.checkoutStore.setLoginCartData(tradeItems)
+      if (detailResCt.subscriptionResponseVO) {
+        const cycleTypeId = detailResCt.subscriptionResponseVO.cycleTypeId
+
+        let dictList = await Promise.all([
+          getDictionary({ type: 'Frequency_week' }),
+          getDictionary({ type: 'Frequency_month' })
+        ])
+        sessionStorage.setItem('rc-subform', JSON.stringify({
+          buyWay: 'frequency',
+          frequencyName: [...dictList[0], ...dictList[1]].filter(el => el.id === cycleTypeId)[0].name,
+          frequencyId: cycleTypeId
+        }))
+      }
       sessionStorage.setItem('rc-tid', order.id)
       this.props.checkoutStore.setCartPrice({
         totalPrice: order.tradePrice.totalPrice,
         tradePrice: order.tradePrice.originPrice,
-        discountPrice: order.tradePrice.discountsPrice
+        discountPrice: order.tradePrice.discountsPrice,
+        deliveryPrice: order.tradePrice.deliveryPrice,
+        promotionDesc: order.tradePrice.promotionDesc,
+        promotionDiscount: order.tradePrice.deliveryPrice,
+        subscriptionPrice: order.tradePrice.subscriptionPrice
       })
+
       this.props.history.push('/payment/payment')
     } catch (err) {
       console.log(err)
@@ -259,13 +288,13 @@ class AccountOrders extends React.Component {
     this.props.history.push('/cart')
   }
   render () {
-    const lang = this.props.intl.locale || 'en'
     const event = {
       page: {
         type: 'Account',
         theme: ''
       }
     }
+    let { haveList } = this.state
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -281,7 +310,7 @@ class AccountOrders extends React.Component {
                     <FormattedMessage id="order.historyOfOrders" />
                   </h4>
                 </div>
-                <div className="row justify-content-around">
+                <div className="row justify-content-around" style={{ display: haveList ? 'flex' : 'none' }}>
                   <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
                       <FormattedMessage id="order.orderNumber" />
@@ -324,7 +353,7 @@ class AccountOrders extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="order__listing">
+                <div className="order__listing" style={{ display: haveList ? 'block' : 'none' }}>
                   <div className="order-list-container">
                     {
                       this.state.loading
@@ -350,7 +379,11 @@ class AccountOrders extends React.Component {
                                         <p className="text-nowrap">
                                           <FormattedMessage id="order.orderNumber" />: <br className="d-none d-md-block" />
                                           <span className="medium orderHeaderTextColor">{order.id}</span>
-                                          {/* <span className="rc-icon rc-refresh--xs rc-brand1"></span> */}
+                                          {
+                                            order.isAutoSub
+                                              ? <span className="iconfont font-weight-bold red ml-1" style={{ fontSize: '.8em' }}>&#xe675;</span>
+                                              : null
+                                          }
                                         </p>
                                       </div>
                                       <div className="col-4 col-md-2">
@@ -375,6 +408,7 @@ class AccountOrders extends React.Component {
                                   </div>
                                   <div className="row rc-margin-x--none row align-items-center" style={{ padding: '1rem 0' }}>
                                     <div className="col-8 col-md-2 d-flex flex-wrap align-items-center mb-2 mb-md-0">
+
                                       {order.tradeItems.slice(0, 2).map(item => (
                                         <img
                                           className="img-fluid"
@@ -390,22 +424,23 @@ class AccountOrders extends React.Component {
                                       }
                                     </div>
                                     <div className="col-4 col-md-2 text-right text-md-left">
-                                      {formatMoney(order.tradeItems.reduce((total, item) => total + item.splitPrice, 0))}
+                                      {formatMoney(order.tradePrice.totalPrice)}
                                     </div>
                                     <div className="col-4 col-md-2">
-                                      {ORDER_STATUS_ENUM[lang][order.tradeState.flowState] || order.tradeState.flowState}
+                                      {ORDER_STATUS_ENUM[order.tradeState.flowState] || order.tradeState.flowState}
                                     </div>
                                     <div className="col-4 col-md-2">
-                                      {DELIVER_STATUS_ENUM[lang][order.tradeState.deliverStatus] || order.tradeState.deliverStatus}
+                                      {DELIVER_STATUS_ENUM[order.tradeState.deliverStatus] || order.tradeState.deliverStatus}
                                     </div>
                                     <div className="col-4 col-md-2">
-                                      {PAY_STATUS_ENUM[lang][order.tradeState.payState] || order.tradeState.payState}
+                                      {PAY_STATUS_ENUM[order.tradeState.payState] || order.tradeState.payState}
                                     </div>
                                     <div className="col-4 col-md-2 text-center">
                                       {
                                         order.canPayNow
                                           ? <>
                                             <TimeCount
+                                              startTime={this.state.defaultLocalDateTime}
                                               endTime={order.orderTimeOut}
                                               onTimeEnd={() => this.handlePayNowTimeEnd(order)} />
                                             <button
@@ -416,6 +451,11 @@ class AccountOrders extends React.Component {
                                             </button>
                                           </>
                                           : null
+                                      }
+                                      {
+                                        order.showOXXOExpireTime && <span className="red">
+                                          <FormattedMessage id="order.expireTime" />: <br />{order.orderTimeOut}
+                                        </span>
                                       }
                                       {
                                         order.canReview ?
@@ -465,6 +505,21 @@ class AccountOrders extends React.Component {
                             onPageNumChange={params => this.hanldePageNumChange(params)} />
                         </div>
                     }
+                  </div>
+                </div>
+                <div className="content-asset" style={{ display: haveList ? 'none' : 'block' }}>
+                  <div class="rc-layout-container rc-two-column">
+                    <div class="rc-column">
+                      <img src={orderImg} style={{ width: '100%' }} />
+                    </div>
+                    <div class="rc-column" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div>
+                        <p>
+                          You haven't placed any orders yet! Start shopping now for precise nutrition for your pet.
+                      </p>
+                        <button class="rc-btn rc-btn--one" onClick={() => this.props.history.push('/')}>Start Shopping</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

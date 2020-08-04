@@ -2,6 +2,7 @@ import React from "react"
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
+import Skeleton from 'react-skeleton-loader'
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
@@ -110,7 +111,7 @@ class Pet extends React.Component {
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Pets" />
-              {this.state.loading ? <Loading positionFixed="true" /> : null}
+
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
                   <h4 className="rc-delta rc-margin--none">
@@ -118,26 +119,28 @@ class Pet extends React.Component {
                   </h4>
                 </div>
                 <div className="content-asset">
-                  <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
-                    <div className="rc-column">
-                      <div className="rc-padding-right-lg rc-padding-y--sm ">
-                        <div className="children-nomargin">
-                          <p style={{ wordBreak: 'break-all' }}>
-                            <FormattedMessage id="account.noPet"></FormattedMessage>
+                  {this.state.loading
+                    ? <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
+                    : <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
+                      <div className="rc-column">
+                        <div className="rc-padding-right-lg rc-padding-y--sm ">
+                          <div className="children-nomargin">
+                            <p style={{ wordBreak: 'break-all' }}>
+                              <FormattedMessage id="account.noPet"></FormattedMessage>
 
-                          </p>
-                        </div>
-                        <div className="rc-margin-top--sm">
-                          <Link className="rc-btn rc-btn--one" to="/account/pets/petForm">
-                            <FormattedMessage id="account.addPet"></FormattedMessage>
-                          </Link>
+                            </p>
+                          </div>
+                          <div className="rc-margin-top--sm">
+                            <Link className="rc-btn rc-btn--one" to="/account/pets/petForm">
+                              <FormattedMessage id="account.addPet"></FormattedMessage>
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="rc-column">
-                      <img src={noPet} alt="No pets" />
-                    </div>
-                  </div>
+                      <div className="rc-column">
+                        <img src={noPet} alt="No pets" />
+                      </div>
+                    </div>}
                 </div>
               </div>
             </div>

@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import Selection from '@/components/Selection'
-import { getDictionary } from "@/utils/utils"
+import { getDictionary, formatMoney } from "@/utils/utils";
+import { getMarketingDiscount } from "@/api/payment";
 
-@inject("checkoutStore")
+@inject("checkoutStore", "frequencyStore")
 @observer
 class SubscriptionSelect extends Component {
   constructor(props) {
@@ -16,13 +17,26 @@ class SubscriptionSelect extends Component {
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
-      }
+      },
+      discountInfo: null
     }
   }
   async componentDidMount () {
+    getMarketingDiscount({
+      totalAmount: this.props.checkoutStore.loginCartData
+        .filter(ele => ele.subscriptionStatus)
+        .reduce((total, item) => total + item.subscriptionPrice, 0),
+      goodsInfoIds: this.props.checkoutStore.loginCartData
+        .filter(ele => ele.subscriptionStatus).map(ele => ele.goodsInfoId)
+    })
+      .then(res => {
+        this.setState({
+          discountInfo: res.context
+        })
+      })
     Promise.all([
       getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' }),
+      getDictionary({ type: 'Frequency_month' })
     ]).then(dictList => {
       this.setState({
         frequencyList: [...dictList[0], ...dictList[1]],
@@ -48,22 +62,30 @@ class SubscriptionSelect extends Component {
     const target = e.target
     const { form } = this.state
     form[target.name] = target.value
-    this.setState({ form: form })
-    this.props.updateSelectedData(this.state.form)
+    this.setState({ form: form }, () => {
+      this.props.updateSelectedData(this.state.form)
+    })
   }
   handleSelectedItemChange (data) {
     const { form } = this.state
     form.frequencyVal = data.value
     form.frequencyName = data.name
     form.frequencyId = data.id
-    this.setState({ form: form })
-    this.props.updateSelectedData(this.state.form)
+    this.setState({ form: form }, () => {
+      this.props.updateSelectedData(this.state.form)
+    })
   }
   render () {
     const { form } = this.state
-    return (<div className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm pt-3 pb-2">
-      Save your first <span className="rc-icon rc-refresh--xs rc-brand1"></span> Subscription order and save <span className="red">30%($ 18.5)</span> today!<br />
-      Plus, save 5% on eligible items on future Subscription orders.
+    return (<div className="">
+      <FormattedMessage
+        id="payment.subTip2"
+        values={{
+          icon: <span className="iconfont font-weight-bold red" style={{ fontSize: '.8em' }}>&#xe675;</span>,
+          val: <span className="red">{this.state.discountInfo ? this.state.discountInfo.promotionDiscount : ''}</span>,
+          val2: formatMoney(this.state.discountInfo && this.state.discountInfo.discountAmount ? this.state.discountInfo.discountAmount : 0)
+        }} />
+      <br />
       <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
         <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2">
           {
@@ -88,7 +110,12 @@ class SubscriptionSelect extends Component {
           }
           <label className="rc-input__label--inline" htmlFor="optsmobile">
             <span className="red"><FormattedMessage id="payment.frequencyTip1" /></span><br />
-            You will save an additional $ 18.5 on this order!<br />
+            <FormattedMessage
+              id="payment.subTip1"
+              values={{
+                val: formatMoney(this.state.discountInfo && this.state.discountInfo.discountAmount ? this.state.discountInfo.discountAmount : 0)
+              }} />
+            <br />
             <span className="font-weight-normal mt-1 inlineblock">
               <FormattedMessage id="payment.deliveryFrequency" />:
             </span>
@@ -100,14 +127,13 @@ class SubscriptionSelect extends Component {
               selectedItemData={{
                 value: form.frequencyVal
               }}
-              customStyleType="select-one"
-              customContainerStyle={{ minWidth: '20%' }} />
+              customStyleType="select-one" />
             <span className="ml-2 d-flex align-items-center flex-wrap">
               {
                 this.props.checkoutStore.loginCartData
                   .filter(ele => ele.subscriptionStatus)
                   .map((ele, i) => (
-                    <img style={{ width: '8%', display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
+                    <img className="width-sub-img" style={{ display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
                   ))
               }
             </span>

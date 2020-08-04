@@ -11,7 +11,6 @@ import GoogleMap from '@/components/GoogleMap'
 import { FormattedMessage } from 'react-intl'
 import { getPrescription, getAllPrescription } from '@/api/clinic'
 import meImg from "@/assets/images/map-default-marker.png"
-import { STOREID } from "@/utils/constant";
 
 const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   if (obj.type !== 'customer') {
@@ -71,7 +70,7 @@ class Prescription extends React.Component {
         pageSize: 3,
         latitude: 19.09,
         longitude: -99.24,
-        storeId: STOREID,
+        storeId: process.env.REACT_APP_STOREID
       },
       currentSelectClinic: {
         lat: 0,
@@ -147,7 +146,7 @@ class Prescription extends React.Component {
   }
   async getAllPrescription () {
     let params = {
-      "storeId": STOREID
+      "storeId": process.env.REACT_APP_STOREID
     }
     const res = await getAllPrescription(params)
     if (res.code === 'K-000000') {
@@ -215,7 +214,7 @@ class Prescription extends React.Component {
     const { setSelectClinicId, setSelectClinicName, removeLinkClinicId, removeLinkClinicName } = this.props.clinicStore
     removeLinkClinicId()
     removeLinkClinicName()
-    setSelectClinicId(item.prescriberId)
+    setSelectClinicId(item.id)
     setSelectClinicName(item.prescriberName)
     this.props.history.push('/payment/payment')
   }
@@ -241,7 +240,7 @@ class Prescription extends React.Component {
     for (var i = 0; i < this.state.clinicArr.length; i++) {
       flags.push(<AnyReactComponent
         props={this.props}
-        key={this.state.clinicArr[i].prescriberId}
+        key={this.state.clinicArr[i].id}
         lat={+this.state.clinicArr[i].latitude}
         lng={+this.state.clinicArr[i].longitude}
         obj={this.state.clinicArr[i]}
@@ -321,7 +320,7 @@ class Prescription extends React.Component {
                   <div className="rc-column" style={{ padding: "0", margin: '1rem 0 2rem' }}>
                     {this.state.currentClinicArr.map(item => (
                       <article className="rc-card rc-card--a clinic-card-boder" style={{ width: '100%', margin: '1rem 0' }}
-                        key={item.prescriberId}>
+                        key={item.id}>
                         <div className="rc-card__body" style={{ padding: "0 0 0 1rem", }}>
                           <div onClick={() => this.handleItem(item)}>
                             <p style={{ margin: '.5rem 0 0 0' }}><FormattedMessage id='clinic.vet' ></FormattedMessage></p>

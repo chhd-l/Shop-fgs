@@ -197,7 +197,8 @@ button,input,optgroup,select,textarea {
   margin: 0;
   font-family: inherit;
   font-size: inherit;
-  line-height: inherit
+  line-height: inherit;
+  outline:0;
 }
 
 button,input {
@@ -413,6 +414,10 @@ hr {
 .figure-caption {
   font-size: 90%;
   color: #6c757d
+}
+
+.width-sub-img {
+  width: 50%;
 }
 
 code {
@@ -1223,6 +1228,9 @@ pre code {
 
   .offset-md-11 {
       margin-left: 91.66667%
+  }
+  .width-sub-img {
+    width: 10%;
   }
 }
 
@@ -7150,6 +7158,10 @@ a.bg-dark:focus,a.bg-dark:hover,button.bg-dark:focus,button.bg-dark:hover {
   border-color: #fff!important
 }
 
+.border-blue {
+  border-color: rgba(148, 164, 207, 1)!important
+}
+
 .rounded,.rounded-sm {
   border-radius: .1875rem!important
 }
@@ -10011,6 +10023,9 @@ a.bg-dark:focus,a.bg-dark:hover,button.bg-dark:focus,button.bg-dark:hover {
 
   .ml-md-auto,.mx-md-auto {
       margin-left: auto!important
+  }
+  .border-right-md-1 {
+    border-right: 1px solid #dee2e6!important
   }
 }
 
@@ -18368,7 +18383,8 @@ button.rc-btn.tooltip-btn {
 
 .rc-card--product .rc-card__image img {
   width: 150px;
-  height: 170px
+  height: 170px;
+  margin: auto 0;
 }
 
 @media(min-width: 769px) {
@@ -22366,6 +22382,11 @@ tr.rc-table__row.inactive td:after {
   clip-path: polygon(0% 0%, 100% 0%, 100% 30%, 0% 30%);
   animation: rotate 1s linear infinite;
 }
+.ui-text-overflow-line1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .ui-text-overflow-line2 {
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;
@@ -22425,7 +22446,9 @@ tr.rc-table__row.inactive td:after {
   opacity: .5!important;
   cursor: not-allowed!important;
 }
-
+.text-line-through {
+  text-decoration: line-through
+}
 @keyframes rotate {
   from {
       transform: rotatez(0deg);
@@ -22445,4 +22468,7 @@ tr.rc-table__row.inactive td:after {
 }
  input[type=number]{
   -moz-appearance:textfield;
+}
+.outline-none:before {
+  outline: none!important;
 }

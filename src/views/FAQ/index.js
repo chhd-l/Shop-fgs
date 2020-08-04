@@ -1,39 +1,82 @@
-import React from 'react'
-import GoogleTagManager from '@/components/GoogleTagManager'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import dataFAQ from './FAQ.json'
-import { Link } from "react-router-dom"
-import FAQ1 from "@/assets/images/FAQ1.jpg"
-import './index.less'
+import React from "react";
+import GoogleTagManager from "@/components/GoogleTagManager";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { Link } from "react-router-dom";
+import { getFaq } from "../../api/faq";
+import { FormattedMessage } from "react-intl";
+import Skeleton from "react-skeleton-loader";
+import FAQ1 from "@/assets/images/FAQ1.jpg";
+import "./index.less";
 
 class FAQ extends React.Component {
-  componentWillUnmount () {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataFAQ: [],
+      // 当前展开的FAQ
+      showCur: -1,
+      loading: true,
+    };
+  }
+  componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
   }
-  componentDidMount () {
+  componentDidMount() {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
-      return false
+      return false;
+    }
+    this.getFAQList({
+      language: process.env.REACT_APP_LANG,
+      storeId: process.env.REACT_APP_STOREID,
+    });
+  }
+
+  getFAQList(data) {
+    getFaq(data)
+      .then((res) => {
+        this.setState({
+          dataFAQ: res.context.storeFaqVo,
+          loading: false,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  handleSelect(index) {
+    if (index == this.state.showCur) {
+      this.setState({
+        showCur: -1,
+      });
+    } else {
+      this.setState({
+        showCur: index,
+      });
     }
   }
-  render (h) {
-    console.log(dataFAQ);
+
+  render(h) {
+    console.log(this.state.dataFAQ);
+
     const event = {
-      "page": {
-        "type": "Content",
-        "theme": ""
-      }
-    }
+      page: {
+        type: "Content",
+        theme: "",
+      },
+    };
 
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Header history={this.props.history} />
-        <main className="rc-content--fixed-header rc-bg-colour--brand3"  >
-          <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
-            style={{ maxWidth: "70%" }} >
+        <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <div
+            className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
+            style={{ maxWidth: "70%" }}
+          >
             <div className="rc-bg-colour--brand3">
               <div className="rc-padding--sm rc-margin-bottom--xs rc-padding-left--none">
                 <div className="rc-padding-y--md rc-md-down"></div>
@@ -42,25 +85,24 @@ class FAQ extends React.Component {
                     <div className="rc-full-width rc-text--left rc-padding-x--sm rc- padding-left--none">
                       <h1 style={{ textAlign: "center" }}>
                         <font style={{ verticalAlign: "inherit" }}>
-                          <font style={{ verticalAlign: "inherit" }}>Preguntas frecuentes</font>
+                          <font style={{ verticalAlign: "inherit" }}>
+                            <FormattedMessage id="FrequentQuestions" />
+                          </font>
                         </font>
                       </h1>
                       <p style={{ textAlign: "center" }}>
                         <font style={{ verticalAlign: "inherit" }}>
-                          <font style={{ verticalAlign: "inherit" }}>Tiene una pregunta </font>
-                          <font style={{ verticalAlign: "inherit" }}>Mire a continuación para ver si hay una respuesta. </font>
-                          <font style={{ verticalAlign: "inherit" }}>Si no puede encontrar lo que está buscando,&nbsp; </font>
+                          <FormattedMessage
+                            id="FAQdesc"
+                            values={{
+                              val: (
+                                <Link to="/help" style={{ fontSize: "14px" }}>
+                                  <FormattedMessage id="clickHere" />
+                                </Link>
+                              ),
+                            }}
+                          />
                         </font>
-                        <Link to="/help" style={{ fontSize: "14px" }}>
-                          <font style={{ verticalAlign: "inherit" }}>
-                            <font style={{ verticalAlign: "inherit" }}>haga clic aquí </font>
-                          </font>
-                        </Link>
-                        <span style={{ fontSize: "14px" }}>
-                          <font style={{ verticalAlign: "inherit" }}>
-                            <font style={{ verticalAlign: "inherit" }}>&nbsp;para contactarnos.</font>
-                          </font>
-                        </span>
                       </p>
                       <p style={{ textAlign: "center" }}>&nbsp;</p>
                     </div>
@@ -78,7 +120,9 @@ class FAQ extends React.Component {
                     <div className="rc-full-width rc-text--left rc-padding-x--sm rc- padding-left--none">
                       <h2>
                         <font style={{ verticalAign: "inherit" }}>
-                          <font style={{ verticalAign: "inherit" }}>La entrega</font>
+                          <font style={{ verticalAign: "inherit" }}>
+                            <FormattedMessage id="delivery"></FormattedMessage>
+                          </font>
                         </font>
                       </h2>
                     </div>
@@ -88,28 +132,48 @@ class FAQ extends React.Component {
               </div>
             </div>
 
-            <dl data-toggle-group="" data-toggle-effect="rc-expand--vertical" className="">
-              {
-                dataFAQ.map((item, index) => (
-                  <div className="rc-list__accordion-item test-color" key={index}>
-                    <dt>
-                      <button className="rc-list__header" id={"heading-" + index} data-toggle={"content-" + index}>{item.frequently}</button>
-                    </dt>
-                    <dd className="rc-list__content" id={"content-" + index} aria-labelledby={"heading-" + index}>
-                      <p>{item.questions}</p>
-                      {item.img ? <img src={FAQ1} alt="" title="" /> : <span></span>}
-                    </dd>
+            <dl
+              data-toggle-group=""
+              data-toggle-effect="rc-expand--vertical"
+              className=""
+            >
+              {this.state.loading ? (
+                <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
+              ) : (
+                this.state.dataFAQ.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className={`rc-list__accordion-item test-color 
+                  ${this.state.showCur == index ? "showItem" : "hiddenItem"}`}
+                  >
+                    <div
+                      className="rc-list__header"
+                      onClick={() => this.handleSelect(index)}
+                    >
+                      {item.question}
+                      <span
+                        className={`icon-change ${
+                          this.state.showCur == index
+                            ? "rc-icon rc-up rc-brand1"
+                            : "rc-icon rc-down rc-iconography"
+                        }`}
+                        style={{ float: "right" }}
+                      ></span>
+                    </div>
+                    <div className={`rc-list__content `}>
+                      <p>{item.answer}</p>
+                      <img src={item.imgUl}></img>
+                    </div>
                   </div>
                 ))
-              }
-
+              )}
             </dl>
           </div>
         </main>
         <Footer />
       </div>
-    )
+    );
   }
 }
 
-export default FAQ
+export default FAQ;

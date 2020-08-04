@@ -80,7 +80,7 @@ class Filter extends React.Component {
               <header className="rc-filters__header">
                 <button className="rc-md-down rc-stick-left rc-btn rc-btn--icon rc-icon rc-close--xs rc-iconography"
                   type="button" onClick={() => this.props.onToggleFilterModal(false)}></button>
-                <div className="rc-filters__heading rc-padding-top--sm rc-padding-bottom--xs rc-header-with-icon rc-header-with-icon--alpha">
+                <div className="rc-filters__heading rc-padding-top--sm rc-padding-bottom--xs rc-header-with-icon rc-header-with-icon--alpha pt-0 pb-0">
                   <span className="md-up rc-icon rc-filter--xs rc-iconography"></span>
                   <FormattedMessage id="filters" />
                 </div>

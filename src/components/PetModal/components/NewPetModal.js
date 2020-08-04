@@ -132,20 +132,20 @@ export default class NewPetModal extends Component { // 新建Pet
                                     <FormattedMessage id="petName" />
                                 </label>
                                 <span className="rc-input rc-input--label rc-margin--none rc-input--full-width" input-setup="true">
-                          <input
-                              type="text"
-                              className="rc-input__control"
-                              id="petName"
-                              name="petName"
-                              required=""
-                              aria-required="true"
-                              value={form.petName}
-                              onChange={e => this.handleInputChange(e)}
-                              onBlur={e => this.inputBlur(e)}
-                              maxLength="50"
-                              autoComplete="address-line" />
-                          <label className="rc-input__label" htmlFor="petName"></label>
-                        </span>
+                                  <input
+                                      type="text"
+                                      className="rc-input__control"
+                                      id="petName"
+                                      name="petName"
+                                      required=""
+                                      aria-required="true"
+                                      value={form.petName}
+                                      onChange={e => this.handleInputChange(e)}
+                                      onBlur={e => this.inputBlur(e)}
+                                      maxLength="50"
+                                      autoComplete="address-line" />
+                                  <label className="rc-input__label" htmlFor="petName"></label>
+                                </span>
                                 <div className="invalid-feedback" style={{ display: 'none' }}>
                                     <FormattedMessage
                                         id="payment.errorInfo"

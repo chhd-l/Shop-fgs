@@ -1,12 +1,14 @@
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
 import { inject, observer } from 'mobx-react'
+import { toJS } from 'mobx'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import BreadCrumbs from '@/components/BreadCrumbs'
 import ImageMagnifier from '@/components/ImageMagnifier'
 import LoginButton from '@/components/LoginButton'
+import ConfirmTooltip from '@/components/ConfirmTooltip'
 import Reviews from './components/Reviews'
 import Rate from '@/components/Rate'
 import PetModal from '@/components/PetModal'
@@ -15,12 +17,7 @@ import {
   translateHtmlCharater,
   queryProps
 } from '@/utils/utils'
-import {
-  MINIMUM_AMOUNT,
-  STOREID,
-  STORE_CATE_ENUM,
-  SUBSCRIPTION_DISCOUNT_RATE
-} from "@/utils/constant"
+import { STORE_CATE_ENUM } from "@/utils/constant"
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { cloneDeep, findIndex, find } from 'lodash'
 import { getDetails, getLoginDetails } from '@/api/details'
@@ -44,7 +41,9 @@ class Details extends React.Component {
         goodsDescription: "",
         sizeList: [],
         images: [],
-        goodsCategory: ''
+        goodsCategory: '',
+        goodsSpecDetails: [],
+        goodsSpecs: []
       },
       activeTabIdx: 0,
       goodsDetailTab: {
@@ -57,10 +56,11 @@ class Details extends React.Component {
       quantityMinLimit: 1,
       quantityMaxLimit: 30,
       currentUnitPrice: 0,
+      currentLinePrice: 0,
       currentSubscriptionPrice: 0,
       imageMagnifierCfg: {
         show: false,
-        config: {},
+        // config: {},
       },
       loading: true,
       errMsg: "",
@@ -69,14 +69,14 @@ class Details extends React.Component {
       tradePrice: "",
       specList: [],
       tabsValue: [],
-      buyWay: 'Once',
       petModalVisible: false,
       isAdd: 0,
       productRate: 0,
       replyNum: 0,
       goodsId: null,
       minMarketPrice: 0,
-      minSubscriptionPrice: 0
+      minSubscriptionPrice: 0,
+      toolTipVisible: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -107,35 +107,39 @@ class Details extends React.Component {
   get checkoutStore () {
     return this.props.checkoutStore
   }
-
   matchGoods () {
-    let { specList, details, currentUnitPrice, currentSubscriptionPrice, stock } = this.state
+    let { specList, details, currentUnitPrice, currentLinePrice, currentSubscriptionPrice, stock } = this.state
     let selectedArr = []
     let idArr = []
-    let specText = ''
     specList.map(el => {
       if (el.chidren.filter(item => item.selected).length) {
         selectedArr.push(el.chidren.filter(item => item.selected)[0])
       }
     })
     selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId)
-    selectedArr.map(el => {
-      idArr.push(el.specDetailId)
-      specText = specText + el.detailName + ' '
-    })
+    idArr = selectedArr.map(el => el.specDetailId)
     currentUnitPrice = details.marketPrice
     details.sizeList.map(item => {
-      if (item.mockSpecDetailIds.join(',') === idArr.join(',')) {
+      let specTextArr = []
+      for (let specItem of specList) {
+        for (let specDetailItem of specItem.chidren) {
+          if (item.mockSpecIds.includes(specDetailItem.specId) && item.mockSpecDetailIds.includes(specDetailItem.specDetailId)) {
+            specTextArr.push(specDetailItem.detailName)
+          }
+        }
+      }
+      item.specText = specTextArr.join(' ')
+      if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
         item.selected = true
-        item.specText = specText
         currentUnitPrice = item.salePrice
+        currentLinePrice = item.linePrice
         currentSubscriptionPrice = item.subscriptionPrice
         stock = item.stock
       } else {
         item.selected = false
       }
     })
-    this.setState({ details, currentUnitPrice, currentSubscriptionPrice, stock }, () => {
+    this.setState({ details, currentUnitPrice, currentLinePrice, currentSubscriptionPrice, stock }, () => {
       this.updateInstockStatus();
     })
   }
@@ -174,7 +178,7 @@ class Details extends React.Component {
           for (let item of res.context.storeCates) {
             const t = find(STORE_CATE_ENUM, ele => ele.cateName.includes(item.cateName))
             if (t) {
-              this.productRange.push(t.text[this.props.intl && this.props.intl.locale || 'en'])
+              this.productRange.push(t.text)
             }
           }
 
@@ -245,7 +249,7 @@ class Details extends React.Component {
               goodsDetailTab: goodsDetailTab
             })
           } catch (err) {
-            getDict({ type: 'goodsDetailTab', storeId: STOREID })
+            getDict({ type: 'goodsDetailTab', storeId: process.env.REACT_APP_STOREID })
               .then(res => {
                 goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(ele => ele.name)
                 this.setState({
@@ -253,14 +257,29 @@ class Details extends React.Component {
                 })
               })
           }
+          let images = []
+          if (res.context.goodsInfos.every(el => !el.goodsInfoImg)) {
+            if (res.context.images.length) {
+              images = res.context.images
+            }
+          } else {
+            images = res.context.goodsInfos.filter(el => el.goodsInfoImg)
+          }
           this.setState(
             {
               details: Object.assign({},
                 this.state.details,
                 res.context.goods,
-                { sizeList },
+                {
+                  sizeList,
+                  goodsInfos: res.context.goodsInfos,
+                  goodsSpecDetails: res.context.goodsSpecDetails,
+                  goodsSpecs: res.context.goodsSpecs
+                },
                 { goodsCategory: [this.specie, this.productRange.join('&'), this.format.join('&')].join('/') }),
-              images: res.context.images.concat(res.context.goodsInfos),
+              images: images,
+              // images: res.context.images.concat(res.context.goodsInfos),
+              // images: res.context.goodsInfos.every(el => !el.goodsInfoImg)?res.context.images: res.context.goodsInfos,
               specList
             },
             () => {
@@ -375,6 +394,7 @@ class Details extends React.Component {
     // );
   }
   async hanldeAddToCart ({ redirect = false, needLogin = false } = {}) {
+    if (!(!this.state.initing && this.state.instockStatus && this.state.quantity)) return;
     this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
       return false
@@ -403,9 +423,18 @@ class Details extends React.Component {
       }, 1000);
       this.setState({ addToCartLoading: false });
       if (redirect) {
-        if (this.checkoutStore.tradePrice < MINIMUM_AMOUNT) {
+        if (this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />
+            checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
+          })
+          return false
+        }
+
+        // 存在下架商品，不能下单
+        if (this.props.checkoutStore.offShelvesProNames.length) {
+          this.setState({
+            checkOutErrMsg: <FormattedMessage id="cart.errorInfo4"
+              values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />
           })
           return false
         }
@@ -427,6 +456,7 @@ class Details extends React.Component {
     }
   }
   async hanldeUnloginAddToCart ({ redirect = false, needLogin = false }) {
+
     this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
       return false
@@ -436,18 +466,12 @@ class Details extends React.Component {
     const { goodsId, sizeList } = this.state.details;
     const currentSelectedSize = find(sizeList, (s) => s.selected);
     let quantityNew = quantity;
-    let tmpData = Object.assign(
-      {},
-      this.state.details,
-      { quantity: quantityNew },
-      // { currentAmount: currentUnitPrice * quantityNew }
-    );
-    let cartDataCopy = cloneDeep(this.props.checkoutStore.cartData);
+    let tmpData = Object.assign({}, this.state.details, { quantity: quantityNew });
+    let cartDataCopy = cloneDeep(toJS(this.checkoutStore.cartData).filter(el => el));
 
     if (!instockStatus || !quantityNew) {
       return false
     }
-
     this.setState({ addToCartLoading: true });
     let flag = true;
     if (cartDataCopy && cartDataCopy.length) {
@@ -456,7 +480,7 @@ class Details extends React.Component {
         (c) =>
           c.goodsId === goodsId &&
           currentSelectedSize.goodsInfoId ===
-          find(c.sizeList, (s) => s.selected).goodsInfoId
+          c.sizeList.filter((s) => s.selected)[0].goodsInfoId
       );
       if (historyItem) {
         flag = false;
@@ -515,10 +539,18 @@ class Details extends React.Component {
     await this.props.checkoutStore.updateUnloginCart(cartDataCopy)
     this.setState({ addToCartLoading: false });
     if (redirect) {
-      if (this.checkoutStore.tradePrice < MINIMUM_AMOUNT) {
+      if (this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
         this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" />
+          checkOutErrMsg: <FormattedMessage id="cart.errorInfo3"
+            values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
         });
+        return false
+      }
+      if (this.props.checkoutStore.offShelvesProNames.length) {
+        this.setState({
+          checkOutErrMsg: <FormattedMessage id="cart.errorInfo4"
+            values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />
+        })
         return false
       }
       if (this.checkoutStore.outOfstockProNames.length) {
@@ -573,6 +605,22 @@ class Details extends React.Component {
     })
     this.openPetModal()
   }
+  handleAClick() {
+    console.log("预定跳转");
+    let el = document.getElementById("review-container");
+    let length = this.getElementToPageTop(el);
+    console.log("长度：", length);
+    window.scrollTo({
+      top: length - 80,
+      behavior: "smooth",
+    });
+  }
+  getElementToPageTop(el) {
+    if (el.parentElement) {
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
+    }
+    return el.offsetTop;
+  }
   render () {
     const createMarkup = (text) => ({ __html: text });
     const {
@@ -583,6 +631,7 @@ class Details extends React.Component {
       quantityMinLimit,
       instockStatus,
       currentUnitPrice,
+      currentLinePrice,
       currentSubscriptionPrice,
       errMsg,
       addToCartLoading,
@@ -623,9 +672,9 @@ class Details extends React.Component {
             </div>
           </main>
         ) : (
-            <main className="rc-content--fixed-header">
+            <main className="rc-content--fixed-header ">
               <div className="product-detail product-wrapper rc-bg-colour--brand3">
-                <div className="rc-max-width--xl">
+                <div className="rc-max-width--xl mb-4">
                   <BreadCrumbs />
                   <div className="rc-padding--sm--desktop">
                     <div className="rc-content-h-top">
@@ -664,23 +713,22 @@ class Details extends React.Component {
                           ) : (
                               <div className="wrap-short-des">
                                 <h1
-                                  className="rc-gamma ui-text-overflow-line2 text-break"
+                                  className="rc-gamma ui-text-overflow-line2 text-break mb-0"
                                   title={details.goodsName}>
                                   {details.goodsName}
                                 </h1>
                                 <div className="rc-card__price flex-inline">
                                   <div className="display-inline" >
                                     <Rate def={this.state.productRate} disabled={true} /></div>
-                                  <a href="#review-container" className='comments rc-margin-left--xs rc-text-colour--text'>{this.state.replyNum} <FormattedMessage id="reviews" /></a>
+                                    <a
+                                href="javascript:;"
+                                className="comments rc-margin-left--xs rc-text-colour--text"
+                                onClick={this.handleAClick.bind(this)}
+                              >
+                                    {this.state.replyNum} <FormattedMessage id="reviews" />
+                                  </a>
                                 </div>
-                                <h3 className="text-break">{details.goodsSubtitle}</h3>
-                                <h3 className="text-break">
-                                  <div className="rating-stars hidden-lg-down">
-                                    <div className="product-number-rating clearfix">
-                                      <div className="ratings pull-left"></div>
-                                    </div>
-                                  </div>
-                                </h3>
+                                <h3 className="text-break mb-1 mt-2">{details.goodsSubtitle}</h3>
                                 <div
                                   className="description"
                                   dangerouslySetInnerHTML={createMarkup(
@@ -699,40 +747,59 @@ class Details extends React.Component {
                                   className="product-pricing__card singlepruchase selected"
                                   data-buybox="singlepruchase"
                                 >
-                                  <div className="product-pricing__card__head d-flex align-items-center">
-                                    <div className="rc-input product-pricing__card__head__title">
-                                      <FormattedMessage id="details.unitPrice" />
+                                  {!initing && <>
+                                    {
+                                      currentLinePrice && currentLinePrice > 0
+                                        ? <div className="product-pricing__card__head d-flex align-items-center">
+                                          <div className="rc-input product-pricing__card__head__title">
+                                            <FormattedMessage id="listPrice" />
+                                          </div>
+                                          <b className="product-pricing__card__head__price red rc-padding-y--none text-line-through">
+                                            {formatMoney(currentLinePrice)}
+                                          </b>
+                                        </div>
+                                        : null
+                                    }
+                                    <div className="product-pricing__card__head d-flex align-items-center">
+                                      < div className="rc-input product-pricing__card__head__title">
+                                        <FormattedMessage id="price" />
+                                      </div>
+                                      <b className="product-pricing__card__head__price red rc-padding-y--none">
+                                        {formatMoney(currentUnitPrice)}
+                                      </b>
                                     </div>
-
-                                    <b className="product-pricing__card__head__price red rc-padding-y--none">
-                                      {initing ? '--' : formatMoney(currentUnitPrice)}
-                                      {/*{initing ? '--' : formatMoney(this.state.minMarketPrice )}*/}
-                                    </b>
-                                  </div>
+                                  </>}
                                   {
                                     find(details.sizeList, s => s.selected) && find(details.sizeList, s => s.selected).subscriptionStatus
                                       ? <>
-                                        <div className="product-pricing__card__head d-flex align-items-center">
-                                          <span className="rc-icon rc-refresh--xs rc-brand1 position-absolute" style={{ transform: 'translate(-100%, 8%)' }}></span>
-                                          <div className="rc-input product-pricing__card__head__title">
-                                            <FormattedMessage id="details.Subscription" />
-                                            <span className="red" style={{ fontSize: '.8em' }}>
-                                              {' '}
-                                              (<FormattedMessage id="save" />{' '}{SUBSCRIPTION_DISCOUNT_RATE})
-                                            </span>
+                                        {
+                                          !initing && <div className="product-pricing__card__head d-flex align-items-center">
+                                            <div className="rc-input product-pricing__card__head__title">
+                                              <FormattedMessage id="autoship" />
+                                              <span
+                                                className="info-tooltip delivery-method-tooltip"
+                                                onClick={() => {
+                                                  this.setState({
+                                                    toolTipVisible: !this.state.toolTipVisible
+                                                  })
+                                                }}>i</span>
+                                              <ConfirmTooltip
+                                                arrowStyle={{ left: '35%' }}
+                                                display={this.state.toolTipVisible}
+                                                cancelBtnVisible={false}
+                                                confirmBtnVisible={false}
+                                                updateChildDisplay={status => this.setState({ toolTipVisible: status })}
+                                                content={<FormattedMessage id="subscription.promotionTip2" />} />
+                                            </div>
+                                            <b className="product-pricing__card__head__price red rc-padding-y--none">
+                                              {formatMoney(currentSubscriptionPrice || 0)}
+                                            </b>
                                           </div>
-                                          <b className="product-pricing__card__head__price red rc-padding-y--none">
-                                            {initing ? '--' : formatMoney(currentSubscriptionPrice || 0)}
-                                            {/*{initing ? '--' : formatMoney(this.state.minSubscriptionPrice || 0)}*/}
-                                          </b>
-                                        </div>
-                                        <span className="red" style={{ fontSize: '.9em' }}>
-                                          <FormattedMessage id="subscription.promotionTip2" />
-                                        </span>
+                                        }
                                       </>
                                       : null
                                   }
-                                  {details &&
+                                  {/* {details &&
                                     find(details.sizeList, (s) => s.selected) &&
                                     find(details.sizeList, (s) => s.selected)
                                       .marketingLabels[0] &&
@@ -746,7 +813,7 @@ class Details extends React.Component {
                                           <span>25% OFF</span>
                                         </div>
                                       </div>
-                                    ) : null}
+                                    ) : null} */}
                                   <div className="product-pricing__card__body rc-margin-top--xs">
                                     <div className="toggleVisibility">
                                       <div className="product-selectors rc-padding-top--xs">
@@ -958,58 +1025,58 @@ class Details extends React.Component {
                               </div>
                             ) : null}
                         </div>
+
                       </div>
                     </div>
                   </div>
                 </div>
-
+              </div>
+              <div >
                 {
                   this.state.goodsDetailTab.tabName.length
-                    ? <div className="rc-max-width--xl rc-padding-x--sm">
-                      <div className="rc-match-heights rc-content-h-middle rc-reverse-layout rc-padding-bottom--lg">
-                        <div>
-                          <div className="rc-border-bottom rc-border-colour--interface">
-                            <nav className="rc-fade--x">
-                              <ul className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist">
-                                {this.state.goodsDetailTab.tabName.map((ele, index) => (
-                                  <li key={index}>
-                                    <button
-                                      className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
-                                      data-toggle={`tab__panel-${index}`}
-                                      aria-selected={this.state.activeTabIdx === index ? 'true' : 'false'}
-                                      role="tab"
-                                      onClick={e => this.changeTab(e, index)}>
-                                      {ele}
-                                    </button>
-                                  </li>
-                                ))}
-                              </ul>
-                            </nav>
-                          </div>
-                          <div className="rc-tabs tabs-detail" style={{ marginTop: '40px' }}>
-                            {this.state.goodsDetailTab.tabContent.map((ele, i) => (
-                              <div
-                                id={`tab__panel-${i}`}
-                                key={i}
-                                className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
-                                aria-expanded={this.state.activeTabIdx === i ? 'true' : 'false'}
-                              >
-                                <div className="block">
-                                  <p
-                                    className="content rc-scroll--x"
-                                    dangerouslySetInnerHTML={createMarkup(ele)} />
-                                </div>
-                              </div>
-                            ))}
+                      ? <div className="rc-max-width--xl rc-padding-x--sm">
+                        <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
+                          <div>
+                            <div className="rc-border-bottom rc-border-colour--interface">
+                              <nav className="rc-fade--x">
+                                <ul className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist">
+                                  {this.state.goodsDetailTab.tabName.map((ele, index) => (
+                                      <li key={index}>
+                                        <button
+                                            className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                                            data-toggle={`tab__panel-${index}`}
+                                            aria-selected={this.state.activeTabIdx === index ? 'true' : 'false'}
+                                            role="tab"
+                                            onClick={e => this.changeTab(e, index)}>
+                                          {ele}
+                                        </button>
+                                      </li>
+                                  ))}
+                                </ul>
+                              </nav>
+                            </div>
+                            <div className="rc-tabs tabs-detail" style={{ marginTop: '40px' }}>
+                              {this.state.goodsDetailTab.tabContent.map((ele, i) => (
+                                  <div
+                                      id={`tab__panel-${i}`}
+                                      key={i}
+                                      className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
+                                      aria-expanded={this.state.activeTabIdx === i ? 'true' : 'false'}
+                                  >
+                                    <div className="block">
+                                      <p
+                                          className="content rc-scroll--x"
+                                          dangerouslySetInnerHTML={createMarkup(ele)} />
+                                    </div>
+                                  </div>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    : null
+                      : null
                 }
               </div>
-
-
               <div id="review-container">
                 <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
               </div>
@@ -1063,8 +1130,10 @@ class Details extends React.Component {
                 </div>
               </div>
             </main>
-          )}
+          )
+        }
         <Footer />
+
         {/* <PetModal visible={this.state.petModalVisible}
           isAdd={this.state.isAdd}
           productList={this.state.productList}
@@ -1072,7 +1141,7 @@ class Details extends React.Component {
           closeNew={() => this.closeNew()}
           confirm={() => this.petComfirm()}
           close={() => this.closePetModal()} /> */}
-      </div>
+      </div >
     );
   }
 }
