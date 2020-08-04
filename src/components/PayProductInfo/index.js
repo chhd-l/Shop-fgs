@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import { find } from 'lodash'
 import { formatMoney } from "@/utils/utils"
+import { getOrderDetails } from "@/api/order"
 
 @inject("checkoutStore", "loginStore")
 @observer
@@ -36,13 +37,44 @@ class PayProductInfo extends React.Component {
     //       this.setState({isShowValidCode:false})
     //     }
   }
-  componentDidMount () {
+  async componentDidMount () {
+    
     let productList
-    if (this.isLogin) {
-      productList = this.props.checkoutStore.loginCartData
-    } else {
-      productList = this.props.checkoutStore.cartData.filter(ele => ele.selected)
+    if(window.location.pathname === '/confirmation') {
+      let res = await getOrderDetails(sessionStorage.getItem('orderNumber'))
+      productList = res.context.tradeItems.map(el => {
+        if(this.isLogin) {
+          return {
+            goodsInfoImg: el.pic,
+            goodsName: el.skuName,
+            specText: el.specDetails,
+            buyCount: el.num,
+            salePrice: el.price,
+          }
+        }else {
+          return {
+            sizeList: [{
+              goodsInfoImg: el.pic,
+              specText: el.specDetails,
+              buyCount: el.num,
+              salePrice: el.price,
+              selected: true
+            }],
+            goodsName: el.skuName,
+            quantity: el.num,
+            currentAmount: el.price * el.num
+          }
+        }
+        
+      })
+    }else {
+      if (this.isLogin) {
+        productList = this.props.checkoutStore.loginCartData
+      } else {
+        productList = this.props.checkoutStore.cartData.filter(ele => ele.selected)
+      }
     }
+    
     this.setState(Object.assign({
       productList: productList || []
     }));
@@ -108,6 +140,7 @@ class PayProductInfo extends React.Component {
     return el.subscriptionStatus && this.props.buyWay === 'frequency'
   }
   getProductsForLogin (plist) {
+    console.log(plist, 'aaa')
     const List = plist.map((el, i) => {
       return (
         <div className="product-summary__products__item" key={i}>

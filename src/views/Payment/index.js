@@ -285,56 +285,34 @@ class Payment extends React.Component {
   }
   //2.进行支付
   async adyenPayment () {
+    var orderNumber =  sessionStorage.getItem("orderNumber");
+    console.log(orderNumber)
     try {
       var addressParameter = await this.goConfirmation();
       var parameters = Object.assign(addressParameter, {
         ...this.state.adyenPayParam
       }, { country: "MEX" });//国家暂时填的任意,后台接口需要
-     
-
-      // const tmpCommitAndPay = this.isLogin
-      //   ? this.tid
-      //     ? rePay
-      //     : this.subForm.buyWay === "frequency"
-      //       ? customerCommitAndPayMix
-      //       : customerCommitAndPay
-      //   : confirmAndCommit;
-        
-      //   console.log(this.isLogin)
-      //   console.log(this.tid)
-      //   console.log(tmpCommitAndPay)
-      //   debugger
-
-      // const confirmAndCommitRes = await tmpCommitAndPay(parameters);
-      // console.log(confirmAndCommitRes);
-
-      // const confirmAndCommitResContext = confirmAndCommitRes.context;
-      // sessionStorage.setItem(
-      //   "orderNumber",
-      //   (confirmAndCommitResContext && confirmAndCommitResContext[0]["tid"]) ||
-      //   this.tid
-      // );
-      // sessionStorage.setItem(
-      //   "subNumber",
-      //   (confirmAndCommitResContext &&
-      //     confirmAndCommitResContext[0]["subscribeId"]) ||
-      //   ""
-      // );
-      // sessionStorage.setItem(
-      //   "rc-tid",
-      //   (confirmAndCommitResContext &&
-      //     confirmAndCommitResContext[0]["tid"]) ||
-      //   ""
-      // );
 
       let res = {}
-      if(this.state.subForm.buyWay == "once"){
-        res = await customerCommitAndPay(parameters);
-        //res = await confirmAndCommit(parameters);
+      if(orderNumber){//存在订单号,进行repay
+        res = await rePay(parameters)
       }else{
-        res = await customerCommitAndPayMix(parameters);
+        if(this.isLogin){//会员正常
+          if(this.state.subForm.buyWay == "once"||this.state.subForm.buyWay == ""){//正常购买非订阅
+            var param =  Object.assign(parameters,{deliveryAddressId:this.deliveryAddress.addressId},
+            {billAddressId:this.billingAddress.addressId})
+            res = await customerCommitAndPay(param);
+           
+          }else{//会员订阅
+            res = await customerCommitAndPayMix(parameters);
+          }
+          res = await customerCommitAndPay(parameters);
+        }else{//游客
+            res = await confirmAndCommit(parameters);
+        }
       }
       
+          
       if (res.code === "K-000000") {
         var orderNumber =  res.context[0].tid;
         sessionStorage.setItem("orderNumber", orderNumber);
@@ -632,7 +610,6 @@ class Payment extends React.Component {
         tradeMarketingList.push(param)
       }
     }
-
     let param3 = {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
