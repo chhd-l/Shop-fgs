@@ -117,6 +117,7 @@ class ReviewForm extends React.Component {
                     def={0}
                     disabled={false}
                     selectRate={(rate) => this.selectProductRate(rate)}
+                    marginSize={'.5rem'}
                   ></Rate>
                 </div>
               </div>

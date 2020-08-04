@@ -428,7 +428,7 @@ class List extends React.Component {
                                             </div>
                                             <div className={`rc-card__price text-center`}>
                                               <div className="display-inline">
-                                                <Rate def={item.avgEvaluate} disabled={true} />
+                                                <Rate def={item.avgEvaluate} disabled={true}  marginSize="-.2rem"/>
                                               </div>
                                               <span className='comments rc-margin-left--xs rc-text-colour--text'>({item.goodsEvaluateNum})</span>
                                             </div>

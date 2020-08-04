@@ -46,7 +46,7 @@ const breadcrumbNameMap = {
   '/account/productReview/:tid': [
     { name: 'account.personalArea', href: '/account' },
     { name: 'orders', href: '/account/orders' },
-    { name: 'productReview'}
+    { name: 'Product Review'}
   ],
 
   '/account/subscription-detail/:subscriptionNumber': [
