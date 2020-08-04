@@ -285,7 +285,7 @@ class Payment extends React.Component {
   }
   //2.进行支付
   async adyenPayment () {
-    var orderNumber =  sessionStorage.getItem("orderNumber");
+    var orderNumber = sessionStorage.getItem("orderNumber");
     console.log(orderNumber)
     try {
       var addressParameter = await this.goConfirmation();
@@ -294,27 +294,27 @@ class Payment extends React.Component {
       }, { country: "MEX" });//国家暂时填的任意,后台接口需要
 
       let res = {}
-      if(orderNumber){//存在订单号,进行repay
+      if (orderNumber) {//存在订单号,进行repay
         res = await rePay(parameters)
-      }else{
-        if(this.isLogin){//会员正常
-          if(this.state.subForm.buyWay == "once"||this.state.subForm.buyWay == ""){//正常购买非订阅
-            var param =  Object.assign(parameters,{deliveryAddressId:this.deliveryAddress.addressId},
-            {billAddressId:this.billingAddress.addressId})
+      } else {
+        if (this.isLogin) {//会员正常
+          if (this.state.subForm.buyWay == "once" || this.state.subForm.buyWay == "") {//正常购买非订阅
+            var param = Object.assign(parameters, { deliveryAddressId: this.deliveryAddress.addressId },
+              { billAddressId: this.billingAddress.addressId })
             res = await customerCommitAndPay(param);
-           
-          }else{//会员订阅
+
+          } else {//会员订阅
             res = await customerCommitAndPayMix(parameters);
           }
           res = await customerCommitAndPay(parameters);
-        }else{//游客
-            res = await confirmAndCommit(parameters);
+        } else {//游客
+          res = await confirmAndCommit(parameters);
         }
       }
-      
-          
+
+
       if (res.code === "K-000000") {
-        var orderNumber =  res.context[0].tid;
+        var orderNumber = res.context[0].tid;
         sessionStorage.setItem("orderNumber", orderNumber);
         this.props.history.push("/confirmation");
       }
@@ -1128,6 +1128,7 @@ class Payment extends React.Component {
                         ) ? <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-4">
                           <div className="card-header bg-transparent pt-0 pb-0">
                             <h5>
+                              <span className="iconfont font-weight-bold mr-2">&#xe657;</span>
                               <FormattedMessage id="subscription.chooseSubscription" />
                             </h5>
                           </div>

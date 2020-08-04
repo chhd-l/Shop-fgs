@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "11963375",
+      "name": "钉子",
+      "font_class": "dingzi",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
       "icon_id": "6760140",
       "name": "calendar",
       "font_class": "calendar",

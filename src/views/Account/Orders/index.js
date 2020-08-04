@@ -454,7 +454,7 @@ class AccountOrders extends React.Component {
                                       }
                                       {
                                         order.showOXXOExpireTime && <span className="red">
-                                          <FormattedMessage id="order.expireTime" />: <br />{order.orderTimeOut}
+                                          <FormattedMessage id="order.expireTime" />: <br />{order.orderTimeOut.substr(0,16)}
                                         </span>
                                       }
                                       {
