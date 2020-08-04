@@ -10,7 +10,6 @@ const BreadCrumbs = withRouter(props => {
   const url = location.pathname
 
   let mapData = breadcrumbNameMap[url] || breadcrumbNameMap[match.path] || []
-
   // specific for keywords search
   if (url.indexOf('/list/keywords') > -1 && !mapData.length) {
     mapData = breadcrumbNameMap['/list/keywords']

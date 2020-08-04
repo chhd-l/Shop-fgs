@@ -265,6 +265,7 @@ class ProductReview extends React.Component {
           history={this.props.history}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          {console.log(this.props)}
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
@@ -282,11 +283,11 @@ class ProductReview extends React.Component {
                   <div>
                     <div className="rc-border-bottom rc-border-colour--interface ">
                       <div className="rc-margin--none">
-                        <div className="">
+                        <div className=""  style={{}}>
                           <div className="rc-column">
                             <div>
                               <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
-                                <span className="rc-font-bold">
+                                <span className="rc-font-bold"  style={{fontWeight:'500'}}>
                                   <FormattedMessage id="purchaseRating"></FormattedMessage>
                                 </span>
                               </span>
@@ -309,7 +310,7 @@ class ProductReview extends React.Component {
                           <div className="rc-column">
                             <div>
                               <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
-                                <span className="rc-font-bold">
+                                <span className="rc-font-bold"  style={{fontWeight:'500'}} >
                                   <FormattedMessage id="logisticsRating"></FormattedMessage>
                                 </span>
                               </span>
@@ -335,7 +336,7 @@ class ProductReview extends React.Component {
                       <div className="rc-column">
                         <div className="rc-padding-top--xs">
                           <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
-                            <span className="rc-font-bold ">
+                            <span className="rc-font-bold "  style={{fontWeight:'500'}}>
                               <FormattedMessage id="productRating" />
                             </span>
                           </span>

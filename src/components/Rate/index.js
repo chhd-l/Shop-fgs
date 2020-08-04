@@ -85,7 +85,7 @@ export default class Rate extends Component {
                 <span
                   className="rc-icon rc-margin-bottom--xs rc-rate-fill--xs half-star"
                   disabled={this.state.disabled}
-                  style={{marginRight:'-.2rem'}}
+                  style={{marginRight:'.5rem'}}
                 ></span>
               ) : (
                 <span
