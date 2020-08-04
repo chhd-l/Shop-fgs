@@ -13,7 +13,8 @@ const api = {
   customerCommitAndPay: 'tradeCustom/customerCommitAndPay',
   rePay: 'tradeCustom/rePay',
   customerCommitAndPayMix: '/tradeCustom/customerCommitAndPayMix',
-  getMarketingDiscount: '/marketing/getMarketingDiscount'
+  getMarketingDiscount: '/marketing/getMarketingDiscount',
+  getWays:'/PayGateway/gateways'
 }
 
 export default api
@@ -94,6 +95,14 @@ export function getMarketingDiscount (parameter) {
   return axios({
     url: api.getMarketingDiscount,
     method: 'post',
+    data: parameter
+  })
+}
+
+export function getWays (parameter) {
+  return axios({
+    url: api.getWays,
+    method: 'get',
     data: parameter
   })
 }

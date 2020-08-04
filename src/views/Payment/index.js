@@ -21,7 +21,8 @@ import {
   confirmAndCommit,
   customerCommitAndPay,
   rePay,
-  customerCommitAndPayMix
+  customerCommitAndPayMix,
+  getWays
 } from "@/api/payment";
 import PaymentComp from "@/components/PaymentComp";
 import store from "storejs";
@@ -135,6 +136,10 @@ class Payment extends React.Component {
     this.loginBillingAddressRef = React.createRef();
   }
   async componentDidMount () {
+    //获取支付方式
+    const payWay = await getWays()
+    console.log(payWay)
+
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -273,7 +278,6 @@ class Payment extends React.Component {
             this.setState({
               adyenPayParam
             }, () => {
-              console.log({ adyenPayParam: this.state.adyenPayParam })
               this.adyenPayment()
             })
           }
@@ -283,10 +287,30 @@ class Payment extends React.Component {
       .mount('#card-container');
 
   }
+  //支付接口
+  // paymentInterface(){
+  //   var strategies = {
+  //     "repay": (params)=>{
+  //       return rePay(params)
+  //     },
+  //     "loginOnce":(params)=>{
+  //       return customerCommitAndPay(params)
+  //     },
+  //     "loginFrequency":(params)=>{
+  //       return customerCommitAndPayMix(params)
+  //     },
+  //     "unLogin":(params)=>{
+  //       return confirmAndCommit(params)
+  //     }
+  //   }
+
+  //   var payWay = (type,params)=>{
+  //     return strategies[type](params)
+  //   }
+  // }
   //2.进行支付
   async adyenPayment () {
-    var orderNumber =  sessionStorage.getItem("orderNumber");
-    console.log(orderNumber)
+    this.saveAddressAndComment()//获取两个addressId
     try {
       var addressParameter = await this.goConfirmation();
       var parameters = Object.assign(addressParameter, {
@@ -294,19 +318,23 @@ class Payment extends React.Component {
       }, { country: "MEX" });//国家暂时填的任意,后台接口需要
 
       let res = {}
-      if(orderNumber){//存在订单号,进行repay
-        res = await rePay(parameters)
+      if(this.tid){//存在订单号,进行repay
+        var param =  Object.assign(parameters,{deliveryAddressId:this.state.deliveryAddress.addressId},
+          {billAddressId:this.state.billingAddress.addressId})
+        res = await rePay(param)
       }else{
         if(this.isLogin){//会员正常
           if(this.state.subForm.buyWay == "once"||this.state.subForm.buyWay == ""){//正常购买非订阅
-            var param =  Object.assign(parameters,{deliveryAddressId:this.deliveryAddress.addressId},
-            {billAddressId:this.billingAddress.addressId})
+            var param =  Object.assign(parameters,{deliveryAddressId:this.state.deliveryAddress.addressId},
+            {billAddressId:this.state.billingAddress.addressId})
             res = await customerCommitAndPay(param);
            
           }else{//会员订阅
-            res = await customerCommitAndPayMix(parameters);
+            var phone = store.get("deliveryInfo").deliveryAddress.phoneNumber;//获取电话号码
+            var param =  Object.assign(parameters,{deliveryAddressId:this.state.deliveryAddress.addressId},
+              {billAddressId:this.state.billingAddress.addressId},{phone})
+            res = await customerCommitAndPayMix(param);
           }
-          res = await customerCommitAndPay(parameters);
         }else{//游客
             res = await confirmAndCommit(parameters);
         }
@@ -319,6 +347,9 @@ class Payment extends React.Component {
         this.props.history.push("/confirmation");
       }
     } catch (err) {
+      if (err.errorData) {
+        this.tid = err.errorData;
+      }
       this.showErrorMsg(this.props.intl.messages.adyenPayFail);
     } finally {
       this.endLoading()
@@ -677,6 +708,7 @@ class Payment extends React.Component {
           param3.paymentMethodId = creditCardInfo.id;
         }
       }
+
       // rePay
       if (this.tid) {
         param3.tid = this.tid;

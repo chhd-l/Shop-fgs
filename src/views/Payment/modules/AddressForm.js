@@ -17,7 +17,8 @@ export default class AddressForm extends React.Component {
         country: '',
         city: '',
         postCode: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        email:'',//adyen支付需要
       },
       cityList: [],
       countryList: []
