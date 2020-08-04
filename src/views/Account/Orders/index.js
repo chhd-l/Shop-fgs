@@ -39,15 +39,14 @@ class AccountOrders extends React.Component {
       orderList: [],
       form: {
         orderNumber: "",
-        period :7
+        period: 7,
       },
       loading: true,
       currentPage: 1,
       totalPage: 1,
       initing: true,
       errMsg: "",
-      duringTimeOptions: [
-      ],
+      duringTimeOptions: [],
       defaultLocalDateTime: "",
       haveList: true,
     };
@@ -73,7 +72,7 @@ class AccountOrders extends React.Component {
       res.map((item) => {
         let value, values;
         if (item.valueEn == 7) {
-          value =item.valueEn
+          value = item.valueEn;
           values = 7;
           return {
             value: value,
@@ -82,7 +81,7 @@ class AccountOrders extends React.Component {
             ),
           };
         } else if (item.valueEn == 30) {
-          value =item.valueEn
+          value = item.valueEn;
           values = 30;
           return {
             value: value,
@@ -91,8 +90,8 @@ class AccountOrders extends React.Component {
             ),
           };
         } else {
-          value =item.valueEn
-          values = item.valueEn/30;
+          value = item.valueEn;
+          values = item.valueEn / 30;
           return {
             value: value,
             name: (
@@ -104,11 +103,14 @@ class AccountOrders extends React.Component {
           };
         }
       });
-    this.setState({
-      duringTimeOptions: duringTimeOptions,
-    },()=>{
-      console.log(this.state.duringTimeOptions)
-    });
+    this.setState(
+      {
+        duringTimeOptions: duringTimeOptions,
+      },
+      () => {
+        console.log(this.state.duringTimeOptions);
+      }
+    );
   }
   handleDuringTimeChange(data) {
     // console.log("获取当前选择的天气",data,this.state.form.period)
@@ -151,11 +153,11 @@ class AccountOrders extends React.Component {
       keywords: form.orderNumber,
       pageNum: currentPage - 1,
       pageSize: this.pageSize,
-      period :form.period
+      period: form.period,
     };
     getOrderList(param)
       .then((res) => {
-        console.log("paramas:",param)
+        console.log("paramas:", param);
         let tmpList = Array.from(res.context.content, (ele) => {
           const tradeState = ele.tradeState;
           return Object.assign(ele, {
