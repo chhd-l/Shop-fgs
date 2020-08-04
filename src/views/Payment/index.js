@@ -1019,7 +1019,7 @@ class Payment extends React.Component {
                                 style={{ width: '15px', height: '15px' }}
                               />
                               <label className="rc-input__label--inline" htmlFor="id-checkbox-billing">
-                                <FormattedMessage id="payment.useDeliveryAddress" />
+                                <FormattedMessage id="biliingAddressSameAs" />
                               </label>
                             </div>
                           </div>

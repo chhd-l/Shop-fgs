@@ -545,13 +545,7 @@ class PaymentComp extends React.Component {
       <div
         style={{display: this.props.show === true?'block': 'none'}}
         id="PaymentComp"
-        className={`loginCardBox ${isLogin ? "" : "hidden"} ${
-          (this.state.isEdit &&
-            window.location.pathname === "/payment/payment") ||
-            (!this.state.creditCardList.length && pathname !== '/account/paymentMethod')
-            ? ""
-            : ""
-          }`}
+        className={`loginCardBox ${isLogin ? "" : "hidden"}`}
       >
         {this.state.loading ? <Loading positionFixed="true" /> : null}
         <div
@@ -574,7 +568,7 @@ class PaymentComp extends React.Component {
                 />
               )}
           </span>
-          <span
+          {/* <span
             className="red font-weight-normal ui-cursor-pointer d-flex align-items-center"
             onClick={() => {
               this.setState({ isEdit: true }, () => {
@@ -587,7 +581,7 @@ class PaymentComp extends React.Component {
             <span style={{ marginTop: -3 }}>
               <FormattedMessage id="addNewCreditCard" />
             </span>
-          </span>
+          </span> */}
         </div>
         {/* <div className="addbox" onClick={() => this.openCreatePage()}>
           <div id="cross"></div>
@@ -601,7 +595,7 @@ class PaymentComp extends React.Component {
           ) : this.state.listErr ? (
             <div className="text-center p-4">{this.state.listErr}</div>
           ) : (
-                <div className="border">
+                <>
                   <div
                     className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
                       this.state.errorMsg ? "" : "hidden"
@@ -630,9 +624,9 @@ class PaymentComp extends React.Component {
                   {creditCardList.map((el, idx) => {
                     return (
                       <div
-                        className={`pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer ${
+                        className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border border-blue ${
                           el.selected ? "active" : ""
-                          }`}
+                          } ${idx !== creditCardList.length - 1 ? 'border-bottom-0' : ''}`}
                         key={idx}
                         onClick={() => {
                           if (pathname !== '/account/paymentMethod') {
@@ -843,40 +837,32 @@ class PaymentComp extends React.Component {
                       </div>
                     );
                   })}
-                </div>
+                  <div
+                    className="p-4 border text-center mt-2 rounded ui-cursor-pointer font-weight-normal"
+                    ref={(node) => {
+                      if (node) {
+                        node.style.setProperty('border-width', '.1rem', 'important');
+                        node.style.setProperty('border-style', 'dashed', 'important');
+                      }
+                    }}
+                    onClick={() => {
+                      this.setState({ isEdit: true }, () => {
+                        this.scrollToPaymentComp();
+                      });
+                      this.initCardInfo();
+                    }}>
+                    <a className="rc-styled-link">
+                      <FormattedMessage id="addNewCreditCard" />
+                    </a>
+                  </div>
+                </>
               )
         ) : null}
-        {/* {window.location.pathname !== "/payment/payment" && !this.state.isEdit && (
-          <div
-            className="addbox"
-            onClick={() => {
-              this.setState({ isEdit: true });
-              this.initCardInfo();
-            }}
-          >
-            <div id="cross"></div>
-          </div>
-        )} */}
-
         <div
-          className="credit-card-content"
+          className={`credit-card-content ${this.state.isEdit || (!this.state.creditCardList.length && pathname !== '/account/paymentMethod') ? "" : "hidden"}`}
           id="credit-card-content"
-          style={{
-            display:
-              this.state.isEdit || (!this.state.creditCardList.length && pathname !== '/account/paymentMethod')
-                ? "block"
-                : "none",
-          }}
         >
-          <div
-            className={`creditCompleteInfoBox pb-3`}
-            style={{
-              display:
-                this.state.completeCardShow && (!this.state.creditCardList.length && pathname !== '/account/paymentMethod')
-                  ? "block"
-                  : "none",
-            }}
-          >
+          <div className={`creditCompleteInfoBox pb-3 ${this.state.completeCardShow && (!this.state.creditCardList.length && pathname !== '/account/paymentMethod') ? "" : "hidden"}`}          >
             <p>
               <span
                 className="pull-right ui-cursor-pointer-pure mr-2"
@@ -898,7 +884,6 @@ class PaymentComp extends React.Component {
                       ? CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]
                       : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                   }
-                  alt=""
                 />
               </div>
               <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
@@ -935,16 +920,11 @@ class PaymentComp extends React.Component {
               </div>
             </div>
           </div>
-          <div
-            className="credit-card-form "
-            style={{ display: !this.state.completeCardShow ? "block" : "none" }}
-          >
+          <div className={`credit-card-form ${!this.state.completeCardShow ? "" : "hidden"}`}>
             <div className="rc-margin-bottom--xs">
               <div className="content-asset">
                 <div
-                  className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                    this.state.errorMsg ? "" : "hidden"
-                    }`}
+                  className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? "" : "hidden"}`}
                 >
                   <aside
                     className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
