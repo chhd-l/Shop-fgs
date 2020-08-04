@@ -327,7 +327,7 @@ class LoginCart extends React.Component {
                               <i></i>
                             </span>
                           </div> */}
-                          {pitem.goodsSpecs.map((sItem, i) => (
+                          {(pitem.goodsSpecs || []).map((sItem, i) => (
                             <div key={i} className="overflow-hidden">
                               <div className="text-left ml-1">{sItem.specName}:</div>
                               {sItem.chidren.map((sdItem, i2) => (
