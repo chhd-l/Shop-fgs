@@ -216,7 +216,7 @@ class Reviews extends React.Component {
               <div >
                 <div className="rc-max-width--xl rc-padding-x--sm">
                   <div className="rc-column padl0" style={{marginBottom:'2rem'}}>
-                  <div className="red-text" style={{fontSize:'20px'}}>
+                  <div className="red-text" style={{fontSize:'26px'}}>
                       <FormattedMessage id="customerReviews" />
                     </div>
                   </div>
@@ -262,7 +262,7 @@ class Reviews extends React.Component {
                                   <div className="rc-column padl0 padr0">
                                     <div className="">
                                       {/*rc-padding--xs--desktop rc-padding--sm--mobile*/}
-                                      <div className="red-text" style={{fontSize:'20px'}}>{item.commentator}</div>
+                                      <div className="red-text" style={{fontSize:'23px'}}>{item.commentator}</div>
                                       <div style={{ 'fontSize': '14px' ,marginTop:'.3rem'}}>{item.commentTime}</div>
                                     </div>
                                   </div>
@@ -270,7 +270,7 @@ class Reviews extends React.Component {
                                     <div className="">
                                       <Rate def={item.evaluateScore} disabled={true} />
                                       <div style={{ marginTop: '.1rem', marginBottom: '.7rem',fontSize:'20px' }}>{item.evaluateReviewTitle}</div>
-                                      <div className="break mgt-10 mgb-3">{item.title}</div>
+                                      <div className="break mgt-10 mgb-3" style={{fontSize:'18px'}}>{item.title}</div>
                                       {/*{item.description}*/}
                                       <div className="img-box rc-margin-bottom--xs rc-margin-top--xs flex-wrap align-items-start">
                                         {

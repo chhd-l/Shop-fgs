@@ -223,7 +223,9 @@ class Footer extends React.Component {
           </div>
         </div>
         {/* <!-- OneTrust Cookies Settings button start --> */}
-        <a className="optanon-show-settings">Cookie Settings</a>
+        {process.env.REACT_APP_LANG === 'de'
+          ? <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button>
+          : <a className="optanon-show-settings">Cookie Settings</a>}
         {/* <!-- OneTrust Cookies Settings button end --> */}
       </footer>
     )

@@ -11,7 +11,6 @@ import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
 import successImg from "@/assets/images/credit-cards/success.png"
 import { find } from "lodash"
-import { GTM_SITE_ID } from "@/utils/constant"
 import { addEvaluate } from "@/api/order"
 import store from 'storejs'
 import "./index.css"
@@ -174,9 +173,9 @@ class Confirmation extends React.Component {
         }
       };
       eEvents = {
-        event: `${GTM_SITE_ID}eComTransaction`,
+        event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
         ecommerce: {
-          currencyCode: "MXN",
+          currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
           purchase: {
             actionField: {
               id: this.state.orderNumber,
