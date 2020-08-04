@@ -216,7 +216,7 @@ class Reviews extends React.Component {
               <div >
                 <div className="rc-max-width--xl rc-padding-x--sm">
                   <div className="rc-column padl0" style={{marginBottom:'2rem'}}>
-                  <div className="red-text" style={{fontSize:'20px'}}>
+                  <div className="red-text" style={{fontSize:'26x'}}>
                       <FormattedMessage id="customerReviews" />
                     </div>
                   </div>
