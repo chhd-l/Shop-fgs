@@ -562,7 +562,7 @@ class PaymentComp extends React.Component {
                 />
               )}
           </span>
-          <span
+          {/* <span
             className="red font-weight-normal ui-cursor-pointer d-flex align-items-center"
             onClick={() => {
               this.setState({ isEdit: true }, () => {
@@ -575,7 +575,7 @@ class PaymentComp extends React.Component {
             <span style={{ marginTop: -3 }}>
               <FormattedMessage id="addNewCreditCard" />
             </span>
-          </span>
+          </span> */}
         </div>
         {/* <div className="addbox" onClick={() => this.openCreatePage()}>
           <div id="cross"></div>
@@ -591,7 +591,7 @@ class PaymentComp extends React.Component {
             ) : this.state.listErr ? (
               <div className="text-center p-4">{this.state.listErr}</div>
             ) : (
-                  <div className="border">
+                  <>
                     <div
                       className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
                         this.state.errorMsg ? "" : "hidden"
@@ -620,9 +620,9 @@ class PaymentComp extends React.Component {
                     {creditCardList.map((el, idx) => {
                       return (
                         <div
-                          className={`pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer ${
-                            el.selected ? "active" : ""
-                            }`}
+                          className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${
+                            el.selected ? "active border-blue" : ""
+                            } ${idx !== creditCardList.length - 1 ? 'border-bottom-0' : ''}`}
                           key={idx}
                           onClick={() => {
                             if (creditCardList[idx].selected) return;
@@ -639,11 +639,7 @@ class PaymentComp extends React.Component {
                             });
                           }}
                         >
-                          <div
-                            className={`pt-3 pb-3 ${
-                              idx !== creditCardList.length - 1 ? "border-bottom" : ""
-                              } `}
-                          >
+                          <div className={`pt-3 pb-3`}>
                             <div
                               className="position-absolute"
                               style={{ right: "1%", top: "2%", zIndex: "1" }}
@@ -870,7 +866,26 @@ class PaymentComp extends React.Component {
                         </div>
                       );
                     })}
-                  </div>
+
+                    <div
+                      className="p-4 border text-center mt-2 rounded ui-cursor-pointer font-weight-normal"
+                      ref={(node) => {
+                        if (node) {
+                          node.style.setProperty('border-width', '.1rem', 'important');
+                          node.style.setProperty('border-style', 'dashed', 'important');
+                        }
+                      }}
+                      onClick={() => {
+                        this.setState({ isEdit: true }, () => {
+                          this.scrollToPaymentComp();
+                        });
+                        this.initCardInfo();
+                      }}>
+                      <a className="rc-styled-link">
+                        <FormattedMessage id="addNewCreditCard" />
+                      </a>
+                    </div>
+                  </>
                 )
           ) : null}
         {!this.state.isEdit && (

@@ -656,6 +656,7 @@ const en_US = {
   'payStatus.NOT_PAID': 'Unpaid',
   'payStatus.PAID': 'Paid',
 
-  'biliingAddressSameAs': 'Biliing address same as'
+  'biliingAddressSameAs': 'Biliing address same as',
+  'deleteAddressTip': 'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.'
 };
 export default en_US;

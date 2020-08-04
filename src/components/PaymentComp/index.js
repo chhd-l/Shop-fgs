@@ -543,7 +543,7 @@ class PaymentComp extends React.Component {
     const { isLogin } = this.props.loginStore
     return (
       <div
-        style={{display: this.props.show === true?'block': 'none'}}
+        style={{display: this.props.show === true || this.props.show === undefined?'block': 'none'}}
         id="PaymentComp"
         className={`loginCardBox ${isLogin ? "" : "hidden"}`}
       >
@@ -624,8 +624,8 @@ class PaymentComp extends React.Component {
                   {creditCardList.map((el, idx) => {
                     return (
                       <div
-                        className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border border-blue ${
-                          el.selected ? "active" : ""
+                        className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${
+                          el.selected ? "active border-blue" : ""
                           } ${idx !== creditCardList.length - 1 ? 'border-bottom-0' : ''}`}
                         key={idx}
                         onClick={() => {
