@@ -50,6 +50,7 @@ class PayProductInfo extends React.Component {
             specText: el.specDetails,
             buyCount: el.num,
             salePrice: el.price,
+            subscriptionPrice: el.subscriptionPrice
           }
         }else {
           return {

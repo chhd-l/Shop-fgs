@@ -18,7 +18,7 @@ const en_US = {
   itemsInCart: "You have {val} item in your cart",
   itemsInCart2: "You have {val} items in your cart",
   total: "Total",
-  totalIncluIVA: "Total (Inclu IVA)",
+  totalIncluIVA: "Total (Inclu VAT)",
   totalCost: "Total cost",
   cats: "CATS",
   cats2: "Cats",
@@ -204,7 +204,6 @@ const en_US = {
   "payment.postCode2": "Postal code",
   "payment.phoneNumber": "Phone Number",
   "payment.billTitle": "Billing address",
-  "payment.useDeliveryAddress": "Use delivery address",
   "payment.howToDelivery": "How to deliver",
   "payment.forFree": "For Free",
   "payment.normalDelivery": "Normal Delivery(1-4 days)",
@@ -220,7 +219,7 @@ const en_US = {
   "payment.errorInfo": "*{val} must be filled",
   "payment.errorInfo2": "This field is required.",
   "payment.further": "Further",
-  "payment.confirmInfo1": "I confirm that I am 18 years old",
+  "payment.confirmInfo1": "I confirm that I am over 18 years old",
   "payment.confirmInfo2":
     "You must be 18 years or more to register on the site.",
   "payment.confirmInfo3":
@@ -425,7 +424,7 @@ const en_US = {
   "subscription.nextOrder": "Next Order",
   "subscription.order": "Order",
   "subscription.total": "Total",
-  "subscription.totalInclu": "Total(Inclu IVA)",
+  "subscription.totalInclu": "Total(Inclu VAT)",
   "subscription.saveDiscount": "Subscription Save Discount",
   "subscription.shipping": "Shipping",
   "subscription.shippingAddress": "Shipping address",
@@ -456,7 +455,7 @@ const en_US = {
   "login.forgetPassword": "Forget your password?",
   "login.guestContinue": "Continue with a guest",
   "login.firstCheck": "",
-  "login.secondCheck": " I confirm that I am 18 years old",
+  "login.secondCheck": " I confirm that I am over 18 years old",
   "login.thirdCheck": " I agree to receive the marketing newsletter",
   "login.passwordTip":
     "8-20 characters and include at a lowercase letter, an uppercase letter, a number",
@@ -656,5 +655,7 @@ const en_US = {
   'payStatus.REFUND': 'Refund',
   'payStatus.NOT_PAID': 'Unpaid',
   'payStatus.PAID': 'Paid',
+
+  'biliingAddressSameAs': 'Biliing address same as'
 };
 export default en_US;

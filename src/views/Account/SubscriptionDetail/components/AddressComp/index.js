@@ -480,7 +480,7 @@ class LoginDeliveryAddress extends React.Component {
                                 />
                               )}
                             <label className="rc-input__label--inline text-break billingSame">
-                              Biliing address same as
+                              <FormattedMessage id="biliingAddressSameAs" />
                             </label>
                           </div>
                           <p
