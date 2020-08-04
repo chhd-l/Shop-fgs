@@ -192,7 +192,6 @@ const en_US = {
   "payment.postCode2": "Postleitzahl",
   "payment.phoneNumber": "Telefonnummer",
   "payment.billTitle": "Rechnungsadresse",
-  "payment.useDeliveryAddress": "Lieferadresse verwenden",
   "payment.howToDelivery": "Wie zu liefern",
   "payment.forFree": "Kostenlos",
   "payment.normalDelivery": "Normale Lieferung (1-4 Tage)",

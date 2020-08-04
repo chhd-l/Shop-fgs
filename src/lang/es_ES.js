@@ -181,7 +181,6 @@ const en_US = {
   'payment.postCode2': 'código postal',
   'payment.phoneNumber': 'Número de teléfono',
   'payment.billTitle': 'Dirección de facturación',
-  'payment.useDeliveryAddress': 'Usar dirección de entrega',
   'payment.howToDelivery': 'Cómo entregar',
   'payment.forFree': 'Gratis',
   'payment.normalDelivery': 'Entrega normal(1-4 días)',

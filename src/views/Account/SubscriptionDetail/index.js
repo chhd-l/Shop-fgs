@@ -1381,7 +1381,7 @@ class SubscriptionDetail extends React.Component {
                                     window.scrollTo(0, 0);
                                     this.setState({
                                       type: "AddressComp",
-                                      addressType: "billing",
+                                      addressType: "delivery",
                                     });
                                   }}
                                 >
@@ -1436,7 +1436,7 @@ class SubscriptionDetail extends React.Component {
                                     window.scrollTo(0, 0);
                                     this.setState({
                                       type: "AddressComp",
-                                      addressType: "delivery",
+                                      addressType: "billing",
                                     });
                                   }}
                                 >
