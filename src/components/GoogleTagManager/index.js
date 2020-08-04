@@ -1,5 +1,5 @@
 import React from 'react';
-import { GTMID, GTM_SITE_ID } from "@/utils/constant"
+import { GTMID } from "@/utils/constant"
 import { inject, observer } from 'mobx-react'
 
 @inject("loginStore")
@@ -12,16 +12,16 @@ class GoogleTagManager extends React.Component {
         theme: ''
       },
       site: {
-        id: GTM_SITE_ID,
-        environment: process.env.REACT_APP_ENV,
-        country: 'MX'
+        id: process.env.REACT_APP_GTM_SITE_ID,
+        environment: process.env.REACT_APP_GA_ENV,
+        country: process.env.REACT_APP_GA_COUNTRY
       }
     }
     let userInfo = this.props.loginStore.userInfo
     if (userInfo) {
       event.user = {
         id: userInfo.customerId,
-        country: 'MX',
+        country: process.env.REACT_APP_GA_COUNTRY,
         locale: userInfo.city, // "es-MX"
         accountType: 'test'
       }
@@ -29,10 +29,10 @@ class GoogleTagManager extends React.Component {
     let additionalEvents = Object.assign({}, event, this.props.additionalEvents)
 
     loadJS(`window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(${JSON.stringify(additionalEvents)});`, function () { })
+    window.dataLayer.push(${JSON.stringify(additionalEvents)});`)
     if (this.props.ecommerceEvents) {
       loadJS(`window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push(${JSON.stringify(this.props.ecommerceEvents)});`, function () { })
+      window.dataLayer.push(${JSON.stringify(this.props.ecommerceEvents)});`)
     }
     loadJS(`(function(w,d,s,l,i){w[l] = w[l] || [];
       w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js', });
