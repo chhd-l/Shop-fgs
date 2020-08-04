@@ -295,7 +295,7 @@ class ImageMagnifier extends Component {
   render () {
     const { cssStyle, magnifierOff, imgLoad, currentImg, videoShow, videoModalShow, hoverIndex } = this.state;
     let { images, video } = this.props
-    images = this.filterImage(images)
+    // images = this.filterImage(images)
     let imgCount = images.length 
     if(video) {
       imgCount = imgCount + 1
