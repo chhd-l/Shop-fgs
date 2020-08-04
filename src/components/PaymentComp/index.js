@@ -543,6 +543,7 @@ class PaymentComp extends React.Component {
     const { isLogin } = this.props.loginStore
     return (
       <div
+        style={{display: this.props.show === true?'block': 'none'}}
         id="PaymentComp"
         className={`loginCardBox ${isLogin ? "" : "hidden"} ${
           (this.state.isEdit &&
