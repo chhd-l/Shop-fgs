@@ -98,7 +98,7 @@ class ReviewForm extends React.Component {
       <div>
         <div className="rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
           <div className="rc-layout-container">
-            <div className="rc-column padb0 padt0">
+            <div className="rc-column padb0 padt0" style={{marginLeft:'-1rem'}}>
               <div className="">
                 <div className="rc-margin-top--xs">
                   <span className="ui-text-overflow-line2 text-break">
@@ -107,6 +107,7 @@ class ReviewForm extends React.Component {
                 </div>
                 <div className="rc-margin-top--xs">
                   <span className="text-break">
+                    {/*  */}
                     {this.props.product.goodsWeight}{" "}
                     {this.props.product.specDetails}
                   </span>
@@ -116,19 +117,20 @@ class ReviewForm extends React.Component {
                     def={0}
                     disabled={false}
                     selectRate={(rate) => this.selectProductRate(rate)}
+                    marginSize={'.5rem'}
                   ></Rate>
                 </div>
               </div>
               <div class="row">
               <div class="form-group col-lg-6 pull-left">
                 <label class="form-control-label rc-full-width" for="reference">
-                 title
+                 Title
                 </label>
                 <span
                   class="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width"
                   input-setup="true"
                 >
-                  <input
+                  {/* <input
                     type="text"
                     class="rc-input__control input__phoneField"
                     id="reference"
@@ -138,6 +140,14 @@ class ReviewForm extends React.Component {
                     style={{padding:0}}
                     onChange={(e) => this.handleTitleChange(e)}
                     onBlur={(e) => this.inputBlur(e)}
+                  ></input> */}
+                  <input type="text" 
+                  placeholder="Title" 
+                  class="form-control"              
+                  value={this.state.title}
+                  style={{padding:0}}
+                  onChange={(e) => this.handleTitleChange(e)}
+                  onBlur={(e) => this.inputBlur(e)}                 
                   ></input>
                   <label class="rc-input__label" for="reference"></label>
                 </span>
@@ -154,7 +164,7 @@ class ReviewForm extends React.Component {
             </div>
           </div>
           <div className="">
-            <div className="rc-column padt0 padb0">
+            <div className="rc-column padt0 padb0" style={{marginLeft:'-1rem'}}>
               <FormattedMessage id="writeYourReview" />
               <div className="padt20">
                 <span
@@ -186,7 +196,7 @@ class ReviewForm extends React.Component {
           </div>
 
           <div className="rc-layout-container rc-one-column padt0">
-            <div className="rc-column mb-3">
+            <div className="rc-column mb-3" style={{marginLeft:'-1rem'}}>
               <div
                 className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
                   this.state.errMessage ? null : "hidden"
@@ -214,7 +224,7 @@ class ReviewForm extends React.Component {
             </div>
           </div>
           <div className="rc-layout-container rc-one-column padt0">
-            <div className="rc-column padt0">
+            <div className="rc-column padt0" style={{marginLeft:'-1rem'}}>
               <label>
                 <input
                   name="isAnonymous"

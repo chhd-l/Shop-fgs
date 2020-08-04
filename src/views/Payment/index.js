@@ -339,10 +339,10 @@ class Payment extends React.Component {
             res = await confirmAndCommit(parameters);
         }
       }
-      
-          
+
+
       if (res.code === "K-000000") {
-        var orderNumber =  res.context[0].tid;
+        var orderNumber = res.context[0].tid;
         sessionStorage.setItem("orderNumber", orderNumber);
         this.props.history.push("/confirmation");
       }
@@ -1051,7 +1051,7 @@ class Payment extends React.Component {
                                 style={{ width: '15px', height: '15px' }}
                               />
                               <label className="rc-input__label--inline" htmlFor="id-checkbox-billing">
-                                <FormattedMessage id="payment.useDeliveryAddress" />
+                                <FormattedMessage id="biliingAddressSameAs" />
                               </label>
                             </div>
                           </div>
@@ -1160,6 +1160,7 @@ class Payment extends React.Component {
                         ) ? <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-4">
                           <div className="card-header bg-transparent pt-0 pb-0">
                             <h5>
+                              <span className="iconfont font-weight-bold mr-2">&#xe657;</span>
                               <FormattedMessage id="subscription.chooseSubscription" />
                             </h5>
                           </div>

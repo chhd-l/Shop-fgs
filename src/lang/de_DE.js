@@ -17,7 +17,7 @@ const en_US = {
   "itemsInCart": "Sie haben {val} Artikel in Ihrem Warenkorb",
   "itemsInCart2": "Sie haben {val} Artikel in Ihrem Warenkorb",
   "total": "Gesamt",
-  "totalIncluIVA": "Total (Inclu IVA)",
+  "totalIncluIVA": "Total (Inclu VAT)",
   "totalCost": "Gesamtkosten",
   "cats": "CATS",
   "cats2": "Katzen",
@@ -192,7 +192,6 @@ const en_US = {
   "payment.postCode2": "Postleitzahl",
   "payment.phoneNumber": "Telefonnummer",
   "payment.billTitle": "Rechnungsadresse",
-  "payment.useDeliveryAddress": "Lieferadresse verwenden",
   "payment.howToDelivery": "Wie zu liefern",
   "payment.forFree": "Kostenlos",
   "payment.normalDelivery": "Normale Lieferung (1-4 Tage)",
@@ -367,7 +366,7 @@ const en_US = {
   "subscription.nextOrder": "Nächste Bestellung",
   "subscription.order": "Auftrag",
   "subscription.total": "Gesamt",
-  "subscription.totalInclu": "Total (Inclu IVA)",
+  "subscription.totalInclu": "Total (Inclu VAT)",
   "subscription.saveDiscount": "Abonnement sparen Rabatt",
   "subscription.shipping": "Versand",
   "subscription.shippingAddress": "Lieferanschrift",
@@ -524,5 +523,7 @@ const en_US = {
   'product.de.catogery6.name': 'Gesundheitsmanagement',
   'product.de.catogery6.title': 'Health Management',
   'product.de.catogery6.desc': 'Optimales Gewicht, Seniorengesundheit, Zahnhygiene, Nahrungsumstellung',
+  'deleteAddressTip': 'Diese Adresse wurde bereits abonniert und kann daher nicht gelöscht werden.'
+  
 }
 export default en_US;

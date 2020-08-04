@@ -283,14 +283,23 @@ class ImageMagnifier extends Component {
   // closeVideoModal() {
   //   this.setState()
   // }
+  filterImage(arr) {
+    let images = []
+    arr && arr.map(item => {
+      if(!images.filter(img => img.goodsInfoImg === item.goodsInfoImg).length) {
+        images.push(item)
+      }
+    })
+    return images
+  }
   render () {
     const { cssStyle, magnifierOff, imgLoad, currentImg, videoShow, videoModalShow, hoverIndex } = this.state;
-    const { images, video } = this.props
+    let { images, video } = this.props
+    // images = this.filterImage(images)
     let imgCount = images.length 
     if(video) {
       imgCount = imgCount + 1
     }
-    // console.log(images, 'images');
     return (
       <div>
         <div style={{ position: 'relative' }}>

@@ -719,7 +719,7 @@ class Details extends React.Component {
                                 </h1>
                                 <div className="rc-card__price flex-inline">
                                   <div className="display-inline" >
-                                    <Rate def={this.state.productRate} disabled={true} /></div>
+                                    <Rate def={this.state.productRate} disabled={true} marginSize={'.5rem'} /></div>
                                     <a
                                 href="javascript:;"
                                 className="comments rc-margin-left--xs rc-text-colour--text"

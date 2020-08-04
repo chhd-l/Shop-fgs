@@ -327,8 +327,13 @@ class LoginDeliveryAddress extends React.Component {
     }
   }
   async deleteAddress (item) {
+    console.log(item,'item')
     let { addressList } = this.state
     item.confirmTooltipVisible = false
+    if(item.canDelFlag === false) {
+      this.showErrorMsg(this.props.intl.messages.deleteAddressTip)
+      return
+    }
     this.setState({
       deleteLoading: true,
       addressList: addressList
@@ -480,7 +485,7 @@ class LoginDeliveryAddress extends React.Component {
                                 />
                               )}
                             <label className="rc-input__label--inline text-break billingSame">
-                              Biliing address same as
+                              <FormattedMessage id="biliingAddressSameAs" />
                             </label>
                           </div>
                           <p

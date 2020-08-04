@@ -183,7 +183,7 @@ class Footer extends React.Component {
           </div>
           <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
             <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
-              <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3" role="menuitem" href="tel:8000247764">
+              <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3" role="menuitem" href={`tel:${this.state.storeContactPhoneNumber}`}>
                 {this.state.storeContactPhoneNumber}
               </a>
               <Link className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" to="/help">
@@ -191,39 +191,45 @@ class Footer extends React.Component {
               </Link>
             </div>
           </div>
-          <div id="mars-footer-panel">
-            <div className="mars-footer-container">
-              <ul className="mars-footer-list-right" style={{ fontSize: '10px', fontFamily: 'Inherit' }}>
-                <li>
-                  <a target="_blank" href={this.state.privacyPolicyUrl}>
-                    <span className="mars-footer-label">
-                      <FormattedMessage id="footer.confidentiality" />
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a target="_blank" href={this.state.cookiesUrl}>
-                    <span className="mars-footer-label">
-                      <FormattedMessage id="footer.cookies" />
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a target="_blank" href={this.state.legalTerms}>
-                    <span className="mars-footer-label">
-                      <FormattedMessage id="footer.legalTerms" />
-                    </span>
-                  </a>
-                </li>
-              </ul>
-              <div className="mars-footer-legal" style={{ fontSize: '10px' }}>
-                <p style={{ textAlign: 'center' }}><FormattedMessage id="footer.copyrightInfo" /></p>
+          {
+            process.env.REACT_APP_LANG === 'de'
+              ? null
+              : <div id="mars-footer-panel">
+                <div className="mars-footer-container">
+                  <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
+                    <li>
+                      <a target="_blank" href={this.state.privacyPolicyUrl}>
+                        <span className="mars-footer-label">
+                          <FormattedMessage id="footer.confidentiality" />
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a target="_blank" href={this.state.cookiesUrl}>
+                        <span className="mars-footer-label">
+                          <FormattedMessage id="footer.cookies" />
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a target="_blank" href={this.state.legalTerms}>
+                        <span className="mars-footer-label">
+                          <FormattedMessage id="footer.legalTerms" />
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+                  <div className="mars-footer-legal text-center" style={{ fontSize: '10px' }}>
+                    <p><FormattedMessage id="footer.copyrightInfo" /></p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+          }
         </div>
         {/* <!-- OneTrust Cookies Settings button start --> */}
-        <a className="optanon-show-settings">Cookie Settings</a>
+        {process.env.REACT_APP_LANG === 'de'
+          ? <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button>
+          : <a className="optanon-show-settings">Cookie Settings</a>}
         {/* <!-- OneTrust Cookies Settings button end --> */}
       </footer>
     )

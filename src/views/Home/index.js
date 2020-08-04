@@ -20,15 +20,9 @@ import Gastrointestinal from "@/assets/images/home-catogery/Gastrointestinal.jpg
 import VitalSupport from "@/assets/images/home-catogery/Vital-Support.jpg";
 import HealthManagement from "@/assets/images/home-catogery/Health-Management.jpg";
 
-import Pomotion25offImg from "@/assets/images/pomotion_25off.png";
-
-
 class Home extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      promotionVisible: false
-    }
   }
   async componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
@@ -36,17 +30,6 @@ class Home extends React.Component {
       window.location.reload();
       return false
     }
-    console.log(222222, process.env.REACT_APP_AdyenOriginKEY)
-    if (new Date().getTime() < new Date('2020/6/2').getTime()) {
-      this.setState({
-        // promotionVisible: true
-        promotionVisible: false
-      })
-    }
-  }
-  closePromotionPop () {
-    this.setState({ promotionVisible: false })
-    sessionStorage.setItem('rc-promotion-pop-close', true)
   }
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
@@ -61,19 +44,7 @@ class Home extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-
         <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
-        {
-          this.state.promotionVisible && !sessionStorage.getItem('rc-promotion-pop-close')
-            ? <div className="ui-pop" onClick={() => this.closePromotionPop()}>
-              <div className="img-container" onClick={e => { e.stopPropagation() }}>
-                <span className="pop-close" onClick={() => this.closePromotionPop()}>X</span>
-                <span className="btn-cheat" onClick={() => this.closePromotionPop()}></span>
-                <img src={Pomotion25offImg} style={{ width: '100%' }} />
-              </div>
-            </div>
-            : null
-        }
         <main className="rc-content--fixed-header rc-main-content__wrapper ">
           <BannerTip />
           <div className="rc-full-width">

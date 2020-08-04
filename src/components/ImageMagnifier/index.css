@@ -31,6 +31,9 @@
   /* left: 0; */
   top: 0;
 }
+.imageInnerBox .rc-img--square {
+  margin-left: 5px;
+}
 .moveImg {
   width: 30px;
   /* height: 64px; */

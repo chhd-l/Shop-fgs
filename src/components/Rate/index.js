@@ -40,7 +40,9 @@ export default class Rate extends Component {
     const flag = !t.test(num);
     const numInt = parseInt(num);
     const tooltip = this.props.tooltip ? this.props.tooltip : null;
+    { console.log("星星间距为：",this.props.marginSize)}
     return (
+      
       <div>
         <div className="rate">
           {new Array(count).fill().map((item, index) => (
@@ -79,18 +81,18 @@ export default class Rate extends Component {
                 <span
                   className="rc-icon  hands rc-margin-bottom--xs rc-rate-fill--xs rc-brand1--xs"
                   disabled={this.state.disabled}
-                  style={{marginRight:'.1rem'}}
+                  style={{marginRight:this.props.marginSize}}
                 ></span>
               ) : flag && index === numInt ? (
                 <span
                   className="rc-icon rc-margin-bottom--xs rc-rate-fill--xs half-star"
                   disabled={this.state.disabled}
-                  style={{marginRight:'-.2rem'}}
+                  style={{marginRight:this.props.marginSize}}
                 ></span>
               ) : (
                 <span
                   className="rc-icon rc-margin-bottom--xs rc-rate-fill--xs rc-iconography--xs"
-                  style={{ opacity: ".5" , marginRight:'-.2rem'}}
+                  style={{opacity: ".5",marginRight:this.props.marginSize}}
                   disabled={this.state.disabled}
                 ></span>
               )}
