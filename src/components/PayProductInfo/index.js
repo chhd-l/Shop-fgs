@@ -162,7 +162,7 @@ class PayProductInfo extends React.Component {
                     {el.specText} - {el.buyCount} {el.buyCount > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}<br />
                     {
                       this.isSubscription(el)
-                        ? <><FormattedMessage id="subscription.frequency" /> : {this.props.frequencyName} < span className="rc-icon rc-refresh--xs rc-brand1"></span></>
+                        ? <><FormattedMessage id="subscription.frequency" /> : {this.props.frequencyName} <span className="iconfont font-weight-bold red" style={{ fontSize: '.8em' }}>&#xe675;</span></>
                         : null
                     }
                   </div>
@@ -299,7 +299,8 @@ class PayProductInfo extends React.Component {
                 <div className="row leading-lines shipping-item" style={{ display: parseInt(this.subscriptionPrice) > 0 ? 'flex' : 'none' }}>
                   <div className="col-7 start-lines">
                     <p className="order-receipt-label order-shipping-cost" style={{ color: '#ec001a' }}>
-                      <span><FormattedMessage id="subscribeDiscount" /></span>
+                      {/* <span><FormattedMessage id="subscribeDiscount" /></span> */}
+                      {this.promotionDesc || <FormattedMessage id="NoPromotionDesc" />}
                     </p>
                   </div>
                   <div className="col-5 end-lines">

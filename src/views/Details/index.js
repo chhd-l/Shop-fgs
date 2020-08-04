@@ -605,6 +605,22 @@ class Details extends React.Component {
     })
     this.openPetModal()
   }
+  handleAClick() {
+    console.log("预定跳转");
+    let el = document.getElementById("review-container");
+    let length = this.getElementToPageTop(el);
+    console.log("长度：", length);
+    window.scrollTo({
+      top: length - 80,
+      behavior: "smooth",
+    });
+  }
+  getElementToPageTop(el) {
+    if (el.parentElement) {
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
+    }
+    return el.offsetTop;
+  }
   render () {
     const createMarkup = (text) => ({ __html: text });
     const {
@@ -704,7 +720,11 @@ class Details extends React.Component {
                                 <div className="rc-card__price flex-inline">
                                   <div className="display-inline" >
                                     <Rate def={this.state.productRate} disabled={true} /></div>
-                                  <a href="#review-container" className='comments rc-margin-left--xs rc-text-colour--text'>
+                                    <a
+                                href="javascript:;"
+                                className="comments rc-margin-left--xs rc-text-colour--text"
+                                onClick={this.handleAClick.bind(this)}
+                              >
                                     {this.state.replyNum} <FormattedMessage id="reviews" />
                                   </a>
                                 </div>

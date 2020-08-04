@@ -20,6 +20,7 @@ class Reviews extends React.Component {
       noData: true,
       showPicIndex: -1,
       imgList: -1,
+     
     }
   }
 
@@ -131,18 +132,30 @@ class Reviews extends React.Component {
       showPicIndex: j,
       imgList
     })
-  }
 
+  // 向上滚动
+  //  window.scrollTo({
+  //   top:0,
+  //   behavior: "smooth",
+  // });
+
+    
+  }
+  getElementToPageTop(el) {
+    if (el.parentElement) {
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
+    }
+    return el.offsetTop;
+  }
   handleCancelMask () {
     this.setState({
       showPicIndex: -1,
       imgList: -1
     })
+
   }
 
   handleDirectionClick (direction) {
-    console.log("点击方向是：", direction)
-    console.log("当前是第", this.state.showPicIndex)
     if (direction > 0) {
       if (this.state.showPicIndex + 1 == this.state.imgList.length) {
         this.setState({
@@ -186,6 +199,12 @@ class Reviews extends React.Component {
     ]
     return list
   }
+  getElementToPageTop (el) {
+    if (el.parentElement) {
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
+    }
+    return el.offsetTop;
+  }
 
   render () {
     const data = this.state
@@ -198,25 +217,25 @@ class Reviews extends React.Component {
               <div className="showBigImg">
                 <div className="direction rc-icon rc-left rc-iconography  " onClick={() => this.handleDirectionClick(-1)}></div>
                   <img style={{maxWidth:'100%',maxHeight:'100%'}}src={this.state.imgList[this.state.showPicIndex].artworkUrl}></img>
-                  {/* <span className="desc" style={{position:"absolute",width:"100%",bottom:'10%'}}>{this.state.showPicIndex + 1} of {this.state.imgList.length}</span> */}
+                  <span className="desc" style={{position:"absolute",width:"100%",bottom:'0.5%'}}>{this.state.showPicIndex + 1} of {this.state.imgList.length}</span>
                   <div className="cancelIcon rc-icon rc-close--sm rc-iconography  " onClick={this.handleCancelMask.bind(this)}></div>
                 <div className="direction rc-icon rc-right rc-iconography  " onClick={() => this.handleDirectionClick(1)}></div>
               </div>
               <div className="Mask" onClick={this.handleCancelMask.bind(this)}></div>
-              
+             
             </div>
           ) : null
         }
         {
           !data.noData ?
             <div>
-              <div>
+              <div id="ContainerForReview">
                 <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
               </div>
-              <div >
+              <div style={{marginLeft:'.5rem'}}>
                 <div className="rc-max-width--xl rc-padding-x--sm">
                   <div className="rc-column padl0" style={{marginBottom:'2rem'}}>
-                  <div className="red-text" style={{fontSize:'20px'}}>
+                    <div className="red-text" style={{fontSize:'20px'}}>
                       <FormattedMessage id="customerReviews" />
                     </div>
                   </div>
@@ -226,7 +245,7 @@ class Reviews extends React.Component {
                     <form>
                       <span className="rc-select rc-select-processed">
                         <label className="rc-select__label" htmlFor="id-single-select"
-                         style={{fontSize: '16px',top:'-1.6rem'}}
+                        style={{fontSize: '16px',top:'-1.6rem'}}
                         ><FormattedMessage id="sortBy" /></label>
                         <Selection
                           selectedItemChange={data => this.sortByChange(data)}
@@ -255,10 +274,10 @@ class Reviews extends React.Component {
                             (
                               data.goodsEvaluatesList.map((item, i) => (
                                 <div className="rc-layout-container rc-five-column  rc-border-bottom rc-border-colour--interface" 
-                                key={i}
-                                style={{paddingBottom:'20px'}}
-                          
-                          >
+                                      key={i}
+                                      style={{paddingBottom:'20px'}}
+                                
+                                >
                                   <div className="rc-column padl0 padr0">
                                     <div className="">
                                       {/*rc-padding--xs--desktop rc-padding--sm--mobile*/}
@@ -280,11 +299,12 @@ class Reviews extends React.Component {
                                                 // 评论显示九宫格
                                                 return <img
                                                   className="rc-img--square rc-img--square-custom mr-1"
+                                                  id={this.state.showPicIndex==j?'ImgTop':null}
                                                   src={img.artworkUrl}
                                                   key={j}
-                                              
                                                   style={{ width: '120px',height:'120px'}}
-                                                  onClick={this.handleImgClick.bind(this, j, item.evaluateImageList)} />
+                                                  onClick={this.handleImgClick.bind(this, j, item.evaluateImageList)}
+                                                   />
                                               }
                                               else {
                                                 return null
@@ -308,6 +328,8 @@ class Reviews extends React.Component {
                                           </div> : null
                                       }
                                     </div>
+
+
                                   </div>
                                 </div>
                               )

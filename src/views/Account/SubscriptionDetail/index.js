@@ -331,17 +331,18 @@ class SubscriptionDetail extends React.Component {
       });
 
       //拼装订阅购物车参数
-      if (res.code == "K-000000") {
+      if (res.code == "K-000000"&&!res.context.promotionFlag) {//只有promotionFlag为false的时候表示prootionCode生效
         let subTradeTotal =
           this.state.subTotal +
           Number(res.context.deliveryPrice) -
-          Number(res.context.discountsPrice) -
-          Number(res.context.promotionDiscount);
+          Number(res.context.discountsPrice)
+          //Number(res.context.promotionDiscount);
         this.setState({
           // loading: false,
           subDiscount: res.context.discountsPrice,
           subShipping: res.context.deliveryPrice,
           promotionDiscount: res.context.promotionDiscount,
+          promotionDesc:res.context.promotionDesc,
           subTradeTotal,
         });
       }
@@ -463,7 +464,7 @@ class SubscriptionDetail extends React.Component {
             >
               <span>{currentModalObj.content}</span>
             </Modal>
-            <div className="rc-padding--sm rc-max-width--xl">
+            <div className="rc-padding--sm rc-max-width--xl pb-1">
               <div className="rc-layout-container rc-five-column">
                 {/* {this.state.loading ? <Loading positionFixed="true" /> : null} */}
                 <SideMenu type="Subscription" />
@@ -619,81 +620,55 @@ class SubscriptionDetail extends React.Component {
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscriptionDetail"
                   style={{ display: type === "main" ? "block" : "none" }}
                 >
-                  <div
-                    className="rc-border-bottom rc-border-colour--interface"
-                    style={{ display: "flex" }}
-                  >
-                    <h4
-                      className="rc-delta rc-margin--none"
-                      style={{ flex: "4" }}
-                    >
-                      {/* <FormattedMessage id="subscription.sub"></FormattedMessage>{data.subId} */}
-                      <i className="rc-icon rc-address--xs rc-brand1"></i>{" "}
-                      <FormattedMessage id="subscription" />(
-                      {subDetail.subscribeId})
+                  <div className="d-flex justify-content-between align-items-center flex-wrap">
+                    <h4 className="rc-delta font-weight-normal mb-2">
+                      <FormattedMessage id="subscription" />{subDetail.subscribeId ? `(${subDetail.subscribeId})` : null}
                     </h4>
                     {subDetail.subscribeStatus === "0" && (
-                      <div
-                        className="rightBox"
-                        style={{
-                          flex: "3",
-                          textAlign: "right",
-                          lineHeight: "36px",
-                        }}
-                      >
-                        <a
-                          class="rc-styled-link "
-                          href="#/"
-                          onClick={(e) => {
-                            e.preventDefault();
+                      <div className="mb-2">
+                        {/* <button
+                          onClick={() => {
                             this.setState({
                               modalType: "orderNow",
                               modalShow: true,
                               currentModalObj: this.state.modalList.filter(
                                 (el) => el.type === "orderNow"
-                              )[0],
+                              )[0]
                             });
                           }}
-                        >
+                          className="rc-btn rc-btn--one btn-custom-less-size">
                           <FormattedMessage id="subscription.orderNow" />
-                        </a>{" "}
-                        &nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                        <a
-                          class="rc-styled-link "
-                          href="#/"
-                          onClick={(e) => {
-                            e.preventDefault();
+                        </button> */}
+                        <button
+                          onClick={() => {
                             this.setState({
                               modalType: "skipNext",
                               modalShow: true,
                               currentModalObj: this.state.modalList.filter(
                                 (el) => el.type === "skipNext"
-                              )[0],
+                              )[0]
                             });
                           }}
-                        >
+                          className="rc-btn rc-btn--one btn-custom-less-size">
                           <FormattedMessage id="subscription.skip" />
-                        </a>{" "}
-                        &nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                        <a
-                          class="rc-styled-link "
-                          href="#/"
-                          onClick={(e) => {
-                            e.preventDefault();
+                        </button>
+                        <button
+                          onClick={() => {
                             this.setState({
                               modalType: "cancelAll",
                               modalShow: true,
                               currentModalObj: this.state.modalList.filter(
                                 (el) => el.type === "cancelAll"
-                              )[0],
+                              )[0]
                             });
                           }}
-                        >
+                          className="rc-btn rc-btn--one btn-custom-less-size">
                           <FormattedMessage id="subscription.cancelAll" />
-                        </a>
+                        </button>
                       </div>
                     )}
                   </div>
+                  <hr class="rc-margin-top---none" />
                   <div className="content-asset">
                     {this.state.loading && <div className="mt-4">
                       <Skeleton
@@ -704,29 +679,20 @@ class SubscriptionDetail extends React.Component {
                       />
                     </div>}
                     <div className={`${this.state.loading ? 'hidden' : ''} `}>
-                      <div className="rc-layout-container rc-three-column mgb30 operationBox">
-                        <div className="rc-column column-contanier" style={{ width: '50%' }}>
-                          <div
-                            className="rc-card-container"
-                            style={{ borderRight: "1px solid #ddd" }}
-                          >
-                            {/* <div className="bt-icon"> */}
+                      <div className="rc-layout-container rc-three-column pt-0">
+                        <div className="rc-column column-contanier pb-1" style={{ width: '88%' }}>
+                          <div className="rc-card-container border-right-0 border-right-md-1">
                             <div
                               className="v-center"
                               style={{ marginRight: "20px" }}
                             >
-                              <i className="rc-icon rc-refresh--xs rc-brand1"></i>
+                              <span className="iconfont font-weight-bold red" style={{ fontSize: '1.4em' }}>&#xe639;</span>
                             </div>
-
-                            {/* <button
-                                  className="rc-btn less-width-xs rc-btn--icon rc-icon rc-search--xs rc-iconography not-yet-btn"
-                                  aria-label="Search"></button> */}
-                            {/* </div> */}
                             <div className="rc-card-content">
                               <b className="">
                                 <FormattedMessage id="subscription.previousOrders" />
                               </b>
-                              <h4
+                              <h1
                                 className="rc-card__meta order-Id"
                                 style={{ marginTop: "10px" }}
                               >
@@ -745,20 +711,18 @@ class SubscriptionDetail extends React.Component {
                                   }}
                                   customStyleType="select-one"
                                 />
-                              </h4>
+                              </h1>
                             </div>
                           </div>
                         </div>
-                        <div className="rc-column column-contanier">
-                          <div
-                            className="rc-card-container"
-                            style={{ borderRight: "1px solid #ddd" }}
-                          >
+                        <div className="rc-column column-contanier pb-1">
+                          <div className="rc-card-container border-right-0 border-right-md-1">
                             <div
                               className="v-center"
                               style={{ marginRight: "20px" }}
                             >
-                              <i className="rc-icon rc-refresh--xs rc-brand1"></i>
+
+                              <span className="iconfont font-weight-bold red" style={{ fontSize: '1.3em' }}>&#xe675;</span>
                             </div>
                             <div className="rc-card-content">
                               <b className="">
@@ -818,13 +782,13 @@ class SubscriptionDetail extends React.Component {
                             </div>
                           </div>
                         </div>
-                        <div className="rc-column">
+                        <div className="rc-column pb-1">
                           <div className="rc-card-container">
                             <div
                               className="v-center"
                               style={{ marginRight: "20px" }}
                             >
-                              <i className="rc-icon rc-refresh--xs rc-brand1"></i>
+                              <span className="iconfont font-weight-bold red" style={{ fontSize: '1.5em' }}>&#xe74e;</span>
                             </div>
                             <div className="rc-card-content">
                               <b className="">
@@ -859,10 +823,8 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="rc-layout-container rc-three-column mgb30"
-                        style={{ borderBottom: "1px solid #ddd" }}
-                      >
+                      <hr class="rc-margin-top---none" />
+                      <div className="rc-layout-container rc-three-column">
                         <div
                           className="rc-padding-bottom--xs cart-error-messaging cart-error"
                           style={{
@@ -1214,7 +1176,7 @@ class SubscriptionDetail extends React.Component {
                           <div className="v-center total-container">
                             <div className="border-b">
                               <div className="flex-layout">
-                                <label className="font18">
+                                <label className="">
                                   <FormattedMessage id="subscription.total"></FormattedMessage>
                                     :
                                   </label>
@@ -1224,8 +1186,9 @@ class SubscriptionDetail extends React.Component {
                               </div>
                               {
                                 this.state.subDiscount ? <div className="flex-layout">
-                                  <label className="saveDiscount font18 red-text">
-                                    <FormattedMessage id="subscription.saveDiscount"></FormattedMessage>
+                                  <label className="saveDiscount  red-text">
+                                    {/* <FormattedMessage id="subscription.saveDiscount"></FormattedMessage> */}
+                                    {this.state.promotionDesc}
                                     :
                                   </label>
                                   <div className="text-right red-text">
@@ -1238,7 +1201,7 @@ class SubscriptionDetail extends React.Component {
                               {!this.state.isShowValidCode &&
                                 discount.map((el) => (
                                   <div className="flex-layout">
-                                    <label className="saveDiscount font18 red-text">
+                                    <label className="saveDiscount  red-text">
                                       {this.state.promotionDesc}
                                     </label>
                                     <div
@@ -1272,7 +1235,7 @@ class SubscriptionDetail extends React.Component {
                                   </div>
                                 ))}
                               <div className="flex-layout">
-                                <label className="font18">
+                                <label className="">
                                   <FormattedMessage id="subscription.shipping"></FormattedMessage>
                                     :
                                   </label>
@@ -1282,7 +1245,7 @@ class SubscriptionDetail extends React.Component {
                               </div>
                             </div>
                             <div className="flex-layout mgt20">
-                              <label className="saveDiscount font18">
+                              <label className="saveDiscount ">
                                 <FormattedMessage id="subscription.totalInclu"></FormattedMessage>
                                   :
                                 </label>
@@ -1335,17 +1298,14 @@ class SubscriptionDetail extends React.Component {
                                   result = await this.doGetPromotionPrice(
                                     this.state.promotionInputValue
                                   );
-                                  this.setState({
-                                    promotionDesc:
-                                      result.context.promotionDesc,
-                                  });
                                   if (
                                     result.code == "K-000000" &&
-                                    result.context.promotionDiscount
+                                    !result.context.promotionFlag
                                   ) {
-                                    //表示输入apply promotionCode成功
+                                    //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
                                     discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                                    this.setState({ discount });
+                                    this.setState({ discount,promotionDesc:
+                                      result.context.promotionDesc, });
                                   } else {
                                     this.setState({
                                       isShowValidCode: true,
@@ -1376,173 +1336,148 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         </div>
                       </div>
+                      <hr class="rc-margin-top---none" />
                       {/*footer*/}
-                      <div className="rc-layout-container rc-three-column">
-                        <div className="rc-column footer-container">
-                          <b className="font18">
-                            <i className="rc-icon rc-shop--xs rc-brand1"></i>{" "}
-                            <FormattedMessage id="subscription.shippingAddress"></FormattedMessage>
-                          </b>
-                          <div className="mt10">
-                            <div className="rc-card__body pdl0">
-                              <div className="rc-card-container">
-                                <div className="rc-card-content">
-                                  <h1 className="rc-card__meta order-Id">
-                                    {currentDeliveryAddress.consigneeName}
-                                  </h1>
-                                  <h1 className="rc-card__meta order-Id">
-                                    {currentDeliveryAddress.consigneeNumber}
-                                  </h1>
-                                  <h1 className="rc-card__meta order-Id">
-                                    {this.state.countryList.length &&
-                                      this.state.countryList.filter(
-                                        (el) =>
-                                          el.id ===
-                                          currentDeliveryAddress.countryId
-                                      ).length
-                                      ? this.state.countryList.filter(
-                                        (el) =>
-                                          el.id ===
-                                          currentDeliveryAddress.countryId
-                                      )[0].valueEn
-                                      : currentDeliveryAddress.countryId}
+                      <div class="row ml-2 mr-2 text-left">
+                        <div class="col-12 col-md-4 mb-2">
+                          <div className="d-flex align-items-center">
+                            <i className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" />
+                            <span><FormattedMessage id="delivery2" /></span>
+                          </div>
+                          <div className="ml-1">
+                            <span className="medium">{currentDeliveryAddress.consigneeName}</span><br />
+                            {currentDeliveryAddress.consigneeNumber}<br />
+                            {this.state.countryList.length &&
+                              this.state.countryList.filter(
+                                (el) =>
+                                  el.id ===
+                                  currentDeliveryAddress.countryId
+                              ).length
+                              ? this.state.countryList.filter(
+                                (el) =>
+                                  el.id ===
+                                  currentDeliveryAddress.countryId
+                              )[0].valueEn
+                              : currentDeliveryAddress.countryId}
                                       ,{" "}
-                                    {this.state.cityList.length &&
-                                      this.state.cityList.filter(
-                                        (el) =>
-                                          el.id ===
-                                          currentDeliveryAddress.cityId
-                                      ).length
-                                      ? this.state.cityList.filter(
-                                        (el) =>
-                                          el.id ===
-                                          currentDeliveryAddress.cityId
-                                      )[0].valueEn
-                                      : currentDeliveryAddress.cityId}
-                                  </h1>
-                                  <h1 className="rc-card__meta order-Id">
-                                    {currentDeliveryAddress.address1}
-                                  </h1>
-                                  {
-                                    subDetail.subscribeStatus === '0' && (
-                                      <a
-                                        className="rc-styled-link red-text"
-                                        onClick={() => {
-                                          window.scrollTo(0, 0);
-                                          this.setState({
-                                            type: "AddressComp",
-                                            addressType: "delivery",
-                                          });
-                                        }}
-                                      >
-                                        <FormattedMessage id="edit" />{" "}
-                                        <FormattedMessage id="address" />
-                                      </a>
-                                    )
-                                  }
-                                </div>
-                              </div>
-                            </div>
+                            {this.state.cityList.length &&
+                              this.state.cityList.filter(
+                                (el) =>
+                                  el.id ===
+                                  currentDeliveryAddress.cityId
+                              ).length
+                              ? this.state.cityList.filter(
+                                (el) =>
+                                  el.id ===
+                                  currentDeliveryAddress.cityId
+                              )[0].valueEn
+                              : currentDeliveryAddress.cityId}<br />
+                            {currentDeliveryAddress.address1}<br />
+                            {
+                              subDetail.subscribeStatus === '0' && (
+                                <a
+                                  className="rc-styled-link red-text"
+                                  onClick={() => {
+                                    window.scrollTo(0, 0);
+                                    this.setState({
+                                      type: "AddressComp",
+                                      addressType: "billing",
+                                    });
+                                  }}
+                                >
+                                  <FormattedMessage id="edit" />{" "}
+                                  <FormattedMessage id="address" />
+                                </a>
+                              )
+                            }
                           </div>
                         </div>
-                        <div className="rc-column footer-container">
-                          <b className="font18">
-                            <i className="rc-icon rc-news--xs rc-brand1"></i>{" "}
-                            <FormattedMessage id="subscription.BillingAddress"></FormattedMessage>
-                          </b>
-                          <div className="mt10">
-                            <div className="rc-card__body pdl0">
-                              <div className="rc-card-container">
-                                <div className="rc-card-content">
-                                  <h1 className="rc-card__meta order-Id">
-                                    {currentBillingAddress.consigneeName}
-                                  </h1>
-                                  <h1 className="rc-card__meta order-Id">
-                                    {currentBillingAddress.consigneeNumber}
-                                  </h1>
-                                  <h1 className="rc-card__meta order-Id">
-                                    {this.state.countryList.length &&
-                                      this.state.countryList.filter(
-                                        (el) =>
-                                          el.id ===
-                                          currentBillingAddress.countryId
-                                      )[0].valueEn}
+                        <div className="col-12 col-md-4 mb-2">
+                          <div className="d-flex align-items-center">
+                            <i className="rc-icon rc-rewind rc-billing rc-brand1 mt-1" />
+                            <span>
+                              <FormattedMessage id="billing" />
+                            </span>
+                          </div>
+                          <div className="ml-1">
+                            <span className="medium">{currentDeliveryAddress.consigneeName}</span><br />
+                            {currentDeliveryAddress.consigneeNumber}<br />
+                            {this.state.countryList.length &&
+                              this.state.countryList.filter(
+                                (el) =>
+                                  el.id ===
+                                  currentDeliveryAddress.countryId
+                              ).length
+                              ? this.state.countryList.filter(
+                                (el) =>
+                                  el.id ===
+                                  currentDeliveryAddress.countryId
+                              )[0].valueEn
+                              : currentDeliveryAddress.countryId}
                                       ,{" "}
-                                    {this.state.cityList.length &&
-                                      this.state.cityList.filter(
-                                        (el) =>
-                                          el.id ===
-                                          currentBillingAddress.cityId
-                                      )[0].valueEn}
-                                  </h1>
-                                  <h1 className="rc-card__meta order-Id">
-                                    {currentBillingAddress.address1}
-                                  </h1>
-                                  {
-                                    subDetail.subscribeStatus === '0' && (
-                                      <a
-                                        className="rc-styled-link red-text"
-                                        onClick={() => {
-                                          window.scrollTo(0, 0);
-                                          this.setState({
-                                            type: "AddressComp",
-                                            addressType: "billing",
-                                          });
-                                        }}
-                                      >
-                                        <FormattedMessage id="edit" />{" "}
-                                        <FormattedMessage id="address" />
-                                      </a>
-                                    )
-                                  }
-                                </div>
-                              </div>
-                            </div>
+                            {this.state.cityList.length &&
+                              this.state.cityList.filter(
+                                (el) =>
+                                  el.id ===
+                                  currentDeliveryAddress.cityId
+                              ).length
+                              ? this.state.cityList.filter(
+                                (el) =>
+                                  el.id ===
+                                  currentDeliveryAddress.cityId
+                              )[0].valueEn
+                              : currentDeliveryAddress.cityId}<br />
+                            {currentDeliveryAddress.address1}<br />
+                            {
+                              subDetail.subscribeStatus === '0' && (
+                                <a
+                                  className="rc-styled-link red-text"
+                                  onClick={() => {
+                                    window.scrollTo(0, 0);
+                                    this.setState({
+                                      type: "AddressComp",
+                                      addressType: "delivery",
+                                    });
+                                  }}
+                                >
+                                  <FormattedMessage id="edit" />{" "}
+                                  <FormattedMessage id="address" />
+                                </a>
+                              )
+                            }
                           </div>
                         </div>
-                        <div className="rc-column footer-container ">
-                          <b className="b-text">
-                            <i className="rc-icon rc-shelter--xs rc-brand1"></i>{" "}
-                            <FormattedMessage id="subscription.paymentMethod"></FormattedMessage>
-                          </b>
-                          <div className="mt10">
-                            <div className="rc-card__body pdl0 ">
-                              <div className="rc-card-container">
-                                <div className="rc-card-content">
-                                  <h1 className="rc-card__meta order-Id">
-                                    <img
-                                      className="card-img"
-                                      // src={data.payment.cardImg}
-                                      src={CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]}
-                                    />
-                                      &nbsp;&nbsp; xxxx xxxx xxxx{" "}
-                                    {currentCardInfo.cardNumber.substring(
-                                      currentCardInfo.cardNumber.length - 4
-                                    )}
-                                  </h1>
-                                  <h1 className="rc-card__meta order-Id">
-                                    {currentCardInfo.cardOwner}
-                                  </h1>
-                                  <h1 className="rc-card__meta order-Id">
-                                    {currentCardInfo.phoneNumber}
-                                  </h1>
-                                  {
-                                    subDetail.subscribeStatus === '0' && (
-                                      <a
-                                        className="rc-styled-link red-text"
-                                        onClick={() => {
-                                          window.scrollTo(0, 0);
-                                          this.setState({ type: "PaymentComp" });
-                                        }}
-                                      >
-                                        <FormattedMessage id="edit" />{" "}
-                                        <FormattedMessage id="card" />
-                                      </a>
-                                    )
-                                  }
-                                </div>
-                              </div>
-                            </div>
+                        <div className="col-12 col-md-4 mb-2">
+                          <div className="d-flex align-items-center">
+                            <i className="rc-icon rc-payment--sm rc-brand1 ml-1 mr-1 mt-1" />
+                            <span>
+                              <FormattedMessage id="payment.payment" />
+                            </span>
+                          </div>
+                          <div className="ml-1">
+                            <img
+                              className="d-inline-block mr-1"
+                              style={{ width: '20%' }}
+                              src={CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]} />
+                            <span className="medium">********{currentCardInfo.cardNumber.substring(
+                              currentCardInfo.cardNumber.length - 4
+                            )}</span><br />
+                            {currentCardInfo.cardOwner}<br />
+                            {currentCardInfo.phoneNumber}<br />
+                            {
+                              subDetail.subscribeStatus === '0' && (
+                                <a
+                                  className="rc-styled-link red-text"
+                                  onClick={() => {
+                                    window.scrollTo(0, 0);
+                                    this.setState({ type: "PaymentComp" });
+                                  }}
+                                >
+                                  <FormattedMessage id="edit" />{" "}
+                                  <FormattedMessage id="card" />
+                                </a>
+                              )
+                            }
                           </div>
                         </div>
                       </div>
