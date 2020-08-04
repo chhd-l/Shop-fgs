@@ -79,7 +79,7 @@ export default class Rate extends Component {
                 <span
                   className="rc-icon  hands rc-margin-bottom--xs rc-rate-fill--xs rc-brand1--xs"
                   disabled={this.state.disabled}
-                  style={{marginRight:'.1rem'}}
+                  style={{marginRight:'.5rem'}}
                 ></span>
               ) : flag && index === numInt ? (
                 <span
@@ -90,7 +90,7 @@ export default class Rate extends Component {
               ) : (
                 <span
                   className="rc-icon rc-margin-bottom--xs rc-rate-fill--xs rc-iconography--xs"
-                  style={{ opacity: ".5" , marginRight:'-.2rem'}}
+                  style={{ opacity: ".5" , marginRight:'.5rem'}}
                   disabled={this.state.disabled}
                 ></span>
               )}
