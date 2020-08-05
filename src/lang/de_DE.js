@@ -115,8 +115,8 @@ const en_US = {
   "home.catogery7": "Magen-Darmtrakt",
   "home.catogery8": "Gesundheitsmanagement",
 
-  "home.note1": "",
-  "home.note2": "",
+  "home.note1": " ",
+  "home.note2": " ",
   "list.youSearchedFor": "Sie suchten nach",
   "list.errMsg": "Keine Produkte gefunden, bitte ändern Sie die Suchkriterien und versuchen Sie es erneut.",
   "list.errMsg2": "Keine Produkte gefunden, bitte ändern Sie die Schlüsselwörter und versuchen Sie es erneut.",
