@@ -1023,7 +1023,10 @@ class Payment extends React.Component {
                                   }}
                                 />
                               )}
+                              {/* 标记 */}
+
                             <div className="billingCheckbox rc-margin-top--xs">
+                              <div>
                               <input
                                 className="form-check-input"
                                 id="id-checkbox-billing"
@@ -1031,12 +1034,40 @@ class Payment extends React.Component {
                                 type="checkbox"
                                 onChange={() => this.billingCheckedChange()}
                                 checked={this.state.billingChecked}
-                                style={{ width: '15px', height: '15px' }}
+                                style={{ width: '17px', height: '17px' }}
                               />
                               <label className="rc-input__label--inline" htmlFor="id-checkbox-billing">
                                 <FormattedMessage id="biliingAddressSameAs" />
                               </label>
+                              </div>
+                              <div className=" normalDelivery">
+                                  <span >
+                                    <FormattedMessage id="payment.normalDelivery2" />
+                                  </span>
+                                  <span className="text-muted arrival-time">
+                                    <FormattedMessage id="payment.normalDelivery3" />
+                                  </span>
+
+                                  <span
+                                    className="shipping-method-pricing"
+                                    style={{ whiteSpace: "nowrap" }}
+                                  >
+  
+                                    <span
+                                      className="info delivery-method-tooltip"
+                                      title="Top"
+                                      data-tooltip-placement="top"
+                                      data-tooltip="top-tooltip"
+                                    >
+                                      i
+                                    </span>
+                                    <div id="top-tooltip" className="rc-tooltip">
+                                      <FormattedMessage id="payment.forFreeTip" />
+                                    </div>
+                                  </span>
+                                  </div>
                             </div>
+
                           </div>
                           {
                             !this.state.billingChecked && <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-4">
@@ -1066,47 +1097,16 @@ class Payment extends React.Component {
                                 )}
                             </div>
                           }
-                          <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-4">
-                            <div className="card-header bg-transparent pt-0 pb-0">
+                          {/* 标记 */}
+                          {/* <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-4"> */}
+                            {/* <div className="card-header bg-transparent pt-0 pb-0">
                               <h5>
                                 <i className="rc-icon rc-delivery--sm rc-iconography" style={{ transform: 'scale(.9)' }}></i>{' '}
                                 <FormattedMessage id="payment.howToDelivery" />
                               </h5>
                             </div>
-                            <div className="leading-lines shipping-method-list">
-                              <div className="row deliveryMethod ml-0 mr-0">
-                                <div className="col-8">
-                                  <span className="display-name pull-left">
-                                    <FormattedMessage id="payment.normalDelivery2" />
-                                  </span>
-                                  <span className="text-muted arrival-time">
-                                    <FormattedMessage id="payment.normalDelivery3" />
-                                  </span>
-                                </div>
-                                <div className="col-4">
-                                  <span
-                                    className="shipping-method-pricing"
-                                    style={{ whiteSpace: "nowrap" }}
-                                  >
-                                    <span className="shipping-cost">
-                                      <FormattedMessage id="payment.forFree" />
-                                    </span>
-                                    <span
-                                      className=" info-tooltip delivery-method-tooltip"
-                                      title="Top"
-                                      data-tooltip-placement="top"
-                                      data-tooltip="top-tooltip"
-                                    >
-                                      i
-                                    </span>
-                                    <div id="top-tooltip" className="rc-tooltip">
-                                      <FormattedMessage id="payment.forFreeTip" />
-                                    </div>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+
+                          </div> */}
                           {/* <fieldset className="shipping-method-block rc-fieldset">
                           </fieldset> */}
                           {/* <div className="card">
@@ -1556,8 +1556,9 @@ class Payment extends React.Component {
                         </form>
                       </div>
                     </div>
-                    <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom">
+                    <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom" >
                       <input
+                        style={{cursor:'pointer'}}
                         className="form-check-input"
                         id="id-checkbox-cat-2"
                         value=""
@@ -1571,10 +1572,12 @@ class Payment extends React.Component {
                           });
                         }}
                         checked={this.state.isReadPrivacyPolicy}
+                        
                       />
                       <label
                         htmlFor="id-checkbox-cat-2"
                         className="rc-input__label--inline"
+                        style={{cursor:'pointer'}}
                       >
                         <FormattedMessage
                           id="payment.confirmInfo3"
@@ -1627,10 +1630,12 @@ class Payment extends React.Component {
                           });
                         }}
                         checked={this.state.isEighteen}
+                        style={{cursor:'pointer'}}
                       />
                       <label
                         htmlFor="id-checkbox-cat-1"
                         className="rc-input__label--inline"
+                        style={{cursor:'pointer'}}
                       >
                         <FormattedMessage id="payment.confirmInfo1" />
                         <div

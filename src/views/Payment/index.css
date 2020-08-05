@@ -209,3 +209,28 @@
 .mr-custom {
   margin-right: 1.25rem!important;
 }
+.normalDelivery{
+  font-size: 14px;
+}
+
+.billingCheckbox{
+  display: flex;
+  justify-content: space-between;
+}
+.info{
+  background: #d7d7d7;
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    min-width: 18px;
+    border-radius: 50%;
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    line-height: 17px;
+    cursor: pointer;
+    text-transform: lowercase;
+}
+#id-checkbox-billing{
+  cursor: pointer;
+}
