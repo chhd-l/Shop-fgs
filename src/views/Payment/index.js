@@ -127,7 +127,8 @@ class Payment extends React.Component {
       selectedCardInfo: {},
       isToPayNow: sessionStorage.getItem("rc-tid"),
       showOxxoForm: false,
-      adyenPayParam: {}
+      adyenPayParam: {},
+      payWayNameArr:[]
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
@@ -137,7 +138,14 @@ class Payment extends React.Component {
   }
   async componentDidMount () {
     //获取支付方式
-    const payWay = await getWays()
+    const payWay = await getWays() 
+    let payWayNameArr = payWay.context.map(item=>item.name) //["PAYU", "PAYUOXXO", "ADYEN"]
+
+    this.setState({
+      payWayNameArr
+    })
+
+    console.log(this.state.payWayNameArr)
 
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
@@ -1187,7 +1195,7 @@ class Payment extends React.Component {
                     <FormattedMessage id="payment.paymentInformation" />
                   </h5>
                   <div className="ml-custom mr-custom">
-                    <div class="rc-input rc-input--inline">
+                    <div class="rc-input rc-input--inline" style={{display:this.state.payWayNameArr.indexOf('PAYU')!=-1?'inline-block':'none'}}>
                       {
                         this.state.paymentTypeVal === 'creditCard'
                           ? <input
@@ -1213,7 +1221,7 @@ class Payment extends React.Component {
                       </label>
                     </div>
                     {
-                      this.state.subForm.buyWay !== "frequency" && <div class="rc-input rc-input--inline">
+                      this.state.subForm.buyWay !== "frequency" && <div class="rc-input rc-input--inline" style={{display:this.state.payWayNameArr.indexOf('PAYUOXXO')!=-1?'inline-block':'none'}}>
                         {
                           this.state.paymentTypeVal === 'oxxo'
                             ? <input
@@ -1240,7 +1248,7 @@ class Payment extends React.Component {
                         </label>
                       </div>
                     }
-                    <div class="rc-input rc-input--inline">
+                    <div class="rc-input rc-input--inline" style={{display:this.state.payWayNameArr.indexOf('ADYEN')!=-1?'inline-block':'none'}}>
                       {
                         this.state.paymentTypeVal === 'adyen'
                           ? <input
