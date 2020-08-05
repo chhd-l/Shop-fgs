@@ -881,12 +881,16 @@ class Details extends React.Component {
                                           <FormattedMessage id="autoship" />
                                           <span
                                             className="info-tooltip delivery-method-tooltip"
-                                            onClick={() => {
+                                            onMouseEnter={() => {
                                               this.setState({
-                                                toolTipVisible: !this.state
-                                                  .toolTipVisible,
+                                                toolTipVisible: true
                                               });
                                             }}
+                                            onMouseLeave={() => {
+                                              this.setState({
+                                                toolTipVisible: false
+                                              });
+                                            }}             
                                           >
                                             i
                                           </span>
