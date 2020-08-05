@@ -585,9 +585,9 @@ const en_US = {
   'subscribeDiscount': 'Subscription Save Discount',
   'customerReviews': 'Customer reviews',
   'sortBy': 'Sort by',
-  'adyen':'Adyen',
-  'adyenPayFail':'AdyenPayFail',
-  'NoPromotionDesc':'No PromotionDesc',
+  'adyen': 'Adyen',
+  'adyenPayFail': 'AdyenPayFail',
+  'NoPromotionDesc': 'No PromotionDesc',
   //qhx新增
   delivery: "delivery",
   FrequentQuestions: "Frequent questions",
@@ -657,6 +657,8 @@ const en_US = {
   'payStatus.PAID': 'Paid',
 
   'biliingAddressSameAs': 'Biliing address same as',
-  'deleteAddressTip': 'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.'
+  'deleteAddressTip': 'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
+  examplePostCode: '02860',
+  examplePhone: '+(52) 559 801 65',
 };
 export default en_US;
