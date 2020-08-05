@@ -86,6 +86,9 @@ class RouteFilter extends Component {
           }
         }
       );
+      loadJS(
+        "https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.9.5/adyen.js",
+      );
     }
     if (this.props.location.pathname !== "/login") {
       loadJS(process.env.REACT_APP_ONTRUST_SRC,
