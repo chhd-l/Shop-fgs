@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
-import { getContactInfo } from '../../api/phone'
 import { getStoreContentInfo } from '@/utils/utils'
 import './index.css'
 
-// function Footer () {
 class Footer extends React.Component {
   constructor(props) {
     super(props);
@@ -30,24 +28,45 @@ class Footer extends React.Component {
     } catch (err) {
       console.log(err)
     }
-    // getContactInfo(process.env.REACT_APP_STOREID)
-    // .then(res=>{
-    //   // console.log("number 请求成功 ")
-    //   const {storeContactPhoneNumber, privacyPolicyUrl, cookiesUrl, legalTerms}=res.context;
-    //   this.setState({
-    //     storeContactPhoneNumber,
-    //     privacyPolicyUrl,
-    //     cookiesUrl,
-    //     legalTerms
-    //   })
-    // })
-    // .catch(err=>{
-    //   // console.log("number 请求失败 ")
-    //   console.log(err)
-    // })
-
   }
   render () {
+    const marsFooterMap = {
+      de: <div id="mars-footer-panel">
+        <div className="mars-footer-container">
+          <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
+            <li>
+              <a target="_blank" href={this.state.privacyPolicyUrl}>
+                <span className="mars-footer-label">
+                  <FormattedMessage id="footer.confidentiality" />
+                </span>
+              </a>
+            </li>
+            <li>
+              <a target="_blank" href={this.state.cookiesUrl}>
+                <span className="mars-footer-label">
+                  <FormattedMessage id="footer.cookies" />
+                </span>
+              </a>
+            </li>
+            <li>
+              <a target="_blank" href={this.state.legalTerms}>
+                <span className="mars-footer-label">
+                  <FormattedMessage id="footer.legalTerms" />
+                </span>
+              </a>
+            </li>
+          </ul>
+          <div className="mars-footer-legal text-center" style={{ fontSize: '10px' }}>
+            <p><FormattedMessage id="footer.copyrightInfo" /></p>
+          </div>
+        </div>
+      </div>,
+    }
+
+    const cookieSettingsBtn = {
+      es: <a className="optanon-show-settings">Cookie Settings</a>,
+      de: <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button>
+    }
     const scrollToTop = () => {
       const widget = document.querySelector('#page-top')
       widget && widget.scrollIntoView()
@@ -191,45 +210,10 @@ class Footer extends React.Component {
               </Link>
             </div>
           </div>
-          {
-            process.env.REACT_APP_LANG === 'de'
-              ? null
-              : <div id="mars-footer-panel">
-                <div className="mars-footer-container">
-                  <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
-                    <li>
-                      <a target="_blank" href={this.state.privacyPolicyUrl}>
-                        <span className="mars-footer-label">
-                          <FormattedMessage id="footer.confidentiality" />
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a target="_blank" href={this.state.cookiesUrl}>
-                        <span className="mars-footer-label">
-                          <FormattedMessage id="footer.cookies" />
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a target="_blank" href={this.state.legalTerms}>
-                        <span className="mars-footer-label">
-                          <FormattedMessage id="footer.legalTerms" />
-                        </span>
-                      </a>
-                    </li>
-                  </ul>
-                  <div className="mars-footer-legal text-center" style={{ fontSize: '10px' }}>
-                    <p><FormattedMessage id="footer.copyrightInfo" /></p>
-                  </div>
-                </div>
-              </div>
-          }
+          {marsFooterMap[process.env.REACT_APP_LANG]}
         </div>
         {/* <!-- OneTrust Cookies Settings button start --> */}
-        {process.env.REACT_APP_LANG === 'de'
-          ? <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button>
-          : <a className="optanon-show-settings">Cookie Settings</a>}
+        {cookieSettingsBtn[process.env.REACT_APP_LANG]}
         {/* <!-- OneTrust Cookies Settings button end --> */}
       </footer>
     )
