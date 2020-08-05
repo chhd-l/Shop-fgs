@@ -19,7 +19,7 @@ const en_US = {
   "total": "Gesamt",
   "totalIncluIVA": "Total (Inclu VAT)",
   "totalCost": "Gesamtkosten",
-  "cats": "CATS",
+  "cats": "Katze",
   "cats2": "Katzen",
   "dogs": "HUNDE",
   "dogs2": "Hunde",
