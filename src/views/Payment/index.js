@@ -138,7 +138,6 @@ class Payment extends React.Component {
   async componentDidMount () {
     //获取支付方式
     const payWay = await getWays()
-    console.log(payWay)
 
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
