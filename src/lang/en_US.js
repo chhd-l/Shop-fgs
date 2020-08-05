@@ -660,5 +660,10 @@ const en_US = {
   'deleteAddressTip': 'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
   examplePostCode: '02860',
   examplePhone: '+(52) 559 801 65',
+
+
+  'inTheBasket':'in the basket',
+  'promotionalCode':'Promotional Code'
+
 };
 export default en_US;

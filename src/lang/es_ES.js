@@ -530,5 +530,9 @@ const en_US = {
   'deleteAddressTip': 'Lo sentimos, esta dirección ya está sujeta a una suscripción, por lo que no se puede eliminar.',
   examplePostCode: '02860',
   examplePhone: '+(52) 559 801 65',
+
+  'inTheBasket':'in the basket',
+  'promotionalCode':'Promotional Code',
+  "clinic.selectVetClinics": "Select Vet Clinics",
 }
 export default en_US;
