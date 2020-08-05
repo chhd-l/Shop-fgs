@@ -201,7 +201,7 @@ const en_US = {
   "payment.normalDelivery2": "Normale Lieferung",
   "payment.normalDelivery3": "(1-4 Tage)",
   "payment.commentOnDelivery": "Kommentar zur Lieferung",
-  "payment.forFreeTip": "Jeder Verbraucher, der auf der Website eine Bestellung aufgibt, kann unabhängig von der Höhe einen kostenlosen Lieferservice erhalten.",
+  "payment.forFreeTip": "Wenn der Bestellbetrag weniger als 15 € beträgt, betragen die Versandkosten 3,99 €. Wenn der Bestellbetrag 15 € oder mehr beträgt, ist der Versand kostenlos.",
   "payment.choosePayment": "Wählen Sie eine Zahlung",
   "payment.yourOrder": "Deine Bestellung",
   "payment.itemTotalProduct": "Artikel Gesamtprodukt",
