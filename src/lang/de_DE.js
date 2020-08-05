@@ -19,7 +19,7 @@ const en_US = {
   "total": "Gesamt",
   "totalIncluIVA": "Total (Inclu VAT)",
   "totalCost": "Gesamtkosten",
-  "cats": "CATS",
+  "cats": "Katze",
   "cats2": "Katzen",
   "dogs": "HUNDE",
   "dogs2": "Hunde",
@@ -523,7 +523,8 @@ const en_US = {
   'product.de.catogery6.name': 'Gesundheitsmanagement',
   'product.de.catogery6.title': 'Health Management',
   'product.de.catogery6.desc': 'Optimales Gewicht, Seniorengesundheit, Zahnhygiene, Nahrungsumstellung',
-  'deleteAddressTip': 'Diese Adresse wurde bereits abonniert und kann daher nicht gelöscht werden.'
-  
+  'deleteAddressTip': 'Diese Adresse wurde bereits abonniert und kann daher nicht gelöscht werden.',
+  examplePostCode: '50678',
+  examplePhone: '+49 30 901820',
 }
 export default en_US;

@@ -427,7 +427,7 @@ class PersonalDataEditForm extends React.Component {
                   <label className="rc-input__label" htmlFor="phone"></label>
                 </span>
                 <span className="ui-lighter">
-                  <FormattedMessage id="example" />: +(52) 559 801 65
+                  <FormattedMessage id="example" />: <FormattedMessage id="examplePhone" />
                 </span>
                 <div className="invalid-feedback" style={{ display: 'none' }}>
                   <FormattedMessage id="payment.errorInfo2" />

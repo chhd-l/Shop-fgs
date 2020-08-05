@@ -325,7 +325,7 @@ export default class AddressForm extends React.Component {
               />
             </div>
             <div className="ui-lighter">
-              <FormattedMessage id="example" />: 02860
+              <FormattedMessage id="example" />: <FormattedMessage id="examplePostCode" />
             </div>
           </div>
           <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_phone">
@@ -395,7 +395,7 @@ export default class AddressForm extends React.Component {
               />
             </div>
             <span className="ui-lighter">
-              <FormattedMessage id="example" />: +(52) 559 801 65
+              <FormattedMessage id="example" />: <FormattedMessage id="examplePhone" />
             </span>
           </div>
         </div>

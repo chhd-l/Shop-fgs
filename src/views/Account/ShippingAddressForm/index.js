@@ -605,7 +605,7 @@ class ShippingAddressFrom extends React.Component {
                           />
                         </div> */}
                           <div className="ui-lighter">
-                            <FormattedMessage id="example" />: 02860
+                            <FormattedMessage id="example" />: <FormattedMessage id="examplePostCode" />
                         </div>
                         </div>
                       </div>
@@ -640,7 +640,7 @@ class ShippingAddressFrom extends React.Component {
                         />
                       </div> */}
                         <span className="ui-lighter">
-                          <FormattedMessage id="example" />: +(52) 559 801 65
+                          <FormattedMessage id="example" />: <FormattedMessage id="examplePhone" />
                       </span>
                       </div>
                       <div className="form-group col-6">

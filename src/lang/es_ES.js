@@ -527,6 +527,8 @@ const en_US = {
   'payStatus.REFUND': 'Reembolso',
   'payStatus.NOT_PAID': 'No pagado',
   'payStatus.PAID': 'Pagado',
-  'deleteAddressTip': 'Lo sentimos, esta dirección ya está sujeta a una suscripción, por lo que no se puede eliminar.'
+  'deleteAddressTip': 'Lo sentimos, esta dirección ya está sujeta a una suscripción, por lo que no se puede eliminar.',
+  examplePostCode: '02860',
+  examplePhone: '+(52) 559 801 65',
 }
 export default en_US;
