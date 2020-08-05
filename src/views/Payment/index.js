@@ -257,7 +257,7 @@ class Payment extends React.Component {
       isCompleteCredit: true
     });
   }
-  //1.初始化adyen,得到adyen加密参数
+  //1.初始化adyen,得到加密参数
   initAdyenPay () {
     const AdyenCheckout = window.AdyenCheckout
     // (1) Create an instance of AdyenCheckout
@@ -308,15 +308,14 @@ class Payment extends React.Component {
         const customerCommitAndPayMixFun = ()=>{action = customerCommitAndPayMix}  //  会员frequency
         const confirmAndCommitFun = ()=>{action = confirmAndCommit}     //游客
         return new Map([
-          [{isTid:true},rePayFun],
-          [{isTid:false,isLogin:true,buyWay:'once'},customerCommitAndPayFun],//buyWay为once和""的时候均表示会员正常交易
-          [{isTid:false,isLogin:true,buyWay:''},customerCommitAndPayFun],
-          [{isTid:false,isLogin:true,buyWay:'frequency'},customerCommitAndPayMixFun],
-          [{isTid:false,isLogin:false},confirmAndCommitFun],
+          [{isTid:/^true$/i,isLogin:/.*/,buyWay:/.*/},rePayFun],
+          [{isTid:/^false$/i,isLogin:/^true$/i,buyWay:/^once$/},customerCommitAndPayFun],//buyWay为once的时候均表示会员正常交易
+          [{isTid:/^false$/i,isLogin:/^true$/i,buyWay:/^frequency$/},customerCommitAndPayMixFun],
+          [{isTid:/^false$/i,isLogin:/^false$/i,buyWay:/.*/},confirmAndCommitFun],
         ])
       }
       const payFun = (isTid,isLogin,buyWay)=>{
-        let action = [...actions()].filter(([key,value])=>(key.isTid == isTid && key.isLogin == isLogin && key.buyWay==buyWay))
+        let action = [...actions()].filter(([key,value])=>(key.isTid.test(isTid) && key.isLogin.test(isLogin) && key.buyWay.test(buyWay)))
         action.forEach(([key,value])=>value.call(this))
       }
 
