@@ -1,4 +1,10 @@
 const breadcrumbNameMap = {
+  '/list/urinary': [{ name: 'product.de.catogery1.name' }],
+  '/list/dermatology': [{ name: 'product.de.catogery2.name' }],
+  '/list/weight-management': [{ name: 'product.de.catogery3.name' }],
+  '/list/gastrointestinal-tract': [{ name: 'product.de.catogery4.name' }],
+  '/list/vital-support': [{ name: 'product.de.catogery5.name' }],
+  '/list/health-management': [{ name: 'product.de.catogery6.name' }],
   '/list/dogs': [{ name: 'home.catogery6' }],
   '/list/cats': [{ name: 'home.catogery5' }],
   '/list/vcn': [{ name: 'product.catogery3.name' }],

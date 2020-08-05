@@ -274,10 +274,9 @@ class List extends React.Component {
     if (this.state.loading) {
       return false
     }
-    console.log("测试存储信息props",this.state.currentCatogery)
-    debugger
-    sessionStorage.setItem('rc-goods-cate-name', this.state.currentCatogery ||'' )
-    sessionStorage.setItem('recomment-preview',this.props.location.pathname)
+    if (this.state.currentCatogery) {
+      sessionStorage.setItem('rc-goods-cate-name', this.state.currentCatogery)
+    }
     sessionStorage.setItem('rc-goods-name', item.goodsName)
     const { history } = this.props
     history.push('/details/' + item.goodsInfos[0].goodsInfoId)
