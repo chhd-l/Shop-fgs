@@ -21,7 +21,8 @@ import {
   confirmAndCommit,
   customerCommitAndPay,
   rePay,
-  customerCommitAndPayMix
+  customerCommitAndPayMix,
+  getWays
 } from "@/api/payment";
 import PaymentComp from "@/components/PaymentComp";
 import store from "storejs";
@@ -135,6 +136,9 @@ class Payment extends React.Component {
     this.loginBillingAddressRef = React.createRef();
   }
   async componentDidMount () {
+    //获取支付方式
+    const payWay = await getWays()
+
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -253,7 +257,7 @@ class Payment extends React.Component {
       isCompleteCredit: true
     });
   }
-  //1.初始化adyen
+  //1.初始化adyen,得到adyen加密参数
   initAdyenPay () {
     const AdyenCheckout = window.AdyenCheckout
     // (1) Create an instance of AdyenCheckout
@@ -273,7 +277,6 @@ class Payment extends React.Component {
             this.setState({
               adyenPayParam
             }, () => {
-              console.log({ adyenPayParam: this.state.adyenPayParam })
               this.adyenPayment()
             })
           }
@@ -284,41 +287,52 @@ class Payment extends React.Component {
 
   }
   //2.进行支付
-  async adyenPayment () {
-    var orderNumber = sessionStorage.getItem("orderNumber");
-    console.log(orderNumber)
+  async adyenPayment () {   
     try {
-      var addressParameter = await this.goConfirmation();
-      var parameters = Object.assign(addressParameter, {
+      /* 1)获取支付参数 */
+      let addressParameter = await this.goConfirmation();//获取支付公共参数
+      let phone = store.get("deliveryInfo").deliveryAddress.phoneNumber;//获取电话号码
+      this.saveAddressAndComment()//获取两个addressId
+
+      /* 2)组装支付需要的参数 */
+      let parameters = Object.assign(addressParameter, {
         ...this.state.adyenPayParam
-      }, { country: "MEX" });//国家暂时填的任意,后台接口需要
+      }, { country: "MEX" },{deliveryAddressId:this.state.deliveryAddress.addressId},
+      {billAddressId:this.state.billingAddress.addressId},{phone});//(国家暂时填的MEX)
 
-      let res = {}
-      if (orderNumber) {//存在订单号,进行repay
-        res = await rePay(parameters)
-      } else {
-        if (this.isLogin) {//会员正常
-          if (this.state.subForm.buyWay == "once" || this.state.subForm.buyWay == "") {//正常购买非订阅
-            var param = Object.assign(parameters, { deliveryAddressId: this.deliveryAddress.addressId },
-              { billAddressId: this.billingAddress.addressId })
-            res = await customerCommitAndPay(param);
-
-          } else {//会员订阅
-            res = await customerCommitAndPayMix(parameters);
-          }
-          res = await customerCommitAndPay(parameters);
-        } else {//游客
-          res = await confirmAndCommit(parameters);
-        }
+      /* 3)根据条件-调用不同的支付接口 */
+      let action
+      const actions = ()=>{
+        const rePayFun = ()=>{action = rePay}  // 存在订单号
+        const customerCommitAndPayFun = ()=>{action =  customerCommitAndPay}    //会员once
+        const customerCommitAndPayMixFun = ()=>{action = customerCommitAndPayMix}  //  会员frequency
+        const confirmAndCommitFun = ()=>{action = confirmAndCommit}     //游客
+        return new Map([
+          [{isTid:true},rePayFun],
+          [{isTid:false,isLogin:true,buyWay:'once'},customerCommitAndPayFun],//buyWay为once和""的时候均表示会员正常交易
+          [{isTid:false,isLogin:true,buyWay:''},customerCommitAndPayFun],
+          [{isTid:false,isLogin:true,buyWay:'frequency'},customerCommitAndPayMixFun],
+          [{isTid:false,isLogin:false},confirmAndCommitFun],
+        ])
+      }
+      const payFun = (isTid,isLogin,buyWay)=>{
+        let action = [...actions()].filter(([key,value])=>(key.isTid == isTid && key.isLogin == isLogin && key.buyWay==buyWay))
+        action.forEach(([key,value])=>value.call(this))
       }
 
+      payFun(this.tid!=null,this.isLogin,this.state.subForm.buyWay)
 
+      /* 4)调用支付 */
+     const res = await action(parameters)
       if (res.code === "K-000000") {
         var orderNumber = res.context[0].tid;
         sessionStorage.setItem("orderNumber", orderNumber);
         this.props.history.push("/confirmation");
       }
     } catch (err) {
+      if(err.errorData){//err.errorData是返回的tid(订单号)
+        this.tid = err.errorData
+      }
       this.showErrorMsg(this.props.intl.messages.adyenPayFail);
     } finally {
       this.endLoading()
@@ -677,6 +691,7 @@ class Payment extends React.Component {
           param3.paymentMethodId = creditCardInfo.id;
         }
       }
+
       // rePay
       if (this.tid) {
         param3.tid = this.tid;

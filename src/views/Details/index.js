@@ -1,29 +1,25 @@
-import React from 'react'
-import Skeleton from 'react-skeleton-loader'
-import { inject, observer } from 'mobx-react'
-import { toJS } from 'mobx'
-import GoogleTagManager from '@/components/GoogleTagManager'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import BreadCrumbs from '@/components/BreadCrumbs'
-import ImageMagnifier from '@/components/ImageMagnifier'
-import LoginButton from '@/components/LoginButton'
-import ConfirmTooltip from '@/components/ConfirmTooltip'
-import Reviews from './components/Reviews'
-import Rate from '@/components/Rate'
-import PetModal from '@/components/PetModal'
-import {
-  formatMoney,
-  translateHtmlCharater,
-  queryProps
-} from '@/utils/utils'
-import { STORE_CATE_ENUM } from "@/utils/constant"
-import { FormattedMessage, injectIntl } from 'react-intl'
-import { cloneDeep, findIndex, find } from 'lodash'
-import { getDetails, getLoginDetails } from '@/api/details'
-import { sitePurchase } from '@/api/cart'
-import { getDict } from '@/api/dict'
-import './index.css'
+import React from "react";
+import Skeleton from "react-skeleton-loader";
+import { inject, observer } from "mobx-react";
+import { toJS } from "mobx";
+import GoogleTagManager from "@/components/GoogleTagManager";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import BreadCrumbs from "@/components/BreadCrumbs";
+import ImageMagnifier from "@/components/ImageMagnifier";
+import LoginButton from "@/components/LoginButton";
+import ConfirmTooltip from "@/components/ConfirmTooltip";
+import Reviews from "./components/Reviews";
+import Rate from "@/components/Rate";
+import PetModal from "@/components/PetModal";
+import { formatMoney, translateHtmlCharater, queryProps } from "@/utils/utils";
+import { STORE_CATE_ENUM } from "@/utils/constant";
+import { FormattedMessage, injectIntl } from "react-intl";
+import { cloneDeep, findIndex, find } from "lodash";
+import { getDetails, getLoginDetails } from "@/api/details";
+import { sitePurchase } from "@/api/cart";
+import { getDict } from "@/api/dict";
+import "./index.css";
 
 @inject("checkoutStore", "loginStore")
 @injectIntl
@@ -41,14 +37,14 @@ class Details extends React.Component {
         goodsDescription: "",
         sizeList: [],
         images: [],
-        goodsCategory: '',
+        goodsCategory: "",
         goodsSpecDetails: [],
-        goodsSpecs: []
+        goodsSpecs: [],
       },
       activeTabIdx: 0,
       goodsDetailTab: {
         tabName: [],
-        tabContent: []
+        tabContent: [],
       },
       quantity: 1,
       stock: 0,
@@ -76,86 +72,101 @@ class Details extends React.Component {
       goodsId: null,
       minMarketPrice: 0,
       minSubscriptionPrice: 0,
-      toolTipVisible: false
+      toolTipVisible: false,
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.headerRef = React.createRef();
 
-    this.specie = ''
-    this.productRange = []
-    this.format = []
+    this.specie = "";
+    this.productRange = [];
+    this.format = [];
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
   }
-  componentDidMount () {
+  componentDidMount() {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
       return false;
     }
-    this.setState(
-      { id: this.props.match.params.id },
-      () => this.queryDetails()
+    this.setState({ id: this.props.match.params.id }, () =>
+      this.queryDetails()
     );
   }
-  get isLogin () {
-    return this.props.loginStore.isLogin
+  get isLogin() {
+    return this.props.loginStore.isLogin;
   }
-  get checkoutStore () {
-    return this.props.checkoutStore
+  get checkoutStore() {
+    return this.props.checkoutStore;
   }
-  matchGoods () {
-    let { specList, details, currentUnitPrice, currentLinePrice, currentSubscriptionPrice, stock } = this.state
-    let selectedArr = []
-    let idArr = []
-    specList.map(el => {
-      if (el.chidren.filter(item => item.selected).length) {
-        selectedArr.push(el.chidren.filter(item => item.selected)[0])
+  matchGoods() {
+    let {
+      specList,
+      details,
+      currentUnitPrice,
+      currentLinePrice,
+      currentSubscriptionPrice,
+      stock,
+    } = this.state;
+    let selectedArr = [];
+    let idArr = [];
+    specList.map((el) => {
+      if (el.chidren.filter((item) => item.selected).length) {
+        selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
       }
-    })
-    selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId)
-    idArr = selectedArr.map(el => el.specDetailId)
-    currentUnitPrice = details.marketPrice
-    details.sizeList.map(item => {
-      let specTextArr = []
+    });
+    selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
+    idArr = selectedArr.map((el) => el.specDetailId);
+    currentUnitPrice = details.marketPrice;
+    details.sizeList.map((item) => {
+      let specTextArr = [];
       for (let specItem of specList) {
         for (let specDetailItem of specItem.chidren) {
-          if (item.mockSpecIds.includes(specDetailItem.specId) && item.mockSpecDetailIds.includes(specDetailItem.specDetailId)) {
-            specTextArr.push(specDetailItem.detailName)
+          if (
+            item.mockSpecIds.includes(specDetailItem.specId) &&
+            item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
+          ) {
+            specTextArr.push(specDetailItem.detailName);
           }
         }
       }
-      item.specText = specTextArr.join(' ')
-      if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
-        item.selected = true
-        currentUnitPrice = item.salePrice
-        currentLinePrice = item.linePrice
-        currentSubscriptionPrice = item.subscriptionPrice
-        stock = item.stock
+      item.specText = specTextArr.join(" ");
+      if (item.mockSpecDetailIds.sort().join(",") === idArr.join(",")) {
+        item.selected = true;
+        currentUnitPrice = item.salePrice;
+        currentLinePrice = item.linePrice;
+        currentSubscriptionPrice = item.subscriptionPrice;
+        stock = item.stock;
       } else {
-        item.selected = false
+        item.selected = false;
       }
-    })
-    this.setState({ details, currentUnitPrice, currentLinePrice, currentSubscriptionPrice, stock }, () => {
-      this.updateInstockStatus();
-    })
+    });
+    this.setState(
+      {
+        details,
+        currentUnitPrice,
+        currentLinePrice,
+        currentSubscriptionPrice,
+        stock,
+      },
+      () => {
+        this.updateInstockStatus();
+      }
+    );
   }
-  async queryDetails () {
+  async queryDetails() {
     const { id } = this.state;
-    const tmpRequest = this.isLogin ? getLoginDetails : getDetails
-    Promise.all([
-      tmpRequest(id),
-      queryProps()
-    ])
-      .then(resList => {
-        const res = resList[0]
+    const tmpRequest = this.isLogin ? getLoginDetails : getDetails;
+    Promise.all([tmpRequest(id), queryProps()])
+      .then((resList) => {
+        const res = resList[0];
         if (res && res.context) {
           this.setState({
-            productRate: res.context.avgEvaluate
-          })
+            productRate: res.context.avgEvaluate,
+          });
         }
         if (res && res.context && res.context.goods) {
           this.setState({
@@ -164,64 +175,74 @@ class Details extends React.Component {
             goodsId: res.context.goods.goodsId,
             minMarketPrice: res.context.goods.minMarketPrice,
             minSubscriptionPrice: res.context.goods.minSubscriptionPrice,
-          })
+          });
         }
         if (res && res.context && res.context.goodsSpecDetails && resList[1]) {
           // 获取产品所属类别
-          let tmpSpecie = find(res.context.storeCates, ele => ele.cateName.toLowerCase().includes('dog')) && 'Dog'
+          let tmpSpecie =
+            find(res.context.storeCates, (ele) =>
+              ele.cateName.toLowerCase().includes("dog")
+            ) && "Dog";
           if (!tmpSpecie) {
-            tmpSpecie = find(res.context.storeCates, ele => ele.cateName.toLowerCase().includes('cat')) && 'Cat'
+            tmpSpecie =
+              find(res.context.storeCates, (ele) =>
+                ele.cateName.toLowerCase().includes("cat")
+              ) && "Cat";
           }
-          this.specie = tmpSpecie
+          this.specie = tmpSpecie;
 
           // 获取产品所属home页四个大类
           for (let item of res.context.storeCates) {
-            const t = find(STORE_CATE_ENUM, ele => ele.cateName.includes(item.cateName))
+            const t = find(STORE_CATE_ENUM, (ele) =>
+              ele.cateName.includes(item.cateName)
+            );
             if (t) {
-              this.productRange.push(t.text)
+              this.productRange.push(t.text);
             }
           }
 
           // 获取产品Dry/Wet属性
-          let tmpFormat = []
+          let tmpFormat = [];
           for (let item of res.context.goodsPropDetailRels) {
-            const t = find(resList[1], ele => ele.propId == item.propId)
-            if (t && t.propName.includes('Seco')) {
-              const t2 = find(t.goodsPropDetails, ele => ele.detailId == item.detailId)
+            const t = find(resList[1], (ele) => ele.propId == item.propId);
+            if (t && t.propName.includes("Seco")) {
+              const t2 = find(
+                t.goodsPropDetails,
+                (ele) => ele.detailId == item.detailId
+              );
               if (t2) {
-                tmpFormat.push({ 'Seco': 'Dry', 'Húmedo': 'Wet' }[t2.detailName] || '')
+                tmpFormat.push(
+                  { Seco: "Dry", Húmedo: "Wet" }[t2.detailName] || ""
+                );
               }
             }
           }
-          this.format = tmpFormat
-
+          this.format = tmpFormat;
 
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;
           specList.map((sItem) => {
-            sItem.chidren = specDetailList.filter(
-              (sdItem, i) => {
-                // console.log(sdItem, i, 'sdItem')
-                // if(i === 0) {
-                //   sdItem.selected = true
-                // }
-                // if (sItem.chidren && sItem.chidren.length === 1) {
-                //   sdItem.selected = true
-                // } else {
-                //   sdItem.selected = false
-                // }
-                // if(sItem.chidren && sItem.chidren)
-                return sdItem.specId === sItem.specId
-              }
-            )
-            sItem.chidren[0].selected = true
+            sItem.chidren = specDetailList.filter((sdItem, i) => {
+              // console.log(sdItem, i, 'sdItem')
+              // if(i === 0) {
+              //   sdItem.selected = true
+              // }
+              // if (sItem.chidren && sItem.chidren.length === 1) {
+              //   sdItem.selected = true
+              // } else {
+              //   sdItem.selected = false
+              // }
+              // if(sItem.chidren && sItem.chidren)
+              return sdItem.specId === sItem.specId;
+            });
+            sItem.chidren[0].selected = true;
           });
 
           // this.setState({ specList });
           let sizeList = [];
           let goodsInfos = res.context.goodsInfos || [];
 
-          sizeList = goodsInfos.map(g => {
+          sizeList = goodsInfos.map((g) => {
             // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
             // console.log(targetInfo, 'target')
             // if (targetInfo) {
@@ -232,87 +253,99 @@ class Details extends React.Component {
 
           // const selectedSize = find(sizeList, s => s.selected)
 
-          const { goodsDetailTab } = this.state
+          const { goodsDetailTab } = this.state;
           try {
-            let tmpGoodsDetail = res.context.goods.goodsDetail
+            let tmpGoodsDetail = res.context.goods.goodsDetail;
             if (tmpGoodsDetail) {
-              tmpGoodsDetail = JSON.parse(tmpGoodsDetail)
+              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  goodsDetailTab.tabName.push(key)
-                  goodsDetailTab.tabContent.push(tmpGoodsDetail[key])
+                  goodsDetailTab.tabName.push(key);
+                  goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
                   // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
                 }
               }
             }
             this.setState({
-              goodsDetailTab: goodsDetailTab
-            })
+              goodsDetailTab: goodsDetailTab,
+            });
           } catch (err) {
-            getDict({ type: 'goodsDetailTab', storeId: process.env.REACT_APP_STOREID })
-              .then(res => {
-                goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(ele => ele.name)
-                this.setState({
-                  goodsDetailTab: goodsDetailTab
-                })
-              })
+            getDict({
+              type: "goodsDetailTab",
+              storeId: process.env.REACT_APP_STOREID,
+            }).then((res) => {
+              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
+                (ele) => ele.name
+              );
+              this.setState({
+                goodsDetailTab: goodsDetailTab,
+              });
+            });
           }
-          let images = []
-          if (res.context.goodsInfos.every(el => !el.goodsInfoImg)) {
+          let images = [];
+          if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
             if (res.context.images.length) {
-              images = res.context.images
+              images = res.context.images;
             }
           } else {
-            images = res.context.goodsInfos.filter(el => el.goodsInfoImg)
+            images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
           }
           this.setState(
             {
-              details: Object.assign({},
+              details: Object.assign(
+                {},
                 this.state.details,
                 res.context.goods,
                 {
                   sizeList,
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs
+                  goodsSpecs: res.context.goodsSpecs,
                 },
-                { goodsCategory: [this.specie, this.productRange.join('&'), this.format.join('&')].join('/') }),
+                {
+                  goodsCategory: [
+                    this.specie,
+                    this.productRange.join("&"),
+                    this.format.join("&"),
+                  ].join("/"),
+                }
+              ),
               images: images,
               // images: res.context.images.concat(res.context.goodsInfos),
               // images: res.context.goodsInfos.every(el => !el.goodsInfoImg)?res.context.images: res.context.goodsInfos,
-              specList
+              specList,
             },
             () => {
-              this.matchGoods()
+              this.matchGoods();
             }
           );
         } else {
           // 没有规格的情况
           this.setState({
-            errMsg: <FormattedMessage id="details.errMsg" />
+            errMsg: <FormattedMessage id="details.errMsg" />,
           });
         }
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
         console.table(e);
         this.setState({
-          errMsg: e ? e.toString() : <FormattedMessage id="details.errMsg2" />
+          errMsg: e ? e.toString() : <FormattedMessage id="details.errMsg2" />,
         });
       })
       .finally(() => {
         this.setState({
           loading: false,
-          initing: false
-        })
-      })
+          initing: false,
+        });
+      });
   }
-  updateInstockStatus () {
+  updateInstockStatus() {
     this.setState({
-      instockStatus: this.state.quantity <= this.state.stock
+      instockStatus: this.state.quantity <= this.state.stock,
     });
   }
-  hanldeAmountChange (type) {
+  hanldeAmountChange(type) {
     this.setState({ checkOutErrMsg: "" });
     if (!type) return;
     const { quantity } = this.state;
@@ -326,7 +359,7 @@ class Details extends React.Component {
     } else {
       res = (quantity || 0) + 1;
       if (quantity >= 30) {
-        res = 30
+        res = 30;
       }
     }
     this.setState(
@@ -338,7 +371,7 @@ class Details extends React.Component {
       }
     );
   }
-  handleAmountInput (e) {
+  handleAmountInput(e) {
     this.setState({ checkOutErrMsg: "" });
     const { quantityMinLimit, quantityMaxLimit } = this.state;
     const val = e.target.value;
@@ -353,24 +386,26 @@ class Details extends React.Component {
         tmp = quantityMinLimit;
       }
       if (tmp > quantityMaxLimit) {
-        tmp = quantityMaxLimit
+        tmp = quantityMaxLimit;
       }
       this.setState({ quantity: tmp }, () => this.updateInstockStatus());
     }
   }
-  handleChooseSize (sId, sdId) {
-    let { specList } = this.state
-    specList.filter(item => item.specId === sId)[0].chidren.map(item => {
-      if (item.specDetailId === sdId) {
-        item.selected = true
-      } else {
-        item.selected = false
-      }
-    })
-    console.log(specList, 'sss')
+  handleChooseSize(sId, sdId) {
+    let { specList } = this.state;
+    specList
+      .filter((item) => item.specId === sId)[0]
+      .chidren.map((item) => {
+        if (item.specDetailId === sdId) {
+          item.selected = true;
+        } else {
+          item.selected = false;
+        }
+      });
+    console.log(specList, "sss");
     this.setState({ specList }, () => {
-      this.matchGoods()
-    })
+      this.matchGoods();
+    });
     // this.setState
     // console.log(sItem, 'sItem')
     // this.setState({ checkOutErrMsg: "" });
@@ -393,11 +428,14 @@ class Details extends React.Component {
     //   () => this.updateInstockStatus()
     // );
   }
-  async hanldeAddToCart ({ redirect = false, needLogin = false } = {}) {
-    if (!(!this.state.initing && this.state.instockStatus && this.state.quantity)) return;
+  async hanldeAddToCart({ redirect = false, needLogin = false } = {}) {
+    if (
+      !(!this.state.initing && this.state.instockStatus && this.state.quantity)
+    )
+      return;
     this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
-      return false
+      return false;
     }
     if (this.isLogin) {
       this.hanldeLoginAddToCart({ redirect });
@@ -405,7 +443,7 @@ class Details extends React.Component {
       await this.hanldeUnloginAddToCart({ redirect, needLogin });
     }
   }
-  async hanldeLoginAddToCart ({ redirect }) {
+  async hanldeLoginAddToCart({ redirect }) {
     this.setState({ addToCartLoading: true });
     const { quantity } = this.state;
     const { sizeList } = this.state.details;
@@ -414,63 +452,91 @@ class Details extends React.Component {
       await sitePurchase({
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
-        goodsCategory: [this.specie, this.productRange, this.format.join('&')].join('/')
+        goodsCategory: [
+          this.specie,
+          this.productRange,
+          this.format.join("&"),
+        ].join("/"),
       });
-      await this.checkoutStore.updateLoginCart()
+      await this.checkoutStore.updateLoginCart();
       this.headerRef.current && this.headerRef.current.handleCartMouseOver();
       setTimeout(() => {
         this.headerRef.current && this.headerRef.current.handleCartMouseOut();
       }, 1000);
       this.setState({ addToCartLoading: false });
       if (redirect) {
-        if (this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+        if (
+          this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT
+        ) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
-          })
-          return false
+            checkOutErrMsg: (
+              <FormattedMessage
+                id="cart.errorInfo3"
+                values={{
+                  val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT),
+                }}
+              />
+            ),
+          });
+          return false;
         }
 
         // 存在下架商品，不能下单
         if (this.props.checkoutStore.offShelvesProNames.length) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorInfo4"
-              values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />
-          })
-          return false
+            checkOutErrMsg: (
+              <FormattedMessage
+                id="cart.errorInfo4"
+                values={{
+                  val: this.props.checkoutStore.offShelvesProNames.join("/"),
+                }}
+              />
+            ),
+          });
+          return false;
         }
 
         // 库存不够，不能下单
         if (this.props.checkoutStore.outOfstockProNames.length) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorInfo2"
-              values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />
-          })
-          return false
+            checkOutErrMsg: (
+              <FormattedMessage
+                id="cart.errorInfo2"
+                values={{
+                  val: this.props.checkoutStore.outOfstockProNames.join("/"),
+                }}
+              />
+            ),
+          });
+          return false;
         }
         // this.openPetModal()
-        this.props.history.push('/prescription')
+        this.props.history.push("/prescription");
       }
     } catch (err) {
       console.log(err);
-      this.setState({ errMsg: err.toString() })
+      this.setState({ errMsg: err.toString() });
     }
   }
-  async hanldeUnloginAddToCart ({ redirect = false, needLogin = false }) {
-
+  async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
     this.setState({ checkOutErrMsg: "" });
     if (this.state.loading) {
-      return false
+      return false;
     }
-    const { history } = this.props
+    const { history } = this.props;
     const { currentUnitPrice, quantity, instockStatus } = this.state;
     const { goodsId, sizeList } = this.state.details;
     const currentSelectedSize = find(sizeList, (s) => s.selected);
     let quantityNew = quantity;
-    let tmpData = Object.assign({}, this.state.details, { quantity: quantityNew });
-    let cartDataCopy = cloneDeep(toJS(this.checkoutStore.cartData).filter(el => el));
+    let tmpData = Object.assign({}, this.state.details, {
+      quantity: quantityNew,
+    });
+    let cartDataCopy = cloneDeep(
+      toJS(this.checkoutStore.cartData).filter((el) => el)
+    );
 
     if (!instockStatus || !quantityNew) {
-      return false
+      return false;
     }
     this.setState({ addToCartLoading: true });
     let flag = true;
@@ -480,7 +546,7 @@ class Details extends React.Component {
         (c) =>
           c.goodsId === goodsId &&
           currentSelectedSize.goodsInfoId ===
-          c.sizeList.filter((s) => s.selected)[0].goodsInfoId
+            c.sizeList.filter((s) => s.selected)[0].goodsInfoId
       );
       if (historyItem) {
         flag = false;
@@ -519,51 +585,69 @@ class Details extends React.Component {
       (c) =>
         c.goodsId === goodsId &&
         currentSelectedSize.goodsInfoId ===
-        find(c.sizeList, (s) => s.selected).goodsInfoId
+          find(c.sizeList, (s) => s.selected).goodsInfoId
     );
     tmpData = Object.assign(tmpData, {
       currentAmount: currentUnitPrice * quantityNew,
-      selected: true
+      selected: true,
     });
     if (idx > -1) {
       cartDataCopy.splice(idx, 1, tmpData);
     } else {
       if (cartDataCopy.length >= 30) {
         this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" />
+          checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" />,
         });
-        return
+        return;
       }
       cartDataCopy.push(tmpData);
     }
-    await this.props.checkoutStore.updateUnloginCart(cartDataCopy)
+    await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
     this.setState({ addToCartLoading: false });
     if (redirect) {
-      if (this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+      if (
+        this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT
+      ) {
         this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorInfo3"
-            values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
+          checkOutErrMsg: (
+            <FormattedMessage
+              id="cart.errorInfo3"
+              values={{
+                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT),
+              }}
+            />
+          ),
         });
-        return false
+        return false;
       }
       if (this.props.checkoutStore.offShelvesProNames.length) {
         this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorInfo4"
-            values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />
-        })
-        return false
+          checkOutErrMsg: (
+            <FormattedMessage
+              id="cart.errorInfo4"
+              values={{
+                val: this.props.checkoutStore.offShelvesProNames.join("/"),
+              }}
+            />
+          ),
+        });
+        return false;
       }
       if (this.checkoutStore.outOfstockProNames.length) {
         this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorInfo2"
-            values={{ val: this.checkoutStore.outOfstockProNames.join('/') }} />
-        })
-        return false
+          checkOutErrMsg: (
+            <FormattedMessage
+              id="cart.errorInfo2"
+              values={{ val: this.checkoutStore.outOfstockProNames.join("/") }}
+            />
+          ),
+        });
+        return false;
       }
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
-        history.push('/prescription')
+        history.push("/prescription");
       }
     }
     // todo 改为mobx
@@ -572,48 +656,49 @@ class Details extends React.Component {
       this.headerRef.current.handleCartMouseOut();
     }, 1000);
   }
-  changeTab (e, i) {
-    this.setState({ activeTabIdx: i })
+  changeTab(e, i) {
+    this.setState({ activeTabIdx: i });
   }
-  openPetModal () {
+  openPetModal() {
     this.setState({
-      petModalVisible: true
-    })
+      petModalVisible: true,
+    });
   }
-  closePetModal () {
+  closePetModal() {
     if (this.state.isAdd === 2) {
       this.setState({
-        isAdd: 0
-      })
+        isAdd: 0,
+      });
     }
     this.setState({
-      petModalVisible: false
-    })
+      petModalVisible: false,
+    });
   }
-  petComfirm () {
-    this.props.history.push('/prescription')
+  petComfirm() {
+    this.props.history.push("/prescription");
   }
-  openNew () {
+  openNew() {
     this.setState({
-      isAdd: 1
-    })
-    this.openPetModal()
+      isAdd: 1,
+    });
+    this.openPetModal();
   }
-  closeNew () {
+  closeNew() {
     this.setState({
-      isAdd: 2
-    })
-    this.openPetModal()
+      isAdd: 2,
+    });
+    this.openPetModal();
   }
   handleAClick() {
-    console.log("预定跳转");
-    let el = document.getElementById("review-container");
-    let length = this.getElementToPageTop(el);
-    console.log("长度：", length);
-    window.scrollTo({
-      top: length - 80,
-      behavior: "smooth",
-    });
+    if (this.state.replyNum.length > 0) {
+      let el = document.getElementById("review-container");
+      let length = this.getElementToPageTop(el);
+      console.log("长度：", length);
+      window.scrollTo({
+        top: length - 80,
+        behavior: "smooth",
+      });
+    }
   }
   getElementToPageTop(el) {
     if (el.parentElement) {
@@ -621,7 +706,7 @@ class Details extends React.Component {
     }
     return el.offsetTop;
   }
-  render () {
+  render() {
     const createMarkup = (text) => ({ __html: text });
     const {
       details,
@@ -636,16 +721,16 @@ class Details extends React.Component {
       errMsg,
       addToCartLoading,
       specList,
-      initing
+      initing,
     } = this.state;
-    let event
+    let event;
     if (!this.state.initing) {
       event = {
         page: {
-          type: 'Product',
-          theme: this.specie
-        }
-      }
+          type: "Product",
+          theme: this.specie,
+        },
+      };
     }
     return (
       <div>
@@ -672,134 +757,168 @@ class Details extends React.Component {
             </div>
           </main>
         ) : (
-            <main className="rc-content--fixed-header ">
-              <div className="product-detail product-wrapper rc-bg-colour--brand3">
-                <div className="rc-max-width--xl mb-4">
-                  <BreadCrumbs />
-                  <div className="rc-padding--sm--desktop">
-                    <div className="rc-content-h-top">
-                      <div className="rc-layout-container rc-six-column">
-                        <div className="rc-column rc-double-width carousel-column imageBox">
-                          {this.state.loading ? (
-                            <Skeleton
-                              color="#f5f5f5"
-                              width="100%"
-                              height="100%"
-                            />
-                          ) : (
-                              <div className={`rc-full-width ${this.state.imageMagnifierCfg.show ? "show-image-magnifier" : ""}`}>
-                                <div className="d-flex justify-content-center ui-margin-top-1-md-down">
-                                  {
-                                    <div className="details-img-container">
-                                      <ImageMagnifier
-                                        sizeList={details.sizeList}
-                                        video={details.goodsVideo}
-                                        images={images}
-                                        minImg={details.goodsImg}
-                                        maxImg={details.goodsImg}
-                                        config={this.state.imageMagnifierCfg.config}
-                                      />
-                                    </div>
-                                  }
+          <main className="rc-content--fixed-header ">
+            <div className="product-detail product-wrapper rc-bg-colour--brand3">
+              <div className="rc-max-width--xl mb-4">
+                <BreadCrumbs />
+                <div className="rc-padding--sm--desktop">
+                  <div className="rc-content-h-top">
+                    <div className="rc-layout-container rc-six-column">
+                      <div className="rc-column rc-double-width carousel-column imageBox">
+                        {this.state.loading ? (
+                          <Skeleton
+                            color="#f5f5f5"
+                            width="100%"
+                            height="100%"
+                          />
+                        ) : (
+                          <div
+                            className={`rc-full-width ${
+                              this.state.imageMagnifierCfg.show
+                                ? "show-image-magnifier"
+                                : ""
+                            }`}
+                          >
+                            <div className="d-flex justify-content-center ui-margin-top-1-md-down">
+                              {
+                                <div className="details-img-container">
+                                  <ImageMagnifier
+                                    sizeList={details.sizeList}
+                                    video={details.goodsVideo}
+                                    images={images}
+                                    minImg={details.goodsImg}
+                                    maxImg={details.goodsImg}
+                                    config={this.state.imageMagnifierCfg.config}
+                                  />
                                 </div>
-                              </div>
-                            )}
-                        </div>
-                        <div className="rc-column product-column">
-                          {this.state.loading ? (
-                            <div>
-                              <Skeleton color="#f5f5f5" width="100%" count={7} />
+                              }
                             </div>
-                          ) : (
-                              <div className="wrap-short-des">
-                                <h1
-                                  className="rc-gamma ui-text-overflow-line2 text-break mb-0"
-                                  title={details.goodsName}>
-                                  {details.goodsName}
-                                </h1>
-                                <div className="rc-card__price flex-inline">
-                                  <div className="display-inline" >
-                                    <Rate def={this.state.productRate} disabled={true} marginSize={'.5rem'} /></div>
-                                    <a
+                          </div>
+                        )}
+                      </div>
+                      <div className="rc-column product-column">
+                        {this.state.loading ? (
+                          <div>
+                            <Skeleton color="#f5f5f5" width="100%" count={7} />
+                          </div>
+                        ) : (
+                          <div className="wrap-short-des">
+                            <h1
+                              className="rc-gamma ui-text-overflow-line2 text-break mb-0"
+                              title={details.goodsName}
+                            >
+                              {details.goodsName}
+                            </h1>
+                            <div className="rc-card__price flex-inline">
+                              <div className="display-inline">
+                                <Rate
+                                  def={this.state.productRate}
+                                  disabled={true}
+                                  marginSize={".5rem"}
+                                />
+                              </div>
+                              <a
                                 href="javascript:;"
                                 className="comments rc-margin-left--xs rc-text-colour--text"
                                 onClick={this.handleAClick.bind(this)}
                               >
-                                    {this.state.replyNum} <FormattedMessage id="reviews" />
-                                  </a>
-                                </div>
-                                <h3 className="text-break mb-1 mt-2">{details.goodsSubtitle}</h3>
-                                <div
-                                  className="description"
-                                  dangerouslySetInnerHTML={createMarkup(
-                                    details.goodsDescription
-                                  )}
-                                ></div>
-                              </div>
-                            )}
-                        </div>
-                        {/* <!-- buybox --> */}
-                        <div className="rc-column rc-triple-width buybox-column">
-                          <div className="product-pricing v2 rc-full-width hide-cta">
-                            <div className="product-pricing__inner">
-                              <div className="product-pricing__cards d-flex flex-column flex-sm-column">
-                                <div
-                                  className="product-pricing__card singlepruchase selected"
-                                  data-buybox="singlepruchase"
-                                >
-                                  {!initing && <>
-                                    {
-                                      currentLinePrice && currentLinePrice > 0
-                                        ? <div className="product-pricing__card__head d-flex align-items-center">
-                                          <div className="rc-input product-pricing__card__head__title">
-                                            <FormattedMessage id="listPrice" />
-                                          </div>
-                                          <b className="product-pricing__card__head__price red rc-padding-y--none text-line-through">
-                                            {formatMoney(currentLinePrice)}
-                                          </b>
+                                {this.state.replyNum}{" "}
+                                <FormattedMessage id="reviews" />
+                              </a>
+                            </div>
+                            <h3 className="text-break mb-1 mt-2">
+                              {details.goodsSubtitle}
+                            </h3>
+                            <div
+                              className="description"
+                              dangerouslySetInnerHTML={createMarkup(
+                                details.goodsDescription
+                              )}
+                            ></div>
+                          </div>
+                        )}
+                      </div>
+                      {/* <!-- buybox --> */}
+                      <div className="rc-column rc-triple-width buybox-column">
+                        <div className="product-pricing v2 rc-full-width hide-cta">
+                          <div className="product-pricing__inner">
+                            <div className="product-pricing__cards d-flex flex-column flex-sm-column">
+                              <div
+                                className="product-pricing__card singlepruchase selected"
+                                data-buybox="singlepruchase"
+                                style={{paddingTop:'12px'}}
+                              >
+                                {!initing && (
+                                  <>
+                                    {currentLinePrice &&
+                                    currentLinePrice > 0 ? (
+                                      <div className="product-pricing__card__head d-flex align-items-center">
+                                        <div className="rc-input product-pricing__card__head__title" >
+                                          <FormattedMessage id="listPrice" />
                                         </div>
-                                        : null
-                                    }
+                                        <b className="product-pricing__card__head__price  rc-padding-y--none text-line-through" style={{fontWeight:'200',fontSize:'20px',color:'rgba(102,102,102,.7)'}}>
+                                          {formatMoney(currentLinePrice)}
+                                        </b>
+                                      </div>
+                                    ) : null}
                                     <div className="product-pricing__card__head d-flex align-items-center">
-                                      < div className="rc-input product-pricing__card__head__title">
+                                      <div className="rc-input product-pricing__card__head__title">
                                         <FormattedMessage id="price" />
                                       </div>
-                                      <b className="product-pricing__card__head__price red rc-padding-y--none">
+                                      <b className="product-pricing__card__head__price red  rc-padding-y--none" >
                                         {formatMoney(currentUnitPrice)}
                                       </b>
                                     </div>
-                                  </>}
-                                  {
-                                    find(details.sizeList, s => s.selected) && find(details.sizeList, s => s.selected).subscriptionStatus
-                                      ? <>
-                                        {
-                                          !initing && <div className="product-pricing__card__head d-flex align-items-center">
-                                            <div className="rc-input product-pricing__card__head__title">
-                                              <FormattedMessage id="autoship" />
-                                              <span
-                                                className="info-tooltip delivery-method-tooltip"
-                                                onClick={() => {
-                                                  this.setState({
-                                                    toolTipVisible: !this.state.toolTipVisible
-                                                  })
-                                                }}>i</span>
-                                              <ConfirmTooltip
-                                                arrowStyle={{ left: '35%' }}
-                                                display={this.state.toolTipVisible}
-                                                cancelBtnVisible={false}
-                                                confirmBtnVisible={false}
-                                                updateChildDisplay={status => this.setState({ toolTipVisible: status })}
-                                                content={<FormattedMessage id="subscription.promotionTip2" />} />
-                                            </div>
-                                            <b className="product-pricing__card__head__price red rc-padding-y--none">
-                                              {formatMoney(currentSubscriptionPrice || 0)}
-                                            </b>
-                                          </div>
-                                        }
-                                      </>
-                                      : null
-                                  }
-                                  {/* {details &&
+                                  </>
+                                )}
+                                {find(details.sizeList, (s) => s.selected) &&
+                                find(details.sizeList, (s) => s.selected)
+                                  .subscriptionStatus ? (
+                                  <>
+                                    {!initing && (
+                                      <div className="product-pricing__card__head d-flex align-items-center">
+                                        <div className="rc-input product-pricing__card__head__title">
+                                          <FormattedMessage id="autoship" />
+                                          <span
+                                            className="info-tooltip delivery-method-tooltip"
+                                            onMouseEnter={() => {
+                                              this.setState({
+                                                toolTipVisible: true
+                                              });
+                                            }}
+                                            onMouseLeave={() => {
+                                              this.setState({
+                                                toolTipVisible: false
+                                              });
+                                            }}             
+                                          >
+                                            i
+                                          </span>
+                                          <ConfirmTooltip
+                                            arrowStyle={{ left: "35%" }}
+                                            display={this.state.toolTipVisible}
+                                            cancelBtnVisible={false}
+                                            confirmBtnVisible={false}
+                                            updateChildDisplay={(status) =>
+                                              this.setState({
+                                                toolTipVisible: status,
+                                              })
+                                            }
+                                            content={
+                                              <FormattedMessage id="subscription.promotionTip2" />
+                                            }
+                                          />
+                                        </div>
+                                        <b className="product-pricing__card__head__price  red rc-padding-y--none"  >
+                                          {formatMoney(
+                                            currentSubscriptionPrice || 0
+                                          )}
+                                        </b>
+                                      </div>
+                                    )}
+                                  </>
+                                ) : null}
+                                {/* {details &&
                                     find(details.sizeList, (s) => s.selected) &&
                                     find(details.sizeList, (s) => s.selected)
                                       .marketingLabels[0] &&
@@ -814,324 +933,426 @@ class Details extends React.Component {
                                         </div>
                                       </div>
                                     ) : null} */}
-                                  <div className="product-pricing__card__body rc-margin-top--xs">
-                                    <div className="toggleVisibility">
-                                      <div className="product-selectors rc-padding-top--xs">
-                                        {specList.map((sItem, i) => (
-                                          <div id="choose-select" key={i}>
-                                            <div className="rc-margin-bottom--xs">
-                                              {/* <FormattedMessage id="details.theSize" /> */}
-                                              {sItem.specName}:
+                                <div className="product-pricing__card__body rc-margin-top--xs">
+                                  <div className="toggleVisibility">
+                                    <div className="product-selectors rc-padding-top--xs">
+                                      {specList.map((sItem, i) => (
+                                        <div id="choose-select" key={i}>
+                                          <div className="rc-margin-bottom--xs">
+                                            {/* <FormattedMessage id="details.theSize" /> */}
+                                            {sItem.specName}:
                                           </div>
 
-                                            <div data-attr="size">
-                                              <div
-                                                className="rc-swatch __select-size"
-                                                id="id-single-select-size"
-                                              >
-                                                {/* {details.sizeList.map(
+                                          <div data-attr="size">
+                                            <div
+                                              className="rc-swatch __select-size"
+                                              id="id-single-select-size"
+                                            >
+                                              {/* {details.sizeList.map(
                                                   (item, i) => (
 
                                                   )
                                                 )} */}
-                                                {sItem.chidren.map((sdItem, i) => (
+                                              {sItem.chidren.map(
+                                                (sdItem, i) => (
                                                   <div
                                                     key={i}
-                                                    className={`rc-swatch__item ${sdItem.selected ? 'selected' : ''}`}
+                                                    className={`rc-swatch__item ${
+                                                      sdItem.selected
+                                                        ? "selected"
+                                                        : ""
+                                                    }`}
                                                     // item.selected
                                                     //   ? "selected"
                                                     //   : ""
                                                     onClick={() =>
-                                                      this.handleChooseSize(sItem.specId, sdItem.specDetailId)
+                                                      this.handleChooseSize(
+                                                        sItem.specId,
+                                                        sdItem.specDetailId
+                                                      )
                                                     }
                                                   >
                                                     <span>
                                                       {sdItem.detailName}
                                                     </span>
                                                   </div>
-                                                ))}
-                                              </div>
-                                            </div>
-
-                                          </div>
-                                        ))}
-
-                                        <div
-                                          className="quantity-width start-lines"
-                                          data-attr="size"
-                                        >
-                                          <div className="quantity d-flex justify-content-between align-items-center">
-                                            <span>
-                                              <FormattedMessage id="amount" />:
-                                          </span>
-                                            <input
-                                              type="hidden"
-                                              id="invalid-quantity"
-                                              value="Пожалуйста, введите правильный номер."
-                                            />
-                                            <div className="rc-quantity text-right d-flex justify-content-end">
-                                              <span
-                                                className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                                onClick={() =>
-                                                  this.hanldeAmountChange("minus")
-                                                }
-                                              ></span>
-                                              <input
-                                                className="rc-quantity__input"
-                                                id="quantity"
-                                                name="quantity"
-                                                value={quantity}
-                                                min={quantityMinLimit}
-                                                max={stock}
-                                                onChange={this.handleAmountInput}
-                                                maxLength="5"
-                                              />
-                                              <span
-                                                className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                                onClick={() =>
-                                                  this.hanldeAmountChange("plus")
-                                                }
-                                              ></span>
+                                                )
+                                              )}
                                             </div>
                                           </div>
                                         </div>
+                                      ))}
+
+                                      <div
+                                        className="quantity-width start-lines"
+                                        data-attr="size"
+                                      >
+                                        <div className="quantity d-flex justify-content-between align-items-center">
+                                          <span>
+                                            <FormattedMessage id="amount" />:
+                                          </span>
+                                          <input
+                                            type="hidden"
+                                            id="invalid-quantity"
+                                            value="Пожалуйста, введите правильный номер."
+                                          />
+                                          <div className="rc-quantity text-right d-flex justify-content-end">
+                                            <span
+                                              className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                                              onClick={() =>
+                                                this.hanldeAmountChange("minus")
+                                              }
+                                            ></span>
+                                            <input
+                                              className="rc-quantity__input"
+                                              id="quantity"
+                                              name="quantity"
+                                              value={quantity}
+                                              min={quantityMinLimit}
+                                              max={stock}
+                                              onChange={this.handleAmountInput}
+                                              maxLength="5"
+                                            />
+                                            <span
+                                              className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                                              onClick={() =>
+                                                this.hanldeAmountChange("plus")
+                                              }
+                                            ></span>
+                                          </div>
+                                        </div>
                                       </div>
-                                      <div className="availability  product-availability" style={{ display: details.sizeList.filter(el => el.selected).length ? 'block' : 'none' }}>
-                                        <div className="align-left flex">
-                                          <div className="stock__wrapper">
-                                            <div className="stock">
-                                              <label
-                                                className={[
-                                                  "availability",
-                                                  instockStatus
-                                                    ? "instock"
-                                                    : "outofstock",
-                                                ].join(" ")}
-                                              >
-                                                <span className="title-select">
-                                                  <FormattedMessage id="details.availability" />{" "}
+                                    </div>
+                                    <div
+                                      className="availability  product-availability"
+                                      style={{
+                                        display: details.sizeList.filter(
+                                          (el) => el.selected
+                                        ).length
+                                          ? "block"
+                                          : "none",
+                                      }}
+                                    >
+                                      <div className="align-left flex">
+                                        <div className="stock__wrapper">
+                                          <div className="stock">
+                                            <label
+                                              className={[
+                                                "availability",
+                                                instockStatus
+                                                  ? "instock"
+                                                  : "outofstock",
+                                              ].join(" ")}
+                                            >
+                                              <span className="title-select">
+                                                <FormattedMessage id="details.availability" />{" "}
                                                 :
                                               </span>
-                                              </label>
-                                              <span
-                                                className="availability-msg"
-                                                data-ready-to-order="true"
+                                            </label>
+                                            <span
+                                              className="availability-msg"
+                                              data-ready-to-order="true"
+                                            >
+                                              <div
+                                                className={[
+                                                  instockStatus
+                                                    ? ""
+                                                    : "out-stock",
+                                                ].join(" ")}
                                               >
-                                                <div
-                                                  className={[
-                                                    instockStatus
-                                                      ? ""
-                                                      : "out-stock",
-                                                  ].join(" ")}
-                                                >
-                                                  {instockStatus ? (
-                                                    <FormattedMessage id="details.inStock" />
-                                                  ) : (
-                                                      <FormattedMessage id="details.outStock" />
-                                                    )}
-                                                </div>
-                                              </span>
-                                            </div>
+                                                {instockStatus ? (
+                                                  <FormattedMessage id="details.inStock" />
+                                                ) : (
+                                                  <FormattedMessage id="details.outStock" />
+                                                )}
+                                              </div>
+                                            </span>
                                           </div>
                                         </div>
                                       </div>
+                                    </div>
+                                    <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                      <div className="cart-and-ipay">
+                                        <button
+                                          className={`add-to-cart rc-btn rc-btn--one rc-full-width ${
+                                            addToCartLoading
+                                              ? "ui-btn-loading"
+                                              : ""
+                                          } ${
+                                            !initing &&
+                                            instockStatus &&
+                                            quantity
+                                              ? ""
+                                              : "rc-btn-solid-disabled"
+                                          }`}
+                                          data-loc="addToCart"
+                                          style={{ lineHeight: "30px" }}
+                                          onClick={() => this.hanldeAddToCart()}
+                                        >
+                                          <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
+                                          <FormattedMessage id="details.addToCart" />
+                                        </button>
+                                      </div>
+                                    </div>
+                                    <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
+                                      <div className="cart-and-ipay">
+                                        {this.isLogin ? (
+                                          <button
+                                            className={`add-to-cart rc-btn rc-btn--one rc-full-width ${
+                                              addToCartLoading
+                                                ? "ui-btn-loading"
+                                                : ""
+                                            } ${
+                                              !initing &&
+                                              instockStatus &&
+                                              quantity
+                                                ? ""
+                                                : "rc-btn-solid-disabled"
+                                            }`}
+                                            data-loc="addToCart"
+                                            style={{ lineHeight: "30px" }}
+                                            onClick={() =>
+                                              this.hanldeAddToCart({
+                                                redirect: true,
+                                                needLogin: false,
+                                              })
+                                            }
+                                          >
+                                            <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
+                                            <FormattedMessage id="checkout" />
+                                          </button>
+                                        ) : (
+                                          <LoginButton
+                                            beforeLoginCallback={async () =>
+                                              this.hanldeUnloginAddToCart({
+                                                redirect: true,
+                                                needLogin: true,
+                                              })
+                                            }
+                                            btnClass={`add-to-cart rc-btn rc-btn--one rc-full-width ${
+                                              addToCartLoading
+                                                ? "ui-btn-loading"
+                                                : ""
+                                            } ${
+                                              !initing &&
+                                              instockStatus &&
+                                              quantity
+                                                ? ""
+                                                : "rc-btn-solid-disabled"
+                                            }`}
+                                            history={this.props.history}
+                                          >
+                                            <FormattedMessage id="checkout" />
+                                          </LoginButton>
+                                        )}
+                                      </div>
+                                    </div>
+                                    {!this.isLogin && (
                                       <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
                                         <div className="cart-and-ipay">
                                           <button
-                                            className={`add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${!initing && instockStatus && quantity ? '' : 'rc-btn-solid-disabled'}`}
+                                            className={`rc-styled-link color-999 ${
+                                              addToCartLoading
+                                                ? "ui-btn-loading ui-btn-loading-border-red"
+                                                : ""
+                                            } ${
+                                              !initing &&
+                                              instockStatus &&
+                                              quantity
+                                                ? ""
+                                                : "rc-btn-disabled"
+                                            }`}
                                             data-loc="addToCart"
-                                            style={{ lineHeight: "30px" }}
-                                            onClick={() => this.hanldeAddToCart()}
+                                            onClick={() =>
+                                              this.hanldeAddToCart({
+                                                redirect: true,
+                                              })
+                                            }
                                           >
-                                            <i className="fa rc-icon rc-cart--xs rc-brand3"></i>
-                                            <FormattedMessage id="details.addToCart" />
+                                            <FormattedMessage id="GuestCheckout" />
                                           </button>
                                         </div>
                                       </div>
-                                      <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                        <div className="cart-and-ipay">
-                                          {
-                                            this.isLogin
-                                              ? <button
-                                                className={`add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${!initing && instockStatus && quantity ? '' : 'rc-btn-solid-disabled'}`}
-                                                data-loc="addToCart"
-                                                style={{ lineHeight: "30px" }}
-                                                onClick={() =>
-                                                  this.hanldeAddToCart({
-                                                    redirect: true,
-                                                    needLogin: false
-                                                  })
-                                                }
-                                              >
-                                                <i className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></i>
-                                                <FormattedMessage id="checkout" />
-                                              </button>
-                                              : <LoginButton
-                                                beforeLoginCallback={async () =>
-                                                  this.hanldeUnloginAddToCart({
-                                                    redirect: true,
-                                                    needLogin: true
-                                                  })
-                                                }
-                                                btnClass={`add-to-cart rc-btn rc-btn--one rc-full-width ${addToCartLoading ? 'ui-btn-loading' : ''} ${!initing && instockStatus && quantity ? '' : 'rc-btn-solid-disabled'}`}
-                                                history={this.props.history}>
-                                                <FormattedMessage id="checkout" />
-                                              </LoginButton>
-                                          }
-                                        </div>
-                                      </div>
-                                      {
-                                        !this.isLogin && <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                          <div className="cart-and-ipay">
-                                            <button
-                                              className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''} ${!initing && instockStatus && quantity ? '' : 'rc-btn-disabled'}`}
-                                              data-loc="addToCart"
-                                              onClick={() =>
-                                                this.hanldeAddToCart({
-                                                  redirect: true
-                                                })
-                                              }
-                                            >
-                                              <FormattedMessage id="GuestCheckout" />
-                                            </button>
-                                          </div>
-                                        </div>
-                                      }
-                                    </div>
+                                    )}
                                   </div>
                                 </div>
-                                <div className={`text-break ${this.state.checkOutErrMsg ? '' : 'hidden'}`}>
-                                  <aside
-                                    className="rc-alert rc-alert--error rc-alert--with-close"
-                                    role="alert"
-                                    style={{ padding: ".5rem" }}
-                                  >
-                                    <span className="pl-0">
-                                      {this.state.checkOutErrMsg}
-                                    </span>
-                                  </aside>
-                                </div>
                               </div>
-                              <div className="product-pricing__warranty rc-text--center"></div>
+                              <div
+                                className={`text-break ${
+                                  this.state.checkOutErrMsg ? "" : "hidden"
+                                }`}
+                              >
+                                <aside
+                                  className="rc-alert rc-alert--error rc-alert--with-close"
+                                  role="alert"
+                                  style={{ padding: ".5rem" }}
+                                >
+                                  <span className="pl-0">
+                                    {this.state.checkOutErrMsg}
+                                  </span>
+                                </aside>
+                              </div>
                             </div>
+                            <div className="product-pricing__warranty rc-text--center"></div>
                           </div>
-                          {/* 未登录的时候,只有这种显示了订阅信息的商品底部才显示Subscription is possible only after registration这句话 */}
-                          {!this.isLogin &&
-                            find(details.sizeList, (s) => s.selected) &&
-                            find(details.sizeList, (s) => s.selected)
-                              .subscriptionStatus ? (
-                              <div style={{ textAlign: 'center' }}>
-                                <FormattedMessage id="unLoginSubscriptionTips" />
-                              </div>
-                            ) : null}
                         </div>
-
+                        {/* 未登录的时候,只有这种显示了订阅信息的商品底部才显示Subscription is possible only after registration这句话 */}
+                        {!this.isLogin &&
+                        find(details.sizeList, (s) => s.selected) &&
+                        find(details.sizeList, (s) => s.selected)
+                          .subscriptionStatus ? (
+                          <div style={{ textAlign: "center" }}>
+                            <FormattedMessage id="unLoginSubscriptionTips" />
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div >
-                {
-                  this.state.goodsDetailTab.tabName.length
-                      ? <div className="rc-max-width--xl rc-padding-x--sm">
-                        <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
-                          <div>
-                            <div className="rc-border-bottom rc-border-colour--interface">
-                              <nav className="rc-fade--x">
-                                <ul className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank" role="tablist">
-                                  {this.state.goodsDetailTab.tabName.map((ele, index) => (
-                                      <li key={index}>
-                                        <button
-                                            className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
-                                            data-toggle={`tab__panel-${index}`}
-                                            aria-selected={this.state.activeTabIdx === index ? 'true' : 'false'}
-                                            role="tab"
-                                            onClick={e => this.changeTab(e, index)}>
-                                          {ele}
-                                        </button>
-                                      </li>
-                                  ))}
-                                </ul>
-                              </nav>
-                            </div>
-                            <div className="rc-tabs tabs-detail" style={{ marginTop: '40px' }}>
-                              {this.state.goodsDetailTab.tabContent.map((ele, i) => (
-                                  <div
-                                      id={`tab__panel-${i}`}
-                                      key={i}
-                                      className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
-                                      aria-expanded={this.state.activeTabIdx === i ? 'true' : 'false'}
+            </div>
+            <div>
+              {this.state.goodsDetailTab.tabName.length ? (
+                <div className="rc-max-width--xl rc-padding-x--sm">
+                  <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
+                    <div>
+                      <div className="rc-border-bottom rc-border-colour--interface">
+                        <nav className="rc-fade--x">
+                          <ul
+                            className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
+                            role="tablist"
+                          >
+                            {this.state.goodsDetailTab.tabName.map(
+                              (ele, index) => (
+                                <li key={index}>
+                                  <button
+                                    className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                                    data-toggle={`tab__panel-${index}`}
+                                    aria-selected={
+                                      this.state.activeTabIdx === index
+                                        ? "true"
+                                        : "false"
+                                    }
+                                    role="tab"
+                                    onClick={(e) => this.changeTab(e, index)}
                                   >
-                                    <div className="block">
-                                      <p
-                                          className="content rc-scroll--x"
-                                          dangerouslySetInnerHTML={createMarkup(ele)} />
-                                    </div>
-                                  </div>
-                              ))}
+                                    {ele}
+                                  </button>
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        </nav>
+                      </div>
+                      <div
+                        className="rc-tabs tabs-detail"
+                        style={{ marginTop: "40px" }}
+                      >
+                        {this.state.goodsDetailTab.tabContent.map((ele, i) => (
+                          <div
+                            id={`tab__panel-${i}`}
+                            key={i}
+                            className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
+                            aria-expanded={
+                              this.state.activeTabIdx === i ? "true" : "false"
+                            }
+                          >
+                            <div className="block">
+                              <p
+                                className="content rc-scroll--x"
+                                dangerouslySetInnerHTML={createMarkup(ele)}
+                              />
                             </div>
                           </div>
-                        </div>
+                        ))}
                       </div>
-                      : null
-                }
-              </div>
-              <div id="review-container">
-                <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
-              </div>
-              <div
-                className="sticky-addtocart"
-                style={{ transform: "translateY(-80px)" }}
-              >
-                <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+            <div id="review-container">
+              <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
+            </div>
+            <div
+              className="sticky-addtocart"
+              style={{ transform: "translateY(-80px)" }}
+            >
+              <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
+                <button
+                  className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
+                    addToCartLoading ? "ui-btn-loading" : ""
+                  } ${
+                    !initing && instockStatus && quantity
+                      ? ""
+                      : "rc-btn-solid-disabled"
+                  }`}
+                  onClick={() => this.hanldeAddToCart()}
+                >
+                  <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
+                  <span className="default-txt">
+                    <FormattedMessage id="details.addToCart" />
+                  </span>
+                </button>
+                {this.isLogin ? (
                   <button
-                    className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${addToCartLoading ? "ui-btn-loading" : ""} ${!initing && instockStatus && quantity ? "" : "rc-btn-solid-disabled"}`}
-                    onClick={() => this.hanldeAddToCart()}
+                    className={`rc-btn rc-btn--one js-sticky-cta ${
+                      addToCartLoading ? "ui-btn-loading" : ""
+                    } ${
+                      !initing && instockStatus && quantity
+                        ? ""
+                        : "rc-btn-solid-disabled"
+                    }`}
+                    onClick={() =>
+                      this.hanldeAddToCart({ redirect: true, needLogin: false })
+                    }
                   >
-                    <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
+                    <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
                     <span className="default-txt">
-                      <FormattedMessage id="details.addToCart" />
+                      <FormattedMessage id="checkout" />
                     </span>
                   </button>
-                  {
-                    this.isLogin
-                      ? <button
-                        className={`rc-btn rc-btn--one js-sticky-cta ${addToCartLoading ? 'ui-btn-loading' : ''} ${!initing && instockStatus && quantity ? '' : 'rc-btn-solid-disabled'}`}
-                        onClick={() => this.hanldeAddToCart({ redirect: true, needLogin: false })}>
-                        <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
-                        <span className="default-txt">
-                          <FormattedMessage id="checkout" />
-                        </span>
-                      </button>
-                      : <LoginButton
-                        beforeLoginCallback={async () =>
-                          this.hanldeUnloginAddToCart({
-                            redirect: true,
-                            needLogin: true
-                          })
-                        }
-                        btnClass={`rc-btn rc-btn--one js-sticky-cta ${addToCartLoading ? 'ui-btn-loading' : ''} ${!initing && instockStatus && quantity ? '' : 'rc-btn-solid-disabled'}`}
-                        history={this.props.history}
-                      >
-                        <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
-                        <span className="default-txt">
-                          <FormattedMessage id="checkout" />
-                        </span>
-                      </LoginButton>
-                  }
-                  {
-                    !this.isLogin && <button
-                      className={`rc-styled-link color-999 ${addToCartLoading ? 'ui-btn-loading' : ''} ${!initing && instockStatus && quantity ? '' : 'rc-btn-disabled'}`}
-                      onClick={() => this.hanldeAddToCart({ redirect: true })}>
-                      <FormattedMessage id="GuestCheckout" />
-                    </button>
-                  }
-                </div>
+                ) : (
+                  <LoginButton
+                    beforeLoginCallback={async () =>
+                      this.hanldeUnloginAddToCart({
+                        redirect: true,
+                        needLogin: true,
+                      })
+                    }
+                    btnClass={`rc-btn rc-btn--one js-sticky-cta ${
+                      addToCartLoading ? "ui-btn-loading" : ""
+                    } ${
+                      !initing && instockStatus && quantity
+                        ? ""
+                        : "rc-btn-solid-disabled"
+                    }`}
+                    history={this.props.history}
+                  >
+                    <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                    <span className="default-txt">
+                      <FormattedMessage id="checkout" />
+                    </span>
+                  </LoginButton>
+                )}
+                {!this.isLogin && (
+                  <button
+                    className={`rc-styled-link color-999 ${
+                      addToCartLoading ? "ui-btn-loading" : ""
+                    } ${
+                      !initing && instockStatus && quantity
+                        ? ""
+                        : "rc-btn-disabled"
+                    }`}
+                    onClick={() => this.hanldeAddToCart({ redirect: true })}
+                  >
+                    <FormattedMessage id="GuestCheckout" />
+                  </button>
+                )}
               </div>
-            </main>
-          )
-        }
+            </div>
+          </main>
+        )}
         <Footer />
 
         {/* <PetModal visible={this.state.petModalVisible}
@@ -1141,9 +1362,9 @@ class Details extends React.Component {
           closeNew={() => this.closeNew()}
           confirm={() => this.petComfirm()}
           close={() => this.closePetModal()} /> */}
-      </div >
+      </div>
     );
   }
 }
 
-export default Details
+export default Details;
