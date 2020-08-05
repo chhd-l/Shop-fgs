@@ -1267,7 +1267,7 @@ class SubscriptionDetail extends React.Component {
                                   id="id-text2"
                                   type="text"
                                   name="text"
-                                  placeholder="Promotional Code"
+                                  placeholder={this.props.intl.messages.promotionCode}
                                   value={this.state.promotionInputValue}
                                   onChange={(e) => this.handlerChange(e)}
                                 />

@@ -531,7 +531,9 @@ class LoginCart extends React.Component {
       id={id}>
       <div className="row">
         <div className="col-12 total-items medium">
-          <span>{this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
+          <span>{this.totalNum}</span> {this.totalNum > 1 ? <FormattedMessage id="items" /> : 
+          <FormattedMessage id="item" />} in the basket
+          <FormattedMessage id="inTheBasket" />
       </div>
       </div>
       <div className="row">

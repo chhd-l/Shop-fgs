@@ -17,7 +17,7 @@ const en_US = {
   "itemsInCart": "Sie haben {val} Artikel in Ihrem Warenkorb",
   "itemsInCart2": "Sie haben {val} Artikel in Ihrem Warenkorb",
   "total": "Gesamt",
-  "totalIncluIVA": "Total (Inclu VAT)",
+  "totalIncluIVA": "Gesamt (inkl. MwSt.)",
   "totalCost": "Gesamtkosten",
   "cats": "KATZE",
   "cats2": "Katze",
@@ -177,7 +177,7 @@ const en_US = {
   "clinic.clinic": "Klinik",
   "clinic.confirm": "Bestätigen",
   "clinic.cancel": "Stornieren",
-  "clinic.selectVetClinics": "Select Vet Clinics",
+  "clinic.selectVetClinics": "Wählen Sie Tierkliniken",
   "clinic.vet": "Tierarzt",
   "clinic.clinicTip": "Welche Klinik hat Ihnen ein Rezept gegeben?",
   "payment.payment": "ZAHLUNG",
@@ -373,7 +373,7 @@ const en_US = {
   "subscription.nextOrder": "Nächste Bestellung",
   "subscription.order": "Auftrag",
   "subscription.total": "Gesamt",
-  "subscription.totalInclu": "Total (Inclu VAT)",
+  "subscription.totalInclu": "Gesamt (inkl. MwSt.)",
   "subscription.saveDiscount": "Abonnement sparen Rabatt",
   "subscription.shipping": "Versand",
   "subscription.shippingAddress": "Lieferanschrift",
@@ -580,5 +580,9 @@ const en_US = {
   'deleteAddressTip': 'Diese Adresse wurde bereits abonniert und kann daher nicht gelöscht werden.',
   examplePostCode: '50678',
   examplePhone: '+49 30 901820',
+
+  'inTheBasket':'im Warenkorb',
+  'promotionalCode':'Angebotscode'
+
 }
 export default en_US;
