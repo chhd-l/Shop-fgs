@@ -122,7 +122,7 @@ class ImageMagnifier extends Component {
     })
 
     let selectedSizeInfo = sizeList.filter(item => item.selected)
-    if (selectedSizeInfo.length) {
+    if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
       let hoverIndex = 0
       images.map((el, i) => {
         if(el.artworkUrl === selectedSizeInfo[0].goodsInfoImg || el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg) {
@@ -148,7 +148,7 @@ class ImageMagnifier extends Component {
     const { sizeList } = nextProps
     console.log(sizeList.filter(item => item.selected))
     let selectedSizeInfo = sizeList.filter(item => item.selected)
-    if (selectedSizeInfo.length) {
+    if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
       let hoverIndex = 0
       images.map((el, i) => {
         if(el.artworkUrl === selectedSizeInfo[0].goodsInfoImg || el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg) {
