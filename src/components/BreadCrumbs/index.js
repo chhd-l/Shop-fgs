@@ -17,13 +17,15 @@ const BreadCrumbs = withRouter(props => {
 
   // specific for details page
   if (url.substr(1, 7) === 'details' && !mapData.length) {
-
+    debugger
     let cateName = sessionStorage.getItem('rc-goods-cate-name')
     let goodsName = sessionStorage.getItem('rc-goods-name')
-    const urlMap={'/list/dogs':"Dogs",'/list/cats':"Cats"}
+    let catePrePath=sessionStorage.getItem('recomment-preview')
+    const urlMapName={'dogs':'Dogs','cats':'Cats','VD cats' :'VD cats','VD dogs':'VD Dogs','Prescription dogs':'Prescription Dogs','Prescription Cats':'Prescription Cats'}
+
 
     if (cateName) {
-      mapData.push({ name: urlMap[cateName], href:cateName })
+      mapData.push({ name: urlMapName[cateName], href:catePrePath })
     }
     if (goodsName) {
       mapData.push({ name: goodsName })
