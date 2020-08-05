@@ -54,6 +54,7 @@ const LoginButton = (props) => {
             } else {
               if (checkoutStore.cartData.length) {
                 await mergeUnloginCartData()
+                loginStore.updateLoginCart()
               }
             }
             sessionStorage.removeItem('okta-redirectUrl')

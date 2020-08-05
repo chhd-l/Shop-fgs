@@ -12,80 +12,80 @@ class CheckoutStore {
   @observable outOfstockProNames = [];
   @observable offShelvesProNames = [];
 
-  @computed get tradePrice() {
+  @computed get tradePrice () {
     return this.cartPrice && this.cartPrice.tradePrice
       ? this.cartPrice.tradePrice
       : 0;
   }
-  @computed get totalPrice() {
+  @computed get totalPrice () {
     return this.cartPrice && this.cartPrice.totalPrice
       ? this.cartPrice.totalPrice
       : 0;
   }
-  @computed get discountPrice() {
+  @computed get discountPrice () {
     return this.cartPrice && this.cartPrice.discountPrice
       ? this.cartPrice.discountPrice
       : 0;
   }
-  @computed get deliveryPrice() {
+  @computed get deliveryPrice () {
     return this.cartPrice && this.cartPrice.deliveryPrice
       ? this.cartPrice.deliveryPrice
       : 0;
   }
-  @computed get subscriptionPrice() {
+  @computed get subscriptionPrice () {
     return this.cartPrice && this.cartPrice.deliveryPrice
       ? this.cartPrice.subscriptionPrice
       : 0;
   }
-  @computed get promotionDesc() {
+  @computed get promotionDesc () {
     return this.cartPrice && this.cartPrice.promotionDesc
       ? this.cartPrice.promotionDesc
       : "";
   }
-  @computed get promotionDiscount() {
+  @computed get promotionDiscount () {
     return this.cartPrice && this.cartPrice.promotionDiscount
       ? this.cartPrice.promotionDiscount
       : "";
   }
 
   @action.bound
-  setCartData(data) {
+  setCartData (data) {
     this.cartData = data;
     store.set("rc-cart-data", data);
   }
 
   @action.bound
-  removeCartData() {
+  removeCartData () {
     this.cartData = [];
     store.remove("rc-cart-data");
   }
 
   @action
-  setLoginCartData(data) {
+  setLoginCartData (data) {
     this.loginCartData = data;
     store.set("rc-cart-data-login", data);
   }
 
   @action.bound
-  removeLoginCartData() {
+  removeLoginCartData () {
     this.loginCartData = [];
     store.remove("rc-cart-data-login");
   }
 
   @action.bound
-  setCartPrice(data) {
+  setCartPrice (data) {
     this.cartPrice = data;
     store.set("rc-totalInfo", data);
   }
 
   @action.bound
-  setGoodsMarketingMap(data) {
+  setGoodsMarketingMap (data) {
     this.goodsMarketingMap = data;
     store.set("goodsMarketingMap", data);
   }
 
   @action.bound
-  async updateUnloginCart(data, promotionCode = "") {
+  async updateUnloginCart (data, promotionCode = "") {
     if (!data) {
       data = this.cartData;
     }
@@ -153,7 +153,7 @@ class CheckoutStore {
   }
 
   @action
-  async updateLoginCart(promotionCode = "", subscriptionFlag = false) {
+  async updateLoginCart (promotionCode = "", subscriptionFlag = false) {
     this.changeLoadingCartData(true);
     // 获取购物车列表
     let siteMiniPurchasesRes = await siteMiniPurchases();
@@ -180,7 +180,7 @@ class CheckoutStore {
         let specDetailList = good.goodsSpecDetails;
         (specList || []).map((sItem) => {
           sItem.chidren = specDetailList.filter((sdItem) => {
-            if (
+            if (selectdSkuInfo &&
               selectdSkuInfo.mockSpecDetailIds &&
               selectdSkuInfo.mockSpecIds &&
               selectdSkuInfo.mockSpecDetailIds.includes(sdItem.specDetailId) &&
@@ -218,7 +218,7 @@ class CheckoutStore {
   }
 
   @action
-  changeLoadingCartData(data) {
+  changeLoadingCartData (data) {
     this.loadingCartData = data;
   }
 }
