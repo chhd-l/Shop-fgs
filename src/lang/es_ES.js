@@ -527,5 +527,6 @@ const en_US = {
   'payStatus.REFUND': 'Reembolso',
   'payStatus.NOT_PAID': 'No pagado',
   'payStatus.PAID': 'Pagado',
+  'deleteAddressTip': 'Lo sentimos, esta dirección ya está sujeta a una suscripción, por lo que no se puede eliminar.'
 }
 export default en_US;

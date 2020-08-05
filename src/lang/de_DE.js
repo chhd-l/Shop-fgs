@@ -523,5 +523,7 @@ const en_US = {
   'product.de.catogery6.name': 'Gesundheitsmanagement',
   'product.de.catogery6.title': 'Health Management',
   'product.de.catogery6.desc': 'Optimales Gewicht, Seniorengesundheit, Zahnhygiene, Nahrungsumstellung',
+  'deleteAddressTip': 'Diese Adresse wurde bereits abonniert und kann daher nicht gelöscht werden.'
+  
 }
 export default en_US;

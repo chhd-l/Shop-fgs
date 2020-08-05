@@ -1,5 +1,6 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
+import Skeleton from 'react-skeleton-loader'
 import { inject, observer } from 'mobx-react'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -35,7 +36,7 @@ class PaymentMethod extends React.Component {
       },
       payosdata: {},
       creditCardList: [],
-      paymentCompShow: false,
+      paymentCompShow: null,
       isAddNewCard: false
     };
   }
@@ -72,19 +73,19 @@ class PaymentMethod extends React.Component {
             <BreadCrumbs />
             <div className="rc-padding--sm rc-max-width--xl">
               <div className="rc-layout-container rc-five-column">
-                {this.state.loading ? <Loading positionFixed="true" /> : null}
+                
                 <SideMenu type="PaymentMethod" />
                 <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
+                
                   <div className="rc-border-bottom rc-border-colour--interface mb-3">
                     <h4 className="rc-delta rc-margin--none">
                       <FormattedMessage id="paymentMethod"></FormattedMessage>
                     </h4>
                   </div>
-                  <div className="content-asset" style={{display: paymentCompShow? 'block': 'none'}}>
-                    <PaymentComp noCardCallback={(isZero) => this.setState({paymentCompShow: !isZero})} isAddNewCard={isAddNewCard}/>
-                  </div>
-                  <div className="content-asset" style={{display: paymentCompShow? 'none': 'block'}}>
-                    <div class="rc-layout-container rc-two-column">
+                  <div className="content-asset">
+                  {this.state.loading || this.state.paymentCompShow === null ? <div className="mt-4"><Skeleton color="#f5f5f5" width="100%" height="50%" count={5} /></div> : null}
+                    <PaymentComp noCardCallback={(isZero) => this.setState({paymentCompShow: !isZero})} show={paymentCompShow} isAddNewCard={isAddNewCard}/>
+                    <div class="rc-layout-container rc-two-column" style={{display: paymentCompShow || paymentCompShow === null?'none':'flex'}}>
                       <div class="rc-column" style={{display: 'flex',alignItems: 'center', justifyContent: 'center'}}>
                         <div>
                         <p>
@@ -98,6 +99,22 @@ class PaymentMethod extends React.Component {
                       </div>
                     </div>
                   </div>
+                  {/* <div className="content-asset" style={{display: paymentCompShow? 'none': 'block'}}>
+                  {this.state.loading || this.state.paymentCompShow === null ? <div className="mt-4"><Skeleton color="#f5f5f5" width="100%" height="50%" count={5} /></div> : null}
+                    <div class="rc-layout-container rc-two-column">
+                      <div class="rc-column" style={{display: 'flex',alignItems: 'center', justifyContent: 'center'}}>
+                        <div>
+                        <p>
+                          You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!
+                        </p>
+                        <button class="rc-btn rc-btn--one" onClick={() => this.setState({isAddNewCard: true, paymentCompShow: true})}>Add Payment</button>
+                        </div>
+                      </div>
+                      <div class="rc-column">
+                        <img src={paymentImg} style={{width: '100%'}}/>
+                      </div>
+                    </div>
+                  </div> */}
                 </div>
               </div>
             </div>
