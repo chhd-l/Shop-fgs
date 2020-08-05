@@ -257,7 +257,7 @@ class Payment extends React.Component {
       isCompleteCredit: true
     });
   }
-  //1.初始化adyen
+  //1.初始化adyen,得到adyen加密参数
   initAdyenPay () {
     const AdyenCheckout = window.AdyenCheckout
     // (1) Create an instance of AdyenCheckout
