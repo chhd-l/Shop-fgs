@@ -31,7 +31,7 @@ class Footer extends React.Component {
   }
   render () {
     const marsFooterMap = {
-      de: <div id="mars-footer-panel">
+      es: <div id="mars-footer-panel">
         <div className="mars-footer-container">
           <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
             <li>
@@ -61,10 +61,41 @@ class Footer extends React.Component {
           </div>
         </div>
       </div>,
+      en: <div id="mars-footer-panel">
+        <div className="mars-footer-container">
+          <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
+            <li>
+              <a target="_blank" href={this.state.privacyPolicyUrl}>
+                <span className="mars-footer-label">
+                  <FormattedMessage id="footer.confidentiality" />
+                </span>
+              </a>
+            </li>
+            <li>
+              <a target="_blank" href={this.state.cookiesUrl}>
+                <span className="mars-footer-label">
+                  <FormattedMessage id="footer.cookies" />
+                </span>
+              </a>
+            </li>
+            <li>
+              <a target="_blank" href={this.state.legalTerms}>
+                <span className="mars-footer-label">
+                  <FormattedMessage id="footer.legalTerms" />
+                </span>
+              </a>
+            </li>
+          </ul>
+          <div className="mars-footer-legal text-center" style={{ fontSize: '10px' }}>
+            <p><FormattedMessage id="footer.copyrightInfo" /></p>
+          </div>
+        </div>
+      </div>
     }
 
     const cookieSettingsBtn = {
       es: <a className="optanon-show-settings">Cookie Settings</a>,
+      en: <a className="optanon-show-settings">Cookie Settings</a>,
       de: <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button>
     }
     const scrollToTop = () => {
