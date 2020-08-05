@@ -286,68 +286,52 @@ class Payment extends React.Component {
       .mount('#card-container');
 
   }
-  //支付接口
-  // paymentInterface(){
-  //   var strategies = {
-  //     "repay": (params)=>{
-  //       return rePay(params)
-  //     },
-  //     "loginOnce":(params)=>{
-  //       return customerCommitAndPay(params)
-  //     },
-  //     "loginFrequency":(params)=>{
-  //       return customerCommitAndPayMix(params)
-  //     },
-  //     "unLogin":(params)=>{
-  //       return confirmAndCommit(params)
-  //     }
-  //   }
-
-  //   var payWay = (type,params)=>{
-  //     return strategies[type](params)
-  //   }
-  // }
   //2.进行支付
-  async adyenPayment () {
-    this.saveAddressAndComment()//获取两个addressId
+  async adyenPayment () {   
     try {
-      var addressParameter = await this.goConfirmation();
-      var parameters = Object.assign(addressParameter, {
-        ...this.state.adyenPayParam
-      }, { country: "MEX" });//国家暂时填的任意,后台接口需要
+      /* 1)获取支付参数 */
+      let addressParameter = await this.goConfirmation();//获取支付公共参数
+      let phone = store.get("deliveryInfo").deliveryAddress.phoneNumber;//获取电话号码
+      this.saveAddressAndComment()//获取两个addressId
 
-      let res = {}
-      if(this.tid){//存在订单号,进行repay
-        var param =  Object.assign(parameters,{deliveryAddressId:this.state.deliveryAddress.addressId},
-          {billAddressId:this.state.billingAddress.addressId})
-        res = await rePay(param)
-      }else{
-        if(this.isLogin){//会员正常
-          if(this.state.subForm.buyWay == "once"||this.state.subForm.buyWay == ""){//正常购买非订阅
-            var param =  Object.assign(parameters,{deliveryAddressId:this.state.deliveryAddress.addressId},
-            {billAddressId:this.state.billingAddress.addressId})
-            res = await customerCommitAndPay(param);
-           
-          }else{//会员订阅
-            var phone = store.get("deliveryInfo").deliveryAddress.phoneNumber;//获取电话号码
-            var param =  Object.assign(parameters,{deliveryAddressId:this.state.deliveryAddress.addressId},
-              {billAddressId:this.state.billingAddress.addressId},{phone})
-            res = await customerCommitAndPayMix(param);
-          }
-        }else{//游客
-            res = await confirmAndCommit(parameters);
-        }
+      /* 2)组装支付需要的参数 */
+      let parameters = Object.assign(addressParameter, {
+        ...this.state.adyenPayParam
+      }, { country: "MEX" },{deliveryAddressId:this.state.deliveryAddress.addressId},
+      {billAddressId:this.state.billingAddress.addressId},{phone});//(国家暂时填的MEX)
+
+      /* 3)根据条件-调用不同的支付接口 */
+      let action
+      const actions = ()=>{
+        const rePayFun = ()=>{action = rePay}  // 存在订单号
+        const customerCommitAndPayFun = ()=>{action =  customerCommitAndPay}    //会员once
+        const customerCommitAndPayMixFun = ()=>{action = customerCommitAndPayMix}  //  会员frequency
+        const confirmAndCommitFun = ()=>{action = confirmAndCommit}     //游客
+        return new Map([
+          [{isTid:true},rePayFun],
+          [{isTid:false,isLogin:true,buyWay:'once'},customerCommitAndPayFun],//buyWay为once和""的时候均表示会员正常交易
+          [{isTid:false,isLogin:true,buyWay:''},customerCommitAndPayFun],
+          [{isTid:false,isLogin:true,buyWay:'frequency'},customerCommitAndPayMixFun],
+          [{isTid:false,isLogin:false},confirmAndCommitFun],
+        ])
+      }
+      const payFun = (isTid,isLogin,buyWay)=>{
+        let action = [...actions()].filter(([key,value])=>(key.isTid == isTid && key.isLogin == isLogin && key.buyWay==buyWay))
+        action.forEach(([key,value])=>value.call(this))
       }
 
+      payFun(this.tid!=null,this.isLogin,this.state.subForm.buyWay)
 
+      /* 4)调用支付 */
+     const res = await action(parameters)
       if (res.code === "K-000000") {
         var orderNumber = res.context[0].tid;
         sessionStorage.setItem("orderNumber", orderNumber);
         this.props.history.push("/confirmation");
       }
     } catch (err) {
-      if (err.errorData) {
-        this.tid = err.errorData;
+      if(err.errorData){//err.errorData是返回的tid(订单号)
+        this.tid = err.errorData
       }
       this.showErrorMsg(this.props.intl.messages.adyenPayFail);
     } finally {
