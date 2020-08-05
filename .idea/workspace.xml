@@ -19,17 +19,17 @@
     <select>
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="BRANCH:master" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:origin/feather_20200730" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="47401d03-5d3b-4db0-92ad-5095ad7961de" name="Default Changelist" comment="">
+    <list default="true" id="47401d03-5d3b-4db0-92ad-5095ad7961de" name="Default Changelist" comment="20200724">
+      <change beforePath="$PROJECT_DIR$/.env.production" beforeDir="false" afterPath="$PROJECT_DIR$/.env.production" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.production.de" beforeDir="false" afterPath="$PROJECT_DIR$/.env.production.de" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/components/Reviews.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Details/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Details/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Details/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +92,16 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="build:prod_de" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build:prod_de" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -104,6 +114,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.build:prod_de" />
         <item itemvalue="npm.build:prod" />
         <item itemvalue="npm.start" />
         <item itemvalue="npm.start" />
@@ -130,6 +141,7 @@
       <workItem from="1596174203101" duration="1094000" />
       <workItem from="1596418334525" duration="3517000" />
       <workItem from="1596421930953" duration="2032000" />
+      <workItem from="1596545360711" duration="1293000" />
     </task>
     <servers />
   </component>
@@ -141,12 +153,28 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/feather_20200730" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="20200724" />
+    <option name="LAST_COMMIT_MESSAGE" value="20200724" />
   </component>
   <component name="WindowStateProjectService">
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1594203136080">
@@ -162,22 +190,22 @@
     </state>
     <state x="550" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1595212532425" />
     <state x="687" y="216" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1592635810862" />
-    <state width="1894" height="332" key="GridCell.Tab.0.bottom" timestamp="1592636232883">
+    <state width="1894" height="267" key="GridCell.Tab.0.bottom" timestamp="1596590709181">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1894" height="332" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1592636232883" />
-    <state width="1894" height="332" key="GridCell.Tab.0.center" timestamp="1592636232883">
+    <state width="1894" height="267" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1596590709181" />
+    <state width="1894" height="267" key="GridCell.Tab.0.center" timestamp="1596590709180">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1894" height="332" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1592636232883" />
-    <state width="1894" height="332" key="GridCell.Tab.0.left" timestamp="1592636232883">
+    <state width="1894" height="267" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1596590709180" />
+    <state width="1894" height="267" key="GridCell.Tab.0.left" timestamp="1596590709180">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1894" height="332" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1592636232883" />
-    <state width="1894" height="332" key="GridCell.Tab.0.right" timestamp="1592636232883">
+    <state width="1894" height="267" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1596590709180" />
+    <state width="1894" height="267" key="GridCell.Tab.0.right" timestamp="1596590709181">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1894" height="332" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1592636232883" />
+    <state width="1894" height="267" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1596590709181" />
     <state width="1894" height="332" key="GridCell.Tab.1.bottom" timestamp="1592636232883">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -230,11 +258,11 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="370" y="22" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1594198829594" />
-    <state x="513" y="200" width="881" height="596" key="find.popup" timestamp="1595920484156">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="589" y="195" width="742" height="650" key="find.popup" timestamp="1596545521234">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="513" y="200" width="881" height="596" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1595920484156" />
-    <state x="589" y="195" width="742" height="650" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1592635787764" />
+    <state x="589" y="195" width="742" height="650" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1596545521234" />
     <state x="509" y="263" key="git4idea.merge.GitPullDialog" timestamp="1592636329006">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -254,7 +282,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Cart/modules/loginCart.js</url>
-          <line>587</line>
+          <line>682</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -274,7 +302,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Cart/modules/loginCart.js</url>
-          <line>9</line>
+          <line>11</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -289,18 +317,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/Account/Orders/index.js</url>
-          <line>26</line>
+          <line>22</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/Header/index.js</url>
           <line>20</line>
           <option name="timeStamp" value="28" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/views/Details/components/Reviews.js</url>
-          <line>308</line>
-          <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
