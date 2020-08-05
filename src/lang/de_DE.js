@@ -19,8 +19,8 @@ const en_US = {
   "total": "Gesamt",
   "totalIncluIVA": "Total (Inclu VAT)",
   "totalCost": "Gesamtkosten",
-  "cats": "Katze",
-  "cats2": "Katzen",
+  "cats": "KATZE",
+  "cats2": "Katze",
   "dogs": "HUNDE",
   "dogs2": "Hunde",
   "aboutUs": "ÜBER UNS",
@@ -109,8 +109,8 @@ const en_US = {
   "home.catogery3": "Gewichtsmanagement",
   "home.catogery4": "Magen-Darmtrakt",
 
-  "home.catogery5": "Gatos",
-  "home.catogery6": "Perros",
+  "home.catogery5": "Katze",
+  "home.catogery6": "Hunde",
 
   "home.catogery7": "Magen-Darmtrakt",
   "home.catogery8": "Gesundheitsmanagement",
