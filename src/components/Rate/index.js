@@ -40,7 +40,6 @@ export default class Rate extends Component {
     const flag = !t.test(num);
     const numInt = parseInt(num);
     const tooltip = this.props.tooltip ? this.props.tooltip : null;
-    { console.log("星星间距为：",this.props.marginSize)}
     return (
       
       <div>

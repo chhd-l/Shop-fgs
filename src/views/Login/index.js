@@ -200,7 +200,7 @@ class Login extends React.Component {
     console.log(params);
 
     register(params).then(res=>{
-      debugger
+      // debugger
       if(res.code==='K-000000'){
         console.log(res);
 

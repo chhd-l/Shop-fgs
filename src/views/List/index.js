@@ -274,7 +274,8 @@ class List extends React.Component {
     if (this.state.loading) {
       return false
     }
-    sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || '')
+    console.log("测试存储信息props",this.props.location)
+    sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || this.props.location.pathname ||'' )
     sessionStorage.setItem('rc-goods-name', item.goodsName)
     const { history } = this.props
     history.push('/details/' + item.goodsInfos[0].goodsInfoId)

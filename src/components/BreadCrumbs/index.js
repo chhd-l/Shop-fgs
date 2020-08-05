@@ -17,15 +17,18 @@ const BreadCrumbs = withRouter(props => {
 
   // specific for details page
   if (url.substr(1, 7) === 'details' && !mapData.length) {
+
     let cateName = sessionStorage.getItem('rc-goods-cate-name')
     let goodsName = sessionStorage.getItem('rc-goods-name')
-    const urlMap = { dogs: '/list/dogs', cats: '/list/cats' }
+    const urlMap={'/list/dogs':"Dogs",'/list/cats':"Cats"}
+
     if (cateName) {
-      mapData.push({ name: cateName, href: urlMap[cateName.toLocaleLowerCase()] || '' })
+      mapData.push({ name: urlMap[cateName], href:cateName })
     }
     if (goodsName) {
       mapData.push({ name: goodsName })
     }
+    console.log("测试面包屑：",mapData);
   }
 
   return (

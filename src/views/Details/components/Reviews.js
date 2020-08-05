@@ -109,7 +109,6 @@ class Reviews extends React.Component {
           item.description = item.evaluateAnswer
           item.rate = item.evaluateScore
         })
-        console.log(list, 'review list')
         this.setState({
           // evaluatesCurrentPage: obj.number ? obj.number : 0,
           loading: false,
