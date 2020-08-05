@@ -543,7 +543,7 @@ class PaymentComp extends React.Component {
     const { isLogin } = this.props.loginStore
     return (
       <div
-        style={{display: this.props.show === true || this.props.show === undefined?'block': 'none'}}
+        style={{ display: this.props.show === true || this.props.show === undefined ? 'block' : 'none' }}
         id="PaymentComp"
         className={`loginCardBox ${isLogin ? "" : "hidden"}`}
       >
@@ -645,11 +645,7 @@ class PaymentComp extends React.Component {
                           }
                         }}
                       >
-                        <div
-                          className={`pt-3 pb-3 ${
-                            idx !== creditCardList.length - 1 ? "border-bottom" : ""
-                            } `}
-                        >
+                        <div className={`pt-3 pb-3`}>
                           <div
                             className="position-absolute"
                             style={{ right: "1%", top: "2%", zIndex: "1" }}
