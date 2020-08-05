@@ -25,6 +25,7 @@ class Home extends React.Component {
     super(props)
   }
   async componentDidMount () {
+    console.log(111111,process.env.REACT_APP_AdyenOriginKEY)
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
