@@ -179,6 +179,41 @@ export default class AddressForm extends React.Component {
         </div>
         <div className="rc-layout-container">
           <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
+            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
+              <label
+                className="form-control-label"
+                htmlFor="shippingCountry"
+              >
+                <FormattedMessage id="payment.country" />
+              </label>
+              <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+                <Selection
+                  selectedItemChange={data => this.handleSelectedItemChange('country', data)}
+                  optionList={this.computedList('country')}
+                  selectedItemData={{
+                    value: this.state.deliveryAddress.country
+                  }} />
+              </span>
+            </div>
+          </div>
+          <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_city">
+            <label
+              className="form-control-label"
+              htmlFor="shippingAddressCity">
+              <FormattedMessage id="payment.city" />
+            </label>
+            <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+              <Selection
+                selectedItemChange={data => this.handleSelectedItemChange('city', data)}
+                optionList={this.computedList('city')}
+                selectedItemData={{
+                  value: this.state.deliveryAddress.city
+                }} />
+            </span>
+          </div>
+        </div>
+        <div className="rc-layout-container">
+          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
               <label
                 className="form-control-label"
@@ -247,41 +282,7 @@ export default class AddressForm extends React.Component {
             </div>
           </div>
         </div>
-        <div className="rc-layout-container">
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
-              <label
-                className="form-control-label"
-                htmlFor="shippingCountry"
-              >
-                <FormattedMessage id="payment.country" />
-              </label>
-              <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-                <Selection
-                  selectedItemChange={data => this.handleSelectedItemChange('country', data)}
-                  optionList={this.computedList('country')}
-                  selectedItemData={{
-                    value: this.state.deliveryAddress.country
-                  }} />
-              </span>
-            </div>
-          </div>
-          <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_city">
-            <label
-              className="form-control-label"
-              htmlFor="shippingAddressCity">
-              <FormattedMessage id="payment.city" />
-            </label>
-            <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-              <Selection
-                selectedItemChange={data => this.handleSelectedItemChange('city', data)}
-                optionList={this.computedList('city')}
-                selectedItemData={{
-                  value: this.state.deliveryAddress.city
-                }} />
-            </span>
-          </div>
-        </div>
+        
         <div className="rc-layout-container">
           <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_postalCode">
             <label

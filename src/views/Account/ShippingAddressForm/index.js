@@ -467,54 +467,6 @@ class ShippingAddressFrom extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="form-group col-lg-6 pull-left required">
-                        <label className="form-control-label rc-full-width" htmlFor="address">
-                          <FormattedMessage id="payment.address1" />
-                        </label>
-                        <span className="rc-input rc-input--label rc-margin--none rc-input--full-width" input-setup="true">
-                          <input
-                            type="text"
-                            className="rc-input__control"
-                            id="address1"
-                            name="address1"
-                            required=""
-                            aria-required="true"
-                            value={addressForm.address1}
-                            onChange={e => this.handleInputChange(e)}
-                            onBlur={e => this.inputBlur(e)}
-                            maxLength="50"
-                            autoComplete="address-line" />
-                          <label className="rc-input__label" htmlFor="address1"></label>
-                        </span>
-                        <div className="invalid-feedback" style={{ display: 'none' }}>
-                          <FormattedMessage
-                            id="payment.errorInfo"
-                            values={{
-                              val: (
-                                <FormattedMessage id="payment.address1" />
-                              ),
-                            }}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="form-group col-6">
-                        <label className="form-control-label rc-full-width" htmlFor="reference">
-                          <FormattedMessage id="payment.address2" />
-                        </label>
-                        <span className="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width" input-setup="true">
-                          <input
-                            type="text"
-                            className="rc-input__control input__phoneField"
-                            id="address2"
-                            name="address2"
-                            value={addressForm.address2}
-                            onChange={e => this.handleInputChange(e)}
-                            onBlur={e => this.inputBlur(e)}
-                            maxLength="50" />
-                          <label className="rc-input__label" htmlFor="address2"></label>
-                        </span>
-                      </div>
                       <div className="col-lg-6 col-sm-12">
                         <div className="form-group col-lg-12 pull-left no-padding required">
                           <label className="form-control-label" htmlFor="country">
@@ -568,6 +520,55 @@ class ShippingAddressFrom extends React.Component {
                           <div className="invalid-feedback"></div>
                         </div>
                       </div>
+                      <div className="form-group col-lg-6 pull-left required">
+                        <label className="form-control-label rc-full-width" htmlFor="address">
+                          <FormattedMessage id="payment.address1" />
+                        </label>
+                        <span className="rc-input rc-input--label rc-margin--none rc-input--full-width" input-setup="true">
+                          <input
+                            type="text"
+                            className="rc-input__control"
+                            id="address1"
+                            name="address1"
+                            required=""
+                            aria-required="true"
+                            value={addressForm.address1}
+                            onChange={e => this.handleInputChange(e)}
+                            onBlur={e => this.inputBlur(e)}
+                            maxLength="50"
+                            autoComplete="address-line" />
+                          <label className="rc-input__label" htmlFor="address1"></label>
+                        </span>
+                        <div className="invalid-feedback" style={{ display: 'none' }}>
+                          <FormattedMessage
+                            id="payment.errorInfo"
+                            values={{
+                              val: (
+                                <FormattedMessage id="payment.address1" />
+                              ),
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-group col-6">
+                        <label className="form-control-label rc-full-width" htmlFor="reference">
+                          <FormattedMessage id="payment.address2" />
+                        </label>
+                        <span className="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width" input-setup="true">
+                          <input
+                            type="text"
+                            className="rc-input__control input__phoneField"
+                            id="address2"
+                            name="address2"
+                            value={addressForm.address2}
+                            onChange={e => this.handleInputChange(e)}
+                            onBlur={e => this.inputBlur(e)}
+                            maxLength="50" />
+                          <label className="rc-input__label" htmlFor="address2"></label>
+                        </span>
+                      </div>
+                      
                       <div className="form-group col-6 required">
                         <div className="no-padding">
                           <label className="form-control-label rc-full-width" htmlFor="zipCode">
