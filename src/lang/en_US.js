@@ -113,7 +113,7 @@ const en_US = {
   "home.catogery2": "Dietas Veterinarias Gatos",
   "home.catogery3": "Dietas de Prescripción Veterinaria Perros",
   "home.catogery4": "Dietas de Prescripción Veterinaria Gatos",
-  "home.catogery5": "Gatos", 
+  "home.catogery5": "Gatos",
   "home.catogery6": "Perros",
   "home.note1":
     "Afectado por la epidemia, el tiempo de entrega puede extenderse.",
@@ -655,12 +655,11 @@ const en_US = {
 
   'biliingAddressSameAs': 'Biliing address same as',
   'deleteAddressTip': 'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
-  examplePostCode: '02860',
-  examplePhone: '+(52) 559 801 65',
-
-
-  'inTheBasket':'in the basket',
-  'promotionalCode':'Promotional Code'
-
+  'examplePostCode': '02860',
+  'examplePhone': '+(52) 559 801 65',
+  'inTheBasket': 'in the basket',
+  'promotionalCode': 'Promotional Code',
+  'noClinicTip': 'Your recommendation code is not valid. {val} & check with our partner clinics for a valid code.',
+  'selectNoneClincTip': 'Please select a prescription'
 };
 export default en_US;

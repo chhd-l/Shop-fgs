@@ -53,8 +53,8 @@ const LogoutButton = () => {
   const logout = async () => authService.logout('/');
   const clickLogoff = () => {
     localStorage.removeItem("rc-token");
-    sessionStorage.removeItem('rc-clinics-name-default')
-    sessionStorage.removeItem('rc-clinics-id-default')
+    sessionStorage.removeItem(`rc-clinic-name-default`)
+    sessionStorage.removeItem(`rc-clinic-id-default`)
     loginStore.removeUserInfo()
     checkoutStore.removeLoginCartData()
     logout()
