@@ -79,7 +79,7 @@ class Header extends React.Component {
         || location.pathname.includes('/details'))
       && linkClinicId
       && clinicStore.clinicId !== linkClinicId) {
-      const res = await getPrescriptionById({ prescriberId: linkClinicId })
+      const res = await getPrescriptionById({ id: linkClinicId })
       if (res.context && res.context.enabled) {
         linkClinicName = res.context.prescriberName
       }
