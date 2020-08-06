@@ -296,7 +296,7 @@ class ProductReview extends React.Component {
                                   def={this.state.purchaseRate}
                                   disabled={false}
                                   selectRate={this.selectPurchaseRate}
-                                  marginSize={'.5rem'}
+                                  marginSize="maxRate"
                                 />
                               </div>
                             </div>
@@ -320,7 +320,7 @@ class ProductReview extends React.Component {
                                   def={this.state.logisticsRate}
                                   disabled={false}
                                   selectRate={this.selectLogisticsRate}
-                                  marginSize={'.5rem'}
+                                  marginSize="maxRate"
                                 />
                               </div>
                             </div>

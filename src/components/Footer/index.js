@@ -6,6 +6,8 @@ import './index.css'
 
 @inject("configStore")
 @observer
+
+
 class Footer extends React.Component {
   constructor(props) {
     super(props);
@@ -13,6 +15,7 @@ class Footer extends React.Component {
   async componentDidMount () {
     this.props.configStore.queryConfig()
   }
+
   render () {
     const marsFooterMap = {
       es: <div id="mars-footer-panel">
@@ -75,6 +78,19 @@ class Footer extends React.Component {
           </div>
         </div>
       </div>
+    }
+    const requestInvoiceJSX = {
+      es: <li className="rc-list__item">
+      <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/requestinvoice" role="menuitem">
+        <FormattedMessage id="footer.RequestInvoice" />
+      </Link>
+      </li> ,
+      en: <li className="rc-list__item">
+      <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/requestinvoice" role="menuitem">
+        <FormattedMessage id="footer.RequestInvoice" />
+      </Link>
+      </li> ,
+      de: null
     }
 
     const cookieSettingsBtn = {
@@ -166,6 +182,7 @@ class Footer extends React.Component {
                           <FormattedMessage id="footer.FAQ" />
                         </Link>
                       </li>
+                                        {requestInvoiceJSX[process.env.REACT_APP_LANG]}
                     </ul>
                   </li>
                   <li className="rc-list__item rc-list__item--group rc-full-width">

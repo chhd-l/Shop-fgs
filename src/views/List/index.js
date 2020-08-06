@@ -59,6 +59,39 @@ class List extends React.Component {
               salePrice: 945
             }
           ]
+        },
+        {
+          id: '3003_RU',
+          goodsName: 'Mini adult',
+          goodsInfos: [
+            {
+              goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
+              specText: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
+              salePrice: 945
+            }
+          ]
+        },
+        {
+          id: '3004_RU',
+          goodsName: 'Mini adult',
+          goodsInfos: [
+            {
+              goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
+              specText: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
+              salePrice: 945
+            }
+          ]
+        },
+        {
+          id: '3005_RU',
+          goodsName: 'Mini adult',
+          goodsInfos: [
+            {
+              goodsInfoImg: 'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
+              specText: 'Mini Edalt: dry food for dogs aged 10 months to 8 years',
+              salePrice: 945
+            }
+          ]
         }
       ],
       loading: true,
@@ -66,7 +99,7 @@ class List extends React.Component {
       currentPage: 1,
       totalPage: 1, // 总页数
       results: 0, // 总数据条数
-      pageSize: 9,
+      pageSize: 12,
       keywords: '',
       filterList: [],
       initingFilter: true,
@@ -312,9 +345,8 @@ class List extends React.Component {
     if (this.state.loading) {
       return false
     }
-    if (this.state.currentCatogery) {
-      sessionStorage.setItem('rc-goods-cate-name', this.state.currentCatogery)
-    }
+    sessionStorage.setItem('rc-goods-cate-name', this.state.currentCatogery ||'' )
+    sessionStorage.setItem('recomment-preview',this.props.location.pathname)
     sessionStorage.setItem('rc-goods-name', item.goodsName)
     const { history } = this.props
     history.push('/details/' + item.goodsInfos[0].goodsInfoId)
@@ -396,8 +428,8 @@ class List extends React.Component {
                         checkedList={checkedList} />
                     </aside>
                   </div>
-                  <div className="refinements rc-column" style={{ top: '-45px' }}>
-                    <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
+                  <div className="refinements rc-column ItemBoxFitSCreen" style={{ top: '-45px' }}>
+                    <button className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
                       data-filter-trigger="filter-example"
                       onClick={() => this.toggleFilterModal(true)}><FormattedMessage id="filters" /></button>
                     <aside className={['rc-filters', this.state.filterModalVisible ? 'active' : ''].join(' ')}>
@@ -412,7 +444,7 @@ class List extends React.Component {
                   </div>
                   <div className={['rc-column', 'rc-triple-width', !productList.length ? 'd-flex justify-content-center align-items-center' : ''].join(' ')}>
                     {
-                      !loading && <div className="position-absolute" style={{ top: '-20px', left: 0 }}>
+                      !loading && <div className="ListTotal" >
                         <span style={{ fontWeight: 500 }}>{this.state.currentCatogery}{' '}</span>({results} <FormattedMessage id="results" />)
                       </div>
                     }
@@ -431,7 +463,7 @@ class List extends React.Component {
                       :
                       <div className="row RowFitScreen">
                         {productList.map(item => (
-                          <div className="col-12 col-md-4 mb-3 pl-2 pr-2 ColFitScreen" key={item.id}>
+                          <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen" key={item.id}>
                             <article className="rc-card rc-card--product" style={{ minHeight: '120px' }}>
                               <div className="fullHeight">
                                 <a onClick={() => this.hanldeItemClick(item)} className="ui-cursor-pointer">
@@ -441,43 +473,46 @@ class List extends React.Component {
                                         ? <span className="mt-4"><Skeleton color="#f5f5f5" width="100%" height="50%" count={2} /></span>
                                         : <>
                                           <picture className="rc-card__image">
-                                            <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center" style={{ minHeight: '202px' }}>
+                                            <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen" /* style={{ minHeight: '202px' }} */>
                                               <img
                                                 src={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg}
                                                 srcSet={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg}
                                                 alt={item.goodsName}
-                                                title={item.goodsName} />
+                                                title={item.goodsName} 
+                                                className="ImgFitScreen"
+                                                style={{maxWidth:'50%',maxHeight:'100%',width:'100%',height:'100%'}}
+                                                />
                                             </div>
                                           </picture>
                                           <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
                                             <div className="height-product-tile-plpOnly">
                                               <header className="rc-text--center">
                                                 <h3
-                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break font16 mb-1"
+                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen Title" /*font16 */
                                                   title={item.goodsName}
-                                                  style={{ lineHeight: 1.2, minHeight: '3.7rem' }}>
+                                                  style={{ /*lineHeight: 1.2, minHeight: '3.7rem' */}}>
                                                   {item.goodsName}
                                                 </h3>
                                               </header>
                                               <div
-                                                className={`ui-text-overflow-line1 text-break sub-hover text-center`}
+                                                className={`ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen`}
                                                 title={item.goodsSubtitle}
                                                 style={{ color: '#4a4a4a' }}>
                                                 {item.goodsSubtitle}
                                               </div>
                                             </div>
-                                            <div className={`rc-card__price text-center`}>
+                                            <div className={`rc-card__price text-center RateFitScreen `} >
                                               <div className="display-inline">
-                                                <Rate def={item.avgEvaluate} disabled={true}  marginSize="-.2rem"/>
+                                                <Rate def={item.avgEvaluate} disabled={true}  marginSize="smallRate"/>
                                               </div>
                                               <span className='comments rc-margin-left--xs rc-text-colour--text'>({item.goodsEvaluateNum})</span>
                                             </div>
-                                            <div className="text-center" style={{ color: '#4a4a4a', opacity: item.goodsInfos.length > 1 ? 1 : 0 }}>
+                                            <div className="text-center NameFitScreen" style={{ color: '#4a4a4a', opacity: item.goodsInfos.length > 1 ? 1 : 0 }}>
                                               <FormattedMessage id="startFrom" />
                                             </div>
                                             <div className="d-flex justify-content-center">
-                                              <div className="rc-card__price text-left">
-                                                <div className={`rc-full-width`} >
+                                              <div className="rc-card__price text-left PriceFitScreen" >
+                                                <div className={`rc-full-width PriceFitScreen`} >
                                                   <span style={{ color: '#323232', fontWeight: 400 }} >
                                                     {formatMoney(Math.min.apply(null, item.goodsInfos.map(g => g.marketPrice || 0)))}{' '}
                                                     {
@@ -492,7 +527,7 @@ class List extends React.Component {
                                                 </div>
                                                 {
                                                   find(item.goodsInfos, ele => ele.subscriptionStatus)
-                                                    ? <div className="range position-relative">
+                                                    ? <div className="range position-relative SePriceScreen">
                                                       <span style={{ color: '#323232', fontWeight: 400 }}>
                                                         {formatMoney(Math.min.apply(null, item.goodsInfos.filter(g => g.subscriptionStatus).map(g => g.subscriptionPrice || 0)))}{' '}
                                                       </span>

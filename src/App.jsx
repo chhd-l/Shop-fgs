@@ -66,6 +66,7 @@ import AccountShippingAddressForm from "@/views/Account/ShippingAddressForm";
 import AccountReturnOrder from "@/views/Account/ReturnOrder";
 import ForgetPassword from "@/views/ForgetPassword";
 
+import RequestInvoices from '@/views/RequestInvoices'
 const token = localStorage.getItem("rc-token");
 
 const App = () => (
@@ -89,7 +90,7 @@ const App = () => (
                   token ? <Redirect to="/account" /> : <Login {...props} />
                 }
               />
-
+              <Route path="/requestinvoice" component={RequestInvoices}></Route>
               <Route
                 exact
                 path="/list/:category"
