@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 import store from 'storejs'
 
-class CheckoutStore {
+class FrequencyStore {
   @observable buyWay = sessionStorage.getItem('rc-buyway') || 'once' // once/frequency
   @observable frequencyName = sessionStorage.getItem('rc-frequencyName')
 
@@ -17,4 +17,4 @@ class CheckoutStore {
     sessionStorage.setItem('rc-frequencyName', data)
   }
 }
-export default CheckoutStore;
+export default FrequencyStore;

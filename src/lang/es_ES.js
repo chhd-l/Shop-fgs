@@ -164,7 +164,6 @@ const en_US = {
   'footer.websiteTermsOfUse': 'Términos de uso del sitio web',
   'footer.cookieCollectionPolicy': 'Política de recopilación de cookies',
   'footer.contactUs': 'Contacto',
-  'footer.contactUsInfo': 'Horarios de atención al cliente de 9:00 am a 6:00 pm',
   'footer.confidentiality': 'Privacidad',
   'footer.cookies': 'Galleta',
   'footer.legalTerms': 'Términos legales',

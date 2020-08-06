@@ -168,7 +168,6 @@ const en_US = {
   "footer.websiteTermsOfUse": "Nutzungsbedingungen der Website",
   "footer.cookieCollectionPolicy": "Cookie Collection Policy",
   "footer.contactUs": "Kontaktiere uns",
-  "footer.contactUsInfo": "Sie können uns Montag bis Freitag ab 9 Uhr kontaktieren",
   "footer.confidentiality": "Privacidad",
   "footer.cookies": "Kekse",
   "footer.legalTerms": "Rechtliche Bestimmungen",

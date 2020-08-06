@@ -1,33 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
-import { getStoreContentInfo } from '@/utils/utils'
+import { inject, observer } from 'mobx-react';
 import './index.css'
 
+@inject("configStore")
+@observer
 class Footer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      storeContactPhoneNumber: null,
-      privacyPolicyUrl: null,
-      cookiesUrl: null,
-      legalTerms: null,
-      contactTimePeriod: ''
-    }
   }
   async componentDidMount () {
-    let res = await getStoreContentInfo()
-    try {
-      const { storeContactPhoneNumber, privacyPolicyUrl, cookiesUrl, legalTerms, contactTimePeriod } = res
-      this.setState({
-        storeContactPhoneNumber,
-        privacyPolicyUrl,
-        cookiesUrl,
-        legalTerms
-      })
-    } catch (err) {
-      console.log(err)
-    }
+    this.props.configStore.queryConfig()
   }
   render () {
     const marsFooterMap = {
@@ -35,21 +19,21 @@ class Footer extends React.Component {
         <div className="mars-footer-container">
           <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
             <li>
-              <a target="_blank" href={this.state.privacyPolicyUrl}>
+              <a target="_blank" href={this.props.configStore.privacyPolicyUrl}>
                 <span className="mars-footer-label">
                   <FormattedMessage id="footer.confidentiality" />
                 </span>
               </a>
             </li>
             <li>
-              <a target="_blank" href={this.state.cookiesUrl}>
+              <a target="_blank" href={this.props.configStore.cookiesUrl}>
                 <span className="mars-footer-label">
                   <FormattedMessage id="footer.cookies" />
                 </span>
               </a>
             </li>
             <li>
-              <a target="_blank" href={this.state.legalTerms}>
+              <a target="_blank" href={this.props.configStore.legalTerms}>
                 <span className="mars-footer-label">
                   <FormattedMessage id="footer.legalTerms" />
                 </span>
@@ -65,21 +49,21 @@ class Footer extends React.Component {
         <div className="mars-footer-container">
           <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
             <li>
-              <a target="_blank" href={this.state.privacyPolicyUrl}>
+              <a target="_blank" href={this.props.configStore.privacyPolicyUrl}>
                 <span className="mars-footer-label">
                   <FormattedMessage id="footer.confidentiality" />
                 </span>
               </a>
             </li>
             <li>
-              <a target="_blank" href={this.state.cookiesUrl}>
+              <a target="_blank" href={this.props.configStore.cookiesUrl}>
                 <span className="mars-footer-label">
                   <FormattedMessage id="footer.cookies" />
                 </span>
               </a>
             </li>
             <li>
-              <a target="_blank" href={this.state.legalTerms}>
+              <a target="_blank" href={this.props.configStore.legalTerms}>
                 <span className="mars-footer-label">
                   <FormattedMessage id="footer.legalTerms" />
                 </span>
@@ -125,7 +109,7 @@ class Footer extends React.Component {
                     </div>
                     <ul className="list list--blank list--align" id="footer-list-158504765613564650" aria-labelledby="footer-head-158504765613564650" role="menu">
                       <li className="rc-list__item">
-                        <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.royalcanin.com/mx/about-us" role="menuitem">
+                        <a className="rc-list__link text-decoration-none color-f6f6f6" href={this.props.configStore.contactUsUrl} role="menuitem">
                           <FormattedMessage id="aboutUs2" />
                         </a>
                       </li>
@@ -226,15 +210,14 @@ class Footer extends React.Component {
                 <FormattedMessage id="footer.contactRoyalCanin" />
               </p>
               <div className="rc-text--inverse">
-                {/* <p><FormattedMessage id="footer.contactUsInfo" /></p> */}
-                <p>{this.state.contactTimePeriod}</p>
+                <p>{this.props.configStore.contactTimePeriod}</p>
               </div>
             </div>
           </div>
           <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
             <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
-              <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3" role="menuitem" href={`tel:${this.state.storeContactPhoneNumber}`}>
-                {this.state.storeContactPhoneNumber}
+              <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3" role="menuitem" href={`tel:${this.props.configStore.storeContactPhoneNumber}`}>
+                {this.props.configStore.storeContactPhoneNumber}
               </a>
               <Link className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" to="/help">
                 <FormattedMessage id="footer.contactUs" />

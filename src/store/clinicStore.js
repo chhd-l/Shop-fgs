@@ -1,7 +1,7 @@
 import { action, observable, computed, runInAction } from "mobx";
 import store from 'storejs'
 
-class CheckoutStore {
+class ClinicStore {
   @observable linkClinicId = store.get('rc-clinic-id-link') || ''
   @observable linkClinicName = store.get('rc-clinic-name-link') || ''
 
@@ -66,4 +66,4 @@ class CheckoutStore {
     store.set('rc-clinic-name-default', data)
   }
 }
-export default CheckoutStore;
+export default ClinicStore;
