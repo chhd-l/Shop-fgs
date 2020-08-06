@@ -267,7 +267,7 @@ class Reviews extends React.Component {
                                   </div>
                                   <div className="rc-column rc-quad-width padl0">
                                     <div className="">
-                                      <Rate def={item.evaluateScore} disabled={true} marginSize={'.5rem'} />
+                                      <Rate def={item.evaluateScore} disabled={true} marginSize="maxRate" />
                                       <div style={{ marginTop: '.1rem', marginBottom: '.7rem',fontSize:'20px' }}>{item.evaluateReviewTitle}</div>
                                       <div className="break mgt-10 mgb-3" style={{fontSize:'18px'}}>{item.title}</div>
                                       {/*{item.description}*/}

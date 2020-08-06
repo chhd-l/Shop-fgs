@@ -814,7 +814,7 @@ class Details extends React.Component {
                                 <Rate
                                   def={this.state.productRate}
                                   disabled={true}
-                                  marginSize={".5rem"}
+                                  marginSize="maxRate"
                                 />
                               </div>
                               <a

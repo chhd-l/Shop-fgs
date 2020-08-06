@@ -17,7 +17,7 @@ const BreadCrumbs = withRouter(props => {
 
   // specific for details page
   if (url.substr(1, 7) === 'details' && !mapData.length) {
-    debugger
+    // debugger
     let cateName = sessionStorage.getItem('rc-goods-cate-name')
     let goodsName = sessionStorage.getItem('rc-goods-name')
     let catePrePath=sessionStorage.getItem('recomment-preview')

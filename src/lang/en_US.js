@@ -646,7 +646,7 @@ const en_US = {
   'orderStatus.INIT': 'To be paid',
   'orderStatus.REMEDY': 'To be delivered',
   'orderStatus.REFUND': 'Canceled',
-  'orderStatus.AUDIT': 'To be delivered',
+  'orderStatus.AUDIT': 'To be delivered', 
   'orderStatus.DELIVERED_PART': 'Delivered',
   'orderStatus.DELIVERED': 'Delivered',
   'orderStatus.CONFIRMED': 'Completed',
@@ -660,5 +660,6 @@ const en_US = {
   'deleteAddressTip': 'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
   examplePostCode: '02860',
   examplePhone: '+(52) 559 801 65',
+  'footer.RequestInvoice':'Request Invoice'
 };
 export default en_US;

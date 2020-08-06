@@ -78,20 +78,20 @@ export default class Rate extends Component {
             >
               {enter > index || num - 1 >= index ? (
                 <span
-                  className="rc-icon  hands rc-margin-bottom--xs rc-rate-fill--xs rc-brand1--xs"
+                  className={`rc-icon  hands rc-margin-bottom--xs rc-rate-fill--xs rc-brand1--xs ${this.props.marginSize}`}
                   disabled={this.state.disabled}
-                  style={{marginRight:this.props.marginSize}}
+                  // style={{marginRight:this.props.marginSize}}
                 ></span>
               ) : flag && index === numInt ? (
                 <span
-                  className="rc-icon rc-margin-bottom--xs rc-rate-fill--xs half-star"
+                  className={`rc-icon rc-margin-bottom--xs rc-rate-fill--xs half-star ${this.props.marginSize}`}
                   disabled={this.state.disabled}
-                  style={{marginRight:this.props.marginSize}}
+                  // style={{marginRight:this.props.marginSize}}
                 ></span>
               ) : (
                 <span
-                  className="rc-icon rc-margin-bottom--xs rc-rate-fill--xs rc-iconography--xs"
-                  style={{opacity: ".5",marginRight:this.props.marginSize}}
+                  className={`rc-icon rc-margin-bottom--xs rc-rate-fill--xs rc-iconography--xs  ${this.props.marginSize}`}
+                  style={{opacity: ".5"}}
                   disabled={this.state.disabled}
                 ></span>
               )}
