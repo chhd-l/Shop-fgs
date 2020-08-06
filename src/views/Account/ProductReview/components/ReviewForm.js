@@ -107,8 +107,6 @@ class ReviewForm extends React.Component {
                 </div>
                 <div className="rc-margin-top--xs">
                   <span className="text-break">
-                    {/*  */}
-                    {this.props.product.goodsWeight}{" "}
                     {this.props.product.specDetails}
                   </span>
                 </div>
