@@ -113,7 +113,7 @@ const en_US = {
   "home.catogery2": "Dietas Veterinarias Gatos",
   "home.catogery3": "Dietas de Prescripción Veterinaria Perros",
   "home.catogery4": "Dietas de Prescripción Veterinaria Gatos",
-  "home.catogery5": "Gatos",
+  "home.catogery5": "Gatos", 
   "home.catogery6": "Perros",
   "home.note1":
     "Afectado por la epidemia, el tiempo de entrega puede extenderse.",
@@ -130,7 +130,6 @@ const en_US = {
   "details.Subscription": "Subscription",
   "details.youCanSave": "You can save",
   "details.bySubscription": "by subscription",
-  "details.deliveryEvery": "Delivery every",
   "details.theSize": "The size",
   "details.availability": "Availability",
   "details.inStock": "In stock",
@@ -176,8 +175,6 @@ const en_US = {
   "footer.websiteTermsOfUse": "Website Terms of Use",
   "footer.cookieCollectionPolicy": "Cookie Collection Policy",
   "footer.contactUs": "Contact us",
-  "footer.contactUsInfo":
-    "You can contact us Monday to Friday from 9:00 am to 6:00 pm",
   "footer.confidentiality": "Privacidad",
   "footer.cookies": "Cookies",
   "footer.legalTerms": "Legal Terms",
@@ -585,9 +582,9 @@ const en_US = {
   'subscribeDiscount': 'Subscription Save Discount',
   'customerReviews': 'Customer reviews',
   'sortBy': 'Sort by',
-  'adyen':'Adyen',
-  'adyenPayFail':'AdyenPayFail',
-  'NoPromotionDesc':'No PromotionDesc',
+  'adyen': 'Adyen',
+  'adyenPayFail': 'AdyenPayFail',
+  'NoPromotionDesc': 'No PromotionDesc',
   //qhx新增
   delivery: "delivery",
   FrequentQuestions: "Frequent questions",
@@ -614,8 +611,8 @@ const en_US = {
   'product.catogery4.name': 'VD cats',
   'product.catogery4.title': 'Dietas de Prescripción Veterinaria Gatos',
   'product.catogery4.desc': 'Dietas terapéuticas que ayudan a mantener la salud de los gatos con problemas diagnosticados',
-  'product.catogery5.name': 'dogs',
-  'product.catogery6.name': 'cats',
+  'product.catogery5.name': 'Perros',
+  'product.catogery6.name': 'Gatos',
 
   'product.de.catogery1.name': 'Urinary',
   'product.de.catogery1.title': 'Urinary',
@@ -657,6 +654,13 @@ const en_US = {
   'payStatus.PAID': 'Paid',
 
   'biliingAddressSameAs': 'Biliing address same as',
-  'deleteAddressTip': 'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.'
+  'deleteAddressTip': 'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
+  examplePostCode: '02860',
+  examplePhone: '+(52) 559 801 65',
+
+
+  'inTheBasket':'in the basket',
+  'promotionalCode':'Promotional Code'
+
 };
 export default en_US;

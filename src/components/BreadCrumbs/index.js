@@ -2,6 +2,8 @@ import React from 'react'
 import { withRouter, Link } from 'react-router-dom';
 import BreadcrumbNameMap from './breadcrumbNameMap';
 import { FormattedMessage } from 'react-intl'
+import { STORE_CATE_ENUM } from '@/utils/constant'
+import { find } from 'lodash'
 
 const BreadCrumbs = withRouter(props => {
   const { location, match } = props;
@@ -17,18 +19,15 @@ const BreadCrumbs = withRouter(props => {
 
   // specific for details page
   if (url.substr(1, 7) === 'details' && !mapData.length) {
-
     let cateName = sessionStorage.getItem('rc-goods-cate-name')
     let goodsName = sessionStorage.getItem('rc-goods-name')
-    const urlMap={'/list/dogs':"Dogs",'/list/cats':"Cats"}
-
     if (cateName) {
-      mapData.push({ name: urlMap[cateName], href:cateName })
+      const tmp = find(STORE_CATE_ENUM, ele => ele.text === cateName)
+      mapData.push({ name: cateName, href: tmp && tmp.url || '' })
     }
     if (goodsName) {
       mapData.push({ name: goodsName })
     }
-    console.log("测试面包屑：",mapData);
   }
 
   return (

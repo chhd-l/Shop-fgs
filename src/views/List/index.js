@@ -72,7 +72,7 @@ class List extends React.Component {
       initingFilter: true,
       initingList: true,
       filterModalVisible: false,
-      currentCatogery: ''
+      currentCatogery: '',
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
@@ -110,9 +110,17 @@ class List extends React.Component {
       console.log(t)
     }
 
-    this.getProductList()
+    let lang = process.env.REACT_APP_LANG
+    if (lang!='de') {
+      this.getProductList()
+    }else{
+      this.getProductList(lang+'_'+category)
+    }
+
+    
   }
   componentDidMount () {
+ 
     console.log(localStorage.getItem("isRefresh"))
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
@@ -131,7 +139,7 @@ class List extends React.Component {
       }
     })
   }
-  async getProductList () {
+  async getProductList (type) {
     let { checkedList, currentPage, pageSize, storeCateIds, keywords, initingList, category } = this.state;
     this.setState({ loading: true })
 
@@ -161,15 +169,30 @@ class List extends React.Component {
       storeCateIds
     }
 
-    for (let item of checkedList) {
-      let tmp = find(params.propDetails, p => p.propId === item.propId)
-      if (tmp) {
-        tmp.detailIds.push(item.detailId)
-      } else {
-        params.propDetails.push({ propId: item.propId, detailIds: [item.detailId] })
-      }
-    }
+    switch(type) {
+      case 'de_cats':
+         console.log('de_cats')
+        params.propDetails = [{propId:481,detailIds:[1784]}]
+         break;
+      case 'de_dogs':
+        console.log('de_dogs')
+        params.propDetails = [{propId:481,detailIds:[1783]}]
+         break;
+      default:
+        console.log('otherLang')
+        for (let item of checkedList) {
+          let tmp = find(params.propDetails, p => p.propId === item.propId)
+          if (tmp) {
+            tmp.detailIds.push(item.detailId)
+          } else {
+            params.propDetails.push({ propId: item.propId, detailIds: [item.detailId] })
+          }
+        }
+    } 
+
+    
     let tmpList
+   
     if (this.isLogin) {
       tmpList = getLoginList
     } else {
@@ -232,10 +255,25 @@ class List extends React.Component {
             tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(v => v.detailName !== 'Gatito')
           }
 
-          this.setState({
-            filterList: tmpList,
-            initingFilter: false
-          })
+          
+          let lang = process.env.REACT_APP_LANG,
+              de_tmpList = []
+
+          if(lang = 'de'){
+            de_tmpList = tmpList.filter(item=>item.propId!=481)
+            this.setState({
+              filterList: de_tmpList,
+              initingFilter: false
+            })
+          }else{
+            this.setState({
+              filterList: tmpList,
+              initingFilter: false
+            })
+          }
+
+
+          
         })
         .catch(() => {
           this.setState({ initingFilter: false })
@@ -274,8 +312,9 @@ class List extends React.Component {
     if (this.state.loading) {
       return false
     }
-    console.log("测试存储信息props",this.props.location)
-    sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || this.props.location.pathname ||'' )
+    if (this.state.currentCatogery) {
+      sessionStorage.setItem('rc-goods-cate-name', this.state.currentCatogery)
+    }
     sessionStorage.setItem('rc-goods-name', item.goodsName)
     const { history } = this.props
     history.push('/details/' + item.goodsInfos[0].goodsInfoId)
@@ -390,9 +429,9 @@ class List extends React.Component {
                         </div>
                       </>
                       :
-                      <div className="row">
+                      <div className="row RowFitScreen">
                         {productList.map(item => (
-                          <div className="col-12 col-md-4 mb-3 pl-2 pr-2" key={item.id}>
+                          <div className="col-12 col-md-4 mb-3 pl-2 pr-2 ColFitScreen" key={item.id}>
                             <article className="rc-card rc-card--product" style={{ minHeight: '120px' }}>
                               <div className="fullHeight">
                                 <a onClick={() => this.hanldeItemClick(item)} className="ui-cursor-pointer">
