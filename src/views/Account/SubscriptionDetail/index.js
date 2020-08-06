@@ -215,13 +215,12 @@ class SubscriptionDetail extends React.Component {
     this.setState({ loading: true });
     updateDetail(param)
       .then((res) => {
-        this.setState({ loading: false });
+        // this.setState({ loading: false });
         // window.location.reload();
-        this.showErrMsg(
+        this.getDetail(this.showErrMsg(
           this.props.intl.messages.saveSuccessfullly,
-          "success",
-          () => this.getDetail()
-        );
+          "success"
+        ).bind(this))
       })
       .catch((err) => {
         this.setState({ loading: false });
@@ -269,7 +268,7 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   }
-  async getDetail () {
+  async getDetail (fn) {
     try {
       this.setState({ loading: true });
       const res = await getSubDetail(
@@ -294,6 +293,8 @@ class SubscriptionDetail extends React.Component {
         currentBillingAddress: subDetail.invoice,
         orderOptions: orderOptions,
         minDate: now,
+      }, () => {
+        fn && fn()
       });
     } catch (err) {
       this.showErrMsg(err);
@@ -493,14 +494,14 @@ class SubscriptionDetail extends React.Component {
                       this.setState({ loading: true });
                       updateDetail(param)
                         .then((res) => {
-                          this.setState({ loading: false });
+                          // this.setState({ loading: false });
                           // console.log(res);
                           // window.location.reload();
-                          this.showErrMsg(
+                          this.getDetail(this.showErrMsg(
                             this.props.intl.messages.saveSuccessfullly,
-                            "success",
-                            () => this.getDetail()
-                          );
+                            "success"
+                          ).bind(this))
+                          
                         })
                         .catch((err) => {
                           this.setState({ loading: false });
@@ -558,14 +559,13 @@ class SubscriptionDetail extends React.Component {
                         this.setState({ loading: true });
                         updateDetail(param)
                           .then((res) => {
-                            this.setState({ loading: false });
+                            // this.setState({ loading: false });
                             // console.log(res);
                             // window.location.reload();
-                            this.showErrMsg(
+                            this.getDetail(this.showErrMsg(
                               this.props.intl.messages.saveSuccessfullly,
-                              "success",
-                              () => this.getDetail()
-                            );
+                              "success"
+                            ).bind(this))
                           })
                           .catch((err) => {
                             this.setState({ loading: false });
@@ -596,14 +596,13 @@ class SubscriptionDetail extends React.Component {
                         this.setState({ loading: true });
                         updateDetail(param)
                           .then((res) => {
-                            this.setState({ loading: false });
+                            // this.setState({ loading: false });
                             // console.log(res);
                             // window.location.reload();
-                            this.showErrMsg(
+                            this.getDetail(this.showErrMsg(
                               this.props.intl.messages.saveSuccessfullly,
-                              "success",
-                              () => this.getDetail()
-                            );
+                              "success"
+                            ).bind(this))
                           })
                           .catch((err) => {
                             this.setState({ loading: false });
@@ -759,14 +758,12 @@ class SubscriptionDetail extends React.Component {
                                     this.setState({ loading: true });
                                     updateDetail(param)
                                       .then((res) => {
-                                        this.setState({ loading: false });
+                                        // this.setState({ loading: false });
                                         // window.location.reload();
-                                        this.showErrMsg(
-                                          this.props.intl.messages
-                                            .saveSuccessfullly,
-                                          "success",
-                                          () => this.getDetail()
-                                        );
+                                        this.getDetail(this.showErrMsg(
+                                          this.props.intl.messages.saveSuccessfullly,
+                                          "success"
+                                        ).bind(this))
                                       })
                                       .catch((err) => {
                                         this.setState({ loading: false });
