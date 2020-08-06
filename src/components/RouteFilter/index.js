@@ -6,7 +6,6 @@ import { getConfig } from '@/api/user'
 
 class RouteFilter extends Component {
   shouldComponentUpdate (nextProps) {
-    //debugger
     if (nextProps.location.pathname === "/prescription" && sessionStorage.getItem('clinic-reselect') === "true") {
       return false
     }
@@ -30,7 +29,7 @@ class RouteFilter extends Component {
       this.props.history.push("/");
     }
 
-    await getConfig().then(res => {
+    getConfig().then(res => {
       sessionStorage.setItem('currency', JSON.stringify(res.context.currency))
     })
     if (window.location.href.indexOf('/#/') !== -1) {
