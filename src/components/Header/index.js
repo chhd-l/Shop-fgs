@@ -15,10 +15,9 @@ import UnloginCart from './modules/unLoginCart'
 import LoginCart from './modules/loginCart'
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
-import store from 'storejs'
 import './index.css'
 
-@inject("loginStore", "clinicStore")
+@inject("loginStore", "clinicStore", "configStore")
 @observer   // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
   static defaultProps = {
@@ -62,7 +61,6 @@ class Header extends React.Component {
     return this.props.loginStore.isLogin
   }
   async componentDidMount () {
-    
     if (sessionStorage.getItem('rc-token-lose')) {
       document.querySelector('#J-btn-logoff') && document.querySelector('#J-btn-logoff').click()
       document.querySelector('#J-btn-login') && document.querySelector('#J-btn-login').click()
@@ -81,7 +79,7 @@ class Header extends React.Component {
         || location.pathname.includes('/details'))
       && linkClinicId
       && clinicStore.clinicId !== linkClinicId) {
-      const res = await getPrescriptionById({ prescriberId: linkClinicId })
+      const res = await getPrescriptionById({ id: linkClinicId })
       if (res.context && res.context.enabled) {
         linkClinicName = res.context.prescriberName
       }
@@ -301,8 +299,8 @@ class Header extends React.Component {
   }
   clickLogoff () {
     localStorage.removeItem("rc-token");
-    sessionStorage.removeItem('rc-clinics-name-default')
-    sessionStorage.removeItem('rc-clinics-id-default')
+    sessionStorage.removeItem(`rc-clinic-name-default`)
+    sessionStorage.removeItem(`rc-clinic-id-default`)
     this.props.loginStore.removeUserInfo()
     this.props.checkoutStore.removeLoginCartData()
     this.props.loginStore.changeIsLogin(false)
@@ -645,7 +643,7 @@ class Header extends React.Component {
               <li className="rc-list__item">
                 <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                   <li className="rc-list__item">
-                    <a className="rc-list__header" href="https://www.royalcanin.com/mx/about-us" target="_blank">
+                    <a className="rc-list__header" href={this.props.configStore.contactUsUrl} target="_blank">
                       <FormattedMessage id="aboutUs" />
                     </a>
                   </li>

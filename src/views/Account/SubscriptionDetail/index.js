@@ -325,6 +325,7 @@ class SubscriptionDetail extends React.Component {
 
       //根据参数查询促销的金额与订单运费
       const res = await getPromotionPrice({
+        totalPrice:subTotal,
         goodsInfoList,
         promotionCode,
         isAutoSub: true,
@@ -1267,7 +1268,7 @@ class SubscriptionDetail extends React.Component {
                                   id="id-text2"
                                   type="text"
                                   name="text"
-                                  placeholder="Promotional Code"
+                                  placeholder={this.props.intl.messages.promotionCode}
                                   value={this.state.promotionInputValue}
                                   onChange={(e) => this.handlerChange(e)}
                                 />

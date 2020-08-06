@@ -38,12 +38,12 @@ class PayProductInfo extends React.Component {
     //     }
   }
   async componentDidMount () {
-    
+
     let productList
-    if(window.location.pathname === '/confirmation') {
+    if (window.location.pathname === '/confirmation') {
       let res = await getOrderDetails(sessionStorage.getItem('orderNumber'))
       productList = res.context.tradeItems.map(el => {
-        if(this.isLogin) {
+        if (this.isLogin) {
           return {
             goodsInfoImg: el.pic,
             goodsName: el.skuName,
@@ -52,7 +52,7 @@ class PayProductInfo extends React.Component {
             salePrice: el.price,
             subscriptionPrice: el.subscriptionPrice
           }
-        }else {
+        } else {
           return {
             sizeList: [{
               goodsInfoImg: el.pic,
@@ -66,16 +66,16 @@ class PayProductInfo extends React.Component {
             currentAmount: el.price * el.num
           }
         }
-        
+
       })
-    }else {
+    } else {
       if (this.isLogin) {
         productList = this.props.checkoutStore.loginCartData
       } else {
         productList = this.props.checkoutStore.cartData.filter(ele => ele.selected)
       }
     }
-    
+
     this.setState(Object.assign({
       productList: productList || []
     }));
@@ -226,17 +226,20 @@ class PayProductInfo extends React.Component {
                 this.props.history && this.props.history.location.pathname === '/payment/payment' ? <div className="mb-3">
                   <span
                     class="rc-input rc-input--inline rc-input--label mr-0"
-                    style={{ width: "170px" }}
+                    style={{ width: "150px" }}
                   >
-                    <input
-                      className="rc-input__control"
-                      id="id-text2"
-                      type="text"
-                      name="text"
-                      placeholder="Promotional Code"
-                      value={this.state.promotionInputValue}
-                      onChange={(e) => this.handlerChange(e)}
-                    />
+                    <FormattedMessage id="promotionCode">
+                      {txt => (<input
+                        className="rc-input__control"
+                        id="id-text2"
+                        type="text"
+                        name="text"
+                        placeholder={txt}
+                        value={this.state.promotionInputValue}
+                        onChange={(e) => this.handlerChange(e)}
+                      />)}
+                    </FormattedMessage>
+
                     <label
                       class="rc-input__label"
                       for="id-text2"

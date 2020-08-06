@@ -130,7 +130,6 @@ const en_US = {
   "details.Subscription": "Subscription",
   "details.youCanSave": "You can save",
   "details.bySubscription": "by subscription",
-  "details.deliveryEvery": "Delivery every",
   "details.theSize": "The size",
   "details.availability": "Availability",
   "details.inStock": "In stock",
@@ -176,8 +175,6 @@ const en_US = {
   "footer.websiteTermsOfUse": "Website Terms of Use",
   "footer.cookieCollectionPolicy": "Cookie Collection Policy",
   "footer.contactUs": "Contact us",
-  "footer.contactUsInfo":
-    "You can contact us Monday to Friday from 9:00 am to 6:00 pm",
   "footer.confidentiality": "Privacidad",
   "footer.cookies": "Cookies",
   "footer.legalTerms": "Legal Terms",
@@ -614,8 +611,8 @@ const en_US = {
   'product.catogery4.name': 'VD cats',
   'product.catogery4.title': 'Dietas de Prescripción Veterinaria Gatos',
   'product.catogery4.desc': 'Dietas terapéuticas que ayudan a mantener la salud de los gatos con problemas diagnosticados',
-  'product.catogery5.name': 'dogs',
-  'product.catogery6.name': 'cats',
+  'product.catogery5.name': 'Perros',
+  'product.catogery6.name': 'Gatos',
 
   'product.de.catogery1.name': 'Urinary',
   'product.de.catogery1.title': 'Urinary',
@@ -660,6 +657,12 @@ const en_US = {
   'deleteAddressTip': 'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
   examplePostCode: '02860',
   examplePhone: '+(52) 559 801 65',
-  'footer.RequestInvoice':'Request Invoice'
+  'footer.RequestInvoice':'Request Invoice',
+  'examplePostCode': '02860',
+  'examplePhone': '+(52) 559 801 65',
+  'inTheBasket': 'in the basket',
+  'promotionalCode': 'Promotional Code',
+  'noClinicTip': 'Your recommendation code is not valid. {val} & check with our partner clinics for a valid code.',
+  'selectNoneClincTip': 'Please select a prescription'
 };
 export default en_US;

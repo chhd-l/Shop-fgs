@@ -77,6 +77,31 @@ class HeroCarousel extends React.Component {
       prevArrow: <SamplePrevArrow />,
       dotsClass: "dots-custom"
     };
+    const videoJSX = url => {
+      return (<>
+        <div className="hero-carousel__slide__video">
+          <video autoPlay={true} muted={true} loop={true} id="myVideo">
+            <source src={url} type="video/mp4" />
+          </video>
+        </div>
+        <div className="hero-carousel__slide__content">
+          <div className="rc-gamma inherit-fontsize">
+            <h1><FormattedMessage id="header.carouselInfo1" /></h1>
+          </div>
+          <div className="rc-margin-bottom--sm rc-body inherit-fontsize">
+            <p><FormattedMessage id="header.carouselInfo2" /></p>
+          </div>
+          <div className="hero-carousel__slide__content__btn text-center">
+            <Link
+              className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16 rc-text-colour--brand3"
+              to={`/list/keywords`}>
+              <FormattedMessage id="header.toBegin" />
+            </Link>
+          </div>
+        </div>
+      </>)
+    }
+
     return (
       <div className="hero-carousel with-shadow">
         <div className="rc-max-width--xl">
@@ -124,29 +149,8 @@ class HeroCarousel extends React.Component {
               this.state.banner.map(el => (
                 <div className="hero-carousel__slide">
                   <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
-                    {el.webUrl.indexOf('mp4') > -1
-                      ? <>
-                        <div className="hero-carousel__slide__video">
-                          <video autoPlay={true} muted={true} loop={true} id="myVideo">
-                            <source src={el.webUrl} type="video/mp4" />
-                          </video>
-                        </div>
-                        <div className="hero-carousel__slide__content">
-                          <div className="rc-gamma inherit-fontsize">
-                            <h1><FormattedMessage id="header.carouselInfo1" /></h1>
-                          </div>
-                          <div className="rc-margin-bottom--sm rc-body inherit-fontsize">
-                            <p><FormattedMessage id="header.carouselInfo2" /></p>
-                          </div>
-                          <div className="hero-carousel__slide__content__btn text-center">
-                            <Link
-                              className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16 rc-text-colour--brand3"
-                              to={`/list/keywords`}>
-                              <FormattedMessage id="header.toBegin" />
-                            </Link>
-                          </div>
-                        </div>
-                      </>
+                    {el.isVideo && el.isVideo === '1'
+                      ? videoJSX(el.webUrl)
                       : <>
                         <img
                           className="rc-md-up"
@@ -157,8 +161,6 @@ class HeroCarousel extends React.Component {
                           src={el.mobiUrl}
                           style={{ maxHeight: '100%' }} />
                       </>}
-
-
 
                     {/* <span className="font-weight-normal red font-16 mb-1 ml-3 mr-3 text-center inlineblock">
                   Monitorea en casa la salud urinaria de tu gato con Hematuria Detection(Detecta sangre en la orina)
