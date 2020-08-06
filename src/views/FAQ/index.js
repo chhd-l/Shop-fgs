@@ -20,10 +20,10 @@ class FAQ extends React.Component {
       loading: true,
     };
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     localStorage.setItem("isRefresh", true);
   }
-  componentDidMount () {
+  componentDidMount() {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -35,7 +35,7 @@ class FAQ extends React.Component {
     });
   }
 
-  getFAQList (data) {
+  getFAQList(data) {
     getFaq(data)
       .then((res) => {
         this.setState({
@@ -47,7 +47,7 @@ class FAQ extends React.Component {
         console.log(err);
       });
   }
-  handleSelect (index) {
+  handleSelect(index) {
     if (index == this.state.showCur) {
       this.setState({
         showCur: -1,
@@ -59,7 +59,7 @@ class FAQ extends React.Component {
     }
   }
 
-  render (h) {
+  render(h) {
     console.log(this.state.dataFAQ);
 
     const event = {
@@ -141,37 +141,39 @@ class FAQ extends React.Component {
               {this.state.loading ? (
                 <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
               ) : (
-                  this.state.dataFAQ.map((item, index) => (
-                    <div
-                      key={item.id}
-                      className={`rc-list__accordion-item test-color 
+                this.state.dataFAQ.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className={`rc-list__accordion-item test-color 
                   ${this.state.showCur == index ? "showItem" : "hiddenItem"}`}
+                  >
+                    <div
+                      className="rc-list__header"
+                      onClick={() => this.handleSelect(index)}
                     >
-                      <div
-                        className="rc-list__header"
-                        onClick={() => this.handleSelect(index)}
-                      >
-                        {/* <div dangerouslySetInnerHTML={createMarkup(
+                      {/* <div dangerouslySetInnerHTML={createMarkup(
                           item.question
                         )}></div> */}
-                        <div dangerouslySetInnerHTML={{ __html: item.question }}></div>
+                      <div
+                        dangerouslySetInnerHTML={{ __html: item.question }}
+                      ></div>
 
-                        <span
-                          className={`icon-change ${
-                            this.state.showCur == index
-                              ? "rc-icon rc-up rc-brand1"
-                              : "rc-icon rc-down rc-iconography"
-                            }`}
-                          style={{ float: "right" }}
-                        ></span>
-                      </div>
-                      <div className={`rc-list__content `}>
-                        <p>{item.answer}</p>
-                        <img src={item.imgUl}></img>
-                      </div>
+                      <span
+                        className={`icon-change ${
+                          this.state.showCur == index
+                            ? "rc-icon rc-up rc-brand1"
+                            : "rc-icon rc-down rc-iconography"
+                        }`}
+                        style={{ float: "right" }}
+                      ></span>
                     </div>
-                  ))
-                )}
+                    <div className={`rc-list__content `}>
+                      <p dangerouslySetInnerHTML={{ __html: item.answer }}></p>
+                      <img src={item.imgUl}></img>
+                    </div>
+                  </div>
+                ))
+              )}
             </dl>
           </div>
         </main>

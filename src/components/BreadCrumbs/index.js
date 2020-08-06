@@ -19,10 +19,7 @@ const BreadCrumbs = withRouter(props => {
 
   // specific for details page
   if (url.substr(1, 7) === 'details' && !mapData.length) {
-<<<<<<< HEAD
     // debugger
-=======
->>>>>>> cfdb2869af4ec28ae44cad783f003e264af84e1a
     let cateName = sessionStorage.getItem('rc-goods-cate-name')
     let goodsName = sessionStorage.getItem('rc-goods-name')
     if (cateName) {
