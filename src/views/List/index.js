@@ -312,8 +312,9 @@ class List extends React.Component {
     if (this.state.loading) {
       return false
     }
-    console.log("测试存储信息props",this.props.location)
-    sessionStorage.setItem('rc-goods-cate-name', item.goodsCateName || this.props.location.pathname ||'' )
+    if (this.state.currentCatogery) {
+      sessionStorage.setItem('rc-goods-cate-name', this.state.currentCatogery)
+    }
     sessionStorage.setItem('rc-goods-name', item.goodsName)
     const { history } = this.props
     history.push('/details/' + item.goodsInfos[0].goodsInfoId)
@@ -428,9 +429,9 @@ class List extends React.Component {
                         </div>
                       </>
                       :
-                      <div className="row">
+                      <div className="row RowFitScreen">
                         {productList.map(item => (
-                          <div className="col-12 col-md-4 mb-3 pl-2 pr-2" key={item.id}>
+                          <div className="col-12 col-md-4 mb-3 pl-2 pr-2 ColFitScreen" key={item.id}>
                             <article className="rc-card rc-card--product" style={{ minHeight: '120px' }}>
                               <div className="fullHeight">
                                 <a onClick={() => this.hanldeItemClick(item)} className="ui-cursor-pointer">

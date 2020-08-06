@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage,injectIntl } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import { find } from 'lodash'
 import { formatMoney } from "@/utils/utils"
@@ -8,6 +8,7 @@ import { getOrderDetails } from "@/api/order"
 
 @inject("checkoutStore", "loginStore")
 @observer
+@injectIntl
 class PayProductInfo extends React.Component {
   static defaultProps = {
     operateBtnVisible: false
@@ -233,7 +234,7 @@ class PayProductInfo extends React.Component {
                       id="id-text2"
                       type="text"
                       name="text"
-                      placeholder="Promotional Code"
+                      placeholder={this.props.intl.messages.promotionCode}
                       value={this.state.promotionInputValue}
                       onChange={(e) => this.handlerChange(e)}
                     />
