@@ -576,11 +576,11 @@ const en_US = {
 
   'biliingAddressSameAs': 'Rechnungsadresse wie',
   'deleteAddressTip': 'Diese Adresse wurde bereits abonniert und kann daher nicht gelöscht werden.',
-  examplePostCode: '50678',
-  examplePhone: '+49 30 901820',
-
+  'examplePostCode': '50678',
+  'examplePhone': '+49 30 901820',
   'inTheBasket':'im Warenkorb',
-  'promotionalCode':'Angebotscode'
-
+  'promotionalCode':'Angebotscode',
+  'noClinicTip': 'Ihr Empfehlungscode ist ungültig. {val} & erkundigen Sie sich bei unseren Partnerkliniken nach einem gültigen Code.',
+  'selectNoneClincTip': 'Bitte wählen Sie ein Rezept'
 }
 export default en_US;

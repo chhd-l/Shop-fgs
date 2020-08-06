@@ -13,7 +13,8 @@ class SearchSelection extends React.Component {
         value: ''
       },
       loadingList: false,
-      placeholder: ''
+      placeholder: '',
+      searchForNoResult: true
     }
     this.timer = null
   }
@@ -35,7 +36,7 @@ class SearchSelection extends React.Component {
     const target = e.target
     const { form } = this.state
     form.value = target.value
-    this.setState({ form: form })
+    this.setState({ form: form, searchForNoResult: true })
     if (!target.value) {
       return false
     }
@@ -54,11 +55,14 @@ class SearchSelection extends React.Component {
       })
     }
   }
-  handleInputBlur = e => {debugger
-    // 没有选择有效item时，回填之前的值
-    this.setState({
-      form: Object.assign(this.state.form, { value: this.state.currentItem })
-    })
+  handleInputBlur = e => {
+    setTimeout(() => {
+      // 没有选择有效item时，回填之前的值
+      this.setState({
+        form: Object.assign(this.state.form, { value: this.state.currentItem }),
+        searchForNoResult: true
+      })
+    }, 500)
   }
   async queryList () {
     this.setState({ loadingList: true })
@@ -66,7 +70,8 @@ class SearchSelection extends React.Component {
       let res = await this.props.queryList(this.state.form.value)
       this.setState({
         optionList: res,
-        loadingList: false
+        loadingList: false,
+        searchForNoResult: res.length > 0
       })
     } catch (err) {
       this.setState({
@@ -75,20 +80,22 @@ class SearchSelection extends React.Component {
       })
     }
   }
-  handleClickClinicItem = (e, item) => {debugger
+  handleClickClinicItem = (e, item) => {
     e.nativeEvent.stopImmediatePropagation()
     const { form } = this.state
     form.value = item.name
     this.setState({
       form: form,
-      optionList: []
+      optionList: [],
+      currentItem: item.name
     })
     this.props.selectedItemChange(item)
   }
   render () {
     const { optionList, form } = this.state
     return (
-      <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
+      <>
+        {/* // <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column"> */}
         <div className="rc-input rc-input--inline rc-margin-y--xs"
           onBlur={() => { setTimeout(() => { this.setState({ optionList: [] }) }, 500) }}>
           <input
@@ -124,7 +131,9 @@ class SearchSelection extends React.Component {
                 : null
           }
         </div>
-      </div>
+        {/* // </div> */}
+        {!this.state.searchForNoResult && optionList.length === 0 && this.props.nodataTipSlot}
+      </>
     )
   }
 }

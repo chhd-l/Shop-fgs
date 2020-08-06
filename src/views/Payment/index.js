@@ -13,6 +13,7 @@ import UnloginDeliveryAddress from "./modules/UnloginDeliveryAddress";
 import LoginDeliveryAddress from "./modules/LoginDeliveryAddress";
 import BillingAddressForm from "./modules/BillingAddressForm";
 import SubscriptionSelect from "./modules/SubscriptionSelect";
+import ClinicForm from "./modules/ClinicForm";
 import AddressPreview from "@/components/AddressPreview";
 import { getDictionary, formatMoney } from "@/utils/utils";
 import {
@@ -128,30 +129,29 @@ class Payment extends React.Component {
       isToPayNow: sessionStorage.getItem("rc-tid"),
       showOxxoForm: false,
       adyenPayParam: {},
-      payWayNameArr:[]
+      payWayNameArr: []
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
     this.confirmCardInfo = this.confirmCardInfo.bind(this);
     this.loginDeliveryAddressRef = React.createRef();
     this.loginBillingAddressRef = React.createRef();
+    this.lang = process.env.REACT_APP_LANG
   }
   async componentDidMount () {
-    //获取支付方式
-    const payWay = await getWays() 
-    let payWayNameArr = payWay.context.map(item=>item.name) //["PAYU", "PAYUOXXO", "ADYEN"]
-
-    this.setState({
-      payWayNameArr
-    })
-
-    console.log(this.state.payWayNameArr)
-
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
       return false;
     }
+
+    //获取支付方式
+    const payWay = await getWays()
+    let payWayNameArr = payWay.context.map(item => item.name) //["PAYU", "PAYUOXXO", "ADYEN"]
+
+    this.setState({
+      payWayNameArr
+    })
 
     if (this.isLogin && !this.loginCartData.length) {
       this.props.history.push("/cart");
@@ -194,7 +194,7 @@ class Payment extends React.Component {
         billingAddress.country = defaultCountryId;
         this.setState({
           deliveryAddress: deliveryAddress,
-          billingAddress: billingAddress,
+          billingAddress: billingAddress
         });
       }
     }
@@ -295,7 +295,7 @@ class Payment extends React.Component {
 
   }
   //2.进行支付
-  async adyenPayment () {   
+  async adyenPayment () {
     try {
       /* 1)获取支付参数 */
       let addressParameter = await this.goConfirmation();//获取支付公共参数
@@ -305,39 +305,39 @@ class Payment extends React.Component {
       /* 2)组装支付需要的参数 */
       let parameters = Object.assign(addressParameter, {
         ...this.state.adyenPayParam
-      }, { country: "MEX" },{deliveryAddressId:this.state.deliveryAddress.addressId},
-      {billAddressId:this.state.billingAddress.addressId},{phone});//(国家暂时填的MEX)
+      }, { country: "MEX" }, { deliveryAddressId: this.state.deliveryAddress.addressId },
+        { billAddressId: this.state.billingAddress.addressId }, { phone });//(国家暂时填的MEX)
 
       /* 3)根据条件-调用不同的支付接口 */
       let action
-      const actions = ()=>{
-        const rePayFun = ()=>{action = rePay}  // 存在订单号
-        const customerCommitAndPayFun = ()=>{action =  customerCommitAndPay}    //会员once
-        const customerCommitAndPayMixFun = ()=>{action = customerCommitAndPayMix}  //  会员frequency
-        const confirmAndCommitFun = ()=>{action = confirmAndCommit}     //游客
+      const actions = () => {
+        const rePayFun = () => { action = rePay }  // 存在订单号
+        const customerCommitAndPayFun = () => { action = customerCommitAndPay }    //会员once
+        const customerCommitAndPayMixFun = () => { action = customerCommitAndPayMix }  //  会员frequency
+        const confirmAndCommitFun = () => { action = confirmAndCommit }     //游客
         return new Map([
-          [{isTid:/^true$/i,isLogin:/.*/,buyWay:/.*/},rePayFun],
-          [{isTid:/^false$/i,isLogin:/^true$/i,buyWay:/^once$/},customerCommitAndPayFun],//buyWay为once的时候均表示会员正常交易
-          [{isTid:/^false$/i,isLogin:/^true$/i,buyWay:/^frequency$/},customerCommitAndPayMixFun],
-          [{isTid:/^false$/i,isLogin:/^false$/i,buyWay:/.*/},confirmAndCommitFun],
+          [{ isTid: /^true$/i, isLogin: /.*/, buyWay: /.*/ }, rePayFun],
+          [{ isTid: /^false$/i, isLogin: /^true$/i, buyWay: /^once$/ }, customerCommitAndPayFun],//buyWay为once的时候均表示会员正常交易
+          [{ isTid: /^false$/i, isLogin: /^true$/i, buyWay: /^frequency$/ }, customerCommitAndPayMixFun],
+          [{ isTid: /^false$/i, isLogin: /^false$/i, buyWay: /.*/ }, confirmAndCommitFun],
         ])
       }
-      const payFun = (isTid,isLogin,buyWay)=>{
-        let action = [...actions()].filter(([key,value])=>(key.isTid.test(isTid) && key.isLogin.test(isLogin) && key.buyWay.test(buyWay)))
-        action.forEach(([key,value])=>value.call(this))
+      const payFun = (isTid, isLogin, buyWay) => {
+        let action = [...actions()].filter(([key, value]) => (key.isTid.test(isTid) && key.isLogin.test(isLogin) && key.buyWay.test(buyWay)))
+        action.forEach(([key, value]) => value.call(this))
       }
 
-      payFun(this.tid!=null,this.isLogin,this.state.subForm.buyWay)
+      payFun(this.tid != null, this.isLogin, this.state.subForm.buyWay)
 
       /* 4)调用支付 */
-     const res = await action(parameters)
+      const res = await action(parameters)
       if (res.code === "K-000000") {
         var orderNumber = res.context[0].tid;
         sessionStorage.setItem("orderNumber", orderNumber);
         this.props.history.push("/confirmation");
       }
     } catch (err) {
-      if(err.errorData){//err.errorData是返回的tid(订单号)
+      if (err.errorData) {//err.errorData是返回的tid(订单号)
         this.tid = err.errorData
       }
       this.showErrorMsg(this.props.intl.messages.adyenPayFail);
@@ -433,6 +433,12 @@ class Payment extends React.Component {
     } else {
       param.billingAddress = tmpBillingAddress;
     }
+    // 德国店铺校验clinic
+    if (this.lang === 'de' && (!this.props.clinicStore.clinicId || !this.props.clinicStore.clinicName)) {
+      this.showErrorMsg(this.props.intl.messages.selectNoneClincTip);
+      return false
+    }
+
     if (this.validInputsData(param.deliveryAddress) === false) {
       return false;
     }
@@ -923,11 +929,6 @@ class Payment extends React.Component {
       });
     }
   }
-  handleClickEditClinic (e) {
-    e.preventDefault();
-    sessionStorage.setItem("clinic-reselect", true);
-    this.props.history.push("/prescription");
-  }
   savePromotionCode (promotionCode) {
     this.setState({
       promotionCode
@@ -996,24 +997,7 @@ class Payment extends React.Component {
                     <>
                       <div className="shipping-form">
                         <div className="bg-transparent">
-                          <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-4">
-                            <div className="card-header bg-transparent pt-0 pb-0">
-                              <h5 className="pull-left">
-                                <i className="rc-icon rc-health--xs rc-iconography"></i>{' '}
-                                {this.isLogin ?
-                                  <FormattedMessage id="payment.clinicTitle2" />
-                                  : <FormattedMessage id="payment.clinicTitle" />}
-                              </h5>
-                              <p
-                                onClick={(e) => this.handleClickEditClinic(e)}
-                                className="rc-styled-link rc-margin-top--xs pull-right m-0">
-                                <FormattedMessage id="edit" />
-                              </p>
-                            </div>
-                            <div>
-                              {this.props.clinicStore.clinicName}
-                            </div>
-                          </div>
+                          <ClinicForm history={this.props.history} />
                           <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-4">
                             {this.isLogin ? (
                               <LoginDeliveryAddress
@@ -1030,49 +1014,49 @@ class Payment extends React.Component {
                                   }}
                                 />
                               )}
-                              {/* 标记 */}
+                            {/* 标记 */}
 
                             <div className="billingCheckbox rc-margin-top--xs">
                               <div>
-                              <input
-                                className="form-check-input"
-                                id="id-checkbox-billing"
-                                value="Cat"
-                                type="checkbox"
-                                onChange={() => this.billingCheckedChange()}
-                                checked={this.state.billingChecked}
-                                style={{ width: '17px', height: '17px' }}
-                              />
-                              <label className="rc-input__label--inline" htmlFor="id-checkbox-billing">
-                                <FormattedMessage id="biliingAddressSameAs" />
-                              </label>
+                                <input
+                                  className="form-check-input"
+                                  id="id-checkbox-billing"
+                                  value="Cat"
+                                  type="checkbox"
+                                  onChange={() => this.billingCheckedChange()}
+                                  checked={this.state.billingChecked}
+                                  style={{ width: '17px', height: '17px' }}
+                                />
+                                <label className="rc-input__label--inline" htmlFor="id-checkbox-billing">
+                                  <FormattedMessage id="biliingAddressSameAs" />
+                                </label>
                               </div>
                               <div className=" normalDelivery">
-                                  <span >
-                                    <FormattedMessage id="payment.normalDelivery2" />
-                                  </span>
-                                  <span className="text-muted arrival-time">
-                                    <FormattedMessage id="payment.normalDelivery3" />
-                                  </span>
+                                <span >
+                                  <FormattedMessage id="payment.normalDelivery2" />
+                                </span>
+                                <span className="text-muted arrival-time">
+                                  <FormattedMessage id="payment.normalDelivery3" />
+                                </span>
+
+                                <span
+                                  className="shipping-method-pricing"
+                                  style={{ whiteSpace: "nowrap" }}
+                                >
 
                                   <span
-                                    className="shipping-method-pricing"
-                                    style={{ whiteSpace: "nowrap" }}
+                                    className="info delivery-method-tooltip"
+                                    title="Top"
+                                    data-tooltip-placement="top"
+                                    data-tooltip="top-tooltip"
                                   >
-  
-                                    <span
-                                      className="info delivery-method-tooltip"
-                                      title="Top"
-                                      data-tooltip-placement="top"
-                                      data-tooltip="top-tooltip"
-                                    >
-                                      i
+                                    i
                                     </span>
-                                    <div id="top-tooltip" className="rc-tooltip">
-                                      <FormattedMessage id="payment.forFreeTip" />
-                                    </div>
-                                  </span>
+                                  <div id="top-tooltip" className="rc-tooltip">
+                                    <FormattedMessage id="payment.forFreeTip" />
                                   </div>
+                                </span>
+                              </div>
                             </div>
 
                           </div>
@@ -1106,7 +1090,7 @@ class Payment extends React.Component {
                           }
                           {/* 标记 */}
                           {/* <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-4"> */}
-                            {/* <div className="card-header bg-transparent pt-0 pb-0">
+                          {/* <div className="card-header bg-transparent pt-0 pb-0">
                               <h5>
                                 <i className="rc-icon rc-delivery--sm rc-iconography" style={{ transform: 'scale(.9)' }}></i>{' '}
                                 <FormattedMessage id="payment.howToDelivery" />
@@ -1195,7 +1179,7 @@ class Payment extends React.Component {
                     <FormattedMessage id="payment.paymentInformation" />
                   </h5>
                   <div className="ml-custom mr-custom">
-                    <div class="rc-input rc-input--inline" style={{display:this.state.payWayNameArr.indexOf('PAYU')!=-1?'inline-block':'none'}}>
+                    <div class="rc-input rc-input--inline" style={{ display: this.state.payWayNameArr.indexOf('PAYU') != -1 ? 'inline-block' : 'none' }}>
                       {
                         this.state.paymentTypeVal === 'creditCard'
                           ? <input
@@ -1221,7 +1205,7 @@ class Payment extends React.Component {
                       </label>
                     </div>
                     {
-                      this.state.subForm.buyWay !== "frequency" && <div class="rc-input rc-input--inline" style={{display:this.state.payWayNameArr.indexOf('PAYUOXXO')!=-1?'inline-block':'none'}}>
+                      this.state.subForm.buyWay !== "frequency" && <div class="rc-input rc-input--inline" style={{ display: this.state.payWayNameArr.indexOf('PAYUOXXO') != -1 ? 'inline-block' : 'none' }}>
                         {
                           this.state.paymentTypeVal === 'oxxo'
                             ? <input
@@ -1248,7 +1232,7 @@ class Payment extends React.Component {
                         </label>
                       </div>
                     }
-                    <div class="rc-input rc-input--inline" style={{display:this.state.payWayNameArr.indexOf('ADYEN')!=-1?'inline-block':'none'}}>
+                    <div class="rc-input rc-input--inline" style={{ display: this.state.payWayNameArr.indexOf('ADYEN') != -1 ? 'inline-block' : 'none' }}>
                       {
                         this.state.paymentTypeVal === 'adyen'
                           ? <input
@@ -1565,7 +1549,7 @@ class Payment extends React.Component {
                     </div>
                     <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom" >
                       <input
-                        style={{cursor:'pointer'}}
+                        style={{ cursor: 'pointer' }}
                         className="form-check-input"
                         id="id-checkbox-cat-2"
                         value=""
@@ -1579,12 +1563,12 @@ class Payment extends React.Component {
                           });
                         }}
                         checked={this.state.isReadPrivacyPolicy}
-                        
+
                       />
                       <label
                         htmlFor="id-checkbox-cat-2"
                         className="rc-input__label--inline"
-                        style={{cursor:'pointer'}}
+                        style={{ cursor: 'pointer' }}
                       >
                         <FormattedMessage
                           id="payment.confirmInfo3"
@@ -1637,12 +1621,12 @@ class Payment extends React.Component {
                           });
                         }}
                         checked={this.state.isEighteen}
-                        style={{cursor:'pointer'}}
+                        style={{ cursor: 'pointer' }}
                       />
                       <label
                         htmlFor="id-checkbox-cat-1"
                         className="rc-input__label--inline"
-                        style={{cursor:'pointer'}}
+                        style={{ cursor: 'pointer' }}
                       >
                         <FormattedMessage id="payment.confirmInfo1" />
                         <div

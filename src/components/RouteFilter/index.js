@@ -6,14 +6,23 @@ import { getConfig } from '@/api/user'
 
 class RouteFilter extends Component {
   shouldComponentUpdate (nextProps) {
+    const lang = process.env.REACT_APP_LANG
+
+    // 默认了clinic后，再次编辑clinic
     if (nextProps.location.pathname === "/prescription" && sessionStorage.getItem('clinic-reselect') === "true") {
       return false
     }
 
+    // 德国店铺，不进入此页面
+    if (nextProps.location.pathname === "/prescription" && lang === 'de') {
+      this.props.history.replace("/payment/payment");
+      return false
+    }
+
     if (nextProps.location.pathname === "/prescription"
-      && ((store.get("rc-clinic-id-link") && store.get("rc-clinic-name-link"))
-        || (store.get("rc-clinic-id-select") && store.get("rc-clinic-name-select"))
-        || (store.get("rc-clinic-id-default") && store.get("rc-clinic-name-default")))) {
+      && ((store.get(`rc-clinic-id-link`) && store.get(`rc-clinic-name-link`))
+        || (store.get(`rc-clinic-id-select`) && store.get(`rc-clinic-name-select`))
+        || (store.get(`rc-clinic-id-default`) && store.get(`rc-clinic-name-default`)))) {
       this.props.history.replace("/payment/payment");
       return false
     }

@@ -299,8 +299,8 @@ class Header extends React.Component {
   }
   clickLogoff () {
     localStorage.removeItem("rc-token");
-    sessionStorage.removeItem('rc-clinics-name-default')
-    sessionStorage.removeItem('rc-clinics-id-default')
+    sessionStorage.removeItem(`rc-clinic-name-default`)
+    sessionStorage.removeItem(`rc-clinic-id-default`)
     this.props.loginStore.removeUserInfo()
     this.props.checkoutStore.removeLoginCartData()
     this.props.loginStore.changeIsLogin(false)

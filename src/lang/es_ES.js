@@ -557,5 +557,7 @@ const en_US = {
   'examplePhone': '+(52) 559 801 65',
   'inTheBasket': 'in the basket',
   'promotionalCode': 'Codigo promocional',
+  'noClinicTip': 'Su código de recomendación no es válido. {val} y consulte con nuestras clínicas asociadas para obtener un código válido.',
+  'selectNoneClincTip': 'Por favor seleccione una receta'
 }
 export default en_US;

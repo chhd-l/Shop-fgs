@@ -1,6 +1,7 @@
 import React from "react"
 import { injectIntl, FormattedMessage } from 'react-intl'
 import Loading from "@/components/Loading"
+import SearchSelection from "@/components/SearchSelection"
 import { updateCustomerBaseInfo } from "@/api/user"
 import { getAllPrescription } from '@/api/clinic'
 
@@ -17,7 +18,6 @@ class ClinicEditForm extends React.Component {
         clinicName: '',
         clinicId: ''
       },
-      clinicList: [],
       loadingList: false,
       oldForm:{
         clinicName: '',
@@ -57,36 +57,6 @@ class ClinicEditForm extends React.Component {
         oldForm: oldForm
       })
     }
-  }
-  handleInputChange (e) {
-    e.nativeEvent.stopImmediatePropagation()
-    const target = e.target
-    const { form } = this.state
-    form[target.dataset.name] = target.value
-    form['clinicId'] = null
-    this.setState({ form: form })
-    clearTimeout(this.timer)
-    this.timer = setTimeout(() => {
-      this.getClinicList()
-    }, 500)
-  }
-  async getClinicList () {
-    this.setState({ loadingList: true })
-    let res = await getAllPrescription({ storeId: process.env.REACT_APP_STOREID, prescriberName: this.state.form.clinicName })
-    this.setState({
-      clinicList: (res.context && res.context.prescriberVo) || [],
-      loadingList: false
-    })
-  }
-  handleClickClinicItem (e, item) {
-    e.nativeEvent.stopImmediatePropagation()
-    const { form } = this.state
-    form.clinicName = item.prescriberName
-    form.clinicId = item.id
-    this.setState({
-      form: form,
-      clinicList: []
-    })
   }
   async handleSave () {
     const { form } = this.state
@@ -157,8 +127,14 @@ class ClinicEditForm extends React.Component {
       editFormVisible: false 
     })
   }
+  handleSelectedItemChange = data => {
+    const { form } = this.state
+    form.clinicName = data.prescriberName
+    form.clinicId = data.id
+    this.setState({ form: form })
+  }
   render () {
-    const { editFormVisible, form, clinicList } = this.state
+    const { editFormVisible, form } = this.state
     const { data } = this.props
     return (
       <div>
@@ -205,42 +181,14 @@ class ClinicEditForm extends React.Component {
             <div className="col-lg-6">{form.clinicName || '--'}</div>
           </div>
           <div className={`${editFormVisible ? '' : 'hidden'}`}>
-            <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
-              <div className="rc-input rc-input--inline rc-margin-y--xs"
-                onBlur={() => { setTimeout(() => { this.setState({ clinicList: [] }) }, 500) }}>
-                <input
-                  type="text"
-                  placeholder={this.props.intl.messages.enterClinicName}
-                  className="form-control"
-                  value={form.clinicName}
-                  onChange={event => this.handleInputChange(event)}
-                  data-name="clinicName"
-                />
-                {
-                  this.state.loadingList
-                    ?
-                    <div className="clnc-overlay border mt-1 position-absolute w-100">
-                      <div className="text-center p-2">
-                        <span className="ui-btn-loading ui-btn-loading-border-red" />
-                      </div>
-                    </div>
-                    : clinicList.length
-                      ? <div className="clnc-overlay border mt-1 position-absolute w-100">
-                        <ul className="m-0 clinic-item-container">
-                          {
-                            clinicList.map((item, idx) => (
-                              <li
-                                className={`clinic-item pl-2 pr-2 ${idx !== clinicList.length - 1 ? 'border-bottom' : ''}`}
-                                key={idx}
-                                onClick={(e) => this.handleClickClinicItem(e, item)}>{item.prescriberName}</li>
-                            ))
-                          }
-                        </ul>
-                      </div>
-                      : null
-                }
-              </div>
-            </div>
+            <SearchSelection
+              queryList={async inputVal => {
+                let res = await getAllPrescription({ storeId: process.env.REACT_APP_STOREID, prescriberName: inputVal })
+                return ((res.context && res.context.prescriberVo) || []).map(ele => Object.assign(ele, { name: ele.prescriberName }))
+              }}
+              selectedItemChange={data => this.handleSelectedItemChange(data)}
+              defaultValue={this.state.form.clinicName}
+              placeholder={this.props.intl.messages.enterClinicName} />
             <div className="text-right">
               <a
                 className="rc-styled-link"

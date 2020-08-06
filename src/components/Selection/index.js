@@ -95,7 +95,6 @@ export default class Selection extends React.Component {
                   className={`choices__item choices__item--choice choices__item--selectable ${hoveredIdx === i ? 'is-highlighted' : ''}`}
                   role="option"
                   aria-selected="false"
-                  title={item.name}
                   key={i}
                   onClick={() => this.handleClickOption(item.value, item)} onMouseEnter={() => this.handleMouseEnterOption(i)}>
                   {item.name}

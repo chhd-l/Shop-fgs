@@ -2,14 +2,14 @@ import { action, observable, computed, runInAction } from "mobx";
 import store from 'storejs'
 
 class ClinicStore {
-  @observable linkClinicId = store.get('rc-clinic-id-link') || ''
-  @observable linkClinicName = store.get('rc-clinic-name-link') || ''
+  @observable linkClinicId = store.get(`rc-clinic-id-link`) || ''
+  @observable linkClinicName = store.get(`rc-clinic-name-link`) || ''
 
-  @observable selectClinicId = store.get('rc-clinic-id-select') || ''
-  @observable selectClinicName = store.get('rc-clinic-name-select') || ''
+  @observable selectClinicId = store.get(`rc-clinic-id-select`) || ''
+  @observable selectClinicName = store.get(`rc-clinic-name-select`) || ''
 
-  @observable defaultClinicId = store.get('rc-clinic-id-default') || ''
-  @observable defaultClinicName = store.get('rc-clinic-name-default') || ''
+  @observable defaultClinicId = store.get(`rc-clinic-id-default`) || ''
+  @observable defaultClinicName = store.get(`rc-clinic-name-default`) || ''
 
   @computed get clinicId () {
     return this.linkClinicId || this.selectClinicId || this.defaultClinicId
@@ -21,49 +21,49 @@ class ClinicStore {
   @action.bound
   setLinkClinicId (data) {
     this.linkClinicId = data
-    store.set('rc-clinic-id-link', data)
+    store.set(`rc-clinic-id-link`, data)
   }
 
   @action.bound
   setLinkClinicName (data) {
     this.linkClinicName = data
-    store.set('rc-clinic-name-link', data)
+    store.set(`rc-clinic-name-link`, data)
   }
 
   @action.bound
   removeLinkClinicId () {
     this.linkClinicId = ''
-    store.remove('rc-clinic-id-link')
+    store.remove(`rc-clinic-id-link`)
   }
 
   @action.bound
   removeLinkClinicName () {
     this.linkClinicName = ''
-    store.remove('rc-clinic-name-link')
+    store.remove(`rc-clinic-name-link`)
   }
 
   @action.bound
   setSelectClinicId (data) {
     this.linkClinicId = data
-    store.set('rc-clinic-id-select', data)
+    store.set(`rc-clinic-id-select`, data)
   }
 
   @action.bound
   setSelectClinicName (data) {
     this.linkClinicName = data
-    store.set('rc-clinic-name-select', data)
+    store.set(`rc-clinic-name-select`, data)
   }
 
   @action.bound
   setDefaultClinicId (data) {
     this.linkClinicId = data
-    store.set('rc-clinic-id-default', data)
+    store.set(`rc-clinic-id-default`, data)
   }
 
   @action.bound
   setDefaultClinicName (data) {
     this.linkClinicName = data
-    store.set('rc-clinic-name-default', data)
+    store.set(`rc-clinic-name-default`, data)
   }
 }
 export default ClinicStore;
