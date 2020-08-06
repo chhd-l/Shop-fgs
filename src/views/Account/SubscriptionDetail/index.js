@@ -325,6 +325,7 @@ class SubscriptionDetail extends React.Component {
 
       //根据参数查询促销的金额与订单运费
       const res = await getPromotionPrice({
+        totalPrice:subTotal,
         goodsInfoList,
         promotionCode,
         isAutoSub: true,
