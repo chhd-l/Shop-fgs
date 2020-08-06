@@ -126,7 +126,6 @@ const en_US = {
   "details.Subscription": "Abonnement",
   "details.youCanSave": "Du kannst speichern",
   "details.bySubscription": "im Abonnement",
-  "details.deliveryEvery": "Lieferung jeden",
   "details.theSize": "Die Größe",
   "details.availability": "Verfügbarkeit",
   "details.inStock": "Auf Lager",
