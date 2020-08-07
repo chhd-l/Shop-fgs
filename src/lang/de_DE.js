@@ -150,6 +150,7 @@ const en_US = {
   "cart.catDiet": "Wählen Sie eine Diät für Ihre Katze",
   "cart.deletInfo": "Produkt löschen?",
   "cart.deletInfo2": "Möchten Sie diesen Artikel wirklich aus Ihrem Warenkorb entfernen?",
+  "cart.miniCartTitle": "10% Rabatt auf den ersten Einkauf plus 5% Rabatt auf jede Bestellung mit Autoship",
   "footer.toTheTop": "Nach oben",
   "footer.aboutRoyalCanin": "ÜBER ROYAL CANIN®",
   "footer.contactRoyalCanin": "Kontakt ROYAL CANIN®",
