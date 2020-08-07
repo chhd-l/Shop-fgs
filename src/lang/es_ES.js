@@ -17,7 +17,7 @@ const en_US = {
   'itemsInCart': 'Usted tiene {val} artículo en su carro',
   'itemsInCart2': 'Usted tiene {val} artículos en su carro',
   'total': 'Total',
-  'totalIncluIVA': 'Total (VAT incluido)',
+  'totalIncluIVA': 'Total (IVA incluido)',
   'totalCost': 'Coste total',
   'cats': 'GATOS',
   'cats2': 'Gatos',
@@ -203,7 +203,7 @@ const en_US = {
   'payment.errorInfo': '*{val} debe ser llenado',
   'payment.errorInfo2': 'Este campo es requerido.',
   'payment.further': 'Confirmar',
-  'payment.confirmInfo1': 'Confirmo que tengo 18 años',
+  'payment.confirmInfo1': 'Confirmo que soy mayor de 18 años',
   'payment.confirmInfo2': 'Debe tener 18 años o más para registrarse en el sitio.',
   'payment.confirmInfo3': 'He leído el Acuerdo de usuario y la {val1} y acepto el procesamiento de datos personales, incluida {val2}',
   'payment.confirmInfo4': 'Debe familiarizarse con el Acuerdo de usuario y la Política de privacidad y dar su consentimiento para el procesamiento de datos personales, incluida la transferencia transfronteriza.',
@@ -226,7 +226,8 @@ const en_US = {
   "payment.frequencyTip3": "Sus artículos solo se enviarán una vez.",
   "payment.deliveryFrequency": "Frecuencia de entrega",
   "payment.subTip1": "¡Ahorrará un {val} adicional en este pedido!",
-  "payment.subTip2":"¡Guarde su primer pedido de suscripción de {icon} y ahorre {val} ({val2}) hoy!",
+  "payment.subTip2":
+    "¡Guarde su primer pedido de suscripción de {icon} y ahorre {val} ({val2}) hoy!",
   'confirmation.info1': 'Gracias por su orden.',
   'confirmation.info2': 'En un futuro cercano, nuestro personal se comunicará con usted para confirmar el pedido.',
   'confirmation.info3': 'La dirección y el modo de transporte se enumeran debajo de sus productos.',
@@ -558,6 +559,6 @@ const en_US = {
   'promotionalCode': 'Codigo promocional',
   'noClinicTip': 'Su código de recomendación no es válido. {val} y consulte con nuestras clínicas asociadas para obtener un código válido.',
   'selectNoneClincTip': 'Por favor seleccione una receta',
-  'footer.RequestInvoice':'Request Invoice'
+  'orderSummary': 'Resumen de pedido'
 }
 export default en_US;
