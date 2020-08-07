@@ -28,7 +28,7 @@ class List extends React.Component {
       productList: [
         // 占位用，不能删
         {
-          id: '3003_RU',
+          id: '3000_RU',
           goodsName: 'Mini adult',
           goodsInfos: [
             {
@@ -39,7 +39,7 @@ class List extends React.Component {
           ]
         },
         {
-          id: '3004_RU',
+          id: '3001_RU',
           goodsName: 'Mini adult',
           goodsInfos: [
             {
@@ -50,7 +50,7 @@ class List extends React.Component {
           ]
         },
         {
-          id: '3005_RU',
+          id: '3002_RU',
           goodsName: 'Mini adult',
           goodsInfos: [
             {
@@ -260,6 +260,8 @@ class List extends React.Component {
             results: esGoods.totalElements,
             currentPage: esGoods.number + 1,
             totalPage: esGoods.totalPages
+          },()=>{
+            console.log("productList",this.state.productList)
           })
         } else {
           this.setState({
