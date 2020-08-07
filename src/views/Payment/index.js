@@ -117,7 +117,7 @@ class Payment extends React.Component {
         frequencyName: "",
         frequencyId: "",
       },
-      paymentTypeVal: "creditCard", //creditCard oxxo adyen
+      paymentTypeVal: "", //creditCard oxxo adyen
       errorShow: false,
       errorMsg: "",
       commentOnDelivery: "",
@@ -145,12 +145,29 @@ class Payment extends React.Component {
       return false;
     }
 
+
     //获取支付方式
     const payWay = await getWays()
-    let payWayNameArr = payWay.context.map(item => item.name) //["PAYU", "PAYUOXXO", "ADYEN"]
+    let payWayNameArr = payWay.context.map(item => item.payChannelItemList)[0].map((item)=>item.code)
+    //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_later""payu","payuoxxo"]
+    let payMethod = payWayNameArr[0]||'none'
+    //各种支付component初始化方法
+    var initPaymentWay = {
+      "adyen_credit_card":()=>{setTimeout(()=>{this.initAdyenPay()},1000)},
+      "adyen_klarna_slice":()=>{console.log('initKlarnaSlice')},
+      "adyen_klarna_pay_now":()=>{console.log('initKlarnaPayNow')},
+      "adyen_klarna_pay_later":()=>{console.log('initKlarnaPayLater')},
+      "payu":()=>{this.setState({paymentTypeVal:'creditCard'})},
+      "payuoxxo":()=>{ this.setState({paymentTypeVal: "oxxo"})},
+      "none":()=>{console.log('no payway')}
+    }
 
+
+    //默认第一个,如没有支付方式,就不初始化方法
     this.setState({
-      payWayNameArr
+      payWayNameArr,
+    },()=>{
+      initPaymentWay[payMethod]()
     })
 
     if (this.isLogin && !this.loginCartData.length) {
@@ -267,7 +284,9 @@ class Payment extends React.Component {
   }
   //1.初始化adyen,得到加密参数
   initAdyenPay () {
-    const AdyenCheckout = window.AdyenCheckout
+    this.setState({paymentTypeVal:'adyenCard'})
+    if(!!window.AdyenCheckout){//要有值
+      const AdyenCheckout = window.AdyenCheckout
     // (1) Create an instance of AdyenCheckout
     const checkout = new AdyenCheckout({
       environment: 'test',
@@ -292,7 +311,7 @@ class Payment extends React.Component {
         onChange: (state, component) => { }
       })
       .mount('#card-container');
-
+    }
   }
   //2.进行支付
   async adyenPayment () {
@@ -938,7 +957,7 @@ class Payment extends React.Component {
     this.setState({
       paymentTypeVal: e.target.value
     }, () => {
-      if (this.state.paymentTypeVal === 'adyen') {
+      if (this.state.paymentTypeVal === 'adyenCard') {
         this.initAdyenPay()
       }
     })
@@ -1179,7 +1198,7 @@ class Payment extends React.Component {
                     <FormattedMessage id="payment.paymentInformation" />
                   </h5>
                   <div className="ml-custom mr-custom">
-                    <div class="rc-input rc-input--inline" style={{ display: this.state.payWayNameArr.indexOf('PAYU') != -1 ? 'inline-block' : 'none' }}>
+                    <div class="rc-input rc-input--inline" style={{ display: this.state.payWayNameArr.indexOf('payu') != -1 ? 'inline-block' : 'none' }}>
                       {
                         this.state.paymentTypeVal === 'creditCard'
                           ? <input
@@ -1205,7 +1224,7 @@ class Payment extends React.Component {
                       </label>
                     </div>
                     {
-                      this.state.subForm.buyWay !== "frequency" && <div class="rc-input rc-input--inline" style={{ display: this.state.payWayNameArr.indexOf('PAYUOXXO') != -1 ? 'inline-block' : 'none' }}>
+                      this.state.subForm.buyWay !== "frequency" && <div class="rc-input rc-input--inline" style={{ display: this.state.payWayNameArr.indexOf('payuoxxo') != -1 ? 'inline-block' : 'none' }}>
                         {
                           this.state.paymentTypeVal === 'oxxo'
                             ? <input
@@ -1232,26 +1251,26 @@ class Payment extends React.Component {
                         </label>
                       </div>
                     }
-                    <div class="rc-input rc-input--inline" style={{ display: this.state.payWayNameArr.indexOf('ADYEN') != -1 ? 'inline-block' : 'none' }}>
+                    <div class="rc-input rc-input--inline" style={{ display: this.state.payWayNameArr.indexOf('adyen_credit_card') != -1 ? 'inline-block' : 'none' }}>
                       {
-                        this.state.paymentTypeVal === 'adyen'
+                        this.state.paymentTypeVal === 'adyenCard'
                           ? <input
                             class="rc-input__radio"
                             id="payment-info-adyen"
-                            value="adyen"
+                            value="adyenCard"
                             type="radio"
                             name="payment-info"
                             onChange={event => this.handlePaymentTypeChange(event)}
                             checked
-                            key={3} />
+                            key={5} />
                           : <input
                             class="rc-input__radio"
                             id="payment-info-adyen"
-                            value="adyen"
+                            value="adyenCard"
                             type="radio"
                             name="payment-info"
                             onChange={event => this.handlePaymentTypeChange(event)}
-                            key={4} />
+                            key={6} />
                       }
 
                       <label class="rc-input__label--inline" for="payment-info-adyen">
@@ -1658,7 +1677,7 @@ class Payment extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className={`${this.state.paymentTypeVal === "adyen" ? '' : 'hidden'}`}>
+                  <div className={`${this.state.paymentTypeVal === "adyenCard" ? '' : 'hidden'}`}>
                     <div class="payment-method checkout--padding">
                       <div id="card-container" class="payment-method__container">
                         {/* Card Component will be rendered here */}

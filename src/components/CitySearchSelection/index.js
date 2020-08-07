@@ -1,0 +1,28 @@
+import React from 'react'
+import { injectIntl } from 'react-intl'
+import SearchSelection from "@/components/SearchSelection"
+import { queryCityByName } from "@/api"
+
+@injectIntl
+class CitySearchSelection extends React.Component {
+  componentDidMount () {
+    // queryCityByName
+  }
+  handleSelectedItemChange () {
+
+  }
+  render () {
+    return (<SearchSelection
+      queryList={async inputVal => {
+        let res = await queryCityByName({ cityName: inputVal })
+        return ((res.context && res.context.systemCityVO) || []).map(ele => Object.assign(ele, { name: ele.cityName }))
+      }}
+      selectedItemChange={data => this.props.onChange(data)}
+      defaultValue={this.props.defaultValue}
+      placeholder={this.props.intl.messages.inputSearchText}
+      customStyle={true}
+    />)
+  }
+}
+
+export default CitySearchSelection

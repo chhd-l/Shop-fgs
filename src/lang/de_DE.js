@@ -583,6 +583,7 @@ const en_US = {
   'promotionalCode':'Gutscheincode',
   'noClinicTip': 'Ihr Empfehlungscode ist ungültig. {val} & erkundigen Sie sich bei unseren Partnerkliniken nach einem gültigen Code.',
   'selectNoneClincTip': 'Bitte wählen Sie ein Rezept',
-  'promotionCode': 'Gutscheincode'
+  'promotionCode': 'Gutscheincode',
+  'inputSearchText': 'Suchtext eingeben'
 }
 export default en_US;

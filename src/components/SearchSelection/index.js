@@ -5,6 +5,9 @@ import { FormattedMessage } from "react-intl";
  * 带有远程搜索功能的下拉选择组件
  */
 class SearchSelection extends React.Component {
+  static defaultProps = {
+    customStyle: false
+  }
   constructor(props) {
     super(props)
     this.state = {
@@ -59,7 +62,7 @@ class SearchSelection extends React.Component {
     setTimeout(() => {
       // 没有选择有效item时，回填之前的值
       this.setState({
-        form: Object.assign(this.state.form, { value: this.state.currentItem }),
+        form: Object.assign(this.state.form, { value: this.state.currentItem || '' }),
         searchForNoResult: true
       })
     }, 500)
@@ -96,17 +99,20 @@ class SearchSelection extends React.Component {
     return (
       <>
         {/* // <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column"> */}
-        <div className="rc-input rc-input--inline rc-margin-y--xs"
+        <div className={`${this.props.customStyle ? 'rc-input rc-input--label rc-margin--none rc-input--full-width' : 'rc-input rc-input--full-width rc-margin-y--xs'}`}
           onBlur={() => { setTimeout(() => { this.setState({ optionList: [] }) }, 500) }}>
           <input
             type="text"
             placeholder={this.state.placeholder}
-            className="form-control"
+            className={`${this.props.customStyle ? 'rc-input__control' : 'form-control'}`}
             value={form.value}
             onChange={this.handleInputChange}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}
           />
+          {
+            this.props.customStyle && <label class="rc-input__label" />
+          }
           {
             this.state.loadingList
               ?
