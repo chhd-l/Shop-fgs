@@ -586,6 +586,7 @@ const en_US = {
   'promotionalCode': 'Codigo promocional',
   'noClinicTip': 'Su código de recomendación no es válido. {val} y consulte con nuestras clínicas asociadas para obtener un código válido.',
   'selectNoneClincTip': 'Por favor seleccione una receta',
-  'orderSummary': 'Resumen de pedido'
+  'orderSummary': 'Resumen de pedido',
+  'inputSearchText': 'ingresar texto de búsqueda',
 }
 export default en_US;
