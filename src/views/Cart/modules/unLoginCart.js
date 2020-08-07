@@ -297,7 +297,7 @@ class UnLoginCart extends React.Component {
             <img
               className="product-image"
               style={{ maxWidth: '100px' }}
-              src={find(pitem.sizeList, s => s.selected).goodsInfoImg}
+              src={find(pitem.sizeList, s => s.selected).goodsInfoImg || pitem.goodsImg}
               alt={pitem.goodsName}
               title={pitem.goodsName}
             />

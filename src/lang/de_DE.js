@@ -150,6 +150,7 @@ const en_US = {
   "cart.catDiet": "Wählen Sie eine Diät für Ihre Katze",
   "cart.deletInfo": "Produkt löschen?",
   "cart.deletInfo2": "Möchten Sie diesen Artikel wirklich aus Ihrem Warenkorb entfernen?",
+  "cart.miniCartTitle": "10% Rabatt auf den ersten Einkauf plus 5% Rabatt auf jede Bestellung mit Autoship",
   "footer.toTheTop": "Nach oben",
   "footer.aboutRoyalCanin": "ÜBER ROYAL CANIN®",
   "footer.contactRoyalCanin": "Kontakt ROYAL CANIN®",
@@ -578,8 +579,8 @@ const en_US = {
   'deleteAddressTip': 'Diese Adresse wurde bereits abonniert und kann daher nicht gelöscht werden.',
   'examplePostCode': '50678',
   'examplePhone': '+49 30 901820',
-  'inTheBasket':'im Warenkorb',
-  'promotionalCode':'Angebotscode',
+  'inTheBasket': 'im Warenkorb',
+  'promotionalCode': 'Angebotscode',
   'noClinicTip': 'Ihr Empfehlungscode ist ungültig. {val} & erkundigen Sie sich bei unseren Partnerkliniken nach einem gültigen Code.',
   'selectNoneClincTip': 'Bitte wählen Sie ein Rezept'
 }
