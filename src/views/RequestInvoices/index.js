@@ -2,12 +2,13 @@ import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./index.css";
+import { FormattedMessage, injectIntl } from "react-intl";
 export default function RequestInvoices(props) {
   return (
     <div>
       <Header showMiniIcons={true} showUserIcon={true} />
       <div className="RequestInvoices">
-        <h1>Request invoices</h1>
+        <h1><FormattedMessage id="requestInvoices.title" /></h1>
         <p classname="textIndex">
           La facturación automática está en preparación. Por ahora, si desea
           solicitar facturas electrónicas, envíe la siguiente información a la

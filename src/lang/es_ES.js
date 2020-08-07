@@ -5,12 +5,12 @@ const en_US = {
   'submit': 'enviar',
   'yes': 'sí',
   'cancel': 'cancelación',
-  'save': 'salvar',
+  'save': 'Salvar',
   'name': 'nombre',
   'name2': 'NOMBRE',
   'menu': 'menú',
   'search': 'Buscar',
-  'miniBasket': 'Mini basket',
+  'miniBasket': 'Mini Cesta',
   'chang': 'Cambio',
   'checkout': 'Comprar',
   'GuestCheckout': 'Pagar como invitada',
@@ -451,7 +451,7 @@ const en_US = {
   'moreChoicesAvailable': 'More Choices Available',
   'replyComments': 'Reply comments',
   'writeReview': 'Write a review',
-  'rePurchase': 'Repurchase',
+  'rePurchase': 'Readquirir',
   'purchaseRating': 'Purchase experience  rating',
   'logisticsRating': 'Logistics rating',
   'productRating': 'Product rating',
@@ -515,9 +515,9 @@ const en_US = {
   'download': 'descargar',
   //qhx新增
   'unLoginSubscriptionTips': 'Subscription is possible only after registration',
-  'apply': 'Apply',
+  'apply': 'Aplicar',
   'subscribeDiscount': 'Subscription Save Discount',
-  'customerReviews': 'Customer reviews',
+  'customerReviews': 'Opiniones de los usuarios',
   'sortBy': 'Ordenar por',
   'adyen': 'Adyen',
   'adyenPayFail': 'AdyenPayFail',
@@ -559,6 +559,10 @@ const en_US = {
   'promotionalCode': 'Codigo promocional',
   'noClinicTip': 'Su código de recomendación no es válido. {val} y consulte con nuestras clínicas asociadas para obtener un código válido.',
   'selectNoneClincTip': 'Por favor seleccione una receta',
-  'orderSummary': 'Resumen de pedido'
+  'orderSummary': 'Resumen de pedido',
+  FrequentQuestions: "Preguntas frecuentes",
+  'requestInvoices.title': 'Solicitar facturas',
+  'autoship': 'autoenvío',
+  'promotionCode': 'código de promoción'
 }
 export default en_US;

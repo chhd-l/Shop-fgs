@@ -582,6 +582,7 @@ const en_US = {
   'inTheBasket':'im Warenkorb',
   'promotionalCode':'Gutscheincode',
   'noClinicTip': 'Ihr Empfehlungscode ist ungültig. {val} & erkundigen Sie sich bei unseren Partnerkliniken nach einem gültigen Code.',
-  'selectNoneClincTip': 'Bitte wählen Sie ein Rezept'
+  'selectNoneClincTip': 'Bitte wählen Sie ein Rezept',
+  'promotionCode': 'Gutscheincode'
 }
 export default en_US;

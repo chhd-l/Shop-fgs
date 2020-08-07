@@ -1398,34 +1398,34 @@ class SubscriptionDetail extends React.Component {
                             </span>
                           </div>
                           <div className="ml-1">
-                            <span className="medium">{currentDeliveryAddress.consigneeName}</span><br />
-                            {currentDeliveryAddress.consigneeNumber}<br />
+                            <span className="medium">{currentBillingAddress.consigneeName}</span><br />
+                            {currentBillingAddress.consigneeNumber}<br />
                             {this.state.countryList.length &&
                               this.state.countryList.filter(
                                 (el) =>
                                   el.id ===
-                                  currentDeliveryAddress.countryId
+                                  currentBillingAddress.countryId
                               ).length
                               ? this.state.countryList.filter(
                                 (el) =>
                                   el.id ===
-                                  currentDeliveryAddress.countryId
+                                  currentBillingAddress.countryId
                               )[0].valueEn
-                              : currentDeliveryAddress.countryId}
+                              : currentBillingAddress.countryId}
                                       ,{" "}
                             {this.state.cityList.length &&
                               this.state.cityList.filter(
                                 (el) =>
                                   el.id ===
-                                  currentDeliveryAddress.cityId
+                                  currentBillingAddress.cityId
                               ).length
                               ? this.state.cityList.filter(
                                 (el) =>
                                   el.id ===
-                                  currentDeliveryAddress.cityId
+                                  currentBillingAddress.cityId
                               )[0].valueEn
-                              : currentDeliveryAddress.cityId}<br />
-                            {currentDeliveryAddress.address1}<br />
+                              : currentBillingAddress.cityId}<br />
+                            {currentBillingAddress.address1}<br />
                             {
                               subDetail.subscribeStatus === '0' && (
                                 <a

@@ -633,7 +633,7 @@ class LoginDeliveryAddress extends React.Component {
                           );
                         }}
                       >
-                        Save
+                        <FormattedMessage id='save'/>
                   </button>
                     </div>
                   )}

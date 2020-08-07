@@ -920,7 +920,7 @@ class PaymentComp extends React.Component {
                 this.props.save(creditCardList.filter((el) => el.selected)[0]);
               }}
             >
-              Save
+              <FormattedMessage id='save'/>
             </button>
           </div>
         )}
