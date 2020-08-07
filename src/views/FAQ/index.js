@@ -60,15 +60,12 @@ class FAQ extends React.Component {
   }
 
   render(h) {
-    console.log(this.state.dataFAQ);
-
     const event = {
       page: {
         type: "Content",
         theme: "",
       },
     };
-    const createMarkup = (text) => ({ __html: text });
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -150,10 +147,8 @@ class FAQ extends React.Component {
                     <div
                       className="rc-list__header"
                       onClick={() => this.handleSelect(index)}
+                      style={{display:'flex',justifyContent:'space-between'}}
                     >
-                      {/* <div dangerouslySetInnerHTML={createMarkup(
-                          item.question
-                        )}></div> */}
                       <div
                         dangerouslySetInnerHTML={{ __html: item.question }}
                       ></div>
@@ -164,11 +159,10 @@ class FAQ extends React.Component {
                             ? "rc-icon rc-up rc-brand1"
                             : "rc-icon rc-down rc-iconography"
                         }`}
-                        style={{ float: "right" }}
                       ></span>
                     </div>
                     <div className={`rc-list__content `}>
-                      <p dangerouslySetInnerHTML={{ __html: item.answer }}></p>
+                      <p dangerouslySetInnerHTML={{ __html: item.answer}}></p>
                       <img src={item.imgUl}></img>
                     </div>
                   </div>

@@ -226,8 +226,7 @@ const en_US = {
   "payment.frequencyTip3": "Sus artículos solo se enviarán una vez.",
   "payment.deliveryFrequency": "Frecuencia de entrega",
   "payment.subTip1": "¡Ahorrará un {val} adicional en este pedido!",
-  "payment.subTip2":
-    "¡Guarde su primer pedido de suscripción de {icon} y ahorre {val} ({val2}) hoy!",
+  "payment.subTip2":"¡Guarde su primer pedido de suscripción de {icon} y ahorre {val} ({val2}) hoy!",
   'confirmation.info1': 'Gracias por su orden.',
   'confirmation.info2': 'En un futuro cercano, nuestro personal se comunicará con usted para confirmar el pedido.',
   'confirmation.info3': 'La dirección y el modo de transporte se enumeran debajo de sus productos.',
@@ -558,6 +557,7 @@ const en_US = {
   'inTheBasket': 'in the basket',
   'promotionalCode': 'Codigo promocional',
   'noClinicTip': 'Su código de recomendación no es válido. {val} y consulte con nuestras clínicas asociadas para obtener un código válido.',
-  'selectNoneClincTip': 'Por favor seleccione una receta'
+  'selectNoneClincTip': 'Por favor seleccione una receta',
+  'footer.RequestInvoice':'Request Invoice'
 }
 export default en_US;
