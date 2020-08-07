@@ -1410,6 +1410,7 @@ class Payment extends React.Component {
                                                       *
                                                     </span>
                                                     {CreditCardImg}
+
                                                     <form id="payment-form">
                                                       <div id="card-secure-fields"></div>
                                                       <button
@@ -1647,6 +1648,7 @@ class Payment extends React.Component {
                             </form>
                           </div>
                         </div>
+                        {/* 条款 */}
                         <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom">
                           <input
                             style={{ cursor: "pointer" }}
@@ -1742,6 +1744,7 @@ class Payment extends React.Component {
                             </div>
                           </label>
                         </div>
+                       
                         <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
                           <div className="next-step-button">
                             <div className="rc-text--right">

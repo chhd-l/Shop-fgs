@@ -655,14 +655,13 @@ const en_US = {
 
   'biliingAddressSameAs': 'Biliing address same as',
   'deleteAddressTip': 'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
-  examplePostCode: '02860',
-  examplePhone: '+(52) 559 801 65',
   'footer.RequestInvoice':'Request Invoice',
   'examplePostCode': '02860',
   'examplePhone': '+(52) 559 801 65',
   'inTheBasket': 'in the basket',
   'promotionalCode': 'Promotional Code',
   'noClinicTip': 'Your recommendation code is not valid. {val} & check with our partner clinics for a valid code.',
-  'selectNoneClincTip': 'Please select a prescription'
+  'selectNoneClincTip': 'Please select a prescription',
+  'inputSearchText': 'input search text'
 };
 export default en_US;

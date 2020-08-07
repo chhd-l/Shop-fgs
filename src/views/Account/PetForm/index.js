@@ -273,7 +273,7 @@ class PetForm extends React.Component {
 
     let pets = {
       "birthOfPets": this.state.birthdate,
-      "petsBreed": this.state.isUnknown ? "unknown Breed" : this.state.breed,
+      "petsBreed": this.state.isUnknown ? this.props.intl.messages['account.unknownBreed'] : this.state.breed,
       "petsId": this.state.currentPetId,
       "petsImg": "10086",
       "petsName": this.state.nickname,
