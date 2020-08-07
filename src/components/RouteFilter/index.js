@@ -95,7 +95,7 @@ class RouteFilter extends Component {
         }
       );
       loadJS(
-        "https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.9.5/adyen.js",
+        "https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js",
       );
     }
     if (this.props.location.pathname !== "/login") {
