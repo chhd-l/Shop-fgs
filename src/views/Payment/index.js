@@ -316,6 +316,9 @@ class Payment extends React.Component {
       // (2). Create and mount the Component
       const card = checkout
         .create("card", {
+          hasHolderName:true,
+          holderNameRequired:true,
+          enableStoreDetails:true,
           styles: {},
           placeholders: {},
           showPayButton: true,
@@ -332,7 +335,9 @@ class Payment extends React.Component {
               );
             }
           },
-          onChange: (state, component) => {},
+          onChange: (state, component) => {
+ 
+          },
         })
         .mount("#card-container");
     }
@@ -417,6 +422,98 @@ class Payment extends React.Component {
       this.endLoading();
     }
   }
+
+  /* 
+   KlarnaPayLater 
+   */
+  //1.初始化KlarnaPayLater
+  initKlarnaPayLater(){
+    //this.adyenKlarnaPayLater()
+  }
+  //2.进行支付KlarnaPayLater
+  async adyenKlarnaPayLater(){
+    try {
+      /* 1)获取支付参数 */
+      let addressParameter = await this.goConfirmation(); //获取支付公共参数
+      let phone = store.get("deliveryInfo").deliveryAddress.phoneNumber; //获取电话号码
+      this.saveAddressAndComment(); //获取两个addressId
+
+      /* 2)组装支付需要的参数 */
+      let parameters = Object.assign(
+        addressParameter,
+        {
+          currency:'EUR',//暂时以欧元
+          adyenType:'klarna',
+          payChannelItem:'klarna',
+        },
+        {email:'qhx717@163.com'},
+        { country: "MEX" },
+        { deliveryAddressId: this.state.deliveryAddress.addressId },
+        { billAddressId: this.state.billingAddress.addressId },
+        { phone }
+      ); //(国家暂时填的MEX)
+
+      /* 3)根据条件-调用不同的支付接口 */
+      let action;
+      const actions = () => {
+        const rePayFun = () => {
+          action = rePay;
+        }; // 存在订单号
+        const customerCommitAndPayFun = () => {
+          action = customerCommitAndPay;
+        }; //会员once
+        const customerCommitAndPayMixFun = () => {
+          action = customerCommitAndPayMix;
+        }; //  会员frequency
+        const confirmAndCommitFun = () => {
+          action = confirmAndCommit;
+        }; //游客
+        return new Map([
+          [{ isTid: /^true$/i, isLogin: /.*/, buyWay: /.*/ }, rePayFun],
+          [
+            { isTid: /^false$/i, isLogin: /^true$/i, buyWay: /^once$/ },
+            customerCommitAndPayFun,
+          ], //buyWay为once的时候均表示会员正常交易
+          [
+            { isTid: /^false$/i, isLogin: /^true$/i, buyWay: /^frequency$/ },
+            customerCommitAndPayMixFun,
+          ],
+          [
+            { isTid: /^false$/i, isLogin: /^false$/i, buyWay: /.*/ },
+            confirmAndCommitFun,
+          ],
+        ]);
+      };
+      const payFun = (isTid, isLogin, buyWay) => {
+        let action = [...actions()].filter(
+          ([key, value]) =>
+            key.isTid.test(isTid) &&
+            key.isLogin.test(isLogin) &&
+            key.buyWay.test(buyWay)
+        );
+        action.forEach(([key, value]) => value.call(this));
+      };
+
+      payFun(this.tid != null, this.isLogin, this.state.subForm.buyWay);
+
+      /* 4)调用支付 */
+      const res = await action(parameters);
+      if (res.code === "K-000000") {
+        var orderNumber = res.context[0].tid;
+        sessionStorage.setItem("orderNumber", orderNumber);
+        this.props.history.push("/confirmation");
+      }
+    } catch (err) {
+      if (err.errorData) {
+        //err.errorData是返回的tid(订单号)
+        this.tid = err.errorData;
+      }
+      this.showErrorMsg(this.props.intl.messages.adyenPayFail);
+    } finally {
+      this.endLoading();
+    }
+  }
+
   /**
    * save address/comment
    */
@@ -1042,6 +1139,7 @@ class Payment extends React.Component {
                 break;
             case 'adyenKlarnaPayLater':
                 this.setState({ paymentTypeVal: "adyenKlarnaPayLater" });
+                this.initKlarnaPayLater()
                 break;
         }
       }
@@ -1939,8 +2037,62 @@ class Payment extends React.Component {
                         id="card-container"
                         class="payment-method__container"
                       >
-                        klarnaPayLater
                         {/* klarnaPayLater Component will be rendered here */}
+                        <div class="customer-form">
+                          <div class="address">
+                            <div class="billing-header">
+                              <div class="billing-header-title">
+                                <span class="billing-header-radio">
+                                  <input type="radio" checked="checked" disabled />
+                                </span>
+                                <span class="billing-header-title-name">Enter Billing Information</span>
+                              </div>
+                            </div>
+                            <form class="address-form" action="/destination" method="get">
+                              <div class="address-line" id="addressLine1">
+                                <div class="address-input" id="first">
+                                  <label class="address-label" for="firstName">First Name</label>
+                                  <input type="text" class="form-control" placeholder="First Name" name="firstName" value="Joe" readonly />
+                                </div>
+                                <div class="address-input" id="last">
+                                  <label class="address-label" for="lastName">Last Name</label>
+                                  <input type="text" class="form-control" placeholder="Last Name" name="lastName" value="Bob" readonly />
+                                </div>
+                              </div>
+                              <div class="address-line" id="addressLine2">
+                                <div class="address-input full-width" id="street">
+                                  <label class="address-label" for="street">Street</label>
+                                  <input type="text" class="form-control" placeholder="Street" name="street" value="274 Brannan Street"
+                                    readonly />
+                                </div>
+                              </div>
+                              <div class="address-line" id="addressLine3">
+                                <div class="address-input full-width" id="city">
+                                  <label class="address-label" for="city">City</label>
+                                  <input type="text" class="form-control" placeholder="City" name="city" value="San Francisco" readonly />
+                                </div>
+                              </div>
+                              <div class="address-line" id="addressLine4">
+                                <div class="address-input" id="state">
+                                  <label class="address-label" for="state">State</label>
+                                  <input type="text" class="form-control" placeholder="State" name="stateOrProvince" value="California"
+                                    readonly />
+                                </div>
+                                <div class="address-input" id="zip">
+                                  <label class="address-label" for="zipcode">Zip Code</label>
+                                  <input type="text" class="form-control" placeholder="Zip Code" name="postalCode" value="94107" readonly />
+                                </div>
+                                <div class="address-input" id="country">
+                                  <label class="address-label" for="country">Country</label>
+                                  <input type="text" class="form-control" placeholder="Country" name="country" value="United States" readonly />
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                        <div class="payment-container">
+                          <div id="klarna" class="payment"></div>
+                        </div>
                       </div>
                     </div>
                   </div>
