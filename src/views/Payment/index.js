@@ -30,6 +30,7 @@ import store from "storejs";
 import axios from "axios";
 import "./index.css";
 import OxxoConfirm from "./modules/OxxoConfirm";
+import KlarnaPayLater from "./modules/KlarnaPayLater";
 import { getAdyenParam } from "./adyen/utils";
 import {
   CREDIT_CARD_IMG_ENUM,
@@ -340,39 +341,6 @@ class Payment extends React.Component {
           },
         })
         .mount("#card-container");
-
-        /* const customCard = checkout.create('securedfields', {
-          // Optional configuration
-          type: 'card',
-          brands: ['mc', 'visa', 'amex', 'bcmc', 'maestro'],
-          styles: {
-              error: {
-                  color: 'red'
-              },
-              validated: {
-                  color: 'green'
-              },
-              placeholder: {
-                  color: '#d8d8d8'
-              }
-          },
-          ariaLabels: {
-              lang: 'en-GB',
-              encryptedCardNumber: {
-                  label: 'Credit or debit card number field'
-              }
-          },
-          // Events
-          onChange: function() {},
-          onValid : function() {},
-          onLoad: function() {},
-          onConfigSuccess: function() {},
-          onFieldValid : function() {},
-          onBrand: function() {},
-          onError: function() {},
-          onFocus: function() {},
-          onBinValue: function(bin) {}
-      }).mount('#customCard-container'); */
     }
   }
   //2.进行支付
@@ -1568,6 +1536,58 @@ class Payment extends React.Component {
                         <FormattedMessage id="adyen" />
                       </label>
                     </div>
+                    {/* adyen_klarna_pay_lat */}
+                    <div
+                      class="rc-input rc-input--inline"
+                      style={{
+                        display:
+                          this.state.payWayNameArr.indexOf(
+                            "adyen_klarna_pay_lat"
+                          ) != -1
+                            ? " "
+                            : "none",
+                      }}
+                    >
+                      {this.state.paymentTypeVal === "adyenKlarnaPayLater" ? (
+                        <input
+                          class="rc-input__radio"
+                          id="payment-info-adyen-klarna-pay-later"
+                          value="adyenKlarnaPayLater"
+                          type="radio"
+                          name="payment-info"
+                          onChange={(event) =>
+                            this.handlePaymentTypeChange(event)
+                          }
+                          checked
+                          key={7}
+                        />
+                      ) : (
+                        <input
+                          class="rc-input__radio"
+                          id="payment-info-adyen-klarna-pay-later"
+                          value="adyenKlarnaPayLater"
+                          type="radio"
+                          name="payment-info"
+                          onChange={(event) =>
+                            this.handlePaymentTypeChange(event)
+                          }
+                          key={8}
+                        />
+                      )}
+
+                      <label
+                        class="rc-input__label--inline"
+                        for="payment-info-adyen-klarna-pay-later"
+                      >
+                        <FormattedMessage id="adyenPayLater" />
+                      </label>
+                      <div
+                    className={`${
+                      this.state.paymentTypeVal === "adyenKlarnaPayLater" ? "" : "hidden"
+                    }`}
+                  >
+                  </div>
+                </div>
                   </div>
 
                   {this.state.paymentTypeVal === "oxxo" && (
@@ -1987,6 +2007,7 @@ class Payment extends React.Component {
                       </div>
                     </div>
                   </div>
+                  {/* adyenCreditCard */}
                   <div
                     className={`${
                       this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"
@@ -1998,140 +2019,17 @@ class Payment extends React.Component {
                         class="payment-method__container"
                       >
                       </div>
-                      {/* <div id="customCard-container" class="payment-method__container">
-                        <label>
-                            <span>Card number:</span>
-                            <span data-cse="encryptedCardNumber"></span>
-                        </label>
-                        <label>
-                            <span>Expiry date:</span>
-                            <span data-cse="encryptedExpiryDate"></span>
-                        </label>
-                        <label>
-                            <span>CVV/CVC:</span>
-                            <span data-cse="encryptedSecurityCode"></span>
-                        </label>
-                    </div> */}
-
                     </div>
                   </div>
-                    </div>
-                    
-                    {/* adyen_klarna_pay_lat */}
-                    <div
-                      class="rc-input "
-                      style={{
-                        display:
-                          this.state.payWayNameArr.indexOf(
-                            "adyen_klarna_pay_lat"
-                          ) != -1
-                            ? " "
-                            : "none",
-                      }}
-                    >
-                      {this.state.paymentTypeVal === "adyenKlarnaPayLater" ? (
-                        <input
-                          class="rc-input__radio"
-                          id="payment-info-adyen-klarna-pay-later"
-                          value="adyenKlarnaPayLater"
-                          type="radio"
-                          name="payment-info"
-                          onChange={(event) =>
-                            this.handlePaymentTypeChange(event)
-                          }
-                          checked
-                          key={7}
-                        />
-                      ) : (
-                        <input
-                          class="rc-input__radio"
-                          id="payment-info-adyen-klarna-pay-later"
-                          value="adyenKlarnaPayLater"
-                          type="radio"
-                          name="payment-info"
-                          onChange={(event) =>
-                            this.handlePaymentTypeChange(event)
-                          }
-                          key={8}
-                        />
-                      )}
-
-                      <label
-                        class="rc-input__label--inline"
-                        for="payment-info-adyen-klarna-pay-later"
-                      >
-                        <FormattedMessage id="adyenPayLater" />
-                      </label>
-                      <div
+                  {/* KlarnaPayLater */}
+                  <div
                     className={`${
                       this.state.paymentTypeVal === "adyenKlarnaPayLater" ? "" : "hidden"
                     }`}
                   >
-                    <div class="payment-method checkout--padding">
-                      <div
-                        id="card-container"
-                        class="payment-method__container"
-                      >
-                        {/* klarnaPayLater Component will be rendered here */}
-                        <div class="customer-form">
-                          <div class="address">
-                            <div class="billing-header">
-                              <div class="billing-header-title">
-                                <span class="billing-header-radio">
-                                  <input type="radio" checked="checked" disabled />
-                                </span>
-                                <span class="billing-header-title-name">Enter Billing Information</span>
-                              </div>
-                            </div>
-                            <form class="address-form" action="/destination" method="get">
-                              <div class="address-line" id="addressLine1">
-                                <div class="address-input" id="first">
-                                  <label class="address-label" for="firstName">First Name</label>
-                                  <input type="text" class="form-control" placeholder="First Name" name="firstName" value="Joe" readonly />
-                                </div>
-                                <div class="address-input" id="last">
-                                  <label class="address-label" for="lastName">Last Name</label>
-                                  <input type="text" class="form-control" placeholder="Last Name" name="lastName" value="Bob" readonly />
-                                </div>
-                              </div>
-                              <div class="address-line" id="addressLine2">
-                                <div class="address-input full-width" id="street">
-                                  <label class="address-label" for="street">Street</label>
-                                  <input type="text" class="form-control" placeholder="Street" name="street" value="274 Brannan Street"
-                                    readonly />
-                                </div>
-                              </div>
-                              <div class="address-line" id="addressLine3">
-                                <div class="address-input full-width" id="city">
-                                  <label class="address-label" for="city">City</label>
-                                  <input type="text" class="form-control" placeholder="City" name="city" value="San Francisco" readonly />
-                                </div>
-                              </div>
-                              <div class="address-line" id="addressLine4">
-                                <div class="address-input" id="state">
-                                  <label class="address-label" for="state">State</label>
-                                  <input type="text" class="form-control" placeholder="State" name="stateOrProvince" value="California"
-                                    readonly />
-                                </div>
-                                <div class="address-input" id="zip">
-                                  <label class="address-label" for="zipcode">Zip Code</label>
-                                  <input type="text" class="form-control" placeholder="Zip Code" name="postalCode" value="94107" readonly />
-                                </div>
-                                <div class="address-input" id="country">
-                                  <label class="address-label" for="country">Country</label>
-                                  <input type="text" class="form-control" placeholder="Country" name="country" value="United States" readonly />
-                                </div>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                        <div class="payment-container">
-                          <div id="klarna" class="payment"></div>
-                        </div>
-                      </div>
-                    </div>
+                    <KlarnaPayLater/>
                   </div>
-                </div>
+                    </div>
               </div>
               <div
                 className="product-summary rc-column"
