@@ -216,7 +216,7 @@ const en_US = {
   "payment.clinicTitle3": "Clínica Seleccionada",
   "payment.commentOnDelivery": "Comentario de entrega",
   "payment.confirmCard": "Confirmar tarjeta",
-  "payment.confirmInfo1": "Confirmo que tengo 18 años",
+  "payment.confirmInfo1": "Confirmo que soy mayor de 18 años",
   "payment.confirmInfo2": "Debe tener 18 años o más para registrarse en el sitio.",
   "payment.confirmInfo3": "He leído el Acuerdo de usuario y la {val1} y acepto el procesamiento de datos personales, incluida {val2}",
   "payment.confirmInfo4": "Debe familiarizarse con el Acuerdo de usuario y la Política de privacidad y dar su consentimiento para el procesamiento de datos personales, incluida la transferencia transfronteriza.",
@@ -398,7 +398,7 @@ const en_US = {
   'login.forgetPassword': '¿Olvidaste tu contraseña?',
   'login.guestContinue': 'Continuar con un invitado',
   'login.firstCheck': '',
-  'login.secondCheck': ' Confirmo que tengo 18 años',
+  'login.secondCheck': 'i Confirmo que soy mayor de 18 años',
   'login.thirdCheck': ' Acepto recibir el boletín de marketing',
   'login.passwordTip': '8-20 caracteres e incluyen en una letra minúscula, una letra mayúscula, un número',
   'requiredFields': '* Campos requeridos',
@@ -588,5 +588,6 @@ const en_US = {
   'selectNoneClincTip': 'Por favor seleccione una receta',
   'orderSummary': 'Resumen de pedido',
   'inputSearchText': 'ingresar texto de búsqueda',
+  'payment.apply':'aplicar'
 }
 export default en_US;

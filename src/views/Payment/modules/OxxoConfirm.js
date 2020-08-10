@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import oxxo from "@/assets/images/oxxo.png";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { confirmAndCommit } from "@/api/payment";
+import {  Link } from 'react-router-dom'
 import store from "storejs";
 
 class OxxoConfirm extends Component {
@@ -11,10 +12,14 @@ class OxxoConfirm extends Component {
       email: "",
       showReqiredInfo: false,
       errorMsg: "",
+      isReadPrivacyPolicyInit: true,
+      isEighteenInit: true,
+      isReadPrivacyPolicy: false,
+      isEighteen: false,
     };
   }
 
-  async goConfirmation () {
+  async goConfirmation() {
     try {
       this.props.startLoading();
       if (!this.state.email) {
@@ -63,7 +68,7 @@ class OxxoConfirm extends Component {
       this.props.endLoading();
     }
   }
-  emailChange (e) {
+  emailChange(e) {
     this.setState({ email: e.target.value });
   }
 
@@ -79,16 +84,14 @@ class OxxoConfirm extends Component {
     }, 3000);
   };
 
-  render () {
+  render() {
     return (
       <div className="mt-3">
-        <div
-          className="rc-border-all rc-border-colour--interface checkout--padding ml-custom mr-custom mb-3"
-        >
+        <div className="rc-border-all rc-border-colour--interface checkout--padding ml-custom mr-custom mb-3">
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
               this.state.errorMsg ? "" : "hidden"
-              }`}
+            }`}
           >
             <aside
               className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -127,7 +130,10 @@ class OxxoConfirm extends Component {
                   <FormattedMessage id="payment.email" />
                 </label>
               </div>
-              <div className="col-md-8 col-sm-12" style={{ paddingLeft: '0px' }}>
+              <div
+                className="col-md-8 col-sm-12"
+                style={{ paddingLeft: "0px" }}
+              >
                 <input
                   type="email"
                   id="email"
@@ -145,8 +151,8 @@ class OxxoConfirm extends Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 ) : (
-                    ""
-                  )}
+                  ""
+                )}
               </div>
             </div>
           </div>
@@ -154,15 +160,101 @@ class OxxoConfirm extends Component {
             <FormattedMessage
               id="remember48Hours"
               values={{
-                val: (
-                  <span style={{ color: "#e2001a" }}>
-                    7:00
-                  </span>
-                ),
+                val: <span style={{ color: "#e2001a" }}>7:00</span>,
               }}
             />
           </p>
-        </div>
+          </div>
+          <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom" style={{marginTop:'1rem'}}>
+            <input
+              style={{ cursor: "pointer" }}
+              className="form-check-input"
+              id="id-checkbox-cat-2"
+              value=""
+              type="checkbox"
+              name="checkbox-2"
+              onChange={() => {
+                this.setState({
+                  isReadPrivacyPolicy: !this.state.isReadPrivacyPolicy,
+                  isReadPrivacyPolicyInit: false,
+                });
+              }}
+              checked={this.state.isReadPrivacyPolicy}
+            />
+            <label
+              htmlFor="id-checkbox-cat-2"
+              className="rc-input__label--inline"
+              style={{ cursor: "pointer" }}
+            >
+              <FormattedMessage
+                id="payment.confirmInfo3"
+                values={{
+                  val1: (
+                    <Link className="red" target="_blank" to="/privacypolicy">
+                      Política de privacidad
+                    </Link>
+                  ),
+                  val2: (
+                    <Link className="red" target="_blank" to="/termuse">
+                      la transferencia transfronteriza
+                    </Link>
+                  ),
+                }}
+              />
+              <div
+                className="warning"
+                style={{
+                  display:
+                    this.state.isReadPrivacyPolicy ||
+                    this.state.isReadPrivacyPolicyInit
+                      ? "none"
+                      : "block",
+                }}
+              >
+                <FormattedMessage id="payment.confirmInfo4" />
+              </div>
+            </label>
+          </div>
+          {process.env.REACT_APP_LANG == "de" ? null : (
+                      <div className="footerCheckbox ml-custom mr-custom">
+                        <input
+                          className="form-check-input"
+                          id="id-checkbox-cat-1"
+                          value="Cat"
+                          type="checkbox"
+                          name="checkbox-2"
+                          onChange={() => {
+                            this.setState({
+                              isEighteen: !this.state.isEighteen,
+                              isEighteenInit: false,
+                            });
+                          }}
+                          checked={this.state.isEighteen}
+                          style={{ cursor: "pointer" }}
+                        />
+                        <label
+                          htmlFor="id-checkbox-cat-1"
+                          className="rc-input__label--inline"
+                          style={{ cursor: "pointer" }}
+                        >
+                          <FormattedMessage id="payment.confirmInfo1" />
+                          <div
+                            className="warning"
+                            style={{
+                              display:
+                                this.state.isEighteen ||
+                                this.state.isEighteenInit
+                                  ? "none"
+                                  : "block",
+                            }}
+                          >
+                            <FormattedMessage id="payment.confirmInfo2" />
+                          </div>
+                        </label>
+                      </div>
+                    )}
+       {/* the end */}
+
         <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
           <div className="next-step-button">
             <div className="rc-text--right">

@@ -60,7 +60,7 @@ class ClinicForm extends React.Component {
     })
   }
   render () {
-    const defaultMXJSX = <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-4">
+    const defaultMXJSX = <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-2">
       <div className="card-header bg-transparent pt-0 pb-0">
         <h5 className="pull-left">
           <i className="rc-icon rc-health--xs rc-iconography"></i>{' '}
@@ -82,7 +82,7 @@ class ClinicForm extends React.Component {
     const renderMap = {
       es: defaultMXJSX,
       en: defaultMXJSX,
-      de: <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-4">
+      de: <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-2">
         <div className="card-header bg-transparent pt-0 pb-0">
           <h5 className="pull-left">
             <i className="rc-icon rc-health--xs rc-iconography"></i>{' '}
