@@ -303,7 +303,8 @@ class Payment extends React.Component {
       isCompleteCredit: true,
     });
   }
-  //1.初始化adyen,得到加密参数
+
+  //1.初始化adyen_credit_card
   initAdyenPay() {
     this.setState({ paymentTypeVal: "adyenCard" });
     if (!!window.AdyenCheckout) {
@@ -331,39 +332,88 @@ class Payment extends React.Component {
                   adyenPayParam,
                 },
                 () => {
-                  this.adyenPayment();
+                  this.doGetAdyenPayParam('adyen_credit_card');
                 }
               );
             }
           },
           onChange: (state, component) => {
- 
+
           },
         })
         .mount("#card-container");
     }
   }
-  //2.进行支付
-  async adyenPayment() {
-    try {
-      /* 1)获取支付参数 */
-      let addressParameter = await this.goConfirmation(); //获取支付公共参数
-      let phone = store.get("deliveryInfo").deliveryAddress.phoneNumber; //获取电话号码
-      this.saveAddressAndComment(); //获取两个addressId
 
-      /* 2)组装支付需要的参数 */
-      let parameters = Object.assign(
-        addressParameter,
-        {
-          ...this.state.adyenPayParam,
+  //2.初始化KlarnaPayLater
+  initKlarnaPayLater=()=>{
+    this.doGetAdyenPayParam('adyen_klarna_pay_lat')
+  }
+
+ 
+
+
+
+
+
+    
+
+  /**************支付公共方法start*****************/
+
+   //组装adyen_credit_card参数+支付共同的参数
+   async getAdyenPayParam(type){
+      await this.saveAddressAndComment(); //获取两个addressId
+      let obj = await this.getPayCommonParam()
+      let commonParameter = obj.commonParameter
+      let phone = obj.phone
+      let parameters
+      /* 组装支付需要的参数 */
+      const actions = {
+        'adyen_credit_card':()=>{
+          parameters = Object.assign(
+            commonParameter,
+            {
+              ...this.state.adyenPayParam,
+            },
+            { country: "DE" },
+            { deliveryAddressId: this.state.deliveryAddress.addressId },
+            { billAddressId: this.state.billingAddress.addressId },
+            { phone }
+          );
         },
-        { country: "MEX" },
-        { deliveryAddressId: this.state.deliveryAddress.addressId },
-        { billAddressId: this.state.billingAddress.addressId },
-        { phone }
-      ); //(国家暂时填的MEX)
+        'adyen_klarna_pay_lat':()=>{
+          parameters = Object.assign(
+            commonParameter,
+            {
+              currency:'EUR',//暂时以欧元
+              adyenType:'klarna',
+              payChannelItem:'adyen_klarna_pay_lat',
+              // city:'San Francisco',
+              country:'DE',
+              shopperLocale:'en_US'
+            },
+            {email:'qhx717@163.com'},
+            { deliveryAddressId: this.state.deliveryAddress.addressId },
+            { billAddressId: this.state.billingAddress.addressId },
+            { phone }
+          );
+        }
+      }
+      actions[type]()
+      //(国家暂时填的MEX)
+      return parameters
+  }
 
-      /* 3)根据条件-调用不同的支付接口 */
+
+  //获取adyen参数
+  async doGetAdyenPayParam(type){
+    let parameters = await this.getAdyenPayParam(type)
+    this.allAdyenPayment(parameters)
+  }
+
+  //根据条件-调用不同的支付接口,进行支付
+  async allAdyenPayment(parameters) {
+    try {
       let action;
       const actions = () => {
         const rePayFun = () => {
@@ -424,100 +474,17 @@ class Payment extends React.Component {
     }
   }
 
-  /* 
-   KlarnaPayLater 
-   */
-  //1.初始化KlarnaPayLater
-  initKlarnaPayLater(){
-    //this.adyenKlarnaPayLater()
+  //得到支付共同的参数
+  async getPayCommonParam(){
+    let commonParameter = await this.goConfirmation(); //获取支付公共参数
+    let phone = store.get("deliveryInfo").deliveryAddress.phoneNumber; //获取电话号码
+    return new Promise((resolve=>{
+      resolve({commonParameter,phone})
+    }))
   }
-  //2.进行支付KlarnaPayLater
-  async adyenKlarnaPayLater(){
-    try {
-      /* 1)获取支付参数 */
-      let addressParameter = await this.goConfirmation(); //获取支付公共参数
-      let phone = store.get("deliveryInfo").deliveryAddress.phoneNumber; //获取电话号码
-      this.saveAddressAndComment(); //获取两个addressId
 
-      /* 2)组装支付需要的参数 */
-      let parameters = Object.assign(
-        addressParameter,
-        {
-          currency:'EUR',//暂时以欧元
-          adyenType:'klarna',
-          payChannelItem:'adyen_klarna_pay_lat',
-          firstName:'Kevin',
-          lastName:'Qu',
-          city:'San Francisco',
-          country:'De',
-          shopperLocale:'en_US'
-        },
-        {email:'qhx717@163.com'},
-        { deliveryAddressId: this.state.deliveryAddress.addressId },
-        { billAddressId: this.state.billingAddress.addressId },
-        { phone }
-      ); //(国家暂时填的MEX)
+  /**************支付公共方法end*****************/
 
-      /* 3)根据条件-调用不同的支付接口 */
-      let action;
-      const actions = () => {
-        const rePayFun = () => {
-          action = rePay;
-        }; // 存在订单号
-        const customerCommitAndPayFun = () => {
-          action = customerCommitAndPay;
-        }; //会员once
-        const customerCommitAndPayMixFun = () => {
-          action = customerCommitAndPayMix;
-        }; //  会员frequency
-        const confirmAndCommitFun = () => {
-          action = confirmAndCommit;
-        }; //游客
-        return new Map([
-          [{ isTid: /^true$/i, isLogin: /.*/, buyWay: /.*/ }, rePayFun],
-          [
-            { isTid: /^false$/i, isLogin: /^true$/i, buyWay: /^once$/ },
-            customerCommitAndPayFun,
-          ], //buyWay为once的时候均表示会员正常交易
-          [
-            { isTid: /^false$/i, isLogin: /^true$/i, buyWay: /^frequency$/ },
-            customerCommitAndPayMixFun,
-          ],
-          [
-            { isTid: /^false$/i, isLogin: /^false$/i, buyWay: /.*/ },
-            confirmAndCommitFun,
-          ],
-        ]);
-      };
-      const payFun = (isTid, isLogin, buyWay) => {
-        let action = [...actions()].filter(
-          ([key, value]) =>
-            key.isTid.test(isTid) &&
-            key.isLogin.test(isLogin) &&
-            key.buyWay.test(buyWay)
-        );
-        action.forEach(([key, value]) => value.call(this));
-      };
-
-      payFun(this.tid != null, this.isLogin, this.state.subForm.buyWay);
-
-      /* 4)调用支付 */
-      const res = await action(parameters);
-      if (res.code === "K-000000") {
-        var orderNumber = res.context[0].tid;
-        sessionStorage.setItem("orderNumber", orderNumber);
-        this.props.history.push("/confirmation");
-      }
-    } catch (err) {
-      if (err.errorData) {
-        //err.errorData是返回的tid(订单号)
-        this.tid = err.errorData;
-      }
-      this.showErrorMsg(this.props.intl.messages.adyenPayFail);
-    } finally {
-      this.endLoading();
-    }
-  }
 
   /**
    * save address/comment
@@ -1144,7 +1111,6 @@ class Payment extends React.Component {
                 break;
             case 'adyenKlarnaPayLater':
                 this.setState({ paymentTypeVal: "adyenKlarnaPayLater" });
-                this.initKlarnaPayLater()
                 break;
         }
       }
@@ -2027,7 +1993,7 @@ class Payment extends React.Component {
                       this.state.paymentTypeVal === "adyenKlarnaPayLater" ? "" : "hidden"
                     }`}
                   >
-                    <KlarnaPayLater/>
+                    <KlarnaPayLater clickPayLater={this.initKlarnaPayLater}/>
                   </div>
                     </div>
               </div>
