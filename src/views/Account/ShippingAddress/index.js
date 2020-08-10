@@ -12,6 +12,7 @@ import {
   deleteAddress,
   getAddressById,
 } from '@/api/address'
+import { queryCityNameById } from "@/api"
 import { Link } from 'react-router-dom';
 import Loading from "@/components/Loading"
 import Skeleton from "react-skeleton-loader";
@@ -43,7 +44,6 @@ class ShippingAddress extends React.Component {
         deliveryAddressId: "",
         customerId: ""
       },
-      cityList: [],
       countryList: [],
       currentType: 'DELIVERY',
       currentAddressList: []
@@ -60,15 +60,6 @@ class ShippingAddress extends React.Component {
       return false
     }
     this.getAddressList()
-    getDictionary({ type: 'city' })
-      .then(res => {
-        this.setState({
-          cityList: res
-        })
-      })
-      .catch(err => {
-        this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
-      })
     getDictionary({ type: 'country' })
       .then(res => {
         this.setState({
@@ -81,29 +72,25 @@ class ShippingAddress extends React.Component {
   }
   getAddressList = async () => {
     this.setState({ listLoading: true })
-    await getAddressList()
-      .then(res => {
-        if (res.code === 'K-000000') {
-          let addressList = res.context
-          let total = addressList.length
-          this.setState({
-            addressList: addressList,
-            total: total,
-            // loading: false,
-          })
-          this.switchAddressType(this.state.currentType)
-        } else {
-          this.showErrorMsg(res.message || this.props.intl.messages.queryDataFailed)
-        }
-        this.setState({ listLoading: false })
+    try {
+      let res = await getAddressList()
+      let addressList = res.context
+      let total = addressList.length
+      let cityRes = await queryCityNameById({ id: addressList.map(ele => ele.cityId) })
+      cityRes = cityRes.context.systemCityVO || []
+      Array.from(addressList, ele => {
+        ele.cityName = cityRes.filter(c => c.id === ele.cityId).length ? cityRes.filter(c => c.id === ele.cityId)[0].cityName : ele.cityId
       })
-      .catch(err => {
-        this.showErrorMsg(this.props.intl.messages.queryDataFailed)
-        this.setState({
-          // loading: false
-          listLoading: false
-        })
+      this.setState({
+        addressList: addressList,
+        total: total
       })
+      this.switchAddressType(this.state.currentType)
+      this.setState({ listLoading: false })
+    } catch (err) {
+      this.showErrorMsg(this.props.intl.messages.queryDataFailed)
+      this.setState({ listLoading: false })
+    }
   }
   getAddressById = async (id) => {
     let params = {
@@ -435,13 +422,12 @@ class ShippingAddress extends React.Component {
                                     <span>{this.getDictValue(this.state.countryList, item.countryId)}</span>
                                   </div>
                                   <div>
-                                    <span>{this.getDictValue(this.state.cityList, item.cityId)}</span>
+                                    <span>{item.cityName}</span>
                                   </div>
                                   <div>
                                     <span>{item.address1}</span>
                                   </div>
                                 </div>
-
                               </div>
                             </div>
                           ))

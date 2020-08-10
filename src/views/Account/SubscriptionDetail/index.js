@@ -27,6 +27,7 @@ import {
   orderNowSub,
   getPromotionPrice,
 } from "@/api/subscription";
+import { queryCityNameById } from "@/api"
 import Modal from "@/components/Modal";
 import { formatMoney } from "@/utils/utils";
 import resolve from "resolve";
@@ -110,7 +111,6 @@ class SubscriptionDetail extends React.Component {
         countryId: 6,
       },
       addressType: "delivery",
-      cityList: [],
       countryList: [],
       frequencyList: [],
       orderOptions: [],
@@ -156,12 +156,6 @@ class SubscriptionDetail extends React.Component {
       window.location.reload();
       return false;
     }
-    await getDictionary({ type: "city" }).then((res) => {
-      this.setState({
-        cityList: res,
-      });
-    });
-
     getDictionary({ type: "country" }).then((res) => {
       this.setState({
         countryList: res,
@@ -282,6 +276,10 @@ class SubscriptionDetail extends React.Component {
 
       let now = new Date(res.defaultLocalDateTime);
       now.setDate(now.getDate() + 4);
+      let cityRes = await queryCityNameById({ id: [subDetail.consignee.cityId, subDetail.invoice.cityId] })
+      cityRes = cityRes.context.systemCityVO || []
+      subDetail.consignee.cityName = this.matchCityName(cityRes, subDetail.consignee.cityId)
+      subDetail.invoice.cityName = this.matchCityName(cityRes, subDetail.invoice.cityId)
       this.setState({
         subDetail: subDetail,
         currentCardInfo: subDetail.paymentInfo
@@ -292,7 +290,7 @@ class SubscriptionDetail extends React.Component {
         currentDeliveryAddress: subDetail.consignee,
         currentBillingAddress: subDetail.invoice,
         orderOptions: orderOptions,
-        minDate: now,
+        minDate: now
       }, () => {
         fn && fn()
       });
@@ -302,6 +300,11 @@ class SubscriptionDetail extends React.Component {
     } finally {
       this.setState({ loading: false });
     }
+  }
+  matchCityName (dict, cityId) {
+    return dict.filter(c => c.id === cityId).length
+      ? dict.filter(c => c.id === cityId)[0].cityName
+      : cityId
   }
   async doGetPromotionPrice (promotionCode = "") {
     try {
@@ -326,25 +329,25 @@ class SubscriptionDetail extends React.Component {
 
       //根据参数查询促销的金额与订单运费
       const res = await getPromotionPrice({
-        totalPrice:subTotal,
+        totalPrice: subTotal,
         goodsInfoList,
         promotionCode,
         isAutoSub: true,
       });
 
       //拼装订阅购物车参数
-      if (res.code == "K-000000"&&!res.context.promotionFlag) {//只有promotionFlag为false的时候表示prootionCode生效
+      if (res.code == "K-000000" && !res.context.promotionFlag) {//只有promotionFlag为false的时候表示prootionCode生效
         let subTradeTotal =
           this.state.subTotal +
           Number(res.context.deliveryPrice) -
           Number(res.context.discountsPrice)
-          //Number(res.context.promotionDiscount);
+        //Number(res.context.promotionDiscount);
         this.setState({
           // loading: false,
           subDiscount: res.context.discountsPrice,
           subShipping: res.context.deliveryPrice,
           promotionDiscount: res.context.promotionDiscount,
-          promotionDesc:res.context.promotionDesc,
+          promotionDesc: res.context.promotionDesc,
           subTradeTotal,
         });
       }
@@ -501,7 +504,7 @@ class SubscriptionDetail extends React.Component {
                             this.props.intl.messages.saveSuccessfullly,
                             "success"
                           ).bind(this))
-                          
+
                         })
                         .catch((err) => {
                           this.setState({ loading: false });
@@ -729,7 +732,7 @@ class SubscriptionDetail extends React.Component {
                                 <FormattedMessage id="subscription.frequency"></FormattedMessage>
                               </b>
                               <h1
-                                className="rc-card__meta order-Id"
+                                className="rc-card__meta order-Id text-left"
                                 style={{ marginTop: "10px" }}
                               >
                                 <Selection
@@ -1302,8 +1305,10 @@ class SubscriptionDetail extends React.Component {
                                   ) {
                                     //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
                                     discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                                    this.setState({ discount,promotionDesc:
-                                      result.context.promotionDesc, });
+                                    this.setState({
+                                      discount, promotionDesc:
+                                        result.context.promotionDesc,
+                                    });
                                   } else {
                                     this.setState({
                                       isShowValidCode: true,
@@ -1356,20 +1361,8 @@ class SubscriptionDetail extends React.Component {
                                   el.id ===
                                   currentDeliveryAddress.countryId
                               )[0].valueEn
-                              : currentDeliveryAddress.countryId}
-                                      ,{" "}
-                            {this.state.cityList.length &&
-                              this.state.cityList.filter(
-                                (el) =>
-                                  el.id ===
-                                  currentDeliveryAddress.cityId
-                              ).length
-                              ? this.state.cityList.filter(
-                                (el) =>
-                                  el.id ===
-                                  currentDeliveryAddress.cityId
-                              )[0].valueEn
-                              : currentDeliveryAddress.cityId}<br />
+                              : currentDeliveryAddress.countryId},{" "}{currentDeliveryAddress.cityName}
+                            <br />
                             {currentDeliveryAddress.address1}<br />
                             {
                               subDetail.subscribeStatus === '0' && (
@@ -1413,18 +1406,7 @@ class SubscriptionDetail extends React.Component {
                               )[0].valueEn
                               : currentBillingAddress.countryId}
                                       ,{" "}
-                            {this.state.cityList.length &&
-                              this.state.cityList.filter(
-                                (el) =>
-                                  el.id ===
-                                  currentBillingAddress.cityId
-                              ).length
-                              ? this.state.cityList.filter(
-                                (el) =>
-                                  el.id ===
-                                  currentBillingAddress.cityId
-                              )[0].valueEn
-                              : currentBillingAddress.cityId}<br />
+                            {currentBillingAddress.cityName}<br />
                             {currentBillingAddress.address1}<br />
                             {
                               subDetail.subscribeStatus === '0' && (

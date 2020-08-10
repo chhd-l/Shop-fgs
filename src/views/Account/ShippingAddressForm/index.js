@@ -4,6 +4,7 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import BreadCrumbs from '@/components/BreadCrumbs'
 import SideMenu from '@/components/SideMenu'
+import CitySearchSelection from "@/components/CitySearchSelection"
 import './index.css'
 import { findIndex } from "lodash"
 import {
@@ -13,7 +14,7 @@ import {
   getAddressById,
   editAddress
 } from '@/api/address'
-import { Link } from 'react-router-dom';
+import { queryCityNameById } from "@/api"
 import Loading from "@/components/Loading"
 import { getDictionary } from '@/utils/utils'
 
@@ -34,7 +35,8 @@ class ShippingAddressFrom extends React.Component {
         address1: "",
         address2: "",
         country: 6,
-        city: 0,
+        city: '',
+        cityName: '',
         postCode: "",
         phoneNumber: "",
         rfc: "",
@@ -43,7 +45,6 @@ class ShippingAddressFrom extends React.Component {
         customerId: "",
         addressType: "DELIVERY"
       },
-      cityList: [],
       countryList: []
     }
   }
@@ -57,15 +58,6 @@ class ShippingAddressFrom extends React.Component {
       return false
     }
 
-    getDictionary({ type: 'city' })
-      .then(res => {
-        this.setState({
-          cityList: res
-        })
-      })
-      .catch(err => {
-        this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
-      })
     getDictionary({ type: 'country' })
       .then(res => {
         this.setState({
@@ -87,47 +79,38 @@ class ShippingAddressFrom extends React.Component {
     let params = {
       id: id
     }
-    await getAddressById(params).then(res => {
-      if (res.code === 'K-000000') {
-        let data = res.context
-        let addressForm = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          address1: data.address1,
-          address2: data.address2,
-          country: data.countryId,
-          city: data.cityId,
-          postCode: data.postCode,
-          phoneNumber: data.consigneeNumber,
-          rfc: data.rfc,
-          isDefalt: data.isDefaltAddress === 1 ? true : false,
-          deliveryAddressId: data.deliveryAddressId,
-          customerId: data.customerId,
-          addressType: data.type
-        }
 
-        this.setState({
-          addressForm: addressForm,
-          showModal: true,
-          isAdd: false,
-          loading: false
-        })
+    try {
+      let res = await getAddressById(params)
+      let data = res.context
+      let addressForm = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        address1: data.address1,
+        address2: data.address2,
+        country: data.countryId,
+        city: data.cityId,
+        postCode: data.postCode,
+        phoneNumber: data.consigneeNumber,
+        rfc: data.rfc,
+        isDefalt: data.isDefaltAddress === 1 ? true : false,
+        deliveryAddressId: data.deliveryAddressId,
+        customerId: data.customerId,
+        addressType: data.type
       }
-      else {
-        this.setState({
-          loading: false
-        })
-        this.showErrorMsg(res.message || this.props.intl.messages.getDataFailed)
-      }
-    }).catch(err => {
+
+      let cityRes = await queryCityNameById({ id: [data.cityId] })
+      addressForm.cityName = cityRes.context.systemCityVO.length && cityRes.context.systemCityVO[0].cityName
       this.setState({
+        addressForm: addressForm,
+        showModal: true,
+        isAdd: false,
         loading: false
       })
+    } catch (err) {
+      this.setState({ loading: false })
       this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
-    })
-
-
-
+    }
   }
   isDefalt = () => {
     let data = this.state.addressForm;
@@ -327,14 +310,18 @@ class ShippingAddressFrom extends React.Component {
     this.setState({ addressForm: addressForm })
     this.inputBlur(e);
   }
-
+  handleCityInputChange = data => {
+    const { addressForm } = this.state
+    addressForm.city = data.id
+    addressForm.cityName = data.cityName
+    this.setState({ addressForm: addressForm })
+  }
   handleCancel = () => {
     const { history } = this.props
     history.push('/account/shippingAddress')
   }
   handleSave = () => {
     this.saveAddress()
-
   }
   render () {
     const { addressForm } = this.state
@@ -500,21 +487,9 @@ class ShippingAddressFrom extends React.Component {
                           </label>
                           <div data-js-dynamicselect="city" data-template="shipping">
                             <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" data-loc="citySelect">
-                              <select
-                                data-js-select=""
-                                id="city"
-                                value={addressForm.city}
-                                onChange={(e) => this.handleInputChange(e)}
-                                onBlur={(e) => this.inputBlur(e)}
-                                name="city"
-                              >
-                                <option value=""></option>
-                                {
-                                  this.state.cityList.map(item => (
-                                    <option value={item.id} key={item.id}>{item.name}</option>
-                                  ))
-                                }
-                              </select>
+                              <CitySearchSelection
+                                defaultValue={this.state.addressForm.cityName}
+                                onChange={this.handleCityInputChange} />
                             </span>
                           </div>
                           <div className="invalid-feedback"></div>
@@ -568,7 +543,7 @@ class ShippingAddressFrom extends React.Component {
                           <label className="rc-input__label" htmlFor="address2"></label>
                         </span>
                       </div>
-                      
+
                       <div className="form-group col-6 required">
                         <div className="no-padding">
                           <label className="form-control-label rc-full-width" htmlFor="zipCode">
@@ -607,7 +582,7 @@ class ShippingAddressFrom extends React.Component {
                         </div> */}
                           <div className="ui-lighter">
                             <FormattedMessage id="example" />: <FormattedMessage id="examplePostCode" />
-                        </div>
+                          </div>
                         </div>
                       </div>
                       <div className="form-group col-6 required">
@@ -642,7 +617,7 @@ class ShippingAddressFrom extends React.Component {
                       </div> */}
                         <span className="ui-lighter">
                           <FormattedMessage id="example" />: <FormattedMessage id="examplePhone" />
-                      </span>
+                        </span>
                       </div>
                       <div className="form-group col-6">
                         <label className="form-control-label rc-full-width" htmlFor="reference">

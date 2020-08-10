@@ -244,7 +244,7 @@ class Subscription extends React.Component {
                                     <br className="d-none d-md-block" />
                                   </p>
                                 </div>
-                                <div className="col-12 col-md-2">
+                                <div className="col-12 col-md-2 pl-4">
                                   <p><FormattedMessage id="subscription.status" /></p>
                                 </div>
 
@@ -283,7 +283,7 @@ class Subscription extends React.Component {
                               <div className="col-12 col-md-2">
                                 {subItem.frequency}
                               </div>
-                              <div className="col-12 col-md-2">{subItem.subscribeStatus === '0' ? <FormattedMessage id="active" /> : <FormattedMessage id="inactive" />}</div>
+                              <div className="col-12 col-md-2 pl-4">{subItem.subscribeStatus === '0' ? <FormattedMessage id="active" /> : <FormattedMessage id="inactive" />}</div>
                               {/* <div className="col-12 col-md-2"># {i + 1}</div> */}
                             </div>
                           </div>

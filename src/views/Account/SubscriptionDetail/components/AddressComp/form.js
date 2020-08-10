@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from "react-intl"
 import { find, findIndex } from "lodash"
 import Selection from '@/components/Selection'
+import CitySearchSelection from "@/components/CitySearchSelection"
 import { getDictionary } from '@/utils/utils'
 
 export default class AddressForm extends React.Component {
@@ -16,20 +17,14 @@ export default class AddressForm extends React.Component {
         rfc: '',
         country: '',
         city: '',
+        cityName: '',
         postCode: '',
         phoneNumber: ''
       },
-      cityList: [],
       countryList: []
     }
   }
   componentDidMount () {
-    getDictionary({ type: 'city' })
-      .then(res => {
-        this.setState({
-          cityList: res
-        })
-      })
     getDictionary({ type: 'country' })
       .then(res => {
         const { deliveryAddress } = this.state
@@ -89,6 +84,14 @@ export default class AddressForm extends React.Component {
   handleSelectedItemChange (key, data) {
     const { deliveryAddress } = this.state
     deliveryAddress[key] = data.value
+    this.setState({ deliveryAddress: deliveryAddress }, () => {
+      this.props.updateData(this.state.deliveryAddress)
+    })
+  }
+  handleCityInputChange = data => {
+    const { deliveryAddress } = this.state
+    deliveryAddress.city = data.id
+    deliveryAddress.cityName = data.cityName
     this.setState({ deliveryAddress: deliveryAddress }, () => {
       this.props.updateData(this.state.deliveryAddress)
     })
@@ -203,12 +206,9 @@ export default class AddressForm extends React.Component {
               <FormattedMessage id="payment.city" />
             </label>
             <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-              <Selection
-                selectedItemChange={data => this.handleSelectedItemChange('city', data)}
-                optionList={this.computedList('city')}
-                selectedItemData={{
-                  value: this.state.deliveryAddress.city
-                }} />
+              <CitySearchSelection
+                defaultValue={this.state.deliveryAddress.cityName}
+                onChange={this.handleCityInputChange} />
             </span>
           </div>
         </div>
@@ -282,7 +282,7 @@ export default class AddressForm extends React.Component {
             </div>
           </div>
         </div>
-        
+
         <div className="rc-layout-container">
           <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_postalCode">
             <label
