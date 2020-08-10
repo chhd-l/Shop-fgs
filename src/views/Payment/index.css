@@ -14,7 +14,7 @@
 .footerCheckbox .rc-input__label--inline {
   cursor: auto;
 }
-.footerCheckbox>.form-check-input {
+.footerCheckbox > .form-check-input {
   width: 15px;
   height: 15px;
   font-size: 10px !important;
@@ -30,15 +30,17 @@
   font-size: 80% !important;
 }
 
-.rc-input--warning>[class^=rc-input]:not([value=""]) {
+.rc-input--warning > [class^="rc-input"]:not([value=""]) {
   border-color: #c03344 !important;
 }
 
-.rc-input--warning>[class^=rc-input]:not([value=""])+.rc-input__label::after {
+.rc-input--warning
+  > [class^="rc-input"]:not([value=""])
+  + .rc-input__label::after {
   background-color: #c03344 !important;
 }
 
-.rc-input--warning>[class^=rc-input] {
+.rc-input--warning > [class^="rc-input"] {
   color: #c03344 !important;
   border-color: #c03344 !important;
 }
@@ -46,18 +48,18 @@
 .rc-input--label {
   margin-top: 0 !important;
 }
-.rc-input__label::before{
-  content: '';
+.rc-input__label::before {
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 1px!important;
+  height: 1px !important;
   z-index: 2;
-  -webkit-transition: .2s;
-  transition: .2s;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 }
 
-.rc-input__control:not([value=""])+.rc-input__label::after {
+.rc-input__control:not([value=""]) + .rc-input__label::after {
   background-color: #d7d7d7 !important;
 }
 
@@ -66,18 +68,18 @@
 }
 
 .logo-payment-card-list {
-  margin-left: .5rem;
+  margin-left: 0.5rem;
 }
 .logo-payment-card-list.logo-credit-card {
   display: inline-block;
 }
 
-@media(max-width: 768.98px) {
+@media (max-width: 768.98px) {
   .ui-margin-top-1-md-down {
     margin-top: 1rem;
   }
   .ui-border-bottom-none-md-down {
-    border-bottom: none!important;
+    border-bottom: none !important;
   }
 }
 
@@ -95,7 +97,8 @@
   margin-right: 20px;
 }
 
-.cardForm span, .cardForm input{
+.cardForm span,
+.cardForm input {
   font-size: 14px;
   color: rgb(102, 102, 102);
   font-weight: 300;
@@ -109,13 +112,13 @@
   padding: 0;
 }
 .cardForm .form-group {
-  margin-bottom: 2px!important;
+  margin-bottom: 2px !important;
 }
 .cardForm .rc-input--inline {
   margin-right: 0 !important;
 }
 .cardForm .rc-input__control:focus {
-  box-shadow: 0 0 0 0.2rem rgba(236,0,26,.25);
+  box-shadow: 0 0 0 0.2rem rgba(236, 0, 26, 0.25);
 }
 .cardForm .focus-visible {
   box-shadow: none;
@@ -137,12 +140,14 @@
   width: calc(100% - 60px);
 }
 
-.cardForm .rc-input__control+.rc-input__label::before, .rc-input__control+.rc-input__label::after, .cardForm .rc-input__label {
+.cardForm .rc-input__control + .rc-input__label::before,
+.rc-input__control + .rc-input__label::after,
+.cardForm .rc-input__label {
   width: 0;
   border: none !important;
 }
 .creditCompleteInfoBox {
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 .creditCompleteInfoBox img {
   width: 100%;
@@ -164,20 +169,20 @@
 }
 
 .ui-lighter {
-  opacity: .7;
-  font-size: .95em;
+  opacity: 0.7;
+  font-size: 0.95em;
 }
 
-@media(max-width: 768.98px) {
+@media (max-width: 768.98px) {
   .rc-padding-left--none--md-down {
-    padding-left: 0!important;
+    padding-left: 0 !important;
   }
   .rc-padding-right--none--md-down {
-    padding-right: 0!important;
+    padding-right: 0 !important;
   }
   .cardForm .form-group {
     border-bottom: 2px solid #d7d7d7;
-    margin-bottom: 15px!important;
+    margin-bottom: 15px !important;
   }
 }
 .ui-position-absolute {
@@ -190,8 +195,8 @@
 #card-secure-fields {
   border-color: #d7d7d7 !important;
 }
-.required label:after{
-  color:red
+.required label:after {
+  color: red;
 }
 /* 
 .shippingPhoneNumber {
@@ -204,36 +209,41 @@
 .shippingPhoneNumber::-ms-clear,::-ms-reveal{display:none;} */
 
 .ml-custom {
-  margin-left: 1.25rem!important;
+  margin-left: 1.25rem !important;
 }
 .mr-custom {
-  margin-right: 1.25rem!important;
+  margin-right: 1.25rem !important;
 }
-.normalDelivery{
+.normalDelivery {
   font-size: 14px;
 }
 
-.billingCheckbox{
+.billingCheckbox {
   display: flex;
   justify-content: space-between;
 }
-.info{
+.info {
   background: #d7d7d7;
-    display: inline-block;
-    height: 18px;
-    width: 18px;
-    min-width: 18px;
-    border-radius: 50%;
-    font-size: 12px;
-    color: #fff;
-    text-align: center;
-    line-height: 17px;
-    cursor: pointer;
-    text-transform: lowercase;
+  display: inline-block;
+  height: 18px;
+  width: 18px;
+  min-width: 18px;
+  border-radius: 50%;
+  font-size: 12px;
+  color: #fff;
+  text-align: center;
+  line-height: 17px;
+  cursor: pointer;
+  text-transform: lowercase;
 }
-#id-checkbox-billing{
+#id-checkbox-billing {
   cursor: pointer;
 }
-.cardCss{
+.cardCss {
   padding-bottom: 0rem !important;
+}
+.payment-form.Card-border {
+  border: 1px solid rgb(215, 215, 215);
+  border-radius: 5px;
+  padding: 1rem 1rem;
 }
