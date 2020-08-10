@@ -115,7 +115,7 @@ class SubscriptionSelect extends Component {
               values={{
                 val: formatMoney(this.state.discountInfo && this.state.discountInfo.discountAmount ? this.state.discountInfo.discountAmount : 0)
               }} /> */}
-            <br />
+            {/* <br /> */}
             <span className="font-weight-normal mt-1 inlineblock">
               <FormattedMessage id="payment.deliveryFrequency" />:
             </span>
@@ -133,13 +133,13 @@ class SubscriptionSelect extends Component {
                 this.props.checkoutStore.loginCartData
                   .filter(ele => ele.subscriptionStatus)
                   .map((ele, i) => (
-                    <img className="width-sub-img  " style={{ display: 'inline-block',width:'80px' ,height:'80px',marginRight:'.2rem',border:'1px solid #aaa' }} key={i} src={ele.goodsInfoImg} />
+                    <img className="width-sub-img  " style={{ display: 'inline-block',width:'80px' ,height:'80px',marginRight:'.4rem',border:'1px solid #aaa' ,borderRadius:'5px' }} key={i} src={ele.goodsInfoImg} />
                   ))
               }
             </span>
           </div>
         </div>
-        <div className="border-bottom"></div>
+        <div className="border-bottom" style={{marginTop:'-4rem'}}></div>
         <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2 mt-4">
           <FormattedMessage id="email">
             {txt => (
