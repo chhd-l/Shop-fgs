@@ -13,7 +13,7 @@ const en_US = {
   "miniBasket": "Minikorb",
   "chang": "Ändern",
   "checkout": "Bestellen",
-  "GuestCheckout": "Als Gast bestellen",
+  "GuestCheckout": "Als Gast fortfahren",
   "itemsInCart": "Sie haben {val} Artikel in Ihrem Warenkorb",
   "itemsInCart2": "Sie haben {val} Artikel in Ihrem Warenkorb",
   "total": "Gesamt",
@@ -575,7 +575,7 @@ const en_US = {
   'payStatus.NOT_PAID': 'Unbezahlt',
   'payStatus.PAID': 'Bezahlt',
 
-  'biliingAddressSameAs': 'Rechnungsadresse wie',
+  'biliingAddressSameAs': 'Rechnungsadresse ist gleich Lieferadresse',
   'deleteAddressTip': 'Diese Adresse wurde bereits abonniert und kann daher nicht gelöscht werden.',
   'examplePostCode': '50678',
   'examplePhone': '+49 30 901820',
@@ -585,6 +585,7 @@ const en_US = {
   'selectNoneClincTip': 'Bitte wählen Sie ein Rezept',
   'promotionCode': 'Gutscheincode',
   'inputSearchText': 'Suchtext eingeben',
-  'clinic.navigate':'Navigieren'
+  'clinic.navigate':'Navigieren',
+  'autoshop': 'Abonemment'
 }
 export default en_US;

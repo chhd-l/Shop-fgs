@@ -391,7 +391,7 @@ class LoginCart extends React.Component {
                     pitem.subscriptionStatus
                       ? <>
                         <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.9em' }}>&#xe675;</span>
-                        <FormattedMessage id="autoship" />
+                        <FormattedMessage id="autoshop" />
                       </>
                       : null
                   }
