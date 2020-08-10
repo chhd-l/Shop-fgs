@@ -823,7 +823,7 @@ class Details extends React.Component {
                                     <Rate
                                       def={this.state.productRate}
                                       disabled={true}
-                                      marginSize="maxRate"
+                                      marginSize="smallRate"
                                     />
                                   </div>
                                   <a

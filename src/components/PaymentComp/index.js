@@ -534,9 +534,9 @@ class PaymentComp extends React.Component {
       currentCardInfo,
     } = this.state;
     const CreditCardImg = (
-      <span className="logo-payment-card-list logo-credit-card">
+      <span className="logo-payment-card-list logo-credit-card" style={{marginLeft:'0rem'}}>
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-          <img key={idx} className="logo-payment-card" src={el} />
+          <img key={idx} style={{width:'50px'}}className="logo-payment-card mr-1" src={el} />
         ))}
       </span>
     );
@@ -859,7 +859,7 @@ class PaymentComp extends React.Component {
           id="credit-card-content"
         >
           <div className={`creditCompleteInfoBox pb-3 ${this.state.completeCardShow && (!this.state.creditCardList.length && pathname !== '/account/paymentMethod') ? "" : "hidden"}`}          >
-            <p>
+            <p >
               <span
                 className="pull-right ui-cursor-pointer-pure mr-2"
                 onClick={() => {
@@ -950,8 +950,8 @@ class PaymentComp extends React.Component {
                     {this.state.successMsg}
                   </p>
                 </aside>
-                <p>
-                  <FormattedMessage id="payment.acceptCards" />
+                <p style={{margin:'0'}}>
+                  {/* <FormattedMessage id="payment.acceptCards" /> */}
                   {CreditCardImg}
                 </p>
               </div>

@@ -482,7 +482,7 @@ class List extends React.Component {
                                                 alt={item.goodsName}
                                                 title={item.goodsName} 
                                                 className="ImgFitScreen"
-                                                style={{maxWidth:'50%',maxHeight:'100%',width:'100%',height:'100%'}}
+                                                style={{ paddingTop:'1rem',maxWidth:'50%',maxHeight:'100%',width:'100%',height:'100%'}}
                                                 />
                                             </div>
                                           </picture>
