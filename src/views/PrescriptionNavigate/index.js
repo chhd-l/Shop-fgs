@@ -5,7 +5,6 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Progress from '@/components/Progress'
 import Pagination from '@/components/Pagination'
-import './index.css'
 import MapFlag from '@/components/MapFlag'
 import GoogleMap from '@/components/GoogleMap'
 import { FormattedMessage } from 'react-intl'
@@ -15,7 +14,7 @@ import meImg from "@/assets/images/map-default-marker.png"
 const AnyReactComponent = ({ obj, show, sonMess, props, showConfirmBtn }) => {
   if (obj.type !== 'customer') {
     return (
-      <MapFlag obj={obj} show={show} sonMess={sonMess} props={props} showConfirmBtn={showConfirmBtn} mode="confirm"></MapFlag>
+      <MapFlag obj={obj} show={show} sonMess={sonMess} props={props} showConfirmBtn={showConfirmBtn} mode="navigate"></MapFlag>
     )
   }
   else {
@@ -334,11 +333,11 @@ class Prescription extends React.Component {
                               title={item.location}>{item.location} </div>
                           </div>
 
-                          {this.state.showConfirmBtn && <div style={{ height: '3rem' }}>
+                          {/* {this.state.showConfirmBtn && <div style={{ height: '3rem' }}>
                             <button className="rc-btn rc-btn--sm rc-btn--one card-btn" onClick={() => this.handleConfirm(item)}>
                               <FormattedMessage id="clinic.confirm" />
                             </button>
-                          </div>}
+                          </div>} */}
                         </div>
                       </article>))
                     }

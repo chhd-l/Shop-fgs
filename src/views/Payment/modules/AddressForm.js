@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from "react-intl"
 import { find, findIndex } from "lodash"
 import Selection from '@/components/Selection'
+import CitySearchSelection from "@/components/CitySearchSelection"
 import { getDictionary } from '@/utils/utils'
 
 export default class AddressForm extends React.Component {
@@ -16,9 +17,10 @@ export default class AddressForm extends React.Component {
         rfc: '',
         country: '',
         city: '',
+        cityName: '',
         postCode: '',
         phoneNumber: '',
-        email:'',//adyen支付需要
+        email: '',//adyen支付需要
       },
       cityList: [],
       countryList: []
@@ -90,6 +92,14 @@ export default class AddressForm extends React.Component {
   handleSelectedItemChange (key, data) {
     const { deliveryAddress } = this.state
     deliveryAddress[key] = data.value
+    this.setState({ deliveryAddress: deliveryAddress }, () => {
+      this.props.updateData(this.state.deliveryAddress)
+    })
+  }
+  handleCityInputChange = data => {
+    const { deliveryAddress } = this.state
+    deliveryAddress.city = data.id
+    deliveryAddress.cityName = data.cityName
     this.setState({ deliveryAddress: deliveryAddress }, () => {
       this.props.updateData(this.state.deliveryAddress)
     })
@@ -186,12 +196,16 @@ export default class AddressForm extends React.Component {
               <FormattedMessage id="payment.city" />
             </label>
             <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-              <Selection
+              <CitySearchSelection
+                defaultValue={this.state.deliveryAddress.cityName}
+                onChange={this.handleCityInputChange} />
+              {/* <Selection
                 selectedItemChange={data => this.handleSelectedItemChange('city', data)}
                 optionList={this.computedList('city')}
                 selectedItemData={{
                   value: this.state.deliveryAddress.city
-                }} />
+                }} /> */}
+              {/* todo */}
             </span>
           </div>
         </div>

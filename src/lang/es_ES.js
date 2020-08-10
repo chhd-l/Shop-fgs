@@ -589,7 +589,8 @@ const en_US = {
   'selectNoneClincTip': 'Por favor seleccione una receta',
   'orderSummary': 'Resumen de pedido',
   'inputSearchText': 'ingresar texto de búsqueda',
-  FrequentQuestions: "Preguntas frecuentes",
+  'clinic.navigate':'Navegar',
+  'FrequentQuestions': "Preguntas frecuentes",
   'requestInvoices.title': 'Solicitar facturas',
   'autoship': 'Autoenvío',
 }

@@ -10,6 +10,7 @@ import Modal from '@/components/Modal'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { formatMoney, getDictionary } from "@/utils/utils"
 import { find, findIndex } from 'lodash'
+import { queryCityNameById } from "@/api"
 import { getOrderDetails, cancelOrder, getPayRecord, returnFindByTid } from "@/api/order"
 import {
   IMG_DEFAULT,
@@ -36,7 +37,6 @@ class AccountOrders extends React.Component {
       errModalVisible: false,
       returnOrExchangeModalVisible: false,
       errModalText: '',
-      cityList: [],
       countryList: [],
       progressList: [
         {
@@ -71,12 +71,6 @@ class AccountOrders extends React.Component {
     }, () => {
       this.init()
     })
-    getDictionary({ type: 'city' })
-      .then(res => {
-        this.setState({
-          cityList: res
-        })
-      })
     getDictionary({ type: 'country' })
       .then(res => {
         this.setState({
@@ -96,7 +90,8 @@ class AccountOrders extends React.Component {
     const { orderNumber, progressList } = this.state
     this.setState({ loading: true })
     getOrderDetails(orderNumber)
-      .then(res => {
+      .then(async res => {
+        let resContext = res.context
         let tmpIndex = -1
         const tradeEventLogs = res.context.tradeEventLogs || []
         if (tradeEventLogs.length) {
@@ -119,13 +114,18 @@ class AccountOrders extends React.Component {
             return item
           })
         }
-        this.setState({
-          details: res.context,
-          loading: false,
-          currentProgerssIndex: tmpIndex,
-          progressList: progressList,
-          defaultLocalDateTime: res.defaultLocalDateTime
-        })
+        let cityRes = await queryCityNameById({ id: [resContext.consignee.cityId, resContext.invoice.cityId] })
+        cityRes = cityRes.context.systemCityVO || []
+        resContext.consignee.cityName = this.matchCityName(cityRes, resContext.consignee.cityId)
+        resContext.invoice.cityName = this.matchCityName(cityRes, resContext.invoice.cityId)
+        resContext =
+          this.setState({
+            details: resContext,
+            loading: false,
+            currentProgerssIndex: tmpIndex,
+            progressList: progressList,
+            defaultLocalDateTime: res.defaultLocalDateTime
+          })
       })
       .catch(err => {
         this.setState({
@@ -140,6 +140,11 @@ class AccountOrders extends React.Component {
           payRecord: res.context
         })
       })
+  }
+  matchCityName (dict, cityId) {
+    return dict.filter(c => c.id === cityId).length
+      ? dict.filter(c => c.id === cityId)[0].cityName
+      : cityId
   }
   async hanldeItemClick (afterSaleType) {
     // 退单都完成了，才可继续退单
@@ -394,7 +399,7 @@ class AccountOrders extends React.Component {
                                 <div className="ml-1">
                                   <span className="medium">{details.consignee.name}</span><br />
                                   {details.consignee.postCode}, {details.consignee.phone}<br />
-                                  {this.matchNamefromDict(this.state.countryList, details.consignee.countryId)}{' '}{this.matchNamefromDict(this.state.cityList, details.consignee.cityId)}<br />
+                                  {this.matchNamefromDict(this.state.countryList, details.consignee.countryId)}{' '}{details.consignee.cityName}<br />
                                   {details.consignee.detailAddress1}<br />
                                   {details.consignee.detailAddress2}{details.consignee.detailAddress2 ? <br /> : null}
                                   {details.consignee.rfc}{details.consignee.rfc ? <br /> : null}
@@ -411,7 +416,7 @@ class AccountOrders extends React.Component {
                                 <div className="ml-1">
                                   <span className="medium">{details.invoice.contacts}</span><br />
                                   {details.invoice.postCode}, {details.invoice.phone}<br />
-                                  {this.matchNamefromDict(this.state.countryList, details.invoice.countryId)}{' '}{this.matchNamefromDict(this.state.cityList, details.invoice.cityId)}<br />
+                                  {this.matchNamefromDict(this.state.countryList, details.invoice.countryId)}{' '}{details.invoice.cityName}<br />
                                   {details.invoice.address1}<br />
                                   {details.invoice.address2}{details.invoice.address2 ? <br /> : null}
                                   {details.invoice.rfc}{details.invoice.rfc ? <br /> : null}
