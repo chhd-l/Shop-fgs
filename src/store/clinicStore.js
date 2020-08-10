@@ -11,6 +11,8 @@ class ClinicStore {
   @observable defaultClinicId = store.get(`rc-clinic-id-default`) || ''
   @observable defaultClinicName = store.get(`rc-clinic-name-default`) || ''
 
+  @observable clinicRecoCode = store.get(`rc-clinic-reco-code`) || ''
+
   @computed get clinicId () {
     return this.linkClinicId || this.selectClinicId || this.defaultClinicId
   }
@@ -64,6 +66,12 @@ class ClinicStore {
   setDefaultClinicName (data) {
     this.linkClinicName = data
     store.set(`rc-clinic-name-default`, data)
+  }
+
+  @action.bound
+  setClinicRecoCode (data) {
+    this.clinicRecoCode = data
+    store.set(`rc-clinic-reco-code`, data)
   }
 }
 export default ClinicStore;

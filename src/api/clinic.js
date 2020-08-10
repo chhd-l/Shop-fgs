@@ -4,7 +4,8 @@ const api = {
   queryPrescription: '/prescriber/listPagePrescriberMap',  //搜索Clinic
   prescriptionById: '/prescriber/getPrescriberById', //Clinic详情
   allClinics: '/prescriber/listAll', //所有Clinic
-  getPrescriberByKeyWord: '/prescriber/getPrescriberByKeyWord'
+  getPrescriberByKeyWord: '/prescriber/getPrescriberByKeyWord', //根据recommendation code查询(明文)
+  getPrescriberByCode: '/prescriber/getPrescriberByCode',//根据recommendation code查询(密文)
 }
 
 export default api
@@ -35,6 +36,14 @@ export function getPrescriptionById (parameter) {
 export function getPrescriberByKeyWord (parameter) {
   return axios({
     url: `${api.getPrescriberByKeyWord}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getPrescriberByCode (parameter) {
+  return axios({
+    url: `${api.getPrescriberByCode}`,
     method: 'post',
     data: parameter
   })
