@@ -6,6 +6,7 @@ const api = {
   uploadResource: '/common/uploadResource',
   queryCityNameById: '/system-city/query-system-city-by-id',
   queryCityByName: '/system-city/query-system-city-by-name',
+  buryPoint: '/wm.gif'
 }
 
 export default api
@@ -46,6 +47,14 @@ export function queryCityNameById (parameter) {
 export function queryCityByName (parameter) {
   return axios({
     url: api.queryCityByName,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function setBuryPoint (parameter) {
+  return axios({
+    url: api.buryPoint,
     method: 'post',
     data: parameter
   })

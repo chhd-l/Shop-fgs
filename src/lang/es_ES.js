@@ -581,6 +581,7 @@ const en_US = {
   'payStatus.PAID': 'Pagado',
   'biliingAddressSameAs': 'Dirección de facturación igual que',
   'deleteAddressTip': 'Lo sentimos, esta dirección ya está sujeta a una suscripción, por lo que no se puede eliminar.',
+  'footer.RequestInvoice':'Solicitud de factura',
   'examplePostCode': '02860',
   'examplePhone': '+(52) 559 801 65',
   'inTheBasket': 'in the basket',
