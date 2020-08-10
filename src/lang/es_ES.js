@@ -220,6 +220,7 @@ const en_US = {
   "payment.confirmInfo2": "Debe tener 18 años o más para registrarse en el sitio.",
   "payment.confirmInfo3": "He leído el Acuerdo de usuario y la {val1} y acepto el procesamiento de datos personales, incluida {val2}",
   "payment.confirmInfo4": "Debe familiarizarse con el Acuerdo de usuario y la Política de privacidad y dar su consentimiento para el procesamiento de datos personales, incluida la transferencia transfronteriza.",
+  "payment.acceptCards": "Aceptamos tarjetas de crédito.",
   "payment.country": "País",
   "payment.DEBIT": "DÉBITO",
   "payment.deliveryFrequency": "Frecuencia de entrega",
@@ -588,6 +589,10 @@ const en_US = {
   'selectNoneClincTip': 'Por favor seleccione una receta',
   'orderSummary': 'Resumen de pedido',
   'inputSearchText': 'ingresar texto de búsqueda',
-  'payment.apply':'aplicar'
+  'payment.apply':'aplicar',
+  'clinic.navigate':'Navegar',
+  'FrequentQuestions': "Preguntas frecuentes",
+  'requestInvoices.title': 'Solicitar facturas',
+  'autoship': 'Autoenvío',
 }
 export default en_US;

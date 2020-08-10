@@ -5,11 +5,6 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import SearchSelection from "@/components/SearchSelection"
 import { getPrescriberByKeyWord } from '@/api/clinic'
 
-const moduleMap = {
-  es: <div></div>,
-  de: <div></div>
-}
-
 @inject("clinicStore")
 @observer
 @injectIntl
@@ -17,7 +12,6 @@ class ClinicForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isEdit: false,
       form: {
         clinicName: '',
         clinicId: ''
@@ -26,8 +20,7 @@ class ClinicForm extends React.Component {
   }
   componentDidMount () {
     this.setState({
-      form: Object.assign(this.state.form, { clinicName: this.props.clinicStore.clinicName }),
-      isEdit: !this.props.clinicStore.clinicName
+      form: Object.assign(this.state.form, { clinicName: this.props.clinicStore.clinicName })
     })
   }
   gotoPrescriptionPage = e => {
@@ -35,28 +28,13 @@ class ClinicForm extends React.Component {
     sessionStorage.setItem("clinic-reselect", true);
     this.props.history.push("/prescription");
   }
-  handleClickEditClinicAtLocalPage = () => {
-    this.setState({
-      isEdit: true
-    })
-  }
   handleSelectedItemChange = data => {
     const { form } = this.state
     form.clinicName = data.prescriberName
     form.clinicId = data.id
-    this.setState({ form: form })
-  }
-  handleCancel () {
-    this.setState({
-      form: Object.assign(this.state.form, { clinicName: this.props.clinicStore.clinicName }),
-      isEdit: false
-    })
-  }
-  handleSave () {
-    this.props.clinicStore.setSelectClinicId(this.state.form.clinicId)
-    this.props.clinicStore.setSelectClinicName(this.state.form.clinicName)
-    this.setState({
-      isEdit: false
+    this.setState({ form: form }, () => {
+      this.props.clinicStore.setSelectClinicId(this.state.form.clinicId)
+      this.props.clinicStore.setSelectClinicName(this.state.form.clinicName)
     })
   }
   render () {
@@ -90,58 +68,38 @@ class ClinicForm extends React.Component {
               <FormattedMessage id="payment.clinicTitle2" />
               : <FormattedMessage id="payment.clinicTitle" />}
           </h5>
-          {
-            !this.state.isEdit && <p
-              onClick={this.handleClickEditClinicAtLocalPage}
-              className="rc-styled-link rc-margin-top--xs pull-right m-0">
-              <FormattedMessage id="edit" />
-            </p>
-          }
         </div>
-        {this.state.isEdit
-          ? <>
-            <div className="rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
-              <SearchSelection
-                queryList={async inputVal => {
-                  let res = await getPrescriberByKeyWord({ keyWord: inputVal })
-                  return ((res.context && res.context.prescriberVo) || []).map(ele => Object.assign(ele, { name: ele.prescriberName }))
-                }}
-                selectedItemChange={data => this.handleSelectedItemChange(data)}
-                defaultValue={this.state.form.clinicName}
-                placeholder={this.props.intl.messages.enterClinicName}
-                nodataTipSlot={<div className="red">
-                  <FormattedMessage
-                    id="noClinicTip"
-                    values={{
-                      val: <a
-                        to="/prescription"
-                        onClick={this.gotoPrescriptionPage}
-                        className="rc-styled-link font-italic">
-                        <FormattedMessage id="clickHere" />
-                      </a>
-                    }} />
-                </div>} />
+        <div className="rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex align-items-center justify-content-between">
+          <SearchSelection
+            queryList={async inputVal => {
+              let res = await getPrescriberByKeyWord({ keyWord: inputVal })
+              return ((res.context && res.context.prescriberVo) || []).map(ele => Object.assign(ele, { name: ele.prescriberName }))
+            }}
+            selectedItemChange={data => this.handleSelectedItemChange(data)}
+            defaultValue={this.state.form.clinicName}
+            placeholder={this.props.intl.messages.enterClinicName}
+            customCls="flex-fill" />
+          <span className="ml-3">
+            <span
+              className="info delivery-method-tooltip"
+              data-tooltip-placement="top"
+              data-tooltip="top-tooltip-noclinic-tip"
+              style={{ verticalAlign: "unset" }}>
+              i
+            </span>
+            <div id="top-tooltip-noclinic-tip" className="rc-tooltip">
+              <FormattedMessage
+                id="noClinicTip"
+                values={{
+                  val: <Link
+                    to="/prescriptionNavigate"
+                    className="rc-styled-link font-italic">
+                    <FormattedMessage id="clickHere" />
+                  </Link>
+                }} />
             </div>
-            <div className="d-flex justify-content-end align-items-center">
-              <a
-                className="rc-styled-link"
-                name="contactPreference"
-                onClick={() => this.handleCancel()}>
-                <FormattedMessage id="cancel" />
-              </a>
-          &nbsp;<FormattedMessage id="or" />&nbsp;
-          <button
-                className="rc-btn rc-btn--one submitBtn"
-                type="submit"
-                disabled={this.state.form.clinicName && this.state.form.clinicId ? false : true}
-                onClick={() => this.handleSave()}>
-                <FormattedMessage id="save" />
-              </button>
-            </div>
-          </>
-          : <div>
-            {this.state.form.clinicName}
-          </div>}
+          </span>
+        </div>
       </div>
     }
 

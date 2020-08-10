@@ -45,6 +45,15 @@ class MapFlag extends React.Component {
     console.log();
 
   }
+  handleNavigate=(item)=>{
+      let url = 'https://www.google.com/maps?saddr=My Location&daddr='+item.latitude+','+item.longitude
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.target = '_blank'
+      document.body.appendChild(link)
+      link.click()
+  }
 
   render (h) {
     return (
@@ -70,8 +79,11 @@ class MapFlag extends React.Component {
                 {/* <button className="rc-btn rc-btn--two rc-btn--sm" style={{marginRight:"1rem"}}  onClick={this.handleClose}>
               <FormattedMessage id='clinic.cancel' ></FormattedMessage>
             </button> */}
-                {this.props.showConfirmBtn && <button className="rc-btn rc-btn--one rc-btn--sm" onClick={() => this.handleConfirm(this.props.obj)}>
+                {this.props.mode ==="confirm" && this.props.showConfirmBtn && <button className="rc-btn rc-btn--one rc-btn--sm" onClick={() => this.handleConfirm(this.props.obj)}>
                   <FormattedMessage id='clinic.confirm'></FormattedMessage>
+                </button>}
+                {this.props.mode ==="navigate" && <button className="rc-btn rc-btn--one rc-btn--sm" onClick={() => this.handleNavigate(this.props.obj)}>
+                  <FormattedMessage id='clinic.navigate'></FormattedMessage>
                 </button>}
                 <button
                   type="button"

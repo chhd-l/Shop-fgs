@@ -3,6 +3,7 @@ import Skeleton from "react-skeleton-loader";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { find } from "lodash";
 import { getAddressList, saveAddress, editAddress, deleteAddress } from "@/api/address";
+import { queryCityNameById } from "@/api"
 import { getDictionary } from "@/utils/utils";
 import AddressForm from "./form";
 import Loading from "@/components/Loading";
@@ -35,7 +36,6 @@ class LoginDeliveryAddress extends React.Component {
       deleteLoading: false,
       addOrEdit: false,
       addressList: [],
-      cityList: [],
       countryList: [],
       foledMore: true,
       successTipVisible: false,
@@ -62,12 +62,6 @@ class LoginDeliveryAddress extends React.Component {
     this.setState({type: props.type})
   }
   async componentDidMount () {
-    getDictionary({ type: "city" }).then((res) => {
-      this.setState({
-        cityList: res,
-      });
-    });
-
     await getDictionary({ type: "country" }).then((res) => {
       const { deliveryAddress } = this.state;
       deliveryAddress.country = find(
@@ -123,6 +117,11 @@ class LoginDeliveryAddress extends React.Component {
         // Array.from(addressList, (ele, i) => (ele.selected = !i));
         // tmpId = addressList[0].deliveryAddressId;
       }
+      let cityRes = await queryCityNameById({ id: addressList.map(ele => ele.cityId) })
+      cityRes = cityRes.context.systemCityVO || []
+      Array.from(addressList, ele => {
+        ele.cityName = cityRes.filter(c => c.id === ele.cityId).length ? cityRes.filter(c => c.id === ele.cityId)[0].cityName : ele.cityId
+      })
       this.setState({
         addressList: addressList,
         addOrEdit: !addressList.length,
@@ -195,6 +194,7 @@ class LoginDeliveryAddress extends React.Component {
         rfc: tmp.rfc,
         country: tmp.countryId ? tmp.countryId.toString() : "",
         city: tmp.cityId ? tmp.cityId.toString() : "",
+        cityName: tmp.cityName,
         postCode: tmp.postCode,
         phoneNumber: tmp.consigneeNumber,
         isDefalt: tmp.isDefaltAddress === 1 ? true : false,
@@ -539,10 +539,7 @@ class LoginDeliveryAddress extends React.Component {
                                     this.state.countryList,
                                     item.countryId
                                   ),
-                                  this.getDictValue(
-                                    this.state.cityList,
-                                    item.cityId
-                                  ),
+                                  item.cityName,
                                   item.address1,
                                 ].join(", ")}
                               </div>

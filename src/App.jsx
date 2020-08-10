@@ -39,6 +39,7 @@ import Cart from "@/views/Cart";
 import Payment from "@/views/Payment";
 import Confirmation from "@/views/Confirmation";
 import Prescription from "@/views/Prescription";
+import PrescriptionNavigate from "@/views/PrescriptionNavigate";
 import Exception from "@/views/Exception";
 import Help from "@/views/Help";
 import FAQ from "@/views/FAQ";
@@ -67,6 +68,8 @@ import AccountReturnOrder from "@/views/Account/ReturnOrder";
 import ForgetPassword from "@/views/ForgetPassword";
 
 import RequestInvoices from '@/views/RequestInvoices'
+
+
 const token = localStorage.getItem("rc-token");
 
 const App = () => (
@@ -127,6 +130,8 @@ const App = () => (
               />
               <Route exact path="/confirmation" component={Confirmation} />
               <Route exact path="/prescription" component={Prescription} />
+              <Route exact path="/prescriptionNavigate" component={PrescriptionNavigate} />
+              
               <Route exact path="/help" component={Help} />
               <Route exact path="/FAQ" component={FAQ} />
               <Route exact path="/termuse" component={TermUse} />

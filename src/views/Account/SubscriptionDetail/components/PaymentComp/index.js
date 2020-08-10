@@ -1059,6 +1059,7 @@ class PaymentComp extends React.Component {
                 </aside>
                 <p>
                   <FormattedMessage id="payment.acceptCards" />
+                  {CreditCardImg}
                 </p>
               </div>
               <div className="row">
@@ -1066,7 +1067,6 @@ class PaymentComp extends React.Component {
                   <div className="form-group">
                     <label className="form-control-label" htmlFor="cardNumber">
                       <FormattedMessage id="payment.cardNumber" /><span style={{ color: 'red' }}>*</span>
-                      {CreditCardImg}
                       <div className="cardFormBox">
                         <span className="cardImage">
                           <img

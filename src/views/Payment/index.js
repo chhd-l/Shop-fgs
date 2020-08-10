@@ -1147,14 +1147,13 @@ class Payment extends React.Component {
                               >
                                 <span
                                   className="info delivery-method-tooltip"
-                                  title="Top"
                                   data-tooltip-placement="top"
-                                  data-tooltip="top-tooltip"
+                                  data-tooltip="top-tooltip-delivery-tip"
                                   style={{ verticalAlign: "unset" }}
                                 >
                                   i
                                 </span>
-                                <div id="top-tooltip" className="rc-tooltip">
+                                <div id="top-tooltip-delivery-tip" className="rc-tooltip">
                                   <FormattedMessage id="payment.forFreeTip" />
                                 </div>
                               </span>
