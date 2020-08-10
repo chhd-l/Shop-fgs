@@ -4,12 +4,13 @@ import { find } from 'lodash'
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading'
 import MegaMenu from '@/components/MegaMenu'
-import { getParaByName } from '@/utils/utils';
+import { getParaByName, getDeviceType } from '@/utils/utils';
 import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import { getList } from '@/api/list'
 import { IMG_DEFAULT } from '@/utils/constant'
 import { getPrescriptionById } from '@/api/clinic'
+import { setBuryPoint } from '@/api'
 import LoginButton from '@/components/LoginButton'
 import UnloginCart from './modules/unLoginCart'
 import LoginCart from './modules/loginCart'
@@ -88,6 +89,15 @@ class Header extends React.Component {
         clinicStore.setLinkClinicName(linkClinicName)
       }
     }
+
+    // 埋点
+    setBuryPoint({
+      id: '',
+      url: window.location.href,
+      clientType: getDeviceType(),
+      skuId: this.props.match && this.props.match.path === '/details/:id' ? this.props.match.params.id : '',
+      shopId: process.env.REACT_APP_STOREID
+    })
   }
   componentWillUnmount () {
     window.removeEventListener('click', this.hideMenu)

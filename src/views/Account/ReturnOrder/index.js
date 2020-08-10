@@ -8,7 +8,7 @@ import SideMenu from '@/components/SideMenu'
 import Pagination from '@/components/Pagination'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
-import { formatMoney, getPreMonthDay, dateFormat } from "@/utils/utils"
+import { formatMoney } from "@/utils/utils"
 import { getReturnList } from "@/api/order"
 import { IMG_DEFAULT } from '@/utils/constant'
 
@@ -79,19 +79,10 @@ export default class ReturnOrder extends React.Component {
         }, 0)
       }
     }
-    let createdFrom = ''
     this.setState({ loading: true })
-    let now = dateFormat('YYYY-mm-dd', new Date())
-    if (form.duringTime.includes('d')) {
-      let now2 = new Date()
-      now2.setDate(now2.getDate() - parseInt(form.duringTime))
-      createdFrom = dateFormat('YYYY-mm-dd', now2)
-    } else if (form.duringTime.includes('m')) {
-      createdFrom = getPreMonthDay(now, parseInt(form.duringTime))
-    }
     let param = {
-      beginTime: createdFrom,
-      endTime: now,
+      // beginTime: createdFrom,
+      // endTime: now,
       // dateRangeKey: form.dateRangeKey,
       tradeOrSkuName: form.returnNumber,
       pageNum: currentPage - 1,

@@ -78,13 +78,13 @@ class SubscriptionSelect extends Component {
   render () {
     const { form } = this.state
     return (<div className="">
-      <FormattedMessage
+      {/* <FormattedMessage
         id="payment.subTip2"
         values={{
           icon: <span className="iconfont font-weight-bold red" style={{ fontSize: '.8em' }}>&#xe675;</span>,
           val: <span className="red">{this.state.discountInfo ? this.state.discountInfo.promotionDiscount : ''}</span>,
           val2: formatMoney(this.state.discountInfo && this.state.discountInfo.discountAmount ? this.state.discountInfo.discountAmount : 0)
-        }} />
+        }} /> */}
       <br />
       <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
         <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2">
@@ -110,12 +110,12 @@ class SubscriptionSelect extends Component {
           }
           <label className="rc-input__label--inline" htmlFor="optsmobile">
             <span className="red"><FormattedMessage id="payment.frequencyTip1" /></span><br />
-            <FormattedMessage
+            {/* <FormattedMessage
               id="payment.subTip1"
               values={{
                 val: formatMoney(this.state.discountInfo && this.state.discountInfo.discountAmount ? this.state.discountInfo.discountAmount : 0)
-              }} />
-            <br />
+              }} /> */}
+            {/* <br /> */}
             <span className="font-weight-normal mt-1 inlineblock">
               <FormattedMessage id="payment.deliveryFrequency" />:
             </span>
@@ -133,13 +133,13 @@ class SubscriptionSelect extends Component {
                 this.props.checkoutStore.loginCartData
                   .filter(ele => ele.subscriptionStatus)
                   .map((ele, i) => (
-                    <img className="width-sub-img" style={{ display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
+                    <img className="width-sub-img  " style={{ display: 'inline-block',width:'80px' ,height:'80px',marginRight:'.4rem',border:'1px solid #aaa' ,borderRadius:'5px' }} key={i} src={ele.goodsInfoImg} />
                   ))
               }
             </span>
           </div>
         </div>
-        <div className="border-bottom"></div>
+        <div className="border-bottom" style={{marginTop:'-4rem'}}></div>
         <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2 mt-4">
           <FormattedMessage id="email">
             {txt => (
