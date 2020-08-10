@@ -27,8 +27,13 @@ class RouteFilter extends Component {
       return false
     }
 
-    if (!localStorage.getItem('rc-token') && nextProps.location.pathname.indexOf("/account") !== -1) {
+    if (nextProps.location.pathname.indexOf("/account") !== -1 && !localStorage.getItem('rc-token')) {
       this.props.history.push("/");
+      return false
+    }
+
+    if (nextProps.location.pathname === "/confirmation" && !sessionStorage.getItem('orderNumber')) {
+      this.props.history.push("/")
       return false
     }
     return true
@@ -38,9 +43,10 @@ class RouteFilter extends Component {
       this.props.history.push("/");
     }
 
-    getConfig().then(res => {
-      sessionStorage.setItem('currency', JSON.stringify(res.context.currency))
-    })
+    getConfig()
+      .then(res => {
+        sessionStorage.setItem('currency', JSON.stringify(res.context.currency))
+      })
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/')
     }
@@ -108,9 +114,6 @@ class RouteFilter extends Component {
       if (process.env.REACT_APP_ONTRUST_MARS_FOOTER) {
         loadJS(process.env.REACT_APP_ONTRUST_MARS_FOOTER)
       }
-    }
-    if (this.props.location.pathname === "/confirmation" && !sessionStorage.getItem('orderNumber')) {
-      this.props.history.push("/");
     }
 
     queryStoreCateIds();

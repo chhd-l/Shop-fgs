@@ -11,12 +11,7 @@ import Selection from "@/components/Selection";
 import Pagination from "@/components/Pagination";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { Link } from "react-router-dom";
-import {
-  formatMoney,
-  getPreMonthDay,
-  dateFormat,
-  getDictionary,
-} from "@/utils/utils";
+import { formatMoney, getDictionary } from "@/utils/utils";
 import { batchAdd } from "@/api/payment";
 import { getOrderList, getOrderDetails } from "@/api/order";
 import orderImg from "./img/order.jpg";
@@ -53,10 +48,10 @@ class AccountOrders extends React.Component {
 
     this.pageSize = 6;
   }
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
-  componentDidMount() {
+  componentDidMount () {
     this.FormateOderTimeFilter();
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
@@ -65,7 +60,7 @@ class AccountOrders extends React.Component {
     }
     this.queryOrderList();
   }
-  async FormateOderTimeFilter() {
+  async FormateOderTimeFilter () {
     let res = await getDictionary({ type: "orderTimeFilter" });
     let duringTimeOptions =
       res &&
@@ -112,7 +107,7 @@ class AccountOrders extends React.Component {
       }
     );
   }
-  handleDuringTimeChange(data) {
+  handleDuringTimeChange (data) {
     // console.log("获取当前选择的天气",data,this.state.form.period)
     const { form } = this.state;
     form.period = data.value;
@@ -124,7 +119,7 @@ class AccountOrders extends React.Component {
       () => this.queryOrderList()
     );
   }
-  handleInputChange(e) {
+  handleInputChange (e) {
     const target = e.target;
     const { form } = this.state;
     form[target.name] = target.value;
@@ -137,7 +132,7 @@ class AccountOrders extends React.Component {
       this.queryOrderList();
     }, 500);
   }
-  queryOrderList() {
+  queryOrderList () {
     const { form, initing, currentPage } = this.state;
     if (!initing) {
       setTimeout(() => {
@@ -166,14 +161,14 @@ class AccountOrders extends React.Component {
               tradeState.deliverStatus === "NOT_YET_SHIPPED" &&
               tradeState.payState === "NOT_PAID" &&
               new Date(ele.orderTimeOut).getTime() >
-                new Date(res.defaultLocalDateTime).getTime() &&
+              new Date(res.defaultLocalDateTime).getTime() &&
               (!ele.payWay || ele.payWay.toUpperCase() !== "OXXO"),
             showOXXOExpireTime:
               tradeState.flowState === "AUDIT" &&
               tradeState.deliverStatus === "NOT_YET_SHIPPED" &&
               tradeState.payState === "NOT_PAID" &&
               new Date(ele.orderTimeOut).getTime() >
-                new Date(res.defaultLocalDateTime).getTime() &&
+              new Date(res.defaultLocalDateTime).getTime() &&
               ele.payWay &&
               ele.payWay.toUpperCase() === "OXXO",
             payNowLoading: false,
@@ -206,7 +201,7 @@ class AccountOrders extends React.Component {
         });
       });
   }
-  hanldePageNumChange(params) {
+  hanldePageNumChange (params) {
     this.setState(
       {
         currentPage: params.currentPage,
@@ -214,7 +209,7 @@ class AccountOrders extends React.Component {
       () => this.queryOrderList()
     );
   }
-  updateFilterData(form) {
+  updateFilterData (form) {
     this.setState(
       {
         form: Object.assign({}, this.state.form, form),
@@ -223,12 +218,12 @@ class AccountOrders extends React.Component {
       () => this.queryOrderList()
     );
   }
-  handlePayNowTimeEnd(order) {
+  handlePayNowTimeEnd (order) {
     const { orderList } = this.state;
     order.canPayNow = false;
     this.setState({ orderList: orderList });
   }
-  async handleClickPayNow(order) {
+  async handleClickPayNow (order) {
     const { orderList } = this.state;
     order.payNowLoading = true;
     this.setState({ orderList: orderList });
@@ -322,10 +317,10 @@ class AccountOrders extends React.Component {
       this.setState({ orderList: orderList });
     }
   }
-  rePurchase(order) {
+  rePurchase (order) {
     this.hanldeLoginAddToCart(order);
   }
-  async hanldeLoginAddToCart(order) {
+  async hanldeLoginAddToCart (order) {
     const cartProduct = this.props.checkoutStore.loginCartData;
     const productList = order.tradeItems ? order.tradeItems : [];
     const tradeItems = productList.map((ele) => {
@@ -352,7 +347,7 @@ class AccountOrders extends React.Component {
     await this.props.checkoutStore.updateLoginCart();
     this.props.history.push("/cart");
   }
-  render() {
+  render () {
     const event = {
       page: {
         type: "Account",
@@ -565,7 +560,7 @@ class AccountOrders extends React.Component {
                                         order.payNowLoading
                                           ? "ui-btn-loading"
                                           : ""
-                                      }`}
+                                        }`}
                                       style={{ transform: "scale(.85)" }}
                                       onClick={() =>
                                         this.handleClickPayNow(order)
@@ -617,18 +612,18 @@ class AccountOrders extends React.Component {
                       </>
                     ) : null}
                     {this.state.errMsg ||
-                    !this.state.orderList.length ? null : (
-                      <div className="grid-footer rc-full-width mt-2">
-                        <Pagination
-                          loading={this.state.loading}
-                          totalPage={this.state.totalPage}
-                          currentPage={this.state.currentPage}
-                          onPageNumChange={(params) =>
-                            this.hanldePageNumChange(params)
-                          }
-                        />
-                      </div>
-                    )}
+                      !this.state.orderList.length ? null : (
+                        <div className="grid-footer rc-full-width mt-2">
+                          <Pagination
+                            loading={this.state.loading}
+                            totalPage={this.state.totalPage}
+                            currentPage={this.state.currentPage}
+                            onPageNumChange={(params) =>
+                              this.hanldePageNumChange(params)
+                            }
+                          />
+                        </div>
+                      )}
                   </div>
                 </div>
                 <div

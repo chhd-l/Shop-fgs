@@ -536,7 +536,7 @@ class List extends React.Component {
                                                       <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.65em' }}>&#xe675;</span>
                                                       <span
                                                         className="position-relative red-text position-absolute"
-                                                        style={{ fontSize: '.7em', top: '52%', transform: 'translateY(-50%)' }}>
+                                                        style={{ fontSize: '.7em', top: '52%', transform: 'translateY(-50%)', whiteSpace: 'nowrap' }}>
                                                         <FormattedMessage id="autoship" />
                                                       </span>
                                                     </div>
