@@ -72,7 +72,7 @@ class ClinicForm extends React.Component {
         <div className="rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex align-items-center justify-content-between">
           <SearchSelection
             queryList={async inputVal => {
-              let res = await getPrescriberByKeyWord({ keyWord: inputVal })
+              let res = await getPrescriberByKeyWord({ keyWord: inputVal, storeId: process.env.REACT_APP_STOREID })
               return ((res.context && res.context.prescriberVo) || []).map(ele => Object.assign(ele, { name: ele.prescriberName }))
             }}
             selectedItemChange={data => this.handleSelectedItemChange(data)}
