@@ -340,6 +340,39 @@ class Payment extends React.Component {
           },
         })
         .mount("#card-container");
+
+        /* const customCard = checkout.create('securedfields', {
+          // Optional configuration
+          type: 'card',
+          brands: ['mc', 'visa', 'amex', 'bcmc', 'maestro'],
+          styles: {
+              error: {
+                  color: 'red'
+              },
+              validated: {
+                  color: 'green'
+              },
+              placeholder: {
+                  color: '#d8d8d8'
+              }
+          },
+          ariaLabels: {
+              lang: 'en-GB',
+              encryptedCardNumber: {
+                  label: 'Credit or debit card number field'
+              }
+          },
+          // Events
+          onChange: function() {},
+          onValid : function() {},
+          onLoad: function() {},
+          onConfigSuccess: function() {},
+          onFieldValid : function() {},
+          onBrand: function() {},
+          onError: function() {},
+          onFocus: function() {},
+          onBinValue: function(bin) {}
+      }).mount('#customCard-container'); */
     }
   }
   //2.进行支付
@@ -444,10 +477,14 @@ class Payment extends React.Component {
         {
           currency:'EUR',//暂时以欧元
           adyenType:'klarna',
-          payChannelItem:'klarna',
+          payChannelItem:'adyen_klarna_pay_lat',
+          firstName:'Kevin',
+          lastName:'Qu',
+          city:'San Francisco',
+          country:'De',
+          shopperLocale:'en_US'
         },
         {email:'qhx717@163.com'},
-        { country: "MEX" },
         { deliveryAddressId: this.state.deliveryAddress.addressId },
         { billAddressId: this.state.billingAddress.addressId },
         { phone }
@@ -1976,8 +2013,22 @@ class Payment extends React.Component {
                         id="card-container"
                         class="payment-method__container"
                       >
-                        {/* Card Component will be rendered here */}
                       </div>
+                      {/* <div id="customCard-container" class="payment-method__container">
+                        <label>
+                            <span>Card number:</span>
+                            <span data-cse="encryptedCardNumber"></span>
+                        </label>
+                        <label>
+                            <span>Expiry date:</span>
+                            <span data-cse="encryptedExpiryDate"></span>
+                        </label>
+                        <label>
+                            <span>CVV/CVC:</span>
+                            <span data-cse="encryptedSecurityCode"></span>
+                        </label>
+                    </div> */}
+
                     </div>
                   </div>
                     </div>
