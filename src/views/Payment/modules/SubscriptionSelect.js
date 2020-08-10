@@ -116,7 +116,7 @@ class SubscriptionSelect extends Component {
                 val: formatMoney(this.state.discountInfo && this.state.discountInfo.discountAmount ? this.state.discountInfo.discountAmount : 0)
               }} /> */}
             {/* <br /> */}
-            <span className="font-weight-normal mt-1 inlineblock">
+            <span className="font-weight-normal mt-1 inlineblock">jasonjason
               <FormattedMessage id="payment.deliveryFrequency" />:
             </span>
           </label>
@@ -139,7 +139,7 @@ class SubscriptionSelect extends Component {
             </span>
           </div>
         </div>
-        <div className="border-bottom" style={{marginTop:'-4rem'}}></div>
+        <div className="border-bottom"></div>
         <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2 mt-4">
           <FormattedMessage id="email">
             {txt => (

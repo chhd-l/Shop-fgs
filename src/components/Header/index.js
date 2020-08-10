@@ -9,7 +9,7 @@ import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import { getList } from '@/api/list'
 import { IMG_DEFAULT } from '@/utils/constant'
-import { getPrescriptionById } from '@/api/clinic'
+import { getPrescriptionById, getPrescriberByCode } from '@/api/clinic'
 import { setBuryPoint } from '@/api'
 import LoginButton from '@/components/LoginButton'
 import UnloginCart from './modules/unLoginCart'
@@ -69,24 +69,37 @@ class Header extends React.Component {
 
     window.addEventListener('click', (e) => this.hideMenu(e))
     window.addEventListener('scroll', e => this.handleScroll(e))
+
     const { location, clinicStore } = this.props
+    let clinciRecoCode = getParaByName(window.location.search || (location ? location.search : ''), 'code')
     let linkClinicId = getParaByName(window.location.search || (location ? location.search : ''), 'clinic')
     let linkClinicName = ''
 
-    // 指定clinic链接进入，设置default clinic
+    // 指定clinic/recommendation code链接进入，设置default clinic
     if (location
       && (location.pathname === '/'
         || location.pathname.includes('/list')
-        || location.pathname.includes('/details'))
-      && linkClinicId
-      && clinicStore.clinicId !== linkClinicId) {
-      const res = await getPrescriptionById({ id: linkClinicId })
-      if (res.context && res.context.enabled) {
-        linkClinicName = res.context.prescriberName
-      }
-      if (linkClinicName) {
-        clinicStore.setLinkClinicId(linkClinicId)
-        clinicStore.setLinkClinicName(linkClinicName)
+        || location.pathname.includes('/details'))) {
+      if (clinciRecoCode && clinicStore.clinicRecoCode !== clinciRecoCode) {
+        const res = await getPrescriberByCode({ prescriberCode: clinciRecoCode, storeId: process.env.REACT_APP_STOREID })
+        if (res.context && res.context.enabled) {
+          linkClinicId = res.context.id
+          linkClinicName = res.context.prescriberName
+        }
+        if (linkClinicId && linkClinicName) {
+          clinicStore.setClinicRecoCode(clinciRecoCode)
+          clinicStore.setLinkClinicId(linkClinicId)
+          clinicStore.setLinkClinicName(linkClinicName)
+        }
+      } else if (linkClinicId && clinicStore.clinicId !== linkClinicId) {
+        const res = await getPrescriptionById({ id: linkClinicId })
+        if (res.context && res.context.enabled) {
+          linkClinicName = res.context.prescriberName
+        }
+        if (linkClinicName) {
+          clinicStore.setLinkClinicId(linkClinicId)
+          clinicStore.setLinkClinicName(linkClinicName)
+        }
       }
     }
 
@@ -130,18 +143,18 @@ class Header extends React.Component {
       - (isScrollToTop ? 120 : 80)
       - win_top
       + targetEl.offsetHeight
+    // 
     if (win_top >= footerTop) {
       targetEl.style.top = (parseInt(footerTop)) + 'px'
       targetEl.style.display = 'none'
       targetEl.style.position = 'absolute'
-    } else
-      if (win_top >= baseTop) {
-        targetEl.style.top = isScrollToTop ? '120px' : '80px'
-        targetEl.style.display = 'block'
-        targetEl.style.position = 'fixed'
-      } else {
-        targetEl.style.display = 'none'
-      }
+    } else if (win_top >= baseTop) {
+      targetEl.style.top = isScrollToTop ? '120px' : '80px'
+      targetEl.style.display = 'block'
+      targetEl.style.position = 'fixed'
+    } else {
+      targetEl.style.display = 'none'
+    }
     this.setState({ isScrollToTop })
   }
   getElementToPageTop (el) {
