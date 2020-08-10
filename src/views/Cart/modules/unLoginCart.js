@@ -186,9 +186,9 @@ class UnLoginCart extends React.Component {
             errorShow: false
           });
         }, 2000)
-        if (tmp > quantityMaxLimit) {
-          tmp = quantityMaxLimit
-        }
+      }
+      if (tmp > quantityMaxLimit) {
+        tmp = quantityMaxLimit
       }
       item.quantity = tmp
       this.setState({

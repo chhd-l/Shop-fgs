@@ -559,7 +559,16 @@ class Details extends React.Component {
       );
       if (historyItem) {
         flag = false;
+        console.log(quantityNew, 'quantityNew')
         quantityNew += historyItem.quantity;
+        console.log(quantityNew, 'quantityNew')
+        if(quantityNew > 30) {
+          this.setState({
+            checkOutErrMsg: <FormattedMessage id="cart.errorMaxInfo" />,
+          });
+          this.setState({ addToCartLoading: false });
+          return
+        }
         tmpData = Object.assign(tmpData, { quantity: quantityNew });
       }
     }
