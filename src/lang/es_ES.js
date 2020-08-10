@@ -595,5 +595,6 @@ const en_US = {
   'FrequentQuestions': "Preguntas frecuentes",
   'requestInvoices.title': 'Solicitar facturas',
   'autoship': 'Autoenvío',
+  'autoshop': 'Autoenvío',
 }
 export default en_US;

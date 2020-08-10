@@ -537,7 +537,7 @@ class List extends React.Component {
                                                       <span
                                                         className="position-relative red-text position-absolute"
                                                         style={{ fontSize: '.7em', top: '52%', transform: 'translateY(-50%)', whiteSpace: 'nowrap' }}>
-                                                        <FormattedMessage id="autoship" />
+                                                        <FormattedMessage id="autoshop" />
                                                       </span>
                                                     </div>
                                                     : null

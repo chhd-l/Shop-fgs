@@ -411,7 +411,7 @@ class Details extends React.Component {
           item.selected = false;
         }
       });
-   
+    console.log(specList, "sss");
     this.setState({ specList }, () => {
       this.matchGoods();
     });
@@ -559,9 +559,7 @@ class Details extends React.Component {
       );
       if (historyItem) {
         flag = false;
-        console.log(quantityNew, 'quantityNew')
         quantityNew += historyItem.quantity;
-        console.log(quantityNew, 'quantityNew')
         if(quantityNew > 30) {
           this.setState({
             checkOutErrMsg: <FormattedMessage id="cart.errorMaxInfo" />,
@@ -711,6 +709,7 @@ class Details extends React.Component {
     if (this.state.replyNum.length > 0) {
       let el = document.getElementById("review-container");
       let length = this.getElementToPageTop(el);
+      console.log("长度：", length);
       window.scrollTo({
         top: length - 80,
         behavior: "smooth",
@@ -758,7 +757,6 @@ class Details extends React.Component {
           showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
-          match={this.props.match}
         />
         {errMsg ? (
           <main className="rc-content--fixed-header">
