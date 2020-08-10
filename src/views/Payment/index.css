@@ -234,3 +234,6 @@
 #id-checkbox-billing{
   cursor: pointer;
 }
+.cardCss{
+  padding-bottom: 0rem !important;
+}

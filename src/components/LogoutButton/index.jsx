@@ -50,8 +50,20 @@ const LogoutButton = () => {
   //   }
   // }, [authState, authService]); // Update if authState changes
 
-  const logout = async () => authService.logout('/');
+  const logout = async () => {
+    try {
+      await authService.logout('/')
+      setTimeout(() => {
+        loginStore.changeLoginModal(false)
+      }, 1000)
+      
+    }catch(e) {
+      loginStore.changeLoginModal(false)
+    }
+    
+  }
   const clickLogoff = () => {
+    loginStore.changeLoginModal(true)
     localStorage.removeItem("rc-token");
     sessionStorage.removeItem(`rc-clinic-name-default`)
     sessionStorage.removeItem(`rc-clinic-id-default`)

@@ -6,7 +6,8 @@ import { FormattedMessage } from "react-intl";
  */
 class SearchSelection extends React.Component {
   static defaultProps = {
-    customStyle: false
+    customStyle: false,
+    customCls: ''
   }
   constructor(props) {
     super(props)
@@ -99,7 +100,7 @@ class SearchSelection extends React.Component {
     return (
       <>
         {/* // <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column"> */}
-        <div className={`${this.props.customStyle ? 'rc-input rc-input--label rc-margin--none rc-input--full-width' : 'rc-input rc-input--full-width rc-margin-y--xs'}`}
+        <div className={`${this.props.customCls} ${this.props.customStyle ? 'rc-input rc-input--label rc-margin--none rc-input--full-width' : 'rc-input rc-input--full-width rc-margin-y--xs'}`}
           onBlur={() => { setTimeout(() => { this.setState({ optionList: [] }) }, 500) }}>
           <input
             type="text"

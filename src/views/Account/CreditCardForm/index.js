@@ -307,6 +307,7 @@ class ShippingAddressFrom extends React.Component {
                             <div className="content-asset">
                               <p>
                                 <FormattedMessage id="payment.acceptCards" />
+                                {CreditCardImg}
                               </p>
                             </div>
                             <div className="row">
@@ -317,7 +318,7 @@ class ShippingAddressFrom extends React.Component {
                                     htmlFor="cardNumber"
                                   >
                                     <FormattedMessage id="payment.cardNumber" />
-                                    *{CreditCardImg}
+                                    *
                                     <div className="cardFormBox">
                                       <span class="cardImage">
                                         <img
