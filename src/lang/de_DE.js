@@ -584,6 +584,7 @@ const en_US = {
   'noClinicTip': 'Ihr Empfehlungscode ist ungültig. {val} & erkundigen Sie sich bei unseren Partnerkliniken nach einem gültigen Code.',
   'selectNoneClincTip': 'Bitte wählen Sie ein Rezept',
   'promotionCode': 'Gutscheincode',
-  'inputSearchText': 'Suchtext eingeben'
+  'inputSearchText': 'Suchtext eingeben',
+  'clinic.navigate':'Navigieren'
 }
 export default en_US;

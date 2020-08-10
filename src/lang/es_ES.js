@@ -588,5 +588,6 @@ const en_US = {
   'selectNoneClincTip': 'Por favor seleccione una receta',
   'orderSummary': 'Resumen de pedido',
   'inputSearchText': 'ingresar texto de búsqueda',
+  'clinic.navigate':'Navegar'
 }
 export default en_US;

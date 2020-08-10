@@ -662,6 +662,7 @@ const en_US = {
   'promotionalCode': 'Promotional Code',
   'noClinicTip': 'Your recommendation code is not valid. {val} & check with our partner clinics for a valid code.',
   'selectNoneClincTip': 'Please select a prescription',
-  'inputSearchText': 'input search text'
+  'inputSearchText': 'input search text',
+  'clinic.navigate':'Navigate'
 };
 export default en_US;
