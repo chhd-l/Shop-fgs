@@ -151,8 +151,8 @@ class Payment extends React.Component {
     let payWayNameArr = payWay.context
       .map((item) => item.payChannelItemList)[0]
       .map((item) => item.code);
-    //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_later""payu","payuoxxo"]
-    let payMethod = payWayNameArr[0] || "none";
+    //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"]
+    let payMethod = payWayNameArr[0] || "none";//初始化默认取第0个
     //各种支付component初始化方法
     var initPaymentWay = {
       adyen_credit_card: () => {
@@ -166,7 +166,7 @@ class Payment extends React.Component {
       adyen_klarna_pay_now: () => {
         console.log("initKlarnaPayNow");
       },
-      adyen_klarna_pay_later: () => {
+      adyen_klarna_pay_lat: () => {
         console.log("initKlarnaPayLater");
       },
       payu: () => {
@@ -1036,8 +1036,13 @@ class Payment extends React.Component {
         paymentTypeVal: e.target.value,
       },
       () => {
-        if (this.state.paymentTypeVal === "adyenCard") {
-          this.initAdyenPay();
+          switch(this.state.paymentTypeVal) {
+            case 'adyenCard':
+                this.initAdyenPay();
+                break;
+            case 'adyenKlarnaPayLater':
+                this.setState({ paymentTypeVal: "adyenKlarnaPayLater" });
+                break;
         }
       }
     );
@@ -1874,6 +1879,68 @@ class Payment extends React.Component {
                         class="payment-method__container"
                       >
                         {/* Card Component will be rendered here */}
+                      </div>
+                    </div>
+                  </div>
+                    </div>
+                    
+                    {/* adyen_klarna_pay_lat */}
+                    <div
+                      class="rc-input "
+                      style={{
+                        display:
+                          this.state.payWayNameArr.indexOf(
+                            "adyen_klarna_pay_lat"
+                          ) != -1
+                            ? " "
+                            : "none",
+                      }}
+                    >
+                      {this.state.paymentTypeVal === "adyenKlarnaPayLater" ? (
+                        <input
+                          class="rc-input__radio"
+                          id="payment-info-adyen-klarna-pay-later"
+                          value="adyenKlarnaPayLater"
+                          type="radio"
+                          name="payment-info"
+                          onChange={(event) =>
+                            this.handlePaymentTypeChange(event)
+                          }
+                          checked
+                          key={7}
+                        />
+                      ) : (
+                        <input
+                          class="rc-input__radio"
+                          id="payment-info-adyen-klarna-pay-later"
+                          value="adyenKlarnaPayLater"
+                          type="radio"
+                          name="payment-info"
+                          onChange={(event) =>
+                            this.handlePaymentTypeChange(event)
+                          }
+                          key={8}
+                        />
+                      )}
+
+                      <label
+                        class="rc-input__label--inline"
+                        for="payment-info-adyen-klarna-pay-later"
+                      >
+                        <FormattedMessage id="adyenPayLater" />
+                      </label>
+                      <div
+                    className={`${
+                      this.state.paymentTypeVal === "adyenKlarnaPayLater" ? "" : "hidden"
+                    }`}
+                  >
+                    <div class="payment-method checkout--padding">
+                      <div
+                        id="card-container"
+                        class="payment-method__container"
+                      >
+                        klarnaPayLater
+                        {/* klarnaPayLater Component will be rendered here */}
                       </div>
                     </div>
                   </div>

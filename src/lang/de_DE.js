@@ -521,6 +521,7 @@ const en_US = {
   'customerReviews': 'Kundenbewertungen',
   'sortBy': 'Sortiere nach',
   'adyen': 'Adyen',
+  'adyenPayLater': 'AdyenPayLater',
   'adyenPayFail': 'AdyenPayFail',
   'NoPromotionDesc': 'Keine PromotionDesc',
   //qhx新增
