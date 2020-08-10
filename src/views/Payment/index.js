@@ -1394,6 +1394,7 @@ class Payment extends React.Component {
                                             <div className="content-asset">
                                               <p>
                                                 <FormattedMessage id="payment.acceptCards" />
+                                                {CreditCardImg}
                                               </p>
                                             </div>
                                             <div className="row">
@@ -1409,7 +1410,6 @@ class Payment extends React.Component {
                                                     >
                                                       *
                                                     </span>
-                                                    {CreditCardImg}
 
                                                     <form id="payment-form">
                                                       <div id="card-secure-fields"></div>

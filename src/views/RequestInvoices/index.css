@@ -4,9 +4,9 @@
     max-width: 70%;
     margin: 0 auto;
 }
-h1{
+.RequestInvoices h1{
     text-align: center;
 }
-.textIndex{
+.RequestInvoices .textIndex{
     text-indent: 2em;
 }
