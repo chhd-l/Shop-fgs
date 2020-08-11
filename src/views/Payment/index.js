@@ -30,7 +30,10 @@ import PaymentComp from "@/components/PaymentComp";
 import store from "storejs";
 import axios from "axios";
 import "./index.css";
+import "./modules/adyenCopy.css"
 import OxxoConfirm from "./modules/OxxoConfirm";
+import KlarnaPayLater from "./modules/KlarnaPayLater";
+import KlarnaPayNow from "./modules/KlarnaPayNow";
 import { getAdyenParam } from "./adyen/utils";
 import {
   CREDIT_CARD_IMG_ENUM,
@@ -134,7 +137,11 @@ class Payment extends React.Component {
       showOxxoForm: false,
       adyenPayParam: {},
       payWayNameArr: [],
+<<<<<<< HEAD
       toolTipVisible: false
+=======
+      email:'',
+>>>>>>> dev_qu
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
@@ -156,8 +163,8 @@ class Payment extends React.Component {
     let payWayNameArr = payWay.context
       .map((item) => item.payChannelItemList)[0]
       .map((item) => item.code);
-    //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_later""payu","payuoxxo"]
-    let payMethod = payWayNameArr[0] || "none";
+    //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"]
+    let payMethod = payWayNameArr[0] || "none";//初始化默认取第0个
     //各种支付component初始化方法
     var initPaymentWay = {
       adyen_credit_card: () => {
@@ -171,7 +178,7 @@ class Payment extends React.Component {
       adyen_klarna_pay_now: () => {
         console.log("initKlarnaPayNow");
       },
-      adyen_klarna_pay_later: () => {
+      adyen_klarna_pay_lat: () => {
         console.log("initKlarnaPayLater");
       },
       payu: () => {
@@ -307,7 +314,8 @@ class Payment extends React.Component {
       isCompleteCredit: true,
     });
   }
-  //1.初始化adyen,得到加密参数
+
+  //支付1.初始化adyen_credit_card
   initAdyenPay() {
     this.setState({ paymentTypeVal: "adyenCard" });
     if (!!window.AdyenCheckout) {
@@ -321,6 +329,9 @@ class Payment extends React.Component {
       // (2). Create and mount the Component
       const card = checkout
         .create("card", {
+          hasHolderName:true,
+          holderNameRequired:true,
+          enableStoreDetails:true,
           styles: {},
           placeholders: {},
           showPayButton: true,
@@ -332,37 +343,127 @@ class Payment extends React.Component {
                   adyenPayParam,
                 },
                 () => {
-                  this.adyenPayment();
+                  this.doGetAdyenPayParam('adyen_credit_card');
                 }
               );
             }
           },
-          onChange: (state, component) => {},
+          onChange: (state, component) => {
+
+          },
         })
         .mount("#card-container");
     }
   }
-  //2.进行支付
-  async adyenPayment() {
-    try {
-      /* 1)获取支付参数 */
-      let addressParameter = await this.goConfirmation(); //获取支付公共参数
-      let phone = store.get("deliveryInfo").deliveryAddress.phoneNumber; //获取电话号码
-      this.saveAddressAndComment(); //获取两个addressId
 
-      /* 2)组装支付需要的参数 */
-      let parameters = Object.assign(
-        addressParameter,
-        {
-          ...this.state.adyenPayParam,
+  //支付2.初始化KlarnaPayLater
+  initKlarnaPayLater=(email)=>{
+    this.doGetAdyenPayParam('adyen_klarna_pay_lat')
+    this.setState({
+      email
+    })
+  }
+
+  //支付3,初始化KlarnaPayNow
+  initKlarnaPayNow=(email)=>{
+    this.doGetAdyenPayParam('adyen_klarna_pay_now')
+    this.setState({
+      email
+    })
+  }
+
+  /**************支付公共方法start*****************/
+
+   //组装支付共同的参数
+   async getAdyenPayParam(type){
+      await this.saveAddressAndComment(); //获取两个addressId
+      let obj = await this.getPayCommonParam()
+      let commonParameter = obj.commonParameter
+      let phone = obj.phone
+      let parameters
+      /* 组装支付需要的参数 */
+      const actions = {
+        'adyen_credit_card':()=>{
+          parameters = Object.assign(
+            commonParameter,
+            {
+              ...this.state.adyenPayParam,
+            },
+            {
+              shopperLocale:'en_US',
+              currency:'EUR',
+              country: "DE",
+              deliveryAddressId: this.state.deliveryAddress.addressId,
+              billAddressId: this.state.billingAddress.addressId,
+              phone
+            },
+          );
         },
-        { country: "MEX" },
-        { deliveryAddressId: this.state.deliveryAddress.addressId },
-        { billAddressId: this.state.billingAddress.addressId },
-        { phone }
-      ); //(国家暂时填的MEX)
+        'adyen_klarna_pay_lat':()=>{
+          parameters = Object.assign(
+            commonParameter,
+            {
+              adyenType:'klarna',
+              payChannelItem:'adyen_klarna_pay_lat',
+              
+            },
+            {email:this.state.email},
+            {
+              successUrl:process.env.REACT_APP_SUCCESSFUL_URL,
+              shopperLocale:'en_US',
+              currency:'EUR',
+              country: "DE",
+              deliveryAddressId: this.state.deliveryAddress.addressId,
+              billAddressId: this.state.billingAddress.addressId,
+              phone
+            }
+          );
+        },
+        'adyen_klarna_pay_now':()=>{
+          parameters = Object.assign(
+            commonParameter,
+            {       
+              adyenType:'klarna_paynow',
+              payChannelItem:'adyen_klarna_pay_now',
+            },
+            {email:this.state.email},
+            {
+              successUrl:process.env.REACT_APP_SUCCESSFUL_URL,
+              //successUrl:'http://2vzt77.natappfree.cc/payResult',
+              shopperLocale:'en_US',
+              currency:'EUR',
+              country: "DE",
+              deliveryAddressId: this.state.deliveryAddress.addressId,
+              billAddressId: this.state.billingAddress.addressId,
+              phone
+            }
+          );
+        }
+      }
+      actions[type]()
+      //(国家暂时填的MEX)
+      return parameters
+  }
 
-      /* 3)根据条件-调用不同的支付接口 */
+  //得到支付共同的参数
+  async getPayCommonParam(){
+    let commonParameter = await this.goConfirmation(); //获取支付公共参数
+    let phone = store.get("deliveryInfo").deliveryAddress.phoneNumber; //获取电话号码
+    return new Promise((resolve=>{
+      resolve({commonParameter,phone})
+    }))
+  }
+
+
+  //获取adyen参数
+  async doGetAdyenPayParam(type){
+    let parameters = await this.getAdyenPayParam(type)
+    this.allAdyenPayment(parameters,type)
+  }
+
+  //根据条件-调用不同的支付接口,进行支付
+  async allAdyenPayment(parameters,type) {
+    try {
       let action;
       const actions = () => {
         const rePayFun = () => {
@@ -408,9 +509,21 @@ class Payment extends React.Component {
       /* 4)调用支付 */
       const res = await action(parameters);
       if (res.code === "K-000000") {
-        var orderNumber = res.context[0].tid;
-        sessionStorage.setItem("orderNumber", orderNumber);
-        this.props.history.push("/confirmation");
+        let orderNumber          
+        switch(type) {
+          case 'adyen_credit_card':
+            orderNumber = res.context[0].tid; 
+            sessionStorage.setItem("orderNumber", orderNumber);
+            this.props.history.push("/confirmation");
+            break;
+          case 'adyen_klarna_pay_lat':
+          case 'adyen_klarna_pay_now':
+            orderNumber = res.context.pId;
+            window.location.href = res.context.url         
+            sessionStorage.setItem("orderNumber", orderNumber);        
+            break;
+     } 
+        
       }
     } catch (err) {
       if (err.errorData) {
@@ -422,6 +535,12 @@ class Payment extends React.Component {
       this.endLoading();
     }
   }
+
+
+
+  /**************支付公共方法end*****************/
+
+
   /**
    * save address/comment
    */
@@ -1041,8 +1160,10 @@ class Payment extends React.Component {
         paymentTypeVal: e.target.value,
       },
       () => {
-        if (this.state.paymentTypeVal === "adyenCard") {
-          this.initAdyenPay();
+          switch(this.state.paymentTypeVal) {
+            case 'adyenCard':
+                this.initAdyenPay();
+                break;
         }
       }
     );
@@ -1457,6 +1578,98 @@ class Payment extends React.Component {
                       >
                         <FormattedMessage id="adyen" />
                       </label>
+                    </div>
+                    {/* adyen_klarna_pay_lat */}
+                    <div
+                      class="rc-input rc-input--inline"
+                      style={{
+                        display:
+                          this.state.payWayNameArr.indexOf(
+                            "adyen_klarna_pay_lat"
+                          ) != -1
+                            ? " "
+                            : "none",
+                      }}
+                    >
+                      {this.state.paymentTypeVal === "adyenKlarnaPayLater" ? (
+                        <input
+                          class="rc-input__radio"
+                          id="payment-info-adyen-klarna-pay-later"
+                          value="adyenKlarnaPayLater"
+                          type="radio"
+                          name="payment-info"
+                          onChange={(event) =>
+                            this.handlePaymentTypeChange(event)
+                          }
+                          checked
+                          key={7}
+                        />
+                      ) : (
+                        <input
+                          class="rc-input__radio"
+                          id="payment-info-adyen-klarna-pay-later"
+                          value="adyenKlarnaPayLater"
+                          type="radio"
+                          name="payment-info"
+                          onChange={(event) =>
+                            this.handlePaymentTypeChange(event)
+                          }
+                          key={8}
+                        />
+                      )}
+
+                      <label
+                        class="rc-input__label--inline"
+                        for="payment-info-adyen-klarna-pay-later"
+                      >
+                        <FormattedMessage id="adyenPayLater" />
+                      </label>            
+                    </div>
+                    {/* KlarnaPayNow */}
+                    <div
+                      class="rc-input rc-input--inline"
+                      style={{
+                        display:
+                          this.state.payWayNameArr.indexOf(
+                            "adyen_klarna_pay_now"
+                          ) != -1
+                            ? " "
+                            : "none",
+                      }}
+                    >
+                      {this.state.paymentTypeVal === "adyenKlarnaPayNow" ? (
+                        <input
+                          class="rc-input__radio"
+                          id="payment-info-adyen-klarna-pay-now"
+                          value="adyenKlarnaPayNow"
+                          type="radio"
+                          name="payment-info"
+                          onChange={(event) =>
+                            this.handlePaymentTypeChange(event)
+                          }
+                          checked
+                          key={7}
+                        />
+                      ) : (
+                        <input
+                          class="rc-input__radio"
+                          id="payment-info-adyen-klarna-pay-now"
+                          value="adyenKlarnaPayNow"
+                          type="radio"
+                          name="payment-info"
+                          onChange={(event) =>
+                            this.handlePaymentTypeChange(event)
+                          }
+                          key={8}
+                        />
+                      )}
+
+                      <label
+                        class="rc-input__label--inline"
+                        for="payment-info-adyen-klarna-pay-now"
+                      >
+                        <FormattedMessage id="adyenPayNow" />
+                      </label>            
                     </div>
                   </div>
 
@@ -1880,6 +2093,7 @@ class Payment extends React.Component {
                       </div>
                     </div>
                   </div>
+                  {/* adyenCreditCard */}
                   <div
                     className={`${
                       this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"
@@ -1890,11 +2104,26 @@ class Payment extends React.Component {
                         id="card-container"
                         class="payment-method__container"
                       >
-                        {/* Card Component will be rendered here */}
                       </div>
                     </div>
                   </div>
-                </div>
+                  {/* KlarnaPayLater */}
+                  <div
+                    className={`${
+                      this.state.paymentTypeVal === "adyenKlarnaPayLater" ? "" : "hidden"
+                    }`}
+                  >
+                    <KlarnaPayLater clickPay={this.initKlarnaPayLater}/>
+                  </div>
+                  {/* KlarnaPayNow  */}
+                  <div
+                    className={`${
+                      this.state.paymentTypeVal === "adyenKlarnaPayNow" ? "" : "hidden"
+                    }`}
+                  >
+                    <KlarnaPayNow clickPay={this.initKlarnaPayNow}/>
+                  </div>
+                    </div>
               </div>
               <div
                 className="product-summary rc-column"
