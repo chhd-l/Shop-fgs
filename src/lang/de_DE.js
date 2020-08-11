@@ -222,7 +222,7 @@ const en_US = {
   "payment.socialId": "Soziale ID",
   "payment.email": "E-Mail Adresse",
   "payment.acceptCards": "Wir akzeptieren Kreditkarten.",
-  "payment.rfc": "Referenz",
+  "payment.rfc": "Adressreferenz",
   "payment.addressTitle": "Adresse und Versandart",
   "payment.apply": "Anwenden",
   "payment.frequencyTip1": "Ja, mach mein Leben einfach!",
@@ -592,6 +592,7 @@ const en_US = {
   ratingGrade1: 'Most Recent',
   ratingGrade2: 'Lowest to Highest Rating',
   ratingGrade3: 'Hightest to Lowest Rating',
-  basket: 'Basket'
+  basket: 'Basket',
+  'checkoutTip': 'Bitte geben Sie unten Ihre Daten ein.'
 }
 export default en_US;

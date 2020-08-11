@@ -1,11 +1,17 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import './index.css'
-
+let storeInfo = JSON.parse(sessionStorage.getItem('storeContentInfo'))
+let isPrescriberMap = storeInfo?storeInfo.prescriberMap: '1'
 function Progress (props) {
   return (
     <div className="rc-padding--sm rc-padding-top--none">
+      <div className="title" style={{display: isPrescriberMap !== '1'? 'block': 'none'}}>
+        <h4><FormattedMessage id="checkout"/></h4>
+        <p><FormattedMessage id="checkoutTip"/></p>
+      </div>
       <div
+      style={{display: isPrescriberMap === '1'? 'block': 'none'}}
         className="checkout-steps rc-layout-container rc-margin-top--lg--mobile" data-loc="checkout-steps">
         <div className="rc-column rc-padding-x--none--mobile">
           <ul className="rc-list rc-list--inline rc-content-v-middle rc-padding--none flex-wrap justify-content-start-md-down">

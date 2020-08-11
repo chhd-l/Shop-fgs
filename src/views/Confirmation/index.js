@@ -4,7 +4,7 @@ import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import OxxoModal from "./modules/OxxoModal"
-import PayProductInfo from "@/components/PayProductInfo"
+import PayProductInfo from "./modules/PayProductInfo"
 import AddressPreview from "@/components/AddressPreview/index2";
 import Modal from '@/components/Modal'
 import { FormattedMessage } from 'react-intl'
