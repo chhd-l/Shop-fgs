@@ -618,11 +618,11 @@ class Header extends React.Component {
                                     <FormattedMessage id="shippingAddress" />
                                   </Link>
                                 </div>
-                                <div className="link-style" >
+                                {this.props.configStore.profilePaymentMethod && <div className="link-style" >
                                   <Link to="/account/paymentMethod" className="click-hover" >
                                     <FormattedMessage id="paymentMethod" />
                                   </Link>
-                                </div>
+                                </div>}
                               </div>
                               <LogoutButton />
                               {/* <div className="logoff-style">

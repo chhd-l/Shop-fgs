@@ -5,7 +5,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import SearchSelection from "@/components/SearchSelection"
 import { getPrescriberByKeyWord } from '@/api/clinic'
 
-@inject("clinicStore")
+@inject("clinicStore", "configStore")
 @observer
 @injectIntl
 class ClinicForm extends React.Component {
@@ -38,7 +38,7 @@ class ClinicForm extends React.Component {
     })
   }
   render () {
-    const defaultMXJSX = <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
+    const defaultJSX = <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
       <div className="card-header bg-transparent pt-0 pb-0">
         <h5 className="pull-left">
           <i className="rc-icon rc-health--xs rc-iconography"></i>{' '}
@@ -57,55 +57,53 @@ class ClinicForm extends React.Component {
       </div>
     </div>
 
-    const renderMap = {
-      es: defaultMXJSX,
-      en: defaultMXJSX,
-      de: <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-        <div className="card-header bg-transparent pt-0 pb-0">
-          <h5 className="pull-left">
-            <i className="rc-icon rc-health--xs rc-iconography"></i>{' '}
-            {this.isLogin ?
-              <FormattedMessage id="payment.clinicTitle2" />
-              : <FormattedMessage id="payment.clinicTitle" />}
-          </h5>
-        </div>
-        <div className="rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex align-items-center justify-content-between">
-          <SearchSelection
-            queryList={async inputVal => {
-              let res = await getPrescriberByKeyWord({ keyWord: inputVal, storeId: process.env.REACT_APP_STOREID })
-              return ((res.context && res.context.prescriberVo) || []).map(ele => Object.assign(ele, { name: ele.prescriberName }))
-            }}
-            selectedItemChange={data => this.handleSelectedItemChange(data)}
-            defaultValue={this.state.form.clinicName}
-            placeholder={this.props.intl.messages.enterClinicName}
-            customCls="flex-fill" />
-          <span className="ml-3">
-            <span
-              className="info delivery-method-tooltip"
-              data-tooltip-placement="top"
-              data-tooltip="top-tooltip-noclinic-tip"
-              style={{ verticalAlign: "unset" }}>
-              i
-            </span>
-            <div id="top-tooltip-noclinic-tip" className="rc-tooltip">
-              <FormattedMessage
-                id="noClinicTip"
-                values={{
-                  val: <Link
-                    to="/prescriptionNavigate"
-                    className="rc-styled-link font-italic">
-                    <FormattedMessage id="clickHere" />
-                  </Link>
-                }} />
-            </div>
-          </span>
-        </div>
+    const searchJSX = <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
+      <div className="card-header bg-transparent pt-0 pb-0">
+        <h5 className="pull-left">
+          <i className="rc-icon rc-health--xs rc-iconography"></i>{' '}
+          {this.isLogin ?
+            <FormattedMessage id="payment.clinicTitle2" />
+            : <FormattedMessage id="payment.clinicTitle" />}
+        </h5>
       </div>
-    }
+      <div className="rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex align-items-center justify-content-between">
+        <SearchSelection
+          queryList={async inputVal => {
+            let res = await getPrescriberByKeyWord({ keyWord: inputVal, storeId: process.env.REACT_APP_STOREID })
+            return ((res.context && res.context.prescriberVo) || []).map(ele => Object.assign(ele, { name: ele.prescriberName }))
+          }}
+          selectedItemChange={data => this.handleSelectedItemChange(data)}
+          defaultValue={this.state.form.clinicName}
+          placeholder={this.props.intl.messages.enterClinicName}
+          customCls="flex-fill" />
+        <span className="ml-3">
+          <span
+            className="info delivery-method-tooltip"
+            data-tooltip-placement="top"
+            data-tooltip="top-tooltip-noclinic-tip"
+            style={{ verticalAlign: "unset" }}>
+            i
+        </span>
+          <div id="top-tooltip-noclinic-tip" className="rc-tooltip">
+            <FormattedMessage
+              id="noClinicTip"
+              values={{
+                val: <Link
+                  to="/prescriptionNavigate"
+                  className="rc-styled-link font-italic">
+                  <FormattedMessage id="clickHere" />
+                </Link>
+              }} />
+          </div>
+        </span>
+      </div>
+    </div>
 
     return (
       <>
-        {renderMap[process.env.REACT_APP_LANG]}
+        {this.props.configStore.prescriberMap
+          ? defaultJSX
+          : searchJSX}
       </>
     )
   }
