@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { queryStoreCateIds } from "@/utils/utils";
 import store from 'storejs'
+import { inject, observer } from 'mobx-react';
 
+@inject("configStore")
 class RouteFilter extends Component {
   shouldComponentUpdate (nextProps) {
     const lang = process.env.REACT_APP_LANG
@@ -12,8 +14,8 @@ class RouteFilter extends Component {
       return false
     }
 
-    // 德国店铺，不进入此页面
-    if (nextProps.location.pathname === "/prescription" && lang === 'de') {
+    // 德国店铺，不进入此页面 
+    if (nextProps.location.pathname === "/prescription" && !this.props.configStore.prescriberMap) {
       this.props.history.replace("/payment/payment");
       return false
     }

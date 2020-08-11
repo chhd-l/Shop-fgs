@@ -12,10 +12,10 @@ import { FormattedMessage } from 'react-intl'
 import { getPrescription, getAllPrescription } from '@/api/clinic'
 import meImg from "@/assets/images/map-default-marker.png"
 
-const AnyReactComponent = ({ obj, show, sonMess, props, showConfirmBtn }) => {
+const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   if (obj.type !== 'customer') {
     return (
-      <MapFlag obj={obj} show={show} sonMess={sonMess} props={props} showConfirmBtn={showConfirmBtn} mode="confirm"></MapFlag>
+      <MapFlag obj={obj} show={show} sonMess={sonMess} props={props} mode="confirm"></MapFlag>
     )
   }
   else {
@@ -76,8 +76,7 @@ class Prescription extends React.Component {
         lat: 0,
         lng: 0
       },
-      loading: true,
-      showConfirmBtn: process.env.REACT_APP_LANG != 'de'
+      loading: true
     }
     this.headerRef = React.createRef();
     this.inputRef = React.createRef();
@@ -237,7 +236,6 @@ class Prescription extends React.Component {
       lng={+this.state.meLocation.lng}
       obj={this.state.me}
       show={false}
-      showConfirmBtn={this.state.showConfirmBtn}
     />)
     for (var i = 0; i < this.state.clinicArr.length; i++) {
       flags.push(<AnyReactComponent
@@ -249,7 +247,6 @@ class Prescription extends React.Component {
         sonMess={this.getSonMess.bind(this)}
         show={+(this.state.clinicArr[i].longitude) === +(this.state.currentSelectClinic.lng)
           && +(this.state.clinicArr[i].latitude) === +(this.state.currentSelectClinic.lat)}
-        showConfirmBtn={this.state.showConfirmBtn}
       />)
     }
     const event = {
@@ -334,11 +331,11 @@ class Prescription extends React.Component {
                               title={item.location}>{item.location} </div>
                           </div>
 
-                          {this.state.showConfirmBtn && <div style={{ height: '3rem' }}>
+                          <div style={{ height: '3rem' }}>
                             <button className="rc-btn rc-btn--sm rc-btn--one card-btn" onClick={() => this.handleConfirm(item)}>
                               <FormattedMessage id="clinic.confirm" />
                             </button>
-                          </div>}
+                          </div>
                         </div>
                       </article>))
                     }
