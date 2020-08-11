@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react'
 import Selection from '@/components/Selection'
 import { getDictionary, formatMoney } from "@/utils/utils";
 import { getMarketingDiscount } from "@/api/payment";
-
+import './SubscriptionSelect.css'
 @inject("checkoutStore", "frequencyStore")
 @observer
 class SubscriptionSelect extends Component {
@@ -133,7 +133,10 @@ class SubscriptionSelect extends Component {
                 this.props.checkoutStore.loginCartData
                   .filter(ele => ele.subscriptionStatus)
                   .map((ele, i) => (
-                    <img className="width-sub-img  " style={{ display: 'inline-block',width:'80px' ,height:'80px',marginRight:'.4rem',border:'1px solid #aaa' ,borderRadius:'5px' }} key={i} src={ele.goodsInfoImg} />
+                    <div className="imgBoxForSelect"
+                    >
+                    <img className="width-sub-img  imgForSelect " style={{ display: 'inline-block'}} key={i} src={ele.goodsInfoImg} />
+                    </div>
                   ))
               }
             </span>
