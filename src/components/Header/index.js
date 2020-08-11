@@ -9,7 +9,7 @@ import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import { getList } from '@/api/list'
 import { IMG_DEFAULT } from '@/utils/constant'
-import { getPrescriptionById, getPrescriberByCode } from '@/api/clinic'
+import { getPrescriptionById, getPrescriberByEncryptCode } from '@/api/clinic'
 import { setBuryPoint } from '@/api'
 import LoginButton from '@/components/LoginButton'
 import UnloginCart from './modules/unLoginCart'
@@ -81,7 +81,7 @@ class Header extends React.Component {
         || location.pathname.includes('/list')
         || location.pathname.includes('/details'))) {
       if (clinciRecoCode && clinicStore.clinicRecoCode !== clinciRecoCode) {
-        const res = await getPrescriberByCode({ encryptCode: clinciRecoCode, storeId: process.env.REACT_APP_STOREID })
+        const res = await getPrescriberByEncryptCode({ encryptCode: clinciRecoCode, storeId: process.env.REACT_APP_STOREID })
         if (res.context && res.context.prescriberVo && res.context.prescriberVo.length) {
           linkClinicId = res.context.prescriberVo[0].id
           linkClinicName = res.context.prescriberVo[0].prescriberName
