@@ -560,7 +560,7 @@ class Details extends React.Component {
       if (historyItem) {
         flag = false;
         quantityNew += historyItem.quantity;
-        if(quantityNew > 30) {
+        if (quantityNew > 30) {
           this.setState({
             checkOutErrMsg: <FormattedMessage id="cart.errorMaxInfo" />,
           });
@@ -667,9 +667,9 @@ class Details extends React.Component {
       }
     }
     // todo 改为mobx
-    this.headerRef.current.handleCartMouseOver();
+    this.headerRef.current && this.headerRef.current.handleCartMouseOver();
     setTimeout(() => {
-      this.headerRef.current.handleCartMouseOut();
+      this.headerRef.current && this.headerRef.current.handleCartMouseOut();
     }, 1000);
   }
   changeTab (e, i) {
