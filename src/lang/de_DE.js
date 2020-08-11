@@ -522,6 +522,7 @@ const en_US = {
   'sortBy': 'Sortiere nach',
   'adyen': 'Adyen',
   'adyenPayLater': 'KlarnaPayLater',
+  'adyenPayNow':'KlarnaPayNow',
   'adyenPayFail': 'AdyenPayFail',
   'NoPromotionDesc': 'Keine PromotionDesc',
   //qhx新增

@@ -90,7 +90,6 @@ export const getAdyenParam = (cardData, config = {}) => {
     let {storePaymentMethod,paymentMethod:{encryptedCardNumber,encryptedExpiryMonth,encryptedExpiryYear,encryptedSecurityCode,holderName}} = cardData
 
     let parameters = {
-        currency:'EUR',//暂时以欧元
         adyenBrands:'visa',
         adyenName:'Credit Card',
         adyenType:'scheme',

@@ -4,13 +4,12 @@ import { injectIntl, FormattedMessage } from "react-intl";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
 import "../application.css"
-import "./adyenCopy.css"
 
-class KlarnaPayLater extends Component {
+class KlarnaPayNow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text:''
+        text:''
     };
   }
   clickPay=()=>{
@@ -34,11 +33,11 @@ class KlarnaPayLater extends Component {
                         </div>
                     </div>
                 </form>
-                <div class="payment-container" style={{"max-width":'auto'}}>
+                <div class="payment-container">
                     <div id="klarna" class="payment">
-                        <button className="adyen-checkout__button adyen-checkout__button--standalone adyen-checkout__button--pay" type="button" onClick={this.clickPay}>
+                        <button  className="adyen-checkout__button adyen-checkout__button--standalone adyen-checkout__button--pay" type="button" onClick={this.clickPay}>
                             <span className="adyen-checkout__button__content">
-                                <span className="adyen-checkout__button__text">Continue to Pay later with Klarna.</span>
+                                <span className="adyen-checkout__button__text">Continue to Pay Now with Klarna.</span>
                             </span>
                         </button>
                     </div>
@@ -51,4 +50,4 @@ class KlarnaPayLater extends Component {
   }
 }
 
-export default injectIntl(KlarnaPayLater);
+export default injectIntl(KlarnaPayNow);
