@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import Skeleton from 'react-skeleton-loader'
 import GoogleTagManager from '@/components/GoogleTagManager'
@@ -23,7 +23,7 @@ import {
 import catsImg from "@/assets/images/banner-list/cats.jpg"
 import dogsImg from "@/assets/images/banner-list/dogs.jpg"
 import Loading from "@/components/Loading"
-
+@injectIntl
 @inject("checkoutStore")
 @observer
 class LoginCart extends React.Component {
@@ -532,7 +532,7 @@ class LoginCart extends React.Component {
       <div className="row">
         <div className="col-12 total-items medium">
           <span>{this.totalNum}</span> {this.totalNum > 1 ? <FormattedMessage id="items" /> : 
-          <FormattedMessage id="item" />} in the basket
+          <FormattedMessage id="item" />} {this.props.intl.messages.inTheBasket}
           <FormattedMessage id="inTheBasket" />
       </div>
       </div>
