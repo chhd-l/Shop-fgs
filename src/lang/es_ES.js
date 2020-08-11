@@ -601,6 +601,7 @@ const en_US = {
   ratingGrade3: 'Calificación de mayor a menor',
   'promotionCode': 'código de promoción',
   basket: 'Cesta',
-  StartFrom: 'Empezar desde'
+  StartFrom: 'Empezar desde',
+  'checkoutTip': 'Introduzca sus datos a continuación.'
 }
 export default en_US;

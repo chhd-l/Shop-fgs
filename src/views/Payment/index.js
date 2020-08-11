@@ -1075,7 +1075,7 @@ class Payment extends React.Component {
             id="checkout-main"
             className="rc-bottom-spacing data-checkout-stage rc-max-width--lg"
           >
-            <Progress type="payment" />
+            <Progress type="payment"/>
             <div className="rc-layout-container rc-three-column rc-max-width--xl">
               <div className="rc-column rc-double-width shipping__address">
                 <div

@@ -669,6 +669,8 @@ const en_US = {
   ratingGrade2: 'Lowest to Highest Rating',
   ratingGrade3: 'Hightest to Lowest Rating',
   'promotionCode': 'Promotion code',
+  basket: 'Basket',
+  'checkoutTip': 'Please enter your detail below.'
 }
 
 export default en_US;
