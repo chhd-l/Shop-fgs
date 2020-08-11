@@ -3,7 +3,8 @@ import { inject, observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import SearchSelection from "@/components/SearchSelection"
-import { getPrescriberByKeyWord } from '@/api/clinic'
+import { getPrescriberByCode } from '@/api/clinic'
+import ConfirmTooltip from "@/components/ConfirmTooltip";
 
 @inject("clinicStore", "configStore")
 @observer
@@ -15,7 +16,8 @@ class ClinicForm extends React.Component {
       form: {
         clinicName: '',
         clinicId: ''
-      }
+      },
+      toolTipVisible: false
     }
   }
   componentDidMount () {
@@ -69,7 +71,7 @@ class ClinicForm extends React.Component {
       <div className="rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex align-items-center justify-content-between">
         <SearchSelection
           queryList={async inputVal => {
-            let res = await getPrescriberByKeyWord({ keyWord: inputVal, storeId: process.env.REACT_APP_STOREID })
+            let res = await getPrescriberByCode({ code: inputVal, storeId: process.env.REACT_APP_STOREID })
             return ((res.context && res.context.prescriberVo) || []).map(ele => Object.assign(ele, { name: ele.prescriberName }))
           }}
           selectedItemChange={data => this.handleSelectedItemChange(data)}
@@ -79,22 +81,42 @@ class ClinicForm extends React.Component {
         <span className="ml-3">
           <span
             className="info delivery-method-tooltip"
-            data-tooltip-placement="top"
-            data-tooltip="top-tooltip-noclinic-tip"
-            style={{ verticalAlign: "unset" }}>
-            i
-        </span>
-          <div id="top-tooltip-noclinic-tip" className="rc-tooltip">
-            <FormattedMessage
-              id="noClinicTip"
-              values={{
-                val: <Link
-                  to="/prescriptionNavigate"
-                  className="rc-styled-link font-italic">
-                  <FormattedMessage id="clickHere" />
-                </Link>
-              }} />
-          </div>
+            // data-tooltip-placement="top"
+            // data-tooltip="top-tooltip-noclinic-tip"
+            style={{ verticalAlign: "unset" }}
+            onMouseEnter={() => {
+              this.setState({
+                toolTipVisible: true
+              });
+            }}
+            onMouseLeave={() => {
+              this.setState({
+                toolTipVisible: false
+              });
+            }}>?</span>
+          <ConfirmTooltip
+            containerStyle={{ transform: "translate(-91%, 112%)" }}
+            arrowStyle={{ left: "92%" }}
+            display={this.state.toolTipVisible}
+            cancelBtnVisible={false}
+            confirmBtnVisible={false}
+            updateChildDisplay={(status) =>
+              this.setState({
+                toolTipVisible: status,
+              })
+            }
+            content={
+              <FormattedMessage
+                id="noClinicTip"
+                values={{
+                  val: <Link
+                    to="/prescriptionNavigate"
+                    className="rc-styled-link font-italic">
+                    <FormattedMessage id="clickHere" />
+                  </Link>
+                }} />
+            }
+          />
         </span>
       </div>
     </div>

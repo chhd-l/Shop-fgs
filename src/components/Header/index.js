@@ -9,7 +9,7 @@ import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
 import { getList } from '@/api/list'
 import { IMG_DEFAULT } from '@/utils/constant'
-import { getPrescriptionById, getPrescriberByCode } from '@/api/clinic'
+import { getPrescriptionById, getPrescriberByEncryptCode } from '@/api/clinic'
 import { setBuryPoint } from '@/api'
 import LoginButton from '@/components/LoginButton'
 import UnloginCart from './modules/unLoginCart'
@@ -81,7 +81,7 @@ class Header extends React.Component {
         || location.pathname.includes('/list')
         || location.pathname.includes('/details'))) {
       if (clinciRecoCode && clinicStore.clinicRecoCode !== clinciRecoCode) {
-        const res = await getPrescriberByCode({ encryptCode: clinciRecoCode, storeId: process.env.REACT_APP_STOREID })
+        const res = await getPrescriberByEncryptCode({ encryptCode: clinciRecoCode, storeId: process.env.REACT_APP_STOREID })
         if (res.context && res.context.prescriberVo && res.context.prescriberVo.length) {
           linkClinicId = res.context.prescriberVo[0].id
           linkClinicName = res.context.prescriberVo[0].prescriberName
@@ -135,21 +135,22 @@ class Header extends React.Component {
     }
     const footerEl = document.querySelector('#footer')
     let targetEl = document.querySelector('#J_sidecart_fix')
-    let win_top = document.documentElement.scrollTop || document.body.scrollTop
-    let isScrollToTop = this.preTop > win_top
-    this.preTop = win_top
-    const baseTop = this.getElementToPageTop(baseEl) - (isScrollToTop ? 120 : 80) - win_top
+    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+    let isScrollToTop = this.preTop > scrollTop
+    this.preTop = scrollTop
+    const baseTop = this.getElementToPageTop(baseEl) - (isScrollToTop ? 120 : 80) - scrollTop
     const footerTop = this.getElementToPageTop(footerEl)
       - (isScrollToTop ? 120 : 80)
-      - win_top
-      + targetEl.offsetHeight
-    // 
-    if (win_top >= footerTop) {
-      targetEl.style.top = (parseInt(footerTop)) + 'px'
-      targetEl.style.display = 'none'
+      - scrollTop
+      + baseEl.offsetHeight
+    
+    if (scrollTop >= footerTop) {
+      targetEl.style.top = 'auto'
+      targetEl.style.bottom = '40px'
       targetEl.style.position = 'absolute'
-    } else if (win_top >= baseTop) {
+    } else if (scrollTop >= baseTop) {
       targetEl.style.top = isScrollToTop ? '120px' : '80px'
+      targetEl.style.bottom = 'auto'
       targetEl.style.display = 'block'
       targetEl.style.position = 'fixed'
     } else {
@@ -165,16 +166,16 @@ class Header extends React.Component {
   }
   handleCartMouseOver () {
     if (this.isLogin) {
-      this.loginCartRef.current.handleMouseOver()
+      this.loginCartRef.current && this.loginCartRef.current.handleMouseOver()
     } else {
-      this.unloginCartRef.current.handleMouseOver()
+      this.unloginCartRef.current && this.unloginCartRef.current.handleMouseOver()
     }
   }
   handleCartMouseOut () {
     if (this.isLogin) {
-      this.loginCartRef.current.handleMouseOut()
+      this.loginCartRef.current && this.loginCartRef.current.handleMouseOut()
     } else {
-      this.unloginCartRef.current.handleMouseOut()
+      this.unloginCartRef.current && this.unloginCartRef.current.handleMouseOut()
     }
   }
   handleMouseOver () {

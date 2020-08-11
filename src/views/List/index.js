@@ -144,16 +144,16 @@ class List extends React.Component {
     }
 
     let lang = process.env.REACT_APP_LANG
-    if (lang!='de') {
+    if (lang != 'de') {
       this.getProductList()
-    }else{
-      this.getProductList(lang+'_'+category)
+    } else {
+      this.getProductList(lang + '_' + category)
     }
 
-    
+
   }
   componentDidMount () {
- 
+
     console.log(localStorage.getItem("isRefresh"))
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
@@ -202,15 +202,15 @@ class List extends React.Component {
       storeCateIds
     }
 
-    switch(type) {
+    switch (type) {
       case 'de_cats':
-         console.log('de_cats')
-        params.propDetails = [{propId:481,detailIds:[1784]}]
-         break;
+        console.log('de_cats')
+        params.propDetails = [{ propId: 481, detailIds: [1784] }]
+        break;
       case 'de_dogs':
         console.log('de_dogs')
-        params.propDetails = [{propId:481,detailIds:[1783]}]
-         break;
+        params.propDetails = [{ propId: 481, detailIds: [1783] }]
+        break;
       default:
         console.log('otherLang')
         for (let item of checkedList) {
@@ -221,11 +221,11 @@ class List extends React.Component {
             params.propDetails.push({ propId: item.propId, detailIds: [item.detailId] })
           }
         }
-    } 
+    }
 
-    
+
     let tmpList
-   
+
     if (this.isLogin) {
       tmpList = getLoginList
     } else {
@@ -260,8 +260,8 @@ class List extends React.Component {
             results: esGoods.totalElements,
             currentPage: esGoods.number + 1,
             totalPage: esGoods.totalPages
-          },()=>{
-            console.log("productList",this.state.productList)
+          }, () => {
+            console.log("productList", this.state.productList)
           })
         } else {
           this.setState({
@@ -290,17 +290,17 @@ class List extends React.Component {
             tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(v => v.detailName !== 'Gatito')
           }
 
-          
-          let lang = process.env.REACT_APP_LANG,
-              de_tmpList = []
 
-          if(lang = 'de'){
-            de_tmpList = tmpList.filter(item=>item.propId!=481)
+          let lang = process.env.REACT_APP_LANG,
+            de_tmpList = []
+
+          if (lang = 'de') {
+            de_tmpList = tmpList.filter(item => item.propId != 481)
             this.setState({
               filterList: de_tmpList,
               initingFilter: false
             })
-          }else{
+          } else {
             this.setState({
               filterList: tmpList,
               initingFilter: false
@@ -308,7 +308,7 @@ class List extends React.Component {
           }
 
 
-          
+
         })
         .catch(() => {
           this.setState({ initingFilter: false })
@@ -347,8 +347,8 @@ class List extends React.Component {
     if (this.state.loading) {
       return false
     }
-    sessionStorage.setItem('rc-goods-cate-name', this.state.currentCatogery ||'' )
-    sessionStorage.setItem('recomment-preview',this.props.location.pathname)
+    sessionStorage.setItem('rc-goods-cate-name', this.state.currentCatogery || '')
+    sessionStorage.setItem('recomment-preview', this.props.location.pathname)
     sessionStorage.setItem('rc-goods-name', item.goodsName)
     const { history } = this.props
     history.push('/details/' + item.goodsInfos[0].goodsInfoId)
@@ -406,7 +406,7 @@ class List extends React.Component {
             </div>
             : ''}
           <div id="J-product-list"></div>
-          <div className="search-results rc-padding--sm rc-max-width--xl pt-1">
+          <div className="search-results rc-padding--sm rc-max-width--xl pt-4 pt-sm-1">
             <div className="search-nav border-bottom-0">
               {this.state.keywords ?
                 <div className="nav-tabs-wrapper rc-text--center">
@@ -475,24 +475,25 @@ class List extends React.Component {
                                         ? <span className="mt-4"><Skeleton color="#f5f5f5" width="100%" height="50%" count={2} /></span>
                                         : <>
                                           <picture className="rc-card__image">
-                                            <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen" /* style={{ minHeight: '202px' }} */>
+                                            <div
+                                              className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
+                                              style={{ height: '15.7rem' }}>
                                               <img
                                                 src={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg}
                                                 srcSet={item.goodsImg || item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0].goodsInfoImg}
                                                 alt={item.goodsName}
-                                                title={item.goodsName} 
-                                                className="ImgFitScreen"
-                                                style={{ paddingTop:'1rem',maxWidth:'50%',maxHeight:'100%',width:'100%',height:'100%'}}
-                                                />
+                                                title={item.goodsName}
+                                                className="ImgFitScreen pt-3"
+                                                style={{ maxWidth: '50%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                                              />
                                             </div>
                                           </picture>
                                           <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
                                             <div className="height-product-tile-plpOnly">
                                               <header className="rc-text--center">
                                                 <h3
-                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen Title" /*font16 */
-                                                  title={item.goodsName}
-                                                  style={{ /*lineHeight: 1.2, minHeight: '3.7rem' */}}>
+                                                  className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen product-title"
+                                                  title={item.goodsName}>
                                                   {item.goodsName}
                                                 </h3>
                                               </header>
@@ -505,7 +506,7 @@ class List extends React.Component {
                                             </div>
                                             <div className={`rc-card__price text-center RateFitScreen `} >
                                               <div className="display-inline">
-                                                <Rate def={item.avgEvaluate} disabled={true}  marginSize="smallRate"/>
+                                                <Rate def={item.avgEvaluate} disabled={true} marginSize="smallRate" />
                                               </div>
                                               <span className='comments rc-margin-left--xs rc-text-colour--text'>({item.goodsEvaluateNum})</span>
                                             </div>

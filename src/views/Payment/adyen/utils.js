@@ -86,15 +86,18 @@ export const getOriginKey = () =>
 
 // qhx新增  获取adyen分支
 export const getAdyenParam = (cardData, config = {}) => {
-    let {paymentMethod:{encryptedCardNumber,encryptedExpiryMonth,encryptedExpiryYear,encryptedSecurityCode}} = cardData
+
+    let {storePaymentMethod,paymentMethod:{encryptedCardNumber,encryptedExpiryMonth,encryptedExpiryYear,encryptedSecurityCode,holderName}} = cardData
 
     let parameters = {
-        currency:'EUR',//暂时以欧元
         adyenBrands:'visa',
         adyenName:'Credit Card',
         adyenType:'scheme',
-        payChannelItem:'adyen',
+        payChannelItem:'adyen_credit_card',
+        hasHolderName:holderName,
+        enableStoreDetails: storePaymentMethod
     }
+
     let param = {...parameters,encryptedCardNumber,encryptedExpiryMonth,encryptedExpiryYear,encryptedSecurityCode}
     return param
 };

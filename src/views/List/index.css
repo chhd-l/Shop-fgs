@@ -46,6 +46,10 @@
 .margin-auto {
   margin: 0 auto;
 }
+.product-title{
+  line-height: 1.2;
+  min-height: 3.7rem;
+}
 
 @media(max-width:540px){
   .ImgBoxFitScreen{
@@ -92,11 +96,11 @@
   position: absolute;
   top: -30px !important;
   left: 6px;
-}
-}
-.TiTle{
-  line-height: 1.2;
-  min-height: 3.7rem;
+  }
+  .product-title{
+    line-height: 1.2;
+    min-height: 2rem;
+  }
 }
 .ListTotal{
   position: absolute;

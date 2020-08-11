@@ -9,6 +9,7 @@ import Details from "@/views/Details";
 import Cart from "@/views/Cart";
 import Payment from "@/views/Payment";
 import Confirmation from "@/views/Confirmation";
+import PayResult from "@/views/Payment/modules/PayResult";
 import Prescription from "@/views/Prescription";
 import Exception from "@/views/Exception";
 import Help from "@/views/Help";
@@ -83,6 +84,7 @@ const BasicRoute = () => (
           )}
         />
         <Route exact path="/confirmation" component={Confirmation} />
+        <Route exact path="/payResult" component={PayResult} />
         <Route exact path="/prescription" component={Prescription} />
         <Route exact path="/help" component={Help} />
         <Route exact path="/FAQ" component={FAQ} />

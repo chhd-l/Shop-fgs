@@ -265,9 +265,9 @@ class Prescription extends React.Component {
             style={{ maxWidth: "90%" }}
             className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
             data-checkout-stage="prescription">
-            <Progress type="perscription" />
+            {/* <Progress type="perscription" /> */}
 
-            <div className="clinic-tip"><FormattedMessage id="clinic.clinicTip" /></div>
+            <div className="clinic-tip" style={{marginTop:'1.5rem'}}><FormattedMessage id="clinic.clinicTip" /></div>
 
             <div className="map-saerch">
 

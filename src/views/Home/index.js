@@ -57,13 +57,13 @@ class Home extends React.Component {
           <section>
             <div className="rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
-                <div className="row rc-match-heights text-center text-md-left">
-                  <div className="col-lg-3 align-self-center">
+                <div className={`${process.env.REACT_APP_LANG === 'de'?'':'row'} rc-match-heights text-center text-md-left`}>
+                  <div className={ `${process.env.REACT_APP_LANG === 'de'?'DeCenter':''} col-lg-3 align-self-center `}>
                     <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center text-lg-left rc-padding-top--none">
                       <FormattedMessage id="home.productsCategory" />
                     </h2>
                   </div>
-                  <div className="col-lg-9">
+                  <div className={`${process.env.REACT_APP_LANG === 'de'?'DeCenter':''} col-lg-9`}>
                     <div className="row custom-gutter">
                       {process.env.REACT_APP_LANG === 'de'
                         ? <>

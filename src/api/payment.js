@@ -14,7 +14,8 @@ const api = {
   rePay: 'tradeCustom/rePay',
   customerCommitAndPayMix: '/tradeCustom/customerCommitAndPayMix',
   getMarketingDiscount: '/marketing/getMarketingDiscount',
-  getWays:'/PayGateway/gateways'
+  getWays:'/PayGateway/gateways',
+  adyenPaymentsDetails:'/adyenPay/payments/details'
 }
 
 export default api
@@ -103,6 +104,15 @@ export function getWays (parameter) {
   return axios({
     url: api.getWays,
     method: 'get',
+    data: parameter
+  })
+}
+
+
+export function adyenPaymentsDetails (parameter) {
+  return axios({
+    url: api.adyenPaymentsDetails,
+    method: 'post',
     data: parameter
   })
 }
