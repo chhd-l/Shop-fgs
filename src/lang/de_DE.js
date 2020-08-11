@@ -178,7 +178,7 @@ const en_US = {
   "clinic.cancel": "Stornieren",
   "clinic.selectVetClinics": "Wählen Sie Tierkliniken",
   "clinic.vet": "Tierarzt",
-  "clinic.clinicTip": "Welche Klinik hat Ihnen ein Rezept gegeben?",
+  "clinic.clinicTip": "Bitte finden Sie eine Klinik für einen Überweisungscode.",
   "payment.payment": "ZAHLUNG",
   "payment.clinicTitle": "Ihr empfehlende(r) Tierärztin/Tierarzt",
   "payment.clinicTitle2": "Standardklinik",
@@ -526,7 +526,7 @@ const en_US = {
   //qhx新增
   delivery: "Lieferkosten",
   FrequentQuestions: "Häufige Fragen",
-  clickHere: "Klicke hier",
+  clickHere: "klicken Sie hier",
   FAQdesc:
     "Wenn Sie eine Frage haben. Schauen Sie unten, um zu sehen, ob es eine Antwort gibt. Wenn Sie nicht finden können, wonach Sie suchen. {val} um uns zu kontaktieren.",
   startFrom: "Beginne von",
@@ -581,7 +581,7 @@ const en_US = {
   'examplePhone': '+49 30 901820',
   'inTheBasket':'im Warenkorb',
   'promotionalCode':'Gutscheincode',
-  'noClinicTip': 'Ihr Empfehlungscode ist ungültig. {val} & erkundigen Sie sich bei unseren Partnerkliniken nach einem gültigen Code.',
+  'noClinicTip': 'Kein gültiger Empfehlungscode? Bitte {val} und erkundigen Sie sich bei unseren Partnerkliniken nach einem gültigen Code.',
   'selectNoneClincTip': 'Bitte wählen Sie ein Rezept',
   'promotionCode': 'Gutscheincode',
   'inputSearchText': 'Suchtext eingeben',
