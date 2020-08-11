@@ -706,10 +706,9 @@ class Details extends React.Component {
     this.openPetModal();
   }
   handleAClick () {
-    if (this.state.replyNum.length > 0) {
+    if (this.state.replyNum > 0) {
       let el = document.getElementById("review-container");
       let length = this.getElementToPageTop(el);
-      console.log("长度：", length);
       window.scrollTo({
         top: length - 80,
         behavior: "smooth",
