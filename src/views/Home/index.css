@@ -71,3 +71,6 @@
     height: 1.2rem
   }
 }
+.DeCenter{
+  margin: 0 auto;
+}
