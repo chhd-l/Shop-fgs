@@ -166,16 +166,16 @@ class Header extends React.Component {
   }
   handleCartMouseOver () {
     if (this.isLogin) {
-      this.loginCartRef.current.handleMouseOver()
+      this.loginCartRef.current && this.loginCartRef.current.handleMouseOver()
     } else {
-      this.unloginCartRef.current.handleMouseOver()
+      this.unloginCartRef.current && this.unloginCartRef.current.handleMouseOver()
     }
   }
   handleCartMouseOut () {
     if (this.isLogin) {
-      this.loginCartRef.current.handleMouseOut()
+      this.loginCartRef.current && this.loginCartRef.current.handleMouseOut()
     } else {
-      this.unloginCartRef.current.handleMouseOut()
+      this.unloginCartRef.current && this.unloginCartRef.current.handleMouseOut()
     }
   }
   handleMouseOver () {
