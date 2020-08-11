@@ -3,54 +3,22 @@ import { purchases, mergePurchase } from '@/api/cart'
 import { getDict } from '@/api/dict'
 import { find } from 'lodash'
 import stores from '@/store';
-import { getContactInfo } from '@/api/phone'
-import { getConfig } from '@/api/user'
 
 const checkoutStore = stores.checkoutStore
+const mapEnum = { 1: '$', 2: 'Mex$', 3: '€' }
 
 /**
  * 
  * @param {*} val 
- * @param {*} currency 1-$ 2-₱
+ * @param {*} currency 1-$ 2-Mex$ 3-€
  */
-export function formatMoney (val, currency = 1) {
+export function formatMoney (val, currency = process.env.REACT_APP_CURRENCY_TYPE || 1) {
   if (isNaN(val)) {
     val = 0
   }
   val = val + ''
   let ret = val.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-  // const mapEnum = { 1: '$', 2: 'Mex$' }
-  // return `${mapEnum[currency]} ${ret}`
-
-  let currencyObj = {}
-  if (sessionStorage.getItem('currency')) {
-    currencyObj = JSON.parse(sessionStorage.getItem('currency'))
-  }
-  // else {
-  //   await getConfig().then(res => {
-  //     console.log(res, 'resssssss')
-  //     sessionStorage.setItem('currency', JSON.stringify(res.context.currency))
-  //     currencyObj = res.context.currency
-  //   })
-  // }
-  // console.log(currencyObj.valueEn, 'currencyObj.valueEn')
-  return `${currencyObj ? currencyObj.valueEn : ''} ${ret}`
-
-}
-export async function getStoreContentInfo () {
-  let storeContentInfo = {}
-  if (sessionStorage.getItem('storeContentInfo')) {
-    storeContentInfo = JSON.parse(sessionStorage.getItem('storeContentInfo'))
-    return storeContentInfo
-  } else {
-    try {
-      let res = await getContactInfo(process.env.REACT_APP_STOREID)
-      sessionStorage.setItem('storeContentInfo', JSON.stringify(res.context))
-      return res.context
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  return `${mapEnum[currency]} ${ret}`
 }
 
 export async function queryStoreCateIds () {

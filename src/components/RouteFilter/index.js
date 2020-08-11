@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { queryStoreCateIds } from "@/utils/utils";
 import store from 'storejs'
-import { getConfig } from '@/api/user'
 
 class RouteFilter extends Component {
   shouldComponentUpdate (nextProps) {
@@ -43,10 +42,6 @@ class RouteFilter extends Component {
       this.props.history.push("/");
     }
 
-    getConfig()
-      .then(res => {
-        sessionStorage.setItem('currency', JSON.stringify(res.context.currency))
-      })
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/')
     }
