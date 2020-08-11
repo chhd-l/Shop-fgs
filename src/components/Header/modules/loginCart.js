@@ -4,6 +4,7 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import { Link } from "react-router-dom"
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
 import { inject, observer } from 'mobx-react'
+import { toJS } from "mobx";
 import PetModal from '@/components/PetModal'
 
 @injectIntl

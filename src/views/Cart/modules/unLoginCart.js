@@ -1,6 +1,6 @@
 
 import React from "react";
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
 import Header from "@/components/Header"
@@ -15,7 +15,7 @@ import { cloneDeep, find, findIndex } from 'lodash'
 import catsImg from "@/assets/images/banner-list/cats.jpg"
 import dogsImg from "@/assets/images/banner-list/dogs.jpg"
 import PetModal from '@/components/PetModal'
-
+@injectIntl
 @inject("checkoutStore")
 @observer
 class UnLoginCart extends React.Component {
@@ -580,7 +580,7 @@ class UnLoginCart extends React.Component {
       <div className="group-order rc-border-colour--interface cart__total__content rc-border-all" style={{ background: '#fff' }}>
         <div className="row">
           <div className="col-12 total-items medium">
-            <span>{this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} in the basket
+            <span>{this.totalNum}</span> {this.totalNum > 1 ? 'items' : 'item'} {this.props.intl.messages.inTheBasket}
           </div>
         </div>
         <div className="row">

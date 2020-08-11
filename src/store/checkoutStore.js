@@ -2,6 +2,7 @@ import { action, observable, computed, runInAction } from "mobx";
 import store from "storejs";
 import { purchases, sitePurchases, siteMiniPurchases } from "@/api/cart";
 import { find } from "lodash";
+import { toJS } from 'mobx'
 
 class CheckoutStore {
   @observable cartData = store.get("rc-cart-data") || [];
@@ -123,7 +124,11 @@ class CheckoutStore {
     let tmpOffShelvesProNames = [];
 
     Array.from(data, (item) => {
+      item.sizeList.map(el => {
+        el.goodsInfoImg = el.goodsInfoImg || item.goodsImg
+      })
       let selectedSize = find(item.sizeList, (s) => s.selected);
+      console.log(toJS(item), toJS(selectedSize), 'selectedSize')
       const tmpObj = find(
         purchasesRes.goodsInfos,
         (l) =>
@@ -172,6 +177,7 @@ class CheckoutStore {
       let goodsList = siteMiniPurchasesRes.goodsList;
 
       for (let good of goodsList) {
+        good.goodsInfoImg = good.goodsInfoImg?good.goodsInfoImg: good.goods.goodsImg
         const selectdSkuInfo = find(
           good.goodsInfos || [],
           (g) => g.goodsInfoId === good.goodsInfoId
@@ -192,7 +198,6 @@ class CheckoutStore {
           });
         });
       }
-
       this.setLoginCartData(goodsList);
       this.setCartPrice({
         totalPrice: sitePurchasesRes.totalPrice,
