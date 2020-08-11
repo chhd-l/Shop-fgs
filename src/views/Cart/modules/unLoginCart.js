@@ -236,7 +236,7 @@ class UnLoginCart extends React.Component {
     // debugger
     let { currentProductIdx, productList } = this.state
     item.confirmTooltipVisible = false
-    let newProductList = cloneDeep(productList.filter(el => el))
+    let newProductList = cloneDeep((productList || []).filter(el => el))
     newProductList.splice(currentProductIdx, 1)
     this.setState({
       productList: newProductList

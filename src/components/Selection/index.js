@@ -79,7 +79,7 @@ export default class Selection extends React.Component {
           role="listbox"
           tabIndex="1"
           data-type={this.props.customStyleType}
-          style={{cursor: this.props.disabled? 'auto': 'pointer'}}
+          style={{cursor: this.props.disabled? 'auto': 'pointer',width:'13rem'}}
           onClick={e => this.toggleShowOptions(e)}>
           <div className="choices__inner">
             <div className="choices__list choices__list--single">

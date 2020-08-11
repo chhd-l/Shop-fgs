@@ -406,7 +406,7 @@ class List extends React.Component {
             </div>
             : ''}
           <div id="J-product-list"></div>
-          <div className="search-results rc-padding--sm rc-max-width--xl pt-1">
+          <div className="search-results rc-padding--sm rc-max-width--xl pt-4 pt-sm-1">
             <div className="search-nav border-bottom-0">
               {this.state.keywords ?
                 <div className="nav-tabs-wrapper rc-text--center">
