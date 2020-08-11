@@ -16,6 +16,7 @@ import SubscriptionSelect from "./modules/SubscriptionSelect";
 import ClinicForm from "./modules/ClinicForm";
 import AddressPreview from "@/components/AddressPreview";
 import { getDictionary, formatMoney } from "@/utils/utils";
+import ConfirmTooltip from "@/components/ConfirmTooltip";
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -35,6 +36,8 @@ import {
   CREDIT_CARD_IMG_ENUM,
   CREDIT_CARD_IMGURL_ENUM,
 } from "@/utils/constant";
+
+
 
 const rules = [
   {
@@ -131,6 +134,7 @@ class Payment extends React.Component {
       showOxxoForm: false,
       adyenPayParam: {},
       payWayNameArr: [],
+      toolTipVisible: false
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
@@ -138,6 +142,7 @@ class Payment extends React.Component {
     this.loginDeliveryAddressRef = React.createRef();
     this.loginBillingAddressRef = React.createRef();
     this.lang = process.env.REACT_APP_LANG;
+   
   }
   async componentDidMount() {
     if (localStorage.getItem("isRefresh")) {
@@ -1142,20 +1147,45 @@ class Payment extends React.Component {
                               </span>
 
                               <span
-                                className="shipping-method-pricing"
-                                style={{ whiteSpace: "nowrap" }}
+                                className="shipping-method-pricing ml3"
+                                
                               >
                                 <span
                                   className="info delivery-method-tooltip"
-                                  data-tooltip-placement="top"
-                                  data-tooltip="top-tooltip-delivery-tip"
+                                  // data-tooltip-placement="top"
+                                  // data-tooltip="top-tooltip-delivery-tip"
                                   style={{ verticalAlign: "unset" }}
+                                  onMouseEnter={() => {
+                                    this.setState({
+                                      toolTipVisible: true,
+                                    });
+                                  }}
+                                  onMouseLeave={() => {
+                                    this.setState({
+                                      toolTipVisible: true,
+                                    });
+                                  }}
                                 >
                                   i
                                 </span>
-                                <div id="top-tooltip-delivery-tip" className="rc-tooltip">
-                                  <FormattedMessage id="payment.forFreeTip" />
-                                </div>
+                                <ConfirmTooltip
+                                  containerStyle={{
+                                    transform: "translate(-65%, 112%)",
+                                  }}
+                                  
+                                  arrowStyle={{ left: "92%" }}
+                                  display={this.state.toolTipVisible}
+                                  cancelBtnVisible={false}
+                                  confirmBtnVisible={false}
+                                  updateChildDisplay={(status) =>
+                                    this.setState({
+                                      toolTipVisible: status,
+                                    })
+                                  }
+                                  content={
+                                    <FormattedMessage id="payment.forFreeTip" />
+                                  }
+                                />
                               </span>
                             </div>
                           </div>
@@ -1732,7 +1762,10 @@ class Payment extends React.Component {
                       </div>
                     </div>
                     {/* 条款 */}
-                    <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom" style={{marginTop:'1rem'}}>
+                    <div
+                      className="footerCheckbox rc-margin-top--sm ml-custom mr-custom"
+                      style={{ marginTop: "1rem" }}
+                    >
                       <input
                         style={{ cursor: "pointer" }}
                         className="form-check-input"
