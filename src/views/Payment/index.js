@@ -322,7 +322,9 @@ class Payment extends React.Component {
       const checkout = new AdyenCheckout({
         environment: "test",
         originKey: process.env.REACT_APP_AdyenOriginKEY,
+        locale:'de-DE',
       });
+      
       // (2). Create and mount the Component
       const card = checkout
         .create("card", {
