@@ -137,11 +137,8 @@ class Payment extends React.Component {
       showOxxoForm: false,
       adyenPayParam: {},
       payWayNameArr: [],
-<<<<<<< HEAD
-      toolTipVisible: false
-=======
+      toolTipVisible: false,
       email:'',
->>>>>>> dev_qu
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
