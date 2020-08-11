@@ -445,7 +445,8 @@ class Payment extends React.Component {
   //得到支付共同的参数
   async getPayCommonParam(){
     let commonParameter = await this.goConfirmation(); //获取支付公共参数
-    let phone = store.get("deliveryInfo").deliveryAddress.phoneNumber; //获取电话号码
+    // let phone = store.get("deliveryInfo").deliveryAddress.phoneNumber; //获取电话号码
+    let phone = 13678912345
     return new Promise((resolve=>{
       resolve({commonParameter,phone})
     }))
