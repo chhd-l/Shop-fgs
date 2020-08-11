@@ -135,21 +135,22 @@ class Header extends React.Component {
     }
     const footerEl = document.querySelector('#footer')
     let targetEl = document.querySelector('#J_sidecart_fix')
-    let win_top = document.documentElement.scrollTop || document.body.scrollTop
-    let isScrollToTop = this.preTop > win_top
-    this.preTop = win_top
-    const baseTop = this.getElementToPageTop(baseEl) - (isScrollToTop ? 120 : 80) - win_top
+    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+    let isScrollToTop = this.preTop > scrollTop
+    this.preTop = scrollTop
+    const baseTop = this.getElementToPageTop(baseEl) - (isScrollToTop ? 120 : 80) - scrollTop
     const footerTop = this.getElementToPageTop(footerEl)
       - (isScrollToTop ? 120 : 80)
-      - win_top
-      + targetEl.offsetHeight
-    // 
-    if (win_top >= footerTop) {
-      targetEl.style.top = (parseInt(footerTop)) + 'px'
-      targetEl.style.display = 'none'
+      - scrollTop
+      + baseEl.offsetHeight
+    
+    if (scrollTop >= footerTop) {
+      targetEl.style.top = 'auto'
+      targetEl.style.bottom = '40px'
       targetEl.style.position = 'absolute'
-    } else if (win_top >= baseTop) {
+    } else if (scrollTop >= baseTop) {
       targetEl.style.top = isScrollToTop ? '120px' : '80px'
+      targetEl.style.bottom = 'auto'
       targetEl.style.display = 'block'
       targetEl.style.position = 'fixed'
     } else {
