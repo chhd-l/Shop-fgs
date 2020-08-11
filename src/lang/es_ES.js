@@ -478,7 +478,7 @@ const en_US = {
   'cvvWarning': 'CVV incorrecto',
   'moreChoicesAvailable': 'More Choices Available',
   'replyComments': 'Reply comments',
-  'writeReview': 'Write a review',
+  'writeReview': 'Escribe una reseña',
   'rePurchase': 'Readquirir',
   'purchaseRating': 'Purchase experience  rating',
   'logisticsRating': 'Logistics rating',
@@ -596,5 +596,11 @@ const en_US = {
   'requestInvoices.title': 'Solicitar facturas',
   'autoship': 'Autoenvío',
   'autoshop': 'Autoenvío',
+  ratingGrade1: 'Más reciente',
+  ratingGrade2: 'Calificación de menor a mayor',
+  ratingGrade3: 'Calificación de mayor a menor',
+  'promotionCode': 'código de promoción',
+  basket: 'Cesta',
+  StartFrom: 'Empezar desde'
 }
 export default en_US;

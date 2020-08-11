@@ -586,6 +586,10 @@ const en_US = {
   'promotionCode': 'Gutscheincode',
   'inputSearchText': 'Suchtext eingeben',
   'clinic.navigate':'Navigieren',
-  'autoshop': 'Abonemment'
+  'autoshop': 'Abonemment',
+  ratingGrade1: 'Most Recent',
+  ratingGrade2: 'Lowest to Highest Rating',
+  ratingGrade3: 'Hightest to Lowest Rating',
+  basket: 'Basket'
 }
 export default en_US;

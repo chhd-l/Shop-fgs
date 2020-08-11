@@ -664,6 +664,11 @@ const en_US = {
   'selectNoneClincTip': 'Please select a prescription',
   'inputSearchText': 'input search text',
   'clinic.navigate':'Navigate',
-  'autoshop': 'autoship'
-};
+  'autoshop': 'autoship',
+  ratingGrade1: 'Most Recent',
+  ratingGrade2: 'Lowest to Highest Rating',
+  ratingGrade3: 'Hightest to Lowest Rating',
+  'promotionCode': 'Promotion code',
+}
+
 export default en_US;

@@ -173,14 +173,17 @@ class Reviews extends React.Component {
     const list = [
       {
         value: 0,
-        name: 'Most Recent'
+        // name: 'Most Recent'
+        name: this.props.intl.messages.ratingGrade1
       }, {
         value: 1,
-        name: 'Lowest to Highest Rating'
+        // name: 'Lowest to Highest Rating'
+        name: this.props.intl.messages.ratingGrade2
       },
       {
         value: 2,
-        name: 'Hightest to Lowest Rating'
+        // name: 'Hightest to Lowest Rating'
+        name: this.props.intl.messages.ratingGrade3
       }
     ]
     return list

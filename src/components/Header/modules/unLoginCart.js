@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Link } from "react-router-dom"
 import LoginButton from '@/components/LoginButton'
 import {
@@ -10,6 +10,7 @@ import { find } from 'lodash'
 import { inject, observer } from 'mobx-react'
 import PetModal from '@/components/PetModal'
 
+@injectIntl
 @inject("checkoutStore")
 @observer
 class UnloginCart extends React.Component {
@@ -123,7 +124,7 @@ class UnloginCart extends React.Component {
         className="minicart inlineblock"
         onMouseOver={this.handleMouseOver}
         onMouseOut={this.handleMouseOut}>
-        <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn" title="Basket">
+        <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn" title={this.props.intl.messages.basket}>
           <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
           <span className="minicart-quantity">{this.totalNum}</span>
         </Link>
