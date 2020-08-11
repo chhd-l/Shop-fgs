@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl'
+import { inject, observer } from 'mobx-react';
 
-export default class SideMenu extends React.Component {
+@inject("configStore")
+@observer
+class SideMenu extends React.Component {
   render () {
     const { type } = this.props
     return (
@@ -86,18 +89,19 @@ export default class SideMenu extends React.Component {
               )}
             </FormattedMessage>
           </h2>
-          <h2 className={['nav_item', 'medium', type === 'PaymentMethod' ? 'active' : ''].join(' ')}>
-            <FormattedMessage id="paymentMethod">
-              {txt => (
-                <Link
-                  to="/account/paymentMethod"
-                  title={txt}
-                  alt={txt}>
-                  {txt}
-                </Link>
-              )}
-            </FormattedMessage>
-          </h2>
+          {this.props.configStore.profilePaymentMethod
+            && <h2 className={['nav_item', 'medium', type === 'PaymentMethod' ? 'active' : ''].join(' ')}>
+              <FormattedMessage id="paymentMethod">
+                {txt => (
+                  <Link
+                    to="/account/paymentMethod"
+                    title={txt}
+                    alt={txt}>
+                    {txt}
+                  </Link>
+                )}
+              </FormattedMessage>
+            </h2>}
           <h2 className={['nav_item', 'medium', type === 'Help' ? 'active' : ''].join(' ')}>
             <FormattedMessage id="help">
               {txt => (
@@ -113,3 +117,5 @@ export default class SideMenu extends React.Component {
     )
   }
 }
+
+export default SideMenu

@@ -6,8 +6,6 @@ import './index.css'
 
 @inject("configStore")
 @observer
-
-
 class Footer extends React.Component {
   constructor(props) {
     super(props);

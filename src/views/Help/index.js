@@ -7,18 +7,15 @@ import { Link } from 'react-router-dom'
 import emailImg from "@/assets/images/emailus_icon@1x.jpg"
 import callImg from "@/assets/images/customer-service@2x.jpg"
 import helpImg from "@/assets/images/slider-img-help.jpg"
-import { getStoreContentInfo } from '@/utils/utils'
+import { inject, observer } from 'mobx-react';
 
+@inject("configStore")
+@observer
 class Help extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      storeContactPhoneNumber: '',
-      storeContactEmail: '',
-      contactTimePeriod: ''
-    }
   }
-  
+
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
@@ -28,14 +25,6 @@ class Help extends React.Component {
       window.location.reload();
       return false
     }
-
-    let res = await getStoreContentInfo()
-    const {storeContactPhoneNumber, storeContactEmail, contactTimePeriod}=res
-    this.setState({
-      storeContactPhoneNumber,
-      storeContactEmail,
-      contactTimePeriod
-    })
   }
   render (h) {
     const event = {
@@ -44,7 +33,6 @@ class Help extends React.Component {
         theme: ''
       }
     }
-    const {storeContactPhoneNumber, storeContactEmail, contactTimePeriod}=this.state
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -97,29 +85,22 @@ class Help extends React.Component {
                                     <div class="rc-column rc-double-width rc-padding-top--md--mobile">
                                       <div class="w-100">
                                         <b style={{ color: "#00BCA3" }}>
-                                          <font style={{ verticalAlign: "inherit" }}>
-                                            <font style={{ verticalAlign: "inherit" }}><FormattedMessage id="help.byTelephone" /></font>
-                                          </font>
+                                          <FormattedMessage id="help.byTelephone" />
                                         </b>
                                         <p>
-                                          <font style={{ verticalAlign: "inherit" }}>
-                                            <font style={{ verticalAlign: "inherit" }}>
-                                              {/* <FormattedMessage id="help.tip2" /> */}
-                                              {contactTimePeriod}
-                                            </font>
-                                          </font>
+                                          {this.props.configStore.contactTimePeriod}
                                         </p>
                                         <div class="rc-margin-top--xs">
                                           <p style={{ color: "#00BCA3" }} class="rc-numeric rc-md-up">
                                             {/* 800 024 77 64 */}
-                                            {storeContactPhoneNumber}
-                                      </p>
+                                            {this.props.configStore.storeContactPhoneNumber}
+                                          </p>
                                         </div>
                                         <div class="rc-margin-top--xs">
                                           <p style={{ color: "#00BCA3" }} class="rc-alpha rc-border--none rc-md-down">
                                             {/* 800 024 77 64 */}
-                                            {storeContactPhoneNumber}
-                                      </p>
+                                            {this.props.configStore.storeContactPhoneNumber}
+                                          </p>
                                         </div>
                                       </div>
                                     </div>
@@ -145,7 +126,7 @@ class Help extends React.Component {
                                         <div class="rc-margin-top--xs">
                                           <p class="rc-numeric rc-md-up" style={{ color: "rgb(0, 135, 189)" }}>
                                             {/* contacto.mex@royalcanin.com */}
-                                            {storeContactEmail}
+                                            {this.props.configStore.storeContactEmail}
                                           </p>
                                         </div>
                                       </div>

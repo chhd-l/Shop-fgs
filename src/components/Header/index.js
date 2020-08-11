@@ -81,10 +81,10 @@ class Header extends React.Component {
         || location.pathname.includes('/list')
         || location.pathname.includes('/details'))) {
       if (clinciRecoCode && clinicStore.clinicRecoCode !== clinciRecoCode) {
-        const res = await getPrescriberByCode({ prescriberCode: clinciRecoCode, storeId: process.env.REACT_APP_STOREID })
-        if (res.context && res.context.enabled) {
-          linkClinicId = res.context.id
-          linkClinicName = res.context.prescriberName
+        const res = await getPrescriberByCode({ encryptCode: clinciRecoCode, storeId: process.env.REACT_APP_STOREID })
+        if (res.context && res.context.prescriberVo && res.context.prescriberVo.length) {
+          linkClinicId = res.context.prescriberVo[0].id
+          linkClinicName = res.context.prescriberVo[0].prescriberName
         }
         if (linkClinicId && linkClinicName) {
           clinicStore.setClinicRecoCode(clinciRecoCode)
@@ -618,11 +618,11 @@ class Header extends React.Component {
                                     <FormattedMessage id="shippingAddress" />
                                   </Link>
                                 </div>
-                                <div className="link-style" >
+                                {this.props.configStore.profilePaymentMethod && <div className="link-style" >
                                   <Link to="/account/paymentMethod" className="click-hover" >
                                     <FormattedMessage id="paymentMethod" />
                                   </Link>
-                                </div>
+                                </div>}
                               </div>
                               <LogoutButton />
                               {/* <div className="logoff-style">

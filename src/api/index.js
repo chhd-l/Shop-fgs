@@ -6,7 +6,8 @@ const api = {
   uploadResource: '/common/uploadResource',
   queryCityNameById: '/system-city/query-system-city-by-id',
   queryCityByName: '/system-city/query-system-city-by-name',
-  buryPoint: '/wm.gif'
+  buryPoint: '/wm.gif',
+  getConfig: '/initConfig/getConfig'
 }
 
 export default api
@@ -57,5 +58,13 @@ export function setBuryPoint (parameter) {
     url: api.buryPoint,
     method: 'post',
     data: parameter
+  })
+}
+
+export function getConfig () {
+  return axios({
+    url: `${api.getConfig}`,
+    method: 'post',
+    data: { storeId: process.env.REACT_APP_STOREID }
   })
 }

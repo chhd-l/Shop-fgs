@@ -1,5 +1,5 @@
 import { action, observable, computed } from "mobx";
-import { getContactInfo } from '@/api/phone'
+import { getConfig } from '@/api'
 
 class ConfigStore {
   @observable info = sessionStorage.getItem('storeContentInfo')
@@ -30,10 +30,24 @@ class ConfigStore {
     return this.info ? this.info.contactUsUrl : ''
   }
 
+  @computed get storeContactEmail () {
+    return this.info ? this.info.storeContactEmail : ''
+  }
+
+  // 显示profile payment method开关
+  @computed get profilePaymentMethod () {
+    return this.info && this.info.profilePaymentMethod === '1'
+  }
+
+  // 显示prescriber map开关
+  @computed get prescriberMap () {
+    return this.info && this.info.prescriberMap === '1'
+  }
+
   @action.bound
   async queryConfig () {
-    let res = await getContactInfo(process.env.REACT_APP_STOREID)
-    this.info = res.context
+    let res = await getConfig()
+    this.info = res.context.storeVO
     sessionStorage.setItem('storeContentInfo', JSON.stringify(this.info))
   }
 }
