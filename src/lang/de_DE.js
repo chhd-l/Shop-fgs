@@ -594,6 +594,9 @@ const en_US = {
   ratingGrade2: 'Lowest to Highest Rating',
   ratingGrade3: 'Hightest to Lowest Rating',
   basket: 'Basket',
-  'checkoutTip': 'Bitte geben Sie unten Ihre Daten ein.'
+  'checkoutTip': 'Bitte geben Sie unten Ihre Daten ein.',
+  'faq.frequentQuestions': "Häufige Fragen",
+  'faq.title': 'Haben Sie irgendwelche Fragen. Schauen Sie sich unsere am häufigsten gestellten Fragen an. Wenn Sie nicht finden, wonach Sie suchen, klicken Sie hier, um mit uns Kontakt aufzunehmen.',
+  'faq.title2': 'Lebensmittellieferservice',
 }
 export default en_US;

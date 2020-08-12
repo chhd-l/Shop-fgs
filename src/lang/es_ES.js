@@ -230,7 +230,6 @@ const en_US = {
   'forgetPassword.createNewPassword': 'Crear nueva contraseña',
   'forgetPassword.forgetPasswordTip': 'Se le enviará una carta con instrucciones para cambiar la contraseña.',
   'freeShipping': 'Envío gratis',
-  'FrequentQuestions': "Preguntas frecuentes",
   'from': 'De',
   'getConsumerAccountFailed': 'Obtener la cuenta del consumidor fallida',
   'getDataFailed': 'Obtener datos fallidos',
@@ -605,6 +604,9 @@ const en_US = {
   'yourEmailNotVerified': '¡Tu email no se ha verificado!',
   'yourPasswordNotVerified': 'Tu contraseña no ha sido verificada',
   'title': 'Título',
-  'reviewisRequired': 'Se requiere revisión.'
+  'reviewisRequired': 'Se requiere revisión.',
+  'faq.frequentQuestions': "Frequent questions",
+  'faq.title': 'Tienes alguna pregunta. Consulta nuestras preguntas más frecuentes. Si no encuentras lo que estás buscando, haz clic aquí para contactarnos.',
+  'faq.title2': 'Entrega del alimento',
 }
 export default en_US;
