@@ -57,6 +57,30 @@ const BreadCrumbs = withRouter(props => {
           ))}
         </ul>
       </nav>
+      {/* <div className="rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs">
+        <ul className="d-flex">
+          <li>
+            <Link to="/" className="rc-styled-link rc-progress__breadcrumb" aria-label="Links to home page">
+              <FormattedMessage id="homePage" />
+            </Link>
+          </li>
+          {mapData.map((item, index) => (
+            <li key={index}>
+              {
+                item.href
+                  ? <Link className="rc-styled-link rc-progress__breadcrumb" to={item.href}>
+                    <FormattedMessage id={`${item.name}`} />
+                  </Link>
+                  : <FormattedMessage id={`${item.name}`}>
+                    {
+                      txt => (<span title={txt}>{txt}</span>)
+                    }
+                  </FormattedMessage>
+              }
+            </li>
+          ))}
+        </ul>
+      </div> */}
     </div>
   )
 })
