@@ -47,7 +47,7 @@ class RouteFilter extends Component {
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/')
     }
-    if (this.props.location.pathname === "/payment/payment") {
+    if (this.props.location.pathname === "/payment/payment") {  
       loadJS(
         "https://js.paymentsos.com/v2/latest/secure-fields.min.js",
         function () {
@@ -96,10 +96,10 @@ class RouteFilter extends Component {
               });
           }
         }
-      );
-      loadJS(
-        "https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js",
-      );
+      ); 
+      // loadJS(
+      //   "https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js",
+      // );   
     }
     if (this.props.location.pathname !== "/login") {
       loadJS(process.env.REACT_APP_ONTRUST_SRC,
