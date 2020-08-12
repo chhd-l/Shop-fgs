@@ -152,14 +152,29 @@ class HeroCarousel extends React.Component {
                     {el.isVideo && el.isVideo === '1'
                       ? videoJSX(el.webUrl)
                       : <>
-                        <img
-                          className="rc-md-up"
-                          src={el.webUrl}
-                          style={{ maxHeight: '100%' }} />
-                        < img
-                          className="rc-md-down w-100"
-                          src={el.mobiUrl}
-                          style={{ maxHeight: '100%' }} />
+                        {el.webSkipUrl
+                          ? <a href={el.webSkipUrl}>
+                            <img
+                              className="rc-md-up"
+                              src={el.webUrl}
+                              style={{ maxHeight: '100%' }} />
+                          </a>
+                          : <img
+                            className="rc-md-up"
+                            src={el.webUrl}
+                            style={{ maxHeight: '100%' }} />}
+
+                        {el.mobiSkipUrl
+                          ? <a href={el.mobiSkipUrl}>
+                            <img
+                              className="rc-md-down w-100"
+                              src={el.mobiUrl}
+                              style={{ maxHeight: '100%' }} />
+                          </a>
+                          : <img
+                            className="rc-md-down w-100"
+                            src={el.mobiUrl}
+                            style={{ maxHeight: '100%' }} />}
                       </>}
 
                     {/* <span className="font-weight-normal red font-16 mb-1 ml-3 mr-3 text-center inlineblock">
