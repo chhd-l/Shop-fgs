@@ -12047,7 +12047,7 @@ body {
   color: #999
 }
 .color-f6f6f6 {
-  color: #f6f6f6
+  color: #f6f6f6!important
 }
 .w-34px {
   width: 34px
