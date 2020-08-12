@@ -194,9 +194,9 @@ class PayProductInfo extends React.Component {
     return (
       <div className="product-summary__itemnbr checkout--padding border-bottom d-flex align-items-center justify-content-between">
         <span>
-          {productList.reduce((total, item) => total + item[quantityKeyName], 0)}{' '}
-          {productList.reduce((total, item) => total + item[quantityKeyName], 0) > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}{' '}
-          <FormattedMessage id="payment.totalProduct" />
+          <FormattedMessage
+            id="payment.totalProduct"
+            values={{ val: productList.reduce((total, item) => total + item[quantityKeyName], 0) }} />
         </span>
         {
           this.props.operateBtnVisible && <Link

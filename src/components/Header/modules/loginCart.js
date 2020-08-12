@@ -7,7 +7,6 @@ import { inject, observer } from 'mobx-react'
 import { toJS } from "mobx";
 import PetModal from '@/components/PetModal'
 
-@injectIntl
 @inject("checkoutStore")
 @observer
 class LoginCart extends React.Component {
@@ -129,7 +128,7 @@ class LoginCart extends React.Component {
         className="minicart inlineblock"
         onMouseOver={this.handleMouseOver}
         onMouseOut={this.handleMouseOut}>
-        <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn" title={this.props.intl.messages.basket}>
+        <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn">
           <i className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
           <span className="minicart-quantity">{totalNum}</span>
         </Link>
