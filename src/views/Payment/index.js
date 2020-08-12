@@ -357,6 +357,8 @@ class Payment extends React.Component {
           },
         })
         .mount("#card-container");
+    }else{
+      this.initAdyenPay() //没有AdyenCheckout对象,重新初始化
     }
   }
 
@@ -414,6 +416,7 @@ class Payment extends React.Component {
             {email:this.state.email},
             {
               successUrl:process.env.REACT_APP_SUCCESSFUL_URL,
+              //successUrl:'http://379f56.natappfree.cc/payResult',
               shopperLocale:'en_US',
               currency:'EUR',
               country: "DE",
