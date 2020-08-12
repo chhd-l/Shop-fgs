@@ -33,54 +33,34 @@ const BreadCrumbs = withRouter(props => {
 
   return (
     <div className="rc-bg-colour--brand3 rc-md-up" style={{ paddingTop: '1px' }}>
-      <nav className="rc-progress rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs">
-        <ul>
-          <li>
-            <Link to="/" className="rc-styled-link rc-progress__breadcrumb" aria-label="Links to home page">
-              <FormattedMessage id="homePage" />
-            </Link>
-          </li>
-          {mapData.map((item, index) => (
-            <li key={index}>
-              {
-                item.href
-                  ? <Link className="rc-styled-link rc-progress__breadcrumb" to={item.href}>
-                    <FormattedMessage id={`${item.name}`} />
-                  </Link>
-                  : <FormattedMessage id={`${item.name}`}>
-                    {
-                      txt => (<span title={txt}>{txt}</span>)
-                    }
-                  </FormattedMessage>
-              }
-            </li>
-          ))}
-        </ul>
-      </nav>
-      {/* <div className="rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs">
+      <div className="rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs">
         <ul className="d-flex">
           <li>
-            <Link to="/" className="rc-styled-link rc-progress__breadcrumb" aria-label="Links to home page">
+            <Link to="/" className="rc-styled-link rc-progress__breadcrumb mr-0" aria-label="Links to home page">
               <FormattedMessage id="homePage" />
             </Link>
           </li>
+          {mapData.length > 0 && <span className="font-weight-normal ml-2 mr-2">&gt;</span>}
           {mapData.map((item, index) => (
-            <li key={index}>
-              {
-                item.href
-                  ? <Link className="rc-styled-link rc-progress__breadcrumb" to={item.href}>
-                    <FormattedMessage id={`${item.name}`} />
-                  </Link>
-                  : <FormattedMessage id={`${item.name}`}>
-                    {
-                      txt => (<span title={txt}>{txt}</span>)
-                    }
-                  </FormattedMessage>
-              }
-            </li>
+            <>
+              <li key={index}>
+                {
+                  item.href
+                    ? <Link className="rc-styled-link rc-progress__breadcrumb mr-0" to={item.href}>
+                      <FormattedMessage id={`${item.name}`} />
+                    </Link>
+                    : <FormattedMessage id={`${item.name}`}>
+                      {
+                        txt => (<span title={txt}>{txt}</span>)
+                      }
+                    </FormattedMessage>
+                }
+              </li>
+              {index !== mapData.length - 1 && <span className="font-weight-normal ml-2 mr-2">&gt;</span>}
+            </>
           ))}
         </ul>
-      </div> */}
+      </div>
     </div>
   )
 })
