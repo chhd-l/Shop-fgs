@@ -78,23 +78,34 @@ class ClinicForm extends React.Component {
           defaultValue={this.state.form.clinicName}
           placeholder={this.props.intl.messages.enterClinicName}
           customCls="flex-fill" />
-        <span className="ml-3">
+        <span className="ml-3"
+                    onClick={() => {
+                      this.setState({
+                        toolTipVisible: !this.state.toolTipVisible
+                      },()=>{
+                        console.log("鼠标进入",this.state.toolTipVisible)
+                      });
+                      
+                    }}
+                    onMouseLeave={() => {
+                      this.setState({
+                        toolTipVisible: false
+                      },()=>{
+                        console.log("鼠标移出",this.state.toolTipVisible)
+                      });
+                      
+                    }}
+        >
+         
           <span
             className="info delivery-method-tooltip"
-            // data-tooltip-placement="top"
-            // data-tooltip="top-tooltip-noclinic-tip"
             style={{ verticalAlign: "unset" }}
-            onMouseEnter={() => {
-              this.setState({
-                toolTipVisible: true
-              });
-            }}
-            onMouseLeave={() => {
-              this.setState({
-                toolTipVisible: false
-              });
-            }}>?</span>
+            >?</span>
+            <span 
+
+            >
           <ConfirmTooltip
+
             containerStyle={{ transform: "translate(-91%, 112%)" }}
             arrowStyle={{ left: "92%" }}
             display={this.state.toolTipVisible}
@@ -117,6 +128,7 @@ class ClinicForm extends React.Component {
                 }} />
             }
           />
+          </span>
         </span>
       </div>
     </div>

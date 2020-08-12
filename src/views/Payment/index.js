@@ -1283,7 +1283,7 @@ class Payment extends React.Component {
                                   }}
                                   onMouseLeave={() => {
                                     this.setState({
-                                      toolTipVisible: true,
+                                      toolTipVisible: false,
                                     });
                                   }}
                                 >
@@ -1921,8 +1921,9 @@ class Payment extends React.Component {
                                       </span>
                                     </p>
                                     <div className="row">
-                                      <div className="col-6 col-sm-3 d-flex flex-column justify-content-center">
+                                      <div className="col-6 col-sm-3 d-flex flex-column justify-content-center ">
                                         <img
+                                           className="PayCardImgFitScreen"
                                           src={
                                             CREDIT_CARD_IMG_ENUM[
                                               this.state.payosdata.vendor
@@ -2126,8 +2127,8 @@ class Payment extends React.Component {
                     </div>
               </div>
               <div
-                className="product-summary rc-column"
-                style={{ paddingLeft: "unset" }}
+                className="product-summary rc-column MarginTopFixSCreen"
+                style={{ paddingLeft: "unset" ,}}
               >
                 <PayProductInfo
                   ref="payProductInfo"

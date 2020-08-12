@@ -247,3 +247,18 @@
   border-radius: 5px;
   padding: 1rem 1rem;
 }
+@media(max-width:540px){
+  .MarginTopFixSCreen{
+    margin-top: -2rem !important;
+  }
+  .PayCardImgFitScreen{
+    width: 50% !important;
+  }
+  .PayCardBoxMargin{
+    margin-top: 0rem;
+  }
+  .fontFitSCreen{
+    font-size: 12px !important;
+  }
+}
+
