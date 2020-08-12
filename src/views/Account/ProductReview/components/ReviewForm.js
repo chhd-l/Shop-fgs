@@ -73,7 +73,7 @@ class ReviewForm extends React.Component {
         validDom.style.display = "block";
         if (e.target.name === "whatYouLike") {
           this.setState({
-            textErrorInfo: "Review is required.",
+            textErrorInfo: this.props.intl.messages.reviewisRequired,
           });
         }
       } else {
@@ -122,7 +122,7 @@ class ReviewForm extends React.Component {
               <div class="row">
               <div class="form-group col-lg-6 pull-left">
                 <label class="form-control-label rc-full-width" for="reference">
-                 Title
+                <FormattedMessage id="title" />
                 </label>
                 <span
                   class="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width"
@@ -140,7 +140,7 @@ class ReviewForm extends React.Component {
                     onBlur={(e) => this.inputBlur(e)}
                   ></input> */}
                   <input type="text" 
-                  placeholder="Title" 
+                  placeholder={this.props.intl.messages.title} 
                   class="form-control"              
                   value={this.state.title}
                   style={{padding:0}}
