@@ -95,7 +95,7 @@ class Subscription extends React.Component {
       pageSize: this.pageSize,
       subscribeId: form.subscribeId,
       subscribeStatus: form.subscribeStatus,
-      customerAccount: JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
+      customerAccount: localStorage.getItem('rc-userinfo') ? JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount'] : ''
     }
     getSubList(param)
       .then((res) => {
@@ -233,18 +233,18 @@ class Subscription extends React.Component {
                                     <br className="d-none d-md-block" />
                                   </p>
                                 </div>
-                                <div className="col-12 col-md-2">
+                                <div className="col-4 col-md-2">
                                   <p>
                                     <FormattedMessage id="subscription.date" />
                                   </p>
                                 </div>
-                                <div className="col-12 col-md-2">
+                                <div className="col-4 col-md-2">
                                   <p>
                                     <FormattedMessage id="subscription.frequency" />
                                     <br className="d-none d-md-block" />
                                   </p>
                                 </div>
-                                <div className="col-12 col-md-2 pl-4">
+                                <div className="col-4 col-md-2 pl-4">
                                   <p><FormattedMessage id="subscription.status" /></p>
                                 </div>
 
@@ -265,7 +265,7 @@ class Subscription extends React.Component {
                               className="row rc-margin-x--none row align-items-center"
                               style={{ padding: "1rem 0" }}
                             >
-                              <div className="col-12 col-md-2 d-flex flex-wrap">
+                              <div className="col-4 col-md-2 d-flex flex-wrap">
                                 {subItem.goodsInfo && subItem.goodsInfo.map((item) => (
                                   <img
                                     className="img-fluid"
@@ -279,11 +279,11 @@ class Subscription extends React.Component {
                               <div className="col-12 col-md-2">
                                 {subItem.subscribeId}
                               </div>
-                              <div className="col-12 col-md-2">{subItem.createTime.split(' ')[0]}</div>
-                              <div className="col-12 col-md-2">
+                              <div className="col-4 col-md-2" style={{ whiteSpace: 'nowrap' }}>{subItem.createTime.split(' ')[0]}</div>
+                              <div className="col-4 col-md-2">
                                 {subItem.frequency}
                               </div>
-                              <div className="col-12 col-md-2 pl-4">{subItem.subscribeStatus === '0' ? <FormattedMessage id="active" /> : <FormattedMessage id="inactive" />}</div>
+                              <div className="col-4 col-md-2 pl-4">{subItem.subscribeStatus === '0' ? <FormattedMessage id="active" /> : <FormattedMessage id="inactive" />}</div>
                               {/* <div className="col-12 col-md-2"># {i + 1}</div> */}
                             </div>
                           </div>
