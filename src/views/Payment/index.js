@@ -138,7 +138,7 @@ class Payment extends React.Component {
       adyenPayParam: {},
       payWayNameArr: [],
       toolTipVisible: false,
-      email:'',
+      email: '',
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
@@ -146,9 +146,9 @@ class Payment extends React.Component {
     this.loginDeliveryAddressRef = React.createRef();
     this.loginBillingAddressRef = React.createRef();
     this.lang = process.env.REACT_APP_LANG;
-   
+
   }
-  async componentDidMount() {
+  async componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -158,13 +158,13 @@ class Payment extends React.Component {
     //获取支付方式
     const payWay = await getWays();
     let payWayNameArr = []
-    if(payWay.context.length>0){
-       payWayNameArr = payWay.context
-      .map((item) => item.payChannelItemList)[0]
-      .map((item) => item.code);
-    //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"]
+    if (payWay.context.length > 0) {
+      payWayNameArr = payWay.context
+        .map((item) => item.payChannelItemList)[0]
+        .map((item) => item.code);
+      //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"]
     }
-    
+
     let payMethod = payWayNameArr[0] || "none";//初始化默认取第0个
     //各种支付component初始化方法
     var initPaymentWay = {
@@ -258,23 +258,23 @@ class Payment extends React.Component {
       });
     }
   }
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
     sessionStorage.removeItem("rc-tid");
   }
-  get isLogin() {
+  get isLogin () {
     return this.props.loginStore.isLogin;
   }
-  get cartData() {
+  get cartData () {
     return this.props.checkoutStore.cartData;
   }
-  get loginCartData() {
+  get loginCartData () {
     return this.props.checkoutStore.loginCartData;
   }
-  get tradePrice() {
+  get tradePrice () {
     return this.props.checkoutStore.tradePrice;
   }
-  showErrorMsg(msg) {
+  showErrorMsg (msg) {
     this.setState({
       errorShow: true,
       errorMsg: msg,
@@ -290,7 +290,7 @@ class Payment extends React.Component {
       });
     }, 5000);
   }
-  validInputsData(data) {
+  validInputsData (data) {
     for (let key in data) {
       const val = data[key];
       const targetRule = find(rules, (ele) => ele.key === key);
@@ -310,14 +310,14 @@ class Payment extends React.Component {
       }
     }
   }
-  confirmCardInfo() {
+  confirmCardInfo () {
     this.setState({
       isCompleteCredit: true,
     });
   }
 
   //支付1.初始化adyen_credit_card
-  initAdyenPay() {
+  initAdyenPay () {
     this.setState({ paymentTypeVal: "adyenCard" });
     if (!!window.AdyenCheckout) {
       //要有值
@@ -329,13 +329,13 @@ class Payment extends React.Component {
         // originKey: 'pub.v2.8015632026961356.aHR0cDovLzM3OWY1Ni5uYXRhcHBmcmVlLmNj.Az9_LCyvmZZrxv-2oUzWwjItpZpgl8FhizzQT25gYHY',
         //locale:'de-DE',
       });
-      
+
       // (2). Create and mount the Component
       const card = checkout
         .create("card", {
-          hasHolderName:true,
-          holderNameRequired:true,
-          enableStoreDetails:true,
+          hasHolderName: true,
+          holderNameRequired: true,
+          enableStoreDetails: true,
           styles: {},
           placeholders: {},
           showPayButton: true,
@@ -357,13 +357,13 @@ class Payment extends React.Component {
           },
         })
         .mount("#card-container");
-    }else{
+    } else {
       this.initAdyenPay() //没有AdyenCheckout对象,重新初始化
     }
   }
 
   //支付2.初始化KlarnaPayLater
-  initKlarnaPayLater=(email)=>{
+  initKlarnaPayLater = (email) => {
     this.doGetAdyenPayParam('adyen_klarna_pay_lat')
     this.setState({
       email
@@ -371,7 +371,7 @@ class Payment extends React.Component {
   }
 
   //支付3,初始化KlarnaPayNow
-  initKlarnaPayNow=(email)=>{
+  initKlarnaPayNow = (email) => {
     this.doGetAdyenPayParam('adyen_klarna_pay_now')
     this.setState({
       email
@@ -380,95 +380,95 @@ class Payment extends React.Component {
 
   /**************支付公共方法start*****************/
 
-   //组装支付共同的参数
-   async getAdyenPayParam(type){
-      await this.saveAddressAndComment(); //获取两个addressId
-      let obj = await this.getPayCommonParam()
-      let commonParameter = obj.commonParameter
-      let phone = obj.phone
-      let parameters
-      /* 组装支付需要的参数 */
-      const actions = {
-        'adyen_credit_card':()=>{
-          parameters = Object.assign(
-            commonParameter,
-            {
-              ...this.state.adyenPayParam,
-            },
-            {
-              shopperLocale:'en_US',
-              currency:'EUR',
-              country: "DE",
-              deliveryAddressId: this.state.deliveryAddress.addressId,
-              billAddressId: this.state.billingAddress.addressId,
-              phone
-            },
-          );
-        },
-        'adyen_klarna_pay_lat':()=>{
-          parameters = Object.assign(
-            commonParameter,
-            {
-              adyenType:'klarna',
-              payChannelItem:'adyen_klarna_pay_lat',
-              
-            },
-            {email:this.state.email},
-            {
-              successUrl:process.env.REACT_APP_SUCCESSFUL_URL,
-              //successUrl:'http://379f56.natappfree.cc/payResult',
-              shopperLocale:'en_US',
-              currency:'EUR',
-              country: "DE",
-              deliveryAddressId: this.state.deliveryAddress.addressId,
-              billAddressId: this.state.billingAddress.addressId,
-              phone
-            }
-          );
-        },
-        'adyen_klarna_pay_now':()=>{
-          parameters = Object.assign(
-            commonParameter,
-            {       
-              adyenType:'klarna_paynow',
-              payChannelItem:'adyen_klarna_pay_now',
-            },
-            {email:this.state.email},
-            {
-              successUrl:process.env.REACT_APP_SUCCESSFUL_URL,
-              //successUrl:'http://379f56.natappfree.cc/payResult',
-              shopperLocale:'en_US',
-              currency:'EUR',
-              country: "DE",
-              deliveryAddressId: this.state.deliveryAddress.addressId,
-              billAddressId: this.state.billingAddress.addressId,
-              phone
-            }
-          );
-        }
+  //组装支付共同的参数
+  async getAdyenPayParam (type) {
+    await this.saveAddressAndComment(); //获取两个addressId
+    let obj = await this.getPayCommonParam()
+    let commonParameter = obj.commonParameter
+    let phone = obj.phone
+    let parameters
+    /* 组装支付需要的参数 */
+    const actions = {
+      'adyen_credit_card': () => {
+        parameters = Object.assign(
+          commonParameter,
+          {
+            ...this.state.adyenPayParam,
+          },
+          {
+            shopperLocale: 'en_US',
+            currency: 'EUR',
+            country: "DE",
+            deliveryAddressId: this.state.deliveryAddress.addressId,
+            billAddressId: this.state.billingAddress.addressId,
+            phone
+          },
+        );
+      },
+      'adyen_klarna_pay_lat': () => {
+        parameters = Object.assign(
+          commonParameter,
+          {
+            adyenType: 'klarna',
+            payChannelItem: 'adyen_klarna_pay_lat',
+
+          },
+          { email: this.state.email },
+          {
+            successUrl: process.env.REACT_APP_SUCCESSFUL_URL,
+            //successUrl:'http://379f56.natappfree.cc/payResult',
+            shopperLocale: 'en_US',
+            currency: 'EUR',
+            country: "DE",
+            deliveryAddressId: this.state.deliveryAddress.addressId,
+            billAddressId: this.state.billingAddress.addressId,
+            phone
+          }
+        );
+      },
+      'adyen_klarna_pay_now': () => {
+        parameters = Object.assign(
+          commonParameter,
+          {
+            adyenType: 'klarna_paynow',
+            payChannelItem: 'adyen_klarna_pay_now',
+          },
+          { email: this.state.email },
+          {
+            successUrl: process.env.REACT_APP_SUCCESSFUL_URL,
+            //successUrl:'http://379f56.natappfree.cc/payResult',
+            shopperLocale: 'en_US',
+            currency: 'EUR',
+            country: "DE",
+            deliveryAddressId: this.state.deliveryAddress.addressId,
+            billAddressId: this.state.billingAddress.addressId,
+            phone
+          }
+        );
       }
-      actions[type]()
-      return parameters
+    }
+    actions[type]()
+    return parameters
   }
 
   //得到支付共同的参数
-  async getPayCommonParam(){
+  async getPayCommonParam () {
     let commonParameter = await this.goConfirmation(); //获取支付公共参数
     let phone = this.state.billingAddress.phoneNumber; //获取电话号码
-    return new Promise((resolve=>{
-      resolve({commonParameter,phone})
+    return new Promise((resolve => {
+      resolve({ commonParameter, phone })
     }))
   }
 
 
   //获取adyen参数
-  async doGetAdyenPayParam(type){
+  async doGetAdyenPayParam (type) {
     let parameters = await this.getAdyenPayParam(type)
-    this.allAdyenPayment(parameters,type)
+    this.allAdyenPayment(parameters, type)
   }
 
   //根据条件-调用不同的支付接口,进行支付
-  async allAdyenPayment(parameters,type) {
+  async allAdyenPayment (parameters, type) {
     try {
       let action;
       const actions = () => {
@@ -515,21 +515,21 @@ class Payment extends React.Component {
       /* 4)调用支付 */
       const res = await action(parameters);
       if (res.code === "K-000000") {
-        let orderNumber          
-        switch(type) {
+        let orderNumber
+        switch (type) {
           case 'adyen_credit_card':
-            orderNumber = res.context[0].tid; 
+            orderNumber = res.context[0].tid;
             sessionStorage.setItem("orderNumber", orderNumber);
             this.props.history.push("/confirmation");
             break;
           case 'adyen_klarna_pay_lat':
           case 'adyen_klarna_pay_now':
             orderNumber = res.context.pId;
-            window.location.href = res.context.url         
-            sessionStorage.setItem("orderNumber", orderNumber);        
+            window.location.href = res.context.url
+            sessionStorage.setItem("orderNumber", orderNumber);
             break;
-     } 
-        
+        }
+
       }
     } catch (err) {
       if (err.errorData) {
@@ -550,7 +550,7 @@ class Payment extends React.Component {
   /**
    * save address/comment
    */
-  async saveAddressAndComment() {
+  async saveAddressAndComment () {
     const {
       deliveryAddress,
       billingAddress,
@@ -635,10 +635,8 @@ class Payment extends React.Component {
     } else {
       param.billingAddress = tmpBillingAddress;
     }
-    // 德国店铺校验clinic
-    if (
-      this.lang === "de" &&
-      (!this.props.clinicStore.clinicId || !this.props.clinicStore.clinicName)
+    // 未开启地图，需校验clinic
+    if (!this.props.configStore.prescriberMap && (!this.props.clinicStore.clinicId || !this.props.clinicStore.clinicName)
     ) {
       this.showErrorMsg(this.props.intl.messages.selectNoneClincTip);
       return false;
@@ -660,7 +658,7 @@ class Payment extends React.Component {
       billingChecked: param.billingChecked,
     });
   }
-  initCardLoginInfo() {
+  initCardLoginInfo () {
     this.setState({
       creditCardLoginInfo: {
         cardNumber: "",
@@ -674,13 +672,13 @@ class Payment extends React.Component {
       },
     });
   }
-  startLoading() {
+  startLoading () {
     this.setState({ loading: true });
   }
-  endLoading() {
+  endLoading () {
     this.setState({ loading: false });
   }
-  async handleClickFurther() {
+  async handleClickFurther () {
     if (!this.state.isToPayNow) {
       let tmpRes = await this.saveAddressAndComment();
       if (tmpRes === false) {
@@ -772,7 +770,7 @@ class Payment extends React.Component {
       this.goConfirmation();
     }
   }
-  async goConfirmation() {
+  async goConfirmation () {
     const { history, clinicStore } = this.props;
     let {
       isEighteen,
@@ -948,8 +946,8 @@ class Payment extends React.Component {
         ? this.tid
           ? rePay
           : subForm.buyWay === "frequency"
-          ? customerCommitAndPayMix
-          : customerCommitAndPay
+            ? customerCommitAndPayMix
+            : customerCommitAndPay
         : confirmAndCommit;
       const confirmAndCommitRes = await tmpCommitAndPay(param3);
       console.log(confirmAndCommitRes);
@@ -957,13 +955,13 @@ class Payment extends React.Component {
       sessionStorage.setItem(
         "orderNumber",
         (confirmAndCommitResContext && confirmAndCommitResContext[0]["tid"]) ||
-          this.tid
+        this.tid
       );
       sessionStorage.setItem(
         "subNumber",
         (confirmAndCommitResContext &&
           confirmAndCommitResContext[0]["subscribeId"]) ||
-          ""
+        ""
       );
       if (this.state.paymentTypeVal === "creditCard") {
         sessionStorage.setItem(
@@ -1001,7 +999,7 @@ class Payment extends React.Component {
       this.endLoading();
     }
   }
-  cardInfoInputChange(e) {
+  cardInfoInputChange (e) {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -1010,7 +1008,7 @@ class Payment extends React.Component {
     this.inputBlur(e);
     this.setState({ creditCardInfo: creditCardInfo });
   }
-  inputBlur(e) {
+  inputBlur (e) {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -1023,10 +1021,10 @@ class Payment extends React.Component {
       validDom.style.display = e.target.value ? "none" : "block";
     }
   }
-  commentChange(e) {
+  commentChange (e) {
     this.setState({ commentOnDelivery: e.target.value });
   }
-  cardConfirm() {
+  cardConfirm () {
     for (let k in this.state.creditCardInfo) {
       if (this.state.creditCardInfo[k] === "") {
         this.showErrorMsg(this.props.intl.messages.CompleteRequiredItems);
@@ -1086,18 +1084,18 @@ class Payment extends React.Component {
       }
     }, 1000);
   }
-  insertStr(soure, start, newStr) {
+  insertStr (soure, start, newStr) {
     return soure.slice(0, start) + newStr + soure.slice(start);
   }
-  retextStr(soure, start, newStr) {
+  retextStr (soure, start, newStr) {
     return soure.slice(0, start) + newStr + soure.slice(start + 1);
   }
-  phoneNumberClick(e) {
+  phoneNumberClick (e) {
     let index = e.target.value.indexOf("_");
     e.target.selectionStart = index;
     e.target.selectionEnd = index;
   }
-  phoneNumberInput(e, obj, k) {
+  phoneNumberInput (e, obj, k) {
     let target = e.target;
     let textVal = target.value;
     let oldSelectionStart = target.selectionStart;
@@ -1146,7 +1144,7 @@ class Payment extends React.Component {
     target.value = target.value.slice(0, 16);
     obj[k] = target.value;
   }
-  billingCheckedChange() {
+  billingCheckedChange () {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
     if (!billingChecked) {
@@ -1155,26 +1153,26 @@ class Payment extends React.Component {
       });
     }
   }
-  savePromotionCode(promotionCode) {
+  savePromotionCode (promotionCode) {
     this.setState({
       promotionCode,
     });
   }
-  handlePaymentTypeChange(e) {
+  handlePaymentTypeChange (e) {
     this.setState(
       {
         paymentTypeVal: e.target.value,
       },
       () => {
-          switch(this.state.paymentTypeVal) {
-            case 'adyenCard':
-                this.initAdyenPay();
-                break;
+        switch (this.state.paymentTypeVal) {
+          case 'adyenCard':
+            this.initAdyenPay();
+            break;
         }
       }
     );
   }
-  render() {
+  render () {
     const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
@@ -1207,13 +1205,13 @@ class Payment extends React.Component {
             id="checkout-main"
             className="rc-bottom-spacing data-checkout-stage rc-max-width--lg"
           >
-            <Progress type="payment"/>
+            <Progress type="payment" />
             <div className="rc-layout-container rc-three-column rc-max-width--xl">
               <div className="rc-column rc-double-width shipping__address">
                 <div
                   className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
                     this.state.errorShow ? "" : "hidden"
-                  }`}
+                    }`}
                 >
                   <aside
                     className="rc-alert rc-alert--error rc-alert--with-close"
@@ -1225,132 +1223,132 @@ class Payment extends React.Component {
                 {this.state.isToPayNow ? (
                   <AddressPreview info={store.get("loginDeliveryInfo")} />
                 ) : (
-                  <>
-                    <div className="shipping-form">
-                      <div className="bg-transparent">
-                        <ClinicForm history={this.props.history} />
-                        <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-                          {this.isLogin ? (
-                            <LoginDeliveryAddress
-                              id="1"
-                              ref={this.loginDeliveryAddressRef}
-                            />
-                          ) : (
-                            <UnloginDeliveryAddress
-                              data={deliveryAddress}
-                              updateData={(data) => {
-                                this.setState({
-                                  deliveryAddress: data,
-                                });
-                              }}
-                            />
-                          )}
-                          {/* 标记 */}
-
-                          <div className="billingCheckbox rc-margin-top--xs">
-                            <div>
-                              <input
-                                className="form-check-input"
-                                id="id-checkbox-billing"
-                                value="Cat"
-                                type="checkbox"
-                                onChange={() => this.billingCheckedChange()}
-                                checked={this.state.billingChecked}
-                                style={{ width: "17px", height: "17px" }}
-                              />
-                              <label
-                                className="rc-input__label--inline"
-                                htmlFor="id-checkbox-billing"
-                              >
-                                <FormattedMessage id="biliingAddressSameAs" />
-                              </label>
-                            </div>
-                            <div className=" normalDelivery">
-                              <span>
-                                <FormattedMessage id="payment.normalDelivery2" />
-                              </span>
-                              <span className="text-muted arrival-time">
-                                <FormattedMessage id="payment.normalDelivery3" />
-                              </span>
-
-                              <span
-                                className="shipping-method-pricing ml3"
-                                
-                              >
-                                <span
-                                  className="info delivery-method-tooltip"
-                                  // data-tooltip-placement="top"
-                                  // data-tooltip="top-tooltip-delivery-tip"
-                                  style={{ verticalAlign: "unset" }}
-                                  onMouseEnter={() => {
-                                    this.setState({
-                                      toolTipVisible: true,
-                                    });
-                                  }}
-                                  onMouseLeave={() => {
-                                    this.setState({
-                                      toolTipVisible: false,
-                                    });
-                                  }}
-                                >
-                                  i
-                                </span>
-                                <ConfirmTooltip
-                                  containerStyle={{
-                                    transform: "translate(-65%, 112%)",
-                                  }}
-                                  
-                                  arrowStyle={{ left: "92%" }}
-                                  display={this.state.toolTipVisible}
-                                  cancelBtnVisible={false}
-                                  confirmBtnVisible={false}
-                                  updateChildDisplay={(status) =>
-                                    this.setState({
-                                      toolTipVisible: status,
-                                    })
-                                  }
-                                  content={
-                                    <FormattedMessage id="payment.forFreeTip" />
-                                  }
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        {!this.state.billingChecked && (
+                    <>
+                      <div className="shipping-form">
+                        <div className="bg-transparent">
+                          <ClinicForm history={this.props.history} />
                           <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-                            <div
-                              className="card-header bg-transparent position-relative pt-0 pb-0"
-                              style={{ zIndex: 2, width: "62%" }}
-                            >
-                              <h5>
-                                <i className="rc-icon rc-news--xs rc-iconography" />{" "}
-                                <FormattedMessage id="payment.billTitle" />
-                              </h5>
-                            </div>
                             {this.isLogin ? (
                               <LoginDeliveryAddress
-                                id="2"
-                                type="billing"
-                                ref={this.loginBillingAddressRef}
-                                visible={!this.state.billingChecked}
+                                id="1"
+                                ref={this.loginDeliveryAddressRef}
                               />
                             ) : (
-                              <BillingAddressForm
-                                data={billingAddress}
-                                billingChecked={this.state.billingChecked}
-                                updateData={(data) => {
-                                  this.setState({
-                                    billingAddress: data,
-                                  });
-                                }}
-                              />
-                            )}
+                                <UnloginDeliveryAddress
+                                  data={deliveryAddress}
+                                  updateData={(data) => {
+                                    this.setState({
+                                      deliveryAddress: data,
+                                    });
+                                  }}
+                                />
+                              )}
+                            {/* 标记 */}
+
+                            <div className="billingCheckbox rc-margin-top--xs">
+                              <div>
+                                <input
+                                  className="form-check-input"
+                                  id="id-checkbox-billing"
+                                  value="Cat"
+                                  type="checkbox"
+                                  onChange={() => this.billingCheckedChange()}
+                                  checked={this.state.billingChecked}
+                                  style={{ width: "17px", height: "17px" }}
+                                />
+                                <label
+                                  className="rc-input__label--inline"
+                                  htmlFor="id-checkbox-billing"
+                                >
+                                  <FormattedMessage id="biliingAddressSameAs" />
+                                </label>
+                              </div>
+                              <div className=" normalDelivery">
+                                <span>
+                                  <FormattedMessage id="payment.normalDelivery2" />
+                                </span>
+                                <span className="text-muted arrival-time">
+                                  <FormattedMessage id="payment.normalDelivery3" />
+                                </span>
+
+                                <span
+                                  className="shipping-method-pricing ml3"
+
+                                >
+                                  <span
+                                    className="info delivery-method-tooltip"
+                                    // data-tooltip-placement="top"
+                                    // data-tooltip="top-tooltip-delivery-tip"
+                                    style={{ verticalAlign: "unset" }}
+                                    onMouseEnter={() => {
+                                      this.setState({
+                                        toolTipVisible: true,
+                                      });
+                                    }}
+                                    onMouseLeave={() => {
+                                      this.setState({
+                                        toolTipVisible: false,
+                                      });
+                                    }}
+                                  >
+                                    i
+                                </span>
+                                  <ConfirmTooltip
+                                    containerStyle={{
+                                      transform: "translate(-65%, 112%)",
+                                    }}
+
+                                    arrowStyle={{ left: "92%" }}
+                                    display={this.state.toolTipVisible}
+                                    cancelBtnVisible={false}
+                                    confirmBtnVisible={false}
+                                    updateChildDisplay={(status) =>
+                                      this.setState({
+                                        toolTipVisible: status,
+                                      })
+                                    }
+                                    content={
+                                      <FormattedMessage id="payment.forFreeTip" />
+                                    }
+                                  />
+                                </span>
+                              </div>
+                            </div>
                           </div>
-                        )}
-                        {/* 标记 */}
-                        {/* <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3"> */}
-                        {/* <div className="card-header bg-transparent pt-0 pb-0">
+                          {!this.state.billingChecked && (
+                            <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
+                              <div
+                                className="card-header bg-transparent position-relative pt-0 pb-0"
+                                style={{ zIndex: 2, width: "62%" }}
+                              >
+                                <h5>
+                                  <i className="rc-icon rc-news--xs rc-iconography" />{" "}
+                                  <FormattedMessage id="payment.billTitle" />
+                                </h5>
+                              </div>
+                              {this.isLogin ? (
+                                <LoginDeliveryAddress
+                                  id="2"
+                                  type="billing"
+                                  ref={this.loginBillingAddressRef}
+                                  visible={!this.state.billingChecked}
+                                />
+                              ) : (
+                                  <BillingAddressForm
+                                    data={billingAddress}
+                                    billingChecked={this.state.billingChecked}
+                                    updateData={(data) => {
+                                      this.setState({
+                                        billingAddress: data,
+                                      });
+                                    }}
+                                  />
+                                )}
+                            </div>
+                          )}
+                          {/* 标记 */}
+                          {/* <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3"> */}
+                          {/* <div className="card-header bg-transparent pt-0 pb-0">
                               <h5>
                                 <i className="rc-icon rc-delivery--sm rc-iconography" style={{ transform: 'scale(.9)' }}></i>{' '}
                                 <FormattedMessage id="payment.howToDelivery" />
@@ -1358,9 +1356,9 @@ class Payment extends React.Component {
                             </div>
 
                           </div> */}
-                        {/* <fieldset className="shipping-method-block rc-fieldset">
+                          {/* <fieldset className="shipping-method-block rc-fieldset">
                           </fieldset> */}
-                        {/* <div className="card">
+                          {/* <div className="card">
                             <div className="card-header bg-transparent">
                               <h5>
                                 <FormattedMessage id="payment.commentOnDelivery" />
@@ -1385,62 +1383,62 @@ class Payment extends React.Component {
                             </span>
                           </div>
                          */}
-                      </div>
-                    </div>
-                    {this.isLogin &&
-                    find(
-                      this.loginCartData,
-                      (ele) => ele.subscriptionStatus
-                    ) ? (
-                      <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-                        <div className="card-header bg-transparent pt-0 pb-0">
-                          <h5>
-                            <span className="iconfont font-weight-bold mr-2">
-                              &#xe657;
-                            </span>
-                            <FormattedMessage id="subscription.chooseSubscription" />
-                          </h5>
                         </div>
-                        <SubscriptionSelect
-                          updateSelectedData={(data) => {
-                            //let isShowValidCode = this.refs.payProductInfo.state.isShowValidCode
-                            this.refs.payProductInfo.setState({
-                              isShowValidCode: false,
-                            });
-                            this.props.frequencyStore.updateBuyWay(data.buyWay);
-                            this.props.frequencyStore.updateFrequencyName(
-                              data.frequencyName
-                            );
-                            if (
-                              data.buyWay === "frequency" &&
-                              this.state.paymentTypeVal === "oxxo"
-                            ) {
-                              this.setState({
-                                paymentTypeVal: "creditCard",
-                              });
-                            }
-                            this.setState(
-                              {
-                                subForm: data,
-                              },
-                              () => {
-                                this.state.subForm.buyWay == "once"
-                                  ? this.props.checkoutStore.updateLoginCart(
-                                      this.state.promotionCode,
-                                      false
-                                    )
-                                  : this.props.checkoutStore.updateLoginCart(
-                                      this.state.promotionCode,
-                                      true
-                                    );
-                              }
-                            );
-                          }}
-                        />
                       </div>
-                    ) : null}
-                  </>
-                )}
+                      {this.isLogin &&
+                        find(
+                          this.loginCartData,
+                          (ele) => ele.subscriptionStatus
+                        ) ? (
+                          <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
+                            <div className="card-header bg-transparent pt-0 pb-0">
+                              <h5>
+                                <span className="iconfont font-weight-bold mr-2">
+                                  &#xe657;
+                            </span>
+                                <FormattedMessage id="subscription.chooseSubscription" />
+                              </h5>
+                            </div>
+                            <SubscriptionSelect
+                              updateSelectedData={(data) => {
+                                //let isShowValidCode = this.refs.payProductInfo.state.isShowValidCode
+                                this.refs.payProductInfo.setState({
+                                  isShowValidCode: false,
+                                });
+                                this.props.frequencyStore.updateBuyWay(data.buyWay);
+                                this.props.frequencyStore.updateFrequencyName(
+                                  data.frequencyName
+                                );
+                                if (
+                                  data.buyWay === "frequency" &&
+                                  this.state.paymentTypeVal === "oxxo"
+                                ) {
+                                  this.setState({
+                                    paymentTypeVal: "creditCard",
+                                  });
+                                }
+                                this.setState(
+                                  {
+                                    subForm: data,
+                                  },
+                                  () => {
+                                    this.state.subForm.buyWay == "once"
+                                      ? this.props.checkoutStore.updateLoginCart(
+                                        this.state.promotionCode,
+                                        false
+                                      )
+                                      : this.props.checkoutStore.updateLoginCart(
+                                        this.state.promotionCode,
+                                        true
+                                      );
+                                  }
+                                );
+                              }}
+                            />
+                          </div>
+                        ) : null}
+                    </>
+                  )}
                 <div
                   className="card-panel checkout--padding pl-0 pr-0 pb-4 rc-bg-colour--brand3 rounded mb-3 cardCss"
                   style={{ paddingBottom: "0rem" }}
@@ -1476,18 +1474,18 @@ class Payment extends React.Component {
                           key={1}
                         />
                       ) : (
-                        <input
-                          class="rc-input__radio"
-                          id="payment-info-creditCard"
-                          value="creditCard"
-                          type="radio"
-                          name="payment-info"
-                          onChange={(event) =>
-                            this.handlePaymentTypeChange(event)
-                          }
-                          key={2}
-                        />
-                      )}
+                          <input
+                            class="rc-input__radio"
+                            id="payment-info-creditCard"
+                            value="creditCard"
+                            type="radio"
+                            name="payment-info"
+                            onChange={(event) =>
+                              this.handlePaymentTypeChange(event)
+                            }
+                            key={2}
+                          />
+                        )}
                       <label
                         class="rc-input__label--inline"
                         for="payment-info-creditCard"
@@ -1519,18 +1517,18 @@ class Payment extends React.Component {
                             key={3}
                           />
                         ) : (
-                          <input
-                            class="rc-input__radio"
-                            id="payment-info-oxxo"
-                            value="oxxo"
-                            type="radio"
-                            name="payment-info"
-                            onChange={(event) =>
-                              this.handlePaymentTypeChange(event)
-                            }
-                            key={4}
-                          />
-                        )}
+                            <input
+                              class="rc-input__radio"
+                              id="payment-info-oxxo"
+                              value="oxxo"
+                              type="radio"
+                              name="payment-info"
+                              onChange={(event) =>
+                                this.handlePaymentTypeChange(event)
+                              }
+                              key={4}
+                            />
+                          )}
 
                         <label
                           class="rc-input__label--inline"
@@ -1565,18 +1563,18 @@ class Payment extends React.Component {
                           key={5}
                         />
                       ) : (
-                        <input
-                          class="rc-input__radio"
-                          id="payment-info-adyen"
-                          value="adyenCard"
-                          type="radio"
-                          name="payment-info"
-                          onChange={(event) =>
-                            this.handlePaymentTypeChange(event)
-                          }
-                          key={6}
-                        />
-                      )}
+                          <input
+                            class="rc-input__radio"
+                            id="payment-info-adyen"
+                            value="adyenCard"
+                            type="radio"
+                            name="payment-info"
+                            onChange={(event) =>
+                              this.handlePaymentTypeChange(event)
+                            }
+                            key={6}
+                          />
+                        )}
 
                       <label
                         class="rc-input__label--inline"
@@ -1611,25 +1609,25 @@ class Payment extends React.Component {
                           key={7}
                         />
                       ) : (
-                        <input
-                          class="rc-input__radio"
-                          id="payment-info-adyen-klarna-pay-later"
-                          value="adyenKlarnaPayLater"
-                          type="radio"
-                          name="payment-info"
-                          onChange={(event) =>
-                            this.handlePaymentTypeChange(event)
-                          }
-                          key={8}
-                        />
-                      )}
+                          <input
+                            class="rc-input__radio"
+                            id="payment-info-adyen-klarna-pay-later"
+                            value="adyenKlarnaPayLater"
+                            type="radio"
+                            name="payment-info"
+                            onChange={(event) =>
+                              this.handlePaymentTypeChange(event)
+                            }
+                            key={8}
+                          />
+                        )}
 
                       <label
                         class="rc-input__label--inline"
                         for="payment-info-adyen-klarna-pay-later"
                       >
                         <FormattedMessage id="adyenPayLater" />
-                      </label>            
+                      </label>
                     </div>
                     {/* KlarnaPayNow */}
                     <div
@@ -1657,25 +1655,25 @@ class Payment extends React.Component {
                           key={7}
                         />
                       ) : (
-                        <input
-                          class="rc-input__radio"
-                          id="payment-info-adyen-klarna-pay-now"
-                          value="adyenKlarnaPayNow"
-                          type="radio"
-                          name="payment-info"
-                          onChange={(event) =>
-                            this.handlePaymentTypeChange(event)
-                          }
-                          key={8}
-                        />
-                      )}
+                          <input
+                            class="rc-input__radio"
+                            id="payment-info-adyen-klarna-pay-now"
+                            value="adyenKlarnaPayNow"
+                            type="radio"
+                            name="payment-info"
+                            onChange={(event) =>
+                              this.handlePaymentTypeChange(event)
+                            }
+                            key={8}
+                          />
+                        )}
 
                       <label
                         class="rc-input__label--inline"
                         for="payment-info-adyen-klarna-pay-now"
                       >
                         <FormattedMessage id="adyenPayNow" />
-                      </label>            
+                      </label>
                     </div>
                   </div>
 
@@ -1690,7 +1688,7 @@ class Payment extends React.Component {
                   <div
                     className={`${
                       this.state.paymentTypeVal === "creditCard" ? "" : "hidden"
-                    }`}
+                      }`}
                   >
                     <div className="card payment-form ml-custom mr-custom Card-border">
                       <div className="card-body rc-padding--none">
@@ -1722,260 +1720,260 @@ class Payment extends React.Component {
                                   />
                                 </div>
                               ) : (
-                                <div
-                                // className={`rc-border-all rc-border-colour--interface ${
-                                //   !this.state.isCompleteCredit
-                                //     ? "checkout--padding"
-                                //     : ""
-                                //   }`}
-                                >
                                   <div
-                                    className={`credit-card-content ${
-                                      !this.state.isCompleteCredit
-                                        ? ""
-                                        : "hidden"
-                                    }`}
-                                    id="credit-card-content"
+                                  // className={`rc-border-all rc-border-colour--interface ${
+                                  //   !this.state.isCompleteCredit
+                                  //     ? "checkout--padding"
+                                  //     : ""
+                                  //   }`}
                                   >
-                                    <div className="credit-card-form ">
-                                      <div className="rc-margin-bottom--xs">
-                                        <div className="content-asset">
-                                          <p>
-                                            <FormattedMessage id="payment.acceptCards" />
-                                          </p>
-                                        </div>
-                                        <div className="row">
-                                          <div className="col-sm-12">
-                                            <div className="form-group">
-                                              <label
-                                                className="form-control-label"
-                                                htmlFor="cardNumber"
-                                              >
-                                                <FormattedMessage id="payment.cardNumber" />
-                                                <span style={{ color: "red" }}>
-                                                  *
+                                    <div
+                                      className={`credit-card-content ${
+                                        !this.state.isCompleteCredit
+                                          ? ""
+                                          : "hidden"
+                                        }`}
+                                      id="credit-card-content"
+                                    >
+                                      <div className="credit-card-form ">
+                                        <div className="rc-margin-bottom--xs">
+                                          <div className="content-asset">
+                                            <p>
+                                              <FormattedMessage id="payment.acceptCards" />
+                                            </p>
+                                          </div>
+                                          <div className="row">
+                                            <div className="col-sm-12">
+                                              <div className="form-group">
+                                                <label
+                                                  className="form-control-label"
+                                                  htmlFor="cardNumber"
+                                                >
+                                                  <FormattedMessage id="payment.cardNumber" />
+                                                  <span style={{ color: "red" }}>
+                                                    *
                                                 </span>
-                                                {CreditCardImg}
+                                                  {CreditCardImg}
 
-                                                <form id="payment-form">
-                                                  <div id="card-secure-fields"></div>
-                                                  <button
-                                                    id="submit"
-                                                    name="submit"
-                                                    className="creadit"
-                                                    type="submit"
-                                                  >
-                                                    Pay
+                                                  <form id="payment-form">
+                                                    <div id="card-secure-fields"></div>
+                                                    <button
+                                                      id="submit"
+                                                      name="submit"
+                                                      className="creadit"
+                                                      type="submit"
+                                                    >
+                                                      Pay
                                                   </button>
-                                                </form>
-                                              </label>
+                                                  </form>
+                                                </label>
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                        <div className="row overflow_visible">
-                                          <div className="col-sm-12">
-                                            <div className="form-group required">
-                                              <label className="form-control-label">
-                                                <FormattedMessage id="payment.cardOwner" />
-                                              </label>
-                                              <span
-                                                className="rc-input rc-input--full-width"
-                                                input-setup="true"
-                                              >
-                                                <input
-                                                  type="text"
-                                                  id="cardholder-name"
-                                                  className="rc-input__control form-control cardOwner"
-                                                  name="cardOwner"
-                                                  value={
-                                                    creditCardInfo.cardOwner
-                                                  }
-                                                  onChange={(e) =>
-                                                    this.cardInfoInputChange(e)
-                                                  }
-                                                  onBlur={(e) =>
-                                                    this.inputBlur(e)
-                                                  }
-                                                  maxLength="40"
-                                                />
+                                          <div className="row overflow_visible">
+                                            <div className="col-sm-12">
+                                              <div className="form-group required">
+                                                <label className="form-control-label">
+                                                  <FormattedMessage id="payment.cardOwner" />
+                                                </label>
+                                                <span
+                                                  className="rc-input rc-input--full-width"
+                                                  input-setup="true"
+                                                >
+                                                  <input
+                                                    type="text"
+                                                    id="cardholder-name"
+                                                    className="rc-input__control form-control cardOwner"
+                                                    name="cardOwner"
+                                                    value={
+                                                      creditCardInfo.cardOwner
+                                                    }
+                                                    onChange={(e) =>
+                                                      this.cardInfoInputChange(e)
+                                                    }
+                                                    onBlur={(e) =>
+                                                      this.inputBlur(e)
+                                                    }
+                                                    maxLength="40"
+                                                  />
+                                                  <label
+                                                    className="rc-input__label"
+                                                    htmlFor="cardOwner"
+                                                  ></label>
+                                                </span>
+                                                <div className="invalid-feedback">
+                                                  <FormattedMessage id="payment.errorInfo2" />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="row">
+                                            <div className="col-sm-6">
+                                              <div className="form-group required">
+                                                <label className="form-control-label">
+                                                  <FormattedMessage id="payment.email" />
+                                                </label>
+                                                <span
+                                                  className="rc-input rc-input--full-width"
+                                                  input-setup="true"
+                                                >
+                                                  <input
+                                                    type="email"
+                                                    className="rc-input__control email"
+                                                    id="email"
+                                                    value={creditCardInfo.email}
+                                                    onChange={(e) =>
+                                                      this.cardInfoInputChange(e)
+                                                    }
+                                                    onBlur={(e) =>
+                                                      this.inputBlur(e)
+                                                    }
+                                                    name="email"
+                                                    maxLength="254"
+                                                  />
+                                                  <label
+                                                    className="rc-input__label"
+                                                    htmlFor="email"
+                                                  ></label>
+                                                </span>
+                                                <div className="invalid-feedback">
+                                                  <FormattedMessage id="payment.errorInfo2" />
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div className="col-sm-6">
+                                              <div className="form-group required">
                                                 <label
-                                                  className="rc-input__label"
-                                                  htmlFor="cardOwner"
-                                                ></label>
-                                              </span>
-                                              <div className="invalid-feedback">
-                                                <FormattedMessage id="payment.errorInfo2" />
+                                                  className="form-control-label"
+                                                  htmlFor="phoneNumber"
+                                                >
+                                                  <FormattedMessage id="payment.phoneNumber" />
+                                                </label>
+                                                <span
+                                                  className="rc-input rc-input--full-width"
+                                                  input-setup="true"
+                                                  data-js-validate=""
+                                                  data-js-warning-message="*Phone Number isn’t valid"
+                                                >
+                                                  <input
+                                                    type="number"
+                                                    className="rc-input__control input__phoneField shippingPhoneNumber"
+                                                    min-lenght="18"
+                                                    max-length="18"
+                                                    data-phonelength="18"
+                                                    data-js-pattern="(^\d{10}$)"
+                                                    data-range-error="The phone number should contain 10 digits"
+                                                    value={
+                                                      creditCardInfo.phoneNumber
+                                                    }
+                                                    onChange={(e) =>
+                                                      this.cardInfoInputChange(e)
+                                                    }
+                                                    onBlur={(e) =>
+                                                      this.inputBlur(e)
+                                                    }
+                                                    name="phoneNumber"
+                                                    maxLength="2147483647"
+                                                  />
+                                                  <label
+                                                    className="rc-input__label"
+                                                    htmlFor="phoneNumber"
+                                                  ></label>
+                                                </span>
+                                                <div className="invalid-feedback">
+                                                  <FormattedMessage id="payment.errorInfo2" />
+                                                </div>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
                                         <div className="row">
-                                          <div className="col-sm-6">
-                                            <div className="form-group required">
-                                              <label className="form-control-label">
-                                                <FormattedMessage id="payment.email" />
-                                              </label>
-                                              <span
-                                                className="rc-input rc-input--full-width"
-                                                input-setup="true"
-                                              >
-                                                <input
-                                                  type="email"
-                                                  className="rc-input__control email"
-                                                  id="email"
-                                                  value={creditCardInfo.email}
-                                                  onChange={(e) =>
-                                                    this.cardInfoInputChange(e)
-                                                  }
-                                                  onBlur={(e) =>
-                                                    this.inputBlur(e)
-                                                  }
-                                                  name="email"
-                                                  maxLength="254"
-                                                />
-                                                <label
-                                                  className="rc-input__label"
-                                                  htmlFor="email"
-                                                ></label>
-                                              </span>
-                                              <div className="invalid-feedback">
-                                                <FormattedMessage id="payment.errorInfo2" />
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="col-sm-6">
-                                            <div className="form-group required">
-                                              <label
-                                                className="form-control-label"
-                                                htmlFor="phoneNumber"
-                                              >
-                                                <FormattedMessage id="payment.phoneNumber" />
-                                              </label>
-                                              <span
-                                                className="rc-input rc-input--full-width"
-                                                input-setup="true"
-                                                data-js-validate=""
-                                                data-js-warning-message="*Phone Number isn’t valid"
-                                              >
-                                                <input
-                                                  type="number"
-                                                  className="rc-input__control input__phoneField shippingPhoneNumber"
-                                                  min-lenght="18"
-                                                  max-length="18"
-                                                  data-phonelength="18"
-                                                  data-js-pattern="(^\d{10}$)"
-                                                  data-range-error="The phone number should contain 10 digits"
-                                                  value={
-                                                    creditCardInfo.phoneNumber
-                                                  }
-                                                  onChange={(e) =>
-                                                    this.cardInfoInputChange(e)
-                                                  }
-                                                  onBlur={(e) =>
-                                                    this.inputBlur(e)
-                                                  }
-                                                  name="phoneNumber"
-                                                  maxLength="2147483647"
-                                                />
-                                                <label
-                                                  className="rc-input__label"
-                                                  htmlFor="phoneNumber"
-                                                ></label>
-                                              </span>
-                                              <div className="invalid-feedback">
-                                                <FormattedMessage id="payment.errorInfo2" />
-                                              </div>
-                                            </div>
+                                          <div className="col-sm-12 rc-margin-y--xs rc-text--center">
+                                            <button
+                                              className="rc-btn rc-btn--two card-confirm"
+                                              id="card-confirm"
+                                              type="button"
+                                              onClick={() => this.cardConfirm()}
+                                            >
+                                              <FormattedMessage id="payment.confirmCard" />
+                                            </button>
                                           </div>
                                         </div>
                                       </div>
+                                    </div>
+                                    <div
+                                      className={`creditCompleteInfoBox pb-3 ${
+                                        !this.state.isCompleteCredit
+                                          ? "hidden"
+                                          : ""
+                                        }`}
+                                    >
+                                      <p>
+                                        <span
+                                          className="pull-right ui-cursor-pointer-pure mr-2"
+                                          onClick={() => {
+                                            this.setState({
+                                              isCompleteCredit: false,
+                                            });
+                                          }}
+                                          style={{
+                                            position: "relative",
+                                            top: -9,
+                                          }}
+                                        >
+                                          <FormattedMessage id="edit" />
+                                        </span>
+                                      </p>
                                       <div className="row">
-                                        <div className="col-sm-12 rc-margin-y--xs rc-text--center">
-                                          <button
-                                            className="rc-btn rc-btn--two card-confirm"
-                                            id="card-confirm"
-                                            type="button"
-                                            onClick={() => this.cardConfirm()}
-                                          >
-                                            <FormattedMessage id="payment.confirmCard" />
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    className={`creditCompleteInfoBox pb-3 ${
-                                      !this.state.isCompleteCredit
-                                        ? "hidden"
-                                        : ""
-                                    }`}
-                                  >
-                                    <p>
-                                      <span
-                                        className="pull-right ui-cursor-pointer-pure mr-2"
-                                        onClick={() => {
-                                          this.setState({
-                                            isCompleteCredit: false,
-                                          });
-                                        }}
-                                        style={{
-                                          position: "relative",
-                                          top: -9,
-                                        }}
-                                      >
-                                        <FormattedMessage id="edit" />
-                                      </span>
-                                    </p>
-                                    <div className="row">
-                                      <div className="col-6 col-sm-3 d-flex flex-column justify-content-center ">
-                                        <img
-                                           className="PayCardImgFitScreen"
-                                          src={
-                                            CREDIT_CARD_IMG_ENUM[
-                                              this.state.payosdata.vendor
-                                            ]
-                                              ? CREDIT_CARD_IMG_ENUM[
-                                                  this.state.payosdata.vendor
+                                        <div className="col-6 col-sm-3 d-flex flex-column justify-content-center ">
+                                          <img
+                                            className="PayCardImgFitScreen"
+                                            src={
+                                              CREDIT_CARD_IMG_ENUM[
+                                                this.state.payosdata.vendor
+                                              ]
+                                                ? CREDIT_CARD_IMG_ENUM[
+                                                this.state.payosdata.vendor
                                                 ]
-                                              : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
-                                          }
-                                        />
-                                      </div>
-                                      <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
-                                        <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                                          <div className="col-12 color-999">
-                                            <FormattedMessage id="name2" />
-                                            <br />
-                                            <span className="creditCompleteInfo">
-                                              {creditCardInfo.cardOwner}
-                                            </span>
-                                          </div>
+                                                : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
+                                            }
+                                          />
                                         </div>
-                                        <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                                          <div className="col-6 color-999">
-                                            <FormattedMessage id="payment.cardNumber2" />
-                                            <br />
-                                            <span className="creditCompleteInfo">
-                                              xxxx xxxx xxxx{" "}
-                                              {this.state.payosdata
-                                                ? this.state.payosdata
-                                                    .last_4_digits
-                                                : ""}
-                                            </span>
+                                        <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
+                                          <div className="row creditCompleteInfo ui-margin-top-1-md-down">
+                                            <div className="col-12 color-999">
+                                              <FormattedMessage id="name2" />
+                                              <br />
+                                              <span className="creditCompleteInfo">
+                                                {creditCardInfo.cardOwner}
+                                              </span>
+                                            </div>
                                           </div>
-                                          <div className="col-6 color-999">
-                                            <FormattedMessage id="payment.cardType" />
-                                            <br />
-                                            <span className="creditCompleteInfo">
-                                              {this.state.payosdata.card_type}
-                                            </span>
+                                          <div className="row creditCompleteInfo ui-margin-top-1-md-down">
+                                            <div className="col-6 color-999">
+                                              <FormattedMessage id="payment.cardNumber2" />
+                                              <br />
+                                              <span className="creditCompleteInfo">
+                                                xxxx xxxx xxxx{" "}
+                                                {this.state.payosdata
+                                                  ? this.state.payosdata
+                                                    .last_4_digits
+                                                  : ""}
+                                              </span>
+                                            </div>
+                                            <div className="col-6 color-999">
+                                              <FormattedMessage id="payment.cardType" />
+                                              <br />
+                                              <span className="creditCompleteInfo">
+                                                {this.state.payosdata.card_type}
+                                              </span>
+                                            </div>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              )}
+                                )}
                             </div>
                           </div>
                         </form>
@@ -2035,7 +2033,7 @@ class Payment extends React.Component {
                           style={{
                             display:
                               this.state.isReadPrivacyPolicy ||
-                              this.state.isReadPrivacyPolicyInit
+                                this.state.isReadPrivacyPolicyInit
                                 ? "none"
                                 : "block",
                           }}
@@ -2073,7 +2071,7 @@ class Payment extends React.Component {
                             style={{
                               display:
                                 this.state.isEighteen ||
-                                this.state.isEighteenInit
+                                  this.state.isEighteenInit
                                   ? "none"
                                   : "block",
                             }}
@@ -2104,7 +2102,7 @@ class Payment extends React.Component {
                   <div
                     className={`${
                       this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"
-                    }`}
+                      }`}
                   >
                     <div class="payment-method checkout--padding">
                       <div
@@ -2118,23 +2116,23 @@ class Payment extends React.Component {
                   <div
                     className={`${
                       this.state.paymentTypeVal === "adyenKlarnaPayLater" ? "" : "hidden"
-                    }`}
+                      }`}
                   >
-                    <KlarnaPayLater clickPay={this.initKlarnaPayLater}/>
+                    <KlarnaPayLater clickPay={this.initKlarnaPayLater} />
                   </div>
                   {/* KlarnaPayNow  */}
                   <div
                     className={`${
                       this.state.paymentTypeVal === "adyenKlarnaPayNow" ? "" : "hidden"
-                    }`}
+                      }`}
                   >
-                    <KlarnaPayNow clickPay={this.initKlarnaPayNow}/>
+                    <KlarnaPayNow clickPay={this.initKlarnaPayNow} />
                   </div>
-                    </div>
+                </div>
               </div>
               <div
                 className="product-summary rc-column MarginTopFixSCreen"
-                style={{ paddingLeft: "unset" ,}}
+                style={{ paddingLeft: "unset", }}
               >
                 <PayProductInfo
                   ref="payProductInfo"
