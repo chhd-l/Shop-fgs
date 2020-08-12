@@ -150,7 +150,11 @@ class UnloginCart extends React.Component {
                     <span className="minicart__pointer"></span>
                     <div className="d-flex minicart_freeshipping_info align-items-center">
                       <i className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></i>
-                      <p><FormattedMessage id="cart.miniCartTitle" /></p>
+                      <p>
+                        {process.env.REACT_APP_IS_PROMOTION === 'true'
+                          ? <FormattedMessage id="cart.miniCartTitle" />
+                          : <FormattedMessage id="miniBasket" />}
+                      </p>
                     </div>
                   </div>
                   <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
