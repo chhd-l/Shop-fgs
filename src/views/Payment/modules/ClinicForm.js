@@ -5,11 +5,23 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import SearchSelection from "@/components/SearchSelection"
 import { getPrescriberByCode } from '@/api/clinic'
 import ConfirmTooltip from "@/components/ConfirmTooltip";
+import PropTypes from 'prop-types'
 
 @inject("clinicStore", "configStore")
 @observer
 @injectIntl
 class ClinicForm extends React.Component {
+  static propTypes = {
+    containerStyle: PropTypes.object,
+    arrowStyle: PropTypes.object
+  }
+  static defaultProps = {
+    content: <FormattedMessage id="confirmDelete" />,
+    containerStyle: {},
+    arrowStyle: {},
+    cancelBtnVisible: true,
+    confirmBtnVisible: true
+  }
   constructor(props) {
     super(props)
     this.state = {
@@ -17,8 +29,10 @@ class ClinicForm extends React.Component {
         clinicName: '',
         clinicId: ''
       },
-      toolTipVisible: false
+      toolTipVisible:false
     }
+    this.handleMouseOver = this.handleMouseOver.bind(this)
+    this.handleMouseOut = this.handleMouseOut.bind(this)
   }
   componentDidMount () {
     this.setState({
@@ -38,6 +52,23 @@ class ClinicForm extends React.Component {
       this.props.clinicStore.setSelectClinicId(this.state.form.clinicId)
       this.props.clinicStore.setSelectClinicName(this.state.form.clinicName)
     })
+  }
+  handleMouseOver () {
+    this.flag = 1
+    this.setState({
+      toolTipVisible: true
+    })
+  }
+  handleMouseOut () {
+    this.flag = 0
+    setTimeout(() => {
+      if (!this.flag) {
+        this.setState({
+          toolTipVisible: false,
+          errMsg: ''
+        })
+      }
+    }, 500)
   }
   render () {
     const defaultJSX = <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
@@ -78,16 +109,26 @@ class ClinicForm extends React.Component {
           defaultValue={this.state.form.clinicName}
           placeholder={this.props.intl.messages.enterClinicName}
           customCls="flex-fill" />
-          <span className="ml-3">
-            <span
-              className="info delivery-method-tooltip"
-              data-tooltip-placement="top"
-              data-tooltip="top-tooltip-noclinic-tip"
-              style={{ verticalAlign: "unset" }}>
-              i
-            </span>
-            <div id="top-tooltip-noclinic-tip" className="rc-tooltip">
-              <FormattedMessage
+        <span className="ml-3">
+          <span
+            className="info delivery-method-tooltip"
+            style={{ verticalAlign: "unset" }}
+            onMouseOver={this.handleMouseOver}
+            onMouseOut={this.handleMouseOut}>
+              ?</span>
+           {this.state.toolTipVisible?
+          <div
+          className="confirm-tool-container position-relative"   
+          onMouseOver={this.handleMouseOver}
+          onMouseOut={this.handleMouseOut}
+         >
+          <div
+            className="confirm-tool-content rc-bg-colour--brand4 p-3"
+            style={this.props.containerStyle}
+            tabIndex="1">
+            <div className="confirm-tool-arrow" style={this.props.arrowStyle}></div>
+            <div className="pt-1">
+            <FormattedMessage
                 id="noClinicTip"
                 values={{
                   val: <Link
@@ -97,7 +138,11 @@ class ClinicForm extends React.Component {
                   </Link>
                 }} />
             </div>
-          </span>
+          </div>
+
+        </div>
+  :null}
+        </span>
       </div>
     </div>
 
