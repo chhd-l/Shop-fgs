@@ -153,7 +153,7 @@ class HeroCarousel extends React.Component {
                       ? videoJSX(el.webUrl)
                       : <>
                         {el.webSkipUrl
-                          ? <a href={el.webSkipUrl}>
+                          ? <a className="h-100" href={el.webSkipUrl}>
                             <img
                               className="rc-md-up"
                               src={el.webUrl}
@@ -165,7 +165,7 @@ class HeroCarousel extends React.Component {
                             style={{ maxHeight: '100%' }} />}
 
                         {el.mobiSkipUrl
-                          ? <a href={el.mobiSkipUrl}>
+                          ? <a className="h-100" href={el.mobiSkipUrl}>
                             <img
                               className="rc-md-down w-100"
                               src={el.mobiUrl}

@@ -116,7 +116,7 @@ class SubscriptionSelect extends Component {
                 val: formatMoney(this.state.discountInfo && this.state.discountInfo.discountAmount ? this.state.discountInfo.discountAmount : 0)
               }} /> */}
             {/* <br /> */}
-            <span className="font-weight-normal mt-1 inlineblock">jasonjason
+            <span className="font-weight-normal mt-1 inlineblock">
               <FormattedMessage id="payment.deliveryFrequency" />:
             </span>
           </label>
