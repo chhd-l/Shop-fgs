@@ -3,8 +3,6 @@ import { injectIntl, FormattedMessage } from "react-intl";
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
-import "../application.css"
-import "./adyenCopy.css"
 
 class KlarnaPayLater extends Component {
   constructor(props) {
@@ -28,7 +26,7 @@ class KlarnaPayLater extends Component {
             <div class="address">
                 <form class="address-form" action="/destination" method="get">
                     <div class="address-line" id="addressLine2">
-                        <div class="address-input full-width" id="street">
+                        <div class="address-input full-width" id="street" style={{marginBottom:'18px'}}>
                         <label class="address-label" for="street">Email</label>
                         <input type="text" class="form-control" placeholder="Email" name="street" onChange={this.handleChange}/>
                         </div>

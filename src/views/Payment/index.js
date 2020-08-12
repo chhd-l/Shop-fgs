@@ -157,10 +157,14 @@ class Payment extends React.Component {
 
     //获取支付方式
     const payWay = await getWays();
-    let payWayNameArr = payWay.context
+    let payWayNameArr = []
+    if(payWay.context.length>0){
+       payWayNameArr = payWay.context
       .map((item) => item.payChannelItemList)[0]
       .map((item) => item.code);
     //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"]
+    }
+    
     let payMethod = payWayNameArr[0] || "none";//初始化默认取第0个
     //各种支付component初始化方法
     var initPaymentWay = {
@@ -173,10 +177,10 @@ class Payment extends React.Component {
         console.log("initKlarnaSlice");
       },
       adyen_klarna_pay_now: () => {
-        console.log("initKlarnaPayNow");
+        this.setState({ paymentTypeVal: "adyenKlarnaPayNow" });
       },
       adyen_klarna_pay_lat: () => {
-        console.log("initKlarnaPayLater");
+        this.setState({ paymentTypeVal: "adyenKlarnaPayLater" });
       },
       payu: () => {
         this.setState({ paymentTypeVal: "creditCard" });
@@ -322,7 +326,8 @@ class Payment extends React.Component {
       const checkout = new AdyenCheckout({
         environment: "test",
         originKey: process.env.REACT_APP_AdyenOriginKEY,
-        locale:'de-DE',
+        // originKey: 'pub.v2.8015632026961356.aHR0cDovLzM3OWY1Ni5uYXRhcHBmcmVlLmNj.Az9_LCyvmZZrxv-2oUzWwjItpZpgl8FhizzQT25gYHY',
+        //locale:'de-DE',
       });
       
       // (2). Create and mount the Component
@@ -352,6 +357,8 @@ class Payment extends React.Component {
           },
         })
         .mount("#card-container");
+    }else{
+      this.initAdyenPay() //没有AdyenCheckout对象,重新初始化
     }
   }
 
@@ -409,6 +416,7 @@ class Payment extends React.Component {
             {email:this.state.email},
             {
               successUrl:process.env.REACT_APP_SUCCESSFUL_URL,
+              //successUrl:'http://379f56.natappfree.cc/payResult',
               shopperLocale:'en_US',
               currency:'EUR',
               country: "DE",
@@ -428,7 +436,7 @@ class Payment extends React.Component {
             {email:this.state.email},
             {
               successUrl:process.env.REACT_APP_SUCCESSFUL_URL,
-              //successUrl:'http://2vzt77.natappfree.cc/payResult',
+              //successUrl:'http://379f56.natappfree.cc/payResult',
               shopperLocale:'en_US',
               currency:'EUR',
               country: "DE",
@@ -440,15 +448,13 @@ class Payment extends React.Component {
         }
       }
       actions[type]()
-      //(国家暂时填的MEX)
       return parameters
   }
 
   //得到支付共同的参数
   async getPayCommonParam(){
     let commonParameter = await this.goConfirmation(); //获取支付公共参数
-    // let phone = store.get("deliveryInfo").deliveryAddress.phoneNumber; //获取电话号码
-    let phone = 13678912345
+    let phone = this.state.billingAddress.phoneNumber; //获取电话号码
     return new Promise((resolve=>{
       resolve({commonParameter,phone})
     }))
@@ -1283,7 +1289,7 @@ class Payment extends React.Component {
                                   }}
                                   onMouseLeave={() => {
                                     this.setState({
-                                      toolTipVisible: true,
+                                      toolTipVisible: false,
                                     });
                                   }}
                                 >
@@ -1921,8 +1927,9 @@ class Payment extends React.Component {
                                       </span>
                                     </p>
                                     <div className="row">
-                                      <div className="col-6 col-sm-3 d-flex flex-column justify-content-center">
+                                      <div className="col-6 col-sm-3 d-flex flex-column justify-content-center ">
                                         <img
+                                           className="PayCardImgFitScreen"
                                           src={
                                             CREDIT_CARD_IMG_ENUM[
                                               this.state.payosdata.vendor
@@ -2126,8 +2133,8 @@ class Payment extends React.Component {
                     </div>
               </div>
               <div
-                className="product-summary rc-column"
-                style={{ paddingLeft: "unset" }}
+                className="product-summary rc-column MarginTopFixSCreen"
+                style={{ paddingLeft: "unset" ,}}
               >
                 <PayProductInfo
                   ref="payProductInfo"

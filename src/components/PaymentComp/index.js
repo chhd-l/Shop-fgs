@@ -695,9 +695,10 @@ class PaymentComp extends React.Component {
                           </div>
                           <div className="row">
                             <div
-                              className={`col-6 col-sm-3 d-flex flex-column justify-content-center`}
+                              className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
                             >
                               <img
+                              className="PayCardImgFitScreen"
                                 src={
                                   CREDIT_CARD_IMG_ENUM[el.vendor]
                                     ? CREDIT_CARD_IMG_ENUM[el.vendor]
@@ -709,7 +710,7 @@ class PaymentComp extends React.Component {
                               className={`col-12 col-sm-9 flex-column justify-content-around`}
                               style={{ display: pathname === "/payment/payment" ? 'flex ' : 'none ' }}
                             >
-                              <div className="row ui-margin-top-1-md-down">
+                              <div className="row ui-margin-top-1-md-down  PayCardBoxMargin">
                                 <div
                                   className="col-12 color-999"
                                   style={{
@@ -728,7 +729,7 @@ class PaymentComp extends React.Component {
                                     display: el.selected && !isCurrentCvvConfirm ? "block" : "none",
                                   }}
                                 >
-                                  <span style={{ fontSize: '14px' }}><FormattedMessage id="CVV" /></span>
+                                  <span style={{ fontSize: '14px' }} className="fontFitSCreen"><FormattedMessage id="CVV" /></span>
                                   <br />
                                   <div
                                     className="col-4 color-999"
@@ -753,11 +754,12 @@ class PaymentComp extends React.Component {
                                   </span> */}
                                 </div>
                               </div>
-                              <div className="row ui-margin-top-1-md-down">
+                              <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
                                 <div className="col-md-4 col-6 color-999">
-                                  <span style={{ fontSize: '14px' }}><FormattedMessage id="payment.cardNumber2" /></span>
+                                  <span style={{ fontSize: '14px' }} className="fontFitSCreen"><FormattedMessage id="payment.cardNumber2" /></span>
                                   <br />
-                                  <span className="creditCompleteInfo">
+                                  <span className="creditCompleteInfo fontFitSCreen">
+                                    {/* todo */}
                                     xxxx xxxx xxxx{" "}
                                     {el.cardNumber
                                       ? el.cardNumber.substring(
@@ -767,9 +769,11 @@ class PaymentComp extends React.Component {
                                   </span>
                                 </div>
                                 <div className="col-md-4 col-6 border-left color-999">
-                                  <span style={{ fontSize: '14px' }}><FormattedMessage id="payment.cardType" /></span>
+                                  {/* todo */}
+                                  <span className="fontFitSCreen" style={{ fontSize: '14px' }}><FormattedMessage id="payment.cardType" /></span>
                                   <br />
-                                  <span className="creditCompleteInfo">
+                                  <span className="creditCompleteInfo fontFitSCreen">
+                                    {/* todo */}
                                     {el.cardType}
                                   </span>
                                 </div>

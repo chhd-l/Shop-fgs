@@ -531,7 +531,7 @@ const en_US = {
   clickHere: "klicken Sie hier",
   FAQdesc:
     "Wenn Sie eine Frage haben. Schauen Sie unten, um zu sehen, ob es eine Antwort gibt. Wenn Sie nicht finden können, wonach Sie suchen. {val} um uns zu kontaktieren.",
-  startFrom: "Beginne von",
+  startFrom: "ab",
   'autoship': 'Abo-Preis',
   'orderSummary': 'Bestellübersicht',
   'price': 'Preis',

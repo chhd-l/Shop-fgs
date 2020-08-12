@@ -26,7 +26,7 @@ class AdyenPayResult extends Component {
             businessId: sessionStorage.getItem("orderNumber"),
             //businessId: 'O202008110927290237',
         })
-        if(res.context.status=='SUCCESS'){
+        if(res.context.status=='SUCCEED'){
             this.props.history.push("/confirmation");
         }
     }catch(err){
