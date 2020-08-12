@@ -78,45 +78,15 @@ class ClinicForm extends React.Component {
           defaultValue={this.state.form.clinicName}
           placeholder={this.props.intl.messages.enterClinicName}
           customCls="flex-fill" />
-        <span className="ml-3"
-                    onClick={() => {
-                      this.setState({
-                        toolTipVisible: !this.state.toolTipVisible
-                      },()=>{
-                        console.log("鼠标进入",this.state.toolTipVisible)
-                      });
-                      
-                    }}
-                    onMouseLeave={() => {
-                      this.setState({
-                        toolTipVisible: false
-                      },()=>{
-                        console.log("鼠标移出",this.state.toolTipVisible)
-                      });
-                      
-                    }}
-        >
-         
-          <span
-            className="info delivery-method-tooltip"
-            style={{ verticalAlign: "unset" }}
-            >?</span>
-            <span 
-
-            >
-          <ConfirmTooltip
-
-            containerStyle={{ transform: "translate(-91%, 112%)" }}
-            arrowStyle={{ left: "92%" }}
-            display={this.state.toolTipVisible}
-            cancelBtnVisible={false}
-            confirmBtnVisible={false}
-            updateChildDisplay={(status) =>
-              this.setState({
-                toolTipVisible: status,
-              })
-            }
-            content={
+          <span className="ml-3">
+            <span
+              className="info delivery-method-tooltip"
+              data-tooltip-placement="top"
+              data-tooltip="top-tooltip-noclinic-tip"
+              style={{ verticalAlign: "unset" }}>
+              i
+            </span>
+            <div id="top-tooltip-noclinic-tip" className="rc-tooltip">
               <FormattedMessage
                 id="noClinicTip"
                 values={{
@@ -126,10 +96,8 @@ class ClinicForm extends React.Component {
                     <FormattedMessage id="clickHere" />
                   </Link>
                 }} />
-            }
-          />
+            </div>
           </span>
-        </span>
       </div>
     </div>
 
