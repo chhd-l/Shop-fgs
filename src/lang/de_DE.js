@@ -520,7 +520,7 @@ const en_US = {
   'subscribeDiscount': 'Abonnement Rabatt sparen',
   'customerReviews': 'Kundenbewertungen',
   'sortBy': 'Sortiere nach',
-  'adyen': 'Adyen',
+  'adyen': 'Kreditkarte',
   'adyenPayLater': 'KlarnaPayLater',
   'adyenPayNow':'KlarnaPayNow',
   'adyenPayFail': 'AdyenPayFail',
