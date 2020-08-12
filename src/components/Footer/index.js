@@ -138,7 +138,7 @@ class Footer extends React.Component {
                         </a>
                       </li>
                       <li className="rc-list__item">
-                        <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.royalcanin.com/mx/cats/health-and-wellbeing" role="menuitem">
+                        <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.royalcanin.com/mx/tailored-nutrition" role="menuitem">
                           <FormattedMessage id="footer.healthAndNutrition" />
                         </a>
                       </li>
@@ -196,7 +196,7 @@ class Footer extends React.Component {
                         </Link>
                       </li>
                       <li className="rc-list__item">
-                        <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.mars.com/global/policies/note-to-parents/np-russian" role="menuitem">
+                        <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.mars.com/global/policies/note-to-parents/np-spanish" role="menuitem">
                           <FormattedMessage id="footer.informationForParents" />
                         </a>
                       </li>

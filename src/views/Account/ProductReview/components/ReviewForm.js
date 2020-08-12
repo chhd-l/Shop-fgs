@@ -122,7 +122,7 @@ class ReviewForm extends React.Component {
               <div class="row">
               <div class="form-group col-lg-6 pull-left">
                 <label class="form-control-label rc-full-width" for="reference">
-                 Title
+                <FormattedMessage id="title" />
                 </label>
                 <span
                   class="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width"
