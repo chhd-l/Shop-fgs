@@ -605,7 +605,7 @@ const en_US = {
   'yourPasswordNotVerified': 'Tu contraseña no ha sido verificada',
   'title': 'Título',
   'reviewisRequired': 'Se requiere revisión.',
-  'faq.frequentQuestions': "Frequent questions",
+  'faq.frequentQuestions': "Preguntas frecuentes",
   'faq.title': 'Tienes alguna pregunta. Consulta nuestras preguntas más frecuentes. Si no encuentras lo que estás buscando, haz clic aquí para contactarnos.',
   'faq.title2': 'Entrega del alimento',
 }

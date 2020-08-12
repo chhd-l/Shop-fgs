@@ -88,8 +88,8 @@ class HeroCarousel extends React.Component {
           <div className="rc-gamma inherit-fontsize">
             <h1><FormattedMessage id="header.carouselInfo1" /></h1>
           </div>
-          <div className="rc-margin-bottom--sm rc-body inherit-fontsize">
-            <p><FormattedMessage id="header.carouselInfo2" /></p>
+          <div className="rc-body inherit-fontsize">
+            <FormattedMessage id="header.carouselInfo2" />
           </div>
           <div className="hero-carousel__slide__content__btn text-center">
             <Link
