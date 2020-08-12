@@ -47,7 +47,7 @@ class LoginDeliveryAddress extends React.Component {
     this.timer = null;
   }
   async componentWillReceiveProps (props) {
-    if(props.type !== this.state.type) {
+    if (props.type !== this.state.type) {
       if (props.type === 'delivery') {
         this.setState({ selectedId: props.deliveryAddressId }, () => {
           this.queryAddressList();
@@ -58,8 +58,8 @@ class LoginDeliveryAddress extends React.Component {
         })
       }
     }
-    console.log(this.props.type ,'props', this.props.type !== this.state.type, props)
-    this.setState({type: props.type})
+    console.log(this.props.type, 'props', this.props.type !== this.state.type, props)
+    this.setState({ type: props.type })
   }
   async componentDidMount () {
     await getDictionary({ type: "country" }).then((res) => {
@@ -240,10 +240,10 @@ class LoginDeliveryAddress extends React.Component {
     return el.offsetTop;
   }
   handleClickCancel () {
-    if(this.state.addressList.length) {
+    if (this.state.addressList.length) {
       this.setState({ addOrEdit: false, saveErrorMsg: "" });
       this.scrollToTitle();
-    }else {
+    } else {
       this.props.cancel()
     }
   }
@@ -327,10 +327,10 @@ class LoginDeliveryAddress extends React.Component {
     }
   }
   async deleteAddress (item) {
-    console.log(item,'item')
+    console.log(item, 'item')
     let { addressList } = this.state
     item.confirmTooltipVisible = false
-    if(item.canDelFlag === false) {
+    if (item.canDelFlag === false) {
       this.showErrorMsg(this.props.intl.messages.deleteAddressTip)
       return
     }
@@ -386,10 +386,7 @@ class LoginDeliveryAddress extends React.Component {
         <div
           id={`J-address-title-${this.props.id}`}
           className="card-header"
-          style={{
-            marginTop: this.props.type === "billing" ? -56 : 0,
-            overflow: "hidden",
-          }}
+          style={{ overflow: "hidden" }}
         >
           <h5
             className="pull-left"
@@ -453,15 +450,9 @@ class LoginDeliveryAddress extends React.Component {
                   {!addOrEdit ? (
                     addressList.length ? (
                       <>
-                        <div style={{ height: "40px", lineHeight: "40px" }}>
+                        <div className="d-flex align-items-center justify-content-between flex-wrap" style={{ lineHeight: '40px' }}>
                           <div
-                            className="rc-input rc-input--inline"
-                            style={{
-                              float: "left",
-                              textAlign: "left",
-                              maxWidth: "400px",
-                              display: this.props.type === "delivery" ? 'block' : 'none'
-                            }}
+                            className={`rc-input rc-input--inline ${this.props.type === "delivery" ? '' : 'hidden'}`}
                             onClick={() => {
                               isBillSame = !isBillSame;
                               console.log(isBillSame)
@@ -489,7 +480,7 @@ class LoginDeliveryAddress extends React.Component {
                             </label>
                           </div>
                           <p
-                            className={`red rc-margin-top--xs ui-cursor-pointer pull-right inlineblock m-0 d-flex align-items-center ${
+                            className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 d-flex align-items-center ${
                               addOrEdit ? "hidden" : ""
                               }`}
                             onClick={() => this.addOrEditAddress()}
@@ -630,8 +621,8 @@ class LoginDeliveryAddress extends React.Component {
                           );
                         }}
                       >
-                        <FormattedMessage id='save'/>
-                  </button>
+                        <FormattedMessage id='save' />
+                      </button>
                     </div>
                   )}
 
