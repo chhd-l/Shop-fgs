@@ -74,7 +74,7 @@ const rules = [
   },
 ];
 
-@inject("loginStore", "checkoutStore", "clinicStore", "frequencyStore")
+@inject("loginStore", "checkoutStore", "clinicStore", "frequencyStore", "configStore")
 @observer
 class Payment extends React.Component {
   constructor(props) {
