@@ -22426,7 +22426,7 @@ tr.rc-table__row.inactive td:after {
 }
 
 .rc-progress--breadcrumbs-stepped li {
-  max-width: 300px;
+  /* max-width: 300px; */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

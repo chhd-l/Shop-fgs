@@ -44,7 +44,9 @@ const BreadCrumbs = withRouter(props => {
             <li key={index}>
               {
                 item.href
-                  ? <Link className="rc-styled-link rc-progress__breadcrumb" to={item.href}><FormattedMessage id={`${item.name}`} /></Link>
+                  ? <Link className="rc-styled-link rc-progress__breadcrumb" to={item.href}>
+                    <FormattedMessage id={`${item.name}`} />
+                  </Link>
                   : <FormattedMessage id={`${item.name}`}>
                     {
                       txt => (<span title={txt}>{txt}</span>)
