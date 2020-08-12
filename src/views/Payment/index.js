@@ -325,8 +325,8 @@ class Payment extends React.Component {
       // (1) Create an instance of AdyenCheckout
       const checkout = new AdyenCheckout({
         environment: "test",
-        originKey: process.env.REACT_APP_AdyenOriginKEY,
-        // originKey: 'pub.v2.8015632026961356.aHR0cDovL21ydjl2aC5uYXRhcHBmcmVlLmNj.c_k8338RD7rFmyW9wldAvFeDRl51s0aAEe69V22SoQc',
+        //originKey: process.env.REACT_APP_AdyenOriginKEY,
+        originKey: 'pub.v2.8015632026961356.aHR0cDovLzhheXd2Zi5uYXRhcHBmcmVlLmNj.DGPSQmXG55YHXBaNPtlJZ1u8hugPjNQZUoRqxWX0S70',
         locale: "de-DE",
       });
 
