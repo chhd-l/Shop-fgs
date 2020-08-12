@@ -325,8 +325,8 @@ class Payment extends React.Component {
       // (1) Create an instance of AdyenCheckout
       const checkout = new AdyenCheckout({
         environment: "test",
-        //originKey: process.env.REACT_APP_AdyenOriginKEY,
-        originKey: 'pub.v2.8015632026961356.aHR0cDovLzhheXd2Zi5uYXRhcHBmcmVlLmNj.DGPSQmXG55YHXBaNPtlJZ1u8hugPjNQZUoRqxWX0S70',
+        originKey: process.env.REACT_APP_AdyenOriginKEY,
+        // originKey: 'pub.v2.8015632026961356.aHR0cDovL3c1Mm5xdC5uYXRhcHBmcmVlLmNj.fgLZ24zDTk9reEMzw1bWXVtJOP-8NKdrQbcLjeumtKQ',
         locale: "de-DE",
       });
 
@@ -357,8 +357,6 @@ class Payment extends React.Component {
           },
         })
         .mount("#card-container");
-    } else {
-      this.initAdyenPay() //没有AdyenCheckout对象,重新初始化
     }
   }
 
