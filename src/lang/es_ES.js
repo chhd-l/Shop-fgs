@@ -597,12 +597,13 @@ const en_US = {
   'visitStoreMap': 'Visita el mapa de la tienda',
   'welcome': 'Bienvenidos',
   'welcomeTo': 'Bienvenido a',
-  'whatYouLike': 'What did you like or dislike?',
+  'whatYouLike': '¿Qué le gustó o no le gustó?',
   'writeReview': 'Escribe una reseña',
   'writeYourReview': 'Escribe tu reseña',
   'yes': 'sí',
   'yourEmailNotVerified': '¡Tu email no se ha verificado!',
   'yourPasswordNotVerified': 'Tu contraseña no ha sido verificada',
-  'title': 'Título'
+  'title': 'Título',
+  'reviewisRequired': 'Se requiere revisión.'
 }
 export default en_US;
