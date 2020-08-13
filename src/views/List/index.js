@@ -535,6 +535,7 @@ class List extends React.Component {
                                                 </div>
                                                 {
                                                   find(item.goodsInfos, ele => ele.subscriptionStatus)
+                                                    && Math.min.apply(null, item.goodsInfos.filter(g => g.subscriptionStatus).map(g => g.subscriptionPrice || 0)) > 0
                                                     ? <div className="range position-relative SePriceScreen">
                                                       <span style={{ color: '#323232', fontWeight: 400 }}>
                                                         {formatMoney(Math.min.apply(null, item.goodsInfos.filter(g => g.subscriptionStatus).map(g => g.subscriptionPrice || 0)))}{' '}
