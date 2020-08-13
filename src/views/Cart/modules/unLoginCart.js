@@ -580,8 +580,9 @@ class UnLoginCart extends React.Component {
       <div className="group-order rc-border-colour--interface cart__total__content rc-border-all" style={{ background: '#fff' }}>
         <div className="row">
           <div className="col-12 total-items medium">
-            <span>{this.totalNum}</span> {this.totalNum > 1 ? <FormattedMessage id="items" /> : 
-          <FormattedMessage id="item" />} {this.props.intl.messages.inTheBasket}
+            <FormattedMessage
+              id="cart.totalProduct"
+              values={{ val: this.totalNum }} />
           </div>
         </div>
         <div className="row">

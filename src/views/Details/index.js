@@ -21,7 +21,7 @@ import { sitePurchase } from "@/api/cart";
 import { getDict } from "@/api/dict";
 import "./index.css";
 
-@inject("checkoutStore", "loginStore")
+@inject("checkoutStore", "loginStore", "headerCartStore")
 @injectIntl
 @observer
 class Details extends React.Component {
@@ -468,9 +468,9 @@ class Details extends React.Component {
         ].join("/"),
       });
       await this.checkoutStore.updateLoginCart();
-      this.headerRef.current && this.headerRef.current.handleCartMouseOver();
+      this.props.headerCartStore.show()
       setTimeout(() => {
-        this.headerRef.current && this.headerRef.current.handleCartMouseOut();
+        this.props.headerCartStore.hide()
       }, 1000);
       this.setState({ addToCartLoading: false });
       if (redirect) {
@@ -666,10 +666,10 @@ class Details extends React.Component {
         history.push("/prescription");
       }
     }
-    // todo 改为mobx
-    this.headerRef.current && this.headerRef.current.handleCartMouseOver();
+
+    this.props.headerCartStore.show()
     setTimeout(() => {
-      this.headerRef.current && this.headerRef.current.handleCartMouseOut();
+      this.props.headerCartStore.hide()
     }, 1000);
   }
   changeTab (e, i) {

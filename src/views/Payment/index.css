@@ -239,18 +239,7 @@
 #id-checkbox-billing {
   cursor: pointer;
 }
-.cardCss {
-  padding-bottom: 0rem !important;
-}
-.payment-form.Card-border {
-  border: 1px solid rgb(215, 215, 215);
-  border-radius: 5px;
-  padding: 1rem 1rem;
-}
 @media(max-width:540px){
-  .MarginTopFixSCreen{
-    margin-top: -2rem !important;
-  }
   .PayCardImgFitScreen{
     width: 50% !important;
   }

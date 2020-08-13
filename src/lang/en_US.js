@@ -92,6 +92,7 @@ const en_US = {
   "cart.fullPrice": "FULL RICE FOR YOUR PET",
   "cart.miniCartTitle": "10% off first purchase, plus 5% off every order with autoship",
   "cart.yourShoppingCart": "Your shopping cart",
+  "cart.totalProduct": "{val} item(s) in the basket",
   cats: "CATS",
   cats2: "Cats",
   chang: "Change",
@@ -192,7 +193,6 @@ const en_US = {
   'examplePhone': '+(52) 559 801 65',
   'examplePostCode': '02860',
   expirationDateIsInvalid: "your card expiration date is invalid",
-  FAQdesc: "If you have a question. Look below to see if there is an answer. If You can't find what you are looking for. {val} to contact us.",
   filters: "Filters",
   findLocation: "Find Location",
   firstName: "First Name *",
@@ -225,7 +225,6 @@ const en_US = {
   "forgetPassword.createNewPassword": "Create new password",
   "forgetPassword.forgetPasswordTip": "You will be sent a letter with instructions for changing the password.",
   freeShipping: "Free shipping",
-  FrequentQuestions: "Frequent questions",
   from: "From",
   getConsumerAccountFailed: "Get Consumer Account Failed",
   getDataFailed: "Get Data Failed",
@@ -444,7 +443,7 @@ const en_US = {
   "payment.socialId": "Social id",
   "payment.subTip1": "You will save an additional {val} on this order!",
   "payment.subTip2": "Save your first {icon} Subscription order and save {val} ({val2}) today!",
-  "payment.totalProduct": "total product",
+  'payment.totalProduct': '{val} total product(s)',
   "payment.yourOrder": "Your order",
   paymentMethod: "Payment method",
   'payStatus.NOT_PAID': 'Unpaid',
@@ -597,7 +596,10 @@ const en_US = {
   yes: "Yes",
   yourEmailNotVerified: "Your email has not been verified!",
   yourPasswordNotVerified: "Your password has not been verified",
-  'reviewisRequired': 'Review is required.'
+  'reviewisRequired': 'Review is required.',
+  'faq.frequentQuestions': "Frequent questions",
+  'faq.title': 'Tienes alguna pregunta. Consulta nuestras preguntas más frecuentes. Si no encuentras lo que estás buscando, haz clic aquí para contactarnos.',
+  'faq.title2': 'Entrega del alimento',
 }
 
 export default en_US;

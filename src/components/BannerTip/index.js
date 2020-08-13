@@ -20,10 +20,10 @@ class BannerTip extends React.Component {
         <span
           className="rc-icon rc-close--xs rc-iconography searchBtnToggle rc-stick-right rc-vertical-align"
           style={{ transform: 'translateY(-40%)' }} onClick={this.hideNotice}></span>
-        <div className="text-center" style={{ fontSize: '1.15em', marginBottom: '-.4rem' }}>
+        {process.env.REACT_APP_IS_PROMOTION === 'true' && <div className="text-center" style={{ fontSize: '1.15em', marginBottom: '-.4rem' }}>
           <span className="iconfont font-weight-bold mr-2" style={{ fontSize: '1.3em' }}>&#xe675;</span>
           <FormattedMessage id="home.promotionTip" />
-        </div>
+        </div>}
         <FormattedMessage id="home.note1" />{' '}
         <FormattedMessage id="home.note2" />
       </div>

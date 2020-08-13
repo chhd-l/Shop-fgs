@@ -283,18 +283,23 @@ class List extends React.Component {
           if (category === 'cats' || category === 'vd') {
             tmpList = res.context.filter(v => v.propName !== 'Talla')
             if (tmpItem) {
-              tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(v => v.detailName !== 'Cachorro')
+              tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(v => v.detailName !== 'Cachorro' && v.detailName !== 'Mayor')
             }
           }
           if ((category === 'dogs' || category === 'vcn') && tmpItem) {
             tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(v => v.detailName !== 'Gatito')
+            let tmpTallaItem = find(tmpList, v => v.propName === 'Talla')
+            tmpTallaItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(v => v.detailName !== 'Minuatura' && v.detailName !== 'Grande')
+
+            let tmpSecoItem = find(tmpList, v => v.propName === 'Seco/Húmedo')
+            tmpSecoItem.goodsPropDetails = tmpSecoItem.goodsPropDetails.filter(v => v.detailName !== 'Otro')
           }
 
 
           let lang = process.env.REACT_APP_LANG,
             de_tmpList = []
 
-          if (lang == 'de'&&(category=='cats'||category=='dogs')) {
+          if (lang == 'de' && (category == 'cats' || category == 'dogs')) {
             de_tmpList = tmpList.filter(item => item.propId != 481)
             this.setState({
               filterList: de_tmpList,
@@ -530,6 +535,7 @@ class List extends React.Component {
                                                 </div>
                                                 {
                                                   find(item.goodsInfos, ele => ele.subscriptionStatus)
+                                                    && Math.min.apply(null, item.goodsInfos.filter(g => g.subscriptionStatus).map(g => g.subscriptionPrice || 0)) > 0
                                                     ? <div className="range position-relative SePriceScreen">
                                                       <span style={{ color: '#323232', fontWeight: 400 }}>
                                                         {formatMoney(Math.min.apply(null, item.goodsInfos.filter(g => g.subscriptionStatus).map(g => g.subscriptionPrice || 0)))}{' '}

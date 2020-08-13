@@ -20,10 +20,10 @@ class FAQ extends React.Component {
       loading: true,
     };
   }
-  componentWillUnmount() {
+  componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
   }
-  componentDidMount() {
+  componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
@@ -35,7 +35,7 @@ class FAQ extends React.Component {
     });
   }
 
-  getFAQList(data) {
+  getFAQList (data) {
     getFaq(data)
       .then((res) => {
         this.setState({
@@ -47,7 +47,7 @@ class FAQ extends React.Component {
         console.log(err);
       });
   }
-  handleSelect(index) {
+  handleSelect (index) {
     if (index == this.state.showCur) {
       this.setState({
         showCur: -1,
@@ -59,7 +59,7 @@ class FAQ extends React.Component {
     }
   }
 
-  render(h) {
+  render (h) {
     const event = {
       page: {
         type: "Content",
@@ -76,58 +76,27 @@ class FAQ extends React.Component {
             style={{ maxWidth: "70%" }}
           >
             <div className="rc-bg-colour--brand3">
-              <div className="rc-padding--sm rc-margin-bottom--xs rc-padding-left--none">
+              <div className="rc-padding--sm rc-padding-left--none">
                 <div className="rc-padding-y--md rc-md-down"></div>
                 <div className="rc-one-column">
                   <div className="rc-column rc-padding-left--none">
                     <div className="rc-full-width rc-text--left rc-padding-x--sm rc- padding-left--none">
                       <h1 style={{ textAlign: "center" }}>
-                        <font style={{ verticalAlign: "inherit" }}>
-                          <font style={{ verticalAlign: "inherit" }}>
-                            <FormattedMessage id="FrequentQuestions" />
-                          </font>
-                        </font>
+                        <FormattedMessage id="faq.frequentQuestions" />
                       </h1>
                       <p style={{ textAlign: "center" }}>
-                        <font style={{ verticalAlign: "inherit" }}>
-                          <FormattedMessage
-                            id="FAQdesc"
-                            values={{
-                              val: (
-                                <Link to="/help" style={{ fontSize: "14px" }}>
-                                  <FormattedMessage id="clickHere" />
-                                </Link>
-                              ),
-                            }}
-                          />
-                        </font>
+                        <FormattedMessage id="faq.title" />
                       </p>
-                      <p style={{ textAlign: "center" }}>&nbsp;</p>
                     </div>
                   </div>
                 </div>
-                <div className="rc-padding-y--md rc-md-down"></div>
               </div>
             </div>
 
             <div className="rc-bg-colour--brand3">
-              <div className="rc-padding--sm rc-margin-bottom--xs rc-padding-left--none">
-                <div className="rc-padding-y--md rc-md-down"></div>
-                <div className="rc-one-column">
-                  <div className="rc-column rc-padding-left--none">
-                    <div className="rc-full-width rc-text--left rc-padding-x--sm rc- padding-left--none">
-                      <h2>
-                        <font style={{ verticalAign: "inherit" }}>
-                          <font style={{ verticalAign: "inherit" }}>
-                            <FormattedMessage id="delivery"></FormattedMessage>
-                          </font>
-                        </font>
-                      </h2>
-                    </div>
-                  </div>
-                </div>
-                <div className="rc-padding-y--md rc-md-down"></div>
-              </div>
+              <h2>
+                <FormattedMessage id="faq.title2" />
+              </h2>
             </div>
 
             <dl
@@ -138,36 +107,36 @@ class FAQ extends React.Component {
               {this.state.loading ? (
                 <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
               ) : (
-                this.state.dataFAQ.map((item, index) => (
-                  <div
-                    key={item.id}
-                    className={`rc-list__accordion-item test-color 
-                  ${this.state.showCur == index ? "showItem" : "hiddenItem"}`}
-                  >
+                  this.state.dataFAQ.map((item, index) => (
                     <div
-                      className="rc-list__header"
-                      onClick={() => this.handleSelect(index)}
-                      style={{display:'flex',justifyContent:'space-between'}}
+                      key={item.id}
+                      className={`rc-list__accordion-item test-color 
+                  ${this.state.showCur == index ? "showItem" : "hiddenItem"}`}
                     >
                       <div
-                        dangerouslySetInnerHTML={{ __html: item.question }}
-                      ></div>
+                        className="rc-list__header"
+                        onClick={() => this.handleSelect(index)}
+                        style={{ display: 'flex', justifyContent: 'space-between' }}
+                      >
+                        <div
+                          dangerouslySetInnerHTML={{ __html: item.question }}
+                        ></div>
 
-                      <span
-                        className={`icon-change ${
-                          this.state.showCur == index
-                            ? "rc-icon rc-up rc-brand1"
-                            : "rc-icon rc-down rc-iconography"
-                        }`}
-                      ></span>
+                        <span
+                          className={`icon-change ${
+                            this.state.showCur == index
+                              ? "rc-icon rc-up rc-brand1"
+                              : "rc-icon rc-down rc-iconography"
+                            }`}
+                        ></span>
+                      </div>
+                      <div className={`rc-list__content `}>
+                        <p dangerouslySetInnerHTML={{ __html: item.answer }}></p>
+                        <img src={item.imgUl}></img>
+                      </div>
                     </div>
-                    <div className={`rc-list__content `}>
-                      <p dangerouslySetInnerHTML={{ __html: item.answer}}></p>
-                      <img src={item.imgUl}></img>
-                    </div>
-                  </div>
-                ))
-              )}
+                  ))
+                )}
             </dl>
           </div>
         </main>

@@ -49,7 +49,6 @@ class HeroCarousel extends React.Component {
   }
   async componentWillMount () {
     getBanner().then(res => {
-      console.log(res, 'ressssss')
       this.setState({ banner: res.context })
     })
   }
@@ -88,8 +87,10 @@ class HeroCarousel extends React.Component {
           <div className="rc-gamma inherit-fontsize">
             <h1><FormattedMessage id="header.carouselInfo1" /></h1>
           </div>
-          <div className="rc-margin-bottom--sm rc-body inherit-fontsize">
-            <p><FormattedMessage id="header.carouselInfo2" /></p>
+          <div className="rc-body inherit-fontsize">
+            <FormattedMessage
+              id="header.carouselInfo2"
+              values={{ val: <span style={{ verticalAlign: 'super', fontSize: '.8em' }}>®</span> }} />
           </div>
           <div className="hero-carousel__slide__content__btn text-center">
             <Link
@@ -152,14 +153,29 @@ class HeroCarousel extends React.Component {
                     {el.isVideo && el.isVideo === '1'
                       ? videoJSX(el.webUrl)
                       : <>
-                        <img
-                          className="rc-md-up"
-                          src={el.webUrl}
-                          style={{ maxHeight: '100%' }} />
-                        < img
-                          className="rc-md-down w-100"
-                          src={el.mobiUrl}
-                          style={{ maxHeight: '100%' }} />
+                        {el.webSkipUrl
+                          ? <a className="h-100" href={el.webSkipUrl}>
+                            <img
+                              className="rc-md-up"
+                              src={el.webUrl}
+                              style={{ maxHeight: '100%' }} />
+                          </a>
+                          : <img
+                            className="rc-md-up"
+                            src={el.webUrl}
+                            style={{ maxHeight: '100%' }} />}
+
+                        {el.mobiSkipUrl
+                          ? <a className="h-100" href={el.mobiSkipUrl}>
+                            <img
+                              className="rc-md-down w-100"
+                              src={el.mobiUrl}
+                              style={{ maxHeight: '100%' }} />
+                          </a>
+                          : <img
+                            className="rc-md-down w-100"
+                            src={el.mobiUrl}
+                            style={{ maxHeight: '100%' }} />}
                       </>}
 
                     {/* <span className="font-weight-normal red font-16 mb-1 ml-3 mr-3 text-center inlineblock">
