@@ -14,6 +14,7 @@ class MegaMenu extends React.Component {
     }
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
+    this.toggleMenu = this.toggleMenu.bind(this)
   }
   handleMouseOver () {
     this.flag = 1
@@ -31,6 +32,11 @@ class MegaMenu extends React.Component {
       }
     }, 200)
   }
+  toggleMenu () {
+    this.setState({
+      showMegaMenu: !this.state.showMegaMenu
+    })
+  }
   render() {
     return (
       <>
@@ -39,7 +45,6 @@ class MegaMenu extends React.Component {
           aria-label="Menu"
           id="J-btn-menu"
           ref={this.menuBtnRef}
-          onClick={this.toggleMenu}
           onMouseOver={this.handleMouseOver}
           onMouseOut={this.handleMouseOut}>
 
