@@ -34,6 +34,7 @@ import "./modules/adyenCopy.css"
 import OxxoConfirm from "./modules/OxxoConfirm";
 import KlarnaPayLater from "./modules/KlarnaPayLater";
 import KlarnaPayNow from "./modules/KlarnaPayNow";
+import Sofort from "./modules/Sofort";
 import { getAdyenParam } from "./adyen/utils";
 import {
   CREDIT_CARD_IMG_ENUM,
@@ -162,10 +163,10 @@ class Payment extends React.Component {
       payWayNameArr = payWay.context
         .map((item) => item.payChannelItemList)[0]
         .map((item) => item.code);
-      //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"]
+      //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
     }
 
-    let payMethod = payWayNameArr[0] || "none";//初始化默认取第0个
+    let payMethod = payWayNameArr[0] || "none";//初始化默认取第1个
     //各种支付component初始化方法
     var initPaymentWay = {
       adyen_credit_card: () => {
@@ -181,6 +182,10 @@ class Payment extends React.Component {
       },
       adyen_klarna_pay_lat: () => {
         this.setState({ paymentTypeVal: "adyenKlarnaPayLater" });
+      },
+      //Sofort支付
+      directEbanking:()=>{
+        this.setState({paymentTypeVal:'directEbanking'})
       },
       payu: () => {
         this.setState({ paymentTypeVal: "creditCard" });
@@ -326,7 +331,7 @@ class Payment extends React.Component {
       const checkout = new AdyenCheckout({
         environment: "test",
         originKey: process.env.REACT_APP_AdyenOriginKEY,
-        // originKey: 'pub.v2.8015632026961356.aHR0cDovL3c1Mm5xdC5uYXRhcHBmcmVlLmNj.fgLZ24zDTk9reEMzw1bWXVtJOP-8NKdrQbcLjeumtKQ',
+        //originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
         locale: "de-DE",
       });
 
@@ -376,6 +381,11 @@ class Payment extends React.Component {
     })
   }
 
+  //支付4，初始化sofort
+  initSofort=()=>{
+    this.doGetAdyenPayParam('sofort')
+  }
+
   /**************支付公共方法start*****************/
 
   //组装支付共同的参数
@@ -393,14 +403,6 @@ class Payment extends React.Component {
           {
             ...this.state.adyenPayParam,
           },
-          {
-            shopperLocale: 'en_US',
-            currency: 'EUR',
-            country: "DE",
-            deliveryAddressId: this.state.deliveryAddress.addressId,
-            billAddressId: this.state.billingAddress.addressId,
-            phone
-          },
         );
       },
       'adyen_klarna_pay_lat': () => {
@@ -409,19 +411,7 @@ class Payment extends React.Component {
           {
             adyenType: 'klarna',
             payChannelItem: 'adyen_klarna_pay_lat',
-
           },
-          { email: this.state.email },
-          {
-            successUrl: process.env.REACT_APP_SUCCESSFUL_URL,
-            //successUrl:'http://379f56.natappfree.cc/payResult',
-            shopperLocale: 'en_US',
-            currency: 'EUR',
-            country: "DE",
-            deliveryAddressId: this.state.deliveryAddress.addressId,
-            billAddressId: this.state.billingAddress.addressId,
-            phone
-          }
         );
       },
       'adyen_klarna_pay_now': () => {
@@ -431,22 +421,35 @@ class Payment extends React.Component {
             adyenType: 'klarna_paynow',
             payChannelItem: 'adyen_klarna_pay_now',
           },
-          { email: this.state.email },
+        );
+      },
+      'sofort':() => {
+        parameters = Object.assign(
+          commonParameter,
           {
-            successUrl: process.env.REACT_APP_SUCCESSFUL_URL,
-            //successUrl:'http://379f56.natappfree.cc/payResult',
-            shopperLocale: 'en_US',
-            currency: 'EUR',
-            country: "DE",
-            deliveryAddressId: this.state.deliveryAddress.addressId,
-            billAddressId: this.state.billingAddress.addressId,
-            phone
-          }
+            adyenType: 'directEbanking',
+            payChannelItem: 'directEbanking',
+          },
         );
       }
     }
     actions[type]()
-    return parameters
+    //合并支付必要的参数
+    let finalParam = Object.assign(
+      parameters,
+      {
+        email: this.state.email,
+        successUrl: process.env.REACT_APP_SUCCESSFUL_URL+'/payResult',
+        //successUrl: 'http://sy8h75.natappfree.cc/payResult',
+        shopperLocale: 'en_US',
+        currency: 'EUR',
+        country: "DE",
+        deliveryAddressId: this.state.deliveryAddress.addressId,
+        billAddressId: this.state.billingAddress.addressId,
+        phone
+      }
+    )
+    return finalParam
   }
 
   //得到支付共同的参数
@@ -1430,10 +1433,7 @@ class Payment extends React.Component {
                         ) : null}
                     </>
                   )}
-                <div
-                  className="card-panel checkout--padding pl-0 pr-0 pb-4 rc-bg-colour--brand3 rounded mb-3 cardCss"
-                  style={{ paddingBottom: "0rem" }}
-                >
+                <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
                   <h5 className="ml-custom mr-custom">
                     <i
                       class="rc-icon rc-payment--sm rc-iconography"
@@ -1666,6 +1666,52 @@ class Payment extends React.Component {
                         <FormattedMessage id="adyenPayNow" />
                       </label>
                     </div>
+                    {/* Sofort */}
+                    <div
+                      class="rc-input rc-input--inline"
+                      style={{
+                        display:
+                          this.state.payWayNameArr.indexOf(
+                            "directEbanking"
+                          ) != -1
+                            ? " "
+                            : "none",
+                      }}
+                    >
+                      {this.state.paymentTypeVal === "directEbanking" ? (
+                        <input
+                          class="rc-input__radio"
+                          id="payment-info-adyen-sofort"
+                          value="directEbanking"
+                          type="radio"
+                          name="payment-info"
+                          onChange={(event) =>
+                            this.handlePaymentTypeChange(event)
+                          }
+                          checked
+                          key={9}
+                        />
+                      ) : (
+                          <input
+                            class="rc-input__radio"
+                            id="payment-info-adyen-sofort"
+                            value="directEbanking"
+                            type="radio"
+                            name="payment-info"
+                            onChange={(event) =>
+                              this.handlePaymentTypeChange(event)
+                            }
+                            key={10}
+                          />
+                        )}
+
+                      <label
+                        class="rc-input__label--inline"
+                        for="payment-info-adyen-sofort"
+                      >
+                        <FormattedMessage id="Sofort" />
+                      </label>
+                    </div>
                   </div>
 
                   {this.state.paymentTypeVal === "oxxo" && (
@@ -1681,7 +1727,7 @@ class Payment extends React.Component {
                       this.state.paymentTypeVal === "creditCard" ? "" : "hidden"
                       }`}
                   >
-                    <div className="card payment-form ml-custom mr-custom Card-border">
+                    <div className="card payment-form ml-custom mr-custom Card-border p-3 rounded rc-border-all rc-border-colour--interface">
                       <div className="card-body rc-padding--none">
                         <form
                           method="POST"
@@ -2119,12 +2165,17 @@ class Payment extends React.Component {
                   >
                     <KlarnaPayNow clickPay={this.initKlarnaPayNow} />
                   </div>
+                  {/* Sofort */}
+                  <div
+                    className={`${
+                      this.state.paymentTypeVal === "directEbanking" ? "" : "hidden"
+                      }`}
+                  >
+                    <Sofort clickPay={this.initSofort} />
+                  </div>
                 </div>
               </div>
-              <div
-                className="product-summary rc-column MarginTopFixSCreen"
-                style={{ paddingLeft: "unset", }}
-              >
+              <div className="rc-column pl-md-0">
                 <PayProductInfo
                   ref="payProductInfo"
                   history={this.props.history}

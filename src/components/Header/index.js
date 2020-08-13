@@ -143,7 +143,7 @@ class Header extends React.Component {
       - (isScrollToTop ? 120 : 80)
       - scrollTop
       + baseEl.offsetHeight
-    
+
     if (scrollTop >= footerTop) {
       targetEl.style.top = 'auto'
       targetEl.style.bottom = '40px'
@@ -163,20 +163,6 @@ class Header extends React.Component {
       return this.getElementToPageTop(el.parentElement) + el.offsetTop;
     }
     return el.offsetTop;
-  }
-  handleCartMouseOver () {
-    if (this.isLogin) {
-      this.loginCartRef.current && this.loginCartRef.current.handleMouseOver()
-    } else {
-      this.unloginCartRef.current && this.unloginCartRef.current.handleMouseOver()
-    }
-  }
-  handleCartMouseOut () {
-    if (this.isLogin) {
-      this.loginCartRef.current && this.loginCartRef.current.handleMouseOut()
-    } else {
-      this.unloginCartRef.current && this.unloginCartRef.current.handleMouseOut()
-    }
   }
   handleMouseOver () {
     this.flag = 1
@@ -570,8 +556,11 @@ class Header extends React.Component {
                             </div>
                           </div>
                           :
-                          <div className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')} style={{ minWidth: "13rem" }}
-                            onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
+                          <div
+                            className={['popover', 'popover-bottom', this.state.showCenter ? 'show' : ''].join(' ')}
+                            style={{ minWidth: "13rem" }}
+                            onMouseOver={this.handleMouseOver}
+                            onMouseOut={this.handleMouseOut}>
                             <div className="container cart">
                               <div className="link-group">
                                 <div className="link-style" >
@@ -616,7 +605,6 @@ class Header extends React.Component {
                                   <FormattedMessage id="logOff" />
                                 </a>
                               </div> */}
-
                             </div>
                           </div>
                       }
