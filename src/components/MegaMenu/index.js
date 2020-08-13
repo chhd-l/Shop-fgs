@@ -7,35 +7,20 @@ import { inject, observer } from "mobx-react";
 @inject("configStore")
 @observer
 class MegaMenu extends React.Component {
-  constructor(props){
-    super(props)
-    this.state={
-      showMegaMenu: false,
-    }
-    this.handleMouseOver = this.handleMouseOver.bind(this)
-    this.handleMouseOut = this.handleMouseOut.bind(this)
-    this.toggleMenu = this.toggleMenu.bind(this)
+  constructor(props) {
+    super(props);
+    this.handleMouseOver = this.handleMouseOver.bind(this);
+    this.handleMouseOut = this.handleMouseOut.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
   }
-  handleMouseOver () {
-    this.flag = 1
-    this.setState({
-      showMegaMenu: true
-    })
+  handleMouseOver() {
+    this.props.handleMouseOver();
   }
-  handleMouseOut () {
-    this.flag = 0
-    setTimeout(() => {
-      if (!this.flag) {
-        this.setState({
-          showMegaMenu: false,
-        })
-      }
-    }, 200)
+  handleMouseOut() {
+    this.props.handleMouseOut();
   }
-  toggleMenu () {
-    this.setState({
-      showMegaMenu: !this.state.showMegaMenu
-    })
+  toggleMenu() {
+    this.props.toggleMenu();
   }
   render() {
     return (
@@ -43,14 +28,14 @@ class MegaMenu extends React.Component {
         <button
           className="rc-btn rc-btn--icon-label rc-icon rc-menu--xs rc-iconography rc-md-up"
           aria-label="Menu"
-          id="J-btn-menu"
           ref={this.menuBtnRef}
           onMouseOver={this.handleMouseOver}
-          onMouseOut={this.handleMouseOut}>
-
+          onMouseOut={this.handleMouseOut}
+        >
           <FormattedMessage id="menu" />
         </button>
         <button
+          id="J-btn-menu"
           className={[
             "rc-btn",
             "rc-btn--icon",
@@ -58,7 +43,7 @@ class MegaMenu extends React.Component {
             "rc-menu--xs",
             "rc-iconography",
             "rc-md-down",
-            this.state.showMegaMenu ? "btn-close" : "",
+            this.props.showMegaMenu ? "btn-close" : "",
           ].join(" ")}
           aria-label="Menu"
           onClick={this.toggleMenu}
@@ -67,7 +52,7 @@ class MegaMenu extends React.Component {
             <FormattedMessage id="menu" />
           </span>
         </button>
-        <div className={[this.state.showMegaMenu ? "" : "rc-hidden"].join(" ")}>
+        <div className={[this.props.showMegaMenu ? "" : "rc-hidden"].join(" ")}>
           <section className="rc-max-width--xl">
             <nav
               className="rc-nav rc-md-down"

@@ -31,6 +31,9 @@ class ClinicForm extends React.Component {
       },
       toolTipVisible:false
     }
+    
+    this.menuBtnRef = React.createRef();
+
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
   }
