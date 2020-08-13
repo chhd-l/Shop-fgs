@@ -574,7 +574,7 @@ class AccountOrders extends React.Component {
                                   <span className="red">
                                     <FormattedMessage id="order.expireTime" />:{" "}
                                     <br />
-                                    {order.orderTimeOut.substr(0, 10)}
+                                    {order.orderTimeOut.substr(0, 19)}
                                   </span>
                                 )}
                                 {order.canReview ? (
