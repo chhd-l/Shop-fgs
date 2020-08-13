@@ -24,10 +24,11 @@ class SubscriptionSelect extends Component {
   async componentDidMount () {
     getMarketingDiscount({
       totalAmount: this.props.checkoutStore.loginCartData
-        .filter(ele => ele.subscriptionStatus)
+        .filter(ele => ele.subscriptionStatus && ele.subscriptionPrice > 0)
         .reduce((total, item) => total + item.subscriptionPrice, 0),
       goodsInfoIds: this.props.checkoutStore.loginCartData
-        .filter(ele => ele.subscriptionStatus).map(ele => ele.goodsInfoId)
+        .filter(ele => ele.subscriptionStatus && ele.subscriptionPrice > 0)
+        .map(ele => ele.goodsInfoId)
     })
       .then(res => {
         this.setState({
@@ -131,11 +132,11 @@ class SubscriptionSelect extends Component {
             <span className="ml-2 d-flex align-items-center flex-wrap">
               {
                 this.props.checkoutStore.loginCartData
-                  .filter(ele => ele.subscriptionStatus)
+                  .filter(ele => ele.subscriptionStatus && ele.subscriptionPrice > 0)
                   .map((ele, i) => (
                     <div className="imgBoxForSelect"
                     >
-                    <img className="width-sub-img  imgForSelect " style={{ display: 'inline-block'}} key={i} src={ele.goodsInfoImg} />
+                      <img className="width-sub-img  imgForSelect " style={{ display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
                     </div>
                   ))
               }

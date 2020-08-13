@@ -159,8 +159,8 @@ class Payment extends React.Component {
     //获取支付方式
     const payWay = await getWays();
     const payuMethodsObj = {
-      'PAYU':'payu',
-      'PAYUOXXO':'payuoxxo',
+      'PAYU': 'payu',
+      'PAYUOXXO': 'payuoxxo',
     }
     let payWayNameArr = []
     if (payWay.context.length > 0) {
@@ -171,14 +171,14 @@ class Payment extends React.Component {
         for(let item of payuNameArr){
           payWayNameArr.push(payuMethodsObj[item])
         }
-      }else{
+      } else {
         //正常处理，因为后台逻辑不好处理，所以这里特殊处理
         payWayNameArr = payWay.context
-        .map((item) => item.payChannelItemList)[0]
-        .map((item) => item.code);
-      //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
+          .map((item) => item.payChannelItemList)[0]
+          .map((item) => item.code);
+        //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
       }
-      
+
     }
 
     let payMethod = payWayNameArr[0] || "none";//初始化默认取第1个
@@ -199,8 +199,8 @@ class Payment extends React.Component {
         this.setState({ paymentTypeVal: "adyenKlarnaPayLater" });
       },
       //Sofort支付
-      directEbanking:()=>{
-        this.setState({paymentTypeVal:'directEbanking'})
+      directEbanking: () => {
+        this.setState({ paymentTypeVal: 'directEbanking' })
       },
       payu: () => {
         this.setState({ paymentTypeVal: "creditCard" });
@@ -397,7 +397,7 @@ class Payment extends React.Component {
   }
 
   //支付4，初始化sofort
-  initSofort=()=>{
+  initSofort = () => {
     this.doGetAdyenPayParam('sofort')
   }
 
@@ -438,7 +438,7 @@ class Payment extends React.Component {
           },
         );
       },
-      'sofort':() => {
+      'sofort': () => {
         parameters = Object.assign(
           commonParameter,
           {
@@ -454,7 +454,7 @@ class Payment extends React.Component {
       parameters,
       {
         email: this.state.email,
-        successUrl: process.env.REACT_APP_SUCCESSFUL_URL+'/payResult',
+        successUrl: process.env.REACT_APP_SUCCESSFUL_URL + '/payResult',
         //successUrl: 'http://sy8h75.natappfree.cc/payResult',
         shopperLocale: 'en_US',
         currency: 'EUR',
@@ -469,8 +469,7 @@ class Payment extends React.Component {
 
   //得到支付共同的参数
   async getPayCommonParam () {
-    let commonParameter = await this.goConfirmation(); //获取支付公共参数
-
+    let commonParameter = await this.handleClickFurther(); //获取支付公共参数
     let phone = this.state.billingAddress.phoneNumber; //获取电话号码
     return new Promise((resolve => {
       resolve({ commonParameter, phone })
@@ -695,6 +694,42 @@ class Payment extends React.Component {
   endLoading () {
     this.setState({ loading: false });
   }
+  // 获取选中卡的token
+  async getPayMentOSToken () {
+    let selectedCard = this.state.selectedCardInfo;
+    this.startLoading()
+    try {
+      let res = await axios.post(
+        "https://api.paymentsos.com/tokens",
+        {
+          token_type: "credit_card",
+          card_number: selectedCard.cardNumber,
+          expiration_date: selectedCard.cardMmyy.replace(/\//, "-"),
+          holder_name: selectedCard.cardOwner,
+          credit_card_cvv: selectedCard.cardCvv,
+        },
+        {
+          headers: {
+            public_key: process.env.REACT_APP_PaymentKEY,
+            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
+            "Content-type": "application/json",
+            app_id: "com.razorfish.dev_mexico",
+            "api-version": "1.3.0",
+          },
+        }
+      );
+      this.setState({
+        payosdata: res.data,
+        creditCardInfo: Object.assign({}, selectedCard),
+      });
+    } catch (err) {
+      this.endLoading();
+      throw new Error(err)
+    }
+  }
+  handleClickFurtherOpt () {
+
+  }
   async handleClickFurther () {
     if (!this.state.isToPayNow) {
       let tmpRes = await this.saveAddressAndComment();
@@ -703,89 +738,58 @@ class Payment extends React.Component {
       }
     }
 
-    if (this.isLogin) {
-      // 价格未达到底限，不能下单
-      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-        window.scrollTo({ behavior: "smooth", top: 0 });
-        this.showErrorMsg(
-          <FormattedMessage
-            id="cart.errorInfo3"
-            values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
-          />
-        );
-        return false;
-      }
-      // 存在下架商品，不能下单
-      if (this.props.checkoutStore.offShelvesProNames.length) {
-        window.scrollTo({ behavior: "smooth", top: 0 });
-        this.showErrorMsg(
-          <FormattedMessage
-            id="cart.errorInfo4"
-            values={{
-              val: this.props.checkoutStore.offShelvesProNames.join("/"),
-            }}
-          />
-        );
-        return false;
-      }
+    // 价格未达到底限，不能下单
+    if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+      window.scrollTo({ behavior: "smooth", top: 0 });
+      this.showErrorMsg(
+        <FormattedMessage
+          id="cart.errorInfo3"
+          values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
+        />
+      );
+      return false;
+    }
 
-      // 库存不够，不能下单
-      if (this.props.checkoutStore.outOfstockProNames.length) {
-        window.scrollTo({ behavior: "smooth", top: 0 });
-        this.showErrorMsg(
-          <FormattedMessage
-            id="cart.errorInfo2"
-            values={{
-              val: this.props.checkoutStore.outOfstockProNames.join("/"),
-            }}
-          />
-        );
-        return false;
-      }
+    // 存在下架商品，不能下单
+    if (this.props.checkoutStore.offShelvesProNames.length) {
+      window.scrollTo({ behavior: "smooth", top: 0 });
+      this.showErrorMsg(
+        <FormattedMessage
+          id="cart.errorInfo4"
+          values={{
+            val: this.props.checkoutStore.offShelvesProNames.join("/"),
+          }}
+        />
+      );
+      return false;
+    }
 
+    // 库存不够，不能下单
+    if (this.props.checkoutStore.outOfstockProNames.length) {
+      window.scrollTo({ behavior: "smooth", top: 0 });
+      this.showErrorMsg(
+        <FormattedMessage
+          id="cart.errorInfo2"
+          values={{
+            val: this.props.checkoutStore.outOfstockProNames.join("/"),
+          }}
+        />
+      );
+      return false;
+    }
+
+    if (this.isLogin && this.state.paymentTypeVal === 'creditCard') {
       if (!this.state.selectedCardInfo.cardNumber) {
         this.showErrorMsg(this.props.intl.messages.clickConfirmCvvButton);
-        return false;
+        return false
       }
-      let selectedCard = this.state.selectedCardInfo;
-      this.startLoading();
       try {
-        let res = await axios.post(
-          "https://api.paymentsos.com/tokens",
-          {
-            token_type: "credit_card",
-            card_number: selectedCard.cardNumber,
-            expiration_date: selectedCard.cardMmyy.replace(/\//, "-"),
-            holder_name: selectedCard.cardOwner,
-            credit_card_cvv: selectedCard.cardCvv,
-          },
-          {
-            headers: {
-              public_key: process.env.REACT_APP_PaymentKEY,
-              "x-payments-os-env": process.env.REACT_APP_PaymentENV,
-              "Content-type": "application/json",
-              app_id: "com.razorfish.dev_mexico",
-              "api-version": "1.3.0",
-            },
-          }
-        );
-        console.log(res, "res");
-        this.setState(
-          {
-            payosdata: res.data,
-            creditCardInfo: Object.assign({}, selectedCard),
-          },
-          () => {
-            this.goConfirmation();
-          }
-        );
+        await this.getPayMentOSToken()
       } catch (err) {
         this.showErrorMsg(err.toString());
-        this.endLoading();
       }
-    } else {
-      this.goConfirmation();
     }
+    return await this.goConfirmation();
   }
   async goConfirmation () {
     const { history, clinicStore } = this.props;
@@ -798,15 +802,14 @@ class Payment extends React.Component {
       billingChecked,
       creditCardInfo,
       subForm,
-      showOxxoForm,
       paymentTypeVal,
     } = this.state;
     const loginCartData = this.loginCartData;
     const cartData = this.cartData.filter((ele) => ele.selected);
-    if (
-      (!isEighteen || !isReadPrivacyPolicy) &&
-      paymentTypeVal === "creditCard"
-    ) {
+    if ((!isEighteen || !isReadPrivacyPolicy) && (paymentTypeVal === "creditCard"
+      // || paymentTypeVal === "oxxo"
+      // todo
+    )) {
       this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
       return false;
     }
@@ -1398,7 +1401,7 @@ class Payment extends React.Component {
                       {this.isLogin &&
                         find(
                           this.loginCartData,
-                          (ele) => ele.subscriptionStatus
+                          (ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0
                         ) ? (
                           <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
                             <div className="card-header bg-transparent pt-0 pb-0">
@@ -1733,7 +1736,7 @@ class Payment extends React.Component {
                   {this.state.paymentTypeVal === "oxxo" && (
                     <OxxoConfirm
                       history={this.props.history}
-                      getParameter={() => this.goConfirmation()}
+                      getParameter={() => this.handleClickFurther()}
                       startLoading={() => this.startLoading()}
                       endLoading={() => this.endLoading()}
                     />
