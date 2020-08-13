@@ -7,26 +7,20 @@ import { inject, observer } from 'mobx-react'
 import { toJS } from "mobx";
 import PetModal from '@/components/PetModal'
 
-@inject("checkoutStore")
+@inject("checkoutStore", "headerCartStore")
 @observer
 class LoginCart extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showCart: false,
       checkoutLoading: false,
       petModalVisible: false,
       isAdd: 0
     }
-    this.handleMouseOver = this.handleMouseOver.bind(this)
-    this.handleMouseOut = this.handleMouseOut.bind(this)
     this.handleCheckout = this.handleCheckout.bind(this)
   }
   async componentDidMount () {
     this.checkoutStore.updateLoginCart()
-  }
-  componentWillReceiveProps (nextProps) {
-    // debugger
   }
   get checkoutStore () {
     return this.props.checkoutStore
@@ -43,49 +37,26 @@ class LoginCart extends React.Component {
   get tradePrice () {
     return this.props.checkoutStore.tradePrice
   }
-  handleMouseOver () {
-    this.flag = 1
-    this.setState({
-      showCart: true
-    })
-  }
-  handleMouseOut () {
-    this.flag = 0
-    setTimeout(() => {
-      if (!this.flag) {
-        this.setState({
-          showCart: false,
-          errMsg: ''
-        })
-      }
-    }, 500)
-  }
   async handleCheckout () {
     this.setState({ checkoutLoading: true })
     this.checkoutStore.updateLoginCart()
     this.setState({ checkoutLoading: false })
     if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-      this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />
-      })
+      this.props.headerCartStore.setErrMsg(<FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />)
       return false
     }
 
     // 存在下架商品，不能下单
     if (this.props.checkoutStore.offShelvesProNames.length) {
-      this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo4"
-          values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />
-      })
+      this.props.headerCartStore.setErrMsg(<FormattedMessage id="cart.errorInfo4"
+        values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />)
       return false
     }
 
     // 库存不够，不能下单
     if (this.props.checkoutStore.outOfstockProNames.length) {
-      this.setState({
-        errMsg: <FormattedMessage id="cart.errorInfo2"
-          values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />
-      })
+      this.props.headerCartStore.setErrMsg(<FormattedMessage id="cart.errorInfo2"
+        values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />)
       return false
     }
     // this.openPetModal()
@@ -123,11 +94,12 @@ class LoginCart extends React.Component {
   }
   render () {
     const { totalNum, cartData, loading } = this
+    const { headerCartStore } = this.props
     return (
       <span
         className="minicart inlineblock"
-        onMouseOver={this.handleMouseOver}
-        onMouseOut={this.handleMouseOut}>
+        onMouseOver={() => { headerCartStore.show() }}
+        onMouseOut={() => { headerCartStore.hide() }}>
         <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn">
           <i className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
           <span className="minicart-quantity">{totalNum}</span>
@@ -135,7 +107,7 @@ class LoginCart extends React.Component {
         {
           !totalNum && !loading
             ?
-            <div className={['popover', 'popover-bottom', this.state.showCart ? 'show' : ''].join(' ')}>
+            <div className={['popover', 'popover-bottom', headerCartStore.visible ? 'show' : ''].join(' ')}>
               <div className="container cart">
                 <div className="minicart__footer__msg text-center minicart-padding">
                   <span className="minicart__pointer"></span>
@@ -147,7 +119,10 @@ class LoginCart extends React.Component {
               </div>
             </div>
             :
-            <div className={['popover', 'popover-bottom', this.state.showCart ? 'show' : ''].join(' ')} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
+            <div
+              className={['popover', 'popover-bottom', headerCartStore.visible ? 'show' : ''].join(' ')}
+              onMouseOver={() => { headerCartStore.show() }}
+              onMouseOut={() => { headerCartStore.hide() }}>
               <div className="container cart">
                 <div>
                   <div className="minicart__header cart--head small">
@@ -167,32 +142,23 @@ class LoginCart extends React.Component {
                     </span>
                     <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true"><FormattedMessage id="chang" /></Link>
                   </div>
-                  <div style={{ margin: '0 2%', display: this.state.errMsg ? 'block' : 'none' }}>
+                  <div className={`${headerCartStore.errMsg ? '' : 'hidden'}`} style={{ margin: '0 2%' }}>
                     <aside className="rc-alert rc-alert--error rc-alert--with-close text-break" role="alert" style={{ padding: '.5rem' }}>
-                      <span className="pl-0">{this.state.errMsg}</span>
+                      <span className="pl-0">{headerCartStore.errMsg}</span>
                     </aside>
                   </div>
                   <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                     <a
                       onClick={this.handleCheckout}
-                      className={['rc-btn', 'rc-btn--one', 'rc-btn--sm', 'btn-block', 'cart__checkout-btn', 'checkout-btn', this.state.checkoutLoading ? 'ui-btn-loading' : ''].join(' ')}
-                      style={{ color: '#fff' }}>
+                      className={`rc-btn rc-btn--one rc-btn--sm btn-block cart__checkout-btn text-white checkout-btn ${this.state.checkoutLoading ? 'ui-btn-loading' : ''}`}>
                       <FormattedMessage id="checkout" />
                     </a>
                   </div>
                   <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                     <span className="rc-meta">
-                      {
-                        cartData.length > 1
-                          ? <FormattedMessage
-                            id="itemsInCart2"
-                            values={{ val: <b>{cartData.length}</b> }}
-                          />
-                          : <FormattedMessage
-                            id="itemsInCart"
-                            values={{ val: <b>{cartData.length}</b> }}
-                          />
-                      }
+                      <FormattedMessage
+                        id="cart.totalProduct"
+                        values={{ val: cartData.length }} />
                     </span>
                   </div>
                   <div className="minicart-error cart-error">

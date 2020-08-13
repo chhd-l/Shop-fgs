@@ -515,7 +515,7 @@ const en_US = {
   ratingGrade3: 'Calificación de mayor a menor',
   'receiver': 'Receptor',
   'registerFailed': 'Registro fallido',
-  'remember48Hours': 'Remember that the order before {val}, the payment will expire before {val} pm two days later, or after {val} pm, the payment will expire before {val} pm three days later',
+  'remember48Hours': 'Recuerde que el pedido antes de las 7:00 pm, el pago vencerá antes de las 7:00 pm dos días después, o después de las 7:00 pm, el pago vencerá antes de las 7:00 pm tres días después',
   'rememberMe': 'Recuérdame',
   'removeAllFilters': 'Quite todos los filtros',
   'replyComments': 'Reply comments',

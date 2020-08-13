@@ -1431,7 +1431,7 @@ class Payment extends React.Component {
                     </>
                   )}
                 <div
-                  className="card-panel checkout--padding pl-0 pr-0 pb-4 rc-bg-colour--brand3 rounded mb-3 cardCss"
+                  className="card-panel checkout--padding pl-0 pr-0 pb-4 rc-bg-colour--brand3 rounded mb-3 pb-0"
                   style={{ paddingBottom: "0rem" }}
                 >
                   <h5 className="ml-custom mr-custom">
@@ -1681,7 +1681,7 @@ class Payment extends React.Component {
                       this.state.paymentTypeVal === "creditCard" ? "" : "hidden"
                       }`}
                   >
-                    <div className="card payment-form ml-custom mr-custom Card-border">
+                    <div className="card payment-form ml-custom mr-custom Card-border p-3 rounded rc-border-all rc-border-colour--interface">
                       <div className="card-body rc-padding--none">
                         <form
                           method="POST"
