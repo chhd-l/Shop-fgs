@@ -44,6 +44,7 @@ import PrescriptionNavigate from "@/views/PrescriptionNavigate";
 import Exception from "@/views/Exception";
 import Help from "@/views/Help";
 import FAQ from "@/views/FAQ";
+import Recommendation from "@/views/Recommendation";
 import TermUse from "@/views/TermUse";
 import PrivacyPolicy from "@/views/PrivacyPolicy";
 import AccountHome from "@/views/Account/Home";
@@ -136,6 +137,8 @@ const App = () => (
               
               <Route exact path="/help" component={Help} />
               <Route exact path="/FAQ" component={FAQ} />
+              <Route exact path="/Recommendation" component={Recommendation} />
+              
               <Route exact path="/termuse" component={TermUse} />
               <Route exact path="/privacypolicy" component={PrivacyPolicy} />
 
