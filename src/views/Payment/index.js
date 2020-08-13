@@ -330,8 +330,8 @@ class Payment extends React.Component {
       // (1) Create an instance of AdyenCheckout
       const checkout = new AdyenCheckout({
         environment: "test",
-        //originKey: process.env.REACT_APP_AdyenOriginKEY,
-        originKey: 'pub.v2.8015632026961356.aHR0cDovL3N5OGg3NS5uYXRhcHBmcmVlLmNj.WCzZPSffL3D1bwvSNcuDqXTEFSqTDfwzlV07G3E6FdY',
+        originKey: process.env.REACT_APP_AdyenOriginKEY,
+        //originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
         locale: "de-DE",
       });
 
@@ -439,8 +439,8 @@ class Payment extends React.Component {
       parameters,
       {
         email: this.state.email,
-        //successUrl: process.env.REACT_APP_SUCCESSFUL_URL+'/payResult',
-        successUrl: 'http://sy8h75.natappfree.cc/payResult',
+        successUrl: process.env.REACT_APP_SUCCESSFUL_URL+'/payResult',
+        //successUrl: 'http://sy8h75.natappfree.cc/payResult',
         shopperLocale: 'en_US',
         currency: 'EUR',
         country: "DE",
