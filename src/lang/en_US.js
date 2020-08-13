@@ -596,7 +596,8 @@ const en_US = {
   writeYourReview: "Write your review",
   yes: "Yes",
   yourEmailNotVerified: "Your email has not been verified!",
-  yourPasswordNotVerified: "Your password has not been verified"
+  yourPasswordNotVerified: "Your password has not been verified",
+  'reviewisRequired': 'Review is required.'
 }
 
 export default en_US;

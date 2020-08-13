@@ -73,7 +73,7 @@ class ReviewForm extends React.Component {
         validDom.style.display = "block";
         if (e.target.name === "whatYouLike") {
           this.setState({
-            textErrorInfo: "Review is required.",
+            textErrorInfo: this.props.intl.messages.reviewisRequired,
           });
         }
       } else {
@@ -140,7 +140,7 @@ class ReviewForm extends React.Component {
                     onBlur={(e) => this.inputBlur(e)}
                   ></input> */}
                   <input type="text" 
-                  placeholder="Title" 
+                  placeholder={this.props.intl.messages.title} 
                   class="form-control"              
                   value={this.state.title}
                   style={{padding:0}}

@@ -22418,7 +22418,7 @@ tr.rc-table__row.inactive td:after {
 }
 
 .rc-progress--breadcrumbs-stepped li {
-  max-width: 300px;
+  /* max-width: 300px; */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -22509,3 +22509,12 @@ height: 0;
   padding-top: 10px;
 }
 
+.rc-progress--breadcrumbs-stepped .rc-progress__breadcrumb::after {
+  display: none!important;
+}
+.rc-progress--breadcrumbs-stepped .rc-progress__breadcrumb {
+  border-color: transparent;
+}
+.rc-progress--breadcrumbs-stepped .rc-progress__breadcrumb:hover {
+  border-color: red;
+}

@@ -294,7 +294,7 @@ class List extends React.Component {
           let lang = process.env.REACT_APP_LANG,
             de_tmpList = []
 
-          if (lang = 'de') {
+          if (lang == 'de'&&(category=='cats'||category=='dogs')) {
             de_tmpList = tmpList.filter(item => item.propId != 481)
             this.setState({
               filterList: de_tmpList,

@@ -222,7 +222,7 @@ class Home extends React.Component {
                       ) : (
                         <>
                           <div className="col-md-3 col-6">
-                            <FormattedMessage id="home.catogery1">
+                            <FormattedMessage id="product.catogery3.name">
                               {(txt) => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
@@ -241,7 +241,7 @@ class Home extends React.Component {
                             </FormattedMessage>
                           </div>
                           <div className="col-md-3 col-6">
-                            <FormattedMessage id="home.catogery2">
+                            <FormattedMessage id="product.catogery4.name">
                               {(txt) => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
@@ -260,8 +260,8 @@ class Home extends React.Component {
                             </FormattedMessage>
                           </div>
                           <div className="col-md-3 col-6">
-                            <FormattedMessage id="home.catogery3">
-                              {(txt) => (
+                            <FormattedMessage id="product.catogery1.name">
+                              {txt => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
                                   to="/list/prescription-dogs"
@@ -279,8 +279,8 @@ class Home extends React.Component {
                             </FormattedMessage>
                           </div>
                           <div className="col-md-3 col-6">
-                            <FormattedMessage id="home.catogery4">
-                              {(txt) => (
+                            <FormattedMessage id="product.catogery2.name">
+                              {txt => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
                                   to="/list/prescription-cats"
