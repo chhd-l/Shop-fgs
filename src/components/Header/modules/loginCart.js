@@ -138,9 +138,12 @@ class LoginCart extends React.Component {
                   </div>
                   <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
                     <span className="rc-body rc-margin--none">
-                      <FormattedMessage id="total" /> <b>{formatMoney(this.tradePrice)}</b>
+                      <FormattedMessage id="total" />{' '}
+                      <b>{formatMoney(this.tradePrice)}</b>
                     </span>
-                    <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true"><FormattedMessage id="chang" /></Link>
+                    <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true">
+                      <FormattedMessage id="chang" />
+                    </Link>
                   </div>
                   <div className={`${headerCartStore.errMsg ? '' : 'hidden'}`} style={{ margin: '0 2%' }}>
                     <aside className="rc-alert rc-alert--error rc-alert--with-close text-break" role="alert" style={{ padding: '.5rem' }}>

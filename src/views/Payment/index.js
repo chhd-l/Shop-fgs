@@ -1430,10 +1430,7 @@ class Payment extends React.Component {
                         ) : null}
                     </>
                   )}
-                <div
-                  className="card-panel checkout--padding pl-0 pr-0 pb-4 rc-bg-colour--brand3 rounded mb-3 pb-0"
-                  style={{ paddingBottom: "0rem" }}
-                >
+                <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
                   <h5 className="ml-custom mr-custom">
                     <i
                       class="rc-icon rc-payment--sm rc-iconography"
@@ -2121,10 +2118,7 @@ class Payment extends React.Component {
                   </div>
                 </div>
               </div>
-              <div
-                className="product-summary rc-column MarginTopFixSCreen"
-                style={{ paddingLeft: "unset", }}
-              >
+              <div className="rc-column pl-md-0">
                 <PayProductInfo
                   ref="payProductInfo"
                   history={this.props.history}

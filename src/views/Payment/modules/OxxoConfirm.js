@@ -130,7 +130,7 @@ class OxxoConfirm extends Component {
                   <FormattedMessage id="payment.email" />
                 </label>
               </div>
-              <div className="col-md-8 col-sm-12 pl-0">
+              <div className="col-md-8 col-sm-12">
                 <input
                   type="email"
                   id="email"

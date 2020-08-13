@@ -240,9 +240,6 @@
   cursor: pointer;
 }
 @media(max-width:540px){
-  .MarginTopFixSCreen{
-    margin-top: -2rem !important;
-  }
   .PayCardImgFitScreen{
     width: 50% !important;
   }

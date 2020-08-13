@@ -140,7 +140,7 @@ class UnloginCart extends React.Component {
                   </div>
                   <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
                     <span className="rc-body rc-margin--none">
-                      <FormattedMessage id="total" />
+                      <FormattedMessage id="total" />{' '}
                       <b>{formatMoney(this.tradePrice)}</b>
                     </span>
                     <Link to="/cart" className="rc-styled-link pull-right" role="button" aria-pressed="true">
