@@ -71,7 +71,7 @@ const en_US = {
   "header.VCN": "VCN",
   "header.VD": "VD",
   "header.carouselInfo1": "Unterstützen Sie die Gesundheit Ihres Haustieres mit der richtigen Nahrungslösung.",
-  "header.carouselInfo2": "Wählen Sie das passende Produkt aus dem ROYAL CANIN® Vet Portfolio",
+  "header.carouselInfo2": "Wählen Sie das passende Produkt aus dem ROYAL CANIN{val} Vet Portfolio",
   "header.carouselInfo3": "Tierernährung",
   "header.carouselInfo4": "Persönlicher Berater",
   "header.carouselInfo5": "KOSTENLOSE tierärztliche Untersuchungen",

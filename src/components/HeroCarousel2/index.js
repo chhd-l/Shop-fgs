@@ -49,7 +49,6 @@ class HeroCarousel extends React.Component {
   }
   async componentWillMount () {
     getBanner().then(res => {
-      console.log(res, 'ressssss')
       this.setState({ banner: res.context })
     })
   }
@@ -89,7 +88,9 @@ class HeroCarousel extends React.Component {
             <h1><FormattedMessage id="header.carouselInfo1" /></h1>
           </div>
           <div className="rc-body inherit-fontsize">
-            <FormattedMessage id="header.carouselInfo2" />
+            <FormattedMessage
+              id="header.carouselInfo2"
+              values={{ val: <span style={{ verticalAlign: 'super', fontSize: '.8em' }}>®</span> }} />
           </div>
           <div className="hero-carousel__slide__content__btn text-center">
             <Link
