@@ -138,7 +138,7 @@ class PayProductInfo extends React.Component {
     return List;
   }
   isSubscription (el) {
-    return el.subscriptionStatus && this.props.buyWay === 'frequency'
+    return el.subscriptionStatus && el.subscriptionPrice > 0 && this.props.buyWay === 'frequency'
   }
   getProductsForLogin (plist) {
     console.log(plist, 'aaa')

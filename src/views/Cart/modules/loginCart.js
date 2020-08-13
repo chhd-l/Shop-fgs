@@ -388,7 +388,7 @@ class LoginCart extends React.Component {
               <div className="flex justify-content-between rc-md-up">
                 <div>
                   {
-                    pitem.subscriptionStatus
+                    pitem.subscriptionStatus && pitem.subscriptionPrice > 0
                       ? <>
                         <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.9em' }}>&#xe675;</span>
                         <FormattedMessage id="autoshop" />
@@ -460,7 +460,7 @@ class LoginCart extends React.Component {
             <div className="flex justify-content-between flex-wrap">
               <div>
                 {
-                  pitem.subscriptionStatus
+                  pitem.subscriptionStatus && pitem.subscriptionPrice > 0
                     ? <>
                       <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.9em' }}>&#xe675;</span>
                       <FormattedMessage id="details.Subscription" />
