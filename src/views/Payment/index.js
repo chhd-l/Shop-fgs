@@ -158,12 +158,27 @@ class Payment extends React.Component {
 
     //获取支付方式
     const payWay = await getWays();
+    const payuMethodsObj = {
+      'PAYU':'payu',
+      'PAYUOXXO':'payuoxxo',
+    }
     let payWayNameArr = []
     if (payWay.context.length > 0) {
-      payWayNameArr = payWay.context
+      let payuNameArr = []
+      //判断第0条的name是否存在PATU的字段
+      if(payWay.context[0].name.indexOf('PAYU')!=-1){
+        payuNameArr = payWay.context.map(item=>item.name)
+        for(let item of payuNameArr){
+          payWayNameArr.push(payuMethodsObj[item])
+        }
+      }else{
+        //正常处理，因为后台逻辑不好处理，所以这里特殊处理
+        payWayNameArr = payWay.context
         .map((item) => item.payChannelItemList)[0]
         .map((item) => item.code);
       //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
+      }
+      
     }
 
     let payMethod = payWayNameArr[0] || "none";//初始化默认取第1个
@@ -455,6 +470,7 @@ class Payment extends React.Component {
   //得到支付共同的参数
   async getPayCommonParam () {
     let commonParameter = await this.goConfirmation(); //获取支付公共参数
+
     let phone = this.state.billingAddress.phoneNumber; //获取电话号码
     return new Promise((resolve => {
       resolve({ commonParameter, phone })
