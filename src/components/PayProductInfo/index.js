@@ -160,7 +160,7 @@ class PayProductInfo extends React.Component {
                 </div>
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="line-item-total-price" style={{ width: '77%' }}>
-                    {el.specText} - {el.buyCount} {el.buyCount > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}<br />
+                    {el.specText} -  {el.buyCount > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />} {el.buyCount}<br />
                     {
                       this.isSubscription(el)
                         ? <><FormattedMessage id="subscription.frequency" /> : {this.props.frequencyName} <span className="iconfont font-weight-bold red" style={{ fontSize: '.8em' }}>&#xe675;</span></>
