@@ -296,21 +296,33 @@ class List extends React.Component {
           }
 
 
-          let lang = process.env.REACT_APP_LANG,
-            de_tmpList = []
+          let lang = process.env.REACT_APP_LANG
 
-          if (lang == 'de' && (category == 'cats' || category == 'dogs')) {
-            de_tmpList = tmpList.filter(item => item.propId != 481)
-            this.setState({
-              filterList: de_tmpList,
-              initingFilter: false
-            })
-          } else {
-            this.setState({
-              filterList: tmpList,
-              initingFilter: false
-            })
-          }
+          //德国猫，德国狗，直接勾选出条件
+          const condition = lang+'_'+category
+          let checkedListTemp
+          switch(condition) {
+            case 'de_cats':
+               console.log('de_cats')
+               checkedListTemp = tmpList.filter(item=>item.propId===481)[0].goodsPropDetails.filter(item=>item.detailId ===1784 )
+               this.setState({
+                checkedList: checkedListTemp
+              })
+               break;
+            case 'de_dogs':
+               console.log('de_cats')
+               checkedListTemp =tmpList.filter(item=>item.propId===481)[0].goodsPropDetails.filter(item=>item.detailId ===1783 )
+               this.setState({
+                checkedList: checkedListTemp
+              })
+               break;
+          } 
+          
+
+          this.setState({
+            filterList: tmpList,
+            initingFilter: false,
+          })
 
 
 
@@ -329,6 +341,7 @@ class List extends React.Component {
     } else {
       checkedListCopy.push(item)
     }
+
     this.setState({ checkedList: checkedListCopy, currentPage: 1 }, () => this.getProductList())
   }
   handleRemove (item) {

@@ -346,7 +346,7 @@ class Payment extends React.Component {
       const checkout = new AdyenCheckout({
         environment: "test",
         originKey: process.env.REACT_APP_AdyenOriginKEY,
-        //originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
+        //originKey: 'pub.v2.8015632026961356.aHR0cDovL2ZxMzNrNi5uYXRhcHBmcmVlLmNj.deHLw5of5MxJvrLv2UZEEyJwyguuk0DFVD7lVEMcLtE',
         locale: "de-DE",
       });
 
@@ -405,7 +405,7 @@ class Payment extends React.Component {
 
   //组装支付共同的参数
   async getAdyenPayParam (type) {
-    await this.saveAddressAndComment(); //获取两个addressId
+    //await this.saveAddressAndComment(); //获取两个addressId
     let obj = await this.getPayCommonParam()
     let commonParameter = obj.commonParameter
     let phone = obj.phone
@@ -455,7 +455,7 @@ class Payment extends React.Component {
       {
         email: this.state.email,
         successUrl: process.env.REACT_APP_SUCCESSFUL_URL + '/payResult',
-        //successUrl: 'http://sy8h75.natappfree.cc/payResult',
+        //successUrl: 'http://fq33k6.natappfree.cc/payResult',
         shopperLocale: 'en_US',
         currency: 'EUR',
         country: "DE",
@@ -470,6 +470,7 @@ class Payment extends React.Component {
   //得到支付共同的参数
   async getPayCommonParam () {
     let commonParameter = await this.handleClickFurther(); //获取支付公共参数
+    console.log(commonParameter)
     let phone = this.state.billingAddress.phoneNumber; //获取电话号码
     return new Promise((resolve => {
       resolve({ commonParameter, phone })
@@ -540,6 +541,7 @@ class Payment extends React.Component {
             break;
           case 'adyen_klarna_pay_lat':
           case 'adyen_klarna_pay_now':
+          case 'sofort':
             orderNumber = res.context.pId;
             window.location.href = res.context.url
             sessionStorage.setItem("orderNumber", orderNumber);
