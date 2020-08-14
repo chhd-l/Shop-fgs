@@ -29,9 +29,9 @@ class ClinicForm extends React.Component {
         clinicName: '',
         clinicId: ''
       },
-      toolTipVisible:false
+      toolTipVisible: false
     }
-    
+
     this.menuBtnRef = React.createRef();
 
     this.handleMouseOver = this.handleMouseOver.bind(this)
@@ -118,33 +118,34 @@ class ClinicForm extends React.Component {
             style={{ verticalAlign: "unset" }}
             onMouseOver={this.handleMouseOver}
             onMouseOut={this.handleMouseOut}>
-              ?</span>
-           {this.state.toolTipVisible?
-          <div
-          className="confirm-tool-container position-relative"   
-          onMouseOver={this.handleMouseOver}
-          onMouseOut={this.handleMouseOut}
-         >
-          <div
-            className="confirm-tool-content rc-bg-colour--brand4 p-3"
-            style={this.props.containerStyle}
-            tabIndex="1">
-            <div className="confirm-tool-arrow" style={this.props.arrowStyle}></div>
-            <div className="pt-1">
-            <FormattedMessage
-                id="noClinicTip"
-                values={{
-                  val: <Link
-                    to="/prescriptionNavigate"
-                    className="rc-styled-link font-italic">
-                    <FormattedMessage id="clickHere" />
-                  </Link>
-                }} />
-            </div>
-          </div>
+            ?</span>
+          {this.state.toolTipVisible ?
+            <div
+              className="confirm-tool-container position-relative"
+              onMouseOver={this.handleMouseOver}
+              onMouseOut={this.handleMouseOut}
+            >
+              <div
+                className="confirm-tool-content rc-bg-colour--brand4 p-3"
+                style={this.props.containerStyle}
+                tabIndex="1">
+                <div className="confirm-tool-arrow" style={this.props.arrowStyle}></div>
+                <div className="pt-1">
+                  <FormattedMessage
+                    id="noClinicTip"
+                    values={{
+                      val: <Link
+                        to="/prescriptionNavigate"
+                        target="_blank"
+                        className="rc-styled-link font-italic">
+                        <FormattedMessage id="clickHere" />
+                      </Link>
+                    }} />
+                </div>
+              </div>
 
-        </div>
-  :null}
+            </div>
+            : null}
         </span>
       </div>
     </div>
