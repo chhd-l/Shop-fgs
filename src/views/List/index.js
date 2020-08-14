@@ -289,7 +289,7 @@ class List extends React.Component {
           if ((category === 'dogs' || category === 'vcn') && tmpItem) {
             tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(v => v.detailName !== 'Gatito')
             let tmpTallaItem = find(tmpList, v => v.propName === 'Talla')
-            tmpTallaItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(v => v.detailName !== 'Minuatura' && v.detailName !== 'Grande')
+            tmpTallaItem.goodsPropDetails = tmpTallaItem.goodsPropDetails.filter(v => v.detailName !== 'Minuatura' && v.detailName !== 'Grande')
 
             let tmpSecoItem = find(tmpList, v => v.propName === 'Seco/Húmedo')
             tmpSecoItem.goodsPropDetails = tmpSecoItem.goodsPropDetails.filter(v => v.detailName !== 'Otro')
