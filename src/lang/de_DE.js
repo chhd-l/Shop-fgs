@@ -599,5 +599,6 @@ const en_US = {
   'faq.frequentQuestions': "Häufige Fragen",
   'faq.title': 'Haben Sie irgendwelche Fragen. Schauen Sie sich unsere am häufigsten gestellten Fragen an. Wenn Sie nicht finden, wonach Sie suchen, klicken Sie hier, um mit uns Kontakt aufzunehmen.',
   'faq.title2': 'Lebensmittellieferservice',
+  'every': 'Jeden'
 }
 export default en_US;

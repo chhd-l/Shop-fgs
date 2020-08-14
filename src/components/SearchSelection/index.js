@@ -47,7 +47,7 @@ class SearchSelection extends React.Component {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
       this.queryList()
-    }, 500)
+    }, 1000)
   }
   handleInputFocus = e => {
     const tmpVal = this.state.form.value

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import Selection from '@/components/Selection'
 import { getDictionary, formatMoney } from "@/utils/utils";
 import { getMarketingDiscount } from "@/api/payment";
 import './SubscriptionSelect.css'
+@injectIntl
 @inject("checkoutStore", "frequencyStore")
 @observer
 class SubscriptionSelect extends Component {
@@ -22,6 +23,7 @@ class SubscriptionSelect extends Component {
     }
   }
   async componentDidMount () {
+    console.log(this.props.intl.messages.every, 'this.props.intl.messages.every')
     getMarketingDiscount({
       totalAmount: this.props.checkoutStore.loginCartData
         .filter(ele => ele.subscriptionStatus && ele.subscriptionPrice > 0)
@@ -122,6 +124,7 @@ class SubscriptionSelect extends Component {
             </span>
           </label>
           <div style={{ marginLeft: '5%' }} className="d-flex align-items-center">
+            <FormattedMessage id="every" /> &nbsp;
             <Selection
               selectedItemChange={data => this.handleSelectedItemChange(data)}
               optionList={this.computedList}

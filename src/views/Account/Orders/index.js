@@ -570,13 +570,13 @@ class AccountOrders extends React.Component {
                                     </button>
                                   </>
                                 ) : null}
-                                {order.showOXXOExpireTime && (
+                                {/* {order.showOXXOExpireTime && (
                                   <span className="red">
                                     <FormattedMessage id="order.expireTime" />:{" "}
                                     <br />
-                                    {order.orderTimeOut}
+                                    {order.orderTimeOut.substr(0, 19)}
                                   </span>
-                                )}
+                                )} */}
                                 {order.canReview ? (
                                   <button
                                     className="rc-btn rc-btn--sm rc-btn--two"
