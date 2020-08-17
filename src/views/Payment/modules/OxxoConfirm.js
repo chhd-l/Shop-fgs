@@ -15,19 +15,17 @@ class OxxoConfirm extends Component {
       isReadPrivacyPolicyInit: true,
       isEighteenInit: true,
       isReadPrivacyPolicy: false,
-      isEighteen: false,
+      isEighteen: false
     };
   }
 
   async goConfirmation () {
+    const { isEighteen, isReadPrivacyPolicy } = this.state
     try {
       this.props.startLoading();
       if (!this.state.email) {
         this.setState({ showReqiredInfo: true });
-        this.showErrorMsg(
-          this.props.intl.messages.pleasecompleteTheRequiredItem
-        );
-        return;
+        throw new Error(this.props.intl.messages.pleasecompleteTheRequiredItem)
       }
       this.setState({ showReqiredInfo: false });
       if (
@@ -35,14 +33,18 @@ class OxxoConfirm extends Component {
           this.state.email.replace(/\s*/g, "")
         )
       ) {
-        this.showErrorMsg(this.props.intl.messages.pleaseEnterTheCorrectEmail);
-        return;
+        throw new Error(this.props.intl.messages.pleaseEnterTheCorrectEmail)
+      }
+      // 是否同意条款
+      if (!isEighteen || !isReadPrivacyPolicy) {
+        this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
+        throw new Error('agreement failed')
       }
       var addressParameter = await this.props.getParameter();
       var parameters = Object.assign(addressParameter, {
         payChannelItem: "payuoxxo",
         email: this.state.email,
-        country: "MEX",
+        country: "MEX"
       });
       let res = await confirmAndCommit(parameters);
       if (res.code === "K-000000") {
@@ -51,7 +53,7 @@ class OxxoConfirm extends Component {
         var orderNumber = oxxoContent.tid;
         var subNumber = oxxoContent.subscribeId;
         sessionStorage.setItem("orderNumber", orderNumber);
-        store.set("subNumber", subNumber);
+        sessionStorage.setItem("subNumber", subNumber);
         if (
           oxxoArgs &&
           oxxoArgs.additionalDetails &&
@@ -64,7 +66,9 @@ class OxxoConfirm extends Component {
         }
       }
     } catch (e) {
-      this.showErrorMsg(e.message ? e.message.toString() : e.toString());
+      if (e.message !== 'agreement failed') {
+        this.showErrorMsg(e.message ? e.message.toString() : e.toString());
+      }
       this.props.endLoading();
     }
   }
@@ -74,12 +78,13 @@ class OxxoConfirm extends Component {
 
   showErrorMsg = (message) => {
     this.setState({
-      errorMsg: message,
+      errorMsg: message
     });
+    clearTimeout(this.timer)
     // this.scrollToPaymentComp();
-    setTimeout(() => {
+    this.timer = setTimeout(() => {
       this.setState({
-        errorMsg: "",
+        errorMsg: ""
       });
     }, 3000);
   };

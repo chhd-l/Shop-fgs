@@ -41,8 +41,6 @@ import {
   CREDIT_CARD_IMGURL_ENUM,
 } from "@/utils/constant";
 
-
-
 const rules = [
   {
     key: "firstName",
@@ -125,7 +123,8 @@ class Payment extends React.Component {
         frequencyName: "",
         frequencyId: "",
       },
-      paymentTypeVal: "", //creditCard oxxo adyen
+      //creditCard oxxo adyenKlarnaPayNow adyenKlarnaPayLater directEbanking
+      paymentTypeVal: "",
       errorShow: false,
       errorMsg: "",
       commentOnDelivery: "",
@@ -143,11 +142,9 @@ class Payment extends React.Component {
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
-    this.confirmCardInfo = this.confirmCardInfo.bind(this);
     this.loginDeliveryAddressRef = React.createRef();
     this.loginBillingAddressRef = React.createRef();
     this.lang = process.env.REACT_APP_LANG;
-
   }
   async componentDidMount () {
     if (localStorage.getItem("isRefresh")) {
@@ -310,32 +307,22 @@ class Payment extends React.Component {
       });
     }, 5000);
   }
-  validInputsData (data) {
+  async validInputsData (data) {
     for (let key in data) {
       const val = data[key];
       const targetRule = find(rules, (ele) => ele.key === key);
       if (targetRule) {
         if (targetRule.require && !val) {
-          this.showErrorMsg(
-            this.isLogin
-              ? this.props.intl.messages.selectDeliveryAddress
-              : this.props.intl.messages.CompleteRequiredItems
-          );
-          return false;
+          throw new Error(this.isLogin
+            ? this.props.intl.messages.selectDeliveryAddress
+            : this.props.intl.messages.CompleteRequiredItems)
         }
         if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          this.showErrorMsg(this.props.intl.messages.EnterCorrectPostCode);
-          return false;
+          throw new Error(this.props.intl.messages.EnterCorrectPostCode)
         }
       }
     }
   }
-  confirmCardInfo () {
-    this.setState({
-      isCompleteCredit: true,
-    });
-  }
-
   //支付1.初始化adyen_credit_card
   initAdyenPay () {
     this.setState({ paymentTypeVal: "adyenCard" });
@@ -405,7 +392,7 @@ class Payment extends React.Component {
 
   //组装支付共同的参数
   async getAdyenPayParam (type) {
-    //await this.saveAddressAndComment(); //获取两个addressId
+    // await this.saveAddressAndComment(); //获取两个addressId
     let obj = await this.getPayCommonParam()
     let commonParameter = obj.commonParameter
     let phone = obj.phone
@@ -469,12 +456,19 @@ class Payment extends React.Component {
 
   //得到支付共同的参数
   async getPayCommonParam () {
-    let commonParameter = await this.handleClickFurther(); //获取支付公共参数
-    console.log(commonParameter)
-    let phone = this.state.billingAddress.phoneNumber; //获取电话号码
-    return new Promise((resolve => {
-      resolve({ commonParameter, phone })
-    }))
+    try {
+      let commonParameter = await this.handleClickFurther(); //获取支付公共参数
+      console.log(commonParameter)
+      let phone = this.state.billingAddress.phoneNumber; //获取电话号码
+      return new Promise((resolve => {
+        resolve({ commonParameter, phone })
+      }))
+    } catch (err) {
+      if (err.message !== 'agreement failed') {
+        this.showErrorMsg(err.message);
+      }
+      this.endLoading();
+    }
   }
 
 
@@ -547,7 +541,6 @@ class Payment extends React.Component {
             sessionStorage.setItem("orderNumber", orderNumber);
             break;
         }
-
       }
     } catch (err) {
       if (err.errorData) {
@@ -568,6 +561,108 @@ class Payment extends React.Component {
   /**
    * save address/comment
    */
+  async saveAddressAndCommentPromise () {
+    try {
+      const {
+        deliveryAddress,
+        billingAddress,
+        billingChecked,
+        commentOnDelivery,
+        creditCardInfo,
+      } = this.state;
+      let tmpDeliveryAddress = deliveryAddress;
+      let tmpBillingAddress = billingAddress;
+      if (this.isLogin) {
+        const deliveryAddressEl = this.loginDeliveryAddressRef.current;
+        let tmpDeliveryAddressData =
+          deliveryAddressEl &&
+          find(deliveryAddressEl.state.addressList, (ele) => ele.selected);
+        // 若用户未存在任何地址，则自动触发保存操作
+        if (!tmpDeliveryAddressData) {
+          let addressRes = await deliveryAddressEl.handleSavePromise();
+          tmpDeliveryAddressData =
+            deliveryAddressEl &&
+            find(deliveryAddressEl.state.addressList, (ele) => ele.selected);
+        }
+        debugger
+        tmpDeliveryAddress = {
+          firstName: tmpDeliveryAddressData.firstName,
+          lastName: tmpDeliveryAddressData.lastName,
+          address1: tmpDeliveryAddressData.address1,
+          address2: tmpDeliveryAddressData.address2,
+          rfc: tmpDeliveryAddressData.rfc,
+          country: tmpDeliveryAddressData.countryId
+            ? tmpDeliveryAddressData.countryId.toString()
+            : "",
+          city: tmpDeliveryAddressData.cityId
+            ? tmpDeliveryAddressData.cityId.toString()
+            : "",
+          postCode: tmpDeliveryAddressData.postCode,
+          phoneNumber: tmpDeliveryAddressData.consigneeNumber,
+          addressId: tmpDeliveryAddressData.deliveryAddressId,
+        };
+        if (!billingChecked) {
+          const billingAddressEl = this.loginBillingAddressRef.current;
+          let tmpBillingAddressData =
+            billingAddressEl &&
+            find(billingAddressEl.state.addressList, (ele) => ele.selected);
+          if (!tmpBillingAddressData) {
+            await billingAddressEl.handleSavePromise();
+            tmpBillingAddressData =
+              billingAddressEl &&
+              find(billingAddressEl.state.addressList, (ele) => ele.selected);
+          }
+          tmpBillingAddress = {
+            firstName: tmpBillingAddressData.firstName,
+            lastName: tmpBillingAddressData.lastName,
+            address1: tmpBillingAddressData.address1,
+            address2: tmpBillingAddressData.address2,
+            rfc: tmpBillingAddressData.rfc,
+            country: tmpBillingAddressData.countryId
+              ? tmpBillingAddressData.countryId.toString()
+              : "",
+            city: tmpBillingAddressData.cityId
+              ? tmpBillingAddressData.cityId.toString()
+              : "",
+            postCode: tmpBillingAddressData.postCode,
+            phoneNumber: tmpBillingAddressData.consigneeNumber,
+            addressId: tmpBillingAddressData.deliveryAddressId,
+          };
+        }
+        debugger
+      }
+      const param = {
+        billingChecked,
+        deliveryAddress: tmpDeliveryAddress,
+        commentOnDelivery,
+      };
+
+      if (billingChecked) {
+        param.billingAddress = tmpDeliveryAddress;
+      } else {
+        param.billingAddress = tmpBillingAddress;
+      }
+
+      // 未开启地图，需校验clinic
+      if (!this.props.configStore.prescriberMap && (!this.props.clinicStore.clinicId || !this.props.clinicStore.clinicName)
+      ) {
+        throw new Error(this.props.intl.messages.selectNoneClincTip)
+      }
+
+      await this.validInputsData(param.deliveryAddress)
+      await this.validInputsData(param.billingAddress)
+      store.set(this.isLogin ? "loginDeliveryInfo" : "deliveryInfo", param)
+      this.setState({
+        creditCardInfo: creditCardInfo,
+        deliveryAddress: param.deliveryAddress,
+        billingAddress: param.billingAddress,
+        commentOnDelivery: param.commentOnDelivery,
+        billingChecked: param.billingChecked
+      })
+    } catch (err) {
+      throw new Error(err.message)
+    }
+  }
   async saveAddressAndComment () {
     const {
       deliveryAddress,
@@ -676,20 +771,6 @@ class Payment extends React.Component {
       billingChecked: param.billingChecked,
     });
   }
-  initCardLoginInfo () {
-    this.setState({
-      creditCardLoginInfo: {
-        cardNumber: "",
-        cardMmyy: "",
-        cardCvv: "",
-        cardOwner: "",
-        email: "",
-        phoneNumber: "",
-        identifyNumber: "111",
-        isDefault: false,
-      },
-    });
-  }
   startLoading () {
     this.setState({ loading: true });
   }
@@ -717,7 +798,7 @@ class Payment extends React.Component {
             "Content-type": "application/json",
             app_id: "com.razorfish.dev_mexico",
             "api-version": "1.3.0",
-          },
+          }
         }
       );
       this.setState({
@@ -729,10 +810,56 @@ class Payment extends React.Component {
       throw new Error(err)
     }
   }
-  handleClickFurtherOpt () {
 
+  // 点击下单按钮
+  async toBooking () {
+    try {
+      const { paymentTypeVal } = this.state
+      await this.handleClickFurther()
+    } catch (err) {
+      if (err.message !== 'agreement failed') {
+        this.showErrorMsg(err.message);
+      }
+      this.endLoading();
+    }
   }
   async handleClickFurther () {
+    try {
+      if (!this.state.isToPayNow) {
+        await this.saveAddressAndCommentPromise();
+      }
+
+      // 价格未达到底限，不能下单
+      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+        throw new Error(this.props.intl.formatMessage({ id: 'cart.errorInfo3' }, { val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }))
+      }
+
+      // 存在下架商品，不能下单
+      if (this.props.checkoutStore.offShelvesProNames.length) {
+        throw new Error(this.props.intl.formatMessage(
+          { id: 'cart.errorInfo4' },
+          { val: this.props.checkoutStore.offShelvesProNames.join("/") }))
+      }
+
+      // 库存不够，不能下单
+      if (this.props.checkoutStore.outOfstockProNames.length) {
+        throw new Error(this.props.intl.formatMessage(
+          { id: 'cart.errorInfo2' },
+          { val: this.props.checkoutStore.outOfstockProNames.join("/") }))
+      }
+
+      if (this.isLogin && this.state.paymentTypeVal === 'creditCard') {
+        if (!this.state.selectedCardInfo.cardNumber) {
+          throw new Error(this.props.intl.formatMessage(this.props.intl.messages.clickConfirmCvvButton))
+        }
+        await this.getPayMentOSToken()
+      }
+      return await this.goConfirmation();
+    } catch (err) {
+      throw new Error(err.message)
+    }
+  }
+  async handleClickFurtherOld () {
     if (!this.state.isToPayNow) {
       let tmpRes = await this.saveAddressAndComment();
       if (tmpRes === false) {
@@ -805,24 +932,21 @@ class Payment extends React.Component {
       creditCardInfo,
       subForm,
       paymentTypeVal,
+      payosdata
     } = this.state;
     const loginCartData = this.loginCartData;
     const cartData = this.cartData.filter((ele) => ele.selected);
-    if ((!isEighteen || !isReadPrivacyPolicy) && (paymentTypeVal === "creditCard"
-      // || paymentTypeVal === "oxxo"
-      // todo
-    )) {
-      this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
-      return false;
-    }
-    let payosdata = this.state.payosdata;
-    if (!payosdata.token && paymentTypeVal === "creditCard") {
-      this.showErrorMsg(this.props.intl.messages.clickConfirmCardButton);
-      return false;
+    if (paymentTypeVal === "creditCard") {
+      if (!isEighteen || !isReadPrivacyPolicy) {
+        this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
+        throw new Error('agreement failed')
+      }
+      if (!payosdata.token) {
+        throw new Error(this.props.intl.messages.clickConfirmCardButton)
+      }
     }
     this.setState({ loading: true });
-    let param = Object.assign(
-      {},
+    let param = Object.assign({},
       { useDeliveryAddress: billingChecked },
       deliveryAddress
     );
@@ -912,7 +1036,7 @@ class Payment extends React.Component {
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
 
-      petsId: "1231",
+      petsId: "1231"
     };
     try {
       sessionStorage.setItem("rc-paywith-login", this.isLogin);
@@ -985,19 +1109,9 @@ class Payment extends React.Component {
           confirmAndCommitResContext[0]["subscribeId"]) ||
         ""
       );
+
       if (this.state.paymentTypeVal === "creditCard") {
-        sessionStorage.setItem(
-          "confirmation-info-payment",
-          JSON.stringify({
-            img: CREDIT_CARD_IMG_ENUM[this.state.payosdata.vendor]
-              ? CREDIT_CARD_IMG_ENUM[this.state.payosdata.vendor]
-              : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg",
-            last4Digits: payosdata.last_4_digits,
-            payAccountName: creditCardInfo.cardOwner,
-            payPhoneNumber: creditCardInfo.phoneNumber,
-            email: creditCardInfo.email,
-          })
-        );
+        this.creditCardPaySucCallback()
       }
       // update clinic
       clinicStore.removeLinkClinicId();
@@ -1017,9 +1131,23 @@ class Payment extends React.Component {
       if (e.errorData) {
         this.tid = e.errorData;
       }
-      this.showErrorMsg(e.message ? e.message.toString() : e.toString());
-      this.endLoading();
+      throw new Error(e.message ? e.message.toString() : e.toString())
     }
+  }
+  creditCardPaySucCallback () {
+    const { payosdata, creditCardInfo } = this.state
+    sessionStorage.setItem(
+      "confirmation-info-payment",
+      JSON.stringify({
+        img: CREDIT_CARD_IMG_ENUM[payosdata.vendor]
+          ? CREDIT_CARD_IMG_ENUM[payosdata.vendor]
+          : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg",
+        last4Digits: payosdata.last_4_digits,
+        payAccountName: creditCardInfo.cardOwner,
+        payPhoneNumber: creditCardInfo.phoneNumber,
+        email: creditCardInfo.email
+      })
+    );
   }
   cardInfoInputChange (e) {
     const target = e.target;
@@ -1106,72 +1234,12 @@ class Payment extends React.Component {
       }
     }, 1000);
   }
-  insertStr (soure, start, newStr) {
-    return soure.slice(0, start) + newStr + soure.slice(start);
-  }
-  retextStr (soure, start, newStr) {
-    return soure.slice(0, start) + newStr + soure.slice(start + 1);
-  }
-  phoneNumberClick (e) {
-    let index = e.target.value.indexOf("_");
-    e.target.selectionStart = index;
-    e.target.selectionEnd = index;
-  }
-  phoneNumberInput (e, obj, k) {
-    let target = e.target;
-    let textVal = target.value;
-    let oldSelectionStart = target.selectionStart;
-    let oldSelectionEnd = target.selectionEnd;
-    if (target.value.length < 16) {
-      console.log(target.selectionStart, target.selectionEnd);
-      if (
-        [9, 13].indexOf(oldSelectionStart) !== -1 &&
-        [9, 13].indexOf(oldSelectionEnd) !== -1
-      ) {
-        target.value = this.retextStr(target.value, oldSelectionStart - 1, "");
-        console.log(target.value, target.selectionStart - 1);
-        target.value = this.insertStr(target.value, oldSelectionStart - 1, "_");
-        console.log(target.value, target.selectionStart - 1);
-        target.value = this.insertStr(target.value, oldSelectionStart, " ");
-
-        target.selectionStart = oldSelectionStart - 1;
-        target.selectionEnd = oldSelectionEnd - 1;
-      } else if (oldSelectionStart === 5 && oldSelectionEnd === 5) {
-        target.value = this.insertStr(target.value, target.selectionStart, " ");
-        target.selectionStart = oldSelectionStart + 1;
-        target.selectionEnd = oldSelectionEnd + 1;
-      } else {
-        target.value = this.insertStr(target.value, target.selectionStart, "_");
-        target.selectionStart = oldSelectionStart;
-        target.selectionEnd = oldSelectionEnd;
-      }
-      console.log(target.selectionStart, target.selectionEnd);
-    } else if (target.value.length > 16) {
-      console.log(target.selectionStart, target.selectionEnd);
-      // messageDom.style.display = 'none'
-      if (
-        [9, 13].indexOf(oldSelectionStart) !== -1 &&
-        [9, 13].indexOf(oldSelectionEnd) !== -1
-      ) {
-        target.value = this.retextStr(target.value, target.selectionStart, "");
-        target.selectionStart = oldSelectionStart + 1;
-        target.selectionEnd = oldSelectionEnd + 1;
-      } else {
-        target.value = this.retextStr(target.value, target.selectionStart, "");
-        target.selectionStart = oldSelectionStart;
-        target.selectionEnd = oldSelectionEnd;
-      }
-      console.log(target.selectionStart, target.selectionEnd);
-    }
-    target.value = target.value.slice(0, 16);
-    obj[k] = target.value;
-  }
   billingCheckedChange () {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
     if (!billingChecked) {
       this.setState({
-        billingAddress: this.state.deliveryAddress,
+        billingAddress: this.state.deliveryAddress
       });
     }
   }
@@ -1181,26 +1249,20 @@ class Payment extends React.Component {
     });
   }
   handlePaymentTypeChange (e) {
-    this.setState(
-      {
-        paymentTypeVal: e.target.value,
-      },
-    );
+    this.setState({ paymentTypeVal: e.target.value });
   }
   render () {
     const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
-    const CreditCardImg = (
-      <span className="logo-payment-card-list logo-credit-card">
-        {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-          <img key={idx} className="logo-payment-card" src={el} />
-        ))}
-      </span>
-    );
+    const CreditCardImg = <span className="logo-payment-card-list logo-credit-card">
+      {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
+        <img key={idx} className="logo-payment-card" src={el} />
+      ))}
+    </span>
     const event = {
       page: {
         type: "Checkout",
-        theme: "",
-      },
+        theme: ""
+      }
     };
 
     return (
@@ -1223,6 +1285,7 @@ class Payment extends React.Component {
             <Progress type="payment" />
             <div className="rc-layout-container rc-three-column rc-max-width--xl">
               <div className="rc-column rc-double-width shipping__address">
+                {/* 错误提示 */}
                 <div
                   className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
                     this.state.errorShow ? "" : "hidden"
@@ -1258,7 +1321,6 @@ class Payment extends React.Component {
                                   }}
                                 />
                               )}
-                            {/* 标记 */}
 
                             <div className="billingCheckbox rc-margin-top--xs">
                               <div>
@@ -1278,7 +1340,7 @@ class Payment extends React.Component {
                                   <FormattedMessage id="biliingAddressSameAs" />
                                 </label>
                               </div>
-                              <div className=" normalDelivery">
+                              <div className="normalDelivery">
                                 <span>
                                   <FormattedMessage id="payment.normalDelivery2" />
                                 </span>
@@ -1286,15 +1348,8 @@ class Payment extends React.Component {
                                   <FormattedMessage id="payment.normalDelivery3" />
                                 </span>
 
-                                <span
-                                  className="shipping-method-pricing ml3"
-
-                                >
-                                  <span
-                                    className="info delivery-method-tooltip"
-                                    // data-tooltip-placement="top"
-                                    // data-tooltip="top-tooltip-delivery-tip"
-                                    style={{ verticalAlign: "unset" }}
+                                <span className="shipping-method-pricing ml3">
+                                  <span className="info delivery-method-tooltip" style={{ verticalAlign: "unset" }}
                                     onMouseEnter={() => {
                                       this.setState({
                                         toolTipVisible: true,
@@ -1312,14 +1367,13 @@ class Payment extends React.Component {
                                     containerStyle={{
                                       transform: "translate(-65%, 112%)",
                                     }}
-
                                     arrowStyle={{ left: "92%" }}
                                     display={this.state.toolTipVisible}
                                     cancelBtnVisible={false}
                                     confirmBtnVisible={false}
                                     updateChildDisplay={(status) =>
                                       this.setState({
-                                        toolTipVisible: status,
+                                        toolTipVisible: status
                                       })
                                     }
                                     content={
@@ -1361,43 +1415,6 @@ class Payment extends React.Component {
                                 )}
                             </div>
                           )}
-                          {/* 标记 */}
-                          {/* <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3"> */}
-                          {/* <div className="card-header bg-transparent pt-0 pb-0">
-                              <h5>
-                                <i className="rc-icon rc-delivery--sm rc-iconography" style={{ transform: 'scale(.9)' }}></i>{' '}
-                                <FormattedMessage id="payment.howToDelivery" />
-                              </h5>
-                            </div>
-
-                          </div> */}
-                          {/* <fieldset className="shipping-method-block rc-fieldset">
-                          </fieldset> */}
-                          {/* <div className="card">
-                            <div className="card-header bg-transparent">
-                              <h5>
-                                <FormattedMessage id="payment.commentOnDelivery" />
-                              </h5>
-                            </div>
-                            <span
-                              className="rc-input nomaxwidth rc-border-all rc-border-colour--interface rc-input--full-width"
-                              input-setup="true"
-                            >
-                              <textarea
-                                className="rc-input__textarea noborder"
-                                maxLength="1000"
-                                name="dwfrm_shipping_shippingAddress_deliveryComment"
-                                id="delivery-comment"
-                                value={this.state.commentOnDelivery}
-                                onChange={(e) => this.commentChange(e)}
-                              ></textarea>
-                              <label
-                                className="rc-input__label"
-                                htmlFor="delivery-comment"
-                              ></label>
-                            </span>
-                          </div>
-                         */}
                         </div>
                       </div>
                       {this.isLogin &&
@@ -1408,15 +1425,12 @@ class Payment extends React.Component {
                           <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
                             <div className="card-header bg-transparent pt-0 pb-0">
                               <h5>
-                                <span className="iconfont font-weight-bold mr-2">
-                                  &#xe657;
-                            </span>
+                                <span className="iconfont font-weight-bold mr-2">&#xe657;</span>
                                 <FormattedMessage id="subscription.chooseSubscription" />
                               </h5>
                             </div>
                             <SubscriptionSelect
                               updateSelectedData={(data) => {
-                                //let isShowValidCode = this.refs.payProductInfo.state.isShowValidCode
                                 this.refs.payProductInfo.setState({
                                   isShowValidCode: false,
                                 });
@@ -1735,6 +1749,7 @@ class Payment extends React.Component {
                     </div>
                   </div>
 
+                  {/* oxxo */}
                   {this.state.paymentTypeVal === "oxxo" && (
                     <OxxoConfirm
                       history={this.props.history}
@@ -1743,11 +1758,8 @@ class Payment extends React.Component {
                       endLoading={() => this.endLoading()}
                     />
                   )}
-                  <div
-                    className={`${
-                      this.state.paymentTypeVal === "creditCard" ? "" : "hidden"
-                      }`}
-                  >
+                  {/* creditCard */}
+                  <div className={`${this.state.paymentTypeVal === "creditCard" ? "" : "hidden"}`}>
                     <div className="card payment-form ml-custom mr-custom Card-border p-3 rounded rc-border-all rc-border-colour--interface">
                       <div className="card-body rc-padding--none">
                         <form
@@ -1786,11 +1798,7 @@ class Payment extends React.Component {
                                   //   }`}
                                   >
                                     <div
-                                      className={`credit-card-content ${
-                                        !this.state.isCompleteCredit
-                                          ? ""
-                                          : "hidden"
-                                        }`}
+                                      className={`credit-card-content ${!this.state.isCompleteCredit ? "" : "hidden"}`}
                                       id="credit-card-content"
                                     >
                                       <div className="credit-card-form ">
@@ -1812,7 +1820,6 @@ class Payment extends React.Component {
                                                     *
                                                 </span>
                                                   {CreditCardImg}
-
                                                   <form id="payment-form">
                                                     <div id="card-secure-fields"></div>
                                                     <button
@@ -2051,8 +2058,7 @@ class Payment extends React.Component {
                         name="checkbox-2"
                         onChange={() => {
                           this.setState({
-                            isReadPrivacyPolicy: !this.state
-                              .isReadPrivacyPolicy,
+                            isReadPrivacyPolicy: !this.state.isReadPrivacyPolicy,
                             isReadPrivacyPolicyInit: false,
                           });
                         }}
@@ -2086,21 +2092,11 @@ class Payment extends React.Component {
                             ),
                           }}
                         />
-                        <div
-                          className="warning"
-                          style={{
-                            display:
-                              this.state.isReadPrivacyPolicy ||
-                                this.state.isReadPrivacyPolicyInit
-                                ? "none"
-                                : "block",
-                          }}
-                        >
+                        <div className={`warning ${this.state.isReadPrivacyPolicy || this.state.isReadPrivacyPolicyInit ? 'hidden' : ''}`}>
                           <FormattedMessage id="payment.confirmInfo4" />
                         </div>
                       </label>
                     </div>
-                    {/* none */}
                     {process.env.REACT_APP_LANG == "de" ? null : (
                       <div className="footerCheckbox ml-custom mr-custom">
                         <input
@@ -2148,7 +2144,7 @@ class Payment extends React.Component {
                             type="submit"
                             name="submit"
                             value="submit-shipping"
-                            onClick={() => this.handleClickFurther()}
+                            onClick={() => this.toBooking()}
                           >
                             <FormattedMessage id="payment.further" />
                           </button>
@@ -2157,41 +2153,21 @@ class Payment extends React.Component {
                     </div>
                   </div>
                   {/* adyenCreditCard */}
-                  <div
-                    className={`${
-                      this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"
-                      }`}
-                  >
+                  <div className={`${this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"}`}>
                     <div class="payment-method checkout--padding">
-                      <div
-                        id="card-container"
-                        class="payment-method__container"
-                      >
-                      </div>
+                      <div id="card-container" class="payment-method__container"></div>
                     </div>
                   </div>
                   {/* KlarnaPayLater */}
-                  <div
-                    className={`${
-                      this.state.paymentTypeVal === "adyenKlarnaPayLater" ? "" : "hidden"
-                      }`}
-                  >
+                  <div className={`${this.state.paymentTypeVal === "adyenKlarnaPayLater" ? "" : "hidden"}`}>
                     <KlarnaPayLater clickPay={this.initKlarnaPayLater} />
                   </div>
                   {/* KlarnaPayNow  */}
-                  <div
-                    className={`${
-                      this.state.paymentTypeVal === "adyenKlarnaPayNow" ? "" : "hidden"
-                      }`}
-                  >
+                  <div className={`${this.state.paymentTypeVal === "adyenKlarnaPayNow" ? "" : "hidden"}`}>
                     <KlarnaPayNow clickPay={this.initKlarnaPayNow} />
                   </div>
                   {/* Sofort */}
-                  <div
-                    className={`${
-                      this.state.paymentTypeVal === "directEbanking" ? "" : "hidden"
-                      }`}
-                  >
+                  <div className={`${this.state.paymentTypeVal === "directEbanking" ? "" : "hidden"}`}>
                     <Sofort clickPay={this.initSofort} />
                   </div>
                 </div>
