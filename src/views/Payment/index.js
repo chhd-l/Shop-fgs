@@ -1453,6 +1453,7 @@ class Payment extends React.Component {
                                 this.props.frequencyStore.updateFrequencyName(
                                   data.frequencyName
                                 );
+ 
                                 if (
                                   data.buyWay === "frequency" &&
                                   this.state.paymentTypeVal === "oxxo"
@@ -1460,6 +1461,7 @@ class Payment extends React.Component {
                                   this.setState({
                                     paymentTypeVal: "creditCard",
                                   });
+                                  
                                 }
                                 this.setState(
                                   {
