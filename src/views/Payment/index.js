@@ -165,14 +165,14 @@ class Payment extends React.Component {
     let payWayNameArr = []
     if (payWay.context.length > 0) {
       let payuNameArr = []
-      //判断第0条的name是否存在PAYU的字段
+      //判断第0条的name是否存在PAYU的字段,因为后台逻辑不好处理，所以这里特殊处理
       if(payWay.context[0].name.indexOf('PAYU')!=-1){
         payuNameArr = payWay.context.map(item=>item.name)
         for(let item of payuNameArr){
           payWayNameArr.push(payuMethodsObj[item])
         }
       } else {
-        //正常处理，因为后台逻辑不好处理，所以这里特殊处理
+        //正常处理
         payWayNameArr = payWay.context
           .map((item) => item.payChannelItemList)[0]
           .map((item) => item.code);
