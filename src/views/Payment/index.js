@@ -123,7 +123,7 @@ class Payment extends React.Component {
         frequencyName: "",
         frequencyId: "",
       },
-      //creditCard oxxo adyenKlarnaPayNow adyenKlarnaPayLater directEbanking
+      //creditCard oxxo adyenCard adyenKlarnaPayNow adyenKlarnaPayLater directEbanking
       paymentTypeVal: "",
       errorShow: false,
       errorMsg: "",
@@ -139,6 +139,7 @@ class Payment extends React.Component {
       payWayNameArr: [],
       toolTipVisible: false,
       email: '',
+      payWayObj:{},//支付方式input radio汇总
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
@@ -156,29 +157,44 @@ class Payment extends React.Component {
     //获取支付方式
     const payWay = await getWays();
     const payuMethodsObj = {
-      'PAYU': 'payu',
-      'PAYUOXXO': 'payuoxxo',
+      'PAYU': {name:'payu',id:'creditCard',paymentTypeVal:'creditCard'},
+      'PAYUOXXO':{name:'payuoxxo',id:'oxxo',paymentTypeVal:'oxxo'} ,
+      'adyen_credit_card':{name:'adyen_credit_card',id:'adyen',paymentTypeVal:'adyenCard'},
+      'adyen_klarna_pay_now':{name:'adyen_klarna_pay_now',id:'adyenPayNow',paymentTypeVal:'adyenKlarnaPayNow'},
+      'adyen_klarna_pay_lat':{name:'adyen_klarna_pay_lat',id:'adyenPayLater',paymentTypeVal:'adyenKlarnaPayLater'},
+      'directEbanking':{name:'directEbanking',id:'sofort',paymentTypeVal:'directEbanking'},
     }
-    let payWayNameArr = []
+    let payWayNameArr = [],
+        payuNameArr = []
     if (payWay.context.length > 0) {
-      let payuNameArr = []
       //判断第0条的name是否存在PAYU的字段,因为后台逻辑不好处理，所以这里特殊处理
       if(payWay.context[0].name.indexOf('PAYU')!=-1){
         payuNameArr = payWay.context.map(item=>item.name)
-        for(let item of payuNameArr){
-          payWayNameArr.push(payuMethodsObj[item])
-        }
       } else {
         //正常处理
-        payWayNameArr = payWay.context
+        payuNameArr = payWay.context
           .map((item) => item.payChannelItemList)[0]
           .map((item) => item.code);
-        //["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
       }
-
+       //payuNameArr:["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
+      for(let item of payuNameArr){
+        if(payuMethodsObj.hasOwnProperty(item)){
+          payWayNameArr.push(payuMethodsObj[item])
+        }  
+      }
     }
+    console.log(payWayNameArr)
+    debugger
+    //数组转对象
+    const payWayObj = payWayNameArr.map((item,index)=>{
+      return {name:item['name'],id:item['id'],paymentTypeVal:item['paymentTypeVal']}
+    })
 
-    let payMethod = payWayNameArr[0] || "none";//初始化默认取第1个
+    this.setState({
+      payWayObj
+    })
+
+    let payMethod = payWayNameArr[0]&&payWayNameArr[0].name || "none";//初始化默认取第1个
     //各种支付component初始化方法
     var initPaymentWay = {
       adyen_credit_card: () => {
@@ -1249,6 +1265,7 @@ class Payment extends React.Component {
     });
   }
   handlePaymentTypeChange (e) {
+    console.log(e.target.value)
     this.setState({ paymentTypeVal: e.target.value });
   }
   render () {
@@ -1476,278 +1493,42 @@ class Payment extends React.Component {
                     ></i>{" "}
                     <FormattedMessage id="payment.paymentInformation" />
                   </h5>
+
+
+                  {/* *******************支付tab栏start************************************ */}
                   <div className="ml-custom mr-custom">
-                    <div
-                      class="rc-input rc-input--inline"
-                      style={{
-                        display:
-                          this.state.payWayNameArr.indexOf("payu") != -1
-                            ? "inline-block"
-                            : "none",
-                      }}
-                    >
-                      {this.state.paymentTypeVal === "creditCard" ? (
-                        <input
-                          class="rc-input__radio"
-                          id="payment-info-creditCard"
-                          value="creditCard"
-                          type="radio"
-                          name="payment-info"
-                          onChange={(event) =>
-                            this.handlePaymentTypeChange(event)
-                          }
-                          checked
-                          key={1}
-                        />
-                      ) : (
-                          <input
-                            class="rc-input__radio"
-                            id="payment-info-creditCard"
-                            value="creditCard"
-                            type="radio"
-                            name="payment-info"
-                            onChange={(event) =>
-                              this.handlePaymentTypeChange(event)
-                            }
-                            key={2}
-                          />
-                        )}
-                      <label
-                        class="rc-input__label--inline"
-                        for="payment-info-creditCard"
-                      >
-                        <FormattedMessage id="creditCard" />
-                      </label>
-                    </div>
-                    {this.state.subForm.buyWay !== "frequency" && (
-                      <div
-                        class="rc-input rc-input--inline"
-                        style={{
-                          display:
-                            this.state.payWayNameArr.indexOf("payuoxxo") != -1
-                              ? "inline-block"
-                              : "none",
-                        }}
-                      >
-                        {this.state.paymentTypeVal === "oxxo" ? (
-                          <input
-                            class="rc-input__radio"
-                            id="payment-info-oxxo"
-                            value="oxxo"
-                            type="radio"
-                            name="payment-info"
-                            onChange={(event) =>
-                              this.handlePaymentTypeChange(event)
-                            }
-                            checked
-                            key={3}
-                          />
-                        ) : (
-                            <input
-                              class="rc-input__radio"
-                              id="payment-info-oxxo"
-                              value="oxxo"
-                              type="radio"
-                              name="payment-info"
-                              onChange={(event) =>
-                                this.handlePaymentTypeChange(event)
-                              }
-                              key={4}
-                            />
-                          )}
-
-                        <label
-                          class="rc-input__label--inline"
-                          for="payment-info-oxxo"
-                        >
-                          <FormattedMessage id="oxxo" />
-                        </label>
-                      </div>
-                    )}
-                    <div
-                      class="rc-input rc-input--inline"
-                      style={{
-                        display:
-                          this.state.payWayNameArr.indexOf(
-                            "adyen_credit_card"
-                          ) != -1
-                            ? "inline-block"
-                            : "none",
-                      }}
-                    >
-                      {this.state.paymentTypeVal === "adyenCard" ? (
-                        <input
-                          class="rc-input__radio"
-                          id="payment-info-adyen"
-                          value="adyenCard"
-                          type="radio"
-                          name="payment-info"
-                          onChange={(event) =>
-                            this.handlePaymentTypeChange(event)
-                          }
-                          checked
-                          key={5}
-                        />
-                      ) : (
-                          <input
-                            class="rc-input__radio"
-                            id="payment-info-adyen"
-                            value="adyenCard"
-                            type="radio"
-                            name="payment-info"
-                            onChange={(event) =>
-                              this.handlePaymentTypeChange(event)
-                            }
-                            key={6}
-                          />
-                        )}
-
-                      <label
-                        class="rc-input__label--inline"
-                        for="payment-info-adyen"
-                      >
-                        <FormattedMessage id="adyen" />
-                      </label>
-                    </div>
-                    {/* adyen_klarna_pay_lat */}
-                    <div
-                      class="rc-input rc-input--inline"
-                      style={{
-                        display:
-                          this.state.payWayNameArr.indexOf(
-                            "adyen_klarna_pay_lat"
-                          ) != -1
-                            ? " "
-                            : "none",
-                      }}
-                    >
-                      {this.state.paymentTypeVal === "adyenKlarnaPayLater" ? (
-                        <input
-                          class="rc-input__radio"
-                          id="payment-info-adyen-klarna-pay-later"
-                          value="adyenKlarnaPayLater"
-                          type="radio"
-                          name="payment-info"
-                          onChange={(event) =>
-                            this.handlePaymentTypeChange(event)
-                          }
-                          checked
-                          key={7}
-                        />
-                      ) : (
-                          <input
-                            class="rc-input__radio"
-                            id="payment-info-adyen-klarna-pay-later"
-                            value="adyenKlarnaPayLater"
-                            type="radio"
-                            name="payment-info"
-                            onChange={(event) =>
-                              this.handlePaymentTypeChange(event)
-                            }
-                            key={8}
-                          />
-                        )}
-
-                      <label
-                        class="rc-input__label--inline"
-                        for="payment-info-adyen-klarna-pay-later"
-                      >
-                        <FormattedMessage id="adyenPayLater" />
-                      </label>
-                    </div>
-                    {/* KlarnaPayNow */}
-                    <div
-                      class="rc-input rc-input--inline"
-                      style={{
-                        display:
-                          this.state.payWayNameArr.indexOf(
-                            "adyen_klarna_pay_now"
-                          ) != -1
-                            ? " "
-                            : "none",
-                      }}
-                    >
-                      {this.state.paymentTypeVal === "adyenKlarnaPayNow" ? (
-                        <input
-                          class="rc-input__radio"
-                          id="payment-info-adyen-klarna-pay-now"
-                          value="adyenKlarnaPayNow"
-                          type="radio"
-                          name="payment-info"
-                          onChange={(event) =>
-                            this.handlePaymentTypeChange(event)
-                          }
-                          checked
-                          key={7}
-                        />
-                      ) : (
-                          <input
-                            class="rc-input__radio"
-                            id="payment-info-adyen-klarna-pay-now"
-                            value="adyenKlarnaPayNow"
-                            type="radio"
-                            name="payment-info"
-                            onChange={(event) =>
-                              this.handlePaymentTypeChange(event)
-                            }
-                            key={8}
-                          />
-                        )}
-
-                      <label
-                        class="rc-input__label--inline"
-                        for="payment-info-adyen-klarna-pay-now"
-                      >
-                        <FormattedMessage id="adyenPayNow" />
-                      </label>
-                    </div>
-                    {/* Sofort */}
-                    <div
-                      class="rc-input rc-input--inline"
-                      style={{
-                        display:
-                          this.state.payWayNameArr.indexOf(
-                            "directEbanking"
-                          ) != -1
-                            ? " "
-                            : "none",
-                      }}
-                    >
-                      {this.state.paymentTypeVal === "directEbanking" ? (
-                        <input
-                          class="rc-input__radio"
-                          id="payment-info-adyen-sofort"
-                          value="directEbanking"
-                          type="radio"
-                          name="payment-info"
-                          onChange={(event) =>
-                            this.handlePaymentTypeChange(event)
-                          }
-                          checked
-                          key={9}
-                        />
-                      ) : (
-                          <input
-                            class="rc-input__radio"
-                            id="payment-info-adyen-sofort"
-                            value="directEbanking"
-                            type="radio"
-                            name="payment-info"
-                            onChange={(event) =>
-                              this.handlePaymentTypeChange(event)
-                            }
-                            key={10}
-                          />
-                        )}
-
-                      <label
-                        class="rc-input__label--inline"
-                        for="payment-info-adyen-sofort"
-                      >
-                        <FormattedMessage id="Sofort" />
-                      </label>
-                    </div>
+                    {
+                      Object.entries(this.state.payWayObj).map(item =>{
+                        console.log(item[1])
+                        return (
+                          <div
+                            class="rc-input rc-input--inline"
+                          >
+                              <input
+                                class="rc-input__radio"
+                                id={`payment-info-${item[1].id}`}
+                                value={item[1].paymentTypeVal}
+                                type="radio"
+                                name="payment-info"
+                                onChange={(event) =>
+                                  this.handlePaymentTypeChange(event)
+                                }
+                                checked={this.state.paymentTypeVal === item[1].paymentTypeVal?true:false}
+                                key={item[1].id}
+                              />
+                            
+                            <label
+                              class="rc-input__label--inline"
+                              for={`payment-info-${item[1].id}`}
+                            >
+                              <FormattedMessage id={item[1].id} />
+                            </label>
+                          </div>
+                        )
+                      })
+                    }                     
                   </div>
+                  {/* ********************支付tab栏end********************************** */}
 
                   
                   {/* ***********************支付选项卡的内容start******************************* */}
@@ -2128,7 +1909,7 @@ class Payment extends React.Component {
                           </div>
                         </label>
                       </div>
-                    )}
+                    )}                   
                     <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
                       <div className="next-step-button">
                         <div className="rc-text--right">
