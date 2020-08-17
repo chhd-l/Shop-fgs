@@ -156,6 +156,7 @@ class Payment extends React.Component {
 
     //获取支付方式
     const payWay = await getWays();
+    // name:支付方式，id：翻译id，paymentTypeVal：
     const payuMethodsObj = {
       'PAYU': {name:'payu',id:'creditCard',paymentTypeVal:'creditCard'},
       'PAYUOXXO':{name:'payuoxxo',id:'oxxo',paymentTypeVal:'oxxo'} ,
