@@ -134,6 +134,7 @@ class ImageMagnifier extends Component {
   }
   // props 变化时更新
   componentWillReceiveProps (nextProps) {
+    console.log(nextProps, 'nextProps')
     let { currentImg } = this.state
     let { images } = this.props
     if (!currentImg && images && images.length > 0) {
@@ -168,8 +169,8 @@ class ImageMagnifier extends Component {
       magnifierOff: true,
       params: Object.assign({}, this.state.params,
         {
-          width: document.querySelector('#J_detail_img').offsetWidth,
-          height: document.querySelector('#J_detail_img').offsetHeight
+          width: document.querySelector('#J_detail_img')? document.querySelector('#J_detail_img').offsetWidth: 10,
+          height: document.querySelector('#J_detail_img')?document.querySelector('#J_detail_img').offsetHeight: 10
         })
     }, () => this.initParam());
   };

@@ -747,6 +747,8 @@ class Details extends React.Component {
         },
       };
     }
+    sessionStorage.setItem('detailsTemp', JSON.stringify(details))
+    sessionStorage.setItem('imagesTemp', JSON.stringify(images))
     return (
       <div>
         {event ? <GoogleTagManager additionalEvents={event} /> : null}
