@@ -712,7 +712,6 @@ class Payment extends React.Component {
       subForm,
       payosdata
     } = this.state;
-    debugger
     let param = {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
