@@ -29,9 +29,9 @@ class PaymentComp extends React.Component {
         cardNumber: "",
         cardMmyy: "",
         cardCvv: "",
-        cardOwner: this.props.cardOwner,
+        cardOwner: '',
         email: "",
-        phoneNumber: this.props.phoneNumber,
+        phoneNumber: '',
         identifyNumber: "111",
         isDefault: false,
       },
@@ -60,6 +60,7 @@ class PaymentComp extends React.Component {
       if (store.get('loginDeliveryInfo')) {
         let deliveryInfo = store.get('loginDeliveryInfo')
         deliveryInfo.deliveryAddress.cardOwner = deliveryInfo.deliveryAddress.firstName + '' + deliveryInfo.deliveryAddress.lastName
+        deliveryInfo.deliveryAddress.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber
         this.setState({ deliveryAddress: deliveryInfo.deliveryAddress }, () => {
           this.initCardInfo()
         })
@@ -534,9 +535,9 @@ class PaymentComp extends React.Component {
       currentCardInfo,
     } = this.state;
     const CreditCardImg = (
-      <span className="logo-payment-card-list logo-credit-card" style={{marginLeft:'0rem'}}>
+      <span className="logo-payment-card-list logo-credit-card" style={{ marginLeft: '0rem' }}>
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-          <img key={idx} style={{width:'50px'}}className="logo-payment-card mr-1" src={el} />
+          <img key={idx} style={{ width: '50px' }} className="logo-payment-card mr-1" src={el} />
         ))}
       </span>
     );
@@ -698,7 +699,7 @@ class PaymentComp extends React.Component {
                               className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
                             >
                               <img
-                              className="PayCardImgFitScreen"
+                                className="PayCardImgFitScreen"
                                 src={
                                   CREDIT_CARD_IMG_ENUM[el.vendor]
                                     ? CREDIT_CARD_IMG_ENUM[el.vendor]
@@ -954,7 +955,7 @@ class PaymentComp extends React.Component {
                     {this.state.successMsg}
                   </p>
                 </aside>
-                <p style={{margin:'0'}}>
+                <p style={{ margin: '0' }}>
                   {/* <FormattedMessage id="payment.acceptCards" /> */}
                   {CreditCardImg}
                 </p>

@@ -1,6 +1,5 @@
 import React from "react";
 import { injectIntl, FormattedMessage } from "react-intl";
-import { Link } from "react-router-dom";
 import { findIndex, find } from "lodash";
 import { inject, observer } from "mobx-react";
 import GoogleTagManager from "@/components/GoogleTagManager";
@@ -24,22 +23,18 @@ import {
   customerCommitAndPay,
   rePay,
   customerCommitAndPayMix,
-  getWays,
+  getWays
 } from "@/api/payment";
-import PaymentComp from "@/components/PaymentComp";
 import store from "storejs";
-import axios from "axios";
 import "./index.css";
 import "./modules/adyenCopy.css"
+import PayOs from "./payOs";
 import OxxoConfirm from "./modules/OxxoConfirm";
 import KlarnaPayLater from "./modules/KlarnaPayLater";
 import KlarnaPayNow from "./modules/KlarnaPayNow";
 import Sofort from "./modules/Sofort";
 import { getAdyenParam } from "./adyen/utils";
-import {
-  CREDIT_CARD_IMG_ENUM,
-  CREDIT_CARD_IMGURL_ENUM,
-} from "@/utils/constant";
+import { CREDIT_CARD_IMG_ENUM } from "@/utils/constant";
 
 const rules = [
   {
@@ -83,10 +78,6 @@ class Payment extends React.Component {
       billingChecked: true,
       isCompleteCredit: false,
       showPayMethodError: false,
-      isReadPrivacyPolicyInit: true,
-      isEighteenInit: true,
-      isReadPrivacyPolicy: false,
-      isEighteen: false,
       deliveryAddress: {
         firstName: "",
         lastName: "",
@@ -119,13 +110,12 @@ class Payment extends React.Component {
         identifyNumber: "111",
       },
       subForm: {
-        buyWay: "",
+        buyWay: "once",
         frequencyName: "",
         frequencyId: "",
       },
       //creditCard oxxo adyenCard adyenKlarnaPayNow adyenKlarnaPayLater directEbanking
       paymentTypeVal: "",
-      errorShow: false,
       errorMsg: "",
       commentOnDelivery: "",
       currentProduct: null,
@@ -306,19 +296,18 @@ class Payment extends React.Component {
   get tradePrice () {
     return this.props.checkoutStore.tradePrice;
   }
-  showErrorMsg =(msg)=> {
+  showErrorMsg (msg) {
     this.setState({
-      errorShow: true,
-      errorMsg: msg,
+      errorMsg: msg
     });
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "smooth"
     });
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
-        errorShow: false,
+        errorMsg: ''
       });
     }, 5000);
   }
@@ -403,6 +392,17 @@ class Payment extends React.Component {
     this.doGetAdyenPayParam('sofort')
   }
 
+  initPayUCreditCard = () => {
+    this.doGetAdyenPayParam('payu_credit_card')
+  }
+
+  initOxxo = (email) => {
+    this.doGetAdyenPayParam('oxxo')
+    this.setState({
+      email
+    })
+  }
+
   /**************支付公共方法start*****************/
 
   //组装支付共同的参数
@@ -414,11 +414,29 @@ class Payment extends React.Component {
     let parameters
     /* 组装支付需要的参数 */
     const actions = {
+      'oxxo': () => {
+        parameters = Object.assign({}, commonParameter, {
+          payChannelItem: "payuoxxo",
+          email: this.state.email,
+          country: "MEX"
+        });
+      },
+      'payu_credit_card': () => {
+        parameters = Object.assign({}, commonParameter);
+        if (this.state.subForm.buyWay === 'frequency') {
+          parameters = Object.assign({}, commonParameter, {
+            payChannelItem: 'payu_subscription'
+          });
+        }
+      },
       'adyen_credit_card': () => {
         parameters = Object.assign(
           commonParameter,
           {
             ...this.state.adyenPayParam,
+            shopperLocale: 'en_US',
+            currency: 'EUR',
+            country: "DE",
           },
         );
       },
@@ -428,6 +446,9 @@ class Payment extends React.Component {
           {
             adyenType: 'klarna',
             payChannelItem: 'adyen_klarna_pay_lat',
+            shopperLocale: 'en_US',
+            currency: 'EUR',
+            country: "DE",
           },
         );
       },
@@ -437,6 +458,9 @@ class Payment extends React.Component {
           {
             adyenType: 'klarna_paynow',
             payChannelItem: 'adyen_klarna_pay_now',
+            shopperLocale: 'en_US',
+            currency: 'EUR',
+            country: "DE",
           },
         );
       },
@@ -446,6 +470,9 @@ class Payment extends React.Component {
           {
             adyenType: 'directEbanking',
             payChannelItem: 'directEbanking',
+            shopperLocale: 'en_US',
+            currency: 'EUR',
+            country: "DE",
           },
         );
       }
@@ -458,9 +485,6 @@ class Payment extends React.Component {
         email: this.state.email,
         successUrl: process.env.REACT_APP_SUCCESSFUL_URL + '/payResult',
         //successUrl: 'http://fq33k6.natappfree.cc/payResult',
-        shopperLocale: 'en_US',
-        currency: 'EUR',
-        country: "DE",
         deliveryAddressId: this.state.deliveryAddress.addressId,
         billAddressId: this.state.billingAddress.addressId,
         phone
@@ -472,7 +496,8 @@ class Payment extends React.Component {
   //得到支付共同的参数
   async getPayCommonParam () {
     try {
-      let commonParameter = await this.handleClickFurther(); //获取支付公共参数
+      await this.valideCheckoutLimitRule();
+      const commonParameter = this.packagePayParam()
       console.log(commonParameter)
       let phone = this.state.billingAddress.phoneNumber; //获取电话号码
       return new Promise((resolve => {
@@ -496,6 +521,7 @@ class Payment extends React.Component {
   //根据条件-调用不同的支付接口,进行支付
   async allAdyenPayment (parameters, type) {
     try {
+      const { clinicStore } = this.props;
       let action;
       const actions = () => {
         const rePayFun = () => {
@@ -536,33 +562,81 @@ class Payment extends React.Component {
         action.forEach(([key, value]) => value.call(this));
       };
 
+      sessionStorage.setItem("rc-paywith-login", this.isLogin);
+      this.startLoading()
+      if (!this.isLogin) {
+        await this.visitorLoginAndAddToCart()
+      }
+
       payFun(this.tid != null, this.isLogin, this.state.subForm.buyWay);
 
       /* 4)调用支付 */
       const res = await action(parameters);
-      if (res.code === "K-000000") {
-        let orderNumber
-        switch (type) {
-          case 'adyen_credit_card':
-            orderNumber = res.context[0].tid;
-            sessionStorage.setItem("orderNumber", orderNumber);
-            this.props.history.push("/confirmation");
-            break;
-          case 'adyen_klarna_pay_lat':
-          case 'adyen_klarna_pay_now':
-          case 'sofort':
-            orderNumber = res.context.pId;
-            window.location.href = res.context.url
-            sessionStorage.setItem("orderNumber", orderNumber);
-            break;
-        }
+      let orderNumber
+      let subNumber
+      let oxxoPayUrl
+      let gotoConfirmationPage = false
+      switch (type) {
+        case 'oxxo':
+          var oxxoContent = res.context[0];
+          var oxxoArgs = oxxoContent.args;
+          oxxoPayUrl = oxxoArgs &&
+            oxxoArgs.additionalDetails &&
+            oxxoArgs.additionalDetails.object &&
+            oxxoArgs.additionalDetails.object.data[0] ? oxxoArgs.additionalDetails.object.data[0].href : ''
+          orderNumber = oxxoContent.tid;
+          subNumber = oxxoContent.subscribeId;
+          gotoConfirmationPage = true
+          break
+        case 'payu_credit_card':
+          orderNumber = res.context[0].tid;
+          subNumber = res.context[0].subscribeId;
+          gotoConfirmationPage = true
+          this.creditCardPaySucCallback()
+          break;
+        case 'adyen_credit_card':
+          orderNumber = res.context[0].tid;
+          subNumber = res.context[0].subscribeId;
+          gotoConfirmationPage = true
+          break;
+        case 'adyen_klarna_pay_lat':
+        case 'adyen_klarna_pay_now':
+        case 'sofort':
+          orderNumber = res.context.pId;
+          window.location.href = res.context.url
+          break
+      }
+      if (orderNumber) {
+        sessionStorage.setItem("orderNumber", orderNumber);
+      }
+      if (subNumber) {
+        sessionStorage.setItem("subNumber", subNumber);
+      }
+      if (oxxoPayUrl) {
+        sessionStorage.setItem("oxxoPayUrl", oxxoPayUrl);
+      }
+
+      // update clinic
+      clinicStore.removeLinkClinicId();
+      clinicStore.removeLinkClinicName();
+      clinicStore.setSelectClinicId(this.props.clinicStore.clinicId);
+      clinicStore.setSelectClinicName(this.props.clinicStore.clinicName);
+      clinicStore.setDefaultClinicId(this.props.clinicStore.clinicId);
+      clinicStore.setDefaultClinicName(this.props.clinicStore.clinicName);
+
+      sessionStorage.removeItem("payosdata");
+      if (gotoConfirmationPage) {
+        this.props.history.push("/confirmation");
       }
     } catch (err) {
+      if (!this.isLogin) {
+        sessionStorage.removeItem("rc-token");
+      }
       if (err.errorData) {
         //err.errorData是返回的tid(订单号)
         this.tid = err.errorData;
       }
-      this.showErrorMsg(this.props.intl.messages.adyenPayFail);
+      this.showErrorMsg(err.message ? err.message.toString() : err.toString());
     } finally {
       this.endLoading();
     }
@@ -574,6 +648,177 @@ class Payment extends React.Component {
 
 
   /**
+   * 游客注册并登录&批量添加后台购物车
+   */
+  async visitorLoginAndAddToCart () {
+    try {
+      let {
+        deliveryAddress,
+        billingAddress,
+        billingChecked,
+        creditCardInfo
+      } = this.state;
+      const cartData = this.cartData.filter((ele) => ele.selected);
+
+      let param = Object.assign({},
+        { useDeliveryAddress: billingChecked },
+        deliveryAddress,
+        {
+          billAddress1: billingAddress.address1,
+          billAddress2: billingAddress.address2,
+          billCity: billingAddress.city,
+          billCountry: billingAddress.country,
+          billFirstName: billingAddress.firstName,
+          billLastName: billingAddress.lastName,
+          billPhoneNumber: billingAddress.phoneNumber,
+          billPostCode: billingAddress.postCode,
+          rfc: deliveryAddress.rfc,
+          billRfc: billingAddress.rfc,
+          email: creditCardInfo.email
+        }
+      )
+      let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
+        param
+      );
+      sessionStorage.setItem(
+        "rc-token",
+        postVisitorRegisterAndLoginRes.context.token
+      );
+      await batchAdd({
+        goodsInfos: cartData.map((ele) => {
+          return {
+            verifyStock: false,
+            buyCount: ele.quantity,
+            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
+          };
+        })
+      });
+    } catch (err) {
+      throw new Error(err.message)
+    }
+  }
+
+  /**
+   * 封装下单参数
+   */
+  packagePayParam () {
+    const loginCartData = this.loginCartData;
+    const cartData = this.cartData.filter((ele) => ele.selected);
+    let {
+      deliveryAddress,
+      billingAddress,
+      commentOnDelivery,
+      creditCardInfo,
+      subForm,
+      payosdata
+    } = this.state;
+    debugger
+    let param = {
+      firstName: deliveryAddress.firstName,
+      lastName: deliveryAddress.lastName,
+      zipcode: deliveryAddress.postCode,
+      city: deliveryAddress.city,
+      country: payosdata.country_code,
+      token: payosdata.token,
+      creditDardCvv: payosdata.encrypted_cvv,
+      phone: creditCardInfo.phoneNumber,
+      email: creditCardInfo.email,
+      line1: deliveryAddress.address1,
+      line2: deliveryAddress.address2,
+      clinicsId: this.props.clinicStore.clinicId,
+      clinicsName: this.props.clinicStore.clinicName,
+      remark: commentOnDelivery,
+      storeId: process.env.REACT_APP_STOREID,
+      tradeItems: [], // once order products
+      subTradeItems: [], // subscription order products
+      tradeMarketingList: [],
+
+      last4Digits: payosdata.last_4_digits,
+      payAccountName: creditCardInfo.cardOwner,
+      payPhoneNumber: creditCardInfo.phoneNumber,
+
+      petsId: "1231",
+
+      deliveryAddressId: deliveryAddress.addressId,
+      billAddressId: billingAddress.addressId
+    }
+
+    if (this.isLogin) {
+      param.tradeItems = loginCartData.map((ele) => {
+        return {
+          num: ele.buyCount,
+          skuId: ele.goodsInfoId
+        };
+      })
+    } else {
+      param.tradeItems = cartData.map((ele) => {
+        return {
+          num: ele.quantity,
+          skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId
+        };
+      })
+    }
+
+    if (subForm.buyWay === "frequency") {
+      param.tradeItems = loginCartData
+        .filter(ele => !ele.subscriptionStatus || !ele.subscriptionPrice)
+        .map((g) => {
+          return {
+            num: g.buyCount,
+            skuId: g.goodsInfoId
+          };
+        });
+      param.subTradeItems = loginCartData
+        .filter(ele => ele.subscriptionStatus && ele.subscriptionPrice > 0)
+        .map((g) => {
+          return {
+            subscribeNum: g.buyCount,
+            skuId: g.goodsInfoId
+          };
+        });
+      param.cycleTypeId = subForm.frequencyId;
+      param.paymentMethodId = creditCardInfo.id;
+    }
+
+    // 拼接promotion参数
+    let tradeMarketingList = [];
+    let goodsMarketingMap = this.props.checkoutStore.goodsMarketingMap;
+    if (goodsMarketingMap && Object.keys(goodsMarketingMap).length) {
+      for (let k in goodsMarketingMap) {
+        let tmpParam = {
+          marketingId: "",
+          marketingLevelId: "",
+          skuIds: [],
+          giftSkuIds: [],
+        };
+        tmpParam.skuIds.push(k);
+        // marketingType 0-满减fullReductionLevelList-reductionLevelId 1-满折fullDiscountLevelList-discountLevelId
+        const tmpMarketing = goodsMarketingMap[k][0];
+        let targetLevelId = "";
+        if (tmpMarketing.marketingType == 0) {
+          targetLevelId =
+            tmpMarketing.fullReductionLevelList[0].reductionLevelId;
+        } else if (tmpMarketing.marketingType == 1) {
+          targetLevelId = tmpMarketing.fullDiscountLevelList[0].discountLevelId;
+        }
+        tmpParam.marketingLevelId = targetLevelId;
+        tmpParam.marketingId = tmpMarketing.marketingId;
+        tradeMarketingList.push(tmpParam);
+      }
+    }
+
+    // rePay
+    if (this.tid) {
+      param.tid = this.tid;
+      delete param.remark;
+      delete param.tradeItems;
+      delete param.tradeMarketingList;
+    }
+
+    return param
+  }
+
+  /**
    * save address/comment
    */
   async saveAddressAndCommentPromise () {
@@ -583,7 +828,6 @@ class Payment extends React.Component {
         billingAddress,
         billingChecked,
         commentOnDelivery,
-        creditCardInfo,
       } = this.state;
       let tmpDeliveryAddress = deliveryAddress;
       let tmpBillingAddress = billingAddress;
@@ -667,7 +911,6 @@ class Payment extends React.Component {
       await this.validInputsData(param.billingAddress)
       store.set(this.isLogin ? "loginDeliveryInfo" : "deliveryInfo", param)
       this.setState({
-        creditCardInfo: creditCardInfo,
         deliveryAddress: param.deliveryAddress,
         billingAddress: param.billingAddress,
         commentOnDelivery: param.commentOnDelivery,
@@ -683,7 +926,6 @@ class Payment extends React.Component {
       billingAddress,
       billingChecked,
       commentOnDelivery,
-      creditCardInfo,
     } = this.state;
     let tmpDeliveryAddress = deliveryAddress;
     let tmpBillingAddress = billingAddress;
@@ -778,7 +1020,6 @@ class Payment extends React.Component {
 
     store.set(this.isLogin ? "loginDeliveryInfo" : "deliveryInfo", param);
     this.setState({
-      creditCardInfo: creditCardInfo,
       deliveryAddress: param.deliveryAddress,
       billingAddress: param.billingAddress,
       commentOnDelivery: param.commentOnDelivery,
@@ -791,53 +1032,8 @@ class Payment extends React.Component {
   endLoading () {
     this.setState({ loading: false });
   }
-  // 获取选中卡的token
-  async getPayMentOSToken () {
-    let selectedCard = this.state.selectedCardInfo;
-    this.startLoading()
-    try {
-      let res = await axios.post(
-        "https://api.paymentsos.com/tokens",
-        {
-          token_type: "credit_card",
-          card_number: selectedCard.cardNumber,
-          expiration_date: selectedCard.cardMmyy.replace(/\//, "-"),
-          holder_name: selectedCard.cardOwner,
-          credit_card_cvv: selectedCard.cardCvv,
-        },
-        {
-          headers: {
-            public_key: process.env.REACT_APP_PaymentKEY,
-            "x-payments-os-env": process.env.REACT_APP_PaymentENV,
-            "Content-type": "application/json",
-            app_id: "com.razorfish.dev_mexico",
-            "api-version": "1.3.0",
-          }
-        }
-      );
-      this.setState({
-        payosdata: res.data,
-        creditCardInfo: Object.assign({}, selectedCard),
-      });
-    } catch (err) {
-      this.endLoading();
-      throw new Error(err)
-    }
-  }
-
-  // 点击下单按钮
-  async toBooking () {
-    try {
-      const { paymentTypeVal } = this.state
-      await this.handleClickFurther()
-    } catch (err) {
-      if (err.message !== 'agreement failed') {
-        this.showErrorMsg(err.message);
-      }
-      this.endLoading();
-    }
-  }
-  async handleClickFurther () {
+  // 验证地址信息/最低额度/超库存商品等
+  async valideCheckoutLimitRule () {
     try {
       if (!this.state.isToPayNow) {
         await this.saveAddressAndCommentPromise();
@@ -862,83 +1058,14 @@ class Payment extends React.Component {
           { val: this.props.checkoutStore.outOfstockProNames.join("/") }))
       }
 
-      if (this.isLogin && this.state.paymentTypeVal === 'creditCard') {
-        if (!this.state.selectedCardInfo.cardNumber) {
-          throw new Error(this.props.intl.formatMessage(this.props.intl.messages.clickConfirmCvvButton))
-        }
-        await this.getPayMentOSToken()
-      }
-      return await this.goConfirmation();
+      // return await this.goConfirmation();
     } catch (err) {
       throw new Error(err.message)
     }
   }
-  async handleClickFurtherOld () {
-    if (!this.state.isToPayNow) {
-      let tmpRes = await this.saveAddressAndComment();
-      if (tmpRes === false) {
-        return false;
-      }
-    }
-
-    // 价格未达到底限，不能下单
-    if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-      window.scrollTo({ behavior: "smooth", top: 0 });
-      this.showErrorMsg(
-        <FormattedMessage
-          id="cart.errorInfo3"
-          values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
-        />
-      );
-      return false;
-    }
-
-    // 存在下架商品，不能下单
-    if (this.props.checkoutStore.offShelvesProNames.length) {
-      window.scrollTo({ behavior: "smooth", top: 0 });
-      this.showErrorMsg(
-        <FormattedMessage
-          id="cart.errorInfo4"
-          values={{
-            val: this.props.checkoutStore.offShelvesProNames.join("/"),
-          }}
-        />
-      );
-      return false;
-    }
-
-    // 库存不够，不能下单
-    if (this.props.checkoutStore.outOfstockProNames.length) {
-      window.scrollTo({ behavior: "smooth", top: 0 });
-      this.showErrorMsg(
-        <FormattedMessage
-          id="cart.errorInfo2"
-          values={{
-            val: this.props.checkoutStore.outOfstockProNames.join("/"),
-          }}
-        />
-      );
-      return false;
-    }
-
-    if (this.isLogin && this.state.paymentTypeVal === 'creditCard') {
-      if (!this.state.selectedCardInfo.cardNumber) {
-        this.showErrorMsg(this.props.intl.messages.clickConfirmCvvButton);
-        return false
-      }
-      try {
-        await this.getPayMentOSToken()
-      } catch (err) {
-        this.showErrorMsg(err.toString());
-      }
-    }
-    return await this.goConfirmation();
-  }
   async goConfirmation () {
     const { history, clinicStore } = this.props;
     let {
-      isEighteen,
-      isReadPrivacyPolicy,
       deliveryAddress,
       billingAddress,
       commentOnDelivery,
@@ -950,15 +1077,6 @@ class Payment extends React.Component {
     } = this.state;
     const loginCartData = this.loginCartData;
     const cartData = this.cartData.filter((ele) => ele.selected);
-    if (paymentTypeVal === "creditCard") {
-      if (!isEighteen || !isReadPrivacyPolicy) {
-        this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
-        throw new Error('agreement failed')
-      }
-      if (!payosdata.token) {
-        throw new Error(this.props.intl.messages.clickConfirmCardButton)
-      }
-    }
     this.setState({ loading: true });
     let param = Object.assign({},
       { useDeliveryAddress: billingChecked },
@@ -1217,7 +1335,6 @@ class Payment extends React.Component {
           });
           if (payosdata.category === "client_validation_error") {
             this.setState({
-              errorShow: true,
               errorMsg: payosdata.more_info,
             });
             sessionStorage.clear("payosdata");
@@ -1227,7 +1344,7 @@ class Payment extends React.Component {
             });
             setTimeout(() => {
               this.setState({
-                errorShow: false,
+                errorMsg: ''
               });
             }, 5000);
             return;
@@ -1262,17 +1379,11 @@ class Payment extends React.Component {
       promotionCode,
     });
   }
-
   handlePaymentTypeChange (e) {
     this.setState({ paymentTypeVal: e.target.value });
   }
   render () {
     const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
-    const CreditCardImg = <span className="logo-payment-card-list logo-credit-card">
-      {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-        <img key={idx} className="logo-payment-card" src={el} />
-      ))}
-    </span>
     const event = {
       page: {
         type: "Checkout",
@@ -1303,7 +1414,7 @@ class Payment extends React.Component {
                 {/* 错误提示 */}
                 <div
                   className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-                    this.state.errorShow ? "" : "hidden"
+                    this.state.errorMsg ? "" : "hidden"
                     }`}
                 >
                   <aside
@@ -1531,409 +1642,25 @@ class Payment extends React.Component {
 
                   
                   {/* ***********************支付选项卡的内容start******************************* */}
-
-                  {/* creditCard */}
-                  <div className={`${this.state.paymentTypeVal === "creditCard" ? "" : "hidden"}`}>
-                    <div className="card payment-form ml-custom mr-custom Card-border p-3 rounded rc-border-all rc-border-colour--interface">
-                      <div className="card-body rc-padding--none">
-                        <form
-                          method="POST"
-                          data-address-mode="new"
-                          name="dwfrm_billing"
-                          id="dwfrm_billing"
-                        >
-                          <div className="billing-payment">
-                            <div
-                              className={`rc-list__accordion-item border-0`}
-                              data-method-id="CREDIT_CARD"
-                            >
-                              {this.isLogin ? (
-                                <div className="rc-border-colour--interface">
-                                  <PaymentComp
-                                    cardOwner={
-                                      deliveryAddress.firstName +
-                                      "" +
-                                      deliveryAddress.lastName
-                                    }
-                                    phoneNumber={creditCardInfo.phoneNumber}
-                                    getSelectedValue={(cardItem) => {
-                                      this.setState({
-                                        selectedCardInfo: cardItem,
-                                      });
-                                    }}
-                                  />
-                                </div>
-                              ) : (
-                                  <div
-                                  // className={`rc-border-all rc-border-colour--interface ${
-                                  //   !this.state.isCompleteCredit
-                                  //     ? "checkout--padding"
-                                  //     : ""
-                                  //   }`}
-                                  >
-                                    <div
-                                      className={`credit-card-content ${!this.state.isCompleteCredit ? "" : "hidden"}`}
-                                      id="credit-card-content"
-                                    >
-                                      <div className="credit-card-form ">
-                                        <div className="rc-margin-bottom--xs">
-                                          <div className="content-asset">
-                                            <p>
-                                              <FormattedMessage id="payment.acceptCards" />
-                                            </p>
-                                          </div>
-                                          <div className="row">
-                                            <div className="col-sm-12">
-                                              <div className="form-group">
-                                                <label
-                                                  className="form-control-label"
-                                                  htmlFor="cardNumber"
-                                                >
-                                                  <FormattedMessage id="payment.cardNumber" />
-                                                  <span style={{ color: "red" }}>
-                                                    *
-                                                </span>
-                                                  {CreditCardImg}
-                                                  <form id="payment-form">
-                                                    <div id="card-secure-fields"></div>
-                                                    <button
-                                                      id="submit"
-                                                      name="submit"
-                                                      className="creadit"
-                                                      type="submit"
-                                                    >
-                                                      Pay
-                                                  </button>
-                                                  </form>
-                                                </label>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="row overflow_visible">
-                                            <div className="col-sm-12">
-                                              <div className="form-group required">
-                                                <label className="form-control-label">
-                                                  <FormattedMessage id="payment.cardOwner" />
-                                                </label>
-                                                <span
-                                                  className="rc-input rc-input--full-width"
-                                                  input-setup="true"
-                                                >
-                                                  <input
-                                                    type="text"
-                                                    id="cardholder-name"
-                                                    className="rc-input__control form-control cardOwner"
-                                                    name="cardOwner"
-                                                    value={
-                                                      creditCardInfo.cardOwner
-                                                    }
-                                                    onChange={(e) =>
-                                                      this.cardInfoInputChange(e)
-                                                    }
-                                                    onBlur={(e) =>
-                                                      this.inputBlur(e)
-                                                    }
-                                                    maxLength="40"
-                                                  />
-                                                  <label
-                                                    className="rc-input__label"
-                                                    htmlFor="cardOwner"
-                                                  ></label>
-                                                </span>
-                                                <div className="invalid-feedback">
-                                                  <FormattedMessage id="payment.errorInfo2" />
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="row">
-                                            <div className="col-sm-6">
-                                              <div className="form-group required">
-                                                <label className="form-control-label">
-                                                  <FormattedMessage id="payment.email" />
-                                                </label>
-                                                <span
-                                                  className="rc-input rc-input--full-width"
-                                                  input-setup="true"
-                                                >
-                                                  <input
-                                                    type="email"
-                                                    className="rc-input__control email"
-                                                    id="email"
-                                                    value={creditCardInfo.email}
-                                                    onChange={(e) =>
-                                                      this.cardInfoInputChange(e)
-                                                    }
-                                                    onBlur={(e) =>
-                                                      this.inputBlur(e)
-                                                    }
-                                                    name="email"
-                                                    maxLength="254"
-                                                  />
-                                                  <label
-                                                    className="rc-input__label"
-                                                    htmlFor="email"
-                                                  ></label>
-                                                </span>
-                                                <div className="invalid-feedback">
-                                                  <FormattedMessage id="payment.errorInfo2" />
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                              <div className="form-group required">
-                                                <label
-                                                  className="form-control-label"
-                                                  htmlFor="phoneNumber"
-                                                >
-                                                  <FormattedMessage id="payment.phoneNumber" />
-                                                </label>
-                                                <span
-                                                  className="rc-input rc-input--full-width"
-                                                  input-setup="true"
-                                                  data-js-validate=""
-                                                  data-js-warning-message="*Phone Number isn’t valid"
-                                                >
-                                                  <input
-                                                    type="number"
-                                                    className="rc-input__control input__phoneField shippingPhoneNumber"
-                                                    min-lenght="18"
-                                                    max-length="18"
-                                                    data-phonelength="18"
-                                                    data-js-pattern="(^\d{10}$)"
-                                                    data-range-error="The phone number should contain 10 digits"
-                                                    value={
-                                                      creditCardInfo.phoneNumber
-                                                    }
-                                                    onChange={(e) =>
-                                                      this.cardInfoInputChange(e)
-                                                    }
-                                                    onBlur={(e) =>
-                                                      this.inputBlur(e)
-                                                    }
-                                                    name="phoneNumber"
-                                                    maxLength="2147483647"
-                                                  />
-                                                  <label
-                                                    className="rc-input__label"
-                                                    htmlFor="phoneNumber"
-                                                  ></label>
-                                                </span>
-                                                <div className="invalid-feedback">
-                                                  <FormattedMessage id="payment.errorInfo2" />
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="row">
-                                          <div className="col-sm-12 rc-margin-y--xs rc-text--center">
-                                            <button
-                                              className="rc-btn rc-btn--two card-confirm"
-                                              id="card-confirm"
-                                              type="button"
-                                              onClick={() => this.cardConfirm()}
-                                            >
-                                              <FormattedMessage id="payment.confirmCard" />
-                                            </button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div
-                                      className={`creditCompleteInfoBox pb-3 ${
-                                        !this.state.isCompleteCredit
-                                          ? "hidden"
-                                          : ""
-                                        }`}
-                                    >
-                                      <p>
-                                        <span
-                                          className="pull-right ui-cursor-pointer-pure mr-2"
-                                          onClick={() => {
-                                            this.setState({
-                                              isCompleteCredit: false,
-                                            });
-                                          }}
-                                          style={{
-                                            position: "relative",
-                                            top: -9,
-                                          }}
-                                        >
-                                          <FormattedMessage id="edit" />
-                                        </span>
-                                      </p>
-                                      <div className="row">
-                                        <div className="col-6 col-sm-3 d-flex flex-column justify-content-center ">
-                                          <img
-                                            className="PayCardImgFitScreen"
-                                            src={
-                                              CREDIT_CARD_IMG_ENUM[
-                                                this.state.payosdata.vendor
-                                              ]
-                                                ? CREDIT_CARD_IMG_ENUM[
-                                                this.state.payosdata.vendor
-                                                ]
-                                                : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
-                                            }
-                                          />
-                                        </div>
-                                        <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
-                                          <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                                            <div className="col-12 color-999">
-                                              <FormattedMessage id="name2" />
-                                              <br />
-                                              <span className="creditCompleteInfo">
-                                                {creditCardInfo.cardOwner}
-                                              </span>
-                                            </div>
-                                          </div>
-                                          <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                                            <div className="col-6 color-999">
-                                              <FormattedMessage id="payment.cardNumber2" />
-                                              <br />
-                                              <span className="creditCompleteInfo">
-                                                xxxx xxxx xxxx{" "}
-                                                {this.state.payosdata
-                                                  ? this.state.payosdata
-                                                    .last_4_digits
-                                                  : ""}
-                                              </span>
-                                            </div>
-                                            <div className="col-6 color-999">
-                                              <FormattedMessage id="payment.cardType" />
-                                              <br />
-                                              <span className="creditCompleteInfo">
-                                                {this.state.payosdata.card_type}
-                                              </span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                    {/* 条款 */}
-                    <div
-                      className="footerCheckbox rc-margin-top--sm ml-custom mr-custom"
-                      style={{ marginTop: "1rem" }}
-                    >
-                      <input
-                        style={{ cursor: "pointer" }}
-                        className="form-check-input"
-                        id="id-checkbox-cat-2"
-                        value=""
-                        type="checkbox"
-                        name="checkbox-2"
-                        onChange={() => {
-                          this.setState({
-                            isReadPrivacyPolicy: !this.state.isReadPrivacyPolicy,
-                            isReadPrivacyPolicyInit: false,
-                          });
-                        }}
-                        checked={this.state.isReadPrivacyPolicy}
-                      />
-                      <label
-                        htmlFor="id-checkbox-cat-2"
-                        className="rc-input__label--inline"
-                        style={{ cursor: "pointer" }}
-                      >
-                        <FormattedMessage
-                          id="payment.confirmInfo3"
-                          values={{
-                            val1: (
-                              <Link
-                                className="red"
-                                target="_blank"
-                                to="/privacypolicy"
-                              >
-                                Política de privacidad
-                              </Link>
-                            ),
-                            val2: (
-                              <Link
-                                className="red"
-                                target="_blank"
-                                to="/termuse"
-                              >
-                                la transferencia transfronteriza
-                              </Link>
-                            ),
-                          }}
-                        />
-                        <div className={`warning ${this.state.isReadPrivacyPolicy || this.state.isReadPrivacyPolicyInit ? 'hidden' : ''}`}>
-                          <FormattedMessage id="payment.confirmInfo4" />
-                        </div>
-                      </label>
-                    </div>
-                    {process.env.REACT_APP_LANG == "de" ? null : (
-                      <div className="footerCheckbox ml-custom mr-custom">
-                        <input
-                          className="form-check-input"
-                          id="id-checkbox-cat-1"
-                          value="Cat"
-                          type="checkbox"
-                          name="checkbox-2"
-                          onChange={() => {
-                            this.setState({
-                              isEighteen: !this.state.isEighteen,
-                              isEighteenInit: false,
-                            });
-                          }}
-                          checked={this.state.isEighteen}
-                          style={{ cursor: "pointer" }}
-                        />
-                        <label
-                          htmlFor="id-checkbox-cat-1"
-                          className="rc-input__label--inline"
-                          style={{ cursor: "pointer" }}
-                        >
-                          <FormattedMessage id="payment.confirmInfo1" />
-                          <div
-                            className="warning"
-                            style={{
-                              display:
-                                this.state.isEighteen ||
-                                  this.state.isEighteenInit
-                                  ? "none"
-                                  : "block",
-                            }}
-                          >
-                            <FormattedMessage id="login.secondCheck" />
-                          </div>
-                        </label>
-                      </div>
-                    )}                   
-                    <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
-                      <div className="next-step-button">
-                        <div className="rc-text--right">
-                          <button
-                            className="rc-btn rc-btn--one submit-payment"
-                            type="submit"
-                            name="submit"
-                            value="submit-shipping"
-                            onClick={() => this.toBooking()}
-                          >
-                            <FormattedMessage id="payment.further" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                   {/* oxxo */}
                   {this.state.paymentTypeVal === "oxxo" && (
                     <OxxoConfirm
                       history={this.props.history}
-                      getParameter={() => this.handleClickFurther()}
                       startLoading={() => this.startLoading()}
                       endLoading={() => this.endLoading()}
-                    />
+                      clickPay={this.initOxxo} />
                   )}
+                  {/* payu creditCard */}
+                  <div className={`${this.state.paymentTypeVal === "creditCard" ? "" : "hidden"}`}>
+                    <PayOs
+                      startLoading={() => this.startLoading()}
+                      endLoading={() => this.endLoading()}
+                      showErrorMsg={data => this.showErrorMsg(data)}
+                      clickPay={this.initPayUCreditCard}
+                      onPayosDataChange={data => { this.setState({ payosdata: data }) }}
+                      onCardInfoChange={data => { this.setState({ creditCardInfo: data }) }}
+                      onPaymentCompDataChange={data => { this.setState({ selectedCardInfo: data }) }} />
+                  </div>
                   {/* adyenCreditCard */}
                   <div className={`${this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"}`}>
                     <div class="payment-method checkout--padding">
@@ -1954,8 +1681,6 @@ class Payment extends React.Component {
                   </div>
                   
                   {/* ***********************支付选项卡的内容end******************************* */}
-
-
                 </div>
               </div>
               <div className="rc-column pl-md-0">
