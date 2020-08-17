@@ -183,8 +183,6 @@ class Payment extends React.Component {
         }  
       }
     }
-    console.log(payWayNameArr)
-    debugger
     //数组转对象
     const payWayObj = payWayNameArr.map((item,index)=>{
       return {name:item['name'],id:item['id'],paymentTypeVal:item['paymentTypeVal']}
@@ -1264,8 +1262,8 @@ class Payment extends React.Component {
       promotionCode,
     });
   }
+
   handlePaymentTypeChange (e) {
-    console.log(e.target.value)
     this.setState({ paymentTypeVal: e.target.value });
   }
   render () {
@@ -1499,7 +1497,6 @@ class Payment extends React.Component {
                   <div className="ml-custom mr-custom">
                     {
                       Object.entries(this.state.payWayObj).map(item =>{
-                        console.log(item[1])
                         return (
                           <div
                             class="rc-input rc-input--inline"

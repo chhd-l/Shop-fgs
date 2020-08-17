@@ -251,3 +251,6 @@
   }
 }
 
+.input__checkbox:focus+.rc-input__label--inline::before, .input__radio:focus+.rc-input__label--inline::before, .modal__header a:focus .rc-modal__logo, .rc-input__checkbox:focus+.rc-input__label--inline::before, .rc-input__radio:focus+.rc-input__label--inline::before, .rc-modal__header a:focus .rc-modal__logo{
+  outline:0!important;
+}
