@@ -12,7 +12,13 @@ class KlarnaPayLater extends Component {
     };
   }
   clickPay=()=>{
-    this.props.clickPay(this.state.text)
+    var pattern = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
+    if(pattern.test(this.state.text)){
+      this.props.clickPay(this.state.text)
+    }else{
+      this.props.showErrorMsg(this.props.intl.messages.emailFormatFalse)
+    }
+       
   }
   handleChange=(e)=>{
     this.setState({

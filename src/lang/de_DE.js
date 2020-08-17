@@ -526,6 +526,7 @@ const en_US = {
   'adyenPayNow': 'KlarnaPayNow',
   'adyenPayFail': 'AdyenPayFail',
   'sofort':'Sofort',
+  'emailFormatFalse':'Das E-Mail-Format ist falsch',
   'NoPromotionDesc': 'Keine PromotionDesc',
   //qhx新增
   delivery: "Lieferkosten",

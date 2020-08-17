@@ -305,7 +305,7 @@ class Payment extends React.Component {
   get tradePrice () {
     return this.props.checkoutStore.tradePrice;
   }
-  showErrorMsg (msg) {
+  showErrorMsg =(msg)=> {
     this.setState({
       errorShow: true,
       errorMsg: msg,
@@ -598,7 +598,7 @@ class Payment extends React.Component {
             deliveryAddressEl &&
             find(deliveryAddressEl.state.addressList, (ele) => ele.selected);
         }
-        debugger
+   
         tmpDeliveryAddress = {
           firstName: tmpDeliveryAddressData.firstName,
           lastName: tmpDeliveryAddressData.lastName,
@@ -643,7 +643,6 @@ class Payment extends React.Component {
             addressId: tmpBillingAddressData.deliveryAddressId,
           };
         }
-        debugger
       }
       const param = {
         billingChecked,
@@ -1940,11 +1939,11 @@ class Payment extends React.Component {
                   </div>
                   {/* KlarnaPayLater */}
                   <div className={`${this.state.paymentTypeVal === "adyenKlarnaPayLater" ? "" : "hidden"}`}>
-                    <KlarnaPayLater clickPay={this.initKlarnaPayLater} />
+                    <KlarnaPayLater clickPay={this.initKlarnaPayLater} showErrorMsg={this.showErrorMsg} />
                   </div>
                   {/* KlarnaPayNow  */}
                   <div className={`${this.state.paymentTypeVal === "adyenKlarnaPayNow" ? "" : "hidden"}`}>
-                    <KlarnaPayNow clickPay={this.initKlarnaPayNow} />
+                    <KlarnaPayNow clickPay={this.initKlarnaPayNow} showErrorMsg={this.showErrorMsg} />
                   </div>
                   {/* Sofort */}
                   <div className={`${this.state.paymentTypeVal === "directEbanking" ? "" : "hidden"}`}>
