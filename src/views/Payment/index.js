@@ -1749,15 +1749,9 @@ class Payment extends React.Component {
                     </div>
                   </div>
 
-                  {/* oxxo */}
-                  {this.state.paymentTypeVal === "oxxo" && (
-                    <OxxoConfirm
-                      history={this.props.history}
-                      getParameter={() => this.handleClickFurther()}
-                      startLoading={() => this.startLoading()}
-                      endLoading={() => this.endLoading()}
-                    />
-                  )}
+                  
+                  {/* ***********************支付选项卡的内容start******************************* */}
+
                   {/* creditCard */}
                   <div className={`${this.state.paymentTypeVal === "creditCard" ? "" : "hidden"}`}>
                     <div className="card payment-form ml-custom mr-custom Card-border p-3 rounded rc-border-all rc-border-colour--interface">
@@ -2135,7 +2129,6 @@ class Payment extends React.Component {
                         </label>
                       </div>
                     )}
-                    {/* the end */}
                     <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
                       <div className="next-step-button">
                         <div className="rc-text--right">
@@ -2152,6 +2145,15 @@ class Payment extends React.Component {
                       </div>
                     </div>
                   </div>
+                  {/* oxxo */}
+                  {this.state.paymentTypeVal === "oxxo" && (
+                    <OxxoConfirm
+                      history={this.props.history}
+                      getParameter={() => this.handleClickFurther()}
+                      startLoading={() => this.startLoading()}
+                      endLoading={() => this.endLoading()}
+                    />
+                  )}
                   {/* adyenCreditCard */}
                   <div className={`${this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"}`}>
                     <div class="payment-method checkout--padding">
@@ -2170,6 +2172,10 @@ class Payment extends React.Component {
                   <div className={`${this.state.paymentTypeVal === "directEbanking" ? "" : "hidden"}`}>
                     <Sofort clickPay={this.initSofort} />
                   </div>
+                  
+                  {/* ***********************支付选项卡的内容end******************************* */}
+
+
                 </div>
               </div>
               <div className="rc-column pl-md-0">
