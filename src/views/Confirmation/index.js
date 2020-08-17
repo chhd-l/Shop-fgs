@@ -57,6 +57,7 @@ class Confirmation extends React.Component {
     sessionStorage.removeItem('confirmation-info-payment')
     sessionStorage.removeItem('orderNumber')
     sessionStorage.removeItem('subNumber')
+    sessionStorage.removeItem('oxxoPayUrl')
   }
   componentDidMount () {
     if (localStorage.getItem("isRefresh")) {

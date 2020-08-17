@@ -189,9 +189,6 @@
   position: absolute;
 }
 
-#submit {
-  visibility: hidden;
-}
 #card-secure-fields {
   border-color: #d7d7d7 !important;
 }

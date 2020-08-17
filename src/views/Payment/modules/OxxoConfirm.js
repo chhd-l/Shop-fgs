@@ -18,8 +18,7 @@ class OxxoConfirm extends Component {
       isEighteen: false
     };
   }
-
-  async goConfirmation () {
+  async clickPay () {
     const { isEighteen, isReadPrivacyPolicy } = this.state
     try {
       this.props.startLoading();
@@ -35,36 +34,13 @@ class OxxoConfirm extends Component {
       ) {
         throw new Error(this.props.intl.messages.pleaseEnterTheCorrectEmail)
       }
-      // 是否同意条款
+
       if (!isEighteen || !isReadPrivacyPolicy) {
         this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
         throw new Error('agreement failed')
       }
-      var addressParameter = await this.props.getParameter();
-      var parameters = Object.assign(addressParameter, {
-        payChannelItem: "payuoxxo",
-        email: this.state.email,
-        country: "MEX"
-      });
-      let res = await confirmAndCommit(parameters);
-      if (res.code === "K-000000") {
-        var oxxoContent = res.context[0];
-        var oxxoArgs = oxxoContent.args;
-        var orderNumber = oxxoContent.tid;
-        var subNumber = oxxoContent.subscribeId;
-        sessionStorage.setItem("orderNumber", orderNumber);
-        sessionStorage.setItem("subNumber", subNumber);
-        if (
-          oxxoArgs &&
-          oxxoArgs.additionalDetails &&
-          oxxoArgs.additionalDetails.object &&
-          oxxoArgs.additionalDetails.object.data[0]
-        ) {
-          var url = oxxoArgs.additionalDetails.object.data[0].href;
-          sessionStorage.setItem("oxxoPayUrl", url);
-          this.props.history.push("/confirmation");
-        }
-      }
+
+      this.props.clickPay(this.state.email)
     } catch (e) {
       if (e.message !== 'agreement failed') {
         this.showErrorMsg(e.message ? e.message.toString() : e.toString());
@@ -118,7 +94,7 @@ class OxxoConfirm extends Component {
             </aside>
           </div>
           <div style={{ textAlign: "center", marginBottom: "20px" }}>
-            <img src={oxxo} alt="" style={{ display: "inline-block" }} />
+            <img src={oxxo} style={{ display: "inline-block" }} />
           </div>
           <h6>
             <p>
@@ -167,10 +143,9 @@ class OxxoConfirm extends Component {
             />
           </p>
         </div>
-        <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom" style={{ marginTop: '1rem' }}>
+        <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom mt-3">
           <input
-            style={{ cursor: "pointer" }}
-            className="form-check-input"
+            className="form-check-input ui-cursor-pointer-pure"
             id="id-checkbox-cat-2"
             value=""
             type="checkbox"
@@ -178,15 +153,14 @@ class OxxoConfirm extends Component {
             onChange={() => {
               this.setState({
                 isReadPrivacyPolicy: !this.state.isReadPrivacyPolicy,
-                isReadPrivacyPolicyInit: false,
+                isReadPrivacyPolicyInit: false
               });
             }}
             checked={this.state.isReadPrivacyPolicy}
           />
           <label
             htmlFor="id-checkbox-cat-2"
-            className="rc-input__label--inline"
-            style={{ cursor: "pointer" }}
+            className="rc-input__label--inline ui-cursor-pointer-pure"
           >
             <FormattedMessage
               id="payment.confirmInfo3"
@@ -217,44 +191,41 @@ class OxxoConfirm extends Component {
             </div>
           </label>
         </div>
-        {process.env.REACT_APP_LANG == "de" ? null : (
-          <div className="footerCheckbox ml-custom mr-custom">
-            <input
-              className="form-check-input"
-              id="id-checkbox-cat-1"
-              value="Cat"
-              type="checkbox"
-              name="checkbox-2"
-              onChange={() => {
-                this.setState({
-                  isEighteen: !this.state.isEighteen,
-                  isEighteenInit: false,
-                });
+        <div className="footerCheckbox ml-custom mr-custom">
+          <input
+            id="id-checkbox-cat-1"
+            value="Cat"
+            type="checkbox"
+            name="checkbox-2"
+            className="form-check-input ui-cursor-pointer-pure"
+            onChange={() => {
+              this.setState({
+                isEighteen: !this.state.isEighteen,
+                isEighteenInit: false,
+              });
+            }}
+            checked={this.state.isEighteen}
+          />
+          <label
+            htmlFor="id-checkbox-cat-1"
+            className="rc-input__label--inline"
+            style={{ cursor: "pointer" }}
+          >
+            <FormattedMessage id="payment.confirmInfo1" />
+            <div
+              className="warning"
+              style={{
+                display:
+                  this.state.isEighteen ||
+                    this.state.isEighteenInit
+                    ? "none"
+                    : "block",
               }}
-              checked={this.state.isEighteen}
-              style={{ cursor: "pointer" }}
-            />
-            <label
-              htmlFor="id-checkbox-cat-1"
-              className="rc-input__label--inline"
-              style={{ cursor: "pointer" }}
             >
-              <FormattedMessage id="payment.confirmInfo1" />
-              <div
-                className="warning"
-                style={{
-                  display:
-                    this.state.isEighteen ||
-                      this.state.isEighteenInit
-                      ? "none"
-                      : "block",
-                }}
-              >
-                <FormattedMessage id="payment.confirmInfo2" />
-              </div>
-            </label>
-          </div>
-        )}
+              <FormattedMessage id="payment.confirmInfo2" />
+            </div>
+          </label>
+        </div>
         {/* the end */}
 
         <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
@@ -265,7 +236,7 @@ class OxxoConfirm extends Component {
                 type="submit"
                 name="submit"
                 value="submit-shipping"
-                onClick={() => this.goConfirmation()}
+                onClick={() => this.clickPay()}
               >
                 <FormattedMessage id="payment.further" />
               </button>
