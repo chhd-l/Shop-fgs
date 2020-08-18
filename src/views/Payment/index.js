@@ -130,6 +130,7 @@ class Payment extends React.Component {
       toolTipVisible: false,
       email: '',
       payWayObj:{},//支付方式input radio汇总
+      savedPayWayObj:{},//保留初始化的支付方式
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
@@ -180,7 +181,8 @@ class Payment extends React.Component {
     })
 
     this.setState({
-      payWayObj
+      payWayObj,
+      savedPayWayObj:JSON.parse(JSON.stringify(payWayObj))
     })
 
     let payMethod = payWayNameArr[0]&&payWayNameArr[0].name || "none";//初始化默认取第1个
@@ -1563,6 +1565,19 @@ class Payment extends React.Component {
                                 this.props.frequencyStore.updateFrequencyName(
                                   data.frequencyName
                                 );
+                              
+                              let payuoxxoIndex
+                              if (Object.prototype.toString.call(this.state.payWayObj).slice(8,-1)=='Array') { //判断payWayObj是数组
+                                if(data.buyWay === "frequency"){
+                                  payuoxxoIndex = findIndex(this.state.payWayObj, function(o) { return o.name == 'payuoxxo'; });//找到oxxo在数组中的下标
+                                  if(payuoxxoIndex!=-1){
+                                    this.state.payWayObj.splice(payuoxxoIndex,1)
+                                  }
+                                }else{//为后台提供的初始支付方式
+                                  this.state.payWayObj =  JSON.parse(JSON.stringify(this.state.savedPayWayObj))
+                                }                               
+                              }
+                              
  
                                 if (
                                   data.buyWay === "frequency" &&
@@ -1571,7 +1586,7 @@ class Payment extends React.Component {
                                   this.setState({
                                     paymentTypeVal: "creditCard",
                                   });
-                                  
+                                 
                                 }
                                 this.setState(
                                   {
