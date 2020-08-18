@@ -147,7 +147,7 @@ class Payment extends React.Component {
 
     //获取支付方式
     const payWay = await getWays();
-    // name:支付方式，id：翻译id，paymentTypeVal：
+    // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
     const payuMethodsObj = {
       'PAYU': { name: 'payu', id: 'creditCard', paymentTypeVal: 'creditCard' },
       'PAYUOXXO': { name: 'payuoxxo', id: 'oxxo', paymentTypeVal: 'oxxo' },
@@ -189,9 +189,7 @@ class Payment extends React.Component {
     //各种支付component初始化方法
     var initPaymentWay = {
       adyen_credit_card: () => {
-        setTimeout(() => {
-          this.initAdyenPay();
-        }, 1000);
+        this.initAdyenPay();
       },
       adyen_klarna_slice: () => {
         console.log("initKlarnaSlice");
@@ -298,10 +296,11 @@ class Payment extends React.Component {
   get tradePrice () {
     return this.props.checkoutStore.tradePrice;
   }
-  showErrorMsg (msg) {
+  showErrorMsg= (msg)=> {
     this.setState({
       errorMsg: msg
     });
+
     window.scrollTo({
       top: 0,
       behavior: "smooth"
@@ -338,8 +337,8 @@ class Payment extends React.Component {
       // (1) Create an instance of AdyenCheckout
       const checkout = new AdyenCheckout({
         environment: "test",
-        originKey: process.env.REACT_APP_AdyenOriginKEY,
-        //originKey: 'pub.v2.8015632026961356.aHR0cDovL2ZxMzNrNi5uYXRhcHBmcmVlLmNj.deHLw5of5MxJvrLv2UZEEyJwyguuk0DFVD7lVEMcLtE',
+        // originKey: process.env.REACT_APP_AdyenOriginKEY,
+        originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
         locale: "de-DE",
       });
 
@@ -489,7 +488,7 @@ class Payment extends React.Component {
       parameters,
       {
         successUrl: process.env.REACT_APP_SUCCESSFUL_URL + '/payResult',
-        //successUrl: 'http://fq33k6.natappfree.cc/payResult',
+        //successUrl: 'http://m72na6.natappfree.cc/payResult',
         deliveryAddressId: this.state.deliveryAddress.addressId,
         billAddressId: this.state.billingAddress.addressId,
         phone
@@ -1569,6 +1568,7 @@ class Payment extends React.Component {
                                   data.frequencyName
                                 );
                               
+                              // ****************订阅的时候隐藏oxxo支付方式start******************
                               let payuoxxoIndex
                               if (Object.prototype.toString.call(this.state.payWayObj).slice(8,-1)=='Array') { //判断payWayObj是数组
                                 if(data.buyWay === "frequency"){
@@ -1580,6 +1580,7 @@ class Payment extends React.Component {
                                   this.state.payWayObj =  JSON.parse(JSON.stringify(this.state.savedPayWayObj))
                                 }                               
                               }
+                               // ****************订阅的时候隐藏oxxo支付方式end******************
                               
  
                                 if (
@@ -1694,7 +1695,7 @@ class Payment extends React.Component {
                   </div>
                   {/* Sofort */}
                   <div className={`${this.state.paymentTypeVal === "directEbanking" ? "" : "hidden"}`}>
-                    <Sofort clickPay={this.initSofort} />
+                    <Sofort clickPay={this.initSofort} showErrorMsg={this.showErrorMsg} />
                   </div>
 
                   {/* ***********************支付选项卡的内容end******************************* */}

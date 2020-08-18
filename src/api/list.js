@@ -3,7 +3,8 @@ import axios from '@/utils/request'
 const api = {
   list: '/goods/spuListFront',
   loginList: '/goods/spus',
-  props: '/goods/props'
+  props: '/goods/props',
+  selectedProps: '/goods/props/owngoods',
 }
 
 export default api
@@ -12,6 +13,14 @@ export function getProps (parameter) {
   return axios({
     url: `${api.props}/${parameter}`,
     method: 'get'
+  })
+}
+
+export function getSelectedProps (parameter) {
+  return axios({
+    url: `${api.selectedProps}`,
+    method: 'post',
+    data:{cateId:parameter}
   })
 }
 

@@ -3,24 +3,64 @@ import { injectIntl, FormattedMessage } from "react-intl";
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
+import Terms from "../Terms/index"
 
 class KlarnaPayNow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        text:''
+        text:'',
+        isReadPrivacyPolicy:false,
+        isEighteen:false
     };
   }
-  clickPay=()=>{
-    this.props.clickPay(this.state.text)
-  }
-  clickPay=()=>{
+   //是否填写邮箱正确
+   isTestMail(){
     var pattern = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
-    if(pattern.test(this.state.text)){
+    if(!pattern.test(this.state.text)){
+      throw new Error(this.props.intl.messages.emailFormatFalse)
+    }
+  }
+  //是否勾选私人政策
+  isTestPolicy(){
+    if(!this.state.isReadPrivacyPolicy){
+      throw new Error(this.props.intl.messages.policyFalse)
+    }
+  }
+    
+  //是否勾选满足18岁 
+  isOverEighteen(){
+    if(!this.state.isEighteen){
+      throw new Error(this.props.intl.messages.eightTeenFalse)
+    }
+  }
+
+  clickPay=()=>{
+    try{
+      this.isTestPolicy()
+      this.isOverEighteen()
+      this.isTestMail()
       this.props.clickPay(this.state.text)
-    }else{
-      this.props.showErrorMsg(this.props.intl.messages.emailFormatFalse)
-    }   
+    }catch(err){
+      this.props.showErrorMsg(err.message)
+    }  
+  }
+
+  handleChange=(e)=>{
+    this.setState({
+        text : e.target.value 
+    });
+  }
+
+  sendIsReadPrivacyPolicy=(e)=>{
+    this.setState({
+      isReadPrivacyPolicy:e
+    })
+  }
+  sendIsEighteen=(e)=>{
+    this.setState({
+      isEighteen:e
+    })
   }
   render() {
     return (
@@ -46,7 +86,7 @@ class KlarnaPayNow extends Component {
                 </div>
             </div>
         </div>
-
+        <Terms sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy} sendIsEighteen={this.sendIsEighteen}/>
       </div>
     );
   }

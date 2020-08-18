@@ -3,16 +3,49 @@ import { injectIntl, FormattedMessage } from "react-intl";
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
+import Terms from "../Terms/index"
 
 class Sofort extends Component {
   constructor(props) {
     super(props);
     this.state = {
-       
+      isReadPrivacyPolicy:false,
+      isEighteen:false
     };
   }
+   //是否勾选私人政策
+   isTestPolicy(){
+    if(!this.state.isReadPrivacyPolicy){
+      throw new Error(this.props.intl.messages.policyFalse)
+    }
+  }
+    
+  //是否勾选满足18岁 
+  isOverEighteen(){
+    if(!this.state.isEighteen){
+      throw new Error(this.props.intl.messages.eightTeenFalse)
+    }
+  }
+
   clickPay=()=>{
-    this.props.clickPay()
+    try{
+      this.isTestPolicy()
+      this.isOverEighteen()
+      this.props.clickPay(this.state.text)
+    }catch(err){
+      this.props.showErrorMsg(err.message)
+    }
+     
+  }
+  sendIsReadPrivacyPolicy=(e)=>{
+    this.setState({
+      isReadPrivacyPolicy:e
+    })
+  }
+  sendIsEighteen=(e)=>{
+    this.setState({
+      isEighteen:e
+    })
   }
   render() {
     return (
@@ -30,7 +63,7 @@ class Sofort extends Component {
                 </div>
             </div>
         </div>
-
+        <Terms sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy} sendIsEighteen={this.sendIsEighteen}/>
       </div>
     );
   }

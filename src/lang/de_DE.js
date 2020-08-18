@@ -527,6 +527,8 @@ const en_US = {
   'adyenPayFail': 'AdyenPayFail',
   'sofort':'Sofort',
   'emailFormatFalse':'Das E-Mail-Format ist falsch',
+  'policyFalse':'Überprüfen Sie die private Vereinbarung',
+  'eightTeenFalse':'Überprüfen Sie, um 18 Jahre alt zu treffen',
   'NoPromotionDesc': 'Keine PromotionDesc',
   //qhx新增
   delivery: "Lieferkosten",

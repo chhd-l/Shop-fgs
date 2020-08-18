@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from "react-router-dom";
 import { findIndex, find } from "lodash";
 import PaymentComp from "@/components/PaymentComp";
+import Terms from "../Terms/index"
 import {
   CREDIT_CARD_IMG_ENUM,
   CREDIT_CARD_IMGURL_ENUM,
@@ -523,33 +524,31 @@ class PayOs extends React.Component {
           </div>
         </label>
       </div>
-      {process.env.REACT_APP_LANG == "de" ? null : (
-        <div className="footerCheckbox ml-custom mr-custom">
-          <input
-            className="form-check-input ui-cursor-pointer-pure"
-            id="id-checkbox-cat-1"
-            value="Cat"
-            type="checkbox"
-            name="checkbox-2"
-            onChange={() => {
-              this.setState({
-                isEighteen: !this.state.isEighteen,
-                isEighteenInit: false
-              });
-            }}
-            checked={this.state.isEighteen}
-          />
-          <label
-            htmlFor="id-checkbox-cat-1"
-            className="rc-input__label--inline ui-cursor-pointer-pure"
-          >
-            <FormattedMessage id="payment.confirmInfo1" />
-            <div className={`warning ${this.state.isEighteen || this.state.isEighteenInit ? 'hidden' : ''}`}>
-              <FormattedMessage id="login.secondCheck" />
-            </div>
-          </label>
-        </div>
-      )}
+      <div className="footerCheckbox ml-custom mr-custom">
+        <input
+          className="form-check-input ui-cursor-pointer-pure"
+          id="id-checkbox-cat-1"
+          value="Cat"
+          type="checkbox"
+          name="checkbox-2"
+          onChange={() => {
+            this.setState({
+              isEighteen: !this.state.isEighteen,
+              isEighteenInit: false
+            });
+          }}
+          checked={this.state.isEighteen}
+        />
+        <label
+          htmlFor="id-checkbox-cat-1"
+          className="rc-input__label--inline ui-cursor-pointer-pure"
+        >
+          <FormattedMessage id="payment.confirmInfo1" />
+          <div className={`warning ${this.state.isEighteen || this.state.isEighteenInit ? 'hidden' : ''}`}>
+            <FormattedMessage id="login.secondCheck" />
+          </div>
+        </label>
+      </div>
       <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
         <div className="next-step-button">
           <div className="rc-text--right">
