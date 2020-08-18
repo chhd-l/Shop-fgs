@@ -11,7 +11,7 @@ import Loading from "@/components/Loading";
 import UnloginDeliveryAddress from "./modules/UnloginDeliveryAddress";
 import LoginDeliveryAddress from "./modules/LoginDeliveryAddress";
 import BillingAddressForm from "./modules/BillingAddressForm";
-import SubscriptionSelect from "./modules/SubscriptionSelect";
+import SubscriptionSelect from "./SubscriptionSelect";
 import ClinicForm from "./modules/ClinicForm";
 import AddressPreview from "@/components/AddressPreview";
 import { getDictionary, formatMoney } from "@/utils/utils";
@@ -28,8 +28,8 @@ import {
 import store from "storejs";
 import "./index.css";
 import "./modules/adyenCopy.css"
-import PayOs from "./payOs";
-import OxxoConfirm from "./modules/OxxoConfirm";
+import PayUCreditCard from "./PayUCreditCard";
+import OxxoConfirm from "./Oxxo";
 import KlarnaPayLater from "./modules/KlarnaPayLater";
 import KlarnaPayNow from "./modules/KlarnaPayNow";
 import Sofort from "./modules/Sofort";
@@ -129,7 +129,7 @@ class Payment extends React.Component {
       payWayNameArr: [],
       toolTipVisible: false,
       email: '',
-      payWayObj:{},//支付方式input radio汇总
+      payWayObj: {},//支付方式input radio汇总
     };
     this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
@@ -148,42 +148,42 @@ class Payment extends React.Component {
     const payWay = await getWays();
     // name:支付方式，id：翻译id，paymentTypeVal：
     const payuMethodsObj = {
-      'PAYU': {name:'payu',id:'creditCard',paymentTypeVal:'creditCard'},
-      'PAYUOXXO':{name:'payuoxxo',id:'oxxo',paymentTypeVal:'oxxo'} ,
-      'adyen_credit_card':{name:'adyen_credit_card',id:'adyen',paymentTypeVal:'adyenCard'},
-      'adyen_klarna_pay_now':{name:'adyen_klarna_pay_now',id:'adyenPayNow',paymentTypeVal:'adyenKlarnaPayNow'},
-      'adyen_klarna_pay_lat':{name:'adyen_klarna_pay_lat',id:'adyenPayLater',paymentTypeVal:'adyenKlarnaPayLater'},
-      'directEbanking':{name:'directEbanking',id:'sofort',paymentTypeVal:'directEbanking'},
+      'PAYU': { name: 'payu', id: 'creditCard', paymentTypeVal: 'creditCard' },
+      'PAYUOXXO': { name: 'payuoxxo', id: 'oxxo', paymentTypeVal: 'oxxo' },
+      'adyen_credit_card': { name: 'adyen_credit_card', id: 'adyen', paymentTypeVal: 'adyenCard' },
+      'adyen_klarna_pay_now': { name: 'adyen_klarna_pay_now', id: 'adyenPayNow', paymentTypeVal: 'adyenKlarnaPayNow' },
+      'adyen_klarna_pay_lat': { name: 'adyen_klarna_pay_lat', id: 'adyenPayLater', paymentTypeVal: 'adyenKlarnaPayLater' },
+      'directEbanking': { name: 'directEbanking', id: 'sofort', paymentTypeVal: 'directEbanking' },
     }
     let payWayNameArr = [],
-        payuNameArr = []
+      payuNameArr = []
     if (payWay.context.length > 0) {
       //判断第0条的name是否存在PAYU的字段,因为后台逻辑不好处理，所以这里特殊处理
-      if(payWay.context[0].name.indexOf('PAYU')!=-1){
-        payuNameArr = payWay.context.map(item=>item.name)
+      if (payWay.context[0].name.indexOf('PAYU') != -1) {
+        payuNameArr = payWay.context.map(item => item.name)
       } else {
         //正常处理
         payuNameArr = payWay.context
           .map((item) => item.payChannelItemList)[0]
           .map((item) => item.code);
       }
-       //payuNameArr:["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
-      for(let item of payuNameArr){
-        if(payuMethodsObj.hasOwnProperty(item)){
+      //payuNameArr:["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
+      for (let item of payuNameArr) {
+        if (payuMethodsObj.hasOwnProperty(item)) {
           payWayNameArr.push(payuMethodsObj[item])
-        }  
+        }
       }
     }
     //数组转对象
-    const payWayObj = payWayNameArr.map((item,index)=>{
-      return {name:item['name'],id:item['id'],paymentTypeVal:item['paymentTypeVal']}
+    const payWayObj = payWayNameArr.map((item, index) => {
+      return { name: item['name'], id: item['id'], paymentTypeVal: item['paymentTypeVal'] }
     })
 
     this.setState({
       payWayObj
     })
 
-    let payMethod = payWayNameArr[0]&&payWayNameArr[0].name || "none";//初始化默认取第1个
+    let payMethod = payWayNameArr[0] && payWayNameArr[0].name || "none";//初始化默认取第1个
     //各种支付component初始化方法
     var initPaymentWay = {
       adyen_credit_card: () => {
@@ -417,8 +417,8 @@ class Payment extends React.Component {
       'oxxo': () => {
         parameters = Object.assign({}, commonParameter, {
           payChannelItem: "payuoxxo",
-          email: this.state.email,
-          country: "MEX"
+          country: "MEX",
+          email: this.state.email
         });
       },
       'payu_credit_card': () => {
@@ -437,6 +437,7 @@ class Payment extends React.Component {
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: "DE",
+            email: this.state.email
           },
         );
       },
@@ -449,6 +450,7 @@ class Payment extends React.Component {
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: "DE",
+            email: this.state.email
           },
         );
       },
@@ -461,6 +463,7 @@ class Payment extends React.Component {
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: "DE",
+            email: this.state.email
           },
         );
       },
@@ -473,6 +476,7 @@ class Payment extends React.Component {
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: "DE",
+            email: this.state.email
           },
         );
       }
@@ -482,7 +486,6 @@ class Payment extends React.Component {
     let finalParam = Object.assign(
       parameters,
       {
-        email: this.state.email,
         successUrl: process.env.REACT_APP_SUCCESSFUL_URL + '/payResult',
         //successUrl: 'http://fq33k6.natappfree.cc/payResult',
         deliveryAddressId: this.state.deliveryAddress.addressId,
@@ -842,7 +845,7 @@ class Payment extends React.Component {
             deliveryAddressEl &&
             find(deliveryAddressEl.state.addressList, (ele) => ele.selected);
         }
-   
+
         tmpDeliveryAddress = {
           firstName: tmpDeliveryAddressData.firstName,
           lastName: tmpDeliveryAddressData.lastName,
@@ -1563,7 +1566,7 @@ class Payment extends React.Component {
                                 this.props.frequencyStore.updateFrequencyName(
                                   data.frequencyName
                                 );
- 
+
                                 if (
                                   data.buyWay === "frequency" &&
                                   this.state.paymentTypeVal === "oxxo"
@@ -1571,7 +1574,7 @@ class Payment extends React.Component {
                                   this.setState({
                                     paymentTypeVal: "creditCard",
                                   });
-                                  
+
                                 }
                                 this.setState(
                                   {
@@ -1608,24 +1611,24 @@ class Payment extends React.Component {
                   {/* *******************支付tab栏start************************************ */}
                   <div className="ml-custom mr-custom">
                     {
-                      Object.entries(this.state.payWayObj).map(item =>{
+                      Object.entries(this.state.payWayObj).map(item => {
                         return (
                           <div
                             class="rc-input rc-input--inline"
                           >
-                              <input
-                                class="rc-input__radio"
-                                id={`payment-info-${item[1].id}`}
-                                value={item[1].paymentTypeVal}
-                                type="radio"
-                                name="payment-info"
-                                onChange={(event) =>
-                                  this.handlePaymentTypeChange(event)
-                                }
-                                checked={this.state.paymentTypeVal === item[1].paymentTypeVal?true:false}
-                                key={item[1].id}
-                              />
-                            
+                            <input
+                              class="rc-input__radio"
+                              id={`payment-info-${item[1].id}`}
+                              value={item[1].paymentTypeVal}
+                              type="radio"
+                              name="payment-info"
+                              onChange={(event) =>
+                                this.handlePaymentTypeChange(event)
+                              }
+                              checked={this.state.paymentTypeVal === item[1].paymentTypeVal ? true : false}
+                              key={item[1].id}
+                            />
+
                             <label
                               class="rc-input__label--inline"
                               for={`payment-info-${item[1].id}`}
@@ -1635,11 +1638,11 @@ class Payment extends React.Component {
                           </div>
                         )
                       })
-                    }                     
+                    }
                   </div>
                   {/* ********************支付tab栏end********************************** */}
 
-                  
+
                   {/* ***********************支付选项卡的内容start******************************* */}
                   {/* oxxo */}
                   {this.state.paymentTypeVal === "oxxo" && (
@@ -1651,7 +1654,7 @@ class Payment extends React.Component {
                   )}
                   {/* payu creditCard */}
                   <div className={`${this.state.paymentTypeVal === "creditCard" ? "" : "hidden"}`}>
-                    <PayOs
+                    <PayUCreditCard
                       startLoading={() => this.startLoading()}
                       endLoading={() => this.endLoading()}
                       showErrorMsg={data => this.showErrorMsg(data)}
@@ -1678,7 +1681,7 @@ class Payment extends React.Component {
                   <div className={`${this.state.paymentTypeVal === "directEbanking" ? "" : "hidden"}`}>
                     <Sofort clickPay={this.initSofort} />
                   </div>
-                  
+
                   {/* ***********************支付选项卡的内容end******************************* */}
                 </div>
               </div>
