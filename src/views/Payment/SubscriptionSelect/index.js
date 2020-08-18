@@ -4,7 +4,8 @@ import { inject, observer } from 'mobx-react'
 import Selection from '@/components/Selection'
 import { getDictionary, formatMoney } from "@/utils/utils";
 import { getMarketingDiscount } from "@/api/payment";
-import './SubscriptionSelect.css'
+import './index.css'
+
 @injectIntl
 @inject("checkoutStore", "frequencyStore")
 @observer
@@ -124,7 +125,9 @@ class SubscriptionSelect extends Component {
             </span>
           </label>
           <div style={{ marginLeft: '5%' }} className="d-flex align-items-center">
-            <FormattedMessage id="every" /> &nbsp;
+            <span className="position-relative" style={{ top: '-2px' }}>
+              <FormattedMessage id="every" />
+            </span> &nbsp;
             <Selection
               selectedItemChange={data => this.handleSelectedItemChange(data)}
               optionList={this.computedList}
@@ -137,8 +140,7 @@ class SubscriptionSelect extends Component {
                 this.props.checkoutStore.loginCartData
                   .filter(ele => ele.subscriptionStatus && ele.subscriptionPrice > 0)
                   .map((ele, i) => (
-                    <div className="imgBoxForSelect"
-                    >
+                    <div className="imgBoxForSelect">
                       <img className="width-sub-img  imgForSelect " style={{ display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
                     </div>
                   ))

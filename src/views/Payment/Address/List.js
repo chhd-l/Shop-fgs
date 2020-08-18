@@ -9,12 +9,14 @@ import {
 } from '@/api/address'
 import { queryCityNameById } from "@/api"
 import { getDictionary } from '@/utils/utils'
-import AddressForm from './AddressForm'
+import EditForm from './EditForm'
 import Loading from "@/components/Loading"
-import './loginDeliveryAddress.css'
+import './list.css'
 
-
-class LoginDeliveryAddress extends React.Component {
+/**
+ * address list(delivery/billing) - member
+ */
+class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery'
@@ -387,7 +389,7 @@ class LoginDeliveryAddress extends React.Component {
                   }
                   {/* add or edit address form */}
                   <fieldset className={`shipping-address-block rc-fieldset position-relative ${addOrEdit || loading ? '' : 'hidden'}`}>
-                    <AddressForm
+                    <EditForm
                       data={deliveryAddress}
                       updateData={data => this.updateDeliveryAddress(data)}
                     />
@@ -462,4 +464,4 @@ class LoginDeliveryAddress extends React.Component {
   }
 }
 
-export default injectIntl(LoginDeliveryAddress, { forwardRef: true })
+export default injectIntl(AddressList, { forwardRef: true })
