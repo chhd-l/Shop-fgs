@@ -1,18 +1,19 @@
 import React from "react";
 import { inject, observer } from 'mobx-react'
 import GoogleTagManager from '@/components/GoogleTagManager'
+import Skeleton from 'react-skeleton-loader'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import OxxoModal from "./modules/OxxoModal"
 import PayProductInfo from "./modules/PayProductInfo"
-import AddressPreview from "@/components/AddressPreview/index2";
+import AddressPreview from "./modules/AddressPreview";
 import Modal from '@/components/Modal'
 import { FormattedMessage } from 'react-intl'
 import { Link } from "react-router-dom"
 import successImg from "@/assets/images/credit-cards/success.png"
 import { find } from "lodash"
-import { addEvaluate } from "@/api/order"
-import store from 'storejs'
+import { queryCityNameById } from "@/api"
+import { addEvaluate, getOrderDetails, getPayRecord } from "@/api/order"
 import "./index.css"
 
 @inject("checkoutStore", "frequencyStore")
@@ -22,7 +23,6 @@ class Confirmation extends React.Component {
     super(props);
     this.state = {
       productList: [],
-      currentProduct: null,
       loading: true,
       paywithLogin: sessionStorage.getItem("rc-paywith-login") === "true",
       oxxoPayUrl: sessionStorage.getItem("oxxoPayUrl"),
@@ -34,13 +34,13 @@ class Confirmation extends React.Component {
       oxxoModalShow: false,
       operateSuccessModalVisible: false,
       errorMsg: "",
+      errorMsg2: "",
 
       subNumber: sessionStorage.getItem('subNumber'),
       orderNumber: sessionStorage.getItem('orderNumber'),
 
-      paymentInfo: sessionStorage.getItem("confirmation-info-payment")
-        ? JSON.parse(sessionStorage.getItem("confirmation-info-payment"))
-        : null
+      details: null,
+      payRecord: null
     };
     this.timer = null;
   }
@@ -65,6 +65,7 @@ class Confirmation extends React.Component {
       window.location.reload();
       return false;
     }
+    const { orderNumber } = this.state
     let productList;
     if (this.state.paywithLogin) {
       productList = this.props.checkoutStore.loginCartData;
@@ -75,16 +76,44 @@ class Confirmation extends React.Component {
     }
     this.setState({
       productList: productList,
-      loading: false
+      // loading: false
     });
     setTimeout(() => {
       if (this.state.oxxoPayUrl) {
         this.setState({ modalShow: false, oxxoModalShow: true });
       }
     }, 3000);
+
+    Promise.all([
+      getOrderDetails(orderNumber),
+      getPayRecord(orderNumber)
+    ]).then(async res => {
+      if (res[0]) {
+        let resContext = res[0].context
+        let cityRes = await queryCityNameById({ id: [resContext.consignee.cityId, resContext.invoice.cityId] })
+        cityRes = cityRes.context.systemCityVO || []
+        resContext.consignee.cityName = this.matchCityName(cityRes, resContext.consignee.cityId)
+        resContext.invoice.cityName = this.matchCityName(cityRes, resContext.invoice.cityId)
+        this.setState({
+          details: resContext
+        })
+      }
+      this.setState({
+        payRecord: res[1] && res[1].context,
+        loading: false
+      })
+    })
+      .catch(err => {
+        this.setState({
+          loading: false,
+          errorMsg2: err.toString()
+        })
+      })
   }
-  get tradePrice () {
-    return this.props.checkoutStore.tradePrice
+  matchCityName (dict, cityId) {
+    return dict.filter(c => c.id === cityId).length
+      ? dict.filter(c => c.id === cityId)[0].cityName
+      : cityId
   }
   matchNamefromDict (dictList, id) {
     return find(dictList, (ele) => ele.id == id)
@@ -133,40 +162,51 @@ class Confirmation extends React.Component {
   }
   render () {
     const {
-      productList,
-      loading
+      loading,
+      details
     } = this.state;
 
     let event;
     let eEvents;
     if (!loading) {
-      let products;
-      if (this.state.paywithLogin) {
-        products = productList.map((item) => {
-          return {
-            id: item.goodsInfoId,
-            name: item.goodsName,
-            price: item.salePrice,
-            brand: "Royal Canin",
-            category: item.goodsCategory,
-            quantity: item.buyCount,
-            variant: item.specText,
-          };
-        });
-      } else {
-        products = productList.map((item) => {
-          const selectedSize = item.sizeList.filter((s) => s.selected)[0];
-          return {
-            id: selectedSize.goodsInfoId,
-            name: item.goodsName,
-            price: selectedSize.salePrice,
-            brand: "Royal Canin",
-            category: item.goodsCategory,
-            quantity: item.quantity,
-            variant: selectedSize.specText,
-          };
-        });
-      }
+      let products = details.tradeItems.map(item => {
+        return {
+          id: item.skuId,
+          name: item.spuName,
+          price: item.price,
+          brand: "Royal Canin",
+          category: item.goodsCategory,
+          // todo
+          quantity: item.num,
+          variant: item.specDetails
+        }
+      })
+      // if (this.state.paywithLogin) {
+      //   products = productList.map((item) => {
+      //     return {
+      //       id: item.goodsInfoId,
+      //       name: item.goodsName,
+      //       price: item.salePrice,
+      //       brand: "Royal Canin",
+      //       category: item.goodsCategory,
+      //       quantity: item.buyCount,
+      //       variant: item.specText,
+      //     };
+      //   });
+      // } else {
+      //   products = productList.map((item) => {
+      //     const selectedSize = item.sizeList.filter((s) => s.selected)[0];
+      //     return {
+      //       id: selectedSize.goodsInfoId,
+      //       name: item.goodsName,
+      //       price: selectedSize.salePrice,
+      //       brand: "Royal Canin",
+      //       category: item.goodsCategory,
+      //       quantity: item.quantity,
+      //       variant: selectedSize.specText,
+      //     };
+      //   });
+      // }
       event = {
         page: {
           type: "Order Confirmation",
@@ -180,7 +220,7 @@ class Confirmation extends React.Component {
           purchase: {
             actionField: {
               id: this.state.orderNumber,
-              revenue: this.tradePrice
+              revenue: this.state.details.tradePrice.totalPrice
             },
             products
           }
@@ -238,9 +278,7 @@ class Confirmation extends React.Component {
                     </Link>
                 }
               </div>
-              <p
-                className={`rc-margin-top--sm ${this.state.subNumber ? 'text-left' : ''} ml-auto mr-auto`}
-                style={{ width: '25%' }}>
+              <p className={`rc-margin-top--sm order-number-box ${this.state.subNumber ? 'text-left' : ''} ml-auto mr-auto`}>
                 {
                   this.state.subNumber && <>
                     <b className="mb-3" style={{ display: 'inline-block' }}>
@@ -269,18 +307,25 @@ class Confirmation extends React.Component {
               </p>
 
             </div>
-            <div className="rc-max-width--xl rc-bottom-spacing imformation">
-              <div className="red mb-2"><FormattedMessage id="order.orderInformation" /></div>
-              <div className="product-summary rc-bg-colour--brand3 mb-4">
-                <PayProductInfo history={this.props.history}
-                  buyWay={this.props.frequencyStore.buyWay}
-                  frequencyName={this.props.frequencyStore.frequencyName}
-                />
-              </div>
-              <div className="red mb-2"><FormattedMessage id="confirmation.customerInformation" /></div>
-              <AddressPreview
-                info={this.state.paywithLogin ? store.get("loginDeliveryInfo") : store.get("deliveryInfo")}
-                paymentInfo={this.state.paymentInfo} />
+            <div className={`rc-max-width--xl rc-bottom-spacing imformation ${loading ? 'rc-bg-colour--brand3' : ''}`}>
+              {
+                loading
+                  ? <div className="p-3">
+                    <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
+                  </div>
+                  : this.state.errorMsg2
+                    ? this.state.errorMsg2
+                    : <>
+                      <div className="red mb-2"><FormattedMessage id="order.orderInformation" /></div>
+                      <div className="product-summary rc-bg-colour--brand3 mb-4 mt-0">
+                        <PayProductInfo details={this.state.details} />
+                      </div>
+                      <div className="red mb-2"><FormattedMessage id="confirmation.customerInformation" /></div>
+                      <AddressPreview
+                        details={this.state.details}
+                        payRecord={this.state.payRecord} />
+                    </>
+              }
             </div>
           </div>
         </main>

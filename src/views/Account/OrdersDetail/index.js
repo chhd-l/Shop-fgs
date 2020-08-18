@@ -118,7 +118,6 @@ class AccountOrders extends React.Component {
         cityRes = cityRes.context.systemCityVO || []
         resContext.consignee.cityName = this.matchCityName(cityRes, resContext.consignee.cityId)
         resContext.invoice.cityName = this.matchCityName(cityRes, resContext.invoice.cityId)
-        resContext =
           this.setState({
             details: resContext,
             loading: false,
@@ -276,7 +275,6 @@ class AccountOrders extends React.Component {
                                         ))
                                       }
                                     </ol>
-                                    <ol> </ol>
                                   </div>
                                   <hr className="rc-margin-top---none" />
                                 </>
