@@ -54,7 +54,6 @@ class Confirmation extends React.Component {
       ); // 只移除selected
       sessionStorage.removeItem("rc-token");
     }
-    sessionStorage.removeItem('confirmation-info-payment')
     sessionStorage.removeItem('orderNumber')
     sessionStorage.removeItem('subNumber')
     sessionStorage.removeItem('oxxoPayUrl')
