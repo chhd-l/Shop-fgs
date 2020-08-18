@@ -137,7 +137,7 @@ const App = () => (
               
               <Route exact path="/help" component={Help} />
               <Route exact path="/FAQ" component={FAQ} />
-              <Route exact path="/Recommendation" component={Recommendation} />
+              <Route exact path="/recommendation" component={Recommendation} />
               
               <Route exact path="/termuse" component={TermUse} />
               <Route exact path="/privacypolicy" component={PrivacyPolicy} />

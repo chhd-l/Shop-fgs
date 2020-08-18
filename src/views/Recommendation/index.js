@@ -96,7 +96,7 @@ class Help extends React.Component {
           <section className="recommendProduct">
             <div className="recommendProductInner">
               <div className="left">
-                <div style={{padding: '32px'}}>
+                <div style={{padding: '32px', textAlign: 'center', fontWeight: '500'}}>
                   Recommendation Package
                 </div>
                 <ul>
@@ -105,6 +105,17 @@ class Help extends React.Component {
                     <span>Renal Dry</span>
                   </li>
                   <li></li>
+                  <p style={{marginTop: '60px'}}>
+                  <button class="rc-btn rc-btn--one">Buy now</button>
+                  </p>
+                  <p>
+                  <button
+                    className={`rc-styled-link color-999`}
+                  >
+                    <FormattedMessage id="Buy as a guest" />
+                  </button>
+                  </p>
+                  
                 </ul>
               </div>
               <div className="right">
@@ -130,7 +141,7 @@ class Help extends React.Component {
                     Renal + hypoallergenic is a complete dietetic food for adult dogs, formulated to support renal function during chronic kidney disease and intended for the reduction of intolerances to certain ingredients…
                   </p>
                   <p>
-                    <button class="rc-btn rc-btn--one">View in cart</button>
+                    <button class="rc-btn rc-btn--two">View Detail</button>
                   </p>
                   </div>
                   
@@ -158,7 +169,7 @@ class Help extends React.Component {
               </div>
             </div>
           </section>
-          
+
           <div class="rc-layout-container rc-two-column" style={{padding: '68px'}}>
             <div class="rc-column" style={{display: 'flex',alignItems: 'center', justifyContent: 'center'}}>
               <div>
@@ -302,9 +313,9 @@ Follow your veterinarian's nutritional recommendation here below.
             <p>
               Your pet means the world to you, and their health and happiness means the world to us ! 
             </p>
-            <p>
+            {/* <p>
               <button class="rc-btn rc-btn--one">View in cart</button>
-            </p>
+            </p> */}
           </section>
           <section className="picList" style={{textAlign: 'center', display: 'flex'}}>
             <li><img src={recommendation2}/></li>

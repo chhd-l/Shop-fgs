@@ -9,7 +9,7 @@
   border-right: 2px solid #f6f6f6 ;
 }
 .recommendProduct .right {
-  flex: 6;
+  flex: 4;
 }
 .recommendProductInner {
   width: 100%;
