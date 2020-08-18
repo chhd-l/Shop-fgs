@@ -24,7 +24,6 @@ class SubscriptionSelect extends Component {
     }
   }
   async componentDidMount () {
-    console.log(this.props.intl.messages.every, 'this.props.intl.messages.every')
     getMarketingDiscount({
       totalAmount: this.props.checkoutStore.loginCartData
         .filter(ele => ele.subscriptionStatus && ele.subscriptionPrice > 0)
