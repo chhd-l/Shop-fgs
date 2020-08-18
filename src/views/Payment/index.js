@@ -8,9 +8,9 @@ import Footer from "@/components/Footer";
 import Progress from "@/components/Progress";
 import PayProductInfo from "@/components/PayProductInfo";
 import Loading from "@/components/Loading";
-import UnloginDeliveryAddress from "./modules/UnloginDeliveryAddress";
-import LoginDeliveryAddress from "./modules/LoginDeliveryAddress";
-import BillingAddressForm from "./modules/BillingAddressForm";
+import VisitorDeliveryAddress from "./Address/VisitorDeliveryAddress";
+import AddressList from "./Address/List";
+import VisitorBillingAddress from "./Address/VisitorBillingAddress";
 import SubscriptionSelect from "./SubscriptionSelect";
 import ClinicForm from "./modules/ClinicForm";
 import AddressPreview from "@/components/AddressPreview";
@@ -1435,12 +1435,12 @@ class Payment extends React.Component {
                           <ClinicForm history={this.props.history} />
                           <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
                             {this.isLogin ? (
-                              <LoginDeliveryAddress
+                              <AddressList
                                 id="1"
                                 ref={this.loginDeliveryAddressRef}
                               />
                             ) : (
-                                <UnloginDeliveryAddress
+                                <VisitorDeliveryAddress
                                   data={deliveryAddress}
                                   updateData={(data) => {
                                     this.setState({
@@ -1524,14 +1524,14 @@ class Payment extends React.Component {
                                 </h5>
                               </div>
                               {this.isLogin ? (
-                                <LoginDeliveryAddress
+                                <AddressList
                                   id="2"
                                   type="billing"
                                   ref={this.loginBillingAddressRef}
                                   visible={!this.state.billingChecked}
                                 />
                               ) : (
-                                  <BillingAddressForm
+                                  <VisitorBillingAddress
                                     data={billingAddress}
                                     billingChecked={this.state.billingChecked}
                                     updateData={(data) => {
