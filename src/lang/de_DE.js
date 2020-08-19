@@ -580,6 +580,7 @@ const en_US = {
 
   'biliingAddressSameAs': 'Rechnungsadresse ist gleich Lieferadresse',
   'deleteAddressTip': 'Diese Adresse wurde bereits abonniert und kann daher nicht gelöscht werden.',
+  'deleteCardTip': 'Diese Kreditkarte wurde bereits abonniert und kann daher nicht gelöscht werden.',
   'examplePostCode': '50678',
   'examplePhone': '+49 30 901820',
   'inTheBasket': 'im Warenkorb',

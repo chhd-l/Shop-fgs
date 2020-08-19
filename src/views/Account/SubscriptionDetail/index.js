@@ -1247,7 +1247,7 @@ class SubscriptionDetail extends React.Component {
                             </div>
                             <div className="flex-layout mgt20">
                               <label className="saveDiscount ">
-                                <FormattedMessage id="subscription.totalInclu"></FormattedMessage>
+                                <FormattedMessage id="totalIncluIVA"></FormattedMessage>
                                   :
                                 </label>
                               <div className="text-right">
