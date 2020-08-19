@@ -68,7 +68,7 @@ class HeroCarousel extends React.Component {
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
-      autoplay: true,
+      autoplay: false,
       pauseOnHover: true,
       lazyLoad: true,
       adaptiveHeight: true,
@@ -76,12 +76,23 @@ class HeroCarousel extends React.Component {
       prevArrow: <SamplePrevArrow />,
       dotsClass: "dots-custom"
     };
-    const videoJSX = url => {
+    const videoJSX = el => {
       return (<>
         <div className="hero-carousel__slide__video">
           <video autoPlay={true} muted={true} loop={true} id="myVideo">
-            <source src={url} type="video/mp4" />
+            <source src={el.webUrl} type="video/mp4" />
           </video>
+          {el.mobiSkipUrl
+            ? <a className="h-100 mobileBanner" href={el.mobiSkipUrl}>
+              <img
+                className="w-100"
+                src={el.mobiUrl}
+                style={{ maxHeight: '100%' }} />
+            </a>
+            : <img
+              className="w-100"
+              src={el.mobiUrl}
+              style={{ maxHeight: '100%' }} />}
         </div>
         <div className="hero-carousel__slide__content">
           <div className="rc-gamma inherit-fontsize">
@@ -151,7 +162,7 @@ class HeroCarousel extends React.Component {
                 <div className="hero-carousel__slide">
                   <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
                     {el.isVideo && el.isVideo === '1'
-                      ? videoJSX(el.webUrl)
+                      ? videoJSX(el)
                       : <>
                         {el.webSkipUrl
                           ? <a className="h-100" href={el.webSkipUrl}>
