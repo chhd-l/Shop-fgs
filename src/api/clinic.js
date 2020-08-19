@@ -53,7 +53,7 @@ export function getPrescriberByCode (parameter) {
 
 export function getPrescriberByEncryptCode (parameter) {
   return axios({
-    url: `${api.getPrescriberByCode}`,
+    url: `${api.getPrescriberByEncryptCode}`,
     method: 'post',
     data: parameter
   })

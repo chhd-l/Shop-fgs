@@ -1341,7 +1341,7 @@ class SubscriptionDetail extends React.Component {
                       </div>
                       <hr class="rc-margin-top---none" />
                       {/*footer*/}
-                      <div class="row ml-2 mr-2 text-left">
+                      <div class="row ml-2 mr-2 text-left text-break">
                         <div class="col-12 col-md-4 mb-2">
                           <div className="d-flex align-items-center">
                             <i className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" />
