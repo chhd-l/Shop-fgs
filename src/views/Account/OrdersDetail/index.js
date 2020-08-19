@@ -12,6 +12,7 @@ import { formatMoney, getDictionary } from "@/utils/utils"
 import { find, findIndex } from 'lodash'
 import { queryCityNameById } from "@/api"
 import { getOrderDetails, cancelOrder, getPayRecord, returnFindByTid } from "@/api/order"
+import { getSubDetail } from "@/api/subscription"
 import {
   IMG_DEFAULT,
   ORDER_STATUS_ENUM,
@@ -25,6 +26,7 @@ class AccountOrders extends React.Component {
     super(props)
     this.state = {
       orderNumber: '',
+      subNumber: '',
       details: null,
       payRecord: null,
       loading: true,
@@ -118,25 +120,38 @@ class AccountOrders extends React.Component {
         cityRes = cityRes.context.systemCityVO || []
         resContext.consignee.cityName = this.matchCityName(cityRes, resContext.consignee.cityId)
         resContext.invoice.cityName = this.matchCityName(cityRes, resContext.invoice.cityId)
+        this.setState({
+          details: resContext,
+          loading: false,
+          currentProgerssIndex: tmpIndex,
+          progressList: progressList,
+          defaultLocalDateTime: res.defaultLocalDateTime
+        })
+        // 查询支付卡号信息
+        if (resContext.subscriptionResponseVO) {
           this.setState({
-            details: resContext,
-            loading: false,
-            currentProgerssIndex: tmpIndex,
-            progressList: progressList,
-            defaultLocalDateTime: res.defaultLocalDateTime
+            subNumber: resContext.subscriptionResponseVO.subscribeId
+          }, () => {
+            getSubDetail(this.state.subNumber)
+              .then(subRes => {
+                this.setState({
+                  payRecord: subRes.context.paymentInfo
+                })
+              })
           })
+        } else {
+          getPayRecord(orderNumber)
+            .then(res => {
+              this.setState({
+                payRecord: res.context
+              })
+            })
+        }
       })
       .catch(err => {
         this.setState({
           loading: false,
           errMsg: err.toString()
-        })
-      })
-
-    getPayRecord(orderNumber)
-      .then(res => {
-        this.setState({
-          payRecord: res.context
         })
       })
   }
@@ -286,9 +301,9 @@ class AccountOrders extends React.Component {
                                   ? <div>
                                     <FormattedMessage id="subscription.numberFirstWordUpperCase" />:<br />
                                     <Link
-                                      to={`/account/subscription-detail/${details.subscriptionResponseVO.subscribeId}`}
+                                      to={`/account/subscription-detail/${this.state.subNumber}`}
                                       className="rc-meta rc-styled-link medium mb-0">
-                                      {details.subscriptionResponseVO.subscribeId}
+                                      {this.state.subNumber}
                                     </Link>
                                   </div>
                                   : null
@@ -440,10 +455,24 @@ class AccountOrders extends React.Component {
                                               : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                                           } />
                                         {payRecord.last4Digits
-                                          ? <><span className="medium">********{payRecord.last4Digits}</span><br /></>
+                                          ? <>
+                                            <span className="medium">********{payRecord.last4Digits}</span><br />
+                                          </>
+                                          : payRecord.cardNumber
+                                            ? <>
+                                              <span className="medium">{payRecord.cardNumber}</span><br />
+                                            </>
+                                            : null}
+                                        {payRecord.accountName || payRecord.cardOwner
+                                          ? <>
+                                            {payRecord.accountName || payRecord.cardOwner}<br />
+                                          </>
                                           : null}
-                                        {payRecord.accountName ? <>{payRecord.accountName}<br /></> : null}
-                                        {payRecord.phone ? <>{payRecord.phone}<br /></> : null}
+                                        {payRecord.phone || payRecord.phoneNumber
+                                          ? <>
+                                            {payRecord.phone || payRecord.phoneNumber}<br />
+                                          </>
+                                          : null}
                                         {payRecord.email}
                                       </div>
                                     </>

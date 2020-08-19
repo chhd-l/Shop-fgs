@@ -55,10 +55,24 @@ class InfosPreview extends React.Component {
                     : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                 } />
               {payRecord.last4Digits
-                ? <><span className="medium">********{payRecord.last4Digits}</span><br /></>
+                ? <>
+                  <span className="medium">********{payRecord.last4Digits}</span><br />
+                </>
+                : payRecord.cardNumber
+                  ? <>
+                    <span className="medium">{payRecord.cardNumber}</span><br />
+                  </>
+                  : null}
+              {payRecord.accountName || payRecord.cardOwner
+                ? <>
+                  {payRecord.accountName || payRecord.cardOwner}<br />
+                </>
                 : null}
-              {payRecord.accountName ? <>{payRecord.accountName}<br /></> : null}
-              {payRecord.phone ? <>{payRecord.phone}<br /></> : null}
+              {payRecord.phone || payRecord.phoneNumber
+                ? <>
+                  {payRecord.phone || payRecord.phoneNumber}<br />
+                </>
+                : null}
               {payRecord.email}
             </div>
             : null

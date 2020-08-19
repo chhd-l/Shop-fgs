@@ -14,6 +14,7 @@ import successImg from "@/assets/images/credit-cards/success.png"
 import { find } from "lodash"
 import { queryCityNameById } from "@/api"
 import { addEvaluate, getOrderDetails, getPayRecord } from "@/api/order"
+import { getSubDetail } from "@/api/subscription";
 import "./index.css"
 
 @inject("checkoutStore", "frequencyStore")
@@ -64,7 +65,7 @@ class Confirmation extends React.Component {
       window.location.reload();
       return false;
     }
-    const { orderNumber } = this.state
+    const { orderNumber, subNumber } = this.state
     let productList;
     if (this.state.paywithLogin) {
       productList = this.props.checkoutStore.loginCartData;
@@ -85,7 +86,7 @@ class Confirmation extends React.Component {
 
     Promise.all([
       getOrderDetails(orderNumber),
-      getPayRecord(orderNumber)
+      subNumber ? getSubDetail(subNumber) : getPayRecord(orderNumber)
     ]).then(async res => {
       if (res[0]) {
         let resContext = res[0].context
@@ -97,8 +98,14 @@ class Confirmation extends React.Component {
           details: resContext
         })
       }
+      let tmpPayRecord
+      if (subNumber) {
+        tmpPayRecord = res[1] && res[1].context.paymentInfo
+      } else {
+        tmpPayRecord = res[1] && res[1].context
+      }
       this.setState({
-        payRecord: res[1] && res[1].context,
+        payRecord: tmpPayRecord,
         loading: false
       })
     })
