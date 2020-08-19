@@ -25,78 +25,7 @@ class PayProductInfo extends React.Component {
       this.setState({
         frequencyList: [...dictList[0], ...dictList[1]]
       })
-<<<<<<< HEAD
-    } else {
-      if (this.isLogin) {
-        productList = this.props.checkoutStore.loginCartData
-      } else {
-        productList = this.props.checkoutStore.cartData.filter(ele => ele.selected)
-      }
-    }
-
-    this.setState(Object.assign({
-      productList: productList || []
-    }));
-  }
-  get totalPrice () {
-    return this.props.checkoutStore.totalPrice
-  }
-  get tradePrice () {
-    return this.props.checkoutStore.tradePrice
-  }
-  get discountPrice () {
-    return this.props.checkoutStore.discountPrice
-  }
-  get deliveryPrice () {
-    return this.props.checkoutStore.deliveryPrice
-  }
-  get subscriptionPrice () {
-    return this.props.checkoutStore.subscriptionPrice
-  }
-  get promotionDesc () {
-    return this.props.checkoutStore.promotionDesc
-  }
-  getProducts (plist) {
-    const List = plist.map((el, i) => {
-      let selectedSizeItem = el.sizeList.filter((item) => item.selected)[0];
-      return (
-        <div className="product-summary__products__item" key={i}>
-          <div className="product-line-item">
-            <div className="product-line-item-details d-flex flex-row">
-              <div className="item-image">
-                <img className="product-image" src={find(el.sizeList, s => s.selected).goodsInfoImg} />
-              </div>
-              <div className="wrap-item-title">
-                <div className="item-title">
-                  <div
-                    className="line-item-name ui-text-overflow-line2 text-break"
-                    title={el.goodsName}>
-                    <span className="light">{el.goodsName}</span>
-                  </div>
-                </div>
-                <div className="line-item-total-price justify-content-start pull-left">
-                  <div className="item-attributes">
-                    <p className="line-item-attributes">
-                      {selectedSizeItem.specText} - {el.quantity > 1 ? <FormattedMessage id="items" values={{ val: el.quantity }}/> : <FormattedMessage id="item" values={{ val: el.quantity }}/>}
-                    </p>
-                  </div>
-                </div>
-                <div className="line-item-total-price justify-content-end pull-right">
-                  <div>
-                    {formatMoney(el.currentAmount)}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="item-options"></div>
-          </div>
-        </div>
-      );
-    });
-    return List;
-=======
     })
->>>>>>> f6d6a744272a642a0fb1dac64295a352ea6f8dc0
   }
   matchNamefromDict (dictList, id) {
     return find(dictList, ele => ele.id == id)
@@ -126,11 +55,7 @@ class PayProductInfo extends React.Component {
                 </div>
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="line-item-total-price" style={{ width: '77%' }}>
-<<<<<<< HEAD
-                    {el.specText} - {el.buyCount > 1 ? <FormattedMessage id="items" values={{ val: el.buyCount }}/> : <FormattedMessage id="item" values={{ val: el.buyCount }}/>}<br />
-=======
-                    {item.specDetails} - {item.num} {item.num > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />} {item.num}<br />
->>>>>>> f6d6a744272a642a0fb1dac64295a352ea6f8dc0
+                    {item.specDetails} - {item.num > 1 ? <FormattedMessage id="items" values={{ val: item.num }}/> : <FormattedMessage id="item" values={{ val: item.num }}/>}<br />
                     {
                       details.subscriptionResponseVO && item.subscriptionStatus
                         ? <>
