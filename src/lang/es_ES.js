@@ -154,6 +154,7 @@ const en_US = {
   'deleteAddressFailed': 'Eliminar dirección fallida',
   'deleteAddressSuccess': 'Eliminar dirección correcta',
   'deleteAddressTip': 'Lo sentimos, esta dirección ya está sujeta a una suscripción, por lo que no se puede eliminar.',
+  'deleteCardTip': 'Lo sentimos, esta tarjeta de crédito ya ha estado sujeta a una suscripción, por lo que no se puede eliminar.',
   'delivery': 'Envío',
   'delivery2': 'ENTREGA',
   'deliveryAddress': 'Dirección de entrega',

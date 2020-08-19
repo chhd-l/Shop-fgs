@@ -150,6 +150,7 @@ const en_US = {
   deleteAddressFailed: "Delete Address Failed",
   deleteAddressSuccess: "Delete Address Success",
   'deleteAddressTip': 'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
+  'deleteCardTip': 'Sorry, this credit card has already been subject to a subscription, so it cannot be deleted.',
   delivery: "delivery",
   delivery2: "DELIVERY",
   deliveryAddress: "Delivery Address",
