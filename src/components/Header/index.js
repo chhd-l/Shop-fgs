@@ -42,7 +42,7 @@ class Header extends React.Component {
     this.hanldeSearchClick = this.hanldeSearchClick.bind(this)
     this.hanldeSearchCloseClick = this.hanldeSearchCloseClick.bind(this)
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this)
-    this.toggleMenu = this.toggleMenu.bind(this)
+
     this.gotoDetails = this.gotoDetails.bind(this)
     // this.clickLogin = this.clickLogin.bind(this)
     this.clickLogoff = this.clickLogoff.bind(this)
@@ -413,22 +413,7 @@ class Header extends React.Component {
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align" role="menubar">
               {this.props.showMiniIcons ?
                 <li className="rc-list__item">
-                  <button
-                    className="rc-btn rc-btn--icon-label rc-icon rc-menu--xs rc-iconography rc-md-up"
-                    aria-label="Menu"
-                    id="J-btn-menu"
-                    ref={this.menuBtnRef}
-                    onClick={this.toggleMenu}>
-                    <FormattedMessage id="menu" />
-                  </button>
-                  <button
-                    className={['rc-btn', 'rc-btn--icon', 'rc-icon', 'rc-menu--xs', 'rc-iconography', 'rc-md-down', this.state.showMegaMenu ? 'btn-close' : ''].join(' ')}
-                    aria-label="Menu"
-                    onClick={this.toggleMenu}>
-                    <span className="rc-screen-reader-text">
-                      <FormattedMessage id="menu" />
-                    </span>
-                  </button>
+                    <MegaMenu  />
                 </li> : null}
             </ul>
 
@@ -717,7 +702,6 @@ class Header extends React.Component {
             </div>
           </div>
           {this.state.loading ? <Loading /> : null}
-          <MegaMenu show={this.state.showMegaMenu} />
         </header>
         {this.renderClinic()}
       </>

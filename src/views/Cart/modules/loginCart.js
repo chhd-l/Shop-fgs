@@ -115,36 +115,40 @@ class LoginCart extends React.Component {
     await this.updateCartCache()
   }
   async handleCheckout () {
-    const { productList } = this.state
-    this.setState({ checkoutLoading: true })
-    await this.updateCartCache()
-    this.setState({ checkoutLoading: false })
-    // 价格未达到底限，不能下单
-    if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-      window.scrollTo({ behavior: "smooth", top: 0 })
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />)
-      return false
-    }
+    try {
+      const { productList } = this.state
+      this.setState({ checkoutLoading: true })
+      await this.updateCartCache()
+      this.setState({ checkoutLoading: false })
+      // 价格未达到底限，不能下单
+      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrMsg(<FormattedMessage id="cart.errorInfo3" values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }} />)
+        return false
+      }
 
-    // 存在下架商品，不能下单
-    if (this.props.checkoutStore.offShelvesProNames.length) {
-      window.scrollTo({ behavior: "smooth", top: 0 })
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo4"
-        values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />)
-      return false
-    }
+      // 存在下架商品，不能下单
+      if (this.props.checkoutStore.offShelvesProNames.length) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrMsg(<FormattedMessage id="cart.errorInfo4"
+          values={{ val: this.props.checkoutStore.offShelvesProNames.join('/') }} />)
+        return false
+      }
 
-    // 库存不够，不能下单
-    if (this.props.checkoutStore.outOfstockProNames.length) {
-      window.scrollTo({ behavior: "smooth", top: 0 })
-      this.showErrMsg(<FormattedMessage id="cart.errorInfo2"
-        values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />)
-      return false
-    }
+      // 库存不够，不能下单
+      if (this.props.checkoutStore.outOfstockProNames.length) {
+        window.scrollTo({ behavior: "smooth", top: 0 })
+        this.showErrMsg(<FormattedMessage id="cart.errorInfo2"
+          values={{ val: this.props.checkoutStore.outOfstockProNames.join('/') }} />)
+        return false
+      }
 
-    this.checkoutStore.setLoginCartData(productList)
-    // this.openPetModal()
-    this.props.history.push('/prescription')
+      this.checkoutStore.setLoginCartData(productList)
+      // this.openPetModal()
+      this.props.history.push('/prescription')
+    } catch (err) {
+      this.setState({ checkoutLoading: false })
+    }
   }
   openPetModal () {
     this.setState({
@@ -388,7 +392,7 @@ class LoginCart extends React.Component {
               <div className="flex justify-content-between rc-md-up">
                 <div>
                   {
-                    pitem.subscriptionStatus
+                    pitem.subscriptionStatus && pitem.subscriptionPrice > 0
                       ? <>
                         <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.9em' }}>&#xe675;</span>
                         <FormattedMessage id="autoshop" />
@@ -460,7 +464,7 @@ class LoginCart extends React.Component {
             <div className="flex justify-content-between flex-wrap">
               <div>
                 {
-                  pitem.subscriptionStatus
+                  pitem.subscriptionStatus && pitem.subscriptionPrice > 0
                     ? <>
                       <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.9em' }}>&#xe675;</span>
                       <FormattedMessage id="details.Subscription" />

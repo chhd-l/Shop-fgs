@@ -79,15 +79,15 @@ class Footer extends React.Component {
     }
     const requestInvoiceJSX = {
       es: <li className="rc-list__item">
-      <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/requestinvoice" role="menuitem">
-        <FormattedMessage id="footer.RequestInvoice" />
-      </Link>
-      </li> ,
+        <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/requestinvoice" role="menuitem">
+          <FormattedMessage id="footer.RequestInvoice" />
+        </Link>
+      </li>,
       en: <li className="rc-list__item">
-      <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/requestinvoice" role="menuitem">
-        <FormattedMessage id="footer.RequestInvoice" />
-      </Link>
-      </li> ,
+        <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/requestinvoice" role="menuitem">
+          <FormattedMessage id="footer.RequestInvoice" />
+        </Link>
+      </li>,
       de: null
     }
 
@@ -128,17 +128,26 @@ class Footer extends React.Component {
                         </a>
                       </li>
                       <li className="rc-list__item">
-                        <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.royalcanin.com/mx/about-us/our-values" role="menuitem">
+                        <a
+                          className="rc-list__link text-decoration-none color-f6f6f6"
+                          href={this.props.configStore.ourValues || 'https://www.royalcanin.com/mx/about-us/our-values'}
+                          role="menuitem">
                           <FormattedMessage id="footer.ourValues" />
                         </a>
                       </li>
                       <li className="rc-list__item">
-                        <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.royalcanin.com/mx/about-us/quality-and-food-safety" role="menuitem">
+                        <a
+                          className="rc-list__link text-decoration-none color-f6f6f6"
+                          href={this.props.configStore.qualityAndSafety || 'https://www.royalcanin.com/mx/about-us/quality-and-food-safety'}
+                          role="menuitem">
                           <FormattedMessage id="footer.qualityAndSafety" />
                         </a>
                       </li>
                       <li className="rc-list__item">
-                        <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.royalcanin.com/mx/tailored-nutrition" role="menuitem">
+                        <a
+                          className="rc-list__link text-decoration-none color-f6f6f6"
+                          href={this.props.configStore.specificNutrition || 'https://www.royalcanin.com/mx/tailored-nutrition'}
+                          role="menuitem">
                           <FormattedMessage id="footer.healthAndNutrition" />
                         </a>
                       </li>
@@ -180,7 +189,7 @@ class Footer extends React.Component {
                           <FormattedMessage id="footer.FAQ" />
                         </Link>
                       </li>
-                                        {requestInvoiceJSX[process.env.REACT_APP_LANG]}
+                      {requestInvoiceJSX[process.env.REACT_APP_LANG]}
                     </ul>
                   </li>
                   <li className="rc-list__item rc-list__item--group rc-full-width">
@@ -196,7 +205,9 @@ class Footer extends React.Component {
                         </Link>
                       </li>
                       <li className="rc-list__item">
-                        <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.mars.com/global/policies/note-to-parents/np-spanish" role="menuitem">
+                        <a
+                          className="rc-list__link text-decoration-none color-f6f6f6"
+                          href={this.props.configStore.informationForParents} role="menuitem">
                           <FormattedMessage id="footer.informationForParents" />
                         </a>
                       </li>
@@ -206,7 +217,10 @@ class Footer extends React.Component {
                         </Link>
                       </li>
                       <li className="rc-list__item">
-                        <a className="rc-list__link text-decoration-none color-f6f6f6" href="https://www.mars.com/cookies-spain" role="menuitem">
+                        <a
+                          className="rc-list__link text-decoration-none color-f6f6f6"
+                          href={this.props.configStore.cookiesUrl || 'https://www.mars.com/cookies-spain'}
+                          role="menuitem">
                           <FormattedMessage id="footer.cookieCollectionPolicy" />
                         </a>
                       </li>

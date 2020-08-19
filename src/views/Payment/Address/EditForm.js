@@ -5,7 +5,10 @@ import Selection from '@/components/Selection'
 import CitySearchSelection from "@/components/CitySearchSelection"
 import { getDictionary } from '@/utils/utils'
 
-export default class AddressForm extends React.Component {
+/**
+ * add/edit address form - member/visitor
+ */
+export default class EditForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {

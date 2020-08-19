@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import Selection from '@/components/Selection'
 import { getDictionary, formatMoney } from "@/utils/utils";
 import { getMarketingDiscount } from "@/api/payment";
-import './SubscriptionSelect.css'
+import './index.css'
+
+@injectIntl
 @inject("checkoutStore", "frequencyStore")
 @observer
 class SubscriptionSelect extends Component {
@@ -24,10 +26,11 @@ class SubscriptionSelect extends Component {
   async componentDidMount () {
     getMarketingDiscount({
       totalAmount: this.props.checkoutStore.loginCartData
-        .filter(ele => ele.subscriptionStatus)
+        .filter(ele => ele.subscriptionStatus && ele.subscriptionPrice > 0)
         .reduce((total, item) => total + item.subscriptionPrice, 0),
       goodsInfoIds: this.props.checkoutStore.loginCartData
-        .filter(ele => ele.subscriptionStatus).map(ele => ele.goodsInfoId)
+        .filter(ele => ele.subscriptionStatus && ele.subscriptionPrice > 0)
+        .map(ele => ele.goodsInfoId)
     })
       .then(res => {
         this.setState({
@@ -121,6 +124,9 @@ class SubscriptionSelect extends Component {
             </span>
           </label>
           <div style={{ marginLeft: '5%' }} className="d-flex align-items-center">
+            <span className="position-relative" style={{ top: '-2px' }}>
+              <FormattedMessage id="every" />
+            </span> &nbsp;
             <Selection
               selectedItemChange={data => this.handleSelectedItemChange(data)}
               optionList={this.computedList}
@@ -131,11 +137,10 @@ class SubscriptionSelect extends Component {
             <span className="ml-2 d-flex align-items-center flex-wrap">
               {
                 this.props.checkoutStore.loginCartData
-                  .filter(ele => ele.subscriptionStatus)
+                  .filter(ele => ele.subscriptionStatus && ele.subscriptionPrice > 0)
                   .map((ele, i) => (
-                    <div className="imgBoxForSelect"
-                    >
-                    <img className="width-sub-img  imgForSelect " style={{ display: 'inline-block'}} key={i} src={ele.goodsInfoImg} />
+                    <div className="imgBoxForSelect">
+                      <img className="width-sub-img  imgForSelect " style={{ display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
                     </div>
                   ))
               }

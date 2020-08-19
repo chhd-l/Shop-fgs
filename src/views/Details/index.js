@@ -21,7 +21,7 @@ import { sitePurchase } from "@/api/cart";
 import { getDict } from "@/api/dict";
 import "./index.css";
 
-@inject("checkoutStore", "loginStore")
+@inject("checkoutStore", "loginStore", "headerCartStore")
 @injectIntl
 @observer
 class Details extends React.Component {
@@ -468,9 +468,9 @@ class Details extends React.Component {
         ].join("/"),
       });
       await this.checkoutStore.updateLoginCart();
-      this.headerRef.current && this.headerRef.current.handleCartMouseOver();
+      this.props.headerCartStore.show()
       setTimeout(() => {
-        this.headerRef.current && this.headerRef.current.handleCartMouseOut();
+        this.props.headerCartStore.hide()
       }, 1000);
       this.setState({ addToCartLoading: false });
       if (redirect) {
@@ -666,10 +666,10 @@ class Details extends React.Component {
         history.push("/prescription");
       }
     }
-    // todo 改为mobx
-    this.headerRef.current && this.headerRef.current.handleCartMouseOver();
+
+    this.props.headerCartStore.show()
     setTimeout(() => {
-      this.headerRef.current && this.headerRef.current.handleCartMouseOut();
+      this.props.headerCartStore.hide()
     }, 1000);
   }
   changeTab (e, i) {
@@ -886,9 +886,10 @@ class Details extends React.Component {
                                       </div>
                                     </>
                                   )}
-                                  {find(details.sizeList, (s) => s.selected) &&
-                                    find(details.sizeList, (s) => s.selected)
-                                      .subscriptionStatus ? (
+                                  {find(details.sizeList, (s) => s.selected)
+                                    && find(details.sizeList, (s) => s.selected).subscriptionStatus
+                                    && currentSubscriptionPrice > 0
+                                    ? (
                                       <>
                                         {!initing && (
                                           <div className="product-pricing__card__head d-flex align-items-center">
@@ -908,7 +909,7 @@ class Details extends React.Component {
                                                 }}
                                               >
                                                 i
-                                          </span>
+                                            </span>
                                               <ConfirmTooltip
                                                 arrowStyle={{ left: "35%" }}
                                                 display={this.state.toolTipVisible}
@@ -1192,11 +1193,7 @@ class Details extends React.Component {
                                     </div>
                                   </div>
                                 </div>
-                                <div
-                                  className={`text-break ${
-                                    this.state.checkOutErrMsg ? "" : "hidden"
-                                    }`}
-                                >
+                                <div className={`text-break ${this.state.checkOutErrMsg ? "" : "hidden"}`}>
                                   <aside
                                     className="rc-alert rc-alert--error rc-alert--with-close"
                                     role="alert"
@@ -1213,13 +1210,13 @@ class Details extends React.Component {
                           </div>
                           {/* 未登录的时候,只有这种显示了订阅信息的商品底部才显示Subscription is possible only after registration这句话 */}
                           {!this.isLogin &&
-                            find(details.sizeList, (s) => s.selected) &&
                             find(details.sizeList, (s) => s.selected)
-                              .subscriptionStatus ? (
-                              <div style={{ textAlign: "center" }}>
-                                <FormattedMessage id="unLoginSubscriptionTips" />
-                              </div>
-                            ) : null}
+                            && find(details.sizeList, (s) => s.selected).subscriptionStatus
+                            && currentSubscriptionPrice > 0
+                            ? <div className="text-center">
+                              <FormattedMessage id="unLoginSubscriptionTips" />
+                            </div>
+                            : null}
                         </div>
                       </div>
                     </div>

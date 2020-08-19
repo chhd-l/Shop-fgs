@@ -22346,7 +22346,7 @@ tr.rc-table__row.inactive td:after {
   animation: swing 1.5s ease-in-out alternate infinite
 }
 .ui-cursor-pointer-pure {
-  cursor: pointer;
+  cursor: pointer!important;
 }
 .ui-cursor-pointer {
   cursor: pointer;

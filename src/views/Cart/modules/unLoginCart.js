@@ -233,13 +233,11 @@ class UnLoginCart extends React.Component {
     }
   }
   deleteProduct (item) {
-    // debugger
     let { currentProductIdx, productList } = this.state
     item.confirmTooltipVisible = false
-    let newProductList = cloneDeep((productList || []).filter(el => el))
-    newProductList.splice(currentProductIdx, 1)
+    productList.splice(currentProductIdx, 1)
     this.setState({
-      productList: newProductList
+      productList: productList
     }, () => {
       this.updateStock()
     })
@@ -404,6 +402,7 @@ class UnLoginCart extends React.Component {
                 <div>
                   {
                     find(pitem.sizeList, s => s.selected).subscriptionStatus
+                      && find(pitem.sizeList, s => s.selected).subscriptionPrice > 0
                       ? <>
                         <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.9em' }}>&#xe675;</span>
                         <FormattedMessage id="autoshop" />
@@ -476,6 +475,7 @@ class UnLoginCart extends React.Component {
               <div>
                 {
                   find(pitem.sizeList, s => s.selected).subscriptionStatus
+                    && find(pitem.sizeList, s => s.selected).subscriptionPrice > 0
                     ? <>
                       <span className="iconfont font-weight-bold red mr-1" style={{ fontSize: '.9em' }}>&#xe675;</span>
                       <FormattedMessage id="details.Subscription" />
@@ -729,10 +729,11 @@ class UnLoginCart extends React.Component {
                       })}
                       {this.sideCart()}
                     </div>
-                    {this.state.productList.some(
-                      (item) => item.subscriptionStatus
-                    ) ? (
-                        <div style={{ fontSize: "15px", textAlign: 'center' }}>
+                    {this.state.productList.some(el => {
+                      const selectedItem = el.sizeList.filter(s => s.selected)[0];
+                      return selectedItem.subscriptionStatus && selectedItem.subscriptionPrice > 0
+                    }) ? (
+                        <div className="text-center" style={{ fontSize: "15px" }}>
                           <FormattedMessage id="unLoginSubscriptionTips" />
                         </div>
                       ) : null}

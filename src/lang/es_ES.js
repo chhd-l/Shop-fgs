@@ -401,8 +401,8 @@ const en_US = {
   'passwordHide': 'Contraseña:********',
   'payAtOxxO': 'Pague en cualquier OXXO con efectivo en México',
   "payment.acceptCards": "Aceptamos tarjetas de crédito.",
-  'payment.address1': 'Dirección 1',
-  'payment.address2': 'Dirección 2',
+  'payment.address1': 'Calle y número',
+  'payment.address2': 'Colonia y municipio',
   "payment.addressTitle": "Dirección y método de envío",
   'payment.apply': 'aplicar',
   'payment.billTitle': 'Dirección de facturación',
@@ -516,7 +516,7 @@ const en_US = {
   ratingGrade3: 'Calificación de mayor a menor',
   'receiver': 'Receptor',
   'registerFailed': 'Registro fallido',
-  'remember48Hours': 'Remember that the order before {val}, the payment will expire before {val} pm two days later, or after {val} pm, the payment will expire before {val} pm three days later',
+  'remember48Hours': 'Recuerde que el pedido antes de las 7:00 pm, el pago vencerá antes de las 7:00 pm dos días después, o después de las 7:00 pm, el pago vencerá antes de las 7:00 pm tres días después',
   'rememberMe': 'Recuérdame',
   'removeAllFilters': 'Quite todos los filtros',
   'replyComments': 'Reply comments',
@@ -609,5 +609,6 @@ const en_US = {
   'faq.frequentQuestions': "Preguntas frecuentes",
   'faq.title': 'Tienes alguna pregunta. Consulta nuestras preguntas más frecuentes. Si no encuentras lo que estás buscando, haz clic aquí para contactarnos.',
   'faq.title2': 'Entrega del alimento',
+  'every': 'Cada'
 }
 export default en_US;

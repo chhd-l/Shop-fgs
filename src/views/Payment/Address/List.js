@@ -9,12 +9,14 @@ import {
 } from '@/api/address'
 import { queryCityNameById } from "@/api"
 import { getDictionary } from '@/utils/utils'
-import AddressForm from './AddressForm'
+import EditForm from './EditForm'
 import Loading from "@/components/Loading"
-import './loginDeliveryAddress.css'
+import './list.css'
 
-
-class LoginDeliveryAddress extends React.Component {
+/**
+ * address list(delivery/billing) - member
+ */
+class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
     type: 'delivery'
@@ -193,73 +195,81 @@ class LoginDeliveryAddress extends React.Component {
     this.setState({ addOrEdit: false, saveErrorMsg: '' })
     this.scrollToTitle()
   }
-  async handleSave () {
-    const { deliveryAddress, addressList } = this.state
-    const originData = addressList[this.currentOperateIdx]
-    if (!deliveryAddress.firstName || !deliveryAddress.lastName || !deliveryAddress.address1 || !deliveryAddress.country || !deliveryAddress.city || !deliveryAddress.postCode || !deliveryAddress.phoneNumber) {
-      this.setState({
-        saveErrorMsg: this.props.intl.messages.CompleteRequiredItems
-      })
-      console.log(deliveryAddress)
-      this.scrollToTitle()
-      return false
-    }
-    let params = {
-      address1: deliveryAddress.address1,
-      address2: deliveryAddress.address2,
-      firstName: deliveryAddress.firstName,
-      lastName: deliveryAddress.lastName,
-      countryId: +deliveryAddress.country,
-      cityId: +deliveryAddress.city,
-      consigneeName: deliveryAddress.firstName + " " + deliveryAddress.lastName,
-      consigneeNumber: deliveryAddress.phoneNumber,
-      customerId: originData ? originData.customerId : '',
-      deliveryAddress: deliveryAddress.address1 + " " + deliveryAddress.address2,
-      deliveryAddressId: originData ? originData.deliveryAddressId : '',
-      isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
-      postCode: deliveryAddress.postCode,
-      provinceId: 0,
-      rfc: deliveryAddress.rfc,
-      type: this.props.type.toUpperCase()
-    }
+  async handleSavePromise () {
     try {
       this.setState({ saveLoading: true })
+      const { deliveryAddress, addressList } = this.state
+      const originData = addressList[this.currentOperateIdx]
+      if (!deliveryAddress.firstName || !deliveryAddress.lastName || !deliveryAddress.address1 || !deliveryAddress.country || !deliveryAddress.city || !deliveryAddress.postCode || !deliveryAddress.phoneNumber) {
+        throw new Error(this.props.intl.messages.CompleteRequiredItems)
+      }
+      let params = {
+        address1: deliveryAddress.address1,
+        address2: deliveryAddress.address2,
+        firstName: deliveryAddress.firstName,
+        lastName: deliveryAddress.lastName,
+        countryId: +deliveryAddress.country,
+        cityId: +deliveryAddress.city,
+        consigneeName: deliveryAddress.firstName + " " + deliveryAddress.lastName,
+        consigneeNumber: deliveryAddress.phoneNumber,
+        customerId: originData ? originData.customerId : '',
+        deliveryAddress: deliveryAddress.address1 + " " + deliveryAddress.address2,
+        deliveryAddressId: originData ? originData.deliveryAddressId : '',
+        isDefaltAddress: deliveryAddress.isDefalt ? 1 : 0,
+        postCode: deliveryAddress.postCode,
+        provinceId: 0,
+        rfc: deliveryAddress.rfc,
+        type: this.props.type.toUpperCase()
+      }
       const tmpPromise = this.currentOperateIdx > -1 ? editAddress : saveAddress
       let res = await tmpPromise(params)
-      this.scrollToTitle()
       if (res.context.deliveryAddressId) {
         this.setState({
           selectedId: res.context.deliveryAddressId
         })
       }
-
       await this.queryAddressList()
+      this.showSuccessMsg()
       this.setState({
         addOrEdit: false,
-        successTipVisible: true,
         selectedId: res.context.deliveryAddressId
       })
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.setState({
-          successTipVisible: false
-        })
-      }, 2000)
-      return res
     } catch (err) {
-      this.setState({
-        saveErrorMsg: err.toString()
-      })
-      this.scrollToTitle()
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.setState({
-          saveErrorMsg: ''
-        })
-      }, 5000)
-    } finally {
       this.setState({ saveLoading: false })
+      throw new Error(err.message)
     }
+  }
+  async handleSave () {
+    try {
+      await this.handleSavePromise()
+    } catch (err) {
+      this.showErrMsg(err.message)
+      this.setState({ saveLoading: false })
+      this.scrollToTitle()
+    }
+  }
+  showErrMsg (msg) {
+    this.setState({
+      saveErrorMsg: msg
+    })
+    this.scrollToTitle()
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      this.setState({
+        saveErrorMsg: ''
+      })
+    }, 5000)
+  }
+  showSuccessMsg () {
+    this.setState({
+      successTipVisible: true
+    })
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      this.setState({
+        successTipVisible: false
+      })
+    }, 2000)
   }
   render () {
     const { deliveryAddress, addOrEdit, loading, foledMore, addressList } = this.state;
@@ -379,7 +389,7 @@ class LoginDeliveryAddress extends React.Component {
                   }
                   {/* add or edit address form */}
                   <fieldset className={`shipping-address-block rc-fieldset position-relative ${addOrEdit || loading ? '' : 'hidden'}`}>
-                    <AddressForm
+                    <EditForm
                       data={deliveryAddress}
                       updateData={data => this.updateDeliveryAddress(data)}
                     />
@@ -454,4 +464,4 @@ class LoginDeliveryAddress extends React.Component {
   }
 }
 
-export default injectIntl(LoginDeliveryAddress, { forwardRef: true })
+export default injectIntl(AddressList, { forwardRef: true })
