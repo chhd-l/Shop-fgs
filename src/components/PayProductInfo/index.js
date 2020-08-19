@@ -55,7 +55,7 @@ class PayProductInfo extends React.Component {
                 </div>
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="line-item-total-price" style={{ width: '77%' }}>
-                    {item.specDetails} - {item.num} {item.num > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}<br />
+                    {item.specDetails} - {item.num} {item.num > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />} {item.num}<br />
                     {
                       details.subscriptionResponseVO && item.subscriptionStatus
                         ? <>
