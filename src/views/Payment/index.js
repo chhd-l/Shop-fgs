@@ -6,14 +6,15 @@ import GoogleTagManager from "@/components/GoogleTagManager";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Progress from "@/components/Progress";
-import PayProductInfo from "@/components/PayProductInfo";
+import PayProductInfo from "./PayProductInfo";
+import RePayProductInfo from "@/components/PayProductInfo"
 import Loading from "@/components/Loading";
 import VisitorDeliveryAddress from "./Address/VisitorDeliveryAddress";
 import AddressList from "./Address/List";
 import VisitorBillingAddress from "./Address/VisitorBillingAddress";
 import SubscriptionSelect from "./SubscriptionSelect";
 import ClinicForm from "./modules/ClinicForm";
-import AddressPreview from "@/components/AddressPreview";
+import AddressPreview from "./AddressPreview";
 import { getDictionary, formatMoney } from "@/utils/utils";
 import ConfirmTooltip from "@/components/ConfirmTooltip";
 import {
@@ -26,15 +27,18 @@ import {
   getWays
 } from "@/api/payment";
 import store from "storejs";
-import "./index.css";
-import "./modules/adyenCopy.css"
+
 import PayUCreditCard from "./PayUCreditCard";
 import OxxoConfirm from "./Oxxo";
 import KlarnaPayLater from "./modules/KlarnaPayLater";
 import KlarnaPayNow from "./modules/KlarnaPayNow";
 import Sofort from "./modules/Sofort";
-import { getAdyenParam } from "./adyen/utils";
-import { CREDIT_CARD_IMG_ENUM } from "@/utils/constant";
+
+import { getAdyenParam } from "./Adyen/utils";
+import { getOrderDetails } from "@/api/order"
+import { queryCityNameById } from "@/api"
+import "./modules/adyenCopy.css"
+import "./index.css";
 
 const rules = [
   {
@@ -123,7 +127,6 @@ class Payment extends React.Component {
       modalShow: false,
       payosdata: {},
       selectedCardInfo: {},
-      isToPayNow: sessionStorage.getItem("rc-tid"),
       showOxxoForm: false,
       adyenPayParam: {},
       payWayNameArr: [],
@@ -131,8 +134,9 @@ class Payment extends React.Component {
       email: '',
       payWayObj: {},//支付方式input radio汇总
       savedPayWayObj: {},//保留初始化的支付方式
+      orderDetails: null,
+      tid: sessionStorage.getItem("rc-tid")
     };
-    this.tid = sessionStorage.getItem("rc-tid");
     this.timer = null;
     this.loginDeliveryAddressRef = React.createRef();
     this.loginBillingAddressRef = React.createRef();
@@ -143,6 +147,10 @@ class Payment extends React.Component {
       localStorage.removeItem("isRefresh");
       window.location.reload();
       return false;
+    }
+
+    if (this.state.tid) {
+      this.queryOrderDetails()
     }
 
     //获取支付方式
@@ -225,7 +233,7 @@ class Payment extends React.Component {
       }
     );
 
-    if (this.isLogin && !this.loginCartData.length) {
+    if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
       this.props.history.push("/cart");
       return false;
     }
@@ -296,11 +304,28 @@ class Payment extends React.Component {
   get tradePrice () {
     return this.props.checkoutStore.tradePrice;
   }
-  showErrorMsg= (msg)=> {
+  queryOrderDetails () {
+    getOrderDetails(this.state.tid)
+      .then(async res => {
+        let resContext = res.context
+        let cityRes = await queryCityNameById({ id: [resContext.consignee.cityId, resContext.invoice.cityId] })
+        cityRes = cityRes.context.systemCityVO || []
+        resContext.consignee.cityName = this.matchCityName(cityRes, resContext.consignee.cityId)
+        resContext.invoice.cityName = this.matchCityName(cityRes, resContext.invoice.cityId)
+        this.setState({
+          orderDetails: resContext
+        })
+      })
+  }
+  matchCityName (dict, cityId) {
+    return dict.filter(c => c.id === cityId).length
+      ? dict.filter(c => c.id === cityId)[0].cityName
+      : cityId
+  }
+  showErrorMsg (msg) {
     this.setState({
       errorMsg: msg
     });
-
     window.scrollTo({
       top: 0,
       behavior: "smooth"
@@ -571,10 +596,11 @@ class Payment extends React.Component {
         await this.visitorLoginAndAddToCart()
       }
 
-      payFun(this.tid != null, this.isLogin, this.state.subForm.buyWay);
+      payFun(this.state.tid != null, this.isLogin, this.state.subForm.buyWay);
 
       /* 4)调用支付 */
       const res = await action(parameters);
+      const { tid } = this.state
       let orderNumber
       let subNumber
       let oxxoPayUrl
@@ -587,18 +613,18 @@ class Payment extends React.Component {
             oxxoArgs.additionalDetails &&
             oxxoArgs.additionalDetails.object &&
             oxxoArgs.additionalDetails.object.data[0] ? oxxoArgs.additionalDetails.object.data[0].href : ''
-          orderNumber = oxxoContent.tid;
+          orderNumber = tid || oxxoContent.tid;
           subNumber = oxxoContent.subscribeId;
           gotoConfirmationPage = true
           break
         case 'payu_credit_card':
-          orderNumber = res.context[0].tid;
-          subNumber = res.context[0].subscribeId;
+          orderNumber = tid || res.context && res.context[0] && res.context[0].tid;
+          subNumber = res.context && res.context[0] && res.context[0].subscribeId;
           gotoConfirmationPage = true
           break;
         case 'adyen_credit_card':
-          orderNumber = res.context[0].tid;
-          subNumber = res.context[0].subscribeId;
+          orderNumber = tid || res.context[0].tid;
+          subNumber = res.context && res.context[0] && res.context[0].subscribeId;
           gotoConfirmationPage = true
           break;
         case 'adyen_klarna_pay_lat':
@@ -631,12 +657,16 @@ class Payment extends React.Component {
         this.props.history.push("/confirmation");
       }
     } catch (err) {
+      console.log(err)
       if (!this.isLogin) {
         sessionStorage.removeItem("rc-token");
       }
       if (err.errorData) {
         //err.errorData是返回的tid(订单号)
-        this.tid = err.errorData;
+        sessionStorage.setItem("rc-tid", err.errorData)
+        this.setState({
+          tid: err.errorData
+        }, () => this.queryOrderDetails())
       }
       this.showErrorMsg(err.message ? err.message.toString() : err.toString());
     } finally {
@@ -809,8 +839,8 @@ class Payment extends React.Component {
     }
 
     // rePay
-    if (this.tid) {
-      param.tid = this.tid;
+    if (this.state.tid) {
+      param.tid = this.state.tid;
       delete param.remark;
       delete param.tradeItems;
       delete param.tradeMarketingList;
@@ -930,27 +960,27 @@ class Payment extends React.Component {
   // 验证地址信息/最低额度/超库存商品等
   async valideCheckoutLimitRule () {
     try {
-      if (!this.state.isToPayNow) {
+      if (!this.state.tid) {
         await this.saveAddressAndCommentPromise();
-      }
 
-      // 价格未达到底限，不能下单
-      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-        throw new Error(this.props.intl.formatMessage({ id: 'cart.errorInfo3' }, { val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }))
-      }
+        // 价格未达到底限，不能下单
+        if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+          throw new Error(this.props.intl.formatMessage({ id: 'cart.errorInfo3' }, { val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }))
+        }
 
-      // 存在下架商品，不能下单
-      if (this.props.checkoutStore.offShelvesProNames.length) {
-        throw new Error(this.props.intl.formatMessage(
-          { id: 'cart.errorInfo4' },
-          { val: this.props.checkoutStore.offShelvesProNames.join("/") }))
-      }
+        // 存在下架商品，不能下单
+        if (this.props.checkoutStore.offShelvesProNames.length) {
+          throw new Error(this.props.intl.formatMessage(
+            { id: 'cart.errorInfo4' },
+            { val: this.props.checkoutStore.offShelvesProNames.join("/") }))
+        }
 
-      // 库存不够，不能下单
-      if (this.props.checkoutStore.outOfstockProNames.length) {
-        throw new Error(this.props.intl.formatMessage(
-          { id: 'cart.errorInfo2' },
-          { val: this.props.checkoutStore.outOfstockProNames.join("/") }))
+        // 库存不够，不能下单
+        if (this.props.checkoutStore.outOfstockProNames.length) {
+          throw new Error(this.props.intl.formatMessage(
+            { id: 'cart.errorInfo2' },
+            { val: this.props.checkoutStore.outOfstockProNames.join("/") }))
+        }
       }
     } catch (err) {
       throw new Error(err.message)
@@ -976,6 +1006,83 @@ class Payment extends React.Component {
   handlePaymentTypeChange (e) {
     this.setState({ paymentTypeVal: e.target.value });
   }
+
+  /**
+   * 渲染支付方式
+   */
+  _renderPayTab = () => {
+    return <>
+      {/* *******************支付tab栏start************************************ */}
+      <div className="ml-custom mr-custom">
+        {
+          Object.entries(this.state.payWayObj).map(item => {
+            return (
+              <div class="rc-input rc-input--inline">
+                <input
+                  class="rc-input__radio"
+                  id={`payment-info-${item[1].id}`}
+                  value={item[1].paymentTypeVal}
+                  type="radio"
+                  name="payment-info"
+                  onChange={(event) =>
+                    this.handlePaymentTypeChange(event)
+                  }
+                  checked={this.state.paymentTypeVal === item[1].paymentTypeVal ? true : false}
+                  key={item[1].id}
+                />
+                <label
+                  class="rc-input__label--inline"
+                  for={`payment-info-${item[1].id}`}
+                >
+                  <FormattedMessage id={item[1].id} />
+                </label>
+              </div>
+            )
+          })
+        }
+      </div>
+      {/* ********************支付tab栏end********************************** */}
+
+      {/* ***********************支付选项卡的内容start******************************* */}
+      {/* oxxo */}
+      {this.state.paymentTypeVal === "oxxo" && <OxxoConfirm
+        history={this.props.history}
+        startLoading={() => this.startLoading()}
+        endLoading={() => this.endLoading()}
+        clickPay={this.initOxxo} />}
+      {/* payu creditCard */}
+      <div className={`${this.state.paymentTypeVal === "creditCard" ? "" : "hidden"}`}>
+        <PayUCreditCard
+          startLoading={() => this.startLoading()}
+          endLoading={() => this.endLoading()}
+          showErrorMsg={data => this.showErrorMsg(data)}
+          clickPay={this.initPayUCreditCard}
+          onPayosDataChange={data => { this.setState({ payosdata: data }) }}
+          onCardInfoChange={data => { this.setState({ creditCardInfo: data }) }}
+          onPaymentCompDataChange={data => { this.setState({ selectedCardInfo: data }) }} />
+      </div>
+      {/* adyenCreditCard */}
+      <div className={`${this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"}`}>
+        <div class="payment-method checkout--padding">
+          <div id="card-container" class="payment-method__container"></div>
+        </div>
+      </div>
+      {/* KlarnaPayLater */}
+      <div className={`${this.state.paymentTypeVal === "adyenKlarnaPayLater" ? "" : "hidden"}`}>
+        <KlarnaPayLater clickPay={this.initKlarnaPayLater} showErrorMsg={this.showErrorMsg} />
+      </div>
+      {/* KlarnaPayNow  */}
+      <div className={`${this.state.paymentTypeVal === "adyenKlarnaPayNow" ? "" : "hidden"}`}>
+        <KlarnaPayNow clickPay={this.initKlarnaPayNow} showErrorMsg={this.showErrorMsg} />
+      </div>
+      {/* Sofort */}
+      <div className={`${this.state.paymentTypeVal === "directEbanking" ? "" : "hidden"}`}>
+        <Sofort clickPay={this.initSofort} />
+      </div>
+      {/* ***********************支付选项卡的内容end******************************* */}
+    </>
+  }
+
   render () {
     const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
     const event = {
@@ -1018,8 +1125,9 @@ class Payment extends React.Component {
                     {this.state.errorMsg}
                   </aside>
                 </div>
-                {this.state.isToPayNow ? (
-                  <AddressPreview info={store.get("loginDeliveryInfo")} />
+                {this.state.tid ? (
+                  <AddressPreview
+                    details={this.state.orderDetails} />
                 ) : (
                     <>
                       <div className="shipping-form">
@@ -1158,22 +1266,22 @@ class Payment extends React.Component {
                                 this.props.frequencyStore.updateFrequencyName(
                                   data.frequencyName
                                 );
-                              
-                              // ****************订阅的时候隐藏oxxo支付方式start******************
-                              let payuoxxoIndex
-                              if (Object.prototype.toString.call(this.state.payWayObj).slice(8,-1)=='Array') { //判断payWayObj是数组
-                                if(data.buyWay === "frequency"){
-                                  payuoxxoIndex = findIndex(this.state.payWayObj, function(o) { return o.name == 'payuoxxo'; });//找到oxxo在数组中的下标
-                                  if(payuoxxoIndex!=-1){
-                                    this.state.payWayObj.splice(payuoxxoIndex,1)
+
+                                // ****************订阅的时候隐藏oxxo支付方式start******************
+                                let payuoxxoIndex
+                                if (Object.prototype.toString.call(this.state.payWayObj).slice(8, -1) == 'Array') { //判断payWayObj是数组
+                                  if (data.buyWay === "frequency") {
+                                    payuoxxoIndex = findIndex(this.state.payWayObj, function (o) { return o.name == 'payuoxxo'; });//找到oxxo在数组中的下标
+                                    if (payuoxxoIndex != -1) {
+                                      this.state.payWayObj.splice(payuoxxoIndex, 1)
+                                    }
+                                  } else {//为后台提供的初始支付方式
+                                    this.state.payWayObj = JSON.parse(JSON.stringify(this.state.savedPayWayObj))
                                   }
-                                }else{//为后台提供的初始支付方式
-                                  this.state.payWayObj =  JSON.parse(JSON.stringify(this.state.savedPayWayObj))
-                                }                               
-                              }
-                               // ****************订阅的时候隐藏oxxo支付方式end******************
-                              
- 
+                                }
+                                // ****************订阅的时候隐藏oxxo支付方式end******************
+
+
                                 if (
                                   data.buyWay === "frequency" &&
                                   this.state.paymentTypeVal === "oxxo"
@@ -1214,94 +1322,27 @@ class Payment extends React.Component {
                     <FormattedMessage id="payment.paymentInformation" />
                   </h5>
 
-
-                  {/* *******************支付tab栏start************************************ */}
-                  <div className="ml-custom mr-custom">
-                    {
-                      Object.entries(this.state.payWayObj).map(item => {
-                        return (
-                          <div
-                            class="rc-input rc-input--inline"
-                          >
-                            <input
-                              class="rc-input__radio"
-                              id={`payment-info-${item[1].id}`}
-                              value={item[1].paymentTypeVal}
-                              type="radio"
-                              name="payment-info"
-                              onChange={(event) =>
-                                this.handlePaymentTypeChange(event)
-                              }
-                              checked={this.state.paymentTypeVal === item[1].paymentTypeVal ? true : false}
-                              key={item[1].id}
-                            />
-
-                            <label
-                              class="rc-input__label--inline"
-                              for={`payment-info-${item[1].id}`}
-                            >
-                              <FormattedMessage id={item[1].id} />
-                            </label>
-                          </div>
-                        )
-                      })
-                    }
-                  </div>
-                  {/* ********************支付tab栏end********************************** */}
-
-
-                  {/* ***********************支付选项卡的内容start******************************* */}
-                  {/* oxxo */}
-                  {this.state.paymentTypeVal === "oxxo" && (
-                    <OxxoConfirm
-                      history={this.props.history}
-                      startLoading={() => this.startLoading()}
-                      endLoading={() => this.endLoading()}
-                      clickPay={this.initOxxo} />
-                  )}
-                  {/* payu creditCard */}
-                  <div className={`${this.state.paymentTypeVal === "creditCard" ? "" : "hidden"}`}>
-                    <PayUCreditCard
-                      startLoading={() => this.startLoading()}
-                      endLoading={() => this.endLoading()}
-                      showErrorMsg={data => this.showErrorMsg(data)}
-                      clickPay={this.initPayUCreditCard}
-                      onPayosDataChange={data => { this.setState({ payosdata: data }) }}
-                      onCardInfoChange={data => { this.setState({ creditCardInfo: data }) }}
-                      onPaymentCompDataChange={data => { this.setState({ selectedCardInfo: data }) }} />
-                  </div>
-                  {/* adyenCreditCard */}
-                  <div className={`${this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"}`}>
-                    <div class="payment-method checkout--padding">
-                      <div id="card-container" class="payment-method__container"></div>
-                    </div>
-                  </div>
-                  {/* KlarnaPayLater */}
-                  <div className={`${this.state.paymentTypeVal === "adyenKlarnaPayLater" ? "" : "hidden"}`}>
-                    <KlarnaPayLater clickPay={this.initKlarnaPayLater} showErrorMsg={this.showErrorMsg} />
-                  </div>
-                  {/* KlarnaPayNow  */}
-                  <div className={`${this.state.paymentTypeVal === "adyenKlarnaPayNow" ? "" : "hidden"}`}>
-                    <KlarnaPayNow clickPay={this.initKlarnaPayNow} showErrorMsg={this.showErrorMsg} />
-                  </div>
-                  {/* Sofort */}
-                  <div className={`${this.state.paymentTypeVal === "directEbanking" ? "" : "hidden"}`}>
-                    <Sofort clickPay={this.initSofort} showErrorMsg={this.showErrorMsg} />
-                  </div>
-
-                  {/* ***********************支付选项卡的内容end******************************* */}
+                  {this._renderPayTab()}
                 </div>
               </div>
               <div className="rc-column pl-md-0">
-                <PayProductInfo
-                  ref="payProductInfo"
-                  history={this.props.history}
-                  frequencyName={this.state.subForm.frequencyName}
-                  buyWay={this.state.subForm.buyWay}
-                  sendPromotionCode={(e) => this.savePromotionCode(e)}
-                  promotionCode={this.state.promotionCode}
-                  operateBtnVisible={!this.state.isToPayNow}
-                />
+                {
+                  this.state.tid
+                    ? <>
+                      <RePayProductInfo
+                        fixToHeader={true}
+                        details={this.state.orderDetails} />
+                    </>
+                    : <PayProductInfo
+                      ref="payProductInfo"
+                      history={this.props.history}
+                      frequencyName={this.state.subForm.frequencyName}
+                      buyWay={this.state.subForm.buyWay}
+                      sendPromotionCode={(e) => this.savePromotionCode(e)}
+                      promotionCode={this.state.promotionCode}
+                      operateBtnVisible={!this.state.tid}
+                    />
+                }
               </div>
             </div>
           </div>

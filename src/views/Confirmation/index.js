@@ -5,7 +5,7 @@ import Skeleton from 'react-skeleton-loader'
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import OxxoModal from "./modules/OxxoModal"
-import PayProductInfo from "./modules/PayProductInfo"
+import PayProductInfo from "@/components/PayProductInfo"
 import AddressPreview from "./modules/AddressPreview";
 import Modal from '@/components/Modal'
 import { FormattedMessage } from 'react-intl'
@@ -175,37 +175,10 @@ class Confirmation extends React.Component {
           price: item.price,
           brand: "Royal Canin",
           category: item.goodsCategory,
-          // todo
           quantity: item.num,
           variant: item.specDetails
         }
       })
-      // if (this.state.paywithLogin) {
-      //   products = productList.map((item) => {
-      //     return {
-      //       id: item.goodsInfoId,
-      //       name: item.goodsName,
-      //       price: item.salePrice,
-      //       brand: "Royal Canin",
-      //       category: item.goodsCategory,
-      //       quantity: item.buyCount,
-      //       variant: item.specText,
-      //     };
-      //   });
-      // } else {
-      //   products = productList.map((item) => {
-      //     const selectedSize = item.sizeList.filter((s) => s.selected)[0];
-      //     return {
-      //       id: selectedSize.goodsInfoId,
-      //       name: item.goodsName,
-      //       price: selectedSize.salePrice,
-      //       brand: "Royal Canin",
-      //       category: item.goodsCategory,
-      //       quantity: item.quantity,
-      //       variant: selectedSize.specText,
-      //     };
-      //   });
-      // }
       event = {
         page: {
           type: "Order Confirmation",
