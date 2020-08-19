@@ -87,7 +87,7 @@ class PayProductInfo extends React.Component {
                 <div className="line-item-total-price justify-content-start pull-left">
                   <div className="item-attributes">
                     <p className="line-item-attributes">
-                      {selectedSizeItem.specText} - {el.quantity} {el.quantity > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}
+                      {selectedSizeItem.specText} - {el.quantity > 1 ? <FormattedMessage id="items" values={{ val: el.quantity }} /> : <FormattedMessage id="item" values={{ val: el.quantity }} />}
                     </p>
                   </div>
                 </div>
@@ -127,7 +127,7 @@ class PayProductInfo extends React.Component {
                 </div>
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="line-item-total-price" style={{ width: '77%' }}>
-                    {el.specText} - {el.buyCount} {el.buyCount > 1 ? <FormattedMessage id="items" /> : <FormattedMessage id="item" />}<br />
+                    {el.specText} - {el.buyCount > 1 ? <FormattedMessage id="items" values={{ val: el.buyCount }} /> : <FormattedMessage id="item" values={{ val: el.buyCount }}/>}<br />
                     {
                       this.isSubscription(el)
                         ? <><FormattedMessage id="subscription.frequency" /> : {this.props.frequencyName} <span className="iconfont font-weight-bold red" style={{ fontSize: '.8em' }}>&#xe675;</span></>
