@@ -867,7 +867,9 @@ class PaymentComp extends React.Component {
                               </span>
                               <br />
                               <span className="creditCompleteInfo">
-                                {el.cardOwner}
+                                {el.paymentMethod
+                                  ? el.paymentMethod.holder_name
+                                  : el.cardOwner}
                               </span>
                             </div>
                             <div
@@ -914,9 +916,10 @@ class PaymentComp extends React.Component {
                               </span>
                               <br />
                               <span className="creditCompleteInfo fontFitSCreen">
-                                {/* todo */}
                                 xxxx xxxx xxxx{' '}
-                                {el.cardNumber
+                                {el.paymentMethod
+                                  ? el.paymentMethod.last_4_digits
+                                  : el.cardNumber
                                   ? el.cardNumber.substring(
                                       el.cardNumber.length - 4
                                     )
@@ -924,7 +927,6 @@ class PaymentComp extends React.Component {
                               </span>
                             </div>
                             <div className="col-md-4 col-6 border-left color-999">
-                              {/* todo */}
                               <span
                                 className="fontFitSCreen"
                                 style={{ fontSize: '14px' }}
@@ -933,8 +935,9 @@ class PaymentComp extends React.Component {
                               </span>
                               <br />
                               <span className="creditCompleteInfo fontFitSCreen">
-                                {/* todo */}
-                                {el.cardType}
+                                {el.paymentMethod
+                                  ? el.paymentMethod.card_type
+                                  : el.cardType}
                               </span>
                             </div>
                             {this.props.isApplyCvv && (
@@ -1126,7 +1129,7 @@ class PaymentComp extends React.Component {
                     </span>
                   </div>
                   <div className="col-6 color-999">
-                    <FormattedMessage id="payment.cardType" />
+                    <FormattedMessage id="payment.cardTypecardType" />
                     <br />
                     <span className="creditCompleteInfo">
                       {currentCardInfo.cardType}
