@@ -498,6 +498,13 @@ class Payment extends React.Component {
           parameters = Object.assign({}, commonParameter, {
             payChannelItem: 'payu_subscription'
           });
+        } else {
+          const { selectedCardInfo } = this.state
+          parameters = Object.assign({}, commonParameter, {
+            lightWordCvv: selectedCardInfo.cardCvv,
+            paymentMethodId: selectedCardInfo.id,
+            payChannelItem: 'payu_customer'
+          });
         }
       },
       'adyen_credit_card': () => {
@@ -1105,7 +1112,8 @@ class Payment extends React.Component {
           clickPay={this.initPayUCreditCard}
           onPayosDataChange={data => { this.setState({ payosdata: data }) }}
           onCardInfoChange={data => { this.setState({ creditCardInfo: data }) }}
-          onPaymentCompDataChange={data => { this.setState({ selectedCardInfo: data }) }} />
+          onPaymentCompDataChange={data => { this.setState({ selectedCardInfo: data }) }}
+          isApplyCvv={this.state.subForm.buyWay === 'frequency'} />
       </div>
       {/* adyenCreditCard */}
       <div className={`${this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"}`}>
