@@ -33,6 +33,7 @@ import OxxoConfirm from "./Oxxo";
 import KlarnaPayLater from "./modules/KlarnaPayLater";
 import KlarnaPayNow from "./modules/KlarnaPayNow";
 import Sofort from "./modules/Sofort";
+import Terms from "./Terms/index"
 
 import { getAdyenParam } from "./Adyen/utils";
 import { getOrderDetails } from "@/api/order"
@@ -78,6 +79,8 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isReadPrivacyPolicy:false,
+      isEighteen:false,
       promotionCode: "",
       billingChecked: true,
       isCompleteCredit: false,
@@ -322,6 +325,41 @@ class Payment extends React.Component {
       ? dict.filter(c => c.id === cityId)[0].cityName
       : cityId
   }
+  handleChange=(e)=>{
+    this.setState({
+        email : e.target.value 
+    });
+  }
+  sendIsReadPrivacyPolicy=(e)=>{
+    this.setState({
+      isReadPrivacyPolicy:e
+    })
+  }
+  sendIsEighteen=(e)=>{
+    this.setState({
+      isEighteen:e
+    })
+  }
+  //是否填写邮箱正确
+  isTestMail(){
+    var pattern = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
+    if(!pattern.test(this.state.email)){
+      throw new Error(this.props.intl.messages.emailFormatFalse)
+    }
+  }
+  //是否勾选私人政策
+  isTestPolicy(){
+    if(!this.state.isReadPrivacyPolicy){
+      throw new Error(this.props.intl.messages.policyFalse)
+    }
+  }
+    
+  //是否勾选满足18岁 
+  isOverEighteen(){
+    if(!this.state.isEighteen){
+      throw new Error(this.props.intl.messages.eightTeenFalse)
+    }
+  }
   showErrorMsg = (msg)=> {
     this.setState({
       errorMsg: msg
@@ -362,8 +400,8 @@ class Payment extends React.Component {
       // (1) Create an instance of AdyenCheckout
       const checkout = new AdyenCheckout({
         environment: "test",
-        //originKey: process.env.REACT_APP_AdyenOriginKEY,
-         originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
+        originKey: process.env.REACT_APP_AdyenOriginKEY,
+        //originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
         locale: "de-DE",
       });
 
@@ -378,15 +416,23 @@ class Payment extends React.Component {
           showPayButton: true,
           onSubmit: (state, component) => {
             if (state.isValid) {
-              let adyenPayParam = getAdyenParam(card.data);
-              this.setState(
-                {
-                  adyenPayParam,
-                },
-                () => {
-                  this.doGetAdyenPayParam('adyen_credit_card');
-                }
+              //自定义的政策，18岁，邮箱验证
+              try{
+                this.isTestMail()
+                this.isTestPolicy()
+                this.isOverEighteen()           
+                let adyenPayParam = getAdyenParam(card.data);
+                this.setState(
+                  {
+                    adyenPayParam,
+                  },
+                  () => {
+                    this.doGetAdyenPayParam('adyen_credit_card');
+                  }
               );
+              }catch(err){
+                this.showErrorMsg(err.message)
+              }    
             }
           },
           onChange: (state, component) => {
@@ -1064,7 +1110,20 @@ class Payment extends React.Component {
       {/* adyenCreditCard */}
       <div className={`${this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"}`}>
         <div class="payment-method checkout--padding">
+          <div class="customer-form">
+              <div class="address">
+                  <form class="address-form" action="/destination" method="get">
+                      <div class="address-line" id="addressLine2">
+                          <div class="address-input full-width" id="street" style={{marginBottom:'18px'}}>
+                          <label class="address-label" for="street">Email</label>
+                          <input type="text" class="form-control" placeholder="Email" name="street" onChange={this.handleChange}/>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
           <div id="card-container" class="payment-method__container"></div>
+          <Terms sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy} sendIsEighteen={this.sendIsEighteen}/>
         </div>
       </div>
       {/* KlarnaPayLater */}

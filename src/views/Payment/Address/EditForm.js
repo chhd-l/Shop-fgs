@@ -40,7 +40,7 @@ export default class EditForm extends React.Component {
       .then(res => {
         const { deliveryAddress } = this.state
         deliveryAddress.country = find(res, ele => ele.name.toLowerCase() === 'mexico')
-          ? find(res, ele => ele.name.toLowerCase() === 'mexico').id
+          ? find(res, ele => ele.name.toLowerCase() === 'mexico').id //mexico
           : ''
         this.setState({
           countryList: res,
