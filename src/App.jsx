@@ -39,6 +39,7 @@ import Cart from "@/views/Cart";
 import Payment from "@/views/Payment";
 import Confirmation from "@/views/Confirmation";
 import PayResult from "@/views/Payment/modules/PayResult";
+import Email from "@/views/Email";
 import Prescription from "@/views/Prescription";
 import PrescriptionNavigate from "@/views/PrescriptionNavigate";
 import Exception from "@/views/Exception";
@@ -131,6 +132,7 @@ const App = () => (
               />
               <Route exact path="/confirmation" component={Confirmation} />
               <Route exact path="/PayResult" component={PayResult} />
+              <Route exact path="/email" component={Email} />
               <Route exact path="/prescription" component={Prescription} />
               <Route exact path="/prescriptionNavigate" component={PrescriptionNavigate} />
               
