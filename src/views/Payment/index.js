@@ -401,7 +401,7 @@ class Payment extends React.Component {
       const checkout = new AdyenCheckout({
         environment: "test",
         originKey: process.env.REACT_APP_AdyenOriginKEY,
-        //originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
+        // originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
         locale: "de-DE",
       });
 
@@ -1115,7 +1115,7 @@ class Payment extends React.Component {
                   <form class="address-form" action="/destination" method="get">
                       <div class="address-line" id="addressLine2">
                           <div class="address-input full-width" id="street" style={{marginBottom:'18px'}}>
-                          <label class="address-label" for="street">Email</label>
+                          <label class="address-label" for="street">Email<span style={{color:"#EC001A"}}>*</span></label>
                           <input type="text" class="form-control" placeholder="Email" name="street" onChange={this.handleChange}/>
                           </div>
                       </div>
