@@ -16,7 +16,7 @@ class BannerTip extends React.Component {
   }
   render () {
     return (this.state.noticeVisible
-      ? <div className="red font-weight-normal p-1 position-relative text-center pr-4 pl-4 rc-bg-colour--brand4">
+      ? <div className="red font-weight-normal p-1 position-relative text-center pr-4 pl-4 rc-bg-colour--brand4" style={{display:process.env.REACT_APP_LANG=='de'?'none':'block'}}>
         <span
           className="rc-icon rc-close--xs rc-iconography searchBtnToggle rc-stick-right rc-vertical-align"
           style={{ transform: 'translateY(-40%)' }} onClick={this.hideNotice}></span>

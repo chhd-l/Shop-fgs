@@ -13,6 +13,13 @@ class Sofort extends Component {
       isEighteen:false
     };
   }
+  //是否填写邮箱正确
+  isTestMail(){
+    var pattern = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
+    if(!pattern.test(this.state.text)){
+      throw new Error(this.props.intl.messages.emailFormatFalse)
+    }
+  }
    //是否勾选私人政策
    isTestPolicy(){
     if(!this.state.isReadPrivacyPolicy){
@@ -31,11 +38,16 @@ class Sofort extends Component {
     try{
       this.isTestPolicy()
       this.isOverEighteen()
+      this.isTestMail()
       this.props.clickPay(this.state.text)
     }catch(err){
       this.props.showErrorMsg(err.message)
-    }
-     
+    }    
+  }
+  handleChange=(e)=>{
+    this.setState({
+        text : e.target.value 
+    });
   }
   sendIsReadPrivacyPolicy=(e)=>{
     this.setState({
@@ -52,6 +64,14 @@ class Sofort extends Component {
       <div className="checkout--padding">
         <div class="customer-form">
             <div class="address">
+            <form class="address-form" action="/destination" method="get">
+                    <div class="address-line" id="addressLine2">
+                        <div class="address-input full-width" id="street" style={{marginBottom:'18px'}}>
+                        <label class="address-label" for="street">Email</label>
+                        <input type="text" class="form-control" placeholder="Email" name="street" onChange={this.handleChange}/>
+                        </div>
+                    </div>
+                </form>
                 <div class="payment-container">
                     <div id="klarna" class="payment">
                         <button  className="adyen-checkout__button adyen-checkout__button--standalone adyen-checkout__button--pay" type="button" onClick={this.clickPay}>

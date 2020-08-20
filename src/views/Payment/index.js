@@ -33,6 +33,7 @@ import OxxoConfirm from "./Oxxo";
 import KlarnaPayLater from "./modules/KlarnaPayLater";
 import KlarnaPayNow from "./modules/KlarnaPayNow";
 import Sofort from "./modules/Sofort";
+import Terms from "./Terms/index"
 
 import { getAdyenParam } from "./Adyen/utils";
 import { getOrderDetails } from "@/api/order"
@@ -78,6 +79,8 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isReadPrivacyPolicy:false,
+      isEighteen:false,
       promotionCode: "",
       billingChecked: true,
       isCompleteCredit: false,
@@ -322,7 +325,42 @@ class Payment extends React.Component {
       ? dict.filter(c => c.id === cityId)[0].cityName
       : cityId
   }
-  showErrorMsg (msg) {
+  handleChange=(e)=>{
+    this.setState({
+        email : e.target.value 
+    });
+  }
+  sendIsReadPrivacyPolicy=(e)=>{
+    this.setState({
+      isReadPrivacyPolicy:e
+    })
+  }
+  sendIsEighteen=(e)=>{
+    this.setState({
+      isEighteen:e
+    })
+  }
+  //是否填写邮箱正确
+  isTestMail(){
+    var pattern = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
+    if(!pattern.test(this.state.email)){
+      throw new Error(this.props.intl.messages.emailFormatFalse)
+    }
+  }
+  //是否勾选私人政策
+  isTestPolicy(){
+    if(!this.state.isReadPrivacyPolicy){
+      throw new Error(this.props.intl.messages.policyFalse)
+    }
+  }
+    
+  //是否勾选满足18岁 
+  isOverEighteen(){
+    if(!this.state.isEighteen){
+      throw new Error(this.props.intl.messages.eightTeenFalse)
+    }
+  }
+  showErrorMsg = (msg)=> {
     this.setState({
       errorMsg: msg
     });
@@ -378,15 +416,23 @@ class Payment extends React.Component {
           showPayButton: true,
           onSubmit: (state, component) => {
             if (state.isValid) {
-              let adyenPayParam = getAdyenParam(card.data);
-              this.setState(
-                {
-                  adyenPayParam,
-                },
-                () => {
-                  this.doGetAdyenPayParam('adyen_credit_card');
-                }
+              //自定义的政策，18岁，邮箱验证
+              try{
+                this.isTestMail()
+                this.isTestPolicy()
+                this.isOverEighteen()           
+                let adyenPayParam = getAdyenParam(card.data);
+                this.setState(
+                  {
+                    adyenPayParam,
+                  },
+                  () => {
+                    this.doGetAdyenPayParam('adyen_credit_card');
+                  }
               );
+              }catch(err){
+                this.showErrorMsg(err.message)
+              }    
             }
           },
           onChange: (state, component) => {
@@ -451,6 +497,13 @@ class Payment extends React.Component {
         if (this.state.subForm.buyWay === 'frequency') {
           parameters = Object.assign({}, commonParameter, {
             payChannelItem: 'payu_subscription'
+          });
+        } else {
+          const { selectedCardInfo } = this.state
+          parameters = Object.assign({}, commonParameter, {
+            lightWordCvv: selectedCardInfo.cardCvv,
+            paymentMethodId: selectedCardInfo.id,
+            payChannelItem: 'payu_customer'
           });
         }
       },
@@ -1059,12 +1112,26 @@ class Payment extends React.Component {
           clickPay={this.initPayUCreditCard}
           onPayosDataChange={data => { this.setState({ payosdata: data }) }}
           onCardInfoChange={data => { this.setState({ creditCardInfo: data }) }}
-          onPaymentCompDataChange={data => { this.setState({ selectedCardInfo: data }) }} />
+          onPaymentCompDataChange={data => { this.setState({ selectedCardInfo: data }) }}
+          isApplyCvv={this.state.subForm.buyWay === 'frequency'} />
       </div>
       {/* adyenCreditCard */}
       <div className={`${this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"}`}>
         <div class="payment-method checkout--padding">
+          <div class="customer-form">
+              <div class="address">
+                  <form class="address-form" action="/destination" method="get">
+                      <div class="address-line" id="addressLine2">
+                          <div class="address-input full-width" id="street" style={{marginBottom:'18px'}}>
+                          <label class="address-label" for="street">Email<span style={{color:"#EC001A"}}>*</span></label>
+                          <input type="text" class="form-control" placeholder="Email" name="street" onChange={this.handleChange}/>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
           <div id="card-container" class="payment-method__container"></div>
+          <Terms sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy} sendIsEighteen={this.sendIsEighteen}/>
         </div>
       </div>
       {/* KlarnaPayLater */}
@@ -1077,7 +1144,7 @@ class Payment extends React.Component {
       </div>
       {/* Sofort */}
       <div className={`${this.state.paymentTypeVal === "directEbanking" ? "" : "hidden"}`}>
-        <Sofort clickPay={this.initSofort} />
+        <Sofort clickPay={this.initSofort} showErrorMsg={this.showErrorMsg} />
       </div>
       {/* ***********************支付选项卡的内容end******************************* */}
     </>
