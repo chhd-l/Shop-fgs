@@ -69,7 +69,7 @@ class KlarnaPayLater extends Component {
                 <form class="address-form" action="/destination" method="get">
                     <div class="address-line" id="addressLine2">
                         <div class="address-input full-width" id="street" style={{marginBottom:'18px'}}>
-                        <label class="address-label" for="street">Email</label>
+                        <label class="address-label" for="street">Email<span style={{color:'#EC001A'}}>*</span></label>
                         <input type="text" class="form-control" placeholder="Email" name="street" onChange={this.handleChange}/>
                         </div>
                     </div>

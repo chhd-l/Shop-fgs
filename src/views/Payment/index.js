@@ -389,7 +389,7 @@ class Payment extends React.Component {
       const checkout = new AdyenCheckout({
         environment: "test",
         originKey: process.env.REACT_APP_AdyenOriginKEY,
-        // originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
+        //originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
         locale: "de-DE",
       });
 
