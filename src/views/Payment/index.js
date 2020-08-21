@@ -466,99 +466,103 @@ class Payment extends React.Component {
 
   //组装支付共同的参数
   async getAdyenPayParam (type) {
-    let obj = await this.getPayCommonParam()
-    let commonParameter = obj.commonParameter
-    let phone = obj.phone
-    let parameters
-    /* 组装支付需要的参数 */
-    const actions = {
-      'oxxo': () => {
-        parameters = Object.assign({}, commonParameter, {
-          payChannelItem: "payuoxxo",
-          country: "MEX",
-          email: this.state.email
-        });
-      },
-      'payu_credit_card': () => {
-        parameters = Object.assign({}, commonParameter);
-        if (this.state.subForm.buyWay === 'frequency') {
+    try {
+      let obj = await this.getPayCommonParam()
+      let commonParameter = obj.commonParameter
+      let phone = obj.phone
+      let parameters
+      /* 组装支付需要的参数 */
+      const actions = {
+        'oxxo': () => {
           parameters = Object.assign({}, commonParameter, {
-            payChannelItem: 'payu_subscription'
+            payChannelItem: "payuoxxo",
+            country: "MEX",
+            email: this.state.email
           });
-        } else {
-          const { selectedCardInfo } = this.state
-          parameters = Object.assign({}, commonParameter, {
-            lightWordCvv: selectedCardInfo.cardCvv,
-            paymentMethodId: selectedCardInfo.id,
-            payChannelItem: 'payu_customer'
-          });
+        },
+        'payu_credit_card': () => {
+          parameters = Object.assign({}, commonParameter);
+          if (this.state.subForm.buyWay === 'frequency') {
+            parameters = Object.assign({}, commonParameter, {
+              payChannelItem: 'payu_subscription'
+            });
+          } else {
+            const { selectedCardInfo } = this.state
+            parameters = Object.assign({}, commonParameter, {
+              lightWordCvv: selectedCardInfo.cardCvv,
+              paymentMethodId: selectedCardInfo.id,
+              payChannelItem: 'payu_customer'
+            });
+          }
+        },
+        'adyen_credit_card': () => {
+          parameters = Object.assign(
+            commonParameter,
+            {
+              ...this.state.adyenPayParam,
+              shopperLocale: 'en_US',
+              currency: 'EUR',
+              country: "DE",
+              email: this.state.email
+            },
+          );
+        },
+        'adyen_klarna_pay_lat': () => {
+          parameters = Object.assign(
+            commonParameter,
+            {
+              adyenType: 'klarna',
+              payChannelItem: 'adyen_klarna_pay_lat',
+              shopperLocale: 'en_US',
+              currency: 'EUR',
+              country: "DE",
+              email: this.state.email
+            },
+          );
+        },
+        'adyen_klarna_pay_now': () => {
+          parameters = Object.assign(
+            commonParameter,
+            {
+              adyenType: 'klarna_paynow',
+              payChannelItem: 'adyen_klarna_pay_now',
+              shopperLocale: 'en_US',
+              currency: 'EUR',
+              country: "DE",
+              email: this.state.email
+            },
+          );
+        },
+        'sofort': () => {
+          parameters = Object.assign(
+            commonParameter,
+            {
+              adyenType: 'directEbanking',
+              payChannelItem: 'directEbanking',
+              shopperLocale: 'en_US',
+              currency: 'EUR',
+              country: "DE",
+              email: this.state.email
+            },
+          );
         }
-      },
-      'adyen_credit_card': () => {
-        parameters = Object.assign(
-          commonParameter,
-          {
-            ...this.state.adyenPayParam,
-            shopperLocale: 'en_US',
-            currency: 'EUR',
-            country: "DE",
-            email: this.state.email
-          },
-        );
-      },
-      'adyen_klarna_pay_lat': () => {
-        parameters = Object.assign(
-          commonParameter,
-          {
-            adyenType: 'klarna',
-            payChannelItem: 'adyen_klarna_pay_lat',
-            shopperLocale: 'en_US',
-            currency: 'EUR',
-            country: "DE",
-            email: this.state.email
-          },
-        );
-      },
-      'adyen_klarna_pay_now': () => {
-        parameters = Object.assign(
-          commonParameter,
-          {
-            adyenType: 'klarna_paynow',
-            payChannelItem: 'adyen_klarna_pay_now',
-            shopperLocale: 'en_US',
-            currency: 'EUR',
-            country: "DE",
-            email: this.state.email
-          },
-        );
-      },
-      'sofort': () => {
-        parameters = Object.assign(
-          commonParameter,
-          {
-            adyenType: 'directEbanking',
-            payChannelItem: 'directEbanking',
-            shopperLocale: 'en_US',
-            currency: 'EUR',
-            country: "DE",
-            email: this.state.email
-          },
-        );
       }
+      actions[type]()
+      //合并支付必要的参数
+      let finalParam = Object.assign(
+        parameters,
+        {
+          successUrl: process.env.REACT_APP_SUCCESSFUL_URL + '/payResult',
+          //successUrl: 'http://m72na6.natappfree.cc/payResult',
+          deliveryAddressId: this.state.deliveryAddress.addressId,
+          billAddressId: this.state.billingAddress.addressId,
+          phone
+        }
+      )
+      return finalParam
+    } catch (err) {
+      throw new Error(err.message)
     }
-    actions[type]()
-    //合并支付必要的参数
-    let finalParam = Object.assign(
-      parameters,
-      {
-        successUrl: process.env.REACT_APP_SUCCESSFUL_URL + '/payResult',
-        //successUrl: 'http://m72na6.natappfree.cc/payResult',
-        deliveryAddressId: this.state.deliveryAddress.addressId,
-        billAddressId: this.state.billingAddress.addressId,
-        phone
-      }
-    )
-    return finalParam
   }
 
   //得到支付共同的参数
@@ -566,24 +570,27 @@ class Payment extends React.Component {
     try {
       await this.valideCheckoutLimitRule();
       const commonParameter = this.packagePayParam()
-      console.log(commonParameter)
       let phone = this.state.billingAddress.phoneNumber; //获取电话号码
       return new Promise((resolve => {
         resolve({ commonParameter, phone })
       }))
     } catch (err) {
-      if (err.message !== 'agreement failed') {
-        this.showErrorMsg(err.message);
-      }
-      this.endLoading();
+      throw new Error(err.message)
     }
   }
 
 
   //获取adyen参数
   async doGetAdyenPayParam (type) {
-    let parameters = await this.getAdyenPayParam(type)
-    this.allAdyenPayment(parameters, type)
+    try {
+      let parameters = await this.getAdyenPayParam(type)
+      this.allAdyenPayment(parameters, type)
+    } catch (err) {
+      if (err.message !== 'agreement failed') {
+        this.showErrorMsg(err.message ? err.message.toString() : err.toString());
+      }
+      this.endLoading();
+    }
   }
 
   //根据条件-调用不同的支付接口,进行支付
@@ -708,7 +715,7 @@ class Payment extends React.Component {
           tid: err.errorData
         }, () => this.queryOrderDetails())
       }
-      this.showErrorMsg(err.message ? err.message.toString() : err.toString());
+      throw new Error(err)
     } finally {
       this.endLoading();
     }
@@ -1100,7 +1107,9 @@ class Payment extends React.Component {
           onPayosDataChange={data => { this.setState({ payosdata: data }) }}
           onCardInfoChange={data => { this.setState({ creditCardInfo: data }) }}
           onPaymentCompDataChange={data => { this.setState({ selectedCardInfo: data }) }}
-          isApplyCvv={this.state.subForm.buyWay === 'frequency'} />
+          isApplyCvv={this.state.subForm.buyWay === 'frequency'}
+          isSubscriptionAddNewCard={this.state.subForm.buyWay === 'frequency'}
+           />
       </div>
       {/* adyenCreditCard */}
       <div className={`${this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"}`}>
