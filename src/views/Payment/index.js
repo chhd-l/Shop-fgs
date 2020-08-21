@@ -325,11 +325,6 @@ class Payment extends React.Component {
       ? dict.filter(c => c.id === cityId)[0].cityName
       : cityId
   }
-  handleChange=(e)=>{
-    this.setState({
-        email : e.target.value 
-    });
-  }
   sendIsReadPrivacyPolicy=(e)=>{
     this.setState({
       isReadPrivacyPolicy:e
@@ -339,13 +334,6 @@ class Payment extends React.Component {
     this.setState({
       isEighteen:e
     })
-  }
-  //是否填写邮箱正确
-  isTestMail(){
-    var pattern = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
-    if(!pattern.test(this.state.email)){
-      throw new Error(this.props.intl.messages.emailFormatFalse)
-    }
   }
   //是否勾选私人政策
   isTestPolicy(){
@@ -418,7 +406,6 @@ class Payment extends React.Component {
             if (state.isValid) {
               //自定义的政策，18岁，邮箱验证
               try{
-                this.isTestMail()
                 this.isTestPolicy()
                 this.isOverEighteen()           
                 let adyenPayParam = getAdyenParam(card.data);
@@ -1118,18 +1105,6 @@ class Payment extends React.Component {
       {/* adyenCreditCard */}
       <div className={`${this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"}`}>
         <div class="payment-method checkout--padding">
-          <div class="customer-form">
-              <div class="address">
-                  <form class="address-form" action="/destination" method="get">
-                      <div class="address-line" id="addressLine2">
-                          <div class="address-input full-width" id="street" style={{marginBottom:'18px'}}>
-                          <label class="address-label" for="street">Email<span style={{color:"#EC001A"}}>*</span></label>
-                          <input type="text" class="form-control" placeholder="Email" name="street" onChange={this.handleChange}/>
-                          </div>
-                      </div>
-                  </form>
-              </div>
-          </div>
           <div id="card-container" class="payment-method__container"></div>
           <Terms sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy} sendIsEighteen={this.sendIsEighteen}/>
         </div>
