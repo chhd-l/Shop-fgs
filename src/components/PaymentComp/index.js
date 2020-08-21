@@ -113,12 +113,13 @@ class PaymentComp extends React.Component {
         const selectedCard = this.state.creditCardList.filter(
           (el) => el.selected
         )[0];
-
-        this.setState({
-          currentCvv: selectedCard.cardCvv
-        });
-        this.props.getSelectedValue &&
-          this.props.getSelectedValue(selectedCard);
+        if (selectedCard) {
+          this.setState({
+            currentCvv: selectedCard.cardCvv
+          });
+          this.props.getSelectedValue &&
+            this.props.getSelectedValue(selectedCard);
+        }
       }
       this.setState({ creditCardList: this.state.creditCardList });
     }
