@@ -1209,7 +1209,7 @@ class Payment extends React.Component {
                                 />
                               )}
 
-                            <div className="billingCheckbox rc-margin-top--xs">
+                            <div className="billingCheckbox rc-margin-top--xs fit-mobile-billingCheckbox">
                               <div>
                                 <input
                                   className="form-check-input"
@@ -1227,16 +1227,16 @@ class Payment extends React.Component {
                                   <FormattedMessage id="biliingAddressSameAs" />
                                 </label>
                               </div>
-                              <div className="normalDelivery">
+                              <div className="normalDelivery  fit-mobile-normalDelivery">
                                 <span>
                                   <FormattedMessage id="payment.normalDelivery2" />
                                 </span>
-                                <span className="text-muted arrival-time">
+                                <span className="text-muted arrival-time ">
                                   <FormattedMessage id="payment.normalDelivery3" />
                                 </span>
 
                                 <span className="shipping-method-pricing ml3">
-                                  <span className="info delivery-method-tooltip" style={{ verticalAlign: "unset" }}
+                                  <span className="info delivery-method-tooltip fit-mobile-icon-left" style={{ verticalAlign: "unset" }}
                                     onMouseEnter={() => {
                                       this.setState({
                                         toolTipVisible: true,

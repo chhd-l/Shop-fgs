@@ -123,10 +123,10 @@ class SubscriptionSelect extends Component {
               <FormattedMessage id="payment.deliveryFrequency" />:
             </span>
           </label>
-          <div style={{ marginLeft: '5%' }} className="d-flex align-items-center">
+          <div style={{ marginLeft: '5%' }} className="d-flex align-items-center fit-screen-d-flex">
             <span className="position-relative" style={{ top: '-2px' }}>
               <FormattedMessage id="every" />
-            </span> &nbsp;
+            </span>
             <Selection
               selectedItemChange={data => this.handleSelectedItemChange(data)}
               optionList={this.computedList}

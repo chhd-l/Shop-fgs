@@ -15,3 +15,8 @@
     max-height: 5.625em;
     width: auto;
 }
+@media(max-width:450px){
+    .fit-screen-d-flex{
+        display: inherit !important;
+    }
+}

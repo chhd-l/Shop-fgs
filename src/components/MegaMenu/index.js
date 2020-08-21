@@ -7,35 +7,35 @@ import { inject, observer } from "mobx-react";
 @inject("configStore")
 @observer
 class MegaMenu extends React.Component {
-  constructor(props){
-    super(props)
-    this.state={
+  constructor(props) {
+    super(props);
+    this.state = {
       showMegaMenu: false,
-    }
-    this.handleMouseOver = this.handleMouseOver.bind(this)
-    this.handleMouseOut = this.handleMouseOut.bind(this)
-    this.toggleMenu = this.toggleMenu.bind(this)
+    };
+    this.handleMouseOver = this.handleMouseOver.bind(this);
+    this.handleMouseOut = this.handleMouseOut.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
   }
-  handleMouseOver () {
-    this.flag = 1
+  handleMouseOver() {
+    this.flag = 1;
     this.setState({
-      showMegaMenu: true
-    })
+      showMegaMenu: true,
+    });
   }
-  handleMouseOut () {
-    this.flag = 0
+  handleMouseOut() {
+    this.flag = 0;
     setTimeout(() => {
       if (!this.flag) {
         this.setState({
           showMegaMenu: false,
-        })
+        });
       }
-    }, 200)
+    }, 200);
   }
-  toggleMenu () {
+  toggleMenu() {
     this.setState({
-      showMegaMenu: !this.state.showMegaMenu
-    })
+      showMegaMenu: !this.state.showMegaMenu,
+    });
   }
   render() {
     return (
@@ -43,14 +43,14 @@ class MegaMenu extends React.Component {
         <button
           className="rc-btn rc-btn--icon-label rc-icon rc-menu--xs rc-iconography rc-md-up"
           aria-label="Menu"
-          id="J-btn-menu"
           ref={this.menuBtnRef}
           onMouseOver={this.handleMouseOver}
-          onMouseOut={this.handleMouseOut}>
-
+          onMouseOut={this.handleMouseOut}
+        >
           <FormattedMessage id="menu" />
         </button>
         <button
+          id="J-btn-menu"
           className={[
             "rc-btn",
             "rc-btn--icon",
