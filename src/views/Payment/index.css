@@ -6,15 +6,18 @@
 .footerCheckbox {
   padding-left: 1.5rem;
 }
+
 .ui-warning,
 .footerCheckbox .warning {
   font-size: 10px;
   color: #c03344;
 }
+
 .footerCheckbox .rc-input__label--inline {
   cursor: auto;
 }
-.footerCheckbox > .form-check-input {
+
+.footerCheckbox>.form-check-input {
   width: 15px;
   height: 15px;
   font-size: 10px !important;
@@ -30,17 +33,15 @@
   font-size: 80% !important;
 }
 
-.rc-input--warning > [class^="rc-input"]:not([value=""]) {
+.rc-input--warning>[class^="rc-input"]:not([value=""]) {
   border-color: #c03344 !important;
 }
 
-.rc-input--warning
-  > [class^="rc-input"]:not([value=""])
-  + .rc-input__label::after {
+.rc-input--warning>[class^="rc-input"]:not([value=""])+.rc-input__label::after {
   background-color: #c03344 !important;
 }
 
-.rc-input--warning > [class^="rc-input"] {
+.rc-input--warning>[class^="rc-input"] {
   color: #c03344 !important;
   border-color: #c03344 !important;
 }
@@ -48,6 +49,7 @@
 .rc-input--label {
   margin-top: 0 !important;
 }
+
 .rc-input__label::before {
   content: "";
   position: absolute;
@@ -59,7 +61,7 @@
   transition: 0.2s;
 }
 
-.rc-input__control:not([value=""]) + .rc-input__label::after {
+.rc-input__control:not([value=""])+.rc-input__label::after {
   background-color: #d7d7d7 !important;
 }
 
@@ -70,6 +72,7 @@
 .logo-payment-card-list {
   margin-left: 0.5rem;
 }
+
 .logo-payment-card-list.logo-credit-card {
   display: inline-block;
 }
@@ -78,6 +81,7 @@
   .ui-margin-top-1-md-down {
     margin-top: 1rem;
   }
+
   .ui-border-bottom-none-md-down {
     border-bottom: none !important;
   }
@@ -88,7 +92,8 @@
   display: inline-block;
   vertical-align: middle;
 }
-.cardImage > img {
+
+.cardImage>img {
   width: 40px;
   height: 45px;
   color: rgb(102, 102, 102);
@@ -104,57 +109,72 @@
   font-weight: 300;
   font-family: "RC TYPE", Roboto, Avenir, Helvetica, Arial, sans-serif;
 }
+
 .cardFormBox {
   position: relative;
   border-bottom: 2px solid #d7d7d7;
 }
+
 .cardForm .col-sm-6 {
   padding: 0;
 }
+
 .cardForm .form-group {
   margin-bottom: 2px !important;
 }
+
 .cardForm .rc-input--inline {
   margin-right: 0 !important;
 }
+
 .cardForm .rc-input__control:focus {
   box-shadow: 0 0 0 0.2rem rgba(236, 0, 26, 0.25);
 }
+
 .cardForm .focus-visible {
   box-shadow: none;
 }
-.cardForm > .rc-input:nth-child(1) {
+
+.cardForm>.rc-input:nth-child(1) {
   width: 54%;
 }
-.cardForm > .rc-input:nth-child(2) {
+
+.cardForm>.rc-input:nth-child(2) {
   width: 28%;
 }
-.cardForm > .rc-input:nth-child(3) {
+
+.cardForm>.rc-input:nth-child(3) {
   width: 18%;
 }
+
 #payment .rc-baseline img {
   display: inline-block !important;
 }
+
 .cardForm {
   display: inline-block;
   width: calc(100% - 60px);
 }
 
-.cardForm .rc-input__control + .rc-input__label::before,
-.rc-input__control + .rc-input__label::after,
+.cardForm .rc-input__control+.rc-input__label::before,
+.rc-input__control+.rc-input__label::after,
 .cardForm .rc-input__label {
   width: 0;
   border: none !important;
 }
+
 .creditCompleteInfoBox {
   transition: all 0.3s ease-in-out;
 }
+
 .creditCompleteInfoBox img {
   width: 100%;
 }
-.creditCompleteInfoBox > p .pull-right {
+
+.creditCompleteInfoBox>p .pull-right {
   text-decoration: underline;
 }
+
 .creditCompleteInfo {
   color: black;
 }
@@ -162,6 +182,7 @@
 .deliveryAddress {
   margin-bottom: 2rem;
 }
+
 .product-summary__products__item {
   padding-bottom: 1rem;
   margin-bottom: 1rem;
@@ -177,14 +198,17 @@
   .rc-padding-left--none--md-down {
     padding-left: 0 !important;
   }
+
   .rc-padding-right--none--md-down {
     padding-right: 0 !important;
   }
+
   .cardForm .form-group {
     border-bottom: 2px solid #d7d7d7;
     margin-bottom: 15px !important;
   }
 }
+
 .ui-position-absolute {
   position: absolute;
 }
@@ -192,9 +216,11 @@
 #card-secure-fields {
   border-color: #d7d7d7 !important;
 }
+
 .required label:after {
   color: red;
 }
+
 /* 
 .shippingPhoneNumber {
   -moz-user-select:none;
@@ -208,9 +234,11 @@
 .ml-custom {
   margin-left: 1.25rem !important;
 }
+
 .mr-custom {
   margin-right: 1.25rem !important;
 }
+
 .normalDelivery {
   font-size: 14px;
 }
@@ -219,6 +247,7 @@
   display: flex;
   justify-content: space-between;
 }
+
 .info {
   background: #d7d7d7;
   display: inline-block;
@@ -233,21 +262,48 @@
   cursor: pointer;
   text-transform: lowercase;
 }
+
 #id-checkbox-billing {
   cursor: pointer;
 }
-@media(max-width:540px){
-  .PayCardImgFitScreen{
+
+@media(max-width:540px) {
+  .PayCardImgFitScreen {
     width: 50% !important;
   }
-  .PayCardBoxMargin{
+
+  .PayCardBoxMargin {
     margin-top: 0rem;
   }
-  .fontFitSCreen{
+
+  .fontFitSCreen {
     font-size: 12px !important;
   }
 }
 
-.input__checkbox:focus+.rc-input__label--inline::before, .input__radio:focus+.rc-input__label--inline::before, .modal__header a:focus .rc-modal__logo, .rc-input__checkbox:focus+.rc-input__label--inline::before, .rc-input__radio:focus+.rc-input__label--inline::before, .rc-modal__header a:focus .rc-modal__logo{
-  outline:0!important;
+.input__checkbox:focus+.rc-input__label--inline::before,
+.input__radio:focus+.rc-input__label--inline::before,
+.modal__header a:focus .rc-modal__logo,
+.rc-input__checkbox:focus+.rc-input__label--inline::before,
+.rc-input__radio:focus+.rc-input__label--inline::before,
+.rc-modal__header a:focus .rc-modal__logo {
+  outline: 0 !important;
+}
+
+@media(max-width:450px) {
+  .fit-mobile-billingCheckbox {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding-left: 1.5rem;
+  }
+
+  .fit-mobile-icon-left {
+    position: absolute;
+    left: -1.6rem
+  }
+
+  .fit-mobile-normalDelivery {
+    position: relative;
+  }
 }

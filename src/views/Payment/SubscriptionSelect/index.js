@@ -123,10 +123,11 @@ class SubscriptionSelect extends Component {
               <FormattedMessage id="payment.deliveryFrequency" />:
             </span>
           </label>
-          <div style={{ marginLeft: '5%' }} className="d-flex align-items-center">
-            <span className="position-relative" style={{ top: '-2px' }}>
+          <div style={{ marginLeft: '5%' }} className="d-flex align-items-center fit-screen-d-flex">
+          <div className="choose-frequency">
+            <span className="position-relative choose-frequency-choosies" style={{ top: '-2px' }}>
               <FormattedMessage id="every" />
-            </span> &nbsp;
+            </span>
             <Selection
               selectedItemChange={data => this.handleSelectedItemChange(data)}
               optionList={this.computedList}
@@ -134,12 +135,13 @@ class SubscriptionSelect extends Component {
                 value: form.frequencyVal
               }}
               customStyleType="select-one" />
-            <span className="ml-2 d-flex align-items-center flex-wrap">
+              </div>
+            <span className="ml-2 d-flex align-items-center flex-wrap fit-screen-ml-2">
               {
                 this.props.checkoutStore.loginCartData
                   .filter(ele => ele.subscriptionStatus && ele.subscriptionPrice > 0)
                   .map((ele, i) => (
-                    <div className="imgBoxForSelect">
+                    <div className="imgBoxForSelect ">
                       <img className="width-sub-img  imgForSelect " style={{ display: 'inline-block' }} key={i} src={ele.goodsInfoImg} />
                     </div>
                   ))

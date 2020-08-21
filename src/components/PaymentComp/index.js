@@ -95,7 +95,7 @@ class PaymentComp extends React.Component {
       //     el.selected = false;
       //   }
       // });
-
+      // debugger;
       let filterList = this.state.creditCardList.filter((el) => {
         if (el.isDefault === 1) {
           el.selected = true;
@@ -113,6 +113,7 @@ class PaymentComp extends React.Component {
         const selectedCard = this.state.creditCardList.filter(
           (el) => el.selected
         )[0];
+
         this.setState({
           currentCvv: selectedCard.cardCvv
         });
@@ -146,6 +147,7 @@ class PaymentComp extends React.Component {
       } else {
         this.props.getSelectedValue && this.props.getSelectedValue({});
       }
+      // debugger
       this.setState({ creditCardList: res.context });
     } catch (err) {
       console.log(err);
