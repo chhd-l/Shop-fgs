@@ -199,10 +199,19 @@ class Footer extends React.Component {
                       </h3>
                     </div>
                     <ul className="list list--blank list--align" id="footer-list-158504765613549553" aria-labelledby="footer-head-158504765613549553" role="menu">
+                      {/* 德国特殊链接，stone portal没配置，后期最好在stone portal配置*/}
                       <li className="rc-list__item">
-                        <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/privacypolicy" role="menuitem">
+                        {
+                          process.env.REACT_APP_LANG=='de'?
+                          <a
+                            className="rc-list__link text-decoration-none color-f6f6f6"
+                            href='https://www.royalcanin.com/de/about-us/data-protection' role="menuitem">
+                            <FormattedMessage id="footer.privacyPolicy" />
+                          </a>
+                          : <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/privacypolicy" role="menuitem">
                           <FormattedMessage id="footer.privacyPolicy" />
                         </Link>
+                        }
                       </li>
                       <li className="rc-list__item">
                         <a
@@ -212,9 +221,18 @@ class Footer extends React.Component {
                         </a>
                       </li>
                       <li className="rc-list__item">
-                        <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/termuse" role="menuitem">
+                         {/* 德国特殊链接，stone portal没配置，后期最好在stone portal配置*/}
+                        {
+                          process.env.REACT_APP_LANG=='de'
+                          ?<a
+                            className="rc-list__link text-decoration-none color-f6f6f6"
+                            href='https://www.mars.com/legal-germany' role="menuitem">
+                            <FormattedMessage id="footer.websiteTermsOfUse" />
+                          </a>
+                          :<Link className="rc-list__link text-decoration-none color-f6f6f6" to="/termuse" role="menuitem">
                           <FormattedMessage id="footer.websiteTermsOfUse" />
                         </Link>
+                        }
                       </li>
                       <li className="rc-list__item">
                         <a
