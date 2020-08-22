@@ -18,16 +18,34 @@
   box-shadow: 0px 0px 20px 20px #f6f6f6;
 }
 .recommendProduct .left img {
-  display: inline-block;
+  display: inline;
   width: 40px;
+  vertical-align: middle;
 }
+.recommendProduct .left li {
+  padding-top: 25px;
+  height: 80px;
+  box-sizing: border-box;
+}
+.recommendProduct .left li > span {
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+}
+.recommendProduct .left li .proName {
+  width: 70px;
+  margin-left: 5px;
+}
+
 .recommendProduct ul {
   padding-left: 0;
   text-align: center;
 }
-.recommendProduct ul > li:first-child {
+.recommendProduct ul > li.active {
   height: 80px;
-  line-height: 80px;
+  /* line-height: 80px; */
   /* background-color: rgba(226,0,26, 0.04); */
   border-right: 2px solid rgba(226,0,26);
 }

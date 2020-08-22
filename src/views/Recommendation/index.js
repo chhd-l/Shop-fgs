@@ -1,5 +1,6 @@
 import React from 'react'
 import GoogleTagManager from '@/components/GoogleTagManager'
+import Skeleton from "react-skeleton-loader";
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { FormattedMessage } from 'react-intl'
@@ -12,11 +13,16 @@ import recommendation2 from "@/assets/images/recommendation2.png"
 import recommendation3 from "@/assets/images/recommendation3.png"
 import recommendation4 from "@/assets/images/recommendation4.png"
 import ImageMagnifier from "@/components/ImageMagnifier";
+import { formatMoney } from '@/utils/utils'
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
 import BannerTip from '@/components/BannerTip'
+import { getRecommendationList } from '@/api/recommendation'
+import { getPrescriptionById } from '@/api/clinic'
+import { sitePurchase } from "@/api/cart";
 import './index.css'
 
+@inject("checkoutStore", "loginStore")
 @inject("configStore")
 @observer
 class Help extends React.Component {
@@ -35,7 +41,12 @@ class Help extends React.Component {
         goodsSpecDetails: [],
         goodsSpecs: [],
       },
-      images: []
+      productList: [],
+      currentDetail: {},
+      images: [],
+      activeIndex: 0,
+      prescriberInfo: {},
+      loading: false
     }
   }
 
@@ -43,11 +54,44 @@ class Help extends React.Component {
     localStorage.setItem("isRefresh", true);
   }
   async componentDidMount () {
+    this.setState({loading: true})
+    getRecommendationList().then(res => {
+      console.log(res, 'aaa')
+      this.setState({productList: res.context.recommendationGoodsInfoRels})
+      getPrescriptionById({id: res.context.prescriberId}).then(res => {
+        console.log(res, 'bbb')
+        this.setState({prescriberInfo: res.context, loading: false})
+      })
+    })
     if (localStorage.getItem("isRefresh")) {
       localStorage.removeItem("isRefresh");
       window.location.reload();
       return false
     }
+  }
+  async hanldeLoginAddToCart() {
+    let { productList } = this.state
+    for(let i = 0; i < productList.length; i++) {
+      await sitePurchase({
+        goodsInfoId: productList[i].goodsInfo.goodsInfoId,
+        goodsNum: productList[i].recommendationNumber,
+        goodsCategory: ''
+      });
+      await this.props.checkoutStore.updateLoginCart();
+    }
+    this.props.history.push('/cart')
+  }
+  async buyNow() {
+    let { productList } = this.state
+    for(let i = 0; i < productList.length; i++) {
+      await sitePurchase({
+        goodsInfoId: productList[i].goodsInfo.goodsInfoId,
+        goodsNum: productList[i].recommendationNumber,
+        goodsCategory: ''
+      });
+      await this.props.checkoutStore.updateLoginCart();
+    }
+    this.props.history.push("/prescription");
   }
   render (h) {
     const event = {
@@ -59,6 +103,7 @@ class Help extends React.Component {
     // const { details, images } = this.state
     let details = JSON.parse(sessionStorage.getItem('detailsTemp'))
     let images = JSON.parse(sessionStorage.getItem('imagesTemp'))
+    let  { productList, activeIndex, prescriberInfo} = this.state
     return (
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
@@ -73,101 +118,120 @@ class Help extends React.Component {
               Click to get started now for your shopping, or continue reading to find out more about the benefits of veterinary health nutrition.
             </p>
             <p>
-              <button class="rc-btn rc-btn--one">View in cart</button>
+              <button class="rc-btn rc-btn--one" onClick={() => this.hanldeLoginAddToCart()}>View in cart</button>
             </p>
           </section>
-          
-          
-          {/* <div class="rc-bg-colour--brand4 text-center" >
-            <div class="rc-layout-container rc-content-h-middle">
-              <div class="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
-                <span class="rc-icon rc-icon rc-delivery--sm rc-brand1 rc-iconography"></span>
-                <div class="d-flex align-items-center">
-                  <span class="rc-margin-right--xs rc-margin-left--xs">
-                    <font style={{verticalAlign: "inherit"}}>
-                      <font style={{verticalAlign: "inherit"}}>FREE home delivery! </font>
-                      <font style={{verticalAlign: "inherit"}}>(allow a delay of 5 to 7 days due to the exceptional context)</font>
-                    </font>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div> */}
           <section className="recommendProduct">
-            <div className="recommendProductInner">
-              <div className="left">
-                <div style={{padding: '32px', textAlign: 'center', fontWeight: '500'}}>
-                  Recommendation Package
-                </div>
-                <ul>
-                  <li>
-                    <img src="https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202007260439267294.png"/>
-                    <span>Renal Dry</span>
-                  </li>
-                  <li></li>
-                  <p style={{marginTop: '60px'}}>
-                  <button class="rc-btn rc-btn--one">Buy now</button>
-                  </p>
-                  <p>
-                  <button
-                    className={`rc-styled-link color-999`}
-                  >
-                    <FormattedMessage id="Buy as a guest" />
-                  </button>
-                  </p>
-                  
-                </ul>
-              </div>
-              <div className="right">
-                <div className="main">
-                  <div className="pic">
-                    <ImageMagnifier
-                      sizeList={details.sizeList}
-                      video={details.goodsVideo}
-                      images={images}
-                      minImg={details.goodsImg}
-                      maxImg={details.goodsImg}
-                      config={false}
-                    />
+            {
+              this.state.loading?(
+                <Skeleton
+                  color="#f5f5f5"
+                  width="100%"
+                  height="100%"
+                />
+              ): (
+                productList.length && (
+                <div className="recommendProductInner">
+                  <div className="left">
+                    <div style={{padding: '32px', textAlign: 'center', fontWeight: '500'}}>
+                      Recommendation Package
+                    </div>
+                    <ul>
+                      {
+                        productList.map((el, i) => (
+                          <li onClick={() => this.setState({activeIndex: i})} className={`${i === activeIndex?'active': ''}`}>
+                            <img src={el.goodsInfo.goodsInfoImg || el.goodsInfo.goods.goodsImg}/>
+                            <span className="proName">{el.goodsInfo.goodsInfoName}</span>
+                            <span>X {el.recommendationNumber}</span>
+                          </li>
+                        ))
+                      }
+                      <p style={{marginTop: '60px'}}>
+                      <button class="rc-btn rc-btn--one" onClick={() => this.buyNow()}>Buy now</button>
+                      </p>
+                      <p>
+                      <button
+                        className={`rc-styled-link color-999`}
+                      >
+                        <FormattedMessage id="Buy as a guest" />
+                      </button>
+                      </p>
+                    </ul>
                   </div>
-                  <div className="text">
-                  <h2 style={{ color: '#E2001A', marginTop: '40px'}}>
-                    Renal + Hypoallergenic
-                  </h2>
-                  <h4>
-                    From $15.99 to $40.99
-                  </h4>
-                  <p>
-                    Renal + hypoallergenic is a complete dietetic food for adult dogs, formulated to support renal function during chronic kidney disease and intended for the reduction of intolerances to certain ingredients…
-                  </p>
-                  <p>
-                    <button class="rc-btn rc-btn--two">View Detail</button>
-                  </p>
+                  <div className="right">
+                    <div className="main">
+                      <div className="pic">
+                        <ImageMagnifier
+                          sizeList={[productList[activeIndex].goodsInfo]}
+                          video={details.goodsVideo}
+                          images={[productList[activeIndex].goodsInfo]}
+                          minImg={productList[activeIndex].goodsInfo.goodsInfoImg}
+                          maxImg={productList[activeIndex].goodsInfo.goodsInfoImg}
+                          config={false}
+                        />
+                      </div>
+                      
+                         
+                          <div className="text">
+                          <h2 style={{ color: '#E2001A', marginTop: '40px'}}>
+                            { productList[activeIndex].goodsInfo.goodsInfoName}
+                          </h2>
+                          <h4>
+                            From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
+                          </h4>
+                          <p style={{width: '350px'}}>
+                            { productList[activeIndex].goodsInfo.goods.goodsDescription || 'none'}
+                          </p>
+                          <p>
+                            <button class="rc-btn rc-btn--two" onClick={() => {
+                              this.props.history.push('/details/' + productList[activeIndex].goodsInfo.goodsInfoId)
+                            }}>View Detail</button>
+                          </p>
+                          </div>
+                    
+                      {/* <div className="text">
+                      <h2 style={{ color: '#E2001A', marginTop: '40px'}}>
+                        { productList[activeIndex].goodsInfo.goodsInfoName}
+                      </h2>
+                      <h4>
+                        From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}} to $40.99
+                      </h4>
+                      <p>
+                        Renal + hypoallergenic is a complete dietetic food for adult dogs, formulated to support renal function during chronic kidney disease and intended for the reduction of intolerances to certain ingredients…
+                      </p>
+                      <p>
+                        <button class="rc-btn rc-btn--two">View Detail</button>
+                      </p>
+                      </div> */}
+                      
+                    </div>
+                    <div className="description">
+                      <p style={{
+                        // fontFamily: 'DINPro-Medium',
+                        fontSize: '16px',
+                        color: '#666666',
+                        fontWeight: '500',
+                        letterSpacing: '0'}}>{prescriberInfo.prescriberName}</p>
+                      <p style={{
+                        // fontFamily: 'DINPro-Medium',
+                        fontSize: '12px',
+                        // color: '#666666',
+                      letterSpacing: '0'}}>{prescriberInfo.primaryCity}</p>
+                    </div>
+                    <p style={{
+                      textAlign: 'center',
+                        // fontFamily: 'DINPro-Medium',
+                        fontSize: '12px',
+                        color: '#ccc',
+                        marginBottom: '60px',
+                        letterSpacing: '0'}}>Royal Canin’s feeding guidelines can also be found on the product packaging.</p>
                   </div>
-                  
                 </div>
-                <div className="description">
-                  <p style={{
-                    // fontFamily: 'DINPro-Medium',
-                    fontSize: '16px',
-                    color: '#666666',
-                    fontWeight: '500',
-                    letterSpacing: '0'}}>Paragon Veterinary Group</p>
-                  <p style={{
-                    // fontFamily: 'DINPro-Medium',
-                    fontSize: '12px',
-                    // color: '#666666',
-                    letterSpacing: '0'}}>House, Townhead Rd, Dalston, Carlisle CA5 7JF</p>
-                </div>
-                <p style={{
-                  textAlign: 'center',
-                    // fontFamily: 'DINPro-Medium',
-                    fontSize: '12px',
-                    color: '#ccc',
-                    marginBottom: '60px',
-                    letterSpacing: '0'}}>Royal Canin’s feeding guidelines can also be found on the product packaging.</p>
-              </div>
-            </div>
+                )
+              )
+            }
+          
+            
           </section>
 
           <div class="rc-layout-container rc-two-column" style={{padding: '68px'}}>
@@ -180,7 +244,7 @@ class Help extends React.Component {
               At Royal Canin, we believe that nutrition plays a key role in supporting the health and well-being of cats and dogs. This is why we have designed ROYAL CANIN® Veterinary diets around proven nutritional science in order to address specific pet conditions.
 Follow your veterinarian's nutritional recommendation here below.
               </p>
-              <button class="rc-btn rc-btn--one" onClick={() => this.setState({isAddNewCard: true, paymentCompShow: true})}>View in Cart</button>
+              {/* <button class="rc-btn rc-btn--one" onClick={() => this.setState({isAddNewCard: true, paymentCompShow: true})}>View in Cart</button> */}
               </div>
             </div>
             <div class="rc-column">
@@ -236,13 +300,11 @@ Follow your veterinarian's nutritional recommendation here below.
                                         </p>
                                         <div class="rc-margin-top--xs">
                                           <p style={{ color: "#00BCA3" }} class="rc-numeric rc-md-up">
-                                            {/* 800 024 77 64 */}
                                             {this.props.configStore.storeContactPhoneNumber}
                                           </p>
                                         </div>
                                         <div class="rc-margin-top--xs">
                                           <p style={{ color: "#00BCA3" }} class="rc-alpha rc-border--none rc-md-down">
-                                            {/* 800 024 77 64 */}
                                             {this.props.configStore.storeContactPhoneNumber}
                                           </p>
                                         </div>
@@ -269,7 +331,6 @@ Follow your veterinarian's nutritional recommendation here below.
                                         </p>
                                         <div class="rc-margin-top--xs">
                                           <p class="rc-numeric rc-md-up" style={{ color: "rgb(0, 135, 189)" }}>
-                                            {/* contacto.mex@royalcanin.com */}
                                             {this.props.configStore.storeContactEmail}
                                           </p>
                                         </div>
@@ -281,13 +342,6 @@ Follow your veterinarian's nutritional recommendation here below.
                                   </div>
                                 </div>
                               </article>
-                              {/* <h1 class="rc-beta" style={{ margin: '0 0 0 1rem' }}>
-                                <font style={{ verticalAlign: "inherit" }}>
-                                  <Link className="rc-list__link" style={{ color: '#e2001a' }} to="/FAQ" role="menuitem">
-                                    <FormattedMessage id="footer.FAQ" />
-                                  </Link>
-                                </font>
-                              </h1> */}
                             </div>
                             <div class="rc-column rc-triple-width">
                               <div class="background-cover" style={{ backgroundImage: `url(${require("@/assets/images/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png")})` }}>
@@ -313,9 +367,6 @@ Follow your veterinarian's nutritional recommendation here below.
             <p>
               Your pet means the world to you, and their health and happiness means the world to us ! 
             </p>
-            {/* <p>
-              <button class="rc-btn rc-btn--one">View in cart</button>
-            </p> */}
           </section>
           <section className="picList" style={{textAlign: 'center', display: 'flex'}}>
             <li><img src={recommendation2}/></li>

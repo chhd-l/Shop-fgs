@@ -122,6 +122,9 @@ class ImageMagnifier extends Component {
     })
 
     let selectedSizeInfo = sizeList.filter(item => item.selected)
+    if(!selectedSizeInfo.length) {
+      selectedSizeInfo = [sizeList[0]]
+    }
     if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
       let hoverIndex = 0
       images.map((el, i) => {
@@ -149,6 +152,9 @@ class ImageMagnifier extends Component {
     const { sizeList } = nextProps
     console.log(sizeList.filter(item => item.selected))
     let selectedSizeInfo = sizeList.filter(item => item.selected)
+    if(!selectedSizeInfo.length) {
+      selectedSizeInfo = [sizeList[0]]
+    }
     if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
       let hoverIndex = 0
       images.map((el, i) => {
