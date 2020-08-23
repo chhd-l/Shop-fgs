@@ -12,6 +12,7 @@ import recommendation1 from "@/assets/images/recommendation1.png"
 import recommendation2 from "@/assets/images/recommendation2.png"
 import recommendation3 from "@/assets/images/recommendation3.png"
 import recommendation4 from "@/assets/images/recommendation4.png"
+import storeLogo from "@/assets/images/storeLogo.png"
 import ImageMagnifier from "@/components/ImageMagnifier";
 import { formatMoney } from '@/utils/utils'
 // import paymentImg from "./img/payment.jpg";
@@ -22,7 +23,7 @@ import { getPrescriptionById } from '@/api/clinic'
 import { sitePurchase } from "@/api/cart";
 import './index.css'
 
-@inject("checkoutStore", "loginStore")
+@inject("checkoutStore", "loginStore", "clinicStore")
 @inject("configStore")
 @observer
 class Help extends React.Component {
@@ -226,6 +227,7 @@ class Help extends React.Component {
                       
                     </div>
                     <div className="description">
+                      <img src={storeLogo} style={{float: 'left', width: '40px', marginRight: '20px'}}/>
                       <p style={{
                         // fontFamily: 'DINPro-Medium',
                         fontSize: '16px',
