@@ -46,7 +46,8 @@ class Help extends React.Component {
       images: [],
       activeIndex: 0,
       prescriberInfo: {},
-      loading: false
+      loading: false,
+      buttonLoading: false
     }
   }
 
@@ -59,7 +60,8 @@ class Help extends React.Component {
     getRecommendationList(this.props.match.params.id).then(res => {
       console.log(res, 'aaa')
       this.setState({productList: res.context.recommendationGoodsInfoRels})
-      getPrescriptionById({id: res.context.prescriberId}).then(res => {
+      // getPrescriptionById({id: res.context.prescriberId}).then(res => {
+      getPrescriptionById({id: '2304'}).then(res => {
         console.log(res, 'bbb')
         this.setState({prescriberInfo: res.context, loading: false})
       })
@@ -72,27 +74,38 @@ class Help extends React.Component {
   }
   async hanldeLoginAddToCart() {
     let { productList } = this.state
-    for(let i = 0; i < productList.length; i++) {
-      await sitePurchase({
-        goodsInfoId: productList[i].goodsInfo.goodsInfoId,
-        goodsNum: productList[i].recommendationNumber,
-        goodsCategory: ''
-      });
-      await this.props.checkoutStore.updateLoginCart();
+    this.setState({buttonLoading: true})
+    try{
+      for(let i = 0; i < productList.length; i++) {
+        await sitePurchase({
+          goodsInfoId: productList[i].goodsInfo.goodsInfoId,
+          goodsNum: productList[i].recommendationNumber,
+          goodsCategory: ''
+        });
+        await this.props.checkoutStore.updateLoginCart();
+      }
+      this.props.history.push('/cart')
+    }catch(e) {
+      this.setState({buttonLoading: false})
     }
-    this.props.history.push('/cart')
+    
   }
   async buyNow() {
     let { productList } = this.state
-    for(let i = 0; i < productList.length; i++) {
-      await sitePurchase({
-        goodsInfoId: productList[i].goodsInfo.goodsInfoId,
-        goodsNum: productList[i].recommendationNumber,
-        goodsCategory: ''
-      });
-      await this.props.checkoutStore.updateLoginCart();
+    this.setState({buttonLoading: true})
+    try {
+      for(let i = 0; i < productList.length; i++) {
+        await sitePurchase({
+          goodsInfoId: productList[i].goodsInfo.goodsInfoId,
+          goodsNum: productList[i].recommendationNumber,
+          goodsCategory: ''
+        });
+        await this.props.checkoutStore.updateLoginCart();
+      }
+      this.props.history.push("/prescription");
+    }catch(e) {
+      this.setState({buttonLoading: false})
     }
-    this.props.history.push("/prescription");
   }
   render (h) {
     const event = {
@@ -102,6 +115,7 @@ class Help extends React.Component {
       }
     }
     // const { details, images } = this.state
+    console.log('props',this.props)
     let details = JSON.parse(sessionStorage.getItem('detailsTemp'))
     let images = JSON.parse(sessionStorage.getItem('imagesTemp'))
     let  { productList, activeIndex, prescriberInfo} = this.state
@@ -119,7 +133,7 @@ class Help extends React.Component {
               Click to get started now for your shopping, or continue reading to find out more about the benefits of veterinary health nutrition.
             </p>
             <p>
-              <button class="rc-btn rc-btn--one" onClick={() => this.hanldeLoginAddToCart()}>View in cart</button>
+              <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.hanldeLoginAddToCart()}>View in cart</button>
             </p>
           </section>
           <section className="recommendProduct">
@@ -148,15 +162,20 @@ class Help extends React.Component {
                         ))
                       }
                       <p style={{marginTop: '60px'}}>
-                      <button class="rc-btn rc-btn--one" onClick={() => this.buyNow()}>Buy now</button>
+                      <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button>
                       </p>
-                      <p>
-                      <button
-                        className={`rc-styled-link color-999`}
-                      >
-                        <FormattedMessage id="Buy as a guest" />
-                      </button>
-                      </p>
+                      {
+                        !this.props.loginStore.isLogin && (
+                          <p>
+                          <button
+                            className={`rc-styled-link color-999`}
+                          >
+                            <FormattedMessage id="Buy as a guest" />
+                          </button>
+                          </p>
+                        )
+                      }
+                      
                     </ul>
                   </div>
                   <div className="right">
