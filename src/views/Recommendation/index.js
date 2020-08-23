@@ -164,7 +164,7 @@ class Help extends React.Component {
                       <div className="pic">
                         <ImageMagnifier
                           sizeList={[productList[activeIndex].goodsInfo]}
-                          video={details.goodsVideo}
+                          // video={details.goodsVideo}
                           images={[productList[activeIndex].goodsInfo]}
                           minImg={productList[activeIndex].goodsInfo.goodsInfoImg}
                           maxImg={productList[activeIndex].goodsInfo.goodsInfoImg}
