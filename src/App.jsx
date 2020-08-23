@@ -137,7 +137,9 @@ const App = () => (
               
               <Route exact path="/help" component={Help} />
               <Route exact path="/FAQ" component={FAQ} />
-              <Route exact path="/recommendation" component={Recommendation} />
+              <Route exact path="/recommendation/:id" render={(props) => (
+                  <Recommendation key={props.match.params.id} {...props} />
+                )} />
               
               <Route exact path="/termuse" component={TermUse} />
               <Route exact path="/privacypolicy" component={PrivacyPolicy} />

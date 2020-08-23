@@ -55,7 +55,8 @@ class Help extends React.Component {
   }
   async componentDidMount () {
     this.setState({loading: true})
-    getRecommendationList().then(res => {
+    // console.log(window.location, 'location', this.props)
+    getRecommendationList(this.props.match.params.id).then(res => {
       console.log(res, 'aaa')
       this.setState({productList: res.context.recommendationGoodsInfoRels})
       getPrescriptionById({id: res.context.prescriberId}).then(res => {

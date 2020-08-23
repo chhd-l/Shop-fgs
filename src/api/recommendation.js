@@ -10,7 +10,7 @@ export function getRecommendationList(data) {
     url: `${api.getRecommendationList}`,
     method: 'post',
     data: {
-      id: 5
+      id: data
     }
   })
 }
