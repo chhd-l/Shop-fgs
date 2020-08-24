@@ -113,6 +113,7 @@ class Details extends React.Component {
     } = this.state;
     let selectedArr = [];
     let idArr = [];
+    let baseSpecId = details.baseSpec
     specList.map((el) => {
       if (el.chidren.filter((item) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
@@ -121,7 +122,10 @@ class Details extends React.Component {
     selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
     idArr = selectedArr.map((el) => el.specDetailId);
     currentUnitPrice = details.marketPrice;
-    details.sizeList.map((item) => {
+    
+
+    details.sizeList.map((item, i) => {
+      item.basePrice = 0
       let specTextArr = [];
       for (let specItem of specList) {
         for (let specDetailItem of specItem.chidren) {
@@ -130,6 +134,14 @@ class Details extends React.Component {
             item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
           ) {
             specTextArr.push(specDetailItem.detailName);
+          }
+          // console.log(item.mo)
+          if(
+            item.mockSpecIds.includes(baseSpecId) &&
+            item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
+          ) {
+            console.log(specDetailItem.detailName, 'specDetailItem.detailName', i)
+            item.baseSpecLabel = specDetailItem.detailName
           }
         }
       }
@@ -144,6 +156,7 @@ class Details extends React.Component {
         item.selected = false;
       }
     });
+    console.log(details, 'details')
     this.setState(
       {
         details,
@@ -246,7 +259,7 @@ class Details extends React.Component {
             });
             sItem.chidren[0].selected = true;
           });
-
+          console.log(specList, 'specList')
           // this.setState({ specList });
           let sizeList = [];
           let goodsInfos = res.context.goodsInfos || [];
@@ -747,8 +760,11 @@ class Details extends React.Component {
         },
       };
     }
-    sessionStorage.setItem('detailsTemp', JSON.stringify(details))
-    sessionStorage.setItem('imagesTemp', JSON.stringify(images))
+    let selectedSpecItem = details.sizeList.filter(el => el.selected)[0]
+    if(selectedSpecItem) {
+      console.log(selectedSpecItem, 'selectedSpecItem', String(parseFloat(selectedSpecItem.baseSpecLabel)).length)
+    } 
+    
     return (
       <div>
         {event ? <GoogleTagManager additionalEvents={event} /> : null}
@@ -852,6 +868,12 @@ class Details extends React.Component {
                                     details.goodsDescription
                                   )}
                                 ></div>
+                                <div
+                                  className="description"
+                                  dangerouslySetInnerHTML={createMarkup(
+                                    selectedSpecItem.description
+                                  )}
+                                ></div>
                               </div>
                             )}
                         </div>
@@ -883,8 +905,17 @@ class Details extends React.Component {
                                           <FormattedMessage id="price" />
                                         </div>
                                         <b className="product-pricing__card__head__price red  rc-padding-y--none" >
-                                          {formatMoney(currentUnitPrice)}
+                                          {formatMoney(currentUnitPrice)} 
                                         </b>
+                                        &nbsp;&nbsp;
+                                        {
+                                          details.baseSpec?(
+                                            <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '20px', color: 'rgba(102,102,102,.7)' }}>
+                                              ({formatMoney((currentUnitPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2)*100/100)}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
+                                            </b>
+                                          ): null
+                                        }
+                                        
                                       </div>
                                     </>
                                   )}
@@ -931,6 +962,14 @@ class Details extends React.Component {
                                                 currentSubscriptionPrice || 0
                                               )}
                                             </b>
+                                            &nbsp;&nbsp;
+                                            {
+                                              details.baseSpec && currentSubscriptionPrice?(
+                                                <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '20px', color: 'rgba(102,102,102,.7)' }}>
+                                                  ({formatMoney((currentSubscriptionPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2)*100/100)}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
+                                                </b>
+                                              ): null
+                                            }
                                           </div>
                                         )}
                                       </>
