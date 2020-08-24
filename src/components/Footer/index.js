@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react';
+import {cookieSettingsBtn} from './cookieSettingsBtn'
+import {requestInvoiceJSX} from './requestInvoiceJSX'
+import MarsFooterMap from './MarsFooterMap'
 import './index.css'
 
 @inject("configStore")
@@ -15,87 +18,6 @@ class Footer extends React.Component {
   }
 
   render () {
-    const marsFooterMap = {
-      es: <div id="mars-footer-panel">
-        <div className="mars-footer-container">
-          <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
-            <li>
-              <a target="_blank" href={this.props.configStore.privacyPolicyUrl}>
-                <span className="mars-footer-label">
-                  <FormattedMessage id="footer.confidentiality" />
-                </span>
-              </a>
-            </li>
-            <li>
-              <a target="_blank" href={this.props.configStore.cookiesUrl}>
-                <span className="mars-footer-label">
-                  <FormattedMessage id="footer.cookies" />
-                </span>
-              </a>
-            </li>
-            <li>
-              <a target="_blank" href={this.props.configStore.legalTerms}>
-                <span className="mars-footer-label">
-                  <FormattedMessage id="footer.legalTerms" />
-                </span>
-              </a>
-            </li>
-          </ul>
-          <div className="mars-footer-legal text-center" style={{ fontSize: '10px' }}>
-            <p><FormattedMessage id="footer.copyrightInfo" /></p>
-          </div>
-        </div>
-      </div>,
-      en: <div id="mars-footer-panel">
-        <div className="mars-footer-container">
-          <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
-            <li>
-              <a target="_blank" href={this.props.configStore.privacyPolicyUrl}>
-                <span className="mars-footer-label">
-                  <FormattedMessage id="footer.confidentiality" />
-                </span>
-              </a>
-            </li>
-            <li>
-              <a target="_blank" href={this.props.configStore.cookiesUrl}>
-                <span className="mars-footer-label">
-                  <FormattedMessage id="footer.cookies" />
-                </span>
-              </a>
-            </li>
-            <li>
-              <a target="_blank" href={this.props.configStore.legalTerms}>
-                <span className="mars-footer-label">
-                  <FormattedMessage id="footer.legalTerms" />
-                </span>
-              </a>
-            </li>
-          </ul>
-          <div className="mars-footer-legal text-center" style={{ fontSize: '10px' }}>
-            <p><FormattedMessage id="footer.copyrightInfo" /></p>
-          </div>
-        </div>
-      </div>
-    }
-    const requestInvoiceJSX = {
-      es: <li className="rc-list__item">
-        <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/requestinvoice" role="menuitem">
-          <FormattedMessage id="footer.RequestInvoice" />
-        </Link>
-      </li>,
-      en: <li className="rc-list__item">
-        <Link className="rc-list__link text-decoration-none color-f6f6f6" to="/requestinvoice" role="menuitem">
-          <FormattedMessage id="footer.RequestInvoice" />
-        </Link>
-      </li>,
-      de: null
-    }
-
-    const cookieSettingsBtn = {
-      es: <a className="optanon-show-settings">Cookie Settings</a>,
-      en: <a className="optanon-show-settings">Cookie Settings</a>,
-      de: <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button>
-    }
     const scrollToTop = () => {
       const widget = document.querySelector('#page-top')
       widget && widget.scrollIntoView()
@@ -244,7 +166,6 @@ class Footer extends React.Component {
                       </li>
                     </ul>
                   </li>
-                  <li className="rc-list__item rc-list__item--group rc-full-width"></li>
                 </ul>
               </nav>
 
@@ -271,7 +192,8 @@ class Footer extends React.Component {
               </Link>
             </div>
           </div>
-          {marsFooterMap[process.env.REACT_APP_LANG]}
+          {/* 底部横向链接 */}
+          <MarsFooterMap/>
         </div>
         {/* <!-- OneTrust Cookies Settings button start --> */}
         {cookieSettingsBtn[process.env.REACT_APP_LANG]}

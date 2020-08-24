@@ -108,9 +108,9 @@ class RouteFilter extends Component {
           domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
           documentLanguage: 'true'
         })
-      if (process.env.REACT_APP_ONTRUST_MARS_FOOTER) {
-        loadJS(process.env.REACT_APP_ONTRUST_MARS_FOOTER)
-      }
+      // if (process.env.REACT_APP_ONTRUST_MARS_FOOTER) {
+      //   loadJS(process.env.REACT_APP_ONTRUST_MARS_FOOTER)
+      // }
     }
 
     queryStoreCateIds();
