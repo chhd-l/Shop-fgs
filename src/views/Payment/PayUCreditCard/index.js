@@ -183,12 +183,11 @@ class PayOs extends React.Component {
         selectedCardInfo
       } = this.state;
       if (this.isLogin) {
-        debugger;
         if (
           needReConfirmCVV &&
           (!selectedCardInfo ||
             !selectedCardInfo.cardCvv ||
-            !selectedCardInfo.paymentMethod)
+            !selectedCardInfo.id)
         ) {
           throw new Error(this.props.intl.messages['payment.errTip']);
         }
@@ -209,7 +208,6 @@ class PayOs extends React.Component {
           }
         );
       } else {
-        debugger;
         if (!payosdata.token) {
           throw new Error(this.props.intl.messages.clickConfirmCardButton);
         }
