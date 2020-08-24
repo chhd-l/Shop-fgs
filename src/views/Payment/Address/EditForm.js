@@ -39,8 +39,8 @@ export default class EditForm extends React.Component {
     getDictionary({ type: 'country' })
       .then(res => {
         const { deliveryAddress } = this.state
-        deliveryAddress.country = find(res, ele => ele.name.toLowerCase() === 'mexico')
-          ? find(res, ele => ele.name.toLowerCase() === 'mexico').id //mexico
+        deliveryAddress.country = find(res, ele => ele.name.toLowerCase() === process.env.REACT_APP_DEFAULT_COUNTRY_NAME)
+          ? find(res, ele => ele.name.toLowerCase() === process.env.REACT_APP_DEFAULT_COUNTRY_NAME).id
           : ''
         this.setState({
           countryList: res,

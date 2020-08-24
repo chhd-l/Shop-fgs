@@ -53,8 +53,8 @@ class AddressList extends React.Component {
     await getDictionary({ type: 'country' })
       .then(res => {
         const { deliveryAddress } = this.state
-        deliveryAddress.country = find(res, ele => ele.name.toLowerCase() == 'mexico')
-          ? find(res, ele => ele.name.toLowerCase() == 'mexico').id
+        deliveryAddress.country = find(res, ele => ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME)
+          ? find(res, ele => ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME).id
           : ''
         this.setState({
           countryList: res,
@@ -130,8 +130,8 @@ class AddressList extends React.Component {
       address1: '',
       address2: '',
       rfc: '',
-      country: find(this.state.countryList, ele => ele.name.toLowerCase() === 'mexico')
-        ? find(this.state.countryList, ele => ele.name.toLowerCase() === 'mexico').id
+      country: find(this.state.countryList, ele => ele.name.toLowerCase() === process.env.REACT_APP_DEFAULT_COUNTRY_NAME)
+        ? find(this.state.countryList, ele => ele.name.toLowerCase() === process.env.REACT_APP_DEFAULT_COUNTRY_NAME).id
         : '',
       city: '',
       postCode: '',

@@ -66,9 +66,9 @@ class LoginDeliveryAddress extends React.Component {
       const { deliveryAddress } = this.state;
       deliveryAddress.country = find(
         res,
-        (ele) => ele.name.toLowerCase() == "mexico"
+        (ele) => ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME
       )
-        ? find(res, (ele) => ele.name.toLowerCase() == "mexico").id
+        ? find(res, (ele) => ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME).id
         : "";
       this.setState({
         countryList: res,
@@ -169,11 +169,11 @@ class LoginDeliveryAddress extends React.Component {
       rfc: "",
       country: find(
         this.state.countryList,
-        (ele) => ele.name.toLowerCase() === "mexico"
+        (ele) => ele.name.toLowerCase() === process.env.REACT_APP_DEFAULT_COUNTRY_NAME
       )
         ? find(
           this.state.countryList,
-          (ele) => ele.name.toLowerCase() === "mexico"
+          (ele) => ele.name.toLowerCase() === process.env.REACT_APP_DEFAULT_COUNTRY_NAME
         ).id
         : "",
       city: "",
