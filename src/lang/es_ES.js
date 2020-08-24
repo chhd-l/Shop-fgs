@@ -452,6 +452,7 @@ const en_US = {
   "payment.subTip2": "¡Guarde su primer pedido de suscripción de {icon} y ahorre {val} ({val2}) hoy!",
   'payment.totalProduct': '{val} producto(s) en total',
   'payment.yourOrder': 'Su pedido',
+  'payment.errTip': 'por favor ingrese cvv o seleccione una tarjeta',
   'paymentMethod': 'Método de pago',
   'payStatus.NOT_PAID': 'No pagado',
   'payStatus.PAID': 'Pagado',

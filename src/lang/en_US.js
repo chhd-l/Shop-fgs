@@ -446,6 +446,7 @@ const en_US = {
   "payment.subTip2": "Save your first {icon} Subscription order and save {val} ({val2}) today!",
   'payment.totalProduct': '{val} total product(s)',
   "payment.yourOrder": "Your order",
+  'payment.errTip': 'please enter cvv or select a card',
   paymentMethod: "Payment method",
   'payStatus.NOT_PAID': 'Unpaid',
   'payStatus.PAID': 'Paid',

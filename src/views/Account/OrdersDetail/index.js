@@ -12,7 +12,6 @@ import { formatMoney, getDictionary } from "@/utils/utils"
 import { find, findIndex } from 'lodash'
 import { queryCityNameById } from "@/api"
 import { getOrderDetails, cancelOrder, getPayRecord, returnFindByTid } from "@/api/order"
-import { getSubDetail } from "@/api/subscription"
 import {
   IMG_DEFAULT,
   ORDER_STATUS_ENUM,
@@ -127,26 +126,6 @@ class AccountOrders extends React.Component {
           progressList: progressList,
           defaultLocalDateTime: res.defaultLocalDateTime
         })
-        // 查询支付卡号信息
-        if (resContext.subscriptionResponseVO) {
-          this.setState({
-            subNumber: resContext.subscriptionResponseVO.subscribeId
-          }, () => {
-            getSubDetail(this.state.subNumber)
-              .then(subRes => {
-                this.setState({
-                  payRecord: subRes.context.paymentInfo
-                })
-              })
-          })
-        } else {
-          getPayRecord(orderNumber)
-            .then(res => {
-              this.setState({
-                payRecord: res.context
-              })
-            })
-        }
       })
       .catch(err => {
         this.setState({
@@ -154,6 +133,14 @@ class AccountOrders extends React.Component {
           errMsg: err.toString()
         })
       })
+
+      // 查询支付卡信息
+      getPayRecord(orderNumber)
+        .then(res => {
+          this.setState({
+            payRecord: res.context
+          })
+        })
   }
   matchCityName (dict, cityId) {
     return dict.filter(c => c.id === cityId).length
@@ -458,19 +445,15 @@ class AccountOrders extends React.Component {
                                           ? <>
                                             <span className="medium">********{payRecord.last4Digits}</span><br />
                                           </>
-                                          : payRecord.cardNumber
-                                            ? <>
-                                              <span className="medium">{payRecord.cardNumber}</span><br />
-                                            </>
                                             : null}
-                                        {payRecord.accountName || payRecord.cardOwner
+                                        {payRecord.accountName
                                           ? <>
-                                            {payRecord.accountName || payRecord.cardOwner}<br />
+                                            {payRecord.accountName}<br />
                                           </>
                                           : null}
-                                        {payRecord.phone || payRecord.phoneNumber
+                                        {payRecord.phone
                                           ? <>
-                                            {payRecord.phone || payRecord.phoneNumber}<br />
+                                            {payRecord.phone}<br />
                                           </>
                                           : null}
                                         {payRecord.email}

@@ -250,6 +250,7 @@ const en_US = {
   "payment.subTip1": "Sie sparen ein zusätzliches {val} für diese Bestellung!",
   "payment.subTip2":
     "Speichern Sie Ihre erste {icon} Abonnementbestellung und speichern Sie {val} ({val2}) noch heute!",
+  'payment.errTip': 'Bitte geben Sie cvv ein oder wählen Sie eine Karte aus',
   "confirmation.info1": "Vielen Dank für Ihren Auftrag.",
   "confirmation.info2": "In naher Zukunft werden sich unsere Mitarbeiter mit Ihnen in Verbindung setzen, um die Bestellung zu bestätigen.",
   "confirmation.info3": "Adressen und Versandarten sind unter Ihrer Ware angegeben.",

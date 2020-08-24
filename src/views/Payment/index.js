@@ -269,9 +269,9 @@ class Payment extends React.Component {
       } else {
         const defaultCountryId = find(
           countryRes,
-          (ele) => ele.name.toLowerCase() == "mexico"
+          (ele) => ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME
         )
-          ? find(countryRes, (ele) => ele.name.toLowerCase() == "mexico").id
+          ? find(countryRes, (ele) => ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME).id
           : "";
         deliveryAddress.country = defaultCountryId;
         billingAddress.country = defaultCountryId;
@@ -481,18 +481,23 @@ class Payment extends React.Component {
           });
         },
         'payu_credit_card': () => {
-          parameters = Object.assign({}, commonParameter);
-          if (this.state.subForm.buyWay === 'frequency') {
-            parameters = Object.assign({}, commonParameter, {
-              payChannelItem: 'payu_subscription'
-            });
+          const { selectedCardInfo } = this.state
+          if (!this.isLogin) {
+            parameters = Object.assign({}, commonParameter)
           } else {
-            const { selectedCardInfo } = this.state
-            parameters = Object.assign({}, commonParameter, {
-              lightWordCvv: selectedCardInfo.cardCvv,
-              paymentMethodId: selectedCardInfo.id,
-              payChannelItem: 'payu_customer'
+            const tempPublicParams = Object.assign({}, commonParameter, {
+              paymentMethodId: selectedCardInfo.id
             });
+            if (this.state.subForm.buyWay === 'frequency') {
+              parameters = Object.assign({}, tempPublicParams, {
+                payChannelItem: 'payu_subscription'
+              });
+            } else {
+              parameters = Object.assign({}, tempPublicParams, {
+                lightWordCvv: selectedCardInfo.cardCvv,
+                payChannelItem: 'payu_customer'
+              });
+            }
           }
         },
         'adyen_credit_card': () => {
@@ -584,7 +589,7 @@ class Payment extends React.Component {
   async doGetAdyenPayParam (type) {
     try {
       let parameters = await this.getAdyenPayParam(type)
-      this.allAdyenPayment(parameters, type)
+      await this.allAdyenPayment(parameters, type)
     } catch (err) {
       if (err.message !== 'agreement failed') {
         this.showErrorMsg(err.message ? err.message.toString() : err.toString());
@@ -715,7 +720,7 @@ class Payment extends React.Component {
           tid: err.errorData
         }, () => this.queryOrderDetails())
       }
-      throw new Error(err)
+      throw new Error(err.message)
     } finally {
       this.endLoading();
     }
@@ -1107,8 +1112,8 @@ class Payment extends React.Component {
           onPayosDataChange={data => { this.setState({ payosdata: data }) }}
           onCardInfoChange={data => { this.setState({ creditCardInfo: data }) }}
           onPaymentCompDataChange={data => { this.setState({ selectedCardInfo: data }) }}
-          isApplyCvv={this.state.subForm.buyWay === 'frequency'}
-          isSubscriptionAddNewCard={this.state.subForm.buyWay === 'frequency'}
+          isApplyCvv={false}
+          needReConfirmCVV={this.state.subForm.buyWay === 'once'}
            />
       </div>
       {/* adyenCreditCard */}

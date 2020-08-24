@@ -30,7 +30,7 @@ class PaymentComp extends React.Component {
     this.state = {
       creditCardList: [],
       isEdit: false,
-      creditCardInfo: {
+      creditCardInfoForm: {
         cardNumber: '',
         cardMmyy: '',
         cardCvv: '',
@@ -53,7 +53,8 @@ class PaymentComp extends React.Component {
       completeCardShow: false,
       deliveryAddress: {},
       confirmCardInfo: {},
-      prevEditCardNumber: ''
+      prevEditCardNumber: '',
+      currentEditOriginCardInfo: null
     };
   }
   componentWillReceiveProps(props) {
@@ -95,7 +96,6 @@ class PaymentComp extends React.Component {
       //     el.selected = false;
       //   }
       // });
-      // debugger;
       let filterList = this.state.creditCardList.filter((el) => {
         if (el.isDefault === 1) {
           el.selected = true;
@@ -148,7 +148,6 @@ class PaymentComp extends React.Component {
       } else {
         this.props.getSelectedValue && this.props.getSelectedValue({});
       }
-      // debugger
       this.setState({ creditCardList: res.context });
     } catch (err) {
       console.log(err);
@@ -164,7 +163,7 @@ class PaymentComp extends React.Component {
     let { deliveryAddress } = this.state;
     this.setState(
       {
-        creditCardInfo: {
+        creditCardInfoForm: {
           cardNumber: '',
           cardMmyy: '',
           cardCvv: '',
@@ -261,30 +260,29 @@ class PaymentComp extends React.Component {
     );
   }
   cardNumberFocus() {
-    let { creditCardInfo } = this.state;
+    let { creditCardInfoForm } = this.state;
     this.setState({
-      prevEditCardNumber: creditCardInfo.cardNumber,
-      creditCardInfo: Object.assign(creditCardInfo, {
+      prevEditCardNumber: creditCardInfoForm.cardNumber,
+      creditCardInfoForm: Object.assign(creditCardInfoForm, {
         cardNumber: ''
       })
     });
   }
   cardNumberBlur() {
-    let { creditCardInfo } = this.state;
-    if (!creditCardInfo.cardNumber) {
+    let { creditCardInfoForm } = this.state;
+    if (!creditCardInfoForm.cardNumber) {
       this.setState({
-        creditCardInfo: Object.assign(creditCardInfo, {
+        creditCardInfoForm: Object.assign(creditCardInfoForm, {
           cardNumber: this.state.prevEditCardNumber
         })
       });
     }
   }
   async cardNumberChange(e) {
-    // debugger;
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     let cardNumber =
-      value.replace(/\s*/g, '') || this.state.creditCardInfo.cardNumber;
+      value.replace(/\s*/g, '') || this.state.creditCardInfoForm.cardNumber;
 
     try {
       let res = await axios.post(
@@ -313,20 +311,19 @@ class PaymentComp extends React.Component {
     }
   }
   cardInfoInputChange(e) {
-    // debugger;
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    const { creditCardInfo } = this.state;
+    const { creditCardInfoForm, currentEditOriginCardInfo } = this.state;
     if (name === 'cardNumber') {
       let beforeValue = value.substr(0, value.length - 1);
       let inputValue = value.substr(value.length - 1, 1);
       if (isNaN(inputValue)) {
-        creditCardInfo[name] = beforeValue;
+        creditCardInfoForm[name] = beforeValue;
       } else {
-        creditCardInfo[name] = value.replace(/\s*/g, '');
+        creditCardInfoForm[name] = value.replace(/\s*/g, '');
       }
-      // creditCardInfo[name] = value.replace(/\s*/g, "");
+      // creditCardInfoForm[name] = value.replace(/\s*/g, "");
     } else if (name === 'cardMmyy') {
       // 获取 / 前后数字
       let splitArr = value.split('/');
@@ -340,35 +337,44 @@ class PaymentComp extends React.Component {
         noFormatStr = splitArr[0];
         finalValue = noFormatStr.slice(0, 2);
       }
-      creditCardInfo[name] = finalValue;
+      creditCardInfoForm[name] = finalValue;
       // let beforeValue = value.substr(0, value.length - 1);
       // let inputValue = value.substr(value.length - 1, 1);
 
       // if (
-      //   creditCardInfo[name] !== beforeValue &&
-      //   creditCardInfo[name].substr(0, creditCardInfo[name].length - 1) !==
+      //   creditCardInfoForm[name] !== beforeValue &&
+      //   creditCardInfoForm[name].substr(0, creditCardInfoForm[name].length - 1) !==
       //   value
       // )
       //   return;
       // if (
       //   isNaN(parseInt(inputValue)) &&
-      //   value.length > creditCardInfo[name].length
+      //   value.length > creditCardInfoForm[name].length
       // )
       //   return;
-      // if (creditCardInfo[name].length == 2 && value.length == 3) {
-      //   creditCardInfo[name] = value.slice(0, 2) + "/" + value.slice(2);
-      // } else if (creditCardInfo[name].length == 4 && value.length == 3) {
-      //   creditCardInfo[name] = creditCardInfo[name].slice(0, 2);
+      // if (creditCardInfoForm[name].length == 2 && value.length == 3) {
+      //   creditCardInfoForm[name] = value.slice(0, 2) + "/" + value.slice(2);
+      // } else if (creditCardInfoForm[name].length == 4 && value.length == 3) {
+      //   creditCardInfoForm[name] = creditCardInfoForm[name].slice(0, 2);
       // } else {
-      //   creditCardInfo[name] = value;
+      //   creditCardInfoForm[name] = value;
       // }
     } else {
-      creditCardInfo[name] = value;
+      creditCardInfoForm[name] = value;
+    }
+    // 编辑状态，一旦修改了cardMmyy/cardOwner/cardCvv，则需重新输入卡号
+    if (
+      creditCardInfoForm.cardNumber.includes('*') &&
+      (creditCardInfoForm.cardMmyy !== currentEditOriginCardInfo.cardMmyy ||
+        creditCardInfoForm.cardOwner !== currentEditOriginCardInfo.cardOwner ||
+        creditCardInfoForm.cardCvv)
+    ) {
+      creditCardInfoForm.cardNumber = '';
     }
     if (['cardNumber', 'cardMmyy', 'cardCvv'].indexOf(name) === -1) {
       this.inputBlur(e);
     }
-    this.setState({ creditCardInfo });
+    this.setState({ creditCardInfoForm });
   }
   inputBlur(e) {
     let validDom = Array.from(
@@ -385,18 +391,37 @@ class PaymentComp extends React.Component {
   }
   async handleSave(e) {
     e.preventDefault();
-    const { creditCardInfo } = this.state;
-    for (let k in creditCardInfo) {
-      let fieldList = [
-        'cardNumber',
-        'cardMmyy',
-        'cardCvv',
-        'cardOwner',
-        'email',
-        'phoneNumber',
-        'identifyNumber'
-      ];
-      if (fieldList.indexOf(k) !== -1 && this.state.creditCardInfo[k] === '') {
+    const { creditCardInfoForm, currentEditOriginCardInfo } = this.state;
+    let queryPaymentsosToken = true;
+    let fieldList = [
+      'cardNumber',
+      'cardMmyy',
+      'cardCvv',
+      'cardOwner',
+      'email',
+      'phoneNumber',
+      'identifyNumber'
+    ];
+    // 修改卡信息时，
+    // 修改cardNumber/cardMmyy/cardOwner，cvv必填，需重新获取token
+    // 修改其他(email/phone)时，cvv不必填，无需重新获取token
+    if (creditCardInfoForm.id) {
+      if (
+        creditCardInfoForm.cardNumber !==
+          currentEditOriginCardInfo.cardNumber ||
+        creditCardInfoForm.cardMmyy !== currentEditOriginCardInfo.cardMmyy ||
+        creditCardInfoForm.cardOwner !== currentEditOriginCardInfo.cardOwner
+      ) {
+      } else {
+        queryPaymentsosToken = false;
+        fieldList.splice(2, 1);
+      }
+    }
+    for (let k in creditCardInfoForm) {
+      if (
+        fieldList.indexOf(k) !== -1 &&
+        this.state.creditCardInfoForm[k] === ''
+      ) {
         this.showErrorMsg(
           this.props.intl.messages.pleasecompleteTheRequiredItem
         );
@@ -405,7 +430,7 @@ class PaymentComp extends React.Component {
       if (
         k === 'email' &&
         !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(
-          creditCardInfo[k].replace(/\s*/g, '')
+          creditCardInfoForm[k].replace(/\s*/g, '')
         )
       ) {
         this.showErrorMsg(this.props.intl.messages.pleaseEnterTheCorrectEmail);
@@ -417,17 +442,16 @@ class PaymentComp extends React.Component {
     });
 
     try {
-      // 未修改卡，则不需要重新获取token
       let res;
-      if (!creditCardInfo.cardNumber.includes('*')) {
+      if (queryPaymentsosToken) {
         res = await axios.post(
           'https://api.paymentsos.com/tokens',
           {
             token_type: 'credit_card',
-            card_number: creditCardInfo.cardNumber,
-            expiration_date: creditCardInfo.cardMmyy.replace(/\//, '-'),
-            holder_name: creditCardInfo.cardOwner,
-            credit_card_cvv: creditCardInfo.cardCvv
+            card_number: creditCardInfoForm.cardNumber,
+            expiration_date: creditCardInfoForm.cardMmyy.replace(/\//, '-'),
+            holder_name: creditCardInfoForm.cardOwner,
+            credit_card_cvv: creditCardInfoForm.cardCvv
           },
           {
             headers: {
@@ -451,23 +475,24 @@ class PaymentComp extends React.Component {
       }
 
       let params = {
-        // cardCvv: creditCardInfo.cardCvv,
-        // cardMmyy: creditCardInfo.cardMmyy,
-        // cardNumber: creditCardInfo.cardNumber,
-        // cardOwner: creditCardInfo.cardOwner,
+        // cardCvv: creditCardInfoForm.cardCvv,
+        // cardMmyy: creditCardInfoForm.cardMmyy,
+        // cardNumber: creditCardInfoForm.cardNumber,
+        // cardOwner: creditCardInfoForm.cardOwner,
         // cardType: res.data.card_type,
         customerId: this.userInfo ? this.userInfo.customerId : '',
         // vendor: res.data.vendor,
-        id: creditCardInfo.id ? creditCardInfo.id : '',
-        email: creditCardInfo.email,
-        phoneNumber: creditCardInfo.phoneNumber,
-        isDefault: creditCardInfo.isDefault ? '1' : '0',
+        id: creditCardInfoForm.id ? creditCardInfoForm.id : '',
+        email: creditCardInfoForm.email,
+        phoneNumber: creditCardInfoForm.phoneNumber,
+        isDefault: creditCardInfoForm.isDefault ? '1' : '0',
 
         accountName: this.userInfo ? this.userInfo.customerAccount : '',
         storeId: process.env.REACT_APP_STOREID,
-        paymentToken: res ? res.data.token : creditCardInfo.paymentToken,
-        paymentCustomerId: creditCardInfo.paymentCustomerId,
-        paymentTransactionId: creditCardInfo.paymentTransactionId
+        paymentToken: res ? res.data.token : creditCardInfoForm.paymentToken,
+        paymentCustomerId: creditCardInfoForm.paymentCustomerId,
+        paymentTransactionId: creditCardInfoForm.paymentTransactionId,
+        paymentCvv: res ? res.data.encrypted_cvv : ''
       };
 
       let addRes = await addOrUpdatePaymentMethod(params);
@@ -481,16 +506,16 @@ class PaymentComp extends React.Component {
         await this.getPaymentMethodList();
 
         if (window.location.pathname === '/payment/payment') {
-          let creditCardInfo = {};
+          let creditCardInfoForm = {};
           this.state.creditCardList.map((el) => {
             if (el.id === addRes.context.id) {
               el.selected = true;
-              creditCardInfo = el;
+              creditCardInfoForm = el;
             }
           });
           console.log(this.state.creditCardList, 'list');
           this.props.getSelectedValue &&
-            this.props.getSelectedValue(creditCardInfo);
+            this.props.getSelectedValue(creditCardInfoForm);
           this.setState({ isCurrentCvvConfirm: true });
         } else {
           let filterList = this.state.creditCardList.filter((el) => {
@@ -529,12 +554,12 @@ class PaymentComp extends React.Component {
             loading: false,
             isEdit: false,
             currentCardInfo: addRes.context,
-            creditCardInfo: addRes.context,
+            creditCardInfoForm: addRes.context,
             completeCardShow: true
           },
           () => {
             this.props.getSelectedValue &&
-              this.props.getSelectedValue(this.state.creditCardInfo);
+              this.props.getSelectedValue(this.state.creditCardInfoForm);
           }
         );
       }
@@ -624,7 +649,7 @@ class PaymentComp extends React.Component {
   render() {
     let pathname = window.location.pathname;
     const {
-      creditCardInfo,
+      creditCardInfoForm,
       creditCardList,
       isCurrentCvvConfirm,
       currentCardInfo
@@ -744,7 +769,6 @@ class PaymentComp extends React.Component {
                     onClick={() => {
                       if (pathname !== '/account/paymentMethod') {
                         if (creditCardList[idx].selected) return;
-                        // debugger;
                         creditCardList.map((el) => (el.selected = false));
                         el.selected = true;
                         // this.props.getSelectedValue &&
@@ -795,30 +819,33 @@ class PaymentComp extends React.Component {
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            // todo
-                            let creditCardInfo = { ...el };
-                            creditCardInfo.cardCvv = '';
-                            creditCardInfo.cardNumber = creditCardInfo.paymentMethod
-                              ? creditCardInfo.paymentMethod.bin_number +
+                            let creditCardInfoForm = { ...el };
+                            creditCardInfoForm.cardCvv = '';
+                            creditCardInfoForm.cardNumber = creditCardInfoForm.paymentMethod
+                              ? creditCardInfoForm.paymentMethod.bin_number +
                                 '****' +
-                                creditCardInfo.paymentMethod.last_4_digits
+                                creditCardInfoForm.paymentMethod.last_4_digits
                               : '';
-                            creditCardInfo.cardMmyy = creditCardInfo.paymentMethod
-                              ? creditCardInfo.paymentMethod.expiration_date.substr(
+                            creditCardInfoForm.cardMmyy = creditCardInfoForm.paymentMethod
+                              ? creditCardInfoForm.paymentMethod.expiration_date.substr(
                                   0,
                                   3
                                 ) +
-                                creditCardInfo.paymentMethod.expiration_date.substr(
+                                creditCardInfoForm.paymentMethod.expiration_date.substr(
                                   5
                                 )
                               : '';
-                            creditCardInfo.cardOwner = creditCardInfo.paymentMethod
-                              ? creditCardInfo.paymentMethod.holder_name
+                            creditCardInfoForm.cardOwner = creditCardInfoForm.paymentMethod
+                              ? creditCardInfoForm.paymentMethod.holder_name
                               : '';
                             this.setState(
                               {
                                 isEdit: true,
-                                creditCardInfo
+                                creditCardInfoForm,
+                                currentEditOriginCardInfo: Object.assign(
+                                  {},
+                                  creditCardInfoForm
+                                )
                               },
                               () => {
                                 this.scrollToPaymentComp();
@@ -1213,7 +1240,7 @@ class PaymentComp extends React.Component {
                                     type="tel"
                                     className="rc-input__control form-control email"
                                     id="number"
-                                    value={creditCardInfo.cardNumber}
+                                    value={creditCardInfoForm.cardNumber}
                                     onChange={(e) =>
                                       this.cardInfoInputChange(e)
                                     }
@@ -1254,7 +1281,7 @@ class PaymentComp extends React.Component {
                                     data-phonelength="18"
                                     data-js-validate="(^(\+?7|8)?9\d{9}$)"
                                     data-range-error="The phone number should contain 10 digits"
-                                    value={creditCardInfo.cardMmyy}
+                                    value={creditCardInfoForm.cardMmyy}
                                     onChange={(e) =>
                                       this.cardInfoInputChange(e)
                                     }
@@ -1285,7 +1312,7 @@ class PaymentComp extends React.Component {
                                     data-phonelength="18"
                                     data-js-validate="(^(\+?7|8)?9\d{9}$)"
                                     data-range-error="The phone number should contain 10 digits"
-                                    value={creditCardInfo.cardCvv}
+                                    value={creditCardInfoForm.cardCvv}
                                     onChange={(e) =>
                                       this.cardInfoInputChange(e)
                                     }
@@ -1320,7 +1347,7 @@ class PaymentComp extends React.Component {
                         type="text"
                         className="rc-input__control form-control cardOwner"
                         name="cardOwner"
-                        value={creditCardInfo.cardOwner}
+                        value={creditCardInfoForm.cardOwner}
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
                         maxLength="40"
@@ -1350,7 +1377,7 @@ class PaymentComp extends React.Component {
                         type="email"
                         className="rc-input__control email"
                         id="email"
-                        value={creditCardInfo.email}
+                        value={creditCardInfoForm.email}
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
                         name="email"
@@ -1386,7 +1413,7 @@ class PaymentComp extends React.Component {
                         // data-js-validate="(^(\+?7|8)?9\d{9}$)"
                         data-js-pattern="(^\d{10}$)"
                         data-range-error="The phone number should contain 10 digits"
-                        value={creditCardInfo.phoneNumber}
+                        value={creditCardInfoForm.phoneNumber}
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
                         name="phoneNumber"
@@ -1414,15 +1441,15 @@ class PaymentComp extends React.Component {
                       maxWidth: '400px'
                     }}
                     onClick={() => {
-                      creditCardInfo.isDefault = !creditCardInfo.isDefault;
-                      this.setState({ creditCardInfo });
+                      creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
+                      this.setState({ creditCardInfoForm });
                     }}
                   >
-                    {creditCardInfo.isDefault ? (
+                    {creditCardInfoForm.isDefault ? (
                       <input
                         type="checkbox"
                         className="rc-input__checkbox"
-                        value={creditCardInfo.isDefault}
+                        value={creditCardInfoForm.isDefault}
                         key="1"
                         checked
                       />
@@ -1430,7 +1457,7 @@ class PaymentComp extends React.Component {
                       <input
                         type="checkbox"
                         className="rc-input__checkbox"
-                        value={creditCardInfo.isDefault}
+                        value={creditCardInfoForm.isDefault}
                         key="2"
                       />
                     )}

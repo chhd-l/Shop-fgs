@@ -58,19 +58,15 @@ class InfosPreview extends React.Component {
                 ? <>
                   <span className="medium">********{payRecord.last4Digits}</span><br />
                 </>
-                : payRecord.cardNumber
-                  ? <>
-                    <span className="medium">{payRecord.cardNumber}</span><br />
-                  </>
                   : null}
-              {payRecord.accountName || payRecord.cardOwner
+              {payRecord.accountName
                 ? <>
-                  {payRecord.accountName || payRecord.cardOwner}<br />
+                  {payRecord.accountName}<br />
                 </>
                 : null}
-              {payRecord.phone || payRecord.phoneNumber
+              {payRecord.phone
                 ? <>
-                  {payRecord.phone || payRecord.phoneNumber}<br />
+                  {payRecord.phone}<br />
                 </>
                 : null}
               {payRecord.email}
