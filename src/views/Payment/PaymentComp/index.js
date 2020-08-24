@@ -405,8 +405,9 @@ class PaymentComp extends React.Component {
       };
 
       let addRes = await addOrUpdatePaymentMethod(params);
+      let { creditCardList } = this.state;
 
-      if (this.state.creditCardList.length) {
+      if (creditCardList.length) {
         this.setState({
           loading: false,
           isEdit: false
@@ -429,6 +430,8 @@ class PaymentComp extends React.Component {
         this.initCardInfo();
       } else {
         await this.getPaymentMethodList();
+        this.state.creditCardList[0].cardCvv = creditCardInfoForm.cardCvv
+        this.state.creditCardList[0].selected = true;
         this.setState(
           {
             loading: false,
@@ -440,7 +443,7 @@ class PaymentComp extends React.Component {
           },
           () => {
             this.props.getSelectedValue &&
-              this.props.getSelectedValue(this.state.creditCardInfoForm);
+              this.props.getSelectedValue(this.state.creditCardList[0]);
           }
         );
       }
@@ -726,9 +729,7 @@ class PaymentComp extends React.Component {
                           className={`col-12 col-sm-9 flex-column justify-content-around d-flex`}
                         >
                           <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
-                            <div
-                              className={`col-12 color-999`}
-                            >
+                            <div className={`col-12 color-999`}>
                               <span style={{ fontSize: '14px' }}>
                                 <FormattedMessage id="name2" />
                               </span>
