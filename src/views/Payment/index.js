@@ -250,6 +250,12 @@ class Payment extends React.Component {
     }
     let countryRes = await getDictionary({ type: "country" });
     const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
+    const defaultCountryId = find(
+      countryRes,
+      (ele) => ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME
+    )
+      ? find(countryRes, (ele) => ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME).id
+      : "";
 
     if (!this.isLogin) {
       let deliveryInfo = store.get("deliveryInfo");
@@ -260,19 +266,13 @@ class Payment extends React.Component {
           deliveryInfo.deliveryAddress.lastName;
         creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
         this.setState({
-          deliveryAddress: deliveryInfo.deliveryAddress,
-          billingAddress: deliveryInfo.billingAddress,
+          deliveryAddress: Object.assign(deliveryInfo.deliveryAddress, { country: defaultCountryId }),
+          billingAddress: Object.assign(deliveryInfo.billingAddress, { country: defaultCountryId }),
           commentOnDelivery: deliveryInfo.commentOnDelivery,
           billingChecked: deliveryInfo.billingChecked,
-          creditCardInfo: creditCardInfo,
+          creditCardInfo: creditCardInfo
         });
       } else {
-        const defaultCountryId = find(
-          countryRes,
-          (ele) => ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME
-        )
-          ? find(countryRes, (ele) => ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME).id
-          : "";
         deliveryAddress.country = defaultCountryId;
         billingAddress.country = defaultCountryId;
         this.setState({
