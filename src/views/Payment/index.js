@@ -63,6 +63,11 @@ const rules = [
     require: true,
   },
   {
+    key: 'email',
+    regExp: /^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/,
+    require: true
+  },
+  {
     key: "phoneNumber",
     require: true,
   },
@@ -482,12 +487,13 @@ class Payment extends React.Component {
           });
         },
         'payu_credit_card': () => {
-          const { selectedCardInfo } = this.state
+          const { selectedCardInfo, creditCardInfo } = this.state
           if (!this.isLogin) {
             parameters = Object.assign({}, commonParameter)
           } else {
             const tempPublicParams = Object.assign({}, commonParameter, {
-              paymentMethodId: selectedCardInfo.id
+              paymentMethodId: selectedCardInfo.id,
+              creditDardCvv: creditCardInfo.creditDardCvv
             });
             if (this.state.subForm.buyWay === 'frequency') {
               parameters = Object.assign({}, tempPublicParams, {
@@ -495,7 +501,6 @@ class Payment extends React.Component {
               });
             } else {
               parameters = Object.assign({}, tempPublicParams, {
-                lightWordCvv: selectedCardInfo.cardCvv,
                 payChannelItem: 'payu_customer'
               });
             }
@@ -1114,7 +1119,7 @@ class Payment extends React.Component {
           onCardInfoChange={data => { this.setState({ creditCardInfo: data }) }}
           onPaymentCompDataChange={data => { this.setState({ selectedCardInfo: data }) }}
           isApplyCvv={false}
-          needReConfirmCVV={this.state.subForm.buyWay === 'once'}
+          needReConfirmCVV={true}
            />
       </div>
       {/* adyenCreditCard */}

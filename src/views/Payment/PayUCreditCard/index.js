@@ -45,7 +45,8 @@ class PayOs extends React.Component {
         cardOwner: '',
         email: '',
         phoneNumber: '',
-        identifyNumber: '111'
+        identifyNumber: '111',
+        creditDardCvv: ''
       },
       payosdata: {},
       isReadPrivacyPolicyInit: true,
@@ -197,16 +198,27 @@ class PayOs extends React.Component {
         ) {
           throw new Error(this.props.intl.messages['payment.errTip']);
         }
-        this.setState(
-          {
-            // payosdata: res.data,
-            creditCardInfo: Object.assign({}, selectedCardInfo)
-          },
-          () => {
-            // this.props.onPayosDataChange(this.state.payosdata);
-            this.props.onCardInfoChange(this.state.creditCardInfo);
-          }
-        );
+        this.props.startLoading();
+        const result = await this.payUTokenPromise({
+          cvv: selectedCardInfo.cardCvv,
+          token: selectedCardInfo.paymentMethod.token
+        });
+        try {
+          const parsedRes = JSON.parse(result);
+          this.setState(
+            {
+              creditCardInfo: Object.assign({}, selectedCardInfo, {
+                creditDardCvv: parsedRes.token
+              })
+            },
+            () => {
+              this.props.onCardInfoChange(this.state.creditCardInfo);
+            }
+          );
+        } catch (err) {
+          this.props.endLoading();
+          throw new Error(err.message);
+        }
       } else {
         if (!payosdata.token) {
           throw new Error(this.props.intl.messages.clickConfirmCardButton);
@@ -231,6 +243,22 @@ class PayOs extends React.Component {
       this.props.endLoading();
     }
   };
+  // 获取token，避免传给接口明文cvv
+  payUTokenPromise({ cvv, token }) {
+    return new Promise((resolve) => {
+      window.POS.tokenize(
+        {
+          token_type: 'card_cvv_code',
+          credit_card_cvv: cvv,
+          payment_method_token: token
+        },
+        function (result) {
+          console.log('result obtained' + result);
+          resolve(result);
+        }
+      );
+    });
+  }
   onPaymentCompDataChange = (data) => {
     this.setState({ selectedCardInfo: data }, () => {
       this.props.onPaymentCompDataChange(data);

@@ -1,11 +1,9 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
-import { formatMoney } from '@/utils/utils';
-import { findIndex, find } from 'lodash';
+import { findIndex } from 'lodash';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
-import successImg from '@/assets/images/success.png';
 import {
   getPaymentMethod,
   deleteCard,
@@ -22,6 +20,10 @@ import './index.css';
 @inject('loginStore')
 @observer
 class PaymentComp extends React.Component {
+  static defaultProps = {
+    needReConfirmCVV: false,
+    canEdit: false // 是否可以编辑卡
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -694,7 +696,11 @@ class PaymentComp extends React.Component {
                         className="position-absolute"
                         style={{ right: '1%', top: '2%', zIndex: '1' }}
                       >
-                        <span className="pull-right position-relative border-left pl-2 ui-cursor-pointer-pure">
+                        <span
+                          className={`pull-right position-relative ${
+                            this.props.canEdit ? 'border-left' : ''
+                          } pl-2 ui-cursor-pointer-pure`}
+                        >
                           <span
                             onClick={(e) => {
                               e.preventDefault();
@@ -716,47 +722,49 @@ class PaymentComp extends React.Component {
                             }
                           />
                         </span>
-                        <span
-                          className="pull-right ui-cursor-pointer-pure"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            let creditCardInfoForm = { ...el };
-                            creditCardInfoForm.cardCvv = '';
-                            creditCardInfoForm.cardNumber = creditCardInfoForm.paymentMethod
-                              ? creditCardInfoForm.paymentMethod.bin_number +
-                                '****' +
-                                creditCardInfoForm.paymentMethod.last_4_digits
-                              : '';
-                            creditCardInfoForm.cardMmyy = creditCardInfoForm.paymentMethod
-                              ? creditCardInfoForm.paymentMethod.expiration_date.substr(
-                                  0,
-                                  3
-                                ) +
-                                creditCardInfoForm.paymentMethod.expiration_date.substr(
-                                  5
-                                )
-                              : '';
-                            creditCardInfoForm.cardOwner = creditCardInfoForm.paymentMethod
-                              ? creditCardInfoForm.paymentMethod.holder_name
-                              : '';
-                            this.setState(
-                              {
-                                isEdit: true,
-                                creditCardInfoForm,
-                                currentEditOriginCardInfo: Object.assign(
-                                  {},
-                                  creditCardInfoForm
-                                )
-                              },
-                              () => {
-                                this.scrollToPaymentComp();
-                              }
-                            );
-                          }}
-                        >
-                          <FormattedMessage id="edit" />
-                        </span>
+                        {this.props.canEdit && (
+                          <span
+                            className="pull-right ui-cursor-pointer-pure"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              let creditCardInfoForm = { ...el };
+                              creditCardInfoForm.cardCvv = '';
+                              creditCardInfoForm.cardNumber = creditCardInfoForm.paymentMethod
+                                ? creditCardInfoForm.paymentMethod.bin_number +
+                                  '****' +
+                                  creditCardInfoForm.paymentMethod.last_4_digits
+                                : '';
+                              creditCardInfoForm.cardMmyy = creditCardInfoForm.paymentMethod
+                                ? creditCardInfoForm.paymentMethod.expiration_date.substr(
+                                    0,
+                                    3
+                                  ) +
+                                  creditCardInfoForm.paymentMethod.expiration_date.substr(
+                                    5
+                                  )
+                                : '';
+                              creditCardInfoForm.cardOwner = creditCardInfoForm.paymentMethod
+                                ? creditCardInfoForm.paymentMethod.holder_name
+                                : '';
+                              this.setState(
+                                {
+                                  isEdit: true,
+                                  creditCardInfoForm,
+                                  currentEditOriginCardInfo: Object.assign(
+                                    {},
+                                    creditCardInfoForm
+                                  )
+                                },
+                                () => {
+                                  this.scrollToPaymentComp();
+                                }
+                              );
+                            }}
+                          >
+                            <FormattedMessage id="edit" />
+                          </span>
+                        )}
                       </div>
                       <div className="row">
                         <div
@@ -791,39 +799,41 @@ class PaymentComp extends React.Component {
                                   : el.cardOwner}
                               </span>
                             </div>
-                            <div
-                              className={`col-12 color-999 ${
-                                el.selected ? '' : 'hidden'
-                              }`}
-                            >
-                              <span style={{ fontSize: '14px' }}>
-                                <FormattedMessage id="CVV" />
-                              </span>
-                              <br />
+                            {this.props.needReConfirmCVV && (
                               <div
-                                className="col-4 color-999 pl-0 text-left"
-                                style={{
-                                  marginBottom: '5px'
-                                }}
+                                className={`col-12 color-999 ${
+                                  el.selected ? '' : 'hidden'
+                                }`}
                               >
-                                <input
-                                  onChange={(e) => {
-                                    this.currentCvvChange(e);
+                                <span style={{ fontSize: '14px' }}>
+                                  <FormattedMessage id="CVV" />
+                                </span>
+                                <br />
+                                <div
+                                  className="col-4 color-999 pl-0 text-left"
+                                  style={{
+                                    marginBottom: '5px'
                                   }}
-                                  maxLength="3"
-                                  style={{ width: '100%' }}
-                                  value={
-                                    this.state.creditCardList.filter(
-                                      (c) => c.selected
-                                    )[0]
-                                      ? this.state.creditCardList.filter(
-                                          (c) => c.selected
-                                        )[0].cardCvv
-                                      : ''
-                                  }
-                                />
+                                >
+                                  <input
+                                    onChange={(e) => {
+                                      this.currentCvvChange(e);
+                                    }}
+                                    maxLength="3"
+                                    style={{ width: '100%' }}
+                                    value={
+                                      this.state.creditCardList.filter(
+                                        (c) => c.selected
+                                      )[0]
+                                        ? this.state.creditCardList.filter(
+                                            (c) => c.selected
+                                          )[0].cardCvv
+                                        : ''
+                                    }
+                                  />
+                                </div>
                               </div>
-                            </div>
+                            )}
                           </div>
                           <div className="row ui-margin-top-1-md-down">
                             <div className="col-md-4 col-6 color-999">
@@ -919,7 +929,7 @@ class PaymentComp extends React.Component {
                 const selectedItem = creditCardList.filter(
                   (el) => el.selected
                 )[0];
-                if (!selectedItem.cardCvv) {
+                if (this.props.needReConfirmCVV && !selectedItem.cardCvv) {
                   this.showErrorMsg(this.props.intl.messages['payment.errTip']);
                   return;
                 }
