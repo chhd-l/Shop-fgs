@@ -99,7 +99,7 @@ class Footer extends React.Component {
                 <Link className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" to="/help">
                   <FormattedMessage id="footer.contactUs" />
                 </Link>
-                :<a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" href={this.state.cur_contactInfo.email.url} style={{color:'#EC001A'}}>
+                :<a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" href={this.state.cur_contactInfo.email.url} style={{color:'#fff'}}>
                    <FormattedMessage id="footer.email" />
                 </a>
               }
