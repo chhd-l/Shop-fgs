@@ -186,6 +186,9 @@ class PayOs extends React.Component {
     }
   }
   clickPay = async () => {
+    if (!this.state.inited) {
+      return false
+    }
     try {
       const { needReConfirmCVV } = this.props;
       let {
@@ -304,6 +307,7 @@ class PayOs extends React.Component {
                   {this.isLogin ? (
                     <div className="rc-border-colour--interface">
                       <PaymentComp
+                        deliveryAddress={this.props.deliveryAddress}
                         getSelectedValue={this.onPaymentCompDataChange}
                         needReConfirmCVV={this.props.needReConfirmCVV}
                       />
