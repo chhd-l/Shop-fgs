@@ -112,9 +112,6 @@ class ShippingAddressFrom extends React.Component {
       this.getAddressById(this.props.match.params.addressId);
     }
   }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
-  }
   async validInputsData(data) {
     for (let key in data) {
       const val = data[key];
@@ -205,6 +202,7 @@ class ShippingAddressFrom extends React.Component {
         postCode: data.postCode,
         provinceId: 0,
         rfc: data.rfc,
+        email: data.email,
         type: data.addressType
       };
       if (this.state.isAdd) {
