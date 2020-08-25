@@ -245,16 +245,6 @@ class Details extends React.Component {
           let specDetailList = res.context.goodsSpecDetails;
           specList.map((sItem) => {
             sItem.chidren = specDetailList.filter((sdItem, i) => {
-              // console.log(sdItem, i, 'sdItem')
-              // if(i === 0) {
-              //   sdItem.selected = true
-              // }
-              // if (sItem.chidren && sItem.chidren.length === 1) {
-              //   sdItem.selected = true
-              // } else {
-              //   sdItem.selected = false
-              // }
-              // if(sItem.chidren && sItem.chidren)
               return sdItem.specId === sItem.specId;
             });
             sItem.chidren[0].selected = true;
@@ -911,7 +901,7 @@ class Details extends React.Component {
                                         {
                                           details.baseSpec?(
                                             <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '20px', color: 'rgba(102,102,102,.7)' }}>
-                                              ({formatMoney((currentUnitPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2)*100/100)}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
+                                              ({formatMoney((currentUnitPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
                                             </b>
                                           ): null
                                         }
@@ -966,7 +956,7 @@ class Details extends React.Component {
                                             {
                                               details.baseSpec && currentSubscriptionPrice?(
                                                 <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '20px', color: 'rgba(102,102,102,.7)' }}>
-                                                  ({formatMoney((currentSubscriptionPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2)*100/100)}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
+                                                  ({formatMoney((currentSubscriptionPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
                                                 </b>
                                               ): null
                                             }
@@ -1004,11 +994,6 @@ class Details extends React.Component {
                                                 className="rc-swatch __select-size"
                                                 id="id-single-select-size"
                                               >
-                                                {/* {details.sizeList.map(
-                                                  (item, i) => (
-
-                                                  )
-                                                )} */}
                                                 {sItem.chidren.map(
                                                   (sdItem, i) => (
                                                     <div
@@ -1018,9 +1003,6 @@ class Details extends React.Component {
                                                           ? "selected"
                                                           : ""
                                                         }`}
-                                                      // item.selected
-                                                      //   ? "selected"
-                                                      //   : ""
                                                       onClick={() =>
                                                         this.handleChooseSize(
                                                           sItem.specId,

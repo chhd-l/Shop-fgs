@@ -2,7 +2,12 @@
   margin-bottom: 30px;
 }
 .recommendProduct {
+  width: 100%;
   padding: 108px;
+}
+.recommendation .product-pricing__card__head {
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 .recommendProduct .left {
   flex: 1;

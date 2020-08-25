@@ -22,6 +22,8 @@ import { getRecommendationList } from '@/api/recommendation'
 import { getPrescriptionById } from '@/api/clinic'
 import { sitePurchase } from "@/api/cart";
 import './index.css'
+import { cloneDeep, findIndex, find } from "lodash";
+import { toJS } from "mobx";
 
 @inject("checkoutStore", "loginStore", "clinicStore")
 @inject("configStore")
@@ -60,7 +62,26 @@ class Help extends React.Component {
     // console.log(window.location, 'location', this.props)
     getRecommendationList(this.props.match.params.id).then(res => {
       console.log(res, 'aaa')
-      this.setState({productList: res.context.recommendationGoodsInfoRels})
+      let productList = res.context.recommendationGoodsInfoRels
+      productList.map(el => {
+        el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
+          g = Object.assign({}, g, { selected: true });
+          return g;
+        });
+        let specList = el.goodsSpecs;
+        let specDetailList = el.goodsSpecDetails;
+        specList.map((sItem) => {
+          sItem.chidren = specDetailList.filter((sdItem, i) => {
+            return sdItem.specId === sItem.specId;
+          });
+          sItem.chidren[0].selected = true;
+        });
+        el.goodsInfo.goods.goodsInfos = el.goodsInfos
+        el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails
+        el.goodsInfo.goods.goodsSpecs = specList
+      })
+      
+      this.setState({productList})
       // getPrescriptionById({id: res.context.prescriberId}).then(res => {
       getPrescriptionById({id: '2304'}).then(res => {
         console.log(res, 'bbb')
@@ -93,6 +114,162 @@ class Help extends React.Component {
     }
     
   }
+  async hanldeUnloginAddToCart (products, path) {
+    for(let i = 0; i < products.length; i++) {
+
+    
+      let product = products[i]
+    console.log(product, 'product')
+    // this.setState({ checkOutErrMsg: "" });
+    // if (this.state.loading) {
+    //   return false;
+    // }
+    // const { history } = this.props;
+    // const { currentUnitPrice, quantity, instockStatus } = this.state;
+    // const { goodsId, sizeList } = this.state.details;
+    // const currentSelectedSize = find(sizeList, (s) => s.selected);
+    // let quantityNew = quantity;
+    let tmpData = Object.assign({}, product.goodsInfo.goods, {
+      quantity: quantityNew,
+    });
+    
+    let quantityNew = product.recommendationNumber
+    let cartDataCopy = cloneDeep(
+      toJS(this.props.checkoutStore.cartData).filter((el) => el)
+    );
+
+    // if (!instockStatus || !quantityNew) {
+    //   return false;
+    // }
+    // this.setState({ addToCartLoading: true });
+    let flag = true;
+    if (cartDataCopy && cartDataCopy.length) {
+      const historyItem = find(
+        cartDataCopy,
+        (c) =>
+          c.goodsId === product.goodsInfo.goodsId &&
+          product.goodsInfo.goodsInfoId === c.sizeList.filter((s) => s.selected)[0].goodsInfoId
+      );
+      if (historyItem) {
+        flag = false;
+        quantityNew += historyItem.quantity;
+        if (quantityNew > 30) {
+          // this.setState({
+          //   checkOutErrMsg: <FormattedMessage id="cart.errorMaxInfo" />,
+          // });
+          this.setState({ addToCartLoading: false });
+          return
+        }
+        tmpData = Object.assign(tmpData, { quantity: quantityNew });
+      }
+    }
+
+    // 超过库存时，修改产品数量为最大值替换
+    // let res = await miniPurchases({
+    //   goodsInfoDTOList: [
+    //     {
+    //       goodsInfoId: currentSelectedSize.goodsInfoId,
+    //       goodsNum: quantityNew
+    //     }
+    //   ]
+    // });
+    // let tmpObj = find(
+    //   res.context.goodsList,
+    //   (ele) => ele.goodsInfoId === currentSelectedSize.goodsInfoId
+    // );
+    // if (tmpObj) {
+    //   if (quantityNew > tmpObj.stock) {
+    //     quantityNew = tmpObj.stock;
+    //     if (flag) {
+    //       this.setState({
+    //         quantity: quantityNew
+    //       });
+    //     }
+    //     tmpData = Object.assign(tmpData, { quantity: quantityNew });
+    //   }
+    // }
+
+    const idx = findIndex(
+      cartDataCopy,
+      (c) =>
+        c.goodsId === product.goodsInfo.goodsId &&
+        product.goodsInfo.goodsInfoId ===
+        find(c.sizeList, (s) => s.selected).goodsInfoId
+    );
+    tmpData = Object.assign(tmpData, {
+      currentAmount: product.goodsInfo.marketPrice * quantityNew,
+      selected: true,
+      quantity: quantityNew
+    });
+    console.log(idx,'idx')
+    if (idx > -1) {
+      cartDataCopy.splice(idx, 1, tmpData);
+    } else {
+      if (cartDataCopy.length >= 30) {
+        this.setState({
+          checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" />,
+        });
+        return;
+      }
+      cartDataCopy.push(tmpData);
+    }
+    console.log(cartDataCopy, 'cartDataCopy')
+    await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
+  }
+    // this.setState({ addToCartLoading: false });
+    // if (redirect) {
+    //   if (
+    //     this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT
+    //   ) {
+    //     this.setState({
+    //       checkOutErrMsg: (
+    //         <FormattedMessage
+    //           id="cart.errorInfo3"
+    //           values={{
+    //             val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT),
+    //           }}
+    //         />
+    //       ),
+    //     });
+    //     return false;
+    //   }
+    //   if (this.props.checkoutStore.offShelvesProNames.length) {
+    //     this.setState({
+    //       checkOutErrMsg: (
+    //         <FormattedMessage
+    //           id="cart.errorInfo4"
+    //           values={{
+    //             val: this.props.checkoutStore.offShelvesProNames.join("/"),
+    //           }}
+    //         />
+    //       ),
+    //     });
+    //     return false;
+    //   }
+    //   if (this.checkoutStore.outOfstockProNames.length) {
+    //     this.setState({
+    //       checkOutErrMsg: (
+    //         <FormattedMessage
+    //           id="cart.errorInfo2"
+    //           values={{ val: this.checkoutStore.outOfstockProNames.join("/") }}
+    //         />
+    //       ),
+    //     });
+    //     return false;
+    //   }
+    //   if (needLogin) {
+    //     // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
+    //   } else {
+    //     history.push("/prescription");
+    //   }
+    // }
+    // // todo 改为mobx
+    // this.headerRef.current && this.headerRef.current.handleCartMouseOver();
+    // setTimeout(() => {
+    //   this.headerRef.current && this.headerRef.current.handleCartMouseOut();
+    // }, 1000);
+    this.props.history.push(path)
+  }
   async buyNow() {
     let { productList } = this.state
     this.setState({buttonLoading: true})
@@ -122,6 +299,17 @@ class Help extends React.Component {
     let details = JSON.parse(sessionStorage.getItem('detailsTemp'))
     let images = JSON.parse(sessionStorage.getItem('imagesTemp'))
     let  { productList, activeIndex, prescriberInfo} = this.state
+    let MaxLinePrice, MinLinePrice, MaxMarketPrice, MinMarketPrice, MaxSubPrice, MinSubPrice
+    if(productList.length) {
+      MaxLinePrice = Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.linePrice || 0))
+      MinLinePrice = Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.linePrice || 0))
+      MaxMarketPrice = Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0))
+      MinMarketPrice = Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0))
+      MaxSubPrice = Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.subscriptionPrice || 0))
+      MinSubPrice = Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.subscriptionPrice || 0))
+    }
+    console.log(MaxLinePrice, MinLinePrice, MaxMarketPrice, MinMarketPrice, MaxSubPrice, MinSubPrice, 'aaaaa')
+
     return (
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
@@ -136,7 +324,10 @@ class Help extends React.Component {
               Click to get started now for your shopping, or continue reading to find out more about the benefits of veterinary health nutrition.
             </p>
             <p>
-              <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.hanldeLoginAddToCart()}>View in cart</button>
+              <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => 
+                // this.hanldeLoginAddToCart()
+                this.hanldeUnloginAddToCart(productList, '/cart')
+              }>View in cart</button>
             </p>
           </section>
           <section className="recommendProduct">
@@ -172,6 +363,9 @@ class Help extends React.Component {
                           <p>
                           <button
                             className={`rc-styled-link color-999`}
+                            onClick={() => {
+                              this.hanldeUnloginAddToCart(productList, '/prescription')
+                            }}
                           >
                             <FormattedMessage id="Buy as a guest" />
                           </button>
@@ -199,9 +393,69 @@ class Help extends React.Component {
                           <h2 style={{ color: '#E2001A', marginTop: '40px'}}>
                             { productList[activeIndex].goodsInfo.goodsInfoName}
                           </h2>
-                          <h4>
+                          
+                          {/* <h4>
                             From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
-                          </h4>
+                          </h4> */}
+                          {
+                            MaxLinePrice > 0 &&
+                            (<div className="product-pricing__card__head d-flex align-items-center">
+                              <div className="rc-input product-pricing__card__head__title" >
+                                <FormattedMessage id="listPrice" />
+                              </div>
+                              <b className="product-pricing__card__head__price  rc-padding-y--none text-line-through" style={{ fontWeight: '200', fontSize: '24px', color: 'rgba(102,102,102,.7)' }}>
+                              {
+                                MaxLinePrice > 0? MaxLinePrice === MinLinePrice?(<span>
+                                  {formatMoney(MaxLinePrice)}
+                                </span>): (
+                                  <span>
+                                    From {formatMoney(MinLinePrice)} to {formatMoney(MaxLinePrice)}
+                                  </span>
+                                ):null
+                              }
+                              </b>
+                            </div>)
+                          }
+                          <div className="product-pricing__card__head d-flex align-items-center">
+                            <div className="rc-input product-pricing__card__head__title" >
+                              <FormattedMessage id="price" />
+                            </div>
+                            <b className="red  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '24px', color: 'rgba(102,102,102,.7)' }}>
+                            {
+                              MaxMarketPrice > 0? MaxMarketPrice === MinMarketPrice?(<span>
+                                {formatMoney(MaxMarketPrice)}
+                              </span>): (
+                                <span>
+                                  From {formatMoney(MinMarketPrice)} to {formatMoney(MaxMarketPrice)}
+                                </span>
+                              ):null
+                            }
+                            </b>
+                          </div>
+                          {
+                            MaxSubPrice > 0 && 
+                            (
+                              <div className="product-pricing__card__head d-flex align-items-center">
+                                <div className="rc-input product-pricing__card__head__title" >
+                                  <FormattedMessage id="autoship" />
+                                </div>
+                                <b className="red  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '24px', color: 'rgba(102,102,102,.7)' }}>
+                                {
+                                  MaxSubPrice > 0? MaxSubPrice === MinSubPrice?(<span>
+                                    {formatMoney(MaxSubPrice)}
+                                  </span>): (
+                                    <span>
+                                      From {formatMoney(MinSubPrice)} to {formatMoney(MaxSubPrice)}
+                                    </span>
+                                  ):null
+                                }
+                                </b>
+                              </div>
+                            )
+                          }
+                          
+                          
+                          
                           <p style={{width: '350px'}}>
                             { productList[activeIndex].goodsInfo.goods.goodsDescription || 'none'}
                           </p>
@@ -231,20 +485,16 @@ class Help extends React.Component {
                     <div className="description">
                       <img src={storeLogo} style={{float: 'left', width: '40px', marginRight: '20px'}}/>
                       <p style={{
-                        // fontFamily: 'DINPro-Medium',
                         fontSize: '16px',
                         color: '#666666',
                         fontWeight: '500',
                         letterSpacing: '0'}}>{prescriberInfo.prescriberName}</p>
                       <p style={{
-                        // fontFamily: 'DINPro-Medium',
                         fontSize: '12px',
-                        // color: '#666666',
                       letterSpacing: '0'}}>{prescriberInfo.primaryCity}</p>
                     </div>
                     <p style={{
                       textAlign: 'center',
-                        // fontFamily: 'DINPro-Medium',
                         fontSize: '12px',
                         color: '#ccc',
                         marginBottom: '60px',

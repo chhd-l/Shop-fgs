@@ -15,6 +15,7 @@ import { cloneDeep, find, findIndex } from 'lodash'
 import catsImg from "@/assets/images/banner-list/cats.jpg"
 import dogsImg from "@/assets/images/banner-list/dogs.jpg"
 import PetModal from '@/components/PetModal'
+import { toJS } from "mobx";
 @injectIntl
 @inject("checkoutStore")
 @observer
@@ -270,6 +271,7 @@ class UnLoginCart extends React.Component {
   }
   getProducts (plist) {
     const { checkoutLoading } = this.state
+    console.log(toJS(plist), 'plist')
     const Lists = plist.map((pitem, index) => (
       <div
         className="rc-border-all rc-border-colour--interface product-info"
