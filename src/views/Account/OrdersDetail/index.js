@@ -124,7 +124,8 @@ class AccountOrders extends React.Component {
           loading: false,
           currentProgerssIndex: tmpIndex,
           progressList: progressList,
-          defaultLocalDateTime: res.defaultLocalDateTime
+          defaultLocalDateTime: res.defaultLocalDateTime,
+          subNumber: resContext.subscriptionResponseVO && resContext.subscriptionResponseVO.subscribeId
         })
       })
       .catch(err => {
