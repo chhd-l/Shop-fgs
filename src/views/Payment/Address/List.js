@@ -237,7 +237,8 @@ class AddressList extends React.Component {
         cityName: tmp.cityName,
         postCode: tmp.postCode,
         phoneNumber: tmp.consigneeNumber,
-        isDefalt: tmp.isDefaltAddress === 1 ? true : false
+        isDefalt: tmp.isDefaltAddress === 1 ? true : false,
+        email: tmp.email
       };
     }
     this.setState({
