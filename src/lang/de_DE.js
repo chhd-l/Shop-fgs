@@ -191,6 +191,7 @@ const en_US = {
   "footer.privacy":'Datenschutz',
   "footer.cookies2":'Cookies',
   "footer.impress":'impresssum',
+  "footer.email":'E-Mail',
   "clinic.clinic": "Klinik",
   "clinic.confirm": "Bestätigen",
   "clinic.cancel": "Stornieren",

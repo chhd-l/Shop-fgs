@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react';
 import {cookieSettingsBtn} from './cookieSettingsBtn'
-import {requestInvoiceJSX} from './requestInvoiceJSX'
 import MarsFooterMap from './MarsFooterMap'
 import {menubar} from "./menubar"
+import {contactInfo} from "./contactInfo"
 import './index.css'
 
 @inject("configStore")
@@ -14,7 +14,8 @@ class Footer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cur_menubar:menubar[process.env.REACT_APP_LANG]
+      cur_menubar:menubar[process.env.REACT_APP_LANG],
+      cur_contactInfo:contactInfo[process.env.REACT_APP_LANG]
     }
   }
   async componentDidMount () {
@@ -89,12 +90,20 @@ class Footer extends React.Component {
           </div>
           <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
             <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
-              <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3" role="menuitem" href={`tel:${this.props.configStore.storeContactPhoneNumber}`}>
-                {this.props.configStore.storeContactPhoneNumber}
+              <a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3" role="menuitem" href={`tel:${this.props.configStore[this.state.cur_contactInfo.phoneNumber.prop]}`}>
+                {this.props.configStore[this.state.cur_contactInfo.phoneNumber.prop]}
               </a>
-              <Link className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" to="/help">
-                <FormattedMessage id="footer.contactUs" />
-              </Link>
+              {
+                !!this.state.cur_contactInfo.email.link
+                ?
+                <Link className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" to="/help">
+                  <FormattedMessage id="footer.contactUs" />
+                </Link>
+                :<a className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3" role="menuitem" href={this.state.cur_contactInfo.email.url} style={{color:'#EC001A'}}>
+                   <FormattedMessage id="footer.email" />
+                </a>
+              }
+             
             </div>
           </div>
           {/* 底部横向链接 */}

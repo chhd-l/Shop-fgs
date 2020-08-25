@@ -7,7 +7,7 @@ export const menubar = {
             titleId:'footer.products',list: [{link:"/list/cats",messageId:'cats'},{link:'/list/dogs',messageId:'dogs'}]
         }],
         [{
-            titleId:'footer.help',list: [{link:"/help",messageId:'footer.contacts'},{link:'/FAQ',messageId:'footer.FAQ'}]
+            titleId:'footer.help',list: [{link:"/help",messageId:'footer.contacts'},{link:'/FAQ',messageId:'footer.FAQ'},{link:'/requestinvoice',messageId:'footer.RequestInvoice'}]
         }],
         [{
             titleId:'footer.Additionally',list: [{link:"/privacypolicy",messageId:'footer.privacyPolicy'},{prop:'informationForParents',messageId:'footer.informationForParents'},{link:'/termuse',messageId:'footer.websiteTermsOfUse'},{prop:'cookiesUrl',messageId:'footer.cookieCollectionPolicy'}]
@@ -21,7 +21,7 @@ export const menubar = {
             titleId:'footer.products',list: [{link:"/list/cats",messageId:'cats'},{link:'/list/dogs',messageId:'dogs'}]
         }],
         [{
-            titleId:'footer.help',list: [{link:"/help",messageId:'footer.contacts'},{link:'/FAQ',messageId:'footer.FAQ'}]
+            titleId:'footer.help',list: [{link:"/help",messageId:'footer.contacts'},{link:'/FAQ',messageId:'footer.FAQ'},{link:'/requestinvoice',messageId:'footer.RequestInvoice'}]
         }],
         [{
             titleId:'footer.Additionally',list: [{link:"/privacypolicy",messageId:'footer.privacyPolicy'},{prop:'informationForParents',messageId:'footer.informationForParents'},{link:'/termuse',messageId:'footer.websiteTermsOfUse'},{prop:'cookiesUrl',messageId:'footer.cookieCollectionPolicy'}]
