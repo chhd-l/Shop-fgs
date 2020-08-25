@@ -70,9 +70,9 @@ class Home extends React.Component {
                   <div
                     className={`${
                       process.env.REACT_APP_LANG === "de" ? "DeCenter" : ""
-                    } col-lg-3 align-self-center `}
+                    } col-lg-3 align-self-center`}
                   >
-                    <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center text-lg-left rc-padding-top--none">
+                    <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
                       <FormattedMessage id="home.productsCategory" />
                     </h2>
                   </div>

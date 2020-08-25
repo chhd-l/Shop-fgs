@@ -365,8 +365,8 @@ const en_US = {
   "deliveryAddress": "Lieferadresse",
   "promotion": "Beförderung",
   "account.toComeIn": "Betreten",
-  "account.notRegistred": "Sie sind nicht registriert?",
-  "signUp": "Anmelden",
+  "account.notRegistred": "Sie sind noch nicht registriert?",
+  "signUp": "Registrieren",
   "logOff": "Ausloggen",
   "account.myAccount": "Mein Konto",
   "account.basicInfomation": "Grundlegende Informationen",
@@ -553,6 +553,7 @@ const en_US = {
   delivery: "Lieferkosten",
   FrequentQuestions: "Häufige Fragen",
   clickHere: "klicken Sie hier",
+  clickHere2: "Hier",
   FAQdesc:
     "Wenn Sie eine Frage haben. Schauen Sie unten, um zu sehen, ob es eine Antwort gibt. Wenn Sie nicht finden können, wonach Sie suchen. {val} um uns zu kontaktieren.",
   startFrom: "ab",
