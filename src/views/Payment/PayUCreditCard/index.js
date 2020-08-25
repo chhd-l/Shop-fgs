@@ -60,7 +60,7 @@ class PayOs extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  componentWillMount() {
+  componentDidMount() {
     const _this = this;
     loadJS('https://js.paymentsos.com/v2/0.0.1/token.min.js', function () {
       window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY);
