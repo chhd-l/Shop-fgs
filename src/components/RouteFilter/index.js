@@ -116,11 +116,11 @@ class RouteFilter extends Component {
           }
         }
       );
-      loadJS('https://js.paymentsos.com/v2/0.0.1/token.min.js', function () {
-        window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY);
-        window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
-      });
     }
+    loadJS('https://js.paymentsos.com/v2/0.0.1/token.min.js', function () {
+      window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY);
+      window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
+    });
     if (this.props.location.pathname !== '/login') {
       loadJS(process.env.REACT_APP_ONTRUST_SRC, function () {}, {
         domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
