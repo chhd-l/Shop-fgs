@@ -70,6 +70,10 @@ class PayOs extends React.Component {
           inited: true
         });
       });
+    } else {
+      this.setState({
+        inited: true
+      });
     }
   }
   cardInfoInputChange(e) {
