@@ -62,13 +62,15 @@ class PayOs extends React.Component {
   }
   componentDidMount() {
     const _this = this;
-    loadJS('https://js.paymentsos.com/v2/0.0.1/token.min.js', function () {
-      window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY);
-      window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
-      _this.setState({
-        inited: true
+    if (this.isLogin) {
+      loadJS('https://js.paymentsos.com/v2/0.0.1/token.min.js', function () {
+        window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY);
+        window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
+        _this.setState({
+          inited: true
+        });
       });
-    });
+    }
   }
   cardInfoInputChange(e) {
     const target = e.target;
@@ -187,7 +189,7 @@ class PayOs extends React.Component {
   }
   clickPay = async () => {
     if (!this.state.inited) {
-      return false
+      return false;
     }
     try {
       const { needReConfirmCVV } = this.props;
