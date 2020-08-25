@@ -25,9 +25,14 @@ class SubscriptionSelect extends Component {
   }
   async componentDidMount() {
     getMarketingDiscount({
-      goodsInfoIds: this.props.checkoutStore.loginCartData
+      goodsInfos: this.props.checkoutStore.loginCartData
         .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0)
-        .map((ele) => ele.goodsInfoId),
+        .map((ele) => {
+          return {
+            goodsInfoId: ele.goodsInfoId,
+            buyCount: ele.buyCount
+          }
+        }),
       subscriptionFlag: this.state.form.buyWay === 'frequency'
     }).then((res) => {
       this.setState({
