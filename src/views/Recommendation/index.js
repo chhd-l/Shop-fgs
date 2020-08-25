@@ -24,6 +24,7 @@ import { sitePurchase } from "@/api/cart";
 import './index.css'
 import { cloneDeep, findIndex, find } from "lodash";
 import { toJS } from "mobx";
+import LoginButton from "@/components/LoginButton";
 
 @inject("checkoutStore", "loginStore", "clinicStore")
 @inject("configStore")
@@ -324,10 +325,13 @@ class Help extends React.Component {
               Click to get started now for your shopping, or continue reading to find out more about the benefits of veterinary health nutrition.
             </p>
             <p>
-              <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => 
-                // this.hanldeLoginAddToCart()
-                this.hanldeUnloginAddToCart(productList, '/cart')
-              }>View in cart</button>
+              <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => {
+                if(this.props.loginStore.isLogin) {
+                  this.hanldeLoginAddToCart()
+                }else {
+                  this.hanldeUnloginAddToCart(productList, '/cart')
+                }
+              }}>View in cart</button>
             </p>
           </section>
           <section className="recommendProduct">
@@ -356,7 +360,17 @@ class Help extends React.Component {
                         ))
                       }
                       <p style={{marginTop: '60px'}}>
-                      <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button>
+                      {/* <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button> */}
+
+                      <LoginButton
+                        beforeLoginCallback={async () =>
+                          this.buyNow()
+                        }
+                        btnClass={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`}
+                        history={this.props.history}
+                      >
+                        <FormattedMessage id="checkout" />
+                      </LoginButton>
                       </p>
                       {
                         !this.props.loginStore.isLogin && (
