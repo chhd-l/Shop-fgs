@@ -24,16 +24,7 @@ class SubscriptionSelect extends Component {
     };
   }
   async componentDidMount() {
-    getMarketingDiscount({
-      goodsInfoIds: this.props.checkoutStore.loginCartData
-        .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0)
-        .map((ele) => ele.goodsInfoId),
-      subscriptionFlag: this.state.form.buyWay === 'frequency'
-    }).then((res) => {
-      this.setState({
-        discountInfo: res.context
-      });
-    });
+    this.updateFirstOrderDiscount()
     Promise.all([
       getDictionary({ type: 'Frequency_week' }),
       getDictionary({ type: 'Frequency_month' })
@@ -61,12 +52,30 @@ class SubscriptionSelect extends Component {
       };
     });
   }
+  updateFirstOrderDiscount() {
+    getMarketingDiscount({
+      goodsInfos: this.props.checkoutStore.loginCartData
+        .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0)
+        .map((ele) => {
+          return {
+            goodsInfoId: ele.goodsInfoId,
+            buyCount: ele.buyCount
+          };
+        }),
+      subscriptionFlag: this.state.form.buyWay === 'frequency'
+    }).then((res) => {
+      this.setState({
+        discountInfo: res.context
+      });
+    });
+  }
   handleInputChange(e) {
     const target = e.target;
     const { form } = this.state;
     form[target.name] = target.value;
     this.setState({ form: form }, () => {
       this.props.updateSelectedData(this.state.form);
+      this.updateFirstOrderDiscount()
     });
   }
   handleSelectedItemChange(data) {

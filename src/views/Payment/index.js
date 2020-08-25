@@ -294,6 +294,7 @@ class Payment extends React.Component {
   componentWillUnmount () {
     localStorage.setItem("isRefresh", true);
     sessionStorage.removeItem("rc-tid");
+    sessionStorage.removeItem("rc-subform")
   }
   get isLogin () {
     return this.props.loginStore.isLogin;
