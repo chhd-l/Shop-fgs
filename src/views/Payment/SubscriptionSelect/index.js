@@ -24,7 +24,7 @@ class SubscriptionSelect extends Component {
     };
   }
   async componentDidMount() {
-    this.updateFirstOrderDiscount()
+    this.updateFirstOrderDiscount();
     Promise.all([
       getDictionary({ type: 'Frequency_week' }),
       getDictionary({ type: 'Frequency_month' })
@@ -75,7 +75,7 @@ class SubscriptionSelect extends Component {
     form[target.name] = target.value;
     this.setState({ form: form }, () => {
       this.props.updateSelectedData(this.state.form);
-      this.updateFirstOrderDiscount()
+      this.updateFirstOrderDiscount();
     });
   }
   handleSelectedItemChange(data) {
@@ -91,7 +91,7 @@ class SubscriptionSelect extends Component {
     const { form } = this.state;
     return (
       <div className="">
-        <FormattedMessage
+        {/* <FormattedMessage
           id="payment.subTip2"
           values={{
             icon: (
@@ -113,6 +113,24 @@ class SubscriptionSelect extends Component {
               this.state.discountInfo && this.state.discountInfo.discountAmount
                 ? this.state.discountInfo.discountAmount
                 : 0
+            )
+          }}
+        /> */}
+        <FormattedMessage
+          id="payment.subTip1"
+          values={{
+            val: (
+              <span
+                className="red font-weight-bold"
+                style={{ fontSize: '1.1em' }}
+              >
+                {formatMoney(
+                  this.state.discountInfo &&
+                    this.state.discountInfo.discountAmount
+                    ? this.state.discountInfo.discountAmount
+                    : 0
+                )}
+              </span>
             )
           }}
         />
@@ -145,18 +163,6 @@ class SubscriptionSelect extends Component {
               <span className="red">
                 <FormattedMessage id="payment.frequencyTip1" />
               </span>
-              <br />
-              <FormattedMessage
-                id="payment.subTip1"
-                values={{
-                  val: formatMoney(
-                    this.state.discountInfo &&
-                      this.state.discountInfo.discountAmount
-                      ? this.state.discountInfo.discountAmount
-                      : 0
-                  )
-                }}
-              />
               <br />
               <span className="font-weight-normal mt-1 inlineblock">
                 <FormattedMessage id="payment.deliveryFrequency" />:

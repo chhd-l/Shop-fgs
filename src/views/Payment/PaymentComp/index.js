@@ -23,7 +23,8 @@ import './index.css';
 @observer
 class PaymentComp extends React.Component {
   static defaultProps = {
-    needReConfirmCVV: true
+    needReConfirmCVV: true,
+    canEdit: false // 是否可以编辑卡
   };
   constructor(props) {
     super(props);
@@ -642,7 +643,11 @@ class PaymentComp extends React.Component {
                         className="position-absolute"
                         style={{ right: '1%', top: '2%', zIndex: '1' }}
                       >
-                        <span className="pull-right position-relative border-left pl-2 ui-cursor-pointer-pure">
+                        <span
+                          className={`pull-right position-relative ${
+                            this.props.canEdit ? 'border-left' : ''
+                          } pl-2 ui-cursor-pointer-pure`}
+                        >
                           <span
                             onClick={(e) => {
                               e.preventDefault();
@@ -664,47 +669,49 @@ class PaymentComp extends React.Component {
                             }
                           />
                         </span>
-                        <span
-                          className="pull-right ui-cursor-pointer-pure"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            let creditCardInfoForm = { ...el };
-                            creditCardInfoForm.cardCvv = '';
-                            creditCardInfoForm.cardNumber = creditCardInfoForm.paymentMethod
-                              ? creditCardInfoForm.paymentMethod.bin_number +
-                                '****' +
-                                creditCardInfoForm.paymentMethod.last_4_digits
-                              : '';
-                            creditCardInfoForm.cardMmyy = creditCardInfoForm.paymentMethod
-                              ? creditCardInfoForm.paymentMethod.expiration_date.substr(
-                                  0,
-                                  3
-                                ) +
-                                creditCardInfoForm.paymentMethod.expiration_date.substr(
-                                  5
-                                )
-                              : '';
-                            creditCardInfoForm.cardOwner = creditCardInfoForm.paymentMethod
-                              ? creditCardInfoForm.paymentMethod.holder_name
-                              : '';
-                            this.setState(
-                              {
-                                isEdit: true,
-                                creditCardInfoForm,
-                                currentEditOriginCardInfo: Object.assign(
-                                  {},
-                                  creditCardInfoForm
-                                )
-                              },
-                              () => {
-                                this.scrollToPaymentComp();
-                              }
-                            );
-                          }}
-                        >
-                          <FormattedMessage id="edit" />
-                        </span>
+                        {this.props.canEdit && (
+                          <span
+                            className="pull-right ui-cursor-pointer-pure"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              let creditCardInfoForm = { ...el };
+                              creditCardInfoForm.cardCvv = '';
+                              creditCardInfoForm.cardNumber = creditCardInfoForm.paymentMethod
+                                ? creditCardInfoForm.paymentMethod.bin_number +
+                                  '****' +
+                                  creditCardInfoForm.paymentMethod.last_4_digits
+                                : '';
+                              creditCardInfoForm.cardMmyy = creditCardInfoForm.paymentMethod
+                                ? creditCardInfoForm.paymentMethod.expiration_date.substr(
+                                    0,
+                                    3
+                                  ) +
+                                  creditCardInfoForm.paymentMethod.expiration_date.substr(
+                                    5
+                                  )
+                                : '';
+                              creditCardInfoForm.cardOwner = creditCardInfoForm.paymentMethod
+                                ? creditCardInfoForm.paymentMethod.holder_name
+                                : '';
+                              this.setState(
+                                {
+                                  isEdit: true,
+                                  creditCardInfoForm,
+                                  currentEditOriginCardInfo: Object.assign(
+                                    {},
+                                    creditCardInfoForm
+                                  )
+                                },
+                                () => {
+                                  this.scrollToPaymentComp();
+                                }
+                              );
+                            }}
+                          >
+                            <FormattedMessage id="edit" />
+                          </span>
+                        )}
                       </div>
                       <div className="row">
                         <div
