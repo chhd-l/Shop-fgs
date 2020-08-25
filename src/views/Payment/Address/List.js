@@ -67,7 +67,8 @@ class AddressList extends React.Component {
         city: '',
         postCode: '',
         phoneNumber: '',
-        isDefalt: false
+        isDefalt: false,
+        email: ''
       },
       errMsg: '',
       loading: true,
@@ -324,7 +325,10 @@ class AddressList extends React.Component {
         selectedId: res.context.deliveryAddressId
       });
     } catch (err) {
-      this.setState({ saveLoading: false });
+      this.setState({
+        saveLoading: false,
+        addOrEdit: true
+      });
       throw new Error(err.message);
     }
   }
