@@ -138,7 +138,7 @@ class ClinicForm extends React.Component {
                         to="/prescriptionNavigate"
                         target="_blank"
                         className="rc-styled-link font-italic">
-                        <FormattedMessage id="clickHere" />
+                        <FormattedMessage id="clickHere2" />
                       </Link>
                     }} />
                 </div>
