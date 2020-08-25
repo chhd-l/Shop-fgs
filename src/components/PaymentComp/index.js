@@ -933,10 +933,8 @@ class PaymentComp extends React.Component {
                                   onChange={(e) => {
                                     this.currentCvvChange(e);
                                   }}
-                                  type={`${
-                                    this.props.isApplyCvv ? 'password' : 'text'
-                                  }`}
-                                  maxLength="4"
+                                  type="password"
+                                  maxLength="3"
                                   style={{ width: '100%' }}
                                   value={this.state.currentCvv}
                                 />

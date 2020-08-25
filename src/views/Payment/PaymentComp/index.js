@@ -770,7 +770,8 @@ class PaymentComp extends React.Component {
                                     onChange={(e) => {
                                       this.currentCvvChange(e);
                                     }}
-                                    maxLength="4"
+                                    type="password"
+                                    maxLength="3"
                                     style={{ width: '100%' }}
                                     value={
                                       this.state.creditCardList.filter(
@@ -787,7 +788,7 @@ class PaymentComp extends React.Component {
                             )}
                           </div>
                           <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
-                            <div className="col-md-4 col-6 color-999">
+                            <div className="col-md-6 col-6 color-999">
                               <span
                                 style={{ fontSize: '14px' }}
                                 className="fontFitSCreen"
@@ -806,7 +807,7 @@ class PaymentComp extends React.Component {
                                   : ''}
                               </span>
                             </div>
-                            <div className="col-md-4 col-6 border-left color-999">
+                            <div className="col-md-6 col-6 border-left color-999">
                               <span
                                 className="fontFitSCreen"
                                 style={{ fontSize: '14px' }}

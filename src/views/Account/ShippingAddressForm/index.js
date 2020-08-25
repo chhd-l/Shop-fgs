@@ -150,7 +150,8 @@ class ShippingAddressFrom extends React.Component {
         isDefalt: data.isDefaltAddress === 1 ? true : false,
         deliveryAddressId: data.deliveryAddressId,
         customerId: data.customerId,
-        addressType: data.type
+        addressType: data.type,
+        email: data.email
       };
 
       let cityRes = await queryCityNameById({ id: [data.cityId] });
