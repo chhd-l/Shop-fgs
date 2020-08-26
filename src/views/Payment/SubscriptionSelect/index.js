@@ -121,10 +121,7 @@ class SubscriptionSelect extends Component {
             id="payment.subTip1"
             values={{
               val: (
-                <span
-                  className="red"
-                  style={{ fontSize: '1.2em' }}
-                >
+                <span className="red" style={{ fontSize: '1.2em' }}>
                   {formatMoney(
                     this.state.discountInfo &&
                       this.state.discountInfo.discountAmount
@@ -136,8 +133,8 @@ class SubscriptionSelect extends Component {
             }}
           />
         </div>
-        <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
-          <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2">
+        <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs">
+          <div className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2">
             {form.buyWay === 'frequency' ? (
               <input
                 className="rc-input__radio"

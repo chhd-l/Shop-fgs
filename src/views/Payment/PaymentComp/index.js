@@ -736,62 +736,63 @@ class PaymentComp extends React.Component {
                           className={`col-12 col-sm-9 flex-column justify-content-around d-flex`}
                         >
                           <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
-                            <div
-                              className={`col-12 color-999 row align-items-center mb-1`}
-                            >
-                              <div
-                                className={`col-2`}
-                                style={{ fontSize: '14px' }}
-                              >
-                                <FormattedMessage id="name2" />
-                              </div>
-                              <div className={`col-6 creditCompleteInfo`}>
-                                {el.paymentMethod
-                                  ? el.paymentMethod.holder_name
-                                  : el.cardOwner}
+                            <div className={`col-12 color-999 mb-1`}>
+                              <div className="row align-items-center">
+                                <div
+                                  className={`col-4`}
+                                  style={{ fontSize: '14px' }}
+                                >
+                                  <FormattedMessage id="name2" />
+                                </div>
+                                <div className={`col-6 creditCompleteInfo`}>
+                                  {el.paymentMethod
+                                    ? el.paymentMethod.holder_name
+                                    : el.cardOwner}
+                                </div>
                               </div>
                             </div>
                             {this.props.needReConfirmCVV && (
                               <div
-                                className={`col-12 color-999 row align-items-center mb-1 ${
+                                className={`col-12 color-999 mb-1 ${
                                   el.selected ? '' : 'hidden'
                                 }`}
                               >
-                                <div
-                                  className={`col-2 fontFitSCreen`}
-                                  style={{ fontSize: '14px' }}
-                                >
-                                  <FormattedMessage id="CVV" />
-                                </div>
-                                <div
-                                  className={`col-4 color-999 text-left creditCompleteInfo`}
-                                >
-                                  <input
-                                    onChange={(e) => {
-                                      this.currentCvvChange(e);
-                                    }}
-                                    type="password"
-                                    maxLength="3"
-                                    style={{ width: '100%' }}
-                                    value={
-                                      this.state.creditCardList.filter(
-                                        (c) => c.selected
-                                      )[0]
-                                        ? this.state.creditCardList.filter(
-                                            (c) => c.selected
-                                          )[0].cardCvv
-                                        : ''
-                                    }
-                                  />
+                                <div className="row align-items-center">
+                                  <div
+                                    className={`col-4`}
+                                    style={{ fontSize: '14px' }}
+                                  >
+                                    <FormattedMessage id="CVV" />
+                                  </div>
+                                  <div
+                                    className={`col-4 color-999 text-left creditCompleteInfo`}
+                                  >
+                                    <input
+                                      onChange={(e) => {
+                                        this.currentCvvChange(e);
+                                      }}
+                                      type="password"
+                                      maxLength="3"
+                                      style={{ width: '100%' }}
+                                      value={
+                                        this.state.creditCardList.filter(
+                                          (c) => c.selected
+                                        )[0]
+                                          ? this.state.creditCardList.filter(
+                                              (c) => c.selected
+                                            )[0].cardCvv
+                                          : ''
+                                      }
+                                    />
+                                  </div>
                                 </div>
                               </div>
                             )}
                           </div>
                           <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
-                            <div className="col-md-6 col-6 color-999">
+                            <div className="col-6 color-999">
                               <span
                                 style={{ fontSize: '14px' }}
-                                className="fontFitSCreen"
                               >
                                 <FormattedMessage id="payment.cardNumber2" />
                               </span>
@@ -807,9 +808,8 @@ class PaymentComp extends React.Component {
                                   : ''}
                               </span>
                             </div>
-                            <div className="col-md-6 col-6 border-left color-999">
+                            <div className="col-6 border-left color-999">
                               <span
-                                className="fontFitSCreen"
                                 style={{ fontSize: '14px' }}
                               >
                                 <FormattedMessage id="payment.cardType" />
