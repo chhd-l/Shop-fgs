@@ -21,7 +21,7 @@ import { sitePurchase } from "@/api/cart";
 import { getDict } from "@/api/dict";
 import "./index.css";
 
-@inject("checkoutStore", "loginStore", "headerCartStore")
+@inject("checkoutStore", "loginStore")
 @injectIntl
 @observer
 class Details extends React.Component {
@@ -113,6 +113,7 @@ class Details extends React.Component {
     } = this.state;
     let selectedArr = [];
     let idArr = [];
+    let baseSpecId = details.baseSpec
     specList.map((el) => {
       if (el.chidren.filter((item) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
@@ -121,7 +122,10 @@ class Details extends React.Component {
     selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
     idArr = selectedArr.map((el) => el.specDetailId);
     currentUnitPrice = details.marketPrice;
-    details.sizeList.map((item) => {
+    
+
+    details.sizeList.map((item, i) => {
+      item.basePrice = 0
       let specTextArr = [];
       for (let specItem of specList) {
         for (let specDetailItem of specItem.chidren) {
@@ -130,6 +134,14 @@ class Details extends React.Component {
             item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
           ) {
             specTextArr.push(specDetailItem.detailName);
+          }
+          // console.log(item.mo)
+          if(
+            item.mockSpecIds.includes(baseSpecId) &&
+            item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
+          ) {
+            console.log(specDetailItem.detailName, 'specDetailItem.detailName', i)
+            item.baseSpecLabel = specDetailItem.detailName
           }
         }
       }
@@ -144,6 +156,7 @@ class Details extends React.Component {
         item.selected = false;
       }
     });
+    console.log(details, 'details')
     this.setState(
       {
         details,
@@ -232,21 +245,11 @@ class Details extends React.Component {
           let specDetailList = res.context.goodsSpecDetails;
           specList.map((sItem) => {
             sItem.chidren = specDetailList.filter((sdItem, i) => {
-              // console.log(sdItem, i, 'sdItem')
-              // if(i === 0) {
-              //   sdItem.selected = true
-              // }
-              // if (sItem.chidren && sItem.chidren.length === 1) {
-              //   sdItem.selected = true
-              // } else {
-              //   sdItem.selected = false
-              // }
-              // if(sItem.chidren && sItem.chidren)
               return sdItem.specId === sItem.specId;
             });
             sItem.chidren[0].selected = true;
           });
-
+          console.log(specList, 'specList')
           // this.setState({ specList });
           let sizeList = [];
           let goodsInfos = res.context.goodsInfos || [];
@@ -468,9 +471,9 @@ class Details extends React.Component {
         ].join("/"),
       });
       await this.checkoutStore.updateLoginCart();
-      this.props.headerCartStore.show()
+      this.headerRef.current && this.headerRef.current.handleCartMouseOver();
       setTimeout(() => {
-        this.props.headerCartStore.hide()
+        this.headerRef.current && this.headerRef.current.handleCartMouseOut();
       }, 1000);
       this.setState({ addToCartLoading: false });
       if (redirect) {
@@ -666,10 +669,10 @@ class Details extends React.Component {
         history.push("/prescription");
       }
     }
-
-    this.props.headerCartStore.show()
+    // todo 改为mobx
+    this.headerRef.current && this.headerRef.current.handleCartMouseOver();
     setTimeout(() => {
-      this.props.headerCartStore.hide()
+      this.headerRef.current && this.headerRef.current.handleCartMouseOut();
     }, 1000);
   }
   changeTab (e, i) {
@@ -747,6 +750,11 @@ class Details extends React.Component {
         },
       };
     }
+    let selectedSpecItem = details.sizeList.filter(el => el.selected)[0]
+    if(selectedSpecItem) {
+      console.log(selectedSpecItem, 'selectedSpecItem', String(parseFloat(selectedSpecItem.baseSpecLabel)).length)
+    } 
+    
     return (
       <div>
         {event ? <GoogleTagManager additionalEvents={event} /> : null}
@@ -850,6 +858,12 @@ class Details extends React.Component {
                                     details.goodsDescription
                                   )}
                                 ></div>
+                                <div
+                                  className="description"
+                                  dangerouslySetInnerHTML={createMarkup(
+                                    selectedSpecItem.description
+                                  )}
+                                ></div>
                               </div>
                             )}
                         </div>
@@ -881,15 +895,23 @@ class Details extends React.Component {
                                           <FormattedMessage id="price" />
                                         </div>
                                         <b className="product-pricing__card__head__price red  rc-padding-y--none" >
-                                          {formatMoney(currentUnitPrice)}
+                                          {formatMoney(currentUnitPrice)} 
                                         </b>
+                                        &nbsp;&nbsp;
+                                        {
+                                          details.baseSpec?(
+                                            <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '20px', color: 'rgba(102,102,102,.7)' }}>
+                                              ({formatMoney((currentUnitPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
+                                            </b>
+                                          ): null
+                                        }
+                                        
                                       </div>
                                     </>
                                   )}
-                                  {find(details.sizeList, (s) => s.selected)
-                                    && find(details.sizeList, (s) => s.selected).subscriptionStatus
-                                    && currentSubscriptionPrice > 0
-                                    ? (
+                                  {find(details.sizeList, (s) => s.selected) &&
+                                    find(details.sizeList, (s) => s.selected)
+                                      .subscriptionStatus ? (
                                       <>
                                         {!initing && (
                                           <div className="product-pricing__card__head d-flex align-items-center">
@@ -909,7 +931,7 @@ class Details extends React.Component {
                                                 }}
                                               >
                                                 i
-                                            </span>
+                                          </span>
                                               <ConfirmTooltip
                                                 arrowStyle={{ left: "35%" }}
                                                 display={this.state.toolTipVisible}
@@ -930,6 +952,14 @@ class Details extends React.Component {
                                                 currentSubscriptionPrice || 0
                                               )}
                                             </b>
+                                            &nbsp;&nbsp;
+                                            {
+                                              details.baseSpec && currentSubscriptionPrice?(
+                                                <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '20px', color: 'rgba(102,102,102,.7)' }}>
+                                                  ({formatMoney((currentSubscriptionPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
+                                                </b>
+                                              ): null
+                                            }
                                           </div>
                                         )}
                                       </>
@@ -964,11 +994,6 @@ class Details extends React.Component {
                                                 className="rc-swatch __select-size"
                                                 id="id-single-select-size"
                                               >
-                                                {/* {details.sizeList.map(
-                                                  (item, i) => (
-
-                                                  )
-                                                )} */}
                                                 {sItem.chidren.map(
                                                   (sdItem, i) => (
                                                     <div
@@ -978,9 +1003,6 @@ class Details extends React.Component {
                                                           ? "selected"
                                                           : ""
                                                         }`}
-                                                      // item.selected
-                                                      //   ? "selected"
-                                                      //   : ""
                                                       onClick={() =>
                                                         this.handleChooseSize(
                                                           sItem.specId,
@@ -1193,7 +1215,11 @@ class Details extends React.Component {
                                     </div>
                                   </div>
                                 </div>
-                                <div className={`text-break ${this.state.checkOutErrMsg ? "" : "hidden"}`}>
+                                <div
+                                  className={`text-break ${
+                                    this.state.checkOutErrMsg ? "" : "hidden"
+                                    }`}
+                                >
                                   <aside
                                     className="rc-alert rc-alert--error rc-alert--with-close"
                                     role="alert"
@@ -1210,13 +1236,13 @@ class Details extends React.Component {
                           </div>
                           {/* 未登录的时候,只有这种显示了订阅信息的商品底部才显示Subscription is possible only after registration这句话 */}
                           {!this.isLogin &&
+                            find(details.sizeList, (s) => s.selected) &&
                             find(details.sizeList, (s) => s.selected)
-                            && find(details.sizeList, (s) => s.selected).subscriptionStatus
-                            && currentSubscriptionPrice > 0
-                            ? <div className="text-center">
-                              <FormattedMessage id="unLoginSubscriptionTips" />
-                            </div>
-                            : null}
+                              .subscriptionStatus ? (
+                              <div style={{ textAlign: "center" }}>
+                                <FormattedMessage id="unLoginSubscriptionTips" />
+                              </div>
+                            ) : null}
                         </div>
                       </div>
                     </div>
