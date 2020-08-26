@@ -35,7 +35,8 @@ class PayOs extends React.Component {
       isReadPrivacyPolicy: false,
       isEighteen: false,
       selectedCardInfo: null,
-      inited: false
+      inited: false,
+      hasEditedEmail: false
     };
   }
   get isLogin() {
@@ -57,6 +58,19 @@ class PayOs extends React.Component {
       });
     }
   }
+  componentWillReceiveProps(nextProps) {
+    if (
+      !this.state.hasEditedEmail &&
+      nextProps.deliveryAddress &&
+      nextProps.deliveryAddress.email != this.state.creditCardInfo.email
+    ) {
+      this.setState({
+        creditCardInfo: Object.assign(this.state.creditCardInfo, {
+          email: nextProps.deliveryAddress.email
+        })
+      });
+    }
+  }
   cardInfoInputChange(e) {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -67,6 +81,11 @@ class PayOs extends React.Component {
     this.setState({ creditCardInfo: creditCardInfo }, () => {
       this.props.onCardInfoChange(this.state.creditCardInfo);
     });
+    if (value && name === 'email') {
+      this.setState({
+        hasEditedEmail: true
+      });
+    }
   }
   inputBlur(e) {
     let validDom = Array.from(

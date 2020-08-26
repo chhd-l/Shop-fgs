@@ -106,6 +106,9 @@ class PaymentComp extends React.Component {
       });
     }
   }
+  componentDidUpdate(prevProps) {
+    debugger;
+  }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
@@ -1086,7 +1089,10 @@ class PaymentComp extends React.Component {
                         type="email"
                         className="rc-input__control email"
                         id="email"
-                        value={creditCardInfoForm.email}
+                        value={
+                          creditCardInfoForm.email ||
+                          this.props.paymentStore.visitorDeliveryEmail
+                        }
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
                         name="email"
