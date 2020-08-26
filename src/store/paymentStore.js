@@ -5,6 +5,9 @@ class PaymentStore {
   @observable deliveryAddress = null;
   @observable billingAddress = null;
   @observable visitorDeliveryEmail = '';
+  @observable visitorDeliveryPhone = '';
+  @observable visitorDeliveryFristName = '';
+  @observable visitorDeliveryLastName = '';
 
   @action.bound
   setDeliveryAddress(data) {
@@ -26,8 +29,23 @@ class PaymentStore {
   }
 
   @action.bound
-  updateVisitorDeliveryEmail (data) {
-    this.visitorDeliveryEmail = data
+  updateVisitorDeliveryEmail(data) {
+    this.visitorDeliveryEmail = data;
+  }
+
+  @action.bound
+  updateVisitorDeliveryPhone(data) {
+    this.visitorDeliveryPhone = data;
+  }
+
+  @action.bound
+  updateVisitorDeliveryFirstName(data) {
+    this.visitorDeliveryFristName = data;
+  }
+
+  @action.bound
+  updateVisitorDeliveryLastName(data) {
+    this.visitorDeliveryLastName = data;
   }
 }
 export default PaymentStore;

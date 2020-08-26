@@ -113,8 +113,6 @@ class Details extends React.Component {
     } = this.state;
     let selectedArr = [];
     let idArr = [];
-    let baseSpecId = details.baseSpec
-    console.log(baseSpecId, 'baseSpecId')
     specList.map((el) => {
       if (el.chidren.filter((item) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
@@ -132,13 +130,6 @@ class Details extends React.Component {
             item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
           ) {
             specTextArr.push(specDetailItem.detailName);
-          }
-          if(
-            item.mockSpecIds.includes(baseSpecId) &&
-            item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-          ) {
-            console.log(item, 'item111')
-            item.baseSpecLabel = specDetailItem.detailName
           }
         }
       }
@@ -756,8 +747,6 @@ class Details extends React.Component {
         },
       };
     }
-    let selectedSpecItem = details.sizeList.filter(el => el.selected)[0]
-    console.log(selectedSpecItem, 'selectedSpecItem')
     return (
       <div>
         {event ? <GoogleTagManager additionalEvents={event} /> : null}
@@ -861,12 +850,6 @@ class Details extends React.Component {
                                     details.goodsDescription
                                   )}
                                 ></div>
-                                <div
-                                  className="description"
-                                  dangerouslySetInnerHTML={createMarkup(
-                                    selectedSpecItem.description
-                                  )}
-                                ></div>
                               </div>
                             )}
                         </div>
@@ -900,14 +883,6 @@ class Details extends React.Component {
                                         <b className="product-pricing__card__head__price red  rc-padding-y--none" >
                                           {formatMoney(currentUnitPrice)}
                                         </b>
-                                        &nbsp;&nbsp;
-                                        {
-                                          details.baseSpec?(
-                                            <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '20px', color: 'rgba(102,102,102,.7)' }}>
-                                              ({formatMoney((currentUnitPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
-                                            </b>
-                                          ): null
-                                        }
                                       </div>
                                     </>
                                   )}
@@ -955,14 +930,6 @@ class Details extends React.Component {
                                                 currentSubscriptionPrice || 0
                                               )}
                                             </b>
-                                            &nbsp;&nbsp;
-                                            {
-                                              details.baseSpec && currentSubscriptionPrice?(
-                                                <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '20px', color: 'rgba(102,102,102,.7)' }}>
-                                                  ({formatMoney((currentSubscriptionPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
-                                                </b>
-                                              ): null
-                                            }
                                           </div>
                                         )}
                                       </>

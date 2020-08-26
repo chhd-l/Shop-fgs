@@ -88,6 +88,17 @@ class EditForm extends React.Component {
     ) {
       this.props.paymentStore.updateVisitorDeliveryEmail(value);
     }
+    if (value) {
+      if (name === 'phoneNumber') {
+        this.props.paymentStore.updateVisitorDeliveryPhone(value);
+      }
+      if (name === 'firstName') {
+        this.props.paymentStore.updateVisitorDeliveryFirstName(value);
+      }
+      if (name === 'lastName') {
+        this.props.paymentStore.updateVisitorDeliveryLastName(value);
+      }
+    }
   }
   inputBlur(e) {
     let validDom = Array.from(
