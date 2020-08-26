@@ -9,8 +9,10 @@ class Sofort extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      text:'',
       isReadPrivacyPolicy:false,
-      isEighteen:false
+      isShipTracking:false,
+      IsNewsLetter:false
     };
   }
   //是否填写邮箱正确
@@ -27,17 +29,24 @@ class Sofort extends Component {
     }
   }
     
-  //是否勾选满足18岁 
-  isOverEighteen(){
-    if(!this.state.isEighteen){
-      throw new Error(this.props.intl.messages.eightTeenFalse)
+  //是否同意运货追踪
+  isShipTrackingFun(){
+    if(!this.state.isShipTracking){
+      throw new Error(this.props.intl.messages.shipmentTrackingFalse)
+    }
+  }
+  //是否同意通讯
+  isNewsLetterFun(){
+    if(!this.state.IsNewsLetter){
+      throw new Error(this.props.intl.messages.newsletterFalse)
     }
   }
 
   clickPay=()=>{
     try{
       this.isTestPolicy()
-      this.isOverEighteen()
+      this.isShipTrackingFun() 
+      this.isNewsLetterFun() 
       this.isTestMail()
       this.props.clickPay(this.state.text)
     }catch(err){
@@ -54,9 +63,14 @@ class Sofort extends Component {
       isReadPrivacyPolicy:e
     })
   }
-  sendIsEighteen=(e)=>{
+  sendIsShipTracking=(e)=>{
     this.setState({
-      isEighteen:e
+      isShipTracking:e
+    })
+  }
+  sendIsNewsLetter=(e)=>{
+    this.setState({
+      IsNewsLetter:e
     })
   }
   render() {
@@ -83,7 +97,7 @@ class Sofort extends Component {
                 </div>
             </div>
         </div>
-        <Terms sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy} sendIsEighteen={this.sendIsEighteen}/>
+        <Terms sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy} sendIsShipTracking={this.sendIsShipTracking} sendIsNewsLetter={this.sendIsNewsLetter}/>
       </div>
     );
   }
