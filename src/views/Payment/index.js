@@ -356,7 +356,11 @@ class Payment extends React.Component {
             : this.props.intl.messages.CompleteRequiredItems)
         }
         if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          throw new Error(this.props.intl.messages.EnterCorrectPostCode)
+          throw new Error(
+            key === 'email'
+              ? this.props.intl.messages.EnterCorrectEmail
+              : this.props.intl.messages.EnterCorrectPostCode
+          );
         }
       }
     }

@@ -189,3 +189,23 @@ export const ADDRESS_RULE = [
     require: true
   }
 ];
+
+export const PAYMENT_METHOD_RULE = [
+  {
+    key: 'phoneNumber',
+    require: true
+  },
+  {
+    key: 'email',
+    require: true
+  },
+  {
+    key: 'cardOwner',
+    require: true
+  },
+  {
+    key: 'email',
+    regExp: /^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/,
+    require: true
+  }
+];
