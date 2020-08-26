@@ -973,6 +973,11 @@ class Details extends React.Component {
                                         )}
                                       </>
                                     ) : null}
+                                    <div className="product-pricing__card__head d-flex align-items-center rc-margin-top--xs">
+                                      <div className="rc-input product-pricing__card__head__title">
+                                        <FormattedMessage id="taxLogo" />
+                                      </div>
+                                    </div>
                                   {/* {details &&
                                     find(details.sizeList, (s) => s.selected) &&
                                     find(details.sizeList, (s) => s.selected)
