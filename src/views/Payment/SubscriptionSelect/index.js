@@ -134,7 +134,7 @@ class SubscriptionSelect extends Component {
           />
         </div>
         <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs">
-          <div className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2">
+          <div className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2 border-bottom">
             {form.buyWay === 'frequency' ? (
               <input
                 className="rc-input__radio"
@@ -206,7 +206,6 @@ class SubscriptionSelect extends Component {
               </span>
             </div>
           </div>
-          <div className="border-bottom"></div>
           <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2 mt-4">
             <FormattedMessage id="email">
               {(txt) =>
