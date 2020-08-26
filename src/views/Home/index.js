@@ -411,7 +411,11 @@ class Home extends React.Component {
                           <FormattedMessage id="home.point1" />
                         </p>
                       </div>
-                      <div className="col-6 col-md-3 centered-icon-list__icon">
+                      {
+                        process.env.REACT_APP_LANG==='de'?
+                        null
+                        :
+                        <div className="col-6 col-md-3 centered-icon-list__icon">
                         <img
                           src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
                           srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x"
@@ -421,8 +425,9 @@ class Home extends React.Component {
                         />
                         <p className="rc-meta text-center markup-text">
                           <FormattedMessage id="home.point2" />
-                        </p>
+                        </p>                
                       </div>
+                      } 
                       <div className="col-6 col-md-3 centered-icon-list__icon">
                         <img
                           src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
