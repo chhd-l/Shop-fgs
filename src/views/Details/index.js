@@ -123,7 +123,13 @@ class Details extends React.Component {
     selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
     idArr = selectedArr.map((el) => el.specDetailId);
     currentUnitPrice = details.marketPrice;
+    console.log(details, 'details')
     details.sizeList.map((item) => {
+      details.goodsSpecDetails.map(el => {
+        if(el.specId === baseSpecId && item.mockSpecDetailIds.includes(el.specDetailId)) {
+          item.baseSpecLabel = el.detailName
+        }
+      })
       let specTextArr = [];
       for (let specItem of specList) {
         for (let specDetailItem of specItem.chidren) {
@@ -133,13 +139,13 @@ class Details extends React.Component {
           ) {
             specTextArr.push(specDetailItem.detailName);
           }
-          if(
-            item.mockSpecIds.includes(baseSpecId) &&
-            item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-          ) {
-            console.log(item, 'item111')
-            item.baseSpecLabel = specDetailItem.detailName
-          }
+          // if(
+          //   item.mockSpecIds.includes(baseSpecId) &&
+          //   item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
+          // ) {
+          //   console.log(item, 'item111')
+          //   item.baseSpecLabel = specDetailItem.detailName
+          // }
         }
       }
       item.specText = specTextArr.join(" ");
