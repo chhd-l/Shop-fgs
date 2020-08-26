@@ -610,6 +610,7 @@ const en_US = {
   'faq.frequentQuestions': "Preguntas frecuentes",
   'faq.title': 'Tienes alguna pregunta. Consulta nuestras preguntas más frecuentes. Si no encuentras lo que estás buscando, haz clic aquí para contactarnos.',
   'faq.title2': 'Entrega del alimento',
-  'every': 'Cada'
+  'every': 'Cada',
+  'taxLogo': 'IVA incluido',
 }
 export default en_US;

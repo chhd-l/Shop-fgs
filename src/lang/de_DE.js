@@ -634,6 +634,7 @@ const en_US = {
   'faq.title': 'Hier finden Sie die Antworten auf häufig gestellte Fragen. Falls Sie weitere Fragen haben, wenden Sie sich gerne an unser Expertenteam. (please link last word to contact page)',
   'faq.title2': 'Allgemeines',
   'every': 'Jeden',
-  'everyweek':'Alle'
+  'everyweek':'Alle',
+  'taxLogo': 'inkl. MwSt. und zzgl. Versandkosten',
 }
 export default en_US;
