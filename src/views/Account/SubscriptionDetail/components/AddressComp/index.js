@@ -48,6 +48,7 @@ class AddressList extends React.Component {
       countryList: [],
       foledMore: true,
       successTipVisible: false,
+      successTip: '',
       saveErrorMsg: '',
       selectedId: '',
       isBillSame: true,
@@ -335,6 +336,7 @@ class AddressList extends React.Component {
       this.setState({
         addOrEdit: false,
         successTipVisible: true,
+        successTip: this.props.intl.messages.saveSuccessfullly,
         selectedId: res.context.deliveryAddressId
       });
       this.props.save(res.context, false, this.queryAddressList.bind(this));
@@ -376,9 +378,18 @@ class AddressList extends React.Component {
       .then((res) => {
         this.setState({ deleteLoading: false });
         if (res.code === 'K-000000') {
-          this.showErrorMsg(
-            res.message || this.props.intl.messages.deleteAddressSuccess
-          );
+          this.setState({
+            successTipVisible: true,
+            successTip: this.props.intl.messages.deleteAddressSuccess
+          })
+          setTimeout(() => {
+            this.setState({
+              successTipVisible: false
+            });
+          }, 2000);
+          // this.showErrorMsg(
+          //   res.message || this.props.intl.messages.deleteAddressSuccess
+          // );
           this.queryAddressList();
         } else {
           this.showErrorMsg(
@@ -473,7 +484,8 @@ class AddressList extends React.Component {
           role="alert"
         >
           <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
-            <FormattedMessage id="saveSuccessfullly" />
+            {/* <FormattedMessage id="saveSuccessfullly" /> */}
+            {this.state.successTip}
           </p>
         </aside>
         <div
