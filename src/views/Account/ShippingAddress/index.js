@@ -173,6 +173,10 @@ class ShippingAddress extends React.Component {
       loading: true,
       addressList: addressList
     })
+    if (item.canDelFlag === false) {
+      this.showErrorMsg(this.props.intl.messages.deleteAddressTip);
+      return;
+    }
     await deleteAddress({ id: item.deliveryAddressId })
       .then(res => {
         this.setState({ loading: false })
