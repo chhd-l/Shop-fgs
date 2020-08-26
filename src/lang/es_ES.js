@@ -612,5 +612,6 @@ const en_US = {
   'faq.title2': 'Entrega del alimento',
   'every': 'Cada',
   'taxLogo': 'IVA incluido',
+  'plsFillEmailTip': 'Su correo electrónico no está completo en la barra de direcciones'
 }
 export default en_US;

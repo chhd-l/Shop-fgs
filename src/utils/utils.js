@@ -16,7 +16,7 @@ export function formatMoney (val, currency = process.env.REACT_APP_CURRENCY_TYPE
   if (isNaN(val)) {
     val = 0
   }
-  val = val + ''
+  val = Number(val).toFixed(2) + ''
   let ret = val.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
   return `${mapEnum[currency]} ${ret}`
 }

@@ -604,6 +604,7 @@ const en_US = {
   'faq.title2': 'Entrega del alimento',
   'every': 'Every',
   'taxLogo': 'IVA incluido',
+  'plsFillEmailTip': 'Your email is not filled in in the address bar'
 }
 
 export default en_US;

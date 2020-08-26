@@ -636,5 +636,6 @@ const en_US = {
   'every': 'Jeden',
   'everyweek':'Alle',
   'taxLogo': 'inkl. MwSt. und zzgl. Versandkosten',
+  'plsFillEmailTip': 'Ihre E-Mail-Adresse wird nicht in die Adressleiste eingetragen'
 }
 export default en_US;

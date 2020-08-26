@@ -914,6 +914,11 @@ class Payment extends React.Component {
             find(deliveryAddressEl.state.addressList, (ele) => ele.selected);
         }
 
+        // 历史数据无邮箱提示
+        if (!tmpDeliveryAddressData.email) {
+          throw new Error(this.props.intl.messages.plsFillEmailTip)
+        }
+
         tmpDeliveryAddress = {
           firstName: tmpDeliveryAddressData.firstName,
           lastName: tmpDeliveryAddressData.lastName,
