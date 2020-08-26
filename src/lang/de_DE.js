@@ -123,6 +123,7 @@ const en_US = {
   "list.errMsg": "Keine Produkte gefunden, bitte ändern Sie die Suchkriterien und versuchen Sie es erneut.",
   "list.errMsg2": "Keine Produkte gefunden, bitte ändern Sie die Schlüsselwörter und versuchen Sie es erneut.",
   "list.errMsg3": "Keine Filter gefunden, bitte versuchen Sie es später noch einmal.",
+  "list.errMsg4": "Keine Produkte gefunden. Bitte ändern Sie Ihren Suchbegriff und versuchen Sie es erneuert.",
   "details.unitPrice": "Stückpreis",
   "details.OneOFF": "Einmaliger Kauf",
   "details.Subscription": "Abonnement",
@@ -153,7 +154,8 @@ const en_US = {
   "cart.deletInfo": "Produkt löschen?",
   "cart.deletInfo2": "Möchten Sie diesen Artikel wirklich aus Ihrem Warenkorb entfernen?",
   "cart.miniCartTitle": "10% Rabatt auf den ersten Einkauf plus 5% Rabatt auf jede Bestellung mit Autoship",
-  "cart.totalProduct": "Artikel im Warenkorb {val}",
+  "cart.totalProduct": "Artikel im Warenkorb: {val}",
+  "loginCart.totalProduct":'Anzahl:{}',
   "footer.toTheTop": "Nach oben",
   "footer.aboutRoyalCanin": "ÜBER ROYAL CANIN®",
   "footer.contactRoyalCanin": "Kontakt ROYAL CANIN®",
@@ -164,7 +166,7 @@ const en_US = {
   "footer.help": "HILFE",
   "footer.help2": "HABEN SIE FRAGEN?",
   "footer.myPersonalAccount": "Mein persönlicher Account",
-  "footer.contacts": "Kontakte",
+  "footer.contacts": "Kontakt",
   "footer.FAQ": "FAQ",
   "footer.FAQVersand": "FAQ Versand",
   "footer.FAQAllgemeines": "FAQ Allgemeines",
@@ -631,6 +633,7 @@ const en_US = {
   'faq.frequentQuestions': "Häufig gestellte Fragen",
   'faq.title': 'Hier finden Sie die Antworten auf häufig gestellte Fragen. Falls Sie weitere Fragen haben, wenden Sie sich gerne an unser Expertenteam. (please link last word to contact page)',
   'faq.title2': 'Allgemeines',
-  'every': 'Jeden'
+  'every': 'Jeden',
+  'everyweek':'Alle'
 }
 export default en_US;

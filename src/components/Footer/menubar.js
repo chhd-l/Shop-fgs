@@ -30,7 +30,13 @@ export const menubar = {
     ],
     de:[
         [{
-            titleId:'aboutUs',list: [{url:'https://www.royalcanin.com/de/about-us/our-history#Our%20history',messageId:'footer.history'},{props:'ourValues',url:'https://www.royalcanin.com/de/about-us/our-values#Our%20values',messageId:'footer.ourValues'},{url:'https://www.royalcanin.com/de/about-us/sustainability#Sustainability',messageId:'footer.consistence'},{url:'https://www.royalcanin.com/de/about-us/qualitat-und-futtermittelsicherheit',messageId:'footer.qualityAndSafety'},{url:'https://www.royalcanin.com/de/about-us/news',messageId:'footer.news'},{url:'https://www.royalcanin.com/de/about-us/acceptance-guarantee',messageId:'footer.acceptance'},{url:'https://www.royalcanin.com/de/about-us/acceptance-guarantee',messageId:'footer.newsletter'},{url:'https://www.royalcanin.com/de/about-us/promotions',messageId:'footer.action'}]
+            titleId:'aboutUs',list: [
+                {url:'https://www.royalcanin.com/de/about-us/our-history#Our%20history',messageId:'footer.history'},
+                {props:'ourValues',url:'https://www.royalcanin.com/de/about-us/our-values#Our%20values',messageId:'footer.ourValues'},{url:'https://www.royalcanin.com/de/about-us/sustainability#Sustainability',messageId:'footer.consistence'},
+                {url:'https://www.royalcanin.com/de/about-us/qualitat-und-futtermittelsicherheit',messageId:'footer.qualityAndSafety'},{url:'https://www.royalcanin.com/de/about-us/news',messageId:'footer.news'},
+                {url:'https://www.royalcanin.com/de/about-us/acceptance-guarantee',messageId:'footer.acceptance'},
+                {url:'https://www.royalcanin.com/de/about-us/acceptance-guarantee',messageId:'footer.newsletter'},
+                {url:'https://www.royalcanin.com/de/about-us/promotions',messageId:'footer.action'}]
         }],
         [{
             titleId:'footer.products',list: [{link:"/list/cats",messageId:'de_cats'},{link:'/list/dogs',messageId:'de_dogs'}]

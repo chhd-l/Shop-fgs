@@ -442,7 +442,7 @@ class Header extends React.Component {
                 ) : (
                   <p className="d-flex ml-2 mr-2">
                     <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
-                    <FormattedMessage id="list.errMsg2" />
+                    <FormattedMessage id="list.errMsg4" />
                   </p>
                 )}
               </div>

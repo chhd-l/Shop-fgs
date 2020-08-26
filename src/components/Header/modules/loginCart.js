@@ -192,7 +192,13 @@ class LoginCart extends React.Component {
                                       </div>
                                       <div className="line-item-total-price justify-content-start pull-left">
                                         <div className="item-attributes">
-                                          <p className="line-item-attributes">{item.specText} - {item.buyCount > 1 ? `${item.buyCount} products` : `${item.buyCount} product`}</p>
+                                          {
+                                            process.env.REACT_APP_LANG!='de'
+                                            ?
+                                            <p className="line-item-attributes">{item.specText} - {item.buyCount > 1 ? `${item.buyCount} products` : `${item.buyCount} product`}</p>
+                                            :
+                                            <p className="line-item-attributes">{item.specText} - {`Anzahl: ${item.buyCount}`}</p>
+                                          }                                          
                                         </div>
                                       </div>
                                       <div className="line-item-total-price justify-content-end pull-right">
