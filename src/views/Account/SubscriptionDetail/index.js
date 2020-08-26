@@ -536,7 +536,7 @@ class SubscriptionDetail extends React.Component {
                     type={addressType}
                     deliveryAddressId={subDetail.deliveryAddressId}
                     billingAddressId={subDetail.billingAddressId}
-                    save={(el, isBillSame) => {
+                    save={(el, isBillSame, fn) => {
                       console.log(el, isBillSame);
                       if (addressType === 'delivery') {
                         let param = {
@@ -579,6 +579,7 @@ class SubscriptionDetail extends React.Component {
                             // this.setState({ loading: false });
                             // console.log(res);
                             // window.location.reload();
+                            fn && fn()
                             this.getDetail(
                               this.showErrMsg.bind(this, this.props.intl.messages.saveSuccessfullly,
                                 'success')
