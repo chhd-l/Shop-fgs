@@ -212,10 +212,8 @@ class SubscriptionDetail extends React.Component {
         // this.setState({ loading: false });
         // window.location.reload();
         this.getDetail(
-          this.showErrMsg(
-            this.props.intl.messages.saveSuccessfullly,
-            'success'
-          ).bind(this)
+          this.showErrMsg.bind(this, this.props.intl.messages.saveSuccessfullly,
+            'success')
         );
       })
       .catch((err) => {
@@ -518,10 +516,8 @@ class SubscriptionDetail extends React.Component {
                           // console.log(res);
                           // window.location.reload();
                           this.getDetail(
-                            this.showErrMsg(
-                              this.props.intl.messages.saveSuccessfullly,
-                              'success'
-                            ).bind(this)
+                            this.showErrMsg.bind(this, this.props.intl.messages.saveSuccessfullly,
+                              'success')
                           );
                         })
                         .catch((err) => {
@@ -540,7 +536,7 @@ class SubscriptionDetail extends React.Component {
                     type={addressType}
                     deliveryAddressId={subDetail.deliveryAddressId}
                     billingAddressId={subDetail.billingAddressId}
-                    save={(el, isBillSame) => {
+                    save={(el, isBillSame, fn) => {
                       console.log(el, isBillSame);
                       if (addressType === 'delivery') {
                         let param = {
@@ -583,11 +579,10 @@ class SubscriptionDetail extends React.Component {
                             // this.setState({ loading: false });
                             // console.log(res);
                             // window.location.reload();
+                            fn && fn()
                             this.getDetail(
-                              this.showErrMsg(
-                                this.props.intl.messages.saveSuccessfullly,
-                                'success'
-                              ).bind(this)
+                              this.showErrMsg.bind(this, this.props.intl.messages.saveSuccessfullly,
+                                'success')
                             );
                           })
                           .catch((err) => {
@@ -623,10 +618,8 @@ class SubscriptionDetail extends React.Component {
                             // console.log(res);
                             // window.location.reload();
                             this.getDetail(
-                              this.showErrMsg(
-                                this.props.intl.messages.saveSuccessfullly,
-                                'success'
-                              ).bind(this)
+                              this.showErrMsg.bind(this, this.props.intl.messages.saveSuccessfullly,
+                                'success')
                             );
                           })
                           .catch((err) => {
@@ -805,11 +798,9 @@ class SubscriptionDetail extends React.Component {
                                         // this.setState({ loading: false });
                                         // window.location.reload();
                                         this.getDetail(
-                                          this.showErrMsg(
-                                            this.props.intl.messages
-                                              .saveSuccessfullly,
-                                            'success'
-                                          ).bind(this)
+                                          this.showErrMsg.bind(this, this.props.intl.messages
+                                            .saveSuccessfullly,
+                                          'success')
                                         );
                                       })
                                       .catch((err) => {
@@ -1212,7 +1203,7 @@ class SubscriptionDetail extends React.Component {
                           className="rc-column flex-layout"
                           // style={{ paddingLeft: "80px" }}
                         >
-                          <div className="v-center total-container">
+                          <div className="total-container">
                             <div className="border-b">
                               <div className="flex-layout">
                                 <label className="">

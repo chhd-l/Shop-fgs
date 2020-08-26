@@ -369,7 +369,7 @@ class AddressList extends React.Component {
         successTipVisible: true,
         selectedId: res.context.deliveryAddressId
       });
-      this.props.save(res.context);
+      this.props.save(res.context, false,this.queryAddressList.bind(this));
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
@@ -699,7 +699,8 @@ class AddressList extends React.Component {
                     onClick={() => {
                       this.props.save(
                         addressList.filter((el) => el.selected)[0],
-                        isBillSame
+                        isBillSame, 
+                        this.queryAddressList.bind(this)
                       );
                     }}
                   >
