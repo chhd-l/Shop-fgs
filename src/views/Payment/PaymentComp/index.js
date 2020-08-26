@@ -740,7 +740,7 @@ class PaymentComp extends React.Component {
                               className={`col-12 color-999 row align-items-center mb-1`}
                             >
                               <div
-                                className={`col-2`}
+                                className={`col-4`}
                                 style={{ fontSize: '14px' }}
                               >
                                 <FormattedMessage id="name2" />
@@ -758,7 +758,7 @@ class PaymentComp extends React.Component {
                                 }`}
                               >
                                 <div
-                                  className={`col-2 fontFitSCreen`}
+                                  className={`col-4 fontFitSCreen`}
                                   style={{ fontSize: '14px' }}
                                 >
                                   <FormattedMessage id="CVV" />
