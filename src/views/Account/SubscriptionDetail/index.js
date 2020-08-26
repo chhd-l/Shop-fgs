@@ -110,7 +110,7 @@ class SubscriptionDetail extends React.Component {
         cityId: 1,
         countryId: 6
       },
-      addressType: 'delivery',
+      addressType: '',
       countryList: [],
       frequencyList: [],
       orderOptions: [],
