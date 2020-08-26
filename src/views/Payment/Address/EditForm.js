@@ -1,14 +1,18 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { inject, observer } from 'mobx-react';
 import { find, findIndex } from 'lodash';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary } from '@/utils/utils';
+import { ADDRESS_RULE } from '@/utils/constant';
 
 /**
  * add/edit address form - member/visitor
  */
-export default class EditForm extends React.Component {
+@inject('paymentStore')
+@observer
+class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -78,6 +82,12 @@ export default class EditForm extends React.Component {
     this.setState({ deliveryAddress: deliveryAddress }, () => {
       this.props.updateData(this.state.deliveryAddress);
     });
+    if (
+      name === 'email' &&
+      find(ADDRESS_RULE, (el) => el.key === 'email').regExp.test(value)
+    ) {
+      this.props.paymentStore.updateVisitorDeliveryEmail(value);
+    }
   }
   inputBlur(e) {
     let validDom = Array.from(
@@ -450,3 +460,5 @@ export default class EditForm extends React.Component {
     );
   }
 }
+
+export default EditForm;
