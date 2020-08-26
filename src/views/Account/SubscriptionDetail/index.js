@@ -1212,7 +1212,7 @@ class SubscriptionDetail extends React.Component {
                           className="rc-column flex-layout"
                           // style={{ paddingLeft: "80px" }}
                         >
-                          <div className="v-center total-container">
+                          <div className="total-container">
                             <div className="border-b">
                               <div className="flex-layout">
                                 <label className="">

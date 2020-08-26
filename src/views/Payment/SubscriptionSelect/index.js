@@ -116,25 +116,26 @@ class SubscriptionSelect extends Component {
             )
           }}
         /> */}
-        <FormattedMessage
-          id="payment.subTip1"
-          values={{
-            val: (
-              <span
-                className="red font-weight-bold"
-                style={{ fontSize: '1.1em' }}
-              >
-                {formatMoney(
-                  this.state.discountInfo &&
-                    this.state.discountInfo.discountAmount
-                    ? this.state.discountInfo.discountAmount
-                    : 0
-                )}
-              </span>
-            )
-          }}
-        />
-        <br />
+        <div style={{ fontSize: '1.15em' }}>
+          <FormattedMessage
+            id="payment.subTip1"
+            values={{
+              val: (
+                <span
+                  className="red"
+                  style={{ fontSize: '1.2em' }}
+                >
+                  {formatMoney(
+                    this.state.discountInfo &&
+                      this.state.discountInfo.discountAmount
+                      ? this.state.discountInfo.discountAmount
+                      : 0
+                  )}
+                </span>
+              )
+            }}
+          />
+        </div>
         <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex flex-column">
           <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2">
             {form.buyWay === 'frequency' ? (
@@ -174,7 +175,7 @@ class SubscriptionSelect extends Component {
             >
               <div className="choose-frequency">
                 <span
-                  className="position-relative choose-frequency-choosies"
+                  className="position-relative choose-frequency-choosies mr-2"
                   style={{ top: '-2px' }}
                 >
                   <FormattedMessage id="every" />

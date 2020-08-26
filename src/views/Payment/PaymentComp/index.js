@@ -431,7 +431,7 @@ class PaymentComp extends React.Component {
         this.initCardInfo();
       } else {
         await this.getPaymentMethodList();
-        this.state.creditCardList[0].cardCvv = creditCardInfoForm.cardCvv
+        this.state.creditCardList[0].cardCvv = creditCardInfoForm.cardCvv;
         this.state.creditCardList[0].selected = true;
         this.setState(
           {
@@ -736,35 +736,35 @@ class PaymentComp extends React.Component {
                           className={`col-12 col-sm-9 flex-column justify-content-around d-flex`}
                         >
                           <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
-                            <div className={`col-12 color-999`}>
-                              <span style={{ fontSize: '14px' }}>
+                            <div
+                              className={`col-12 color-999 row align-items-center mb-1`}
+                            >
+                              <div
+                                className={`col-2`}
+                                style={{ fontSize: '14px' }}
+                              >
                                 <FormattedMessage id="name2" />
-                              </span>
-                              <br />
-                              <span className="creditCompleteInfo">
+                              </div>
+                              <div className={`col-6 creditCompleteInfo`}>
                                 {el.paymentMethod
                                   ? el.paymentMethod.holder_name
                                   : el.cardOwner}
-                              </span>
+                              </div>
                             </div>
                             {this.props.needReConfirmCVV && (
                               <div
-                                className={`col-12 color-999 ${
+                                className={`col-12 color-999 row align-items-center mb-1 ${
                                   el.selected ? '' : 'hidden'
                                 }`}
                               >
-                                <span
+                                <div
+                                  className={`col-2 fontFitSCreen`}
                                   style={{ fontSize: '14px' }}
-                                  className="fontFitSCreen"
                                 >
                                   <FormattedMessage id="CVV" />
-                                </span>
-                                <br />
+                                </div>
                                 <div
-                                  className="col-4 color-999 pl-0 text-left"
-                                  style={{
-                                    marginBottom: '5px'
-                                  }}
+                                  className={`col-4 color-999 text-left creditCompleteInfo`}
                                 >
                                   <input
                                     onChange={(e) => {
