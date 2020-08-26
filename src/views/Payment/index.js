@@ -85,7 +85,8 @@ class Payment extends React.Component {
     super(props);
     this.state = {
       isReadPrivacyPolicy:false,
-      isEighteen:false,
+      isShipTracking:false,
+      IsNewsLetter:false,
       promotionCode: "",
       billingChecked: true,
       isCompleteCredit: false,
@@ -336,9 +337,14 @@ class Payment extends React.Component {
       isReadPrivacyPolicy:e
     })
   }
-  sendIsEighteen=(e)=>{
+  sendIsShipTracking=(e)=>{
     this.setState({
-      isEighteen:e
+      isShipTracking:e
+    })
+  }
+  sendIsNewsLetter=(e)=>{
+    this.setState({
+      IsNewsLetter:e
     })
   }
   //是否勾选私人政策
@@ -348,10 +354,16 @@ class Payment extends React.Component {
     }
   }
     
-  //是否勾选满足18岁 
-  isOverEighteen(){
-    if(!this.state.isEighteen){
-      throw new Error(this.props.intl.messages.eightTeenFalse)
+  //是否同意运货追踪
+  isShipTrackingFun(){
+    if(!this.state.isShipTracking){
+      throw new Error(this.props.intl.messages.shipmentTrackingFalse)
+    }
+  }
+  //是否同意通讯
+  isNewsLetterFun(){
+    if(!this.state.IsNewsLetter){
+      throw new Error(this.props.intl.messages.newsletterFalse)
     }
   }
   showErrorMsg = (msg)=> {
@@ -410,10 +422,11 @@ class Payment extends React.Component {
           showPayButton: true,
           onSubmit: (state, component) => {
             if (state.isValid) {
-              //自定义的政策，18岁，邮箱验证
+              //勾选条款验证
               try{
                 this.isTestPolicy()
-                this.isOverEighteen()           
+                this.isShipTrackingFun() 
+                this.isNewsLetterFun()          
                 let adyenPayParam = getAdyenParam(card.data);
                 this.setState(
                   {
@@ -1126,7 +1139,7 @@ class Payment extends React.Component {
       <div className={`${this.state.paymentTypeVal === "adyenCard" ? "" : "hidden"}`}>
         <div class="payment-method checkout--padding">
           <div id="card-container" class="payment-method__container"></div>
-          <Terms sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy} sendIsEighteen={this.sendIsEighteen}/>
+          <Terms sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy} sendIsShipTracking={this.sendIsShipTracking} sendIsNewsLetter={this.sendIsNewsLetter}/>
         </div>
       </div>
       {/* KlarnaPayLater */}

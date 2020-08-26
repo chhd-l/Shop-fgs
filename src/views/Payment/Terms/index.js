@@ -11,9 +11,11 @@ class Terms extends Component {
     super(props);
     this.state = {
         isReadPrivacyPolicyInit: true,
-        isEighteenInit: true,
+        isShipTrackingInit: true,
+        isNewsLetterInit:true,
         isReadPrivacyPolicy: false,
-        isEighteen: false,
+        isShipTracking: false,
+        isNewsLetter:false
     };
   }
   render() {
@@ -40,9 +42,10 @@ class Terms extends Component {
             <label
             htmlFor="id-checkbox-cat-2"
             className="rc-input__label--inline ui-cursor-pointer-pure"
+            style={{fontWeight:'bold'}}
             >
             <FormattedMessage
-                id="payment.confirmInfo3"
+                id="payment.terms1"
                 values={{
                 val1: (
                     <Link
@@ -50,21 +53,20 @@ class Terms extends Component {
                     target="_blank"
                     to="/privacypolicy"
                     >
-                    Política de privacidad
+                    AGB
                     </Link>
                 ),
                 val2: (
-                    <Link
+                    <a
                     className="red"
-                    target="_blank"
-                    to="/termuse"
+                    href="https://www.mars.com/privacy-policy-germany"
                     >
-                    la transferencia transfronteriza
-                    </Link>
+                    Datenschutzerklärung
+                    </a>
                 ),
                 }}
             />
-            <div className={`warning ${this.state.isReadPrivacyPolicy || this.state.isReadPrivacyPolicyInit ? 'hidden' : ''}`}>
+            <div className={`${this.state.isReadPrivacyPolicy || this.state.isReadPrivacyPolicyInit ? 'hidden' : ''}`} style={{color:'#666',fontSize:'12px',fontWeight:'normal',display:'none'}}>
                 <FormattedMessage id="payment.confirmInfo4" />
             </div>
             </label>
@@ -78,21 +80,78 @@ class Terms extends Component {
             name="checkbox-2"
             onChange={() => {
                 this.setState({
-                isEighteen: !this.state.isEighteen,
-                isEighteenInit: false
+                isShipTracking: !this.state.isShipTracking,
+                isShipTrackingInit: false
                 },()=>{
-                    this.props.sendIsEighteen(this.state.isEighteen)
+                    this.props.sendIsShipTracking(this.state.isShipTracking)
                 });
             }}
-            checked={this.state.isEighteen}
+            checked={this.state.isShipTracking}
             />
             <label
             htmlFor="id-checkbox-cat-1"
             className="rc-input__label--inline ui-cursor-pointer-pure"
+            style={{fontWeight:'bold'}}
             >
-            <FormattedMessage id="payment.confirmInfo1" />
-            <div className={`warning ${this.state.isEighteen || this.state.isEighteenInit ? 'hidden' : ''}`}>
-                <FormattedMessage id="login.secondCheck" />
+            <FormattedMessage id="payment.terms2.header" />
+            <div className={`${this.state.isShipTracking || this.state.isShipTrackingInit ? 'hidden' : ''}`} style={{color:'#666',fontSize:'12px',fontWeight:'normal'}}>
+                <FormattedMessage id="payment.terms2" values={{
+                    val1: (
+                        <a
+                        className="red"
+                        style={{textDecoration:'underline'}}
+                        href="info.de@royalcanin.com"
+                        >
+                        info.de@royalcanin.com 
+                        </a>
+                    ),
+                }}/>
+            </div>
+            </label>
+        </div>
+        <div className="footerCheckbox">
+            <input
+            className="form-check-input ui-cursor-pointer-pure"
+            id="id-checkbox-cat-3"
+            value="Cat"
+            type="checkbox"
+            name="checkbox-2"
+            onChange={() => {
+                this.setState({
+                isNewsLetter: !this.state.isNewsLetter,
+                isNewsLetterInit: false
+                },()=>{
+                    this.props.sendIsNewsLetter(this.state.isNewsLetter)
+                });
+            }}
+            checked={this.state.isNewsLetter}
+            />
+            <label
+            htmlFor="id-checkbox-cat-3"
+            className="rc-input__label--inline ui-cursor-pointer-pure"
+            style={{fontWeight:'bold'}}
+            >
+            <FormattedMessage id="payment.terms3.header" />
+            <div className={`${this.state.isNewsLetter || this.state.isNewsLetterInit ? 'hidden' : ''}`} style={{color:'#666',fontSize:'12px',fontWeight:'normal'}}>
+                <FormattedMessage id="payment.terms3" values={{
+                    val1: (
+                        <a
+                        className="red"
+                        style={{textDecoration:'underline'}}
+                        href="info.de@royalcanin.com"
+                        >
+                        info.de@royalcanin.com 
+                        </a>
+                    ),
+                    val2:(
+                        <a
+                        className="red"
+                        href="https://www.mars.com/privacy-policy-germany"
+                        >
+                        Datenschutzerklärung 
+                        </a>
+                    )
+                }} />
             </div>
             </label>
         </div>
