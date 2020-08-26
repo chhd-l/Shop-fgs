@@ -4,31 +4,12 @@ import { findIndex, find } from 'lodash';
 import PaymentComp from '../PaymentComp';
 import {
   CREDIT_CARD_IMG_ENUM,
-  CREDIT_CARD_IMGURL_ENUM
+  CREDIT_CARD_IMGURL_ENUM,
+  ADDRESS_RULE
 } from '@/utils/constant';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
-
-const rules = [
-  {
-    key: 'phoneNumber',
-    require: true
-  },
-  {
-    key: 'email',
-    require: true
-  },
-  {
-    key: 'cardOwner',
-    require: true
-  },
-  {
-    key: 'email',
-    regExp: /^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/,
-    require: true
-  }
-];
 
 @injectIntl
 @inject('loginStore')
@@ -104,7 +85,7 @@ class PayOs extends React.Component {
     const { creditCardInfo } = this.state;
     for (let key in creditCardInfo) {
       const val = creditCardInfo[key];
-      const targetRule = find(rules, (ele) => ele.key === key);
+      const targetRule = find(ADDRESS_RULE, (ele) => ele.key === key);
       if (targetRule) {
         if (targetRule.require && !val) {
           this.props.showErrorMsg(

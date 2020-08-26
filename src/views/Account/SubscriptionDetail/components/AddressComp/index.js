@@ -10,47 +10,11 @@ import {
 } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import { getDictionary } from '@/utils/utils';
+import { ADDRESS_RULE } from '@/utils/constant';
 import AddressForm from './form';
 import Loading from '@/components/Loading';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import './index.less';
-
-const rules = [
-  {
-    key: 'firstName',
-    require: true
-  },
-  {
-    key: 'lastName',
-    require: true
-  },
-  {
-    key: 'address1',
-    require: true
-  },
-  {
-    key: 'country',
-    require: true
-  },
-  {
-    key: 'city',
-    require: true
-  },
-  {
-    key: 'email',
-    regExp: /^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/,
-    require: true
-  },
-  {
-    key: 'phoneNumber',
-    require: true
-  },
-  {
-    key: 'postCode',
-    regExp: /\d{5}/,
-    require: true
-  }
-];
 
 /**
  * address list(delivery/billing) - member
@@ -145,7 +109,7 @@ class AddressList extends React.Component {
   async validInputsData(data) {
     for (let key in data) {
       const val = data[key];
-      const targetRule = find(rules, (ele) => ele.key === key);
+      const targetRule = find(ADDRESS_RULE, (ele) => ele.key === key);
       if (targetRule) {
         if (targetRule.require && !val) {
           throw new Error(this.props.intl.messages.CompleteRequiredItems);

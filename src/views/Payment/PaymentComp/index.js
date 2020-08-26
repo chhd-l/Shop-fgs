@@ -4,7 +4,6 @@ import Skeleton from 'react-skeleton-loader';
 import { findIndex } from 'lodash';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
-import successImg from '@/assets/images/success.png';
 import {
   getPaymentMethod,
   deleteCard,
@@ -19,7 +18,7 @@ import {
 import store from 'storejs';
 import './index.css';
 
-@inject('loginStore')
+@inject('loginStore', 'paymentStore')
 @observer
 class PaymentComp extends React.Component {
   static defaultProps = {
@@ -138,7 +137,7 @@ class PaymentComp extends React.Component {
           cardOwner: deliveryAddress.cardOwner || '',
           email: this.props.deliveryAddress
             ? this.props.deliveryAddress.email
-            : '',
+            : this.props.paymentStore.visitorDeliveryEmail,
           phoneNumber: deliveryAddress.phoneNumber || '',
           identifyNumber: '111',
           isDefault: false
