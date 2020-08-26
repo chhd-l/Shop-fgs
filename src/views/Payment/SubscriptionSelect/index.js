@@ -134,7 +134,7 @@ class SubscriptionSelect extends Component {
           />
         </div>
         <div className="row rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs">
-          <div className="rc-input w-100 rc-padding-y--xs rc-input--full-width ml-2">
+          <div className="rc-input w-100 rc-padding-y--xs rc-input--full-width ml-2 border-bottom">
             {form.buyWay === 'frequency' ? (
               <input
                 className="rc-input__radio"

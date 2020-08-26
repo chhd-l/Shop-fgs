@@ -51,7 +51,8 @@ class PaymentComp extends React.Component {
       currentCardInfo: {},
       deliveryAddress: {},
       prevEditCardNumber: '',
-      currentEditOriginCardInfo: null
+      currentEditOriginCardInfo: null,
+      hasEditedEmail: false
     };
   }
   async componentDidMount() {
@@ -93,6 +94,19 @@ class PaymentComp extends React.Component {
       this.setState({ creditCardList: this.state.creditCardList });
     }
   }
+  componentWillReceiveProps(nextProps) {
+    if (
+      !this.state.hasEditedEmail &&
+      nextProps.deliveryAddress &&
+      nextProps.deliveryAddress.email != this.state.creditCardInfoForm.email
+    ) {
+      this.setState({
+        creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
+          email: nextProps.deliveryAddress.email
+        })
+      });
+    }
+  }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
@@ -122,7 +136,9 @@ class PaymentComp extends React.Component {
           cardMmyy: '',
           cardCvv: '',
           cardOwner: deliveryAddress.cardOwner || '',
-          email: '',
+          email: this.props.deliveryAddress
+            ? this.props.deliveryAddress.email
+            : '',
           phoneNumber: deliveryAddress.phoneNumber || '',
           identifyNumber: '111',
           isDefault: false
@@ -271,6 +287,11 @@ class PaymentComp extends React.Component {
       creditCardInfoForm[name] = finalValue;
     } else {
       creditCardInfoForm[name] = value;
+    }
+    if (value && name === 'email') {
+      this.setState({
+        hasEditedEmail: true
+      });
     }
     // 编辑状态，一旦修改了cardMmyy/cardOwner/cardCvv，则需重新输入卡号
     if (
@@ -791,9 +812,7 @@ class PaymentComp extends React.Component {
                           </div>
                           <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
                             <div className="col-6 color-999">
-                              <span
-                                style={{ fontSize: '14px' }}
-                              >
+                              <span style={{ fontSize: '14px' }}>
                                 <FormattedMessage id="payment.cardNumber2" />
                               </span>
                               <br />
@@ -809,9 +828,7 @@ class PaymentComp extends React.Component {
                               </span>
                             </div>
                             <div className="col-6 border-left color-999">
-                              <span
-                                style={{ fontSize: '14px' }}
-                              >
+                              <span style={{ fontSize: '14px' }}>
                                 <FormattedMessage id="payment.cardType" />
                               </span>
                               <br />

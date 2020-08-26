@@ -1133,6 +1133,7 @@ class Payment extends React.Component {
           onPaymentCompDataChange={data => { this.setState({ selectedCardInfo: data }) }}
           isApplyCvv={false}
           needReConfirmCVV={true}
+          deliveryAddress={this.state.deliveryAddress}
            />
       </div>
       {/* adyenCreditCard */}
@@ -1213,6 +1214,7 @@ class Payment extends React.Component {
                               <AddressList
                                 id="1"
                                 ref={this.loginDeliveryAddressRef}
+                                updateData={data => {this.setState({ deliveryAddress: data })}}
                               />
                             ) : (
                                 <VisitorDeliveryAddress
@@ -1304,6 +1306,7 @@ class Payment extends React.Component {
                                   type="billing"
                                   ref={this.loginBillingAddressRef}
                                   visible={!this.state.billingChecked}
+                                  updateData={data => {this.setState({ billingAddress: data })}}
                                 />
                               ) : (
                                   <VisitorBillingAddress
