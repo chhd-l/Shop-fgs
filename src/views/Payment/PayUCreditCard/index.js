@@ -35,7 +35,10 @@ class PayOs extends React.Component {
       isReadPrivacyPolicy: false,
       isEighteen: false,
       selectedCardInfo: null,
-      inited: false
+      inited: false,
+      hasEditedEmail: false,
+      hasEditedPhone: false,
+      hasEditedName: false
     };
   }
   get isLogin() {
@@ -57,6 +60,54 @@ class PayOs extends React.Component {
       });
     }
   }
+  componentWillReceiveProps(nextProps) {
+    // 未修改过cardOwner/email/phone时，用delivery相关信息填充
+    const {
+      hasEditedEmail,
+      hasEditedPhone,
+      hasEditedName,
+      creditCardInfo
+    } = this.state;
+    if (
+      !hasEditedEmail &&
+      nextProps.deliveryAddress &&
+      nextProps.deliveryAddress.email != creditCardInfo.email
+    ) {
+      this.setState({
+        creditCardInfo: Object.assign(creditCardInfo, {
+          email: nextProps.deliveryAddress.email
+        })
+      });
+    }
+    if (
+      !hasEditedPhone &&
+      nextProps.deliveryAddress &&
+      nextProps.deliveryAddress.phoneNumber != creditCardInfo.phoneNumber
+    ) {
+      this.setState({
+        creditCardInfo: Object.assign(creditCardInfo, {
+          phoneNumber: nextProps.deliveryAddress.phoneNumber
+        })
+      });
+    }
+    if (
+      !hasEditedName &&
+      nextProps.deliveryAddress &&
+      [
+        nextProps.deliveryAddress.firstName,
+        nextProps.deliveryAddress.lastName
+      ].join(' ') != creditCardInfo.cardOwner
+    ) {
+      this.setState({
+        creditCardInfo: Object.assign(creditCardInfo, {
+          cardOwner: [
+            nextProps.deliveryAddress.firstName,
+            nextProps.deliveryAddress.lastName
+          ].join(' ')
+        })
+      });
+    }
+  }
   cardInfoInputChange(e) {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -67,6 +118,17 @@ class PayOs extends React.Component {
     this.setState({ creditCardInfo: creditCardInfo }, () => {
       this.props.onCardInfoChange(this.state.creditCardInfo);
     });
+    if (value) {
+      if (name === 'email') {
+        this.setState({ hasEditedEmail: true });
+      }
+      if (name === 'phoneNumber') {
+        this.setState({ hasEditedPhone: true });
+      }
+      if (name === 'cardOwner') {
+        this.setState({ hasEditedName: true });
+      }
+    }
   }
   inputBlur(e) {
     let validDom = Array.from(
