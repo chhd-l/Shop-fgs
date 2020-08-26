@@ -899,21 +899,23 @@ class Details extends React.Component {
                                             </b>
                                           </div>
                                         ) : null}
-                                      <div className="product-pricing__card__head d-flex align-items-center">
-                                        <div className="rc-input product-pricing__card__head__title">
+                                      <div className="product-pricing__card__head d-flex align-items-center flex-wrap justify-content-between">
+                                        <div>
                                           <FormattedMessage id="price" />
                                         </div>
-                                        <b className="product-pricing__card__head__price red  rc-padding-y--none" >
-                                          {formatMoney(currentUnitPrice)}
-                                        </b>
-                                        &nbsp;&nbsp;
-                                        {
-                                          details.baseSpec?(
-                                            <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '20px', color: 'rgba(102,102,102,.7)' }}>
-                                              ({formatMoney((currentUnitPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
-                                            </b>
-                                          ): null
-                                        }
+                                        <div>
+                                          <b className="product-pricing__card__head__price red  rc-padding-y--none" >
+                                            {formatMoney(currentUnitPrice)}
+                                          </b>
+                                          &nbsp;&nbsp;
+                                          {
+                                            details.baseSpec?(
+                                              <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', color: 'rgba(102,102,102,.7)' }}>
+                                                ({formatMoney((currentUnitPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
+                                              </b>
+                                            ): null
+                                          }
+                                        </div>
                                       </div>
                                     </>
                                   )}
@@ -923,8 +925,8 @@ class Details extends React.Component {
                                     ? (
                                       <>
                                         {!initing && (
-                                          <div className="product-pricing__card__head d-flex align-items-center">
-                                            <div className="rc-input product-pricing__card__head__title">
+                                          <div className="product-pricing__card__head d-flex align-items-center flex-wrap justify-content-between">
+                                            <div>
                                               <FormattedMessage id="autoship" />
                                               <span
                                                 className="info-tooltip delivery-method-tooltip"
@@ -956,19 +958,21 @@ class Details extends React.Component {
                                                 }
                                               />
                                             </div>
-                                            <b className="product-pricing__card__head__price  red rc-padding-y--none"  >
-                                              {formatMoney(
-                                                currentSubscriptionPrice || 0
-                                              )}
-                                            </b>
-                                            &nbsp;&nbsp;
-                                            {
-                                              details.baseSpec && currentSubscriptionPrice?(
-                                                <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '20px', color: 'rgba(102,102,102,.7)' }}>
-                                                  ({formatMoney((currentSubscriptionPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
-                                                </b>
-                                              ): null
-                                            }
+                                            <div>
+                                              <b className="product-pricing__card__head__price  red rc-padding-y--none">
+                                                {formatMoney(
+                                                  currentSubscriptionPrice || 0
+                                                )}
+                                              </b>
+                                              &nbsp;&nbsp;
+                                              {
+                                                details.baseSpec && currentSubscriptionPrice?(
+                                                  <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', color: 'rgba(102,102,102,.7)' }}>
+                                                    ({formatMoney((currentSubscriptionPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
+                                                  </b>
+                                                ): null
+                                              }
+                                            </div>
                                           </div>
                                         )}
                                       </>
