@@ -5,46 +5,10 @@ import { find, findIndex } from 'lodash';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import { getDictionary } from '@/utils/utils';
+import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from './EditForm';
 import Loading from '@/components/Loading';
 import './list.css';
-
-const rules = [
-  {
-    key: 'firstName',
-    require: true
-  },
-  {
-    key: 'lastName',
-    require: true
-  },
-  {
-    key: 'address1',
-    require: true
-  },
-  {
-    key: 'country',
-    require: true
-  },
-  {
-    key: 'city',
-    require: true
-  },
-  {
-    key: 'email',
-    regExp: /^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/,
-    require: true
-  },
-  {
-    key: 'phoneNumber',
-    require: true
-  },
-  {
-    key: 'postCode',
-    regExp: /\d{5}/,
-    require: true
-  }
-];
 
 /**
  * address list(delivery/billing) - member
@@ -108,13 +72,17 @@ class AddressList extends React.Component {
   async validInputsData(data) {
     for (let key in data) {
       const val = data[key];
-      const targetRule = find(rules, (ele) => ele.key === key);
+      const targetRule = find(ADDRESS_RULE, (ele) => ele.key === key);
       if (targetRule) {
         if (targetRule.require && !val) {
           throw new Error(this.props.intl.messages.CompleteRequiredItems);
         }
         if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          throw new Error(this.props.intl.messages.EnterCorrectPostCode);
+          throw new Error(
+            key === 'email'
+              ? this.props.intl.messages.EnterCorrectEmail
+              : this.props.intl.messages.EnterCorrectPostCode
+          );
         }
       }
     }
@@ -140,6 +108,7 @@ class AddressList extends React.Component {
           addressList,
           (ele) => (ele.selected = ele.deliveryAddressId === selectedId)
         );
+        tmpId = selectedId;
       } else if (defaultAddressItem) {
         Array.from(
           addressList,
@@ -159,11 +128,22 @@ class AddressList extends React.Component {
           ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
           : ele.cityId;
       });
-      this.setState({
-        addressList: addressList,
-        addOrEdit: !addressList.length,
-        selectedId: tmpId
-      });
+      this.setState(
+        {
+          addressList: addressList,
+          addOrEdit: !addressList.length,
+          selectedId: tmpId
+        },
+        () => {
+          this.props.updateData &&
+            this.props.updateData(
+              find(
+                this.state.addressList,
+                (ele) => ele.deliveryAddressId === this.state.selectedId
+              )
+            );
+        }
+      );
     } catch (err) {
       this.setState({
         errMsg: err.toString()
@@ -186,14 +166,27 @@ class AddressList extends React.Component {
       return id;
     }
   }
-  selectAddress(idx) {
+  selectAddress(e, idx) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
     let { addressList } = this.state;
     Array.from(addressList, (a) => (a.selected = false));
     addressList[idx].selected = true;
-    this.setState({
-      addressList: addressList,
-      selectedId: addressList[idx].deliveryAddressId
-    });
+    this.setState(
+      {
+        addressList: addressList,
+        selectedId: addressList[idx].deliveryAddressId
+      },
+      () => {
+        this.props.updateData &&
+          this.props.updateData(
+            find(
+              this.state.addressList,
+              (ele) => ele.deliveryAddressId === this.state.selectedId
+            )
+          );
+      }
+    );
   }
   addOrEditAddress(idx = -1) {
     const { deliveryAddress, addressList } = this.state;
@@ -323,7 +316,7 @@ class AddressList extends React.Component {
       this.showSuccessMsg();
       this.setState({
         addOrEdit: false,
-        selectedId: res.context.deliveryAddressId
+        saveLoading: false
       });
     } catch (err) {
       this.setState({
@@ -456,7 +449,7 @@ class AddressList extends React.Component {
                             : ''
                         }`}
                         key={item.deliveryAddressId}
-                        onClick={() => this.selectAddress(i)}
+                        onClick={(e) => this.selectAddress(e, i)}
                       >
                         <div className="row align-items-center pt-3 pb-3 ml-2 mr-2">
                           <div className="d-flex align-items-center justify-content-between col-2 col-md-1 address-name">

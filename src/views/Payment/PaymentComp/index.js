@@ -4,7 +4,6 @@ import Skeleton from 'react-skeleton-loader';
 import { findIndex } from 'lodash';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
-import successImg from '@/assets/images/success.png';
 import {
   getPaymentMethod,
   deleteCard,
@@ -19,7 +18,7 @@ import {
 import store from 'storejs';
 import './index.css';
 
-@inject('loginStore')
+@inject('loginStore', 'paymentStore')
 @observer
 class PaymentComp extends React.Component {
   static defaultProps = {
@@ -51,7 +50,10 @@ class PaymentComp extends React.Component {
       currentCardInfo: {},
       deliveryAddress: {},
       prevEditCardNumber: '',
-      currentEditOriginCardInfo: null
+      currentEditOriginCardInfo: null,
+      hasEditedEmail: false,
+      hasEditedPhone: false,
+      hasEditedName: false
     };
   }
   async componentDidMount() {
@@ -93,6 +95,78 @@ class PaymentComp extends React.Component {
       this.setState({ creditCardList: this.state.creditCardList });
     }
   }
+  componentWillReceiveProps(nextProps) {
+    const {
+      hasEditedEmail,
+      hasEditedPhone,
+      hasEditedName,
+      creditCardInfoForm
+    } = this.state;
+    const { email } = this.state.creditCardInfoForm;
+    if (!hasEditedEmail) {
+      if (
+        nextProps.deliveryAddress &&
+        nextProps.deliveryAddress.email != email
+      ) {
+        this.setState({
+          creditCardInfoForm: Object.assign(creditCardInfoForm, {
+            email: nextProps.deliveryAddress.email
+          })
+        });
+      }
+      // if (nextProps.paymentStore.visitorDeliveryEmail != email) {
+      //   this.setState({
+      //     creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
+      //       email: nextProps.paymentStore.visitorDeliveryEmail
+      //     })
+      //   });
+      // }
+    }
+
+    if (
+      !hasEditedPhone &&
+      nextProps.deliveryAddress &&
+      nextProps.deliveryAddress.consigneeNumber !=
+        creditCardInfoForm.phoneNumber
+    ) {
+      this.setState({
+        creditCardInfoForm: Object.assign(creditCardInfoForm, {
+          phoneNumber: nextProps.deliveryAddress.consigneeNumber
+        })
+      });
+    }
+
+    if (
+      !hasEditedName &&
+      nextProps.deliveryAddress &&
+      [
+        nextProps.deliveryAddress.firstName,
+        nextProps.deliveryAddress.lastName
+      ].join(' ') != creditCardInfoForm.cardOwner
+    ) {
+      this.setState({
+        creditCardInfoForm: Object.assign(creditCardInfoForm, {
+          cardOwner: [
+            nextProps.deliveryAddress.firstName,
+            nextProps.deliveryAddress.lastName
+          ].join(' ')
+        })
+      });
+    }
+  }
+  // componentDidUpdate(prevProps) {
+  //   debugger;
+  //   const { email } = this.state.creditCardInfoForm;
+  //   if (!this.state.hasEditedEmail) {
+  //     if (prevProps.paymentStore.visitorDeliveryEmail != email) {
+  //       this.setState({
+  //         creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
+  //           email: prevProps.paymentStore.visitorDeliveryEmail
+  //         })
+  //       });
+  //     }
+  //   }
+  // }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
@@ -114,16 +188,35 @@ class PaymentComp extends React.Component {
     }
   }
   initCardInfo() {
+    // 默认填充delivery相关信息
     let { deliveryAddress } = this.state;
+    const { deliveryAddress: propDeliveryAddress, paymentStore } = this.props;
     this.setState(
       {
         creditCardInfoForm: {
           cardNumber: '',
           cardMmyy: '',
           cardCvv: '',
-          cardOwner: deliveryAddress.cardOwner || '',
-          email: '',
-          phoneNumber: deliveryAddress.phoneNumber || '',
+          cardOwner:
+            (propDeliveryAddress &&
+              [
+                propDeliveryAddress.firstName,
+                propDeliveryAddress.lastName
+              ].join(' ')) ||
+            [
+              paymentStore.visitorDeliveryFirstName,
+              paymentStore.visitorDeliveryLastName
+            ].join(' ') ||
+            deliveryAddress.cardOwner ||
+            '',
+          email:
+            (propDeliveryAddress && propDeliveryAddress.email) ||
+            paymentStore.visitorDeliveryEmail,
+          phoneNumber:
+            (propDeliveryAddress && propDeliveryAddress.consigneeNumber) ||
+            paymentStore.visitorDeliveryPhone ||
+            deliveryAddress.phoneNumber ||
+            '',
           identifyNumber: '111',
           isDefault: false
         }
@@ -271,6 +364,17 @@ class PaymentComp extends React.Component {
       creditCardInfoForm[name] = finalValue;
     } else {
       creditCardInfoForm[name] = value;
+    }
+    if (value) {
+      if (name === 'email') {
+        this.setState({ hasEditedEmail: true });
+      }
+      if (name === 'phoneNumber') {
+        this.setState({ hasEditedPhone: true });
+      }
+      if (name === 'cardOwner') {
+        this.setState({ hasEditedName: true });
+      }
     }
     // 编辑状态，一旦修改了cardMmyy/cardOwner/cardCvv，则需重新输入卡号
     if (
@@ -791,9 +895,7 @@ class PaymentComp extends React.Component {
                           </div>
                           <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
                             <div className="col-6 color-999">
-                              <span
-                                style={{ fontSize: '14px' }}
-                              >
+                              <span style={{ fontSize: '14px' }}>
                                 <FormattedMessage id="payment.cardNumber2" />
                               </span>
                               <br />
@@ -809,9 +911,7 @@ class PaymentComp extends React.Component {
                               </span>
                             </div>
                             <div className="col-6 border-left color-999">
-                              <span
-                                style={{ fontSize: '14px' }}
-                              >
+                              <span style={{ fontSize: '14px' }}>
                                 <FormattedMessage id="payment.cardType" />
                               </span>
                               <br />

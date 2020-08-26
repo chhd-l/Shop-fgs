@@ -10,47 +10,11 @@ import {
 } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import { getDictionary } from '@/utils/utils';
+import { ADDRESS_RULE } from '@/utils/constant';
 import AddressForm from './form';
 import Loading from '@/components/Loading';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import './index.less';
-
-const rules = [
-  {
-    key: 'firstName',
-    require: true
-  },
-  {
-    key: 'lastName',
-    require: true
-  },
-  {
-    key: 'address1',
-    require: true
-  },
-  {
-    key: 'country',
-    require: true
-  },
-  {
-    key: 'city',
-    require: true
-  },
-  {
-    key: 'email',
-    regExp: /^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/,
-    require: true
-  },
-  {
-    key: 'phoneNumber',
-    require: true
-  },
-  {
-    key: 'postCode',
-    regExp: /\d{5}/,
-    require: true
-  }
-];
 
 /**
  * address list(delivery/billing) - member
@@ -84,6 +48,7 @@ class AddressList extends React.Component {
       countryList: [],
       foledMore: true,
       successTipVisible: false,
+      successTip: '',
       saveErrorMsg: '',
       selectedId: '',
       isBillSame: true,
@@ -145,13 +110,17 @@ class AddressList extends React.Component {
   async validInputsData(data) {
     for (let key in data) {
       const val = data[key];
-      const targetRule = find(rules, (ele) => ele.key === key);
+      const targetRule = find(ADDRESS_RULE, (ele) => ele.key === key);
       if (targetRule) {
         if (targetRule.require && !val) {
           throw new Error(this.props.intl.messages.CompleteRequiredItems);
         }
         if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          throw new Error(this.props.intl.messages.EnterCorrectPostCode);
+          throw new Error(
+            key === 'email'
+              ? this.props.intl.messages.EnterCorrectEmail
+              : this.props.intl.messages.EnterCorrectPostCode
+          );
         }
       }
     }
@@ -177,16 +146,20 @@ class AddressList extends React.Component {
           addressList,
           (ele) => (ele.selected = ele.deliveryAddressId === selectedId)
         );
+        console.log(1)
       } else if (defaultAddressItem) {
+        console.log(2)
         Array.from(
           addressList,
           (ele) => (ele.selected = ele.isDefaltAddress === 1)
         );
         tmpId = defaultAddressItem.deliveryAddressId;
       } else if (addressList.length) {
+        console.log(3)
         // Array.from(addressList, (ele, i) => (ele.selected = !i));
         // tmpId = addressList[0].deliveryAddressId;
       }
+      console.log(4)
       let cityRes = await queryCityNameById({
         id: addressList.map((ele) => ele.cityId)
       });
@@ -367,9 +340,10 @@ class AddressList extends React.Component {
       this.setState({
         addOrEdit: false,
         successTipVisible: true,
+        successTip: this.props.intl.messages.saveSuccessfullly,
         selectedId: res.context.deliveryAddressId
       });
-      this.props.save(res.context, false,this.queryAddressList.bind(this));
+      this.props.save(res.context, false, this.queryAddressList.bind(this));
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
@@ -408,9 +382,18 @@ class AddressList extends React.Component {
       .then((res) => {
         this.setState({ deleteLoading: false });
         if (res.code === 'K-000000') {
-          this.showErrorMsg(
-            res.message || this.props.intl.messages.deleteAddressSuccess
-          );
+          this.setState({
+            successTipVisible: true,
+            successTip: this.props.intl.messages.deleteAddressSuccess
+          })
+          setTimeout(() => {
+            this.setState({
+              successTipVisible: false
+            });
+          }, 2000);
+          // this.showErrorMsg(
+          //   res.message || this.props.intl.messages.deleteAddressSuccess
+          // );
           this.queryAddressList();
         } else {
           this.showErrorMsg(
@@ -505,7 +488,8 @@ class AddressList extends React.Component {
           role="alert"
         >
           <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
-            <FormattedMessage id="saveSuccessfullly" />
+            {/* <FormattedMessage id="saveSuccessfullly" /> */}
+            {this.state.successTip}
           </p>
         </aside>
         <div
@@ -699,7 +683,7 @@ class AddressList extends React.Component {
                     onClick={() => {
                       this.props.save(
                         addressList.filter((el) => el.selected)[0],
-                        isBillSame, 
+                        isBillSame,
                         this.queryAddressList.bind(this)
                       );
                     }}

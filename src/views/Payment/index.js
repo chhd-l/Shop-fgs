@@ -16,6 +16,7 @@ import SubscriptionSelect from "./SubscriptionSelect";
 import ClinicForm from "./modules/ClinicForm";
 import AddressPreview from "./AddressPreview";
 import { getDictionary, formatMoney } from "@/utils/utils";
+import { ADDRESS_RULE } from '@/utils/constant';
 import ConfirmTooltip from "@/components/ConfirmTooltip";
 import {
   postVisitorRegisterAndLogin,
@@ -40,43 +41,6 @@ import { getOrderDetails } from "@/api/order"
 import { queryCityNameById } from "@/api"
 import "./modules/adyenCopy.css"
 import "./index.css";
-
-const rules = [
-  {
-    key: "firstName",
-    require: true,
-  },
-  {
-    key: "lastName",
-    require: true,
-  },
-  {
-    key: "address1",
-    require: true,
-  },
-  {
-    key: "country",
-    require: true,
-  },
-  {
-    key: "city",
-    require: true,
-  },
-  {
-    key: 'email',
-    regExp: /^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/,
-    require: true
-  },
-  {
-    key: "phoneNumber",
-    require: true,
-  },
-  {
-    key: "postCode",
-    regExp: /\d{5}/,
-    require: true,
-  },
-];
 
 @inject("loginStore", "checkoutStore", "clinicStore", "frequencyStore", "configStore")
 @observer
@@ -384,7 +348,7 @@ class Payment extends React.Component {
   async validInputsData (data) {
     for (let key in data) {
       const val = data[key];
-      const targetRule = find(rules, (ele) => ele.key === key);
+      const targetRule = find(ADDRESS_RULE, (ele) => ele.key === key);
       if (targetRule) {
         if (targetRule.require && !val) {
           throw new Error(this.isLogin
@@ -392,7 +356,11 @@ class Payment extends React.Component {
             : this.props.intl.messages.CompleteRequiredItems)
         }
         if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          throw new Error(this.props.intl.messages.EnterCorrectPostCode)
+          throw new Error(
+            key === 'email'
+              ? this.props.intl.messages.EnterCorrectEmail
+              : this.props.intl.messages.EnterCorrectPostCode
+          );
         }
       }
     }
@@ -1133,6 +1101,7 @@ class Payment extends React.Component {
           onPaymentCompDataChange={data => { this.setState({ selectedCardInfo: data }) }}
           isApplyCvv={false}
           needReConfirmCVV={true}
+          deliveryAddress={this.state.deliveryAddress}
            />
       </div>
       {/* adyenCreditCard */}
@@ -1213,6 +1182,7 @@ class Payment extends React.Component {
                               <AddressList
                                 id="1"
                                 ref={this.loginDeliveryAddressRef}
+                                updateData={data => {this.setState({ deliveryAddress: data })}}
                               />
                             ) : (
                                 <VisitorDeliveryAddress
@@ -1304,6 +1274,7 @@ class Payment extends React.Component {
                                   type="billing"
                                   ref={this.loginBillingAddressRef}
                                   visible={!this.state.billingChecked}
+                                  updateData={data => {this.setState({ billingAddress: data })}}
                                 />
                               ) : (
                                   <VisitorBillingAddress
