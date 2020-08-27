@@ -49,7 +49,7 @@ class RegisterRequired extends Component {
                             htmlFor="id-checkbox-cat-2"
                             className="rc-input__label--inline ui-cursor-pointer-pure"
                         >
-                            I accept <a className="terms-link" href="https://www.mars.com/privacy-policy-germany">privacy policy</a> and <a className="terms-link" href="https://www.mars.com/privacy-policy-germany">terms of use</a><span className="pl-2 rc-text-colour--brand1">*</span>
+                            I accept <a className="terms-link" href="https://www.mars.com/privacy-policy-germany">privacy policy</a> and <a className="terms-link" href="https://www.mars.com/privacy-policy-germany">terms of use.</a><span className="pl-2 rc-text-colour--brand1">*</span>
                         </label>
                     </div>
                     <div className="footerCheckbox">
@@ -96,10 +96,10 @@ class RegisterRequired extends Component {
                     </div>
                 </div>
                 {/* 注释 */}
-                <p className='pizhu'><span className="pl-2 rc-text-colour--brand1">*</span>Required fields</p>
+                <p className='pizhu'><span className="pl-2 pr-2 rc-text-colour--brand1">*</span>Required fields</p>
                 {/* 按钮 */}
                 <div style={{textAlign:'center',marginTop:'60px'}}>
-                    <button class="rc-btn rc-btn--lg rc-btn--one">Continue</button>
+                    <button className="rc-btn rc-btn--lg rc-btn--one px-5">Continue</button>
                 </div>             
             </div>
         );
