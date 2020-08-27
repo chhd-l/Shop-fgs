@@ -29,6 +29,7 @@ import { Provider } from "mobx-react";
 import stores from "./store";
 import store from "storejs";
 
+import RegisterRequired from "@/views/Login/RegisterRequired"
 import ScrollToTop from "@/components/ScrollToTop";
 import RouteFilter from "@/components/RouteFilter";
 import Home from "@/views/Home";
@@ -223,6 +224,11 @@ const App = () => (
                 path="/account/shippingAddress/:addressId"
                 exact
                 component={AccountShippingAddressForm}
+              />
+              <Route
+                path="/required"
+                exact
+                component={RegisterRequired}
               />
               <Route exact path="/forgetPassword" component={ForgetPassword} />
 
