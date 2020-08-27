@@ -878,7 +878,7 @@ class PaymentComp extends React.Component {
                                         this.currentCvvChange(e);
                                       }}
                                       type="password"
-                                      maxLength="3"
+                                      maxLength="4"
                                       style={{ width: '100%' }}
                                       value={
                                         this.state.creditCardList.filter(
@@ -1112,7 +1112,7 @@ class PaymentComp extends React.Component {
                                       this.cardInfoInputChange(e)
                                     }
                                     name="cardCvv"
-                                    maxLength="3"
+                                    maxLength="4"
                                     placeholder="CVV"
                                   />
                                 </span>
