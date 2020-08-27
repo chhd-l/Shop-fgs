@@ -293,8 +293,8 @@ const en_US = {
   'inputSearchText': 'input search text',
   inputYourEmailReceivePayment: "Input your email to receive payment voucher & order status notices.",
   'inTheBasket': 'in the basket',
-  item: "item",
-  items: "items",
+  item: "{val} item",
+  items: "{val} items",
   itemsInCart: "You have {val} item in your cart",
   itemsInCart2: "You have {val} items in your cart",
   just: "Just",
@@ -446,6 +446,7 @@ const en_US = {
   "payment.subTip2": "Save your first {icon} Subscription order and save {val} ({val2}) today!",
   'payment.totalProduct': '{val} total product(s)',
   "payment.yourOrder": "Your order",
+  'payment.errTip': 'please enter cvv or select a card',
   paymentMethod: "Payment method",
   'payStatus.NOT_PAID': 'Unpaid',
   'payStatus.PAID': 'Paid',
@@ -601,6 +602,9 @@ const en_US = {
   'faq.frequentQuestions': "Frequent questions",
   'faq.title': 'Tienes alguna pregunta. Consulta nuestras preguntas más frecuentes. Si no encuentras lo que estás buscando, haz clic aquí para contactarnos.',
   'faq.title2': 'Entrega del alimento',
+  'every': 'Every',
+  'taxLogo': 'IVA incluido',
+  'plsFillEmailTip': 'Your email is not filled in in the address bar'
 }
 
 export default en_US;

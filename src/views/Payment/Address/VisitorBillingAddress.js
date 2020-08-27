@@ -4,6 +4,9 @@ import { findIndex } from "lodash"
 import Selection from '@/components/Selection'
 import { getDictionary } from '@/utils/utils'
 
+/**
+ * billing address module - visitor
+ */
 export default class BillingAddressForm extends React.Component {
   constructor(props) {
     super(props)

@@ -72,7 +72,7 @@ class Help extends React.Component {
                             <div style={{ width: '60%' }}>
                               <div class="rc-large-body inherit-fontsize children-nomargin">
                                 <p>
-                                  <FormattedMessage id="help.tip1" /><br /><FormattedMessage id="help.tip4" />
+                                  <FormattedMessage id="help.tip1" /><br />
                                 </p>
                               </div>
                             </div>
@@ -137,13 +137,13 @@ class Help extends React.Component {
                                   </div>
                                 </div>
                               </article>
-                              <h1 class="rc-beta" style={{ margin: '0 0 0 1rem' }}>
+                              {/* <h1 class="rc-beta" style={{ margin: '0 0 0 1rem' }}>
                                 <font style={{ verticalAlign: "inherit" }}>
                                   <Link className="rc-list__link" style={{ color: '#e2001a' }} to="/FAQ" role="menuitem">
                                     <FormattedMessage id="footer.FAQ" />
                                   </Link>
                                 </font>
-                              </h1>
+                              </h1> */}
                             </div>
                             <div class="rc-column rc-triple-width">
                               <div class="background-cover" style={{ backgroundImage: `url(${require("@/assets/images/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png")})` }}>

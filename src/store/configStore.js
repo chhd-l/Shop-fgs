@@ -14,10 +14,6 @@ class ConfigStore {
     return this.info ? this.info.privacyPolicyUrl : ''
   }
 
-  @computed get cookiesUrl () {
-    return this.info ? this.info.cookiesUrl : ''
-  }
-
   @computed get legalTerms () {
     return this.info ? this.info.legalTerms : ''
   }
@@ -32,6 +28,26 @@ class ConfigStore {
 
   @computed get storeContactEmail () {
     return this.info ? this.info.storeContactEmail : ''
+  }
+
+  @computed get ourValues () {
+    return this.info ? this.info.ourValues : ''
+  }
+
+  @computed get qualityAndSafety () {
+    return this.info ? this.info.qualityAndSafety : ''
+  }
+  
+  @computed get specificNutrition () {
+    return this.info ? this.info.specificNutrition : ''
+  }
+  
+  @computed get informationForParents () {
+    return this.info ? this.info.informationForParents : ''
+  }
+  
+  @computed get cookiesUrl () {
+    return this.info ? this.info.cookiesUrl : ''
   }
 
   // 显示profile payment method开关

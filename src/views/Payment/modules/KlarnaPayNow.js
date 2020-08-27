@@ -3,21 +3,77 @@ import { injectIntl, FormattedMessage } from "react-intl";
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
+import Terms from "../Terms/index"
 
 class KlarnaPayNow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        text:''
+        text:'',
+        isReadPrivacyPolicy:false,
+        isShipTracking:false,
+        IsNewsLetter:false
     };
   }
-  clickPay=()=>{
-    this.props.clickPay(this.state.text)
+   //是否填写邮箱正确
+   isTestMail(){
+    var pattern = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
+    if(!pattern.test(this.state.text)){
+      throw new Error(this.props.intl.messages.emailFormatFalse)
+    }
   }
+  //是否勾选私人政策
+  isTestPolicy(){
+    if(!this.state.isReadPrivacyPolicy){
+      throw new Error(this.props.intl.messages.policyFalse)
+    }
+  }
+    
+  //是否同意运货追踪
+  isShipTrackingFun(){
+    if(!this.state.isShipTracking){
+      throw new Error(this.props.intl.messages.shipmentTrackingFalse)
+    }
+  }
+  //是否同意通讯
+  isNewsLetterFun(){
+    if(!this.state.IsNewsLetter){
+      throw new Error(this.props.intl.messages.newsletterFalse)
+    }
+  }
+
+  clickPay=()=>{
+    try{
+      this.isTestPolicy()
+      this.isShipTrackingFun() 
+      this.isNewsLetterFun() 
+      this.isTestMail()
+      this.props.clickPay(this.state.text)
+    }catch(err){
+      this.props.showErrorMsg(err.message)
+    }  
+  }
+
   handleChange=(e)=>{
     this.setState({
         text : e.target.value 
     });
+  }
+
+  sendIsReadPrivacyPolicy=(e)=>{
+    this.setState({
+      isReadPrivacyPolicy:e
+    })
+  }
+  sendIsShipTracking=(e)=>{
+    this.setState({
+      isShipTracking:e
+    })
+  }
+  sendIsNewsLetter=(e)=>{
+    this.setState({
+      IsNewsLetter:e
+    })
   }
   render() {
     return (
@@ -27,7 +83,7 @@ class KlarnaPayNow extends Component {
                 <form class="address-form" action="/destination" method="get">
                     <div class="address-line" id="addressLine2">
                         <div class="address-input full-width" id="street" style={{marginBottom:'18px'}}>
-                        <label class="address-label" for="street">Email</label>
+                        <label class="address-label" for="street">Email<span style={{color:'#EC001A'}}>*</span></label>
                         <input type="text" class="form-control" placeholder="Email" name="street" onChange={this.handleChange}/>
                         </div>
                     </div>
@@ -43,7 +99,7 @@ class KlarnaPayNow extends Component {
                 </div>
             </div>
         </div>
-
+        <Terms sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy} sendIsShipTracking={this.sendIsShipTracking} sendIsNewsLetter={this.sendIsNewsLetter}/>
       </div>
     );
   }

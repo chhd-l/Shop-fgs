@@ -50,6 +50,19 @@
   line-height: 1.2;
   min-height: 3.7rem;
 }
+.product-item-flag {
+  position: absolute;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  width: 50%;
+  background-color: red;
+  color: #fff;
+  transform: rotate(-45deg);
+  left: -11%;
+  top: 6%;
+  z-index: 3;
+}
 
 @media(max-width:540px){
   .ImgBoxFitScreen{
@@ -100,6 +113,11 @@
   .product-title{
     line-height: 1.2;
     min-height: 2rem;
+  }
+  .product-item-flag {
+    width: 73%;
+    left: -16%;
+    top: 7%;
   }
 }
 .ListTotal{

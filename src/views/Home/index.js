@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BannerTip from "@/components/BannerTip";
 import HeroCarousel from "@/components/HeroCarousel2";
+import FooterImage from "./modules/FooterImage"
 import "./index.css";
 import CARECAT from "@/assets/images/MX-L-VET-CARE-CAT.jpg";
 import CAREDOG from "@/assets/images/MX-L-VET-CARE-DOG.jpg";
@@ -70,9 +71,9 @@ class Home extends React.Component {
                   <div
                     className={`${
                       process.env.REACT_APP_LANG === "de" ? "DeCenter" : ""
-                    } col-lg-3 align-self-center `}
+                    } col-lg-3 align-self-center`}
                   >
-                    <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center text-lg-left rc-padding-top--none">
+                    <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
                       <FormattedMessage id="home.productsCategory" />
                     </h2>
                   </div>
@@ -411,7 +412,11 @@ class Home extends React.Component {
                           <FormattedMessage id="home.point1" />
                         </p>
                       </div>
-                      <div className="col-6 col-md-3 centered-icon-list__icon">
+                      {
+                        process.env.REACT_APP_LANG==='de'?
+                        null
+                        :
+                        <div className="col-6 col-md-3 centered-icon-list__icon">
                         <img
                           src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
                           srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x"
@@ -421,8 +426,9 @@ class Home extends React.Component {
                         />
                         <p className="rc-meta text-center markup-text">
                           <FormattedMessage id="home.point2" />
-                        </p>
+                        </p>                
                       </div>
+                      } 
                       <div className="col-6 col-md-3 centered-icon-list__icon">
                         <img
                           src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
@@ -458,53 +464,7 @@ class Home extends React.Component {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-threeColumnContentBlock">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block">
-                    <div className="row rc-margin-x--none d-flex">
-                      <div className="col-6 col-lg-4 order-1 order-lg-0">
-                        <picture>
-                          <source
-                            media="(max-width: 640px)"
-                            srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6c03729b/homepage/footerpet@2x.jpg?sw=161&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6c03729b/homepage/footerpet@2x.jpg?sw=322&amp;sfrm=png 2x"
-                          />
-                          <source
-                            media="(min-width: 640px) and (max-width: 769px)"
-                            srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6c03729b/homepage/footerpet@2x.jpg?sw=338&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6c03729b/homepage/footerpet@2x.jpg?sw=676&amp;sfrm=png 2x"
-                          />
-                          <source
-                            media="(min-width: 769px)"
-                            srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6c03729b/homepage/footerpet@2x.jpg?sw=415&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6c03729b/homepage/footerpet@2x.jpg?sw=830&amp;sfrm=png 2x"
-                          />
-                          <img
-                            className="w-100"
-                            src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6c03729b/homepage/footerpet@2x.jpg?sw=415&amp;sfrm=png"
-                            alt="Royal Canin® - for dogs and cats"
-                            title="Royal Canin® - for dogs and cats"
-                          />
-                        </picture>
-                      </div>
-                      <div className="col-12 col-lg-4 d-flex align-items-center order-0 order-lg-1 justify-content-center rc-margin-bottom--sm">
-                        <div className="rc-alpha text-center uppercase inherit-fontsize markup-text children-nomargin rc-margin--none">
-                          <p>
-                            <FormattedMessage id="home.point5" />
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-6 col-lg-4 d-flex align-items-center order-2 justify-content-center flex-column flex-lg-row">
-                        <div className="image-container rc-padding-bottom--xs rc-margin-right--xs--desktop">
-                          <img
-                            src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=58&amp;sfrm=png"
-                            srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=58&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=116&amp;sfrm=png 2x"
-                            width="58"
-                            alt="together with you"
-                            title="together with you"
-                          />
-                        </div>
-                        <h5 className="rc-epsilon rc-text-colour--brand1">
-                          <b>
-                            <FormattedMessage id="home.point6" />
-                          </b>
-                        </h5>
-                      </div>
-                    </div>
+                    <FooterImage/>
                   </div>
                 </div>
               </div>

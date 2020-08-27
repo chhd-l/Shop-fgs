@@ -15,3 +15,18 @@
     max-height: 5.625em;
     width: auto;
 }
+@media(max-width:450px){
+    .fit-screen-d-flex{
+        display: inherit !important;
+    }
+    .fit-screen-ml-2{
+        margin-left: 0rem !important;
+    }
+}
+.choose-frequency{
+    display: flex;
+    justify-content: space-between;
+}
+.choose-frequency-choosies{
+    align-self: center;
+}

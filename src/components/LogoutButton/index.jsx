@@ -65,8 +65,6 @@ const LogoutButton = () => {
   const clickLogoff = () => {
     loginStore.changeLoginModal(true)
     localStorage.removeItem("rc-token");
-    sessionStorage.removeItem(`rc-clinic-name-default`)
-    sessionStorage.removeItem(`rc-clinic-id-default`)
     loginStore.removeUserInfo()
     checkoutStore.removeLoginCartData()
     logout()

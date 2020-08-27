@@ -1,7 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from "react-intl"
-import AddressForm from './AddressForm'
+import EditForm from './EditForm'
 
+/**
+ * delivery adress module - visitor
+ */
 export default class UnloginDeliveryAddress extends React.Component {
   render () {
     return (
@@ -13,7 +16,7 @@ export default class UnloginDeliveryAddress extends React.Component {
           </h5>
         </div>
         <fieldset className="shipping-address-block rc-fieldset">
-          <AddressForm
+          <EditForm
             data={this.props.data}
             updateData={data => this.props.updateData(data)} />
         </fieldset>

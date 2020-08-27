@@ -21,7 +21,7 @@ import { sitePurchase } from "@/api/cart";
 import { getDict } from "@/api/dict";
 import "./index.css";
 
-@inject("checkoutStore", "loginStore")
+@inject("checkoutStore", "loginStore", "headerCartStore")
 @injectIntl
 @observer
 class Details extends React.Component {
@@ -126,6 +126,11 @@ class Details extends React.Component {
 
     details.sizeList.map((item, i) => {
       item.basePrice = 0
+      details.goodsSpecDetails.map(el => {
+        if(el.specId === baseSpecId && item.mockSpecDetailIds.includes(el.specDetailId)) {
+          item.baseSpecLabel = el.detailName
+        }
+      })
       let specTextArr = [];
       for (let specItem of specList) {
         for (let specDetailItem of specItem.chidren) {
@@ -471,9 +476,9 @@ class Details extends React.Component {
         ].join("/"),
       });
       await this.checkoutStore.updateLoginCart();
-      this.headerRef.current && this.headerRef.current.handleCartMouseOver();
+      this.props.headerCartStore.show()
       setTimeout(() => {
-        this.headerRef.current && this.headerRef.current.handleCartMouseOut();
+        this.props.headerCartStore.hide()
       }, 1000);
       this.setState({ addToCartLoading: false });
       if (redirect) {
@@ -670,9 +675,9 @@ class Details extends React.Component {
       }
     }
     // todo 改为mobx
-    this.headerRef.current && this.headerRef.current.handleCartMouseOver();
+    this.props.headerCartStore.show()
     setTimeout(() => {
-      this.headerRef.current && this.headerRef.current.handleCartMouseOut();
+      this.props.headerCartStore.hide()
     }, 1000);
   }
   changeTab (e, i) {
@@ -890,32 +895,34 @@ class Details extends React.Component {
                                             </b>
                                           </div>
                                         ) : null}
-                                      <div className="product-pricing__card__head d-flex align-items-center">
-                                        <div className="rc-input product-pricing__card__head__title">
+                                      <div className="product-pricing__card__head d-flex align-items-center flex-wrap justify-content-between">
+                                        <div>
                                           <FormattedMessage id="price" />
                                         </div>
+                                        <div className="text-right" style={{ flex: 1 }}>
                                         <b className="product-pricing__card__head__price red  rc-padding-y--none" >
                                           {formatMoney(currentUnitPrice)} 
                                         </b>
-                                        &nbsp;&nbsp;
-                                        {
-                                          details.baseSpec?(
-                                            <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '20px', color: 'rgba(102,102,102,.7)' }}>
-                                              ({formatMoney((currentUnitPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
-                                            </b>
-                                          ): null
-                                        }
-                                        
+                                          &nbsp;&nbsp;
+                                          {
+                                            details.baseSpec?(
+                                              <b style={{ fontWeight: '200', color: 'rgba(102,102,102,.7)' }}>
+                                                ({formatMoney((currentUnitPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
+                                              </b>
+                                            ): null
+                                          }
+                                      </div>
                                       </div>
                                     </>
                                   )}
-                                  {find(details.sizeList, (s) => s.selected) &&
-                                    find(details.sizeList, (s) => s.selected)
-                                      .subscriptionStatus ? (
+                                  {find(details.sizeList, (s) => s.selected)
+                                    && find(details.sizeList, (s) => s.selected).subscriptionStatus
+                                    && currentSubscriptionPrice > 0
+                                    ? (
                                       <>
                                         {!initing && (
-                                          <div className="product-pricing__card__head d-flex align-items-center">
-                                            <div className="rc-input product-pricing__card__head__title">
+                                          <div className="product-pricing__card__head d-flex align-items-center flex-wrap justify-content-between">
+                                            <div>
                                               <FormattedMessage id="autoship" />
                                               <span
                                                 className="info-tooltip delivery-method-tooltip"
@@ -947,23 +954,30 @@ class Details extends React.Component {
                                                 }
                                               />
                                             </div>
+                                            <div className="text-right" style={{ flex: 1 }}>
                                             <b className="product-pricing__card__head__price  red rc-padding-y--none"  >
                                               {formatMoney(
                                                 currentSubscriptionPrice || 0
                                               )}
                                             </b>
-                                            &nbsp;&nbsp;
-                                            {
-                                              details.baseSpec && currentSubscriptionPrice?(
-                                                <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '20px', color: 'rgba(102,102,102,.7)' }}>
-                                                  ({formatMoney((currentSubscriptionPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
-                                                </b>
-                                              ): null
-                                            }
+                                              &nbsp;&nbsp;
+                                              {
+                                                details.baseSpec && currentSubscriptionPrice?(
+                                                  <b style={{ fontWeight: '200', color: 'rgba(102,102,102,.7)' }}>
+                                                    ({formatMoney((currentSubscriptionPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
+                                                  </b>
+                                                ): null
+                                              }
+                                          </div>
                                           </div>
                                         )}
                                       </>
                                     ) : null}
+                                    <div className="product-pricing__card__head d-flex align-items-center rc-margin-top--xs">
+                                      <div className="rc-input product-pricing__card__head__title">
+                                        <FormattedMessage id="taxLogo" />
+                                      </div>
+                                    </div>
                                   {/* {details &&
                                     find(details.sizeList, (s) => s.selected) &&
                                     find(details.sizeList, (s) => s.selected)
@@ -1215,11 +1229,7 @@ class Details extends React.Component {
                                     </div>
                                   </div>
                                 </div>
-                                <div
-                                  className={`text-break ${
-                                    this.state.checkOutErrMsg ? "" : "hidden"
-                                    }`}
-                                >
+                                <div className={`text-break ${this.state.checkOutErrMsg ? "" : "hidden"}`}>
                                   <aside
                                     className="rc-alert rc-alert--error rc-alert--with-close"
                                     role="alert"
@@ -1236,13 +1246,13 @@ class Details extends React.Component {
                           </div>
                           {/* 未登录的时候,只有这种显示了订阅信息的商品底部才显示Subscription is possible only after registration这句话 */}
                           {!this.isLogin &&
-                            find(details.sizeList, (s) => s.selected) &&
                             find(details.sizeList, (s) => s.selected)
-                              .subscriptionStatus ? (
-                              <div style={{ textAlign: "center" }}>
+                            && find(details.sizeList, (s) => s.selected).subscriptionStatus
+                            && currentSubscriptionPrice > 0
+                            ? <div className="text-center">
                                 <FormattedMessage id="unLoginSubscriptionTips" />
                               </div>
-                            ) : null}
+                            : null}
                         </div>
                       </div>
                     </div>

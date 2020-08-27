@@ -25,6 +25,7 @@ class AccountOrders extends React.Component {
     super(props)
     this.state = {
       orderNumber: '',
+      subNumber: '',
       details: null,
       payRecord: null,
       loading: true,
@@ -118,14 +119,14 @@ class AccountOrders extends React.Component {
         cityRes = cityRes.context.systemCityVO || []
         resContext.consignee.cityName = this.matchCityName(cityRes, resContext.consignee.cityId)
         resContext.invoice.cityName = this.matchCityName(cityRes, resContext.invoice.cityId)
-        resContext =
-          this.setState({
-            details: resContext,
-            loading: false,
-            currentProgerssIndex: tmpIndex,
-            progressList: progressList,
-            defaultLocalDateTime: res.defaultLocalDateTime
-          })
+        this.setState({
+          details: resContext,
+          loading: false,
+          currentProgerssIndex: tmpIndex,
+          progressList: progressList,
+          defaultLocalDateTime: res.defaultLocalDateTime,
+          subNumber: resContext.subscriptionResponseVO && resContext.subscriptionResponseVO.subscribeId
+        })
       })
       .catch(err => {
         this.setState({
@@ -134,12 +135,13 @@ class AccountOrders extends React.Component {
         })
       })
 
-    getPayRecord(orderNumber)
-      .then(res => {
-        this.setState({
-          payRecord: res.context
+      // 查询支付卡信息
+      getPayRecord(orderNumber)
+        .then(res => {
+          this.setState({
+            payRecord: res.context
+          })
         })
-      })
   }
   matchCityName (dict, cityId) {
     return dict.filter(c => c.id === cityId).length
@@ -276,7 +278,6 @@ class AccountOrders extends React.Component {
                                         ))
                                       }
                                     </ol>
-                                    <ol> </ol>
                                   </div>
                                   <hr className="rc-margin-top---none" />
                                 </>
@@ -288,9 +289,9 @@ class AccountOrders extends React.Component {
                                   ? <div>
                                     <FormattedMessage id="subscription.numberFirstWordUpperCase" />:<br />
                                     <Link
-                                      to={`/account/subscription-detail/${details.subscriptionResponseVO.subscribeId}`}
+                                      to={`/account/subscription-detail/${this.state.subNumber}`}
                                       className="rc-meta rc-styled-link medium mb-0">
-                                      {details.subscriptionResponseVO.subscribeId}
+                                      {this.state.subNumber}
                                     </Link>
                                   </div>
                                   : null
@@ -442,10 +443,20 @@ class AccountOrders extends React.Component {
                                               : "https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                                           } />
                                         {payRecord.last4Digits
-                                          ? <><span className="medium">********{payRecord.last4Digits}</span><br /></>
+                                          ? <>
+                                            <span className="medium">********{payRecord.last4Digits}</span><br />
+                                          </>
+                                            : null}
+                                        {payRecord.accountName
+                                          ? <>
+                                            {payRecord.accountName}<br />
+                                          </>
                                           : null}
-                                        {payRecord.accountName ? <>{payRecord.accountName}<br /></> : null}
-                                        {payRecord.phone ? <>{payRecord.phone}<br /></> : null}
+                                        {payRecord.phone
+                                          ? <>
+                                            {payRecord.phone}<br />
+                                          </>
+                                          : null}
                                         {payRecord.email}
                                       </div>
                                     </>
