@@ -105,9 +105,9 @@ class FooterImage extends React.Component {
           </div>
         </div>
       ),
-      de2: (
-        <div className="row rc-margin-x--none d-flex">
-          <div className="col-6 col-lg-4 order-1 order-lg-0">
+      de: (
+        <div class="rc-layout-container rc-three-column">
+          <div class="rc-column">
             <picture>
               <source
                 media="(max-width: 640px)"
@@ -129,39 +129,37 @@ class FooterImage extends React.Component {
               />
             </picture>
           </div>
-          <div className="col-6 col-lg-8 d-flex align-items-center order-0 order-lg-1 justify-content-center rc-margin-bottom--sm">
-            <div style={{ width: '780px' }}>
-              <h2 className="rc-body inherit-fontsize">
-                Das ROYAL CANIN® VET Portfolio​
-              </h2>
-              <p className="rc-body inherit-fontsize">
-                Seit 1968 erforscht ROYAL
-                CANIN® die besonderen Ernährungsbedürfnisse von Katzen
-                und Hunden bis ins kleinste Detail.
-                Denn schon kleinste Nährstoffunterschiede in
-                der Nahrung können einen großen Unterschied für das Wohlbefinden Ihres Haustieres bedeuten.​
+          <div className="rc-column rc-double-width">
+            <h6 className="rc-zeta pb-4" style={{fontWeight:'bold'}}>
+              Das ROYAL CANIN® VET Portfolio
+            </h6>
+            <p className="rc-list__header rc-intro p-2" style={{fontSize:'12px'}}>
+              Seit 1968 erforscht ROYAL
+              CANIN® die besonderen Ernährungsbedürfnisse von Katzen
+              und Hunden bis ins kleinste Detail.
+              Denn schon kleinste Nährstoffunterschiede in
+              der Nahrung können einen großen Unterschied für das Wohlbefinden Ihres Haustieres bedeuten.
               </p>
-              <p className="rc-body inherit-fontsize">
-                Das gilt natürlich um
-                so mehr, wenn Tierärzt*innen bei Ihrer Katze oder Ihrem Hund ein besonderes Bedürfnis festgestellt haben. Gerade dann kann eine maßgeschneiderte Ernährung helfen,
-                die
-                Gesundheit Ihres Haustieres zu unterstützen und zu erhalten.​
+            <p className="rc-list__header rc-intro p-2" style={{fontSize:'12px'}}>
+              Das gilt natürlich um
+              so mehr, wenn Tierärzt*innen bei Ihrer Katze oder Ihrem Hund ein besonderes Bedürfnis festgestellt haben. Gerade dann kann eine maßgeschneiderte Ernährung helfen,
+              die
+              Gesundheit Ihres Haustieres zu unterstützen und zu erhalten.
               </p>
-              <p className="rc-body inherit-fontsize">
-                ROYAL
-                CANIN® bietet deshalb ein umfangreiches Programm an Nahrungen an,
-                die speziell auf
-                die tierärztlich festgestellten besonderen Bedürfnisse von
-                Katzen
-                und Hunden abgestimmt sind. Sprechen Sie mit Ihrer Tierärztin oder Ihrem Tierarzt darüber, mit welcher ROYAL
-                CANIN® Nahrung Sie die
-                Gesundheit Ihres vierbeinigen Begleiters am besten unterstützen können.
-              </p>
-            </div>
+            <p className="rc-list__header rc-intro p-2" style={{fontSize:'12px'}}>
+              ROYAL
+              CANIN® bietet deshalb ein umfangreiches Programm an Nahrungen an,
+              die speziell auf
+              die tierärztlich festgestellten besonderen Bedürfnisse von
+              Katzen
+              und Hunden abgestimmt sind. Sprechen Sie mit Ihrer Tierärztin oder Ihrem Tierarzt darüber, mit welcher ROYAL
+              CANIN® Nahrung Sie die
+              Gesundheit Ihres vierbeinigen Begleiters am besten unterstützen können.
+            </p>
           </div>
         </div>
       ),
-      de: (
+      de2: (
         <div className="row rc-margin-x--none d-flex">
           <div className="col-6 col-lg-4 order-1 order-lg-0">
             <picture>
