@@ -214,6 +214,7 @@ class AddressList extends React.Component {
       phoneNumber: '',
       isDefalt: false
     };
+
     this.setState({
       addOrEdit: true
     });

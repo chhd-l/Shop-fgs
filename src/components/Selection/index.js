@@ -68,6 +68,7 @@ export default class Selection extends React.Component {
   }
   render () {
     const { selectedItem, hoveredIdx, optionsVisible } = this.state
+    
     const { optionList } = this.props
     return (
       <div
