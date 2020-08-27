@@ -90,7 +90,9 @@ class Help extends React.Component {
         this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
         this.setState({ prescriberInfo: res.context, loading: false });
       });
-    });
+    }).catch(err => {
+      this.props.history.push('/')
+    })
     if (localStorage.getItem('isRefresh')) {
       localStorage.removeItem('isRefresh');
       window.location.reload();
