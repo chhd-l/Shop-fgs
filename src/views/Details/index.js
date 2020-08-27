@@ -903,14 +903,14 @@ class Details extends React.Component {
                                         <div>
                                           <FormattedMessage id="price" />
                                         </div>
-                                        <div>
-                                          <b className="product-pricing__card__head__price red  rc-padding-y--none" >
+                                        <div className="text-right" style={{ flex: 1 }}>
+                                          <b className="product-pricing__card__head__price red rc-padding-y--none" >
                                             {formatMoney(currentUnitPrice)}
                                           </b>
                                           &nbsp;&nbsp;
                                           {
                                             details.baseSpec?(
-                                              <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', color: 'rgba(102,102,102,.7)' }}>
+                                              <b style={{ fontWeight: '200', color: 'rgba(102,102,102,.7)' }}>
                                                 ({formatMoney((currentUnitPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
                                               </b>
                                             ): null
@@ -958,7 +958,7 @@ class Details extends React.Component {
                                                 }
                                               />
                                             </div>
-                                            <div>
+                                            <div className="text-right" style={{ flex: 1 }}>
                                               <b className="product-pricing__card__head__price  red rc-padding-y--none">
                                                 {formatMoney(
                                                   currentSubscriptionPrice || 0
@@ -967,7 +967,7 @@ class Details extends React.Component {
                                               &nbsp;&nbsp;
                                               {
                                                 details.baseSpec && currentSubscriptionPrice?(
-                                                  <b classNamea="product-pricing__card__head__price  rc-padding-y--none" style={{ fontWeight: '200', color: 'rgba(102,102,102,.7)' }}>
+                                                  <b style={{ fontWeight: '200', color: 'rgba(102,102,102,.7)' }}>
                                                     ({formatMoney((currentSubscriptionPrice/parseFloat(selectedSpecItem.baseSpecLabel)).toFixed(2))}/{selectedSpecItem.baseSpecLabel.slice(String(parseFloat(selectedSpecItem.baseSpecLabel)).length)})
                                                   </b>
                                                 ): null

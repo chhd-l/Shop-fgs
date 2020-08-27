@@ -1186,7 +1186,7 @@ class PaymentComp extends React.Component {
                                       this.cardInfoInputChange(e)
                                     }
                                     name="cardCvv"
-                                    maxLength="4"
+                                    maxLength="3"
                                     placeholder="CVV"
                                   />
                                 </span>

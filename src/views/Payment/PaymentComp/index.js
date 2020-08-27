@@ -733,7 +733,7 @@ class PaymentComp extends React.Component {
                     key={idx}
                     onClick={() => {
                       if (creditCardList[idx].selected) return;
-                      creditCardList.map((el) => (el.selected = false));
+                      creditCardList.map((el) => (el.selected = false, el.cardCvv = ''));
                       el.selected = true;
                       this.props.getSelectedValue &&
                         this.props.getSelectedValue(el);
@@ -1110,7 +1110,7 @@ class PaymentComp extends React.Component {
                                       this.cardInfoInputChange(e)
                                     }
                                     name="cardCvv"
-                                    maxLength="4"
+                                    maxLength="3"
                                     placeholder="CVV"
                                   />
                                 </span>
