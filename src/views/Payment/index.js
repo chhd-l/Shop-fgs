@@ -18,6 +18,7 @@ import AddressPreview from './AddressPreview';
 import { getDictionary, formatMoney } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
+import { ADYEN_CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -949,11 +950,6 @@ class Payment extends React.Component {
             find(deliveryAddressEl.state.addressList, (ele) => ele.selected);
         }
 
-        // 历史数据无邮箱提示
-        if (!tmpDeliveryAddressData.email) {
-          throw new Error(this.props.intl.messages.plsFillEmailTip);
-        }
-
         tmpDeliveryAddress = {
           firstName: tmpDeliveryAddressData.firstName,
           lastName: tmpDeliveryAddressData.lastName,
@@ -1178,6 +1174,19 @@ class Payment extends React.Component {
           }`}
         >
           <div class="payment-method checkout--padding">
+            {/* 支持卡的类型 Visa和master */}
+            <p className="mb-2">
+              <span className="logo-payment-card-list logo-credit-card ml-0">
+                {ADYEN_CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
+                  <img
+                    key={idx}
+                    style={{ width: '50px' }}
+                    className="logo-payment-card mr-1"
+                    src={el}
+                  />
+                ))}
+              </span>
+            </p>
             <div id="card-container" class="payment-method__container"></div>
             <Terms
               sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy}
