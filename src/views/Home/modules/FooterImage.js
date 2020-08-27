@@ -133,28 +133,14 @@ class FooterImage extends React.Component {
             <h6 className="rc-zeta pb-4" style={{fontWeight:'bold'}}>
               Das ROYAL CANIN® VET Portfolio
             </h6>
-            <p className="rc-list__header rc-intro p-2" style={{fontSize:'12px'}}>
-              Seit 1968 erforscht ROYAL
-              CANIN® die besonderen Ernährungsbedürfnisse von Katzen
-              und Hunden bis ins kleinste Detail.
-              Denn schon kleinste Nährstoffunterschiede in
-              der Nahrung können einen großen Unterschied für das Wohlbefinden Ihres Haustieres bedeuten.
+            <p className="rc-intro p-2" style={{fontSize:'12px',color:'#000'}}>
+              Seit 1968 erforscht ROYAL CANIN® die besonderen Ernährungsbedürfnisse von Katzen und Hunden bis ins kleinste Detail. Denn schon kleinste Nährstoffunterschiede in der Nahrung können einen großen Unterschied für das Wohlbefinden Ihres Haustieres bedeuten.​
+            </p>
+            <p className="rc-intro p-2" style={{fontSize:'12px',color:'#000'}}>
+            Das gilt natürlich um so mehr, wenn Tierärzt*innen bei Ihrer Katze oder Ihrem Hund ein besonderes Bedürfnis festgestellt haben. Gerade dann kann eine maßgeschneiderte Ernährung helfen, die Gesundheit Ihres Haustieres zu unterstützen und zu erhalten.​
               </p>
-            <p className="rc-list__header rc-intro p-2" style={{fontSize:'12px'}}>
-              Das gilt natürlich um
-              so mehr, wenn Tierärzt*innen bei Ihrer Katze oder Ihrem Hund ein besonderes Bedürfnis festgestellt haben. Gerade dann kann eine maßgeschneiderte Ernährung helfen,
-              die
-              Gesundheit Ihres Haustieres zu unterstützen und zu erhalten.
-              </p>
-            <p className="rc-list__header rc-intro p-2" style={{fontSize:'12px'}}>
-              ROYAL
-              CANIN® bietet deshalb ein umfangreiches Programm an Nahrungen an,
-              die speziell auf
-              die tierärztlich festgestellten besonderen Bedürfnisse von
-              Katzen
-              und Hunden abgestimmt sind. Sprechen Sie mit Ihrer Tierärztin oder Ihrem Tierarzt darüber, mit welcher ROYAL
-              CANIN® Nahrung Sie die
-              Gesundheit Ihres vierbeinigen Begleiters am besten unterstützen können.
+            <p className="rc-intro p-2" style={{fontSize:'12px',color:'#000'}}>
+            ROYAL CANIN® bietet deshalb ein umfangreiches Programm an Nahrungen an, die speziell auf die tierärztlich festgestellten besonderen Bedürfnisse von Katzen und Hunden abgestimmt sind. Sprechen Sie mit Ihrer Tierärztin oder Ihrem Tierarzt darüber, mit welcher ROYAL CANIN® Nahrung Sie die Gesundheit Ihres vierbeinigen Begleiters am besten unterstützen können.​
             </p>
           </div>
         </div>
