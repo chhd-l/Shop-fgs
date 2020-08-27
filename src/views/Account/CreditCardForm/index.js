@@ -405,7 +405,7 @@ class ShippingAddressFrom extends React.Component {
                                                     this.cardInfoInputChange(e)
                                                   }
                                                   name="cardCvv"
-                                                  maxLength="3"
+                                                  maxLength="4"
                                                   placeholder="CVV"
                                                 />
                                               </span>
