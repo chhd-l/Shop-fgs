@@ -1,46 +1,49 @@
-import React, { Component } from "react";
-import oxxo from "@/assets/images/oxxo.png";
-import { injectIntl, FormattedMessage } from "react-intl";
-import { confirmAndCommit } from "@/api/payment";
-import { Link } from 'react-router-dom'
-import store from "storejs";
+import React, { Component } from 'react';
+import oxxo from '@/assets/images/oxxo.png';
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { confirmAndCommit } from '@/api/payment';
+import { Link } from 'react-router-dom';
+import store from 'storejs';
 
 class OxxoConfirm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
+      email: '',
       showReqiredInfo: false,
-      errorMsg: "",
+      errorMsg: '',
       isReadPrivacyPolicyInit: true,
       isEighteenInit: true,
       isReadPrivacyPolicy: false,
       isEighteen: false
     };
   }
-  async clickPay () {
-    const { isEighteen, isReadPrivacyPolicy } = this.state
+  async clickPay() {
+    const { isEighteen, isReadPrivacyPolicy } = this.state;
     try {
       this.props.startLoading();
       if (!this.state.email) {
         this.setState({ showReqiredInfo: true });
-        throw new Error(this.props.intl.messages.pleasecompleteTheRequiredItem)
+        throw new Error(this.props.intl.messages.pleasecompleteTheRequiredItem);
       }
       this.setState({ showReqiredInfo: false });
       if (
         !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(
-          this.state.email.replace(/\s*/g, "")
+          this.state.email.replace(/\s*/g, '')
         )
       ) {
-        throw new Error(this.props.intl.messages.pleaseEnterTheCorrectEmail)
+        throw new Error(this.props.intl.messages.pleaseEnterTheCorrectEmail);
       }
 
       if (!isEighteen || !isReadPrivacyPolicy) {
-        this.setState({ isEighteenInit: false, isReadPrivacyPolicyInit: false });
-        throw new Error('agreement failed')
+        this.setState({
+          isEighteenInit: false,
+          isReadPrivacyPolicyInit: false
+        });
+        throw new Error('agreement failed');
       }
 
-      this.props.clickPay(this.state.email)
+      this.props.clickPay(this.state.email);
     } catch (e) {
       if (e.message !== 'agreement failed') {
         this.showErrorMsg(e.message ? e.message.toString() : e.toString());
@@ -48,7 +51,7 @@ class OxxoConfirm extends Component {
       this.props.endLoading();
     }
   }
-  emailChange (e) {
+  emailChange(e) {
     this.setState({ email: e.target.value });
   }
 
@@ -56,23 +59,23 @@ class OxxoConfirm extends Component {
     this.setState({
       errorMsg: message
     });
-    clearTimeout(this.timer)
+    clearTimeout(this.timer);
     // this.scrollToPaymentComp();
     this.timer = setTimeout(() => {
       this.setState({
-        errorMsg: ""
+        errorMsg: ''
       });
     }, 3000);
   };
 
-  render () {
+  render() {
     return (
       <div>
         <div className="rounded rc-border-all rc-border-colour--interface checkout--padding ml-custom mr-custom mb-3">
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-              this.state.errorMsg ? "" : "hidden"
-              }`}
+              this.state.errorMsg ? '' : 'hidden'
+            }`}
           >
             <aside
               className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
@@ -83,7 +86,7 @@ class OxxoConfirm extends Component {
                 className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                 onClick={(e) => {
                   e.preventDefault();
-                  this.setState({ errorMsg: "" });
+                  this.setState({ errorMsg: '' });
                 }}
                 aria-label="Close"
               >
@@ -93,8 +96,8 @@ class OxxoConfirm extends Component {
               </button>
             </aside>
           </div>
-          <div style={{ textAlign: "center", marginBottom: "20px" }}>
-            <img src={oxxo} style={{ display: "inline-block" }} />
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <img src={oxxo} style={{ display: 'inline-block' }} />
           </div>
           <h6>
             <p>
@@ -119,18 +122,18 @@ class OxxoConfirm extends Component {
                   maxLength="254"
                   value={this.state.email}
                   onChange={(e) => this.emailChange(e)}
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                 />
                 {this.state.showReqiredInfo ? (
                   <div
                     className="invalid-feedback"
-                    style={{ display: "block" }}
+                    style={{ display: 'block' }}
                   >
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 ) : (
-                    ""
-                  )}
+                  ''
+                )}
               </div>
             </div>
           </div>
@@ -138,7 +141,7 @@ class OxxoConfirm extends Component {
             <FormattedMessage
               id="remember48Hours"
               values={{
-                val: <span style={{ color: "#e2001a" }}>7:00</span>,
+                val: <span style={{ color: '#e2001a' }}>7:00</span>
               }}
             />
           </p>
@@ -174,7 +177,7 @@ class OxxoConfirm extends Component {
                   <Link className="red" target="_blank" to="/termuse">
                     la transferencia transfronteriza
                   </Link>
-                ),
+                )
               }}
             />
             <div
@@ -182,9 +185,9 @@ class OxxoConfirm extends Component {
               style={{
                 display:
                   this.state.isReadPrivacyPolicy ||
-                    this.state.isReadPrivacyPolicyInit
-                    ? "none"
-                    : "block",
+                  this.state.isReadPrivacyPolicyInit
+                    ? 'none'
+                    : 'block'
               }}
             >
               <FormattedMessage id="payment.confirmInfo4" />
@@ -201,7 +204,7 @@ class OxxoConfirm extends Component {
             onChange={() => {
               this.setState({
                 isEighteen: !this.state.isEighteen,
-                isEighteenInit: false,
+                isEighteenInit: false
               });
             }}
             checked={this.state.isEighteen}
@@ -209,17 +212,16 @@ class OxxoConfirm extends Component {
           <label
             htmlFor="id-checkbox-cat-1"
             className="rc-input__label--inline"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
           >
             <FormattedMessage id="payment.confirmInfo1" />
             <div
               className="warning"
               style={{
                 display:
-                  this.state.isEighteen ||
-                    this.state.isEighteenInit
-                    ? "none"
-                    : "block",
+                  this.state.isEighteen || this.state.isEighteenInit
+                    ? 'none'
+                    : 'block'
               }}
             >
               <FormattedMessage id="payment.confirmInfo2" />

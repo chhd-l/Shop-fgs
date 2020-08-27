@@ -10,69 +10,68 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import React from "react";
+import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Switch,
-} from "react-router-dom";
-import { Security, SecureRoute, LoginCallback } from "@okta/okta-react";
-import { Container } from "semantic-ui-react";
-import config from "./config";
+  Switch
+} from 'react-router-dom';
+import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
+import { Container } from 'semantic-ui-react';
+import config from './config';
 
-import "@/assets/iconfont/iconfont.css"
-import "@/assets/css/global.css";
-import ENUM_LANGFILE from "@/lang";
-import { IntlProvider } from "react-intl";
-import { Provider } from "mobx-react";
-import stores from "./store";
-import store from "storejs";
+import '@/assets/iconfont/iconfont.css';
+import '@/assets/css/global.css';
+import ENUM_LANGFILE from '@/lang';
+import { IntlProvider } from 'react-intl';
+import { Provider } from 'mobx-react';
+import stores from './store';
+import store from 'storejs';
 
-import ScrollToTop from "@/components/ScrollToTop";
-import RouteFilter from "@/components/RouteFilter";
-import Home from "@/views/Home";
-import List from "@/views/List";
-import Login from "@/views/Login";
-import Details from "@/views/Details";
-import Cart from "@/views/Cart";
-import Payment from "@/views/Payment";
-import Confirmation from "@/views/Confirmation";
-import PayResult from "@/views/Payment/modules/PayResult";
-import Prescription from "@/views/Prescription";
-import PrescriptionNavigate from "@/views/PrescriptionNavigate";
-import Exception from "@/views/Exception";
-import Help from "@/views/Help";
-import FAQ from "@/views/FAQ";
-import Recommendation from "@/views/Recommendation";
-import TermUse from "@/views/TermUse";
-import PrivacyPolicy from "@/views/PrivacyPolicy";
-import AccountHome from "@/views/Account/Home";
-import AccountProfile from "@/views/Account/Profile";
-import AccountPets from "@/views/Account/Pet";
-import AccountOrders from "@/views/Account/Orders";
-import AccountOrdersDetail from "@/views/Account/OrdersDetail";
-import AccountOrdersAfterSale from "@/views/Account/OrdersAfterSale";
-import AccountOrdersAfterSaleSuccess from "@/views/Account/OrdersAfterSaleSuccess";
-import AccountOrdersAfterSaleDetail from "@/views/Account/OrdersAfterSaleDetail";
-import AccountPaymentMethod from "@/views/Account/PaymentMethod";
-import AccountSubscription from "@/views/Account/Subscription";
-import AccountSubscriptionDetail from "@/views/Account/SubscriptionDetail";
-import AccountPaymentMethodForm from "@/views/Account/CreditCardForm";
-import AccountPetForm from "@/views/Account/PetForm";
-import AccountPetList from "@/views/Account/PetList";
-import ProductReview from "@/views/Account/ProductReview";
-import AccountShippingAddress from "@/views/Account/ShippingAddress";
+import ScrollToTop from '@/components/ScrollToTop';
+import RouteFilter from '@/components/RouteFilter';
+import Home from '@/views/Home';
+import List from '@/views/List';
+import Login from '@/views/Login';
+import Details from '@/views/Details';
+import Cart from '@/views/Cart';
+import Payment from '@/views/Payment';
+import Confirmation from '@/views/Confirmation';
+import PayResult from '@/views/Payment/modules/PayResult';
+import Prescription from '@/views/Prescription';
+import PrescriptionNavigate from '@/views/PrescriptionNavigate';
+import Exception from '@/views/Exception';
+import Help from '@/views/Help';
+import FAQ from '@/views/FAQ';
+import Recommendation from '@/views/Recommendation';
+import TermUse from '@/views/TermUse';
+import PrivacyPolicy from '@/views/PrivacyPolicy';
+import AccountHome from '@/views/Account/Home';
+import AccountProfile from '@/views/Account/Profile';
+import AccountPets from '@/views/Account/Pet';
+import AccountOrders from '@/views/Account/Orders';
+import AccountOrdersDetail from '@/views/Account/OrdersDetail';
+import AccountOrdersAfterSale from '@/views/Account/OrdersAfterSale';
+import AccountOrdersAfterSaleSuccess from '@/views/Account/OrdersAfterSaleSuccess';
+import AccountOrdersAfterSaleDetail from '@/views/Account/OrdersAfterSaleDetail';
+import AccountPaymentMethod from '@/views/Account/PaymentMethod';
+import AccountSubscription from '@/views/Account/Subscription';
+import AccountSubscriptionDetail from '@/views/Account/SubscriptionDetail';
+import AccountPaymentMethodForm from '@/views/Account/CreditCardForm';
+import AccountPetForm from '@/views/Account/PetForm';
+import AccountPetList from '@/views/Account/PetList';
+import ProductReview from '@/views/Account/ProductReview';
+import AccountShippingAddress from '@/views/Account/ShippingAddress';
 // import AccountRefunds from "@/views/Account/Refunds";
-import AccountShippingAddressForm from "@/views/Account/ShippingAddressForm";
+import AccountShippingAddressForm from '@/views/Account/ShippingAddressForm';
 
-import AccountReturnOrder from "@/views/Account/ReturnOrder";
-import ForgetPassword from "@/views/ForgetPassword";
+import AccountReturnOrder from '@/views/Account/ReturnOrder';
+import ForgetPassword from '@/views/ForgetPassword';
 
-import RequestInvoices from '@/views/RequestInvoices'
+import RequestInvoices from '@/views/RequestInvoices';
 
-
-const token = localStorage.getItem("rc-token");
+const token = localStorage.getItem('rc-token');
 
 const App = () => (
   <Provider {...stores}>
@@ -133,14 +132,22 @@ const App = () => (
               <Route exact path="/confirmation" component={Confirmation} />
               <Route exact path="/PayResult" component={PayResult} />
               <Route exact path="/prescription" component={Prescription} />
-              <Route exact path="/prescriptionNavigate" component={PrescriptionNavigate} />
-              
+              <Route
+                exact
+                path="/prescriptionNavigate"
+                component={PrescriptionNavigate}
+              />
+
               <Route exact path="/help" component={Help} />
               <Route exact path="/FAQ" component={FAQ} />
-              <Route exact path="/recommendation/:id" render={(props) => (
+              <Route
+                exact
+                path="/recommendation/:id"
+                render={(props) => (
                   <Recommendation key={props.match.params.id} {...props} />
-                )} />
-              
+                )}
+              />
+
               <Route exact path="/termuse" component={TermUse} />
               <Route exact path="/privacypolicy" component={PrivacyPolicy} />
 

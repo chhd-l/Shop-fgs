@@ -1,15 +1,15 @@
-import React from 'react'
-import { FormattedMessage } from "react-intl"
-import { findIndex } from "lodash"
-import Selection from '@/components/Selection'
-import { getDictionary } from '@/utils/utils'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { findIndex } from 'lodash';
+import Selection from '@/components/Selection';
+import { getDictionary } from '@/utils/utils';
 
 /**
  * billing address module - visitor
  */
 export default class BillingAddressForm extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       billingAddress: {
         firstName: '',
@@ -24,94 +24,92 @@ export default class BillingAddressForm extends React.Component {
       },
       cityList: [],
       countryList: []
-    }
+    };
   }
-  componentDidMount () {
-    getDictionary({ type: 'city' })
-      .then(res => {
-        this.setState({
-          cityList: res
-        })
-      })
-    getDictionary({ type: 'country' })
-      .then(res => {
-        this.setState({
-          countryList: res
-        })
-      })
+  componentDidMount() {
+    getDictionary({ type: 'city' }).then((res) => {
+      this.setState({
+        cityList: res
+      });
+    });
+    getDictionary({ type: 'country' }).then((res) => {
+      this.setState({
+        countryList: res
+      });
+    });
   }
-  computedList (key) {
-    let tmp = this.state[`${key}List`].map(c => {
+  computedList(key) {
+    let tmp = this.state[`${key}List`].map((c) => {
       return {
         value: c.id.toString(),
         name: c.name
-      }
-    })
-    tmp.unshift({ value: '', name: '' })
-    return tmp
+      };
+    });
+    tmp.unshift({ value: '', name: '' });
+    return tmp;
   }
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.billingAddress) {
       this.setState({
         billingAddress: Object.assign({}, nextProps.data)
-      })
+      });
     }
   }
-  deliveryInputChange (e) {
+  deliveryInputChange(e) {
     const target = e.target;
-    let value = target.type === "checkbox" ? target.checked : target.value;
+    let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     const { deliveryAddress } = this.state;
     if (name === 'postCode') {
-      value = value.replace(/\s+/g,"")
+      value = value.replace(/\s+/g, '');
     }
     deliveryAddress[name] = value;
     this.inputBlur(e);
     this.setState({ deliveryAddress: deliveryAddress }, () => {
-      this.props.updateData(this.state.deliveryAddress)
+      this.props.updateData(this.state.deliveryAddress);
     });
   }
-  inputBlur (e) {
+  inputBlur(e) {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
       let i = findIndex(Array.from(el.classList), (classItem) => {
-        return classItem === "invalid-feedback";
+        return classItem === 'invalid-feedback';
       });
       return i > -1;
     })[0];
     if (validDom) {
-      validDom.style.display = e.target.value ? "none" : "block";
+      validDom.style.display = e.target.value ? 'none' : 'block';
     }
   }
-  billingInputChange (e) {
+  billingInputChange(e) {
     const target = e.target;
-    let value = target.type === "checkbox" ? target.checked : target.value;
+    let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     const { billingAddress } = this.state;
     if (name === 'postCode') {
-      value = value.replace(/\s+/g,"")
+      value = value.replace(/\s+/g, '');
     }
     billingAddress[name] = value;
     this.inputBlur(e);
     this.setState({ billingAddress: billingAddress }, () => {
-      this.props.updateData(this.state.billingAddress)
+      this.props.updateData(this.state.billingAddress);
     });
   }
-  handleSelectedItemChange (key, data) {
-    const { billingAddress } = this.state
-    billingAddress[key] = data.value
+  handleSelectedItemChange(key, data) {
+    const { billingAddress } = this.state;
+    billingAddress[key] = data.value;
     this.setState({ billingAddress: billingAddress }, () => {
-      this.props.updateData(this.state.billingAddress)
-    })
+      this.props.updateData(this.state.billingAddress);
+    });
   }
-  render () {
+  render() {
     const { billingAddress } = this.state;
     return (
       <div
         className="rc-border-all rc-border-colour--interface checkout--padding rc-margin-bottom--sm"
         style={{
-          display: this.props.billingChecked ? "none" : "block",
+          display: this.props.billingChecked ? 'none' : 'block'
         }}
       >
         <fieldset className="shipping-address-block rc-fieldset">
@@ -138,18 +136,13 @@ export default class BillingAddressForm extends React.Component {
                     name="firstName"
                     maxLength="50"
                   />
-                  <label
-                    className="rc-input__label"
-                    htmlFor="id-text1"
-                  ></label>
+                  <label className="rc-input__label" htmlFor="id-text1"></label>
                 </span>
                 <div className="invalid-feedback">
                   <FormattedMessage
                     id="payment.errorInfo"
                     values={{
-                      val: (
-                        <FormattedMessage id="payment.firstName" />
-                      ),
+                      val: <FormattedMessage id="payment.firstName" />
                     }}
                   />
                 </div>
@@ -179,18 +172,13 @@ export default class BillingAddressForm extends React.Component {
                     name="lastName"
                     maxLength="50"
                   />
-                  <label
-                    className="rc-input__label"
-                    htmlFor="id-text1"
-                  ></label>
+                  <label className="rc-input__label" htmlFor="id-text1"></label>
                 </span>
                 <div className="invalid-feedback">
                   <FormattedMessage
                     id="payment.errorInfo"
                     values={{
-                      val: (
-                        <FormattedMessage id="payment.lastName" />
-                      ),
+                      val: <FormattedMessage id="payment.lastName" />
                     }}
                   />
                 </div>
@@ -220,18 +208,13 @@ export default class BillingAddressForm extends React.Component {
                     name="address1"
                     maxLength="50"
                   />
-                  <label
-                    className="rc-input__label"
-                    htmlFor="id-text1"
-                  ></label>
+                  <label className="rc-input__label" htmlFor="id-text1"></label>
                 </span>
                 <div className="invalid-feedback">
                   <FormattedMessage
                     id="payment.errorInfo"
                     values={{
-                      val: (
-                        <FormattedMessage id="payment.address1" />
-                      ),
+                      val: <FormattedMessage id="payment.address1" />
                     }}
                   />
                 </div>
@@ -261,10 +244,7 @@ export default class BillingAddressForm extends React.Component {
                     name="address2"
                     maxLength="50"
                   />
-                  <label
-                    className="rc-input__label"
-                    htmlFor="id-text1"
-                  ></label>
+                  <label className="rc-input__label" htmlFor="id-text1"></label>
                 </span>
               </div>
             </div>
@@ -272,19 +252,19 @@ export default class BillingAddressForm extends React.Component {
           <div className="rc-layout-container">
             <div className="rc-column rc-padding-y--none">
               <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
-                <label
-                  className="form-control-label"
-                  htmlFor="shippingCountry"
-                >
+                <label className="form-control-label" htmlFor="shippingCountry">
                   <FormattedMessage id="payment.country" />
                 </label>
                 <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
                   <Selection
-                    selectedItemChange={data => this.handleSelectedItemChange('country', data)}
+                    selectedItemChange={(data) =>
+                      this.handleSelectedItemChange('country', data)
+                    }
                     optionList={this.computedList('country')}
                     selectedItemData={{
                       value: this.state.billingAddress.country
-                    }} />
+                    }}
+                  />
                 </span>
               </div>
             </div>
@@ -299,20 +279,20 @@ export default class BillingAddressForm extends React.Component {
               </label>
               <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
                 <Selection
-                  selectedItemChange={data => this.handleSelectedItemChange('city', data)}
+                  selectedItemChange={(data) =>
+                    this.handleSelectedItemChange('city', data)
+                  }
                   optionList={this.computedList('city')}
                   selectedItemData={{
                     value: this.state.billingAddress.city
-                  }} />
+                  }}
+                />
               </span>
             </div>
           </div>
           <div className="rc-layout-container">
             <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_postalCode">
-              <label
-                className="form-control-label"
-                htmlFor="shippingZipCode"
-              >
+              <label className="form-control-label" htmlFor="shippingZipCode">
                 <FormattedMessage id="payment.postCode" />
               </label>
               <span
@@ -333,24 +313,19 @@ export default class BillingAddressForm extends React.Component {
                   // minLength="6"
                   data-js-pattern="(^\d{6}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
                 />
-                <label
-                  className="rc-input__label"
-                  htmlFor="id-text1"
-                ></label>
+                <label className="rc-input__label" htmlFor="id-text1"></label>
               </span>
               <div className="invalid-feedback">
                 <FormattedMessage
                   id="payment.errorInfo"
                   values={{
-                    val: (
-                      <FormattedMessage id="payment.postCode" />
-                    ),
+                    val: <FormattedMessage id="payment.postCode" />
                   }}
                 />
               </div>
               <div className="ui-lighter">
                 <FormattedMessage id="example" />: 123456
-            </div>
+              </div>
             </div>
             <div className="form-group rc-column rc-padding-y--none required dwfrm_shipping_shippingAddress_addressFields_phone">
               <label
@@ -400,15 +375,14 @@ export default class BillingAddressForm extends React.Component {
                 <FormattedMessage
                   id="payment.errorInfo"
                   values={{
-                    val: (
-                      <FormattedMessage id="payment.phoneNumber" />
-                    ),
+                    val: <FormattedMessage id="payment.phoneNumber" />
                   }}
                 />
               </div>
               <span className="ui-lighter">
-                <FormattedMessage id="example" />: <FormattedMessage id="examplePhone" />
-            </span>
+                <FormattedMessage id="example" />:{' '}
+                <FormattedMessage id="examplePhone" />
+              </span>
             </div>
           </div>
           <div className="rc-layout-container">
@@ -433,15 +407,13 @@ export default class BillingAddressForm extends React.Component {
                     name="rfc"
                     maxLength="50"
                   />
-                  <label
-                    className="rc-input__label"
-                  ></label>
+                  <label className="rc-input__label"></label>
                 </span>
               </div>
             </div>
           </div>
         </fieldset>
       </div>
-    )
+    );
   }
 }

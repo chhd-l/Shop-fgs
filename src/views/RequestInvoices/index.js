@@ -1,20 +1,22 @@
-import React from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import "./index.css";
-import { FormattedMessage, injectIntl } from "react-intl";
+import React from 'react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import './index.css';
+import { FormattedMessage, injectIntl } from 'react-intl';
 export default function RequestInvoices(props) {
   return (
     <div>
       <Header showMiniIcons={true} showUserIcon={true} />
       <div className="RequestInvoices">
-        <h1><FormattedMessage id="requestInvoices.title" /></h1>
+        <h1>
+          <FormattedMessage id="requestInvoices.title" />
+        </h1>
         <p classname="textIndex">
           La facturación automática está en preparación. Por ahora, si desea
           solicitar facturas electrónicas, envíe la siguiente información a la
           dirección de correo electrónico ‘contacto.mex@royalcanin.com’ con el
           título de correo electrónico de ‘Solicitar factura_tu nombre_ Fecha de
-          aplicación’ (por ejemplo, Solicitar factura_Calvin_21072020).{" "}
+          aplicación’ (por ejemplo, Solicitar factura_Calvin_21072020).{' '}
         </p>
         <p>Información requerida para la facturación:</p>
         <ol>

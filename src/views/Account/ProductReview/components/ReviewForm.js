@@ -1,19 +1,19 @@
-import { FormattedMessage, injectIntl } from "react-intl";
-import React from "react";
-import Rate from "@/components/Rate";
-import ImgUpload from "@/components/ImgUpload";
-import { findIndex } from "lodash";
-import "../index.css";
+import { FormattedMessage, injectIntl } from 'react-intl';
+import React from 'react';
+import Rate from '@/components/Rate';
+import ImgUpload from '@/components/ImgUpload';
+import { findIndex } from 'lodash';
+import '../index.css';
 @injectIntl
 class ReviewForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      consumerComment: "",
-      textErrorInfo: "",
+      consumerComment: '',
+      textErrorInfo: '',
       // productRate: 5
       errMessage: 0,
-      title:''
+      title: ''
     };
     this.imgUploaderRef = React.createRef();
   }
@@ -30,14 +30,14 @@ class ReviewForm extends React.Component {
   }
   handleConsumerCommentChange(e) {
     this.setState({
-      consumerComment: e.target.value,
+      consumerComment: e.target.value
     });
     this.props.handleConsumerCommentChange(e, this.props.product);
     this.inputBlur(e);
   }
-  handleTitleChange(e){
+  handleTitleChange(e) {
     this.setState({
-      title: e.target.value,
+      title: e.target.value
     });
     this.props.handleTitleChange(e, this.props.product);
     this.inputBlur(e);
@@ -50,11 +50,11 @@ class ReviewForm extends React.Component {
   handleErrMessage = (flag) => {
     clearTimeout(this.timer);
     this.setState({
-      errMessage: flag,
+      errMessage: flag
     });
     this.timer = setTimeout(() => {
       this.setState({
-        errMessage: "",
+        errMessage: ''
       });
     }, 3000);
   };
@@ -64,30 +64,30 @@ class ReviewForm extends React.Component {
       e.target.parentElement.parentElement.children
     ).filter((el) => {
       let i = findIndex(Array.from(el.classList), (classItem) => {
-        return classItem === "invalid-feedback";
+        return classItem === 'invalid-feedback';
       });
       return i > -1;
     })[0];
     if (validDom) {
       if (!e.target.value) {
-        validDom.style.display = "block";
-        if (e.target.name === "whatYouLike") {
+        validDom.style.display = 'block';
+        if (e.target.name === 'whatYouLike') {
           this.setState({
-            textErrorInfo: this.props.intl.messages.reviewisRequired,
+            textErrorInfo: this.props.intl.messages.reviewisRequired
           });
         }
       } else {
-        if (e.target.name === "whatYouLike") {
+        if (e.target.name === 'whatYouLike') {
           if (e.target.textLength < 500) {
-            validDom.style.display = "none";
+            validDom.style.display = 'none';
           } else {
-            validDom.style.display = "block";
+            validDom.style.display = 'block';
             this.setState({
-              textErrorInfo: "Please enter less than 500 characters.",
+              textErrorInfo: 'Please enter less than 500 characters.'
             });
           }
         } else {
-          validDom.style.display = "none";
+          validDom.style.display = 'none';
         }
       }
     }
@@ -98,7 +98,10 @@ class ReviewForm extends React.Component {
       <div>
         <div className="rc-five-column rc-padding-bottom--xs rc-border-bottom rc-border-colour--interface">
           <div className="rc-layout-container">
-            <div className="rc-column padb0 padt0" style={{marginLeft:'-1rem'}}>
+            <div
+              className="rc-column padb0 padt0"
+              style={{ marginLeft: '-1rem' }}
+            >
               <div className="">
                 <div className="rc-margin-top--xs">
                   <span className="ui-text-overflow-line2 text-break">
@@ -120,15 +123,18 @@ class ReviewForm extends React.Component {
                 </div>
               </div>
               <div class="row">
-              <div class="form-group col-lg-6 pull-left">
-                <label class="form-control-label rc-full-width" for="reference">
-                <FormattedMessage id="title" />
-                </label>
-                <span
-                  class="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width"
-                  input-setup="true"
-                >
-                  {/* <input
+                <div class="form-group col-lg-6 pull-left">
+                  <label
+                    class="form-control-label rc-full-width"
+                    for="reference"
+                  >
+                    <FormattedMessage id="title" />
+                  </label>
+                  <span
+                    class="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width"
+                    input-setup="true"
+                  >
+                    {/* <input
                     type="text"
                     class="rc-input__control input__phoneField"
                     id="reference"
@@ -139,30 +145,32 @@ class ReviewForm extends React.Component {
                     onChange={(e) => this.handleTitleChange(e)}
                     onBlur={(e) => this.inputBlur(e)}
                   ></input> */}
-                  <input type="text" 
-                  placeholder={this.props.intl.messages.title} 
-                  class="form-control"              
-                  value={this.state.title}
-                  style={{padding:0}}
-                  onChange={(e) => this.handleTitleChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}                 
-                  ></input>
-                  <label class="rc-input__label" for="reference"></label>
-                </span>
+                    <input
+                      type="text"
+                      placeholder={this.props.intl.messages.title}
+                      class="form-control"
+                      value={this.state.title}
+                      style={{ padding: 0 }}
+                      onChange={(e) => this.handleTitleChange(e)}
+                      onBlur={(e) => this.inputBlur(e)}
+                    ></input>
+                    <label class="rc-input__label" for="reference"></label>
+                  </span>
+                </div>
               </div>
             </div>
 
-            </div>
-
             <div className="rc-column text-right padb0">
-
               <div className="img-container">
                 <img className="product-img" src={this.props.product.pic} />
               </div>
             </div>
           </div>
           <div className="">
-            <div className="rc-column padt0 padb0" style={{marginLeft:'-1rem'}}>
+            <div
+              className="rc-column padt0 padb0"
+              style={{ marginLeft: '-1rem' }}
+            >
               <FormattedMessage id="writeYourReview" />
               <div className="padt20">
                 <span
@@ -186,7 +194,7 @@ class ReviewForm extends React.Component {
                     )}
                   </FormattedMessage>
                 </span>
-                <div className="invalid-feedback" style={{ display: "none" }}>
+                <div className="invalid-feedback" style={{ display: 'none' }}>
                   {this.state.textErrorInfo}
                 </div>
               </div>
@@ -194,10 +202,10 @@ class ReviewForm extends React.Component {
           </div>
 
           <div className="rc-layout-container rc-one-column padt0">
-            <div className="rc-column mb-3" style={{marginLeft:'-1rem'}}>
+            <div className="rc-column mb-3" style={{ marginLeft: '-1rem' }}>
               <div
                 className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                  this.state.errMessage ? null : "hidden"
+                  this.state.errMessage ? null : 'hidden'
                 }`}
               >
                 <aside
@@ -222,7 +230,7 @@ class ReviewForm extends React.Component {
             </div>
           </div>
           <div className="rc-layout-container rc-one-column padt0">
-            <div className="rc-column padt0" style={{marginLeft:'-1rem'}}>
+            <div className="rc-column padt0" style={{ marginLeft: '-1rem' }}>
               <label>
                 <input
                   name="isAnonymous"

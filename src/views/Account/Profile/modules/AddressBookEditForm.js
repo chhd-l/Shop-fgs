@@ -1,14 +1,14 @@
-import React from "react"
-import { injectIntl, FormattedMessage } from 'react-intl'
-import { findIndex } from "lodash"
-import Loading from "@/components/Loading"
-import { updateCustomerBaseInfo } from "@/api/user"
-import { getDictionary } from '@/utils/utils'
-import Selection from '@/components/Selection'
+import React from 'react';
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { findIndex } from 'lodash';
+import Loading from '@/components/Loading';
+import { updateCustomerBaseInfo } from '@/api/user';
+import { getDictionary } from '@/utils/utils';
+import Selection from '@/components/Selection';
 
 class AddressBookEditForm extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       editFormVisible: false,
       loading: false,
@@ -25,123 +25,129 @@ class AddressBookEditForm extends React.Component {
       },
       cityList: [],
       countryList: []
-    }
-    this.timer = null
+    };
+    this.timer = null;
   }
-  componentDidMount () {
-    const { data } = this.props
+  componentDidMount() {
+    const { data } = this.props;
     this.setState({
       form: Object.assign({}, data)
-    })
-    getDictionary({ type: 'city' })
-      .then(res => {
-        this.setState({
-          cityList: res
-        })
-      })
-    getDictionary({ type: 'country' })
-      .then(res => {
-        this.setState({
-          countryList: res
-        })
-      })
+    });
+    getDictionary({ type: 'city' }).then((res) => {
+      this.setState({
+        cityList: res
+      });
+    });
+    getDictionary({ type: 'country' }).then((res) => {
+      this.setState({
+        countryList: res
+      });
+    });
   }
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.form) {
       this.setState({
         form: Object.assign({}, nextProps.data)
-      })
+      });
     }
   }
-  computedList (key) {
-    let tmp = this.state[`${key}List`].map(c => {
+  computedList(key) {
+    let tmp = this.state[`${key}List`].map((c) => {
       return {
         value: c.id.toString(),
         name: c.name
-      }
-    })
-    tmp.unshift({ value: '', name: '' })
-    return tmp
+      };
+    });
+    tmp.unshift({ value: '', name: '' });
+    return tmp;
   }
-  handleSelectedItemChange (key, data) {
-    const { form } = this.state
-    form[key] = data.value
-    this.setState({ form: form })
+  handleSelectedItemChange(key, data) {
+    const { form } = this.state;
+    form[key] = data.value;
+    this.setState({ form: form });
   }
-  inputBlur (e) {
+  inputBlur(e) {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
       let i = findIndex(Array.from(el.classList), (classItem) => {
-        return classItem === "invalid-feedback";
+        return classItem === 'invalid-feedback';
       });
       return i > -1;
     })[0];
     if (validDom) {
-      validDom.style.display = e.target.value ? "none" : "block";
+      validDom.style.display = e.target.value ? 'none' : 'block';
     }
   }
-  handleInputChange (e) {
-    const target = e.target
-    const { form } = this.state
-    const name = target.name
-    let value = target.value
+  handleInputChange(e) {
+    const target = e.target;
+    const { form } = this.state;
+    const name = target.name;
+    let value = target.value;
     if (name === 'postCode') {
-      value = value.replace(/\s+/g, "")
+      value = value.replace(/\s+/g, '');
     }
-    form[name] = value
-    this.setState({ form: form })
+    form[name] = value;
+    this.setState({ form: form });
     this.inputBlur(e);
   }
-  showErrMsg (msg) {
+  showErrMsg(msg) {
     this.setState({
       errorMsg: msg
-    })
-    this.scrollToErrorMsg()
-    clearTimeout(this.timer)
+    });
+    this.scrollToErrorMsg();
+    clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
         errorMsg: ''
-      })
-    }, 5000)
+      });
+    }, 5000);
   }
-  getElementToPageTop (el) {
+  getElementToPageTop(el) {
     if (el.parentElement) {
-      return this.getElementToPageTop(el.parentElement) + el.offsetTop
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
     }
-    return el.offsetTop
+    return el.offsetTop;
   }
-  scrollToErrorMsg () {
-    const widget = document.querySelector('.contactInfo')
+  scrollToErrorMsg() {
+    const widget = document.querySelector('.contactInfo');
     if (widget) {
       window.scrollTo({
         top: this.getElementToPageTop(widget) - 600,
-        behavior: "smooth"
-      })
+        behavior: 'smooth'
+      });
     }
   }
-  handleCancel () {
+  handleCancel() {
     this.setState({
       editFormVisible: false,
       errorMsg: ''
-    })
-    this.scrollToErrorMsg()
+    });
+    this.scrollToErrorMsg();
   }
-  async handleSave () {
-    const { form } = this.state
+  async handleSave() {
+    const { form } = this.state;
     for (let key in form) {
-      const value = form[key]
-      if (!value && (key === 'address1' || key === 'address2' || key === 'country' || key === 'city' || key === 'postCode' || key === 'phoneNumber')) {
-        this.showErrMsg(this.props.intl.messages.CompleteRequiredItems)
-        return
+      const value = form[key];
+      if (
+        !value &&
+        (key === 'address1' ||
+          key === 'address2' ||
+          key === 'country' ||
+          key === 'city' ||
+          key === 'postCode' ||
+          key === 'phoneNumber')
+      ) {
+        this.showErrMsg(this.props.intl.messages.CompleteRequiredItems);
+        return;
       }
-      if (key === 'postCode' && value && !(/\d{5}/.test(value))) {
-        this.showErrMsg(this.props.intl.messages.EnterCorrectPostCode)
-        return
+      if (key === 'postCode' && value && !/\d{5}/.test(value)) {
+        this.showErrMsg(this.props.intl.messages.EnterCorrectPostCode);
+        return;
       }
     }
 
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     let param = Object.assign({}, this.props.originData, {
       house: form.address1,
       housing: form.address2,
@@ -150,55 +156,55 @@ class AddressBookEditForm extends React.Component {
       postCode: form.postCode,
       contactPhone: form.phoneNumber,
       reference: form.rfc
-    })
+    });
     try {
-      await updateCustomerBaseInfo(param)
-      this.props.updateData(this.state.form)
+      await updateCustomerBaseInfo(param);
+      this.props.updateData(this.state.form);
       this.setState({
         successTipVisible: true
-      })
-      this.scrollToErrorMsg()
-      clearTimeout(this.timer)
+      });
+      this.scrollToErrorMsg();
+      clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
           successTipVisible: false
-        })
-      }, 2000)
+        });
+      }, 2000);
     } catch (err) {
       this.setState({
         errorMsg: typeof err === 'object' ? err.toString() : err
-      })
-      this.scrollToErrorMsg()
-      clearTimeout(this.timer)
+      });
+      this.scrollToErrorMsg();
+      clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
           errorMsg: ''
-        })
-      }, 5000)
+        });
+      }, 5000);
     } finally {
       this.setState({
         editFormVisible: false,
         loading: false
-      })
+      });
     }
   }
-  getDictValue (list, id) {
+  getDictValue(list, id) {
     if (list && list.length > 0) {
-      let item = list.find(item => {
-        return item.id === id
-      })
+      let item = list.find((item) => {
+        return item.id === id;
+      });
       if (item) {
-        return item.name
+        return item.name;
       } else {
-        return id
+        return id;
       }
     } else {
-      return id
+      return id;
     }
   }
-  render () {
-    const { editFormVisible, form } = this.state
-    const { data } = this.props
+  render() {
+    const { editFormVisible, form } = this.state;
+    const { data } = this.props;
     return (
       <div>
         {this.state.loading ? <Loading positionAbsolute="true" /> : null}
@@ -208,27 +214,42 @@ class AddressBookEditForm extends React.Component {
               <FormattedMessage id="account.TheAddressBook" />
             </h5>
             <FormattedMessage id="edit">
-              {txt => (
+              {(txt) => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 ${editFormVisible ? 'hidden' : ''}`}
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 ${
+                    editFormVisible ? 'hidden' : ''
+                  }`}
                   name="contactInformation"
                   id="contactInfoEditBtn"
                   title={txt}
                   alt={txt}
-                  onClick={() => { this.setState({ editFormVisible: true }) }}>
+                  onClick={() => {
+                    this.setState({ editFormVisible: true });
+                  }}
+                >
                   {txt}
                 </button>
               )}
             </FormattedMessage>
           </div>
           <hr />
-          <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
-            <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+          <div
+            className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+              this.state.errorMsg ? '' : 'hidden'
+            }`}
+          >
+            <aside
+              className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+              role="alert"
+            >
               <span>{this.state.errorMsg}</span>
               <button
                 className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
-                onClick={() => { this.setState({ errorMsg: '' }) }}
-                aria-label="Close">
+                onClick={() => {
+                  this.setState({ errorMsg: '' });
+                }}
+                aria-label="Close"
+              >
                 <span className="rc-screen-reader-text">
                   <FormattedMessage id="close" />
                 </span>
@@ -236,23 +257,28 @@ class AddressBookEditForm extends React.Component {
             </aside>
           </div>
           <aside
-            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
-            role="alert">
-            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none"><FormattedMessage id="saveSuccessfullly" /></p>
+            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+              this.state.successTipVisible ? '' : 'hidden'
+            }`}
+            role="alert"
+          >
+            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+              <FormattedMessage id="saveSuccessfullly" />
+            </p>
           </aside>
-          <div className={`row userContactInfo text-break ${editFormVisible ? 'hidden' : ''}`}>
+          <div
+            className={`row userContactInfo text-break ${
+              editFormVisible ? 'hidden' : ''
+            }`}
+          >
             <div className="col-lg-6">
               <FormattedMessage id="payment.address1" />
             </div>
-            <div className="col-lg-6">
-              {data.address1}
-            </div>
+            <div className="col-lg-6">{data.address1}</div>
             <div className="col-lg-6">
               <FormattedMessage id="payment.address2" />
             </div>
-            <div className="col-lg-6">
-              {data.address2}
-            </div>
+            <div className="col-lg-6">{data.address2}</div>
             <div className="col-md-6">
               <FormattedMessage id="payment.country" />
             </div>
@@ -268,30 +294,32 @@ class AddressBookEditForm extends React.Component {
             <div className="col-md-6">
               <FormattedMessage id="payment.postCode" />
             </div>
-            <div className="col-md-6">
-              {data.postCode}
-            </div>
+            <div className="col-md-6">{data.postCode}</div>
             <div className="col-md-6">
               <FormattedMessage id="payment.phoneNumber" />
             </div>
-            <div className="col-md-6">
-              {data.phoneNumber}
-            </div>
+            <div className="col-md-6">{data.phoneNumber}</div>
             <div className="col-md-6">
               <FormattedMessage id="payment.rfc" />
             </div>
-            <div className="col-md-6">
-              {data.rfc}
-            </div>
+            <div className="col-md-6">{data.rfc}</div>
           </div>
         </div>
-        <div className={`userContactInfoEdit ${editFormVisible ? '' : 'hidden'}`}>
+        <div
+          className={`userContactInfoEdit ${editFormVisible ? '' : 'hidden'}`}
+        >
           <div className="row">
             <div className="form-group col-lg-12 pull-left required">
-              <label className="form-control-label rc-full-width" htmlFor="address">
+              <label
+                className="form-control-label rc-full-width"
+                htmlFor="address"
+              >
                 <FormattedMessage id="payment.address1" />
               </label>
-              <span className="rc-input rc-input--label rc-margin--none rc-input--full-width" input-setup="true">
+              <span
+                className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                input-setup="true"
+              >
                 <input
                   type="text"
                   className="rc-input__control"
@@ -302,19 +330,18 @@ class AddressBookEditForm extends React.Component {
                   required=""
                   aria-required="true"
                   value={form.address1}
-                  onChange={e => this.handleInputChange(e)}
-                  onBlur={e => this.inputBlur(e)}
+                  onChange={(e) => this.handleInputChange(e)}
+                  onBlur={(e) => this.inputBlur(e)}
                   maxLength="50"
-                  autoComplete="address-line" />
+                  autoComplete="address-line"
+                />
                 <label className="rc-input__label" htmlFor="address1"></label>
               </span>
               <div className="invalid-feedback" style={{ display: 'none' }}>
                 <FormattedMessage
                   id="payment.errorInfo"
                   values={{
-                    val: (
-                      <FormattedMessage id="payment.address1" />
-                    ),
+                    val: <FormattedMessage id="payment.address1" />
                   }}
                 />
               </div>
@@ -322,10 +349,16 @@ class AddressBookEditForm extends React.Component {
           </div>
           <div className="row">
             <div className="form-group col-lg-12 pull-left required">
-              <label className="form-control-label rc-full-width" htmlFor="address">
+              <label
+                className="form-control-label rc-full-width"
+                htmlFor="address"
+              >
                 <FormattedMessage id="payment.address2" />
               </label>
-              <span className="rc-input rc-input--label rc-margin--none rc-input--full-width" input-setup="true">
+              <span
+                className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                input-setup="true"
+              >
                 <input
                   type="text"
                   className="rc-input__control"
@@ -336,19 +369,18 @@ class AddressBookEditForm extends React.Component {
                   required=""
                   aria-required="true"
                   value={form.address2}
-                  onChange={e => this.handleInputChange(e)}
-                  onBlur={e => this.inputBlur(e)}
+                  onChange={(e) => this.handleInputChange(e)}
+                  onBlur={(e) => this.inputBlur(e)}
                   maxLength="50"
-                  autoComplete="address-line" />
+                  autoComplete="address-line"
+                />
                 <label className="rc-input__label" htmlFor="address2"></label>
               </span>
               <div className="invalid-feedback" style={{ display: 'none' }}>
                 <FormattedMessage
                   id="payment.errorInfo"
                   values={{
-                    val: (
-                      <FormattedMessage id="payment.address2" />
-                    ),
+                    val: <FormattedMessage id="payment.address2" />
                   }}
                 />
               </div>
@@ -360,14 +392,20 @@ class AddressBookEditForm extends React.Component {
                 <label className="form-control-label" htmlFor="country">
                   <FormattedMessage id="payment.country" />
                 </label>
-                <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" data-loc="countrySelect">
+                <span
+                  className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+                  data-loc="countrySelect"
+                >
                   <Selection
                     key="1"
-                    selectedItemChange={data => this.handleSelectedItemChange('country', data)}
+                    selectedItemChange={(data) =>
+                      this.handleSelectedItemChange('country', data)
+                    }
                     optionList={this.computedList('country')}
                     selectedItemData={{
                       value: form.country
-                    }} />
+                    }}
+                  />
                 </span>
                 <div className="invalid-feedback"></div>
               </div>
@@ -378,14 +416,20 @@ class AddressBookEditForm extends React.Component {
                   <FormattedMessage id="payment.city" />
                 </label>
                 <div data-js-dynamicselect="city" data-template="shipping">
-                  <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" data-loc="citySelect">
+                  <span
+                    className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+                    data-loc="citySelect"
+                  >
                     <Selection
                       key="2"
-                      selectedItemChange={data => this.handleSelectedItemChange('city', data)}
+                      selectedItemChange={(data) =>
+                        this.handleSelectedItemChange('city', data)
+                      }
                       optionList={this.computedList('city')}
                       selectedItemData={{
                         value: form.city
-                      }} />
+                      }}
+                    />
                   </span>
                 </div>
                 <div className="invalid-feedback"></div>
@@ -395,14 +439,18 @@ class AddressBookEditForm extends React.Component {
           <div className="row">
             <div className="form-group col-6 required">
               <div className="no-padding">
-                <label className="form-control-label rc-full-width" htmlFor="zipCode">
+                <label
+                  className="form-control-label rc-full-width"
+                  htmlFor="zipCode"
+                >
                   <FormattedMessage id="payment.postCode" />
                 </label>
                 <span
                   className="rc-input rc-input--inline rc-input--label rc-margin-top--none rc-margin-right--none rc-margin-left--none rc-full-width"
                   data-js-validate=""
                   data-js-warning-message="*Post Code isn’t valid"
-                  input-setup="true">
+                  input-setup="true"
+                >
                   <input
                     type="text"
                     className="rc-input__control"
@@ -412,12 +460,13 @@ class AddressBookEditForm extends React.Component {
                     data-range-error="The postal code needs to be 6 characters"
                     name="postCode"
                     value={form.postCode}
-                    onChange={e => this.handleInputChange(e)}
-                    onBlur={e => this.inputBlur(e)}
+                    onChange={(e) => this.handleInputChange(e)}
+                    onBlur={(e) => this.inputBlur(e)}
                     // maxLength="5"
                     // minLength="5"
                     data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
-                    autoComplete="postal-code" />
+                    autoComplete="postal-code"
+                  />
                   <label className="rc-input__label" htmlFor="zipCode"></label>
                 </span>
                 {/* <div className="invalid-feedback">
@@ -431,25 +480,33 @@ class AddressBookEditForm extends React.Component {
                   />
                 </div> */}
                 <div className="ui-lighter">
-                  <FormattedMessage id="example" />: <FormattedMessage id="examplePostCode" />
+                  <FormattedMessage id="example" />:{' '}
+                  <FormattedMessage id="examplePostCode" />
                 </div>
               </div>
             </div>
             <div className="form-group col-6 required">
-              <label className="form-control-label rc-full-width" htmlFor="phone">
+              <label
+                className="form-control-label rc-full-width"
+                htmlFor="phone"
+              >
                 <FormattedMessage id="payment.phoneNumber" />
               </label>
-              <span className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width" input-setup="true">
+              <span
+                className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width"
+                input-setup="true"
+              >
                 <input
                   className="rc-input__control input__phoneField"
                   id="phone"
                   name="phoneNumber"
                   type="number"
                   value={form.phoneNumber}
-                  onChange={e => this.handleInputChange(e)}
-                  onBlur={e => this.inputBlur(e)}
+                  onChange={(e) => this.handleInputChange(e)}
+                  onBlur={(e) => this.inputBlur(e)}
                   maxLength="20"
-                  minLength="18" />
+                  minLength="18"
+                />
                 <label className="rc-input__label" htmlFor="phone"></label>
               </span>
               {/* <div className="invalid-feedback">
@@ -463,25 +520,33 @@ class AddressBookEditForm extends React.Component {
                 />
               </div> */}
               <span className="ui-lighter">
-                <FormattedMessage id="example" />: <FormattedMessage id="examplePhone" />
+                <FormattedMessage id="example" />:{' '}
+                <FormattedMessage id="examplePhone" />
               </span>
             </div>
           </div>
           <div className="row">
             <div className="form-group col-12">
-              <label className="form-control-label rc-full-width" htmlFor="reference">
+              <label
+                className="form-control-label rc-full-width"
+                htmlFor="reference"
+              >
                 <FormattedMessage id="payment.rfc" />
               </label>
-              <span className="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width" input-setup="true">
+              <span
+                className="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width"
+                input-setup="true"
+              >
                 <input
                   type="text"
                   className="rc-input__control input__phoneField"
                   id="reference"
                   name="rfc"
                   value={form.rfc}
-                  onChange={e => this.handleInputChange(e)}
-                  onBlur={e => this.inputBlur(e)}
-                  maxLength="50" />
+                  onChange={(e) => this.handleInputChange(e)}
+                  onBlur={(e) => this.inputBlur(e)}
+                  maxLength="50"
+                />
                 <label className="rc-input__label" htmlFor="reference"></label>
               </span>
             </div>
@@ -493,24 +558,27 @@ class AddressBookEditForm extends React.Component {
             <a
               className="rc-styled-link editPersonalInfoBtn"
               name="contactInformation"
-              onClick={() => this.handleCancel()}>
+              onClick={() => this.handleCancel()}
+            >
               <FormattedMessage id="cancel" />
             </a>
-            &nbsp;<FormattedMessage id="or" />&nbsp;
-              <button
+            &nbsp;
+            <FormattedMessage id="or" />
+            &nbsp;
+            <button
               className="rc-btn rc-btn--one submitBtn editAddress"
               data-sav="false"
               name="contactInformation"
               type="submit"
-              onClick={() => this.handleSave()}>
+              onClick={() => this.handleSave()}
+            >
               <FormattedMessage id="save" />
             </button>
           </div>
-
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default injectIntl(AddressBookEditForm)
+export default injectIntl(AddressBookEditForm);

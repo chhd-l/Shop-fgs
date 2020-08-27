@@ -1,11 +1,11 @@
-import React from "react"
-import { FormattedMessage } from 'react-intl'
-import Loading from "@/components/Loading"
-import { updateCustomerBaseInfo } from "@/api/user"
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import Loading from '@/components/Loading';
+import { updateCustomerBaseInfo } from '@/api/user';
 
 export default class CommunicationDataEditForm extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       editFormVisible: false,
       loading: false,
@@ -14,76 +14,79 @@ export default class CommunicationDataEditForm extends React.Component {
       form: {
         contactMethod: ''
       },
-      oldForm:{}
-    }
+      oldForm: {}
+    };
   }
-  componentDidMount () {
-    const { data } = this.props
+  componentDidMount() {
+    const { data } = this.props;
     this.setState({
       form: Object.assign({}, data),
-      oldForm:Object.assign({}, data)
-
-    })
+      oldForm: Object.assign({}, data)
+    });
   }
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.form) {
       this.setState({
         form: Object.assign({}, nextProps.data),
-        oldForm:Object.assign({}, nextProps.data)
-      })
+        oldForm: Object.assign({}, nextProps.data)
+      });
     }
   }
-  handleInputChange (e) {
-    const target = e.target
-    const { form } = this.state
-    if(target.name === 'contactMethod') {
-      form[target.name] = form[target.name]? '': 'email'
-    }else {
-      form[target.name] = target.value  
+  handleInputChange(e) {
+    const target = e.target;
+    const { form } = this.state;
+    if (target.name === 'contactMethod') {
+      form[target.name] = form[target.name] ? '' : 'email';
+    } else {
+      form[target.name] = target.value;
     }
-    
-    this.setState({ form: form })
+
+    this.setState({ form: form });
   }
-  async handleSave () {
-    const { form } = this.state
-    this.setState({ loading: true })
+  async handleSave() {
+    const { form } = this.state;
+    this.setState({ loading: true });
     try {
-      await updateCustomerBaseInfo(Object.assign({}, this.props.originData, { contactMethod: form.contactMethod }))
-      this.props.updateData(this.state.form)
+      await updateCustomerBaseInfo(
+        Object.assign({}, this.props.originData, {
+          contactMethod: form.contactMethod
+        })
+      );
+      this.props.updateData(this.state.form);
       this.setState({
         successTipVisible: true
-      })
+      });
       setTimeout(() => {
         this.setState({
           successTipVisible: false
-        })
-      }, 2000)
+        });
+      }, 2000);
     } catch (err) {
       this.setState({
         errorMsg: typeof err === 'object' ? err.toString() : err
-      })
+      });
       setTimeout(() => {
         this.setState({
           errorMsg: ''
-        })
-      }, 5000)
+        });
+      }, 5000);
     } finally {
       this.setState({
         editFormVisible: false,
         loading: false
-      })
+      });
     }
   }
-  handleCancel=()=>{
-    const{oldForm}=this.state
-    this.setState({ 
+  handleCancel = () => {
+    const { oldForm } = this.state;
+    this.setState({
       editFormVisible: false,
-      form:Object.assign({}, oldForm)
-     }) 
-  }
+      form: Object.assign({}, oldForm)
+    });
+  };
 
-  render () {
-    const { editFormVisible, form } = this.state
+  render() {
+    const { editFormVisible, form } = this.state;
     return (
       <div>
         {this.state.loading ? <Loading positionAbsolute="true" /> : null}
@@ -93,27 +96,42 @@ export default class CommunicationDataEditForm extends React.Component {
               <FormattedMessage id="account.preferredMmethodsOfCommunication" />
             </h5>
             <FormattedMessage id="edit">
-              {txt => (
+              {(txt) => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 ${editFormVisible ? 'hidden' : ''}`}
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 ${
+                    editFormVisible ? 'hidden' : ''
+                  }`}
                   name="contactPreference"
                   id="contactPrefEditBtn"
                   title={txt}
                   alt={txt}
-                  onClick={() => { this.setState({ editFormVisible: true }) }}>
+                  onClick={() => {
+                    this.setState({ editFormVisible: true });
+                  }}
+                >
                   {txt}
                 </button>
               )}
             </FormattedMessage>
           </div>
           <hr />
-          <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
-            <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
+          <div
+            className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+              this.state.errorMsg ? '' : 'hidden'
+            }`}
+          >
+            <aside
+              className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+              role="alert"
+            >
               <span>{this.state.errorMsg}</span>
               <button
                 className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                 aria-label="Close"
-                onClick={() => { this.setState({ errorMsg: '' }) }}>
+                onClick={() => {
+                  this.setState({ errorMsg: '' });
+                }}
+              >
                 <span className="rc-screen-reader-text">
                   <FormattedMessage id="close" />
                 </span>
@@ -121,9 +139,14 @@ export default class CommunicationDataEditForm extends React.Component {
             </aside>
           </div>
           <aside
-            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${this.state.successTipVisible ? '' : 'hidden'}`}
-            role="alert">
-            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none"><FormattedMessage id="saveSuccessfullly"/></p>
+            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+              this.state.successTipVisible ? '' : 'hidden'
+            }`}
+            role="alert"
+          >
+            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+              <FormattedMessage id="saveSuccessfullly" />
+            </p>
           </aside>
           <span className="rc-meta">
             <b>
@@ -136,7 +159,11 @@ export default class CommunicationDataEditForm extends React.Component {
             <input class="rc-input__checkbox" id="id-checkbox-cat-2" value="Cat" type="checkbox" name="checkbox-2" />
             <label class="rc-input__label--inline" for="id-checkbox-cat-2">Cat</label>
           </div> */}
-          <div className={`row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer ${editFormVisible ? 'hidden' : ''}`}>
+          <div
+            className={`row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer ${
+              editFormVisible ? 'hidden' : ''
+            }`}
+          >
             {/* <div className="rc-input rc-input--inline rc-margin-y--xs">
               <FormattedMessage id="phone">
                 {txt => (
@@ -157,7 +184,7 @@ export default class CommunicationDataEditForm extends React.Component {
             </div> */}
             <div className="rc-input rc-input--inline rc-margin-y--xs">
               <FormattedMessage id="profile.emailChoose">
-                {txt => (
+                {(txt) => (
                   <input
                     className="rc-input__checkbox"
                     type="checkbox"
@@ -192,7 +219,7 @@ export default class CommunicationDataEditForm extends React.Component {
               </div> */}
               <div className="rc-input rc-input--inline rc-margin-y--xs">
                 <FormattedMessage id="profile.emailChoose">
-                  {txt => (
+                  {(txt) => (
                     <input
                       className="rc-input__checkbox"
                       id="optsemail"
@@ -200,11 +227,15 @@ export default class CommunicationDataEditForm extends React.Component {
                       alt={txt}
                       name="contactMethod"
                       value="email"
-                      onChange={event => this.handleInputChange(event)}
-                      checked={this.state.form.contactMethod === 'email'} />
+                      onChange={(event) => this.handleInputChange(event)}
+                      checked={this.state.form.contactMethod === 'email'}
+                    />
                   )}
                 </FormattedMessage>
-                <label className="rc-input__label--inline outline-none" htmlFor="optsemail">
+                <label
+                  className="rc-input__label--inline outline-none"
+                  htmlFor="optsemail"
+                >
                   <FormattedMessage id="profile.emailChoose" />
                 </label>
               </div>
@@ -213,15 +244,19 @@ export default class CommunicationDataEditForm extends React.Component {
               <a
                 className="rc-styled-link editPersonalInfoBtn"
                 name="contactPreference"
-                onClick={()=>this.handleCancel()}>
+                onClick={() => this.handleCancel()}
+              >
                 <FormattedMessage id="cancel" />
               </a>
-              &nbsp;<FormattedMessage id="or" />&nbsp;
-                <button
+              &nbsp;
+              <FormattedMessage id="or" />
+              &nbsp;
+              <button
                 className="rc-btn rc-btn--one submitBtn"
                 name="contactPreference"
                 type="submit"
-                onClick={() => this.handleSave()}>
+                onClick={() => this.handleSave()}
+              >
                 <FormattedMessage id="save" />
               </button>
             </div>
@@ -318,6 +353,6 @@ export default class CommunicationDataEditForm extends React.Component {
           </div> */}
         </div>
       </div>
-    )
+    );
   }
 }

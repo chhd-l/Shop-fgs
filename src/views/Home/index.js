@@ -1,25 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FormattedMessage } from "react-intl";
-import { formatMoney } from "@/utils/utils";
-import GoogleTagManager from "@/components/GoogleTagManager";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import BannerTip from "@/components/BannerTip";
-import HeroCarousel from "@/components/HeroCarousel2";
-import FooterImage from "./modules/FooterImage"
-import "./index.css";
-import CARECAT from "@/assets/images/MX-L-VET-CARE-CAT.jpg";
-import CAREDOG from "@/assets/images/MX-L-VET-CARE-DOG.jpg";
-import DIETCAT from "@/assets/images/MX-L-VET-DIET-CAT.jpg";
-import DIETDOG from "@/assets/images/MX-L-VET-DIET-DOG.jpg";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+import { formatMoney } from '@/utils/utils';
+import GoogleTagManager from '@/components/GoogleTagManager';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
+import HeroCarousel from '@/components/HeroCarousel2';
+import FooterImage from './modules/FooterImage';
+import './index.css';
+import CARECAT from '@/assets/images/MX-L-VET-CARE-CAT.jpg';
+import CAREDOG from '@/assets/images/MX-L-VET-CARE-DOG.jpg';
+import DIETCAT from '@/assets/images/MX-L-VET-DIET-CAT.jpg';
+import DIETDOG from '@/assets/images/MX-L-VET-DIET-DOG.jpg';
 
-import Urinary from "@/assets/images/home-catogery/Urinary.jpg";
-import Dermatology from "@/assets/images/home-catogery/Dermatology.jpg";
-import WeightManagement from "@/assets/images/home-catogery/Weight-Management.jpg";
-import Gastrointestinal from "@/assets/images/home-catogery/Gastrointestinal.jpg";
-import VitalSupport from "@/assets/images/home-catogery/Vital-Support.jpg";
-import HealthManagement from "@/assets/images/home-catogery/Health-Management.jpg";
+import Urinary from '@/assets/images/home-catogery/Urinary.jpg';
+import Dermatology from '@/assets/images/home-catogery/Dermatology.jpg';
+import WeightManagement from '@/assets/images/home-catogery/Weight-Management.jpg';
+import Gastrointestinal from '@/assets/images/home-catogery/Gastrointestinal.jpg';
+import VitalSupport from '@/assets/images/home-catogery/Vital-Support.jpg';
+import HealthManagement from '@/assets/images/home-catogery/Health-Management.jpg';
 
 class Home extends React.Component {
   constructor(props) {
@@ -27,21 +27,21 @@ class Home extends React.Component {
   }
   async componentDidMount() {
     // console.log(111111,process.env.REACT_APP_AdyenOriginKEY)
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
+    if (localStorage.getItem('isRefresh')) {
+      localStorage.removeItem('isRefresh');
       window.location.reload();
       return false;
     }
   }
   componentWillUnmount() {
-    localStorage.setItem("isRefresh", true);
+    localStorage.setItem('isRefresh', true);
   }
   render() {
     const event = {
       page: {
-        type: "Homepage",
-        theme: "",
-      },
+        type: 'Homepage',
+        theme: ''
+      }
     };
     return (
       <div>
@@ -65,12 +65,12 @@ class Home extends React.Component {
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
                 <div
                   className={`${
-                    process.env.REACT_APP_LANG === "de" ? "" : "row"
+                    process.env.REACT_APP_LANG === 'de' ? '' : 'row'
                   } rc-match-heights text-center text-md-left`}
                 >
                   <div
                     className={`${
-                      process.env.REACT_APP_LANG === "de" ? "DeCenter" : ""
+                      process.env.REACT_APP_LANG === 'de' ? 'DeCenter' : ''
                     } col-lg-3 align-self-center`}
                   >
                     <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
@@ -79,11 +79,11 @@ class Home extends React.Component {
                   </div>
                   <div
                     className={`${
-                      process.env.REACT_APP_LANG === "de" ? "DeCenter" : ""
+                      process.env.REACT_APP_LANG === 'de' ? 'DeCenter' : ''
                     } col-lg-9`}
                   >
                     <div className="row custom-gutter">
-                      {process.env.REACT_APP_LANG === "de" ? (
+                      {process.env.REACT_APP_LANG === 'de' ? (
                         <>
                           <div className="col-md-4 col-6">
                             <FormattedMessage id="product.de.catogery1.name">
@@ -262,7 +262,7 @@ class Home extends React.Component {
                           </div>
                           <div className="col-md-3 col-6">
                             <FormattedMessage id="product.catogery1.name">
-                              {txt => (
+                              {(txt) => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
                                   to="/list/prescription-dogs"
@@ -281,7 +281,7 @@ class Home extends React.Component {
                           </div>
                           <div className="col-md-3 col-6">
                             <FormattedMessage id="product.catogery2.name">
-                              {txt => (
+                              {(txt) => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
                                   to="/list/prescription-cats"
@@ -311,15 +311,15 @@ class Home extends React.Component {
           <section>
             <div
               className="rc-border-bottom rc-border-colour--brand4"
-              style={{ borderBottomWidth: "1px" }}
+              style={{ borderBottomWidth: '1px' }}
             >
-              {" "}
+              {' '}
             </div>
           </section>
 
           {/* <!-- ads --> */}
           <section>
-            <div className="rc-bg-colour--brand3" style={{ padding: "1px 0" }}>
+            <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
               <div className="rc-full-width">
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
                   <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">
@@ -357,7 +357,7 @@ class Home extends React.Component {
                                 values={{
                                   val: formatMoney(
                                     process.env.REACT_APP_MINIMUM_AMOUNT
-                                  ),
+                                  )
                                 }}
                               />
                             </p>
@@ -389,9 +389,9 @@ class Home extends React.Component {
           <div className="experience-component experience-assets-divider">
             <div
               className="rc-border-bottom rc-border-colour--brand4"
-              style={{ borderBottomWidth: "4px" }}
+              style={{ borderBottomWidth: '4px' }}
             >
-              {" "}
+              {' '}
             </div>
           </div>
           <div className="experience-component experience-layouts-1column">
@@ -412,23 +412,20 @@ class Home extends React.Component {
                           <FormattedMessage id="home.point1" />
                         </p>
                       </div>
-                      {
-                        process.env.REACT_APP_LANG==='de'?
-                        null
-                        :
+                      {process.env.REACT_APP_LANG === 'de' ? null : (
                         <div className="col-6 col-md-3 centered-icon-list__icon">
-                        <img
-                          src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
-                          srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x"
-                          className="mx-auto"
-                          alt="Quality assurance"
-                          title="Quality assurance"
-                        />
-                        <p className="rc-meta text-center markup-text">
-                          <FormattedMessage id="home.point2" />
-                        </p>                
-                      </div>
-                      } 
+                          <img
+                            src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
+                            srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x"
+                            className="mx-auto"
+                            alt="Quality assurance"
+                            title="Quality assurance"
+                          />
+                          <p className="rc-meta text-center markup-text">
+                            <FormattedMessage id="home.point2" />
+                          </p>
+                        </div>
+                      )}
                       <div className="col-6 col-md-3 centered-icon-list__icon">
                         <img
                           src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
@@ -464,7 +461,7 @@ class Home extends React.Component {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-threeColumnContentBlock">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-top--sm rc-margin-top--lg--mobile three-column-content-block">
-                    <FooterImage/>
+                    <FooterImage />
                   </div>
                 </div>
               </div>

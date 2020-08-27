@@ -1,12 +1,12 @@
-import React from 'react'
-import { FormattedMessage } from "react-intl"
-import EditForm from './EditForm'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import EditForm from './EditForm';
 
 /**
  * delivery adress module - visitor
  */
 export default class UnloginDeliveryAddress extends React.Component {
-  render () {
+  render() {
     return (
       <>
         <div className="card-header bg-transparent">
@@ -18,9 +18,10 @@ export default class UnloginDeliveryAddress extends React.Component {
         <fieldset className="shipping-address-block rc-fieldset">
           <EditForm
             data={this.props.data}
-            updateData={data => this.props.updateData(data)} />
+            updateData={(data) => this.props.updateData(data)}
+          />
         </fieldset>
       </>
-    )
+    );
   }
 }

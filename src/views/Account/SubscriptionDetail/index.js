@@ -212,8 +212,11 @@ class SubscriptionDetail extends React.Component {
         // this.setState({ loading: false });
         // window.location.reload();
         this.getDetail(
-          this.showErrMsg.bind(this, this.props.intl.messages.saveSuccessfullly,
-            'success')
+          this.showErrMsg.bind(
+            this,
+            this.props.intl.messages.saveSuccessfullly,
+            'success'
+          )
         );
       })
       .catch((err) => {
@@ -516,8 +519,11 @@ class SubscriptionDetail extends React.Component {
                           // console.log(res);
                           // window.location.reload();
                           this.getDetail(
-                            this.showErrMsg.bind(this, this.props.intl.messages.saveSuccessfullly,
-                              'success')
+                            this.showErrMsg.bind(
+                              this,
+                              this.props.intl.messages.saveSuccessfullly,
+                              'success'
+                            )
                           );
                         })
                         .catch((err) => {
@@ -579,10 +585,13 @@ class SubscriptionDetail extends React.Component {
                             // this.setState({ loading: false });
                             // console.log(res);
                             // window.location.reload();
-                            fn && fn()
+                            fn && fn();
                             this.getDetail(
-                              this.showErrMsg.bind(this, this.props.intl.messages.saveSuccessfullly,
-                                'success')
+                              this.showErrMsg.bind(
+                                this,
+                                this.props.intl.messages.saveSuccessfullly,
+                                'success'
+                              )
                             );
                           })
                           .catch((err) => {
@@ -618,8 +627,11 @@ class SubscriptionDetail extends React.Component {
                             // console.log(res);
                             // window.location.reload();
                             this.getDetail(
-                              this.showErrMsg.bind(this, this.props.intl.messages.saveSuccessfullly,
-                                'success')
+                              this.showErrMsg.bind(
+                                this,
+                                this.props.intl.messages.saveSuccessfullly,
+                                'success'
+                              )
                             );
                           })
                           .catch((err) => {
@@ -798,9 +810,12 @@ class SubscriptionDetail extends React.Component {
                                         // this.setState({ loading: false });
                                         // window.location.reload();
                                         this.getDetail(
-                                          this.showErrMsg.bind(this, this.props.intl.messages
-                                            .saveSuccessfullly,
-                                          'success')
+                                          this.showErrMsg.bind(
+                                            this,
+                                            this.props.intl.messages
+                                              .saveSuccessfullly,
+                                            'success'
+                                          )
                                         );
                                       })
                                       .catch((err) => {

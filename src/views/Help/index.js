@@ -1,43 +1,48 @@
-import React from 'react'
-import GoogleTagManager from '@/components/GoogleTagManager'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import { FormattedMessage } from 'react-intl'
-import { Link } from 'react-router-dom'
-import emailImg from "@/assets/images/emailus_icon@1x.jpg"
-import callImg from "@/assets/images/customer-service@2x.jpg"
-import helpImg from "@/assets/images/slider-img-help.jpg"
+import React from 'react';
+import GoogleTagManager from '@/components/GoogleTagManager';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+import emailImg from '@/assets/images/emailus_icon@1x.jpg';
+import callImg from '@/assets/images/customer-service@2x.jpg';
+import helpImg from '@/assets/images/slider-img-help.jpg';
 import { inject, observer } from 'mobx-react';
 
-@inject("configStore")
+@inject('configStore')
 @observer
 class Help extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+  componentWillUnmount() {
+    localStorage.setItem('isRefresh', true);
   }
-  async componentDidMount () {
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
+  async componentDidMount() {
+    if (localStorage.getItem('isRefresh')) {
+      localStorage.removeItem('isRefresh');
       window.location.reload();
-      return false
+      return false;
     }
   }
-  render (h) {
+  render(h) {
     const event = {
       page: {
         type: 'Content',
         theme: ''
       }
-    }
+    };
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
-        <main className="rc-content--fixed-header rc-bg-colour--brand3" >
+        <Header
+          showMiniIcons={true}
+          showUserIcon={true}
+          location={this.props.location}
+          history={this.props.history}
+        />
+        <main className="rc-content--fixed-header rc-bg-colour--brand3">
           {/* <div class="rc-bg-colour--brand4 text-center" >
             <div class="rc-layout-container rc-content-h-middle">
               <div class="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
@@ -62,17 +67,26 @@ class Help extends React.Component {
                       <div class="experience-component experience-assets-contactUsBlock">
                         <div class="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                           <div class="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
-                            <div class="rc-padding-bottom--none--mobile" style={{ width: '40%' }}>
-                              <h1 class="rc-beta" style={{ margin: '0 0 0 1rem' }}>
-                                <font style={{ verticalAlign: "inherit" }}>
-                                  <font style={{ verticalAlign: "inherit" }}><FormattedMessage id="help.needHelp" /></font>
+                            <div
+                              class="rc-padding-bottom--none--mobile"
+                              style={{ width: '40%' }}
+                            >
+                              <h1
+                                class="rc-beta"
+                                style={{ margin: '0 0 0 1rem' }}
+                              >
+                                <font style={{ verticalAlign: 'inherit' }}>
+                                  <font style={{ verticalAlign: 'inherit' }}>
+                                    <FormattedMessage id="help.needHelp" />
+                                  </font>
                                 </font>
                               </h1>
                             </div>
                             <div style={{ width: '60%' }}>
                               <div class="rc-large-body inherit-fontsize children-nomargin">
                                 <p>
-                                  <FormattedMessage id="help.tip1" /><br />
+                                  <FormattedMessage id="help.tip1" />
+                                  <br />
                                 </p>
                               </div>
                             </div>
@@ -84,28 +98,48 @@ class Help extends React.Component {
                                   <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                                     <div class="rc-column rc-double-width rc-padding-top--md--mobile">
                                       <div class="w-100">
-                                        <b style={{ color: "#00BCA3" }}>
+                                        <b style={{ color: '#00BCA3' }}>
                                           <FormattedMessage id="help.byTelephone" />
                                         </b>
                                         <p>
-                                          {this.props.configStore.contactTimePeriod}
+                                          {
+                                            this.props.configStore
+                                              .contactTimePeriod
+                                          }
                                         </p>
                                         <div class="rc-margin-top--xs">
-                                          <p style={{ color: "#00BCA3" }} class="rc-numeric rc-md-up">
+                                          <p
+                                            style={{ color: '#00BCA3' }}
+                                            class="rc-numeric rc-md-up"
+                                          >
                                             {/* 800 024 77 64 */}
-                                            {this.props.configStore.storeContactPhoneNumber}
+                                            {
+                                              this.props.configStore
+                                                .storeContactPhoneNumber
+                                            }
                                           </p>
                                         </div>
                                         <div class="rc-margin-top--xs">
-                                          <p style={{ color: "#00BCA3" }} class="rc-alpha rc-border--none rc-md-down">
+                                          <p
+                                            style={{ color: '#00BCA3' }}
+                                            class="rc-alpha rc-border--none rc-md-down"
+                                          >
                                             {/* 800 024 77 64 */}
-                                            {this.props.configStore.storeContactPhoneNumber}
+                                            {
+                                              this.props.configStore
+                                                .storeContactPhoneNumber
+                                            }
                                           </p>
                                         </div>
                                       </div>
                                     </div>
                                     <div class="rc-column rc-content-v-middle">
-                                      <img class="align-self-center widthAuto" src={callImg} alt="By telephone" title="By telephone" />
+                                      <img
+                                        class="align-self-center widthAuto"
+                                        src={callImg}
+                                        alt="By telephone"
+                                        title="By telephone"
+                                      />
                                     </div>
                                   </div>
                                 </div>
@@ -115,24 +149,61 @@ class Help extends React.Component {
                                   <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                                     <div class="rc-column rc-double-width rc-padding-top--md--mobile">
                                       <div class="w-100">
-                                        <b style={{ color: "#0087BD" }}><font style={{ verticalAlign: "inherit" }}><font style={{ verticalAlign: "inherit" }}><FormattedMessage id="help.byEmail" /></font></font></b>
+                                        <b style={{ color: '#0087BD' }}>
+                                          <font
+                                            style={{ verticalAlign: 'inherit' }}
+                                          >
+                                            <font
+                                              style={{
+                                                verticalAlign: 'inherit'
+                                              }}
+                                            >
+                                              <FormattedMessage id="help.byEmail" />
+                                            </font>
+                                          </font>
+                                        </b>
                                         <p>
-                                          <span style={{ color: "rgb(0, 0, 0)" }}>
-                                            <font style={{ verticalAlign: "inherit" }}>
-                                              <font style={{ verticalAlign: "inherit" }}><FormattedMessage id="help.tip3" /></font>
+                                          <span
+                                            style={{ color: 'rgb(0, 0, 0)' }}
+                                          >
+                                            <font
+                                              style={{
+                                                verticalAlign: 'inherit'
+                                              }}
+                                            >
+                                              <font
+                                                style={{
+                                                  verticalAlign: 'inherit'
+                                                }}
+                                              >
+                                                <FormattedMessage id="help.tip3" />
+                                              </font>
                                             </font>
                                           </span>
                                         </p>
                                         <div class="rc-margin-top--xs">
-                                          <p class="rc-numeric rc-md-up" style={{ color: "rgb(0, 135, 189)" }}>
+                                          <p
+                                            class="rc-numeric rc-md-up"
+                                            style={{
+                                              color: 'rgb(0, 135, 189)'
+                                            }}
+                                          >
                                             {/* contacto.mex@royalcanin.com */}
-                                            {this.props.configStore.storeContactEmail}
+                                            {
+                                              this.props.configStore
+                                                .storeContactEmail
+                                            }
                                           </p>
                                         </div>
                                       </div>
                                     </div>
                                     <div class="rc-column rc-content-v-middle">
-                                      <img class="align-self-center widthAuto" src={emailImg} alt="By email" title="By email" />
+                                      <img
+                                        class="align-self-center widthAuto"
+                                        src={emailImg}
+                                        alt="By email"
+                                        title="By email"
+                                      />
                                     </div>
                                   </div>
                                 </div>
@@ -146,7 +217,12 @@ class Help extends React.Component {
                               </h1> */}
                             </div>
                             <div class="rc-column rc-triple-width">
-                              <div class="background-cover" style={{ backgroundImage: `url(${require("@/assets/images/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png")})` }}>
+                              <div
+                                class="background-cover"
+                                style={{
+                                  backgroundImage: `url(${require('@/assets/images/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png')})`
+                                }}
+                              >
                                 <picture class="rc-card__image">
                                   <img src={helpImg} alt=" " title=" " />
                                 </picture>
@@ -165,8 +241,8 @@ class Help extends React.Component {
 
         <Footer />
       </div>
-    )
+    );
   }
 }
 
-export default Help
+export default Help;

@@ -1,31 +1,31 @@
-import React from "react";
-import Skeleton from "react-skeleton-loader";
-import { inject, observer } from "mobx-react";
-import GoogleTagManager from "@/components/GoogleTagManager";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import BreadCrumbs from "@/components/BreadCrumbs";
-import SideMenu from "@/components/SideMenu";
-import TimeCount from "@/components/TimeCount";
-import Selection from "@/components/Selection";
-import Pagination from "@/components/Pagination";
-import { FormattedMessage, injectIntl } from "react-intl";
-import { Link } from "react-router-dom";
-import { formatMoney, getDictionary } from "@/utils/utils";
-import { batchAdd } from "@/api/payment";
-import { getOrderList, getOrderDetails } from "@/api/order";
-import orderImg from "./img/order.jpg";
-import store from "storejs";
+import React from 'react';
+import Skeleton from 'react-skeleton-loader';
+import { inject, observer } from 'mobx-react';
+import GoogleTagManager from '@/components/GoogleTagManager';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import BreadCrumbs from '@/components/BreadCrumbs';
+import SideMenu from '@/components/SideMenu';
+import TimeCount from '@/components/TimeCount';
+import Selection from '@/components/Selection';
+import Pagination from '@/components/Pagination';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
+import { formatMoney, getDictionary } from '@/utils/utils';
+import { batchAdd } from '@/api/payment';
+import { getOrderList, getOrderDetails } from '@/api/order';
+import orderImg from './img/order.jpg';
+import store from 'storejs';
 import {
   IMG_DEFAULT,
   DELIVER_STATUS_ENUM,
   ORDER_STATUS_ENUM,
-  PAY_STATUS_ENUM,
-} from "@/utils/constant";
-import "./index.css";
+  PAY_STATUS_ENUM
+} from '@/utils/constant';
+import './index.css';
 
 @injectIntl
-@inject("checkoutStore")
+@inject('checkoutStore')
 @observer
 class AccountOrders extends React.Component {
   constructor(props) {
@@ -33,35 +33,35 @@ class AccountOrders extends React.Component {
     this.state = {
       orderList: [],
       form: {
-        orderNumber: "",
-        period: 7,
+        orderNumber: '',
+        period: 7
       },
       loading: true,
       currentPage: 1,
       totalPage: 1,
       initing: true,
-      errMsg: "",
+      errMsg: '',
       duringTimeOptions: [],
-      defaultLocalDateTime: "",
-      haveList: true,
+      defaultLocalDateTime: '',
+      haveList: true
     };
 
     this.pageSize = 6;
   }
-  componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+  componentWillUnmount() {
+    localStorage.setItem('isRefresh', true);
   }
-  componentDidMount () {
+  componentDidMount() {
     this.FormateOderTimeFilter();
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
+    if (localStorage.getItem('isRefresh')) {
+      localStorage.removeItem('isRefresh');
       window.location.reload();
       return false;
     }
     this.queryOrderList();
   }
-  async FormateOderTimeFilter () {
-    let res = await getDictionary({ type: "orderTimeFilter" });
+  async FormateOderTimeFilter() {
+    let res = await getDictionary({ type: 'orderTimeFilter' });
     let duringTimeOptions =
       res &&
       res.map((item) => {
@@ -73,7 +73,7 @@ class AccountOrders extends React.Component {
             value: value,
             name: (
               <FormattedMessage id="order.lastXDays" values={{ val: values }} />
-            ),
+            )
           };
         } else if (item.valueEn == 30) {
           value = item.valueEn;
@@ -82,7 +82,7 @@ class AccountOrders extends React.Component {
             value: value,
             name: (
               <FormattedMessage id="order.lastXDays" values={{ val: values }} />
-            ),
+            )
           };
         } else {
           value = item.valueEn;
@@ -94,89 +94,89 @@ class AccountOrders extends React.Component {
                 id="order.lastXMonths"
                 values={{ val: values }}
               />
-            ),
+            )
           };
         }
       });
     this.setState(
       {
-        duringTimeOptions: duringTimeOptions,
+        duringTimeOptions: duringTimeOptions
       },
       () => {
         console.log(this.state.duringTimeOptions);
       }
     );
   }
-  handleDuringTimeChange (data) {
+  handleDuringTimeChange(data) {
     // console.log("获取当前选择的天气",data,this.state.form.period)
     const { form } = this.state;
     form.period = data.value;
     this.setState(
       {
         form: form,
-        currentPage: 1,
+        currentPage: 1
       },
       () => this.queryOrderList()
     );
   }
-  handleInputChange (e) {
+  handleInputChange(e) {
     const target = e.target;
     const { form } = this.state;
     form[target.name] = target.value;
     this.setState({
       form: form,
-      currentPage: 1,
+      currentPage: 1
     });
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.queryOrderList();
     }, 500);
   }
-  queryOrderList () {
+  queryOrderList() {
     const { form, initing, currentPage } = this.state;
     if (!initing) {
       setTimeout(() => {
         window.scrollTo({
           top: 0,
-          behavior: "smooth",
+          behavior: 'smooth'
         });
       }, 0);
     }
-    let createdFrom = "";
+    let createdFrom = '';
     this.setState({ loading: true });
     let param = {
       keywords: form.orderNumber,
       pageNum: currentPage - 1,
       pageSize: this.pageSize,
-      period: form.period,
+      period: form.period
     };
     getOrderList(param)
       .then((res) => {
-        console.log("paramas:", param);
+        console.log('paramas:', param);
         let tmpList = Array.from(res.context.content, (ele) => {
           const tradeState = ele.tradeState;
           return Object.assign(ele, {
             canPayNow:
-              tradeState.flowState === "AUDIT" &&
-              tradeState.deliverStatus === "NOT_YET_SHIPPED" &&
-              tradeState.payState === "NOT_PAID" &&
+              tradeState.flowState === 'AUDIT' &&
+              tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
+              tradeState.payState === 'NOT_PAID' &&
               new Date(ele.orderTimeOut).getTime() >
-              new Date(res.defaultLocalDateTime).getTime() &&
-              (!ele.payWay || ele.payWay.toUpperCase() !== "OXXO"),
+                new Date(res.defaultLocalDateTime).getTime() &&
+              (!ele.payWay || ele.payWay.toUpperCase() !== 'OXXO'),
             showOXXOExpireTime:
-              tradeState.flowState === "AUDIT" &&
-              tradeState.deliverStatus === "NOT_YET_SHIPPED" &&
-              tradeState.payState === "NOT_PAID" &&
+              tradeState.flowState === 'AUDIT' &&
+              tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
+              tradeState.payState === 'NOT_PAID' &&
               new Date(ele.orderTimeOut).getTime() >
-              new Date(res.defaultLocalDateTime).getTime() &&
+                new Date(res.defaultLocalDateTime).getTime() &&
               ele.payWay &&
-              ele.payWay.toUpperCase() === "OXXO",
+              ele.payWay.toUpperCase() === 'OXXO',
             payNowLoading: false,
             canRePurchase:
-              tradeState.flowState === "COMPLETED" ||
-              tradeState.flowState === "VOID",
+              tradeState.flowState === 'COMPLETED' ||
+              tradeState.flowState === 'VOID',
             canReview:
-              tradeState.flowState === "COMPLETED" && !ele.storeEvaluateVO,
+              tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO
           });
         });
         if (!tmpList.length) {
@@ -190,40 +190,40 @@ class AccountOrders extends React.Component {
           totalPage: res.context.totalPages,
           defaultLocalDateTime: res.defaultLocalDateTime,
           loading: false,
-          initing: false,
+          initing: false
         });
       })
       .catch((err) => {
         this.setState({
           loading: false,
           errMsg: err.toString(),
-          initing: false,
+          initing: false
         });
       });
   }
-  hanldePageNumChange (params) {
+  hanldePageNumChange(params) {
     this.setState(
       {
-        currentPage: params.currentPage,
+        currentPage: params.currentPage
       },
       () => this.queryOrderList()
     );
   }
-  updateFilterData (form) {
+  updateFilterData(form) {
     this.setState(
       {
         form: Object.assign({}, this.state.form, form),
-        currentPage: 1,
+        currentPage: 1
       },
       () => this.queryOrderList()
     );
   }
-  handlePayNowTimeEnd (order) {
+  handlePayNowTimeEnd(order) {
     const { orderList } = this.state;
     order.canPayNow = false;
     this.setState({ orderList: orderList });
   }
-  async handleClickPayNow (order) {
+  async handleClickPayNow(order) {
     const { orderList } = this.state;
     order.payNowLoading = true;
     this.setState({ orderList: orderList });
@@ -236,7 +236,7 @@ class AccountOrders extends React.Component {
         salePrice: ele.price,
         goodsInfoId: ele.skuId,
         subscriptionPrice: ele.subscriptionPrice,
-        subscriptionStatus: ele.subscriptionStatus,
+        subscriptionStatus: ele.subscriptionStatus
       };
     });
     try {
@@ -250,13 +250,13 @@ class AccountOrders extends React.Component {
         rfc: detailResCt.consignee.rfc,
         country: detailResCt.consignee.countryId
           ? detailResCt.consignee.countryId.toString()
-          : "",
+          : '',
         city: detailResCt.consignee.cityId
           ? detailResCt.consignee.cityId.toString()
-          : "",
+          : '',
         postCode: detailResCt.consignee.postCode,
         phoneNumber: detailResCt.consignee.phone,
-        addressId: detailResCt.consignee.id,
+        addressId: detailResCt.consignee.id
       };
       const tmpBillingAddress = {
         firstName: detailResCt.invoice.firstName,
@@ -266,39 +266,39 @@ class AccountOrders extends React.Component {
         rfc: detailResCt.invoice.rfc,
         country: detailResCt.invoice.countryId
           ? detailResCt.invoice.countryId.toString()
-          : "",
+          : '',
         city: detailResCt.invoice.cityId
           ? detailResCt.invoice.cityId.toString()
-          : "",
+          : '',
         postCode: detailResCt.invoice.postCode,
         phoneNumber: detailResCt.invoice.phone,
-        addressId: detailResCt.invoice.addressId,
+        addressId: detailResCt.invoice.addressId
       };
-      store.set("loginDeliveryInfo", {
+      store.set('loginDeliveryInfo', {
         deliveryAddress: tmpDeliveryAddress,
         billingAddress: tmpBillingAddress,
-        commentOnDelivery: detailResCt.buyerRemark,
+        commentOnDelivery: detailResCt.buyerRemark
       });
       this.props.checkoutStore.setLoginCartData(tradeItems);
       if (detailResCt.subscriptionResponseVO) {
         const cycleTypeId = detailResCt.subscriptionResponseVO.cycleTypeId;
 
         let dictList = await Promise.all([
-          getDictionary({ type: "Frequency_week" }),
-          getDictionary({ type: "Frequency_month" }),
+          getDictionary({ type: 'Frequency_week' }),
+          getDictionary({ type: 'Frequency_month' })
         ]);
         sessionStorage.setItem(
-          "rc-subform",
+          'rc-subform',
           JSON.stringify({
-            buyWay: "frequency",
+            buyWay: 'frequency',
             frequencyName: [...dictList[0], ...dictList[1]].filter(
               (el) => el.id === cycleTypeId
             )[0].name,
-            frequencyId: cycleTypeId,
+            frequencyId: cycleTypeId
           })
         );
       }
-      sessionStorage.setItem("rc-tid", order.id);
+      sessionStorage.setItem('rc-tid', order.id);
       this.props.checkoutStore.setCartPrice({
         totalPrice: order.tradePrice.totalPrice,
         tradePrice: order.tradePrice.originPrice,
@@ -306,10 +306,10 @@ class AccountOrders extends React.Component {
         deliveryPrice: order.tradePrice.deliveryPrice,
         promotionDesc: order.tradePrice.promotionDesc,
         promotionDiscount: order.tradePrice.deliveryPrice,
-        subscriptionPrice: order.tradePrice.subscriptionPrice,
+        subscriptionPrice: order.tradePrice.subscriptionPrice
       });
 
-      this.props.history.push("/payment/payment");
+      this.props.history.push('/payment/payment');
     } catch (err) {
       console.log(err);
     } finally {
@@ -317,10 +317,10 @@ class AccountOrders extends React.Component {
       this.setState({ orderList: orderList });
     }
   }
-  rePurchase (order) {
+  rePurchase(order) {
     this.hanldeLoginAddToCart(order);
   }
-  async hanldeLoginAddToCart (order) {
+  async hanldeLoginAddToCart(order) {
     const cartProduct = this.props.checkoutStore.loginCartData;
     const productList = order.tradeItems ? order.tradeItems : [];
     const tradeItems = productList.map((ele) => {
@@ -330,7 +330,7 @@ class AccountOrders extends React.Component {
         specText: ele.specDetails,
         buyCount: 1, //ele.num
         salePrice: ele.price,
-        goodsInfoId: ele.skuId,
+        goodsInfoId: ele.skuId
       };
     });
     const list = [...tradeItems, ...cartProduct];
@@ -339,20 +339,20 @@ class AccountOrders extends React.Component {
       let obj = {
         verifyStock: false,
         buyCount: 1,
-        goodsInfoId: item.skuId,
+        goodsInfoId: item.skuId
       };
       paramList.push(obj);
     });
     await batchAdd({ goodsInfos: paramList });
     await this.props.checkoutStore.updateLoginCart();
-    this.props.history.push("/cart");
+    this.props.history.push('/cart');
   }
-  render () {
+  render() {
     const event = {
       page: {
-        type: "Account",
-        theme: "",
-      },
+        type: 'Account',
+        theme: ''
+      }
     };
     let { haveList } = this.state;
     return (
@@ -377,7 +377,7 @@ class AccountOrders extends React.Component {
                 </div>
                 <div
                   className="row justify-content-around"
-                  style={{ display: haveList ? "flex" : "none" }}
+                  style={{ display: haveList ? 'flex' : 'none' }}
                 >
                   <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
@@ -414,7 +414,7 @@ class AccountOrders extends React.Component {
                             this.handleDuringTimeChange(data)
                           }
                           selectedItemData={{
-                            value: this.state.form.period,
+                            value: this.state.form.period
                           }}
                           customStyleType="select-one"
                         />
@@ -424,7 +424,7 @@ class AccountOrders extends React.Component {
                 </div>
                 <div
                   className="order__listing"
-                  style={{ display: haveList ? "block" : "none" }}
+                  style={{ display: haveList ? 'block' : 'none' }}
                 >
                   <div className="order-list-container">
                     {this.state.loading ? (
@@ -449,7 +449,7 @@ class AccountOrders extends React.Component {
                               <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0">
                                 <div className="col-12 col-md-2">
                                   <p>
-                                    <FormattedMessage id="order.orderDate" />:{" "}
+                                    <FormattedMessage id="order.orderDate" />:{' '}
                                     <br className="d-none d-md-block" />
                                     <span className="medium orderHeaderTextColor">
                                       {order.tradeState.createTime.substr(
@@ -461,7 +461,7 @@ class AccountOrders extends React.Component {
                                 </div>
                                 <div className="col-12 col-md-2 mb-2 mb-md-0">
                                   <p className="text-nowrap">
-                                    <FormattedMessage id="order.orderNumber" />:{" "}
+                                    <FormattedMessage id="order.orderNumber" />:{' '}
                                     <br className="d-none d-md-block" />
                                     <span className="medium orderHeaderTextColor">
                                       {order.id}
@@ -469,7 +469,7 @@ class AccountOrders extends React.Component {
                                     {order.isAutoSub ? (
                                       <span
                                         className="iconfont font-weight-bold red ml-1"
-                                        style={{ fontSize: ".8em" }}
+                                        style={{ fontSize: '.8em' }}
                                       >
                                         &#xe675;
                                       </span>
@@ -505,7 +505,7 @@ class AccountOrders extends React.Component {
                             </div>
                             <div
                               className="row rc-margin-x--none row align-items-center"
-                              style={{ padding: "1rem 0" }}
+                              style={{ padding: '1rem 0' }}
                             >
                               <div className="col-8 col-md-2 d-flex flex-wrap align-items-center mb-2 mb-md-0">
                                 {order.tradeItems.slice(0, 2).map((item) => (
@@ -520,7 +520,7 @@ class AccountOrders extends React.Component {
                                 {order.tradeItems.length > 2 ? (
                                   <span
                                     className="font-weight-bold"
-                                    style={{ alignSelf: "flex-end" }}
+                                    style={{ alignSelf: 'flex-end' }}
                                   >
                                     ...
                                   </span>
@@ -558,10 +558,10 @@ class AccountOrders extends React.Component {
                                     <button
                                       className={`rc-btn rc-btn--one ${
                                         order.payNowLoading
-                                          ? "ui-btn-loading"
-                                          : ""
-                                        }`}
-                                      style={{ transform: "scale(.85)" }}
+                                          ? 'ui-btn-loading'
+                                          : ''
+                                      }`}
+                                      style={{ transform: 'scale(.85)' }}
                                       onClick={() =>
                                         this.handleClickPayNow(order)
                                       }
@@ -580,7 +580,7 @@ class AccountOrders extends React.Component {
                                 {order.canReview ? (
                                   <button
                                     className="rc-btn rc-btn--sm rc-btn--two"
-                                    style={{ transform: "scale(.85)" }}
+                                    style={{ transform: 'scale(.85)' }}
                                   >
                                     <FormattedMessage id="writeReview">
                                       {(txt) => (
@@ -599,7 +599,7 @@ class AccountOrders extends React.Component {
                                 {order.canRePurchase ? (
                                   <button
                                     className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn"
-                                    style={{ transform: "scale(.85)" }}
+                                    style={{ transform: 'scale(.85)' }}
                                     onClick={() => this.rePurchase(order)}
                                   >
                                     <FormattedMessage id="rePurchase"></FormattedMessage>
@@ -612,34 +612,34 @@ class AccountOrders extends React.Component {
                       </>
                     ) : null}
                     {this.state.errMsg ||
-                      !this.state.orderList.length ? null : (
-                        <div className="grid-footer rc-full-width mt-2">
-                          <Pagination
-                            loading={this.state.loading}
-                            totalPage={this.state.totalPage}
-                            currentPage={this.state.currentPage}
-                            onPageNumChange={(params) =>
-                              this.hanldePageNumChange(params)
-                            }
-                          />
-                        </div>
-                      )}
+                    !this.state.orderList.length ? null : (
+                      <div className="grid-footer rc-full-width mt-2">
+                        <Pagination
+                          loading={this.state.loading}
+                          totalPage={this.state.totalPage}
+                          currentPage={this.state.currentPage}
+                          onPageNumChange={(params) =>
+                            this.hanldePageNumChange(params)
+                          }
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div
                   className="content-asset"
-                  style={{ display: haveList ? "none" : "block" }}
+                  style={{ display: haveList ? 'none' : 'block' }}
                 >
                   <div class="rc-layout-container rc-two-column">
                     <div class="rc-column">
-                      <img src={orderImg} style={{ width: "100%" }} />
+                      <img src={orderImg} style={{ width: '100%' }} />
                     </div>
                     <div
                       class="rc-column"
                       style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                       }}
                     >
                       <div>
@@ -649,7 +649,7 @@ class AccountOrders extends React.Component {
                         </p>
                         <button
                           class="rc-btn rc-btn--one"
-                          onClick={() => this.props.history.push("/")}
+                          onClick={() => this.props.history.push('/')}
                         >
                           Start Shopping
                         </button>

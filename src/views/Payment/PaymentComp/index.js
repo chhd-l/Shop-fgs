@@ -733,7 +733,9 @@ class PaymentComp extends React.Component {
                     key={idx}
                     onClick={() => {
                       if (creditCardList[idx].selected) return;
-                      creditCardList.map((el) => (el.selected = false, el.cardCvv = ''));
+                      creditCardList.map(
+                        (el) => ((el.selected = false), (el.cardCvv = ''))
+                      );
                       el.selected = true;
                       this.props.getSelectedValue &&
                         this.props.getSelectedValue(el);

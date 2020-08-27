@@ -1,49 +1,49 @@
-import React from 'react'
-import GoogleTagManager from '@/components/GoogleTagManager'
-import Skeleton from "react-skeleton-loader";
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import { FormattedMessage } from 'react-intl'
-import { Link } from 'react-router-dom'
-import emailImg from "@/assets/images/emailus_icon@1x.jpg"
-import callImg from "@/assets/images/customer-service@2x.jpg"
-import helpImg from "@/assets/images/slider-img-help.jpg"
-import recommendation1 from "@/assets/images/recommendation1.png"
-import recommendation2 from "@/assets/images/recommendation2.png"
-import recommendation3 from "@/assets/images/recommendation3.png"
-import recommendation4 from "@/assets/images/recommendation4.png"
-import storeLogo from "@/assets/images/storeLogo.png"
-import ImageMagnifier from "@/components/ImageMagnifier";
-import { formatMoney } from '@/utils/utils'
+import React from 'react';
+import GoogleTagManager from '@/components/GoogleTagManager';
+import Skeleton from 'react-skeleton-loader';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+import emailImg from '@/assets/images/emailus_icon@1x.jpg';
+import callImg from '@/assets/images/customer-service@2x.jpg';
+import helpImg from '@/assets/images/slider-img-help.jpg';
+import recommendation1 from '@/assets/images/recommendation1.png';
+import recommendation2 from '@/assets/images/recommendation2.png';
+import recommendation3 from '@/assets/images/recommendation3.png';
+import recommendation4 from '@/assets/images/recommendation4.png';
+import storeLogo from '@/assets/images/storeLogo.png';
+import ImageMagnifier from '@/components/ImageMagnifier';
+import { formatMoney } from '@/utils/utils';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
-import BannerTip from '@/components/BannerTip'
-import { getRecommendationList } from '@/api/recommendation'
-import { getPrescriptionById } from '@/api/clinic'
-import { sitePurchase } from "@/api/cart";
-import './index.css'
-import { cloneDeep, findIndex, find } from "lodash";
-import { toJS } from "mobx";
-import LoginButton from "@/components/LoginButton";
+import BannerTip from '@/components/BannerTip';
+import { getRecommendationList } from '@/api/recommendation';
+import { getPrescriptionById } from '@/api/clinic';
+import { sitePurchase } from '@/api/cart';
+import './index.css';
+import { cloneDeep, findIndex, find } from 'lodash';
+import { toJS } from 'mobx';
+import LoginButton from '@/components/LoginButton';
 
-@inject("checkoutStore", "loginStore", "clinicStore")
-@inject("configStore")
+@inject('checkoutStore', 'loginStore', 'clinicStore')
+@inject('configStore')
 @observer
 class Help extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       details: {
-        id: "",
-        goodsName: "",
+        id: '',
+        goodsName: '',
         goodsImg:
-          "https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004142026536251.jpg",
-        goodsDescription: "",
+          'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004142026536251.jpg',
+        goodsDescription: '',
         sizeList: [],
         images: [],
-        goodsCategory: "",
+        goodsCategory: '',
         goodsSpecDetails: [],
-        goodsSpecs: [],
+        goodsSpecs: []
       },
       productList: [],
       currentDetail: {},
@@ -52,19 +52,19 @@ class Help extends React.Component {
       prescriberInfo: {},
       loading: false,
       buttonLoading: false
-    }
+    };
   }
 
-  componentWillUnmount () {
-    localStorage.setItem("isRefresh", true);
+  componentWillUnmount() {
+    localStorage.setItem('isRefresh', true);
   }
-  async componentDidMount () {
-    this.setState({loading: true})
+  async componentDidMount() {
+    this.setState({ loading: true });
     // console.log(window.location, 'location', this.props)
-    getRecommendationList(this.props.match.params.id).then(res => {
-      console.log(res, 'aaa')
-      let productList = res.context.recommendationGoodsInfoRels
-      productList.map(el => {
+    getRecommendationList(this.props.match.params.id).then((res) => {
+      console.log(res, 'aaa');
+      let productList = res.context.recommendationGoodsInfoRels;
+      productList.map((el) => {
         el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
           g = Object.assign({}, g, { selected: true });
           return g;
@@ -77,31 +77,31 @@ class Help extends React.Component {
           });
           sItem.chidren[0].selected = true;
         });
-        el.goodsInfo.goods.goodsInfos = el.goodsInfos
-        el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails
-        el.goodsInfo.goods.goodsSpecs = specList
-      })
-      
-      this.setState({productList})
+        el.goodsInfo.goods.goodsInfos = el.goodsInfos;
+        el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
+        el.goodsInfo.goods.goodsSpecs = specList;
+      });
+
+      this.setState({ productList });
       // getPrescriptionById({id: res.context.prescriberId}).then(res => {
-      getPrescriptionById({id: '2304'}).then(res => {
-        console.log(res, 'bbb')
-        this.props.clinicStore.setLinkClinicId('2304')
-        this.props.clinicStore.setLinkClinicName(res.context.prescriberName)
-        this.setState({prescriberInfo: res.context, loading: false})
-      })
-    })
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
+      getPrescriptionById({ id: '2304' }).then((res) => {
+        console.log(res, 'bbb');
+        this.props.clinicStore.setLinkClinicId('2304');
+        this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
+        this.setState({ prescriberInfo: res.context, loading: false });
+      });
+    });
+    if (localStorage.getItem('isRefresh')) {
+      localStorage.removeItem('isRefresh');
       window.location.reload();
-      return false
+      return false;
     }
   }
   async hanldeLoginAddToCart() {
-    let { productList } = this.state
-    this.setState({buttonLoading: true})
-    try{
-      for(let i = 0; i < productList.length; i++) {
+    let { productList } = this.state;
+    this.setState({ buttonLoading: true });
+    try {
+      for (let i = 0; i < productList.length; i++) {
         await sitePurchase({
           goodsInfoId: productList[i].goodsInfo.goodsInfoId,
           goodsNum: productList[i].recommendationNumber,
@@ -109,114 +109,112 @@ class Help extends React.Component {
         });
         await this.props.checkoutStore.updateLoginCart();
       }
-      this.props.history.push('/cart')
-    }catch(e) {
-      this.setState({buttonLoading: false})
+      this.props.history.push('/cart');
+    } catch (e) {
+      this.setState({ buttonLoading: false });
     }
-    
   }
-  async hanldeUnloginAddToCart (products, path) {
-    for(let i = 0; i < products.length; i++) {
+  async hanldeUnloginAddToCart(products, path) {
+    for (let i = 0; i < products.length; i++) {
+      let product = products[i];
+      console.log(product, 'product');
+      // this.setState({ checkOutErrMsg: "" });
+      // if (this.state.loading) {
+      //   return false;
+      // }
+      // const { history } = this.props;
+      // const { currentUnitPrice, quantity, instockStatus } = this.state;
+      // const { goodsId, sizeList } = this.state.details;
+      // const currentSelectedSize = find(sizeList, (s) => s.selected);
+      // let quantityNew = quantity;
+      let tmpData = Object.assign({}, product.goodsInfo.goods, {
+        quantity: quantityNew
+      });
 
-    
-      let product = products[i]
-    console.log(product, 'product')
-    // this.setState({ checkOutErrMsg: "" });
-    // if (this.state.loading) {
-    //   return false;
-    // }
-    // const { history } = this.props;
-    // const { currentUnitPrice, quantity, instockStatus } = this.state;
-    // const { goodsId, sizeList } = this.state.details;
-    // const currentSelectedSize = find(sizeList, (s) => s.selected);
-    // let quantityNew = quantity;
-    let tmpData = Object.assign({}, product.goodsInfo.goods, {
-      quantity: quantityNew,
-    });
-    
-    let quantityNew = product.recommendationNumber
-    let cartDataCopy = cloneDeep(
-      toJS(this.props.checkoutStore.cartData).filter((el) => el)
-    );
+      let quantityNew = product.recommendationNumber;
+      let cartDataCopy = cloneDeep(
+        toJS(this.props.checkoutStore.cartData).filter((el) => el)
+      );
 
-    // if (!instockStatus || !quantityNew) {
-    //   return false;
-    // }
-    // this.setState({ addToCartLoading: true });
-    let flag = true;
-    if (cartDataCopy && cartDataCopy.length) {
-      const historyItem = find(
+      // if (!instockStatus || !quantityNew) {
+      //   return false;
+      // }
+      // this.setState({ addToCartLoading: true });
+      let flag = true;
+      if (cartDataCopy && cartDataCopy.length) {
+        const historyItem = find(
+          cartDataCopy,
+          (c) =>
+            c.goodsId === product.goodsInfo.goodsId &&
+            product.goodsInfo.goodsInfoId ===
+              c.sizeList.filter((s) => s.selected)[0].goodsInfoId
+        );
+        if (historyItem) {
+          flag = false;
+          quantityNew += historyItem.quantity;
+          if (quantityNew > 30) {
+            // this.setState({
+            //   checkOutErrMsg: <FormattedMessage id="cart.errorMaxInfo" />,
+            // });
+            this.setState({ addToCartLoading: false });
+            return;
+          }
+          tmpData = Object.assign(tmpData, { quantity: quantityNew });
+        }
+      }
+
+      // 超过库存时，修改产品数量为最大值替换
+      // let res = await miniPurchases({
+      //   goodsInfoDTOList: [
+      //     {
+      //       goodsInfoId: currentSelectedSize.goodsInfoId,
+      //       goodsNum: quantityNew
+      //     }
+      //   ]
+      // });
+      // let tmpObj = find(
+      //   res.context.goodsList,
+      //   (ele) => ele.goodsInfoId === currentSelectedSize.goodsInfoId
+      // );
+      // if (tmpObj) {
+      //   if (quantityNew > tmpObj.stock) {
+      //     quantityNew = tmpObj.stock;
+      //     if (flag) {
+      //       this.setState({
+      //         quantity: quantityNew
+      //       });
+      //     }
+      //     tmpData = Object.assign(tmpData, { quantity: quantityNew });
+      //   }
+      // }
+
+      const idx = findIndex(
         cartDataCopy,
         (c) =>
           c.goodsId === product.goodsInfo.goodsId &&
-          product.goodsInfo.goodsInfoId === c.sizeList.filter((s) => s.selected)[0].goodsInfoId
+          product.goodsInfo.goodsInfoId ===
+            find(c.sizeList, (s) => s.selected).goodsInfoId
       );
-      if (historyItem) {
-        flag = false;
-        quantityNew += historyItem.quantity;
-        if (quantityNew > 30) {
-          // this.setState({
-          //   checkOutErrMsg: <FormattedMessage id="cart.errorMaxInfo" />,
-          // });
-          this.setState({ addToCartLoading: false });
-          return
+      tmpData = Object.assign(tmpData, {
+        currentAmount: product.goodsInfo.marketPrice * quantityNew,
+        selected: true,
+        quantity: quantityNew
+      });
+      console.log(idx, 'idx');
+      if (idx > -1) {
+        cartDataCopy.splice(idx, 1, tmpData);
+      } else {
+        if (cartDataCopy.length >= 30) {
+          this.setState({
+            checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" />
+          });
+          return;
         }
-        tmpData = Object.assign(tmpData, { quantity: quantityNew });
+        cartDataCopy.push(tmpData);
       }
+      console.log(cartDataCopy, 'cartDataCopy');
+      await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
     }
-
-    // 超过库存时，修改产品数量为最大值替换
-    // let res = await miniPurchases({
-    //   goodsInfoDTOList: [
-    //     {
-    //       goodsInfoId: currentSelectedSize.goodsInfoId,
-    //       goodsNum: quantityNew
-    //     }
-    //   ]
-    // });
-    // let tmpObj = find(
-    //   res.context.goodsList,
-    //   (ele) => ele.goodsInfoId === currentSelectedSize.goodsInfoId
-    // );
-    // if (tmpObj) {
-    //   if (quantityNew > tmpObj.stock) {
-    //     quantityNew = tmpObj.stock;
-    //     if (flag) {
-    //       this.setState({
-    //         quantity: quantityNew
-    //       });
-    //     }
-    //     tmpData = Object.assign(tmpData, { quantity: quantityNew });
-    //   }
-    // }
-
-    const idx = findIndex(
-      cartDataCopy,
-      (c) =>
-        c.goodsId === product.goodsInfo.goodsId &&
-        product.goodsInfo.goodsInfoId ===
-        find(c.sizeList, (s) => s.selected).goodsInfoId
-    );
-    tmpData = Object.assign(tmpData, {
-      currentAmount: product.goodsInfo.marketPrice * quantityNew,
-      selected: true,
-      quantity: quantityNew
-    });
-    console.log(idx,'idx')
-    if (idx > -1) {
-      cartDataCopy.splice(idx, 1, tmpData);
-    } else {
-      if (cartDataCopy.length >= 30) {
-        this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" />,
-        });
-        return;
-      }
-      cartDataCopy.push(tmpData);
-    }
-    console.log(cartDataCopy, 'cartDataCopy')
-    await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
-  }
     // this.setState({ addToCartLoading: false });
     // if (redirect) {
     //   if (
@@ -269,13 +267,13 @@ class Help extends React.Component {
     // setTimeout(() => {
     //   this.headerRef.current && this.headerRef.current.handleCartMouseOut();
     // }, 1000);
-    this.props.history.push(path)
+    this.props.history.push(path);
   }
   async buyNow() {
-    let { productList } = this.state
-    this.setState({buttonLoading: true})
+    let { productList } = this.state;
+    this.setState({ buttonLoading: true });
     try {
-      for(let i = 0; i < productList.length; i++) {
+      for (let i = 0; i < productList.length; i++) {
         await sitePurchase({
           goodsInfoId: productList[i].goodsInfo.goodsInfoId,
           goodsNum: productList[i].recommendationNumber,
@@ -283,110 +281,163 @@ class Help extends React.Component {
         });
         await this.props.checkoutStore.updateLoginCart();
       }
-      this.props.history.push("/prescription");
-    }catch(e) {
-      this.setState({buttonLoading: false})
+      this.props.history.push('/prescription');
+    } catch (e) {
+      this.setState({ buttonLoading: false });
     }
   }
-  render (h) {
+  render(h) {
     const event = {
       page: {
         type: 'Content',
         theme: ''
       }
-    }
+    };
     // const { details, images } = this.state
-    console.log('props',this.props)
-    let details = JSON.parse(sessionStorage.getItem('detailsTemp'))
-    let images = JSON.parse(sessionStorage.getItem('imagesTemp'))
-    let  { productList, activeIndex, prescriberInfo} = this.state
-    let MaxLinePrice, MinLinePrice, MaxMarketPrice, MinMarketPrice, MaxSubPrice, MinSubPrice
-    if(productList.length) {
-      MaxLinePrice = Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.linePrice || 0))
-      MinLinePrice = Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.linePrice || 0))
-      MaxMarketPrice = Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0))
-      MinMarketPrice = Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0))
-      MaxSubPrice = Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.subscriptionPrice || 0))
-      MinSubPrice = Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.subscriptionPrice || 0))
+    console.log('props', this.props);
+    let details = JSON.parse(sessionStorage.getItem('detailsTemp'));
+    let images = JSON.parse(sessionStorage.getItem('imagesTemp'));
+    let { productList, activeIndex, prescriberInfo } = this.state;
+    let MaxLinePrice,
+      MinLinePrice,
+      MaxMarketPrice,
+      MinMarketPrice,
+      MaxSubPrice,
+      MinSubPrice;
+    if (productList.length) {
+      MaxLinePrice = Math.max.apply(
+        null,
+        productList[activeIndex].goodsInfos.map((g) => g.linePrice || 0)
+      );
+      MinLinePrice = Math.min.apply(
+        null,
+        productList[activeIndex].goodsInfos.map((g) => g.linePrice || 0)
+      );
+      MaxMarketPrice = Math.max.apply(
+        null,
+        productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
+      );
+      MinMarketPrice = Math.min.apply(
+        null,
+        productList[activeIndex].goodsInfos.map((g) => g.marketPrice || 0)
+      );
+      MaxSubPrice = Math.min.apply(
+        null,
+        productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
+      );
+      MinSubPrice = Math.min.apply(
+        null,
+        productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
+      );
     }
-    console.log(MaxLinePrice, MinLinePrice, MaxMarketPrice, MinMarketPrice, MaxSubPrice, MinSubPrice, 'aaaaa')
+    console.log(
+      MaxLinePrice,
+      MinLinePrice,
+      MaxMarketPrice,
+      MinMarketPrice,
+      MaxSubPrice,
+      MinSubPrice,
+      'aaaaa'
+    );
 
     return (
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
-        <Header showMiniIcons={true} showUserIcon={true} location={this.props.location} history={this.props.history} />
-        <main className="rc-content--fixed-header rc-bg-colour--brand3" >
+        <Header
+          showMiniIcons={true}
+          showUserIcon={true}
+          location={this.props.location}
+          history={this.props.history}
+        />
+        <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
-          <section style={{textAlign: 'center'}}>
-            <h2 style={{ color: '#E2001A', marginTop: '40px'}}>
+          <section style={{ textAlign: 'center' }}>
+            <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               Discover your personally-selected nutrition recommendation below.
             </h2>
             <p>
-              Click to get started now for your shopping, or continue reading to find out more about the benefits of veterinary health nutrition.
+              Click to get started now for your shopping, or continue reading to
+              find out more about the benefits of veterinary health nutrition.
             </p>
             <p>
-              <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => {
-                if(this.props.loginStore.isLogin) {
-                  this.hanldeLoginAddToCart()
-                }else {
-                  this.hanldeUnloginAddToCart(productList, '/cart')
-                }
-              }}>View in cart</button>
+              <button
+                class={`rc-btn rc-btn--one ${
+                  this.state.buttonLoading ? 'ui-btn-loading' : ''
+                }`}
+                onClick={() => {
+                  if (this.props.loginStore.isLogin) {
+                    this.hanldeLoginAddToCart();
+                  } else {
+                    this.hanldeUnloginAddToCart(productList, '/cart');
+                  }
+                }}
+              >
+                View in cart
+              </button>
             </p>
           </section>
           <section className="recommendProduct">
-            {
-              this.state.loading?(
-                <Skeleton
-                  color="#f5f5f5"
-                  width="100%"
-                  height="100%"
-                />
-              ): (
-                productList.length && (
+            {this.state.loading ? (
+              <Skeleton color="#f5f5f5" width="100%" height="100%" />
+            ) : (
+              productList.length && (
                 <div className="recommendProductInner">
                   <div className="left">
-                    <div style={{padding: '32px', textAlign: 'center', fontWeight: '500'}}>
+                    <div
+                      style={{
+                        padding: '32px',
+                        textAlign: 'center',
+                        fontWeight: '500'
+                      }}
+                    >
                       Recommendation Package
                     </div>
                     <ul>
-                      {
-                        productList.map((el, i) => (
-                          <li onClick={() => this.setState({activeIndex: i})} className={`${i === activeIndex?'active': ''}`}>
-                            <img src={el.goodsInfo.goodsInfoImg || el.goodsInfo.goods.goodsImg}/>
-                            <span className="proName">{el.goodsInfo.goodsInfoName}</span>
-                            <span>X {el.recommendationNumber}</span>
-                          </li>
-                        ))
-                      }
-                      <p style={{marginTop: '60px'}}>
-                      {/* <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button> */}
+                      {productList.map((el, i) => (
+                        <li
+                          onClick={() => this.setState({ activeIndex: i })}
+                          className={`${i === activeIndex ? 'active' : ''}`}
+                        >
+                          <img
+                            src={
+                              el.goodsInfo.goodsInfoImg ||
+                              el.goodsInfo.goods.goodsImg
+                            }
+                          />
+                          <span className="proName">
+                            {el.goodsInfo.goodsInfoName}
+                          </span>
+                          <span>X {el.recommendationNumber}</span>
+                        </li>
+                      ))}
+                      <p style={{ marginTop: '60px' }}>
+                        {/* <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button> */}
 
-                      <LoginButton
-                        beforeLoginCallback={async () =>
-                          this.buyNow()
-                        }
-                        btnClass={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`}
-                        history={this.props.history}
-                      >
-                        <FormattedMessage id="checkout" />
-                      </LoginButton>
+                        <LoginButton
+                          beforeLoginCallback={async () => this.buyNow()}
+                          btnClass={`rc-btn rc-btn--one ${
+                            this.state.buttonLoading ? 'ui-btn-loading' : ''
+                          }`}
+                          history={this.props.history}
+                        >
+                          <FormattedMessage id="checkout" />
+                        </LoginButton>
                       </p>
-                      {
-                        !this.props.loginStore.isLogin && (
-                          <p>
+                      {!this.props.loginStore.isLogin && (
+                        <p>
                           <button
                             className={`rc-styled-link color-999`}
                             onClick={() => {
-                              this.hanldeUnloginAddToCart(productList, '/prescription')
+                              this.hanldeUnloginAddToCart(
+                                productList,
+                                '/prescription'
+                              );
                             }}
                           >
                             <FormattedMessage id="Buy as a guest" />
                           </button>
-                          </p>
-                        )
-                      }
-                      
+                        </p>
+                      )}
                     </ul>
                   </div>
                   <div className="right">
@@ -396,90 +447,120 @@ class Help extends React.Component {
                           sizeList={[productList[activeIndex].goodsInfo]}
                           // video={details.goodsVideo}
                           images={[productList[activeIndex].goodsInfo]}
-                          minImg={productList[activeIndex].goodsInfo.goodsInfoImg}
-                          maxImg={productList[activeIndex].goodsInfo.goodsInfoImg}
+                          minImg={
+                            productList[activeIndex].goodsInfo.goodsInfoImg
+                          }
+                          maxImg={
+                            productList[activeIndex].goodsInfo.goodsInfoImg
+                          }
                           config={false}
                         />
                       </div>
-                      
-                         
-                          <div className="text">
-                          <h2 style={{ color: '#E2001A', marginTop: '40px'}}>
-                            { productList[activeIndex].goodsInfo.goodsInfoName}
-                          </h2>
-                          
-                          {/* <h4>
+
+                      <div className="text">
+                        <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+                          {productList[activeIndex].goodsInfo.goodsInfoName}
+                        </h2>
+
+                        {/* <h4>
                             From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
                           </h4> */}
-                          {
-                            MaxLinePrice > 0 &&
-                            (<div className="product-pricing__card__head d-flex align-items-center">
-                              <div className="rc-input product-pricing__card__head__title" >
-                                <FormattedMessage id="listPrice" />
-                              </div>
-                              <b className="product-pricing__card__head__price  rc-padding-y--none text-line-through" style={{ fontWeight: '200', fontSize: '24px', color: 'rgba(102,102,102,.7)' }}>
-                              {
-                                MaxLinePrice > 0? MaxLinePrice === MinLinePrice?(<span>
-                                  {formatMoney(MaxLinePrice)}
-                                </span>): (
-                                  <span>
-                                    From {formatMoney(MinLinePrice)} to {formatMoney(MaxLinePrice)}
-                                  </span>
-                                ):null
-                              }
-                              </b>
-                            </div>)
-                          }
+                        {MaxLinePrice > 0 && (
                           <div className="product-pricing__card__head d-flex align-items-center">
-                            <div className="rc-input product-pricing__card__head__title" >
-                              <FormattedMessage id="price" />
+                            <div className="rc-input product-pricing__card__head__title">
+                              <FormattedMessage id="listPrice" />
                             </div>
-                            <b className="red  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '24px', color: 'rgba(102,102,102,.7)' }}>
-                            {
-                              MaxMarketPrice > 0? MaxMarketPrice === MinMarketPrice?(<span>
-                                {formatMoney(MaxMarketPrice)}
-                              </span>): (
-                                <span>
-                                  From {formatMoney(MinMarketPrice)} to {formatMoney(MaxMarketPrice)}
-                                </span>
-                              ):null
-                            }
+                            <b
+                              className="product-pricing__card__head__price  rc-padding-y--none text-line-through"
+                              style={{
+                                fontWeight: '200',
+                                fontSize: '24px',
+                                color: 'rgba(102,102,102,.7)'
+                              }}
+                            >
+                              {MaxLinePrice > 0 ? (
+                                MaxLinePrice === MinLinePrice ? (
+                                  <span>{formatMoney(MaxLinePrice)}</span>
+                                ) : (
+                                  <span>
+                                    From {formatMoney(MinLinePrice)} to{' '}
+                                    {formatMoney(MaxLinePrice)}
+                                  </span>
+                                )
+                              ) : null}
                             </b>
                           </div>
-                          {
-                            MaxSubPrice > 0 && 
-                            (
-                              <div className="product-pricing__card__head d-flex align-items-center">
-                                <div className="rc-input product-pricing__card__head__title" >
-                                  <FormattedMessage id="autoship" />
-                                </div>
-                                <b className="red  rc-padding-y--none" style={{ fontWeight: '200', fontSize: '24px', color: 'rgba(102,102,102,.7)' }}>
-                                {
-                                  MaxSubPrice > 0? MaxSubPrice === MinSubPrice?(<span>
-                                    {formatMoney(MaxSubPrice)}
-                                  </span>): (
-                                    <span>
-                                      From {formatMoney(MinSubPrice)} to {formatMoney(MaxSubPrice)}
-                                    </span>
-                                  ):null
-                                }
-                                </b>
-                              </div>
-                            )
-                          }
-                          
-                          
-                          
-                          <p style={{width: '350px'}}>
-                            { productList[activeIndex].goodsInfo.goods.goodsDescription || 'none'}
-                          </p>
-                          <p>
-                            <button class="rc-btn rc-btn--two" onClick={() => {
-                              this.props.history.push('/details/' + productList[activeIndex].goodsInfo.goodsInfoId)
-                            }}>View Detail</button>
-                          </p>
+                        )}
+                        <div className="product-pricing__card__head d-flex align-items-center">
+                          <div className="rc-input product-pricing__card__head__title">
+                            <FormattedMessage id="price" />
                           </div>
-                    
+                          <b
+                            className="red  rc-padding-y--none"
+                            style={{
+                              fontWeight: '200',
+                              fontSize: '24px',
+                              color: 'rgba(102,102,102,.7)'
+                            }}
+                          >
+                            {MaxMarketPrice > 0 ? (
+                              MaxMarketPrice === MinMarketPrice ? (
+                                <span>{formatMoney(MaxMarketPrice)}</span>
+                              ) : (
+                                <span>
+                                  From {formatMoney(MinMarketPrice)} to{' '}
+                                  {formatMoney(MaxMarketPrice)}
+                                </span>
+                              )
+                            ) : null}
+                          </b>
+                        </div>
+                        {MaxSubPrice > 0 && (
+                          <div className="product-pricing__card__head d-flex align-items-center">
+                            <div className="rc-input product-pricing__card__head__title">
+                              <FormattedMessage id="autoship" />
+                            </div>
+                            <b
+                              className="red  rc-padding-y--none"
+                              style={{
+                                fontWeight: '200',
+                                fontSize: '24px',
+                                color: 'rgba(102,102,102,.7)'
+                              }}
+                            >
+                              {MaxSubPrice > 0 ? (
+                                MaxSubPrice === MinSubPrice ? (
+                                  <span>{formatMoney(MaxSubPrice)}</span>
+                                ) : (
+                                  <span>
+                                    From {formatMoney(MinSubPrice)} to{' '}
+                                    {formatMoney(MaxSubPrice)}
+                                  </span>
+                                )
+                              ) : null}
+                            </b>
+                          </div>
+                        )}
+
+                        <p style={{ width: '350px' }}>
+                          {productList[activeIndex].goodsInfo.goods
+                            .goodsDescription || 'none'}
+                        </p>
+                        <p>
+                          <button
+                            class="rc-btn rc-btn--two"
+                            onClick={() => {
+                              this.props.history.push(
+                                '/details/' +
+                                  productList[activeIndex].goodsInfo.goodsInfoId
+                              );
+                            }}
+                          >
+                            View Detail
+                          </button>
+                        </p>
+                      </div>
+
                       {/* <div className="text">
                       <h2 style={{ color: '#E2001A', marginTop: '40px'}}>
                         { productList[activeIndex].goodsInfo.goodsInfoName}
@@ -494,60 +575,93 @@ class Help extends React.Component {
                         <button class="rc-btn rc-btn--two">View Detail</button>
                       </p>
                       </div> */}
-                      
                     </div>
                     <div className="description">
-                      <img src={storeLogo} style={{float: 'left', width: '40px', marginRight: '20px'}}/>
-                      <p style={{
-                        fontSize: '16px',
-                        color: '#666666',
-                        fontWeight: '500',
-                        letterSpacing: '0'}}>{prescriberInfo.prescriberName}</p>
-                      <p style={{
-                        fontSize: '12px',
-                      letterSpacing: '0'}}>{prescriberInfo.primaryCity}</p>
+                      <img
+                        src={storeLogo}
+                        style={{
+                          float: 'left',
+                          width: '40px',
+                          marginRight: '20px'
+                        }}
+                      />
+                      <p
+                        style={{
+                          fontSize: '16px',
+                          color: '#666666',
+                          fontWeight: '500',
+                          letterSpacing: '0'
+                        }}
+                      >
+                        {prescriberInfo.prescriberName}
+                      </p>
+                      <p
+                        style={{
+                          fontSize: '12px',
+                          letterSpacing: '0'
+                        }}
+                      >
+                        {prescriberInfo.primaryCity}
+                      </p>
                     </div>
-                    <p style={{
-                      textAlign: 'center',
+                    <p
+                      style={{
+                        textAlign: 'center',
                         fontSize: '12px',
                         color: '#ccc',
                         marginBottom: '60px',
-                        letterSpacing: '0'}}>Royal Canin’s feeding guidelines can also be found on the product packaging.</p>
+                        letterSpacing: '0'
+                      }}
+                    >
+                      Royal Canin’s feeding guidelines can also be found on the
+                      product packaging.
+                    </p>
                   </div>
                 </div>
-                )
               )
-            }
-          
-            
+            )}
           </section>
 
-          <div class="rc-layout-container rc-two-column" style={{padding: '68px'}}>
-            <div class="rc-column" style={{display: 'flex',alignItems: 'center', justifyContent: 'center'}}>
+          <div
+            class="rc-layout-container rc-two-column"
+            style={{ padding: '68px' }}
+          >
+            <div
+              class="rc-column"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
               <div>
-              <h2 style={{ color: '#E2001A'}}>
-              Veterinary health nutrition
-            </h2>
-              <p>
-              At Royal Canin, we believe that nutrition plays a key role in supporting the health and well-being of cats and dogs. This is why we have designed ROYAL CANIN® Veterinary diets around proven nutritional science in order to address specific pet conditions.
-Follow your veterinarian's nutritional recommendation here below.
-              </p>
-              {/* <button class="rc-btn rc-btn--one" onClick={() => this.setState({isAddNewCard: true, paymentCompShow: true})}>View in Cart</button> */}
+                <h2 style={{ color: '#E2001A' }}>
+                  Veterinary health nutrition
+                </h2>
+                <p>
+                  At Royal Canin, we believe that nutrition plays a key role in
+                  supporting the health and well-being of cats and dogs. This is
+                  why we have designed ROYAL CANIN® Veterinary diets around
+                  proven nutritional science in order to address specific pet
+                  conditions. Follow your veterinarian's nutritional
+                  recommendation here below.
+                </p>
+                {/* <button class="rc-btn rc-btn--one" onClick={() => this.setState({isAddNewCard: true, paymentCompShow: true})}>View in Cart</button> */}
               </div>
             </div>
             <div class="rc-column">
-              <img src={recommendation1} style={{width: '100%'}}/>
+              <img src={recommendation1} style={{ width: '100%' }} />
             </div>
           </div>
           <div class="help-page" style={{ marginBottom: '1rem' }}>
-            <section style={{textAlign: 'center'}}>
-              <h2 style={{ color: '#E2001A', marginTop: '40px'}}>
+            <section style={{ textAlign: 'center' }}>
+              <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
                 Our pet experts are here to help you
               </h2>
               <p>
-                We're pet lovers and experts in cat and dog nutrition and we're ready to to help you with any questions you might have.
+                We're pet lovers and experts in cat and dog nutrition and we're
+                ready to to help you with any questions you might have.
               </p>
-              
             </section>
             <div class="experience-region experience-main">
               <div class="experience-region experience-main">
@@ -557,7 +671,6 @@ Follow your veterinarian's nutritional recommendation here below.
                       <div class="experience-component experience-assets-contactUsBlock">
                         <div class="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                           <div class="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
-                          
                             {/* <div class="rc-padding-bottom--none--mobile" style={{ width: '40%' }}>
                               <h1 class="rc-beta" style={{ margin: '0 0 0 1rem' }}>
                                 <font style={{ verticalAlign: "inherit" }}>
@@ -580,26 +693,46 @@ Follow your veterinarian's nutritional recommendation here below.
                                   <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                                     <div class="rc-column rc-double-width rc-padding-top--md--mobile">
                                       <div class="w-100">
-                                        <b style={{ color: "#00BCA3" }}>
+                                        <b style={{ color: '#00BCA3' }}>
                                           <FormattedMessage id="help.byTelephone" />
                                         </b>
                                         <p>
-                                          {this.props.configStore.contactTimePeriod}
+                                          {
+                                            this.props.configStore
+                                              .contactTimePeriod
+                                          }
                                         </p>
                                         <div class="rc-margin-top--xs">
-                                          <p style={{ color: "#00BCA3" }} class="rc-numeric rc-md-up">
-                                            {this.props.configStore.storeContactPhoneNumber}
+                                          <p
+                                            style={{ color: '#00BCA3' }}
+                                            class="rc-numeric rc-md-up"
+                                          >
+                                            {
+                                              this.props.configStore
+                                                .storeContactPhoneNumber
+                                            }
                                           </p>
                                         </div>
                                         <div class="rc-margin-top--xs">
-                                          <p style={{ color: "#00BCA3" }} class="rc-alpha rc-border--none rc-md-down">
-                                            {this.props.configStore.storeContactPhoneNumber}
+                                          <p
+                                            style={{ color: '#00BCA3' }}
+                                            class="rc-alpha rc-border--none rc-md-down"
+                                          >
+                                            {
+                                              this.props.configStore
+                                                .storeContactPhoneNumber
+                                            }
                                           </p>
                                         </div>
                                       </div>
                                     </div>
                                     <div class="rc-column rc-content-v-middle">
-                                      <img class="align-self-center widthAuto" src={callImg} alt="By telephone" title="By telephone" />
+                                      <img
+                                        class="align-self-center widthAuto"
+                                        src={callImg}
+                                        alt="By telephone"
+                                        title="By telephone"
+                                      />
                                     </div>
                                   </div>
                                 </div>
@@ -609,30 +742,72 @@ Follow your veterinarian's nutritional recommendation here below.
                                   <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                                     <div class="rc-column rc-double-width rc-padding-top--md--mobile">
                                       <div class="w-100">
-                                        <b style={{ color: "#0087BD" }}><font style={{ verticalAlign: "inherit" }}><font style={{ verticalAlign: "inherit" }}><FormattedMessage id="help.byEmail" /></font></font></b>
+                                        <b style={{ color: '#0087BD' }}>
+                                          <font
+                                            style={{ verticalAlign: 'inherit' }}
+                                          >
+                                            <font
+                                              style={{
+                                                verticalAlign: 'inherit'
+                                              }}
+                                            >
+                                              <FormattedMessage id="help.byEmail" />
+                                            </font>
+                                          </font>
+                                        </b>
                                         <p>
-                                          <span style={{ color: "rgb(0, 0, 0)" }}>
-                                            <font style={{ verticalAlign: "inherit" }}>
-                                              <font style={{ verticalAlign: "inherit" }}><FormattedMessage id="help.tip3" /></font>
+                                          <span
+                                            style={{ color: 'rgb(0, 0, 0)' }}
+                                          >
+                                            <font
+                                              style={{
+                                                verticalAlign: 'inherit'
+                                              }}
+                                            >
+                                              <font
+                                                style={{
+                                                  verticalAlign: 'inherit'
+                                                }}
+                                              >
+                                                <FormattedMessage id="help.tip3" />
+                                              </font>
                                             </font>
                                           </span>
                                         </p>
                                         <div class="rc-margin-top--xs">
-                                          <p class="rc-numeric rc-md-up" style={{ color: "rgb(0, 135, 189)" }}>
-                                            {this.props.configStore.storeContactEmail}
+                                          <p
+                                            class="rc-numeric rc-md-up"
+                                            style={{
+                                              color: 'rgb(0, 135, 189)'
+                                            }}
+                                          >
+                                            {
+                                              this.props.configStore
+                                                .storeContactEmail
+                                            }
                                           </p>
                                         </div>
                                       </div>
                                     </div>
                                     <div class="rc-column rc-content-v-middle">
-                                      <img class="align-self-center widthAuto" src={emailImg} alt="By email" title="By email" />
+                                      <img
+                                        class="align-self-center widthAuto"
+                                        src={emailImg}
+                                        alt="By email"
+                                        title="By email"
+                                      />
                                     </div>
                                   </div>
                                 </div>
                               </article>
                             </div>
                             <div class="rc-column rc-triple-width">
-                              <div class="background-cover" style={{ backgroundImage: `url(${require("@/assets/images/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png")})` }}>
+                              <div
+                                class="background-cover"
+                                style={{
+                                  backgroundImage: `url(${require('@/assets/images/slider-img-help.jpg?sw=802&amp;sh=336&amp;sm=cut&amp;sfrm=png')})`
+                                }}
+                              >
                                 <picture class="rc-card__image">
                                   <img src={helpImg} alt=" " title=" " />
                                 </picture>
@@ -647,31 +822,51 @@ Follow your veterinarian's nutritional recommendation here below.
               </div>
             </div>
           </div>
-          
-          <section style={{textAlign: 'center'}}>
-            <h2 style={{ color: '#E2001A', marginTop: '40px'}}>
+
+          <section style={{ textAlign: 'center' }}>
+            <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               Why Royal Canin?
             </h2>
             <p>
-              Your pet means the world to you, and their health and happiness means the world to us ! 
+              Your pet means the world to you, and their health and happiness
+              means the world to us !
             </p>
           </section>
-          <section className="picList" style={{textAlign: 'center', display: 'flex'}}>
-            <li><img src={recommendation2}/></li>
-            <li><img src={recommendation3}/></li>
-            <li><img src={recommendation4}/></li>
+          <section
+            className="picList"
+            style={{ textAlign: 'center', display: 'flex' }}
+          >
+            <li>
+              <img src={recommendation2} />
+            </li>
+            <li>
+              <img src={recommendation3} />
+            </li>
+            <li>
+              <img src={recommendation4} />
+            </li>
           </section>
-          <section style={{padding: '40px 68px', background: '#f6f6f6'}}>
+          <section style={{ padding: '40px 68px', background: '#f6f6f6' }}>
             <p>
-              Donec nec ornare risus. Nunc id interdum eros, a pellentesque turpis. Nullam tellus metus, rutrum ut tortor at, bibendum molestie nulla. Donec commodo pretium urna. Morbi arcu turpis, feugiat vel luctus in, placerat in leo. Fusce tincidunt dui ac dui ultricies, dictum sagittis est venenatis. Nullam imperdiet fermentum scelerisque. Etiam ante magna, maximus eleifend gravida ut, venenatis nec justo. Donec eu tincidunt erat. Suspendisse vehicula nibh a metus vestibulum, quis maximus turpis scelerisque. Maecenas ac lectus justo. Sed id justo id orci consectetur tempor. Cras ut diam in quam tempor volutpat ut a enim. Vivamus lacinia mauris sed accumsan dapibus.
+              Donec nec ornare risus. Nunc id interdum eros, a pellentesque
+              turpis. Nullam tellus metus, rutrum ut tortor at, bibendum
+              molestie nulla. Donec commodo pretium urna. Morbi arcu turpis,
+              feugiat vel luctus in, placerat in leo. Fusce tincidunt dui ac dui
+              ultricies, dictum sagittis est venenatis. Nullam imperdiet
+              fermentum scelerisque. Etiam ante magna, maximus eleifend gravida
+              ut, venenatis nec justo. Donec eu tincidunt erat. Suspendisse
+              vehicula nibh a metus vestibulum, quis maximus turpis scelerisque.
+              Maecenas ac lectus justo. Sed id justo id orci consectetur tempor.
+              Cras ut diam in quam tempor volutpat ut a enim. Vivamus lacinia
+              mauris sed accumsan dapibus.
             </p>
           </section>
         </main>
 
         <Footer />
       </div>
-    )
+    );
   }
 }
 
-export default Help
+export default Help;

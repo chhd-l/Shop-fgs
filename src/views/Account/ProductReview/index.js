@@ -1,18 +1,18 @@
-import { FormattedMessage, injectIntl } from "react-intl";
-import React from "react";
-import GoogleTagManager from "@/components/GoogleTagManager";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import BreadCrumbs from "@/components/BreadCrumbs";
-import SideMenu from "@/components/SideMenu";
-import Rate from "@/components/Rate";
-import ReviewForm from "./components/ReviewForm";
-import { getGoodsList, addGoodsEvaluate } from "@/api/review";
-import ReviewList from "./components/ReviewList";
-import ImgUpload from "@/components/ImgUpload";
-import "./index.css";
-import Skeleton from "react-skeleton-loader";
-import { Link } from "react-router-dom";
+import { FormattedMessage, injectIntl } from 'react-intl';
+import React from 'react';
+import GoogleTagManager from '@/components/GoogleTagManager';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import BreadCrumbs from '@/components/BreadCrumbs';
+import SideMenu from '@/components/SideMenu';
+import Rate from '@/components/Rate';
+import ReviewForm from './components/ReviewForm';
+import { getGoodsList, addGoodsEvaluate } from '@/api/review';
+import ReviewList from './components/ReviewList';
+import ImgUpload from '@/components/ImgUpload';
+import './index.css';
+import Skeleton from 'react-skeleton-loader';
+import { Link } from 'react-router-dom';
 
 @injectIntl
 class ProductReview extends React.Component {
@@ -29,8 +29,8 @@ class ProductReview extends React.Component {
       imgList: [],
       isSubmit: false,
       loading: false,
-      title: "",
-      titleList: [],
+      title: '',
+      titleList: []
     };
     this.selectPurchaseRate = this.selectPurchaseRate.bind(this);
     this.selectLogisticsRate = this.selectLogisticsRate.bind(this);
@@ -40,7 +40,7 @@ class ProductReview extends React.Component {
   componentDidMount() {
     this.setState(
       {
-        orderId: this.props.match.params.tid,
+        orderId: this.props.match.params.tid
       },
       () => {
         this.getGoodsList(this.state.orderId);
@@ -49,40 +49,40 @@ class ProductReview extends React.Component {
   }
   selectPurchaseRate(rate) {
     this.setState({
-      purchaseRate: rate,
+      purchaseRate: rate
     });
   }
   selectLogisticsRate(rate) {
     this.setState({
-      logisticsRate: rate,
+      logisticsRate: rate
     });
   }
   updateCurrent(id) {
     this.setState({
-      current: id,
+      current: id
     });
   }
   async getGoodsList(orderId) {
     this.setState({
-      loading: true,
+      loading: true
     });
     const res = await getGoodsList(orderId);
     this.setState({
-      loading: false,
+      loading: false
     });
-    if ((res.code = "K-000000")) {
+    if ((res.code = 'K-000000')) {
       const productList = res.context;
       const list = [];
       if (productList.length > 0) {
         productList.forEach((item) => {
           let obj = {
-            id: item.skuId,
+            id: item.skuId
           };
           list.push(obj);
         });
         this.setState({
           productList: productList,
-          reviewList: list,
+          reviewList: list
         });
       }
     } else {
@@ -95,7 +95,7 @@ class ProductReview extends React.Component {
     let isFillInfo = true;
     const goodsParams = [];
     this.setState({
-      isSubmit: true,
+      isSubmit: true
     });
     if (list) {
       list.forEach((item) => {
@@ -115,7 +115,7 @@ class ProductReview extends React.Component {
           goodsEvaluateImageList: item.goodsEvaluateImageList
             ? item.goodsEvaluateImageList
             : [],
-          evaluateReviewTitle: item.title,
+          evaluateReviewTitle: item.title
         };
         goodsParams.push(obj);
       });
@@ -125,19 +125,19 @@ class ProductReview extends React.Component {
       storeEvaluateAddRequestList: {
         orderNo: this.state.orderId,
         serverScore: this.state.purchaseRate,
-        logisticsScore: this.state.logisticsRate,
-      },
+        logisticsScore: this.state.logisticsRate
+      }
     };
-    console.log(params, "ddddddddd=-----------");
+    console.log(params, 'ddddddddd=-----------');
     if (isFillInfo) {
       let res = await addGoodsEvaluate(params);
-      if (res.code === "K-000000") {
-        this.props.history.push("/account/orders");
+      if (res.code === 'K-000000') {
+        this.props.history.push('/account/orders');
       } else {
-        console.log(res.message, "评价接口错误信息----------");
+        console.log(res.message, '评价接口错误信息----------');
       }
     } else {
-      console.log("not fill info");
+      console.log('not fill info');
     }
   }
   handleConsumerCommentChange(e, product) {
@@ -152,10 +152,10 @@ class ProductReview extends React.Component {
     }
     this.setState(
       {
-        reviewList: list,
+        reviewList: list
       },
       () => {
-        console.log(this.state.reviewList, "-----------");
+        console.log(this.state.reviewList, '-----------');
       }
     );
   }
@@ -171,24 +171,24 @@ class ProductReview extends React.Component {
     }
     this.setState(
       {
-        reviewList: list,
+        reviewList: list
       },
       () => {
-        console.log(this.state.reviewList, "-----------");
+        console.log(this.state.reviewList, '-----------');
       }
     );
   }
 
   handleInputChange(e, product) {
     const target = e.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     const list = this.state.reviewList;
     const list2 = this.state.productList;
     if (list2.length > 0) {
       list2.forEach((item) => {
         if (item.skuId === product.skuId) {
-          if (target.type === "checkbox") {
+          if (target.type === 'checkbox') {
             item.isAnonymous = value;
           }
         }
@@ -197,7 +197,7 @@ class ProductReview extends React.Component {
     if (list.length > 0) {
       list.forEach((item) => {
         if (item.id === product.skuId) {
-          if (target.type === "checkbox") {
+          if (target.type === 'checkbox') {
             item.isAnonymous = value;
           }
         }
@@ -205,7 +205,7 @@ class ProductReview extends React.Component {
     }
     this.setState({
       productList: list2,
-      reviewList: list,
+      reviewList: list
     });
     // this.setState({
     //     [name]: value
@@ -222,7 +222,7 @@ class ProductReview extends React.Component {
       });
     }
     this.setState({
-      reviewList: list,
+      reviewList: list
     });
   }
   handleImgChange(imgRef, product) {
@@ -234,8 +234,8 @@ class ProductReview extends React.Component {
           imgRef.current.state.imgList.forEach((item, i) => {
             let obj = {
               uid: i + 1,
-              status: "done",
-              artworkUrl: item,
+              status: 'done',
+              artworkUrl: item
             };
             imgsParam.push(obj);
           });
@@ -243,7 +243,7 @@ class ProductReview extends React.Component {
         }
       });
       this.setState({
-        reviewList: list,
+        reviewList: list
       });
     }
   }
@@ -251,9 +251,9 @@ class ProductReview extends React.Component {
     // const lang = this.props.intl.locale || 'en'
     const event = {
       page: {
-        type: "Account",
-        theme: "",
-      },
+        type: 'Account',
+        theme: ''
+      }
     };
     return (
       <div>
@@ -283,11 +283,14 @@ class ProductReview extends React.Component {
                   <div>
                     <div className="rc-border-bottom rc-border-colour--interface ">
                       <div className="rc-margin--none">
-                        <div className=""  style={{}}>
+                        <div className="" style={{}}>
                           <div className="rc-column">
                             <div>
                               <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
-                                <span className="rc-font-bold"  style={{fontWeight:'500'}}>
+                                <span
+                                  className="rc-font-bold"
+                                  style={{ fontWeight: '500' }}
+                                >
                                   <FormattedMessage id="purchaseRating"></FormattedMessage>
                                 </span>
                               </span>
@@ -311,7 +314,10 @@ class ProductReview extends React.Component {
                           <div className="rc-column">
                             <div>
                               <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
-                                <span className="rc-font-bold"  style={{fontWeight:'500'}} >
+                                <span
+                                  className="rc-font-bold"
+                                  style={{ fontWeight: '500' }}
+                                >
                                   <FormattedMessage id="logisticsRating"></FormattedMessage>
                                 </span>
                               </span>
@@ -338,7 +344,10 @@ class ProductReview extends React.Component {
                       <div className="rc-column">
                         <div className="rc-padding-top--xs">
                           <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">
-                            <span className="rc-font-bold "  style={{fontWeight:'500'}}>
+                            <span
+                              className="rc-font-bold "
+                              style={{ fontWeight: '500' }}
+                            >
                               <FormattedMessage id="productRating" />
                             </span>
                           </span>

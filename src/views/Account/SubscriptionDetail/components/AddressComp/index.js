@@ -146,20 +146,20 @@ class AddressList extends React.Component {
           addressList,
           (ele) => (ele.selected = ele.deliveryAddressId === selectedId)
         );
-        console.log(1)
+        console.log(1);
       } else if (defaultAddressItem) {
-        console.log(2)
+        console.log(2);
         Array.from(
           addressList,
           (ele) => (ele.selected = ele.isDefaltAddress === 1)
         );
         tmpId = defaultAddressItem.deliveryAddressId;
       } else if (addressList.length) {
-        console.log(3)
+        console.log(3);
         // Array.from(addressList, (ele, i) => (ele.selected = !i));
         // tmpId = addressList[0].deliveryAddressId;
       }
-      console.log(4)
+      console.log(4);
       let cityRes = await queryCityNameById({
         id: addressList.map((ele) => ele.cityId)
       });
@@ -385,7 +385,7 @@ class AddressList extends React.Component {
           this.setState({
             successTipVisible: true,
             successTip: this.props.intl.messages.deleteAddressSuccess
-          })
+          });
           setTimeout(() => {
             this.setState({
               successTipVisible: false
