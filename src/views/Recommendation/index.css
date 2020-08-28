@@ -95,3 +95,52 @@ section li {
   width: 100%;
   text-align: center;
 }
+
+
+
+@media (max-width: 480px) {
+  p > .rc-btn, p > .btn {
+      display: inline;
+  }.picList li > img {
+    width: 107px;
+    height: 47px;
+  }
+  .picList {
+    margin: 20px 0;
+  }
+  .recommendProduct {
+    padding: 0 ;
+  }
+  .recommendProduct .recommendProductInnerMobile ul li {
+    float: left;
+    width: 70px;
+    margin-left: 10px;
+    height: 160px;
+  }
+  .recommendProduct ul > li.active {
+    border-right: none;
+    border-bottom: 2px solid rgba(226,0,26);
+  }
+  .recommendProduct .top li > span {
+    width: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+  }
+  .recommendProduct .right .main {
+    display: block;
+  }
+  .recommendProduct .right .main .pic {
+    padding: 0;
+  }
+  .recommendProduct .right .description {
+    padding: 20px;
+  }
+  .recommendProduct .right .main .text {
+    padding: 20px;
+  }
+}
+
+

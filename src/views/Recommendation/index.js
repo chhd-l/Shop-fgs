@@ -383,7 +383,8 @@ class Help extends React.Component {
               <Skeleton color="#f5f5f5" width="100%" height="100%" />
             ) : (
               productList.length && (
-                <div className="recommendProductInner">
+                <div>
+                <div className="recommendProductInner" style={{display:'none'}}>
                   <div className="left">
                     <div
                       style={{
@@ -619,6 +620,245 @@ class Help extends React.Component {
                       product packaging.
                     </p>
                   </div>
+                </div>
+                <div className="recommendProductInnerMobile">
+                  <div className="top">
+                    <div
+                      style={{
+                        padding: '32px',
+                        textAlign: 'center',
+                        fontWeight: '500',
+                        display: 'none'
+                      }}
+                    >
+                      Recommendation Package
+                    </div>
+                    <ul style={{overflow: 'hidden' ,transform: `translateX(${productList.length * 60}px) translateY(0) scale(1) rotate(0deg)`}}>
+                      {productList.map((el, i) => (
+                        <li
+                          onClick={() => this.setState({ activeIndex: i })}
+                          className={`${i === activeIndex ? 'active' : ''}`}
+                        >
+                          <img
+                            src={
+                              el.goodsInfo.goodsInfoImg ||
+                              el.goodsInfo.goods.goodsImg
+                            }
+                          />
+                          <span className="proName">
+                            {el.goodsInfo.goodsInfoName}
+                          </span>
+                          <span>X {el.recommendationNumber}</span>
+                        </li>
+                      ))}
+                      <p style={{ marginTop: '60px' , display: 'none'}}>
+                        {/* <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button> */}
+
+                        <LoginButton
+                          beforeLoginCallback={async () => this.buyNow()}
+                          btnClass={`rc-btn rc-btn--one ${
+                            this.state.buttonLoading ? 'ui-btn-loading' : ''
+                          }`}
+                          history={this.props.history}
+                        >
+                          <FormattedMessage id="checkout" />
+                        </LoginButton>
+                      </p>
+                      {!this.props.loginStore.isLogin && (
+                        <p style={{display: 'none'}}>
+                          <button
+                            className={`rc-styled-link color-999`}
+                            onClick={() => {
+                              this.hanldeUnloginAddToCart(
+                                productList,
+                                '/prescription'
+                              );
+                            }}
+                          >
+                            <FormattedMessage id="Buy as a guest" />
+                          </button>
+                        </p>
+                      )}
+                    </ul>
+                  </div>
+                  <div className="right">
+                    <div className="main">
+                      <div className="pic">
+                        <ImageMagnifier
+                          sizeList={[productList[activeIndex].goodsInfo]}
+                          // video={details.goodsVideo}
+                          images={[productList[activeIndex].goodsInfo]}
+                          minImg={
+                            productList[activeIndex].goodsInfo.goodsInfoImg
+                          }
+                          maxImg={
+                            productList[activeIndex].goodsInfo.goodsInfoImg
+                          }
+                          config={false}
+                        />
+                      </div>
+
+                      <div className="text">
+                        <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+                          {productList[activeIndex].goodsInfo.goodsInfoName}
+                        </h2>
+
+                        {/* <h4>
+                            From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
+                          </h4> */}
+                        {MaxLinePrice > 0 && (
+                          <div className="product-pricing__card__head d-flex align-items-center">
+                            <div className="rc-input product-pricing__card__head__title">
+                              <FormattedMessage id="listPrice" />
+                            </div>
+                            <b
+                              className="product-pricing__card__head__price  rc-padding-y--none text-line-through"
+                              style={{
+                                fontWeight: '200',
+                                fontSize: '24px',
+                                color: 'rgba(102,102,102,.7)'
+                              }}
+                            >
+                              {MaxLinePrice > 0 ? (
+                                MaxLinePrice === MinLinePrice ? (
+                                  <span>{formatMoney(MaxLinePrice)}</span>
+                                ) : (
+                                  <span>
+                                    From {formatMoney(MinLinePrice)} to{' '}
+                                    {formatMoney(MaxLinePrice)}
+                                  </span>
+                                )
+                              ) : null}
+                            </b>
+                          </div>
+                        )}
+                        <div className="product-pricing__card__head d-flex align-items-center">
+                          <div className="rc-input product-pricing__card__head__title">
+                            <FormattedMessage id="price" />
+                          </div>
+                          <b
+                            className="red  rc-padding-y--none"
+                            style={{
+                              fontWeight: '200',
+                              fontSize: '24px',
+                              color: 'rgba(102,102,102,.7)'
+                            }}
+                          >
+                            {MaxMarketPrice > 0 ? (
+                              MaxMarketPrice === MinMarketPrice ? (
+                                <span>{formatMoney(MaxMarketPrice)}</span>
+                              ) : (
+                                <span>
+                                  From {formatMoney(MinMarketPrice)} to{' '}
+                                  {formatMoney(MaxMarketPrice)}
+                                </span>
+                              )
+                            ) : null}
+                          </b>
+                        </div>
+                        {MaxSubPrice > 0 && (
+                          <div className="product-pricing__card__head d-flex align-items-center">
+                            <div className="rc-input product-pricing__card__head__title">
+                              <FormattedMessage id="autoship" />
+                            </div>
+                            <b
+                              className="red  rc-padding-y--none"
+                              style={{
+                                fontWeight: '200',
+                                fontSize: '24px',
+                                color: 'rgba(102,102,102,.7)'
+                              }}
+                            >
+                              {MaxSubPrice > 0 ? (
+                                MaxSubPrice === MinSubPrice ? (
+                                  <span>{formatMoney(MaxSubPrice)}</span>
+                                ) : (
+                                  <span>
+                                    From {formatMoney(MinSubPrice)} to{' '}
+                                    {formatMoney(MaxSubPrice)}
+                                  </span>
+                                )
+                              ) : null}
+                            </b>
+                          </div>
+                        )}
+
+                        <p style={{ width: '350px' }}>
+                          {productList[activeIndex].goodsInfo.goods
+                            .goodsDescription || 'none'}
+                        </p>
+                        <p>
+                          <button
+                            class="rc-btn rc-btn--two"
+                            onClick={() => {
+                              this.props.history.push(
+                                '/details/' +
+                                  productList[activeIndex].goodsInfo.goodsInfoId
+                              );
+                            }}
+                          >
+                            View Detail
+                          </button>
+                        </p>
+                      </div>
+
+                      {/* <div className="text">
+                      <h2 style={{ color: '#E2001A', marginTop: '40px'}}>
+                        { productList[activeIndex].goodsInfo.goodsInfoName}
+                      </h2>
+                      <h4>
+                        From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}} to $40.99
+                      </h4>
+                      <p>
+                        Renal + hypoallergenic is a complete dietetic food for adult dogs, formulated to support renal function during chronic kidney disease and intended for the reduction of intolerances to certain ingredients…
+                      </p>
+                      <p>
+                        <button class="rc-btn rc-btn--two">View Detail</button>
+                      </p>
+                      </div> */}
+                    </div>
+                    <div className="description">
+                      <img
+                        src={storeLogo}
+                        style={{
+                          float: 'left',
+                          width: '40px',
+                          marginRight: '20px'
+                        }}
+                      />
+                      <p
+                        style={{
+                          fontSize: '16px',
+                          color: '#666666',
+                          fontWeight: '500',
+                          letterSpacing: '0'
+                        }}
+                      >
+                        {prescriberInfo.prescriberName}
+                      </p>
+                      <p
+                        style={{
+                          fontSize: '12px',
+                          letterSpacing: '0'
+                        }}
+                      >
+                        {prescriberInfo.primaryCity}
+                      </p>
+                    </div>
+                    <p
+                      style={{
+                        textAlign: 'center',
+                        fontSize: '12px',
+                        color: '#ccc',
+                        marginBottom: '60px',
+                        letterSpacing: '0'
+                      }}
+                    >
+                      Royal Canin’s feeding guidelines can also be found on the
+                      product packaging.
+                    </p>
+                  </div>
+                </div>
                 </div>
               )
             )}
