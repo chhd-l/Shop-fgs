@@ -22,7 +22,7 @@ class EditForm extends React.Component {
         address1: '',
         address2: '',
         rfc: '',
-        country: '',
+        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         city: '',
         cityName: '',
         postCode: '',
@@ -33,22 +33,8 @@ class EditForm extends React.Component {
   }
   componentDidMount() {
     getDictionary({ type: 'country' }).then((res) => {
-      const { deliveryAddress } = this.state;
-      deliveryAddress.country = find(
-        res,
-        (ele) =>
-          ele.name.toLowerCase() === process.env.REACT_APP_DEFAULT_COUNTRY_NAME
-      )
-        ? find(
-            res,
-            (ele) =>
-              ele.name.toLowerCase() ===
-              process.env.REACT_APP_DEFAULT_COUNTRY_NAME
-          ).id
-        : '';
       this.setState({
-        countryList: res,
-        deliveryAddress: deliveryAddress
+        countryList: res
       });
     });
   }
