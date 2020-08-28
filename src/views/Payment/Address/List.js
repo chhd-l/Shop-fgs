@@ -27,7 +27,7 @@ class AddressList extends React.Component {
         address1: '',
         address2: '',
         rfc: '',
-        country: '',
+        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         city: '',
         postCode: '',
         phoneNumber: '',
@@ -49,22 +49,8 @@ class AddressList extends React.Component {
   }
   async componentDidMount() {
     await getDictionary({ type: 'country' }).then((res) => {
-      const { deliveryAddress } = this.state;
-      deliveryAddress.country = find(
-        res,
-        (ele) =>
-          ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME
-      )
-        ? find(
-            res,
-            (ele) =>
-              ele.name.toLowerCase() ==
-              process.env.REACT_APP_DEFAULT_COUNTRY_NAME
-          ).id
-        : '';
       this.setState({
-        countryList: res,
-        deliveryAddress: deliveryAddress
+        countryList: res
       });
     });
     this.queryAddressList();
@@ -197,18 +183,7 @@ class AddressList extends React.Component {
       address1: '',
       address2: '',
       rfc: '',
-      country: find(
-        this.state.countryList,
-        (ele) =>
-          ele.name.toLowerCase() === process.env.REACT_APP_DEFAULT_COUNTRY_NAME
-      )
-        ? find(
-            this.state.countryList,
-            (ele) =>
-              ele.name.toLowerCase() ===
-              process.env.REACT_APP_DEFAULT_COUNTRY_NAME
-          ).id
-        : '',
+      country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
       city: '',
       postCode: '',
       phoneNumber: '',

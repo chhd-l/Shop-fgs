@@ -245,19 +245,8 @@ class Payment extends React.Component {
       this.props.history.push('/cart');
       return false;
     }
-    let countryRes = await getDictionary({ type: 'country' });
     const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
-    const defaultCountryId = find(
-      countryRes,
-      (ele) =>
-        ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME
-    )
-      ? find(
-          countryRes,
-          (ele) =>
-            ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME
-        ).id
-      : '';
+    const defaultCountryId = process.env.REACT_APP_DEFAULT_COUNTRYID || '';
 
     if (!this.isLogin) {
       let deliveryInfo = store.get('deliveryInfo');
