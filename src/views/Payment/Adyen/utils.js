@@ -97,7 +97,7 @@ export const getAdyenParam = (cardData, config = {}) => {
     adyenBrands: 'visa',
     adyenName: 'Credit Card',
     adyenType: 'scheme',
-    payChannelItem: 'adyen_credit_card',
+    //payChannelItem: 'adyen_credit_card',
     hasHolderName: holderName,
     enableStoreDetails: storePaymentMethod
   };

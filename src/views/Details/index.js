@@ -879,13 +879,28 @@ class Details extends React.Component {
                               dangerouslySetInnerHTML={createMarkup(
                                 details.goodsDescription
                               )}
-                            ></div>
+                            />
                             <div
                               className="description"
                               dangerouslySetInnerHTML={createMarkup(
                                 selectedSpecItem.description
                               )}
-                            ></div>
+                            />
+                            {find(details.sizeList, (s) => s.selected)
+                              .goodsPromotion ? (
+                              <>
+                                <br />
+                                <div>
+                                  <FormattedMessage id="promotion" />:{' '}
+                                  <span className="bg-primary text-white pl-2 pr-2">
+                                    {
+                                      find(details.sizeList, (s) => s.selected)
+                                        .goodsPromotion
+                                    }
+                                  </span>
+                                </div>
+                              </>
+                            ) : null}
                           </div>
                         )}
                       </div>

@@ -245,19 +245,8 @@ class Payment extends React.Component {
       this.props.history.push('/cart');
       return false;
     }
-    let countryRes = await getDictionary({ type: 'country' });
     const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
-    const defaultCountryId = find(
-      countryRes,
-      (ele) =>
-        ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME
-    )
-      ? find(
-          countryRes,
-          (ele) =>
-            ele.name.toLowerCase() == process.env.REACT_APP_DEFAULT_COUNTRY_NAME
-        ).id
-      : '';
+    const defaultCountryId = process.env.REACT_APP_DEFAULT_COUNTRYID || '';
 
     if (!this.isLogin) {
       let deliveryInfo = store.get('deliveryInfo');
@@ -420,7 +409,7 @@ class Payment extends React.Component {
       const checkout = new AdyenCheckout({
         environment: 'test',
         originKey: process.env.REACT_APP_AdyenOriginKEY,
-        //originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
+        // originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4',
         locale: 'de-DE'
       });
 
@@ -439,7 +428,7 @@ class Payment extends React.Component {
               try {
                 this.isTestPolicy();
                 this.isShipTrackingFun();
-                this.isNewsLetterFun();
+                //this.isNewsLetterFun();
                 let adyenPayParam = getAdyenParam(card.data);
                 this.setState(
                   {
@@ -536,13 +525,18 @@ class Payment extends React.Component {
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: 'DE',
-            email: this.state.email
+            email: this.state.email,
+            payChannelItem:this.state.subForm.buyWay === 'frequency'?'adyen_card_subscription':'adyen_credit_card'
           });
         },
         adyen_klarna_pay_lat: () => {
+          let payChannelItem = 'adyen_klarna_pay_lat' //默认为常规支付
+          if (this.state.subForm.buyWay === 'frequency') {
+            payChannelItem = 'adyen_klarna_subscription'
+          }
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna',
-            payChannelItem: 'adyen_klarna_pay_lat',
+            payChannelItem,
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: 'DE',
@@ -550,9 +544,13 @@ class Payment extends React.Component {
           });
         },
         adyen_klarna_pay_now: () => {
+          let payChannelItem = 'adyen_klarna_pay_now' //默认为常规支付
+          if (this.state.subForm.buyWay === 'frequency') {
+            payChannelItem = 'adyen_klarna_subscription'
+          }
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna_paynow',
-            payChannelItem: 'adyen_klarna_pay_now',
+            payChannelItem,
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: 'DE',

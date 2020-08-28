@@ -46,7 +46,7 @@ class KlarnaPayLater extends Component {
     try {
       this.isTestPolicy();
       this.isShipTrackingFun();
-      this.isNewsLetterFun();
+      //this.isNewsLetterFun();
       this.isTestMail();
       this.props.clickPay(this.state.text);
     } catch (err) {
