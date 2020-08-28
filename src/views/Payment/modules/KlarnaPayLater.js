@@ -107,7 +107,7 @@ class KlarnaPayLater extends Component {
                 >
                   <span className="adyen-checkout__button__content">
                     <span className="adyen-checkout__button__text">
-                      Continue to Pay later with Klarna.
+                    Weiter mit Klarna
                     </span>
                   </span>
                 </button>

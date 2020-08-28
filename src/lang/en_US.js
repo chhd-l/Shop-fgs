@@ -258,6 +258,8 @@ const en_US = {
   "help.tip2": "Free Call (from a landline) Monday to Friday from 8h to 20h.",
   "help.tip3": "We will reply to you within a maximum of 12 hours.",
   "help.tip4": "They can answer any problems at any time.",
+  "help.tel": "tel:",
+  "help.email": "email:",
   "home.catogery1": "Dietas Veterinarias Perros",
   "home.catogery2": "Dietas Veterinarias Gatos",
   "home.catogery3": "Dietas de Prescripción Veterinaria Perros",
