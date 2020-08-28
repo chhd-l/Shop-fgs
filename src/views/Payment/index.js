@@ -439,7 +439,7 @@ class Payment extends React.Component {
               try {
                 this.isTestPolicy();
                 this.isShipTrackingFun();
-                this.isNewsLetterFun();
+                //this.isNewsLetterFun();
                 let adyenPayParam = getAdyenParam(card.data);
                 this.setState(
                   {

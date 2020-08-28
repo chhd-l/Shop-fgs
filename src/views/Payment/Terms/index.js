@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import "./index.css"
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -10,12 +11,18 @@ class Terms extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isReadPrivacyPolicyInit: true,
-      isShipTrackingInit: true,
-      isNewsLetterInit: true,
-      isReadPrivacyPolicy: false,
-      isShipTracking: false,
-      isNewsLetter: false
+      privacy:{
+        isCheck:false,
+        isShowDetail:false
+      },
+      shipTracking:{
+        isCheck:false,
+        isShowDetail:false
+      },
+      newsLetter:{
+        isCheck:false,
+        isShowDetail:false
+      }
     };
   }
   render() {
@@ -30,25 +37,28 @@ class Terms extends Component {
             type="checkbox"
             name="checkbox-2"
             onChange={() => {
+              let data = Object.assign({}, this.state.privacy, {
+                isCheck: !this.state.privacy.isCheck
+              })
               this.setState(
                 {
-                  isReadPrivacyPolicy: !this.state.isReadPrivacyPolicy,
-                  isReadPrivacyPolicyInit: false
+                  privacy: data,
                 },
                 () => {
                   this.props.sendIsReadPrivacyPolicy(
-                    this.state.isReadPrivacyPolicy
+                    this.state.privacy.isCheck
                   );
                 }
               );
             }}
-            checked={this.state.isReadPrivacyPolicy}
+            checked={this.state.privacy.isCheck}
           />
           <label
             htmlFor="id-checkbox-cat-2"
             className="rc-input__label--inline ui-cursor-pointer-pure"
             style={{ fontWeight: 'bold' }}
           >
+            <span className="rc-text-colour--brand1 pr-1">*</span>
             <FormattedMessage
               id="payment.terms1"
               values={{
@@ -69,15 +79,11 @@ class Terms extends Component {
             />
             <div
               className={`${
-                this.state.isReadPrivacyPolicy ||
-                this.state.isReadPrivacyPolicyInit
+                !this.state.isReadPrivacyPolicy
                   ? 'hidden'
-                  : ''
+                  : 'terms-detail'
               }`}
               style={{
-                color: '#666',
-                fontSize: '12px',
-                fontWeight: 'normal',
                 display: 'none'
               }}
             >
@@ -93,31 +99,44 @@ class Terms extends Component {
             type="checkbox"
             name="checkbox-2"
             onChange={() => {
+               //更改isCheck属性
+              let data = Object.assign({}, this.state.shipTracking, {
+                isCheck: !this.state.shipTracking.isCheck
+              })
               this.setState(
                 {
-                  isShipTracking: !this.state.isShipTracking,
-                  isShipTrackingInit: false
+                  shipTracking: data,
                 },
                 () => {
-                  this.props.sendIsShipTracking(this.state.isShipTracking);
+                  this.props.sendIsShipTracking(this.state.shipTracking.isCheck);
                 }
               );
             }}
-            checked={this.state.isShipTracking}
+            checked={this.state.shipTracking.isCheck}
           />
           <label
             htmlFor="id-checkbox-cat-1"
             className="rc-input__label--inline ui-cursor-pointer-pure"
             style={{ fontWeight: 'bold' }}
           >
-            <FormattedMessage id="payment.terms2.header" />
+            <span className="rc-text-colour--brand1 pr-1">*</span>
+            <FormattedMessage id="payment.terms2.header" /> <span onClick={()=>{
+              //更改isShowDetail属性
+               let data = Object.assign({}, this.state.shipTracking, {
+                isShowDetail: !this.state.shipTracking.isShowDetail
+              })
+              this.setState(
+                {
+                  shipTracking: data,
+                }
+              );
+            }}>{this.state.shipTracking.isShowDetail?'[less detail]':'[detail]'}</span>
             <div
               className={`${
-                this.state.isShipTracking || this.state.isShipTrackingInit
+                !this.state.shipTracking.isShowDetail
                   ? 'hidden'
-                  : ''
+                  : 'terms-detail'
               }`}
-              style={{ color: '#666', fontSize: '12px', fontWeight: 'normal' }}
             >
               <FormattedMessage
                 id="payment.terms2"
@@ -144,31 +163,42 @@ class Terms extends Component {
             type="checkbox"
             name="checkbox-2"
             onChange={() => {
+              //更改isCheck属性
+              let data = Object.assign({}, this.state.newsLetter, {
+                isCheck: !this.state.newsLetter.isCheck
+              })
               this.setState(
                 {
-                  isNewsLetter: !this.state.isNewsLetter,
-                  isNewsLetterInit: false
+                  newsLetter: data,
                 },
                 () => {
-                  this.props.sendIsNewsLetter(this.state.isNewsLetter);
+                  this.props.sendIsNewsLetter(this.state.newsLetter.isCheck);
                 }
               );
             }}
-            checked={this.state.isNewsLetter}
+            checked={this.state.newsLetter.isCheck}
           />
           <label
-            htmlFor="id-checkbox-cat-3"
             className="rc-input__label--inline ui-cursor-pointer-pure"
             style={{ fontWeight: 'bold' }}
           >
-            <FormattedMessage id="payment.terms3.header" />
+            <FormattedMessage id="payment.terms3.header" /> <span onClick={()=>{
+               //更改isShowDetail属性
+               let data = Object.assign({}, this.state.newsLetter, {
+                isShowDetail: !this.state.newsLetter.isShowDetail
+              })
+              this.setState(
+                {
+                  newsLetter: data,
+                }
+              );
+            }}>{this.state.newsLetter.isShowDetail?'[less detail]':'[detail]'}</span>
             <div
               className={`${
-                this.state.isNewsLetter || this.state.isNewsLetterInit
+                !this.state.newsLetter.isShowDetail
                   ? 'hidden'
-                  : ''
+                  : 'terms-detail'
               }`}
-              style={{ color: '#666', fontSize: '12px', fontWeight: 'normal' }}
             >
               <FormattedMessage
                 id="payment.terms3"
