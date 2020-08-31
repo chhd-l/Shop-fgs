@@ -401,6 +401,7 @@ class Help extends React.Component {
                           onClick={() => this.setState({ activeIndex: i })}
                           className={`${i === activeIndex ? 'active' : ''}`}
                         >
+                          <i></i>
                           <img
                             src={
                               el.goodsInfo.goodsInfoImg ||
@@ -468,7 +469,7 @@ class Help extends React.Component {
                         {/* <h4>
                             From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
                           </h4> */}
-                        {MaxLinePrice > 0 && (
+                        {false && MaxLinePrice > 0 && (
                           <div className="product-pricing__card__head d-flex align-items-center">
                             <div className="rc-input product-pricing__card__head__title">
                               <FormattedMessage id="listPrice" />
@@ -476,9 +477,10 @@ class Help extends React.Component {
                             <b
                               className="product-pricing__card__head__price  rc-padding-y--none text-line-through"
                               style={{
+                                flex: 3,
                                 fontWeight: '200',
                                 fontSize: '24px',
-                                color: 'rgba(102,102,102,.7)'
+                                // color: 'rgba(102,102,102,.7)'
                               }}
                             >
                               {MaxLinePrice > 0 ? (
@@ -499,11 +501,12 @@ class Help extends React.Component {
                             <FormattedMessage id="price" />
                           </div>
                           <b
-                            className="red  rc-padding-y--none"
+                            className="rc-padding-y--none"
                             style={{
+                              flex: 3,
                               fontWeight: '200',
                               fontSize: '24px',
-                              color: 'rgba(102,102,102,.7)'
+                              // color: 'rgba(102,102,102,.7)'
                             }}
                           >
                             {MaxMarketPrice > 0 ? (
@@ -524,11 +527,12 @@ class Help extends React.Component {
                               <FormattedMessage id="autoship" />
                             </div>
                             <b
-                              className="red  rc-padding-y--none"
+                              className="rc-padding-y--none"
                               style={{
+                                flex: 3,
                                 fontWeight: '200',
                                 fontSize: '24px',
-                                color: 'rgba(102,102,102,.7)'
+                                // color: 'rgba(102,102,102,.7)'
                               }}
                             >
                               {MaxSubPrice > 0 ? (
@@ -584,7 +588,7 @@ class Help extends React.Component {
                         src={storeLogo}
                         style={{
                           float: 'left',
-                          width: '40px',
+                          width: '60px',
                           marginRight: '20px'
                         }}
                       />
@@ -593,7 +597,8 @@ class Help extends React.Component {
                           fontSize: '16px',
                           color: '#666666',
                           fontWeight: '500',
-                          letterSpacing: '0'
+                          letterSpacing: '0',
+                          marginTop: '8px'
                         }}
                       >
                         {prescriberInfo.prescriberName}
@@ -639,6 +644,7 @@ class Help extends React.Component {
                           onClick={() => this.setState({ activeIndex: i })}
                           className={`${i === activeIndex ? 'active' : ''}`}
                         >
+                          <i></i>
                           <img
                             src={
                               el.goodsInfo.goodsInfoImg ||
@@ -741,7 +747,7 @@ class Help extends React.Component {
                             style={{
                               fontWeight: '200',
                               fontSize: '24px',
-                              color: 'rgba(102,102,102,.7)'
+                              // color: 'rgba(102,102,102,.7)'
                             }}
                           >
                             {MaxMarketPrice > 0 ? (
@@ -766,7 +772,7 @@ class Help extends React.Component {
                               style={{
                                 fontWeight: '200',
                                 fontSize: '24px',
-                                color: 'rgba(102,102,102,.7)'
+                                // color: 'rgba(102,102,102,.7)'
                               }}
                             >
                               {MaxSubPrice > 0 ? (
