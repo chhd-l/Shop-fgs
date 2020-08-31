@@ -107,7 +107,7 @@ class Sofort extends Component {
                 >
                   <span className="adyen-checkout__button__content">
                     <span className="adyen-checkout__button__text">
-                      Sofort.
+                    Weiter mit KlarnaSofort.
                     </span>
                   </span>
                 </button>

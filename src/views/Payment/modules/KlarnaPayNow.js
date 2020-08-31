@@ -109,7 +109,7 @@ class KlarnaPayNow extends Component {
                 >
                   <span className="adyen-checkout__button__content">
                     <span className="adyen-checkout__button__text">
-                    Weiter mit Klarna
+                    Weiter mit KlarnaPayNow
                     </span>
                   </span>
                 </button>

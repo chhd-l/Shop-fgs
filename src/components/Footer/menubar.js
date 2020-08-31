@@ -45,7 +45,7 @@ export const menubar = {
             titleId:'footer.help2',list: [{url:"https://shopstg.royalcanin.com/help",messageId:'footer.contacts'},{url:'',messageId:'footer.FAQVersand'},{url:'https://shopstg.royalcanin.com/FAQ',messageId:'footer.FAQAllgemeines'}]
         }],
         [{
-            titleId:'footer.Additionally2',list: [{url:"https://www.mars.com/privacy-policy-germany",messageId:'footer.privacyPolicy2'},{url:'',messageId:'footer.termsOfService'},{url:'',messageId:'footer.withdrawal'}]
+            titleId:'footer.Additionally2',list: [{url:"https://www.mars.com/privacy-policy-germany",messageId:'footer.privacyPolicy2'},{url:'',messageId:'footer.termsOfService'},{link:'/Widerrufsbelehrung',messageId:'footer.withdrawal'}]
         }],
     ]
 }
