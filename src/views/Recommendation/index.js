@@ -384,7 +384,7 @@ class Help extends React.Component {
             ) : (
               productList.length && (
                 <div>
-                <div className="recommendProductInner" style={{display:'none'}}>
+                <div className="recommendProductInner" style={{display: /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)? 'none': 'flex'}}>
                   <div className="left">
                     <div
                       style={{
@@ -621,7 +621,7 @@ class Help extends React.Component {
                     </p>
                   </div>
                 </div>
-                <div className="recommendProductInnerMobile">
+                <div className="recommendProductInnerMobile" style={{display: /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)? 'block': 'none'}}>
                   <div className="top">
                     <div
                       style={{
