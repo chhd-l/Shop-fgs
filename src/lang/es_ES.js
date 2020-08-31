@@ -264,6 +264,8 @@ const en_US = {
   'help.tip2': 'Llamada gratuita (desde un teléfono fijo) de lunes a viernes de 8h a 18h.',
   'help.tip3': 'Le responderemos dentro de un máximo de 12 horas.',
   'help.tip4': 'Pueden responder cualquier problema en cualquier momento.',
+  "help.tel": "tel:",
+  "help.email": "email:",
   'home.catogery1': 'Dietas de Mantenimiento para Perros',
   'home.catogery2': 'Dietas de Mantenimiento para Gatos',
   'home.catogery3': 'Dietas de Mantenimiento para Perros',

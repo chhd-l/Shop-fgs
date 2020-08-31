@@ -85,7 +85,13 @@ class FAQ extends React.Component {
                         <FormattedMessage id="faq.frequentQuestions" />
                       </h1>
                       <p style={{ textAlign: 'center' }}>
-                        <FormattedMessage id="faq.title" />
+                        <FormattedMessage id="faq.title" values={{
+                          val1: (
+                            <a  target="_blank" href="https://shopstg.royalcanin.com/help" style={{ cursor: 'pointer'}}>
+                              Expertenteam
+                            </a>
+                          )
+                        }}/>
                       </p>
                     </div>
                   </div>

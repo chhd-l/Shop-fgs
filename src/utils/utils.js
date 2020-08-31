@@ -1,54 +1,62 @@
-import { getStoreCate, getProps } from '@/api'
-import { purchases, mergePurchase } from '@/api/cart'
-import { getDict } from '@/api/dict'
-import { find } from 'lodash'
+import { getStoreCate, getProps } from '@/api';
+import { purchases, mergePurchase } from '@/api/cart';
+import { getDict } from '@/api/dict';
+import { find } from 'lodash';
 import stores from '@/store';
 
-const checkoutStore = stores.checkoutStore
-const mapEnum = { 1: '$', 2: 'Mex$', 3: '€' }
+const checkoutStore = stores.checkoutStore;
+const mapEnum = {
+  1: { mark: '$', break: ' ' },
+  2: { mark: 'Mex$', break: ' ' },
+  3: { mark: '€', break: ',' }
+};
 
 /**
- * 
- * @param {*} val 
+ *
+ * @param {*} val
  * @param {*} currency 1-$ 2-Mex$ 3-€
  */
-export function formatMoney (val, currency = process.env.REACT_APP_CURRENCY_TYPE || 1) {
+export function formatMoney(
+  val,
+  currency = process.env.REACT_APP_CURRENCY_TYPE || 1
+) {
   if (isNaN(val)) {
-    val = 0
+    val = 0;
   }
-  val = parseFloat(Number(val).toFixed(2)) + ''
-  let ret = val.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-  return `${mapEnum[currency]} ${ret}`
+  val = parseFloat(Number(val).toFixed(2)) + '';
+  const tmp = mapEnum[currency];
+  let ret = val.replace(/\B(?=(\d{3})+(?!\d))/g, tmp.break);
+  return `${tmp.mark} ${ret}`;
 }
 
-export async function queryStoreCateIds () {
-  let tmp = sessionStorage.getItem('rc-storeId-list')
+export async function queryStoreCateIds() {
+  let tmp = sessionStorage.getItem('rc-storeId-list');
   if (!tmp) {
-    let res = await getStoreCate({ storeId: process.env.REACT_APP_STOREID })
+    let res = await getStoreCate({ storeId: process.env.REACT_APP_STOREID });
     if (res.context && res.context.length) {
-      sessionStorage.setItem('rc-storeId-list', JSON.stringify(res.context))
+      sessionStorage.setItem('rc-storeId-list', JSON.stringify(res.context));
     }
   }
-  return JSON.parse(sessionStorage.getItem('rc-storeId-list'))
+  return JSON.parse(sessionStorage.getItem('rc-storeId-list'));
 }
 
 /**
  * 获取商品属性
  */
-export async function queryProps () {
-  let tmp = sessionStorage.getItem('rc-goodsprop-list')
+export async function queryProps() {
+  let tmp = sessionStorage.getItem('rc-goodsprop-list');
   if (!tmp) {
-    let res = await getProps(process.env.REACT_APP_CATEID)
+    let res = await getProps(process.env.REACT_APP_CATEID);
     if (res.context && res.context.length) {
-      sessionStorage.setItem('rc-goodsprop-list', JSON.stringify(res.context))
+      sessionStorage.setItem('rc-goodsprop-list', JSON.stringify(res.context));
     }
   }
-  return JSON.parse(sessionStorage.getItem('rc-goodsprop-list'))
+  return JSON.parse(sessionStorage.getItem('rc-goodsprop-list'));
 }
 
-export function getParaByName (search, name) {
+export function getParaByName(search, name) {
   search = search.substr(1);
-  if (typeof name === 'undefined') return search
+  if (typeof name === 'undefined') return search;
   let searchArr = search.split('&');
   for (let i = 0; i < searchArr.length; i++) {
     let searchStr = searchArr[i];
@@ -57,54 +65,53 @@ export function getParaByName (search, name) {
       return searchStr.replace(name + '=', '');
     }
   }
-  return ''
+  return '';
 }
 
-export function translateHtmlCharater (html) {
-  var div = document.createElement("div");
+export function translateHtmlCharater(html) {
+  var div = document.createElement('div');
   div.innerHTML = html;
   return div.textContent;
 }
 
-export async function hanldePurchases (goodsInfoDTOList) {
-  let ret = []
+export async function hanldePurchases(goodsInfoDTOList) {
+  let ret = [];
   try {
     let res = await purchases({
       goodsInfoDTOList,
       goodsInfoIds: [],
       goodsMarketingDTOList: []
-    })
-    ret = res.context
+    });
+    ret = res.context;
   } catch (e) {
-
   } finally {
-    return ret
+    return ret;
   }
 }
 
 /**
  * 合并购物车(登录后合并非登录态的购物车数据，购物车页面的合并在购物车页面本身触发)
  */
-export async function mergeUnloginCartData () {
-  const unloginCartData = checkoutStore.cartData
+export async function mergeUnloginCartData() {
+  const unloginCartData = checkoutStore.cartData;
   await mergePurchase({
-    purchaseMergeDTOList: unloginCartData.map(ele => {
+    purchaseMergeDTOList: unloginCartData.map((ele) => {
       return {
-        goodsInfoId: find(ele.sizeList, s => s.selected).goodsInfoId,
+        goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
         goodsNum: ele.quantity,
         invalid: false,
         goodsCategory: ele.goodsCategory
-      }
+      };
     })
-  })
-  checkoutStore.removeCartData()
+  });
+  checkoutStore.removeCartData();
 }
 
 /**
  * 数组扁平化
- * @param {Array} array - 数组 
+ * @param {Array} array - 数组
  */
-export function flat (arr) {
+export function flat(arr) {
   var res = [];
   for (let el of arr) {
     if (Array.isArray(el)) {
@@ -118,33 +125,37 @@ export function flat (arr) {
 
 /**
  * 获取字典并存入session
- * @param {type, name} type - 字典名 
+ * @param {type, name} type - 字典名
  */
-export async function getDictionary ({ type, name = '' }) {
-  let ret = []
-  const tmpKey = `dict-${type}`
+export async function getDictionary({ type, name = '' }) {
+  let ret = [];
+  const tmpKey = `dict-${type}`;
   if (sessionStorage.getItem(tmpKey)) {
-    ret = JSON.parse(sessionStorage.getItem(tmpKey))
+    ret = JSON.parse(sessionStorage.getItem(tmpKey));
   } else {
     let res = await getDict({
       delFlag: 0,
       storeId: process.env.REACT_APP_STOREID,
       type,
       name
-    })
-    const sysDictionaryVOS = res.context.sysDictionaryVOS
-    sessionStorage.setItem(tmpKey, JSON.stringify(sysDictionaryVOS))
-    ret = sysDictionaryVOS
+    });
+    const sysDictionaryVOS = res.context.sysDictionaryVOS;
+    sessionStorage.setItem(tmpKey, JSON.stringify(sysDictionaryVOS));
+    ret = sysDictionaryVOS;
   }
-  return ret
+  return ret;
 }
 
-export function getDeviceType () {
-  let t = ''
-  if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
-    t = 'M'
+export function getDeviceType() {
+  let t = '';
+  if (
+    navigator.userAgent.match(
+      /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+    )
+  ) {
+    t = 'M';
   } else {
-    t = 'PC'
+    t = 'PC';
   }
-  return t
+  return t;
 }

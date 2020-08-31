@@ -113,6 +113,7 @@ class Help extends React.Component {
                                             class="rc-numeric rc-md-up"
                                           >
                                             {/* 800 024 77 64 */}
+                                            <FormattedMessage id="help.tel" />
                                             {
                                               this.props.configStore
                                                 .storeContactPhoneNumber
@@ -125,6 +126,7 @@ class Help extends React.Component {
                                             class="rc-alpha rc-border--none rc-md-down"
                                           >
                                             {/* 800 024 77 64 */}
+                                            <FormattedMessage id="help.mail" />
                                             {
                                               this.props.configStore
                                                 .storeContactPhoneNumber
@@ -189,6 +191,7 @@ class Help extends React.Component {
                                             }}
                                           >
                                             {/* contacto.mex@royalcanin.com */}
+                                            <FormattedMessage id="help.email" />
                                             {
                                               this.props.configStore
                                                 .storeContactEmail
