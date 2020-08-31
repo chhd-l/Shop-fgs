@@ -174,6 +174,27 @@ class Payment extends React.Component {
       }
       //payuNameArr:["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
       for (let item of payuNameArr) {
+        // 只是为了墨西哥环境测试adyen订阅支付start
+        if (item == 'adyen_card_subscription') {
+          payWayNameArr.push({
+            name: 'adyen_credit_card',
+            id: 'adyen',
+            paymentTypeVal: 'adyenCard'
+          });
+        }
+        if (item == 'adyen_klarna_subscription') {
+          payWayNameArr.push({
+            name: 'adyen_klarna_pay_now',
+            id: 'adyenPayNow',
+            paymentTypeVal: 'adyenKlarnaPayNow'
+          });
+          payWayNameArr.push({
+            name: 'adyen_klarna_pay_lat',
+            id: 'adyenPayLater',
+            paymentTypeVal: 'adyenKlarnaPayLater'
+          });
+        }
+        // 只是为了墨西哥环境测试adyen订阅支付end
         if (payuMethodsObj.hasOwnProperty(item)) {
           payWayNameArr.push(payuMethodsObj[item]);
         }

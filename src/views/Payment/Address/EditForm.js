@@ -188,6 +188,10 @@ class EditForm extends React.Component {
           <FormattedMessage id="example" />:{' '}
           <FormattedMessage id="examplePostCode" />
         </div>
+        {
+          process.env.REACT_APP_LANG=='de'?<span style={{padding:'2px',backgroundColor:'yellow'}}>* Pflichtfelder</span>:null
+        }
+        
       </div>
     );
   };

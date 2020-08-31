@@ -126,4 +126,11 @@
   left: 6px;
 }
 
-
+.notate{
+  font-size: 12px;
+  color:#000;
+}
+.notate .link{
+  text-decoration: underline;
+  color:#1F45F6;
+}
