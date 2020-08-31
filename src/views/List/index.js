@@ -856,6 +856,12 @@ class List extends React.Component {
                                             </div>
                                           </div>
                                         </div>
+                                        <div className="notate">
+                                        <FormattedMessage                                  
+                                          id="notate"
+                                          values={{ val: <a className="link" href="https://www.royalcanin.com/de/about-us/faqs#SHIPPINGFAQs
+                                          ">Versandkosten</a> }} />
+                                        </div>            
                                       </>
                                     )}
                                   </article>
