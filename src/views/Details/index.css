@@ -1733,3 +1733,12 @@ max-width: 80%;
     top: 3%;
     cursor: pointer;
 }
+.taxLogo{
+  padding-left:45px;
+  color: #000;
+  font-size: 13px;
+}
+.taxLogo a{
+  color:#1F45F6;
+  text-decoration: underline;
+}

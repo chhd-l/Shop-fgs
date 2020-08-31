@@ -637,7 +637,7 @@ const en_US = {
   'faq.title2': 'Allgemeines',
   'every': 'Jeden',
   'everyweek':'Alle',
-  'taxLogo': 'inkl. MwSt. und zzgl. Versandkosten',
+  'taxLogo': 'Preise inkl. MwSt. und zzgl. {val}.',
   'plsFillEmailTip': 'Ihre E-Mail-Adresse wird nicht in die Adressleiste eingetragen',
   'notate':'Alle Preise inkl. MwSt. und zzgl.{val}',
 }
