@@ -567,21 +567,6 @@ class Help extends React.Component {
                           </button>
                         </p>
                       </div>
-
-                      {/* <div className="text">
-                      <h2 style={{ color: '#E2001A', marginTop: '40px'}}>
-                        { productList[activeIndex].goodsInfo.goodsInfoName}
-                      </h2>
-                      <h4>
-                        From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}} to $40.99
-                      </h4>
-                      <p>
-                        Renal + hypoallergenic is a complete dietetic food for adult dogs, formulated to support renal function during chronic kidney disease and intended for the reduction of intolerances to certain ingredients…
-                      </p>
-                      <p>
-                        <button class="rc-btn rc-btn--two">View Detail</button>
-                      </p>
-                      </div> */}
                     </div>
                     <div className="description">
                       <img
