@@ -1060,9 +1060,18 @@ class Details extends React.Component {
                                   </>
                                 ) : null}
                                 <div className="product-pricing__card__head d-flex align-items-center rc-margin-top--xs">
-                                  <div className="rc-input product-pricing__card__head__title">
-                                    <FormattedMessage id="taxLogo" />
+                                  {
+                                    process.env.REACT_APP_LANG=='de'
+                                    ?<div className="rc-input product-pricing__card__head__title taxLogo">
+                                    <FormattedMessage id="taxLogo" values={{ val:<a href="https://www.royalcanin.com/de/about-us/faqs#SHIPPINGFAQs
+">Versandkosten</a>}} />
                                   </div>
+                                  :
+                                  <div className="rc-input product-pricing__card__head__title">
+                                    <FormattedMessage id="taxLogo"/>
+                                </div>
+                                  }
+                                  
                                 </div>
                                 {/* {details &&
                                     find(details.sizeList, (s) => s.selected) &&
