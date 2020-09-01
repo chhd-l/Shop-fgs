@@ -6,7 +6,7 @@
 }
 .recommendProduct {
   width: 100%;
-  padding: 108px;
+  padding: 50px 108px;
 }
 .recommendation .product-pricing__card__head {
   font-size: 24px;
@@ -86,7 +86,7 @@
 .recommendProduct .right .description {
   width: 80%;
   margin: 10px auto;
-  padding: 20px 120px 30px;
+  padding: 20px 60px 30px;
   background-color: #f6f6f6;
 }
 .recommendProduct .right .description p {

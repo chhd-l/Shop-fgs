@@ -608,6 +608,9 @@ const en_US = {
   'taxLogo': 'IVA incluido',
   'plsFillEmailTip': 'Your email is not filled in in the address bar',
   'notate':' ',
+  isContinue: 'Whether to continue?',
+  'outOfStockContent_cart': 'Among the currently recommended products, there are out-of-stock products: {val}. If you continue to add the shopping cart, the out-of-stock products will be deleted directly.',
+  'outOfStockContent_pay': 'Among the currently recommended products, there are out-of-stock products: {val}. If you continue to add the shopping cart, the out-of-stock products will be deleted directly.',
 }
 
 export default en_US;

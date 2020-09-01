@@ -640,5 +640,8 @@ const en_US = {
   'taxLogo': 'Preise inkl. MwSt. und zzgl. {val}.',
   'plsFillEmailTip': 'Ihre E-Mail-Adresse wird nicht in die Adressleiste eingetragen',
   'notate':'Alle Preise inkl. MwSt. und zzgl.{val}',
+  isContinue: 'Ob fortzufahren?',
+  'outOfStockContent_cart': 'Unter den derzeit empfohlenen Produkten befinden sich nicht vorrätige Produkte: {val}.Wenn Sie den Warenkorb weiterhin hinzufügen, werden die nicht vorrätigen Produkte direkt gelöscht.',
+  'outOfStockContent_pay': 'Unter den derzeit empfohlenen Produkten befinden sich nicht vorrätige Produkte: {val}.Wenn Sie weiter auschecken, werden die nicht vorrätigen Produkte direkt gelöscht.',
 }
 export default en_US;

@@ -616,5 +616,8 @@ const en_US = {
   'taxLogo': 'IVA incluido',
   'plsFillEmailTip': 'Su correo electrónico no está completo en la barra de direcciones',
   'notate':' ',
+  isContinue: '¿Continuar?',
+  'outOfStockContent_cart': 'Entre los productos actualmente recomendados, hay productos agotados: {val}.Si continúa agregando el carrito de compras, los productos agotados se eliminarán directamente.',
+  'outOfStockContent_pay': 'Entre los productos actualmente recomendados, hay productos agotados: {val}.Si continúa con el pago, los productos agotados se eliminarán directamente.',
 }
 export default en_US;
