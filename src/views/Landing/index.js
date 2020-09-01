@@ -75,7 +75,7 @@ class Landing extends Component {
                                     </div>
                                     <div class="rc-column" style={{ padding: '0 0 0 20px' }}>
                                         <div class="rc-content-v-left">
-                                            <span className="rc-input rc-input--inline rc-input--label" className={item.value?this.state.inputSuccessClass.join(" "):this.state.inputClass.join(" ")}>
+                                            <span className={item.value?this.state.inputSuccessClass.join(" "):this.state.inputClass.join(" ")}>
                                                 <input class="rc-input__control" id="id-textsuffix" type="text" name="text" style={{ fontSize: '12px',paddingBottom:0 }} name={index} onChange={this.changeEvent} />
                                                 <label class="rc-input__label" for="id-textsuffix" style={{ fontSize: '12px'}}>
                                                     <span class="rc-input__label-text">Text input</span>
