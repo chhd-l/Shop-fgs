@@ -30,6 +30,7 @@ import stores from "./store";
 import store from "storejs";
 
 import RegisterRequired from "@/views/Login/RegisterRequired"
+import Landing from "@/views/Landing/index"
 import ScrollToTop from "@/components/ScrollToTop";
 import RouteFilter from "@/components/RouteFilter";
 import Home from "@/views/Home";
@@ -229,6 +230,11 @@ const App = () => (
                 path="/required"
                 exact
                 component={RegisterRequired}
+              />
+              <Route
+                path="/conoce-mas-de-evet"
+                exact
+                component={Landing}
               />
               <Route exact path="/forgetPassword" component={ForgetPassword} />
 

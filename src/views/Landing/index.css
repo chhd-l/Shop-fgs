@@ -1,0 +1,12 @@
+@media(min-width: 769px){
+    .landing-wrap{
+        max-width: 70%;
+        margin:0 auto;
+      }
+}
+@media(max-width: 769px){
+    .landing-wrap{
+        max-width: 80%;
+        margin:0 auto;
+      }
+}
