@@ -51,6 +51,7 @@ import './index.css';
   'configStore'
 )
 @observer
+@injectIntl
 class Payment extends React.Component {
   constructor(props) {
     super(props);
@@ -1296,13 +1297,15 @@ class Payment extends React.Component {
                               id="1"
                               ref={this.loginDeliveryAddressRef}
                               updateData={(data) => {
-                                this.setState({ deliveryAddress: data });
-                              }}
+                                this.props.paymentStore.updateSelectedDeliveryAddress(data)
+                                  this.setState({ deliveryAddress: data })} // to delete...
+                              }
                             />
                           ) : (
                             <VisitorDeliveryAddress
                               data={deliveryAddress}
                               updateData={(data) => {
+                                this.props.paymentStore.updateSelectedDeliveryAddress(data)
                                 this.setState({
                                   deliveryAddress: data
                                 });
@@ -1533,4 +1536,4 @@ class Payment extends React.Component {
   }
 }
 
-export default injectIntl(Payment);
+export default Payment;

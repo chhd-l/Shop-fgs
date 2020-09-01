@@ -6,13 +6,17 @@ import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
+import store from 'storejs';
 
 /**
  * add/edit address form - member/visitor
  */
-@inject('paymentStore')
+@inject('paymentStore', 'loginStore')
 @observer
 class EditForm extends React.Component {
+  static defaultProps = {
+    type: ''
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -32,6 +36,29 @@ class EditForm extends React.Component {
     };
   }
   componentDidMount() {
+    const { deliveryAddress } = this.state;
+    if (!this.isLogin && this.props.type === 'delivery') {
+      let deliveryInfo = store.get('deliveryInfo');
+      if (deliveryInfo) {
+        this.setState(
+          {
+            deliveryAddress: Object.assign(deliveryInfo.deliveryAddress, {
+              country: process.env.REACT_APP_DEFAULT_COUNTRY_ID
+            })
+          },
+          () => {
+            this.props.paymentStore.updateSelectedDeliveryAddress(
+              this.state.deliveryAddress
+            );
+          }
+        );
+      } else {
+        deliveryAddress.country = process.env.REACT_APP_DEFAULT_COUNTRY_ID;
+        this.setState({
+          deliveryAddress: deliveryAddress
+        });
+      }
+    }
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
@@ -44,6 +71,9 @@ class EditForm extends React.Component {
         deliveryAddress: Object.assign({}, nextProps.data)
       });
     }
+  }
+  get isLogin() {
+    return this.props.loginStore.isLogin;
   }
   computedList(key) {
     let tmp = this.state[`${key}List`].map((c) => {
@@ -66,6 +96,9 @@ class EditForm extends React.Component {
     deliveryAddress[name] = value;
     this.inputBlur(e);
     this.setState({ deliveryAddress: deliveryAddress }, () => {
+      this.props.paymentStore.updateSelectedDeliveryAddress(
+        this.state.deliveryAddress
+      );
       this.props.updateData(this.state.deliveryAddress);
     });
     if (
@@ -103,6 +136,9 @@ class EditForm extends React.Component {
     const { deliveryAddress } = this.state;
     deliveryAddress[key] = data.value;
     this.setState({ deliveryAddress: deliveryAddress }, () => {
+      this.props.paymentStore.updateSelectedDeliveryAddress(
+        this.state.deliveryAddress
+      );
       this.props.updateData(this.state.deliveryAddress);
     });
   }
@@ -111,6 +147,9 @@ class EditForm extends React.Component {
     deliveryAddress.city = data.id;
     deliveryAddress.cityName = data.cityName;
     this.setState({ deliveryAddress: deliveryAddress }, () => {
+      this.props.paymentStore.updateSelectedDeliveryAddress(
+        this.state.deliveryAddress
+      );
       this.props.updateData(this.state.deliveryAddress);
     });
   };
