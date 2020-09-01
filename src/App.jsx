@@ -71,6 +71,9 @@ import ForgetPassword from '@/views/ForgetPassword';
 
 import RequestInvoices from '@/views/RequestInvoices';
 
+import Widerrufsbelehrung from '@/components/Footer/link/Widerrufsbelehrung'
+import FAQVersand from '@/components/Footer/link/FAQVersand'
+
 const token = localStorage.getItem('rc-token');
 
 const App = () => (
@@ -236,7 +239,9 @@ const App = () => (
                 exact
                 component={AccountShippingAddressForm}
               />
-              <Route exact path="/forgetPassword" component={ForgetPassword} />
+              <Route exact path="/forgetPassword" component={ForgetPassword} />         
+              <Route exact path="/Widerrufsbelehrung" component={Widerrufsbelehrung} />
+              <Route exact path="/FAQVersand" component={FAQVersand} />
 
               {/* <Route exact component={Exception} /> */}
             </Security>
