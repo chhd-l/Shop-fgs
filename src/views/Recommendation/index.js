@@ -732,8 +732,7 @@ class Help extends React.Component {
                           fontSize: '16px',
                           color: '#666666',
                           fontWeight: '500',
-                          letterSpacing: '0',
-                          marginTop: '8px'
+                          letterSpacing: '0'
                         }}
                       >
                         {prescriberInfo.prescriberName}
@@ -744,7 +743,15 @@ class Help extends React.Component {
                           letterSpacing: '0'
                         }}
                       >
-                        {prescriberInfo.primaryCity}
+                        {`${prescriberInfo.phone}, ${prescriberInfo.primaryZip}, ${prescriberInfo.primaryCity}`}
+                      </p>
+                      <p
+                        style={{
+                          fontSize: '12px',
+                          letterSpacing: '0'
+                        }}
+                      >
+                        {`${prescriberInfo.location}`}
                       </p>
                     </div>
                     <p
@@ -878,7 +885,7 @@ class Help extends React.Component {
                             <FormattedMessage id="price" />
                           </div>
                           <b
-                            className="red  rc-padding-y--none"
+                            className="rc-padding-y--none"
                             style={{
                               fontWeight: '200',
                               fontSize: '24px',
@@ -903,7 +910,7 @@ class Help extends React.Component {
                               <FormattedMessage id="autoship" />
                             </div>
                             <b
-                              className="red  rc-padding-y--none"
+                              className="rc-padding-y--none"
                               style={{
                                 fontWeight: '200',
                                 fontSize: '24px',
