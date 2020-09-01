@@ -79,7 +79,11 @@ const App = () => (
       locale={process.env.REACT_APP_LANG}
       messages={ENUM_LANGFILE[process.env.REACT_APP_LANG]}
     >
-      <Router path="/">
+      <Router 
+        // basename="/aa/" 
+        basename={process.env.REACT_APP_HOMEPAGE}
+        path="/"
+        >
         <RouteFilter />
         <ScrollToTop>
           <Switch>
