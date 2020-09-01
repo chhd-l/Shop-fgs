@@ -12,11 +12,13 @@ class Landing extends Component {
         super(props);
         this.state = {
             inputType: [
-                { name: 'Nombre', value: '' },
-                { name: 'Nombre de clínica', value: '' },
-                { name: 'Ciudad', value: '' },
-                { name: 'Email', value: '' },
-            ]
+                { name: 'Nombre', value: '',isRequired:true },
+                { name: 'Nombre de clínica', value: '',isRequired:true },
+                { name: 'Ciudad', value: '',isRequired:true },
+                { name: 'Email', value: '',isRequired:true },
+            ],
+            inputSuccessClass:["rc-input", "rc-input--inline", "rc-input--label","rc-input--success"],
+            inputClass:["rc-input", "rc-input--inline", "rc-input--label"],
         };
     }
     changeEvent=(e)=>{
@@ -25,6 +27,20 @@ class Landing extends Component {
         this.setState({
             inputType: copyArr
         })
+    }
+    submitEvent=()=>{
+        console.log(this.state.inputType)
+        let copyArr = [...this.state.inputType]
+        this.isEmptyTest(copyArr)
+    }
+    isEmptyTest(arr){
+       let emptyIndex
+       let isEmpty = arr.some((item,index)=>{
+            emptyIndex = index
+            return item.isRequired&&(!item.value)
+        })
+        console.log(isEmpty)
+        console.log(emptyIndex)
     }
     render() {
         return (
@@ -59,7 +75,7 @@ class Landing extends Component {
                                     </div>
                                     <div class="rc-column" style={{ padding: '0 0 0 20px' }}>
                                         <div class="rc-content-v-left">
-                                            <span class="rc-input rc-input--inline rc-input--label">
+                                            <span className="rc-input rc-input--inline rc-input--label" className={item.value?this.state.inputSuccessClass.join(" "):this.state.inputClass.join(" ")}>
                                                 <input class="rc-input__control" id="id-textsuffix" type="text" name="text" style={{ fontSize: '12px',paddingBottom:0 }} name={index} onChange={this.changeEvent} />
                                                 <label class="rc-input__label" for="id-textsuffix" style={{ fontSize: '12px'}}>
                                                     <span class="rc-input__label-text">Text input</span>
@@ -75,7 +91,7 @@ class Landing extends Component {
 
                     {/* submit按钮 */}
                     <div style={{ textAlign: 'center', margin: '30px 0 ' }}>
-                        <button className="rc-btn rc-btn rc-btn--one px-5">Submit</button>
+                        <button className="rc-btn rc-btn rc-btn--one px-5" onClick={this.submitEvent}>Submit</button>
                     </div>
                 </div>
 
