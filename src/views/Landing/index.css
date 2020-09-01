@@ -10,3 +10,12 @@
         margin:0 auto;
       }
 }
+
+.landing-wrap .rc-input__control:not([value=""])~.rc-input__label .rc-input__label-text, 
+.landing-wrap .rc-input__date~.rc-input__label .rc-input__label-text
+{
+    font-size: .7rem;
+    -webkit-transform: translateY(-1.5em)!important;
+    transform: translateY(-1.5em)!important;
+    padding-left: 0;
+}
