@@ -210,7 +210,7 @@ class ClinicEditForm extends React.Component {
           </div>
           <div className={`${editFormVisible ? '' : 'hidden'}`}>
             <SearchSelection
-              queryList={async (inputVal) => {
+              queryList={async ({ inputVal }) => {
                 const res = await (this.props.configStore.prescriberMap
                   ? getPrescriberByKeyWord({
                       storeId: process.env.REACT_APP_STOREID,

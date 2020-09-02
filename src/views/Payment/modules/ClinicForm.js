@@ -112,7 +112,7 @@ class ClinicForm extends React.Component {
         </div>
         <div className="rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex align-items-center justify-content-between">
           <SearchSelection
-            queryList={async (inputVal) => {
+            queryList={async ({ inputVal }) => {
               let res = await getPrescriberByCode({
                 code: inputVal,
                 storeId: process.env.REACT_APP_STOREID
