@@ -57,7 +57,7 @@ class Landing extends Component {
                 <div style={{ marginTop: '100px' }}>
                     {/* banger视频 */}
                     <Link to="/" style={{display:'flex',justifyContent:'center',height:'300px'}}>
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/Yiktt8SkL3A?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/Yiktt8SkL3A" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </Link>
 
                     {/* 介绍 */}
