@@ -619,5 +619,9 @@ const en_US = {
   isContinue: '¿Continuar?',
   'outOfStockContent_cart': 'Entre los productos actualmente recomendados, hay productos agotados: {val}.Si continúa agregando el carrito de compras, los productos agotados se eliminarán directamente.',
   'outOfStockContent_pay': 'Entre los productos actualmente recomendados, hay productos agotados: {val}.Si continúa con el pago, los productos agotados se eliminarán directamente.',
+  'comment.noLogisticsRatingTip': 'Por favor comente sobre el servicio logístico',
+  'comment.noProductRatingTip': 'Por favor comente sobre los productos',
+  'comment.noShoppingExperienceTip': 'Comenta sobre la experiencia de compra',
+  'comment.commentsTooLong': 'No se puede comentar más de 500 caracteres',
 }
 export default en_US;

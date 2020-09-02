@@ -543,7 +543,7 @@ class AccountOrders extends React.Component {
                                 {PAY_STATUS_ENUM[order.tradeState.payState] ||
                                   order.tradeState.payState}
                               </div>
-                              <div className="col-4 col-md-2 text-center">
+                              <div className="col-4 col-md-2 text-center pl-md-0 pr-md-0">
                                 {order.canPayNow ? (
                                   <>
                                     <TimeCount
@@ -561,7 +561,10 @@ class AccountOrders extends React.Component {
                                           ? 'ui-btn-loading'
                                           : ''
                                       }`}
-                                      style={{ transform: 'scale(.85)' }}
+                                      style={{
+                                        transform: 'scale(.85)',
+                                        transformOrigin: 0
+                                      }}
                                       onClick={() =>
                                         this.handleClickPayNow(order)
                                       }
@@ -580,7 +583,11 @@ class AccountOrders extends React.Component {
                                 {order.canReview ? (
                                   <button
                                     className="rc-btn rc-btn--sm rc-btn--two"
-                                    style={{ transform: 'scale(.85)' }}
+                                    style={{
+                                      transform: 'scale(.85)',
+                                      transformOrigin: 0,
+                                      maxWidth: '199px'
+                                    }}
                                   >
                                     <FormattedMessage id="writeReview">
                                       {(txt) => (
@@ -599,7 +606,10 @@ class AccountOrders extends React.Component {
                                 {order.canRePurchase ? (
                                   <button
                                     className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn"
-                                    style={{ transform: 'scale(.85)' }}
+                                    style={{
+                                      transform: 'scale(.85)',
+                                      transformOrigin: 0
+                                    }}
                                     onClick={() => this.rePurchase(order)}
                                   >
                                     <FormattedMessage id="rePurchase"></FormattedMessage>
