@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import { injectIntl, FormattedMessage } from "react-intl";
 import logoAnimatedPng from "@/assets/images/logo--animated.png";
 import "./index.css"
+import {
+    customerInfoSave
+} from "@/api/landing";
+import Loading from "@/components/Loading";
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -11,16 +15,23 @@ class Landing extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             clientWidth:0,//屏幕宽度
             inputType: [
-                { name: 'Nombre', value: '',isRequired:true },
-                { name: 'Nombre de clínica', value: '',isRequired:true },
-                { name: 'Ciudad', value: '',isRequired:true },
+                { name: 'Nombre', value: '',isRequired:true },//姓名
+                { name: 'Nombre de clínica', value: '',isRequired:true },//诊所名字
+                { name: 'Ciudad', value: '',isRequired:true },//城市
                 { name: 'Email', value: '',isRequired:true },
             ],
             inputSuccessClass:["rc-input", "rc-input--inline", "rc-input--label","rc-input--success"],
             inputClass:["rc-input", "rc-input--inline", "rc-input--label"],
         };
+    }
+    startLoading () {
+        this.setState({ loading: true });
+    }
+    endLoading () {
+        this.setState({ loading: false });
     }
     changeEvent=(e)=>{
         let copyArr = [...this.state.inputType]
@@ -29,19 +40,40 @@ class Landing extends Component {
             inputType: copyArr
         })
     }
-    submitEvent=()=>{
-        console.log(this.state.inputType)
-        let copyArr = [...this.state.inputType]
-        this.isEmptyTest(copyArr)
+    submitEvent= async ()=>{
+        try {
+            let copyArr = [...this.state.inputType]
+            this.isEmptyTest(copyArr)
+
+            let name = this.state.inputType[0].value
+            let prescriberName = this.state.inputType[1].value
+            let city = this.state.inputType[2].value
+            let email = this.state.inputType[3].value
+            this.startLoading()
+            await customerInfoSave({                     
+                name,
+                prescriberName,
+                city,  
+                email,
+                "storeId": 123456858
+            })
+        }catch(err){
+            console.log(err.message)
+            alert(err.message)
+        }finally{
+            this.endLoading()     
+        }
     }
+    //是否有没填的input框
     isEmptyTest(arr){
        let emptyIndex
        let isEmpty = arr.some((item,index)=>{
             emptyIndex = index
             return item.isRequired&&(!item.value)
         })
-        console.log(isEmpty)
-        console.log(emptyIndex)
+        if (isEmpty) {
+            throw new Error(this.state.inputType[emptyIndex].name+' wrong')
+        }
     }
     cal_clientWidth(clientWidth){
         this.setState({
@@ -60,6 +92,7 @@ class Landing extends Component {
         
         return (
             <div className="landing-wrap">
+                {this.state.loading ? <Loading /> : null}
                 {/* logo */}
                 <Link to="/" className="header__nav__brand logo-home pt-2">
                     <span className="rc-screen-reader-text"></span>

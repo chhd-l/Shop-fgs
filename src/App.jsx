@@ -30,7 +30,7 @@ import stores from "./store";
 import store from "storejs";
 
 import RegisterRequired from "@/views/Login/RegisterRequired"
-import Landing from "@/views/Landing/index"
+import Landing from "@/views/Landing/index2"
 import ScrollToTop from "@/components/ScrollToTop";
 import RouteFilter from "@/components/RouteFilter";
 import Home from "@/views/Home";
