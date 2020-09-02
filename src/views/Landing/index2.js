@@ -119,7 +119,7 @@ class Landing extends Component {
             <div className="landing-wrap">
                 {this.state.loading ? <Loading /> : null}
                 <div class="rc-three-column">
-                    <div class="rc-column rc-double-width borderRight" style={{ padding: 0 }}>
+                    <div class="rc-column rc-double-width borderRight videoPadding">
                         <video className="my-video" autoPlay={true} muted={true} loop={true} id="myVideo" poster="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw92b314b6/homepage/01_Slider_img_Desktop.jpg?sw=1400&amp;sfrm=png">
                             <source src="https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/01741c54b836d0547c5619cfd12f7b3a.mp4" type="video/mp4" />
                         </video>
@@ -130,7 +130,7 @@ class Landing extends Component {
                         </div>
 
                         {/* 介绍 */}
-                        <p style={{ textAlign: 'justify', color: '#000', fontSize: '12px', margin: '20px' }}>Te presentamos la innovación de Royal Canin México, eVet. La manera más fácil para tus pacientes de adquirir las dietas veterinarias y de prescripción de Royal Canin por medio de una plataforma exclusiva para veterinarios. Todo esto por medio de tu prescripción, ya que para nosotros lo más importante es el bienestar de los gatos y los perros, y tu Médico Veterinario tienes la batuta en el alimento a recomendar, por favor ponte en contacto con nosotros para saber cómo integrar tu clínica en esta nueva forma de estar en contacto con tus clientes y paciente.</p>
+                        <p style={{ textAlign: 'justify', color: '#000', fontSize: '14px', margin: '20px' }}>Te presentamos la innovación de Royal Canin México, eVet. La manera más fácil para tus pacientes de adquirir las dietas veterinarias y de prescripción de Royal Canin por medio de una plataforma exclusiva para veterinarios. Todo esto por medio de tu prescripción, ya que para nosotros lo más importante es el bienestar de los gatos y los perros, y tu Médico Veterinario tienes la batuta en el alimento a recomendar, por favor ponte en contacto con nosotros para saber cómo integrar tu clínica en esta nueva forma de estar en contacto con tus clientes y paciente.</p>
 
                     </div>
                     <div class='rc-column space' style={{ position: 'relative' }}>
@@ -158,7 +158,7 @@ class Landing extends Component {
                                     <img
                                         alt="Royal Canin"
                                         src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
-                                        style={{ background: "url(" + logoAnimatedPng + ") no-repeat center center", width: '105px', height: '40px', backgroundSize: 'cover' }}
+                                        style={{ background: "url(" + logoAnimatedPng + ") no-repeat center center", width: '105px', height: '50px', backgroundSize: 'cover' }}
                                     />
                                 </Link>
                                 <div className="form-margin-top">
