@@ -783,12 +783,11 @@ class Payment extends React.Component {
       subForm,
       payosdata
     } = this.state;
-    debugger
     let param = {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
-      city: deliveryAddress.city,
+      city: deliveryAddress.cityName,
       country: payosdata.country_code,
       token: payosdata.token,
       creditDardCvv: payosdata.encrypted_cvv,
@@ -929,7 +928,10 @@ class Payment extends React.Component {
           country: tmpDeliveryAddressData.countryId
             ? tmpDeliveryAddressData.countryId.toString()
             : "",
-          city: tmpDeliveryAddressData.cityName,
+            city: tmpDeliveryAddressData.cityId
+            ? tmpDeliveryAddressData.cityId.toString()
+            : "",
+            cityName: tmpDeliveryAddressData.cityName,
           postCode: tmpDeliveryAddressData.postCode,
           phoneNumber: tmpDeliveryAddressData.consigneeNumber,
           addressId: tmpDeliveryAddressData.deliveryAddressId,
@@ -954,7 +956,10 @@ class Payment extends React.Component {
             country: tmpBillingAddressData.countryId
               ? tmpBillingAddressData.countryId.toString()
               : "",
-            city: tmpBillingAddressData.cityName,
+              city: tmpBillingAddressData.cityId
+              ? tmpBillingAddressData.cityId.toString()
+              : "",
+              cityName: tmpBillingAddressData.cityName,
             postCode: tmpBillingAddressData.postCode,
             phoneNumber: tmpBillingAddressData.consigneeNumber,
             addressId: tmpBillingAddressData.deliveryAddressId,
@@ -1184,7 +1189,7 @@ class Payment extends React.Component {
                               <AddressList
                                 id="1"
                                 ref={this.loginDeliveryAddressRef}
-                                updateData={data => {debugger;this.setState({ deliveryAddress: data })}}
+                                updateData={data => {this.setState({ deliveryAddress: data })}}
                               />
                             ) : (
                                 <VisitorDeliveryAddress
