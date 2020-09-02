@@ -11,6 +11,13 @@
       }
 }
 
+.landing-wrap .pr20{
+    padding: 0 0 0 20px;
+}
+.landing-wrap .p0{
+    padding: 0 0 0 0;
+}
+
 .landing-wrap .rc-input__control:not([value=""])~.rc-input__label .rc-input__label-text, 
 .landing-wrap .rc-input__date~.rc-input__label .rc-input__label-text
 {

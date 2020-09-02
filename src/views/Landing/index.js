@@ -11,6 +11,7 @@ class Landing extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            clientWidth:0,//屏幕宽度
             inputType: [
                 { name: 'Nombre', value: '',isRequired:true },
                 { name: 'Nombre de clínica', value: '',isRequired:true },
@@ -42,7 +43,21 @@ class Landing extends Component {
         console.log(isEmpty)
         console.log(emptyIndex)
     }
+    cal_clientWidth(clientWidth){
+        this.setState({
+            clientWidth
+        },()=>{
+            console.log(this.state.clientWidth)
+        })
+    }
+    componentDidMount(){
+        this.cal_clientWidth(document.body.clientWidth)
+    }
     render() {
+        window.onresize = ()=>{
+           this.cal_clientWidth(document.body.clientWidth)
+        }
+        
         return (
             <div className="landing-wrap">
                 {/* logo */}
@@ -69,11 +84,11 @@ class Landing extends Component {
                             return (
                                 <div class="rc-two-column" style={{ alignItems: 'baseline' }}>
                                     <div class="rc-column" style={{ padding: 0 }}>
-                                        <div class="rc-content-v-right" style={{ paddingTop: '10px' }}>
+                                        <div class={this.state.clientWidth>769?'rc-content-v-right':'rc-content-v-left'} style={{ paddingTop: '10px' }}> 
                                             <h4 class="rc-delta" style={{ fontSize: '12px' }}>{item.name}:</h4>
                                         </div>
                                     </div>
-                                    <div class="rc-column" style={{ padding: '0 0 0 20px' }}>
+                                    <div class={this.state.clientWidth>769?'rc-column pr20':'rc-column p0'}> 
                                         <div class="rc-content-v-left">
                                             <span className={item.value?this.state.inputSuccessClass.join(" "):this.state.inputClass.join(" ")}>
                                                 <input class="rc-input__control" id="id-textsuffix" type="text" name="text" style={{ fontSize: '12px',paddingBottom:0 }} name={index} onChange={this.changeEvent} />
