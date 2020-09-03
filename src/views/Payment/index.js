@@ -2,7 +2,7 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { findIndex, find } from 'lodash';
 import { inject, observer } from 'mobx-react';
-import { toJS } from "mobx";
+import { toJS } from 'mobx';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -102,7 +102,6 @@ class Payment extends React.Component {
       //creditCard oxxo adyenCard adyenKlarnaPayNow adyenKlarnaPayLater directEbanking
       paymentTypeVal: '',
       errorMsg: '',
-      commentOnDelivery: '',
       currentProduct: null,
       loading: false,
       modalShow: false,
@@ -134,18 +133,19 @@ class Payment extends React.Component {
     if (this.state.tid) {
       this.queryOrderDetails();
     }
-    if(sessionStorage.getItem('recommend_product')) {
-      let recommend_data = JSON.parse(sessionStorage.getItem('recommend_product'))
-      console.log(recommend_data, 'recommend_data', toJS(this.loginCartData))
-      recommend_data = recommend_data.map(el => {
-        el.goodsInfo.salePrice = el.goodsInfo.marketPrice
-        el.goodsInfo.buyCount = el.recommendationNumber
-        return el.goodsInfo
-      })
-      this.props.checkoutStore.updatePromotionFiled(recommend_data)
-      this.setState({recommend_data})
+    if (sessionStorage.getItem('recommend_product')) {
+      let recommend_data = JSON.parse(
+        sessionStorage.getItem('recommend_product')
+      );
+      console.log(recommend_data, 'recommend_data', toJS(this.loginCartData));
+      recommend_data = recommend_data.map((el) => {
+        el.goodsInfo.salePrice = el.goodsInfo.marketPrice;
+        el.goodsInfo.buyCount = el.recommendationNumber;
+        return el.goodsInfo;
+      });
+      this.props.checkoutStore.updatePromotionFiled(recommend_data);
+      this.setState({ recommend_data });
     }
-    
 
     //获取支付方式
     const payWay = await getWays();
@@ -269,7 +269,7 @@ class Payment extends React.Component {
     );
 
     if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
-      console.log(this.isLogin, this.loginCartData.length, this.state.tid,111)
+      console.log(this.isLogin, this.loginCartData.length, this.state.tid, 111);
       // this.props.history.push('/cart');
       return false;
     }
@@ -278,7 +278,12 @@ class Payment extends React.Component {
       (!this.cartData.length ||
         !this.cartData.filter((ele) => ele.selected).length)
     ) {
-      console.log(this.isLogin, this.cartData.length, this.cartData.filter((ele) => ele.selected).length, 222 )
+      console.log(
+        this.isLogin,
+        this.cartData.length,
+        this.cartData.filter((ele) => ele.selected).length,
+        222
+      );
       // this.props.history.push('/cart');
       return false;
     }
@@ -300,7 +305,6 @@ class Payment extends React.Component {
           billingAddress: Object.assign(deliveryInfo.billingAddress, {
             country: defaultCountryId
           }),
-          commentOnDelivery: deliveryInfo.commentOnDelivery,
           billingChecked: deliveryInfo.billingChecked,
           creditCardInfo: creditCardInfo
         });
@@ -327,7 +331,7 @@ class Payment extends React.Component {
     localStorage.setItem('isRefresh', true);
     sessionStorage.removeItem('rc-tid');
     sessionStorage.removeItem('rc-subform');
-    sessionStorage.removeItem('recommend_product')
+    sessionStorage.removeItem('recommend_product');
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -564,13 +568,19 @@ class Payment extends React.Component {
             currency: 'EUR',
             country: 'DE',
             email: this.state.email,
-            payChannelItem:this.state.subForm.buyWay === 'frequency'?'adyen_card_subscription':'adyen_credit_card'
+            payChannelItem:
+              this.state.subForm.buyWay === 'frequency'
+                ? 'adyen_card_subscription'
+                : 'adyen_credit_card'
           });
         },
         adyen_klarna_pay_lat: () => {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna',
-            payChannelItem:this.state.subForm.buyWay === 'frequency'?'adyen_klarna_subscription':'adyen_klarna_pay_lat',
+            payChannelItem:
+              this.state.subForm.buyWay === 'frequency'
+                ? 'adyen_klarna_subscription'
+                : 'adyen_klarna_pay_lat',
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: 'DE',
@@ -580,7 +590,10 @@ class Payment extends React.Component {
         adyen_klarna_pay_now: () => {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna_paynow',
-            payChannelItem:this.state.subForm.buyWay === 'frequency'?'adyen_klarna_subscription':'adyen_klarna_pay_now',
+            payChannelItem:
+              this.state.subForm.buyWay === 'frequency'
+                ? 'adyen_klarna_subscription'
+                : 'adyen_klarna_pay_now',
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: 'DE',
@@ -842,7 +855,6 @@ class Payment extends React.Component {
     let {
       deliveryAddress,
       billingAddress,
-      commentOnDelivery,
       creditCardInfo,
       subForm,
       payosdata
@@ -861,7 +873,6 @@ class Payment extends React.Component {
       line2: deliveryAddress.address2,
       clinicsId: this.props.clinicStore.clinicId,
       clinicsName: this.props.clinicStore.clinicName,
-      remark: commentOnDelivery,
       storeId: process.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
@@ -876,14 +887,14 @@ class Payment extends React.Component {
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId
     };
-    if(localStorage.getItem('recommend_product')) {
+    if (localStorage.getItem('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
           num: ele.buyCount,
           skuId: ele.goodsInfoId
         };
       });
-    }else if (this.isLogin) {
+    } else if (this.isLogin) {
       param.tradeItems = loginCartData.map((ele) => {
         return {
           num: ele.buyCount,
@@ -963,12 +974,7 @@ class Payment extends React.Component {
    */
   async saveAddressAndCommentPromise() {
     try {
-      const {
-        deliveryAddress,
-        billingAddress,
-        billingChecked,
-        commentOnDelivery
-      } = this.state;
+      const { deliveryAddress, billingAddress, billingChecked } = this.state;
       let tmpDeliveryAddress = deliveryAddress;
       let tmpBillingAddress = billingAddress;
       if (this.isLogin) {
@@ -1031,8 +1037,7 @@ class Payment extends React.Component {
       }
       const param = {
         billingChecked,
-        deliveryAddress: tmpDeliveryAddress,
-        commentOnDelivery
+        deliveryAddress: tmpDeliveryAddress
       };
 
       if (billingChecked) {
@@ -1055,7 +1060,6 @@ class Payment extends React.Component {
       this.setState({
         deliveryAddress: param.deliveryAddress,
         billingAddress: param.billingAddress,
-        commentOnDelivery: param.commentOnDelivery,
         billingChecked: param.billingChecked
       });
     } catch (err) {
@@ -1108,9 +1112,6 @@ class Payment extends React.Component {
       throw new Error(err.message);
     }
   }
-  commentChange(e) {
-    this.setState({ commentOnDelivery: e.target.value });
-  }
   billingCheckedChange() {
     let { billingChecked } = this.state;
     this.setState({ billingChecked: !billingChecked });
@@ -1128,6 +1129,214 @@ class Payment extends React.Component {
   handlePaymentTypeChange(e) {
     this.setState({ paymentTypeVal: e.target.value });
   }
+
+  /**
+   * 渲染address panel
+   */
+  _renderAddressPanel = () => {
+    const { deliveryAddress, billingAddress } = this.state;
+    return (
+      <>
+        <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
+          {this.isLogin ? (
+            <AddressList
+              id="1"
+              ref={this.loginDeliveryAddressRef}
+              updateData={(data) => {
+                this.setState({ deliveryAddress: data });
+              }}
+            />
+          ) : (
+            <VisitorDeliveryAddress
+              data={deliveryAddress}
+              updateData={(data) => {
+                this.setState({
+                  deliveryAddress: data
+                });
+              }}
+            />
+          )}
+
+          <div className="billingCheckbox rc-margin-top--xs fit-mobile-billingCheckbox">
+            <div>
+              <input
+                className="form-check-input"
+                id="id-checkbox-billing"
+                value="Cat"
+                type="checkbox"
+                onChange={() => this.billingCheckedChange()}
+                checked={this.state.billingChecked}
+                style={{ width: '17px', height: '17px' }}
+              />
+              <label
+                className="rc-input__label--inline"
+                htmlFor="id-checkbox-billing"
+              >
+                <FormattedMessage id="biliingAddressSameAs" />
+              </label>
+            </div>
+            <div className="normalDelivery  fit-mobile-normalDelivery">
+              <span>
+                <FormattedMessage id="payment.normalDelivery2" />
+              </span>
+              <span className="text-muted arrival-time ">
+                <FormattedMessage id="payment.normalDelivery3" />
+              </span>
+
+              <span className="shipping-method-pricing ml3">
+                <span
+                  className="info delivery-method-tooltip fit-mobile-icon-left"
+                  style={{ verticalAlign: 'unset' }}
+                  onMouseEnter={() => {
+                    this.setState({
+                      toolTipVisible: true
+                    });
+                  }}
+                  onMouseLeave={() => {
+                    this.setState({
+                      toolTipVisible: false
+                    });
+                  }}
+                >
+                  i
+                </span>
+                <ConfirmTooltip
+                  containerStyle={{
+                    transform: 'translate(-65%, 112%)'
+                  }}
+                  arrowStyle={{ left: '92%' }}
+                  display={this.state.toolTipVisible}
+                  cancelBtnVisible={false}
+                  confirmBtnVisible={false}
+                  updateChildDisplay={(status) =>
+                    this.setState({
+                      toolTipVisible: status
+                    })
+                  }
+                  content={<FormattedMessage id="payment.forFreeTip" />}
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+        {!this.state.billingChecked && (
+          <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
+            <div
+              className="card-header bg-transparent position-relative pt-0 pb-0"
+              style={{ zIndex: 2, width: '62%' }}
+            >
+              <h5>
+                <i className="rc-icon rc-news--xs rc-iconography" />{' '}
+                <FormattedMessage id="payment.billTitle" />
+              </h5>
+            </div>
+            {this.isLogin ? (
+              <AddressList
+                id="2"
+                type="billing"
+                ref={this.loginBillingAddressRef}
+                visible={!this.state.billingChecked}
+                updateData={(data) => {
+                  this.setState({ billingAddress: data });
+                }}
+              />
+            ) : (
+              <VisitorBillingAddress
+                data={billingAddress}
+                billingChecked={this.state.billingChecked}
+                updateData={(data) => {
+                  this.setState({
+                    billingAddress: data
+                  });
+                }}
+              />
+            )}
+          </div>
+        )}
+      </>
+    );
+  };
+
+  /**
+   * 渲染订阅/一次购买模式选择
+   */
+  _renderSubSelect = () => {
+    return this.isLogin &&
+      find(
+        this.state.recommend_data || this.loginCartData,
+        (ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0
+      ) ? (
+      <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
+        <div className="card-header bg-transparent pt-0 pb-0">
+          <h5>
+            <span className="iconfont font-weight-bold mr-2">&#xe657;</span>
+            <FormattedMessage id="subscription.chooseSubscription" />
+          </h5>
+        </div>
+        <SubscriptionSelect
+          data={this.state.recommend_data}
+          updateSelectedData={(data) => {
+            this.refs.payProductInfo.setState({
+              isShowValidCode: false
+            });
+            this.props.frequencyStore.updateBuyWay(data.buyWay);
+            this.props.frequencyStore.updateFrequencyName(data.frequencyName);
+
+            // ****************订阅的时候隐藏oxxo支付方式start******************
+            let payuoxxoIndex;
+            if (
+              Object.prototype.toString
+                .call(this.state.payWayObj)
+                .slice(8, -1) == 'Array'
+            ) {
+              //判断payWayObj是数组
+              if (data.buyWay === 'frequency') {
+                payuoxxoIndex = findIndex(this.state.payWayObj, function (o) {
+                  return o.name == 'payuoxxo';
+                }); //找到oxxo在数组中的下标
+                if (payuoxxoIndex != -1) {
+                  this.state.payWayObj.splice(payuoxxoIndex, 1);
+                }
+              } else {
+                //为后台提供的初始支付方式
+                this.state.payWayObj = JSON.parse(
+                  JSON.stringify(this.state.savedPayWayObj)
+                );
+              }
+            }
+            // ****************订阅的时候隐藏oxxo支付方式end******************
+
+            if (
+              data.buyWay === 'frequency' &&
+              this.state.paymentTypeVal === 'oxxo'
+            ) {
+              this.setState({
+                paymentTypeVal: 'creditCard'
+              });
+            }
+            this.setState(
+              {
+                subForm: data
+              },
+              () => {
+                if (!sessionStorage.getItem('recommend_product')) {
+                  this.state.subForm.buyWay == 'once'
+                    ? this.props.checkoutStore.updateLoginCart(
+                        this.state.promotionCode,
+                        false
+                      )
+                    : this.props.checkoutStore.updateLoginCart(
+                        this.state.promotionCode,
+                        true
+                      );
+                }
+              }
+            );
+          }}
+        />
+      </div>
+    ) : null;
+  };
 
   /**
    * 渲染支付方式
@@ -1265,7 +1474,6 @@ class Payment extends React.Component {
   };
 
   render() {
-    const { deliveryAddress, billingAddress, creditCardInfo } = this.state;
     const event = {
       page: {
         type: 'Checkout',
@@ -1282,14 +1490,8 @@ class Payment extends React.Component {
           showUserIcon={true}
         />
         {this.state.loading ? <Loading /> : null}
-        <main
-          className="rc-content--fixed-header rc-bg-colour--brand4"
-          id="payment"
-        >
-          <div
-            id="checkout-main"
-            className="rc-bottom-spacing data-checkout-stage rc-max-width--lg"
-          >
+        <main className="rc-content--fixed-header rc-bg-colour--brand4">
+          <div className="rc-bottom-spacing data-checkout-stage rc-max-width--lg">
             <Progress type="payment" />
             <div className="rc-layout-container rc-three-column rc-max-width--xl">
               <div className="rc-column rc-double-width shipping__address">
@@ -1313,209 +1515,10 @@ class Payment extends React.Component {
                     <div className="shipping-form">
                       <div className="bg-transparent">
                         <ClinicForm history={this.props.history} />
-                        <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-                          {this.isLogin ? (
-                            <AddressList
-                              id="1"
-                              ref={this.loginDeliveryAddressRef}
-                              updateData={(data) => {
-                                this.setState({ deliveryAddress: data });
-                              }}
-                            />
-                          ) : (
-                            <VisitorDeliveryAddress
-                              data={deliveryAddress}
-                              updateData={(data) => {
-                                this.setState({
-                                  deliveryAddress: data
-                                });
-                              }}
-                            />
-                          )}
-
-                          <div className="billingCheckbox rc-margin-top--xs fit-mobile-billingCheckbox">
-                            <div>
-                              <input
-                                className="form-check-input"
-                                id="id-checkbox-billing"
-                                value="Cat"
-                                type="checkbox"
-                                onChange={() => this.billingCheckedChange()}
-                                checked={this.state.billingChecked}
-                                style={{ width: '17px', height: '17px' }}
-                              />
-                              <label
-                                className="rc-input__label--inline"
-                                htmlFor="id-checkbox-billing"
-                              >
-                                <FormattedMessage id="biliingAddressSameAs" />
-                              </label>
-                            </div>
-                            <div className="normalDelivery  fit-mobile-normalDelivery">
-                              <span>
-                                <FormattedMessage id="payment.normalDelivery2" />
-                              </span>
-                              <span className="text-muted arrival-time ">
-                                <FormattedMessage id="payment.normalDelivery3" />
-                              </span>
-
-                              <span className="shipping-method-pricing ml3">
-                                <span
-                                  className="info delivery-method-tooltip fit-mobile-icon-left"
-                                  style={{ verticalAlign: 'unset' }}
-                                  onMouseEnter={() => {
-                                    this.setState({
-                                      toolTipVisible: true
-                                    });
-                                  }}
-                                  onMouseLeave={() => {
-                                    this.setState({
-                                      toolTipVisible: false
-                                    });
-                                  }}
-                                >
-                                  i
-                                </span>
-                                <ConfirmTooltip
-                                  containerStyle={{
-                                    transform: 'translate(-65%, 112%)'
-                                  }}
-                                  arrowStyle={{ left: '92%' }}
-                                  display={this.state.toolTipVisible}
-                                  cancelBtnVisible={false}
-                                  confirmBtnVisible={false}
-                                  updateChildDisplay={(status) =>
-                                    this.setState({
-                                      toolTipVisible: status
-                                    })
-                                  }
-                                  content={
-                                    <FormattedMessage id="payment.forFreeTip" />
-                                  }
-                                />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        {!this.state.billingChecked && (
-                          <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-                            <div
-                              className="card-header bg-transparent position-relative pt-0 pb-0"
-                              style={{ zIndex: 2, width: '62%' }}
-                            >
-                              <h5>
-                                <i className="rc-icon rc-news--xs rc-iconography" />{' '}
-                                <FormattedMessage id="payment.billTitle" />
-                              </h5>
-                            </div>
-                            {this.isLogin ? (
-                              <AddressList
-                                id="2"
-                                type="billing"
-                                ref={this.loginBillingAddressRef}
-                                visible={!this.state.billingChecked}
-                                updateData={(data) => {
-                                  this.setState({ billingAddress: data });
-                                }}
-                              />
-                            ) : (
-                              <VisitorBillingAddress
-                                data={billingAddress}
-                                billingChecked={this.state.billingChecked}
-                                updateData={(data) => {
-                                  this.setState({
-                                    billingAddress: data
-                                  });
-                                }}
-                              />
-                            )}
-                          </div>
-                        )}
+                        {this._renderAddressPanel()}
                       </div>
                     </div>
-                    {this.isLogin &&
-                    find(
-                      this.state.recommend_data || this.loginCartData,
-                      (ele) =>
-                        ele.subscriptionStatus && ele.subscriptionPrice > 0
-                    ) ? (
-                      <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-                        <div className="card-header bg-transparent pt-0 pb-0">
-                          <h5>
-                            <span className="iconfont font-weight-bold mr-2">
-                              &#xe657;
-                            </span> 
-                            <FormattedMessage id="subscription.chooseSubscription" />
-                          </h5>
-                        </div>
-                        <SubscriptionSelect
-                          data={this.state.recommend_data}
-                          updateSelectedData={(data) => {
-                            this.refs.payProductInfo.setState({
-                              isShowValidCode: false
-                            });
-                            this.props.frequencyStore.updateBuyWay(data.buyWay);
-                            this.props.frequencyStore.updateFrequencyName(
-                              data.frequencyName
-                            );
-
-                            // ****************订阅的时候隐藏oxxo支付方式start******************
-                            let payuoxxoIndex;
-                            if (
-                              Object.prototype.toString
-                                .call(this.state.payWayObj)
-                                .slice(8, -1) == 'Array'
-                            ) {
-                              //判断payWayObj是数组
-                              if (data.buyWay === 'frequency') {
-                                payuoxxoIndex = findIndex(
-                                  this.state.payWayObj,
-                                  function (o) {
-                                    return o.name == 'payuoxxo';
-                                  }
-                                ); //找到oxxo在数组中的下标
-                                if (payuoxxoIndex != -1) {
-                                  this.state.payWayObj.splice(payuoxxoIndex, 1);
-                                }
-                              } else {
-                                //为后台提供的初始支付方式
-                                this.state.payWayObj = JSON.parse(
-                                  JSON.stringify(this.state.savedPayWayObj)
-                                );
-                              }
-                            }
-                            // ****************订阅的时候隐藏oxxo支付方式end******************
-
-                            if (
-                              data.buyWay === 'frequency' &&
-                              this.state.paymentTypeVal === 'oxxo'
-                            ) {
-                              this.setState({
-                                paymentTypeVal: 'creditCard'
-                              });
-                            }
-                            this.setState(
-                              {
-                                subForm: data
-                              },
-                              () => {
-                                if(!sessionStorage.getItem('recommend_product')) {
-                                  this.state.subForm.buyWay == 'once'
-                                  ? this.props.checkoutStore.updateLoginCart(
-                                      this.state.promotionCode,
-                                      false
-                                    )
-                                  : this.props.checkoutStore.updateLoginCart(
-                                      this.state.promotionCode,
-                                      true
-                                    );
-                                } 
-                              }
-                            );
-                          }}
-                        />
-                      </div>
-                    ) : null}
+                    {this._renderSubSelect()}
                   </>
                 )}
                 <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
