@@ -175,11 +175,7 @@ class SubscriptionSelect extends Component {
                   className="position-relative choose-frequency-choosies mr-2"
                   style={{ top: '-2px' }}
                 >
-                  {this.state.form.frequencyName.indexOf('Wochen') !== -1 ? (
-                    <FormattedMessage id="everyweek" />
-                  ) : (
-                    <FormattedMessage id="every" />
-                  )}
+                  <FormattedMessage id="every" />
                 </span>
                 <Selection
                   selectedItemChange={(data) =>
