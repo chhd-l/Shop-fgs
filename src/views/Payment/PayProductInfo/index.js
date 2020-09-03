@@ -37,10 +37,22 @@ class PayProductInfo extends React.Component {
     //     if (nextProps.buyWay === 'once') {
     //       this.setState({isShowValidCode:false})
     //     }
+    let productList
+    if(nextProps.data) {
+      productList = nextProps.data
+    }
+    this.setState(
+      Object.assign({
+        productList: productList || []
+      })
+    );
   }
   async componentDidMount() {
     let productList;
-    if (this.isLogin) {
+    console.log(this.props, 'props')
+    if(this.props.data) {
+      productList = this.props.data
+    }else if (this.isLogin) {
       productList = this.props.checkoutStore.loginCartData;
     } else {
       productList = this.props.checkoutStore.cartData.filter(

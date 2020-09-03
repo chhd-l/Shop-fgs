@@ -54,7 +54,11 @@ const LoginButton = (props) => {
             } else {
               if (checkoutStore.cartData.length) {
                 await mergeUnloginCartData()
-                loginStore.updateLoginCart()
+                await loginStore.updateLoginCart()
+              }
+              if (sessionStorage.getItem('okta-redirectUrl') === '/prescription') {
+                console.log('jajajjajaa')
+                props.history.push(sessionStorage.getItem('okta-redirectUrl'))
               }
             }
             sessionStorage.removeItem('okta-redirectUrl')
@@ -68,13 +72,13 @@ const LoginButton = (props) => {
 
   const login = async () => {
     sessionStorage.removeItem('rc-token-lose')
-    sessionStorage.setItem('okta-redirectUrl', '/')
+    // sessionStorage.setItem('okta-redirectUrl', '/')
     if (props.beforeLoginCallback) {
       let res = await props.beforeLoginCallback()
       if (res === false) {
         return false
       }
-      sessionStorage.setItem('okta-redirectUrl', '/cart')
+      // sessionStorage.setItem('okta-redirectUrl', '/cart')
     }
     authService.login('/');
   };
@@ -84,6 +88,7 @@ const LoginButton = (props) => {
       className={props.btnClass || "rc-btn rc-btn--one"}
       style={props.btnStyle || {}}
       onClick={login}
+      ref={props.buttonRef}
       id="J-btn-login">
       {props.children || <FormattedMessage id='login' />}
     </button>

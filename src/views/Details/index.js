@@ -549,6 +549,7 @@ class Details extends React.Component {
     }
   }
   async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
+    sessionStorage.setItem('okta-redirectUrl', '/cart')
     this.setState({ checkOutErrMsg: '' });
     if (this.state.loading) {
       return false;

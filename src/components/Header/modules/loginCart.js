@@ -20,7 +20,11 @@ class LoginCart extends React.Component {
     this.handleCheckout = this.handleCheckout.bind(this)
   }
   async componentDidMount () {
-    this.checkoutStore.updateLoginCart()
+    // console.log(this.props.history, 'history')
+    if(!sessionStorage.getItem('recommend_product') && this.props.history.location.pathname !== '/payment/payment' ) {
+      console.log(sessionStorage.getItem('recommend_product'), this.props.history.location.pathname, 'history')
+      this.checkoutStore.updateLoginCart()
+    }
   }
   get checkoutStore () {
     return this.props.checkoutStore

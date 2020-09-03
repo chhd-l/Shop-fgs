@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
@@ -25,13 +25,14 @@ import './index.css';
 import { cloneDeep, findIndex, find } from 'lodash';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
-import Modal from '@/components/Modal';
+import Modal from './components/Modal';
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
 @observer
 @injectIntl
 class Help extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -74,7 +75,7 @@ class Help extends React.Component {
         type: 'addToCart'
       },
       outOfStockProducts: [],
-      inStockProducts: []
+      inStockProducts: [],
     };
   }
 
@@ -186,7 +187,8 @@ class Help extends React.Component {
       }
   }
   async hanldeUnloginAddToCart(products, path) {
-    for (let i = 0; i < products.length; i++) {
+    debugger
+    for (let i = 0; i < products.length; i++) {debugger
       let product = products[i];
       console.log(product, 'product');
       // this.setState({ checkOutErrMsg: "" });
@@ -220,6 +222,7 @@ class Help extends React.Component {
             product.goodsInfo.goodsInfoId ===
               c.sizeList.filter((s) => s.selected)[0].goodsInfoId
         );
+        console.log(historyItem, 'historyItem')
         if (historyItem) {
           flag = false;
           quantityNew += historyItem.quantity;
@@ -338,7 +341,7 @@ class Help extends React.Component {
     // setTimeout(() => {
     //   this.headerRef.current && this.headerRef.current.handleCartMouseOut();
     // }, 1000);
-    this.props.history.push(path);
+    // this.props.history.push(path);
   }
   showErrorMsg = (msg) => {
     this.setState({
@@ -355,24 +358,31 @@ class Help extends React.Component {
       });
     }, 5000);
   };
-  async buyNow() {
+  async buyNow(redirect) {
+    console.log(redirect, 'redirect')
+    if(redirect) {
+      sessionStorage.setItem('okta-redirectUrl', '/prescription')
+    }
     let { productList, outOfStockProducts, inStockProducts, modalList } = this.state;
     if(outOfStockProducts.length > 0) {
+      sessionStorage.setItem('recommend_product', JSON.stringify(inStockProducts))
       this.setState({modalShow: true, currentModalObj: modalList[1]})
+      return false
     }else {
-      this.setState({ buttonLoading: true });
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await sitePurchase({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: ''
-          });
-          await this.props.checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
+      sessionStorage.setItem('recommend_product', JSON.stringify(inStockProducts))
+      // this.setState({ buttonLoading: true });
+      // for (let i = 0; i < inStockProducts.length; i++) {
+      //   try {
+      //     await sitePurchase({
+      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
+      //       goodsNum: inStockProducts[i].recommendationNumber,
+      //       goodsCategory: ''
+      //     });
+      //     await this.props.checkoutStore.updateLoginCart();
+      //   } catch (e) {
+      //     this.setState({ buttonLoading: false });
+      //   }
+      // }
       this.props.history.push('/prescription');
     }
   }
@@ -394,18 +404,18 @@ class Help extends React.Component {
       }
       this.props.history.push('/cart');
     } else if (currentModalObj.type === 'payNow') {
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await sitePurchase({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: ''
-          });
-          await this.props.checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
+      // for (let i = 0; i < inStockProducts.length; i++) {
+      //   try {
+      //     await sitePurchase({
+      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
+      //       goodsNum: inStockProducts[i].recommendationNumber,
+      //       goodsCategory: ''
+      //     });
+      //     await this.props.checkoutStore.updateLoginCart();
+      //   } catch (e) {
+      //     this.setState({ buttonLoading: false });
+      //   }
+      // }
       this.props.history.push('/prescription');
     }
   }
@@ -565,17 +575,22 @@ class Help extends React.Component {
                           <span>X {el.recommendationNumber}</span>
                         </li>
                       ))}
-                      <p style={{ marginTop: '60px' }}>
-                        {/* <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button> */}
-                        <LoginButton
-                          beforeLoginCallback={async () => this.buyNow()}
-                          btnClass={`rc-btn rc-btn--one ${
-                            this.state.buttonLoading ? 'ui-btn-loading' : ''
-                          } ${this.state.inStockProducts.length? '': 'rc-btn-solid-disabled'}`}
-                          history={this.props.history}
-                        >
-                          <FormattedMessage id="checkout" />
-                        </LoginButton>
+                      <p ref="p" style={{ marginTop: '60px' }}>
+                        {
+                          this.props.loginStore.isLogin?(
+                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button>
+                          ): (
+                            <LoginButton
+                              beforeLoginCallback={async () => this.buyNow(true)}
+                              btnClass={`rc-btn rc-btn--one ${
+                                this.state.buttonLoading ? 'ui-btn-loading' : ''
+                              } ${this.state.inStockProducts.length? '': 'rc-btn-solid-disabled'}`}
+                              history={this.props.history}
+                            >
+                              <FormattedMessage id="checkout" />
+                            </LoginButton>
+                          )
+                        }
                       </p>
                       {!this.props.loginStore.isLogin && (
                         <p>
@@ -804,6 +819,7 @@ class Help extends React.Component {
 
                         <LoginButton
                           beforeLoginCallback={async () => this.buyNow()}
+                          buttonRef={el => this.buttonEl = el}
                           btnClass={`rc-btn rc-btn--one ${
                             this.state.buttonLoading ? 'ui-btn-loading' : ''
                           }`}

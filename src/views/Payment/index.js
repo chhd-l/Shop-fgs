@@ -2,6 +2,7 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { findIndex, find } from 'lodash';
 import { inject, observer } from 'mobx-react';
+import { toJS } from "mobx";
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -115,7 +116,8 @@ class Payment extends React.Component {
       payWayObj: {}, //支付方式input radio汇总
       savedPayWayObj: {}, //保留初始化的支付方式
       orderDetails: null,
-      tid: sessionStorage.getItem('rc-tid')
+      tid: sessionStorage.getItem('rc-tid'),
+      recommend_data: []
     };
     this.timer = null;
     this.loginDeliveryAddressRef = React.createRef();
@@ -132,6 +134,18 @@ class Payment extends React.Component {
     if (this.state.tid) {
       this.queryOrderDetails();
     }
+    if(sessionStorage.getItem('recommend_product')) {
+      let recommend_data = JSON.parse(sessionStorage.getItem('recommend_product'))
+      console.log(recommend_data, 'recommend_data', toJS(this.loginCartData))
+      recommend_data = recommend_data.map(el => {
+        el.goodsInfo.salePrice = el.goodsInfo.marketPrice
+        el.goodsInfo.buyCount = el.recommendationNumber
+        return el.goodsInfo
+      })
+      this.props.checkoutStore.updatePromotionFiled(recommend_data)
+      this.setState({recommend_data})
+    }
+    
 
     //获取支付方式
     const payWay = await getWays();
@@ -255,7 +269,8 @@ class Payment extends React.Component {
     );
 
     if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
-      this.props.history.push('/cart');
+      console.log(this.isLogin, this.loginCartData.length, this.state.tid,111)
+      // this.props.history.push('/cart');
       return false;
     }
     if (
@@ -263,7 +278,8 @@ class Payment extends React.Component {
       (!this.cartData.length ||
         !this.cartData.filter((ele) => ele.selected).length)
     ) {
-      this.props.history.push('/cart');
+      console.log(this.isLogin, this.cartData.length, this.cartData.filter((ele) => ele.selected).length, 222 )
+      // this.props.history.push('/cart');
       return false;
     }
     const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
@@ -311,6 +327,7 @@ class Payment extends React.Component {
     localStorage.setItem('isRefresh', true);
     sessionStorage.removeItem('rc-tid');
     sessionStorage.removeItem('rc-subform');
+    sessionStorage.removeItem('recommend_product')
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -739,7 +756,7 @@ class Payment extends React.Component {
 
       sessionStorage.removeItem('payosdata');
       if (gotoConfirmationPage) {
-        this.props.history.push('/confirmation');
+        // this.props.history.push('/confirmation');
       }
     } catch (err) {
       console.log(err);
@@ -859,8 +876,14 @@ class Payment extends React.Component {
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId
     };
-
-    if (this.isLogin) {
+    if(localStorage.getItem('recommend_product')) {
+      param.tradeItems = this.state.recommend_data.map((ele) => {
+        return {
+          num: ele.buyCount,
+          skuId: ele.goodsInfoId
+        };
+      });
+    }else if (this.isLogin) {
       param.tradeItems = loginCartData.map((ele) => {
         return {
           num: ele.buyCount,
@@ -1412,7 +1435,7 @@ class Payment extends React.Component {
                     </div>
                     {this.isLogin &&
                     find(
-                      this.loginCartData,
+                      this.state.recommend_data || this.loginCartData,
                       (ele) =>
                         ele.subscriptionStatus && ele.subscriptionPrice > 0
                     ) ? (
@@ -1421,11 +1444,12 @@ class Payment extends React.Component {
                           <h5>
                             <span className="iconfont font-weight-bold mr-2">
                               &#xe657;
-                            </span>
+                            </span> 
                             <FormattedMessage id="subscription.chooseSubscription" />
                           </h5>
                         </div>
                         <SubscriptionSelect
+                          data={this.state.recommend_data}
                           updateSelectedData={(data) => {
                             this.refs.payProductInfo.setState({
                               isShowValidCode: false
@@ -1475,7 +1499,8 @@ class Payment extends React.Component {
                                 subForm: data
                               },
                               () => {
-                                this.state.subForm.buyWay == 'once'
+                                if(!sessionStorage.getItem('recommend_product')) {
+                                  this.state.subForm.buyWay == 'once'
                                   ? this.props.checkoutStore.updateLoginCart(
                                       this.state.promotionCode,
                                       false
@@ -1484,6 +1509,7 @@ class Payment extends React.Component {
                                       this.state.promotionCode,
                                       true
                                     );
+                                } 
                               }
                             );
                           }}
@@ -1514,6 +1540,7 @@ class Payment extends React.Component {
                   </>
                 ) : (
                   <PayProductInfo
+                    data={this.state.recommend_data}
                     ref="payProductInfo"
                     history={this.props.history}
                     frequencyName={this.state.subForm.frequencyName}
