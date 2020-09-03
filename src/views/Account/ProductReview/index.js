@@ -30,7 +30,8 @@ class ProductReview extends React.Component {
       isSubmit: false,
       loading: false,
       title: '',
-      titleList: []
+      titleList: [],
+      errorMsg: ''
     };
     this.selectPurchaseRate = this.selectPurchaseRate.bind(this);
     this.selectLogisticsRate = this.selectLogisticsRate.bind(this);
@@ -46,6 +47,21 @@ class ProductReview extends React.Component {
         this.getGoodsList(this.state.orderId);
       }
     );
+  }
+  showErrMsg(msg) {
+    this.setState({
+      errorMsg: msg
+    });
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({
+        errorMsg: ''
+      });
+    }, 3000);
   }
   selectPurchaseRate(rate) {
     this.setState({
@@ -89,55 +105,69 @@ class ProductReview extends React.Component {
       console.log(res.message);
     }
   }
-
   async handleSubmit() {
-    const list = this.state.reviewList;
-    let isFillInfo = true;
-    const goodsParams = [];
-    this.setState({
-      isSubmit: true
-    });
-    if (list) {
-      list.forEach((item) => {
-        if (
-          !item.consumerComment ||
-          !item.title ||
-          item.consumerComment.length > 500
-        ) {
-          isFillInfo = false;
-        }
-        let obj = {
-          evaluateScore: item.productRate ? item.productRate : 0,
-          evaluateContent: item.consumerComment,
-          isAnonymous: item.isAnonymous ? 1 : 0,
-          orderNo: this.state.orderId,
-          goodsInfoId: item.id,
-          goodsEvaluateImageList: item.goodsEvaluateImageList
-            ? item.goodsEvaluateImageList
-            : [],
-          evaluateReviewTitle: item.title
-        };
-        goodsParams.push(obj);
-      });
+    try {
+      await this.handleSubmitPromise();
+    } catch (err) {
+      this.showErrMsg(err.message);
     }
-    const params = {
-      goodsEvaluateAddRequest: goodsParams,
-      storeEvaluateAddRequestList: {
-        orderNo: this.state.orderId,
-        serverScore: this.state.purchaseRate,
-        logisticsScore: this.state.logisticsRate
+  }
+  async handleSubmitPromise() {
+    try {
+      const { purchaseRate, logisticsRate } = this.state;
+      const list = this.state.reviewList;
+      const goodsParams = [];
+      this.setState({
+        isSubmit: true
+      });
+      if (!purchaseRate) {
+        throw new Error(
+          this.props.intl.messages['comment.noShoppingExperienceTip']
+        );
       }
-    };
-    console.log(params, 'ddddddddd=-----------');
-    if (isFillInfo) {
-      let res = await addGoodsEvaluate(params);
-      if (res.code === 'K-000000') {
-        this.props.history.push('/account/orders');
-      } else {
-        console.log(res.message, '评价接口错误信息----------');
+      if (!logisticsRate) {
+        throw new Error(
+          this.props.intl.messages['comment.noLogisticsRatingTip']
+        );
       }
-    } else {
-      console.log('not fill info');
+      if (list) {
+        list.forEach((item) => {
+          if (!item.productRate) {
+            throw new Error(
+              this.props.intl.messages['comment.noProductRatingTip']
+            );
+          }
+          if (item.consumerComment.length > 500) {
+            throw new Error(
+              this.props.intl.messages['comment.commentsTooLong']
+            );
+          }
+          let obj = {
+            evaluateScore: item.productRate ? item.productRate : 0,
+            evaluateContent: item.consumerComment,
+            isAnonymous: item.isAnonymous ? 1 : 0,
+            orderNo: this.state.orderId,
+            goodsInfoId: item.id,
+            goodsEvaluateImageList: item.goodsEvaluateImageList
+              ? item.goodsEvaluateImageList
+              : [],
+            evaluateReviewTitle: item.title
+          };
+          goodsParams.push(obj);
+        });
+      }
+      const params = {
+        goodsEvaluateAddRequest: goodsParams,
+        storeEvaluateAddRequestList: {
+          orderNo: this.state.orderId,
+          serverScore: purchaseRate,
+          logisticsScore: logisticsRate
+        }
+      };
+      await addGoodsEvaluate(params);
+      this.props.history.push('/account/orders');
+    } catch (err) {
+      throw new Error(err.message || err);
     }
   }
   handleConsumerCommentChange(e, product) {
@@ -281,9 +311,32 @@ class ProductReview extends React.Component {
                   <Skeleton color="#f5f5f5" width="100%" height="100%" />
                 ) : (
                   <div>
+                    <div
+                      className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                        this.state.errorMsg ? '' : 'hidden'
+                      }`}
+                    >
+                      <aside
+                        className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                        role="alert"
+                      >
+                        <span>{this.state.errorMsg}</span>
+                        <button
+                          className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                          onClick={() => {
+                            this.setState({ errorMsg: '' });
+                          }}
+                          aria-label="Close"
+                        >
+                          <span className="rc-screen-reader-text">
+                            <FormattedMessage id="close" />
+                          </span>
+                        </button>
+                      </aside>
+                    </div>
                     <div className="rc-border-bottom rc-border-colour--interface ">
                       <div className="rc-margin--none">
-                        <div className="" style={{}}>
+                        <div>
                           <div className="rc-column">
                             <div>
                               <span className=" rc-text-colour--text ui-text-overflow-line2 text-break">

@@ -643,5 +643,9 @@ const en_US = {
   isContinue: 'Ob fortzufahren?',
   'outOfStockContent_cart': 'Unter den derzeit empfohlenen Produkten befinden sich nicht vorrätige Produkte: {val}.Wenn Sie den Warenkorb weiterhin hinzufügen, werden die nicht vorrätigen Produkte direkt gelöscht.',
   'outOfStockContent_pay': 'Unter den derzeit empfohlenen Produkten befinden sich nicht vorrätige Produkte: {val}.Wenn Sie weiter auschecken, werden die nicht vorrätigen Produkte direkt gelöscht.',
+  'comment.noLogisticsRatingTip': 'Bitte kommentieren Sie den Logistikservice',
+  'comment.noProductRatingTip': 'Bitte kommentieren Sie die Produkte',
+  'comment.noShoppingExperienceTip': 'Bitte kommentieren Sie das Einkaufserlebnis',
+  'comment.commentsTooLong': 'Produktkommentare können nicht mehr als 500 Zeichen',
 }
 export default en_US;

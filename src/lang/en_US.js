@@ -611,6 +611,10 @@ const en_US = {
   isContinue: 'Whether to continue?',
   'outOfStockContent_cart': 'Among the currently recommended products, there are out-of-stock products: {val}. If you continue to add the shopping cart, the out-of-stock products will be deleted directly.',
   'outOfStockContent_pay': 'Among the currently recommended products, there are out-of-stock products: {val}. If you continue to add the shopping cart, the out-of-stock products will be deleted directly.',
+  'comment.noLogisticsRatingTip': 'Please comment on the logistics service',
+  'comment.noProductRatingTip': 'Please comment on the products',
+  'comment.noShoppingExperienceTip': 'Please comment on the shopping experience',
+  'comment.commentsTooLong': 'Product comments can\'t more than 500 characters',
 }
 
 export default en_US;
