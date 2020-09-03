@@ -172,7 +172,7 @@ class EditForm extends React.Component {
             name="postCode"
             // maxLength="5"
             // minLength="5"
-            data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)"
+            //data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)" //需要验证的时候开启
           />
           <label className="rc-input__label" htmlFor="id-text1"></label>
         </span>
@@ -189,7 +189,7 @@ class EditForm extends React.Component {
           <FormattedMessage id="examplePostCode" />
         </div>
         {
-          process.env.REACT_APP_LANG=='de'?<span style={{padding:'2px',backgroundColor:'yellow'}}>* Pflichtfelder</span>:null
+          process.env.REACT_APP_LANG=='de'?<span style={{padding:'2px'}}>* Pflichtfelder</span>:null
         }
         
       </div>

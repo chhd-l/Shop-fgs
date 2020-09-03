@@ -621,7 +621,7 @@ const en_US = {
   'examplePhone': '+49 30 901820',
   'inTheBasket': 'im Warenkorb',
   'promotionalCode': 'Gutscheincode',
-  'noClinicTip': 'Sie besitzen keinen gültigen Empfehlungscode? Hier finden Sie unsere Partnerkliniken,{val} bei der Sie einen Code erhalten können.',
+  'noClinicTip': 'Sie besitzen keinen gültigen Empfehlungscode? {val} finden Sie unsere Partnerkliniken, Hier bei der Sie einen Code erhalten können.',
   'selectNoneClincTip': 'Bitte füllen Sie die Pflichtfelder aus.',
   'promotionCode': 'Gutscheincode',
   'inputSearchText': 'Suchtext eingeben',
@@ -635,8 +635,7 @@ const en_US = {
   'faq.frequentQuestions': "Häufig gestellte Fragen",
   'faq.title': 'Hier finden Sie die Antworten auf häufig gestellte Fragen. Falls Sie weitere Fragen haben, wenden Sie sich gerne an unser {val1}.',
   'faq.title2': 'Allgemeines',
-  'every': 'Jeden',
-  'everyweek':'Alle',
+  'every': 'Alle',
   'taxLogo': 'Preise inkl. MwSt. und zzgl. {val}.',
   'plsFillEmailTip': 'Ihre E-Mail-Adresse wird nicht in die Adressleiste eingetragen',
   'notate':'Alle Preise inkl. MwSt. und zzgl.{val}',
@@ -647,5 +646,7 @@ const en_US = {
   'comment.noProductRatingTip': 'Bitte kommentieren Sie die Produkte',
   'comment.noShoppingExperienceTip': 'Bitte kommentieren Sie das Einkaufserlebnis',
   'comment.commentsTooLong': 'Produktkommentare können nicht mehr als 500 Zeichen',
+  'detail': '[mehr anzeigen]',
+  'lessDetail': '[weniger anzeigen]'
 }
 export default en_US;

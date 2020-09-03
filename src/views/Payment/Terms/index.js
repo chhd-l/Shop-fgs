@@ -130,7 +130,7 @@ class Terms extends Component {
                   shipTracking: data,
                 }
               );
-            }}>{this.state.shipTracking.isShowDetail?'[less detail]':'[detail]'}</span>
+            }}>{this.state.shipTracking.isShowDetail?<FormattedMessage id="lessDetail" />:<FormattedMessage id="detail" />}</span>
             <div
               className={`${
                 !this.state.shipTracking.isShowDetail
@@ -192,7 +192,7 @@ class Terms extends Component {
                   newsLetter: data,
                 }
               );
-            }}>{this.state.newsLetter.isShowDetail?'[less detail]':'[detail]'}</span>
+            }}>{this.state.newsLetter.isShowDetail?<FormattedMessage id="lessDetail" />:<FormattedMessage id="detail" />}</span>
             <div
               className={`${
                 !this.state.newsLetter.isShowDetail
