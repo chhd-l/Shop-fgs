@@ -32,7 +32,7 @@ class Widerrufsbelehrung extends Component {
                         <div className="main-div">
                             <p>Telefon: +49 (0) 221 – 937060-0</p>
                             <p>Telefax: +49 (0) 221 – 937060-800</p>
-                            <p>E-Mail: info.de@royalcanin.com</p>
+                            <p>E-Mail: <a href="info.de@royalcanin.com" style={{color:'#0000FF',textDecoration:'underline'}}>info.de@royalcanin.com</a></p>
                         </div>
                         <div className="main-div">
                             <p>Sitz: Köln Handelsregister B 14789</p>
