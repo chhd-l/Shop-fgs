@@ -117,33 +117,35 @@ class EditForm extends React.Component {
   _emailPanelJSX = () => {
     const { deliveryAddress } = this.state;
     return (
-      <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_phone">
-        <label className="form-control-label" htmlFor="shippingEmail">
-          <FormattedMessage id="email" />
-        </label>
-        <span
-          className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
-          input-setup="true"
-        >
-          <input
-            type="email"
-            className="rc-input__control input__phoneField shippingPhoneNumber"
-            id="shippingEmail"
-            value={deliveryAddress.email}
-            onChange={(e) => this.deliveryInputChange(e)}
-            onBlur={(e) => this.inputBlur(e)}
-            name="email"
-            maxLength="254"
-          />
-          <label className="rc-input__label" htmlFor="shippingEmail"></label>
-        </span>
-        <div className="invalid-feedback">
-          <FormattedMessage
-            id="payment.errorInfo"
-            values={{
-              val: <FormattedMessage id="email" />
-            }}
-          />
+      <div className="col-12 col-md-6">
+        <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
+          <label className="form-control-label" htmlFor="shippingEmail">
+            <FormattedMessage id="email" />
+          </label>
+          <span
+            className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+            input-setup="true"
+          >
+            <input
+              type="email"
+              className="rc-input__control input__phoneField shippingPhoneNumber"
+              id="shippingEmail"
+              value={deliveryAddress.email}
+              onChange={(e) => this.deliveryInputChange(e)}
+              onBlur={(e) => this.inputBlur(e)}
+              name="email"
+              maxLength="254"
+            />
+            <label className="rc-input__label" htmlFor="shippingEmail"></label>
+          </span>
+          <div className="invalid-feedback">
+            <FormattedMessage
+              id="payment.errorInfo"
+              values={{
+                val: <FormattedMessage id="email" />
+              }}
+            />
+          </div>
         </div>
       </div>
     );
@@ -151,78 +153,80 @@ class EditForm extends React.Component {
   _postCodeJSX = () => {
     const { deliveryAddress } = this.state;
     return (
-      <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_postalCode">
-        <label className="form-control-label" htmlFor="shippingZipCode">
-          <FormattedMessage id="payment.postCode" />
-        </label>
-        <span
-          className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
-          input-setup="true"
-          data-js-validate=""
-          data-js-warning-message="*Post Code isn’t valid"
-        >
-          <input
-            className="rc-input__control shippingZipCode"
-            id="shippingZipCode"
-            type="tel"
-            required
-            value={deliveryAddress.postCode}
-            onChange={(e) => this.deliveryInputChange(e)}
-            onBlur={(e) => this.inputBlur(e)}
-            name="postCode"
-            // maxLength="5"
-            // minLength="5"
-            //data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)" //需要验证的时候开启
-          />
-          <label className="rc-input__label" htmlFor="id-text1"></label>
-        </span>
-        <div className="invalid-feedback">
-          <FormattedMessage
-            id="payment.errorInfo"
-            values={{
-              val: <FormattedMessage id="payment.postCode" />
-            }}
-          />
-        </div>
-        <div className="ui-lighter">
-          <FormattedMessage id="example" />:{' '}
-          <FormattedMessage id="examplePostCode" />
-        </div>
-        {
-          process.env.REACT_APP_LANG=='de'?<span style={{padding:'2px'}}>* Pflichtfelder</span>:null
-        }
-        
+      <div className="col-12 col-md-6">
+        <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_postalCode">
+          <label className="form-control-label" htmlFor="shippingZipCode">
+            <FormattedMessage id="payment.postCode" />
+          </label>
+          <span
+            className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+            input-setup="true"
+            data-js-validate=""
+            data-js-warning-message="*Post Code isn’t valid"
+          >
+            <input
+              className="rc-input__control shippingZipCode"
+              id="shippingZipCode"
+              type="tel"
+              required
+              value={deliveryAddress.postCode}
+              onChange={(e) => this.deliveryInputChange(e)}
+              onBlur={(e) => this.inputBlur(e)}
+              name="postCode"
+              // maxLength="5"
+              // minLength="5"
+              //data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)" //需要验证的时候开启
+            />
+            <label className="rc-input__label" htmlFor="id-text1"></label>
+          </span>
+          <div className="invalid-feedback">
+            <FormattedMessage
+              id="payment.errorInfo"
+              values={{
+                val: <FormattedMessage id="payment.postCode" />
+              }}
+            />
+          </div>
+          <div className="ui-lighter">
+            <FormattedMessage id="example" />:{' '}
+            <FormattedMessage id="examplePostCode" />
+          </div>
+          {process.env.REACT_APP_LANG == 'de' ? (
+            <span style={{ padding: '2px' }}>* Pflichtfelder</span>
+          ) : null}
+        </div>{' '}
       </div>
     );
   };
   _phonePanelJSX = () => {
     const { deliveryAddress } = this.state;
     return (
-      <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_phone">
-        <label className="form-control-label" htmlFor="shippingPhoneNumber">
-          <FormattedMessage id="payment.phoneNumber" />
-        </label>
-        <span
-          className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
-          input-setup="true"
-          data-js-validate=""
-          data-js-warning-message="*Phone Number isn’t valid"
-        >
-          <input
-            type="number"
-            className="rc-input__control input__phoneField shippingPhoneNumber"
-            id="shippingPhoneNumber"
-            value={deliveryAddress.phoneNumber}
-            onChange={(e) => this.deliveryInputChange(e)}
-            onBlur={(e) => this.inputBlur(e)}
-            // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
-            // data-js-pattern="(^(\+52)\d{8}$)"
-            // data-js-pattern="(^(((\\+\\d{2}-)?0\\d{2,3}-\\d{7,8})|((\\+\\d{2}-)?(\\d{2,3}-)?([1][3,4,5,7,8][0-9]\\d{8})))$)"
-            name="phoneNumber"
-            maxLength="20"
-            minLength="18"
-          />
-          {/* <input
+      <div className="col-12 col-md-6">
+        <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
+          <label className="form-control-label" htmlFor="shippingPhoneNumber">
+            <FormattedMessage id="payment.phoneNumber" />
+          </label>
+          <span
+            className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+            input-setup="true"
+            data-js-validate=""
+            data-js-warning-message="*Phone Number isn’t valid"
+          >
+            <input
+              type="number"
+              className="rc-input__control input__phoneField shippingPhoneNumber"
+              id="shippingPhoneNumber"
+              value={deliveryAddress.phoneNumber}
+              onChange={(e) => this.deliveryInputChange(e)}
+              onBlur={(e) => this.inputBlur(e)}
+              // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
+              // data-js-pattern="(^(\+52)\d{8}$)"
+              // data-js-pattern="(^(((\\+\\d{2}-)?0\\d{2,3}-\\d{7,8})|((\\+\\d{2}-)?(\\d{2,3}-)?([1][3,4,5,7,8][0-9]\\d{8})))$)"
+              name="phoneNumber"
+              maxLength="20"
+              minLength="18"
+            />
+            {/* <input
         className="rc-input__control input__phoneField shippingPhoneNumber"
         id="shippingPhoneNumber"
         unselectable="on"
@@ -246,23 +250,24 @@ class EditForm extends React.Component {
         maxlength="17"
         minLength="16"
       ></input> */}
-          <label
-            className="rc-input__label"
-            htmlFor="shippingPhoneNumber"
-          ></label>
-        </span>
-        <div className="invalid-feedback">
-          <FormattedMessage
-            id="payment.errorInfo"
-            values={{
-              val: <FormattedMessage id="payment.phoneNumber" />
-            }}
-          />
+            <label
+              className="rc-input__label"
+              htmlFor="shippingPhoneNumber"
+            ></label>
+          </span>
+          <div className="invalid-feedback">
+            <FormattedMessage
+              id="payment.errorInfo"
+              values={{
+                val: <FormattedMessage id="payment.phoneNumber" />
+              }}
+            />
+          </div>
+          <span className="ui-lighter">
+            <FormattedMessage id="example" />:{' '}
+            <FormattedMessage id="examplePhone" />
+          </span>
         </div>
-        <span className="ui-lighter">
-          <FormattedMessage id="example" />:{' '}
-          <FormattedMessage id="examplePhone" />
-        </span>
       </div>
     );
   };
@@ -270,8 +275,8 @@ class EditForm extends React.Component {
     const { deliveryAddress } = this.state;
     return (
       <>
-        <div className="rc-layout-container">
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
+        <div className="row">
+          <div className="col-12 col-md-6">
             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
               <label className="form-control-label" htmlFor="shippingFirstName">
                 <FormattedMessage id="payment.firstName" />
@@ -302,7 +307,7 @@ class EditForm extends React.Component {
               </div>
             </div>
           </div>
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
+          <div className="col-12 col-md-6">
             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
               <label className="form-control-label" htmlFor="shippingLastName">
                 <FormattedMessage id="payment.lastName" />
@@ -333,9 +338,7 @@ class EditForm extends React.Component {
               </div>
             </div>
           </div>
-        </div>
-        <div className="rc-layout-container">
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
+          <div className="col-12 col-md-6">
             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
               <label className="form-control-label" htmlFor="shippingCountry">
                 <FormattedMessage id="payment.country" />
@@ -353,27 +356,31 @@ class EditForm extends React.Component {
               </span>
             </div>
           </div>
-          <div className="form-group rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down required dwfrm_shipping_shippingAddress_addressFields_city">
-            <label className="form-control-label" htmlFor="shippingAddressCity">
-              <FormattedMessage id="payment.city" />
-            </label>
-            <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-              <CitySearchSelection
-                defaultValue={this.state.deliveryAddress.cityName}
-                onChange={this.handleCityInputChange}
-              />
-              {/* <Selection
+          <div className="col-12 col-md-6">
+            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_city">
+              <label
+                className="form-control-label"
+                htmlFor="shippingAddressCity"
+              >
+                <FormattedMessage id="payment.city" />
+              </label>
+              <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+                <CitySearchSelection
+                  defaultValue={this.state.deliveryAddress.cityName}
+                  onChange={this.handleCityInputChange}
+                />
+                {/* <Selection
                 selectedItemChange={data => this.handleSelectedItemChange('city', data)}
                 optionList={this.computedList('city')}
                 selectedItemData={{
                   value: this.state.deliveryAddress.city
                 }} /> */}
-              {/* todo */}
-            </span>
+                {/* todo */}
+              </span>
+            </div>
           </div>
-        </div>
-        <div className="rc-layout-container">
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
+
+          <div className="col-12 col-md-6">
             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
               <label className="form-control-label" htmlFor="shippingLastName">
                 <FormattedMessage id="payment.address1" />
@@ -404,7 +411,7 @@ class EditForm extends React.Component {
               </div>
             </div>
           </div>
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
+          <div className="col-12 col-md-6">
             <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
               <label className="form-control-label" htmlFor="shippingLastName">
                 <FormattedMessage id="payment.address2" />
@@ -427,14 +434,10 @@ class EditForm extends React.Component {
               </span>
             </div>
           </div>
-        </div>
-        <div className="rc-layout-container">
           {this._emailPanelJSX()}
           {this._phonePanelJSX()}
-        </div>
-        <div className="rc-layout-container">
           {this._postCodeJSX()}
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
+          <div className="col-12 col-md-6">
             <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
               <label className="form-control-label" htmlFor="shippingLastName">
                 <FormattedMessage id="payment.rfc" />
