@@ -90,7 +90,11 @@ class Help extends React.Component {
       let productList = res.context.recommendationGoodsInfoRels;
       productList.map((el) => {
         el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
-          g = Object.assign({}, g, { selected: true });
+          g = Object.assign({}, g, { selected: false });
+          console.log(g.goodsInfoId, el, 'hhhh')
+          if(g.goodsInfoId === el.goodsInfo.goodsInfoId) {
+            g.selected = true
+          }
           return g;
         });
         let specList = el.goodsSpecs;
@@ -117,7 +121,7 @@ class Help extends React.Component {
         this.setState({ prescriberInfo: res.context, loading: false });
       });
     }).catch(err => {
-      this.props.history.push('/')
+      // this.props.history.push('/')
     })
     if (localStorage.getItem('isRefresh')) {
       localStorage.removeItem('isRefresh');
@@ -187,10 +191,9 @@ class Help extends React.Component {
       }
   }
   async hanldeUnloginAddToCart(products, path) {
-    debugger
-    for (let i = 0; i < products.length; i++) {debugger
+    console.log(products,'products')
+    for (let i = 0; i < products.length; i++) {
       let product = products[i];
-      console.log(product, 'product');
       // this.setState({ checkOutErrMsg: "" });
       // if (this.state.loading) {
       //   return false;
@@ -200,10 +203,11 @@ class Help extends React.Component {
       // const { goodsId, sizeList } = this.state.details;
       // const currentSelectedSize = find(sizeList, (s) => s.selected);
       // let quantityNew = quantity;
+      
       let tmpData = Object.assign({}, product.goodsInfo.goods, {
         quantity: quantityNew
       });
-
+      
       let quantityNew = product.recommendationNumber;
       let cartDataCopy = cloneDeep(
         toJS(this.props.checkoutStore.cartData).filter((el) => el)
