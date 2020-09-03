@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { injectIntl, FormattedMessage } from "react-intl";
+import GoogleTagManager from '@/components/GoogleTagManager'
 import logoAnimatedPng from "@/assets/images/logo--animated2.png";
 import "./index.less"
 import {
@@ -115,8 +116,15 @@ class Landing extends Component {
         window.onresize = () => {
             this.cal_clientWidth(document.body.clientWidth)
         }
+        const event = {
+          "page": {
+            "type": "Landing page",
+            "theme": ""
+          }
+        }
         return (
             <div className="landing-wrap">
+              <GoogleTagManager additionalEvents={event} GTMID="GTM-NR3FWTQ" />
                 {this.state.loading ? <Loading /> : null}
                 <div class="rc-three-column">
                     <div class="rc-column rc-double-width borderRight videoPadding">
