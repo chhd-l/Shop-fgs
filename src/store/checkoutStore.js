@@ -84,7 +84,34 @@ class CheckoutStore {
     this.goodsMarketingMap = data;
     store.set("goodsMarketingMap", data);
   }
-
+  @action.bound
+  async updatePromotionFiled (data, promotionCode = "") {
+    let param = data.map(el => {
+      return {
+        goodsInfoId: el.goodsInfoId,
+        goodsNum: el.buyCount,
+        invalid: false,
+      }
+    })
+    let purchasesRes = await purchases({
+      goodsInfoDTOList: param,
+      goodsInfoIds: [],
+      goodsMarketingDTOList: [],
+      promotionCode,
+    });
+    let backCode = purchasesRes.code;
+    purchasesRes = purchasesRes.context;
+    this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);
+    this.setCartPrice({
+      totalPrice: purchasesRes.totalPrice,
+      tradePrice: purchasesRes.tradePrice,
+      discountPrice: purchasesRes.discountPrice,
+      deliveryPrice: purchasesRes.deliveryPrice,
+      promotionDesc: purchasesRes.promotionDesc,
+      promotionDiscount: purchasesRes.promotionDiscount,
+      subscriptionPrice: purchasesRes.subscriptionPrice,
+    });
+  }
   @action.bound
   async updateUnloginCart (data, promotionCode = "") {
     if (!data) {
@@ -157,6 +184,7 @@ class CheckoutStore {
     });
   }
 
+  
   @action
   async updateLoginCart (promotionCode = "", subscriptionFlag = false) {
     this.changeLoadingCartData(true);

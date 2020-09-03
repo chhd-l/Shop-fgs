@@ -88,6 +88,7 @@ class UnLoginCart extends React.Component {
     }, 3000);
   }
   async handleCheckout({ needLogin = false } = {}) {
+    sessionStorage.setItem('okta-redirectUrl', '/cart')
     const { history } = this.props;
     this.setState({ checkoutLoading: true });
     try {

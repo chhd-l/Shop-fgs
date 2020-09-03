@@ -34,6 +34,7 @@ class UnloginCart extends React.Component {
     return this.props.checkoutStore.tradePrice
   }
   async handleCheckout ({ needLogin = false } = {}) {
+    sessionStorage.setItem('okta-redirectUrl', '/cart')
     const { history } = this.props
     this.setState({ checkoutLoading: true })
     this.props.checkoutStore.updateUnloginCart()
