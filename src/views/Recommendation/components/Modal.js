@@ -72,7 +72,7 @@ class Modal extends React.Component {
                     : null
                 }
                 {
-                  this.props.loginStore.isLogin? (
+                  (this.props.loginStore.isLogin || !this.props.needLogin)? (
                     <button
                       type="button"
                       className={`btn btn-primary cart-delete-confirmation-btn ${this.props.confirmLoading ? 'ui-btn-loading' : ''}`}

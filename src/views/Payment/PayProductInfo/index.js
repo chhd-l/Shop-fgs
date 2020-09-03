@@ -37,6 +37,7 @@ class PayProductInfo extends React.Component {
     //     if (nextProps.buyWay === 'once') {
     //       this.setState({isShowValidCode:false})
     //     }
+    console.log(nextProps, 'props2')
     let productList
     if(nextProps.data) {
       productList = nextProps.data

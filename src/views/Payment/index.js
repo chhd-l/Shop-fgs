@@ -324,6 +324,7 @@ class Payment extends React.Component {
     }
   }
   componentWillUnmount() {
+    window.alert('haha')
     localStorage.setItem('isRefresh', true);
     sessionStorage.removeItem('rc-tid');
     sessionStorage.removeItem('rc-subform');

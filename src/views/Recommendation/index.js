@@ -76,6 +76,7 @@ class Help extends React.Component {
       },
       outOfStockProducts: [],
       inStockProducts: [],
+      needLogin: false
     };
   }
 
@@ -103,7 +104,14 @@ class Help extends React.Component {
           sItem.chidren = specDetailList.filter((sdItem, i) => {
             return sdItem.specId === sItem.specId;
           });
-          sItem.chidren[0].selected = true;
+          console.log(sItem, el,'hhhh')
+          
+          sItem.chidren.map(child => {
+            if(el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1) {
+              console.log(child, 'child')
+              child.selected = true
+            }
+          })
         });
         el.goodsInfo.goods.goodsInfos = el.goodsInfos;
         el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
@@ -362,11 +370,11 @@ class Help extends React.Component {
       });
     }, 5000);
   };
-  async buyNow(redirect) {
-    console.log(redirect, 'redirect')
-    if(redirect) {
+  async buyNow(needLogin) {
+    if(needLogin) {
       sessionStorage.setItem('okta-redirectUrl', '/prescription')
     }
+    this.setState({needLogin})
     let { productList, outOfStockProducts, inStockProducts, modalList } = this.state;
     if(outOfStockProducts.length > 0) {
       sessionStorage.setItem('recommend_product', JSON.stringify(inStockProducts))
@@ -374,19 +382,6 @@ class Help extends React.Component {
       return false
     }else {
       sessionStorage.setItem('recommend_product', JSON.stringify(inStockProducts))
-      // this.setState({ buttonLoading: true });
-      // for (let i = 0; i < inStockProducts.length; i++) {
-      //   try {
-      //     await sitePurchase({
-      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-      //       goodsNum: inStockProducts[i].recommendationNumber,
-      //       goodsCategory: ''
-      //     });
-      //     await this.props.checkoutStore.updateLoginCart();
-      //   } catch (e) {
-      //     this.setState({ buttonLoading: false });
-      //   }
-      // }
       this.props.history.push('/prescription');
     }
   }
@@ -488,6 +483,7 @@ class Help extends React.Component {
         />
         <Modal
           key="1"
+          needLogin={this.state.needLogin}
           visible={this.state.modalShow}
           confirmLoading={this.state.submitLoading}
           modalTitle={currentModalObj.title}
@@ -601,10 +597,11 @@ class Help extends React.Component {
                           <button
                             className={`rc-styled-link color-999`}
                             onClick={() => {
-                              this.hanldeUnloginAddToCart(
-                                productList,
-                                '/prescription'
-                              );
+                              // this.hanldeUnloginAddToCart(
+                              //   productList,
+                              //   '/prescription'
+                              // );
+                              this.buyNow()
                             }}
                           >
                             <FormattedMessage id="Buy as a guest" />
@@ -837,10 +834,11 @@ class Help extends React.Component {
                           <button
                             className={`rc-styled-link color-999`}
                             onClick={() => {
-                              this.hanldeUnloginAddToCart(
-                                productList,
-                                '/prescription'
-                              );
+                              this.buyNow()
+                              // this.hanldeUnloginAddToCart(
+                              //   productList,
+                              //   '/prescription'
+                              // );
                             }}
                           >
                             <FormattedMessage id="Buy as a guest" />
