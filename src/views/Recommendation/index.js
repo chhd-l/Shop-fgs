@@ -353,7 +353,7 @@ class Help extends React.Component {
     // setTimeout(() => {
     //   this.headerRef.current && this.headerRef.current.handleCartMouseOut();
     // }, 1000);
-    // this.props.history.push(path);
+    this.props.history.push(path);
   }
   showErrorMsg = (msg) => {
     this.setState({
@@ -376,6 +376,20 @@ class Help extends React.Component {
     }
     this.setState({needLogin})
     let { productList, outOfStockProducts, inStockProducts, modalList } = this.state;
+    let totalPrice 
+    inStockProducts.map(el => {
+      console.log(el, 'el')
+      totalPrice = el.recommendationNumber * el.goodsInfo.salePrice
+    })
+    if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+      this.showErrorMsg(
+        <FormattedMessage
+          id="cart.errorInfo3"
+          values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
+        />
+      );
+      return false;
+    }
     if(outOfStockProducts.length > 0) {
       sessionStorage.setItem('recommend_product', JSON.stringify(inStockProducts))
       this.setState({modalShow: true, currentModalObj: modalList[1]})
@@ -791,7 +805,7 @@ class Help extends React.Component {
                         padding: '32px',
                         textAlign: 'center',
                         fontWeight: '500',
-                        display: 'none'
+                        // display: 'none'
                       }}
                     >
                       Recommendation Package
@@ -815,30 +829,33 @@ class Help extends React.Component {
                           <span>X {el.recommendationNumber}</span>
                         </li>
                       ))}
-                      <p style={{ marginTop: '60px' , display: 'none'}}>
-                        {/* <button class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button> */}
-
-                        <LoginButton
-                          beforeLoginCallback={async () => this.buyNow()}
-                          buttonRef={el => this.buttonEl = el}
-                          btnClass={`rc-btn rc-btn--one ${
-                            this.state.buttonLoading ? 'ui-btn-loading' : ''
-                          }`}
-                          history={this.props.history}
-                        >
-                          <FormattedMessage id="checkout" />
-                        </LoginButton>
+                      <p ref="p" style={{ marginTop: '60px' }}>
+                        {
+                          this.props.loginStore.isLogin?(
+                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button>
+                          ): (
+                            <LoginButton
+                              beforeLoginCallback={async () => this.buyNow(true)}
+                              btnClass={`rc-btn rc-btn--one ${
+                                this.state.buttonLoading ? 'ui-btn-loading' : ''
+                              } ${this.state.inStockProducts.length? '': 'rc-btn-solid-disabled'}`}
+                              history={this.props.history}
+                            >
+                              <FormattedMessage id="checkout" />
+                            </LoginButton>
+                          )
+                        }
                       </p>
                       {!this.props.loginStore.isLogin && (
-                        <p style={{display: 'none'}}>
+                        <p>
                           <button
                             className={`rc-styled-link color-999`}
                             onClick={() => {
-                              this.buyNow()
                               // this.hanldeUnloginAddToCart(
                               //   productList,
                               //   '/prescription'
                               // );
+                              this.buyNow()
                             }}
                           >
                             <FormattedMessage id="Buy as a guest" />

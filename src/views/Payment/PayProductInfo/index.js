@@ -37,9 +37,10 @@ class PayProductInfo extends React.Component {
     //     if (nextProps.buyWay === 'once') {
     //       this.setState({isShowValidCode:false})
     //     }
-    console.log(nextProps, 'props2')
+    // console.log(nextProps, 'props2')
     let productList
-    if(nextProps.data) {
+    if(JSON.stringify(nextProps.data) !== JSON.stringify(this.state.productList)) {
+      console.log(nextProps, 'nextProp')
       productList = nextProps.data
     }
     this.setState(
@@ -253,7 +254,7 @@ class PayProductInfo extends React.Component {
   sideCart({ className = '', style = {}, id = '' } = {}) {
     const { productList, discount } = this.state;
     const { checkoutStore } = this.props;
-    const List = this.isLogin
+    const List = this.isLogin || this.props.data.length
       ? this.getProductsForLogin(productList)
       : this.getProducts(productList);
     return (

@@ -114,6 +114,12 @@ section li {
 
 
 @media (max-width: 480px) {
+  .recommendation h2 {
+    margin-top: 0;
+  }
+  .recommendation p {
+    margin-bottom: 10px;
+  }
   p > .rc-btn, p > .btn {
       display: inline;
   }.picList li > img {
@@ -154,7 +160,10 @@ section li {
     padding: 20px;
   }
   .recommendProduct .right .main .text {
-    padding: 20px;
+    padding: 0 20px;
+  }
+  .recommendation .scrollOutBox {
+    height: 100px;
   }
 }
 
