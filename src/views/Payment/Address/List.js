@@ -134,7 +134,7 @@ class AddressList extends React.Component {
           addOrEdit: !addressList.length,
           selectedId: tmpId
         },
-        () => {debugger
+        () => {
           this.props.updateData &&
             this.props.updateData(
               find(
