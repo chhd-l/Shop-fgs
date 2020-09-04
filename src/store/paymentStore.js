@@ -1,5 +1,4 @@
 import { action, observable } from 'mobx';
-import { getAddressList, saveAddress, editAddress } from '@/api/address';
 
 class PaymentStore {
   @observable deliveryAddress = null;
@@ -8,6 +7,8 @@ class PaymentStore {
   @observable visitorDeliveryPhone = '';
   @observable visitorDeliveryFristName = '';
   @observable visitorDeliveryLastName = '';
+
+  @observable selectedDeliveryAddress = null;
 
   @action.bound
   setDeliveryAddress(data) {
@@ -46,6 +47,15 @@ class PaymentStore {
   @action.bound
   updateVisitorDeliveryLastName(data) {
     this.visitorDeliveryLastName = data;
+  }
+
+  @action.bound
+  updateSelectedDeliveryAddress(data) {
+    let tmpData = data;
+    if (data && data.consigneeNumber) {
+      tmpData = Object.assign(data, { phoneNumber: data.consigneeNumber });
+    }
+    this.selectedDeliveryAddress = tmpData;
   }
 }
 export default PaymentStore;
