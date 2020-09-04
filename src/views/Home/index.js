@@ -308,14 +308,7 @@ class Home extends React.Component {
           </section>
 
           {/* <!-- divider --> */}
-          <section>
-            <div
-              className="rc-border-bottom rc-border-colour--brand4"
-              style={{ borderBottomWidth: '1px' }}
-            >
-              {' '}
-            </div>
-          </section>
+          <div className="rc-border-bottom rc-border-colour--brand4" />
 
           {/* <!-- ads --> */}
           <section>
@@ -399,7 +392,10 @@ class Home extends React.Component {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-centeredIconList">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile centered-icon-list">
-                    <div className="row col-10 col-md-5 bottom-content__icon-list mx-auto text-center" style={{justifyContent:'center'}}>
+                    <div
+                      className="row col-10 col-md-5 bottom-content__icon-list mx-auto text-center"
+                      style={{ justifyContent: 'center' }}
+                    >
                       <div className="col-6 col-md-3 centered-icon-list__icon">
                         <img
                           src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"

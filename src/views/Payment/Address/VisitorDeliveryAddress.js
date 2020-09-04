@@ -17,9 +17,8 @@ export default class UnloginDeliveryAddress extends React.Component {
         </div>
         <fieldset className="shipping-address-block rc-fieldset">
           <EditForm
-            data={this.props.data}
-            updateData={(data) => this.props.updateData(data)}
-          />
+            type="delivery"
+            updateData={data => this.props.updateData(data)} />
         </fieldset>
       </>
     );

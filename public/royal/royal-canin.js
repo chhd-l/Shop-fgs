@@ -25,6 +25,7 @@
   var r = {
       62: 0
   };
+  
   function jsonpScriptSrc(e) {
     //   return __webpack_require__.p + "" + ({
     return '/royal/royal-assets1/' + "" + ({
