@@ -3,7 +3,9 @@ import { purchases, mergePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import { find } from 'lodash';
 import stores from '@/store';
+import store from 'storejs';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const mapEnum = {
   1: { mark: '$', break: ' ' },
@@ -30,28 +32,28 @@ export function formatMoney(
 }
 
 export async function queryStoreCateIds() {
-  let tmp = sessionStorage.getItem('rc-storeId-list');
+  let tmp = sessionItemRoyal.get('rc-storeId-list');
   if (!tmp) {
     let res = await getStoreCate({ storeId: process.env.REACT_APP_STOREID });
     if (res.context && res.context.length) {
-      sessionStorage.setItem('rc-storeId-list', JSON.stringify(res.context));
+      sessionItemRoyal.set('rc-storeId-list', JSON.stringify(res.context));
     }
   }
-  return JSON.parse(sessionStorage.getItem('rc-storeId-list'));
+  return JSON.parse(sessionItemRoyal.get('rc-storeId-list'));
 }
 
 /**
  * 获取商品属性
  */
 export async function queryProps() {
-  let tmp = sessionStorage.getItem('rc-goodsprop-list');
+  let tmp = sessionItemRoyal.get('rc-goodsprop-list');
   if (!tmp) {
     let res = await getProps(process.env.REACT_APP_CATEID);
     if (res.context && res.context.length) {
-      sessionStorage.setItem('rc-goodsprop-list', JSON.stringify(res.context));
+      sessionItemRoyal.set('rc-goodsprop-list', JSON.stringify(res.context));
     }
   }
-  return JSON.parse(sessionStorage.getItem('rc-goodsprop-list'));
+  return JSON.parse(sessionItemRoyal.get('rc-goodsprop-list'));
 }
 
 export function getParaByName(search, name) {
@@ -130,8 +132,8 @@ export function flat(arr) {
 export async function getDictionary({ type, name = '' }) {
   let ret = [];
   const tmpKey = `dict-${type}`;
-  if (sessionStorage.getItem(tmpKey)) {
-    ret = JSON.parse(sessionStorage.getItem(tmpKey));
+  if (sessionItemRoyal.get(tmpKey)) {
+    ret = JSON.parse(sessionItemRoyal.get(tmpKey));
   } else {
     let res = await getDict({
       delFlag: 0,
@@ -140,7 +142,7 @@ export async function getDictionary({ type, name = '' }) {
       name
     });
     const sysDictionaryVOS = res.context.sysDictionaryVOS;
-    sessionStorage.setItem(tmpKey, JSON.stringify(sysDictionaryVOS));
+    sessionItemRoyal.set(tmpKey, JSON.stringify(sysDictionaryVOS));
     ret = sysDictionaryVOS;
   }
   return ret;

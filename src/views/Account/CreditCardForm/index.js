@@ -14,6 +14,8 @@ import axios from 'axios';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
 import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 @injectIntl
 @inject('loginStore')
 @observer
@@ -61,16 +63,16 @@ class ShippingAddressFrom extends React.Component {
     console.log(this.props);
     const { location } = this.props;
     if (location.query) {
-      sessionStorage.setItem(
+      sessionItemRoyal.set(
         'paymentMethodForm',
         JSON.stringify(location.query)
       );
       this.setState({
         creditCardInfo: location.query
       });
-    } else if (sessionStorage.getItem('paymentMethodForm')) {
+    } else if (sessionItemRoyal.get('paymentMethodForm')) {
       let paymentMethodForm = JSON.parse(
-        sessionStorage.getItem('paymentMethodForm')
+        sessionItemRoyal.get('paymentMethodForm')
       );
       this.setState({
         creditCardInfo: paymentMethodForm
@@ -78,7 +80,7 @@ class ShippingAddressFrom extends React.Component {
     }
   }
   componentWillMount() {
-    sessionStorage.removeItem('paymentMethodForm');
+    sessionItemRoyal.remove('paymentMethodForm');
   }
   get userInfo() {
     return this.props.loginStore.userInfo;

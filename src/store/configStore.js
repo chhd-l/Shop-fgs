@@ -1,9 +1,11 @@
 import { action, observable, computed } from "mobx";
 import { getConfig } from '@/api'
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 class ConfigStore {
-  @observable info = sessionStorage.getItem('storeContentInfo')
-    ? JSON.parse(sessionStorage.getItem('storeContentInfo'))
+  @observable info = sessionItemRoyal.get('storeContentInfo')
+    ? JSON.parse(sessionItemRoyal.get('storeContentInfo'))
     : null
 
   @computed get storeContactPhoneNumber () {
@@ -64,7 +66,7 @@ class ConfigStore {
   async queryConfig () {
     let res = await getConfig()
     this.info = res.context.storeVO
-    sessionStorage.setItem('storeContentInfo', JSON.stringify(this.info))
+    sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info))
   }
 }
 export default ConfigStore;

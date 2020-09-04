@@ -20,6 +20,8 @@ import stores from '@/store';
 import { FormattedMessage } from 'react-intl'
 import { mergeUnloginCartData } from '@/utils/utils'
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 const loginStore = stores.loginStore
 const checkoutStore = stores.checkoutStore
 
@@ -45,23 +47,23 @@ const LoginButton = (props) => {
             let userinfo = res.context.customerDetail
             loginStore.changeLoginModal(false)
             loginStore.changeIsLogin(true)
-            localStorage.setItem("rc-token", res.context.token);
+            localItemRoyal.set("rc-token", res.context.token);
             let customerInfoRes = await getCustomerInfo()
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
             loginStore.setUserInfo(customerInfoRes.context)
-            if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {
-              props.history.push(sessionStorage.getItem('okta-redirectUrl'))
+            if (sessionItemRoyal.get('okta-redirectUrl') === '/cart') {
+              props.history.push(sessionItemRoyal.get('okta-redirectUrl'))
             } else {
               if (checkoutStore.cartData.length) {
                 await mergeUnloginCartData()
                 await loginStore.updateLoginCart()
               }
-              if (sessionStorage.getItem('okta-redirectUrl') === '/prescription') {
+              if (sessionItemRoyal.get('okta-redirectUrl') === '/prescription') {
                 console.log('jajajjajaa')
-                props.history.push(sessionStorage.getItem('okta-redirectUrl'))
+                props.history.push(sessionItemRoyal.get('okta-redirectUrl'))
               }
             }
-            sessionStorage.removeItem('okta-redirectUrl')
+            sessionItemRoyal.remove('okta-redirectUrl')
           }).catch(e => {
             loginStore.changeLoginModal(false)
           })
@@ -71,14 +73,14 @@ const LoginButton = (props) => {
   }, [authState, authService]); // Update if authState changes
 
   const login = async () => {
-    sessionStorage.removeItem('rc-token-lose')
-    // sessionStorage.setItem('okta-redirectUrl', '/')
+    sessionItemRoyal.remove('rc-token-lose')
+    // sessionItemRoyal.set('okta-redirectUrl', '/')
     if (props.beforeLoginCallback) {
       let res = await props.beforeLoginCallback()
       if (res === false) {
         return false
       }
-      // sessionStorage.setItem('okta-redirectUrl', '/cart')
+      // sessionItemRoyal.set('okta-redirectUrl', '/cart')
     }
     authService.login('/');
   };

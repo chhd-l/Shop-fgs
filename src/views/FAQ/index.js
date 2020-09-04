@@ -10,6 +10,8 @@ import FAQ1 from '@/assets/images/FAQ1.jpg';
 import { translateHtmlCharater } from '@/utils/utils';
 import './index.less';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 class FAQ extends React.Component {
   constructor(props) {
     super(props);
@@ -21,11 +23,11 @@ class FAQ extends React.Component {
     };
   }
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }

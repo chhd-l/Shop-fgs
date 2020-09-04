@@ -24,6 +24,7 @@ import config from './config';
 import '@/assets/iconfont/iconfont.css';
 import '@/assets/css/global.css';
 import ENUM_LANGFILE from '@/lang';
+import '@/utils/global';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'mobx-react';
 import stores from './store';
@@ -75,7 +76,8 @@ import Widerrufsbelehrung from '@/components/Footer/link/Widerrufsbelehrung'
 import FAQVersand from '@/components/Footer/link/FAQVersand'
 import FAQAllgemein from '@/components/Footer/link/FAQAllgemein'
 
-const token = localStorage.getItem('rc-token');
+const localItemRoyal = window.__.localItemRoyal;
+const token = localItemRoyal.get('rc-token');
 
 const App = () => (
   <Provider {...stores}>

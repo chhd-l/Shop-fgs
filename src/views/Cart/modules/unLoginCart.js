@@ -15,6 +15,9 @@ import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import PetModal from '@/components/PetModal';
 import { toJS } from 'mobx';
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 @injectIntl
 @inject('checkoutStore')
 @observer
@@ -88,7 +91,7 @@ class UnLoginCart extends React.Component {
     }, 3000);
   }
   async handleCheckout({ needLogin = false } = {}) {
-    sessionStorage.setItem('okta-redirectUrl', '/cart')
+    sessionItemRoyal.set('okta-redirectUrl', '/cart')
     const { history } = this.props;
     this.setState({ checkoutLoading: true });
     try {
@@ -290,8 +293,8 @@ class UnLoginCart extends React.Component {
     this.setState({ checkoutLoading: false });
   }
   gotoDetails(pitem) {
-    sessionStorage.setItem('rc-goods-cate-name', pitem.goodsCateName || '');
-    sessionStorage.setItem('rc-goods-name', pitem.goodsName);
+    sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
+    sessionItemRoyal.set('rc-goods-name', pitem.goodsName);
     this.props.history.push('/details/' + pitem.sizeList[0].goodsInfoId);
   }
   toggleSelect(pitem) {

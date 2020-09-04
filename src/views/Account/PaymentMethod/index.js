@@ -12,6 +12,8 @@ import Loading from '@/components/Loading';
 import PaymentComp from '@/components/PaymentComp';
 import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('loginStore')
 @observer
 class PaymentMethod extends React.Component {
@@ -42,11 +44,11 @@ class PaymentMethod extends React.Component {
   }
 
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }

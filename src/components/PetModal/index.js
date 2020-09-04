@@ -11,6 +11,8 @@ import { addPet } from '@/api/pet'
 import { getPetList } from '@/api/pet'
 import { getCustomerInfo } from "@/api/user"
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @injectIntl
 class PetModal extends Component { // 新建Pet
 
@@ -26,8 +28,8 @@ class PetModal extends Component { // 新建Pet
 
     getUserInfo () {
         let userinfo = {}
-        if (localStorage.getItem('rc-userinfo')) {
-            userinfo = JSON.parse(localStorage.getItem('rc-userinfo'))
+        if (localItemRoyal.get('rc-userinfo')) {
+            userinfo = JSON.parse(localItemRoyal.get('rc-userinfo'))
 
         }
         return userinfo
@@ -42,7 +44,7 @@ class PetModal extends Component { // 新建Pet
             getCustomerInfo()
                 .then(res => {
                     const context = res.context
-                    localStorage.setItem('rc-userinfo', JSON.stringify(context))
+                    localItemRoyal.set('rc-userinfo', context)
                     consumerAccount = context.consumerAccount
                 })
         }

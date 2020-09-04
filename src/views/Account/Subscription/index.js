@@ -14,6 +14,8 @@ import { getDictionary } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.css';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 class Subscription extends React.Component {
   constructor(props) {
     super(props);
@@ -47,12 +49,12 @@ class Subscription extends React.Component {
   }
 
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
 
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }
@@ -104,8 +106,8 @@ class Subscription extends React.Component {
       pageSize: this.pageSize,
       subscribeId: form.subscribeId,
       subscribeStatus: form.subscribeStatus,
-      customerAccount: localStorage.getItem('rc-userinfo')
-        ? JSON.parse(localStorage.getItem('rc-userinfo'))['customerAccount']
+      customerAccount: localItemRoyal.get('rc-userinfo')
+        ? JSON.parse(localItemRoyal.get('rc-userinfo'))['customerAccount']
         : ''
     };
     getSubList(param)
@@ -267,10 +269,7 @@ class Subscription extends React.Component {
                                   <Link
                                     className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
                                     onClick={() =>
-                                      localStorage.setItem(
-                                        'subDetail',
-                                        JSON.stringify(subItem)
-                                      )
+                                      localItemRoyal.set('subDetail', subItem)
                                     }
                                     to={`/account/subscription-detail/${subItem.subscribeId}`}
                                   >

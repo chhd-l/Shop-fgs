@@ -17,6 +17,9 @@ import {
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.css';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+
 class OrdersAfterSale extends React.Component {
   constructor(props) {
     super(props);
@@ -41,12 +44,12 @@ class OrdersAfterSale extends React.Component {
     this.imgUploaderRef = React.createRef();
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }
-    const afterSaleType = sessionStorage.getItem('rc-after-sale-type');
+    const afterSaleType = sessionItemRoyal.get('rc-after-sale-type');
     if (afterSaleType) {
       this.setState(
         {
@@ -75,7 +78,7 @@ class OrdersAfterSale extends React.Component {
     history.goBack();
   }
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   queryDetails() {
     getOrderReturnDetails(this.state.orderNumber)

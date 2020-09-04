@@ -7,6 +7,8 @@ import '../index.css'
 import { addPet } from '@/api/pet'
 import { getCustomerInfo } from "@/api/user"
 
+const localItemRoyal = window.__.localItemRoyal;
+
 export default class NewPetModal extends Component { // 新建Pet
 
     constructor() {
@@ -71,8 +73,8 @@ export default class NewPetModal extends Component { // 新建Pet
     }
     getUserInfo () {
         let userinfo = {}
-        if (localStorage.getItem('rc-userinfo')) {
-            userinfo = JSON.parse(localStorage.getItem('rc-userinfo'))
+        if (localItemRoyal.get('rc-userinfo')) {
+            userinfo = localItemRoyal.get('rc-userinfo')
 
         }
         return userinfo
@@ -87,7 +89,7 @@ export default class NewPetModal extends Component { // 新建Pet
             getCustomerInfo()
                 .then(res => {
                     const context = res.context
-                    localStorage.setItem('rc-userinfo', JSON.stringify(context))
+                    localItemRoyal.set('rc-userinfo', context)
                     consumerAccount = context.consumerAccount
                 })
         }

@@ -9,6 +9,8 @@ import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import { inject, observer } from 'mobx-react';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('configStore')
 @observer
 class Help extends React.Component {
@@ -17,11 +19,11 @@ class Help extends React.Component {
   }
 
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }

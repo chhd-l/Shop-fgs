@@ -21,6 +21,9 @@ import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import './index.css';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('checkoutStore', 'loginStore', 'headerCartStore')
 @injectIntl
 @observer
@@ -84,11 +87,11 @@ class Details extends React.Component {
     this.format = [];
   }
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }
@@ -549,7 +552,7 @@ class Details extends React.Component {
     }
   }
   async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
-    sessionStorage.setItem('okta-redirectUrl', '/cart')
+    sessionItemRoyal.set('okta-redirectUrl', '/cart')
     this.setState({ checkOutErrMsg: '' });
     if (this.state.loading) {
       return false;

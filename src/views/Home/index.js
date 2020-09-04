@@ -21,20 +21,22 @@ import Gastrointestinal from '@/assets/images/home-catogery/Gastrointestinal.jpg
 import VitalSupport from '@/assets/images/home-catogery/Vital-Support.jpg';
 import HealthManagement from '@/assets/images/home-catogery/Health-Management.jpg';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
   }
   async componentDidMount() {
     // console.log(111111,process.env.REACT_APP_AdyenOriginKEY)
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }
   }
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   render() {
     const event = {

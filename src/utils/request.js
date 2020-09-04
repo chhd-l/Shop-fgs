@@ -1,5 +1,7 @@
 import axios from 'axios'
-import store from 'storejs'
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 let env = process.env.NODE_ENV
 let base_url
@@ -20,7 +22,7 @@ const service = axios.create({
 
 // request interceptor
 service.interceptors.request.use(config => {
-  const token = sessionStorage.getItem('rc-token') || localStorage.getItem('rc-token')
+  const token = sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token')
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token
   }
@@ -44,8 +46,8 @@ service.interceptors.response.use((response) => {
     return response.data
   } else {
     // token失效处理
-    if (localStorage.getItem('rc-token') && response.status === 200 && response.data && response.data.code === 'K-000002') {
-      sessionStorage.setItem('rc-token-lose', 1)
+    if (localItemRoyal.get('rc-token') && response.status === 200 && response.data && response.data.code === 'K-000002') {
+      sessionItemRoyal.set('rc-token-lose', 1)
       window.location.href = '/'
     }
     console.log(response, response.data, response.data.message)

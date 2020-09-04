@@ -9,6 +9,8 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import successImg from '@/assets/images/credit-cards/success.png';
 import './index.css';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 export default class OrdersAfterSaleSuccess extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +26,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
     this.setState(
       {
         returnNumber: this.props.match.params.returnNumber,
-        afterSaleType: sessionStorage.getItem('rc-after-sale-type')
+        afterSaleType: sessionItemRoyal.get('rc-after-sale-type')
       },
       () => this.queryReturnDetails()
     );

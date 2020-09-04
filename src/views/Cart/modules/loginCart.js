@@ -22,6 +22,9 @@ import {
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import Loading from '@/components/Loading';
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 @injectIntl
 @inject('checkoutStore')
 @observer
@@ -279,8 +282,8 @@ class LoginCart extends React.Component {
     this.props.history.goBack();
   }
   gotoDetails(pitem) {
-    sessionStorage.setItem('rc-goods-cate-name', pitem.goodsCateName || '');
-    sessionStorage.setItem('rc-goods-name', pitem.goodsName);
+    sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
+    sessionItemRoyal.set('rc-goods-name', pitem.goodsName);
     this.props.history.push('/details/' + pitem.goodsInfoId);
   }
   toggleSelect(pitem) {

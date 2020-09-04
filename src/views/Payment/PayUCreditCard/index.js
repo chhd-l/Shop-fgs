@@ -11,6 +11,8 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 @injectIntl
 @inject('loginStore')
 @observer
@@ -165,7 +167,7 @@ class PayOs extends React.Component {
     document.getElementById('payment-form').submit.click();
     let timer = setInterval(() => {
       try {
-        let payosdata = JSON.parse(sessionStorage.getItem('payosdata'));
+        let payosdata = JSON.parse(sessionItemRoyal.get('payosdata'));
         if (payosdata) {
           this.props.endLoading();
           clearInterval(timer);
@@ -179,15 +181,15 @@ class PayOs extends React.Component {
           );
           if (payosdata.category === 'client_validation_error') {
             this.props.showErrorMsg(payosdata.more_info);
-            sessionStorage.clear('payosdata');
+            sessionItemRoyal.remove('payosdata');
           } else {
             this.setState({ isCompleteCredit: true });
           }
         }
       } catch (err) {
         this.props.showErrorMsg(
-          sessionStorage.getItem('payosdata')
-            ? sessionStorage.getItem('payosdata')
+          sessionItemRoyal.get('payosdata')
+            ? sessionItemRoyal.get('payosdata')
             : err.toString()
         );
         clearInterval(timer);

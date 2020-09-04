@@ -12,6 +12,8 @@ import { formatMoney } from '@/utils/utils';
 import { getReturnList } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 export default class ReturnOrder extends React.Component {
   constructor(props) {
     super(props);
@@ -31,11 +33,11 @@ export default class ReturnOrder extends React.Component {
     this.pageSize = 6;
   }
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }

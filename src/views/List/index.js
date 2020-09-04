@@ -15,6 +15,9 @@ import { STORE_CATE_ENUM } from '@/utils/constant';
 import Rate from '@/components/Rate';
 import './index.css';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('loginStore')
 @observer
 @injectIntl
@@ -125,7 +128,7 @@ class List extends React.Component {
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
   }
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -165,9 +168,9 @@ class List extends React.Component {
     }
   }
   componentDidMount() {
-    console.log(localStorage.getItem('isRefresh'));
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    console.log(localItemRoyal.get('isRefresh'));
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }
@@ -448,12 +451,12 @@ class List extends React.Component {
     if (this.state.loading) {
       return false;
     }
-    sessionStorage.setItem(
+    sessionItemRoyal.set(
       'rc-goods-cate-name',
       this.state.currentCatogery || ''
     );
-    sessionStorage.setItem('recomment-preview', this.props.location.pathname);
-    sessionStorage.setItem('rc-goods-name', item.goodsName);
+    sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
+    sessionItemRoyal.set('rc-goods-name', item.goodsName);
     const { history } = this.props;
     history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }

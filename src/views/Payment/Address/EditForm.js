@@ -6,7 +6,8 @@ import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
-import store from 'storejs';
+
+const localItemRoyal = window.__.localItemRoyal;
 
 /**
  * add/edit address form - member/visitor
@@ -38,7 +39,7 @@ class EditForm extends React.Component {
   componentDidMount() {
     const { deliveryAddress } = this.state;
     if (!this.isLogin && this.props.type === 'delivery') {
-      let deliveryInfo = store.get('deliveryInfo');
+      let deliveryInfo = localItemRoyal.get('deliveryInfo');
       if (deliveryInfo) {
         this.setState(
           {

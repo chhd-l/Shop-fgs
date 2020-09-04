@@ -4,6 +4,8 @@ import { adyenPaymentsDetails } from '@/api/payment';
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 class AdyenPayResult extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +19,7 @@ class AdyenPayResult extends Component {
     try {
       const res = await adyenPaymentsDetails({
         redirectResult,
-        businessId: sessionStorage.getItem('orderNumber')
+        businessId: sessionItemRoyal.get('orderNumber')
         //businessId: 'O202008110927290237',
       });
       if (res.context.status == 'SUCCEED') {

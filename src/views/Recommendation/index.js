@@ -27,6 +27,9 @@ import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import Modal from './components/Modal';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
 @observer
@@ -81,7 +84,7 @@ class Help extends React.Component {
   }
 
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
     this.setState({ loading: true });
@@ -131,8 +134,8 @@ class Help extends React.Component {
     }).catch(err => {
       // this.props.history.push('/')
     })
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }
@@ -372,7 +375,7 @@ class Help extends React.Component {
   };
   async buyNow(needLogin) {
     if(needLogin) {
-      sessionStorage.setItem('okta-redirectUrl', '/prescription')
+      sessionItemRoyal.set('okta-redirectUrl', '/prescription')
     }
     this.setState({needLogin})
     let { productList, outOfStockProducts, inStockProducts, modalList } = this.state;
@@ -391,11 +394,11 @@ class Help extends React.Component {
       return false;
     }
     if(outOfStockProducts.length > 0) {
-      sessionStorage.setItem('recommend_product', JSON.stringify(inStockProducts))
+      sessionItemRoyal.set('recommend_product', JSON.stringify(inStockProducts))
       this.setState({modalShow: true, currentModalObj: modalList[1]})
       return false
     }else {
-      sessionStorage.setItem('recommend_product', JSON.stringify(inStockProducts))
+      sessionItemRoyal.set('recommend_product', JSON.stringify(inStockProducts))
       this.props.history.push('/prescription');
     }
   }
@@ -441,8 +444,8 @@ class Help extends React.Component {
     };
     // const { details, images } = this.state
     console.log('props', this.props);
-    let details = JSON.parse(sessionStorage.getItem('detailsTemp'));
-    let images = JSON.parse(sessionStorage.getItem('imagesTemp'));
+    let details = JSON.parse(sessionItemRoyal.get('detailsTemp'));
+    let images = JSON.parse(sessionItemRoyal.get('imagesTemp'));
     let { productList, activeIndex, prescriberInfo, currentModalObj } = this.state;
     let MaxLinePrice,
       MinLinePrice,

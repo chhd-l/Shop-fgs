@@ -3,6 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react';
 import LoginButton from '@/components/LoginButton';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 @inject('loginStore')
 class Modal extends React.Component {
   static defaultProps = {
@@ -81,7 +83,7 @@ class Modal extends React.Component {
                     >
                       {this.props.confirmBtnText}
                     </button>
-                  ): (<LoginButton beforeLoginCallback={() => {sessionStorage.setItem('okta-redirectUrl', '/prescription')}}>
+                  ): (<LoginButton beforeLoginCallback={() => {sessionItemRoyal.set('okta-redirectUrl', '/prescription')}}>
                     <FormattedMessage id="yes" />
                   </LoginButton>)
                 }

@@ -12,6 +12,9 @@ import { getDictionary } from '@/utils/utils'
 import bg1 from "@/assets/images/login-bg3.jpg";
 import bg2 from "@/assets/images/register-bg1.jpg";
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject("loginStore")
 @injectIntl
 @observer
@@ -49,17 +52,17 @@ class Login extends React.Component {
       successMsg: '',
       questionList:[],
       // type: this.props.match.params.type,
-      type: localStorage.getItem('loginType') || 'login',
+      type: localItemRoyal.get('loginType') || 'login',
       loading:false
     };
   }
   componentWillUnmount() {
-    localStorage.setItem("isRefresh", true);
+    localItemRoyal.set("isRefresh", true);
   }
   componentDidMount() {
     // console.log()
-    if (localStorage.getItem("isRefresh")) {
-      localStorage.removeItem("isRefresh");
+    if (localItemRoyal.get("isRefresh")) {
+      localItemRoyal.remove("isRefresh");
       window.location.reload();
       return false;
     }
@@ -109,17 +112,17 @@ class Login extends React.Component {
     });
   };
  loginClick=() => {
-    if(sessionStorage.getItem("rc-token")){
-      sessionStorage.removeItem("rc-token")
+    if(sessionItemRoyal.get("rc-token")){
+      sessionItemRoyal.remove("rc-token")
     }
-    if(localStorage.getItem("rc-token")){
-      localStorage.removeItem("rc-token")
+    if(localItemRoyal.get("rc-token")){
+      localItemRoyal.remove("rc-token")
     }
     this.props.loginStore.removeUserInfo()
 
     const { history } = this.props;
     login(this.state.loginForm).then(res=>{
-        localStorage.setItem("rc-token", res.context.token);
+        localItemRoyal.set("rc-token", res.context.token);
         let userinfo = res.context.customerDetail;
         userinfo.customerAccount = res.context.accountName;
 
@@ -204,7 +207,7 @@ class Login extends React.Component {
       if(res.code==='K-000000'){
         console.log(res);
 
-        localStorage.setItem("rc-token", res.context.token);
+        localItemRoyal.set("rc-token", res.context.token);
         let userinfo = res.context.customerDetail;
         userinfo.customerAccount = res.context.accountName;
         this.props.loginStore.setUserInfo(userinfo)
@@ -472,7 +475,7 @@ class Login extends React.Component {
                           onClick={(e) => {
                             e.preventDefault()
                             this.setState({type: 'forgetPassword'})
-                            localStorage.setItem('loginType', 'forgetPassword')
+                            localItemRoyal.set('loginType', 'forgetPassword')
                           }}
                         >
                           <FormattedMessage id='forgetPassword'/>
@@ -501,7 +504,7 @@ class Login extends React.Component {
                           style={{ width: "100%" }}
                           onClick={() => {
                             this.setState({type: 'register'})
-                            localStorage.setItem('loginType', 'register')
+                            localItemRoyal.set('loginType', 'register')
                           }}
                         >
                            <FormattedMessage id='createAnAccount'/>
@@ -835,7 +838,7 @@ class Login extends React.Component {
                   onClick={(e) => {
                     e.preventDefault()
                     this.setState({type: 'login'})
-                    localStorage.setItem('loginType', 'login')
+                    localItemRoyal.set('loginType', 'login')
                   }}
                 >
                   <FormattedMessage id='login'/>

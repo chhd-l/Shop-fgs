@@ -4,15 +4,17 @@ import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import './index.css';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('loginStore')
 @observer
 class Cart extends React.Component {
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }

@@ -1,8 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import './index.css'
-let storeInfo = JSON.parse(sessionStorage.getItem('storeContentInfo'))
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
+let storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'))
 let isPrescriberMap = storeInfo?storeInfo.prescriberMap: '1'
+
 function Progress (props) {
   return (
     <div className="rc-padding--sm rc-padding-top--none">
