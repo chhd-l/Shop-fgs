@@ -94,6 +94,7 @@
     "start:de": "dotenv -e .env.development.de node scripts/start.js",
     "build": "dotenv -e .env.development node scripts/build.js",
     "build:uat_de": "dotenv -e .env.development.de node scripts/build.js",
+    "build:stg": "dotenv -e .env.stage node scripts/build.js",
     "build:stg_de": "dotenv -e .env.stage.de node scripts/build.js",
     "build:prod": "dotenv -e .env.production node scripts/build.js",
     "build:prod_de": "dotenv -e .env.production.de node scripts/build.js"

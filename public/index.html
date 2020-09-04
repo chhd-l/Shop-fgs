@@ -25,11 +25,11 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
 
-  <link id="royal-canin" rel="stylesheet" type='text/css' href="<%= process.env.NODE_ENV === 'development' ? '' : '/assets' %>/royal/royal-canin.css" />
+  <link id="royal-canin" rel="stylesheet" type='text/css' href="<%= process.env.REACT_APP_HOMEPAGE === '/' ? '' : '/assets' %>/royal/royal-canin.css" />
   <!-- <link rel="stylesheet" href="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.9.5/adyen.css"> -->
   <link rel="stylesheet" href="https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css">
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"></script>
-  <script type="text/javascript" src="<%= process.env.NODE_ENV === 'development' ? '' : '/assets' %>/royal/royal-canin.js" id="js-royal-canin"></script>
+  <script type="text/javascript" src="<%= process.env.REACT_APP_HOMEPAGE === '/' ? '' : '/assets' %>/royal/royal-canin.js" id="js-royal-canin"></script>
   <script>
     if (typeof Object.assign != 'function') {
       Object.assign = function (target) {
