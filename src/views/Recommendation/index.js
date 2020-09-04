@@ -805,7 +805,6 @@ class Help extends React.Component {
                         padding: '32px 20px',
                         textAlign: 'center',
                         fontWeight: '500',
-                        // display: 'none'
                         float: 'left'
                       }}
                     >
@@ -868,6 +867,7 @@ class Help extends React.Component {
                         >
                           <i></i>
                           <img
+                            style={{height: '65px'}}
                             src={
                               el.goodsInfo.goodsInfoImg ||
                               el.goodsInfo.goods.goodsImg

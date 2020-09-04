@@ -122,7 +122,8 @@ section li {
   }
   p > .rc-btn, p > .btn {
       display: inline;
-  }.picList li > img {
+  }
+  .picList li > img {
     width: 107px;
     height: 47px;
   }
@@ -134,9 +135,10 @@ section li {
   }
   .recommendProduct .recommendProductInnerMobile ul li {
     float: left;
-    width: 70px;
-    margin-left: 10px;
-    height: 160px;
+    width: 50px;
+    height: 125px;
+    border-bottom: 2px solid #eee;
+    box-sizing: border-box;
   }
   .recommendProduct ul > li.active {
     border-right: none;
