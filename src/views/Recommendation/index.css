@@ -142,6 +142,9 @@ section li {
     border-right: none;
     border-bottom: 2px solid rgba(226,0,26);
   }
+  .recommendProduct .top {
+    text-align: center;
+  }
   .recommendProduct .top li > span {
     width: 100%;
     display: inline-block;
@@ -164,6 +167,12 @@ section li {
   }
   .recommendation .scrollOutBox {
     height: 100px;
+  }
+  .recommendation p>.rc-btn, p>.btn {
+    margin-right: 0;
+  }
+  .recommendation p>.rc-btn+.rc-styled-link {
+    margin-left: 0;
   }
 }
 
