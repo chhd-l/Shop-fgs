@@ -2,13 +2,15 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 class TermUse extends React.Component {
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }

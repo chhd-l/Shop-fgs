@@ -2,10 +2,12 @@ import React from 'react'
 import Skeleton from 'react-skeleton-loader'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Link } from "react-router-dom"
-import { formatMoney, mergeUnloginCartData } from '@/utils/utils'
+import { formatMoney } from '@/utils/utils'
 import { inject, observer } from 'mobx-react'
 import { toJS } from "mobx";
 import PetModal from '@/components/PetModal'
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject("checkoutStore", "headerCartStore")
 @observer
@@ -21,8 +23,8 @@ class LoginCart extends React.Component {
   }
   async componentDidMount () {
     // console.log(this.props.history, 'history')
-    if(!sessionStorage.getItem('recommend_product') && this.props.history.location.pathname !== '/payment/payment' ) {
-      console.log(sessionStorage.getItem('recommend_product'), this.props.history.location.pathname, 'history')
+    if(!sessionItemRoyal.get('recommend_product') && this.props.history.location.pathname !== '/payment/payment' ) {
+      console.log(sessionItemRoyal.get('recommend_product'), this.props.history.location.pathname, 'history')
       this.checkoutStore.updateLoginCart()
     }
   }

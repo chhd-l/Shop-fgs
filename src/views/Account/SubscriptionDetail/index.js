@@ -34,6 +34,8 @@ import resolve from 'resolve';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('checkoutStore', 'loginStore')
 @injectIntl
 class SubscriptionDetail extends React.Component {
@@ -147,12 +149,12 @@ class SubscriptionDetail extends React.Component {
     };
   }
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
 
   async componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }

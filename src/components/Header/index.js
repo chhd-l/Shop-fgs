@@ -18,6 +18,9 @@ import LogoutButton from "@/components/LogoutButton";
 import { inject, observer } from "mobx-react";
 import "./index.css";
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject("loginStore", "clinicStore", "configStore")
 @observer // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
@@ -66,7 +69,7 @@ class Header extends React.Component {
     return this.props.loginStore.isLogin;
   }
   async componentDidMount() {
-    if (sessionStorage.getItem("rc-token-lose")) {
+    if (sessionItemRoyal.get("rc-token-lose")) {
       document.querySelector("#J-btn-logoff") &&
         document.querySelector("#J-btn-logoff").click();
       document.querySelector("#J-btn-login") &&
@@ -282,7 +285,7 @@ class Header extends React.Component {
     // window.location.href = registredUrl
     const { history } = this.props;
     history.push("/login");
-    localStorage.setItem("loginType", "register");
+    localItemRoyal.set("loginType", "register");
   }
   async getSearchData() {
     const { keywords } = this.state;
@@ -345,8 +348,8 @@ class Header extends React.Component {
     }
   }
   gotoDetails(item) {
-    sessionStorage.setItem("rc-goods-cate-name", item.goodsCateName || "");
-    sessionStorage.setItem("rc-goods-name", item.goodsName);
+    sessionItemRoyal.set("rc-goods-cate-name", item.goodsCateName || "");
+    sessionItemRoyal.set("rc-goods-name", item.goodsName);
     this.props.history.push("/details/" + item.goodsInfos[0].goodsInfoId);
   }
   handleMenuMouseOver() {
@@ -381,12 +384,12 @@ class Header extends React.Component {
   }
   clickLogin() {
     this.props.history.push("/login");
-    localStorage.setItem("loginType", "login");
+    localItemRoyal.set("loginType", "login");
   }
   clickLogoff() {
-    localStorage.removeItem("rc-token");
-    sessionStorage.removeItem(`rc-clinic-name-default`);
-    sessionStorage.removeItem(`rc-clinic-id-default`);
+    localItemRoyal.remove("rc-token");
+    sessionItemRoyal.remove(`rc-clinic-name-default`);
+    sessionItemRoyal.remove(`rc-clinic-id-default`);
     this.props.loginStore.removeUserInfo();
     this.props.checkoutStore.removeLoginCartData();
     this.props.loginStore.changeIsLogin(false);

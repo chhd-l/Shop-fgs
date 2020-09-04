@@ -14,6 +14,8 @@ import PasswordForm from './modules/PasswordForm';
 import { getCustomerInfo } from '@/api/user';
 import './index.css';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('loginStore')
 @observer
 class AccountProfile extends React.Component {
@@ -51,11 +53,11 @@ class AccountProfile extends React.Component {
     this.headerRef = React.createRef();
   }
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }

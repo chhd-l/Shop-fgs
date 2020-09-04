@@ -15,8 +15,9 @@ import {
   CREDIT_CARD_IMG_ENUM,
   CREDIT_CARD_IMGURL_ENUM
 } from '@/utils/constant';
-import store from 'storejs';
 import './index.css';
+
+const localItemRoyal = window.__.localItemRoyal;
 
 @inject('loginStore', 'paymentStore')
 @observer
@@ -58,8 +59,8 @@ class PaymentComp extends React.Component {
   }
   async componentDidMount() {
     if (this.props.loginStore.isLogin) {
-      if (store.get('loginDeliveryInfo')) {
-        let deliveryInfo = store.get('loginDeliveryInfo');
+      if (localItemRoyal.get('loginDeliveryInfo')) {
+        let deliveryInfo = localItemRoyal.get('loginDeliveryInfo');
         deliveryInfo.deliveryAddress.cardOwner =
           deliveryInfo.deliveryAddress.firstName +
           '' +

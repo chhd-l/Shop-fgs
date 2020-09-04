@@ -29,7 +29,6 @@ import {
   customerCommitAndPayMix,
   getWays
 } from '@/api/payment';
-import store from 'storejs';
 
 import PayUCreditCard from './PayUCreditCard';
 import OxxoConfirm from './Oxxo';
@@ -43,6 +42,9 @@ import { getOrderDetails } from '@/api/order';
 import { queryCityNameById } from '@/api';
 import './modules/adyenCopy.css';
 import './index.css';
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 @inject(
   'loginStore',
@@ -117,7 +119,7 @@ class Payment extends React.Component {
       payWayObj: {}, //支付方式input radio汇总
       savedPayWayObj: {}, //保留初始化的支付方式
       orderDetails: null,
-      tid: sessionStorage.getItem('rc-tid'),
+      tid: sessionItemRoyal.get('rc-tid'),
       recommend_data: []
     };
     this.timer = null;
@@ -126,8 +128,8 @@ class Payment extends React.Component {
     this.lang = process.env.REACT_APP_LANG;
   }
   async componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }
@@ -135,9 +137,9 @@ class Payment extends React.Component {
     if (this.state.tid) {
       this.queryOrderDetails();
     }
-    if (sessionStorage.getItem('recommend_product')) {
+    if (sessionItemRoyal.get('recommend_product')) {
       let recommend_data = JSON.parse(
-        sessionStorage.getItem('recommend_product')
+        sessionItemRoyal.get('recommend_product')
       );
       console.log(recommend_data, 'recommend_data', toJS(this.loginCartData));
       recommend_data = recommend_data.map((el) => {
@@ -293,7 +295,7 @@ class Payment extends React.Component {
     const defaultCountryId = process.env.REACT_APP_DEFAULT_COUNTRYID || '';
 
     if (!this.isLogin) {
-      let deliveryInfo = store.get('deliveryInfo');
+      let deliveryInfo = localItemRoyal.get('deliveryInfo');
       if (deliveryInfo) {
         creditCardInfo.cardOwner =
           deliveryInfo.deliveryAddress.firstName +
@@ -321,7 +323,7 @@ class Payment extends React.Component {
     }
 
     // fill default subform data
-    let cacheSubForm = sessionStorage.getItem('rc-subform');
+    let cacheSubForm = sessionItemRoyal.get('rc-subform');
     if (cacheSubForm) {
       cacheSubForm = JSON.parse(cacheSubForm);
       this.setState({
@@ -330,10 +332,10 @@ class Payment extends React.Component {
     }
   }
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
-    sessionStorage.removeItem('rc-tid');
-    sessionStorage.removeItem('rc-subform');
-    sessionStorage.removeItem('recommend_product');
+    localItemRoyal.set('isRefresh', true);
+    sessionItemRoyal.remove('rc-tid');
+    sessionItemRoyal.remove('rc-subform');
+    sessionItemRoyal.remove('recommend_product');
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -701,7 +703,7 @@ class Payment extends React.Component {
         action.forEach(([key, value]) => value.call(this));
       };
 
-      sessionStorage.setItem('rc-paywith-login', this.isLogin);
+      sessionItemRoyal.set('rc-paywith-login', this.isLogin);
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
@@ -752,13 +754,13 @@ class Payment extends React.Component {
           break;
       }
       if (orderNumber) {
-        sessionStorage.setItem('orderNumber', orderNumber);
+        sessionItemRoyal.set('orderNumber', orderNumber);
       }
       if (subNumber) {
-        sessionStorage.setItem('subNumber', subNumber);
+        sessionItemRoyal.set('subNumber', subNumber);
       }
       if (oxxoPayUrl) {
-        sessionStorage.setItem('oxxoPayUrl', oxxoPayUrl);
+        sessionItemRoyal.set('oxxoPayUrl', oxxoPayUrl);
       }
 
       // update clinic
@@ -769,18 +771,18 @@ class Payment extends React.Component {
       clinicStore.setDefaultClinicId(this.props.clinicStore.clinicId);
       clinicStore.setDefaultClinicName(this.props.clinicStore.clinicName);
 
-      sessionStorage.removeItem('payosdata');
+      sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
         // this.props.history.push('/confirmation');
       }
     } catch (err) {
       console.log(err);
       if (!this.isLogin) {
-        sessionStorage.removeItem('rc-token');
+        sessionItemRoyal.remove('rc-token');
       }
       if (err.errorData) {
         //err.errorData是返回的tid(订单号)
-        sessionStorage.setItem('rc-tid', err.errorData);
+        sessionItemRoyal.set('rc-tid', err.errorData);
         this.setState(
           {
             tid: err.errorData
@@ -830,7 +832,7 @@ class Payment extends React.Component {
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
         param
       );
-      sessionStorage.setItem(
+      sessionItemRoyal.set(
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
@@ -889,7 +891,7 @@ class Payment extends React.Component {
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId
     };
-    if (localStorage.getItem('recommend_product')) {
+    if (localItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
           num: ele.buyCount,
@@ -1058,7 +1060,7 @@ class Payment extends React.Component {
 
       await this.validInputsData(param.deliveryAddress);
       await this.validInputsData(param.billingAddress);
-      store.set(this.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo', param);
+      localItemRoyal.set(this.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo', param);
       this.setState({
         deliveryAddress: param.deliveryAddress,
         billingAddress: param.billingAddress,
@@ -1323,7 +1325,7 @@ class Payment extends React.Component {
                 subForm: data
               },
               () => {
-                if (!sessionStorage.getItem('recommend_product')) {
+                if (!sessionItemRoyal.get('recommend_product')) {
                   this.state.subForm.buyWay == 'once'
                     ? this.props.checkoutStore.updateLoginCart(
                         this.state.promotionCode,

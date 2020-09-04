@@ -18,6 +18,8 @@ import Loading from '@/components/Loading';
 import Skeleton from 'react-skeleton-loader';
 import { getDictionary } from '@/utils/utils';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 class ShippingAddress extends React.Component {
   constructor(props) {
     super(props);
@@ -51,11 +53,11 @@ class ShippingAddress extends React.Component {
   }
 
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }

@@ -15,7 +15,6 @@ import { formatMoney, getDictionary } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
 import orderImg from './img/order.jpg';
-import store from 'storejs';
 import {
   IMG_DEFAULT,
   DELIVER_STATUS_ENUM,
@@ -23,6 +22,9 @@ import {
   PAY_STATUS_ENUM
 } from '@/utils/constant';
 import './index.css';
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 @injectIntl
 @inject('checkoutStore')
@@ -49,12 +51,12 @@ class AccountOrders extends React.Component {
     this.pageSize = 6;
   }
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
     this.FormateOderTimeFilter();
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }
@@ -274,7 +276,7 @@ class AccountOrders extends React.Component {
         phoneNumber: detailResCt.invoice.phone,
         addressId: detailResCt.invoice.addressId
       };
-      store.set('loginDeliveryInfo', {
+      localItemRoyal.set('loginDeliveryInfo', {
         deliveryAddress: tmpDeliveryAddress,
         billingAddress: tmpBillingAddress,
         commentOnDelivery: detailResCt.buyerRemark
@@ -287,7 +289,7 @@ class AccountOrders extends React.Component {
           getDictionary({ type: 'Frequency_week' }),
           getDictionary({ type: 'Frequency_month' })
         ]);
-        sessionStorage.setItem(
+        sessionItemRoyal.set(
           'rc-subform',
           JSON.stringify({
             buyWay: 'frequency',
@@ -298,7 +300,7 @@ class AccountOrders extends React.Component {
           })
         );
       }
-      sessionStorage.setItem('rc-tid', order.id);
+      sessionItemRoyal.set('rc-tid', order.id);
       this.props.checkoutStore.setCartPrice({
         totalPrice: order.tradePrice.totalPrice,
         tradePrice: order.tradePrice.originPrice,

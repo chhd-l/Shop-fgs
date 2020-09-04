@@ -18,6 +18,7 @@ import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react';
 import stores from '@/store';
 
+const localItemRoyal = window.__.localItemRoyal;
 const loginStore = stores.loginStore
 const checkoutStore = stores.checkoutStore
 
@@ -26,29 +27,6 @@ const LogoutButton = () => {
   const { authState, authService } = useOktaAuth();
 
   const { accessToken } = authState;
-
-  // useEffect(() => {
-  //   if (!authState.isAuthenticated) {
-  //     // When user isn't authenticated, forget any user info
-  //     setUserInfo(null);
-  //   } else {
-  //     authService.getUser().then((info) => {
-  //       setUserInfo(info);
-  //       authService.getUser().then((info) => {
-  //         setUserInfo(info);
-  //         if (!localStorage.getItem('rc-token')) {
-  //           getToken({ oktaToken: `Bearer ${accessToken}` }).then(async res => {
-  //             let userinfo = res.context.customerDetail
-  //             let customerInfoRes = await getCustomerInfo()
-  //             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
-  //             localStorage.localStorage("rc-token", res.context.token);
-  //             localStorage.setItem("rc-userinfo", JSON.stringify(userinfo));
-  //           })
-  //         }
-  //       });
-  //     });
-  //   }
-  // }, [authState, authService]); // Update if authState changes
 
   const logout = async () => {
     try {
@@ -64,7 +42,7 @@ const LogoutButton = () => {
   }
   const clickLogoff = () => {
     loginStore.changeLoginModal(true)
-    localStorage.removeItem("rc-token");
+    localItemRoyal.remove("rc-token");
     loginStore.removeUserInfo()
     checkoutStore.removeLoginCartData()
     logout()

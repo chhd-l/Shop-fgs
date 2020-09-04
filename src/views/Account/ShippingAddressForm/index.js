@@ -19,6 +19,8 @@ import Loading from '@/components/Loading';
 import { getDictionary } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @injectIntl
 class ShippingAddressFrom extends React.Component {
   constructor(props) {
@@ -52,11 +54,11 @@ class ShippingAddressFrom extends React.Component {
     };
   }
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }

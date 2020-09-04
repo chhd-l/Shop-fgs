@@ -5,6 +5,8 @@ import { FormattedMessage } from 'react-intl'
 import { STORE_CATE_ENUM } from '@/utils/constant'
 import { find } from 'lodash'
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 const BreadCrumbs = withRouter(props => {
   const { location, match } = props;
   const breadcrumbNameMap = BreadcrumbNameMap;
@@ -19,9 +21,8 @@ const BreadCrumbs = withRouter(props => {
 
   // specific for details page
   if (url.substr(1, 7) === 'details' && !mapData.length) {
-    // debugger
-    let cateName = sessionStorage.getItem('rc-goods-cate-name')
-    let goodsName = sessionStorage.getItem('rc-goods-name')
+    let cateName = sessionItemRoyal.get('rc-goods-cate-name')
+    let goodsName = sessionItemRoyal.get('rc-goods-name')
     if (cateName) {
       const tmp = find(STORE_CATE_ENUM, ele => ele.text === cateName)
       mapData.push({ name: cateName, href: tmp && tmp.url || '' })

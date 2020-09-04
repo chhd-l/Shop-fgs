@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { queryStoreCateIds } from '@/utils/utils';
-import store from 'storejs';
 import { inject, observer } from 'mobx-react';
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 @inject('configStore')
 class RouteFilter extends Component {
@@ -12,7 +14,7 @@ class RouteFilter extends Component {
     // 默认了clinic后，再次编辑clinic
     if (
       nextProps.location.pathname === '/prescription' &&
-      sessionStorage.getItem('clinic-reselect') === 'true'
+      sessionItemRoyal.get('clinic-reselect') === 'true'
     ) {
       return false;
     }
@@ -28,11 +30,11 @@ class RouteFilter extends Component {
 
     if (
       nextProps.location.pathname === '/prescription' &&
-      ((store.get(`rc-clinic-id-link`) && store.get(`rc-clinic-name-link`)) ||
-        (store.get(`rc-clinic-id-select`) &&
-          store.get(`rc-clinic-name-select`)) ||
-        (store.get(`rc-clinic-id-default`) &&
-          store.get(`rc-clinic-name-default`)))
+      ((localItemRoyal.get(`rc-clinic-id-link`) && localItemRoyal.get(`rc-clinic-name-link`)) ||
+        (localItemRoyal.get(`rc-clinic-id-select`) &&
+          localItemRoyal.get(`rc-clinic-name-select`)) ||
+        (localItemRoyal.get(`rc-clinic-id-default`) &&
+          localItemRoyal.get(`rc-clinic-name-default`)))
     ) {
       this.props.history.replace('/payment/payment');
       return false;
@@ -40,7 +42,7 @@ class RouteFilter extends Component {
 
     if (
       nextProps.location.pathname.indexOf('/account') !== -1 &&
-      !localStorage.getItem('rc-token')
+      !localItemRoyal.get('rc-token')
     ) {
       this.props.history.push('/');
       return false;
@@ -48,7 +50,7 @@ class RouteFilter extends Component {
 
     if (
       nextProps.location.pathname === '/confirmation' &&
-      !sessionStorage.getItem('orderNumber')
+      !sessionItemRoyal.get('orderNumber')
     ) {
       this.props.history.push('/');
       return false;
@@ -57,7 +59,7 @@ class RouteFilter extends Component {
   }
   async componentDidMount() {
     if (
-      !localStorage.getItem('rc-token') &&
+      !localItemRoyal.get('rc-token') &&
       this.props.location.pathname.indexOf('/account') !== -1
     ) {
       this.props.history.push('/');
@@ -68,7 +70,7 @@ class RouteFilter extends Component {
     }
     if (
       this.props.location.pathname === '/payment/payment' &&
-      !localStorage.getItem('rc-token')
+      !localItemRoyal.get('rc-token')
     ) {
       loadJS(
         'https://js.paymentsos.com/v2/latest/secure-fields.min.js',
@@ -113,7 +115,7 @@ class RouteFilter extends Component {
                 window.POS.createToken(additionalData, function (result) {
                   console.log(result, 'result');
                   // Grab the token here
-                  sessionStorage.setItem('payosdata', result);
+                  sessionItemRoyal.set('payosdata', result);
                 });
               });
           }

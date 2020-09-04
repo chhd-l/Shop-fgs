@@ -12,6 +12,9 @@ import { FormattedMessage } from 'react-intl';
 import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+
 const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   if (obj.type !== 'customer') {
     return (
@@ -98,8 +101,8 @@ class Prescription extends React.Component {
     this.inputRef = React.createRef();
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
 
       return false;
@@ -109,8 +112,8 @@ class Prescription extends React.Component {
     this.getAllPrescription();
   }
   componentWillUnmount() {
-    sessionStorage.removeItem('clinic-reselect');
-    localStorage.setItem('isRefresh', true);
+    sessionItemRoyal.remove('clinic-reselect');
+    localItemRoyal.set('isRefresh', true);
   }
   inputSearchValue = (e) => {
     this.setState({

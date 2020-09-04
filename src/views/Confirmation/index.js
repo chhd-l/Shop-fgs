@@ -16,6 +16,9 @@ import { queryCityNameById } from '@/api';
 import { addEvaluate, getOrderDetails, getPayRecord } from '@/api/order';
 import './index.css';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('checkoutStore', 'frequencyStore')
 @observer
 class Confirmation extends React.Component {
@@ -24,8 +27,8 @@ class Confirmation extends React.Component {
     this.state = {
       productList: [],
       loading: true,
-      paywithLogin: sessionStorage.getItem('rc-paywith-login') === 'true',
-      oxxoPayUrl: sessionStorage.getItem('oxxoPayUrl'),
+      paywithLogin: sessionItemRoyal.get('rc-paywith-login') === 'true',
+      oxxoPayUrl: sessionItemRoyal.get('oxxoPayUrl'),
       submitLoading: false,
       evalutateScore: -1,
       consumerComment: '',
@@ -36,8 +39,8 @@ class Confirmation extends React.Component {
       errorMsg: '',
       errorMsg2: '',
 
-      subNumber: sessionStorage.getItem('subNumber'),
-      orderNumber: sessionStorage.getItem('orderNumber'),
+      subNumber: sessionItemRoyal.get('subNumber'),
+      orderNumber: sessionItemRoyal.get('orderNumber'),
 
       details: null,
       payRecord: null
@@ -45,22 +48,22 @@ class Confirmation extends React.Component {
     this.timer = null;
   }
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
     if (this.state.paywithLogin) {
       this.props.checkoutStore.removeLoginCartData();
     } else {
       this.props.checkoutStore.setCartData(
         this.props.checkoutStore.cartData.filter((ele) => !ele.selected)
       ); // 只移除selected
-      sessionStorage.removeItem('rc-token');
+      sessionItemRoyal.remove('rc-token');
     }
-    sessionStorage.removeItem('orderNumber');
-    sessionStorage.removeItem('subNumber');
-    sessionStorage.removeItem('oxxoPayUrl');
+    sessionItemRoyal.remove('orderNumber');
+    sessionItemRoyal.remove('subNumber');
+    sessionItemRoyal.remove('oxxoPayUrl');
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }

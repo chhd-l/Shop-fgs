@@ -1,11 +1,12 @@
 import { action, observable } from "mobx";
 import stores from './index'
-import store from 'storejs'
+
+const localItemRoyal = window.__.localItemRoyal;
 
 class LoginStore {
-  @observable isLogin = !!localStorage.getItem("rc-token")
+  @observable isLogin = !!localItemRoyal.get("rc-token")
   @observable loginModal = false
-  @observable userInfo = store.get('rc-userinfo') || null
+  @observable userInfo = localItemRoyal.get('rc-userinfo') || null
 
   @action.bound
   changeIsLogin (param) {
@@ -24,12 +25,12 @@ class LoginStore {
     this.userInfo = data
     stores.clinicStore.setDefaultClinicId(data.defaultClinics ? data.defaultClinics.clinicsId : '')
     stores.clinicStore.setDefaultClinicName(data.defaultClinics ? data.defaultClinics.clinicsName : '')
-    store.set('rc-userinfo', data)
+    localItemRoyal.set('rc-userinfo', data)
   }
   @action.bound
   removeUserInfo () {
     this.userInfo = null
-    store.remove('rc-userinfo')
+    localItemRoyal.remove('rc-userinfo')
   }
 }
 export default LoginStore;

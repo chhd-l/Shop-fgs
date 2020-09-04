@@ -1,14 +1,15 @@
 import { action, observable, computed, runInAction } from "mobx";
-import store from "storejs";
 import { purchases, sitePurchases, siteMiniPurchases } from "@/api/cart";
 import { find } from "lodash";
 import { toJS } from 'mobx'
 
+const localItemRoyal = window.__.localItemRoyal;
+
 class CheckoutStore {
-  @observable cartData = store.get("rc-cart-data") || [];
-  @observable loginCartData = store.get("rc-cart-data-login") || []; // 商品列表
-  @observable cartPrice = store.get("rc-totalInfo") || null; // 价格数据
-  @observable goodsMarketingMap = store.get("goodsMarketingMap") || null; // promotion
+  @observable cartData = localItemRoyal.get("rc-cart-data") || [];
+  @observable loginCartData = localItemRoyal.get("rc-cart-data-login") || []; // 商品列表
+  @observable cartPrice = localItemRoyal.get("rc-totalInfo") || null; // 价格数据
+  @observable goodsMarketingMap = localItemRoyal.get("goodsMarketingMap") || null; // promotion
   @observable loadingCartData = false;
   @observable outOfstockProNames = [];
   @observable offShelvesProNames = [];
@@ -52,37 +53,37 @@ class CheckoutStore {
   @action.bound
   setCartData (data) {
     this.cartData = data;
-    store.set("rc-cart-data", data);
+    localItemRoyal.set("rc-cart-data", data);
   }
 
   @action.bound
   removeCartData () {
     this.cartData = [];
-    store.remove("rc-cart-data");
+    localItemRoyal.remove("rc-cart-data");
   }
 
   @action
   setLoginCartData (data) {
     this.loginCartData = data;
-    store.set("rc-cart-data-login", data);
+    localItemRoyal.set("rc-cart-data-login", data);
   }
 
   @action.bound
   removeLoginCartData () {
     this.loginCartData = [];
-    store.remove("rc-cart-data-login");
+    localItemRoyal.remove("rc-cart-data-login");
   }
 
   @action.bound
   setCartPrice (data) {
     this.cartPrice = data;
-    store.set("rc-totalInfo", data);
+    localItemRoyal.set("rc-totalInfo", data);
   }
 
   @action.bound
   setGoodsMarketingMap (data) {
     this.goodsMarketingMap = data;
-    store.set("goodsMarketingMap", data);
+    localItemRoyal.set("goodsMarketingMap", data);
   }
   @action.bound
   async updatePromotionFiled (data, promotionCode = "") {

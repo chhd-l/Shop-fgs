@@ -28,6 +28,8 @@ const noSelect = {
   border: '3px solid #d7d7d7'
 };
 
+const localItemRoyal = window.__.localItemRoyal;
+
 @inject('loginStore')
 @observer
 class PetForm extends React.Component {
@@ -77,11 +79,11 @@ class PetForm extends React.Component {
   }
 
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }

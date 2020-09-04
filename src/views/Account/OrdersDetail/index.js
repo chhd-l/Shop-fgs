@@ -24,6 +24,9 @@ import {
 } from '@/utils/constant';
 import './index.css';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+
 @injectIntl
 class AccountOrders extends React.Component {
   constructor(props) {
@@ -67,8 +70,8 @@ class AccountOrders extends React.Component {
     };
   }
   componentDidMount() {
-    if (localStorage.getItem('isRefresh')) {
-      localStorage.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }
@@ -87,7 +90,7 @@ class AccountOrders extends React.Component {
     });
   }
   componentWillUnmount() {
-    localStorage.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   matchNamefromDict(dictList, id) {
     return find(dictList, (ele) => ele.id == id)
@@ -195,7 +198,7 @@ class AccountOrders extends React.Component {
         returnOrExchangeLoading: false
       });
     } else {
-      sessionStorage.setItem('rc-after-sale-type', afterSaleType);
+      sessionItemRoyal.set('rc-after-sale-type', afterSaleType);
       this.props.history.push(
         `/account/orders-aftersale/${this.state.orderNumber}`
       );

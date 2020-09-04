@@ -7,6 +7,8 @@ import { getPrescriberByCode } from '@/api/clinic';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import PropTypes from 'prop-types';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 @inject('clinicStore', 'configStore')
 @observer
 @injectIntl
@@ -46,7 +48,7 @@ class ClinicForm extends React.Component {
   }
   gotoPrescriptionPage = (e) => {
     e.preventDefault();
-    sessionStorage.setItem('clinic-reselect', true);
+    sessionItemRoyal.set('clinic-reselect', true);
     this.props.history.push('/prescription');
   };
   handleSelectedItemChange = (data) => {
