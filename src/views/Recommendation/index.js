@@ -805,15 +805,65 @@ class Help extends React.Component {
                   <div className="top">
                     <div
                       style={{
-                        padding: '32px',
+                        padding: '32px 20px',
                         textAlign: 'center',
                         fontWeight: '500',
                         // display: 'none'
+                        float: 'left'
                       }}
                     >
                       Recommendation Package
                     </div>
-                    <ul style={{overflow: 'hidden' ,transform: `translateX(${productList.length * 60}px) translateY(0) scale(1) rotate(0deg)`}}>
+                    <p ref="p" style={{ marginTop: '60px' }}>
+                        {
+                          this.props.loginStore.isLogin?(
+                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button>
+                          ): (
+                            <LoginButton
+                              beforeLoginCallback={async () => this.buyNow(true)}
+                              btnClass={`rc-btn rc-btn--one ${
+                                this.state.buttonLoading ? 'ui-btn-loading' : ''
+                              } ${this.state.inStockProducts.length? '': 'rc-btn-solid-disabled'}`}
+                              history={this.props.history}
+                            >
+                              <FormattedMessage id="checkout" />
+                            </LoginButton>
+                          )
+                        }
+                        {
+                          !this.props.loginStore.isLogin && (
+                              <button
+                                className={`rc-styled-link color-999`}
+                                onClick={() => {
+                                  // this.hanldeUnloginAddToCart(
+                                  //   productList,
+                                  //   '/prescription'
+                                  // );
+                                  this.buyNow()
+                                }}
+                              >
+                                <FormattedMessage id="Buy as a guest" />
+                              </button>
+                          )
+                        }
+                      </p>
+                      {/* {!this.props.loginStore.isLogin && (
+                        <p>
+                          <button
+                            className={`rc-styled-link color-999`}
+                            onClick={() => {
+                              // this.hanldeUnloginAddToCart(
+                              //   productList,
+                              //   '/prescription'
+                              // );
+                              this.buyNow()
+                            }}
+                          >
+                            <FormattedMessage id="Buy as a guest" />
+                          </button>
+                        </p>
+                      )} */}
+                    <ul style={{overflow: 'hidden' , marginTop: '40px', display: 'inline-block'}}>
                       {productList.map((el, i) => (
                         <li
                           onClick={() => this.setState({ activeIndex: i })}
@@ -832,39 +882,6 @@ class Help extends React.Component {
                           <span>X {el.recommendationNumber}</span>
                         </li>
                       ))}
-                      <p ref="p" style={{ marginTop: '60px' }}>
-                        {
-                          this.props.loginStore.isLogin?(
-                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button>
-                          ): (
-                            <LoginButton
-                              beforeLoginCallback={async () => this.buyNow(true)}
-                              btnClass={`rc-btn rc-btn--one ${
-                                this.state.buttonLoading ? 'ui-btn-loading' : ''
-                              } ${this.state.inStockProducts.length? '': 'rc-btn-solid-disabled'}`}
-                              history={this.props.history}
-                            >
-                              <FormattedMessage id="checkout" />
-                            </LoginButton>
-                          )
-                        }
-                      </p>
-                      {!this.props.loginStore.isLogin && (
-                        <p>
-                          <button
-                            className={`rc-styled-link color-999`}
-                            onClick={() => {
-                              // this.hanldeUnloginAddToCart(
-                              //   productList,
-                              //   '/prescription'
-                              // );
-                              this.buyNow()
-                            }}
-                          >
-                            <FormattedMessage id="Buy as a guest" />
-                          </button>
-                        </p>
-                      )}
                     </ul>
                   </div>
                   <div className="right">
