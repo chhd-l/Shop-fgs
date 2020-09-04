@@ -562,7 +562,7 @@ class PaymentComp extends React.Component {
     });
   }
   render() {
-    let pathname = window.location.pathname;
+    let pathname = this.props.history.location.pathname;
     const {
       creditCardInfoForm,
       creditCardList,

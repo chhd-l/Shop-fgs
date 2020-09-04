@@ -98,6 +98,7 @@ class PaymentMethod extends React.Component {
                       </div>
                     ) : null}
                     <PaymentComp
+                      history={this.props.history}
                       noCardCallback={(isZero) =>
                         this.setState({ paymentCompShow: !isZero })
                       }

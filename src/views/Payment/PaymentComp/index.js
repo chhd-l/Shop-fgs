@@ -190,41 +190,32 @@ class PaymentComp extends React.Component {
   initCardInfo() {
     // 默认填充delivery相关信息
     let { deliveryAddress } = this.state;
-    const { deliveryAddress: propDeliveryAddress, paymentStore } = this.props;
-    this.setState(
-      {
-        creditCardInfoForm: {
-          cardNumber: '',
-          cardMmyy: '',
-          cardCvv: '',
-          cardOwner:
-            (propDeliveryAddress &&
-              [
-                propDeliveryAddress.firstName,
-                propDeliveryAddress.lastName
-              ].join(' ')) ||
+    const {
+      paymentStore: { selectedDeliveryAddress }
+    } = this.props;
+    // debugger;
+    this.setState({
+      creditCardInfoForm: {
+        cardNumber: '',
+        cardMmyy: '',
+        cardCvv: '',
+        cardOwner:
+          (selectedDeliveryAddress &&
             [
-              paymentStore.visitorDeliveryFirstName,
-              paymentStore.visitorDeliveryLastName
-            ].join(' ') ||
-            deliveryAddress.cardOwner ||
-            '',
-          email:
-            (propDeliveryAddress && propDeliveryAddress.email) ||
-            paymentStore.visitorDeliveryEmail,
-          phoneNumber:
-            (propDeliveryAddress && propDeliveryAddress.consigneeNumber) ||
-            paymentStore.visitorDeliveryPhone ||
-            deliveryAddress.phoneNumber ||
-            '',
-          identifyNumber: '111',
-          isDefault: false
-        }
-      },
-      () => {
-        // this.scrollToPaymentComp()
+              selectedDeliveryAddress.firstName,
+              selectedDeliveryAddress.lastName
+            ].join(' ')) ||
+          deliveryAddress.cardOwner ||
+          '',
+        email: selectedDeliveryAddress && selectedDeliveryAddress.email,
+        phoneNumber:
+          (selectedDeliveryAddress && selectedDeliveryAddress.phoneNumber) ||
+          deliveryAddress.phoneNumber ||
+          '',
+        identifyNumber: '111',
+        isDefault: false
       }
-    );
+    });
   }
   getElementToPageTop(el) {
     if (el.parentElement) {
@@ -1173,6 +1164,7 @@ class PaymentComp extends React.Component {
                         className="rc-input__control email"
                         id="email"
                         value={creditCardInfoForm.email}
+                        // todo 游客表单直接同步到这里
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
                         name="email"
