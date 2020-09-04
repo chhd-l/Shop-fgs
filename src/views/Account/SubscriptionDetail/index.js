@@ -496,6 +496,7 @@ class SubscriptionDetail extends React.Component {
                   style={{ display: type === 'PaymentComp' ? 'block' : 'none' }}
                 >
                   <PaymentComp
+                    history={this.props.history}
                     paymentId={currentCardInfo.id}
                     type={type}
                     save={(el) => {

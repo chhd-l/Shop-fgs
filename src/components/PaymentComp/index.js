@@ -57,6 +57,7 @@ class PaymentComp extends React.Component {
       prevEditCardNumber: '',
       currentEditOriginCardInfo: null
     };
+    this.pathname = ''
   }
   componentWillReceiveProps(props) {
     if (props.isAddNewCard) {
@@ -74,6 +75,7 @@ class PaymentComp extends React.Component {
     }
   }
   async componentDidMount() {
+    this.pathname = this.props.history.location.pathname
     if (this.props.loginStore.isLogin) {
       if (store.get('loginDeliveryInfo')) {
         let deliveryInfo = store.get('loginDeliveryInfo');
@@ -506,7 +508,7 @@ class PaymentComp extends React.Component {
         this.initCardInfo();
         await this.getPaymentMethodList();
 
-        if (window.location.pathname === '/payment/payment') {
+        if (this.pathname === '/payment/payment') {
           let creditCardInfoForm = {};
           this.state.creditCardList.map((el) => {
             if (el.id === addRes.context.id) {
@@ -535,7 +537,7 @@ class PaymentComp extends React.Component {
         }
       } else {
         await this.getPaymentMethodList();
-        if (window.location.pathname !== '/payment/payment') {
+        if (this.pathname !== '/payment/payment') {
           let filterList = this.state.creditCardList.filter((el) => {
             if (el.isDefault === 1) {
               el.selected = true;
@@ -648,7 +650,7 @@ class PaymentComp extends React.Component {
     });
   }
   render() {
-    let pathname = window.location.pathname;
+    let pathname = this.pathname;
     const {
       creditCardInfoForm,
       creditCardList,

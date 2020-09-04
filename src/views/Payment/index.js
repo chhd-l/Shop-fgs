@@ -1145,15 +1145,15 @@ class Payment extends React.Component {
               id="1"
               ref={this.loginDeliveryAddressRef}
               updateData={(data) => {
-                this.props.paymentStore.updateSelectedDeliveryAddress(data)
-                this.setState({ deliveryAddress: data }) // to delete...
+                this.props.paymentStore.updateSelectedDeliveryAddress(data);
+                this.setState({ deliveryAddress: data }); // to delete...
               }}
             />
           ) : (
             <VisitorDeliveryAddress
               data={deliveryAddress}
               updateData={(data) => {
-                this.props.paymentStore.updateSelectedDeliveryAddress(data)
+                this.props.paymentStore.updateSelectedDeliveryAddress(data);
                 this.setState({
                   deliveryAddress: data
                 });

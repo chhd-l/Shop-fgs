@@ -193,7 +193,7 @@ class PaymentComp extends React.Component {
     const {
       paymentStore: { selectedDeliveryAddress }
     } = this.props;
-    debugger;
+    // debugger;
     this.setState({
       creditCardInfoForm: {
         cardNumber: '',
