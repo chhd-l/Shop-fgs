@@ -48,7 +48,8 @@ import './index.css';
   'checkoutStore',
   'clinicStore',
   'frequencyStore',
-  'configStore'
+  'configStore',
+  'paymentStore'
 )
 @observer
 @injectIntl
