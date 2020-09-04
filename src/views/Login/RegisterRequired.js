@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { injectIntl, FormattedMessage } from "react-intl";
 import logoAnimatedPng from "@/assets/images/logo--animated2.png";
 import "./index.css"
+import { findUserConsentList,consentListDetail } from "@/api/consent"
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -15,6 +16,23 @@ class RegisterRequired extends Component {
             isShipTracking: false,
             isNewsLetter: false
         };
+    }
+    async componentDidMount() {
+        try {
+            const result = await findUserConsentList({})
+            console.log(result)
+            
+            const result2 = await consentListDetail(
+                {
+                    "consentKey":18,
+                    "contentTitle":"privacy policy"
+                }
+            )
+            console.log(result2)
+            console.log(sessionStorage.getItem('okta-redirectUrl'))
+        } catch (err) {
+            console.log(err.message)
+        }
     }
     render() {
         return (
@@ -30,7 +48,7 @@ class RegisterRequired extends Component {
                 <h2 className="rc-text-colour--brand1" style={{ marginTop: '190px', textAlign: 'center' }}>Register in ROYALCANIN® online store</h2>
                 <p style={{ textAlign: 'center', color: '#5F5F5F', fontSize: '20px' }}>Complete registeration</p>
                 {/* checkbox */}
-                <div className="required-checkbox" style={{marginTop:'80px'}}>
+                <div className="required-checkbox" style={{ marginTop: '80px' }}>
                     <div className="footerCheckbox rc-margin-top--sm mt-3">
                         <input
                             className="form-check-input ui-cursor-pointer-pure"
@@ -98,9 +116,9 @@ class RegisterRequired extends Component {
                 {/* 注释 */}
                 <p className='pizhu'><span className="pl-2 pr-2 rc-text-colour--brand1">*</span>Required fields</p>
                 {/* 按钮 */}
-                <div style={{textAlign:'center',marginTop:'60px'}}>
+                <div style={{ textAlign: 'center', marginTop: '60px' }}>
                     <button className="rc-btn rc-btn--lg rc-btn--one px-5">Continue</button>
-                </div>             
+                </div>
             </div>
         );
     }

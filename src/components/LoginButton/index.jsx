@@ -49,6 +49,7 @@ const LoginButton = (props) => {
             let customerInfoRes = await getCustomerInfo()
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
             loginStore.setUserInfo(customerInfoRes.context)
+
             if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {
               props.history.push(sessionStorage.getItem('okta-redirectUrl'))
             } else {
@@ -57,6 +58,8 @@ const LoginButton = (props) => {
                 loginStore.updateLoginCart()
               }
             }
+            //props.history.push('required')
+
             sessionStorage.removeItem('okta-redirectUrl')
           }).catch(e => {
             loginStore.changeLoginModal(false)
