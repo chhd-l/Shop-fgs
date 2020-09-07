@@ -8403,3 +8403,14 @@ html .miaa {
   padding-left:50px;
   font-size:12px;
 }
+.required-wrap .description{
+  margin-left:10px;
+}
+.required-wrap .description a{
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.required-wrap .footerCheckbox>.form-check-input{
+  margin-top:4px;
+}

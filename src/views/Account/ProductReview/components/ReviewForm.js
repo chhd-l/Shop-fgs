@@ -212,7 +212,7 @@ class ReviewForm extends React.Component {
                   class="rc-alert rc-alert--error rc-alert--with-close errorAccount mb-3"
                   role="alert"
                 >
-                  <span>{this.state.errMessage}</span>
+                  <span className="pl-0">{this.state.errMessage}</span>
                   <button
                     class="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                     aria-label="Close"

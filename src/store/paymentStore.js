@@ -3,16 +3,11 @@ import { action, observable } from 'mobx';
 class PaymentStore {
   @observable deliveryAddress = null;
   @observable billingAddress = null;
-  @observable visitorDeliveryEmail = '';
-  @observable visitorDeliveryPhone = '';
-  @observable visitorDeliveryFristName = '';
-  @observable visitorDeliveryLastName = '';
 
   @observable selectedDeliveryAddress = null;
 
   @action.bound
   setDeliveryAddress(data) {
-    debugger;
     this.deliveryAddress = data;
   }
 
@@ -27,26 +22,6 @@ class PaymentStore {
     await [interfaceName](params);
     // 此时设置地址
     //
-  }
-
-  @action.bound
-  updateVisitorDeliveryEmail(data) {
-    this.visitorDeliveryEmail = data;
-  }
-
-  @action.bound
-  updateVisitorDeliveryPhone(data) {
-    this.visitorDeliveryPhone = data;
-  }
-
-  @action.bound
-  updateVisitorDeliveryFirstName(data) {
-    this.visitorDeliveryFristName = data;
-  }
-
-  @action.bound
-  updateVisitorDeliveryLastName(data) {
-    this.visitorDeliveryLastName = data;
   }
 
   @action.bound
