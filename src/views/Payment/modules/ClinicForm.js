@@ -88,6 +88,9 @@ class ClinicForm extends React.Component {
             ) : (
               <FormattedMessage id="payment.clinicTitle" />
             )}
+            <span className="iconfont font-weight-bold green ml-2">
+              &#xe68c;
+            </span>
           </h5>
           <p
             onClick={this.gotoPrescriptionPage}

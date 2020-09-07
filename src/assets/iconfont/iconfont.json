@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "307212",
+      "name": "成功",
+      "font_class": "chenggong",
+      "unicode": "e68c",
+      "unicode_decimal": 59020
+    },
+    {
       "icon_id": "11963375",
       "name": "钉子",
       "font_class": "dingzi",
