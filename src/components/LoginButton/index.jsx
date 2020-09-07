@@ -15,6 +15,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Header } from 'semantic-ui-react';
 import { getToken } from '@/api/login'
 import { getCustomerInfo } from "@/api/user"
+import { findUserConsentList} from "@/api/consent"
 import { inject, observer } from 'mobx-react';
 import stores from '@/store';
 import { FormattedMessage } from 'react-intl'
@@ -51,8 +52,9 @@ const LoginButton = (props) => {
             let customerInfoRes = await getCustomerInfo()
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
             loginStore.setUserInfo(customerInfoRes.context)
-            if (sessionItemRoyal.get('okta-redirectUrl') === '/cart') {
-              props.history.push(sessionItemRoyal.get('okta-redirectUrl'))
+
+            if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {
+              //props.history.push(sessionStorage.getItem('okta-redirectUrl'))
             } else {
               if (checkoutStore.cartData.length) {
                 await mergeUnloginCartData()
@@ -63,7 +65,10 @@ const LoginButton = (props) => {
                 props.history.push(sessionItemRoyal.get('okta-redirectUrl'))
               }
             }
-            sessionItemRoyal.remove('okta-redirectUrl')
+            props.history.push('required')
+           
+
+            //sessionStorage.removeItem('okta-redirectUrl')
           }).catch(e => {
             loginStore.changeLoginModal(false)
           })
