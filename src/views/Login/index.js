@@ -347,7 +347,7 @@ class Login extends React.Component {
                     <div className="message-tip">
                         <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
                           <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
-                            <span>{this.state.errorMsg}</span>
+                            <span className="pl-0">{this.state.errorMsg}</span>
                             <button
                               className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                               onClick={() => { this.setState({ errorMsg: '' }) }}
@@ -535,7 +535,7 @@ class Login extends React.Component {
                 <div className="message-tip">
                   <div className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${this.state.errorMsg ? '' : 'hidden'}`}>
                     <aside className="rc-alert rc-alert--error rc-alert--with-close errorAccount" role="alert">
-                      <span>{this.state.errorMsg}</span>
+                      <span className="pl-0">{this.state.errorMsg}</span>
                       <button
                         className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                         onClick={() => { this.setState({ errorMsg: '' }) }}

@@ -14,7 +14,7 @@ import axios from 'axios';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @injectIntl
-@inject('loginStore')
+@inject('loginStore', 'paymentStore')
 @observer
 class PayOs extends React.Component {
   constructor(props) {
@@ -46,6 +46,35 @@ class PayOs extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
+  get selectedDeliveryAddress() {
+    return this.props.paymentStore.selectedDeliveryAddress;
+  }
+  get selectedEmail() {
+    return this.selectedDeliveryAddress
+      ? this.selectedDeliveryAddress.email
+      : '';
+  }
+  get selectedPhone() {
+    return this.selectedDeliveryAddress
+      ? this.selectedDeliveryAddress.phoneNumber
+      : '';
+  }
+  get selectedName() {
+    let tmp = '';
+    if (this.selectedDeliveryAddress) {
+      const { firstName, lastName } = this.selectedDeliveryAddress;
+      if (firstName) {
+        tmp = [firstName, lastName].join(' ');
+      } else {
+        tmp = lastName;
+      }
+    }
+    return tmp;
+  }
   componentDidMount() {
     const _this = this;
     if (this.isLogin) {
@@ -64,51 +93,51 @@ class PayOs extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     // 未修改过cardOwner/email/phone时，用delivery相关信息填充
-    const {
-      hasEditedEmail,
-      hasEditedPhone,
-      hasEditedName,
-      creditCardInfo
-    } = this.state;
-    if (
-      !hasEditedEmail &&
-      nextProps.deliveryAddress &&
-      nextProps.deliveryAddress.email != creditCardInfo.email
-    ) {
-      this.setState({
-        creditCardInfo: Object.assign(creditCardInfo, {
-          email: nextProps.deliveryAddress.email
-        })
-      });
-    }
-    if (
-      !hasEditedPhone &&
-      nextProps.deliveryAddress &&
-      nextProps.deliveryAddress.phoneNumber != creditCardInfo.phoneNumber
-    ) {
-      this.setState({
-        creditCardInfo: Object.assign(creditCardInfo, {
-          phoneNumber: nextProps.deliveryAddress.phoneNumber
-        })
-      });
-    }
-    if (
-      !hasEditedName &&
-      nextProps.deliveryAddress &&
-      [
-        nextProps.deliveryAddress.firstName,
-        nextProps.deliveryAddress.lastName
-      ].join(' ') != creditCardInfo.cardOwner
-    ) {
-      this.setState({
-        creditCardInfo: Object.assign(creditCardInfo, {
-          cardOwner: [
-            nextProps.deliveryAddress.firstName,
-            nextProps.deliveryAddress.lastName
-          ].join(' ')
-        })
-      });
-    }
+    // const {
+    //   hasEditedEmail,
+    //   hasEditedPhone,
+    //   hasEditedName,
+    //   creditCardInfo
+    // } = this.state;
+    // if (
+    //   !hasEditedEmail &&
+    //   nextProps.deliveryAddress &&
+    //   nextProps.deliveryAddress.email != creditCardInfo.email
+    // ) {
+    //   this.setState({
+    //     creditCardInfo: Object.assign(creditCardInfo, {
+    //       email: nextProps.deliveryAddress.email
+    //     })
+    //   });
+    // }
+    // if (
+    //   !hasEditedPhone &&
+    //   nextProps.deliveryAddress &&
+    //   nextProps.deliveryAddress.phoneNumber != creditCardInfo.phoneNumber
+    // ) {
+    //   this.setState({
+    //     creditCardInfo: Object.assign(creditCardInfo, {
+    //       phoneNumber: nextProps.deliveryAddress.phoneNumber
+    //     })
+    //   });
+    // }
+    // if (
+    //   !hasEditedName &&
+    //   nextProps.deliveryAddress &&
+    //   [
+    //     nextProps.deliveryAddress.firstName,
+    //     nextProps.deliveryAddress.lastName
+    //   ].join(' ') != creditCardInfo.cardOwner
+    // ) {
+    //   this.setState({
+    //     creditCardInfo: Object.assign(creditCardInfo, {
+    //       cardOwner: [
+    //         nextProps.deliveryAddress.firstName,
+    //         nextProps.deliveryAddress.lastName
+    //       ].join(' ')
+    //     })
+    //   });
+    // }
   }
   cardInfoInputChange(e) {
     const target = e.target;
@@ -145,8 +174,45 @@ class PayOs extends React.Component {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
   }
+  handleClickCardConfirm() {
+    const {
+      creditCardInfo,
+      hasEditedEmail,
+      hasEditedPhone,
+      hasEditedName
+    } = this.state;
+    let tmpEmail = creditCardInfo.email;
+    let tmpPhone = creditCardInfo.phoneNumber;
+    let tmpName = creditCardInfo.cardOwner;
+
+    if (!hasEditedEmail) {
+      tmpEmail = this.selectedEmail;
+    }
+
+    if (!hasEditedPhone) {
+      tmpPhone = this.selectedPhone;
+    }
+
+    if (!hasEditedName) {
+      tmpName = this.selectedName;
+    }
+
+    this.setState(
+      {
+        creditCardInfo: Object.assign(creditCardInfo, {
+          email: tmpEmail,
+          cardOwner: tmpName,
+          phoneNumber: tmpPhone
+        })
+      },
+      () => {
+        this.cardConfirm();
+      }
+    );
+  }
   cardConfirm() {
     const { creditCardInfo } = this.state;
+
     for (let key in creditCardInfo) {
       const val = creditCardInfo[key];
       const targetRule = find(PAYMENT_METHOD_RULE, (ele) => ele.key === key);
@@ -419,7 +485,11 @@ class PayOs extends React.Component {
                                       id="cardholder-name"
                                       className="rc-input__control form-control cardOwner"
                                       name="cardOwner"
-                                      value={creditCardInfo.cardOwner}
+                                      value={
+                                        creditCardInfo.cardOwner ||
+                                        (!this.state.hasEditedName &&
+                                          this.selectedName)
+                                      }
                                       onChange={(e) =>
                                         this.cardInfoInputChange(e)
                                       }
@@ -451,7 +521,11 @@ class PayOs extends React.Component {
                                       type="email"
                                       className="rc-input__control email"
                                       id="email"
-                                      value={creditCardInfo.email}
+                                      value={
+                                        creditCardInfo.email ||
+                                        (!this.state.hasEditedEmail &&
+                                          this.selectedEmail)
+                                      }
                                       onChange={(e) =>
                                         this.cardInfoInputChange(e)
                                       }
@@ -491,7 +565,11 @@ class PayOs extends React.Component {
                                       data-phonelength="18"
                                       data-js-pattern="(^\d{10}$)"
                                       data-range-error="The phone number should contain 10 digits"
-                                      value={creditCardInfo.phoneNumber}
+                                      value={
+                                        creditCardInfo.phoneNumber ||
+                                        (!this.state.hasEditedPhone &&
+                                          this.selectedPhone)
+                                      }
                                       onChange={(e) =>
                                         this.cardInfoInputChange(e)
                                       }
@@ -517,7 +595,7 @@ class PayOs extends React.Component {
                                 className="rc-btn rc-btn--two card-confirm"
                                 id="card-confirm"
                                 type="button"
-                                onClick={() => this.cardConfirm()}
+                                onClick={() => this.handleClickCardConfirm()}
                               >
                                 <FormattedMessage id="payment.confirmCard" />
                               </button>

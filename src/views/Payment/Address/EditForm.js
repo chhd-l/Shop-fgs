@@ -102,23 +102,6 @@ class EditForm extends React.Component {
       );
       this.props.updateData(this.state.deliveryAddress);
     });
-    if (
-      name === 'email' &&
-      find(ADDRESS_RULE, (el) => el.key === 'email').regExp.test(value)
-    ) {
-      this.props.paymentStore.updateVisitorDeliveryEmail(value);
-    }
-    if (value) {
-      if (name === 'phoneNumber') {
-        this.props.paymentStore.updateVisitorDeliveryPhone(value);
-      }
-      if (name === 'firstName') {
-        this.props.paymentStore.updateVisitorDeliveryFirstName(value);
-      }
-      if (name === 'lastName') {
-        this.props.paymentStore.updateVisitorDeliveryLastName(value);
-      }
-    }
   }
   inputBlur(e) {
     let validDom = Array.from(
@@ -409,13 +392,6 @@ class EditForm extends React.Component {
                   defaultValue={this.state.deliveryAddress.cityName}
                   onChange={this.handleCityInputChange}
                 />
-                {/* <Selection
-                selectedItemChange={data => this.handleSelectedItemChange('city', data)}
-                optionList={this.computedList('city')}
-                selectedItemData={{
-                  value: this.state.deliveryAddress.city
-                }} /> */}
-                {/* todo */}
               </span>
             </div>
           </div>

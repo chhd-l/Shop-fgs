@@ -377,7 +377,7 @@ class AddressList extends React.Component {
             className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
             role="alert"
           >
-            <span>{this.state.saveErrorMsg}</span>
+            <span className="pl-0">{this.state.saveErrorMsg}</span>
             <button
               className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
               aria-label="Close"

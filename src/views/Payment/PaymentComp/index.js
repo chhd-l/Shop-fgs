@@ -67,6 +67,7 @@ class PaymentComp extends React.Component {
           deliveryInfo.deliveryAddress.lastName;
         deliveryInfo.deliveryAddress.phoneNumber =
           deliveryInfo.deliveryAddress.phoneNumber;
+
         this.setState({ deliveryAddress: deliveryInfo.deliveryAddress }, () => {
           this.initCardInfo();
         });
@@ -96,80 +97,33 @@ class PaymentComp extends React.Component {
       this.setState({ creditCardList: this.state.creditCardList });
     }
   }
-  componentWillReceiveProps(nextProps) {
-    const {
-      hasEditedEmail,
-      hasEditedPhone,
-      hasEditedName,
-      creditCardInfoForm
-    } = this.state;
-    const { email } = this.state.creditCardInfoForm;
-    if (!hasEditedEmail) {
-      if (
-        nextProps.deliveryAddress &&
-        nextProps.deliveryAddress.email != email
-      ) {
-        this.setState({
-          creditCardInfoForm: Object.assign(creditCardInfoForm, {
-            email: nextProps.deliveryAddress.email
-          })
-        });
-      }
-      // if (nextProps.paymentStore.visitorDeliveryEmail != email) {
-      //   this.setState({
-      //     creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
-      //       email: nextProps.paymentStore.visitorDeliveryEmail
-      //     })
-      //   });
-      // }
-    }
-
-    if (
-      !hasEditedPhone &&
-      nextProps.deliveryAddress &&
-      nextProps.deliveryAddress.consigneeNumber !=
-        creditCardInfoForm.phoneNumber
-    ) {
-      this.setState({
-        creditCardInfoForm: Object.assign(creditCardInfoForm, {
-          phoneNumber: nextProps.deliveryAddress.consigneeNumber
-        })
-      });
-    }
-
-    if (
-      !hasEditedName &&
-      nextProps.deliveryAddress &&
-      [
-        nextProps.deliveryAddress.firstName,
-        nextProps.deliveryAddress.lastName
-      ].join(' ') != creditCardInfoForm.cardOwner
-    ) {
-      this.setState({
-        creditCardInfoForm: Object.assign(creditCardInfoForm, {
-          cardOwner: [
-            nextProps.deliveryAddress.firstName,
-            nextProps.deliveryAddress.lastName
-          ].join(' ')
-        })
-      });
-    }
-  }
-  // componentDidUpdate(prevProps) {
-  //   debugger;
-  //   const { email } = this.state.creditCardInfoForm;
-  //   if (!this.state.hasEditedEmail) {
-  //     if (prevProps.paymentStore.visitorDeliveryEmail != email) {
-  //       this.setState({
-  //         creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
-  //           email: prevProps.paymentStore.visitorDeliveryEmail
-  //         })
-  //       });
-  //     }
-  //   }
-  // }
   get userInfo() {
     return this.props.loginStore.userInfo;
+  }
+  get selectedDeliveryAddress() {
+    return this.props.paymentStore.selectedDeliveryAddress;
+  }
+  get selectedEmail() {
+    return this.selectedDeliveryAddress
+      ? this.selectedDeliveryAddress.email
+      : '';
+  }
+  get selectedPhone() {
+    return this.selectedDeliveryAddress
+      ? this.selectedDeliveryAddress.phoneNumber
+      : '';
+  }
+  get selectedName() {
+    let tmp = '';
+    if (this.selectedDeliveryAddress) {
+      const { firstName, lastName } = this.selectedDeliveryAddress;
+      if (firstName) {
+        tmp = [firstName, lastName].join(' ');
+      } else {
+        tmp = lastName;
+      }
+    }
+    return tmp;
   }
   async getPaymentMethodList() {
     this.setState({ listLoading: true });
@@ -194,20 +148,21 @@ class PaymentComp extends React.Component {
     const {
       paymentStore: { selectedDeliveryAddress }
     } = this.props;
-    // debugger;
+    const { firstName, lastName } = selectedDeliveryAddress;
+    let tmpName = '';
+    if (selectedDeliveryAddress) {
+      if (firstName) {
+        tmpName = [firstName, lastName].join(' ');
+      } else {
+        tmpName = lastName;
+      }
+    }
     this.setState({
       creditCardInfoForm: {
         cardNumber: '',
         cardMmyy: '',
         cardCvv: '',
-        cardOwner:
-          (selectedDeliveryAddress &&
-            [
-              selectedDeliveryAddress.firstName,
-              selectedDeliveryAddress.lastName
-            ].join(' ')) ||
-          deliveryAddress.cardOwner ||
-          '',
+        cardOwner: tmpName || deliveryAddress.cardOwner || '',
         email: selectedDeliveryAddress && selectedDeliveryAddress.email,
         phoneNumber:
           (selectedDeliveryAddress && selectedDeliveryAddress.phoneNumber) ||
@@ -228,7 +183,6 @@ class PaymentComp extends React.Component {
     this.setState({
       errorMsg: message
     });
-    // this.scrollToPaymentComp();
     setTimeout(() => {
       this.setState({
         errorMsg: ''
@@ -237,8 +191,6 @@ class PaymentComp extends React.Component {
   };
   scrollToErrorMsg() {
     const widget = document.querySelector('.content-asset');
-    // widget && widget.scrollIntoView()
-    // console.log(this.getElementToPageTop(widget))
     if (widget) {
       window.scrollTo({
         top: this.getElementToPageTop(widget),
@@ -252,12 +204,6 @@ class PaymentComp extends React.Component {
       behavior: 'smooth',
       block: 'center'
     });
-    // if (widget) {
-    //   window.scrollTo({
-    //     top: this.getElementToPageTop(widget),
-    //     behavior: "smooth",
-    //   });
-    // }
   }
   currentCvvChange(e) {
     let { creditCardList } = this.state;
@@ -395,9 +341,46 @@ class PaymentComp extends React.Component {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
   }
-  async handleSave(e) {
+  handleClickSaveBtn(e) {
     e.preventDefault();
+    const {
+      creditCardInfoForm,
+      hasEditedEmail,
+      hasEditedPhone,
+      hasEditedName
+    } = this.state;
+    let tmpEmail = creditCardInfoForm.email;
+    let tmpPhone = creditCardInfoForm.phoneNumber;
+    let tmpName = creditCardInfoForm.cardOwner;
+
+    if (!hasEditedEmail) {
+      tmpEmail = this.selectedEmail;
+    }
+
+    if (!hasEditedPhone) {
+      tmpPhone = this.selectedPhone;
+    }
+
+    if (!hasEditedName) {
+      tmpName = this.selectedName;
+    }
+
+    this.setState(
+      {
+        creditCardInfoForm: Object.assign(creditCardInfoForm, {
+          email: tmpEmail,
+          cardOwner: tmpName,
+          phoneNumber: tmpPhone
+        })
+      },
+      () => {
+        this.handleSave();
+      }
+    );
+  }
+  async handleSave() {
     const { creditCardInfoForm, currentEditOriginCardInfo } = this.state;
+
     let queryPaymentsosToken = true;
     let fieldList = [
       'cardNumber',
@@ -631,12 +614,6 @@ class PaymentComp extends React.Component {
 
     return (
       <div
-        style={{
-          display:
-            this.props.show === true || this.props.show === undefined
-              ? 'block'
-              : 'none'
-        }}
         id="PaymentComp"
         className={`loginCardBox ${isLogin ? '' : 'hidden'}`}
       >
@@ -698,7 +675,7 @@ class PaymentComp extends React.Component {
                   className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
                   role="alert"
                 >
-                  <span>{this.state.errorMsg}</span>
+                  <span className="pl-0">{this.state.errorMsg}</span>
                   <button
                     className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                     onClick={(e) => {
@@ -739,7 +716,7 @@ class PaymentComp extends React.Component {
                     <div className={`pt-3 pb-3`}>
                       <div
                         className="position-absolute"
-                        style={{ right: '1%', top: '2%', zIndex: '1' }}
+                        style={{ right: '1%', top: '2%' }}
                       >
                         <span
                           className={`pull-right position-relative ${
@@ -972,7 +949,7 @@ class PaymentComp extends React.Component {
                     className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
                     role="alert"
                   >
-                    <span>{this.state.errorMsg}</span>
+                    <span className="pl-0">{this.state.errorMsg}</span>
                     <button
                       className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                       onClick={() => {
@@ -1134,15 +1111,15 @@ class PaymentComp extends React.Component {
                         type="text"
                         className="rc-input__control form-control cardOwner"
                         name="cardOwner"
-                        value={creditCardInfoForm.cardOwner}
+                        value={
+                          creditCardInfoForm.cardOwner ||
+                          (!this.state.hasEditedName && this.selectedName)
+                        }
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
                         maxLength="40"
                       />
-                      <label
-                        className="rc-input__label"
-                        htmlFor="cardOwner"
-                      ></label>
+                      <label className="rc-input__label" htmlFor="cardOwner" />
                     </span>
                     <div className="invalid-feedback">
                       <FormattedMessage id="payment.errorInfo2" />
@@ -1164,17 +1141,16 @@ class PaymentComp extends React.Component {
                         type="email"
                         className="rc-input__control email"
                         id="email"
-                        value={creditCardInfoForm.email}
-                        // todo 游客表单直接同步到这里
+                        value={
+                          creditCardInfoForm.email ||
+                          (!this.state.hasEditedEmail && this.selectedEmail)
+                        }
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
                         name="email"
                         maxLength="254"
                       />
-                      <label
-                        className="rc-input__label"
-                        htmlFor="email"
-                      ></label>
+                      <label className="rc-input__label" htmlFor="email" />
                     </span>
                     <div className="invalid-feedback">
                       <FormattedMessage id="payment.errorInfo2" />
@@ -1201,7 +1177,10 @@ class PaymentComp extends React.Component {
                         // data-js-validate="(^(\+?7|8)?9\d{9}$)"
                         data-js-pattern="(^\d{10}$)"
                         data-range-error="The phone number should contain 10 digits"
-                        value={creditCardInfoForm.phoneNumber}
+                        value={
+                          creditCardInfoForm.phoneNumber ||
+                          (!this.state.hasEditedPhone && this.selectedPhone)
+                        }
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
                         name="phoneNumber"
@@ -1210,7 +1189,7 @@ class PaymentComp extends React.Component {
                       <label
                         className="rc-input__label"
                         htmlFor="phoneNumber"
-                      ></label>
+                      />
                     </span>
                     <div className="invalid-feedback">
                       <FormattedMessage id="payment.errorInfo2" />
@@ -1285,7 +1264,7 @@ class PaymentComp extends React.Component {
                     data-sav="false"
                     name="contactInformation"
                     type="submit"
-                    onClick={(e) => this.handleSave(e)}
+                    onClick={(e) => this.handleClickSaveBtn(e)}
                   >
                     <FormattedMessage id="save" />
                   </button>
