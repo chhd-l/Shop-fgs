@@ -93,12 +93,12 @@ class RegisterRequired extends Component {
                 list
             })
 
-            const result2 = await consentListDetail(
-                {
-                    "consentKey": 18,
-                    "contentTitle": "privacy policy"
-                }
-            )
+            // const result2 = await consentListDetail(
+            //     {
+            //         "consentKey": 18,
+            //         "contentTitle": "privacy policy"
+            //     }
+            // )
         } catch (err) {
             console.log(err.message)
         }
