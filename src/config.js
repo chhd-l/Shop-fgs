@@ -7,7 +7,7 @@ export default {
     clientId: CLIENT_ID,
     issuer: ISSUER,
     // redirectUri: 'https://shopuat.466920.com/implicit/callback',
-    redirectUri: process.env.NODE_ENV === 'development'? 'http://localhost:3000/mx/implicit/callback': process.env.REACT_APP_RedirectURL,
+    redirectUri: process.env.NODE_ENV === 'development'? 'http://localhost:3000/implicit/callback': process.env.REACT_APP_RedirectURL,
     // redirectUri: 'http://localhost:3000/implicit/callback',
     scopes: ['openid', 'profile', 'email','user.consent:read','user.profile:write','user.consent:delete','user.consent:collect'],
     pkce: true,
