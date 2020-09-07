@@ -90,7 +90,7 @@ const App = () => (
       <Router
         // basename="/aa/"
         basename={process.env.REACT_APP_HOMEPAGE}
-        path="/"
+        path={'/'}
       >
         <RouteFilter />
         <ScrollToTop>
@@ -98,7 +98,7 @@ const App = () => (
             <Security {...config.oidc}>
               {/* <Route path="/mx" exact component={Home} />
               <Route path="/mx/implicit/callback" component={LoginCallback} /> */}
-              <Route path={process.env.REACT_APP_HOMEPAGE} exact component={Home} />
+              <Route path={'/'} exact component={Home} />
               <Route path={process.env.REACT_APP_HOMEPAGE + "/implicit/callback"} component={LoginCallback} />
               {/* <Route exact path="/login" component={Login} /> */}
               <Route
