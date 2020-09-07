@@ -59,10 +59,10 @@ const LoginButton = (props) => {
                 loginStore.updateLoginCart()
               }
             }
-            props.history.push('required')
+            //props.history.push('required')
            
 
-            //sessionStorage.removeItem('okta-redirectUrl')
+            sessionStorage.removeItem('okta-redirectUrl')
           }).catch(e => {
             loginStore.changeLoginModal(false)
           })
