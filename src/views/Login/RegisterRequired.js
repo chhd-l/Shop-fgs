@@ -62,6 +62,12 @@ class RegisterRequired extends Component {
     async componentDidMount() {
         try {
             const result = await findUserConsentList({})
+
+            if (result.context.optioalList.length==0&&result.context.requiredList.length==0) {//必填项和选填项都为空，直接跳转
+                let historyUrl = sessionStorage.getItem('okta-redirectUrl')
+                this.props.history.push(historyUrl)&&sessionStorage.removeItem('okta-redirectUrl')
+                return
+            }
             const optioalList = result.context.optioalList.map(item => {
                 return {
                     id: item.id,
@@ -162,7 +168,7 @@ class RegisterRequired extends Component {
                     }
 
                 </div>
-                {/* 注释 */}
+                {/* 介绍 */}
                 <p className='pizhu'><span className="pl-2 pr-2 rc-text-colour--brand1">*</span>Required fields</p>
                 {/* 按钮 */}
                 <div style={{ textAlign: 'center', marginTop: '60px' }}>
