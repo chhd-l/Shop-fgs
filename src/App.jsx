@@ -80,7 +80,7 @@ import Recommendation from '@/views/Recommendation';
 
 const localItemRoyal = window.__.localItemRoyal;
 const token = localItemRoyal.get('rc-token');
-
+console.log('REACT_APP_HOMEPAGE',process.env.REACT_APP_HOMEPAGE)
 const App = () => (
   <Provider {...stores}>
     <IntlProvider
@@ -99,7 +99,8 @@ const App = () => (
               {/* <Route path="/mx" exact component={Home} />
               <Route path="/mx/implicit/callback" component={LoginCallback} /> */}
               <Route path={'/'} exact component={Home} />
-              <Route path={process.env.REACT_APP_HOMEPAGE + "/implicit/callback"} component={LoginCallback} />
+              {/* <Route path={process.env.REACT_APP_HOMEPAGE + "/implicit/callback"} component={LoginCallback} /> */}
+              <Route path={"/implicit/callback"} component={LoginCallback} />
               {/* <Route exact path="/login" component={Login} /> */}
               <Route
                 exact

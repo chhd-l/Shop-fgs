@@ -45,7 +45,7 @@ const LogoutButton = () => {
     localItemRoyal.remove("rc-token");
     loginStore.removeUserInfo()
     checkoutStore.removeLoginCartData()
-    logout()
+    logout(process.env.REACT_APP_HOMEPAGE)
   }
   return (
     <div className="logoff-style">
