@@ -30,6 +30,8 @@ import { Provider } from 'mobx-react';
 import stores from './store';
 import store from 'storejs';
 
+import RegisterRequired from '@/views/Login/RegisterRequired';
+import Landing from '@/views/Landing/index2';
 import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
 import Home from '@/views/Home';
@@ -45,7 +47,6 @@ import PrescriptionNavigate from '@/views/PrescriptionNavigate';
 import Exception from '@/views/Exception';
 import Help from '@/views/Help';
 import FAQ from '@/views/FAQ';
-import Recommendation from '@/views/Recommendation';
 import TermUse from '@/views/TermUse';
 import PrivacyPolicy from '@/views/PrivacyPolicy';
 import AccountHome from '@/views/Account/Home';
@@ -72,9 +73,10 @@ import ForgetPassword from '@/views/ForgetPassword';
 
 import RequestInvoices from '@/views/RequestInvoices';
 
-import Widerrufsbelehrung from '@/components/Footer/link/Widerrufsbelehrung'
-import FAQVersand from '@/components/Footer/link/FAQVersand'
-import FAQAllgemein from '@/components/Footer/link/FAQAllgemein'
+import Widerrufsbelehrung from '@/components/Footer/link/Widerrufsbelehrung';
+import FAQVersand from '@/components/Footer/link/FAQVersand';
+import FAQAllgemein from '@/components/Footer/link/FAQAllgemein';
+import Recommendation from '@/views/Recommendation';
 
 const localItemRoyal = window.__.localItemRoyal;
 const token = localItemRoyal.get('rc-token');
@@ -85,11 +87,11 @@ const App = () => (
       locale={process.env.REACT_APP_LANG}
       messages={ENUM_LANGFILE[process.env.REACT_APP_LANG]}
     >
-      <Router 
-        // basename="/aa/" 
+      <Router
+        // basename="/aa/"
         basename={process.env.REACT_APP_HOMEPAGE}
         path="/"
-        >
+      >
         <RouteFilter />
         <ScrollToTop>
           <Switch>
@@ -248,11 +250,18 @@ const App = () => (
                 exact
                 component={AccountShippingAddressForm}
               />
-              <Route exact path="/forgetPassword" component={ForgetPassword} />         
-              <Route exact path="/Widerrufsbelehrung" component={Widerrufsbelehrung} />
+              <Route exact path="/forgetPassword" component={ForgetPassword} />
+              <Route
+                exact
+                path="/Widerrufsbelehrung"
+                component={Widerrufsbelehrung}
+              />
               <Route exact path="/FAQVersand" component={FAQVersand} />
               <Route exact path="/FAQAllgemein" component={FAQAllgemein} />
-              
+
+              <Route path="/required" exact component={RegisterRequired} />
+              <Route path="/conoce-mas-de-evet" exact component={Landing} />
+
               {/* <Route exact component={Exception} /> */}
             </Security>
           </Switch>

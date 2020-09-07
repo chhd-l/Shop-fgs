@@ -41,7 +41,7 @@ class GoogleTagManager extends React.Component {
       j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl
       ;
       f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','${GTMID}');`, function () { }, 'optanon-category-2', 'text/plain')
+  })(window,document,'script','dataLayer','${this.props.GTMID || GTMID}');`, function () { }, 'optanon-category-2', 'text/plain')
   }
   render () {
     return (<React.Fragment />)

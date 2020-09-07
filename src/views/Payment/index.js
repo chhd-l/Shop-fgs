@@ -867,7 +867,7 @@ class Payment extends React.Component {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
-      city: deliveryAddress.city,
+      city: deliveryAddress.cityName,
       country: payosdata.country_code,
       token: payosdata.token,
       creditDardCvv: payosdata.encrypted_cvv,
@@ -1002,10 +1002,11 @@ class Payment extends React.Component {
           rfc: tmpDeliveryAddressData.rfc,
           country: tmpDeliveryAddressData.countryId
             ? tmpDeliveryAddressData.countryId.toString()
-            : '',
-          city: tmpDeliveryAddressData.cityId
+            : "",
+            city: tmpDeliveryAddressData.cityId
             ? tmpDeliveryAddressData.cityId.toString()
-            : '',
+            : "",
+            cityName: tmpDeliveryAddressData.cityName,
           postCode: tmpDeliveryAddressData.postCode,
           phoneNumber: tmpDeliveryAddressData.consigneeNumber,
           addressId: tmpDeliveryAddressData.deliveryAddressId
@@ -1029,10 +1030,11 @@ class Payment extends React.Component {
             rfc: tmpBillingAddressData.rfc,
             country: tmpBillingAddressData.countryId
               ? tmpBillingAddressData.countryId.toString()
-              : '',
-            city: tmpBillingAddressData.cityId
+              : "",
+              city: tmpBillingAddressData.cityId
               ? tmpBillingAddressData.cityId.toString()
-              : '',
+              : "",
+              cityName: tmpBillingAddressData.cityName,
             postCode: tmpBillingAddressData.postCode,
             phoneNumber: tmpBillingAddressData.consigneeNumber,
             addressId: tmpBillingAddressData.deliveryAddressId

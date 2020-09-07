@@ -8374,3 +8374,32 @@ html .miaa {
   border-bottom: 2px solid #A3A3A4;
   border-color: #A3A3A4;
 }
+.required-wrap{
+  max-width: 700px;
+  margin:0 auto;
+}
+.required-checkbox{
+  max-width:500px;
+  margin: 0 auto;
+}
+.required-checkbox .footerCheckbox{
+  padding-left:80px;
+}
+.required-checkbox label{
+  font-size:18px;
+  padding-left:10px;
+  margin-top:-10px;
+  color:#9A9A9A;
+}
+.required-checkbox .terms-link{
+  color:#000;
+  text-decoration: underline;
+}
+.required-wrap .pizhu{
+  color:#AEAEAE;
+  padding-top:10px;
+  max-width:500px;
+  margin: 0 auto;
+  padding-left:50px;
+  font-size:12px;
+}
