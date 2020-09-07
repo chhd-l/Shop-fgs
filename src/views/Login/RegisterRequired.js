@@ -7,6 +7,7 @@ import { findUserConsentList, consentListDetail,userBindConsent} from "@/api/con
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 class RegisterRequired extends Component {
     constructor(props) {
@@ -59,13 +60,13 @@ class RegisterRequired extends Component {
         }
        
     }
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             const result = await findUserConsentList({})
 
             if (result.context.optioalList.length==0&&result.context.requiredList.length==0) {//必填项和选填项都为空，直接跳转
-                let historyUrl = sessionStorage.getItem('okta-redirectUrl')
-                this.props.history.push(historyUrl)&&sessionStorage.removeItem('okta-redirectUrl')
+                let historyUrl = sessionItemRoyal.get('okta-redirectUrl')
+                this.props.history.push(historyUrl)&&sessionItemRoyal.remove('okta-redirectUrl')
                 return
             }
             const optioalList = result.context.optioalList.map(item => {
