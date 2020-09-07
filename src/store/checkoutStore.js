@@ -173,10 +173,12 @@ class CheckoutStore {
           tmpOffShelvesProNames.push(tmpName);
         }
         if (item.quantity > selectedSize.stock) {
+          console.log(tmpObj, tmpOutOfstockProNames, 'name')
           tmpOutOfstockProNames.push(tmpName);
         }
       }
     });
+    console.log(tmpOutOfstockProNames, 'nameaaaa')
     this.setCartData(data);
     this.offShelvesProNames = tmpOffShelvesProNames;
     this.outOfstockProNames = tmpOutOfstockProNames;

@@ -64,6 +64,7 @@ class UnloginCart extends React.Component {
     }
 
     if (this.props.checkoutStore.outOfstockProNames.length) {
+      console.log(this.props.checkoutStore.outOfstockProNames, 'names')
       this.props.headerCartStore.setErrMsg(
         <FormattedMessage
           id="cart.errorInfo2"

@@ -94,8 +94,10 @@ const App = () => (
         <ScrollToTop>
           <Switch>
             <Security {...config.oidc}>
-              <Route path="/" exact component={Home} />
-              <Route path="/implicit/callback" component={LoginCallback} />
+              {/* <Route path="/mx" exact component={Home} />
+              <Route path="/mx/implicit/callback" component={LoginCallback} /> */}
+              <Route path={process.env.REACT_APP_HOMEPAGE} exact component={Home} />
+              <Route path={process.env.REACT_APP_HOMEPAGE + "/implicit/callback"} component={LoginCallback} />
               {/* <Route exact path="/login" component={Login} /> */}
               <Route
                 exact

@@ -122,6 +122,7 @@ class UnLoginCart extends React.Component {
       }
       // 库存不够，不能下单
       if (this.props.checkoutStore.outOfstockProNames.length) {
+        console.log('names', toJS(this.props.checkoutStore.outOfstockProNames))
         window.scrollTo({ behavior: 'smooth', top: 0 });
         this.showErrMsg(
           <FormattedMessage

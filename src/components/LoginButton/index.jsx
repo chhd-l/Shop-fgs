@@ -82,7 +82,7 @@ const LoginButton = (props) => {
       }
       // sessionItemRoyal.set('okta-redirectUrl', '/cart')
     }
-    authService.login('/');
+    authService.login('/mx');
   };
 
   return (

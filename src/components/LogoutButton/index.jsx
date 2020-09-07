@@ -30,7 +30,7 @@ const LogoutButton = () => {
 
   const logout = async () => {
     try {
-      await authService.logout('/')
+      await authService.logout(process.env.REACT_APP_HOMEPAGE)
       setTimeout(() => {
         loginStore.changeLoginModal(false)
       }, 1000)
