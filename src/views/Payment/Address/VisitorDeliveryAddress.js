@@ -5,7 +5,7 @@ import EditForm from './EditForm';
 /**
  * delivery adress module - visitor
  */
-export default class UnloginDeliveryAddress extends React.Component {
+export default class VisitorDeliveryAddress extends React.Component {
   render() {
     return (
       <>
