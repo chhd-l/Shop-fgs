@@ -31,19 +31,20 @@ class ClinicForm extends React.Component {
         clinicName: '',
         clinicId: ''
       },
-      toolTipVisible: false
+      toolTipVisible: false,
+      isEdit: false
     };
-
-    this.menuBtnRef = React.createRef();
 
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
   }
   componentDidMount() {
+    const n = this.props.clinicStore.clinicName;
     this.setState({
       form: Object.assign(this.state.form, {
-        clinicName: this.props.clinicStore.clinicName
-      })
+        clinicName: n
+      }),
+      isEdit: !n
     });
   }
   gotoPrescriptionPage = (e) => {
@@ -55,10 +56,7 @@ class ClinicForm extends React.Component {
     const { form } = this.state;
     form.clinicName = data.prescriberName;
     form.clinicId = data.id;
-    this.setState({ form: form }, () => {
-      this.props.clinicStore.setSelectClinicId(this.state.form.clinicId);
-      this.props.clinicStore.setSelectClinicName(this.state.form.clinicName);
-    });
+    this.setState({ form: form });
   };
   handleMouseOver() {
     this.flag = 1;
@@ -77,7 +75,16 @@ class ClinicForm extends React.Component {
       }
     }, 500);
   }
+  handleClickEdit = () => {
+    this.setState({ isEdit: true });
+  };
+  handleClickConfirm = () => {
+    this.props.clinicStore.setSelectClinicId(this.state.form.clinicId);
+    this.props.clinicStore.setSelectClinicName(this.state.form.clinicName);
+    this.setState({ isEdit: false });
+  };
   render() {
+    const { isEdit } = this.state;
     const defaultJSX = (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
         <div className="card-header bg-transparent pt-0 pb-0">
@@ -113,70 +120,102 @@ class ClinicForm extends React.Component {
             ) : (
               <FormattedMessage id="payment.clinicTitle" />
             )}
+            {!isEdit && (
+              <span className="iconfont font-weight-bold green ml-2">
+                &#xe68c;
+              </span>
+            )}
           </h5>
-        </div>
-        <div className="rc-margin-left--none rc-padding-left--none contactPreferenceContainer rc-margin-left--xs rc-padding-left--xs d-flex align-items-center justify-content-between">
-          <SearchSelection
-            queryList={async ({ inputVal }) => {
-              let res = await getPrescriberByCode({
-                code: inputVal,
-                storeId: process.env.REACT_APP_STOREID
-              });
-              return (
-                (res.context && res.context.prescriberVo) ||
-                []
-              ).map((ele) => Object.assign(ele, { name: ele.prescriberName }));
-            }}
-            selectedItemChange={(data) => this.handleSelectedItemChange(data)}
-            defaultValue={this.state.form.clinicName}
-            placeholder={this.props.intl.messages.enterClinicName}
-            customCls="flex-fill"
-          />
-          <span className="ml-3">
-            <span
-              className="info delivery-method-tooltip"
-              style={{ verticalAlign: 'unset' }}
-              onMouseOver={this.handleMouseOver}
-              onMouseOut={this.handleMouseOut}
+          {!isEdit && (
+            <p
+              onClick={this.handleClickEdit}
+              className="rc-styled-link rc-margin-top--xs pull-right m-0"
             >
-              ?
-            </span>
-            {this.state.toolTipVisible ? (
-              <div
-                className="confirm-tool-container position-relative"
-                onMouseOver={this.handleMouseOver}
-                onMouseOut={this.handleMouseOut}
-              >
-                <div
-                  className="confirm-tool-content rc-bg-colour--brand4 p-3"
-                  style={this.props.containerStyle}
-                  tabIndex="1"
-                >
-                  <div
-                    className="confirm-tool-arrow"
-                    style={this.props.arrowStyle}
-                  ></div>
-                  <div className="pt-1">
-                    <FormattedMessage
-                      id="noClinicTip"
-                      values={{
-                        val: (
-                          <Link
-                            to="/prescriptionNavigate"
-                            target="_blank"
-                            className="rc-styled-link font-italic"
-                          >
-                            <FormattedMessage id="clickHere2" />
-                          </Link>
-                        )
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            ) : null}
-          </span>
+              <FormattedMessage id="edit" />
+            </p>
+          )}
         </div>
+        {isEdit ? (
+          <div className="rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs">
+            <div className="d-flex align-items-center justify-content-between">
+              <SearchSelection
+                queryList={async ({ inputVal }) => {
+                  let res = await getPrescriberByCode({
+                    code: inputVal,
+                    storeId: process.env.REACT_APP_STOREID
+                  });
+                  return (
+                    (res.context && res.context.prescriberVo) ||
+                    []
+                  ).map((ele) =>
+                    Object.assign(ele, { name: ele.prescriberName })
+                  );
+                }}
+                selectedItemChange={(data) =>
+                  this.handleSelectedItemChange(data)
+                }
+                defaultValue={this.state.form.clinicName}
+                placeholder={this.props.intl.messages.enterClinicName}
+                customCls="flex-fill"
+              />
+              <span className="ml-3">
+                <span
+                  className="info delivery-method-tooltip"
+                  style={{ verticalAlign: 'unset' }}
+                  onMouseOver={this.handleMouseOver}
+                  onMouseOut={this.handleMouseOut}
+                >
+                  ?
+                </span>
+                {this.state.toolTipVisible ? (
+                  <div
+                    className="confirm-tool-container position-relative"
+                    onMouseOver={this.handleMouseOver}
+                    onMouseOut={this.handleMouseOut}
+                  >
+                    <div
+                      className="confirm-tool-content rc-bg-colour--brand4 p-3"
+                      style={this.props.containerStyle}
+                      tabIndex="1"
+                    >
+                      <div
+                        className="confirm-tool-arrow"
+                        style={this.props.arrowStyle}
+                      ></div>
+                      <div className="pt-1">
+                        <FormattedMessage
+                          id="noClinicTip"
+                          values={{
+                            val: (
+                              <Link
+                                to="/prescriptionNavigate"
+                                target="_blank"
+                                className="rc-styled-link font-italic"
+                              >
+                                <FormattedMessage id="clickHere2" />
+                              </Link>
+                            )
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </span>
+            </div>
+            <div className="d-flex justify-content-end mt-3">
+              <button
+                className="rc-btn rc-btn--one rc-btn--sm"
+                onClick={this.handleClickConfirm}
+                disabled={!this.state.form.clinicName}
+              >
+                <FormattedMessage id="clinic.confirm" />
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div>{this.state.form.clinicName}</div>
+        )}
       </div>
     );
 
