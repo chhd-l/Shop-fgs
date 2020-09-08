@@ -53,7 +53,10 @@ const LoginButton = (props) => {
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
             loginStore.setUserInfo(customerInfoRes.context)
 
+
             const tmpUrl = sessionItemRoyal.get('okta-redirectUrl')
+            console.log(tmpUrl)
+
 
             if (tmpUrl !== '/cart') {
               if (checkoutStore.cartData.length) {

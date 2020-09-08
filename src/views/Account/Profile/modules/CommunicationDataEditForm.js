@@ -197,7 +197,7 @@ export default class CommunicationDataEditForm extends React.Component {
                 )}
               </FormattedMessage>
               <label className="rc-input__label--inline outline-none">
-                <FormattedMessage id="profile.emailChoose" />
+                <FormattedMessage id="profile.emailChoose" values={{ val1: <a style={{color:'#EC2E5E',textDecoration:'underline'}} href="info.de@royalcanin.com">info.de@royalcanin.com</a> }} />
               </label>
             </div>
           </div>

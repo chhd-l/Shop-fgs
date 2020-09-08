@@ -1251,7 +1251,6 @@ class Payment extends React.Component {
             ) : (
               <VisitorBillingAddress
                 data={billingAddress}
-                billingChecked={this.state.billingChecked}
                 updateData={(data) => {
                   this.setState({
                     billingAddress: data

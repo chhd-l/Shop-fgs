@@ -1067,7 +1067,8 @@ class Details extends React.Component {
                                   {
                                     process.env.REACT_APP_LANG=='de'
                                     ?<div className="rc-input product-pricing__card__head__title taxLogo">
-                                    <FormattedMessage id="taxLogo" values={{ val:<a href="https://www.royalcanin.com/de/about-us/faqs#SHIPPINGFAQs
+                                    <FormattedMessage id="taxLogo" values={{ val:<a href="https://shopstg.royalcanin.com/FAQ-Shipping
+
 ">Versandkosten</a>}} />
                                   </div>
                                   :
