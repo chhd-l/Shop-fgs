@@ -2,6 +2,7 @@ import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -889,8 +890,7 @@ class List extends React.Component {
           <FormattedMessage
             id="notate"
             values={{
-              val: <a className="link" href="https://www.royalcanin.com/de/about-us/faqs#SHIPPINGFAQs
-                                          ">Versandkosten</a>
+              val: <Link className="link" to="/FAQ-Shipping">Versandkosten</Link>
             }} />
         </div>
 
