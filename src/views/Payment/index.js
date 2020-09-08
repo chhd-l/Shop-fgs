@@ -1271,7 +1271,7 @@ class Payment extends React.Component {
   _renderSubSelect = () => {
     return this.isLogin &&
       find(
-        this.state.recommend_data || this.loginCartData,
+        this.state.recommend_data.length?this.state.recommend_data: this.loginCartData,
         (ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0
       ) ? (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
