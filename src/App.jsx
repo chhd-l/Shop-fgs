@@ -82,16 +82,28 @@ const localItemRoyal = window.__.localItemRoyal;
 const token = localItemRoyal.get('rc-token');
 console.log('REACT_APP_HOMEPAGE',process.env.REACT_APP_HOMEPAGE)
 const LoginCallback = (props) => {
+  console.log(111)
   const { authService, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
 
   useEffect( async () => {
+    console.log(props)
+    console.log(authService)
     if( authStateReady ) {
+      // wait until initial check is done so it doesn't wipe any error
+      // console.log('111', authState.isPending, authState)
+      // if(authStateReady && authState.error) {
+      //   console.log('222')
+      // }
+      // authService.handleAuthentication();
     }else {
       await authService.handleAuthentication();
     }
     window.location.href = process.env.REACT_APP_ACCESS_PATH
+    // props.history.push('/')
   }, [authService, authStateReady]);
+
+  
   return (<div></div>)
 }
 
@@ -113,7 +125,8 @@ const App = () => (
               {/* <Route path="/mx" exact component={Home} />
               <Route path="/mx/implicit/callback" component={LoginCallback} /> */}
               <Route path={'/'} exact component={Home} />
-              {/* <Route path={process.env.REACT_APP_HOMEPAGE + "/implicit/callback"} component={LoginCallback} /> */
+              {/* <Route path={process.env.REACT_APP_HOMEPAGE + "/implicit/callback"} component={LoginCallback} /> */}
+              {/* <Route path={"/implicit/callback"} component={LoginCallback} /> */}
               <Route path={"/implicit/callback"} render={(props) => <LoginCallback {...props}/>} />
               {/* <Route exact path="/login" component={Login} /> */}
               <Route
