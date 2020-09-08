@@ -44,7 +44,7 @@ class EditForm extends React.Component {
         this.setState(
           {
             deliveryAddress: Object.assign(deliveryInfo.deliveryAddress, {
-              country: process.env.REACT_APP_DEFAULT_COUNTRY_ID
+              country: process.env.REACT_APP_DEFAULT_COUNTRYID
             })
           },
           () => {
@@ -54,7 +54,7 @@ class EditForm extends React.Component {
           }
         );
       } else {
-        deliveryAddress.country = process.env.REACT_APP_DEFAULT_COUNTRY_ID;
+        deliveryAddress.country = process.env.REACT_APP_DEFAULT_COUNTRYID;
         this.setState({
           deliveryAddress: deliveryAddress
         });
