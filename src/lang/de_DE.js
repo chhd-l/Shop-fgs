@@ -257,7 +257,7 @@ const en_US = {
   "payment.frequencyTip2": "Nein, ich möchte keine Abonnement-Bestellung abschließen.",
   "payment.frequencyTip3": "Ihre Artikel werden nur einmal versendet.",
   "payment.deliveryFrequency": "Häufigkeit",
-  "payment.subTip1": "Sie sparen ein zusätzliches {val} für diese Bestellung!",
+  "payment.subTip1": "Sie sparen durch ein Abo zusätzliche {val} auf Ihre Bestellung.",
   "payment.subTip2": "Speichern Sie Ihre erste {icon} Abonnementbestellung und speichern Sie {val} ({val2}) noch heute!",
   'payment.errTip': 'Bitte geben Sie cvv ein oder wählen Sie eine Karte aus',
   "confirmation.info1": "Vielen Dank für Ihren Auftrag.",

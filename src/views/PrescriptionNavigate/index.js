@@ -58,8 +58,6 @@ class Prescription extends React.Component {
     const lang = process.env.REACT_APP_LANG
     const lat = initLocation[lang].lat
     const lng = initLocation[lang].lng
-    console.log(lat)
-    console.log(lng)
     super(props);
     this.state = {
       type: 'perscription',
