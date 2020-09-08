@@ -209,7 +209,7 @@ class SubscriptionSelect extends Component {
                 />
               </div>
               <span className="ml-2 d-flex align-items-center flex-wrap fit-screen-ml-2">
-                {this.state.recommend_data.length? 
+                {this.state.recommend_data && this.state.recommend_data.length? 
                   this.state.recommend_data.filter(
                     (ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0
                   )
