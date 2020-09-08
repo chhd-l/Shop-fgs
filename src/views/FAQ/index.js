@@ -89,7 +89,7 @@ class FAQ extends React.Component {
                       <p style={{ textAlign: 'center' }}>
                         <FormattedMessage id="faq.title" values={{
                           val1: (
-                            <a  target="_blank" href="https://shopstg.royalcanin.com/help" style={{ cursor: 'pointer'}}>
+                            <a  className="rc-styled-link" target="_blank" href="https://shopstg.royalcanin.com/help" style={{ cursor: 'pointer'}}>
                               Expertenteam
                             </a>
                           )

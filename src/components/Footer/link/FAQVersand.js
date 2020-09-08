@@ -18,7 +18,7 @@ class FAQVersand extends Component {
                 <div className="rc-column">
                     <div className="margin-auto">
                         <h2 className="bold mb-10">HEADLINE: FAQ Versand</h2>
-                        <p className="mb-50"><span className="bold">Text:</span>Hier finden Sie Informationen rund um den Versand unseres Online-Shops. Falls Sie weitere Fragen haben, wenden Sie sich gerne an unser <Link to="/help" className="underline" >Expertenteam</Link>.</p>
+                        <p className="mb-50">Hier finden Sie Informationen rund um den Versand unseres Online-Shops. Falls Sie weitere Fragen haben, wenden Sie sich gerne an unser <Link to="/help" className="underline" >Expertenteam</Link>.</p>
 
                         <h2 className="bold mb-10">Welche Versandkosten kommen bei Bestellungen auf mich zu?</h2>
                         <p className="mb-20">Gemeinsam für die Umwelt: Aus Gründen der Nachhaltigkeit möchten wir umdenken und sowohl die Menge an Verpackungsmaterialien, als auch die Wege des Logistikherstellers deutlich reduzieren. Folglich wird bei einer Bestellung unter einem Bestellwert von 15,00 € ein Nachhaltigkeitsbeitrag von 3,99 € berechnet.</p>

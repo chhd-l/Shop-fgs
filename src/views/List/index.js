@@ -525,8 +525,8 @@ class List extends React.Component {
               </div>
             </div>
           ) : (
-            ''
-          )}
+              ''
+            )}
           <div id="J-product-list"></div>
           <div className="search-results rc-padding--sm rc-max-width--xl pt-4 pt-sm-1">
             <div className="search-nav border-bottom-0">
@@ -636,261 +636,263 @@ class List extends React.Component {
                         </div>
                       </>
                     ) : (
-                      <div className="row RowFitScreen">
-                        {productList.map((item) => (
-                          <div
-                            className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen"
-                            key={item.id}
-                          >
-                            <article
-                              className="rc-card rc-card--product overflow-hidden"
-                              style={{ minHeight: '120px' }}
+                        <div className="row RowFitScreen">
+                          {productList.map((item) => (
+                            <div
+                              className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen"
+                              key={item.id}
                             >
-                              {find(
-                                item.goodsInfos,
-                                (ele) => ele.goodsPromotion
-                              ) ? (
-                                <div class="product-item-flag">
-                                  <FormattedMessage id="promotion" />
-                                </div>
-                              ) : null}
-                              <div className="fullHeight">
-                                <a
-                                  onClick={() => this.hanldeItemClick(item)}
-                                  className="ui-cursor-pointer"
-                                >
-                                  <article className="rc-card--a rc-text--center text-center">
-                                    {loading ? (
-                                      <span className="mt-4">
-                                        <Skeleton
-                                          color="#f5f5f5"
-                                          width="100%"
-                                          height="50%"
-                                          count={2}
-                                        />
-                                      </span>
-                                    ) : (
-                                      <>
-                                        <picture className="rc-card__image">
-                                          <div
-                                            className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                                            style={{ height: '15.7rem' }}
-                                          >
-                                            <img
-                                              src={
-                                                item.goodsImg ||
-                                                item.goodsInfos.sort(
-                                                  (a, b) =>
-                                                    a.marketPrice -
-                                                    b.marketPrice
-                                                )[0].goodsInfoImg
-                                              }
-                                              srcSet={
-                                                item.goodsImg ||
-                                                item.goodsInfos.sort(
-                                                  (a, b) =>
-                                                    a.marketPrice -
-                                                    b.marketPrice
-                                                )[0].goodsInfoImg
-                                              }
-                                              alt={item.goodsName}
-                                              title={item.goodsName}
-                                              className="ImgFitScreen pt-3"
-                                              style={{
-                                                maxWidth: '50%',
-                                                maxHeight: '100%',
-                                                width: 'auto',
-                                                height: 'auto'
-                                              }}
-                                            />
-                                          </div>
-                                        </picture>
-                                        <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
-                                          <div className="height-product-tile-plpOnly">
-                                            <header className="rc-text--center">
-                                              <h3
-                                                className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen product-title"
-                                                title={item.goodsName}
-                                              >
-                                                {item.goodsName}
-                                              </h3>
-                                            </header>
-                                            <div
-                                              className={`ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen`}
-                                              title={item.goodsSubtitle}
-                                              style={{ color: '#4a4a4a' }}
-                                            >
-                                              {item.goodsSubtitle}
-                                            </div>
-                                          </div>
-                                          <div
-                                            className={`rc-card__price text-center RateFitScreen `}
-                                          >
-                                            <div className="display-inline">
-                                              <Rate
-                                                def={item.avgEvaluate}
-                                                disabled={true}
-                                                marginSize="smallRate"
-                                              />
-                                            </div>
-                                            <span className="comments rc-margin-left--xs rc-text-colour--text">
-                                              ({item.goodsEvaluateNum})
-                                            </span>
-                                          </div>
-                                          <div
-                                            className="text-center NameFitScreen"
-                                            style={{
-                                              color: '#4a4a4a',
-                                              opacity:
-                                                item.goodsInfos.length > 1
-                                                  ? 1
-                                                  : 0
-                                            }}
-                                          >
-                                            <FormattedMessage id="startFrom" />
-                                          </div>
-                                          <div className="d-flex justify-content-center">
-                                            <div className="rc-card__price text-left PriceFitScreen">
+                              <article
+                                className="rc-card rc-card--product overflow-hidden"
+                                style={{ minHeight: '120px' }}
+                              >
+                                {find(
+                                  item.goodsInfos,
+                                  (ele) => ele.goodsPromotion
+                                ) ? (
+                                    <div class="product-item-flag">
+                                      <FormattedMessage id="promotion" />
+                                    </div>
+                                  ) : null}
+                                <div className="fullHeight">
+                                  <a
+                                    onClick={() => this.hanldeItemClick(item)}
+                                    className="ui-cursor-pointer"
+                                  >
+                                    <article className="rc-card--a rc-text--center text-center">
+                                      {loading ? (
+                                        <span className="mt-4">
+                                          <Skeleton
+                                            color="#f5f5f5"
+                                            width="100%"
+                                            height="50%"
+                                            count={2}
+                                          />
+                                        </span>
+                                      ) : (
+                                          <>
+                                            <picture className="rc-card__image">
                                               <div
-                                                className={`rc-full-width PriceFitScreen`}
+                                                className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
+                                                style={{ height: '15.7rem' }}
                                               >
-                                                <span
+                                                <img
+                                                  src={
+                                                    item.goodsImg ||
+                                                    item.goodsInfos.sort(
+                                                      (a, b) =>
+                                                        a.marketPrice -
+                                                        b.marketPrice
+                                                    )[0].goodsInfoImg
+                                                  }
+                                                  srcSet={
+                                                    item.goodsImg ||
+                                                    item.goodsInfos.sort(
+                                                      (a, b) =>
+                                                        a.marketPrice -
+                                                        b.marketPrice
+                                                    )[0].goodsInfoImg
+                                                  }
+                                                  alt={item.goodsName}
+                                                  title={item.goodsName}
+                                                  className="ImgFitScreen pt-3"
                                                   style={{
-                                                    color: '#323232',
-                                                    fontWeight: 400
+                                                    maxWidth: '50%',
+                                                    maxHeight: '100%',
+                                                    width: 'auto',
+                                                    height: 'auto'
                                                   }}
+                                                />
+                                              </div>
+                                            </picture>
+                                            <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
+                                              <div className="height-product-tile-plpOnly">
+                                                <header className="rc-text--center" style={{height:'100px'}}>
+                                                  <h3
+                                                    className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen product-title"
+                                                    title={item.goodsName}
+                                                  >
+                                                    {item.goodsName}
+                                                  </h3>
+                                                </header>
+                                                <div
+                                                  className={`ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen`}
+                                                  title={item.goodsSubtitle}
+                                                  style={{ color: '#4a4a4a' }}
                                                 >
-                                                  {formatMoney(
-                                                    Math.min.apply(
-                                                      null,
-                                                      item.goodsInfos.map(
-                                                        (g) =>
-                                                          g.marketPrice || 0
-                                                      )
-                                                    )
-                                                  )}{' '}
-                                                  {item.goodsInfos.sort(
-                                                    (a, b) =>
-                                                      a.marketPrice -
-                                                      b.marketPrice
-                                                  )[0].linePrice &&
-                                                  item.goodsInfos.sort(
-                                                    (a, b) =>
-                                                      a.marketPrice -
-                                                      b.marketPrice
-                                                  )[0].linePrice > 0 ? (
+                                                  {item.goodsSubtitle}
+                                                </div>
+                                              </div>
+                                              <div
+                                                className={`rc-card__price text-center RateFitScreen `}
+                                              >
+                                                <div className="display-inline">
+                                                  <Rate
+                                                    def={item.avgEvaluate}
+                                                    disabled={true}
+                                                    marginSize="smallRate"
+                                                  />
+                                                </div>
+                                                <span className="comments rc-margin-left--xs rc-text-colour--text">
+                                                  ({item.goodsEvaluateNum})
+                                            </span>
+                                              </div>
+                                              <div
+                                                className="text-center NameFitScreen"
+                                                style={{
+                                                  color: '#4a4a4a',
+                                                  opacity:
+                                                    item.goodsInfos.length > 1
+                                                      ? 1
+                                                      : 0
+                                                }}
+                                              >
+                                                <FormattedMessage id="startFrom" />
+                                              </div>
+                                              <div className="d-flex justify-content-center">
+                                                <div className="rc-card__price text-left PriceFitScreen">
+                                                  <div
+                                                    className={`rc-full-width PriceFitScreen`}
+                                                  >
                                                     <span
-                                                      className="text-line-through rc-text-colour--text font-weight-lighter"
                                                       style={{
-                                                        fontSize: '.8em'
+                                                        color: '#323232',
+                                                        fontWeight: 400
                                                       }}
                                                     >
                                                       {formatMoney(
+                                                        Math.min.apply(
+                                                          null,
+                                                          item.goodsInfos.map(
+                                                            (g) =>
+                                                              g.marketPrice || 0
+                                                          )
+                                                        )
+                                                      )}{' '}
+                                                      {item.goodsInfos.sort(
+                                                        (a, b) =>
+                                                          a.marketPrice -
+                                                          b.marketPrice
+                                                      )[0].linePrice &&
                                                         item.goodsInfos.sort(
                                                           (a, b) =>
                                                             a.marketPrice -
                                                             b.marketPrice
-                                                        )[0].linePrice
-                                                      )}
+                                                        )[0].linePrice > 0 ? (
+                                                          <span
+                                                            className="text-line-through rc-text-colour--text font-weight-lighter"
+                                                            style={{
+                                                              fontSize: '.8em'
+                                                            }}
+                                                          >
+                                                            {formatMoney(
+                                                              item.goodsInfos.sort(
+                                                                (a, b) =>
+                                                                  a.marketPrice -
+                                                                  b.marketPrice
+                                                              )[0].linePrice
+                                                            )}
+                                                          </span>
+                                                        ) : null}
                                                     </span>
-                                                  ) : null}
-                                                </span>
-                                              </div>
-                                              {find(
-                                                item.goodsInfos,
-                                                (ele) => ele.subscriptionStatus
-                                              ) &&
-                                              Math.min.apply(
-                                                null,
-                                                item.goodsInfos
-                                                  .filter(
-                                                    (g) => g.subscriptionStatus
-                                                  )
-                                                  .map(
-                                                    (g) =>
-                                                      g.subscriptionPrice || 0
-                                                  )
-                                              ) > 0 ? (
-                                                <div className="range position-relative SePriceScreen">
-                                                  <span
-                                                    style={{
-                                                      color: '#323232',
-                                                      fontWeight: 400
-                                                    }}
-                                                  >
-                                                    {formatMoney(
-                                                      Math.min.apply(
-                                                        null,
-                                                        item.goodsInfos
-                                                          .filter(
-                                                            (g) =>
-                                                              g.subscriptionStatus
-                                                          )
-                                                          .map(
-                                                            (g) =>
-                                                              g.subscriptionPrice ||
-                                                              0
-                                                          )
-                                                      )
-                                                    )}{' '}
+                                                  </div>
+                                                  {find(
+                                                    item.goodsInfos,
+                                                    (ele) => ele.subscriptionStatus
+                                                  ) &&
+                                                    Math.min.apply(
+                                                      null,
+                                                      item.goodsInfos
+                                                        .filter(
+                                                          (g) => g.subscriptionStatus
+                                                        )
+                                                        .map(
+                                                          (g) =>
+                                                            g.subscriptionPrice || 0
+                                                        )
+                                                    ) > 0 ? (
+                                                      <div className="range position-relative SePriceScreen">
+                                                        <span
+                                                          style={{
+                                                            color: '#323232',
+                                                            fontWeight: 400
+                                                          }}
+                                                        >
+                                                          {formatMoney(
+                                                            Math.min.apply(
+                                                              null,
+                                                              item.goodsInfos
+                                                                .filter(
+                                                                  (g) =>
+                                                                    g.subscriptionStatus
+                                                                )
+                                                                .map(
+                                                                  (g) =>
+                                                                    g.subscriptionPrice ||
+                                                                    0
+                                                                )
+                                                            )
+                                                          )}{' '}
+                                                        </span>
+                                                        <span
+                                                          className="iconfont font-weight-bold red mr-1"
+                                                          style={{
+                                                            fontSize: '.65em'
+                                                          }}
+                                                        >
+                                                          &#xe675;
                                                   </span>
-                                                  <span
-                                                    className="iconfont font-weight-bold red mr-1"
-                                                    style={{
-                                                      fontSize: '.65em'
-                                                    }}
-                                                  >
-                                                    &#xe675;
-                                                  </span>
-                                                  <span
-                                                    className="position-relative red-text position-absolute"
-                                                    style={{
-                                                      fontSize: '.7em',
-                                                      top: '52%',
-                                                      transform:
-                                                        'translateY(-50%)',
-                                                      whiteSpace: 'nowrap'
-                                                    }}
-                                                  >
-                                                    <FormattedMessage id="autoshop" />
-                                                  </span>
+                                                        <span
+                                                          className="position-relative red-text position-absolute"
+                                                          style={{
+                                                            fontSize: '.7em',
+                                                            top: '52%',
+                                                            transform:
+                                                              'translateY(-50%)',
+                                                            whiteSpace: 'nowrap'
+                                                          }}
+                                                        >
+                                                          <FormattedMessage id="autoshop" />
+                                                        </span>
+                                                      </div>
+                                                    ) : null}
                                                 </div>
-                                              ) : null}
+                                              </div>
                                             </div>
-                                          </div>
-                                        </div>
-                                        <div className="notate">
-                                        <FormattedMessage                                  
-                                          id="notate"
-                                          values={{ val: <a className="link" href="https://www.royalcanin.com/de/about-us/faqs#SHIPPINGFAQs
-                                          ">Versandkosten</a> }} />
-                                        </div>            
-                                      </>
-                                    )}
-                                  </article>
-                                </a>
-                              </div>
-                            </article>
+                                          </>
+                                        )}
+                                    </article>
+                                  </a>
+                                </div>
+                              </article>
+                            </div>
+                          ))}
+                          <div className="grid-footer rc-full-width">
+                            <Pagination
+                              loading={this.state.loading}
+                              currentPage={this.state.currentPage}
+                              totalPage={this.state.totalPage}
+                              onPageNumChange={(params) =>
+                                this.hanldePageNumChange(params)
+                              }
+                            />
                           </div>
-                        ))}
-                        <div className="grid-footer rc-full-width">
-                          <Pagination
-                            loading={this.state.loading}
-                            currentPage={this.state.currentPage}
-                            totalPage={this.state.totalPage}
-                            onPageNumChange={(params) =>
-                              this.hanldePageNumChange(params)
-                            }
-                          />
                         </div>
-                      </div>
-                    )}
+                      )}
                   </div>
                 </div>
               </div>
             </section>
           </div>
         </main>
+        <div className="notate mb-2 pl-2">
+          <FormattedMessage
+            id="notate"
+            values={{
+              val: <a className="link" href="https://www.royalcanin.com/de/about-us/faqs#SHIPPINGFAQs
+                                          ">Versandkosten</a>
+            }} />
+        </div>
 
         <Footer />
       </div>

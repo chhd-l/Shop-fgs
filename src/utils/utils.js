@@ -8,9 +8,9 @@ import store from 'storejs';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const mapEnum = {
-  1: { mark: '$', break: ' ' },
-  2: { mark: 'Mex$', break: ' ' },
-  3: { mark: '€', break: ',' }
+  1: { mark: '$', break: ' ', atEnd: false },
+  2: { mark: 'Mex$', break: ' ', atEnd: false },
+  3: { mark: '€', break: ',', atEnd: true }
 };
 
 /**
@@ -28,7 +28,7 @@ export function formatMoney(
   val = parseFloat(Number(val).toFixed(2)) + '';
   const tmp = mapEnum[currency];
   let ret = val.replace(/\B(?=(\d{3})+(?!\d))/g, tmp.break);
-  return `${tmp.mark} ${ret}`;
+  return tmp.atEnd ? `${ret} ${tmp.mark}` : `${tmp.mark} ${ret}`;
 }
 
 export async function queryStoreCateIds() {
