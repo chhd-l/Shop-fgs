@@ -44,7 +44,7 @@ class EditForm extends React.Component {
         this.setState(
           {
             deliveryAddress: Object.assign(deliveryInfo.deliveryAddress, {
-              country: process.env.REACT_APP_DEFAULT_COUNTRY_ID
+              country: process.env.REACT_APP_DEFAULT_COUNTRYID
             })
           },
           () => {
@@ -54,7 +54,7 @@ class EditForm extends React.Component {
           }
         );
       } else {
-        deliveryAddress.country = process.env.REACT_APP_DEFAULT_COUNTRY_ID;
+        deliveryAddress.country = process.env.REACT_APP_DEFAULT_COUNTRYID;
         this.setState({
           deliveryAddress: deliveryAddress
         });
@@ -65,13 +65,6 @@ class EditForm extends React.Component {
         countryList: res
       });
     });
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data !== this.state.deliveryAddress) {
-      this.setState({
-        deliveryAddress: Object.assign({}, nextProps.data)
-      });
-    }
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
