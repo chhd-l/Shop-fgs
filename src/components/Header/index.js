@@ -483,7 +483,7 @@ class Header extends React.Component {
     return (
       <>
         <div id="page-top" name="page-top"></div>
-        {/* {this.props.loginStore.loginModal ? <Loading /> : null} */}
+        {this.props.loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         <header className={`rc-header`} data-js-header-scroll>
           <nav className="rc-header__nav rc-header__nav--primary">

@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Redirect,
   Switch
 } from 'react-router-dom';
-import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
+import { Security, SecureRoute, useOktaAuth } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 import config from './config';
 
@@ -81,6 +81,20 @@ import Recommendation from '@/views/Recommendation';
 const localItemRoyal = window.__.localItemRoyal;
 const token = localItemRoyal.get('rc-token');
 console.log('REACT_APP_HOMEPAGE',process.env.REACT_APP_HOMEPAGE)
+const LoginCallback = (props) => {
+  const { authService, authState } = useOktaAuth();
+  const authStateReady = !authState.isPending;
+
+  useEffect( async () => {
+    if( authStateReady ) {
+    }else {
+      await authService.handleAuthentication();
+    }
+    window.location.href = process.env.REACT_APP_ACCESS_PATH
+  }, [authService, authStateReady]);
+  return (<div></div>)
+}
+
 const App = () => (
   <Provider {...stores}>
     <IntlProvider
@@ -99,8 +113,8 @@ const App = () => (
               {/* <Route path="/mx" exact component={Home} />
               <Route path="/mx/implicit/callback" component={LoginCallback} /> */}
               <Route path={'/'} exact component={Home} />
-              {/* <Route path={process.env.REACT_APP_HOMEPAGE + "/implicit/callback"} component={LoginCallback} /> */}
-              <Route path={"/implicit/callback"} component={LoginCallback} />
+              {/* <Route path={process.env.REACT_APP_HOMEPAGE + "/implicit/callback"} component={LoginCallback} /> */
+              <Route path={"/implicit/callback"} render={(props) => <LoginCallback {...props}/>} />
               {/* <Route exact path="/login" component={Login} /> */}
               <Route
                 exact
