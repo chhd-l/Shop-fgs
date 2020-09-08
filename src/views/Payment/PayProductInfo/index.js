@@ -39,20 +39,21 @@ class PayProductInfo extends React.Component {
     //     }
     // console.log(nextProps, 'props2')
     let productList
-    if(JSON.stringify(nextProps.data) !== JSON.stringify(this.state.productList)) {
+    if(JSON.stringify(nextProps.data) !== JSON.stringify(this.state.productList) && this.props.data.length) {
       console.log(nextProps, 'nextProp')
       productList = nextProps.data
+      this.setState(
+        Object.assign({
+          productList: productList || []
+        })
+      );
     }
-    this.setState(
-      Object.assign({
-        productList: productList || []
-      })
-    );
+    
   }
   async componentDidMount() {
     let productList;
     console.log(this.props, 'props')
-    if(this.props.data) {
+    if(this.props.data.length) {
       productList = this.props.data
     }else if (this.isLogin) {
       productList = this.props.checkoutStore.loginCartData;
@@ -61,7 +62,7 @@ class PayProductInfo extends React.Component {
         (ele) => ele.selected
       );
     }
-
+    console.log(productList, 'productList111')
     this.setState(
       Object.assign({
         productList: productList || []
@@ -257,6 +258,7 @@ class PayProductInfo extends React.Component {
     const List = this.isLogin || this.props.data.length
       ? this.getProductsForLogin(productList)
       : this.getProducts(productList);
+      console.log(productList, 'productList111')
     return (
       <div
         className={`product-summary__inner ${className}`}
