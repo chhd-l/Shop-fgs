@@ -66,13 +66,6 @@ class EditForm extends React.Component {
       });
     });
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data !== this.state.deliveryAddress) {
-      this.setState({
-        deliveryAddress: Object.assign({}, nextProps.data)
-      });
-    }
-  }
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
