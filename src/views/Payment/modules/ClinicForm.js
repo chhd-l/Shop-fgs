@@ -113,8 +113,12 @@ class ClinicForm extends React.Component {
     const searchJSX = (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
         <div className="card-header bg-transparent pt-0 pb-0">
-          <h5 className="pull-left">
-            <i className="rc-icon rc-health--xs rc-iconography"></i>{' '}
+          <h5 className={`pull-left ${isEdit ? 'red' : ''}`}>
+            <i
+              className={`rc-icon rc-health--xs ${
+                isEdit ? 'rc-brand1' : 'rc-iconography'
+              }`}
+            ></i>{' '}
             {this.isLogin ? (
               <FormattedMessage id="payment.clinicTitle2" />
             ) : (
