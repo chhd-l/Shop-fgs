@@ -294,7 +294,7 @@ const en_US = {
   "account.requiredFields": "Benötigte Felder",
   "account.Email": "E-Mail Adresse",
   "account.birthDate": "Geburtsdatum",
-  "order.historyOfOrders": "Geschichte der Bestellungen",
+  "order.historyOfOrders": "Bestellhistorie",
   "order.lastXDays": "Letzte {val} Tage",
   "order.lastXMonths": "Letzte {val} Monate",
   "order.orderDate": "Auftragsdatum",
@@ -574,6 +574,8 @@ const en_US = {
   'price': 'Preis',
   'listPrice': 'UVP',
   'anonymous': 'Anonym',
+  'account.orders.tips':'Bis jetzt haben Sie noch keine Bestellungen aufgegeben.Suchen Sie jetzt die passende Nahrung für Ihr Tier!',
+  'account.orders.btns':'Jetzt einkaufen!',
 
   'product.de.catogery1.name': 'Urinary',
   'product.de.catogery1.title': 'Urinary',

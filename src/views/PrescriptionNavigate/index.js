@@ -86,8 +86,10 @@ class Prescription extends React.Component {
         input: '',
         pageNum: 0,
         pageSize: 3,
-        latitude: 19.09,
-        longitude: -99.24,
+        latitude: 19.09,//墨西哥纬度
+        longitude: -99.24,//墨西哥经度
+        // latitude: 52.30,
+        // longitude: 13.25,
         storeId: process.env.REACT_APP_STOREID
       },
       currentSelectClinic: {

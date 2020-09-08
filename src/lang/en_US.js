@@ -615,6 +615,8 @@ const en_US = {
   'comment.noProductRatingTip': 'Please comment on the products',
   'comment.noShoppingExperienceTip': 'Please comment on the shopping experience',
   'comment.commentsTooLong': 'Product comments can\'t more than 500 characters',
+  'account.orders.tips':"You haven't placed any orders yet! Start shopping now for precise nutrition for your pet.",
+  'account.orders.btns':'Start Shopping',
 }
 
 export default en_US;
