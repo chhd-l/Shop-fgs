@@ -8,6 +8,7 @@ import { getDictionary } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from './EditForm';
 import Loading from '@/components/Loading';
+import SameAsCheckbox from './SameAsCheckbox';
 import './list.css';
 
 /**
@@ -600,6 +601,11 @@ class AddressList extends React.Component {
             </>
           )}
         </div>
+        <SameAsCheckbox
+          updateSameAsCheckBoxVal={(val) =>
+            this.props.updateSameAsCheckBoxVal(val)
+          }
+        />
       </div>
     );
   }

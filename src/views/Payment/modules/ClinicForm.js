@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
-@inject('clinicStore', 'configStore')
+@inject('clinicStore', 'configStore', 'paymentStore')
 @observer
 @injectIntl
 class ClinicForm extends React.Component {
@@ -46,6 +46,12 @@ class ClinicForm extends React.Component {
       }),
       isEdit: !n
     });
+    if (this.prescriberMap || n) {
+      this.props.paymentStore.updateCurrentProgressIndex(1);
+    }
+  }
+  get prescriberMap() {
+    return this.props.configStore.prescriberMap;
   }
   gotoPrescriptionPage = (e) => {
     e.preventDefault();
@@ -79,8 +85,12 @@ class ClinicForm extends React.Component {
     this.setState({ isEdit: true });
   };
   handleClickConfirm = () => {
+    if (!this.state.form.clinicName) {
+      return false;
+    }
     this.props.clinicStore.setSelectClinicId(this.state.form.clinicId);
     this.props.clinicStore.setSelectClinicName(this.state.form.clinicName);
+    this.props.paymentStore.updateCurrentProgressIndex(1);
     this.setState({ isEdit: false });
   };
   render() {
@@ -223,7 +233,7 @@ class ClinicForm extends React.Component {
       </div>
     );
 
-    return <>{this.props.configStore.prescriberMap ? defaultJSX : searchJSX}</>;
+    return <>{this.prescriberMap ? defaultJSX : searchJSX}</>;
   }
 }
 

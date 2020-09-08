@@ -16,12 +16,12 @@ const localItemRoyal = window.__.localItemRoyal;
 @observer
 class EditForm extends React.Component {
   static defaultProps = {
-    type: ''
+    type: 'billing'
   };
   constructor(props) {
     super(props);
     this.state = {
-      deliveryAddress: {
+      address: {
         firstName: '',
         lastName: '',
         address1: '',
@@ -37,26 +37,29 @@ class EditForm extends React.Component {
     };
   }
   componentDidMount() {
-    const { deliveryAddress } = this.state;
-    if (!this.isLogin && this.props.type === 'delivery') {
+    const { address } = this.state;
+    if (!this.isLogin) {
       let deliveryInfo = localItemRoyal.get('deliveryInfo');
+      const tmpKey =
+        this.props.type === 'delivery' ? 'deliveryAddress' : 'billingAddress';
       if (deliveryInfo) {
         this.setState(
           {
-            deliveryAddress: Object.assign(deliveryInfo.deliveryAddress, {
+            address: Object.assign(deliveryInfo[tmpKey], {
               country: process.env.REACT_APP_DEFAULT_COUNTRYID
             })
           },
           () => {
+            this.props.updateData(this.state.address);
             this.props.paymentStore.updateSelectedDeliveryAddress(
-              this.state.deliveryAddress
+              this.state.address
             );
           }
         );
       } else {
-        deliveryAddress.country = process.env.REACT_APP_DEFAULT_COUNTRYID;
+        address.country = process.env.REACT_APP_DEFAULT_COUNTRYID;
         this.setState({
-          deliveryAddress: deliveryAddress
+          address: address
         });
       }
     }
@@ -86,14 +89,14 @@ class EditForm extends React.Component {
     if (name === 'postCode') {
       value = value.replace(/\s+/g, '');
     }
-    const { deliveryAddress } = this.state;
-    deliveryAddress[name] = value;
+    const { address } = this.state;
+    address[name] = value;
     this.inputBlur(e);
-    this.setState({ deliveryAddress: deliveryAddress }, () => {
+    this.setState({ address: address }, () => {
       this.props.paymentStore.updateSelectedDeliveryAddress(
-        this.state.deliveryAddress
+        this.state.address
       );
-      this.props.updateData(this.state.deliveryAddress);
+      this.props.updateData(this.state.address);
     });
   }
   inputBlur(e) {
@@ -110,28 +113,28 @@ class EditForm extends React.Component {
     }
   }
   handleSelectedItemChange(key, data) {
-    const { deliveryAddress } = this.state;
-    deliveryAddress[key] = data.value;
-    this.setState({ deliveryAddress: deliveryAddress }, () => {
+    const { address } = this.state;
+    address[key] = data.value;
+    this.setState({ address: address }, () => {
       this.props.paymentStore.updateSelectedDeliveryAddress(
-        this.state.deliveryAddress
+        this.state.address
       );
-      this.props.updateData(this.state.deliveryAddress);
+      this.props.updateData(this.state.address);
     });
   }
   handleCityInputChange = (data) => {
-    const { deliveryAddress } = this.state;
-    deliveryAddress.city = data.id;
-    deliveryAddress.cityName = data.cityName;
-    this.setState({ deliveryAddress: deliveryAddress }, () => {
+    const { address } = this.state;
+    address.city = data.id;
+    address.cityName = data.cityName;
+    this.setState({ address: address }, () => {
       this.props.paymentStore.updateSelectedDeliveryAddress(
-        this.state.deliveryAddress
+        this.state.address
       );
-      this.props.updateData(this.state.deliveryAddress);
+      this.props.updateData(this.state.address);
     });
   };
   _emailPanelJSX = () => {
-    const { deliveryAddress } = this.state;
+    const { address } = this.state;
     return (
       <div className="col-12 col-md-6">
         <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
@@ -146,7 +149,7 @@ class EditForm extends React.Component {
               type="email"
               className="rc-input__control input__phoneField shippingPhoneNumber"
               id="shippingEmail"
-              value={deliveryAddress.email}
+              value={address.email}
               onChange={(e) => this.deliveryInputChange(e)}
               onBlur={(e) => this.inputBlur(e)}
               name="email"
@@ -167,7 +170,7 @@ class EditForm extends React.Component {
     );
   };
   _postCodeJSX = () => {
-    const { deliveryAddress } = this.state;
+    const { address } = this.state;
     return (
       <div className="col-12 col-md-6">
         <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_postalCode">
@@ -185,7 +188,7 @@ class EditForm extends React.Component {
               id="shippingZipCode"
               type="tel"
               required
-              value={deliveryAddress.postCode}
+              value={address.postCode}
               onChange={(e) => this.deliveryInputChange(e)}
               onBlur={(e) => this.inputBlur(e)}
               name="postCode"
@@ -215,7 +218,7 @@ class EditForm extends React.Component {
     );
   };
   _phonePanelJSX = () => {
-    const { deliveryAddress } = this.state;
+    const { address } = this.state;
     return (
       <div className="col-12 col-md-6">
         <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
@@ -232,7 +235,7 @@ class EditForm extends React.Component {
               type="number"
               className="rc-input__control input__phoneField shippingPhoneNumber"
               id="shippingPhoneNumber"
-              value={deliveryAddress.phoneNumber}
+              value={address.phoneNumber}
               onChange={(e) => this.deliveryInputChange(e)}
               onBlur={(e) => this.inputBlur(e)}
               // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
@@ -250,7 +253,7 @@ class EditForm extends React.Component {
         onContextMenu={() => {return false}}
         type="tel"
         // type="text"
-        value={deliveryAddress.phoneNumber}
+        value={address.phoneNumber}
         onCopy={() => {
           return false
         }}
@@ -288,7 +291,7 @@ class EditForm extends React.Component {
     );
   };
   render() {
-    const { deliveryAddress } = this.state;
+    const { address } = this.state;
     return (
       <>
         <div className="row">
@@ -305,7 +308,7 @@ class EditForm extends React.Component {
                   className="rc-input__control shippingFirstName"
                   id="shippingFirstName"
                   type="text"
-                  value={deliveryAddress.firstName}
+                  value={address.firstName}
                   onChange={(e) => this.deliveryInputChange(e)}
                   onBlur={(e) => this.inputBlur(e)}
                   name="firstName"
@@ -336,7 +339,7 @@ class EditForm extends React.Component {
                   className="rc-input__control shippingLastName"
                   id="shippingLastName"
                   type="text"
-                  value={deliveryAddress.lastName}
+                  value={address.lastName}
                   onChange={(e) => this.deliveryInputChange(e)}
                   onBlur={(e) => this.inputBlur(e)}
                   name="lastName"
@@ -366,7 +369,7 @@ class EditForm extends React.Component {
                   }
                   optionList={this.computedList('country')}
                   selectedItemData={{
-                    value: this.state.deliveryAddress.country
+                    value: this.state.address.country
                   }}
                 />
               </span>
@@ -382,7 +385,7 @@ class EditForm extends React.Component {
               </label>
               <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
                 <CitySearchSelection
-                  defaultValue={this.state.deliveryAddress.cityName}
+                  defaultValue={this.state.address.cityName}
                   onChange={this.handleCityInputChange}
                 />
               </span>
@@ -402,7 +405,7 @@ class EditForm extends React.Component {
                   className="rc-input__control shippingLastName"
                   id="shippingLastName"
                   type="text"
-                  value={deliveryAddress.address1}
+                  value={address.address1}
                   onChange={(e) => this.deliveryInputChange(e)}
                   onBlur={(e) => this.inputBlur(e)}
                   name="address1"
@@ -433,7 +436,7 @@ class EditForm extends React.Component {
                   className="rc-input__control shippingLastName"
                   id="shippingLastName"
                   type="text"
-                  value={deliveryAddress.address2}
+                  value={address.address2}
                   onChange={(e) => this.deliveryInputChange(e)}
                   onBlur={(e) => this.inputBlur(e)}
                   name="address2"
@@ -458,13 +461,13 @@ class EditForm extends React.Component {
                 <input
                   className="rc-input__control shippingLastName"
                   type="text"
-                  value={deliveryAddress.rfc}
+                  value={address.rfc}
                   onChange={(e) => this.deliveryInputChange(e)}
                   onBlur={(e) => this.inputBlur(e)}
                   name="rfc"
                   maxLength="50"
                 />
-                <label className="rc-input__label"></label>
+                <label className="rc-input__label" />
               </span>
             </div>
           </div>

@@ -5,6 +5,13 @@ class PaymentStore {
   @observable billingAddress = null;
 
   @observable selectedDeliveryAddress = null;
+  @observable bookingProgress = [
+    'clinic',
+    'delivery address',
+    'billing address',
+    'payment method'
+  ];
+  @observable currentProgressIndex = 0;
 
   @action.bound
   setDeliveryAddress(data) {
@@ -31,6 +38,11 @@ class PaymentStore {
       tmpData = Object.assign(data, { phoneNumber: data.consigneeNumber });
     }
     this.selectedDeliveryAddress = tmpData;
+  }
+
+  @action.bound
+  updateCurrentProgressIndex(i) {
+    this.currentProgressIndex = i;
   }
 }
 export default PaymentStore;

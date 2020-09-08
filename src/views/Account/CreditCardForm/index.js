@@ -45,7 +45,6 @@ class ShippingAddressFrom extends React.Component {
         customerId: ''
       },
       cityList: [],
-      countryList: [],
       creditCardInfo: {
         cardNumber: '',
         cardMmyy: '',

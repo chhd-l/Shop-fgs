@@ -16,9 +16,8 @@ import VisitorBillingAddress from './Address/VisitorBillingAddress';
 import SubscriptionSelect from './SubscriptionSelect';
 import ClinicForm from './modules/ClinicForm';
 import AddressPreview from './AddressPreview';
-import { getDictionary, formatMoney } from '@/utils/utils';
+import { formatMoney } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { ADYEN_CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
 import {
   postVisitorRegisterAndLogin,
@@ -108,10 +107,8 @@ class Payment extends React.Component {
       errorMsg: '',
       currentProduct: null,
       loading: false,
-      modalShow: false,
       payosdata: {},
       selectedCardInfo: {},
-      showOxxoForm: false,
       adyenPayParam: {},
       payWayNameArr: [],
       toolTipVisible: false,
@@ -125,7 +122,6 @@ class Payment extends React.Component {
     this.timer = null;
     this.loginDeliveryAddressRef = React.createRef();
     this.loginBillingAddressRef = React.createRef();
-    this.lang = process.env.REACT_APP_LANG;
   }
   async componentDidMount() {
     if (localItemRoyal.get('isRefresh')) {
@@ -291,36 +287,6 @@ class Payment extends React.Component {
       // this.props.history.push('/cart');
       return false;
     }
-    const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
-    const defaultCountryId = process.env.REACT_APP_DEFAULT_COUNTRYID || '';
-
-    if (!this.isLogin) {
-      let deliveryInfo = localItemRoyal.get('deliveryInfo');
-      if (deliveryInfo) {
-        creditCardInfo.cardOwner =
-          deliveryInfo.deliveryAddress.firstName +
-          ' ' +
-          deliveryInfo.deliveryAddress.lastName;
-        creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
-        this.setState({
-          deliveryAddress: Object.assign(deliveryInfo.deliveryAddress, {
-            country: defaultCountryId
-          }),
-          billingAddress: Object.assign(deliveryInfo.billingAddress, {
-            country: defaultCountryId
-          }),
-          billingChecked: deliveryInfo.billingChecked,
-          creditCardInfo: creditCardInfo
-        });
-      } else {
-        deliveryAddress.country = defaultCountryId;
-        billingAddress.country = defaultCountryId;
-        this.setState({
-          deliveryAddress: deliveryAddress,
-          billingAddress: billingAddress
-        });
-      }
-    }
 
     // fill default subform data
     let cacheSubForm = sessionItemRoyal.get('rc-subform');
@@ -348,6 +314,9 @@ class Payment extends React.Component {
   }
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
+  }
+  get currentProgressIndex() {
+    return this.props.paymentStore.currentProgressIndex;
   }
   queryOrderDetails() {
     getOrderDetails(this.state.tid).then(async (res) => {
@@ -1002,11 +971,11 @@ class Payment extends React.Component {
           rfc: tmpDeliveryAddressData.rfc,
           country: tmpDeliveryAddressData.countryId
             ? tmpDeliveryAddressData.countryId.toString()
-            : "",
-            city: tmpDeliveryAddressData.cityId
+            : '',
+          city: tmpDeliveryAddressData.cityId
             ? tmpDeliveryAddressData.cityId.toString()
-            : "",
-            cityName: tmpDeliveryAddressData.cityName,
+            : '',
+          cityName: tmpDeliveryAddressData.cityName,
           postCode: tmpDeliveryAddressData.postCode,
           phoneNumber: tmpDeliveryAddressData.consigneeNumber,
           addressId: tmpDeliveryAddressData.deliveryAddressId
@@ -1030,11 +999,11 @@ class Payment extends React.Component {
             rfc: tmpBillingAddressData.rfc,
             country: tmpBillingAddressData.countryId
               ? tmpBillingAddressData.countryId.toString()
-              : "",
-              city: tmpBillingAddressData.cityId
+              : '',
+            city: tmpBillingAddressData.cityId
               ? tmpBillingAddressData.cityId.toString()
-              : "",
-              cityName: tmpBillingAddressData.cityName,
+              : '',
+            cityName: tmpBillingAddressData.cityName,
             postCode: tmpBillingAddressData.postCode,
             phoneNumber: tmpBillingAddressData.consigneeNumber,
             addressId: tmpBillingAddressData.deliveryAddressId
@@ -1062,7 +1031,10 @@ class Payment extends React.Component {
 
       await this.validInputsData(param.deliveryAddress);
       await this.validInputsData(param.billingAddress);
-      localItemRoyal.set(this.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo', param);
+      localItemRoyal.set(
+        this.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo',
+        param
+      );
       this.setState({
         deliveryAddress: param.deliveryAddress,
         billingAddress: param.billingAddress,
@@ -1118,15 +1090,7 @@ class Payment extends React.Component {
       throw new Error(err.message);
     }
   }
-  billingCheckedChange() {
-    let { billingChecked } = this.state;
-    this.setState({ billingChecked: !billingChecked });
-    if (!billingChecked) {
-      this.setState({
-        billingAddress: this.state.deliveryAddress
-      });
-    }
-  }
+
   savePromotionCode(promotionCode) {
     this.setState({
       promotionCode
@@ -1135,6 +1099,15 @@ class Payment extends React.Component {
   handlePaymentTypeChange(e) {
     this.setState({ paymentTypeVal: e.target.value });
   }
+
+  updateSameAsCheckBoxVal = (val) => {
+    this.setState({ billingChecked: val });
+    if (val) {
+      this.setState({
+        billingAddress: this.state.deliveryAddress
+      });
+    }
+  };
 
   /**
    * 渲染address panel
@@ -1152,6 +1125,7 @@ class Payment extends React.Component {
                 this.props.paymentStore.updateSelectedDeliveryAddress(data);
                 this.setState({ deliveryAddress: data }); // to delete...
               }}
+              updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
             />
           ) : (
             <VisitorDeliveryAddress
@@ -1162,70 +1136,10 @@ class Payment extends React.Component {
                   deliveryAddress: data
                 });
               }}
+              updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
             />
           )}
 
-          <div className="billingCheckbox rc-margin-top--xs fit-mobile-billingCheckbox">
-            <div>
-              <input
-                className="form-check-input"
-                id="id-checkbox-billing"
-                value="Cat"
-                type="checkbox"
-                onChange={() => this.billingCheckedChange()}
-                checked={this.state.billingChecked}
-                style={{ width: '17px', height: '17px' }}
-              />
-              <label
-                className="rc-input__label--inline"
-                htmlFor="id-checkbox-billing"
-              >
-                <FormattedMessage id="biliingAddressSameAs" />
-              </label>
-            </div>
-            <div className="normalDelivery  fit-mobile-normalDelivery">
-              <span>
-                <FormattedMessage id="payment.normalDelivery2" />
-              </span>
-              <span className="text-muted arrival-time ">
-                <FormattedMessage id="payment.normalDelivery3" />
-              </span>
-
-              <span className="shipping-method-pricing ml3">
-                <span
-                  className="info delivery-method-tooltip fit-mobile-icon-left"
-                  style={{ verticalAlign: 'unset' }}
-                  onMouseEnter={() => {
-                    this.setState({
-                      toolTipVisible: true
-                    });
-                  }}
-                  onMouseLeave={() => {
-                    this.setState({
-                      toolTipVisible: false
-                    });
-                  }}
-                >
-                  i
-                </span>
-                <ConfirmTooltip
-                  containerStyle={{
-                    transform: 'translate(-65%, 112%)'
-                  }}
-                  arrowStyle={{ left: '92%' }}
-                  display={this.state.toolTipVisible}
-                  cancelBtnVisible={false}
-                  confirmBtnVisible={false}
-                  updateChildDisplay={(status) =>
-                    this.setState({
-                      toolTipVisible: status
-                    })
-                  }
-                  content={<FormattedMessage id="payment.forFreeTip" />}
-                />
-              </span>
-            </div>
-          </div>
         </div>
         {!this.state.billingChecked && (
           <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
@@ -1350,9 +1264,9 @@ class Payment extends React.Component {
    */
   _renderPayTab = () => {
     return (
-      <>
+      <div className={`${this.currentProgressIndex > 2 ? '' : 'hidden'}`}>
         {/* *******************支付tab栏start************************************ */}
-        <div className="ml-custom mr-custom">
+        <div className={`ml-custom mr-custom `}>
           {Object.entries(this.state.payWayObj).map((item) => {
             return (
               <div class="rc-input rc-input--inline">
@@ -1476,7 +1390,7 @@ class Payment extends React.Component {
           <Sofort clickPay={this.initSofort} showErrorMsg={this.showErrorMsg} />
         </div>
         {/* ***********************支付选项卡的内容end******************************* */}
-      </>
+      </div>
     );
   };
 
