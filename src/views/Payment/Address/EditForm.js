@@ -72,10 +72,10 @@ class EditForm extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.initData &&
-      nextProps.initData !== this.state.deliveryAddress
+      nextProps.initData !== this.state.address
     ) {
       this.setState({
-        deliveryAddress: Object.assign({}, nextProps.initData)
+        address: Object.assign({}, nextProps.initData)
       });
     }
   }
