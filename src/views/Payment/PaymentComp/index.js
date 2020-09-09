@@ -259,10 +259,10 @@ class PaymentComp extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.REACT_APP_PaymentKEY,
+            public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
             'x-payments-os-env': process.env.REACT_APP_PaymentENV,
             'Content-type': 'application/json',
-            app_id: 'com.razorfish.dev_mexico',
+            app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
             'api-version': '1.3.0'
           }
         }
@@ -444,10 +444,10 @@ class PaymentComp extends React.Component {
           },
           {
             headers: {
-              public_key: process.env.REACT_APP_PaymentKEY,
+              public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
               'x-payments-os-env': process.env.REACT_APP_PaymentENV,
               'Content-type': 'application/json',
-              app_id: 'com.razorfish.dev_mexico',
+              app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
               'api-version': '1.3.0'
             }
           }

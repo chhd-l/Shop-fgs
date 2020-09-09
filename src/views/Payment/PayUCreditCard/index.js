@@ -79,7 +79,7 @@ class PayOs extends React.Component {
     const _this = this;
     if (this.isLogin) {
       loadJS('https://js.paymentsos.com/v2/0.0.1/token.min.js', function () {
-        window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY);
+        window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_MEMBER);
         window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
         _this.setState({
           inited: true
@@ -279,10 +279,10 @@ class PayOs extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.REACT_APP_PaymentKEY,
+            public_key: process.env.REACT_APP_PaymentKEY_VISITOR,
             'x-payments-os-env': process.env.REACT_APP_PaymentENV,
             'Content-type': 'application/json',
-            app_id: 'com.razorfish.dev_mexico',
+            app_id: process.env.REACT_APP_PaymentAPPID_VISITOR,
             'api-version': '1.3.0'
           }
         }
