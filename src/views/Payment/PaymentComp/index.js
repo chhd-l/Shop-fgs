@@ -16,6 +16,7 @@ import {
   CREDIT_CARD_IMGURL_ENUM,
   PAYMENT_METHOD_RULE
 } from '@/utils/constant';
+import { validData } from '@/utils/utils';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -55,7 +56,8 @@ class PaymentComp extends React.Component {
       currentEditOriginCardInfo: null,
       hasEditedEmail: false,
       hasEditedPhone: false,
-      hasEditedName: false
+      hasEditedName: false,
+      isValid: false
     };
   }
   async componentDidMount() {
@@ -98,33 +100,48 @@ class PaymentComp extends React.Component {
       this.setState({ creditCardList: this.state.creditCardList });
     }
   }
+  componentWillReceiveProps(nextProps) {
+    const { creditCardInfoForm } = this.state;
+    if (nextProps.selectedDeliveryAddress) {
+      const {
+        email: selectedEmail,
+        phoneNumber: selectedPhone,
+        firstName: selectedFirstName,
+        lastName: selectedLastName
+      } = nextProps.selectedDeliveryAddress;
+      let {
+        email: curEmail,
+        phoneNumber: curPhone,
+        cardOwner: curName
+      } = creditCardInfoForm;
+      const selectedName = [selectedFirstName, selectedLastName]
+        .filter((n) => !!n)
+        .join(' ');
+      if (!this.state.hasEditedEmail && selectedEmail !== curEmail) {
+        curEmail = selectedEmail;
+      }
+      if (!this.state.hasEditedPhone && selectedPhone !== curPhone) {
+        curPhone = selectedPhone;
+      }
+      if (!this.state.hasEditedName && selectedName !== curName) {
+        curName = selectedName;
+      }
+      this.setState(
+        {
+          creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
+            email: curEmail,
+            phoneNumber: curPhone,
+            cardOwner: curName
+          })
+        },
+        () => {
+          this.validFormData();
+        }
+      );
+    }
+  }
   get userInfo() {
     return this.props.loginStore.userInfo;
-  }
-  get selectedDeliveryAddress() {
-    return this.props.paymentStore.selectedDeliveryAddress;
-  }
-  get selectedEmail() {
-    return this.selectedDeliveryAddress
-      ? this.selectedDeliveryAddress.email
-      : '';
-  }
-  get selectedPhone() {
-    return this.selectedDeliveryAddress
-      ? this.selectedDeliveryAddress.phoneNumber
-      : '';
-  }
-  get selectedName() {
-    let tmp = '';
-    if (this.selectedDeliveryAddress) {
-      const { firstName, lastName } = this.selectedDeliveryAddress;
-      if (firstName) {
-        tmp = [firstName, lastName].join(' ');
-      } else {
-        tmp = lastName;
-      }
-    }
-    return tmp;
   }
   async getPaymentMethodList() {
     this.setState({ listLoading: true });
@@ -274,8 +291,7 @@ class PaymentComp extends React.Component {
       console.log(e);
     }
   }
-  cardInfoInputChange(e) {
-    debugger;
+  async cardInfoInputChange(e) {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -328,8 +344,18 @@ class PaymentComp extends React.Component {
     if (['cardNumber', 'cardMmyy', 'cardCvv'].indexOf(name) === -1) {
       this.inputBlur(e);
     }
-    // todo
-    this.setState({ creditCardInfoForm });
+    this.setState({ creditCardInfoForm }, () => {
+      this.validFormData();
+    });
+  }
+  async validFormData() {
+    try {
+      await validData(PAYMENT_METHOD_RULE, this.state.creditCardInfoForm);
+      this.setState({ isValid: true });
+    } catch (err) {
+      console.log(err);
+      this.setState({ isValid: false });
+    }
   }
   inputBlur(e) {
     let validDom = Array.from(
@@ -343,43 +369,6 @@ class PaymentComp extends React.Component {
     if (validDom) {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
-  }
-  handleClickSaveBtn(e) {
-    e.preventDefault();
-    const {
-      creditCardInfoForm,
-      hasEditedEmail,
-      hasEditedPhone,
-      hasEditedName
-    } = this.state;
-    let tmpEmail = creditCardInfoForm.email;
-    let tmpPhone = creditCardInfoForm.phoneNumber;
-    let tmpName = creditCardInfoForm.cardOwner;
-
-    if (!hasEditedEmail) {
-      tmpEmail = this.selectedEmail;
-    }
-
-    if (!hasEditedPhone) {
-      tmpPhone = this.selectedPhone;
-    }
-
-    if (!hasEditedName) {
-      tmpName = this.selectedName;
-    }
-
-    this.setState(
-      {
-        creditCardInfoForm: Object.assign(creditCardInfoForm, {
-          email: tmpEmail,
-          cardOwner: tmpName,
-          phoneNumber: tmpPhone
-        })
-      },
-      () => {
-        this.handleSave();
-      }
-    );
   }
   async validInputsData(data) {
     for (let key in data) {
@@ -395,9 +384,12 @@ class PaymentComp extends React.Component {
       }
     }
   }
-  async handleSave() {
+  async handleSave(e) {
+    e.preventDefault();
+    if (!this.state.isValid) {
+      return false;
+    }
     const { creditCardInfoForm, currentEditOriginCardInfo } = this.state;
-
     let queryPaymentsosToken = true;
     let fieldList = [
       'cardNumber',
@@ -421,26 +413,6 @@ class PaymentComp extends React.Component {
       } else {
         queryPaymentsosToken = false;
         fieldList.splice(2, 1);
-      }
-    }
-
-    // todo
-    for (let key in creditCardInfoForm) {
-      const val = creditCardInfoForm[key];
-      const targetRule = find(PAYMENT_METHOD_RULE, (ele) => ele.key === key);
-      if (targetRule) {
-        if (targetRule.require && !val) {
-          this.showErrorMsg(
-            targetRule.errMsg || this.props.intl.messages.CompleteRequiredItems
-          );
-          return;
-        }
-        if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          this.showErrorMsg(
-            targetRule.errMsg || this.props.intl.messages.EnterCorrectEmail
-          );
-          return;
-        }
       }
     }
 
@@ -482,13 +454,7 @@ class PaymentComp extends React.Component {
       }
 
       let params = {
-        // cardCvv: creditCardInfoForm.cardCvv,
-        // cardMmyy: creditCardInfoForm.cardMmyy,
-        // cardNumber: creditCardInfoForm.cardNumber,
-        // cardOwner: creditCardInfoForm.cardOwner,
-        // cardType: res.data.card_type,
         customerId: this.userInfo ? this.userInfo.customerId : '',
-        // vendor: res.data.vendor,
         id: creditCardInfoForm.id ? creditCardInfoForm.id : '',
         email: creditCardInfoForm.email,
         phoneNumber: creditCardInfoForm.phoneNumber,
@@ -1129,11 +1095,7 @@ class PaymentComp extends React.Component {
                         type="text"
                         className="rc-input__control form-control cardOwner"
                         name="cardOwner"
-                        value={
-                          !this.state.hasEditedName && this.selectedName
-                            ? this.selectedName
-                            : creditCardInfoForm.cardOwner
-                        }
+                        value={creditCardInfoForm.cardOwner}
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
                         maxLength="40"
@@ -1160,11 +1122,7 @@ class PaymentComp extends React.Component {
                         type="email"
                         className="rc-input__control email"
                         id="email"
-                        value={
-                          !this.state.hasEditedEmail && this.selectedEmail
-                            ? this.selectedEmail
-                            : creditCardInfoForm.email
-                        }
+                        value={creditCardInfoForm.email}
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
                         name="email"
@@ -1197,11 +1155,7 @@ class PaymentComp extends React.Component {
                         // data-js-validate="(^(\+?7|8)?9\d{9}$)"
                         data-js-pattern="(^\d{10}$)"
                         data-range-error="The phone number should contain 10 digits"
-                        value={
-                          !this.state.hasEditedPhone && this.selectedPhone
-                            ? this.selectedPhone
-                            : creditCardInfoForm.phoneNumber
-                        }
+                        value={creditCardInfoForm.phoneNumber}
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
                         name="phoneNumber"
@@ -1264,7 +1218,6 @@ class PaymentComp extends React.Component {
                     onClick={() => {
                       this.initCardInfo();
                       this.setState({ isEdit: false });
-                      // this.scrollToPaymentComp();
                     }}
                   >
                     <FormattedMessage id="cancel" />
@@ -1285,7 +1238,8 @@ class PaymentComp extends React.Component {
                     data-sav="false"
                     name="contactInformation"
                     type="submit"
-                    onClick={(e) => this.handleClickSaveBtn(e)}
+                    disabled={!this.state.isValid}
+                    onClick={(e) => this.handleSave(e)}
                   >
                     <FormattedMessage id="save" />
                   </button>

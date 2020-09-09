@@ -166,7 +166,7 @@ export function getDeviceType() {
  * validate data
  * @param {Object} data - data needs validate
  */
-export async function validInputsData(rule, data) {
+export async function validData(rule, data) {
   for (let key in data) {
     const val = data[key];
     const targetRule = find(rule, (ele) => ele.key === key);

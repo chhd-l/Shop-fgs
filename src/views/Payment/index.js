@@ -950,6 +950,7 @@ class Payment extends React.Component {
       let tmpDeliveryAddress = deliveryAddress;
       let tmpBillingAddress = billingAddress;
       if (this.isLogin) {
+        // todo ref不能用了
         const deliveryAddressEl = this.loginDeliveryAddressRef.current;
         let tmpDeliveryAddressData =
           deliveryAddressEl &&
@@ -1336,6 +1337,9 @@ class Payment extends React.Component {
             isApplyCvv={false}
             needReConfirmCVV={true}
             deliveryAddress={this.state.deliveryAddress}
+            selectedDeliveryAddress={
+              this.props.paymentStore.selectedDeliveryAddress
+            }
           />
         </div>
         {/* adyenCreditCard */}

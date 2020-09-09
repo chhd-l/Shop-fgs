@@ -381,6 +381,7 @@ class PayOs extends React.Component {
                         deliveryAddress={this.props.deliveryAddress}
                         getSelectedValue={this.onPaymentCompDataChange}
                         needReConfirmCVV={this.props.needReConfirmCVV}
+                        selectedDeliveryAddress={this.props.selectedDeliveryAddress}
                       />
                     </div>
                   ) : (
