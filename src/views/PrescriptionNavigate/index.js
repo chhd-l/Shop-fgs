@@ -10,6 +10,7 @@ import GoogleMap from '@/components/GoogleMap';
 import { FormattedMessage } from 'react-intl';
 import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
+import initLocation from "./location"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -54,6 +55,9 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
 @observer
 class Prescription extends React.Component {
   constructor(props) {
+    const lang = process.env.REACT_APP_LANG
+    const lat = initLocation[lang].lat
+    const lng = initLocation[lang].lng
     super(props);
     this.state = {
       type: 'perscription',
@@ -63,8 +67,10 @@ class Prescription extends React.Component {
       total: 0, // 总数
       totalPage: 1,
       center: {
-        lat: 19.09,
-        lng: -99.24
+        //lat: 19.09,
+        //lng: -99.24,
+        lat,
+        lng
       },
       zoom: 12,
       mapKey: 0,
@@ -75,8 +81,10 @@ class Prescription extends React.Component {
         type: 'customer'
       },
       meLocation: {
-        lat: 19.09,
-        lng: -99.24
+        //lat: 19.09,
+        //lng: -99.24,
+        lat,
+        lng
       },
       clinicArr: [],
       currentClinicArr: [],
@@ -86,8 +94,10 @@ class Prescription extends React.Component {
         input: '',
         pageNum: 0,
         pageSize: 3,
-        latitude: 19.09,
-        longitude: -99.24,
+        //latitude: 19.09,//墨西哥纬度
+        //longitude: -99.24,//墨西哥经度
+        latitude: lat,
+        longitude: lng,
         storeId: process.env.REACT_APP_STOREID
       },
       currentSelectClinic: {

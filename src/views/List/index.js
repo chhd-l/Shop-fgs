@@ -886,7 +886,7 @@ class List extends React.Component {
             </section>
           </div>
         </main>
-        <div className="notate mb-2 pl-2">
+        <div className="notate mb-2" style={{textAlign:'center'}}>
           <FormattedMessage
             id="notate"
             values={{

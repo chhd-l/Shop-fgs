@@ -623,5 +623,7 @@ const en_US = {
   'comment.noProductRatingTip': 'Por favor comente sobre los productos',
   'comment.noShoppingExperienceTip': 'Comenta sobre la experiencia de compra',
   'comment.commentsTooLong': 'No se puede comentar más de 500 caracteres',
+  'account.orders.tips':"You haven't placed any orders yet! Start shopping now for precise nutrition for your pet.",
+  'account.orders.btns':'Start Shopping',
 }
 export default en_US;

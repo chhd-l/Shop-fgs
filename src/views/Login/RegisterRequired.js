@@ -64,17 +64,17 @@ class RegisterRequired extends Component {
         try {
             const result = await findUserConsentList({})
 
-            if (result.context.optioalList.length==0&&result.context.requiredList.length==0) {//必填项和选填项都为空，直接跳转
+            if (result.context.optionalList.length==0&&result.context.requiredList.length==0) {//必填项和选填项都为空，直接跳转
                 let historyUrl = sessionItemRoyal.get('okta-redirectUrl')
                 this.props.history.push(historyUrl)&&sessionItemRoyal.remove('okta-redirectUrl')
                 return
             }
-            const optioalList = result.context.optioalList.map(item => {
+            const optioalList = result.context.optionalList.map(item => {
                 return {
                     id: item.id,
                     consentTitle: item.consentTitle,
                     isChecked: false,
-                    isRequired: true
+                    isRequired: false
                 }
             })
 
@@ -83,7 +83,7 @@ class RegisterRequired extends Component {
                     id: item.id,
                     consentTitle: item.consentTitle,
                     isChecked: false,
-                    isRequired: false
+                    isRequired: true
                 }
             })
 

@@ -257,7 +257,7 @@ const en_US = {
   "payment.frequencyTip2": "Nein, ich möchte keine Abonnement-Bestellung abschließen.",
   "payment.frequencyTip3": "Ihre Artikel werden nur einmal versendet.",
   "payment.deliveryFrequency": "Häufigkeit",
-  "payment.subTip1": "Sie sparen ein zusätzliches {val} für diese Bestellung!",
+  "payment.subTip1": "Sie sparen durch ein Abo zusätzliche {val} auf Ihre Bestellung.",
   "payment.subTip2": "Speichern Sie Ihre erste {icon} Abonnementbestellung und speichern Sie {val} ({val2}) noch heute!",
   'payment.errTip': 'Bitte geben Sie cvv ein oder wählen Sie eine Karte aus',
   "confirmation.info1": "Vielen Dank für Ihren Auftrag.",
@@ -294,7 +294,7 @@ const en_US = {
   "account.requiredFields": "Benötigte Felder",
   "account.Email": "E-Mail Adresse",
   "account.birthDate": "Geburtsdatum",
-  "order.historyOfOrders": "Geschichte der Bestellungen",
+  "order.historyOfOrders": "Bestellhistorie",
   "order.lastXDays": "Letzte {val} Tage",
   "order.lastXMonths": "Letzte {val} Monate",
   "order.orderDate": "Auftragsdatum",
@@ -574,6 +574,8 @@ const en_US = {
   'price': 'Preis',
   'listPrice': 'UVP',
   'anonymous': 'Anonym',
+  'account.orders.tips':'Bis jetzt haben Sie noch keine Bestellungen aufgegeben.Suchen Sie jetzt die passende Nahrung für Ihr Tier!',
+  'account.orders.btns':'Jetzt einkaufen!',
 
   'product.de.catogery1.name': 'Urinary',
   'product.de.catogery1.title': 'Urinary',
