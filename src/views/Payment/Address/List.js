@@ -247,10 +247,12 @@ class AddressList extends React.Component {
   async updateDeliveryAddress(data) {
     try {
       await this.validInputsData(data);
-      this.setState({ isValid: true, deliveryAddress: data, saveErrorMsg: '' });
+      this.setState({ isValid: true, saveErrorMsg: '' });
     } catch (err) {
       this.setState({ isValid: false });
       console.log(err);
+    } finally {
+      this.setState({ deliveryAddress: data });
     }
   }
   scrollToTitle() {
@@ -544,7 +546,6 @@ class AddressList extends React.Component {
                   <EditForm
                     initData={deliveryAddress}
                     updateData={(data) => this.updateDeliveryAddress(data)}
-                    emailVisible={this.props.type === 'delivery'}
                   />
                   {this.state.saveLoading ? (
                     <Loading positionAbsolute="true" />
