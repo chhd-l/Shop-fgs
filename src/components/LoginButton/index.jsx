@@ -56,15 +56,12 @@ const LoginButton = (props) => {
 
             // const tmpUrl = sessionItemRoyal.get('okta-redirectUrl')
             // console.log(tmpUrl)
-
-
             // if (tmpUrl !== '/cart') {
             //   if (checkoutStore.cartData.length) {
             //     await mergeUnloginCartData()
             //     await loginStore.updateLoginCart()
             //   }
             // }
-    
             // props.history.push('required')
             
 
