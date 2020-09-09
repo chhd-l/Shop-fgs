@@ -79,7 +79,7 @@ class PayOs extends React.Component {
     const _this = this;
     if (this.isLogin) {
       loadJS('https://js.paymentsos.com/v2/0.0.1/token.min.js', function () {
-        window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY);
+        window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_MEMBER);
         window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
         _this.setState({
           inited: true
