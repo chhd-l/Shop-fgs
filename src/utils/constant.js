@@ -157,56 +157,96 @@ export const ADYEN_CREDIT_CARD_IMGURL_ENUM = [visaImg, mastercardImg];
 export const ADDRESS_RULE = [
   {
     key: 'firstName',
-    require: true
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.firstName']
+    )
   },
   {
     key: 'lastName',
-    require: true
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.lastName']
+    )
   },
   {
     key: 'address1',
-    require: true
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.address1']
+    )
   },
   {
     key: 'country',
-    require: true
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.country']
+    )
   },
   {
     key: 'city',
-    require: true
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.city']
+    )
   },
   {
     key: 'email',
     regExp: /^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/,
-    require: true
+    require: true,
+    errMsg: CURRENT_LANGFILE['EnterCorrectValue'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['email']
+    )
   },
   {
     key: 'phoneNumber',
-    require: true
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.phoneNumber']
+    )
   },
   {
     key: 'postCode',
     regExp: /\d{5}/,
-    require: true
+    require: true,
+    errMsg: CURRENT_LANGFILE['EnterCorrectValue'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.postCode2']
+    )
   }
 ];
 
 export const PAYMENT_METHOD_RULE = [
   {
     key: 'phoneNumber',
-    require: true
-  },
-  {
-    key: 'email',
-    require: true
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.phoneNumber']
+    )
   },
   {
     key: 'cardOwner',
-    require: true
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.cardOwner']
+    )
   },
   {
     key: 'email',
     regExp: /^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/,
-    require: true
+    require: true,
+    errMsg: CURRENT_LANGFILE['EnterCorrectValue'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['email']
+    )
   }
 ];

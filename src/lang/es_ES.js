@@ -625,5 +625,6 @@ const en_US = {
   'comment.commentsTooLong': 'No se puede comentar más de 500 caracteres',
   'account.orders.tips':"You haven't placed any orders yet! Start shopping now for precise nutrition for your pet.",
   'account.orders.btns':'Start Shopping',
+  EnterCorrectValue: "Ingrese el {val} correcto",
 }
 export default en_US;

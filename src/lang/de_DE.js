@@ -649,6 +649,7 @@ const en_US = {
   'comment.noShoppingExperienceTip': 'Bitte kommentieren Sie das Einkaufserlebnis',
   'comment.commentsTooLong': 'Produktkommentare können nicht mehr als 500 Zeichen',
   'detail': '[mehr anzeigen]',
-  'lessDetail': '[weniger anzeigen]'
+  'lessDetail': '[weniger anzeigen]',
+  EnterCorrectValue: "Bitte geben Sie das richtige {val} ein",
 }
 export default en_US;

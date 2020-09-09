@@ -161,3 +161,22 @@ export function getDeviceType() {
   }
   return t;
 }
+
+/**
+ * validate data
+ * @param {Object} data - data needs validate
+ */
+export async function validInputsData(rule, data) {
+  for (let key in data) {
+    const val = data[key];
+    const targetRule = find(rule, (ele) => ele.key === key);
+    if (targetRule) {
+      if (targetRule.require && !val) {
+        throw new Error(targetRule.errMsg);
+      }
+      if (targetRule.regExp && !targetRule.regExp.test(val)) {
+        throw new Error(targetRule.errMsg);
+      }
+    }
+  }
+}

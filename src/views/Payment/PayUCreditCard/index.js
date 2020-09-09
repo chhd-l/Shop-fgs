@@ -171,12 +171,14 @@ class PayOs extends React.Component {
       if (targetRule) {
         if (targetRule.require && !val) {
           this.props.showErrorMsg(
-            this.props.intl.messages.CompleteRequiredItems
+            targetRule.errMsg || this.props.intl.messages.CompleteRequiredItems
           );
           return;
         }
         if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          this.props.showErrorMsg(this.props.intl.messages.EnterCorrectEmail);
+          this.props.showErrorMsg(
+            targetRule.errMsg || this.props.intl.messages.EnterCorrectEmail
+          );
           return;
         }
       }

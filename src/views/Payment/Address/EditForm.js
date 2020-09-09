@@ -5,7 +5,6 @@ import { find, findIndex } from 'lodash';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary } from '@/utils/utils';
-import { ADDRESS_RULE } from '@/utils/constant';
 
 const localItemRoyal = window.__.localItemRoyal;
 

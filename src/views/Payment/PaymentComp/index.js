@@ -1,7 +1,7 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
-import { findIndex } from 'lodash';
+import { findIndex, find } from 'lodash';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
 import {
@@ -13,7 +13,8 @@ import Loading from '@/components/Loading';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import {
   CREDIT_CARD_IMG_ENUM,
-  CREDIT_CARD_IMGURL_ENUM
+  CREDIT_CARD_IMGURL_ENUM,
+  PAYMENT_METHOD_RULE
 } from '@/utils/constant';
 import './index.css';
 
@@ -274,6 +275,7 @@ class PaymentComp extends React.Component {
     }
   }
   cardInfoInputChange(e) {
+    debugger;
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -326,6 +328,7 @@ class PaymentComp extends React.Component {
     if (['cardNumber', 'cardMmyy', 'cardCvv'].indexOf(name) === -1) {
       this.inputBlur(e);
     }
+    // todo
     this.setState({ creditCardInfoForm });
   }
   inputBlur(e) {
@@ -378,6 +381,20 @@ class PaymentComp extends React.Component {
       }
     );
   }
+  async validInputsData(data) {
+    for (let key in data) {
+      const val = data[key];
+      const targetRule = find(PAYMENT_METHOD_RULE, (ele) => ele.key === key);
+      if (targetRule) {
+        if (targetRule.require && !val) {
+          throw new Error(this.props.intl.messages.CompleteRequiredItems);
+        }
+        if (targetRule.regExp && !targetRule.regExp.test(val)) {
+          throw new Error(this.props.intl.messages.EnterCorrectEmail);
+        }
+      }
+    }
+  }
   async handleSave() {
     const { creditCardInfoForm, currentEditOriginCardInfo } = this.state;
 
@@ -406,26 +423,27 @@ class PaymentComp extends React.Component {
         fieldList.splice(2, 1);
       }
     }
-    for (let k in creditCardInfoForm) {
-      if (
-        fieldList.indexOf(k) !== -1 &&
-        this.state.creditCardInfoForm[k] === ''
-      ) {
-        this.showErrorMsg(
-          this.props.intl.messages.pleasecompleteTheRequiredItem
-        );
-        return;
-      }
-      if (
-        k === 'email' &&
-        !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(
-          creditCardInfoForm[k].replace(/\s*/g, '')
-        )
-      ) {
-        this.showErrorMsg(this.props.intl.messages.pleaseEnterTheCorrectEmail);
-        return;
+
+    // todo
+    for (let key in creditCardInfoForm) {
+      const val = creditCardInfoForm[key];
+      const targetRule = find(PAYMENT_METHOD_RULE, (ele) => ele.key === key);
+      if (targetRule) {
+        if (targetRule.require && !val) {
+          this.showErrorMsg(
+            targetRule.errMsg || this.props.intl.messages.CompleteRequiredItems
+          );
+          return;
+        }
+        if (targetRule.regExp && !targetRule.regExp.test(val)) {
+          this.showErrorMsg(
+            targetRule.errMsg || this.props.intl.messages.EnterCorrectEmail
+          );
+          return;
+        }
       }
     }
+
     this.setState({
       loading: true
     });
@@ -980,7 +998,7 @@ class PaymentComp extends React.Component {
                   <div className="form-group">
                     <label className="form-control-label" htmlFor="cardNumber">
                       <FormattedMessage id="payment.cardNumber" />
-                      <span style={{ color: 'red' }}>*</span>
+                      <span className="red">*</span>
                       <div className="cardFormBox">
                         <span className="cardImage">
                           <img
@@ -1011,12 +1029,12 @@ class PaymentComp extends React.Component {
                                     onKeyUp={(e) => {
                                       this.cardNumberChange(e);
                                     }}
-                                    onFocus={(e) => {
-                                      this.cardNumberFocus();
-                                    }}
-                                    onBlur={(e) => {
-                                      this.cardNumberBlur();
-                                    }}
+                                    // onFocus={(e) => {
+                                    //   this.cardNumberFocus();
+                                    // }}
+                                    // onBlur={(e) => {
+                                    //   this.cardNumberBlur();
+                                    // }}
                                     name="cardNumber"
                                     maxLength="254"
                                     placeholder={
@@ -1112,8 +1130,9 @@ class PaymentComp extends React.Component {
                         className="rc-input__control form-control cardOwner"
                         name="cardOwner"
                         value={
-                          creditCardInfoForm.cardOwner ||
-                          (!this.state.hasEditedName && this.selectedName)
+                          !this.state.hasEditedName && this.selectedName
+                            ? this.selectedName
+                            : creditCardInfoForm.cardOwner
                         }
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
@@ -1142,8 +1161,9 @@ class PaymentComp extends React.Component {
                         className="rc-input__control email"
                         id="email"
                         value={
-                          creditCardInfoForm.email ||
-                          (!this.state.hasEditedEmail && this.selectedEmail)
+                          !this.state.hasEditedEmail && this.selectedEmail
+                            ? this.selectedEmail
+                            : creditCardInfoForm.email
                         }
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
@@ -1178,8 +1198,9 @@ class PaymentComp extends React.Component {
                         data-js-pattern="(^\d{10}$)"
                         data-range-error="The phone number should contain 10 digits"
                         value={
-                          creditCardInfoForm.phoneNumber ||
-                          (!this.state.hasEditedPhone && this.selectedPhone)
+                          !this.state.hasEditedPhone && this.selectedPhone
+                            ? this.selectedPhone
+                            : creditCardInfoForm.phoneNumber
                         }
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}

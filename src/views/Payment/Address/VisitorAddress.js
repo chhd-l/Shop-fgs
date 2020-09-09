@@ -90,11 +90,13 @@ class VisitorAddress extends React.Component {
       const targetRule = find(ADDRESS_RULE, (ele) => ele.key === key);
       if (targetRule) {
         if (targetRule.require && !val) {
-          throw new Error(this.props.intl.messages.CompleteRequiredItems);
+          throw new Error(
+            targetRule.errMsg || this.props.intl.messages.CompleteRequiredItems
+          );
         }
         if (targetRule.regExp && !targetRule.regExp.test(val)) {
           throw new Error(
-            key === 'email'
+            targetRule.errMsg || key === 'email'
               ? this.props.intl.messages.EnterCorrectEmail
               : this.props.intl.messages.EnterCorrectPostCode
           );
