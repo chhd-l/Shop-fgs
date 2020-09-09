@@ -190,7 +190,7 @@ class EditForm extends React.Component {
           <span
             className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
             input-setup="true"
-            data-js-validate="" //需要验证的时候开启
+            // data-js-validate="" //需要验证的时候开启
             data-js-warning-message="*Post Code isn’t valid"
           >
             <input

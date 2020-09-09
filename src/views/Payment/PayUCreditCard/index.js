@@ -91,54 +91,6 @@ class PayOs extends React.Component {
       });
     }
   }
-  componentWillReceiveProps(nextProps) {
-    // 未修改过cardOwner/email/phone时，用delivery相关信息填充
-    // const {
-    //   hasEditedEmail,
-    //   hasEditedPhone,
-    //   hasEditedName,
-    //   creditCardInfo
-    // } = this.state;
-    // if (
-    //   !hasEditedEmail &&
-    //   nextProps.deliveryAddress &&
-    //   nextProps.deliveryAddress.email != creditCardInfo.email
-    // ) {
-    //   this.setState({
-    //     creditCardInfo: Object.assign(creditCardInfo, {
-    //       email: nextProps.deliveryAddress.email
-    //     })
-    //   });
-    // }
-    // if (
-    //   !hasEditedPhone &&
-    //   nextProps.deliveryAddress &&
-    //   nextProps.deliveryAddress.phoneNumber != creditCardInfo.phoneNumber
-    // ) {
-    //   this.setState({
-    //     creditCardInfo: Object.assign(creditCardInfo, {
-    //       phoneNumber: nextProps.deliveryAddress.phoneNumber
-    //     })
-    //   });
-    // }
-    // if (
-    //   !hasEditedName &&
-    //   nextProps.deliveryAddress &&
-    //   [
-    //     nextProps.deliveryAddress.firstName,
-    //     nextProps.deliveryAddress.lastName
-    //   ].join(' ') != creditCardInfo.cardOwner
-    // ) {
-    //   this.setState({
-    //     creditCardInfo: Object.assign(creditCardInfo, {
-    //       cardOwner: [
-    //         nextProps.deliveryAddress.firstName,
-    //         nextProps.deliveryAddress.lastName
-    //       ].join(' ')
-    //     })
-    //   });
-    // }
-  }
   cardInfoInputChange(e) {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;

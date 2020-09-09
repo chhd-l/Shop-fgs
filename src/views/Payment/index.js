@@ -10,9 +10,8 @@ import Progress from '@/components/Progress';
 import PayProductInfo from './PayProductInfo';
 import RePayProductInfo from '@/components/PayProductInfo';
 import Loading from '@/components/Loading';
-import VisitorDeliveryAddress from './Address/VisitorDeliveryAddress';
+import VisitorAddress from './Address/VisitorAddress';
 import AddressList from './Address/List';
-import VisitorBillingAddress from './Address/VisitorBillingAddress';
 import SubscriptionSelect from './SubscriptionSelect';
 import ClinicForm from './modules/ClinicForm';
 import AddressPreview from './AddressPreview';
@@ -315,8 +314,8 @@ class Payment extends React.Component {
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
   }
-  get currentProgressIndex() {
-    return this.props.paymentStore.currentProgressIndex;
+  get paymentMethodPanelStatus() {
+    return this.props.paymentStore.panelStatus.paymentMethod;
   }
   queryOrderDetails() {
     getOrderDetails(this.state.tid).then(async (res) => {
@@ -1128,7 +1127,9 @@ class Payment extends React.Component {
               updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
             />
           ) : (
-            <VisitorDeliveryAddress
+            <VisitorAddress
+              key={1}
+              type="delivery"
               data={deliveryAddress}
               updateData={(data) => {
                 this.props.paymentStore.updateSelectedDeliveryAddress(data);
@@ -1139,19 +1140,9 @@ class Payment extends React.Component {
               updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
             />
           )}
-
         </div>
         {!this.state.billingChecked && (
           <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-            <div
-              className="card-header bg-transparent position-relative pt-0 pb-0"
-              style={{ zIndex: 2, width: '62%' }}
-            >
-              <h5>
-                <i className="rc-icon rc-news--xs rc-iconography" />{' '}
-                <FormattedMessage id="payment.billTitle" />
-              </h5>
-            </div>
             {this.isLogin ? (
               <AddressList
                 id="2"
@@ -1161,9 +1152,21 @@ class Payment extends React.Component {
                 updateData={(data) => {
                   this.setState({ billingAddress: data });
                 }}
-              />
+              >
+                <div
+                  className="card-header bg-transparent position-relative pt-0 pb-0"
+                  style={{ zIndex: 2, width: '62%' }}
+                >
+                  <h5>
+                    <i className="rc-icon rc-news--xs rc-iconography" />{' '}
+                    <FormattedMessage id="payment.billTitle" />
+                  </h5>
+                </div>
+              </AddressList>
             ) : (
-              <VisitorBillingAddress
+              <VisitorAddress
+                key={2}
+                type="billing"
                 data={billingAddress}
                 updateData={(data) => {
                   this.setState({
@@ -1184,7 +1187,9 @@ class Payment extends React.Component {
   _renderSubSelect = () => {
     return this.isLogin &&
       find(
-        this.state.recommend_data.length?this.state.recommend_data: this.loginCartData,
+        this.state.recommend_data.length
+          ? this.state.recommend_data
+          : this.loginCartData,
         (ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0
       ) ? (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
@@ -1264,7 +1269,9 @@ class Payment extends React.Component {
    */
   _renderPayTab = () => {
     return (
-      <div className={`${this.currentProgressIndex > 2 ? '' : 'hidden'}`}>
+      <div
+        className={`${this.paymentMethodPanelStatus.isEdit ? '' : 'hidden'}`}
+      >
         {/* *******************支付tab栏start************************************ */}
         <div className={`ml-custom mr-custom `}>
           {Object.entries(this.state.payWayObj).map((item) => {

@@ -13,6 +13,29 @@ class PaymentStore {
   ];
   @observable currentProgressIndex = 0;
 
+  @observable panelStatus = {
+    clinic: { isPrepare: false, isEdit: true, isCompleted: false },
+    deliveryAddr: { isPrepare: true, isEdit: false, isCompleted: false },
+    billingAddr: { isPrepare: true, isEdit: false, isCompleted: false },
+    paymentMethod: { isPrepare: true, isEdit: false, isCompleted: false }
+  };
+
+  @action.bound
+  updatePanelStatus(
+    key,
+    { isPrepare = 'default', isEdit = 'default', isCompleted = 'default' }
+  ) {
+    if (isPrepare !== 'default') {
+      this.panelStatus[key].isPrepare = isPrepare;
+    }
+    if (isEdit !== 'default') {
+      this.panelStatus[key].isEdit = isEdit;
+    }
+    if (isCompleted !== 'default') {
+      this.panelStatus[key].isCompleted = isCompleted;
+    }
+  }
+
   @action.bound
   setDeliveryAddress(data) {
     this.deliveryAddress = data;

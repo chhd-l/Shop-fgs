@@ -47,7 +47,7 @@ class ClinicForm extends React.Component {
       isEdit: !n
     });
     if (this.prescriberMap || n) {
-      this.props.paymentStore.updateCurrentProgressIndex(1);
+      this.confirmToNextPanel();
     }
   }
   get prescriberMap() {
@@ -90,9 +90,16 @@ class ClinicForm extends React.Component {
     }
     this.props.clinicStore.setSelectClinicId(this.state.form.clinicId);
     this.props.clinicStore.setSelectClinicName(this.state.form.clinicName);
-    this.props.paymentStore.updateCurrentProgressIndex(1);
+    this.confirmToNextPanel();
     this.setState({ isEdit: false });
   };
+  confirmToNextPanel() {
+    this.props.paymentStore.updatePanelStatus('deliveryAddr', {
+      isPrepare: false,
+      isEdit: true,
+      isCompleted: false
+    });
+  }
   render() {
     const { isEdit } = this.state;
     const defaultJSX = (
