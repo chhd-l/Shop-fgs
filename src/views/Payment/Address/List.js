@@ -1,7 +1,7 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { find, findIndex } from 'lodash';
+import { find } from 'lodash';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import { getDictionary } from '@/utils/utils';
@@ -398,9 +398,9 @@ class AddressList extends React.Component {
           }`}
           role="alert"
         >
-          <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+          <span className="pl-0">
             <FormattedMessage id="saveSuccessfullly" />
-          </p>
+          </span>
         </aside>
         <div
           className={`${!addOrEdit ? 'addr-container' : ''} ${
@@ -514,7 +514,7 @@ class AddressList extends React.Component {
                 }`}
               >
                 <EditForm
-                  data={deliveryAddress}
+                  initData={deliveryAddress}
                   updateData={(data) => this.updateDeliveryAddress(data)}
                   emailVisible={this.props.type === 'delivery'}
                 />

@@ -47,7 +47,7 @@ export const menubar = {
         [{
             titleId:'footer.Additionally2',list: 
             [{url:"https://www.mars.com/privacy-policy-germany",messageId:'footer.privacyPolicy2'},
-            {url:'https://www.royalcanin.com/de/about-us/sales-and-delivery-conditions',messageId:'footer.termsOfService'},
+            {link:'/Terms-And-Conditions',messageId:'footer.termsOfService'},
             {link:'/Widerrufsbelehrung',messageId:'footer.withdrawal'}]
         }],
     ]

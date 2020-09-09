@@ -69,6 +69,16 @@ class EditForm extends React.Component {
       });
     });
   }
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.initData &&
+      nextProps.initData !== this.state.deliveryAddress
+    ) {
+      this.setState({
+        deliveryAddress: Object.assign({}, nextProps.initData)
+      });
+    }
+  }
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
@@ -180,7 +190,7 @@ class EditForm extends React.Component {
           <span
             className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
             input-setup="true"
-            data-js-validate=""
+            data-js-validate="" //需要验证的时候开启
             data-js-warning-message="*Post Code isn’t valid"
           >
             <input
@@ -211,7 +221,9 @@ class EditForm extends React.Component {
             <FormattedMessage id="examplePostCode" />
           </div>
           {process.env.REACT_APP_LANG == 'de' ? (
-            <span style={{ padding: '2px',color:'#CA5264' }}>* Pflichtfelder</span>
+            <span style={{ padding: '2px', color: '#CA5264' }}>
+              * Pflichtfelder
+            </span>
           ) : null}
         </div>{' '}
       </div>
