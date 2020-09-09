@@ -626,5 +626,9 @@ const en_US = {
   'account.orders.tips':"You haven't placed any orders yet! Start shopping now for precise nutrition for your pet.",
   'account.orders.btns':'Start Shopping',
   EnterCorrectValue: "Ingrese el {val} correcto",
+
+  //account.paymethods
+  'paymethods.info':"You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!",
+  'paymethods.btn':'Add Payment'
 }
 export default en_US;

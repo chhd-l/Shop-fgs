@@ -599,22 +599,22 @@ const en_US = {
   'account.emailCommunication': 'Email Communication',
 
   // 订单状态相关
-  'deliveryStatus.NOT_YET_SHIPPED': 'Nicht ausgeliefert',
-  'deliveryStatus.SHIPPED': 'Alles verschickt',
-  'deliveryStatus.PART_SHIPPED': 'Zum Teil versandt',
+  'deliveryStatus.NOT_YET_SHIPPED': 'noch nicht versendet',
+  'deliveryStatus.SHIPPED': 'versendet',
+  'deliveryStatus.PART_SHIPPED': 'teilweise versendet',
   'deliveryStatus.VOID': 'Geliefert werden',
   'orderStatus.INIT': 'Bezahlt werden',
   'orderStatus.REMEDY': 'Geliefert werden',
   'orderStatus.REFUND': 'Abgesagt',
   'orderStatus.AUDIT': 'Geliefert werden',
-  'orderStatus.DELIVERED_PART': 'Geliefert',
-  'orderStatus.DELIVERED': 'Geliefert',
+  'orderStatus.DELIVERED_PART': 'wird geliefert',
+  'orderStatus.DELIVERED': 'ausgeliefert',
   'orderStatus.CONFIRMED': 'Abgeschlossen',
-  'orderStatus.COMPLETED': 'Abgeschlossen',
-  'orderStatus.VOID': 'Abgesagt',
+  'orderStatus.COMPLETED': 'abgeschlossen',
+  'orderStatus.VOID': 'abgebrochen',
   'payStatus.REFUND': 'Rückerstattung',
-  'payStatus.NOT_PAID': 'Unbezahlt',
-  'payStatus.PAID': 'Bezahlt',
+  'payStatus.NOT_PAID': 'noch nicht bezahlt',
+  'payStatus.PAID': 'bezahlt',
 
   'biliingAddressSameAs': 'Rechnungsadresse ist gleich Lieferadresse',
   'deleteAddressTip': 'Diese Adresse wurde bereits abonniert und kann daher nicht gelöscht werden.',
@@ -651,5 +651,9 @@ const en_US = {
   'detail': '[mehr anzeigen]',
   'lessDetail': '[weniger anzeigen]',
   EnterCorrectValue: "Bitte geben Sie das richtige {val} ein",
+
+  //account.paymethods
+  'paymethods.info':'Sie haben keine gespeicherte Zahlungsmethode. Fügen Sie eine Zahlungsmethode hinzu, um den Bestellprozess zu beschleunigen.',
+  'paymethods.btn':'Zahlungsmethode hinzufügen'
 }
 export default en_US;

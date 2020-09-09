@@ -440,9 +440,10 @@ class PayOs extends React.Component {
                                       className="rc-input__control form-control cardOwner"
                                       name="cardOwner"
                                       value={
-                                        creditCardInfo.cardOwner ||
-                                        (!this.state.hasEditedName &&
-                                          this.selectedName)
+                                        !this.state.hasEditedName &&
+                                        this.selectedName
+                                          ? this.selectedName
+                                          : creditCardInfo.cardOwner
                                       }
                                       onChange={(e) =>
                                         this.cardInfoInputChange(e)
@@ -476,9 +477,10 @@ class PayOs extends React.Component {
                                       className="rc-input__control email"
                                       id="email"
                                       value={
-                                        creditCardInfo.email ||
-                                        (!this.state.hasEditedEmail &&
-                                          this.selectedEmail)
+                                        !this.state.hasEditedEmail &&
+                                        this.selectedEmail
+                                          ? this.selectedEmail
+                                          : creditCardInfo.email
                                       }
                                       onChange={(e) =>
                                         this.cardInfoInputChange(e)
@@ -520,9 +522,10 @@ class PayOs extends React.Component {
                                       data-js-pattern="(^\d{10}$)"
                                       data-range-error="The phone number should contain 10 digits"
                                       value={
-                                        creditCardInfo.phoneNumber ||
-                                        (!this.state.hasEditedPhone &&
-                                          this.selectedPhone)
+                                        !this.state.hasEditedPhone &&
+                                        this.selectedPhone
+                                          ? this.selectedPhone
+                                          : creditCardInfo.phoneNumber
                                       }
                                       onChange={(e) =>
                                         this.cardInfoInputChange(e)
