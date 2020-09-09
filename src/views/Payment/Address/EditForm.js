@@ -202,6 +202,7 @@ class EditForm extends React.Component {
               // maxLength="5"
               // minLength="5"
               //data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)" //需要验证的时候开启
+              data-js-pattern="(*.*)"
             />
             <label className="rc-input__label" htmlFor="id-text1"></label>
           </span>
