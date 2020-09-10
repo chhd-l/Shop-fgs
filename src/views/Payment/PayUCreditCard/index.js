@@ -7,6 +7,7 @@ import {
   CREDIT_CARD_IMGURL_ENUM,
   PAYMENT_METHOD_RULE
 } from '@/utils/constant';
+import { validData } from '@/utils/utils';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
@@ -21,7 +22,7 @@ class PayOs extends React.Component {
     super(props);
     this.state = {
       isCompleteCredit: false,
-      creditCardInfo: {
+      creditCardInfoForm: {
         // cardNumber: "",
         // cardDate: "",
         // cardCVV: "",
@@ -40,7 +41,8 @@ class PayOs extends React.Component {
       inited: false,
       hasEditedEmail: false,
       hasEditedPhone: false,
-      hasEditedName: false
+      hasEditedName: false,
+      isValid: false
     };
   }
   get isLogin() {
@@ -49,31 +51,6 @@ class PayOs extends React.Component {
 
   get userInfo() {
     return this.props.loginStore.userInfo;
-  }
-  get selectedDeliveryAddress() {
-    return this.props.paymentStore.selectedDeliveryAddress;
-  }
-  get selectedEmail() {
-    return this.selectedDeliveryAddress
-      ? this.selectedDeliveryAddress.email
-      : '';
-  }
-  get selectedPhone() {
-    return this.selectedDeliveryAddress
-      ? this.selectedDeliveryAddress.phoneNumber
-      : '';
-  }
-  get selectedName() {
-    let tmp = '';
-    if (this.selectedDeliveryAddress) {
-      const { firstName, lastName } = this.selectedDeliveryAddress;
-      if (firstName) {
-        tmp = [firstName, lastName].join(' ');
-      } else {
-        tmp = lastName;
-      }
-    }
-    return tmp;
   }
   componentDidMount() {
     const _this = this;
@@ -91,15 +68,56 @@ class PayOs extends React.Component {
       });
     }
   }
+  componentWillReceiveProps(nextProps) {
+    const { creditCardInfoForm } = this.state;
+    if (nextProps.selectedDeliveryAddress) {
+      const {
+        email: selectedEmail,
+        phoneNumber: selectedPhone,
+        firstName: selectedFirstName,
+        lastName: selectedLastName
+      } = nextProps.selectedDeliveryAddress;
+      let {
+        email: curEmail,
+        phoneNumber: curPhone,
+        cardOwner: curName
+      } = creditCardInfoForm;
+      const selectedName = [selectedFirstName, selectedLastName]
+        .filter((n) => !!n)
+        .join(' ');
+      if (!this.state.hasEditedEmail && selectedEmail !== curEmail) {
+        curEmail = selectedEmail;
+      }
+      if (!this.state.hasEditedPhone && selectedPhone !== curPhone) {
+        curPhone = selectedPhone;
+      }
+      if (!this.state.hasEditedName && selectedName !== curName) {
+        curName = selectedName;
+      }
+      this.setState(
+        {
+          creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
+            email: curEmail,
+            phoneNumber: curPhone,
+            cardOwner: curName
+          })
+        },
+        () => {
+          this.validFormData();
+        }
+      );
+    }
+  }
   cardInfoInputChange(e) {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    const { creditCardInfo } = this.state;
-    creditCardInfo[name] = value;
+    const { creditCardInfoForm } = this.state;
+    creditCardInfoForm[name] = value;
     this.inputBlur(e);
-    this.setState({ creditCardInfo: creditCardInfo }, () => {
-      this.props.onCardInfoChange(this.state.creditCardInfo);
+    this.setState({ creditCardInfoForm: creditCardInfoForm }, () => {
+      this.props.onCardInfoChange(this.state.creditCardInfoForm);
+      this.validFormData();
     });
     if (value) {
       if (name === 'email') {
@@ -126,63 +144,22 @@ class PayOs extends React.Component {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
   }
-  handleClickCardConfirm() {
-    const {
-      creditCardInfo,
-      hasEditedEmail,
-      hasEditedPhone,
-      hasEditedName
-    } = this.state;
-    let tmpEmail = creditCardInfo.email;
-    let tmpPhone = creditCardInfo.phoneNumber;
-    let tmpName = creditCardInfo.cardOwner;
-
-    if (!hasEditedEmail) {
-      tmpEmail = this.selectedEmail;
+  async validFormData() {
+    try {
+      await validData(PAYMENT_METHOD_RULE, this.state.creditCardInfoForm);
+      this.setState({ isValid: true });
+    } catch (err) {
+      console.log(err);
+      this.setState({ isValid: false });
     }
-
-    if (!hasEditedPhone) {
-      tmpPhone = this.selectedPhone;
-    }
-
-    if (!hasEditedName) {
-      tmpName = this.selectedName;
-    }
-
-    this.setState(
-      {
-        creditCardInfo: Object.assign(creditCardInfo, {
-          email: tmpEmail,
-          cardOwner: tmpName,
-          phoneNumber: tmpPhone
-        })
-      },
-      () => {
-        this.cardConfirm();
-      }
-    );
   }
-  cardConfirm() {
-    const { creditCardInfo } = this.state;
+  handleClickCardConfirm() {
+    const { creditCardInfoForm } = this.state;
 
-    for (let key in creditCardInfo) {
-      const val = creditCardInfo[key];
-      const targetRule = find(PAYMENT_METHOD_RULE, (ele) => ele.key === key);
-      if (targetRule) {
-        if (targetRule.require && !val) {
-          this.props.showErrorMsg(
-            targetRule.errMsg || this.props.intl.messages.CompleteRequiredItems
-          );
-          return;
-        }
-        if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          this.props.showErrorMsg(
-            targetRule.errMsg || this.props.intl.messages.EnterCorrectEmail
-          );
-          return;
-        }
-      }
+    if (!this.state.isValid) {
+      return false;
     }
+
     this.props.startLoading();
     document.getElementById('payment-form').submit.click();
     let timer = setInterval(() => {
@@ -244,11 +221,11 @@ class PayOs extends React.Component {
       this.setState(
         {
           payosdata: res.data,
-          creditCardInfo: Object.assign({}, selectedCard)
+          creditCardInfoForm: Object.assign({}, selectedCard)
         },
         () => {
           this.props.onPayosDataChange(this.state.payosdata);
-          this.props.onCardInfoChange(this.state.creditCardInfo);
+          this.props.onCardInfoChange(this.state.creditCardInfoForm);
         }
       );
     } catch (err) {
@@ -292,12 +269,12 @@ class PayOs extends React.Component {
           const parsedRes = JSON.parse(result);
           this.setState(
             {
-              creditCardInfo: Object.assign({}, selectedCardInfo, {
+              creditCardInfoForm: Object.assign({}, selectedCardInfo, {
                 creditDardCvv: parsedRes.token
               })
             },
             () => {
-              this.props.onCardInfoChange(this.state.creditCardInfo);
+              this.props.onCardInfoChange(this.state.creditCardInfoForm);
             }
           );
         } catch (err) {
@@ -350,7 +327,7 @@ class PayOs extends React.Component {
     });
   };
   render() {
-    const { creditCardInfo } = this.state;
+    const { creditCardInfoForm } = this.state;
 
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
@@ -381,7 +358,9 @@ class PayOs extends React.Component {
                         deliveryAddress={this.props.deliveryAddress}
                         getSelectedValue={this.onPaymentCompDataChange}
                         needReConfirmCVV={this.props.needReConfirmCVV}
-                        selectedDeliveryAddress={this.props.selectedDeliveryAddress}
+                        selectedDeliveryAddress={
+                          this.props.selectedDeliveryAddress
+                        }
                       />
                     </div>
                   ) : (
@@ -440,12 +419,7 @@ class PayOs extends React.Component {
                                       id="cardholder-name"
                                       className="rc-input__control form-control cardOwner"
                                       name="cardOwner"
-                                      value={
-                                        !this.state.hasEditedName &&
-                                        this.selectedName
-                                          ? this.selectedName
-                                          : creditCardInfo.cardOwner
-                                      }
+                                      value={creditCardInfoForm.cardOwner}
                                       onChange={(e) =>
                                         this.cardInfoInputChange(e)
                                       }
@@ -455,7 +429,7 @@ class PayOs extends React.Component {
                                     <label
                                       className="rc-input__label"
                                       htmlFor="cardOwner"
-                                    ></label>
+                                    />
                                   </span>
                                   <div className="invalid-feedback">
                                     <FormattedMessage id="payment.errorInfo2" />
@@ -477,12 +451,7 @@ class PayOs extends React.Component {
                                       type="email"
                                       className="rc-input__control email"
                                       id="email"
-                                      value={
-                                        !this.state.hasEditedEmail &&
-                                        this.selectedEmail
-                                          ? this.selectedEmail
-                                          : creditCardInfo.email
-                                      }
+                                      value={creditCardInfoForm.email}
                                       onChange={(e) =>
                                         this.cardInfoInputChange(e)
                                       }
@@ -493,7 +462,7 @@ class PayOs extends React.Component {
                                     <label
                                       className="rc-input__label"
                                       htmlFor="email"
-                                    ></label>
+                                    />
                                   </span>
                                   <div className="invalid-feedback">
                                     <FormattedMessage id="payment.errorInfo2" />
@@ -522,12 +491,7 @@ class PayOs extends React.Component {
                                       data-phonelength="18"
                                       data-js-pattern="(^\d{10}$)"
                                       data-range-error="The phone number should contain 10 digits"
-                                      value={
-                                        !this.state.hasEditedPhone &&
-                                        this.selectedPhone
-                                          ? this.selectedPhone
-                                          : creditCardInfo.phoneNumber
-                                      }
+                                      value={creditCardInfoForm.phoneNumber}
                                       onChange={(e) =>
                                         this.cardInfoInputChange(e)
                                       }
@@ -538,7 +502,7 @@ class PayOs extends React.Component {
                                     <label
                                       className="rc-input__label"
                                       htmlFor="phoneNumber"
-                                    ></label>
+                                    />
                                   </span>
                                   <div className="invalid-feedback">
                                     <FormattedMessage id="payment.errorInfo2" />
@@ -554,6 +518,7 @@ class PayOs extends React.Component {
                                 id="card-confirm"
                                 type="button"
                                 onClick={() => this.handleClickCardConfirm()}
+                                disabled={!this.state.isValid}
                               >
                                 <FormattedMessage id="payment.confirmCard" />
                               </button>
@@ -603,7 +568,7 @@ class PayOs extends React.Component {
                                 <FormattedMessage id="name2" />
                                 <br />
                                 <span className="creditCompleteInfo">
-                                  {creditCardInfo.cardOwner}
+                                  {creditCardInfoForm.cardOwner}
                                 </span>
                               </div>
                             </div>

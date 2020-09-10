@@ -23,6 +23,7 @@ const localItemRoyal = window.__.localItemRoyal;
 
 @inject('loginStore', 'paymentStore')
 @observer
+@injectIntl
 class PaymentComp extends React.Component {
   static defaultProps = {
     needReConfirmCVV: true,
@@ -169,11 +170,7 @@ class PaymentComp extends React.Component {
     const { firstName, lastName } = selectedDeliveryAddress;
     let tmpName = '';
     if (selectedDeliveryAddress) {
-      if (firstName) {
-        tmpName = [firstName, lastName].join(' ');
-      } else {
-        tmpName = lastName;
-      }
+      tmpName = [firstName, lastName].filter((n) => !!n).join(' ');
     }
     this.setState({
       creditCardInfoForm: {
@@ -1253,4 +1250,4 @@ class PaymentComp extends React.Component {
   }
 }
 
-export default injectIntl(PaymentComp);
+export default PaymentComp;
