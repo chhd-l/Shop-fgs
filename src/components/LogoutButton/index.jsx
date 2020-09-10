@@ -37,6 +37,7 @@ const LogoutButton = () => {
       
     }catch(e) {
       loginStore.changeLoginModal(false)
+      window.location.reload()
     }
     
   }
