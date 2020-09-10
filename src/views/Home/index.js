@@ -233,44 +233,6 @@ class Home extends React.Component {
                             </FormattedMessage>
                           </div>
                           <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.catogery4.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/vd"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={CARECAT} />
-                                    <img src={CARECAT} alt={txt} title={txt} />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                          <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.catogery1.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/prescription-dogs"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={DIETDOG} />
-                                    <img src={DIETDOG} alt={txt} title={txt} />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                          <div className="col-md-4 col-6">
                             <FormattedMessage id="product.catogery2.name">
                               {(txt) => (
                                 <Link
@@ -304,6 +266,44 @@ class Home extends React.Component {
                                       alt={txt}
                                       title={txt}
                                     />
+                                  </picture>
+                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                                    <h3 className="rc-margin--none">{txt}</h3>
+                                  </div>
+                                </Link>
+                              )}
+                            </FormattedMessage>
+                          </div>
+                          <div className="col-md-4 col-6">
+                            <FormattedMessage id="product.catogery4.name">
+                              {(txt) => (
+                                <Link
+                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                                  to="/list/vd"
+                                  title={txt}
+                                >
+                                  <picture className="category-cards__card__img">
+                                    <source srcSet={CARECAT} />
+                                    <img src={CARECAT} alt={txt} title={txt} />
+                                  </picture>
+                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                                    <h3 className="rc-margin--none">{txt}</h3>
+                                  </div>
+                                </Link>
+                              )}
+                            </FormattedMessage>
+                          </div>
+                          <div className="col-md-4 col-6">
+                            <FormattedMessage id="product.catogery1.name">
+                              {(txt) => (
+                                <Link
+                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                                  to="/list/prescription-dogs"
+                                  title={txt}
+                                >
+                                  <picture className="category-cards__card__img">
+                                    <source srcSet={DIETDOG} />
+                                    <img src={DIETDOG} alt={txt} title={txt} />
                                   </picture>
                                   <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
                                     <h3 className="rc-margin--none">{txt}</h3>
