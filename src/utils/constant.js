@@ -7,6 +7,9 @@ import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
 import discoverImg from '@/assets/images/credit-cards/discover.svg';
 import oxxo from '@/assets/images/oxxo.png';
 
+import breedCatsImg from '@/assets/images/banner-list/Banner_BHN_Persa.jpg';
+import breedDogsImg from '@/assets/images/banner-list/Banner_BHN_German_Shepherd.jpg';
+
 const CURRENT_LANGFILE = ENUM_LANGFILE[process.env.REACT_APP_LANG];
 
 export const GTMID = 'GTM-NCWZQ3';
@@ -58,6 +61,24 @@ export const STORE_CATE_ENUM = [
     img: catsImg
   },
   {
+    url: '/list/breed-cats',
+    category: 'breed-cats',
+    cateName: ['Breed cats'],
+    text: CURRENT_LANGFILE['product.catogery7.name'],
+    title: CURRENT_LANGFILE['product.catogery7.title'],
+    desc: CURRENT_LANGFILE['product.catogery7.desc'],
+    img: breedCatsImg
+  },
+  {
+    url: '/list/breed-dogs',
+    category: 'breed-dogs',
+    cateName: ['Breed dogs'],
+    text: CURRENT_LANGFILE['product.catogery8.name'],
+    title: CURRENT_LANGFILE['product.catogery8.title'],
+    desc: CURRENT_LANGFILE['product.catogery8.desc'],
+    img: breedDogsImg
+  },
+  {
     url: '/list/vcn',
     category: 'vcn',
     cateName: ['VD dogs'],
@@ -78,13 +99,13 @@ export const STORE_CATE_ENUM = [
   {
     url: '/list/dogs',
     category: 'dogs',
-    cateName: ['Prescription dogs', 'VD dogs'],
+    cateName: ['Prescription dogs', 'VD dogs', 'Breed dogs'],
     text: CURRENT_LANGFILE['product.catogery5.name']
   },
   {
     url: '/list/cats',
     category: 'cats',
-    cateName: ['Prescription cats', 'VD cats'],
+    cateName: ['Prescription cats', 'VD cats', 'Breed cats'],
     text: CURRENT_LANGFILE['product.catogery6.name']
   },
   {
