@@ -8,6 +8,7 @@ import { findUserConsentList, consentListDetail,userBindConsent} from "@/api/con
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 class RegisterRequired extends Component {
     constructor(props) {
@@ -42,7 +43,8 @@ class RegisterRequired extends Component {
     }
     submit = async () => {
         try{
-            let historyUrl = sessionStorage.getItem('okta-redirectUrl')
+            let historyUrl = sessionItemRoyal.get('okta-redirectUrl')
+            
             const isRequiredChecked = this.state.list.filter(item => item.isRequired).every(item => item.isChecked)
             if(isRequiredChecked){
                 //组装submit参数
@@ -50,7 +52,7 @@ class RegisterRequired extends Component {
 
                const result = await userBindConsent(submitParam)
                if (result.code === 'K-000000'){
-                 this.props.history.push(historyUrl)&&sessionStorage.removeItem('okta-redirectUrl')
+                 this.props.history.push(historyUrl)&&sessionItemRoyal.remove('okta-redirectUrl')
                }
             }else{
                 this.showAlert('isShowRequired',2000)
@@ -60,15 +62,22 @@ class RegisterRequired extends Component {
         }
        
     }
+    componentDidMount () {
+        if (localItemRoyal.get('isRefresh')) {
+            localItemRoyal.remove('isRefresh');
+            window.location.reload();
+            return false;
+          }
+    }
     async componentWillMount() {
         try {
             const result = await findUserConsentList({})
 
-            if (result.context.optionalList.length==0&&result.context.requiredList.length==0) {//必填项和选填项都为空，直接跳转
-                let historyUrl = sessionItemRoyal.get('okta-redirectUrl')
-                this.props.history.push(historyUrl)&&sessionItemRoyal.remove('okta-redirectUrl')
-                return
-            }
+            // if (result.context.optionalList.length==0&&result.context.requiredList.length==0) {//必填项和选填项都为空，直接跳转
+            //     let historyUrl = sessionItemRoyal.get('okta-redirectUrl') || '/'
+            //     this.props.history.push(historyUrl)&&sessionItemRoyal.remove('okta-redirectUrl')
+            //     return
+            // }
             const optioalList = result.context.optionalList.map(item => {
                 return {
                     id: item.id,
@@ -116,8 +125,8 @@ class RegisterRequired extends Component {
                         style={{ background: "url(" + logoAnimatedPng + ") no-repeat center center", width: '140px', height: '60px', backgroundSize: 'cover' }}
                     />
                 </Link>
-                <h2 className="rc-text-colour--brand1" style={{ marginTop: '190px', textAlign: 'center' }}>Register in ROYALCANIN® online store</h2>
-                <p style={{ textAlign: 'center', color: '#5F5F5F', fontSize: '20px' }}>Complete registeration</p>
+                <h2 className="rc-text-colour--brand1" style={{ marginTop: '190px', textAlign: 'center' }}>Welcome to ROYALCANIN® online store</h2>
+                <p style={{ textAlign: 'center', color: '#5F5F5F', fontSize: '20px' }}>Complete log-in process</p>
                 {/* 没有勾选完必填项的alert提示 */}
                 {
                     this.state.isShowRequired

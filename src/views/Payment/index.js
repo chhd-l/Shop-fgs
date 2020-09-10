@@ -20,6 +20,7 @@ import { getDictionary, formatMoney } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { ADYEN_CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
+import { findUserConsentList} from "@/api/consent"
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -128,6 +129,7 @@ class Payment extends React.Component {
     this.lang = process.env.REACT_APP_LANG;
   }
   async componentDidMount() {
+    
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
       window.location.reload();
@@ -836,6 +838,11 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
+      const consentRes = await findUserConsentList({})
+
+      if (consentRes.context&&(consentRes.context.optionalList.length!==0||consentRes.context.requiredList.length!==0)) {
+        this.props.history.push('/required')
+      }
       await batchAdd({
         goodsInfos: cartData.map((ele) => {
           return {
