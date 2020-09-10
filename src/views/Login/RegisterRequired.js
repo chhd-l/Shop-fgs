@@ -1,16 +1,21 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { injectIntl, FormattedMessage } from "react-intl";
+import { inject, observer } from 'mobx-react';
 import logoAnimatedPng from "@/assets/images/logo--animated2.png";
 import "./index.css"
-import { findUserConsentList, consentListDetail,userBindConsent} from "@/api/consent"
+import { findUserConsentList, consentListDetail,userBindConsent,getStoreOpenConsentList} from "@/api/consent"
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
+@inject('loginStore')
 class RegisterRequired extends Component {
+    get isLogin() {
+        return this.props.loginStore.isLogin;
+      }
     constructor(props) {
         super(props);
         this.state = {
@@ -41,10 +46,10 @@ class RegisterRequired extends Component {
 
         return obj
     }
-    submit = async () => {
+    //会员提交
+    submitLogin = async () => {
         try{
             let historyUrl = sessionItemRoyal.get('okta-redirectUrl')
-            
             const isRequiredChecked = this.state.list.filter(item => item.isRequired).every(item => item.isChecked)
             if(isRequiredChecked){
                 //组装submit参数
@@ -59,8 +64,21 @@ class RegisterRequired extends Component {
             } 
         }catch(err){
             console.log(err.message)
-        }
-       
+        }    
+    }
+    //游客提交
+    submitUnLogin = () => {
+        try{
+            const isRequiredChecked = this.state.list.filter(item => item.isRequired).every(item => item.isChecked)
+            if(isRequiredChecked){
+                sessionItemRoyal.set('isRequiredChecked',true)
+                this.props.history.push('/')
+            }else{
+                this.showAlert('isShowRequired',2000)
+            } 
+        }catch(err){
+            console.log(err.message)
+        }    
     }
     componentDidMount () {
         if (localItemRoyal.get('isRefresh')) {
@@ -71,13 +89,21 @@ class RegisterRequired extends Component {
     }
     async componentWillMount() {
         try {
-            const result = await findUserConsentList({})
+            let result
+            console.log(this.isLogin)
+            if(this.isLogin){
+                 result = await findUserConsentList({})
+            }else{
+                result = await getStoreOpenConsentList({})
+            }
 
-            // if (result.context.optionalList.length==0&&result.context.requiredList.length==0) {//必填项和选填项都为空，直接跳转
-            //     let historyUrl = sessionItemRoyal.get('okta-redirectUrl') || '/'
-            //     this.props.history.push(historyUrl)&&sessionItemRoyal.remove('okta-redirectUrl')
-            //     return
-            // }
+           
+
+            if (result.context.optionalList.length==0&&result.context.requiredList.length==0) {//必填项和选填项都为空，直接跳转
+                let historyUrl = sessionItemRoyal.get('okta-redirectUrl')
+                this.props.history.push(historyUrl)&&sessionItemRoyal.remove('okta-redirectUrl')
+                return
+            }
             const optioalList = result.context.optionalList.map(item => {
                 return {
                     id: item.id,
@@ -98,10 +124,11 @@ class RegisterRequired extends Component {
 
             //把非必填和必填的项目组装成一个数组list，用于渲染
             let list = this.state.list
-            list = [...optioalList, ...requiredList]
+            list = [...requiredList,...optioalList, ]
             this.setState({
                 list
             })
+  
 
             // const result2 = await consentListDetail(
             //     {
@@ -182,7 +209,13 @@ class RegisterRequired extends Component {
                 <p className='pizhu'><span className="pl-2 pr-2 rc-text-colour--brand1">*</span>Required fields</p>
                 {/* 按钮 */}
                 <div style={{ textAlign: 'center', marginTop: '60px' }}>
-                    <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submit}>Continue</button>
+                    {
+                        this.isLogin ? 
+                        <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitLogin}>Continue</button>
+                        : 
+                        <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitUnLogin}>Continue</button>
+                    }
+                   
                 </div>
             </div>
         );

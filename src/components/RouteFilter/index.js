@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { queryStoreCateIds } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
-import { findUserConsentList} from "@/api/consent"
+import { findUserConsentList,getStoreOpenConsentList} from "@/api/consent"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -65,9 +65,18 @@ class RouteFilter extends Component {
   async componentDidMount() {
     if(this.isLogin){
       findUserConsentList({}).then((result)=>{
-        //只拦截 登录+存在必填项+非首页
-          if (result.context.requiredList.length!==0&&this.props.location.pathname!=='/') {
+        //会员+存在必填项+非首页
+          if (result.code === 'K-000000'&&result.context.requiredList.length!==0&&this.props.location.pathname!=='/') {
             this.props.history.push('/required')
+        }
+      })
+    }else{  
+      if(sessionItemRoyal.get('isRequiredChecked')) return
+      getStoreOpenConsentList({}).then((result)=>{
+        //游客+非首页
+        if(result.code === 'K-000000'&&this.props.location.pathname!=='/'){
+           //非登录 都显示
+          this.props.history.push('/required')
         }
       })
     }
