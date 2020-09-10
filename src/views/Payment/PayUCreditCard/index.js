@@ -79,7 +79,7 @@ class PayOs extends React.Component {
     const _this = this;
     if (this.isLogin) {
       loadJS('https://js.paymentsos.com/v2/0.0.1/token.min.js', function () {
-        window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY);
+        window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_MEMBER);
         window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
         _this.setState({
           inited: true
@@ -90,54 +90,6 @@ class PayOs extends React.Component {
         inited: true
       });
     }
-  }
-  componentWillReceiveProps(nextProps) {
-    // 未修改过cardOwner/email/phone时，用delivery相关信息填充
-    // const {
-    //   hasEditedEmail,
-    //   hasEditedPhone,
-    //   hasEditedName,
-    //   creditCardInfo
-    // } = this.state;
-    // if (
-    //   !hasEditedEmail &&
-    //   nextProps.deliveryAddress &&
-    //   nextProps.deliveryAddress.email != creditCardInfo.email
-    // ) {
-    //   this.setState({
-    //     creditCardInfo: Object.assign(creditCardInfo, {
-    //       email: nextProps.deliveryAddress.email
-    //     })
-    //   });
-    // }
-    // if (
-    //   !hasEditedPhone &&
-    //   nextProps.deliveryAddress &&
-    //   nextProps.deliveryAddress.phoneNumber != creditCardInfo.phoneNumber
-    // ) {
-    //   this.setState({
-    //     creditCardInfo: Object.assign(creditCardInfo, {
-    //       phoneNumber: nextProps.deliveryAddress.phoneNumber
-    //     })
-    //   });
-    // }
-    // if (
-    //   !hasEditedName &&
-    //   nextProps.deliveryAddress &&
-    //   [
-    //     nextProps.deliveryAddress.firstName,
-    //     nextProps.deliveryAddress.lastName
-    //   ].join(' ') != creditCardInfo.cardOwner
-    // ) {
-    //   this.setState({
-    //     creditCardInfo: Object.assign(creditCardInfo, {
-    //       cardOwner: [
-    //         nextProps.deliveryAddress.firstName,
-    //         nextProps.deliveryAddress.lastName
-    //       ].join(' ')
-    //     })
-    //   });
-    // }
   }
   cardInfoInputChange(e) {
     const target = e.target;
@@ -279,10 +231,10 @@ class PayOs extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.REACT_APP_PaymentKEY,
+            public_key: process.env.REACT_APP_PaymentKEY_VISITOR,
             'x-payments-os-env': process.env.REACT_APP_PaymentENV,
             'Content-type': 'application/json',
-            app_id: 'com.razorfish.dev_mexico',
+            app_id: process.env.REACT_APP_PaymentAPPID_VISITOR,
             'api-version': '1.3.0'
           }
         }
@@ -486,9 +438,10 @@ class PayOs extends React.Component {
                                       className="rc-input__control form-control cardOwner"
                                       name="cardOwner"
                                       value={
-                                        creditCardInfo.cardOwner ||
-                                        (!this.state.hasEditedName &&
-                                          this.selectedName)
+                                        !this.state.hasEditedName &&
+                                        this.selectedName
+                                          ? this.selectedName
+                                          : creditCardInfo.cardOwner
                                       }
                                       onChange={(e) =>
                                         this.cardInfoInputChange(e)
@@ -522,9 +475,10 @@ class PayOs extends React.Component {
                                       className="rc-input__control email"
                                       id="email"
                                       value={
-                                        creditCardInfo.email ||
-                                        (!this.state.hasEditedEmail &&
-                                          this.selectedEmail)
+                                        !this.state.hasEditedEmail &&
+                                        this.selectedEmail
+                                          ? this.selectedEmail
+                                          : creditCardInfo.email
                                       }
                                       onChange={(e) =>
                                         this.cardInfoInputChange(e)
@@ -566,9 +520,10 @@ class PayOs extends React.Component {
                                       data-js-pattern="(^\d{10}$)"
                                       data-range-error="The phone number should contain 10 digits"
                                       value={
-                                        creditCardInfo.phoneNumber ||
-                                        (!this.state.hasEditedPhone &&
-                                          this.selectedPhone)
+                                        !this.state.hasEditedPhone &&
+                                        this.selectedPhone
+                                          ? this.selectedPhone
+                                          : creditCardInfo.phoneNumber
                                       }
                                       onChange={(e) =>
                                         this.cardInfoInputChange(e)

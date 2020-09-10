@@ -656,14 +656,13 @@ class AccountOrders extends React.Component {
                     >
                       <div>
                         <p>
-                          You haven't placed any orders yet! Start shopping now
-                          for precise nutrition for your pet.
+                        <FormattedMessage id="account.orders.tips" />
                         </p>
                         <button
                           class="rc-btn rc-btn--one"
                           onClick={() => this.props.history.push('/')}
                         >
-                          Start Shopping
+                         <FormattedMessage id="account.orders.btns" />
                         </button>
                       </div>
                     </div>

@@ -126,9 +126,7 @@ class PaymentMethod extends React.Component {
                       >
                         <div>
                           <p>
-                            You have no saved payment methods. Add your payment
-                            information here to speed up checkout. It's easy,
-                            private, and secure!
+                            <FormattedMessage id="paymethods.info" />
                           </p>
                           <button
                             class="rc-btn rc-btn--one"
@@ -139,7 +137,7 @@ class PaymentMethod extends React.Component {
                               })
                             }
                           >
-                            Add Payment
+                            <FormattedMessage id="paymethods.btn" />
                           </button>
                         </div>
                       </div>

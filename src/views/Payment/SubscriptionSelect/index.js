@@ -188,7 +188,7 @@ class SubscriptionSelect extends Component {
             </label>
             <div
               style={{ marginLeft: '5%' }}
-              className="d-flex align-items-center fit-screen-d-flex"
+              className="d-flex align-items-center fit-screen-d-flex pb-2"
             >
               <div className="choose-frequency">
                 <span

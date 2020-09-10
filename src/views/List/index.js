@@ -886,11 +886,11 @@ class List extends React.Component {
             </section>
           </div>
         </main>
-        <div className="notate mb-2 pl-2">
+        <div className="notate ml-2 mb-2">
           <FormattedMessage
             id="notate"
             values={{
-              val: <Link className="link" to="/FAQ-Shipping">Versandkosten</Link>
+              val: <Link  className="rc-styled-link" to="/FAQ">Versandkosten</Link>
             }} />
         </div>
 

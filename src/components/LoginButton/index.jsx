@@ -54,36 +54,33 @@ const LoginButton = (props) => {
             loginStore.setUserInfo(customerInfoRes.context)
 
 
-            const tmpUrl = sessionItemRoyal.get('okta-redirectUrl')
-            console.log(tmpUrl)
-
-
-            if (tmpUrl !== '/cart') {
-              if (checkoutStore.cartData.length) {
-                await mergeUnloginCartData()
-                await loginStore.updateLoginCart()
-              }
-            }
-    
-            props.history.push('required')
-            
-
-            // if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {
-            //   props.history.push(sessionStorage.getItem('okta-redirectUrl'))
-            // } else {
+            // const tmpUrl = sessionItemRoyal.get('okta-redirectUrl')
+            // console.log(tmpUrl)
+            // if (tmpUrl !== '/cart') {
             //   if (checkoutStore.cartData.length) {
             //     await mergeUnloginCartData()
             //     await loginStore.updateLoginCart()
             //   }
-            //   if (sessionItemRoyal.get('okta-redirectUrl') === '/prescription') {
-            //     console.log('jajajjajaa')
-            //     props.history.push(sessionItemRoyal.get('okta-redirectUrl'))
-            //   }
             // }
+            // props.history.push('required')
+            
+
+            if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {
+              props.history.push(sessionStorage.getItem('okta-redirectUrl'))
+            } else {
+              if (checkoutStore.cartData.length) {
+                await mergeUnloginCartData()
+                await loginStore.updateLoginCart()
+              }
+              if (sessionItemRoyal.get('okta-redirectUrl') === '/prescription') {
+                console.log('jajajjajaa')
+                props.history.push(sessionItemRoyal.get('okta-redirectUrl'))
+              }
+            }
             //props.history.push('required')
 
 
-            //sessionStorage.removeItem('okta-redirectUrl')
+            sessionStorage.removeItem('okta-redirectUrl')
           }).catch(e => {
             loginStore.changeLoginModal(false)
           })

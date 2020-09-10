@@ -16,6 +16,10 @@ const localItemRoyal = window.__.localItemRoyal;
 class Help extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      tel:'',
+      mailAddress:''
+    }
   }
 
   componentWillUnmount() {
@@ -27,6 +31,12 @@ class Help extends React.Component {
       window.location.reload();
       return false;
     }
+    const tel = "tel:"+this.props.configStore
+    .storeContactPhoneNumber
+    const mailAddress = "mailto:"+this.props.configStore
+    .storeContactEmail
+
+    this.setState({tel,mailAddress})
   }
   render(h) {
     const event = {
@@ -114,12 +124,14 @@ class Help extends React.Component {
                                             style={{ color: '#00BCA3' }}
                                             class="rc-numeric rc-md-up"
                                           >
-                                            {/* 800 024 77 64 */}
-                                            <FormattedMessage id="help.tel" />
-                                            {
-                                              this.props.configStore
-                                                .storeContactPhoneNumber
-                                            }
+                                            <a href={this.state.tel} style={{color: '#00BCA3'}}> 
+                                              <FormattedMessage id="help.tel" />
+                                              {
+                                                this.props.configStore
+                                                  .storeContactPhoneNumber
+                                              }
+                                            </a>
+                                            
                                           </p>
                                         </div>
                                         <div class="rc-margin-top--xs">
@@ -192,12 +204,12 @@ class Help extends React.Component {
                                               color: 'rgb(0, 135, 189)'
                                             }}
                                           >
-                                            {/* contacto.mex@royalcanin.com */}
-                                            <FormattedMessage id="help.email" />
-                                            {
+                                            <a href={this.state.mailAddress} style={{color: 'rgb(0, 135, 189)'}}>
+                                              <FormattedMessage id="help.email" />{
                                               this.props.configStore
                                                 .storeContactEmail
                                             }
+                                            </a>  
                                           </p>
                                         </div>
                                       </div>

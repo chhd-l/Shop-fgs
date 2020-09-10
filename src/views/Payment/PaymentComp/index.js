@@ -259,10 +259,10 @@ class PaymentComp extends React.Component {
         },
         {
           headers: {
-            public_key: process.env.REACT_APP_PaymentKEY,
+            public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
             'x-payments-os-env': process.env.REACT_APP_PaymentENV,
             'Content-type': 'application/json',
-            app_id: 'com.razorfish.dev_mexico',
+            app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
             'api-version': '1.3.0'
           }
         }
@@ -444,10 +444,10 @@ class PaymentComp extends React.Component {
           },
           {
             headers: {
-              public_key: process.env.REACT_APP_PaymentKEY,
+              public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
               'x-payments-os-env': process.env.REACT_APP_PaymentENV,
               'Content-type': 'application/json',
-              app_id: 'com.razorfish.dev_mexico',
+              app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
               'api-version': '1.3.0'
             }
           }
@@ -1112,8 +1112,9 @@ class PaymentComp extends React.Component {
                         className="rc-input__control form-control cardOwner"
                         name="cardOwner"
                         value={
-                          creditCardInfoForm.cardOwner ||
-                          (!this.state.hasEditedName && this.selectedName)
+                          !this.state.hasEditedName && this.selectedName
+                            ? this.selectedName
+                            : creditCardInfoForm.cardOwner
                         }
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
@@ -1142,8 +1143,9 @@ class PaymentComp extends React.Component {
                         className="rc-input__control email"
                         id="email"
                         value={
-                          creditCardInfoForm.email ||
-                          (!this.state.hasEditedEmail && this.selectedEmail)
+                          !this.state.hasEditedEmail && this.selectedEmail
+                            ? this.selectedEmail
+                            : creditCardInfoForm.email
                         }
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}
@@ -1178,8 +1180,9 @@ class PaymentComp extends React.Component {
                         data-js-pattern="(^\d{10}$)"
                         data-range-error="The phone number should contain 10 digits"
                         value={
-                          creditCardInfoForm.phoneNumber ||
-                          (!this.state.hasEditedPhone && this.selectedPhone)
+                          !this.state.hasEditedPhone && this.selectedPhone
+                            ? this.selectedPhone
+                            : creditCardInfoForm.phoneNumber
                         }
                         onChange={(e) => this.cardInfoInputChange(e)}
                         onBlur={(e) => this.inputBlur(e)}

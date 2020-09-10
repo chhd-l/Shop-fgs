@@ -30,7 +30,8 @@ class RouteFilter extends Component {
 
     if (
       nextProps.location.pathname === '/prescription' &&
-      ((localItemRoyal.get(`rc-clinic-id-link`) && localItemRoyal.get(`rc-clinic-name-link`)) ||
+      ((localItemRoyal.get(`rc-clinic-id-link`) &&
+        localItemRoyal.get(`rc-clinic-name-link`)) ||
         (localItemRoyal.get(`rc-clinic-id-select`) &&
           localItemRoyal.get(`rc-clinic-name-select`)) ||
         (localItemRoyal.get(`rc-clinic-id-default`) &&
@@ -75,7 +76,7 @@ class RouteFilter extends Component {
       loadJS(
         'https://js.paymentsos.com/v2/latest/secure-fields.min.js',
         function () {
-          window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY);
+          window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_VISITOR);
           window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
           const style = {
             base: {
@@ -122,18 +123,11 @@ class RouteFilter extends Component {
         }
       );
     }
-    // loadJS('https://js.paymentsos.com/v2/0.0.1/token.min.js', function () {
-    //   window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY);
-    //   window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
-    // });
     if (this.props.location.pathname !== '/login') {
       loadJS(process.env.REACT_APP_ONTRUST_SRC, function () {}, {
         domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
         documentLanguage: 'true'
       });
-      // if (process.env.REACT_APP_ONTRUST_MARS_FOOTER) {
-      //   loadJS(process.env.REACT_APP_ONTRUST_MARS_FOOTER)
-      // }
     }
 
     queryStoreCateIds();
