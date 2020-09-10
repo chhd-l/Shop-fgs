@@ -214,16 +214,16 @@ class Home extends React.Component {
                       ) : (
                         <>
                           <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.catogery3.name">
+                            <FormattedMessage id="product.catogery4.name">
                               {(txt) => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/vcn"
+                                  to="/list/vd"
                                   title={txt}
                                 >
                                   <picture className="category-cards__card__img">
-                                    <source srcSet={CAREDOG} />
-                                    <img src={CAREDOG} alt={txt} title={txt} />
+                                    <source srcSet={CARECAT} />
+                                    <img src={CARECAT} alt={txt} title={txt} />
                                   </picture>
                                   <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
                                     <h3 className="rc-margin--none">{txt}</h3>
@@ -275,16 +275,16 @@ class Home extends React.Component {
                             </FormattedMessage>
                           </div>
                           <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.catogery4.name">
+                            <FormattedMessage id="product.catogery3.name">
                               {(txt) => (
                                 <Link
                                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/vd"
+                                  to="/list/vcn"
                                   title={txt}
                                 >
                                   <picture className="category-cards__card__img">
-                                    <source srcSet={CARECAT} />
-                                    <img src={CARECAT} alt={txt} title={txt} />
+                                    <source srcSet={CAREDOG} />
+                                    <img src={CAREDOG} alt={txt} title={txt} />
                                   </picture>
                                   <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
                                     <h3 className="rc-margin--none">{txt}</h3>
