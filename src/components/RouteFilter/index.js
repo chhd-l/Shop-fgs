@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { queryStoreCateIds } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
+import { findUserConsentList,getStoreOpenConsentList} from "@/api/consent"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('configStore')
+@inject('configStore','loginStore')
 class RouteFilter extends Component {
+  get isLogin() {
+    return this.props.loginStore.isLogin;
+  }
   shouldComponentUpdate(nextProps) {
     const lang = process.env.REACT_APP_LANG;
 
@@ -59,6 +63,23 @@ class RouteFilter extends Component {
     return true;
   }
   async componentDidMount() {
+    if(this.isLogin){
+      findUserConsentList({}).then((result)=>{
+        //会员+存在必填项+非首页
+          if (result.code === 'K-000000'&&result.context.requiredList.length!==0&&this.props.location.pathname!=='/') {
+            this.props.history.push('/required')
+        }
+      })
+    }else{  
+      if(sessionItemRoyal.get('isRequiredChecked')) return
+      getStoreOpenConsentList({}).then((result)=>{
+        //游客+非首页
+        if(result.code === 'K-000000'&&this.props.location.pathname!=='/'){
+           //非登录 都显示
+          this.props.history.push('/required')
+        }
+      })
+    }
     if (
       !localItemRoyal.get('rc-token') &&
       this.props.location.pathname.indexOf('/account') !== -1
