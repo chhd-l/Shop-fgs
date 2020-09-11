@@ -88,6 +88,8 @@ class RegisterRequired extends Component {
           }
     }
     async componentWillMount() {
+        let lastPath = this.props.location.state.cur_path
+
         try {
             let result
             if(this.isLogin){
@@ -96,12 +98,21 @@ class RegisterRequired extends Component {
                 result = await getStoreOpenConsentList({})
             }
 
-           
-            if (result.context.optionalList.length==0&&result.context.requiredList.length==0) {//必填项和选填项都为空，直接跳转
-                let historyUrl = sessionItemRoyal.get('okta-redirectUrl')
-                this.props.history.push(historyUrl)&&sessionItemRoyal.remove('okta-redirectUrl')
-                return
+            if(lastPath == '/'){
+                if (result.context.requiredList.length==0) {//必填项为空，直接跳转
+                    let historyUrl = sessionItemRoyal.get('okta-redirectUrl')
+                    this.props.history.push(historyUrl)&&sessionItemRoyal.remove('okta-redirectUrl')
+                    return
+                }
+            }else{
+                if (result.context.optionalList.length==0&&result.context.requiredList.length==0) {//选填项和必填项为空，就直接跳转
+                    let historyUrl = sessionItemRoyal.get('okta-redirectUrl')
+                    this.props.history.push(historyUrl)&&sessionItemRoyal.remove('okta-redirectUrl')
+                    return
+                }
             }
+           
+            
             const optioalList = result.context.optionalList.map(item => {
                 return {
                     id: item.id,
@@ -137,6 +148,9 @@ class RegisterRequired extends Component {
         } catch (err) {
             console.log(err.message)
         }
+    }
+    componentWillUnmount(){
+        localItemRoyal.set('isRefresh', true);
     }
     render() {
         const createMarkup = (text) => ({ __html: text });

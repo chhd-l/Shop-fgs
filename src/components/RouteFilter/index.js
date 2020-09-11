@@ -68,7 +68,7 @@ class RouteFilter extends Component {
         //会员+存在必填项+非首页+非/implicit/callback+非required页
           if (result.code === 'K-000000'&&result.context.requiredList.length!==0&&pathname!=='/'&&pathname!== '/implicit/callback' &&pathname!== '/required') {
             //this.props.history.push('/required')
-            this.props.history.push({ pathname: "/required", name:this.props.location.pathname });
+            this.props.history.push({ pathname: "/required", state:{cur_path:this.props.location.pathname }});
         }
       })
     }else{  
@@ -77,7 +77,7 @@ class RouteFilter extends Component {
         //游客+非首页+非/implicit/callback+非required页
         if(result.code === 'K-000000'&&pathname!=='/'&&pathname !== '/implicit/callback' &&pathname !== '/required'){
           //this.props.history.push('/required')
-          this.props.history.push({ pathname: "/required", name:this.props.location.pathname});
+          this.props.history.push({ pathname: "/required", state:{cur_path:this.props.location.pathname}});
         }
       })
     }
