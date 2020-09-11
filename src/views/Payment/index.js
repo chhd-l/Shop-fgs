@@ -805,6 +805,7 @@ class Payment extends React.Component {
         })
       });
     } catch (err) {
+      console.log(err)
       throw new Error(err.message);
     }
   }

@@ -53,7 +53,6 @@ const LoginButton = (props) => {
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
             loginStore.setUserInfo(customerInfoRes.context)
 
-
             const tmpUrl = sessionItemRoyal.get('okta-redirectUrl')
             if (tmpUrl !== '/cart') {
               if (checkoutStore.cartData.length) {
@@ -61,7 +60,7 @@ const LoginButton = (props) => {
                 await loginStore.updateLoginCart()
               }
             }
-            props.history.push('required')
+            props.history.push({ pathname: "/required", state:{cur_path:'/'} });
             
 
             // if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {
@@ -81,6 +80,7 @@ const LoginButton = (props) => {
 
             // sessionStorage.removeItem('okta-redirectUrl')
           }).catch(e => {
+            console.log(e)
             loginStore.changeLoginModal(false)
           })
         }

@@ -890,7 +890,7 @@ class List extends React.Component {
           <FormattedMessage
             id="notate"
             values={{
-              val: <Link  className="rc-styled-link" to="/FAQ">Versandkosten</Link>
+              val: <Link  className="rc-styled-link" to="/FAQ/all">Versandkosten</Link>
             }} />
         </div>
 
