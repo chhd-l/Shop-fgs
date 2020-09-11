@@ -2,12 +2,9 @@ import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Link } from 'react-router-dom';
 import { getFaq } from '../../api/faq';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
-import FAQ1 from '@/assets/images/FAQ1.jpg';
-import { translateHtmlCharater } from '@/utils/utils';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -31,24 +28,25 @@ class FAQ extends React.Component {
       window.location.reload();
       return false;
     }
-    this.getFAQList({
+
+    getFaq({
       language: process.env.REACT_APP_LANG,
       storeId: process.env.REACT_APP_STOREID
-    });
-  }
-
-  getFAQList(data) {
-    getFaq(data)
+    })
       .then((res) => {
         this.setState({
-          dataFAQ: res.context.storeFaqVo,
+          dataFAQ: res.context,
           loading: false
         });
       })
       .catch((err) => {
         console.log(err);
+        this.setState({
+          loading: false
+        });
       });
   }
+
   handleSelect(index) {
     if (index == this.state.showCur) {
       this.setState({
@@ -87,68 +85,80 @@ class FAQ extends React.Component {
                         <FormattedMessage id="faq.frequentQuestions" />
                       </h1>
                       <p style={{ textAlign: 'center' }}>
-                        <FormattedMessage id="faq.title" values={{
-                          val1: (
-                            <a  className="rc-styled-link" target="_blank" href="https://shopstg.royalcanin.com/help" style={{ cursor: 'pointer'}}>
-                              Expertenteam
-                            </a>
-                          )
-                        }}/>
+                        <FormattedMessage
+                          id="faq.title"
+                          values={{
+                            val1: (
+                              <a
+                                className="rc-styled-link"
+                                target="_blank"
+                                href="https://shopstg.royalcanin.com/help"
+                                style={{ cursor: 'pointer' }}
+                              >
+                                Expertenteam
+                              </a>
+                            )
+                          }}
+                        />
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div className="rc-bg-colour--brand3">
-              <h2>
-                <FormattedMessage id="faq.title2" />
-              </h2>
-            </div>
-
-            <dl
-              data-toggle-group=""
-              data-toggle-effect="rc-expand--vertical"
-              className=""
-            >
-              {this.state.loading ? (
-                <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
-              ) : (
-                this.state.dataFAQ.map((item, index) => (
-                  <div
-                    key={item.id}
-                    className={`rc-list__accordion-item test-color 
-                  ${this.state.showCur == index ? 'showItem' : 'hiddenItem'}`}
-                  >
-                    <div
-                      className="rc-list__header"
-                      onClick={() => this.handleSelect(index)}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <div
-                        dangerouslySetInnerHTML={{ __html: item.question }}
-                      ></div>
-
-                      <span
-                        className={`icon-change ${
-                          this.state.showCur == index
-                            ? 'rc-icon rc-up rc-brand1'
-                            : 'rc-icon rc-down rc-iconography'
-                        }`}
-                      ></span>
-                    </div>
-                    <div className={`rc-list__content `}>
-                      <p dangerouslySetInnerHTML={{ __html: item.answer }}></p>
-                      <img src={item.imgUl}></img>
-                    </div>
+            {this.state.loading ? (
+              <div className="pb-4">
+                <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
+              </div>
+            ) : (
+              this.state.dataFAQ.map((pitem, index) => (
+                <>
+                  <div className="rc-bg-colour--brand3" key={'p-' + index}>
+                    <h2>{pitem.faqType}</h2>
                   </div>
-                ))
-              )}
-            </dl>
+                  <dl
+                    data-toggle-group=""
+                    data-toggle-effect="rc-expand--vertical"
+                    className=""
+                  >
+                    {pitem.storeFaqVo.map((item, index) => (
+                      <div
+                        key={item.id}
+                        className={`rc-list__accordion-item test-color 
+                  ${this.state.showCur == index ? 'showItem' : 'hiddenItem'}`}
+                      >
+                        <div
+                          className="rc-list__header"
+                          onClick={() => this.handleSelect(index)}
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between'
+                          }}
+                        >
+                          <div
+                            dangerouslySetInnerHTML={{ __html: item.question }}
+                          ></div>
+
+                          <span
+                            className={`icon-change ${
+                              this.state.showCur == index
+                                ? 'rc-icon rc-up rc-brand1'
+                                : 'rc-icon rc-down rc-iconography'
+                            }`}
+                          ></span>
+                        </div>
+                        <div className={`rc-list__content `}>
+                          <p
+                            dangerouslySetInnerHTML={{ __html: item.answer }}
+                          ></p>
+                          <img src={item.imgUl}></img>
+                        </div>
+                      </div>
+                    ))}
+                  </dl>
+                </>
+              ))
+            )}
           </div>
         </main>
         <Footer />
