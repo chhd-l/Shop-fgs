@@ -79,6 +79,7 @@ import FAQVersand from '@/components/Footer/link/FAQVersand';
 import FAQAllgemein from '@/components/Footer/link/FAQAllgemein';
 import Recommendation from '@/views/Recommendation';
 
+
 const localItemRoyal = window.__.localItemRoyal;
 const token = localItemRoyal.get('rc-token');
 console.log('REACT_APP_HOMEPAGE',process.env.REACT_APP_HOMEPAGE)

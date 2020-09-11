@@ -14,6 +14,7 @@ import VisitorAddress from './Address/VisitorAddress';
 import AddressList from './Address/List';
 import SubscriptionSelect from './SubscriptionSelect';
 import ClinicForm from './modules/ClinicForm';
+import PetModal from './PetModal';
 import AddressPreview from './AddressPreview';
 import { formatMoney } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
@@ -116,7 +117,9 @@ class Payment extends React.Component {
       savedPayWayObj: {}, //保留初始化的支付方式
       orderDetails: null,
       tid: sessionItemRoyal.get('rc-tid'),
-      recommend_data: []
+      recommend_data: [],
+      petModalVisible: false,
+      isAdd: 0,
     };
     this.timer = null;
     this.loginDeliveryAddressRef = React.createRef();
@@ -1459,6 +1462,25 @@ class Payment extends React.Component {
                       class="rc-icon rc-payment--sm rc-iconography"
                       style={{ transform: 'scale(.9)' }}
                     ></i>{' '}
+                    <FormattedMessage id="Pet information" />
+                    <p>We need your pet information to authorize these items.</p>
+                    {
+                      this.loginCartData.map(el => {
+                        console.log(el, 'hahah')
+                        return (<div>1</div>)
+                      })
+                    }
+                  </h5>
+                  
+
+                  {/* {this._renderPayTab()} */}
+                </div>
+                <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
+                  <h5 className="ml-custom mr-custom">
+                    <i
+                      class="rc-icon rc-payment--sm rc-iconography"
+                      style={{ transform: 'scale(.9)' }}
+                    ></i>{' '}
                     <FormattedMessage id="payment.paymentInformation" />
                   </h5>
 
@@ -1490,6 +1512,13 @@ class Payment extends React.Component {
           </div>
         </main>
         <Footer />
+        <PetModal visible={this.state.petModalVisible}
+          isAdd={this.state.isAdd}
+          productList={this.state.productList}
+          openNew={() => this.openNew()}
+          closeNew={() => this.closeNew()}
+          confirm={() => this.petComfirm()}
+          close={() => this.closePetModal()} />
       </div>
     );
   }

@@ -543,8 +543,8 @@ class Details extends React.Component {
           });
           return false;
         }
-        // this.openPetModal()
-        this.props.history.push('/prescription');
+        this.openPetModal()
+        // this.props.history.push('/prescription');
       }
     } catch (err) {
       console.log(err);
@@ -1508,13 +1508,13 @@ class Details extends React.Component {
         )}
         <Footer />
 
-        {/* <PetModal visible={this.state.petModalVisible}
+        <PetModal visible={this.state.petModalVisible}
           isAdd={this.state.isAdd}
           productList={this.state.productList}
           openNew={() => this.openNew()}
           closeNew={() => this.closeNew()}
           confirm={() => this.petComfirm()}
-          close={() => this.closePetModal()} /> */}
+          close={() => this.closePetModal()} />
       </div>
     );
   }
