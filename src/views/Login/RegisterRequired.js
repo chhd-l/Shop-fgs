@@ -90,7 +90,6 @@ class RegisterRequired extends Component {
     async componentWillMount() {
         try {
             let result
-            console.log(this.isLogin)
             if(this.isLogin){
                  result = await findUserConsentList({})
             }else{

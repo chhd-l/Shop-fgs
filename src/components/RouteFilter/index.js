@@ -71,11 +71,10 @@ class RouteFilter extends Component {
         }
       })
     }else{  
-      if(sessionItemRoyal.get('isRequiredChecked')) return
+      if(sessionItemRoyal.get('isRequiredChecked')) return //游客已经全部确认consense
       getStoreOpenConsentList({}).then((result)=>{
         //游客+非首页
         if(result.code === 'K-000000'&&this.props.location.pathname!=='/'){
-           //非登录 都显示
           this.props.history.push('/required')
         }
       })
