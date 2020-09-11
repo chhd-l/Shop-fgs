@@ -14,8 +14,10 @@ import VisitorAddress from './Address/VisitorAddress';
 import AddressList from './Address/List';
 import SubscriptionSelect from './SubscriptionSelect';
 import ClinicForm from './modules/ClinicForm';
+import OnePageClinicForm from './OnePage/ClinicForm';
 import AddressPreview from './AddressPreview';
-import { formatMoney } from '@/utils/utils';
+import Confirmation from './modules/Confirmation';
+import { formatMoney, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { ADYEN_CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
 import {
@@ -119,8 +121,6 @@ class Payment extends React.Component {
       recommend_data: []
     };
     this.timer = null;
-    this.loginDeliveryAddressRef = React.createRef();
-    this.loginBillingAddressRef = React.createRef();
   }
   async componentDidMount() {
     if (localItemRoyal.get('isRefresh')) {
@@ -317,6 +317,15 @@ class Payment extends React.Component {
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.panelStatus.paymentMethod;
   }
+  get selectedDeliveryAddress() {
+    return this.props.paymentStore.selectedDeliveryAddress;
+  }
+  get selectedBillingAddress() {
+    return this.props.paymentStore.selectedBillingAddress;
+  }
+  get isOnepageCheckout() {
+    return process.env.REACT_APP_ONEPAGE_CHECKOUT === 'true';
+  }
   queryOrderDetails() {
     getOrderDetails(this.state.tid).then(async (res) => {
       let resContext = res.context;
@@ -391,28 +400,6 @@ class Payment extends React.Component {
       });
     }, 5000);
   };
-  async validInputsData(data) {
-    for (let key in data) {
-      const val = data[key];
-      const targetRule = find(ADDRESS_RULE, (ele) => ele.key === key);
-      if (targetRule) {
-        if (targetRule.require && !val) {
-          throw new Error(
-            this.isLogin
-              ? this.props.intl.messages.selectDeliveryAddress
-              : this.props.intl.messages.CompleteRequiredItems
-          );
-        }
-        if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          throw new Error(
-            key === 'email'
-              ? this.props.intl.messages.EnterCorrectEmail
-              : this.props.intl.messages.EnterCorrectPostCode
-          );
-        }
-      }
-    }
-  }
   //支付1.初始化adyen_credit_card
   initAdyenPay() {
     this.setState({ paymentTypeVal: 'adyenCard' });
@@ -701,7 +688,7 @@ class Payment extends React.Component {
           subNumber = oxxoContent.subscribeId;
           gotoConfirmationPage = true;
           break;
-        case 'payu_credit_card':
+        case 'payu_credit_card':debugger
           orderNumber =
             tid || (res.context && res.context[0] && res.context[0].tid);
           subNumber =
@@ -741,9 +728,9 @@ class Payment extends React.Component {
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
-        // this.props.history.push('/confirmation');
+        this.props.history.push('/confirmation');
       }
-    } catch (err) {
+    } catch (err) {debugger
       console.log(err);
       if (!this.isLogin) {
         sessionItemRoyal.remove('rc-token');
@@ -758,7 +745,7 @@ class Payment extends React.Component {
           () => this.queryOrderDetails()
         );
       }
-      throw new Error(err.message);
+      throw new Error(err);
     } finally {
       this.endLoading();
     }
@@ -950,19 +937,7 @@ class Payment extends React.Component {
       let tmpDeliveryAddress = deliveryAddress;
       let tmpBillingAddress = billingAddress;
       if (this.isLogin) {
-        // todo ref不能用了
-        const deliveryAddressEl = this.loginDeliveryAddressRef.current;
-        let tmpDeliveryAddressData =
-          deliveryAddressEl &&
-          find(deliveryAddressEl.state.addressList, (ele) => ele.selected);
-        // 若用户未存在任何地址，则自动触发保存操作
-        if (!tmpDeliveryAddressData) {
-          let addressRes = await deliveryAddressEl.handleSavePromise();
-          tmpDeliveryAddressData =
-            deliveryAddressEl &&
-            find(deliveryAddressEl.state.addressList, (ele) => ele.selected);
-        }
-
+        let tmpDeliveryAddressData = this.selectedDeliveryAddress;
         tmpDeliveryAddress = {
           firstName: tmpDeliveryAddressData.firstName,
           lastName: tmpDeliveryAddressData.lastName,
@@ -981,16 +956,7 @@ class Payment extends React.Component {
           addressId: tmpDeliveryAddressData.deliveryAddressId
         };
         if (!billingChecked) {
-          const billingAddressEl = this.loginBillingAddressRef.current;
-          let tmpBillingAddressData =
-            billingAddressEl &&
-            find(billingAddressEl.state.addressList, (ele) => ele.selected);
-          if (!tmpBillingAddressData) {
-            await billingAddressEl.handleSavePromise();
-            tmpBillingAddressData =
-              billingAddressEl &&
-              find(billingAddressEl.state.addressList, (ele) => ele.selected);
-          }
+          let tmpBillingAddressData = this.selectedBillingAddress;
           tmpBillingAddress = {
             firstName: tmpBillingAddressData.firstName,
             lastName: tmpBillingAddressData.lastName,
@@ -1029,8 +995,8 @@ class Payment extends React.Component {
         throw new Error(this.props.intl.messages.selectNoneClincTip);
       }
 
-      await this.validInputsData(param.deliveryAddress);
-      await this.validInputsData(param.billingAddress);
+      await validData(ADDRESS_RULE, param.deliveryAddress);
+      await validData(ADDRESS_RULE, param.deliveryAddress);
       localItemRoyal.set(
         this.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo',
         param
@@ -1120,7 +1086,6 @@ class Payment extends React.Component {
           {this.isLogin ? (
             <AddressList
               id="1"
-              ref={this.loginDeliveryAddressRef}
               updateData={(data) => {
                 this.props.paymentStore.updateSelectedDeliveryAddress(data);
                 this.setState({ deliveryAddress: data }); // to delete...
@@ -1148,9 +1113,9 @@ class Payment extends React.Component {
               <AddressList
                 id="2"
                 type="billing"
-                ref={this.loginBillingAddressRef}
                 visible={!this.state.billingChecked}
                 updateData={(data) => {
+                  this.props.paymentStore.updateSelectedBillingAddress(data);
                   this.setState({ billingAddress: data });
                 }}
               >
@@ -1170,6 +1135,7 @@ class Payment extends React.Component {
                 type="billing"
                 data={billingAddress}
                 updateData={(data) => {
+                  this.props.paymentStore.updateSelectedBillingAddress(data);
                   this.setState({
                     billingAddress: data
                   });
@@ -1271,7 +1237,8 @@ class Payment extends React.Component {
   _renderPayTab = () => {
     return (
       <div
-        className={`${this.paymentMethodPanelStatus.isEdit ? '' : 'hidden'}`}
+      // todo
+      // className={`${this.paymentMethodPanelStatus.isEdit ? '' : 'hidden'}`}
       >
         {/* *******************支付tab栏start************************************ */}
         <div className={`ml-custom mr-custom `}>
@@ -1337,9 +1304,7 @@ class Payment extends React.Component {
             isApplyCvv={false}
             needReConfirmCVV={true}
             deliveryAddress={this.state.deliveryAddress}
-            selectedDeliveryAddress={
-              this.props.paymentStore.selectedDeliveryAddress
-            }
+            selectedDeliveryAddress={this.selectedDeliveryAddress}
           />
         </div>
         {/* adyenCreditCard */}
@@ -1446,33 +1411,36 @@ class Payment extends React.Component {
                   <>
                     <div className="shipping-form">
                       <div className="bg-transparent">
-                        <ClinicForm history={this.props.history} />
+                        {this.isOnepageCheckout ? (
+                          <OnePageClinicForm history={this.props.history} />
+                        ) : (
+                          <ClinicForm history={this.props.history} />
+                        )}
                         {this._renderAddressPanel()}
                       </div>
                     </div>
                     {this._renderSubSelect()}
                   </>
                 )}
-                <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
+                <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 pb-0 mb-3">
                   <h5 className="ml-custom mr-custom">
                     <i
                       class="rc-icon rc-payment--sm rc-iconography"
                       style={{ transform: 'scale(.9)' }}
-                    ></i>{' '}
+                    />{' '}
                     <FormattedMessage id="payment.paymentInformation" />
                   </h5>
 
                   {this._renderPayTab()}
                 </div>
+                <Confirmation />
               </div>
               <div className="rc-column pl-md-0">
                 {this.state.tid ? (
-                  <>
-                    <RePayProductInfo
-                      fixToHeader={true}
-                      details={this.state.orderDetails}
-                    />
-                  </>
+                  <RePayProductInfo
+                    fixToHeader={true}
+                    details={this.state.orderDetails}
+                  />
                 ) : (
                   <PayProductInfo
                     data={this.state.recommend_data}
