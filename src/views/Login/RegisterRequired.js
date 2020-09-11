@@ -89,7 +89,8 @@ class RegisterRequired extends Component {
     }
     async componentWillMount() {
         let lastPath = this.props.location.state.cur_path
-
+        // console.log(lastPath)
+        // debugger
         try {
             let result
             if(this.isLogin){
@@ -98,7 +99,7 @@ class RegisterRequired extends Component {
                 result = await getStoreOpenConsentList({})
             }
 
-            if(lastPath == '/'){
+            if(lastPath == '/'){//首页
                 if (result.context.requiredList.length==0) {//必填项为空，直接跳转
                     let historyUrl = sessionItemRoyal.get('okta-redirectUrl')
                     this.props.history.push(historyUrl)&&sessionItemRoyal.remove('okta-redirectUrl')
