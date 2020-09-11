@@ -53,7 +53,6 @@ const LoginButton = (props) => {
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
             loginStore.setUserInfo(customerInfoRes.context)
 
-
             const tmpUrl = sessionItemRoyal.get('okta-redirectUrl')
             if (tmpUrl !== '/cart') {
               if (checkoutStore.cartData.length) {
@@ -61,7 +60,8 @@ const LoginButton = (props) => {
                 await loginStore.updateLoginCart()
               }
             }
-            props.history.push('required')
+            console.log(this.props.location.pathname)
+            props.history.push({ pathname: "/required", name:'/' });
             
 
             // if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {

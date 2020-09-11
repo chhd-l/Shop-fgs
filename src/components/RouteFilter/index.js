@@ -14,7 +14,6 @@ class RouteFilter extends Component {
   }
   shouldComponentUpdate(nextProps) {
     const lang = process.env.REACT_APP_LANG;
-
     // 默认了clinic后，再次编辑clinic
     if (
       nextProps.location.pathname === '/prescription' &&
@@ -63,19 +62,22 @@ class RouteFilter extends Component {
     return true;
   }
   async componentDidMount() {
+    let pathname = this.props.location.pathname
     if(this.isLogin){
       findUserConsentList({}).then((result)=>{
-        //会员+存在必填项+非首页
-          if (result.code === 'K-000000'&&result.context.requiredList.length!==0&&this.props.location.pathname!=='/') {
-            this.props.history.push('/required')
+        //会员+存在必填项+非首页+非/implicit/callback+非required页
+          if (result.code === 'K-000000'&&result.context.requiredList.length!==0&&pathname!=='/'&&pathname!== '/implicit/callback' &&pathname!== '/required') {
+            //this.props.history.push('/required')
+            this.props.history.push({ pathname: "/required", name:this.props.location.pathname });
         }
       })
     }else{  
       if(sessionItemRoyal.get('isRequiredChecked')) return //游客已经全部确认consense
       getStoreOpenConsentList({}).then((result)=>{
-        //游客+非首页
-        if(result.code === 'K-000000'&&this.props.location.pathname!=='/'){
-          this.props.history.push('/required')
+        //游客+非首页+非/implicit/callback+非required页
+        if(result.code === 'K-000000'&&pathname!=='/'&&pathname !== '/implicit/callback' &&pathname !== '/required'){
+          //this.props.history.push('/required')
+          this.props.history.push({ pathname: "/required", name:this.props.location.pathname});
         }
       })
     }

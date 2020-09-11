@@ -97,7 +97,6 @@ class RegisterRequired extends Component {
             }
 
            
-
             if (result.context.optionalList.length==0&&result.context.requiredList.length==0) {//必填项和选填项都为空，直接跳转
                 let historyUrl = sessionItemRoyal.get('okta-redirectUrl')
                 this.props.history.push(historyUrl)&&sessionItemRoyal.remove('okta-redirectUrl')
