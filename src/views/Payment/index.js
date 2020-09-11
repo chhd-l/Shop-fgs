@@ -20,7 +20,7 @@ import { getDictionary, formatMoney } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { ADYEN_CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
-import { findUserConsentList} from "@/api/consent"
+import { findUserConsentList } from '@/api/consent';
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -129,7 +129,6 @@ class Payment extends React.Component {
     this.lang = process.env.REACT_APP_LANG;
   }
   async componentDidMount() {
-    
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
       window.location.reload();
@@ -276,7 +275,7 @@ class Payment extends React.Component {
 
     if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
       console.log(this.isLogin, this.loginCartData.length, this.state.tid, 111);
-      // this.props.history.push('/cart');
+      this.props.history.push('/cart');
       return false;
     }
     if (
@@ -284,13 +283,7 @@ class Payment extends React.Component {
       (!this.cartData.length ||
         !this.cartData.filter((ele) => ele.selected).length)
     ) {
-      console.log(
-        this.isLogin,
-        this.cartData.length,
-        this.cartData.filter((ele) => ele.selected).length,
-        222
-      );
-      // this.props.history.push('/cart');
+      this.props.history.push('/cart');
       return false;
     }
     const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
@@ -775,7 +768,7 @@ class Payment extends React.Component {
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
-        // this.props.history.push('/confirmation');
+        this.props.history.push('/confirmation');
       }
     } catch (err) {
       console.log(err);
@@ -838,10 +831,14 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
-      const consentRes = await findUserConsentList({})
+      const consentRes = await findUserConsentList({});
 
-      if (consentRes.context&&(consentRes.context.optionalList.length!==0||consentRes.context.requiredList.length!==0)) {
-        this.props.history.push('/required')
+      if (
+        consentRes.context &&
+        (consentRes.context.optionalList.length !== 0 ||
+          consentRes.context.requiredList.length !== 0)
+      ) {
+        this.props.history.push('/required');
       }
       await batchAdd({
         goodsInfos: cartData.map((ele) => {
@@ -1009,11 +1006,11 @@ class Payment extends React.Component {
           rfc: tmpDeliveryAddressData.rfc,
           country: tmpDeliveryAddressData.countryId
             ? tmpDeliveryAddressData.countryId.toString()
-            : "",
-            city: tmpDeliveryAddressData.cityId
+            : '',
+          city: tmpDeliveryAddressData.cityId
             ? tmpDeliveryAddressData.cityId.toString()
-            : "",
-            cityName: tmpDeliveryAddressData.cityName,
+            : '',
+          cityName: tmpDeliveryAddressData.cityName,
           postCode: tmpDeliveryAddressData.postCode,
           phoneNumber: tmpDeliveryAddressData.consigneeNumber,
           addressId: tmpDeliveryAddressData.deliveryAddressId
@@ -1037,11 +1034,11 @@ class Payment extends React.Component {
             rfc: tmpBillingAddressData.rfc,
             country: tmpBillingAddressData.countryId
               ? tmpBillingAddressData.countryId.toString()
-              : "",
-              city: tmpBillingAddressData.cityId
+              : '',
+            city: tmpBillingAddressData.cityId
               ? tmpBillingAddressData.cityId.toString()
-              : "",
-              cityName: tmpBillingAddressData.cityName,
+              : '',
+            cityName: tmpBillingAddressData.cityName,
             postCode: tmpBillingAddressData.postCode,
             phoneNumber: tmpBillingAddressData.consigneeNumber,
             addressId: tmpBillingAddressData.deliveryAddressId
@@ -1069,7 +1066,10 @@ class Payment extends React.Component {
 
       await this.validInputsData(param.deliveryAddress);
       await this.validInputsData(param.billingAddress);
-      localItemRoyal.set(this.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo', param);
+      localItemRoyal.set(
+        this.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo',
+        param
+      );
       this.setState({
         deliveryAddress: param.deliveryAddress,
         billingAddress: param.billingAddress,
@@ -1277,7 +1277,9 @@ class Payment extends React.Component {
   _renderSubSelect = () => {
     return this.isLogin &&
       find(
-        this.state.recommend_data.length?this.state.recommend_data: this.loginCartData,
+        this.state.recommend_data.length
+          ? this.state.recommend_data
+          : this.loginCartData,
         (ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0
       ) ? (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
