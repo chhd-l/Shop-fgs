@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -75,38 +75,35 @@ import ForgetPassword from '@/views/ForgetPassword';
 import RequestInvoices from '@/views/RequestInvoices';
 
 import Widerrufsbelehrung from '@/components/Footer/link/Widerrufsbelehrung';
-import FAQVersand from '@/components/Footer/link/FAQVersand';
-import FAQAllgemein from '@/components/Footer/link/FAQAllgemein';
 import Recommendation from '@/views/Recommendation';
 
 const localItemRoyal = window.__.localItemRoyal;
 const token = localItemRoyal.get('rc-token');
-console.log('REACT_APP_HOMEPAGE',process.env.REACT_APP_HOMEPAGE)
+console.log('REACT_APP_HOMEPAGE', process.env.REACT_APP_HOMEPAGE);
 const LoginCallback = (props) => {
-  console.log(111)
+  console.log(111);
   const { authService, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
 
-  useEffect( async () => {
-    console.log(props)
-    console.log(authService)
-    if( authStateReady ) {
+  useEffect(async () => {
+    console.log(props);
+    console.log(authService);
+    if (authStateReady) {
       // wait until initial check is done so it doesn't wipe any error
       // console.log('111', authState.isPending, authState)
       // if(authStateReady && authState.error) {
       //   console.log('222')
       // }
       // authService.handleAuthentication();
-    }else {
+    } else {
       await authService.handleAuthentication();
     }
-    window.location.href = process.env.REACT_APP_ACCESS_PATH
+    window.location.href = process.env.REACT_APP_ACCESS_PATH;
     // props.history.push('/')
   }, [authService, authStateReady]);
 
-  
-  return (<div></div>)
-}
+  return <div></div>;
+};
 
 const App = () => (
   <Provider {...stores}>
@@ -128,7 +125,10 @@ const App = () => (
               <Route path={'/'} exact component={Home} />
               {/* <Route path={process.env.REACT_APP_HOMEPAGE + "/implicit/callback"} component={LoginCallback} /> */}
               {/* <Route path={"/implicit/callback"} component={LoginCallback} /> */}
-              <Route path={"/implicit/callback"} render={(props) => <LoginCallback {...props}/>} />
+              <Route
+                path={'/implicit/callback'}
+                render={(props) => <LoginCallback {...props} />}
+              />
               {/* <Route exact path="/login" component={Login} /> */}
               <Route
                 exact
@@ -182,7 +182,13 @@ const App = () => (
               />
 
               <Route exact path="/help" component={Help} />
-              <Route exact path="/FAQ" component={FAQ} />
+              <Route
+                exact
+                path="/FAQ/:catogery"
+                render={(props) => (
+                  <FAQ key={props.match.params.catogery} {...props} />
+                )}
+              />
               <Route
                 exact
                 path="/recommendation/:id"
@@ -192,7 +198,11 @@ const App = () => (
               />
 
               <Route exact path="/termuse" component={TermUse} />
-              <Route exact path="/Terms-And-Conditions" component={TermsAndConditions} />       
+              <Route
+                exact
+                path="/Terms-And-Conditions"
+                component={TermsAndConditions}
+              />
               <Route exact path="/privacypolicy" component={PrivacyPolicy} />
 
               <Route path="/account" exact component={AccountHome} />
@@ -286,8 +296,6 @@ const App = () => (
                 path="/Widerrufsbelehrung"
                 component={Widerrufsbelehrung}
               />
-              <Route exact path="/FAQVersand" component={FAQVersand} />
-              <Route exact path="/FAQAllgemein" component={FAQAllgemein} />
 
               <Route path="/required" exact component={RegisterRequired} />
               <Route path="/conoce-mas-de-evet" exact component={Landing} />

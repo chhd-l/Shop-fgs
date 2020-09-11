@@ -227,7 +227,7 @@ class Help extends React.Component {
                               </article>
                               {/* <h1 class="rc-beta" style={{ margin: '0 0 0 1rem' }}>
                                 <font style={{ verticalAlign: "inherit" }}>
-                                  <Link className="rc-list__link" style={{ color: '#e2001a' }} to="/FAQ" role="menuitem">
+                                  <Link className="rc-list__link" style={{ color: '#e2001a' }} to="/FAQ/all" role="menuitem">
                                     <FormattedMessage id="footer.FAQ" />
                                   </Link>
                                 </font>

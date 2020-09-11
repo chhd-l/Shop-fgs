@@ -28,16 +28,28 @@ class FAQ extends React.Component {
       window.location.reload();
       return false;
     }
-
+    window.scrollTo({ top: 0 });
     getFaq({
       language: process.env.REACT_APP_LANG,
       storeId: process.env.REACT_APP_STOREID
     })
       .then((res) => {
-        this.setState({
-          dataFAQ: res.context,
-          loading: false
-        });
+        this.setState(
+          {
+            dataFAQ: res.context,
+            loading: false
+          },
+          () => {
+            const widget = document.querySelector(
+              `#${this.props.match.params.catogery}`
+            );
+            if (widget) {
+              setTimeout(() => {
+                window.scrollTo({ top: widget.offsetTop - 90 });
+              });
+            }
+          }
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -46,7 +58,12 @@ class FAQ extends React.Component {
         });
       });
   }
-
+  getElementToPageTop(el) {
+    if (el.parentElement) {
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
+    }
+    return el.offsetTop;
+  }
   handleSelect(index) {
     if (index == this.state.showCur) {
       this.setState({
@@ -114,7 +131,9 @@ class FAQ extends React.Component {
               this.state.dataFAQ.map((pitem, index) => (
                 <>
                   <div className="rc-bg-colour--brand3" key={'p-' + index}>
-                    <h2>{pitem.faqType}</h2>
+                    <h2 name={`catogery-${index}`} id={`catogery-${index}`}>
+                      {pitem.faqType}
+                    </h2>
                   </div>
                   <dl
                     data-toggle-group=""

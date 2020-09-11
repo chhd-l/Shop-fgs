@@ -1,4 +1,4 @@
-import axios from '@/utils/request'
+import axios from '@/utils/request';
 
 const api = {
   storeCate: '/storeCate',
@@ -8,19 +8,19 @@ const api = {
   queryCityByName: '/system-city/query-system-city-by-name',
   buryPoint: '/wm.gif',
   getConfig: '/initConfig/getConfig'
-}
+};
 
-export default api
+export default api;
 
-export function getStoreCate (parameter) {
+export function getStoreCate(parameter) {
   return axios({
     url: api.storeCate,
     method: 'post',
     data: parameter
-  })
+  });
 }
 
-export function uploadResource (params) {
+export function uploadResource(params) {
   return axios({
     url: api.uploadResource,
     method: 'post',
@@ -28,43 +28,46 @@ export function uploadResource (params) {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
-  })
+  });
 }
-export function getProps (parameter) {
+export function getProps(parameter) {
   return axios({
     url: `${api.props}/${parameter}`,
     method: 'get'
-  })
+  });
 }
 
-export function queryCityNameById (parameter) {
+export function queryCityNameById(parameter) {
   return axios({
     url: api.queryCityNameById,
     method: 'post',
     data: parameter
-  })
+  });
 }
 
-export function queryCityByName (parameter) {
+export function queryCityByName(parameter) {
   return axios({
     url: api.queryCityByName,
     method: 'post',
     data: parameter
-  })
+  });
 }
 
-export function setBuryPoint (parameter) {
+export function setBuryPoint(parameter) {
   return axios({
     url: api.buryPoint,
     method: 'post',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
     data: parameter
-  })
+  });
 }
 
-export function getConfig () {
+export function getConfig() {
   return axios({
     url: `${api.getConfig}`,
     method: 'post',
     data: { storeId: process.env.REACT_APP_STOREID }
-  })
+  });
 }
