@@ -60,7 +60,8 @@ const LoginButton = (props) => {
                 await loginStore.updateLoginCart()
               }
             }
-            props.history.push({ pathname: "/required", state:{cur_path:'/'} });
+        
+            props.history.push({ pathname: "/required", state:{path:'/'} });
             
 
             // if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {

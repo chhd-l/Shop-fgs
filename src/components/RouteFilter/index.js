@@ -61,31 +61,51 @@ class RouteFilter extends Component {
     }
     return true;
   }
-  async componentDidMount() {
-    let pathname = this.props.location.pathname
-    // console.log(pathname)
-    // debugger
-    if(this.isLogin){
-      findUserConsentList({}).then((result)=>{
-        //会员+存在必填项+非首页+非/implicit/callback+非required页
-          if (result.code === 'K-000000'&&result.context.requiredList.length!==0&&pathname!=='/'&&pathname!== '/implicit/callback' &&pathname!== '/required') {
-            //this.props.history.push('/required')
-            this.props.history.push({ pathname: "/required", state:{cur_path:pathname }});
-        }
+  //判断consent接口是否存在必填项
+  isExistRequiredListFun(result){
+    let pathname = this.props.location.pathname //正进入的那个页面
+        if (result.code === 'K-000000' && result.context.requiredList.length!==0) {
+          this.props.history.push({ pathname: "/required", state:{path:pathname }});
+      }
+  }
+  //判断consent接口是否存在选填项
+  isExistOptionalListFun(result){
+    let pathname = this.props.location.pathname //正进入的那个页面
+        if (result.code === 'K-000000' && result.context.optionalList.length!==0) {
+          this.props.history.push({ pathname: "/required", state:{path:pathname }});
+      }
+  }
+
+  //总的调用consense接口
+  getConsentList(){
+    this.isLogin
+      ? this.doFindUserConsentList()
+      : this.doGetStoreOpenConsentList()
+  }
+  //1.会员调用consense接口
+  doFindUserConsentList(){
+    findUserConsentList({}).then((result)=>{
+      this.isExistRequiredListFun(result)
+    })
+  }
+  //2.游客调用consense接口
+  doGetStoreOpenConsentList(){
+      const isRequiredCheckedAll = sessionItemRoyal.get('isRequiredChecked')
+      isRequiredCheckedAll
+      ?
+      console.log('该跳转哪个页面就跳转哪个页面')
+      : //游客: 没有全部确认consense
+      getStoreOpenConsentList({}).then((result)=>{
+        this.isExistRequiredListFun(result)
       })
-    }else{  
-      //游客没有全部确认consense
-      if(!sessionItemRoyal.get('isRequiredChecked')) {
-        getStoreOpenConsentList({}).then((result)=>{
-          //游客+非首页+非/implicit/callback+非required页
-          if(result.code === 'K-000000'&&pathname!=='/'&&pathname !== '/implicit/callback' &&pathname !== '/required'){
-            //this.props.history.push('/required')
-            this.props.history.push({ pathname: "/required", state:{cur_path:pathname}});
-          }
-        })
-      } 
-      
+  }
+  async componentDidMount() {
+    let pathname = this.props.location.pathname 
+    // 非首页+非/implicit/callback+非required页 调用consense接口
+    if (pathname!=='/'&&pathname!== '/implicit/callback' &&pathname!== '/required') {
+      this.getConsentList()
     }
+    
     if (
       !localItemRoyal.get('rc-token') &&
       this.props.location.pathname.indexOf('/account') !== -1
