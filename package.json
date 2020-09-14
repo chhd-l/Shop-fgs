@@ -92,6 +92,7 @@
     "start": "cross-env PORT=3000 node scripts/start.js",
     "test": "node scripts/test.js",
     "start:de": "dotenv -e .env.development.de node scripts/start.js",
+    "start:fr": "dotenv -e .env.development.fr node scripts/start.js",
     "build": "dotenv -e .env.development node scripts/build.js",
     "build:uat_de": "dotenv -e .env.development.de node scripts/build.js",
     "build:stg": "dotenv -e .env.stage node scripts/build.js",

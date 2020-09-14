@@ -198,5 +198,86 @@ export const menubar = {
         ]
       }
     ]
+  ],
+  fr: [
+    [
+      {
+        titleId: 'aboutUs',
+        list: [
+          {
+            url:
+              'https://www.royalcanin.com/de/about-us/our-history#Our%20history',
+            messageId: 'footer.history'
+          },
+          {
+            props: 'ourValues',
+            url:
+              'https://www.royalcanin.com/de/about-us/our-values#Our%20values',
+            messageId: 'footer.ourValues'
+          },
+          {
+            url:
+              'https://www.royalcanin.com/de/about-us/sustainability#Sustainability',
+            messageId: 'footer.consistence'
+          },
+          {
+            url:
+              'https://www.royalcanin.com/de/about-us/qualitat-und-futtermittelsicherheit',
+            messageId: 'footer.qualityAndSafety'
+          },
+          {
+            url: 'https://www.royalcanin.com/de/about-us/news',
+            messageId: 'footer.news'
+          },
+          {
+            url: 'https://www.royalcanin.com/de/about-us/acceptance-guarantee',
+            messageId: 'footer.acceptance'
+          },
+          {
+            url: 'https://www.royalcanin.com/de/about-us/newsletter',
+            messageId: 'footer.newsletter'
+          },
+          {
+            url: 'https://www.royalcanin.com/de/about-us/promotions',
+            messageId: 'footer.action'
+          }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'footer.products',
+        list: [
+          { link: '/list/cats', messageId: 'de_cats' },
+          { link: '/list/dogs', messageId: 'de_dogs' }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'footer.help2',
+        list: [
+          {
+            url: 'https://shopstg.royalcanin.com/help',
+            messageId: 'footer.contacts'
+          },
+          { link: '/FAQ/catogery-0', messageId: 'footer.FAQVersand' },
+          { link: '/FAQ/catogery-1', messageId: 'footer.FAQAllgemeines' }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'footer.Additionally2',
+        list: [
+          {
+            url: 'https://www.mars.com/privacy-policy-germany',
+            messageId: 'footer.privacyPolicy2'
+          },
+          { link: '/Terms-And-Conditions', messageId: 'footer.termsOfService' },
+          { link: '/Widerrufsbelehrung', messageId: 'footer.withdrawal' }
+        ]
+      }
+    ]
   ]
 };

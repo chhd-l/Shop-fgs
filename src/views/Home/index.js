@@ -26,20 +26,27 @@ import HealthManagement from '@/assets/images/home-catogery/Health-Management.jp
 
 const localItemRoyal = window.__.localItemRoyal;
 
+const numENUM = {
+  en: 6,
+  es: 6,
+  de: 6,
+  fr: 4
+};
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
   }
   async componentDidMount() {
     // console.log(111111,process.env.REACT_APP_AdyenOriginKEY)
-    if (localItemRoyal.getItem('isRefresh')) {
-      localItemRoyal.removeItem('isRefresh');
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }
   }
   componentWillUnmount() {
-    localItemRoyal.setItem('isRefresh', true);
+    localItemRoyal.set('isRefresh', true);
   }
   render() {
     const event = {
@@ -47,6 +54,487 @@ class Home extends React.Component {
         type: 'Homepage',
         theme: ''
       }
+    };
+    const curNum = numENUM[process.env.REACT_APP_LANG];
+    const _catogeryJXS = {
+      en: (
+        <>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.catogery4.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/vd"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={CARECAT} />
+                    <img src={CARECAT} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.catogery2.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/prescription-cats"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={DIETCAT} />
+                    <img src={DIETCAT} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.catogery7.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/breed-cats"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={Bundles_Breed_Cat} />
+                    <img src={Bundles_Breed_Cat} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.catogery3.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/vcn"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={CAREDOG} />
+                    <img src={CAREDOG} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.catogery1.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/prescription-dogs"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={DIETDOG} />
+                    <img src={DIETDOG} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.catogery8.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/breed-dogs"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={Bundles_Breed_Dog} />
+                    <img src={Bundles_Breed_Dog} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+        </>
+      ),
+      es: (
+        <>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.catogery4.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/vd"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={CARECAT} />
+                    <img src={CARECAT} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.catogery2.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/prescription-cats"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={DIETCAT} />
+                    <img src={DIETCAT} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.catogery7.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/breed-cats"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={Bundles_Breed_Cat} />
+                    <img src={Bundles_Breed_Cat} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.catogery3.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/vcn"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={CAREDOG} />
+                    <img src={CAREDOG} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.catogery1.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/prescription-dogs"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={DIETDOG} />
+                    <img src={DIETDOG} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.catogery8.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/breed-dogs"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={Bundles_Breed_Dog} />
+                    <img src={Bundles_Breed_Dog} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+        </>
+      ),
+      de: (
+        <>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.de.catogery1.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/urinary"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={Urinary} />
+                    <img src={Urinary} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.de.catogery2.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/dermatology"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={Dermatology} />
+                    <img src={Dermatology} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.de.catogery3.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/weight-management"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={WeightManagement} />
+                    <img src={WeightManagement} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.de.catogery4.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/gastrointestinal-tract"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={Gastrointestinal} />
+                    <img src={Gastrointestinal} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.de.catogery5.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/vital-support"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={VitalSupport} />
+                    <img src={VitalSupport} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-4 col-6">
+            <FormattedMessage id="product.de.catogery6.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/health-management"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source srcSet={HealthManagement} />
+                    <img src={HealthManagement} alt={txt} title={txt} />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+        </>
+      ),
+      fr: (
+        <>
+          <div className="col-md-3 col-6">
+            <FormattedMessage id="product.fr.catogery1.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/dogs"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source
+                      srcSet={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw14af5a08/Homepage/Dog_categorie-RU@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                    />
+                    <img
+                      src={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw14af5a08/Homepage/Dog_categorie-RU@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                      alt={txt}
+                      title={txt}
+                      style={{ width: '144px' }}
+                    />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-3 col-6">
+            <FormattedMessage id="product.fr.catogery2.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/cats"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source
+                      srcSet={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw6be7a2ed/Homepage/Cat_categorie@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                    />
+                    <img
+                      src={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw6be7a2ed/Homepage/Cat_categorie@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                      alt={txt}
+                      title={txt}
+                      style={{ width: '144px' }}
+                    />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-3 col-6">
+            <FormattedMessage id="product.fr.catogery3.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/puppy-dogs"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source
+                      srcSet={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw8c207eec/Homepage/Puppy_categorie@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                    />
+                    <img
+                      src={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw8c207eec/Homepage/Puppy_categorie@2x.jpg?sw=144&amp;sfrm=jpgs'
+                      }
+                      alt={txt}
+                      title={txt}
+                      style={{ width: '144px' }}
+                    />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-3 col-6">
+            <FormattedMessage id="product.fr.catogery4.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/kitten-cats"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source
+                      srcSet={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2ef1d157/Homepage/Kitten_categorie@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                    />
+                    <img
+                      src={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2ef1d157/Homepage/Kitten_categorie@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                      alt={txt}
+                      title={txt}
+                      style={{ width: '144px' }}
+                    />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+        </>
+      )
     };
     return (
       <div>
@@ -68,277 +556,23 @@ class Home extends React.Component {
           <section>
             <div className="rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
-                <div className={`rc-match-heights text-center text-md-left`}>
-                  <div className={`DeCenter col-lg-3 align-self-center`}>
+                <div
+                  className={`${
+                    curNum === 6 ? '' : 'row'
+                  } rc-match-heights text-center text-md-left`}
+                >
+                  <div
+                    className={`${
+                      curNum === 6 ? 'DeCenter' : ''
+                    } col-lg-3 align-self-center`}
+                  >
                     <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
                       <FormattedMessage id="home.productsCategory" />
                     </h2>
                   </div>
-                  <div className={`DeCenter col-lg-9`}>
+                  <div className={`${curNum === 6 ? 'DeCenter' : ''} col-lg-9`}>
                     <div className="row custom-gutter">
-                      {process.env.REACT_APP_LANG === 'de' ? (
-                        <>
-                          <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.de.catogery1.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/urinary"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={Urinary} />
-                                    <img src={Urinary} alt={txt} title={txt} />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                          <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.de.catogery2.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/dermatology"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={Dermatology} />
-                                    <img
-                                      src={Dermatology}
-                                      alt={txt}
-                                      title={txt}
-                                    />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                          <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.de.catogery3.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/weight-management"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={WeightManagement} />
-                                    <img
-                                      src={WeightManagement}
-                                      alt={txt}
-                                      title={txt}
-                                    />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                          <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.de.catogery4.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/gastrointestinal-tract"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={Gastrointestinal} />
-                                    <img
-                                      src={Gastrointestinal}
-                                      alt={txt}
-                                      title={txt}
-                                    />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                          <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.de.catogery5.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/vital-support"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={VitalSupport} />
-                                    <img
-                                      src={VitalSupport}
-                                      alt={txt}
-                                      title={txt}
-                                    />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                          <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.de.catogery6.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/health-management"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={HealthManagement} />
-                                    <img
-                                      src={HealthManagement}
-                                      alt={txt}
-                                      title={txt}
-                                    />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.catogery4.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/vd"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={CARECAT} />
-                                    <img src={CARECAT} alt={txt} title={txt} />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                          <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.catogery2.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/prescription-cats"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={DIETCAT} />
-                                    <img src={DIETCAT} alt={txt} title={txt} />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                          <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.catogery7.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/breed-cats"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={Bundles_Breed_Cat} />
-                                    <img
-                                      src={Bundles_Breed_Cat}
-                                      alt={txt}
-                                      title={txt}
-                                    />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                          <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.catogery3.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/vcn"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={CAREDOG} />
-                                    <img src={CAREDOG} alt={txt} title={txt} />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                          <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.catogery1.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/prescription-dogs"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={DIETDOG} />
-                                    <img src={DIETDOG} alt={txt} title={txt} />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                          <div className="col-md-4 col-6">
-                            <FormattedMessage id="product.catogery8.name">
-                              {(txt) => (
-                                <Link
-                                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                                  to="/list/breed-dogs"
-                                  title={txt}
-                                >
-                                  <picture className="category-cards__card__img">
-                                    <source srcSet={Bundles_Breed_Dog} />
-                                    <img
-                                      src={Bundles_Breed_Dog}
-                                      alt={txt}
-                                      title={txt}
-                                    />
-                                  </picture>
-                                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                                    <h3 className="rc-margin--none">{txt}</h3>
-                                  </div>
-                                </Link>
-                              )}
-                            </FormattedMessage>
-                          </div>
-                        </>
-                      )}
+                      {_catogeryJXS[process.env.REACT_APP_LANG]}
                     </div>
                   </div>
                 </div>
