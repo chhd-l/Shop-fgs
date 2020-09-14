@@ -637,7 +637,7 @@ const en_US = {
   'faq.title': 'Vous trouverez ici les réponses aux questions fréquemment posées. Si vous avez d\'autres questions, n\'hésitez pas à contacter notre {val1}.',
   'faq.title2': 'Général',
   'every': 'Tout',
-  'taxLogo': 'Prix ​​TTC plus {val}.',
+  'taxLogo': 'TVA incluse',
   'plsFillEmailTip': 'Votre adresse e-mail ne sera pas saisie dans la barre d\'adresse',
   'notate':'Tous les prix incluent la TVA et plus {val}',
   isContinue: 'Que ce soit pour continuer?',

@@ -5,6 +5,7 @@ import visaImg from '@/assets/images/credit-cards/visa.svg';
 import amexImg from '@/assets/images/credit-cards/amex.svg';
 import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
 import discoverImg from '@/assets/images/credit-cards/discover.svg';
+import cartebancaireImg from '@/assets/images/credit-cards/cartebancaire.jpg';
 import oxxo from '@/assets/images/oxxo.png';
 
 import breedCatsImg from '@/assets/images/banner-list/Banner_BHN_Persa.jpg';
@@ -209,7 +210,11 @@ export const CREDIT_CARD_IMG_ENUM = {
 };
 
 export const CREDIT_CARD_IMGURL_ENUM = [visaImg, amexImg, mastercardImg];
-export const ADYEN_CREDIT_CARD_IMGURL_ENUM = [visaImg, mastercardImg];
+const tmpArr = [visaImg, mastercardImg];
+export const ADYEN_CREDIT_CARD_IMGURL_ENUM =
+  {
+    fr: [visaImg, mastercardImg, cartebancaireImg]
+  }[process.env.REACT_APP_LANG] || tmpArr;
 
 export const ADDRESS_RULE = [
   {

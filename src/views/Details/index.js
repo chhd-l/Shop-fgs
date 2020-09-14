@@ -552,7 +552,7 @@ class Details extends React.Component {
     }
   }
   async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
-    sessionItemRoyal.set('okta-redirectUrl', '/cart')
+    sessionItemRoyal.set('okta-redirectUrl', '/cart');
     this.setState({ checkOutErrMsg: '' });
     if (this.state.loading) {
       return false;
@@ -1064,19 +1064,34 @@ class Details extends React.Component {
                                   </>
                                 ) : null}
                                 <div className="product-pricing__card__head d-flex align-items-center rc-margin-top--xs">
-                                  {
-                                    process.env.REACT_APP_LANG=='de'
-                                    ?<div className="rc-input product-pricing__card__head__title taxLogo" style={{color:'rgb(102,102,102)'}}>
-                                    <FormattedMessage id="taxLogo" values={{ val:<a href="https://shopstg.royalcanin.com/FAQ-Shipping
+                                  {process.env.REACT_APP_LANG == 'de' ? (
+                                    <div
+                                      className="rc-input product-pricing__card__head__title taxLogo"
+                                      style={{ color: 'rgb(102,102,102)' }}
+                                    >
+                                      <FormattedMessage
+                                        id="taxLogo"
+                                        values={{
+                                          val: (
+                                            <a
+                                              href="https://shopstg.royalcanin.com/FAQ-Shipping
 
-">Versandkosten</a>}} />
-                                  </div>
-                                  :
-                                  <div className="rc-input product-pricing__card__head__title" style={{color:'rgb(102,102,102)'}}>
-                                    <FormattedMessage id="taxLogo"/>
-                                </div>
-                                  }
-                                  
+"
+                                            >
+                                              Versandkosten
+                                            </a>
+                                          )
+                                        }}
+                                      />
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className="rc-input product-pricing__card__head__title"
+                                      style={{ color: 'rgb(102,102,102)' }}
+                                    >
+                                      <FormattedMessage id="taxLogo" />
+                                    </div>
+                                  )}
                                 </div>
                                 {/* {details &&
                                     find(details.sizeList, (s) => s.selected) &&
