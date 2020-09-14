@@ -61,18 +61,18 @@ export const STORE_CATE_ENUM = [
     img: catsImg
   },
   {
-    url: '/list/kitten-cats',
-    category: 'kitten-cats',
-    cateName: ['Kitten cats'],
+    url: '/list/chaton',
+    category: 'Chaton',
+    cateName: ['Chaton'],
     text: CURRENT_LANGFILE['product.fr.catogery4.name'],
     title: CURRENT_LANGFILE['product.fr.catogery4.title'],
     desc: CURRENT_LANGFILE['product.fr.catogery4.desc'],
     img: catsImg
   },
   {
-    url: '/list/puppy-dogs',
-    category: 'puppy-dogs',
-    cateName: ['Puppy dogs'],
+    url: '/list/chiot',
+    category: 'Chiot',
+    cateName: ['Chiot'],
     text: CURRENT_LANGFILE['product.fr.catogery3.name'],
     title: CURRENT_LANGFILE['product.fr.catogery3.title'],
     desc: CURRENT_LANGFILE['product.fr.catogery3.desc'],
@@ -115,18 +115,18 @@ export const STORE_CATE_ENUM = [
     img: catsImg
   },
   {
-    url: '/list/ct-cats',
-    category: 'cats',
-    cateName: ['Prescription cats', 'VD cats', 'Breed cats', 'Kitten cats'],
+    url: '/list/chat',
+    category: 'Chat',
+    cateName: ['Chat'],
     text: CURRENT_LANGFILE['product.fr.catogery2.name'],
     title: CURRENT_LANGFILE['product.fr.catogery2.title'],
     desc: CURRENT_LANGFILE['product.fr.catogery2.desc'],
     img: catsImg
   },
   {
-    url: '/list/ct-dogs',
-    category: 'dogs',
-    cateName: ['Prescription dogs', 'VD dogs', 'Breed dogs', 'Puppy dogs'],
+    url: '/list/chien',
+    category: 'Chien',
+    cateName: ['Chien'],
     text: CURRENT_LANGFILE['product.fr.catogery1.name'],
     title: CURRENT_LANGFILE['product.fr.catogery1.title'],
     desc: CURRENT_LANGFILE['product.fr.catogery1.desc'],
@@ -135,13 +135,13 @@ export const STORE_CATE_ENUM = [
   {
     url: '/list/dogs',
     category: 'dogs',
-    cateName: ['Prescription dogs', 'VD dogs', 'Breed dogs', 'Puppy dogs'],
+    cateName: ['Prescription dogs', 'VD dogs', 'Breed dogs', 'Chien', 'Chiot'],
     text: CURRENT_LANGFILE['product.catogery5.name']
   },
   {
     url: '/list/cats',
     category: 'cats',
-    cateName: ['Prescription cats', 'VD cats', 'Breed cats', 'Kitten cats'],
+    cateName: ['Prescription cats', 'VD cats', 'Breed cats', 'Chat', 'Chaton'],
     text: CURRENT_LANGFILE['product.catogery6.name']
   },
   {
