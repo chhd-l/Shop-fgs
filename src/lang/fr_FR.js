@@ -668,5 +668,7 @@ const en_US = {
   'product.fr.catogery4.title': 'Le bon régime alimentaire pour votre chat',
   'product.catogery5.name': 'Chien',
   'product.catogery6.name': 'Chat',
+
+  'healthAndWellbeing': 'Santé et bien-être'
 }
 export default en_US;
