@@ -16,7 +16,7 @@ import VisitorBillingAddress from './Address/VisitorBillingAddress';
 import SubscriptionSelect from './SubscriptionSelect';
 import ClinicForm from './modules/ClinicForm';
 import AddressPreview from './AddressPreview';
-import { getDictionary, formatMoney } from '@/utils/utils';
+import { formatMoney } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { ADYEN_CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
@@ -344,6 +344,9 @@ class Payment extends React.Component {
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
   }
+  get checkoutWithClinic() {
+    return process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true';
+  }
   queryOrderDetails() {
     getOrderDetails(this.state.tid).then(async (res) => {
       let resContext = res.context;
@@ -639,9 +642,24 @@ class Payment extends React.Component {
     }
   }
 
-  //获取adyen参数
+  //获取参数
   async doGetAdyenPayParam(type) {
     try {
+      //---------------会员 是否存在选填项start-----------------
+      if (this.isLogin) {
+        const consentRes = await findUserConsentList({});
+
+        if (
+          consentRes.code == 'K-000000' &&
+          consentRes.context.optionalList.length !== 0
+        ) {
+          this.props.history.push({
+            pathname: '/required',
+            state: { path: 'pay' }
+          });
+        }
+      }
+      //---------------会员 是否存在选填项end--------------------
       let parameters = await this.getAdyenPayParam(type);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
@@ -831,15 +849,7 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
-      const consentRes = await findUserConsentList({});
 
-      if (
-        consentRes.context &&
-        (consentRes.context.optionalList.length !== 0 ||
-          consentRes.context.requiredList.length !== 0)
-      ) {
-        this.props.history.push('/required');
-      }
       await batchAdd({
         goodsInfos: cartData.map((ele) => {
           return {
@@ -850,7 +860,6 @@ class Payment extends React.Component {
         })
       });
     } catch (err) {
-      console.log(err)
       throw new Error(err.message);
     }
   }
@@ -1059,6 +1068,7 @@ class Payment extends React.Component {
 
       // 未开启地图，需校验clinic
       if (
+        this.checkoutWithClinic &&
         !this.props.configStore.prescriberMap &&
         (!this.props.clinicStore.clinicId || !this.props.clinicStore.clinicName)
       ) {
@@ -1173,7 +1183,7 @@ class Payment extends React.Component {
             />
           )}
 
-          <div className="billingCheckbox rc-margin-top--xs fit-mobile-billingCheckbox">
+          <div className="billingCheckbox rc-margin-top--xs fit-mobile-billingCheckbox d-flex flex-wrap justify-content-between">
             <div>
               <input
                 className="form-check-input"
@@ -1531,7 +1541,9 @@ class Payment extends React.Component {
                   <>
                     <div className="shipping-form">
                       <div className="bg-transparent">
-                        <ClinicForm history={this.props.history} />
+                        {this.checkoutWithClinic && (
+                          <ClinicForm history={this.props.history} />
+                        )}
                         {this._renderAddressPanel()}
                       </div>
                     </div>

@@ -60,7 +60,15 @@ const LoginButton = (props) => {
                 await loginStore.updateLoginCart()
               }
             }
-            props.history.push({ pathname: "/required", state:{cur_path:'/'} });
+
+             //1.会员调用consense接口
+             findUserConsentList({}).then((result)=>{
+              if (result.code === 'K-000000' && result.context.requiredList.length!==0) {
+                props.history.push({ pathname: "/required", state:{path:'/'} });
+              }
+            })
+        
+            
             
 
             // if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {
