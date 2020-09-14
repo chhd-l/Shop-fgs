@@ -290,15 +290,9 @@ const App = () => (
                 exact
                 component={AccountShippingAddressForm}
               />
-              <Route exact path="/forgetPassword" component={ForgetPassword} />
-              <Route
-                exact
-                path="/Widerrufsbelehrung"
-                component={Widerrufsbelehrung}
-              />
-
               <Route path="/required" exact component={RegisterRequired} />
               <Route path="/conoce-mas-de-evet" exact component={Landing} />
+              <Route exact path="/forgetPassword" component={ForgetPassword} />
 
               {/* <Route exact component={Exception} /> */}
             </Security>
