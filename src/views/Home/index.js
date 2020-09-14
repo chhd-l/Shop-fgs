@@ -418,7 +418,7 @@ class Home extends React.Component {
               {(txt) => (
                 <Link
                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                  to="/list/dogs"
+                  to="/list/chien"
                   title={txt}
                 >
                   <picture className="category-cards__card__img">
@@ -448,7 +448,7 @@ class Home extends React.Component {
               {(txt) => (
                 <Link
                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                  to="/list/cats"
+                  to="/list/chat"
                   title={txt}
                 >
                   <picture className="category-cards__card__img">
@@ -478,7 +478,7 @@ class Home extends React.Component {
               {(txt) => (
                 <Link
                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                  to="/list/puppy-dogs"
+                  to="/list/chiot"
                   title={txt}
                 >
                   <picture className="category-cards__card__img">
@@ -508,7 +508,7 @@ class Home extends React.Component {
               {(txt) => (
                 <Link
                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                  to="/list/kitten-cats"
+                  to="/list/chaton"
                   title={txt}
                 >
                   <picture className="category-cards__card__img">

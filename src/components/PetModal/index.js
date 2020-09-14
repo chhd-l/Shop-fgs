@@ -29,7 +29,7 @@ class PetModal extends Component { // 新建Pet
     getUserInfo () {
         let userinfo = {}
         if (localItemRoyal.get('rc-userinfo')) {
-            userinfo = JSON.parse(localItemRoyal.get('rc-userinfo'))
+            userinfo = localItemRoyal.get('rc-userinfo')
 
         }
         return userinfo
