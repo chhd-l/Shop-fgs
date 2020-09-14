@@ -594,9 +594,18 @@ class Payment extends React.Component {
     }
   }
 
-  //获取adyen参数
+  //获取参数
   async doGetAdyenPayParam(type) {
     try {
+      //---------------会员 是否存在选填项start-----------------
+      if(this.isLogin){
+        const consentRes = await findUserConsentList({})
+        
+        if(consentRes.code == 'K-000000' &&consentRes.context.optionalList.length!==0){
+          this.props.history.push({ pathname: "/required", state:{path:'pay'} });
+        }
+      }
+      //---------------会员 是否存在选填项end--------------------
       let parameters = await this.getAdyenPayParam(type);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
@@ -788,15 +797,7 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
-      const consentRes = await findUserConsentList({});
 
-      if (
-        consentRes.context &&
-        (consentRes.context.optionalList.length !== 0 ||
-          consentRes.context.requiredList.length !== 0)
-      ) {
-        this.props.history.push('/required');
-      }
       await batchAdd({
         goodsInfos: cartData.map((ele) => {
           return {
