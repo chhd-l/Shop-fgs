@@ -63,16 +63,17 @@ class Terms extends Component {
               id="payment.terms1"
               values={{
                 val1: (
-                  <Link className="red" target="_blank" to="/privacypolicy">
-                    AGB
+                  <Link className="red" target="_blank" to="https://shop.royalcanin.fr/general-terms-conditions.html
+                  ">
+                    conditions générales de vente
                   </Link>
                 ),
                 val2: (
                   <a
                     className="red"
-                    href="https://www.mars.com/privacy-policy-germany"
+                    href="https://www.mars.com/legal-france"
                   >
-                    Datenschutzerklärung
+                    conditions d´utilisation
                   </a>
                 )
               }}
