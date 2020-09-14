@@ -87,6 +87,9 @@ class RegisterRequired extends Component {
         }    
     }
     async componentDidMount () {
+        document.getElementById('des').addEventListener('click',function(e){
+            console.log(e.target.innerHTML)
+        })
         if (localItemRoyal.get('isRefresh')) {
             localItemRoyal.remove('isRefresh');
             window.location.reload();
@@ -139,14 +142,17 @@ class RegisterRequired extends Component {
             this.setState({
                 list
             })
+            
+            
   
 
             // const result2 = await consentListDetail(
             //     {
-            //         "consentKey": 18,
-            //         "contentTitle": "privacy policy"
+            //         "consentKey": 68,
+            //         "contentTitle": "procesamiento"
             //     }
             // )
+            // console.log(result2)
         } catch (err) {
             console.log(err.message)
         } finally{
@@ -161,7 +167,7 @@ class RegisterRequired extends Component {
     render() {
         const createMarkup = (text) => ({ __html: text });
         return (
-            <div className="required-wrap">
+            <div className="required-wrap" id="des">
                 {/* Logo */}
                 <Link to="/" className="header__nav__brand logo-home pt-5">
                     <span className="rc-screen-reader-text"></span>

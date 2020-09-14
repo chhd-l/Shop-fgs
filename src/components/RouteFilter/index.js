@@ -71,9 +71,7 @@ class RouteFilter extends Component {
 
   //总的调用consense接口
   getConsentList(){
-    this.isLogin
-      ? this.doFindUserConsentList()
-      : this.doGetStoreOpenConsentList()
+    this.doFindUserConsentList()
   }
   //1.会员调用consense接口
   doFindUserConsentList(){
