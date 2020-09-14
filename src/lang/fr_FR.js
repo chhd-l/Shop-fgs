@@ -235,7 +235,7 @@ const en_US = {
   "payment.confirmInfo2": "Vous devez être âgé d'au moins 18 ans pour vous inscrire sur le site.",
   "payment.confirmInfo3": "J'ai lu les Conditions d'utilisation et {val1} et j'accepte le traitement des données personnelles, y compris {val2}",
   "payment.confirmInfo4": "Vous devez vous familiariser avec le contrat d'utilisation et les règles de protection des données et donner votre consentement au traitement des données personnelles, y compris les transferts transfrontaliers.",
-  "payment.terms1": "J'accepte le {val1} et j'ai lu le {val2}.",
+  "payment.terms1": "J'ai lu et j'accepte les {val1} et les {val2}.",
   "payment.terms2.header": "Consentement au suivi des envois",
   "payment.terms2": "Afin d'être informé de l'état de l'envoi par le prestataire de services postaux (DPD Deutschland GmbH, Wailandtstrasse 1, 63741 Aschaffenburg), j'accepte que mon adresse e-mail soit transmise à ce prestataire de services postaux. Après la transmission, le prestataire de services postaux est responsable du traitement ultérieur des données. Je peux révoquer mon consentement à tout moment en envoyant un e-mail à {val1}. Jusqu'à ce que vous retiriez votre consentement, le traitement des données est licite sur la base de ce consentement." ,
   "payment.terms3.header": "Infolettre ROYAL CANIN",
