@@ -683,7 +683,8 @@ class Payment extends React.Component {
           subNumber = oxxoContent.subscribeId;
           gotoConfirmationPage = true;
           break;
-        case 'payu_credit_card':debugger
+        case 'payu_credit_card':
+          debugger;
           orderNumber =
             tid || (res.context && res.context[0] && res.context[0].tid);
           subNumber =
@@ -725,7 +726,8 @@ class Payment extends React.Component {
       if (gotoConfirmationPage) {
         this.props.history.push('/confirmation');
       }
-    } catch (err) {debugger
+    } catch (err) {
+      debugger;
       console.log(err);
       if (!this.isLogin) {
         sessionItemRoyal.remove('rc-token');
@@ -805,7 +807,7 @@ class Payment extends React.Component {
         })
       });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       throw new Error(err.message);
     }
   }
@@ -1438,7 +1440,7 @@ class Payment extends React.Component {
 
                   {this._renderPayTab()}
                 </div>
-                <Confirmation />
+                {this.isOnepageCheckout && <Confirmation />}
               </div>
               <div className="rc-column pl-md-0">
                 {this.state.tid ? (

@@ -14,7 +14,7 @@ import axios from 'axios';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
-@inject('loginStore')
+@inject('loginStore', 'paymentStore')
 @injectIntl
 @observer
 class PayOs extends React.Component {
@@ -319,6 +319,11 @@ class PayOs extends React.Component {
     });
   }
   onPaymentCompDataChange = (data) => {
+    this.props.paymentStore.updatePanelStatus('confirmation', {
+      isPrepare: false,
+      isEdit: false,
+      isCompleted: true
+    });
     this.setState({ selectedCardInfo: data }, () => {
       this.props.onPaymentCompDataChange(data);
     });

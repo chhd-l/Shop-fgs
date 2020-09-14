@@ -1,7 +1,10 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
 
+@inject('paymentStore')
+@observer
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);
@@ -40,6 +43,9 @@ class Confirmation extends React.Component {
   componentDidMount() {
     this.validData();
   }
+  get panelStatus() {
+    return this.props.paymentStore.panelStatus.confirmation;
+  }
   handleChange = (item) => {
     item.isRead = !item.isRead;
     this.setState(
@@ -72,6 +78,7 @@ class Confirmation extends React.Component {
               <FormattedMessage id="confirmation" />
             </h5>
           </div>
+          {/* {} */}
           <div className="pt-3">
             {/* 条款 */}
             {this.state.terms.map((item, i) => (
