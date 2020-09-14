@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 import logoAnimatedPng from "@/assets/images/logo--animated2.png";
 import Skeleton from "react-skeleton-loader";
 import "./index.css"
-import { findUserConsentList, consentListDetail,userBindConsent,getStoreOpenConsentList} from "@/api/consent"
+import { findUserConsentList,userBindConsent,getStoreOpenConsentList} from "@/api/consent"
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -87,22 +87,18 @@ class RegisterRequired extends Component {
         }    
     }
     async componentDidMount () {
-        // var spanDom = document.getElementById('wrap').getElementsByTagName('span')
-        // for(var i=0;i<spanDom.length;i++){
-        //     console.log(spanDom[i])
-        //     // spanDom[i].addEventListener('click',function(e){
-        //     //     console.log(e.target.innerText)
-        //     // })
-        //     console.log(i)
-        //     spanDom[i].onclick = function(){
-        //         // console.log(e.target.innerText)
-        //         alert(4565)
-        //     }
-        // }
-        // document.getElementById('wrap').addEventListener('click',function(e){
-        //     console.log(e.target.innerText)
-        //     // console.log(document.getElementById('wrap').getElementsByTagName('span'))
-        // })
+        document.getElementById('wrap').addEventListener('click',(e)=>{     
+            if(e.target.localName === 'span'){
+                let keyWords = e.target.innerText
+                let index = Number(e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id)
+                console.log(typeof index)
+                console.log(this.state.list[index])
+                let arr = this.state.list[index].detailList.filter(item=>{
+                    return item.contentTitle == keyWords
+                })
+                console.log({arr})
+            }
+        })
         if (localItemRoyal.get('isRefresh')) {
             localItemRoyal.remove('isRefresh');
             window.location.reload();
@@ -114,7 +110,6 @@ class RegisterRequired extends Component {
             isLoading:true
         })
         // let lastPath = this.props.location.state.path
-        // debugger
 
         try {
             let result
@@ -136,7 +131,8 @@ class RegisterRequired extends Component {
                     id: item.id,
                     consentTitle: item.consentTitle,
                     isChecked: false,
-                    isRequired: false
+                    isRequired: false,
+                    detailList: item.detailList
                 }
             })
 
@@ -145,7 +141,8 @@ class RegisterRequired extends Component {
                     id: item.id,
                     consentTitle: item.consentTitle,
                     isChecked: false,
-                    isRequired: true
+                    isRequired: true,
+                    detailList: item.detailList
                 }
             })
 
@@ -155,6 +152,8 @@ class RegisterRequired extends Component {
             this.setState({
                 list
             })
+
+            console.log(this.state.list)
             
             
   
@@ -213,7 +212,8 @@ class RegisterRequired extends Component {
                         :
                         this.state.list.map((item, index) => {
                             return (
-                                <div className="footerCheckbox" key={index}>
+                                <div id={index}> 
+                                    <div className="footerCheckbox" key={index}>
                                     <input
                                         className="form-check-input ui-cursor-pointer-pure"
                                         id="id-checkbox-cat-2"
@@ -234,17 +234,19 @@ class RegisterRequired extends Component {
                                         }}
                                         checked={item.isChecked}
                                     />
-                                    <div className="d-flex">
-                                        <div
-                                            className="description"
-                                            dangerouslySetInnerHTML={createMarkup(
-                                                item.consentTitle
-                                            )}
-                                        ></div>
-                                        {item.isRequired ? <span className="pl-2 rc-text-colour--brand1">*</span> : null}
+                                        <div className="d-flex">
+                                            <div
+                                                className="description"
+                                                dangerouslySetInnerHTML={createMarkup(
+                                                    item.consentTitle
+                                                )}
+                                            ></div>
+                                            {item.isRequired ? <em className="pl-2 rc-text-colour--brand1">*</em> : null}
+                                        </div>
                                     </div>
-
+                                    <div style={{paddingLeft: '89px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}}></div>
                                 </div>
+                                
                             )
                         })
                     }

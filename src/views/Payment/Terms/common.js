@@ -12,16 +12,16 @@ class TermsCommon extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      list:[]
+      list:[],
+      isLoading: false
     };
   }
   componentDidMount(){
 
   }
   componentWillReceiveProps (nextProps) {
-    console.log({nextProps})
     this.setState({
-      list:this.props.listData
+      list:nextProps.listData
     })
   }
   render() {
@@ -55,6 +55,8 @@ class TermsCommon extends Component {
                                   list.splice(index, 1, itemObj)
                                   this.setState({
                                       list
+                                  },()=>{
+                                    this.props.checkRequiredItem(this.state.list)
                                   });
                                   //替换属性end
                               }}
@@ -63,6 +65,8 @@ class TermsCommon extends Component {
                           <div className="d-flex">
                               <div
                                   className="description"
+                                  style={{marginLeft: '10px',marginTop: '-3px'
+                                }}
                                   dangerouslySetInnerHTML={createMarkup(
                                       item.consentTitle
                                   )}

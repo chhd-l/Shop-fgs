@@ -71,7 +71,9 @@ class RouteFilter extends Component {
 
   //总的调用consense接口
   getConsentList(){
-    this.doFindUserConsentList()
+    if(this.isLogin){
+      this.doFindUserConsentList()
+    } 
   }
   //1.会员调用consense接口
   doFindUserConsentList(){
@@ -80,16 +82,16 @@ class RouteFilter extends Component {
     })
   }
   //2.游客调用consense接口
-  doGetStoreOpenConsentList(){
-      const isRequiredCheckedAll = sessionItemRoyal.get('isRequiredChecked')
-      isRequiredCheckedAll
-      ?
-      console.log('该跳转哪个页面就跳转哪个页面')
-      : //游客: 没有全部确认consense
-      getStoreOpenConsentList({}).then((result)=>{
-        this.isExistRequiredListFun(result)
-      })
-  }
+  // doGetStoreOpenConsentList(){
+  //     const isRequiredCheckedAll = sessionItemRoyal.get('isRequiredChecked')
+  //     isRequiredCheckedAll
+  //     ?
+  //     console.log('该跳转哪个页面就跳转哪个页面')
+  //     : //游客: 没有全部确认consense
+  //     getStoreOpenConsentList({}).then((result)=>{
+  //       this.isExistRequiredListFun(result)
+  //     })
+  // }
   async componentDidMount() {
     let pathname = this.props.location.pathname 
     // 非首页+非/implicit/callback+非required页 调用consense接口

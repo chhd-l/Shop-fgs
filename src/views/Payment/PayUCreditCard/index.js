@@ -44,7 +44,8 @@ class PayOs extends React.Component {
       hasEditedEmail: false,
       hasEditedPhone: false,
       hasEditedName: false,
-      listData: []
+      listData: [],
+      requiredList:[]
     };
   }
   get isLogin() {
@@ -78,19 +79,6 @@ class PayOs extends React.Component {
       }
     }
     return tmp;
-  }
-  static getDerivedStateFromProps(nextProps, prevState) {
-    // console.log({nextProps})
-    // const { listData } = nextProps;
-    // // 当传入的type发生变化的时候，更新state
-    // if (listData !== prevState.listData) {
-    //   return {
-    //     listData: nextProps.listData,
-    //   };
-    // }
-    // console.log(this.state.listData)
-    // // 否则，对于state不进行任何操作
-    // return null;
   }
 
   componentDidMount() {
@@ -277,6 +265,10 @@ class PayOs extends React.Component {
       return false;
     }
     try {
+      let isAllChecked = this.state.requiredList.every(item=>item.isChecked)
+      if(!isAllChecked){
+        throw new Error('agreement failed');
+      }
       const { needReConfirmCVV } = this.props;
       let {
         isEighteen,
@@ -365,6 +357,14 @@ class PayOs extends React.Component {
       this.props.onPaymentCompDataChange(data);
     });
   };
+  checkRequiredItem = (list) => {
+    let requiredList =  list.filter(item=>item.isRequired)
+    this.setState({
+      requiredList
+    },()=>{
+      console.log({requiredList: this.state.requiredList})
+    })
+  }
   render() {
     const { creditCardInfo } = this.state;
 
@@ -654,6 +654,7 @@ class PayOs extends React.Component {
         {/* 条款 */}
         <TermsCommon
             listData = {this.props.listData}
+            checkRequiredItem = {this.checkRequiredItem}
           />
         {/* <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom mt-3">
           <input
