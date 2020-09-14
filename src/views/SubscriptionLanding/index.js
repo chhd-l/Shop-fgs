@@ -580,11 +580,10 @@ class Help extends React.Component {
           <div class="help-page" style={{ marginBottom: '1rem' }}>
             <section style={{ textAlign: 'center' }}>
               <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                Our pet experts are here to help you
+                Besoin d'aide ?
               </h2>
               <p>
-                We're pet lovers and experts in cat and dog nutrition and we're
-                ready to to help you with any questions you might have.
+                Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.
               </p>
             </section>
             <div class="experience-region experience-main">
@@ -595,20 +594,6 @@ class Help extends React.Component {
                       <div class="experience-component experience-assets-contactUsBlock">
                         <div class="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                           <div class="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
-                            {/* <div class="rc-padding-bottom--none--mobile" style={{ width: '40%' }}>
-                              <h1 class="rc-beta" style={{ margin: '0 0 0 1rem' }}>
-                                <font style={{ verticalAlign: "inherit" }}>
-                                  <font style={{ verticalAlign: "inherit" }}><FormattedMessage id="help.needHelp" /></font>
-                                </font>
-                              </h1>
-                            </div>
-                            <div style={{ width: '60%' }}>
-                              <div class="rc-large-body inherit-fontsize children-nomargin">
-                                <p>
-                                  <FormattedMessage id="help.tip1" /><br /><FormattedMessage id="help.tip4" />
-                                </p>
-                              </div>
-                            </div> */}
                           </div>
                           <div class="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
                             <div class="rc-column rc-double-width rc-padding--none">
