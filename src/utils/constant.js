@@ -63,7 +63,7 @@ export const STORE_CATE_ENUM = [
   },
   {
     url: '/list/chaton',
-    category: 'Chaton',
+    category: 'chaton',
     cateName: ['Chaton'],
     text: CURRENT_LANGFILE['product.fr.catogery4.name'],
     title: CURRENT_LANGFILE['product.fr.catogery4.title'],
@@ -72,7 +72,7 @@ export const STORE_CATE_ENUM = [
   },
   {
     url: '/list/chiot',
-    category: 'Chiot',
+    category: 'chiot',
     cateName: ['Chiot'],
     text: CURRENT_LANGFILE['product.fr.catogery3.name'],
     title: CURRENT_LANGFILE['product.fr.catogery3.title'],
@@ -116,8 +116,8 @@ export const STORE_CATE_ENUM = [
     img: catsImg
   },
   {
-    url: '/list/chat',
-    category: 'Chat',
+    url: '/list/Chat',
+    category: 'chat',
     cateName: ['Chat'],
     text: CURRENT_LANGFILE['product.fr.catogery2.name'],
     title: CURRENT_LANGFILE['product.fr.catogery2.title'],
@@ -125,8 +125,8 @@ export const STORE_CATE_ENUM = [
     img: catsImg
   },
   {
-    url: '/list/chien',
-    category: 'Chien',
+    url: '/list/Chien',
+    category: 'chien',
     cateName: ['Chien'],
     text: CURRENT_LANGFILE['product.fr.catogery1.name'],
     title: CURRENT_LANGFILE['product.fr.catogery1.title'],

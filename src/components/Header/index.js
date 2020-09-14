@@ -483,7 +483,11 @@ class Header extends React.Component {
     const defaultVal = [
       { link: '/list/cats', langKey: 'cats' },
       { link: '/list/dogs', langKey: 'dogs' },
-      { link: this.props.configStore.contactUsUrl, langKey: 'aboutUs' },
+      {
+        link: this.props.configStore.contactUsUrl,
+        langKey: 'aboutUs',
+        isOutLink: true
+      },
       { link: 'help', langKey: 'contactUs' }
     ];
     return {
@@ -495,7 +499,11 @@ class Header extends React.Component {
         { link: '/list/dogs', langKey: 'dogs' },
         { link: '/subscription-landing', langKey: 'account.subscription' },
         { link: '/Tailorednutrition', langKey: 'healthAndWellbeing' },
-        { link: this.props.configStore.contactUsUrl, langKey: 'aboutUs' },
+        {
+          link: this.props.configStore.contactUsUrl,
+          langKey: 'aboutUs',
+          isOutLink: true
+        },
         { link: 'help', langKey: 'contactUs' }
       ]
     };
@@ -830,9 +838,15 @@ class Header extends React.Component {
                 <li className="rc-list__item" key={i}>
                   <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                     <li className="rc-list__item">
-                      <Link to={item.link} className="rc-list__header">
-                        <FormattedMessage id={item.langKey} />
-                      </Link>
+                      {item.isOutLink ? (
+                        <a href={item.link} className="rc-list__header 11111">
+                          <FormattedMessage id={item.langKey} />
+                        </a>
+                      ) : (
+                        <Link to={item.link} className="rc-list__header">
+                          <FormattedMessage id={item.langKey} />
+                        </Link>
+                      )}
                     </li>
                   </ul>
                 </li>

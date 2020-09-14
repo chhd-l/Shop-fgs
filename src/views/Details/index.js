@@ -967,7 +967,7 @@ class Details extends React.Component {
                                               ).toFixed(2)
                                             )}
                                             /
-                                            {selectedSpecItem.baseSpecLabel.slice(
+                                            {selectedSpecItem.baseSpecLabel && selectedSpecItem.baseSpecLabel.slice(
                                               String(
                                                 parseFloat(
                                                   selectedSpecItem.baseSpecLabel
@@ -1048,7 +1048,7 @@ class Details extends React.Component {
                                                 ).toFixed(2)
                                               )}
                                               /
-                                              {selectedSpecItem.baseSpecLabel.slice(
+                                              {selectedSpecItem.baseSpecLabel && selectedSpecItem.baseSpecLabel.slice(
                                                 String(
                                                   parseFloat(
                                                     selectedSpecItem.baseSpecLabel
