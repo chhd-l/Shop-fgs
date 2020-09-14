@@ -202,80 +202,74 @@ export const menubar = {
   fr: [
     [
       {
-        titleId: 'aboutUs',
+        titleId: 'ROYAL CANIN',
         list: [
           {
             url:
-              'https://www.royalcanin.com/de/about-us/our-history#Our%20history',
-            messageId: 'footer.history'
-          },
-          {
-            props: 'ourValues',
-            url:
-              'https://www.royalcanin.com/de/about-us/our-values#Our%20values',
-            messageId: 'footer.ourValues'
+              'https://shop.royalcanin.fr/About-Us.html',
+            messageId: 'A propos'
           },
           {
             url:
-              'https://www.royalcanin.com/de/about-us/sustainability#Sustainability',
-            messageId: 'footer.consistence'
+              'https://shop.royalcanin.fr/Values.html',
+            messageId: 'Nos valeurs'
           },
           {
             url:
-              'https://www.royalcanin.com/de/about-us/qualitat-und-futtermittelsicherheit',
-            messageId: 'footer.qualityAndSafety'
+              'https://shop.royalcanin.fr/Quality-safety.html',
+            messageId: 'Qualité et sécurité alimentaire'
           },
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'ALIMENTS',
+        list: [
+          { link: '/list/cats', messageId: 'Chat' },
+          { link: '/list/dogs', messageId: 'Chien' },
           {
-            url: 'https://www.royalcanin.com/de/about-us/news',
-            messageId: 'footer.news'
-          },
-          {
-            url: 'https://www.royalcanin.com/de/about-us/acceptance-guarantee',
-            messageId: 'footer.acceptance'
-          },
-          {
-            url: 'https://www.royalcanin.com/de/about-us/newsletter',
-            messageId: 'footer.newsletter'
-          },
-          {
-            url: 'https://www.royalcanin.com/de/about-us/promotions',
-            messageId: 'footer.action'
+            url:'https://shop.royalcanin.fr/Tailorednutrition.html',messageId:'Santé et bien-être'
           }
         ]
       }
     ],
     [
       {
-        titleId: 'footer.products',
+        titleId: 'COMPTE',
         list: [
-          { link: '/list/cats', messageId: 'de_cats' },
-          { link: '/list/dogs', messageId: 'de_dogs' }
+          // 我的账户，订单，订阅单
+          {
+            link: '/account',
+            messageId: 'Mon compte'
+          },
+          { link: '/account/orders', 
+          messageId: 'Mes commandes' },
+          { link: '/account/subscription', 
+          messageId: 'Mes abonnements' }
         ]
       }
     ],
     [
       {
-        titleId: 'footer.help2',
+        titleId: 'AIDE',
         list: [
           {
-            url: 'https://shopstg.royalcanin.com/help',
-            messageId: 'footer.contacts'
+            link: '/help',
+            messageId: 'Aide'
           },
-          { link: '/FAQ/catogery-0', messageId: 'footer.FAQVersand' },
-          { link: '/FAQ/catogery-1', messageId: 'footer.FAQAllgemeines' }
+          { link: '/FAQ/all', messageId: 'FAQ' },
         ]
       }
     ],
     [
       {
-        titleId: 'footer.Additionally2',
+        titleId: 'AUTRES',
         list: [
           {
-            url: 'https://www.mars.com/privacy-policy-germany',
-            messageId: 'footer.privacyPolicy2'
+            url: 'https://shop.royalcanin.fr/general-terms-conditions.html',
+            messageId: 'Conditions Générales de Vente'
           },
-          { link: '/Terms-And-Conditions', messageId: 'footer.termsOfService' },
-          { link: '/Widerrufsbelehrung', messageId: 'footer.withdrawal' }
         ]
       }
     ]
