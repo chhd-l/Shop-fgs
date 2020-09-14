@@ -307,3 +307,14 @@
     position: relative;
   }
 }
+
+
+.petProduct {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.petProduct img {
+  width: 60px;
+}

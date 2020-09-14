@@ -1408,6 +1408,31 @@ class Payment extends React.Component {
     );
   };
 
+  closePetModal() {
+    if (this.state.isAdd === 2) {
+      this.setState({
+        isAdd: 0
+      });
+    }
+    this.setState({
+      petModalVisible: false
+    });
+  }
+  petComfirm() {
+    this.props.history.push('/prescription');
+  }
+  openNew() {
+    this.setState({
+      isAdd: 1
+    });
+    this.openPetModal();
+  }
+  closeNew() {
+    this.setState({
+      isAdd: 2
+    });
+    this.openPetModal();
+  }
   render() {
     const event = {
       page: {
@@ -1457,7 +1482,7 @@ class Payment extends React.Component {
                   </>
                 )}
                 <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
-                  <h5 className="ml-custom mr-custom">
+                  <h5 className="ml-custom mr-custom" style={{overflow: 'hidden'}}>
                     <i
                       class="rc-icon rc-payment--sm rc-iconography"
                       style={{ transform: 'scale(.9)' }}
@@ -1467,7 +1492,26 @@ class Payment extends React.Component {
                     {
                       this.loginCartData.map(el => {
                         console.log(el, 'hahah')
-                        return (<div>1</div>)
+                        return (<div className="petProduct">
+                          <img src={el.goodsInfoImg} style={{float: 'left'}}/>
+                          <div style={{float: 'left', marginTop: '20px', marginLeft: '20px'}}>
+                            <p>
+                              <span>Pet:</span><span>{'required'}</span>
+                            </p>
+                            <p>
+                              <span>Qty:</span><span>{el.buyCount}</span>
+                            </p>
+                          </div>
+                          <div style={{float: 'right', marginTop: '30px', marginLeft: '20px'}}>
+                            <button class="rc-btn rc-btn--sm rc-btn--one" onClick={() =>  {
+                              this.setState({petModalVisible: true})
+                            }}>Select a pet</button>
+                            &nbsp;&nbsp;
+                            or
+                            &nbsp;&nbsp;
+                            <a class="rc-styled-link rc-btn--sm" href="#/">add a pet</a>
+                          </div>
+                        </div>)
                       })
                     }
                   </h5>
