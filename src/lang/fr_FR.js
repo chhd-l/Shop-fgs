@@ -85,7 +85,7 @@ const en_US = {
   "header.carouselInfo11": "ROYAL CANIN® CLUB pour chatons",
   "header.toBegin": "Choisir",
   "header.toLearnMore": "Pour apprendre plus",
-  'home.promotionTip': '10% de réduction sur le premier achat + 5% de réduction sur chaque livraison automatique?',
+  'home.promotionTip': '10% de réduction sur l\'ensemble des commandes',
   "home.productsCategory": "Nos produits",
   "home.pageNotFound": "Page non trouvée…",
   "home.pageNotFoundInfo": "Désolé, la page que vous recherchez n'existe pas.",
