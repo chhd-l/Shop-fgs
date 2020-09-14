@@ -87,9 +87,22 @@ class RegisterRequired extends Component {
         }    
     }
     async componentDidMount () {
-        document.getElementById('des').addEventListener('click',function(e){
-            console.log(e.target.innerHTML)
-        })
+        // var spanDom = document.getElementById('wrap').getElementsByTagName('span')
+        // for(var i=0;i<spanDom.length;i++){
+        //     console.log(spanDom[i])
+        //     // spanDom[i].addEventListener('click',function(e){
+        //     //     console.log(e.target.innerText)
+        //     // })
+        //     console.log(i)
+        //     spanDom[i].onclick = function(){
+        //         // console.log(e.target.innerText)
+        //         alert(4565)
+        //     }
+        // }
+        // document.getElementById('wrap').addEventListener('click',function(e){
+        //     console.log(e.target.innerText)
+        //     // console.log(document.getElementById('wrap').getElementsByTagName('span'))
+        // })
         if (localItemRoyal.get('isRefresh')) {
             localItemRoyal.remove('isRefresh');
             window.location.reload();
@@ -167,7 +180,7 @@ class RegisterRequired extends Component {
     render() {
         const createMarkup = (text) => ({ __html: text });
         return (
-            <div className="required-wrap" id="des">
+            <div className="required-wrap" id="wrap">
                 {/* Logo */}
                 <Link to="/" className="header__nav__brand logo-home pt-5">
                     <span className="rc-screen-reader-text"></span>
