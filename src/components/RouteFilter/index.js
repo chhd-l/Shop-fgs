@@ -68,13 +68,6 @@ class RouteFilter extends Component {
           this.props.history.push({ pathname: "/required", state:{path:pathname }});
       }
   }
-  //判断consent接口是否存在选填项
-  isExistOptionalListFun(result){
-    let pathname = this.props.location.pathname //正进入的那个页面
-        if (result.code === 'K-000000' && result.context.optionalList.length!==0) {
-          this.props.history.push({ pathname: "/required", state:{path:pathname }});
-      }
-  }
 
   //总的调用consense接口
   getConsentList(){
