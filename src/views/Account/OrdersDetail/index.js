@@ -412,13 +412,16 @@ class AccountOrders extends React.Component {
                                 ] || details.tradeState.flowState}
                               </span>
                             </div>
-                            <div className="text-center">
-                              <FormattedMessage id="payment.clinicTitle3" />:
-                              <br />
-                              <span className="medium">
-                                {details.clinicsName}
-                              </span>
-                            </div>
+                            {process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
+                              'true' && (
+                              <div className="text-center">
+                                <FormattedMessage id="payment.clinicTitle3" />:
+                                <br />
+                                <span className="medium">
+                                  {details.clinicsName}
+                                </span>
+                              </div>
+                            )}
                             {/* {this.returnOrExchangeBtnJSX()} */}
                             {/* {this.cancelOrderBtnJSX()} */}
                           </div>

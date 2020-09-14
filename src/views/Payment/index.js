@@ -500,6 +500,7 @@ class Payment extends React.Component {
           styles: {},
           placeholders: {},
           showPayButton: true,
+          brands: ['mc', 'visa', 'amex', 'cartebancaire'],
           onSubmit: (state, component) => {
             if (state.isValid) {
               //勾选条款验证
