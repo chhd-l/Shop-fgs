@@ -139,6 +139,56 @@ class MarsFooterMap extends React.Component {
             </div>
           </div>
         </div>
+      ),
+      fr: (
+        <div id="mars-footer-panel">
+          <div className="mars-footer-container">
+            <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
+              <li>
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/privacy-policy-germany"
+                >
+                  <span className="mars-footer-label">
+                    <FormattedMessage id="footer.privacy" />
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a target="_blank" href="https://www.mars.com/cookies-germany">
+                  <span className="mars-footer-label">
+                    <FormattedMessage id="footer.cookies2" />
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a target="_blank" href="https://www.mars.com/legal-germany">
+                  <span className="mars-footer-label">
+                    <FormattedMessage id="footer.termsOfUse" />
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  target="_blank"
+                  href="https://www.royalcanin.com/de/about-us/imprint"
+                >
+                  <span className="mars-footer-label">
+                    <FormattedMessage id="footer.impress" />
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <div
+              className="mars-footer-legal text-center"
+              style={{ fontSize: '10px' }}
+            >
+              <p>
+                <FormattedMessage id="footer.copyrightInfo2" />
+              </p>
+            </div>
+          </div>
+        </div>
       )
     };
     return <div>{marsFooterMap[process.env.REACT_APP_LANG]}</div>;

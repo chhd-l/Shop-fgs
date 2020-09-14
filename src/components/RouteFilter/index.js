@@ -22,7 +22,7 @@ class RouteFilter extends Component {
       return false;
     }
 
-    // 德国店铺，不进入此页面
+    // 不开启地图，不进入此页面
     if (
       nextProps.location.pathname === '/prescription' &&
       !this.props.configStore.prescriberMap
