@@ -20,7 +20,7 @@ import { formatMoney } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { ADYEN_CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
-import { findUserConsentList,getStoreOpenConsentList } from '@/api/consent';
+import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -122,40 +122,45 @@ class Payment extends React.Component {
       orderDetails: null,
       tid: sessionItemRoyal.get('rc-tid'),
       recommend_data: [],
-      optionalList:[]
+      optionalList: []
     };
     this.timer = null;
     this.loginDeliveryAddressRef = React.createRef();
     this.loginBillingAddressRef = React.createRef();
     this.lang = process.env.REACT_APP_LANG;
   }
-   //总的调用consense接口
-   getConsentList(){
-     this.isLogin ? this.doFindUserConsentList():this.doGetStoreOpenConsentList()
+  //总的调用consense接口
+  getConsentList() {
+    this.isLogin
+      ? this.doFindUserConsentList()
+      : this.doGetStoreOpenConsentList();
   }
   //1.会员调用consense接口
-  doFindUserConsentList(){
-    findUserConsentList({}).then((result)=>{
-      this.isExistOptionalListFun(result)
-    })
+  doFindUserConsentList() {
+    findUserConsentList({}).then((result) => {
+      this.isExistOptionalListFun(result);
+    });
   }
   //2.游客调用consense接口
-  doGetStoreOpenConsentList(){
-    getStoreOpenConsentList({}).then((result)=>{
-      this.isExistOptionalListFun(result)
-    })  
+  doGetStoreOpenConsentList() {
+    getStoreOpenConsentList({}).then((result) => {
+      this.isExistOptionalListFun(result);
+    });
   }
   //判断consent接口是否存在选填项
-  isExistOptionalListFun(result){
-        if (result.code === 'K-000000' && result.context.optionalList.length!==0) {
-          console.log(result.context.optionalList)
-          this.setState({
-            optionalList: result.context.optionalList
-          })
-      }
+  isExistOptionalListFun(result) {
+    if (
+      result.code === 'K-000000' &&
+      result.context.optionalList.length !== 0
+    ) {
+      console.log(result.context.optionalList);
+      this.setState({
+        optionalList: result.context.optionalList
+      });
+    }
   }
   async componentDidMount() {
-    this.getConsentList()
+    this.getConsentList();
 
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
@@ -481,8 +486,9 @@ class Payment extends React.Component {
       const checkout = new AdyenCheckout({
         environment: 'test',
         originKey: process.env.REACT_APP_AdyenOriginKEY,
-        // originKey: 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
-        locale: process.env.REACT_APP_Adyen_locale,
+        // originKey:
+        //   'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
+        locale: process.env.REACT_APP_Adyen_locale
       });
 
       // (2). Create and mount the Component
@@ -494,6 +500,7 @@ class Payment extends React.Component {
           styles: {},
           placeholders: {},
           showPayButton: true,
+          brands: ['mc', 'visa', 'amex', 'cartebancaire'],
           onSubmit: (state, component) => {
             if (state.isValid) {
               //勾选条款验证
@@ -596,7 +603,7 @@ class Payment extends React.Component {
             ...this.state.adyenPayParam,
             shopperLocale: 'en_US',
             currency: 'EUR',
-            country: process.env.REACT_APP_Adyen_country,  
+            country: process.env.REACT_APP_Adyen_country,
             email: this.state.email,
             payChannelItem:
               this.state.subForm.buyWay === 'frequency'
@@ -933,6 +940,12 @@ class Payment extends React.Component {
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId
     };
+    if (!this.checkoutWithClinic) {
+      param = Object.assign(param, {
+        clinicsId: 'FG20200914',
+        clinicsName: 'France Default'
+      });
+    }
     if (localItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
@@ -1447,7 +1460,7 @@ class Payment extends React.Component {
           }`}
         >
           <PayUCreditCard
-            listData = {this.state.optionalList}
+            listData={this.state.optionalList}
             startLoading={() => this.startLoading()}
             endLoading={() => this.endLoading()}
             showErrorMsg={(data) => this.showErrorMsg(data)}
