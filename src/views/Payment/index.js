@@ -20,7 +20,7 @@ import { formatMoney } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { ADYEN_CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
-import { findUserConsentList } from '@/api/consent';
+import { findUserConsentList,getStoreOpenConsentList } from '@/api/consent';
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -121,14 +121,42 @@ class Payment extends React.Component {
       savedPayWayObj: {}, //保留初始化的支付方式
       orderDetails: null,
       tid: sessionItemRoyal.get('rc-tid'),
-      recommend_data: []
+      recommend_data: [],
+      optionalList:[]
     };
     this.timer = null;
     this.loginDeliveryAddressRef = React.createRef();
     this.loginBillingAddressRef = React.createRef();
     this.lang = process.env.REACT_APP_LANG;
   }
+   //总的调用consense接口
+   getConsentList(){
+     this.isLogin ? this.doFindUserConsentList():this.doGetStoreOpenConsentList()
+  }
+  //1.会员调用consense接口
+  doFindUserConsentList(){
+    findUserConsentList({}).then((result)=>{
+      this.isExistOptionalListFun(result)
+    })
+  }
+  //2.游客调用consense接口
+  doGetStoreOpenConsentList(){
+    getStoreOpenConsentList({}).then((result)=>{
+      this.isExistOptionalListFun(result)
+    })  
+  }
+  //判断consent接口是否存在选填项
+  isExistOptionalListFun(result){
+        if (result.code === 'K-000000' && result.context.optionalList.length!==0) {
+          console.log(result.context.optionalList)
+          this.setState({
+            optionalList: result.context.optionalList
+          })
+      }
+  }
   async componentDidMount() {
+    this.getConsentList()
+
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
       window.location.reload();
@@ -646,19 +674,19 @@ class Payment extends React.Component {
   async doGetAdyenPayParam(type) {
     try {
       //---------------会员 是否存在选填项start-----------------
-      if (this.isLogin) {
-        const consentRes = await findUserConsentList({});
+      // if (this.isLogin) {
+      //   const consentRes = await findUserConsentList({});
 
-        if (
-          consentRes.code == 'K-000000' &&
-          consentRes.context.optionalList.length !== 0
-        ) {
-          this.props.history.push({
-            pathname: '/required',
-            state: { path: 'pay' }
-          });
-        }
-      }
+      //   if (
+      //     consentRes.code == 'K-000000' &&
+      //     consentRes.context.optionalList.length !== 0
+      //   ) {
+      //     this.props.history.push({
+      //       pathname: '/required',
+      //       state: { path: 'pay' }
+      //     });
+      //   }
+      // }
       //---------------会员 是否存在选填项end--------------------
       let parameters = await this.getAdyenPayParam(type);
       await this.allAdyenPayment(parameters, type);
@@ -1419,6 +1447,7 @@ class Payment extends React.Component {
           }`}
         >
           <PayUCreditCard
+            listData = {this.state.optionalList}
             startLoading={() => this.startLoading()}
             endLoading={() => this.endLoading()}
             showErrorMsg={(data) => this.showErrorMsg(data)}

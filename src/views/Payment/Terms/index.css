@@ -3,3 +3,8 @@
     font-size: 12px;
     font-weight: normal;
 }
+
+.footerCheckbox .description p a{
+    color:#c0392b;
+    text-decoration: underline;
+  }
