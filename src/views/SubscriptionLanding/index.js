@@ -12,6 +12,13 @@ import recommendation1 from '@/assets/images/recommendation1.png';
 import recommendation2 from '@/assets/images/recommendation2.png';
 import recommendation3 from '@/assets/images/recommendation3.png';
 import recommendation4 from '@/assets/images/recommendation4.png';
+import autoship from './images/autoship.png'
+import icon1 from './images/icon1.png'
+import icon2 from './images/icon2.png'
+import icon3 from './images/icon3.png'
+import icon4 from './images/icon4.png'
+import cat from './images/cat.png'
+import dog from './images/dog.png'
 import storeLogo from '@/assets/images/storeLogo.png';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import { formatMoney } from '@/utils/utils';
@@ -465,543 +472,16 @@ class Help extends React.Component {
           </div>
           <section style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}>
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              Discover your personally-selected nutrition recommendation below.
+              Avec l'Abonnement, ils auront toujours ce dont ils ont besoin
             </h2>
             <p>
-              Click to get started now for your shopping, or continue reading to
-              find out more about the benefits of veterinary health nutrition.
+              Certaines choses ne devraient jamais s'épuiser. La nourriture de votre animal de compagnie en fait partie. Dites-nous simplement où et quand l'expédier, et nous nous assurerons que tout ce dont il a besoin arrive directement à votre porte.
             </p>
-            <p>
-              <button
-                class={`rc-btn rc-btn--one ${
-                  this.state.buttonLoading ? 'ui-btn-loading' : ''
-                } ${this.state.inStockProducts.length? '': 'rc-btn-solid-disabled'}`}
-                onClick={() => {
-                  if (this.props.loginStore.isLogin) {
-                    this.hanldeLoginAddToCart();
-                  } else {
-                    this.hanldeUnloginAddToCart(productList, '/cart');
-                  }
-                }}
-              >
-                View in cart
-              </button>
-            </p>
-          </section>
-          <section className="recommendProduct">
-            {this.state.loading ? (
-              <Skeleton color="#f5f5f5" width="100%" height="100%" />
-            ) : (
-              productList.length && (
-                <div>
-                <div className="recommendProductInner" style={{display: /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)? 'none': 'flex'}}>
-                  <div className="left">
-                    <div
-                      style={{
-                        padding: '32px',
-                        textAlign: 'center',
-                        fontWeight: '500'
-                      }}
-                    >
-                      Recommendation Package
-                    </div>
-                    <ul>
-                      {productList.map((el, i) => (
-                        <li
-                          onClick={() => this.setState({ activeIndex: i })}
-                          className={`${i === activeIndex ? 'active' : ''}`}
-                        >
-                          <i></i>
-                          <img
-                            src={
-                              el.goodsInfo.goodsInfoImg ||
-                              el.goodsInfo.goods.goodsImg
-                            }
-                          />
-                          <span className="proName">
-                            {el.goodsInfo.goodsInfoName}
-                          </span>
-                          <span>X {el.recommendationNumber}</span>
-                        </li>
-                      ))}
-                      <p ref="p" style={{ marginTop: '60px' }}>
-                        {
-                          this.props.loginStore.isLogin?(
-                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button>
-                          ): (
-                            <LoginButton
-                              beforeLoginCallback={async () => this.buyNow(true)}
-                              btnClass={`rc-btn rc-btn--one ${
-                                this.state.buttonLoading ? 'ui-btn-loading' : ''
-                              } ${this.state.inStockProducts.length? '': 'rc-btn-solid-disabled'}`}
-                              history={this.props.history}
-                            >
-                              <FormattedMessage id="checkout" />
-                            </LoginButton>
-                          )
-                        }
-                      </p>
-                      {!this.props.loginStore.isLogin && (
-                        <p>
-                          <button
-                            className={`rc-styled-link color-999`}
-                            onClick={() => {
-                              // this.hanldeUnloginAddToCart(
-                              //   productList,
-                              //   '/prescription'
-                              // );
-                              this.buyNow()
-                            }}
-                          >
-                            <FormattedMessage id="Buy as a guest" />
-                          </button>
-                        </p>
-                      )}
-                    </ul>
-                  </div>
-                  <div className="right">
-                    <div className="main">
-                      <div className="pic">
-                        <ImageMagnifier
-                          sizeList={[productList[activeIndex].goodsInfo]}
-                          // video={details.goodsVideo}
-                          images={[productList[activeIndex].goodsInfo]}
-                          minImg={
-                            productList[activeIndex].goodsInfo.goodsInfoImg
-                          }
-                          maxImg={
-                            productList[activeIndex].goodsInfo.goodsInfoImg
-                          }
-                          config={false}
-                        />
-                      </div>
-
-                      <div className="text">
-                        <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                          {productList[activeIndex].goodsInfo.goodsInfoName}
-                        </h2>
-
-                        {/* <h4>
-                            From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
-                          </h4> */}
-                        {false && MaxLinePrice > 0 && (
-                          <div className="product-pricing__card__head d-flex align-items-center">
-                            <div className="rc-input product-pricing__card__head__title">
-                              <FormattedMessage id="listPrice" />
-                            </div>
-                            <b
-                              className="product-pricing__card__head__price  rc-padding-y--none text-line-through"
-                              style={{
-                                flex: 3,
-                                fontWeight: '200',
-                                fontSize: '24px',
-                                // color: 'rgba(102,102,102,.7)'
-                              }}
-                            >
-                              {MaxLinePrice > 0 ? (
-                                MaxLinePrice === MinLinePrice ? (
-                                  <span>{formatMoney(MaxLinePrice)}</span>
-                                ) : (
-                                  <span>
-                                    From {formatMoney(MinLinePrice)} to{' '}
-                                    {formatMoney(MaxLinePrice)}
-                                  </span>
-                                )
-                              ) : null}
-                            </b>
-                          </div>
-                        )}
-                        <div className="product-pricing__card__head d-flex align-items-center">
-                          <div className="rc-input product-pricing__card__head__title">
-                            <FormattedMessage id="price" />
-                          </div>
-                          <b
-                            className="rc-padding-y--none"
-                            style={{
-                              flex: 3,
-                              fontWeight: '200',
-                              fontSize: '24px',
-                              // color: 'rgba(102,102,102,.7)'
-                            }}
-                          >
-                            {MaxMarketPrice > 0 ? (
-                              MaxMarketPrice === MinMarketPrice ? (
-                                <span>{formatMoney(MaxMarketPrice)}</span>
-                              ) : (
-                                <span>
-                                  From {formatMoney(MinMarketPrice)} to{' '}
-                                  {formatMoney(MaxMarketPrice)}
-                                </span>
-                              )
-                            ) : null}
-                          </b>
-                        </div>
-                        {MaxSubPrice > 0 && (
-                          <div className="product-pricing__card__head d-flex align-items-center">
-                            <div className="rc-input product-pricing__card__head__title">
-                              <FormattedMessage id="autoship" />
-                            </div>
-                            <b
-                              className="rc-padding-y--none"
-                              style={{
-                                flex: 3,
-                                fontWeight: '200',
-                                fontSize: '24px',
-                                // color: 'rgba(102,102,102,.7)'
-                              }}
-                            >
-                              {MaxSubPrice > 0 ? (
-                                MaxSubPrice === MinSubPrice ? (
-                                  <span>{formatMoney(MaxSubPrice)}</span>
-                                ) : (
-                                  <span>
-                                    From {formatMoney(MinSubPrice)} to{' '}
-                                    {formatMoney(MaxSubPrice)}
-                                  </span>
-                                )
-                              ) : null}
-                            </b>
-                          </div>
-                        )}
-
-                        <p style={{ width: '350px' }}>
-                          {productList[activeIndex].goodsInfo.goods
-                            .goodsDescription || 'none'}
-                        </p>
-                        <p>
-                          <button
-                            class="rc-btn rc-btn--two"
-                            onClick={() => {
-                              this.props.history.push(
-                                '/details/' +
-                                  productList[activeIndex].goodsInfo.goodsInfoId
-                              );
-                            }}
-                          >
-                            View Detail
-                          </button>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="description">
-                      <img
-                        src={storeLogo}
-                        style={{
-                          float: 'left',
-                          width: '60px',
-                          marginRight: '20px'
-                        }}
-                      />
-                      <p
-                        style={{
-                          fontSize: '16px',
-                          color: '#666666',
-                          fontWeight: '500',
-                          letterSpacing: '0'
-                        }}
-                      >
-                        {prescriberInfo.prescriberName}
-                      </p>
-                      <p
-                        style={{
-                          fontSize: '12px',
-                          letterSpacing: '0'
-                        }}
-                      >
-                        {`${prescriberInfo.phone}, ${prescriberInfo.primaryZip}, ${prescriberInfo.primaryCity}`}
-                      </p>
-                      <p
-                        style={{
-                          fontSize: '12px',
-                          letterSpacing: '0'
-                        }}
-                      >
-                        {`${prescriberInfo.location}`}
-                      </p>
-                    </div>
-                    <p
-                      style={{
-                        textAlign: 'center',
-                        fontSize: '12px',
-                        color: '#ccc',
-                        marginBottom: '60px',
-                        letterSpacing: '0'
-                      }}
-                    >
-                      Royal Canin’s feeding guidelines can also be found on the
-                      product packaging.
-                    </p>
-                  </div>
-                </div>
-                <div className="recommendProductInnerMobile" style={{display: /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)? 'block': 'none'}}>
-                  <div className="top">
-                    <div
-                      style={{
-                        padding: '32px 20px',
-                        textAlign: 'center',
-                        fontWeight: '500',
-                        float: 'left'
-                      }}
-                    >
-                      Recommendation Package
-                    </div>
-                    <p ref="p" style={{ marginTop: '60px' }}>
-                        {
-                          this.props.loginStore.isLogin?(
-                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button>
-                          ): (
-                            <LoginButton
-                              beforeLoginCallback={async () => this.buyNow(true)}
-                              btnClass={`rc-btn rc-btn--one ${
-                                this.state.buttonLoading ? 'ui-btn-loading' : ''
-                              } ${this.state.inStockProducts.length? '': 'rc-btn-solid-disabled'}`}
-                              history={this.props.history}
-                            >
-                              <FormattedMessage id="checkout" />
-                            </LoginButton>
-                          )
-                        }
-                        {
-                          !this.props.loginStore.isLogin && (
-                              <button
-                                className={`rc-styled-link color-999`}
-                                onClick={() => {
-                                  // this.hanldeUnloginAddToCart(
-                                  //   productList,
-                                  //   '/prescription'
-                                  // );
-                                  this.buyNow()
-                                }}
-                              >
-                                <FormattedMessage id="Buy as a guest" />
-                              </button>
-                          )
-                        }
-                      </p>
-                      {/* {!this.props.loginStore.isLogin && (
-                        <p>
-                          <button
-                            className={`rc-styled-link color-999`}
-                            onClick={() => {
-                              // this.hanldeUnloginAddToCart(
-                              //   productList,
-                              //   '/prescription'
-                              // );
-                              this.buyNow()
-                            }}
-                          >
-                            <FormattedMessage id="Buy as a guest" />
-                          </button>
-                        </p>
-                      )} */}
-                    <ul style={{overflow: 'hidden' , marginTop: '40px', display: 'inline-block'}}>
-                      {productList.map((el, i) => (
-                        <li
-                          onClick={() => this.setState({ activeIndex: i })}
-                          className={`${i === activeIndex ? 'active' : ''}`}
-                        >
-                          <i></i>
-                          <img
-                            style={{height: '65px'}}
-                            src={
-                              el.goodsInfo.goodsInfoImg ||
-                              el.goodsInfo.goods.goodsImg
-                            }
-                          />
-                          <span className="proName">
-                            {el.goodsInfo.goodsInfoName}
-                          </span>
-                          <span>X {el.recommendationNumber}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="right">
-                    <div className="main">
-                      <div className="pic">
-                        <ImageMagnifier
-                          sizeList={[productList[activeIndex].goodsInfo]}
-                          // video={details.goodsVideo}
-                          images={[productList[activeIndex].goodsInfo]}
-                          minImg={
-                            productList[activeIndex].goodsInfo.goodsInfoImg
-                          }
-                          maxImg={
-                            productList[activeIndex].goodsInfo.goodsInfoImg
-                          }
-                          config={false}
-                        />
-                      </div>
-
-                      <div className="text">
-                        <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                          {productList[activeIndex].goodsInfo.goodsInfoName}
-                        </h2>
-
-                        {/* <h4>
-                            From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
-                          </h4> */}
-                        {MaxLinePrice > 0 && (
-                          <div className="product-pricing__card__head d-flex align-items-center">
-                            <div className="rc-input product-pricing__card__head__title">
-                              <FormattedMessage id="listPrice" />
-                            </div>
-                            <b
-                              className="product-pricing__card__head__price  rc-padding-y--none text-line-through"
-                              style={{
-                                fontWeight: '200',
-                                fontSize: '24px',
-                                color: 'rgba(102,102,102,.7)'
-                              }}
-                            >
-                              {MaxLinePrice > 0 ? (
-                                MaxLinePrice === MinLinePrice ? (
-                                  <span>{formatMoney(MaxLinePrice)}</span>
-                                ) : (
-                                  <span>
-                                    From {formatMoney(MinLinePrice)} to{' '}
-                                    {formatMoney(MaxLinePrice)}
-                                  </span>
-                                )
-                              ) : null}
-                            </b>
-                          </div>
-                        )}
-                        <div className="product-pricing__card__head d-flex align-items-center">
-                          <div className="rc-input product-pricing__card__head__title">
-                            <FormattedMessage id="price" />
-                          </div>
-                          <b
-                            className="rc-padding-y--none"
-                            style={{
-                              fontWeight: '200',
-                              fontSize: '24px',
-                              // color: 'rgba(102,102,102,.7)'
-                            }}
-                          >
-                            {MaxMarketPrice > 0 ? (
-                              MaxMarketPrice === MinMarketPrice ? (
-                                <span>{formatMoney(MaxMarketPrice)}</span>
-                              ) : (
-                                <span>
-                                  From {formatMoney(MinMarketPrice)} to{' '}
-                                  {formatMoney(MaxMarketPrice)}
-                                </span>
-                              )
-                            ) : null}
-                          </b>
-                        </div>
-                        {MaxSubPrice > 0 && (
-                          <div className="product-pricing__card__head d-flex align-items-center">
-                            <div className="rc-input product-pricing__card__head__title">
-                              <FormattedMessage id="autoship" />
-                            </div>
-                            <b
-                              className="rc-padding-y--none"
-                              style={{
-                                fontWeight: '200',
-                                fontSize: '24px',
-                                // color: 'rgba(102,102,102,.7)'
-                              }}
-                            >
-                              {MaxSubPrice > 0 ? (
-                                MaxSubPrice === MinSubPrice ? (
-                                  <span>{formatMoney(MaxSubPrice)}</span>
-                                ) : (
-                                  <span>
-                                    From {formatMoney(MinSubPrice)} to{' '}
-                                    {formatMoney(MaxSubPrice)}
-                                  </span>
-                                )
-                              ) : null}
-                            </b>
-                          </div>
-                        )}
-
-                        <p style={{ width: '350px' }}>
-                          {productList[activeIndex].goodsInfo.goods
-                            .goodsDescription || 'none'}
-                        </p>
-                        <p>
-                          <button
-                            class="rc-btn rc-btn--two"
-                            onClick={() => {
-                              this.props.history.push(
-                                '/details/' +
-                                  productList[activeIndex].goodsInfo.goodsInfoId
-                              );
-                            }}
-                          >
-                            View Detail
-                          </button>
-                        </p>
-                      </div>
-
-                      {/* <div className="text">
-                      <h2 style={{ color: '#E2001A', marginTop: '40px'}}>
-                        { productList[activeIndex].goodsInfo.goodsInfoName}
-                      </h2>
-                      <h4>
-                        From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}} to $40.99
-                      </h4>
-                      <p>
-                        Renal + hypoallergenic is a complete dietetic food for adult dogs, formulated to support renal function during chronic kidney disease and intended for the reduction of intolerances to certain ingredients…
-                      </p>
-                      <p>
-                        <button class="rc-btn rc-btn--two">View Detail</button>
-                      </p>
-                      </div> */}
-                    </div>
-                    <div className="description">
-                      <img
-                        src={storeLogo}
-                        style={{
-                          float: 'left',
-                          width: '40px',
-                          marginRight: '20px'
-                        }}
-                      />
-                      <p
-                        style={{
-                          fontSize: '16px',
-                          color: '#666666',
-                          fontWeight: '500',
-                          letterSpacing: '0'
-                        }}
-                      >
-                        {prescriberInfo.prescriberName}
-                      </p>
-                      <p
-                        style={{
-                          fontSize: '12px',
-                          letterSpacing: '0'
-                        }}
-                      >
-                        {prescriberInfo.primaryCity}
-                      </p>
-                    </div>
-                    <p
-                      style={{
-                        textAlign: 'center',
-                        fontSize: '12px',
-                        color: '#ccc',
-                        marginBottom: '60px',
-                        letterSpacing: '0'
-                      }}
-                    >
-                      Royal Canin’s feeding guidelines can also be found on the
-                      product packaging.
-                    </p>
-                  </div>
-                </div>
-                </div>
-              )
-            )}
           </section>
 
           <div
             class="rc-layout-container rc-two-column"
-            style={{ padding: '68px' }}
+            style={{ padding: '20px' }}
           >
             <div
               class="rc-column"
@@ -1012,22 +492,89 @@ class Help extends React.Component {
               }}
             >
               <div>
-                <h2 style={{ color: '#E2001A' }}>
-                  Veterinary health nutrition
-                </h2>
-                <p>
-                  At Royal Canin, we believe that nutrition plays a key role in
-                  supporting the health and well-being of cats and dogs. This is
-                  why we have designed ROYAL CANIN® Veterinary diets around
-                  proven nutritional science in order to address specific pet
-                  conditions. Follow your veterinarian's nutritional
-                  recommendation here below.
-                </p>
-                {/* <button class="rc-btn rc-btn--one" onClick={() => this.setState({isAddNewCard: true, paymentCompShow: true})}>View in Cart</button> */}
+                <div>
+                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>Les commandes sont livrées aussi souvent que vous le souhaitez
+                </div>
+                <div>
+                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>Livraison gratuite
+                </div>
+                <div>
+                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>Modifier ou annuler à tout moment
+                </div>
+                <div>
+                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>Ligne d'assistance téléphonique gratuite sur la nutrition
+                </div>
+                <div style={{marginTop:'20px'}}>
+                <button
+                class="rc-btn rc-btn--one"
+                onClick={() => {
+                  this.props.history.push('/list/cats')
+                }}
+                >
+                  Voir les formules pour chat
+                </button>
+                </div>
+                <div style={{marginTop:'20px'}}>
+                <button
+                class="rc-btn rc-btn--one"
+                onClick={() => {
+                  this.props.history.push('/list/dogs')
+                }}
+                >
+                  Voir les formules pour chien
+                </button>
+                </div>
               </div>
             </div>
             <div class="rc-column">
-              <img src={recommendation1} style={{ width: '100%' }} />
+              <img src={autoship} style={{ width: '100%' }} />
+            </div>
+          </div>
+          <section style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}>
+            <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+              Comment cela fonctionne-t-il ?
+            </h2>
+          </section>
+          <div
+            class="rc-layout-container rc-four-column"
+            style={{ padding: '20px' }}
+          >
+            <div class="rc-column" style={{textAlign: 'center'}}>
+              <img src={icon1} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
+              <p>Ajoutez les produits nutritionnels répondant aux besoins de votre animal dans votre panier.</p>
+            </div>
+            <div class="rc-column" style={{textAlign: 'center'}}>
+              <img src={icon2} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
+              <p>Sélectionnez l'expédition automatique et entrez votre mode de paiement.</p>
+            </div>
+            <div class="rc-column" style={{textAlign: 'center'}}>
+              <img src={icon3} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
+              <p>Recevez votre produit automatiquement en fonction de votre calendrier.</p>
+            </div>
+            <div class="rc-column" style={{textAlign: 'center'}}>
+              <img src={icon4} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
+              <p>Modifiez vos préférences à tout moment.</p>
+            </div>
+          </div>
+          <div
+            class="rc-layout-container rc-three-column"
+            style={{ padding: '20px', background: '#eee' }}
+          >
+            <div class="rc-column" style={{textAlign: 'center'}}>
+              <img src={cat} style={{ width: '100%', display: 'inline-block', marginBottom: '20px' }} />
+            </div>
+            <div class="rc-column" style={{textAlign: 'center'}}>
+              <h2 style={{ color: '#E2001A'}}>Commencez dès maintenant votre Abonnement</h2>
+              <p>Découvrez les meilleures options de nutrition pour votre animal et choisissez l'option Abonnement avant d'acheter.
+              </p>
+              <div><button class="rc-btn rc-btn--sm rc-btn--two" onClick={() => {
+                  this.props.history.push('/list/cats')
+                }}>Chat</button> <button class="rc-btn rc-btn--sm rc-btn--two" onClick={() => {
+                  this.props.history.push('/list/dogs')
+                }}>Chien</button></div>
+            </div>
+            <div class="rc-column" style={{textAlign: 'center'}}>
+              <img src={dog} style={{ width: '100%', display: 'inline-block', marginBottom: '20px' }} />
             </div>
           </div>
           <div class="help-page" style={{ marginBottom: '1rem' }}>
@@ -1198,46 +745,7 @@ class Help extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
-
-          <section style={{ textAlign: 'center' }}>
-            <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              Why Royal Canin?
-            </h2>
-            <p>
-              Your pet means the world to you, and their health and happiness
-              means the world to us !
-            </p>
-          </section>
-          <section
-            className="picList"
-            style={{ textAlign: 'center', display: 'flex' }}
-          >
-            <li>
-              <img src={recommendation2} />
-            </li>
-            <li>
-              <img src={recommendation3} />
-            </li>
-            <li>
-              <img src={recommendation4} />
-            </li>
-          </section>
-          <section style={{ padding: '40px 68px', background: '#f6f6f6' }}>
-            <p>
-              Donec nec ornare risus. Nunc id interdum eros, a pellentesque
-              turpis. Nullam tellus metus, rutrum ut tortor at, bibendum
-              molestie nulla. Donec commodo pretium urna. Morbi arcu turpis,
-              feugiat vel luctus in, placerat in leo. Fusce tincidunt dui ac dui
-              ultricies, dictum sagittis est venenatis. Nullam imperdiet
-              fermentum scelerisque. Etiam ante magna, maximus eleifend gravida
-              ut, venenatis nec justo. Donec eu tincidunt erat. Suspendisse
-              vehicula nibh a metus vestibulum, quis maximus turpis scelerisque.
-              Maecenas ac lectus justo. Sed id justo id orci consectetur tempor.
-              Cras ut diam in quam tempor volutpat ut a enim. Vivamus lacinia
-              mauris sed accumsan dapibus.
-            </p>
-          </section>
+          </div>         
         </main>
 
         <Footer />

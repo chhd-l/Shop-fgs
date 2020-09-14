@@ -69,6 +69,7 @@ import AccountShippingAddress from '@/views/Account/ShippingAddress';
 // import AccountRefunds from "@/views/Account/Refunds";
 import AccountShippingAddressForm from '@/views/Account/ShippingAddressForm';
 import SubscriptionLanding from '@/views/SubscriptionLanding'
+import Tailorednutrition from '@/views/Tailorednutrition'
 
 
 import AccountReturnOrder from '@/views/Account/ReturnOrder';
@@ -288,6 +289,7 @@ const App = () => (
               <Route path="/required" exact component={RegisterRequired} />
               <Route path="/conoce-mas-de-evet" exact component={Landing} />
               <Route path="/subscription-landing" exact component={SubscriptionLanding} />
+              <Route path="/tailorednutrition" exact component={Tailorednutrition} />
               <Route exact path="/forgetPassword" component={ForgetPassword} />
 
               {/* <Route exact component={Exception} /> */}
