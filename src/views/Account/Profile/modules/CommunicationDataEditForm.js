@@ -182,7 +182,7 @@ export default class CommunicationDataEditForm extends React.Component {
                 <FormattedMessage id="phone" />
               </label>
             </div> */}
-            <div className="rc-input rc-input--inline rc-margin-y--xs">
+            <div className="rc-input rc-input--inline rc-margin-y--xs" style={{maxWidth:'640px'}}>
               <FormattedMessage id="profile.emailChoose">
                 {(txt) => (
                   <input

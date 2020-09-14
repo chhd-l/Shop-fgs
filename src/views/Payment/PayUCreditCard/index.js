@@ -14,8 +14,8 @@ import axios from 'axios';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
-@injectIntl
 @inject('loginStore', 'paymentStore')
+@injectIntl
 @observer
 class PayOs extends React.Component {
   constructor(props) {
@@ -48,7 +48,6 @@ class PayOs extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
@@ -154,8 +153,6 @@ class PayOs extends React.Component {
     }
   }
   handleClickCardConfirm() {
-    const { creditCardInfoForm } = this.state;
-
     if (!this.state.isValid) {
       return false;
     }
@@ -322,6 +319,11 @@ class PayOs extends React.Component {
     });
   }
   onPaymentCompDataChange = (data) => {
+    this.props.paymentStore.updatePanelStatus('confirmation', {
+      isPrepare: false,
+      isEdit: false,
+      isCompleted: true
+    });
     this.setState({ selectedCardInfo: data }, () => {
       this.props.onPaymentCompDataChange(data);
     });

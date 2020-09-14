@@ -1,20 +1,29 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { injectIntl, FormattedMessage } from "react-intl";
+import { inject, observer } from 'mobx-react';
 import logoAnimatedPng from "@/assets/images/logo--animated2.png";
+import Skeleton from "react-skeleton-loader";
 import "./index.css"
-import { findUserConsentList, consentListDetail,userBindConsent} from "@/api/consent"
+import { findUserConsentList, consentListDetail,userBindConsent,getStoreOpenConsentList} from "@/api/consent"
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
+
+@inject('loginStore')
 class RegisterRequired extends Component {
+    get isLogin() {
+        return this.props.loginStore.isLogin;
+      }
     constructor(props) {
         super(props);
         this.state = {
             list: [],
             isShowRequired:false,
+            isLoading:true
         };
     }
     //属性变为true，time定时后变为false
@@ -40,9 +49,13 @@ class RegisterRequired extends Component {
 
         return obj
     }
-    submit = async () => {
+    //会员提交
+    submitLogin = async () => {
         try{
-            let historyUrl = sessionStorage.getItem('okta-redirectUrl')
+            let lastPath = this.props.location.state.path
+            if (lastPath === 'pay') {
+                lastPath = '/payment/payment'
+            }
             const isRequiredChecked = this.state.list.filter(item => item.isRequired).every(item => item.isChecked)
             if(isRequiredChecked){
                 //组装submit参数
@@ -50,25 +63,58 @@ class RegisterRequired extends Component {
 
                const result = await userBindConsent(submitParam)
                if (result.code === 'K-000000'){
-                 this.props.history.push(historyUrl)&&sessionStorage.removeItem('okta-redirectUrl')
+                 this.props.history.push(lastPath)
                }
             }else{
                 this.showAlert('isShowRequired',2000)
             } 
         }catch(err){
             console.log(err.message)
-        }
-       
+        }    
     }
-    async componentWillMount() {
-        try {
-            const result = await findUserConsentList({})
+    //游客提交
+    submitUnLogin = () => {
+        try{
+            const isRequiredChecked = this.state.list.filter(item => item.isRequired).every(item => item.isChecked)
+            if(isRequiredChecked){
+                sessionItemRoyal.set('isRequiredChecked',true)
+                this.props.history.push('/')
+            }else{
+                this.showAlert('isShowRequired',2000)
+            } 
+        }catch(err){
+            console.log(err.message)
+        }    
+    }
+    async componentDidMount () {
+        if (localItemRoyal.get('isRefresh')) {
+            localItemRoyal.remove('isRefresh');
+            window.location.reload();
+            return false;
+          }
 
-            if (result.context.optionalList.length==0&&result.context.requiredList.length==0) {//必填项和选填项都为空，直接跳转
-                let historyUrl = sessionItemRoyal.get('okta-redirectUrl')
-                this.props.history.push(historyUrl)&&sessionItemRoyal.remove('okta-redirectUrl')
-                return
-            }
+
+        this.setState({
+            isLoading:true
+        })
+        // let lastPath = this.props.location.state.path
+        // debugger
+
+        try {
+            let result
+
+            this.isLogin
+            ?
+            result = await findUserConsentList({})
+            : 
+            result = await getStoreOpenConsentList({})
+            
+
+            // lastPath 
+            // 1:pay(专指从在payment点击支付时的跳转) 
+            // 2:其他页面
+           
+            
             const optioalList = result.context.optionalList.map(item => {
                 return {
                     id: item.id,
@@ -89,10 +135,11 @@ class RegisterRequired extends Component {
 
             //把非必填和必填的项目组装成一个数组list，用于渲染
             let list = this.state.list
-            list = [...optioalList, ...requiredList]
+            list = [...requiredList,...optioalList, ]
             this.setState({
                 list
             })
+  
 
             // const result2 = await consentListDetail(
             //     {
@@ -102,12 +149,20 @@ class RegisterRequired extends Component {
             // )
         } catch (err) {
             console.log(err.message)
+        } finally{
+            this.setState({
+                isLoading:false
+            })
         }
+    }
+    componentWillUnmount(){
+        localItemRoyal.set('isRefresh', true);
     }
     render() {
         const createMarkup = (text) => ({ __html: text });
         return (
             <div className="required-wrap">
+                {/* Logo */}
                 <Link to="/" className="header__nav__brand logo-home pt-5">
                     <span className="rc-screen-reader-text"></span>
                     <img
@@ -116,8 +171,9 @@ class RegisterRequired extends Component {
                         style={{ background: "url(" + logoAnimatedPng + ") no-repeat center center", width: '140px', height: '60px', backgroundSize: 'cover' }}
                     />
                 </Link>
-                <h2 className="rc-text-colour--brand1" style={{ marginTop: '190px', textAlign: 'center' }}>Register in ROYALCANIN® online store</h2>
-                <p style={{ textAlign: 'center', color: '#5F5F5F', fontSize: '20px' }}>Complete registeration</p>
+                {/* Header title */}
+                <h2 className="rc-text-colour--brand1" style={{ marginTop: '190px', textAlign: 'center' }}>Welcome to ROYALCANIN® online store</h2>
+                <p style={{ textAlign: 'center', color: '#5F5F5F', fontSize: '20px' }}>Complete log-in process</p>
                 {/* 没有勾选完必填项的alert提示 */}
                 {
                     this.state.isShowRequired
@@ -127,9 +183,15 @@ class RegisterRequired extends Component {
                         </aside>
                         : null
                 }
-                {/* checkbox */}
+                {/* checkbox组 */}
                 <div className="required-checkbox" style={{ marginTop: '80px' }}>
                     {
+                        this.state.isLoading
+                        ?
+                        <div className="pt-2 pb-2">
+                            <Skeleton color="#f5f5f5" width="100%" count={4} />
+                        </div>
+                        :
                         this.state.list.map((item, index) => {
                             return (
                                 <div className="footerCheckbox" key={index}>
@@ -169,11 +231,17 @@ class RegisterRequired extends Component {
                     }
 
                 </div>
-                {/* 介绍 */}
+                {/* Required fields */}
                 <p className='pizhu'><span className="pl-2 pr-2 rc-text-colour--brand1">*</span>Required fields</p>
-                {/* 按钮 */}
+                {/* Continu按钮 */}
                 <div style={{ textAlign: 'center', marginTop: '60px' }}>
-                    <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submit}>Continue</button>
+                    {
+                        this.isLogin ? 
+                        <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitLogin}>Continue</button>
+                        : 
+                        <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitUnLogin}>Continue</button>
+                    }
+                   
                 </div>
             </div>
         );

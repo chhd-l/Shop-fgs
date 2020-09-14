@@ -98,7 +98,7 @@ class TermUse extends React.Component {
                                 <div className="mb-2 dark bold"><span className="pr-3">4.</span>Lieferbedingungen und Zahlungsmethoden</div>
                                 <p>
                                     <div>
-                                        <span className="pr-3">4.1</span>Royal Canin liefert nur im Versandweg an die von den Tierhalter*innen angegebene Lieferadresse. Eine andere Versandart, insbesondere eine Selbstabholung der Ware, ist leider nicht möglich. Zu den angegebenen Produktpreisen können noch Versandkosten hinzukommen. Etwaige Versandkosten werden bei der Darstellung der Produkte angegeben [und sind unter https://shopstg.royalcanin.com/FAQVersand einsehbar].
+                                        <span className="pr-3">4.1</span>Royal Canin liefert nur im Versandweg an die von den Tierhalter*innen angegebene Lieferadresse. Eine andere Versandart, insbesondere eine Selbstabholung der Ware, ist leider nicht möglich. Zu den angegebenen Produktpreisen können noch Versandkosten hinzukommen. Etwaige Versandkosten werden bei der Darstellung der Produkte angegeben [und sind unter https://shopstg.royalcanin.com/FAQ/catogery-0 einsehbar].
                     </div>
                                 </p>
                                 <p>

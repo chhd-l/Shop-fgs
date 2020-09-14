@@ -5,19 +5,14 @@ class PaymentStore {
   @observable billingAddress = null;
 
   @observable selectedDeliveryAddress = null;
-  @observable bookingProgress = [
-    'clinic',
-    'delivery address',
-    'billing address',
-    'payment method'
-  ];
-  @observable currentProgressIndex = 0;
+  @observable selectedBillingAddress = null;
 
   @observable panelStatus = {
     clinic: { isPrepare: false, isEdit: true, isCompleted: false },
     deliveryAddr: { isPrepare: true, isEdit: false, isCompleted: false },
     billingAddr: { isPrepare: true, isEdit: false, isCompleted: false },
-    paymentMethod: { isPrepare: true, isEdit: false, isCompleted: false }
+    paymentMethod: { isPrepare: true, isEdit: false, isCompleted: false },
+    confirmation: { isPrepare: true, isEdit: false, isCompleted: false }
   };
 
   @action.bound
@@ -64,8 +59,12 @@ class PaymentStore {
   }
 
   @action.bound
-  updateCurrentProgressIndex(i) {
-    this.currentProgressIndex = i;
+  updateSelectedBillingAddress(data) {
+    let tmpData = data;
+    if (data && data.consigneeNumber) {
+      tmpData = Object.assign(data, { phoneNumber: data.consigneeNumber });
+    }
+    this.selectedBillingAddress = tmpData;
   }
 }
 export default PaymentStore;

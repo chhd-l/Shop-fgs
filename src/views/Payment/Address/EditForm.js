@@ -49,10 +49,8 @@ class EditForm extends React.Component {
             })
           },
           () => {
+            this.updateSelectedMobxData();
             this.props.updateData(this.state.address);
-            this.props.paymentStore.updateSelectedDeliveryAddress(
-              this.state.address
-            );
           }
         );
       } else {
@@ -69,10 +67,7 @@ class EditForm extends React.Component {
     });
   }
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.initData &&
-      nextProps.initData !== this.state.address
-    ) {
+    if (nextProps.initData && nextProps.initData !== this.state.address) {
       this.setState({
         address: Object.assign({}, nextProps.initData)
       });
@@ -80,6 +75,13 @@ class EditForm extends React.Component {
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
+  }
+  updateSelectedMobxData() {
+    const tmpKey =
+      this.props.type === 'delivery'
+        ? 'updateSelectedDeliveryAddress'
+        : 'updateSelectedBillingAddress';
+    this.props.paymentStore[tmpKey](this.state.address);
   }
   computedList(key) {
     let tmp = this.state[`${key}List`].map((c) => {
@@ -102,9 +104,7 @@ class EditForm extends React.Component {
     address[name] = value;
     this.inputBlur(e);
     this.setState({ address: address }, () => {
-      this.props.paymentStore.updateSelectedDeliveryAddress(
-        this.state.address
-      );
+      this.updateSelectedMobxData();
       this.props.updateData(this.state.address);
     });
   }
@@ -125,9 +125,7 @@ class EditForm extends React.Component {
     const { address } = this.state;
     address[key] = data.value;
     this.setState({ address: address }, () => {
-      this.props.paymentStore.updateSelectedDeliveryAddress(
-        this.state.address
-      );
+      this.updateSelectedMobxData();
       this.props.updateData(this.state.address);
     });
   }
@@ -136,9 +134,7 @@ class EditForm extends React.Component {
     address.city = data.id;
     address.cityName = data.cityName;
     this.setState({ address: address }, () => {
-      this.props.paymentStore.updateSelectedDeliveryAddress(
-        this.state.address
-      );
+      this.updateSelectedMobxData();
       this.props.updateData(this.state.address);
     });
   };
@@ -204,6 +200,7 @@ class EditForm extends React.Component {
               // maxLength="5"
               // minLength="5"
               //data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)" //需要验证的时候开启
+              data-js-pattern="(*.*)"
             />
             <label className="rc-input__label" htmlFor="id-text1"></label>
           </span>

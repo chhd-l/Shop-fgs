@@ -53,35 +53,42 @@ const LoginButton = (props) => {
             userinfo.defaultClinics = customerInfoRes.context.defaultClinics
             loginStore.setUserInfo(customerInfoRes.context)
 
-
-            // const tmpUrl = sessionItemRoyal.get('okta-redirectUrl')
-            // console.log(tmpUrl)
-            // if (tmpUrl !== '/cart') {
-            //   if (checkoutStore.cartData.length) {
-            //     await mergeUnloginCartData()
-            //     await loginStore.updateLoginCart()
-            //   }
-            // }
-            // props.history.push('required')
-            
-
-            if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {
-              props.history.push(sessionStorage.getItem('okta-redirectUrl'))
-            } else {
+            const tmpUrl = sessionItemRoyal.get('okta-redirectUrl')
+            if (tmpUrl !== '/cart') {
               if (checkoutStore.cartData.length) {
                 await mergeUnloginCartData()
                 await loginStore.updateLoginCart()
               }
-              if (sessionItemRoyal.get('okta-redirectUrl') === '/prescription') {
-                console.log('jajajjajaa')
-                props.history.push(sessionItemRoyal.get('okta-redirectUrl'))
-              }
             }
-            //props.history.push('required')
+
+             //1.会员调用consense接口
+             findUserConsentList({}).then((result)=>{
+              if (result.code === 'K-000000' && result.context.requiredList.length!==0) {
+                props.history.push({ pathname: "/required", state:{path:'/'} });
+              }
+            })
+        
+            
+            
+
+            // if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {
+            //   props.history.push(sessionStorage.getItem('okta-redirectUrl'))
+            // } else {
+            //   if (checkoutStore.cartData.length) {
+            //     await mergeUnloginCartData()
+            //     await loginStore.updateLoginCart()
+            //   }
+            //   if (sessionItemRoyal.get('okta-redirectUrl') === '/prescription') {
+            //     console.log('jajajjajaa')
+            //     props.history.push(sessionItemRoyal.get('okta-redirectUrl'))
+            //   }
+            // }
+            // //props.history.push('required')
 
 
-            sessionStorage.removeItem('okta-redirectUrl')
+            // sessionStorage.removeItem('okta-redirectUrl')
           }).catch(e => {
+            console.log(e)
             loginStore.changeLoginModal(false)
           })
         }
@@ -91,13 +98,13 @@ const LoginButton = (props) => {
 
   const login = async () => {
     sessionItemRoyal.remove('rc-token-lose')
-    // sessionItemRoyal.set('okta-redirectUrl', '/')
+    sessionItemRoyal.set('okta-redirectUrl', '/')
     if (props.beforeLoginCallback) {
       let res = await props.beforeLoginCallback()
       if (res === false) {
         return false
       }
-      // sessionItemRoyal.set('okta-redirectUrl', '/cart')
+      sessionItemRoyal.set('okta-redirectUrl', '/cart')
     }
     authService.login(process.env.REACT_APP_HOMEPAGE);
   };

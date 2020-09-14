@@ -39,13 +39,20 @@ class VisitorAddress extends React.Component {
       this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
     return this.props.paymentStore.panelStatus[tmpKey];
   }
+  get isOnepageCheckout() {
+    return process.env.REACT_APP_ONEPAGE_CHECKOUT === 'true';
+  }
   handleEditFormChange = async (data) => {
-    try {
-      await this.validInputsData(data);
-      this.setState({ isValid: true, form: data });
-    } catch (err) {
-      this.setState({ isValid: false });
-      console.log(err);
+    if (this.isOnepageCheckout) {
+      try {
+        await this.validInputsData(data);
+        this.setState({ isValid: true, form: data });
+      } catch (err) {
+        this.setState({ isValid: false });
+        console.log(err);
+      }
+    } else {
+      this.props.updateData(data);
     }
   };
   handleClickConfirm = () => {
@@ -109,6 +116,18 @@ class VisitorAddress extends React.Component {
       ? find(dictList, (ele) => ele.id == id).name
       : id;
   };
+  updateSameAsCheckBoxVal = (val) => {
+    // 切换时，当delivery已完成时，需更改 billing module的isPrepared = false, isEdit = true
+    if (!val && this.panelStatus.isCompleted) {
+      this.props.paymentStore.updatePanelStatus('billingAddr', {
+        isPrepare: false,
+        isEdit: true,
+        isCompleted: false
+      });
+    }
+    this.setState({ billingChecked: val });
+    this.props.updateSameAsCheckBoxVal(val);
+  };
   _titleJSX = ({ redColor = false } = {}) => {
     return this.props.type === 'delivery' ? (
       <>
@@ -164,6 +183,9 @@ class VisitorAddress extends React.Component {
   };
   render() {
     const { form } = this.state;
+    const _editForm = (
+      <EditForm type="delivery" updateData={this.handleEditFormChange} />
+    );
     return (
       <>
         <div className="card-header bg-transparent">
@@ -171,14 +193,12 @@ class VisitorAddress extends React.Component {
           {this.panelStatus.isEdit && this._titleJSXForEdit()}
           {this.panelStatus.isCompleted && this._titleJSXForCompeleted()}
         </div>
-        {!this.panelStatus.isPrepare ? (
+
+        {this.isOnepageCheckout && !this.panelStatus.isPrepare ? (
           <>
             {this.panelStatus.isEdit ? (
               <fieldset className="shipping-address-block rc-fieldset">
-                <EditForm
-                  type="delivery"
-                  updateData={this.handleEditFormChange}
-                />
+                {_editForm}
                 <div className="d-flex justify-content-end mb-2">
                   <button
                     className="rc-btn rc-btn--one rc-btn--sm"
@@ -210,16 +230,14 @@ class VisitorAddress extends React.Component {
                 {form.rfc}
               </div>
             )}
-            {this.props.type === 'delivery' && (
-              <SameAsCheckbox
-                updateSameAsCheckBoxVal={(val) => {
-                  this.setState({ billingChecked: val });
-                  this.props.updateSameAsCheckBoxVal(val);
-                }}
-              />
-            )}
           </>
         ) : null}
+        {!this.isOnepageCheckout && _editForm}
+        {this.props.type === 'delivery' && (
+          <SameAsCheckbox
+            updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
+          />
+        )}
       </>
     );
   }

@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { queryStoreCateIds } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
+import { findUserConsentList,getStoreOpenConsentList} from "@/api/consent"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('configStore')
+@inject('configStore','loginStore')
 class RouteFilter extends Component {
+  get isLogin() {
+    return this.props.loginStore.isLogin;
+  }
   shouldComponentUpdate(nextProps) {
     const lang = process.env.REACT_APP_LANG;
-
     // 默认了clinic后，再次编辑clinic
     if (
       nextProps.location.pathname === '/prescription' &&
@@ -58,7 +61,44 @@ class RouteFilter extends Component {
     }
     return true;
   }
+  //判断consent接口是否存在必填项
+  isExistRequiredListFun(result){
+    let pathname = this.props.location.pathname //正进入的那个页面
+        if (result.code === 'K-000000' && result.context.requiredList.length!==0) {
+          this.props.history.push({ pathname: "/required", state:{path:pathname }});
+      }
+  }
+
+  //总的调用consense接口
+  getConsentList(){
+    this.isLogin
+      ? this.doFindUserConsentList()
+      : this.doGetStoreOpenConsentList()
+  }
+  //1.会员调用consense接口
+  doFindUserConsentList(){
+    findUserConsentList({}).then((result)=>{
+      this.isExistRequiredListFun(result)
+    })
+  }
+  //2.游客调用consense接口
+  doGetStoreOpenConsentList(){
+      const isRequiredCheckedAll = sessionItemRoyal.get('isRequiredChecked')
+      isRequiredCheckedAll
+      ?
+      console.log('该跳转哪个页面就跳转哪个页面')
+      : //游客: 没有全部确认consense
+      getStoreOpenConsentList({}).then((result)=>{
+        this.isExistRequiredListFun(result)
+      })
+  }
   async componentDidMount() {
+    let pathname = this.props.location.pathname 
+    // 非首页+非/implicit/callback+非required页 调用consense接口
+    if (pathname!=='/'&&pathname!== '/implicit/callback' &&pathname!== '/required') {
+      this.getConsentList()
+    }
+    
     if (
       !localItemRoyal.get('rc-token') &&
       this.props.location.pathname.indexOf('/account') !== -1

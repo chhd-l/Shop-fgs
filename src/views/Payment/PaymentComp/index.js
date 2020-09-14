@@ -167,9 +167,9 @@ class PaymentComp extends React.Component {
     const {
       paymentStore: { selectedDeliveryAddress }
     } = this.props;
-    const { firstName, lastName } = selectedDeliveryAddress;
     let tmpName = '';
     if (selectedDeliveryAddress) {
+      const { firstName, lastName } = selectedDeliveryAddress;
       tmpName = [firstName, lastName].filter((n) => !!n).join(' ');
     }
     this.setState({

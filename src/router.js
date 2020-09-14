@@ -38,7 +38,7 @@ import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 import config from './config';
 
-debugger
+// debugger
 const token = localStorage.getItem('rc-token')
 
 const BasicRoute = () => (
