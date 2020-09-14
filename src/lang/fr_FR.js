@@ -56,7 +56,7 @@ const en_US = {
   "puppy": "Chiot (0-1 ans)",
   "kitten": "Chatons (0-1 ans)",
   "pets": "Animaux domestiques",
-  "orders": "affectations",
+  "orders": "Affectations",
   "help": "Aidez-moi",
   "phone": "téléphone",
   "email": "adresse e-mail",
@@ -265,7 +265,7 @@ const en_US = {
   "confirmation.info2": "Dans un proche avenir, notre personnel vous contactera pour confirmer la commande.",
   "confirmation.info3": "Les adresses et les modes d'expédition sont indiqués sous vos marchandises.",
   "confirmation.visitOnlineStore": "Visiter la boutique en ligne",
-  "confirmation.customerInformation": "Informations client",
+  "confirmation.customerInformation": "Informations de client",
   "confirmation.orderNumber": "Numéro de commande",
   "confirmation.rateTip": "Comment évalueriez-vous votre expérience d'achat?",
   "confirmation.rateTip2": "Que pouvons-nous faire pour nous améliorer?",
@@ -670,6 +670,7 @@ const en_US = {
   'product.catogery5.name': 'Chien',
   'product.catogery6.name': 'Chat',
 
-  'healthAndWellbeing': 'Santé et bien-être'
+  'healthAndWellbeing': 'Santé et bien-être',
+  dataProtection: 'Politique de confidentialité'
 }
 export default en_US;
