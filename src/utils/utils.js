@@ -31,7 +31,7 @@ export function formatMoney(
   if(process.env.REACT_APP_HOMEPAGE === '/fr') {
     ret = ret.replace(/\./, '#')
     ret = ret.replace(/\,/, '.')
-    ret = ret.replace(/\#/, ',')
+    ret = ret.replace(/\#/, ' ')
   }
   return tmp.atEnd ? `${ret} ${tmp.mark}` : `${tmp.mark} ${ret}`;
 }
