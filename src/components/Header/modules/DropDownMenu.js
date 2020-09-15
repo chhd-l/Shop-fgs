@@ -31,49 +31,50 @@ export default class DropDownMenu extends React.Component {
               >
                 <div class="dropdown-nav__title rc-margin-bottom--xs">
                   <span id="dog-age" class="dropdown-nav__item">
-                    <small></small> <b>Âge</b>
+                    <small></small>
+                    <b>Âge</b>
                   </span>
                 </div>
                 <ul class="rc-padding--none" role="menu" aria-hidden="true">
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=Chiot%20%280-2%20mois%29"
+                    <Link
+                      to="/list/dogs"
                       id="Chiot (0-2 mois)"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Chiot (0-2 mois)
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=Chiot%20%282%20mois-1%20an%29"
+                    <Link
+                      to="/list/dogs"
                       id="Chiot (2 mois-1 an)"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Chiot (2 mois-1 an)
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=Adulte%20%281-7%20ans%29"
+                    <Link
+                      to="/list/dogs"
                       id="Adulte (1-7 ans)"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Adulte (1-7 ans)
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=S%c3%a9nior%20%287%20ans%20et%20plus%29"
+                    <Link
+                      to="/list/dogs"
                       id="Sénior (7 ans et plus)"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Sénior (7 ans et plus)
-                    </a>
+                    </Link>
                   </li>
                 </ul>
                 <div class="dropdown-nav__cat-link rc-padding-bottom--xs">
@@ -88,59 +89,60 @@ export default class DropDownMenu extends React.Component {
               >
                 <div class="dropdown-nav__title rc-margin-bottom--xs">
                   <span id="dog-size" class="dropdown-nav__item">
-                    <small></small> <b>Taille</b>
+                    <small></small>
+                    <b>Taille</b>
                   </span>
                 </div>
                 <ul class="rc-padding--none" role="menu" aria-hidden="true">
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=X-Small%20%281-4%20Kg%29"
+                    <Link
+                      to="/list/dogs"
                       id="X-Small (1-4 Kg)"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       X-Small (1-4 Kg)
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=Mini%20%281-10%20KG%29"
+                    <Link
+                      to="/list/dogs"
                       id="Mini (1-10 KG)"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Mini (1-10 KG)
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=Medium%20%2811-25kg%29"
+                    <Link
+                      to="/list/dogs"
                       id="Medium (11-25kg)"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Medium (11-25kg)
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=Maxi%20%2826-44kg%29"
+                    <Link
+                      to="/list/dogs"
                       id="Maxi (26-44kg)"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Maxi (26-44kg)
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=G%c3%a9ant%20%28%3e%2045kg%29"
+                    <Link
+                      to="/list/dogs"
                       id="Géant (> 45kg)"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Géant (&gt; 45kg)
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
@@ -155,34 +157,34 @@ export default class DropDownMenu extends React.Component {
                 </div>
                 <ul class="rc-padding--none" role="menu" aria-hidden="true">
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=Aliments%20secs"
+                    <Link
+                      to="/list/dogs"
                       id="Aliments secs"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Aliments secs
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=Bouch%c3%a9es%20en%20sauce"
+                    <Link
+                      to="/list/dogs"
                       id="Bouchées en sauce"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Bouchées en sauce
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=Breed%20Health%20Nutrition"
+                    <Link
+                      to="/list/dogs"
                       id="Breed Health Nutrition"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Aliment pour Chien de Race
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
@@ -203,10 +205,7 @@ export default class DropDownMenu extends React.Component {
                     <div class="gtx-trans-icon">&nbsp;</div>
                   </div>
                 </div>
-                <Link
-                  to="/list/dogs"
-                  title="Trouver l'alimentation adaptée"
-                >
+                <Link to="/list/dogs" title="Trouver l'alimentation adaptée">
                   <button class="rc-btn rc-btn--one">
                     Trouver l'alimentation adaptée
                   </button>
@@ -255,49 +254,50 @@ https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-
               >
                 <div class="dropdown-nav__title rc-margin-bottom--xs">
                   <span id="cat-age" class="dropdown-nav__item">
-                    <small></small> <b>Âge</b>
+                    <small></small>
+                    <b>Âge</b>
                   </span>
                 </div>
                 <ul class="rc-padding--none" role="menu" aria-hidden="true">
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=cat-kitten"
+                    <Link
+                      to="/list/cats"
                       id="cat-kitten"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Chaton (1-12 mois)
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=cat-adult"
+                    <Link
+                      to="/list/cats"
                       id="cat-adult"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Adulte (1-7 ans)
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=cat-mature"
+                    <Link
+                      to="/list/cats"
                       id="cat-mature"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Mature (7-12 ans)
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=cat-senior"
+                    <Link
+                      to="/list/cats"
                       id="cat-senior"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Senior (+ 12 ans)
-                    </a>
+                    </Link>
                   </li>
                 </ul>
                 <div class="dropdown-nav__cat-link rc-padding-bottom--xs">
@@ -317,34 +317,34 @@ https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-
                 </div>
                 <ul class="rc-padding--none" role="menu" aria-hidden="true">
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=Cat%20Aliments%20secs"
+                    <Link
+                      to="/list/cats"
                       id="Cat Aliments secs"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Aliments secs
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=cat-wet-food"
+                    <Link
+                      to="/list/cats"
                       id="cat-wet-food"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Bouchées en sauce
-                    </a>
+                    </Link>
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
-                    <a
-                      href="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?cgid=Feline%20Breed%20Nutrition"
+                    <Link
+                      to="/list/cats"
                       id="Feline Breed Nutrition"
                       role="button"
                       class="dropdown-nav__link"
                     >
                       Aliment pour Chat de Race
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
@@ -359,10 +359,7 @@ https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-
                     nutritionnels.
                   </p>
                 </div>
-                <Link
-                  to="/list/cats"
-                  title="Trouver la nourriture adaptée"
-                >
+                <Link to="/list/cats" title="Trouver la nourriture adaptée">
                   <button class="rc-btn rc-btn--one">
                     Trouver la nourriture adaptée
                   </button>
