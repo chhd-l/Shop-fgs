@@ -261,7 +261,7 @@ https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-
                 <ul class="rc-padding--none" role="menu" aria-hidden="true">
                   <li class="dropdown-nav__item" role="menuitem">
                     <Link
-                      to="/list/cats"
+                      to={{ pathname: '/list/cats', search: '?fid=485|1818' }}
                       id="cat-kitten"
                       role="button"
                       class="dropdown-nav__link"
@@ -271,7 +271,7 @@ https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
                     <Link
-                      to="/list/cats"
+                      to={{ pathname: '/list/cats', search: '?fid=485|1819' }}
                       id="cat-adult"
                       role="button"
                       class="dropdown-nav__link"
@@ -281,7 +281,7 @@ https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
                     <Link
-                      to="/list/cats"
+                      to={{ pathname: '/list/cats', search: '?fid=485|1821' }}
                       id="cat-mature"
                       role="button"
                       class="dropdown-nav__link"
@@ -291,7 +291,7 @@ https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
                     <Link
-                      to="/list/cats"
+                      to={{ pathname: '/list/cats', search: '?fid=485|1824' }}
                       id="cat-senior"
                       role="button"
                       class="dropdown-nav__link"
