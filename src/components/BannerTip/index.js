@@ -17,7 +17,7 @@ class BannerTip extends React.Component {
   render() {
     return this.state.noticeVisible &&
       process.env.REACT_APP_SHOW_BANNERTIP === 'true' ? (
-      <div className="red font-weight-normal p-1 position-relative text-center pr-4 pl-4 rc-bg-colour--brand4">
+      <div className="red font-weight-normal p-1 position-relative text-center pr-4 pl-4 rc-bg-colour--brand4" style={{height: '50px'}}>
         <span
           className="rc-icon rc-close--xs rc-iconography searchBtnToggle rc-stick-right rc-vertical-align"
           style={{ transform: 'translateY(-40%)' }}
@@ -35,6 +35,11 @@ class BannerTip extends React.Component {
               &#xe675;
             </span>
             <FormattedMessage id="home.promotionTip" />
+            {
+              process.env.REACT_APP_HOMEPAGE === 'fr'?(<button class="rc-btn rc-btn--sm rc-btn--two" style={{marginLeft: '20px'}} onClick={() => {
+                window.location.href = process.env.REACT_APP_ACCESS_PATH + '/subscription-landing'
+              }}>En savoir plus</button>): ''
+            }
           </div>
         )}
         <FormattedMessage id="home.note1" />{' '}

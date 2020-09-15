@@ -85,8 +85,8 @@ class AccountProfile extends React.Component {
             birthdate: context.birthDay
               ? context.birthDay.split('-').join('/')
               : context.birthDay,
-            // country: context.countryId,
-            country: 6, //先写死墨西哥id
+            country: context.countryId,
+            // country: 6, //先写死墨西哥id
             phoneNumber: context.contactPhone,
             rfc: context.reference
           },

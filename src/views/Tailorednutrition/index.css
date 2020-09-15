@@ -1,6 +1,6 @@
-/* .recommendation p {
-  margin-bottom: 30px;
-} */
+.recommendation {
+  color: #333;
+}
 .recommendation h2 {
   margin-bottom: 10px;
 }
@@ -93,7 +93,7 @@
   margin-bottom: 0;
 }
 
-section li {
+.recommendation section li {
   list-style: none;
   flex: 1;
   text-align: center;

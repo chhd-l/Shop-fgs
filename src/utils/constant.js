@@ -116,7 +116,7 @@ export const STORE_CATE_ENUM = [
     img: catsImg
   },
   {
-    url: '/list/Chat',
+    url: '/list/chat',
     category: 'chat',
     cateName: ['Chat'],
     text: CURRENT_LANGFILE['product.fr.catogery2.name'],
@@ -125,7 +125,7 @@ export const STORE_CATE_ENUM = [
     img: catsImg
   },
   {
-    url: '/list/Chien',
+    url: '/list/chien',
     category: 'chien',
     cateName: ['Chien'],
     text: CURRENT_LANGFILE['product.fr.catogery1.name'],

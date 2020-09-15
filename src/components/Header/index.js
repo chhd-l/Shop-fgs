@@ -14,6 +14,7 @@ import { setBuryPoint } from '@/api';
 import LoginButton from '@/components/LoginButton';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
+import DropDownMenu from './modules/DropDownMenu';
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
 import './index.css';
@@ -38,7 +39,8 @@ class Header extends React.Component {
       loading: false,
       result: null,
       showMegaMenu: false,
-      isScrollToTop: true
+      isScrollToTop: true,
+      visibleType: ''
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -495,8 +497,8 @@ class Header extends React.Component {
       es: defaultVal,
       de: defaultVal,
       fr: [
-        { link: '/list/dogs', langKey: 'dogs' },
-        { link: '/list/cats', langKey: 'cats' },
+        { link: '/list/dogs', langKey: 'dogs', dropDown: true },
+        { link: '/list/cats', langKey: 'cats', dropDown: true },
         { link: '/subscription-landing', langKey: 'account.subscription' },
         { link: '/Tailorednutrition', langKey: 'healthAndWellbeing' },
         {
@@ -504,9 +506,41 @@ class Header extends React.Component {
           langKey: 'aboutUs',
           isOutLink: true
         },
-        { link: 'help', langKey: 'contactUs' }
+        { link: 'help', langKey: 'contactUs', dropDown: true }
       ]
     };
+  };
+  _renderDropDownText = (item) => {
+    return item.dropDown ? (
+      <span class="rc-header-with-icon">
+        <FormattedMessage id={item.langKey} />
+        <span
+          class={`rc-icon rc-iconography ${
+            item.langKey === this.state.visibleType
+              ? 'rc-up rc-brand1'
+              : 'rc-down'
+          }`}
+        ></span>
+      </span>
+    ) : (
+      <FormattedMessage id={item.langKey} />
+    );
+  };
+  hanldeListItemMouseOver = (e, item) => {
+    if (!item.dropDown) {
+      return false;
+    }
+    this.setState({
+      visibleType: item.langKey
+    });
+  };
+  hanldeListItemMouseOut = (e, item) => {
+    if (!item.dropDown) {
+      return false;
+    }
+    this.setState({
+      visibleType: ''
+    });
   };
   render() {
     return (
@@ -818,11 +852,6 @@ class Header extends React.Component {
                             )}
                           </div>
                           <LogoutButton />
-                          {/* <div className="logoff-style">
-                                <a className="rc-styled-link--external" onClick={() => this.clickLogoff()}>
-                                  <FormattedMessage id="logOff" />
-                                </a>
-                              </div> */}
                         </div>
                       </div>
                     )}
@@ -835,16 +864,23 @@ class Header extends React.Component {
           <nav className="rc-header__nav rc-header__nav--secondary rc-md-up ">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
               {this._catogryCfg()[process.env.REACT_APP_LANG].map((item, i) => (
-                <li className="rc-list__item" key={i}>
+                <li
+                  className={`rc-list__item ${
+                    item.dropDown ? 'dropdown' : ''
+                  } ${this.state.visibleType === item.langKey ? 'active' : ''}`}
+                  key={i}
+                  onMouseOver={(e) => this.hanldeListItemMouseOver(e, item)}
+                  onMouseOut={(e) => this.hanldeListItemMouseOut(e, item)}
+                >
                   <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                     <li className="rc-list__item">
                       {item.isOutLink ? (
-                        <a href={item.link} className="rc-list__header 11111">
-                          <FormattedMessage id={item.langKey} />
+                        <a href={item.link} className="rc-list__header">
+                          {this._renderDropDownText(item)}
                         </a>
                       ) : (
                         <Link to={item.link} className="rc-list__header">
-                          <FormattedMessage id={item.langKey} />
+                          {this._renderDropDownText(item)}
                         </Link>
                       )}
                     </li>
@@ -853,6 +889,12 @@ class Header extends React.Component {
               ))}
             </ul>
           </nav>
+          <DropDownMenu
+            visibleType={this.state.visibleType}
+            updateVisibleType={(val) => {
+              this.setState({ visibleType: val });
+            }}
+          />
           <div className="search">
             <div className="rc-sm-down">
               <form

@@ -276,7 +276,7 @@ class PersonalDataEditForm extends React.Component {
               <FormattedMessage id="payment.country" />
             </div>
             <div className="col-md-6">
-              {this.getDictValue(this.state.countryList, data.country)}
+              {this.state.countryList?this.getDictValue(this.state.countryList, data.country):data.country}
             </div>
             <div className="col-md-6">
               <FormattedMessage id="payment.phoneNumber" />
