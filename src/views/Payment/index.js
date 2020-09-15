@@ -530,7 +530,7 @@ class Payment extends React.Component {
         .create('card', {
           hasHolderName: true,
           holderNameRequired: true,
-          enableStoreDetails: true,
+          enableStoreDetails: false,
           styles: {},
           placeholders: {},
           showPayButton: true,
@@ -875,7 +875,7 @@ class Payment extends React.Component {
           () => this.queryOrderDetails()
         );
       }
-      throw new Error(err.message);
+      throw new Error(err);
     } finally {
       this.endLoading();
     }

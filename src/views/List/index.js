@@ -11,7 +11,7 @@ import Filters from '@/components/Filters';
 import Pagination from '@/components/Pagination';
 import { cloneDeep, find, findIndex } from 'lodash';
 import { getList, getProps, getSelectedProps, getLoginList } from '@/api/list';
-import { queryStoreCateIds, formatMoney } from '@/utils/utils';
+import { queryStoreCateIds, formatMoney, getParaByName } from '@/utils/utils';
 import { STORE_CATE_ENUM } from '@/utils/constant';
 import Rate from '@/components/Rate';
 import './index.css';
@@ -127,6 +127,7 @@ class List extends React.Component {
     this.handleRemove = this.handleRemove.bind(this);
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
+    this.fidFromSearch = ''; // 链接中所带筛选器参数
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -158,15 +159,13 @@ class List extends React.Component {
           }
         });
       }
-      console.log(t);
     }
 
-    let lang = process.env.REACT_APP_LANG;
-    if (lang != 'de') {
-      this.getProductList();
-    } else {
-      this.getProductList(lang + '_' + category);
-    }
+    this.getProductList(
+      this.fidFromSearch
+        ? 'search_fid'
+        : process.env.REACT_APP_LANG + '_' + category
+    );
   }
   componentDidMount() {
     console.log(localItemRoyal.get('isRefresh'));
@@ -175,6 +174,8 @@ class List extends React.Component {
       window.location.reload();
       return false;
     }
+    this.fidFromSearch = getParaByName(this.props.location.search, 'fid');
+    
     this.setState(
       {
         category: this.props.match.params.category
@@ -227,18 +228,19 @@ class List extends React.Component {
       keywords,
       storeCateIds
     };
-
+    
     switch (type) {
       case 'de_cats':
-        console.log('de_cats');
         params.propDetails = [{ propId: 481, detailIds: [1784] }];
         break;
       case 'de_dogs':
-        console.log('de_dogs');
         params.propDetails = [{ propId: 481, detailIds: [1783] }];
         break;
+      case 'search_fid':
+        const tmpArr = this.fidFromSearch.split('|');
+        params.propDetails = [{ propId: tmpArr[0], detailIds: [tmpArr[1]] }];
+        break;
       default:
-        console.log('otherLang');
         for (let item of checkedList) {
           let tmp = find(params.propDetails, (p) => p.propId === item.propId);
           if (tmp) {
@@ -252,13 +254,7 @@ class List extends React.Component {
         }
     }
 
-    let tmpList;
-
-    if (this.isLogin) {
-      tmpList = getLoginList;
-    } else {
-      tmpList = getList;
-    }
+    let tmpList = this.isLogin ? getLoginList : getList;
     tmpList(params)
       .then((res) => {
         this.setState({ loading: false, initingList: false });
@@ -367,14 +363,13 @@ class List extends React.Component {
             );
           }
 
-          let lang = process.env.REACT_APP_LANG;
-
           //德国猫，德国狗，直接勾选出条件
-          const condition = lang + '_' + category;
+          const condition = this.fidFromSearch
+            ? 'search_fid'
+            : process.env.REACT_APP_LANG + '_' + category;
           let checkedListTemp;
           switch (condition) {
             case 'de_cats':
-              console.log('de_cats');
               checkedListTemp = tmpList
                 .filter((item) => item.propId === 481)[0]
                 .goodsPropDetails.filter((item) => item.detailId === 1784);
@@ -383,10 +378,18 @@ class List extends React.Component {
               });
               break;
             case 'de_dogs':
-              console.log('de_cats');
               checkedListTemp = tmpList
                 .filter((item) => item.propId === 481)[0]
                 .goodsPropDetails.filter((item) => item.detailId === 1783);
+              this.setState({
+                checkedList: checkedListTemp
+              });
+              break;
+            case 'search_fid':
+              const tmpArr = this.fidFromSearch.split('|');
+              checkedListTemp = tmpList
+                .filter((item) => item.propId == tmpArr[0])[0]
+                .goodsPropDetails.filter((item) => item.detailId == tmpArr[1]);
               this.setState({
                 checkedList: checkedListTemp
               });
