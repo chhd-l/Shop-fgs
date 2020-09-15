@@ -520,9 +520,8 @@ class Payment extends React.Component {
       // (1) Create an instance of AdyenCheckout
       const checkout = new AdyenCheckout({
         environment: 'test',
-        originKey: process.env.REACT_APP_AdyenOriginKEY,
-        // originKey:
-        //   'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
+        //originKey: process.env.REACT_APP_AdyenOriginKEY,
+         originKey:'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
         locale: process.env.REACT_APP_Adyen_locale
       });
 
@@ -651,7 +650,7 @@ class Payment extends React.Component {
             adyenType: 'klarna',
             payChannelItem:
               this.state.subForm.buyWay === 'frequency'
-                ? 'adyen_klarna_subscription'
+                ? 'adyen_later_subscription'
                 : 'adyen_klarna_pay_lat',
             shopperLocale: 'en_US',
             currency: 'EUR',
@@ -675,7 +674,10 @@ class Payment extends React.Component {
         sofort: () => {
           parameters = Object.assign(commonParameter, {
             adyenType: 'directEbanking',
-            payChannelItem: 'directEbanking',
+            payChannelItem:
+              this.state.subForm.buyWay === 'frequency'
+                ? 'adyen_sofort_subscription'
+                : 'directEbanking',
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: 'DE',
