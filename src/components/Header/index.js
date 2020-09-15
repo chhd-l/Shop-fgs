@@ -198,22 +198,6 @@ class Header extends React.Component {
     }
     return el.offsetTop;
   }
-  handleCartMouseOver() {
-    if (this.isLogin) {
-      this.loginCartRef.current && this.loginCartRef.current.handleMouseOver();
-    } else {
-      this.unloginCartRef.current &&
-        this.unloginCartRef.current.handleMouseOver();
-    }
-  }
-  handleCartMouseOut() {
-    if (this.isLogin) {
-      this.loginCartRef.current && this.loginCartRef.current.handleMouseOut();
-    } else {
-      this.unloginCartRef.current &&
-        this.unloginCartRef.current.handleMouseOut();
-    }
-  }
   handleMouseOver() {
     this.flag = 1;
     this.setState({
@@ -497,28 +481,45 @@ class Header extends React.Component {
       es: defaultVal,
       de: defaultVal,
       fr: [
-        { link: '/list/dogs', langKey: 'dogs', dropDown: true },
-        { link: '/list/cats', langKey: 'cats', dropDown: true },
-        { link: '/subscription-landing', langKey: 'account.subscription' },
-        { link: '/Tailorednutrition', langKey: 'healthAndWellbeing' },
+        {
+          link: '/list/dogs',
+          langKey: 'dogs',
+          subMenuKey: 'dogs',
+          type: 'dogs'
+        },
+        {
+          link: '/list/cats',
+          langKey: 'cats',
+          subMenuKey: 'cats',
+          type: 'cats'
+        },
+        {
+          link: '/subscription-landing',
+          langKey: 'account.subscription',
+          type: 'subscription'
+        },
+        {
+          link: '/Tailorednutrition',
+          langKey: 'healthAndWellbeing',
+          type: 'healthAndWellbeing'
+        },
         {
           link: this.props.configStore.contactUsUrl,
           langKey: 'aboutUs',
-          isOutLink: true
+          isOutLink: true,
+          type: 'aboutUs'
         },
-        { link: 'help', langKey: 'contactUs', dropDown: true }
+        { link: 'help', langKey: 'contactUs', subMenuKey: 'help', type: 'help' }
       ]
     };
   };
   _renderDropDownText = (item) => {
-    return item.dropDown ? (
+    return item.subMenuKey ? (
       <span class="rc-header-with-icon">
         <FormattedMessage id={item.langKey} />
         <span
           class={`rc-icon rc-iconography ${
-            item.langKey === this.state.visibleType
-              ? 'rc-up rc-brand1'
-              : 'rc-down'
+            item.type === this.state.visibleType ? 'rc-up rc-brand1' : 'rc-down'
           }`}
         ></span>
       </span>
@@ -527,15 +528,15 @@ class Header extends React.Component {
     );
   };
   hanldeListItemMouseOver = (e, item) => {
-    if (!item.dropDown) {
+    if (!item.subMenuKey) {
       return false;
     }
     this.setState({
-      visibleType: item.langKey
+      visibleType: item.type
     });
   };
   hanldeListItemMouseOut = (e, item) => {
-    if (!item.dropDown) {
+    if (!item.subMenuKey) {
       return false;
     }
     this.setState({
@@ -866,8 +867,8 @@ class Header extends React.Component {
               {this._catogryCfg()[process.env.REACT_APP_LANG].map((item, i) => (
                 <li
                   className={`rc-list__item ${
-                    item.dropDown ? 'dropdown' : ''
-                  } ${this.state.visibleType === item.langKey ? 'active' : ''}`}
+                    item.subMenuKey ? 'dropdown' : ''
+                  } ${this.state.visibleType === item.type ? 'active' : ''}`}
                   key={i}
                   onMouseOver={(e) => this.hanldeListItemMouseOver(e, item)}
                   onMouseOut={(e) => this.hanldeListItemMouseOut(e, item)}
