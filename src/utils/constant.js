@@ -5,7 +5,7 @@ import visaImg from '@/assets/images/credit-cards/visa.svg';
 import amexImg from '@/assets/images/credit-cards/amex.svg';
 import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
 import discoverImg from '@/assets/images/credit-cards/discover.svg';
-import cartebancaireImg from '@/assets/images/credit-cards/cartebancaire.jpg';
+import cartebancaireImg from '@/assets/images/credit-cards/cartebancaire.png';
 import oxxo from '@/assets/images/oxxo.png';
 
 import breedCatsImg from '@/assets/images/banner-list/Banner_BHN_Persa.jpg';

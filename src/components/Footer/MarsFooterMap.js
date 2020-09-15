@@ -147,7 +147,7 @@ class MarsFooterMap extends React.Component {
               <li>
                 <a
                   target="_blank"
-                  href="https://www.mars.com/privacy-policy-germany"
+                  href="https://www.mars.com/privacy-policy-france"
                 >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.privacy" />
@@ -155,14 +155,14 @@ class MarsFooterMap extends React.Component {
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/cookies-germany">
+                <a target="_blank" href="https://www.mars.com/cookies-france">
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.cookies2" />
                   </span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/legal-germany">
+                <a target="_blank" href="https://www.mars.com/legal-france">
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.termsOfUse" />
                   </span>
