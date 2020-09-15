@@ -4,7 +4,11 @@
     font-weight: normal;
 }
 
-.footerCheckbox .description p a{
+.required-wrap .footerCheckbox .description p a{
     color:#c0392b;
     text-decoration: underline;
   }
+
+.required-wrap .footerCheckbox .description p>span{
+    cursor: pointer;
+}

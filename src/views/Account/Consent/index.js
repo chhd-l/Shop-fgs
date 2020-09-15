@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 import logoAnimatedPng from "@/assets/images/logo--animated2.png";
 import Skeleton from "react-skeleton-loader";
 import "./index.css"
-import { findUserConsentList,userBindConsent,getStoreOpenConsentList} from "@/api/consent"
+import { findUserSelectedList,userBindConsent} from "@/api/consent"
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -14,7 +14,7 @@ const localItemRoyal = window.__.localItemRoyal;
 
 
 @inject('loginStore')
-class RegisterRequired extends Component {
+class AccountConsent extends Component {
     get isLogin() {
         return this.props.loginStore.isLogin;
       }
@@ -57,10 +57,6 @@ class RegisterRequired extends Component {
     //会员提交
     submitLogin = async () => {
         try{
-            let lastPath = this.props.location.state.path
-            if (lastPath === 'pay') {
-                lastPath = '/payment/payment'
-            }
             const isRequiredChecked = this.state.list.filter(item => item.isRequired).every(item => item.isChecked)
             if(isRequiredChecked){
                 //组装submit参数
@@ -68,22 +64,8 @@ class RegisterRequired extends Component {
 
                const result = await userBindConsent(submitParam)
                if (result.code === 'K-000000'){
-                 this.props.history.push(lastPath)
+                 this.props.history.push('/account')
                }
-            }else{
-                this.showAlert('isShowRequired',2000)
-            } 
-        }catch(err){
-            console.log(err.message)
-        }    
-    }
-    //游客提交
-    submitUnLogin = () => {
-        try{
-            const isRequiredChecked = this.state.list.filter(item => item.isRequired).every(item => item.isChecked)
-            if(isRequiredChecked){
-                sessionItemRoyal.set('isRequiredChecked',true)
-                this.props.history.push('/')
             }else{
                 this.showAlert('isShowRequired',2000)
             } 
@@ -117,28 +99,15 @@ class RegisterRequired extends Component {
         this.setState({
             isLoading:true
         })
-        // let lastPath = this.props.location.state.path
 
         try {
-            let result
-
-            this.isLogin
-            ?
-            result = await findUserConsentList({})
-            : 
-            result = await getStoreOpenConsentList({})
-            
-
-            // lastPath 
-            // 1:pay(专指从在payment点击支付时的跳转) 
-            // 2:其他页面
-           
-            
+            let result = await findUserSelectedList({})
+              
             const optioalList = result.context.optionalList.map(item => {
                 return {
                     id: item.id,
                     consentTitle: item.consentTitle,
-                    isChecked: false,
+                    isChecked: item.selectedFlag,
                     isRequired: false,
                     detailList: item.detailList
                 }
@@ -148,7 +117,7 @@ class RegisterRequired extends Component {
                 return {
                     id: item.id,
                     consentTitle: item.consentTitle,
-                    isChecked: false,
+                    isChecked: item.selectedFlag,
                     isRequired: true,
                     detailList: item.detailList
                 }
@@ -255,18 +224,14 @@ class RegisterRequired extends Component {
                 {/* Required fields */}
                 <p className='pizhu'><span className="pl-2 pr-2 rc-text-colour--brand1">*</span>Required fields</p>
                 {/* Continu按钮 */}
-                <div style={{ textAlign: 'center', marginTop: '60px',marginBottom: '30px' }}>
+                <div style={{ textAlign: 'center', marginTop: '60px',marginBottom: '20px' }}>
                     {
-                        this.isLogin ? 
                         <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitLogin}>Continue</button>
-                        : 
-                        <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitUnLogin}>Continue</button>
                     }
-                   
                 </div>
             </div>
         );
     }
 }
 
-export default injectIntl(RegisterRequired);
+export default injectIntl(AccountConsent);
