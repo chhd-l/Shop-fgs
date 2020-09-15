@@ -125,7 +125,9 @@ class UnloginCart extends React.Component {
       >
         <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn">
           <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
-          <span className="minicart-quantity">{this.totalNum}</span>
+          {
+            this.totalNum > 0?(<span className="minicart-quantity">{this.totalNum}</span>) : ''
+          }
         </Link>
         {!this.totalNum ? (
           <div

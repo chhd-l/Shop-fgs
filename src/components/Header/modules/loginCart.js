@@ -108,7 +108,9 @@ class LoginCart extends React.Component {
         onMouseOut={() => { headerCartStore.hide() }}>
         <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn">
           <i className="minicart-icon rc-btn rc-btn less-width-xs rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
-          <span className="minicart-quantity">{totalNum}</span>
+          {
+            totalNum > 0?(<span className="minicart-quantity">{totalNum}</span>) : ''
+          }
         </Link>
         {
           !totalNum && !loading

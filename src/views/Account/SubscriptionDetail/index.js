@@ -496,7 +496,9 @@ class SubscriptionDetail extends React.Component {
                 <div
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
                   style={{ display: type === 'PaymentComp' ? 'block' : 'none' }}
-                >
+                > 
+                {
+                  currentCardInfo && 
                   <PaymentComp
                     history={this.props.history}
                     paymentId={currentCardInfo.id}
@@ -536,6 +538,8 @@ class SubscriptionDetail extends React.Component {
                     }}
                     cancel={() => this.setState({ type: 'main' })}
                   />
+                }
+                  
                 </div>
                 <div
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
@@ -1485,7 +1489,9 @@ class SubscriptionDetail extends React.Component {
                             )}
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 mb-2">
+                        {
+                          currentCardInfo && (
+                        <div className="col-12 col-md-4 mb-2">  
                           <div className="d-flex align-items-center">
                             <i className="rc-icon rc-payment--sm rc-brand1 ml-1 mr-1 mt-1" />
                             <span>
@@ -1534,7 +1540,10 @@ class SubscriptionDetail extends React.Component {
                               </a>
                             )}
                           </div>
+                          
                         </div>
+                          )
+                        }
                       </div>
                     </div>
                   </div>

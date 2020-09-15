@@ -487,6 +487,13 @@ const en_US = {
   'product.catogery4.title': 'Dietas de Mantenimiento para Gatos',
   'product.catogery5.name': 'Perros',
   'product.catogery6.name': 'Gatos',
+  'product.catogery7.name': 'Dietas para Gatos de Raza',
+  'product.catogery7.title': 'Dietas para Gatos de Raza',
+  'product.catogery7.desc': 'Nutrición individualizada para gatos de Raza.',  
+  'product.catogery8.name': 'Dietas para Perros de Raza',
+  'product.catogery8.title': 'Dietas para Perros de Raza',
+  'product.catogery8.desc': 'Nutrición individualizada para perros de Raza.',  
+
   'product.de.catogery1.desc': 'Erkrankungen der ableitenden Harnwege',
   'product.de.catogery1.name': 'Urinary',
   'product.de.catogery1.title': 'Urinary',

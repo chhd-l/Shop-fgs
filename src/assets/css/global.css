@@ -29,7 +29,8 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #f9f9f9
+  background-color: #f9f9f9;
+  user-select: none;
 }
 
 [tabindex="-1"]:focus {

@@ -3,3 +3,12 @@
     font-size: 12px;
     font-weight: normal;
 }
+
+.required-wrap .footerCheckbox .description p a{
+    color:#c0392b;
+    text-decoration: underline;
+  }
+
+.required-wrap .footerCheckbox .description p>span{
+    cursor: pointer;
+}

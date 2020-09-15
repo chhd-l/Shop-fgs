@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 import logoAnimatedPng from "@/assets/images/logo--animated2.png";
 import Skeleton from "react-skeleton-loader";
 import "./index.css"
-import { findUserConsentList, consentListDetail,userBindConsent,getStoreOpenConsentList} from "@/api/consent"
+import { findUserConsentList,userBindConsent,getStoreOpenConsentList} from "@/api/consent"
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -23,11 +23,16 @@ class RegisterRequired extends Component {
         this.state = {
             list: [],
             isShowRequired:false,
-            isLoading:true
+            isLoading:true,
+            innerHtml:''
         };
     }
     //属性变为true，time定时后变为false
     showAlert(attr,time){
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
         this.setState({
             [attr]: true
         },()=>{
@@ -87,6 +92,21 @@ class RegisterRequired extends Component {
         }    
     }
     async componentDidMount () {
+        document.getElementById('wrap').addEventListener('click',(e)=>{     
+            if(e.target.localName === 'span'){
+                let keyWords = e.target.innerText
+                let index = Number(e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id)
+                let arr = this.state.list[index].detailList.filter(item=>{
+                    return item.contentTitle == keyWords
+                })
+
+                let tempArr = [...this.state.list]
+                tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
+               
+                this.setState({list: tempArr})
+
+            }
+        })
         if (localItemRoyal.get('isRefresh')) {
             localItemRoyal.remove('isRefresh');
             window.location.reload();
@@ -98,7 +118,6 @@ class RegisterRequired extends Component {
             isLoading:true
         })
         // let lastPath = this.props.location.state.path
-        // debugger
 
         try {
             let result
@@ -120,7 +139,8 @@ class RegisterRequired extends Component {
                     id: item.id,
                     consentTitle: item.consentTitle,
                     isChecked: false,
-                    isRequired: false
+                    isRequired: false,
+                    detailList: item.detailList
                 }
             })
 
@@ -129,7 +149,8 @@ class RegisterRequired extends Component {
                     id: item.id,
                     consentTitle: item.consentTitle,
                     isChecked: false,
-                    isRequired: true
+                    isRequired: true,
+                    detailList: item.detailList
                 }
             })
 
@@ -139,14 +160,9 @@ class RegisterRequired extends Component {
             this.setState({
                 list
             })
-  
 
-            // const result2 = await consentListDetail(
-            //     {
-            //         "consentKey": 18,
-            //         "contentTitle": "privacy policy"
-            //     }
-            // )
+            console.log(this.state.list)
+            
         } catch (err) {
             console.log(err.message)
         } finally{
@@ -161,7 +177,7 @@ class RegisterRequired extends Component {
     render() {
         const createMarkup = (text) => ({ __html: text });
         return (
-            <div className="required-wrap">
+            <div className="required-wrap" id="wrap">
                 {/* Logo */}
                 <Link to="/" className="header__nav__brand logo-home pt-5">
                     <span className="rc-screen-reader-text"></span>
@@ -194,7 +210,8 @@ class RegisterRequired extends Component {
                         :
                         this.state.list.map((item, index) => {
                             return (
-                                <div className="footerCheckbox" key={index}>
+                                <div id={index}> 
+                                    <div className="footerCheckbox" key={index}>
                                     <input
                                         className="form-check-input ui-cursor-pointer-pure"
                                         id="id-checkbox-cat-2"
@@ -215,17 +232,21 @@ class RegisterRequired extends Component {
                                         }}
                                         checked={item.isChecked}
                                     />
-                                    <div className="d-flex">
-                                        <div
-                                            className="description"
-                                            dangerouslySetInnerHTML={createMarkup(
-                                                item.consentTitle
-                                            )}
-                                        ></div>
-                                        {item.isRequired ? <span className="pl-2 rc-text-colour--brand1">*</span> : null}
+                                        <div className="d-flex">
+                                            <div
+                                                className="description"
+                                                dangerouslySetInnerHTML={createMarkup(
+                                                    item.consentTitle
+                                                )}
+                                            ></div>
+                                            {item.isRequired ? <em className="pl-2 rc-text-colour--brand1">*</em> : null}
+                                        </div>
                                     </div>
-
+                                                <div style={{paddingLeft: '89px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
+                                                    item.innerHtml
+                                                )}></div>
                                 </div>
+                                
                             )
                         })
                     }
@@ -234,7 +255,7 @@ class RegisterRequired extends Component {
                 {/* Required fields */}
                 <p className='pizhu'><span className="pl-2 pr-2 rc-text-colour--brand1">*</span>Required fields</p>
                 {/* Continu按钮 */}
-                <div style={{ textAlign: 'center', marginTop: '60px' }}>
+                <div style={{ textAlign: 'center', marginTop: '60px',marginBottom: '30px' }}>
                     {
                         this.isLogin ? 
                         <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitLogin}>Continue</button>

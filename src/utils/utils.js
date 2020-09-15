@@ -28,6 +28,11 @@ export function formatMoney(
   val = parseFloat(Number(val).toFixed(2)) + '';
   const tmp = mapEnum[currency];
   let ret = val.replace(/\B(?=(\d{3})+(?!\d))/g, tmp.break);
+  if(process.env.REACT_APP_HOMEPAGE === '/fr') {
+    ret = ret.replace(/\./, '#')
+    ret = ret.replace(/\,/, ' ')
+    ret = ret.replace(/\#/, ',')
+  }
   return tmp.atEnd ? `${ret} ${tmp.mark}` : `${tmp.mark} ${ret}`;
 }
 

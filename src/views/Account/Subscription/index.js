@@ -107,7 +107,7 @@ class Subscription extends React.Component {
       subscribeId: form.subscribeId,
       subscribeStatus: form.subscribeStatus,
       customerAccount: localItemRoyal.get('rc-userinfo')
-        ? JSON.parse(localItemRoyal.get('rc-userinfo'))['customerAccount']
+        ? localItemRoyal.get('rc-userinfo')['customerAccount']
         : ''
     };
     getSubList(param)

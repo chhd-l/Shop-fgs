@@ -11,6 +11,7 @@ import { validData } from '@/utils/utils';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
+import TermsCommon from '../Terms/common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -36,13 +37,17 @@ class PayOs extends React.Component {
       isReadPrivacyPolicyInit: true,
       isEighteenInit: true,
       isReadPrivacyPolicy: false,
+      isShipTracking: false,
+      IsNewsLetter: false,
       isEighteen: false,
       selectedCardInfo: null,
       inited: false,
       hasEditedEmail: false,
       hasEditedPhone: false,
       hasEditedName: false,
-      isValid: false
+      isValid: false,
+      listData: [],
+      requiredList:[]
     };
   }
   get isLogin() {
@@ -235,6 +240,10 @@ class PayOs extends React.Component {
       return false;
     }
     try {
+      let isAllChecked = this.state.requiredList.every(item=>item.isChecked)
+      if(!isAllChecked){
+        throw new Error('agreement failed');
+      }
       const { needReConfirmCVV } = this.props;
       let {
         isEighteen,
@@ -284,13 +293,13 @@ class PayOs extends React.Component {
         }
       }
 
-      if (!isEighteen || !isReadPrivacyPolicy) {
-        this.setState({
-          isEighteenInit: false,
-          isReadPrivacyPolicyInit: false
-        });
-        throw new Error('agreement failed');
-      }
+      // if (!isEighteen || !isReadPrivacyPolicy) {
+      //   this.setState({
+      //     isEighteenInit: false,
+      //     isReadPrivacyPolicyInit: false
+      //   });
+      //   throw new Error('agreement failed');
+      // }
 
       this.props.clickPay();
     } catch (err) {
@@ -328,6 +337,14 @@ class PayOs extends React.Component {
       this.props.onPaymentCompDataChange(data);
     });
   };
+  checkRequiredItem = (list) => {
+    let requiredList =  list.filter(item=>item.isRequired)
+    this.setState({
+      requiredList
+    },()=>{
+      console.log({requiredList: this.state.requiredList})
+    })
+  }
   render() {
     const { creditCardInfoForm } = this.state;
 
@@ -604,7 +621,11 @@ class PayOs extends React.Component {
           </div>
         </div>
         {/* 条款 */}
-        <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom mt-3">
+        <TermsCommon
+            listData = {this.props.listData}
+            checkRequiredItem = {this.checkRequiredItem}
+          />
+        {/* <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom mt-3">
           <input
             className="form-check-input ui-cursor-pointer-pure"
             id="id-checkbox-cat-2"
@@ -649,8 +670,8 @@ class PayOs extends React.Component {
               <FormattedMessage id="payment.confirmInfo4" />
             </div>
           </label>
-        </div>
-        <div className="footerCheckbox ml-custom mr-custom">
+        </div> */}
+        {/* <div className="footerCheckbox ml-custom mr-custom">
           <input
             className="form-check-input ui-cursor-pointer-pure"
             id="id-checkbox-cat-1"
@@ -680,7 +701,7 @@ class PayOs extends React.Component {
               <FormattedMessage id="login.secondCheck" />
             </div>
           </label>
-        </div>
+        </div> */}
         <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
           <div className="next-step-button">
             <div className="rc-text--right">

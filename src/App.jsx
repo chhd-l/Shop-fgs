@@ -46,6 +46,7 @@ import Prescription from '@/views/Prescription';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
 import Exception from '@/views/Exception';
 import Help from '@/views/Help';
+import Consent from '@/views/Account/Consent';
 import FAQ from '@/views/FAQ';
 import TermUse from '@/views/TermUse';
 import TermsAndConditions from '@/views/TermUse/TermsAndConditions';
@@ -68,6 +69,9 @@ import ProductReview from '@/views/Account/ProductReview';
 import AccountShippingAddress from '@/views/Account/ShippingAddress';
 // import AccountRefunds from "@/views/Account/Refunds";
 import AccountShippingAddressForm from '@/views/Account/ShippingAddressForm';
+import SubscriptionLanding from '@/views/SubscriptionLanding'
+import Tailorednutrition from '@/views/Tailorednutrition'
+
 
 import AccountReturnOrder from '@/views/Account/ReturnOrder';
 import ForgetPassword from '@/views/ForgetPassword';
@@ -79,7 +83,7 @@ import Recommendation from '@/views/Recommendation';
 
 const localItemRoyal = window.__.localItemRoyal;
 const token = localItemRoyal.get('rc-token');
-console.log('REACT_APP_HOMEPAGE', process.env.REACT_APP_HOMEPAGE);
+
 const LoginCallback = (props) => {
   console.log(111);
   const { authService, authState } = useOktaAuth();
@@ -89,12 +93,7 @@ const LoginCallback = (props) => {
     console.log(props);
     console.log(authService);
     if (authStateReady) {
-      // wait until initial check is done so it doesn't wipe any error
-      // console.log('111', authState.isPending, authState)
-      // if(authStateReady && authState.error) {
-      //   console.log('222')
-      // }
-      // authService.handleAuthentication();
+      
     } else {
       await authService.handleAuthentication();
     }
@@ -123,8 +122,6 @@ const App = () => (
               {/* <Route path="/mx" exact component={Home} />
               <Route path="/mx/implicit/callback" component={LoginCallback} /> */}
               <Route path={'/'} exact component={Home} />
-              {/* <Route path={process.env.REACT_APP_HOMEPAGE + "/implicit/callback"} component={LoginCallback} /> */}
-              {/* <Route path={"/implicit/callback"} component={LoginCallback} /> */}
               <Route
                 path={'/implicit/callback'}
                 render={(props) => <LoginCallback {...props} />}
@@ -182,6 +179,7 @@ const App = () => (
               />
 
               <Route exact path="/help" component={Help} />
+              <Route exact path="/consent" component={Consent} />
               <Route
                 exact
                 path="/FAQ/:catogery"
@@ -290,15 +288,11 @@ const App = () => (
                 exact
                 component={AccountShippingAddressForm}
               />
-              <Route exact path="/forgetPassword" component={ForgetPassword} />
-              <Route
-                exact
-                path="/Widerrufsbelehrung"
-                component={Widerrufsbelehrung}
-              />
-
               <Route path="/required" exact component={RegisterRequired} />
               <Route path="/conoce-mas-de-evet" exact component={Landing} />
+              <Route path="/subscription-landing" exact component={SubscriptionLanding} />
+              <Route path="/tailorednutrition" exact component={Tailorednutrition} />
+              <Route exact path="/forgetPassword" component={ForgetPassword} />
 
               {/* <Route exact component={Exception} /> */}
             </Security>

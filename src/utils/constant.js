@@ -5,7 +5,11 @@ import visaImg from '@/assets/images/credit-cards/visa.svg';
 import amexImg from '@/assets/images/credit-cards/amex.svg';
 import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
 import discoverImg from '@/assets/images/credit-cards/discover.svg';
+import cartebancaireImg from '@/assets/images/credit-cards/cartebancaire.png';
 import oxxo from '@/assets/images/oxxo.png';
+
+import breedCatsImg from '@/assets/images/banner-list/Banner_BHN_Persa.jpg';
+import breedDogsImg from '@/assets/images/banner-list/Banner_BHN_German_Shepherd.jpg';
 
 const CURRENT_LANGFILE = ENUM_LANGFILE[process.env.REACT_APP_LANG];
 
@@ -58,6 +62,42 @@ export const STORE_CATE_ENUM = [
     img: catsImg
   },
   {
+    url: '/list/chaton',
+    category: 'chaton',
+    cateName: ['Chaton'],
+    text: CURRENT_LANGFILE['product.fr.catogery4.name'],
+    title: CURRENT_LANGFILE['product.fr.catogery4.title'],
+    desc: CURRENT_LANGFILE['product.fr.catogery4.desc'],
+    img: catsImg
+  },
+  {
+    url: '/list/chiot',
+    category: 'chiot',
+    cateName: ['Chiot'],
+    text: CURRENT_LANGFILE['product.fr.catogery3.name'],
+    title: CURRENT_LANGFILE['product.fr.catogery3.title'],
+    desc: CURRENT_LANGFILE['product.fr.catogery3.desc'],
+    img: dogsImg
+  },
+  {
+    url: '/list/breed-cats',
+    category: 'breed-cats',
+    cateName: ['Breed cats'],
+    text: CURRENT_LANGFILE['product.catogery7.name'],
+    title: CURRENT_LANGFILE['product.catogery7.title'],
+    desc: CURRENT_LANGFILE['product.catogery7.desc'],
+    img: breedCatsImg
+  },
+  {
+    url: '/list/breed-dogs',
+    category: 'breed-dogs',
+    cateName: ['Breed dogs'],
+    text: CURRENT_LANGFILE['product.catogery8.name'],
+    title: CURRENT_LANGFILE['product.catogery8.title'],
+    desc: CURRENT_LANGFILE['product.catogery8.desc'],
+    img: breedDogsImg
+  },
+  {
     url: '/list/vcn',
     category: 'vcn',
     cateName: ['VD dogs'],
@@ -76,15 +116,33 @@ export const STORE_CATE_ENUM = [
     img: catsImg
   },
   {
+    url: '/list/chat',
+    category: 'chat',
+    cateName: ['Chat'],
+    text: CURRENT_LANGFILE['product.fr.catogery2.name'],
+    title: CURRENT_LANGFILE['product.fr.catogery2.title'],
+    desc: CURRENT_LANGFILE['product.fr.catogery2.desc'],
+    img: catsImg
+  },
+  {
+    url: '/list/chien',
+    category: 'chien',
+    cateName: ['Chien'],
+    text: CURRENT_LANGFILE['product.fr.catogery1.name'],
+    title: CURRENT_LANGFILE['product.fr.catogery1.title'],
+    desc: CURRENT_LANGFILE['product.fr.catogery1.desc'],
+    img: dogsImg
+  },
+  {
     url: '/list/dogs',
     category: 'dogs',
-    cateName: ['Prescription dogs', 'VD dogs'],
+    cateName: ['Prescription dogs', 'VD dogs', 'Breed dogs', 'Chien', 'Chiot'],
     text: CURRENT_LANGFILE['product.catogery5.name']
   },
   {
     url: '/list/cats',
     category: 'cats',
-    cateName: ['Prescription cats', 'VD cats'],
+    cateName: ['Prescription cats', 'VD cats', 'Breed cats', 'Chat', 'Chaton'],
     text: CURRENT_LANGFILE['product.catogery6.name']
   },
   {
@@ -152,7 +210,11 @@ export const CREDIT_CARD_IMG_ENUM = {
 };
 
 export const CREDIT_CARD_IMGURL_ENUM = [visaImg, amexImg, mastercardImg];
-export const ADYEN_CREDIT_CARD_IMGURL_ENUM = [visaImg, mastercardImg];
+const tmpArr = [visaImg, mastercardImg];
+export const ADYEN_CREDIT_CARD_IMGURL_ENUM =
+  {
+    fr: [visaImg, mastercardImg, cartebancaireImg]
+  }[process.env.REACT_APP_LANG] || tmpArr;
 
 export const ADDRESS_RULE = [
   {

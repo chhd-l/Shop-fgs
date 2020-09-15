@@ -2,26 +2,29 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import "./index.css"
+import { inject, observer } from 'mobx-react';
+import './index.css';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
 
+@inject('configStore')
+@observer
 class Terms extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      privacy:{
-        isCheck:false,
-        isShowDetail:false
+      privacy: {
+        isCheck: false,
+        isShowDetail: false
       },
-      shipTracking:{
-        isCheck:false,
-        isShowDetail:false
+      shipTracking: {
+        isCheck: false,
+        isShowDetail: false
       },
-      newsLetter:{
-        isCheck:false,
-        isShowDetail:false
+      newsLetter: {
+        isCheck: false,
+        isShowDetail: false
       }
     };
   }
@@ -39,10 +42,10 @@ class Terms extends Component {
             onChange={() => {
               let data = Object.assign({}, this.state.privacy, {
                 isCheck: !this.state.privacy.isCheck
-              })
+              });
               this.setState(
                 {
-                  privacy: data,
+                  privacy: data
                 },
                 () => {
                   this.props.sendIsReadPrivacyPolicy(
@@ -63,25 +66,25 @@ class Terms extends Component {
               id="payment.terms1"
               values={{
                 val1: (
-                  <Link className="red" target="_blank" to="/privacypolicy">
-                    AGB
+                  <Link
+                    className="red"
+                    target="_blank"
+                    to="https://shop.royalcanin.fr/general-terms-conditions.html
+                  "
+                  >
+                    conditions générales de vente
                   </Link>
                 ),
                 val2: (
-                  <a
-                    className="red"
-                    href="https://www.mars.com/privacy-policy-germany"
-                  >
-                    Datenschutzerklärung
+                  <a className="red" href="https://www.mars.com/legal-france">
+                    conditions d´utilisation
                   </a>
                 )
               }}
             />
             <div
               className={`${
-                !this.state.isReadPrivacyPolicy
-                  ? 'hidden'
-                  : 'terms-detail'
+                !this.state.isReadPrivacyPolicy ? 'hidden' : 'terms-detail'
               }`}
               style={{
                 display: 'none'
@@ -99,16 +102,18 @@ class Terms extends Component {
             type="checkbox"
             name="checkbox-2"
             onChange={() => {
-               //更改isCheck属性
+              //更改isCheck属性
               let data = Object.assign({}, this.state.shipTracking, {
                 isCheck: !this.state.shipTracking.isCheck
-              })
+              });
               this.setState(
                 {
-                  shipTracking: data,
+                  shipTracking: data
                 },
                 () => {
-                  this.props.sendIsShipTracking(this.state.shipTracking.isCheck);
+                  this.props.sendIsShipTracking(
+                    this.state.shipTracking.isCheck
+                  );
                 }
               );
             }}
@@ -120,17 +125,26 @@ class Terms extends Component {
             style={{ fontWeight: 'bold' }}
           >
             <span className="rc-text-colour--brand1 pr-1">*</span>
-            <FormattedMessage id="payment.terms2.header" /> <span onClick={()=>{
-              //更改isShowDetail属性
-               let data = Object.assign({}, this.state.shipTracking, {
-                isShowDetail: !this.state.shipTracking.isShowDetail
-              })
-              this.setState(
-                {
-                  shipTracking: data,
-                }
-              );
-            }}>{this.state.shipTracking.isShowDetail?<FormattedMessage id="lessDetail" />:<FormattedMessage id="detail" />}</span>
+            <FormattedMessage id="payment.terms2.header" />{' '}
+            {process.env.REACT_APP_LANG === 'de' && (
+              <span
+                onClick={() => {
+                  //更改isShowDetail属性
+                  let data = Object.assign({}, this.state.shipTracking, {
+                    isShowDetail: !this.state.shipTracking.isShowDetail
+                  });
+                  this.setState({
+                    shipTracking: data
+                  });
+                }}
+              >
+                {this.state.shipTracking.isShowDetail ? (
+                  <FormattedMessage id="lessDetail" />
+                ) : (
+                  <FormattedMessage id="detail" />
+                )}
+              </span>
+            )}
             <div
               className={`${
                 !this.state.shipTracking.isShowDetail
@@ -166,10 +180,10 @@ class Terms extends Component {
               //更改isCheck属性
               let data = Object.assign({}, this.state.newsLetter, {
                 isCheck: !this.state.newsLetter.isCheck
-              })
+              });
               this.setState(
                 {
-                  newsLetter: data,
+                  newsLetter: data
                 },
                 () => {
                   this.props.sendIsNewsLetter(this.state.newsLetter.isCheck);
@@ -182,22 +196,29 @@ class Terms extends Component {
             className="rc-input__label--inline ui-cursor-pointer-pure"
             style={{ fontWeight: 'bold' }}
           >
-            <FormattedMessage id="payment.terms3.header" /> <span onClick={()=>{
-               //更改isShowDetail属性
-               let data = Object.assign({}, this.state.newsLetter, {
-                isShowDetail: !this.state.newsLetter.isShowDetail
-              })
-              this.setState(
-                {
-                  newsLetter: data,
-                }
-              );
-            }}>{this.state.newsLetter.isShowDetail?<FormattedMessage id="lessDetail" />:<FormattedMessage id="detail" />}</span>
+            <FormattedMessage id="payment.terms3.header" />{' '}
+            {process.env.REACT_APP_LANG === 'de' && (
+              <span
+                onClick={() => {
+                  //更改isShowDetail属性
+                  let data = Object.assign({}, this.state.newsLetter, {
+                    isShowDetail: !this.state.newsLetter.isShowDetail
+                  });
+                  this.setState({
+                    newsLetter: data
+                  });
+                }}
+              >
+                {this.state.newsLetter.isShowDetail ? (
+                  <FormattedMessage id="lessDetail" />
+                ) : (
+                  <FormattedMessage id="detail" />
+                )}
+              </span>
+            )}
             <div
               className={`${
-                !this.state.newsLetter.isShowDetail
-                  ? 'hidden'
-                  : 'terms-detail'
+                !this.state.newsLetter.isShowDetail ? 'hidden' : 'terms-detail'
               }`}
             >
               <FormattedMessage
@@ -207,9 +228,9 @@ class Terms extends Component {
                     <a
                       className="red"
                       style={{ textDecoration: 'underline' }}
-                      href="info.de@royalcanin.com"
+                      href={this.props.configStore.storeContactEmail}
                     >
-                      info.de@royalcanin.com
+                      {this.props.configStore.storeContactEmail}
                     </a>
                   ),
                   val2: (
@@ -217,7 +238,7 @@ class Terms extends Component {
                       className="red"
                       href="https://www.mars.com/privacy-policy-germany"
                     >
-                      Datenschutzerklärung
+                      <FormattedMessage id="dataProtection" />
                     </a>
                   )
                 }}
