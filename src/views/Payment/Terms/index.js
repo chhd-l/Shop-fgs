@@ -126,23 +126,25 @@ class Terms extends Component {
           >
             <span className="rc-text-colour--brand1 pr-1">*</span>
             <FormattedMessage id="payment.terms2.header" />{' '}
-            <span
-              onClick={() => {
-                //更改isShowDetail属性
-                let data = Object.assign({}, this.state.shipTracking, {
-                  isShowDetail: !this.state.shipTracking.isShowDetail
-                });
-                this.setState({
-                  shipTracking: data
-                });
-              }}
-            >
-              {this.state.shipTracking.isShowDetail ? (
-                <FormattedMessage id="lessDetail" />
-              ) : (
-                <FormattedMessage id="detail" />
-              )}
-            </span>
+            {process.env.REACT_APP_LANG === 'de' && (
+              <span
+                onClick={() => {
+                  //更改isShowDetail属性
+                  let data = Object.assign({}, this.state.shipTracking, {
+                    isShowDetail: !this.state.shipTracking.isShowDetail
+                  });
+                  this.setState({
+                    shipTracking: data
+                  });
+                }}
+              >
+                {this.state.shipTracking.isShowDetail ? (
+                  <FormattedMessage id="lessDetail" />
+                ) : (
+                  <FormattedMessage id="detail" />
+                )}
+              </span>
+            )}
             <div
               className={`${
                 !this.state.shipTracking.isShowDetail
@@ -195,23 +197,25 @@ class Terms extends Component {
             style={{ fontWeight: 'bold' }}
           >
             <FormattedMessage id="payment.terms3.header" />{' '}
-            <span
-              onClick={() => {
-                //更改isShowDetail属性
-                let data = Object.assign({}, this.state.newsLetter, {
-                  isShowDetail: !this.state.newsLetter.isShowDetail
-                });
-                this.setState({
-                  newsLetter: data
-                });
-              }}
-            >
-              {this.state.newsLetter.isShowDetail ? (
-                <FormattedMessage id="lessDetail" />
-              ) : (
-                <FormattedMessage id="detail" />
-              )}
-            </span>
+            {process.env.REACT_APP_LANG === 'de' && (
+              <span
+                onClick={() => {
+                  //更改isShowDetail属性
+                  let data = Object.assign({}, this.state.newsLetter, {
+                    isShowDetail: !this.state.newsLetter.isShowDetail
+                  });
+                  this.setState({
+                    newsLetter: data
+                  });
+                }}
+              >
+                {this.state.newsLetter.isShowDetail ? (
+                  <FormattedMessage id="lessDetail" />
+                ) : (
+                  <FormattedMessage id="detail" />
+                )}
+              </span>
+            )}
             <div
               className={`${
                 !this.state.newsLetter.isShowDetail ? 'hidden' : 'terms-detail'
@@ -229,22 +233,14 @@ class Terms extends Component {
                       {this.props.configStore.storeContactEmail}
                     </a>
                   ),
-                  val2:
-                    process.env.REACT_APP_LANG === 'de' ? (
-                      <a
-                        className="red"
-                        href="https://www.mars.com/privacy-policy-germany"
-                      >
-                        <FormattedMessage id="dataProtection" />
-                      </a>
-                    ) : (
-                      <a
-                        className="red"
-                        href="https://www.mars.com/privacy-policy-france"
-                      >
-                        <FormattedMessage id="dataProtection" />
-                      </a>
-                    )
+                  val2: (
+                    <a
+                      className="red"
+                      href="https://www.mars.com/privacy-policy-germany"
+                    >
+                      <FormattedMessage id="dataProtection" />
+                    </a>
+                  )
                 }}
               />
             </div>
