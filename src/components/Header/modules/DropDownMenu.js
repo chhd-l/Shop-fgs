@@ -56,7 +56,7 @@ const subMenuCfg = [
         children: [
           {
             name: 'Aliments secs',
-            linkObj: { pathname: '/list/dogs' }
+            linkObj: { pathname: '/list/dogs', search: '?fid=484|1792' }
           },
           {
             name: 'Bouchées en sauce',
@@ -84,19 +84,19 @@ const subMenuCfg = [
         children: [
           {
             name: 'Chaton (1-12 mois)',
-            linkObj: { pathname: '/list/cats', search: '?fid=485|1818' }
+            linkObj: { pathname: '/list/cats', search: '?fid=492|1898' }
           },
           {
             name: 'Adulte (1-7 ans)',
-            linkObj: { pathname: '/list/cats', search: '?fid=485|1819' }
+            linkObj: { pathname: '/list/cats', search: '?fid=492|1899' }
           },
           {
             name: 'Mature (7-12 ans)',
-            linkObj: { pathname: '/list/cats', search: '?fid=485|1821' }
+            linkObj: { pathname: '/list/cats', search: '?fid=492|1900' }
           },
           {
             name: 'Senior (+ 12 ans)',
-            linkObj: { pathname: '/list/cats', search: '?fid=485|1824' }
+            linkObj: { pathname: '/list/cats', search: '?fid=492|1901' }
           }
         ]
       },
@@ -105,7 +105,7 @@ const subMenuCfg = [
         children: [
           {
             name: 'Aliments secs',
-            linkObj: { pathname: '/list/cats' }
+            linkObj: { pathname: '/list/cats', search: '?fid=484|1792' }
           },
           {
             name: 'Bouchées en sauce',
