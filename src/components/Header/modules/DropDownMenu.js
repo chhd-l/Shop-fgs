@@ -38,7 +38,7 @@ export default class DropDownMenu extends React.Component {
                 <ul class="rc-padding--none" role="menu" aria-hidden="true">
                   <li class="dropdown-nav__item" role="menuitem">
                     <Link
-                      to="/list/dogs"
+                      to={{ pathname: '/list/dogs', search: '?fid=485|1818' }}
                       id="Chiot (0-2 mois)"
                       role="button"
                       class="dropdown-nav__link"
@@ -48,7 +48,7 @@ export default class DropDownMenu extends React.Component {
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
                     <Link
-                      to="/list/dogs"
+                      to={{ pathname: '/list/dogs', search: '?fid=485|1819' }}
                       id="Chiot (2 mois-1 an)"
                       role="button"
                       class="dropdown-nav__link"
@@ -58,7 +58,7 @@ export default class DropDownMenu extends React.Component {
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
                     <Link
-                      to="/list/dogs"
+                      to={{ pathname: '/list/dogs', search: '?fid=485|1821' }}
                       id="Adulte (1-7 ans)"
                       role="button"
                       class="dropdown-nav__link"
@@ -68,7 +68,7 @@ export default class DropDownMenu extends React.Component {
                   </li>
                   <li class="dropdown-nav__item" role="menuitem">
                     <Link
-                      to="/list/dogs"
+                      to={{ pathname: '/list/dogs', search: '?fid=485|1824' }}
                       id="Sénior (7 ans et plus)"
                       role="button"
                       class="dropdown-nav__link"
@@ -96,7 +96,7 @@ export default class DropDownMenu extends React.Component {
                 <ul class="rc-padding--none" role="menu" aria-hidden="true">
                   <li class="dropdown-nav__item" role="menuitem">
                     <Link
-                      to="/list/dogs"
+                      to={{ pathname: '/list/dogs', search: '?fid=485|1824' }}
                       id="X-Small (1-4 Kg)"
                       role="button"
                       class="dropdown-nav__link"
