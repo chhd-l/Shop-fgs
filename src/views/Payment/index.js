@@ -873,7 +873,7 @@ class Payment extends React.Component {
           () => this.queryOrderDetails()
         );
       }
-      throw new Error(err.message);
+      throw new Error(err);
     } finally {
       this.endLoading();
     }
