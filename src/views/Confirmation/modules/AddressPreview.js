@@ -51,7 +51,7 @@ class InfosPreview extends React.Component {
               {details.buyerRemark}
             </div>
           ) : null}
-          {payRecord ? (
+          {payRecord && payRecord.paymentMethod !== 'ADYEN' ? (
             <div className="col-12 col-md-6 mb-3">
               <FormattedMessage id="payment.paymentInformation" />
               <br />

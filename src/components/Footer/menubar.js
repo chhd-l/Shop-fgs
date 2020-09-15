@@ -190,7 +190,7 @@ export const menubar = {
         titleId: 'footer.Additionally2',
         list: [
           {
-            url: 'https://www.mars.com/privacy-policy-germany',
+            url: 'https://www.royalcanin.com/de/about-us/data-protection',
             messageId: 'footer.privacyPolicy2'
           },
           { link: '/Terms-And-Conditions', messageId: 'footer.termsOfService' },

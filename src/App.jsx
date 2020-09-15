@@ -69,9 +69,8 @@ import ProductReview from '@/views/Account/ProductReview';
 import AccountShippingAddress from '@/views/Account/ShippingAddress';
 // import AccountRefunds from "@/views/Account/Refunds";
 import AccountShippingAddressForm from '@/views/Account/ShippingAddressForm';
-import SubscriptionLanding from '@/views/SubscriptionLanding'
-import Tailorednutrition from '@/views/Tailorednutrition'
-
+import SubscriptionLanding from '@/views/SubscriptionLanding';
+import Tailorednutrition from '@/views/Tailorednutrition';
 
 import AccountReturnOrder from '@/views/Account/ReturnOrder';
 import ForgetPassword from '@/views/ForgetPassword';
@@ -93,7 +92,6 @@ const LoginCallback = (props) => {
     console.log(props);
     console.log(authService);
     if (authStateReady) {
-      
     } else {
       await authService.handleAuthentication();
     }
@@ -139,7 +137,10 @@ const App = () => (
                 exact
                 path="/list/:category"
                 render={(props) => (
-                  <List key={props.match.params.category} {...props} />
+                  <List
+                    key={props.match.params.category + props.location.search}
+                    {...props}
+                  />
                 )}
               />
               <Route
@@ -290,8 +291,16 @@ const App = () => (
               />
               <Route path="/required" exact component={RegisterRequired} />
               <Route path="/conoce-mas-de-evet" exact component={Landing} />
-              <Route path="/subscription-landing" exact component={SubscriptionLanding} />
-              <Route path="/tailorednutrition" exact component={Tailorednutrition} />
+              <Route
+                path="/subscription-landing"
+                exact
+                component={SubscriptionLanding}
+              />
+              <Route
+                path="/tailorednutrition"
+                exact
+                component={Tailorednutrition}
+              />
               <Route exact path="/forgetPassword" component={ForgetPassword} />
 
               {/* <Route exact component={Exception} /> */}

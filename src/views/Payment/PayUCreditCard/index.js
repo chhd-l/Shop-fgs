@@ -81,6 +81,13 @@ class PayOs extends React.Component {
     return tmp;
   }
 
+  componentWillReceiveProps (nextProps) {
+    let requiredList = nextProps.listData.filter(item=>item.isRequired) 
+    this.setState({
+      requiredList
+    })
+  }
+
   componentDidMount() {
     const _this = this;
     if (this.isLogin) {

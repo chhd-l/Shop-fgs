@@ -41,7 +41,7 @@ class TermsCommon extends Component {
   render() {
     const createMarkup = (text) => ({ __html: text });
     return (
-      <div className="required-wrap" id="wrap">
+      <div className="required-wrap common" id="wrap">
         {/* checkbox组 */}
         <div className="required-checkbox" style={{margin: "15px 0 0 40px"}}>
           {
@@ -88,7 +88,7 @@ class TermsCommon extends Component {
                               ></div>
                               {item.isRequired ? <span className="pl-2 rc-text-colour--brand1">*</span> : null}
                           </div>
-                          <div style={{paddingLeft:'10px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
+                          <div style={{paddingLeft:'10px',paddingRight:'10px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
                               item.innerHtml
                           )}></div>
                       </div>

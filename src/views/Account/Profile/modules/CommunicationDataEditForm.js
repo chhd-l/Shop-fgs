@@ -2,8 +2,10 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Loading from '@/components/Loading';
 import { updateCustomerBaseInfo } from '@/api/user';
-
-export default class CommunicationDataEditForm extends React.Component {
+import { inject, observer } from 'mobx-react';
+@inject('configStore')
+@observer
+class CommunicationDataEditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -182,7 +184,10 @@ export default class CommunicationDataEditForm extends React.Component {
                 <FormattedMessage id="phone" />
               </label>
             </div> */}
-            <div className="rc-input rc-input--inline rc-margin-y--xs" style={{maxWidth:'640px'}}>
+            <div
+              className="rc-input rc-input--inline rc-margin-y--xs"
+              style={{ maxWidth: '640px' }}
+            >
               <FormattedMessage id="profile.emailChoose">
                 {(txt) => (
                   <input
@@ -197,7 +202,22 @@ export default class CommunicationDataEditForm extends React.Component {
                 )}
               </FormattedMessage>
               <label className="rc-input__label--inline outline-none">
-                <FormattedMessage id="profile.emailChoose" values={{ val1: <a style={{color:'#EC2E5E',textDecoration:'underline'}} href="info.de@royalcanin.com">info.de@royalcanin.com</a> }} />
+                <FormattedMessage
+                  id="profile.emailChoose"
+                  values={{
+                    val1: (
+                      <a
+                        style={{
+                          color: '#EC2E5E',
+                          textDecoration: 'underline'
+                        }}
+                        href={this.props.configStore.storeContactEmail}
+                      >
+                        {this.props.configStore.storeContactEmail}
+                      </a>
+                    )
+                  }}
+                />
               </label>
             </div>
           </div>
@@ -356,3 +376,4 @@ export default class CommunicationDataEditForm extends React.Component {
     );
   }
 }
+export default CommunicationDataEditForm;
