@@ -29,6 +29,10 @@ class AccountConsent extends Component {
     }
     //属性变为true，time定时后变为false
     showAlert(attr,time){
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
         this.setState({
             [attr]: true
         },()=>{
@@ -69,38 +73,22 @@ class AccountConsent extends Component {
             console.log(err.message)
         }    
     }
-    //游客提交
-    submitUnLogin = () => {
-        try{
-            const isRequiredChecked = this.state.list.filter(item => item.isRequired).every(item => item.isChecked)
-            if(isRequiredChecked){
-                sessionItemRoyal.set('isRequiredChecked',true)
-                this.props.history.push('/')
-            }else{
-                this.showAlert('isShowRequired',2000)
-            } 
-        }catch(err){
-            console.log(err.message)
-        }    
-    }
     async componentDidMount () {
-        // const consent = await  findUserSelectedList({})
-        // console.log(consent)
-        
-        // document.getElementById('wrap').addEventListener('click',(e)=>{     
-        //     if(e.target.localName === 'span'){
-        //         let keyWords = e.target.innerText
-        //         let index = Number(e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id)
-        //         console.log(typeof index)
-        //         console.log(this.state.list[index])
-        //         let arr = this.state.list[index].detailList.filter(item=>{
-        //             return item.contentTitle == keyWords
-        //         })
-        //         console.log({arr:arr[0].contentBody})
-        //         // this.setState({innerHtml: arr[0].contentBody})
+        document.getElementById('wrap').addEventListener('click',(e)=>{     
+            if(e.target.localName === 'span'){
+                let keyWords = e.target.innerText
+                let index = Number(e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id)
+                let arr = this.state.list[index].detailList.filter(item=>{
+                    return item.contentTitle == keyWords
+                })
 
-        //     }
-        // })
+                let tempArr = [...this.state.list]
+                tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
+               
+                this.setState({list: tempArr})
+
+            }
+        })
         if (localItemRoyal.get('isRefresh')) {
             localItemRoyal.remove('isRefresh');
             window.location.reload();
@@ -111,16 +99,10 @@ class AccountConsent extends Component {
         this.setState({
             isLoading:true
         })
-        // let lastPath = this.props.location.state.path
 
         try {
             let result = await findUserSelectedList({})
-
-            // lastPath 
-            // 1:pay(专指从在payment点击支付时的跳转) 
-            // 2:其他页面
-           
-            
+              
             const optioalList = result.context.optionalList.map(item => {
                 return {
                     id: item.id,
@@ -230,7 +212,7 @@ class AccountConsent extends Component {
                                         </div>
                                     </div>
                                                 <div style={{paddingLeft: '89px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
-                                                    this.state.innerHtml
+                                                    item.innerHtml
                                                 )}></div>
                                 </div>
                                 
@@ -242,14 +224,10 @@ class AccountConsent extends Component {
                 {/* Required fields */}
                 <p className='pizhu'><span className="pl-2 pr-2 rc-text-colour--brand1">*</span>Required fields</p>
                 {/* Continu按钮 */}
-                <div style={{ textAlign: 'center', marginTop: '60px' }}>
+                <div style={{ textAlign: 'center', marginTop: '60px',marginBottom: '20px' }}>
                     {
-                        this.isLogin ? 
                         <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitLogin}>Continue</button>
-                        : 
-                        <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitUnLogin}>Continue</button>
                     }
-                   
                 </div>
             </div>
         );

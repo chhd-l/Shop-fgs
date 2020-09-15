@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 import logoAnimatedPng from "@/assets/images/logo--animated2.png";
 import Skeleton from "react-skeleton-loader";
 import "./index.css"
-import { findUserConsentList,userBindConsent,getStoreOpenConsentList,findUserSelectedList} from "@/api/consent"
+import { findUserConsentList,userBindConsent,getStoreOpenConsentList} from "@/api/consent"
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -29,6 +29,10 @@ class RegisterRequired extends Component {
     }
     //属性变为true，time定时后变为false
     showAlert(attr,time){
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
         this.setState({
             [attr]: true
         },()=>{
@@ -88,23 +92,21 @@ class RegisterRequired extends Component {
         }    
     }
     async componentDidMount () {
-        // const consent = await  findUserSelectedList({})
-        // console.log(consent)
-        
-        // document.getElementById('wrap').addEventListener('click',(e)=>{     
-        //     if(e.target.localName === 'span'){
-        //         let keyWords = e.target.innerText
-        //         let index = Number(e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id)
-        //         console.log(typeof index)
-        //         console.log(this.state.list[index])
-        //         let arr = this.state.list[index].detailList.filter(item=>{
-        //             return item.contentTitle == keyWords
-        //         })
-        //         console.log({arr:arr[0].contentBody})
-        //         // this.setState({innerHtml: arr[0].contentBody})
+        document.getElementById('wrap').addEventListener('click',(e)=>{     
+            if(e.target.localName === 'span'){
+                let keyWords = e.target.innerText
+                let index = Number(e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id)
+                let arr = this.state.list[index].detailList.filter(item=>{
+                    return item.contentTitle == keyWords
+                })
 
-        //     }
-        // })
+                let tempArr = [...this.state.list]
+                tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
+               
+                this.setState({list: tempArr})
+
+            }
+        })
         if (localItemRoyal.get('isRefresh')) {
             localItemRoyal.remove('isRefresh');
             window.location.reload();
@@ -241,7 +243,7 @@ class RegisterRequired extends Component {
                                         </div>
                                     </div>
                                                 <div style={{paddingLeft: '89px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
-                                                    this.state.innerHtml
+                                                    item.innerHtml
                                                 )}></div>
                                 </div>
                                 
@@ -253,7 +255,7 @@ class RegisterRequired extends Component {
                 {/* Required fields */}
                 <p className='pizhu'><span className="pl-2 pr-2 rc-text-colour--brand1">*</span>Required fields</p>
                 {/* Continu按钮 */}
-                <div style={{ textAlign: 'center', marginTop: '60px' }}>
+                <div style={{ textAlign: 'center', marginTop: '60px',marginBottom: '30px' }}>
                     {
                         this.isLogin ? 
                         <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitLogin}>Continue</button>

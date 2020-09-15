@@ -17,7 +17,21 @@ class TermsCommon extends Component {
     };
   }
   componentDidMount(){
+    document.getElementById('wrap').addEventListener('click',(e)=>{     
+        if(e.target.localName === 'span'){
+            let keyWords = e.target.innerText
+            let index = Number(e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id)
+            let arr = this.state.list[index].detailList.filter(item=>{
+                return item.contentTitle == keyWords
+            })
 
+            let tempArr = [...this.state.list]
+            tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
+          
+            this.setState({list: tempArr})
+
+        }
+    })
   }
   componentWillReceiveProps (nextProps) {
     this.setState({
@@ -27,7 +41,7 @@ class TermsCommon extends Component {
   render() {
     const createMarkup = (text) => ({ __html: text });
     return (
-      <div>
+      <div className="required-wrap" id="wrap">
         {/* checkbox组 */}
         <div className="required-checkbox" style={{margin: "15px 0 0 40px"}}>
           {
@@ -39,6 +53,7 @@ class TermsCommon extends Component {
               :
               this.state.list.map((item, index) => {
                   return (
+                    <div id={index}>
                       <div className="footerCheckbox" style={{paddingLeft:0}} key={index}>
                           <input
                               className="form-check-input ui-cursor-pointer-pure"
@@ -73,8 +88,12 @@ class TermsCommon extends Component {
                               ></div>
                               {item.isRequired ? <span className="pl-2 rc-text-colour--brand1">*</span> : null}
                           </div>
-
+                          <div style={{paddingLeft:'10px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
+                              item.innerHtml
+                          )}></div>
                       </div>
+                    </div>
+                      
                   )
               })
           }
