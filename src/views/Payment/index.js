@@ -122,7 +122,7 @@ class Payment extends React.Component {
       orderDetails: null,
       tid: sessionItemRoyal.get('rc-tid'),
       recommend_data: [],
-      listData:[]
+      listData: []
     };
     this.timer = null;
     this.loginDeliveryAddressRef = React.createRef();
@@ -142,57 +142,60 @@ class Payment extends React.Component {
     });
   }
   //2.游客调用consense接口
-  doGetStoreOpenConsentList(){
-    getStoreOpenConsentList({}).then((result)=>{
-      this.isExistListFun(result)
-    })  
+  doGetStoreOpenConsentList() {
+    getStoreOpenConsentList({}).then((result) => {
+      this.isExistListFun(result);
+    });
   }
   //重新组装listData
-  rebindListData(listData){
+  rebindListData(listData) {
     this.setState({
       listData
-    })
+    });
   }
   //判断consent接口是否存在项目
-  isExistListFun(result){
-      if (result.code === 'K-000000') {
-        const optioalList = result.context.optionalList.map(item => {
-          return {
-              id: item.id,
-              consentTitle: item.consentTitle,
-              isChecked: false,
-              isRequired: false,
-              detailList: item.detailList
-          }
-      })
+  isExistListFun(result) {
+    if (result.code === 'K-000000') {
+      const optioalList = result.context.optionalList.map((item) => {
+        return {
+          id: item.id,
+          consentTitle: item.consentTitle,
+          isChecked: false,
+          isRequired: false,
+          detailList: item.detailList
+        };
+      });
 
-      const requiredList = result.context.requiredList.map(item => {
-          return {
-              id: item.id,
-              consentTitle: item.consentTitle,
-              isChecked: false,
-              isRequired: true,
-              detailList: item.detailList
-          }
-      })
-        let listData = [...requiredList,...optioalList] //必填项+选填项
-        this.rebindListData(listData)
+      const requiredList = result.context.requiredList.map((item) => {
+        return {
+          id: item.id,
+          consentTitle: item.consentTitle,
+          isChecked: false,
+          isRequired: true,
+          detailList: item.detailList
+        };
+      });
+      let listData = [...requiredList, ...optioalList]; //必填项+选填项
+      this.rebindListData(listData);
     }
   }
   //判断consent接口是否存在选填项
-  isExistOptionalListFun(result){
-        if (result.code === 'K-000000' && result.context.optionalList.length!==0) {
-          const optionalList = result.context.optionalList.map(item => {
-            return {
-                id: item.id,
-                consentTitle: item.consentTitle,
-                isChecked: false,
-                isRequired: false,
-                detailList: item.detailList
-            }
-        })
-          this.rebindListData(optionalList)
-      }
+  isExistOptionalListFun(result) {
+    if (
+      result.code === 'K-000000' &&
+      result.context.optionalList.length !== 0
+    ) {
+      const optionalList = result.context.optionalList.map((item) => {
+        return {
+          id: item.id,
+          consentTitle: item.consentTitle,
+          isChecked: false,
+          isRequired: false,
+          detailList: item.detailList
+        };
+      });
+      this.rebindListData(optionalList);
+    }
   }
   async componentDidMount() {
     this.getConsentList();
@@ -521,7 +524,8 @@ class Payment extends React.Component {
       const checkout = new AdyenCheckout({
         environment: 'test',
         originKey: process.env.REACT_APP_AdyenOriginKEY,
-        //  originKey:'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
+        // originKey:
+        //   'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
         locale: process.env.REACT_APP_Adyen_locale
       });
 
@@ -875,7 +879,13 @@ class Payment extends React.Component {
           () => this.queryOrderDetails()
         );
       }
-      throw new Error(err);
+      throw new Error(
+        typeof err === 'string'
+          ? err
+          : typeof err === 'object'
+          ? err.message
+          : 'Error'
+      );
     } finally {
       this.endLoading();
     }
@@ -1497,7 +1507,7 @@ class Payment extends React.Component {
           }`}
         >
           <PayUCreditCard
-            listData = {this.state.listData}
+            listData={this.state.listData}
             startLoading={() => this.startLoading()}
             endLoading={() => this.endLoading()}
             showErrorMsg={(data) => this.showErrorMsg(data)}
