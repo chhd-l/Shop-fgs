@@ -46,6 +46,7 @@ import Prescription from '@/views/Prescription';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
 import Exception from '@/views/Exception';
 import Help from '@/views/Help';
+import Consent from '@/views/Account/Consent';
 import FAQ from '@/views/FAQ';
 import TermUse from '@/views/TermUse';
 import TermsAndConditions from '@/views/TermUse/TermsAndConditions';
@@ -178,6 +179,7 @@ const App = () => (
               />
 
               <Route exact path="/help" component={Help} />
+              <Route exact path="/consent" component={Consent} />
               <Route
                 exact
                 path="/FAQ/:catogery"

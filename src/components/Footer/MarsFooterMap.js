@@ -168,23 +168,14 @@ class MarsFooterMap extends React.Component {
                   </span>
                 </a>
               </li>
-              <li>
-                <a
-                  target="_blank"
-                  href="https://www.royalcanin.com/de/about-us/imprint"
-                >
-                  <span className="mars-footer-label">
-                    <FormattedMessage id="footer.impress" />
-                  </span>
-                </a>
-              </li>
             </ul>
             <div
               className="mars-footer-legal text-center"
               style={{ fontSize: '10px' }}
             >
               <p>
-                <FormattedMessage id="footer.copyrightInfo2" />
+                <FormattedMessage id="footer.copyrightInfo2"  /><br/>
+                <FormattedMessage id="footer.copyrightInfo2_1"  />
               </p>
             </div>
           </div>

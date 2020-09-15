@@ -627,7 +627,8 @@ const en_US = {
 
   //account.paymethods
   'paymethods.info':"You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!",
-  'paymethods.btn':'Add Payment'
+  'paymethods.btn':'Add Payment',
+  'consent':'Consent'
 }
 
 export default en_US;

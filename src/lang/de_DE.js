@@ -653,6 +653,8 @@ const en_US = {
 
   //account.paymethods
   'paymethods.info':'Sie haben keine gespeicherte Zahlungsmethode. Fügen Sie eine Zahlungsmethode hinzu, um den Bestellprozess zu beschleunigen.',
-  'paymethods.btn':'Zahlungsmethode hinzufügen'
+  'paymethods.btn':'Zahlungsmethode hinzufügen',
+
+  dataProtection: 'Datenschutzerklärung'
 }
 export default en_US;

@@ -5,6 +5,7 @@ import visaImg from '@/assets/images/credit-cards/visa.svg';
 import amexImg from '@/assets/images/credit-cards/amex.svg';
 import mastercardImg from '@/assets/images/credit-cards/mastercard.svg';
 import discoverImg from '@/assets/images/credit-cards/discover.svg';
+import cartebancaireImg from '@/assets/images/credit-cards/cartebancaire.jpg';
 import oxxo from '@/assets/images/oxxo.png';
 
 import breedCatsImg from '@/assets/images/banner-list/Banner_BHN_Persa.jpg';
@@ -62,7 +63,7 @@ export const STORE_CATE_ENUM = [
   },
   {
     url: '/list/chaton',
-    category: 'Chaton',
+    category: 'chaton',
     cateName: ['Chaton'],
     text: CURRENT_LANGFILE['product.fr.catogery4.name'],
     title: CURRENT_LANGFILE['product.fr.catogery4.title'],
@@ -71,7 +72,7 @@ export const STORE_CATE_ENUM = [
   },
   {
     url: '/list/chiot',
-    category: 'Chiot',
+    category: 'chiot',
     cateName: ['Chiot'],
     text: CURRENT_LANGFILE['product.fr.catogery3.name'],
     title: CURRENT_LANGFILE['product.fr.catogery3.title'],
@@ -115,8 +116,8 @@ export const STORE_CATE_ENUM = [
     img: catsImg
   },
   {
-    url: '/list/chat',
-    category: 'Chat',
+    url: '/list/Chat',
+    category: 'chat',
     cateName: ['Chat'],
     text: CURRENT_LANGFILE['product.fr.catogery2.name'],
     title: CURRENT_LANGFILE['product.fr.catogery2.title'],
@@ -124,8 +125,8 @@ export const STORE_CATE_ENUM = [
     img: catsImg
   },
   {
-    url: '/list/chien',
-    category: 'Chien',
+    url: '/list/Chien',
+    category: 'chien',
     cateName: ['Chien'],
     text: CURRENT_LANGFILE['product.fr.catogery1.name'],
     title: CURRENT_LANGFILE['product.fr.catogery1.title'],
@@ -209,7 +210,11 @@ export const CREDIT_CARD_IMG_ENUM = {
 };
 
 export const CREDIT_CARD_IMGURL_ENUM = [visaImg, amexImg, mastercardImg];
-export const ADYEN_CREDIT_CARD_IMGURL_ENUM = [visaImg, mastercardImg];
+const tmpArr = [visaImg, mastercardImg];
+export const ADYEN_CREDIT_CARD_IMGURL_ENUM =
+  {
+    fr: [visaImg, mastercardImg, cartebancaireImg]
+  }[process.env.REACT_APP_LANG] || tmpArr;
 
 export const ADDRESS_RULE = [
   {
