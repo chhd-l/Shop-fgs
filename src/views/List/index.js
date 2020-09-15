@@ -219,7 +219,7 @@ class List extends React.Component {
         }, 0);
       }
     }
-    // todo
+    
     let params = {
       storeId: process.env.REACT_APP_STOREID,
       // cateId: process.env.REACT_APP_CATEID,
