@@ -10,7 +10,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import Filters from '@/components/Filters';
 import Pagination from '@/components/Pagination';
 import { cloneDeep, find, findIndex } from 'lodash';
-import { getList, getProps, getSelectedProps, getLoginList } from '@/api/list';
+import { getList, getSelectedProps, getLoginList } from '@/api/list';
 import { queryStoreCateIds, formatMoney, getParaByName } from '@/utils/utils';
 import { STORE_CATE_ENUM } from '@/utils/constant';
 import Rate from '@/components/Rate';
@@ -121,13 +121,38 @@ class List extends React.Component {
       initingFilter: true,
       initingList: true,
       filterModalVisible: false,
-      currentCatogery: ''
+      currentCatogery: '',
+      cateId: ''
     };
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
     this.fidFromSearch = ''; // 链接中所带筛选器参数
+  }
+  componentDidMount() {
+    console.log(localItemRoyal.get('isRefresh'));
+    if (localItemRoyal.get('isRefresh')) {
+      localItemRoyal.remove('isRefresh');
+      window.location.reload();
+      return false;
+    }
+    this.fidFromSearch = getParaByName(this.props.location.search, 'fid');
+
+    this.setState(
+      {
+        category: this.props.match.params.category
+      },
+      () => {
+        const { category } = this.state;
+        this.initData();
+        if (category.toLocaleLowerCase() === 'keywords') {
+          this.setState({
+            keywords: this.props.match.params.keywords
+          });
+        }
+      }
+    );
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -143,11 +168,15 @@ class List extends React.Component {
     let storeIdList = await queryStoreCateIds();
     const t = find(STORE_CATE_ENUM, (ele) => ele.category == category);
     if (t) {
-      let tmpArr = Array.from(storeIdList, (s) =>
+      const tmpStoreCateIds = Array.from(storeIdList, (s) =>
         t.cateName.includes(s.cateName) ? s.storeCateId : ''
       ).filter((s) => !!s);
+      const tmpCateId = Array.from(storeIdList, (s) =>
+        t.cateName.includes(s.cateName) ? s.goodsCateId : ''
+      ).filter((s) => !!s)[0];
       this.setState({
-        storeCateIds: tmpArr,
+        storeCateIds: tmpStoreCateIds,
+        cateId: tmpCateId,
         currentCatogery: t.text
       });
       if (t.title && t.desc && t.img) {
@@ -165,30 +194,6 @@ class List extends React.Component {
       this.fidFromSearch
         ? 'search_fid'
         : process.env.REACT_APP_LANG + '_' + category
-    );
-  }
-  componentDidMount() {
-    console.log(localItemRoyal.get('isRefresh'));
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
-    this.fidFromSearch = getParaByName(this.props.location.search, 'fid');
-    
-    this.setState(
-      {
-        category: this.props.match.params.category
-      },
-      () => {
-        const { category } = this.state;
-        this.initData();
-        if (category.toLocaleLowerCase() === 'keywords') {
-          this.setState({
-            keywords: this.props.match.params.keywords
-          });
-        }
-      }
     );
   }
   async getProductList(type) {
@@ -214,10 +219,11 @@ class List extends React.Component {
         }, 0);
       }
     }
-
+    // todo
     let params = {
       storeId: process.env.REACT_APP_STOREID,
-      cateId: process.env.REACT_APP_CATEID,
+      // cateId: process.env.REACT_APP_CATEID,
+      cateId: this.state.cateId,
       propDetails: [],
       pageNum: currentPage - 1,
       brandIds: [],
@@ -228,7 +234,7 @@ class List extends React.Component {
       keywords,
       storeCateIds
     };
-    
+
     switch (type) {
       case 'de_cats':
         params.propDetails = [{ propId: 481, detailIds: [1784] }];
@@ -311,9 +317,8 @@ class List extends React.Component {
       .catch(() => {
         this.setState({ loading: false, productList: [] });
       });
-
     if (!this.state.filterList.length) {
-      getSelectedProps(process.env.REACT_APP_CATEID)
+      getSelectedProps(this.state.cateId)
         .then((res) => {
           // res = JSON.parse('{"code":"K-000000","message":"Operación exitosa","errorData":null,"context":[{"propId":470,"cateId":1129,"propName":"Etapa de Vida","indexFlag":1,"createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":1,"goodsPropDetails":[{"detailId":1754,"propId":470,"detailName":"Cachorro","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":0},{"detailId":1751,"propId":470,"detailName":"Adulto","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":1},{"detailId":1752,"propId":470,"detailName":"Maduro","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":2},{"detailId":1753,"propId":470,"detailName":"Mayor","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":3},{"detailId":1779,"propId":470,"detailName":"Gatito","createTime":"2020-05-07 11:59:11.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":4}],"propDetailStr":null},{"propId":471,"cateId":1129,"propName":"Talla","indexFlag":1,"createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":2,"goodsPropDetails":[{"detailId":1755,"propId":471,"detailName":"Minuatura","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":0},{"detailId":1756,"propId":471,"detailName":"Pequeño","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":1},{"detailId":1757,"propId":471,"detailName":"Mediano","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":2},{"detailId":1758,"propId":471,"detailName":"Grande","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":3},{"detailId":1759,"propId":471,"detailName":"Gigante","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":4}],"propDetailStr":null},{"propId":472,"cateId":1129,"propName":"Necesidades especiales","indexFlag":1,"createTime":"2020-05-05 18:39:49.000","updateTime":"2020-05-05 18:46:48.000","delFlag":0,"sort":3,"goodsPropDetails":[{"detailId":1760,"propId":472,"detailName":"Envejecimiento saludable","createTime":"2020-05-05 18:39:49.000","updateTime":"2020-05-05 18:46:48.000","delFlag":0,"sort":0},{"detailId":1761,"propId":472,"detailName":"Soporte cardiaco","createTime":"2020-05-05 18:39:49.000","updateTime":"2020-05-05 18:46:48.000","delFlag":0,"sort":1},{"detailId":1762,"propId":472,"detailName":"Apoyo para la diabetes","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":2},{"detailId":1763,"propId":472,"detailName":"Apoyo digestivo","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":3},{"detailId":1764,"propId":472,"detailName":"Apoyo de las articulaciones","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":4},{"detailId":1765,"propId":472,"detailName":"Higiene oral / dental","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":5},{"detailId":1766,"propId":472,"detailName":"Sensibilidades alimentarias","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":6},{"detailId":1767,"propId":472,"detailName":"Apoyo renal","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":7},{"detailId":1768,"propId":472,"detailName":"Soporte del hígado","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":8},{"detailId":1769,"propId":472,"detailName":"Soporte de piel y pelaje","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":9},{"detailId":1770,"propId":472,"detailName":"Soporte urinario","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":10},{"detailId":1771,"propId":472,"detailName":"Control de peso","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":11},{"detailId":1772,"propId":472,"detailName":"Convalecencia","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":12},{"detailId":1773,"propId":472,"detailName":"Sensibilidad de la piel","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":13},{"detailId":1774,"propId":472,"detailName":"Sensibilidad digestiva","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":14},{"detailId":1775,"propId":472,"detailName":"Sensibilidad articular","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":15}],"propDetailStr":null},{"propId":473,"cateId":1129,"propName":"Seco/Húmedo","indexFlag":1,"createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":4,"goodsPropDetails":[{"detailId":1776,"propId":473,"detailName":"Seco","createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":0},{"detailId":1777,"propId":473,"detailName":"Húmedo","createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":1},{"detailId":1778,"propId":473,"detailName":"Otro","createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":2}],"propDetailStr":null}],"defaultLocalDateTime":"2020-08-14 11:54:41.553"}')
           // debugger
