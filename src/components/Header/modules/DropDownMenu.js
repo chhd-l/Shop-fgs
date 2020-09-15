@@ -77,7 +77,7 @@ export default class DropDownMenu extends React.Component {
                   </li>
                 </ul>
                 <div class="dropdown-nav__cat-link rc-padding-bottom--xs">
-                  <Link class="rc-styled-link" to="/dogs">
+                  <Link class="rc-styled-link" to="/list/dogs">
                     Voir tous les produits
                   </Link>
                 </div>
@@ -203,14 +203,14 @@ export default class DropDownMenu extends React.Component {
                     <div class="gtx-trans-icon">&nbsp;</div>
                   </div>
                 </div>
-                <a
-                  href="https://shop.royalcanin.fr/dogs/"
+                <Link
+                  to="/list/dogs"
                   title="Trouver l'alimentation adaptée"
                 >
                   <button class="rc-btn rc-btn--one">
                     Trouver l'alimentation adaptée
                   </button>
-                </a>
+                </Link>
               </div>
               <div class="mt-auto">
                 <img
@@ -301,7 +301,7 @@ https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-
                   </li>
                 </ul>
                 <div class="dropdown-nav__cat-link rc-padding-bottom--xs">
-                  <Link class="rc-styled-link" to="/cats">
+                  <Link class="rc-styled-link" to="/list/cats">
                     Voir tous les produits
                   </Link>
                 </div>
@@ -360,7 +360,7 @@ https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-
                   </p>
                 </div>
                 <Link
-                  to="/cats"
+                  to="/list/cats"
                   title="Trouver la nourriture adaptée"
                 >
                   <button class="rc-btn rc-btn--one">
