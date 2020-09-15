@@ -26,17 +26,17 @@ class BannerTip extends React.Component {
         {process.env.REACT_APP_IS_PROMOTION === 'true' && (
           <div
             className="text-center"
-            style={{ fontSize: '1.15em', marginBottom: '-.4rem' }}
+            style={{ fontSize: '1.15em',fontWeight: '300', marginBottom: '-.4rem' }}
           >
             <span
-              className="iconfont font-weight-bold mr-2"
+              className="iconfont mr-2"
               style={{ fontSize: '1.3em' }}
             >
               &#xe675;
             </span>
             <FormattedMessage id="home.promotionTip" />
             {
-              process.env.REACT_APP_HOMEPAGE === 'fr'?(<button class="rc-btn rc-btn--sm rc-btn--two" style={{marginLeft: '20px'}} onClick={() => {
+              process.env.REACT_APP_HOMEPAGE === '/fr'?(<button class="rc-btn rc-btn--sm rc-btn--two" style={{marginLeft: '20px'}} onClick={() => {
                 window.location.href = process.env.REACT_APP_ACCESS_PATH + '/subscription-landing'
               }}>En savoir plus</button>): ''
             }
