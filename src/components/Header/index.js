@@ -465,7 +465,7 @@ class Header extends React.Component {
       </div>
     ) : null;
   }
-  _catogryCfg = () => {
+  _catogryCfg = (lang) => {
     const defaultVal = [
       { link: '/list/cats', langKey: 'cats' },
       { link: '/list/dogs', langKey: 'dogs' },
@@ -476,42 +476,46 @@ class Header extends React.Component {
       },
       { link: 'help', langKey: 'contactUs' }
     ];
-    return {
-      en: defaultVal,
-      es: defaultVal,
-      de: defaultVal,
-      fr: [
-        {
-          link: '/list/dogs',
-          langKey: 'dogs',
-          subMenuKey: 'dogs',
-          type: 'dogs'
-        },
-        {
-          link: '/list/cats',
-          langKey: 'cats',
-          subMenuKey: 'cats',
-          type: 'cats'
-        },
-        {
-          link: '/subscription-landing',
-          langKey: 'account.subscription',
-          type: 'subscription'
-        },
-        {
-          link: '/Tailorednutrition',
-          langKey: 'healthAndWellbeing',
-          type: 'healthAndWellbeing'
-        },
-        {
-          link: this.props.configStore.contactUsUrl,
-          langKey: 'aboutUs',
-          isOutLink: true,
-          type: 'aboutUs'
-        },
-        { link: 'help', langKey: 'contactUs', subMenuKey: 'help', type: 'help' }
-      ]
-    };
+    return (
+      {
+        fr: [
+          {
+            link: '/list/dogs',
+            langKey: 'dogs',
+            subMenuKey: 'dogs',
+            type: 'dogs'
+          },
+          {
+            link: '/list/cats',
+            langKey: 'cats',
+            subMenuKey: 'cats',
+            type: 'cats'
+          },
+          {
+            link: '/subscription-landing',
+            langKey: 'account.subscription',
+            type: 'subscription'
+          },
+          {
+            link: '/Tailorednutrition',
+            langKey: 'healthAndWellbeing',
+            type: 'healthAndWellbeing'
+          },
+          {
+            link: this.props.configStore.contactUsUrl,
+            langKey: 'aboutUs',
+            isOutLink: true,
+            type: 'aboutUs'
+          },
+          {
+            link: 'help',
+            langKey: 'contactUs',
+            subMenuKey: 'help',
+            type: 'help'
+          }
+        ]
+      }[lang] || defaultVal
+    );
   };
   _renderDropDownText = (item) => {
     return item.subMenuKey ? (
@@ -562,6 +566,7 @@ class Header extends React.Component {
                     handleMouseOver={this.handleMenuMouseOver}
                     handleMouseOut={this.handleMenuMouseOut}
                     toggleMenu={this.toggleMenu}
+                    menuData={this._catogryCfg(process.env.REACT_APP_LANG)}
                   />
                 </li>
               ) : null}
@@ -864,7 +869,7 @@ class Header extends React.Component {
 
           <nav className="rc-header__nav rc-header__nav--secondary rc-md-up ">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
-              {this._catogryCfg()[process.env.REACT_APP_LANG].map((item, i) => (
+              {this._catogryCfg(process.env.REACT_APP_LANG).map((item, i) => (
                 <li
                   className={`rc-list__item ${
                     item.subMenuKey ? 'dropdown' : ''
