@@ -93,7 +93,7 @@
   margin-bottom: 0;
 }
 
-section li {
+.recommendation section li {
   list-style: none;
   flex: 1;
   text-align: center;
