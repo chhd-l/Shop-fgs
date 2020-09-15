@@ -111,15 +111,6 @@ class SideMenu extends React.Component {
               )}
             </FormattedMessage>
           </h2>
-          <h2 className={['nav_item', 'medium', type === 'consent' ? 'active' : ''].join(' ')}>
-            <FormattedMessage id="consent">
-              {txt => (
-                <Link to="/consent" title={txt} alt={txt}>
-                  {txt}
-                </Link>
-              )}
-            </FormattedMessage>
-          </h2>
           <hr />
         </div>
       </div>
