@@ -16,7 +16,7 @@ import subscriptionImg from '@/assets/images/profile/Subscription.jpg';
 import addressImg from '@/assets/images/profile/Address.png';
 import './index.css';
 
-@inject('loginStore')
+@inject('loginStore', 'configStore')
 @observer
 class AccountHome extends React.Component {
   constructor(props) {
@@ -205,35 +205,37 @@ class AccountHome extends React.Component {
                         </p>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="profileDashboardImage">
-                        <FormattedMessage id="shippingAddress">
-                          {(txt) => (
-                            <Link to="/account/paymentMethod" title={txt}>
-                              <img src={paymentImg} alt={txt} />
-                            </Link>
-                          )}
-                        </FormattedMessage>
-                      </div>
-                      <div>
-                        <h3 className="rc-delta profileTextColor">
-                          <FormattedMessage id="paymentMethod">
+                    {this.props.configStore.profilePaymentMethod && (
+                      <div className="col-12 col-md-4">
+                        <div className="profileDashboardImage">
+                          <FormattedMessage id="shippingAddress">
                             {(txt) => (
-                              <Link
-                                to="/account/paymentMethod"
-                                title={txt}
-                                alt={txt}
-                              >
-                                <b>{txt}</b>
+                              <Link to="/account/paymentMethod" title={txt}>
+                                <img src={paymentImg} alt={txt} />
                               </Link>
                             )}
                           </FormattedMessage>
-                        </h3>
-                        <p>
-                          <FormattedMessage id="account.paymentMethodTip" />
-                        </p>
+                        </div>
+                        <div>
+                          <h3 className="rc-delta profileTextColor">
+                            <FormattedMessage id="paymentMethod">
+                              {(txt) => (
+                                <Link
+                                  to="/account/paymentMethod"
+                                  title={txt}
+                                  alt={txt}
+                                >
+                                  <b>{txt}</b>
+                                </Link>
+                              )}
+                            </FormattedMessage>
+                          </h3>
+                          <p>
+                            <FormattedMessage id="account.paymentMethodTip" />
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div className="col-12 col-md-4">
                       <div className="profileDashboardImage">
                         <FormattedMessage id="help">

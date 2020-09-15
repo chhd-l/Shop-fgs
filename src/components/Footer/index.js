@@ -124,7 +124,7 @@ class Footer extends React.Component {
               </p>
               <div className="rc-text--inverse">
                 <p>{this.props.configStore.contactTimePeriod}</p>
-                {/* <p><FormattedMessage id="s" /></p> */}
+                <p><FormattedMessage id="contactUsViaPhone" /></p>
               </div>
             </div>
           </div>

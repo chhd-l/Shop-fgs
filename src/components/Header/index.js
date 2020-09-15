@@ -495,8 +495,8 @@ class Header extends React.Component {
       es: defaultVal,
       de: defaultVal,
       fr: [
-        { link: '/list/cats', langKey: 'cats' },
         { link: '/list/dogs', langKey: 'dogs' },
+        { link: '/list/cats', langKey: 'cats' },
         { link: '/subscription-landing', langKey: 'account.subscription' },
         { link: '/Tailorednutrition', langKey: 'healthAndWellbeing' },
         {
@@ -909,7 +909,8 @@ class Header extends React.Component {
           </div>
           {this.state.loading ? <Loading /> : null}
         </header>
-        {this.renderClinic()}
+        {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+          this.renderClinic()}
       </>
     );
   }
