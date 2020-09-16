@@ -1246,3 +1246,14 @@
 .accountProfile .react-datepicker-wrapper {
   border-bottom: 2px solid #d7d7d7;
 }
+
+.account-infomation p {
+  padding:0;
+  margin:0;
+}
+.account-infomation.required-checkbox .description p{
+  
+}
+.account-infomation.required-checkbox .description span{
+  cursor: pointer;
+}

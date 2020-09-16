@@ -8,7 +8,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import PersonalDataEditForm from './modules/PersonalDataEditForm';
 import AddressBookEditForm from './modules/AddressBookEditForm';
-import CommunicationDataEditForm from './modules/CommunicationDataEditForm';
+import CommunicationDataEditForm from './modules/CommunicationDataEditForm2';
 import ClinicEditForm from './modules/ClinicEditForm';
 import PasswordForm from './modules/PasswordForm';
 import { getCustomerInfo } from '@/api/user';
@@ -176,11 +176,12 @@ class AccountProfile extends React.Component {
                               count={5}
                             />
                           ) : (
-                            <CommunicationDataEditForm
-                              originData={this.state.originData}
-                              data={this.state.communicationData}
-                              updateData={() => this.queryCustomerBaseInfo()}
-                            />
+                            // <CommunicationDataEditForm
+                            //   originData={this.state.originData}
+                            //   data={this.state.communicationData}
+                            //   updateData={() => this.queryCustomerBaseInfo()}
+                            // />
+                            <CommunicationDataEditForm/>
                           )}
                         </div>
                       </div>
