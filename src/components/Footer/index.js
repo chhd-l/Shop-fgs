@@ -79,7 +79,7 @@ class Footer extends React.Component {
                                 <li className="rc-list__item">
                                   {!!listItem.link ? (
                                     <Link
-                                      className="rc-list__link text-decoration-none color-f6f6f6"
+                                      className="rc-list__link text-decoration-none color-f6f6f6 text-capitalize"
                                       to={listItem.link}
                                       role="menuitem"
                                     >
@@ -89,7 +89,7 @@ class Footer extends React.Component {
                                     </Link>
                                   ) : (
                                     <a
-                                      className="rc-list__link text-decoration-none color-f6f6f6"
+                                      className="rc-list__link text-decoration-none color-f6f6f6 text-capitalize"
                                       href={
                                         (!!listItem.prop &&
                                           this.props.configStore[
@@ -124,6 +124,12 @@ class Footer extends React.Component {
               </p>
               <div className="rc-text--inverse">
                 <p>{this.props.configStore.contactTimePeriod}</p>
+                <p>
+                  <FormattedMessage
+                    id="contactUsViaPhone"
+                    defaultMessage={' '}
+                  />
+                </p>
               </div>
             </div>
           </div>

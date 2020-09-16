@@ -12,7 +12,7 @@ class PaymentStore {
     deliveryAddr: { isPrepare: true, isEdit: false, isCompleted: false },
     billingAddr: { isPrepare: true, isEdit: false, isCompleted: false },
     paymentMethod: { isPrepare: true, isEdit: false, isCompleted: false },
-    confirmation: { isPrepare: true, isEdit: false, isCompleted: false }
+    confirmation: { isPrepare: true, isEdit: false }
   };
 
   @action.bound

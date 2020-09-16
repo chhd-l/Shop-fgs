@@ -1,32 +1,33 @@
-import React from "react";
-import { injectIntl, FormattedMessage } from "react-intl";
-import { find } from "lodash";
-import { Link } from "react-router-dom";
-import Loading from "@/components/Loading";
-import MegaMenu from "@/components/MegaMenu";
-import { getParaByName, getDeviceType } from "@/utils/utils";
-import logoAnimatedPng from "@/assets/images/logo--animated.png";
-import logoAnimatedSvg from "@/assets/images/logo--animated.svg";
-import { getList } from "@/api/list";
-import { IMG_DEFAULT } from "@/utils/constant";
-import { getPrescriptionById, getPrescriberByEncryptCode } from "@/api/clinic";
-import { setBuryPoint } from "@/api";
-import LoginButton from "@/components/LoginButton";
-import UnloginCart from "./modules/unLoginCart";
-import LoginCart from "./modules/loginCart";
-import LogoutButton from "@/components/LogoutButton";
-import { inject, observer } from "mobx-react";
-import "./index.css";
+import React from 'react';
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { find } from 'lodash';
+import { Link } from 'react-router-dom';
+import Loading from '@/components/Loading';
+import MegaMenu from '@/components/MegaMenu';
+import { getParaByName, getDeviceType } from '@/utils/utils';
+import logoAnimatedPng from '@/assets/images/logo--animated.png';
+import logoAnimatedSvg from '@/assets/images/logo--animated.svg';
+import { getList } from '@/api/list';
+import { IMG_DEFAULT } from '@/utils/constant';
+import { getPrescriptionById, getPrescriberByEncryptCode } from '@/api/clinic';
+import { setBuryPoint } from '@/api';
+import LoginButton from '@/components/LoginButton';
+import UnloginCart from './modules/unLoginCart';
+import LoginCart from './modules/loginCart';
+import DropDownMenu from './modules/DropDownMenu';
+import LogoutButton from '@/components/LogoutButton';
+import { inject, observer } from 'mobx-react';
+import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject("loginStore", "clinicStore", "configStore")
+@inject('loginStore', 'clinicStore', 'configStore')
 @observer // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
-    showUserIcon: false,
+    showUserIcon: false
   };
   constructor(props) {
     super(props);
@@ -34,11 +35,12 @@ class Header extends React.Component {
       showCart: false,
       showCenter: false,
       showSearchInput: false,
-      keywords: "",
+      keywords: '',
       loading: false,
       result: null,
       showMegaMenu: false,
       isScrollToTop: true,
+      visibleType: ''
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -69,38 +71,38 @@ class Header extends React.Component {
     return this.props.loginStore.isLogin;
   }
   async componentDidMount() {
-    if (sessionItemRoyal.get("rc-token-lose")) {
-      document.querySelector("#J-btn-logoff") &&
-        document.querySelector("#J-btn-logoff").click();
-      document.querySelector("#J-btn-login") &&
-        document.querySelector("#J-btn-login").click();
+    if (sessionItemRoyal.get('rc-token-lose')) {
+      document.querySelector('#J-btn-logoff') &&
+        document.querySelector('#J-btn-logoff').click();
+      document.querySelector('#J-btn-login') &&
+        document.querySelector('#J-btn-login').click();
     }
 
-    window.addEventListener("click", (e) => this.hideMenu(e));
-    window.addEventListener("scroll", (e) => this.handleScroll(e));
+    window.addEventListener('click', (e) => this.hideMenu(e));
+    window.addEventListener('scroll', (e) => this.handleScroll(e));
 
     const { location, clinicStore } = this.props;
     let clinciRecoCode = getParaByName(
-      window.location.search || (location ? location.search : ""),
-      "code"
+      window.location.search || (location ? location.search : ''),
+      'code'
     );
     let linkClinicId = getParaByName(
-      window.location.search || (location ? location.search : ""),
-      "clinic"
+      window.location.search || (location ? location.search : ''),
+      'clinic'
     );
-    let linkClinicName = "";
+    let linkClinicName = '';
 
     // 指定clinic/recommendation code链接进入，设置default clinic
     if (
       location &&
-      (location.pathname === "/" ||
-        location.pathname.includes("/list") ||
-        location.pathname.includes("/details"))
+      (location.pathname === '/' ||
+        location.pathname.includes('/list') ||
+        location.pathname.includes('/details'))
     ) {
       if (clinciRecoCode && clinicStore.clinicRecoCode !== clinciRecoCode) {
         const res = await getPrescriberByEncryptCode({
           encryptCode: clinciRecoCode,
-          storeId: process.env.REACT_APP_STOREID,
+          storeId: process.env.REACT_APP_STOREID
         });
         if (
           res.context &&
@@ -129,21 +131,21 @@ class Header extends React.Component {
 
     // 埋点
     setBuryPoint({
-      id: "",
+      id: '',
       url: window.location.href,
       clientType: getDeviceType(),
       skuId:
-        this.props.match && this.props.match.path === "/details/:id"
+        this.props.match && this.props.match.path === '/details/:id'
           ? this.props.match.params.id
-          : "",
-      shopId: process.env.REACT_APP_STOREID,
+          : '',
+      shopId: process.env.REACT_APP_STOREID
     });
   }
   componentWillUnmount() {
-    window.removeEventListener("click", this.hideMenu);
+    window.removeEventListener('click', this.hideMenu);
     // window.removeEventListener('scroll', this.handleScroll)
     window.addEventListener(
-      "scroll",
+      'scroll',
       (function () {
         var timer; //使用闭包，缓存变量
         var startTime = new Date();
@@ -158,12 +160,12 @@ class Header extends React.Component {
     );
   }
   handleScroll(e) {
-    let baseEl = document.querySelector("#J_sidecart_container");
+    let baseEl = document.querySelector('#J_sidecart_container');
     if (!baseEl) {
       return false;
     }
-    const footerEl = document.querySelector("#footer");
-    let targetEl = document.querySelector("#J_sidecart_fix");
+    const footerEl = document.querySelector('#footer');
+    let targetEl = document.querySelector('#J_sidecart_fix');
     let scrollTop =
       document.documentElement.scrollTop || document.body.scrollTop;
     let isScrollToTop = this.preTop > scrollTop;
@@ -177,16 +179,16 @@ class Header extends React.Component {
       baseEl.offsetHeight;
 
     if (scrollTop >= footerTop) {
-      targetEl.style.top = "auto";
-      targetEl.style.bottom = "40px";
-      targetEl.style.position = "absolute";
+      targetEl.style.top = 'auto';
+      targetEl.style.bottom = '40px';
+      targetEl.style.position = 'absolute';
     } else if (scrollTop >= baseTop) {
-      targetEl.style.top = isScrollToTop ? "120px" : "80px";
-      targetEl.style.bottom = "auto";
-      targetEl.style.display = "block";
-      targetEl.style.position = "fixed";
+      targetEl.style.top = isScrollToTop ? '120px' : '80px';
+      targetEl.style.bottom = 'auto';
+      targetEl.style.display = 'block';
+      targetEl.style.position = 'fixed';
     } else {
-      targetEl.style.display = "none";
+      targetEl.style.display = 'none';
     }
     this.setState({ isScrollToTop });
   }
@@ -196,26 +198,10 @@ class Header extends React.Component {
     }
     return el.offsetTop;
   }
-  handleCartMouseOver() {
-    if (this.isLogin) {
-      this.loginCartRef.current && this.loginCartRef.current.handleMouseOver();
-    } else {
-      this.unloginCartRef.current &&
-        this.unloginCartRef.current.handleMouseOver();
-    }
-  }
-  handleCartMouseOut() {
-    if (this.isLogin) {
-      this.loginCartRef.current && this.loginCartRef.current.handleMouseOut();
-    } else {
-      this.unloginCartRef.current &&
-        this.unloginCartRef.current.handleMouseOut();
-    }
-  }
   handleMouseOver() {
     this.flag = 1;
     this.setState({
-      showCart: true,
+      showCart: true
     });
   }
   handleMouseOut() {
@@ -223,7 +209,7 @@ class Header extends React.Component {
     setTimeout(() => {
       if (!this.flag) {
         this.setState({
-          showCart: false,
+          showCart: false
         });
       }
     }, 500);
@@ -231,18 +217,18 @@ class Header extends React.Component {
 
   handleCenterMouseOver() {
     this.setState({
-      showCenter: true,
+      showCenter: true
     });
   }
   handleCenterMouseOut() {
     this.setState({
-      showCenter: false,
+      showCenter: false
     });
   }
   hanldeSearchClick() {
     this.setState(
       {
-        showSearchInput: true,
+        showSearchInput: true
       },
       () => {
         setTimeout(() => {
@@ -255,14 +241,14 @@ class Header extends React.Component {
   hanldeSearchCloseClick() {
     this.setState({
       showSearchInput: false,
-      keywords: "",
-      result: null,
+      keywords: '',
+      result: null
     });
   }
   handleSearchInputChange(e) {
     this.setState(
       {
-        keywords: e.target.value,
+        keywords: e.target.value
       },
       () => {
         clearTimeout(this.timer);
@@ -284,8 +270,8 @@ class Header extends React.Component {
     // }
     // window.location.href = registredUrl
     const { history } = this.props;
-    history.push("/login");
-    localItemRoyal.set("loginType", "register");
+    history.push('/login');
+    localItemRoyal.set('loginType', 'register');
   }
   async getSearchData() {
     const { keywords } = this.state;
@@ -299,7 +285,7 @@ class Header extends React.Component {
       brandIds: [],
       pageSize: 20,
       esGoodsInfoDTOList: [],
-      companyType: "",
+      companyType: ''
     };
     try {
       let res = await getList(params);
@@ -319,7 +305,7 @@ class Header extends React.Component {
                 ret = Object.assign(ret, {
                   goodsCateName: tmpItem.goodsCateName,
                   goodsSubtitle: tmpItem.goodsSubtitle,
-                  goodsImg: tmpItem.goodsImg,
+                  goodsImg: tmpItem.goodsImg
                 });
               }
               return ret;
@@ -330,32 +316,32 @@ class Header extends React.Component {
               {},
               {
                 productList: goodsContent,
-                totalElements: esGoods.totalElements,
+                totalElements: esGoods.totalElements
               }
-            ),
+            )
           });
         } else {
           this.setState({
-            result: Object.assign({}, { productList: [], totalElements: 0 }),
+            result: Object.assign({}, { productList: [], totalElements: 0 })
           });
         }
       }
     } catch (err) {
       this.setState({
         loading: false,
-        result: Object.assign({}, { productList: [], totalElements: 0 }),
+        result: Object.assign({}, { productList: [], totalElements: 0 })
       });
     }
   }
   gotoDetails(item) {
-    sessionItemRoyal.set("rc-goods-cate-name", item.goodsCateName || "");
-    sessionItemRoyal.set("rc-goods-name", item.goodsName);
-    this.props.history.push("/details/" + item.goodsInfos[0].goodsInfoId);
+    sessionItemRoyal.set('rc-goods-cate-name', item.goodsCateName || '');
+    sessionItemRoyal.set('rc-goods-name', item.goodsName);
+    this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   handleMenuMouseOver() {
     this.flag = 1;
     this.setState({
-      showMegaMenu: true,
+      showMegaMenu: true
     });
   }
   handleMenuMouseOut() {
@@ -363,37 +349,37 @@ class Header extends React.Component {
     setTimeout(() => {
       if (!this.flag) {
         this.setState({
-          showMegaMenu: false,
+          showMegaMenu: false
         });
       }
     }, 200);
   }
   toggleMenu() {
     this.setState({
-      showMegaMenu: !this.state.showMegaMenu,
+      showMegaMenu: !this.state.showMegaMenu
     });
   }
   hideMenu(e) {
     // const widget = this.menuBtnRef.current && getComputedStyle(this.menuBtnRef.current)
-    const widget = document.getElementById("J-btn-menu");
-    if (e.target.id !== "J-btn-menu" && widget) {
+    const widget = document.getElementById('J-btn-menu');
+    if (e.target.id !== 'J-btn-menu' && widget) {
       this.setState({
-        showMegaMenu: false,
+        showMegaMenu: false
       });
     }
   }
   clickLogin() {
-    this.props.history.push("/login");
-    localItemRoyal.set("loginType", "login");
+    this.props.history.push('/login');
+    localItemRoyal.set('loginType', 'login');
   }
   clickLogoff() {
-    localItemRoyal.remove("rc-token");
+    localItemRoyal.remove('rc-token');
     sessionItemRoyal.remove(`rc-clinic-name-default`);
     sessionItemRoyal.remove(`rc-clinic-id-default`);
     this.props.loginStore.removeUserInfo();
     this.props.checkoutStore.removeLoginCartData();
     this.props.loginStore.changeIsLogin(false);
-    this.props.history.push("/");
+    this.props.history.push('/');
   }
   renderResultJsx() {
     return this.state.result ? (
@@ -479,6 +465,101 @@ class Header extends React.Component {
       </div>
     ) : null;
   }
+  _catogryCfg = (lang) => {
+    const defaultVal = [
+      { linkObj: { pathname: '/list/cats' }, langKey: 'cats' },
+      { linkObj: { pathname: '/list/dogs' }, langKey: 'dogs' },
+      {
+        link: this.props.configStore.contactUsUrl,
+        langKey: 'aboutUs'
+      },
+      { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
+    ];
+    return (
+      {
+        de: [
+          {
+            linkObj: { pathname: '/list/cats', search: '?fid=481|1784' },
+            langKey: 'cats'
+          },
+          {
+            linkObj: { pathname: '/list/dogs', search: '?fid=481|1783' },
+            langKey: 'dogs'
+          },
+          {
+            link: this.props.configStore.contactUsUrl,
+            langKey: 'aboutUs'
+          },
+          { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
+        ],
+        fr: [
+          {
+            linkObj: { pathname: '/list/dogs' },
+            langKey: 'dogs',
+            subMenuKey: 'dogs',
+            type: 'dogs'
+          },
+          {
+            linkObj: { pathname: '/list/cats' },
+            langKey: 'cats',
+            subMenuKey: 'cats',
+            type: 'cats'
+          },
+          {
+            linkObj: { pathname: '/subscription-landing' },
+            langKey: 'account.subscription',
+            type: 'subscription'
+          },
+          {
+            linkObj: { pathname: '/Tailorednutrition' },
+            langKey: 'healthAndWellbeing',
+            type: 'healthAndWellbeing'
+          },
+          {
+            link: this.props.configStore.contactUsUrl,
+            langKey: 'aboutUs',
+            type: 'aboutUs'
+          },
+          {
+            linkObj: { pathname: '/help' },
+            langKey: 'contactUs',
+            subMenuKey: 'help',
+            type: 'help'
+          }
+        ]
+      }[lang] || defaultVal
+    );
+  };
+  _renderDropDownText = (item) => {
+    return item.subMenuKey ? (
+      <span class="rc-header-with-icon">
+        <FormattedMessage id={item.langKey} />
+        <span
+          class={`rc-icon rc-iconography ${
+            item.type === this.state.visibleType ? 'rc-up rc-brand1' : 'rc-down'
+          }`}
+        ></span>
+      </span>
+    ) : (
+      <FormattedMessage id={item.langKey} />
+    );
+  };
+  hanldeListItemMouseOver = (e, item) => {
+    if (!item.subMenuKey) {
+      return false;
+    }
+    this.setState({
+      visibleType: item.type
+    });
+  };
+  hanldeListItemMouseOut = (e, item) => {
+    if (!item.subMenuKey) {
+      return false;
+    }
+    this.setState({
+      visibleType: ''
+    });
+  };
   render() {
     return (
       <>
@@ -498,6 +579,7 @@ class Header extends React.Component {
                     handleMouseOver={this.handleMenuMouseOver}
                     handleMouseOut={this.handleMenuMouseOut}
                     toggleMenu={this.toggleMenu}
+                    menuData={this._catogryCfg(process.env.REACT_APP_LANG)}
                   />
                 </li>
               ) : null}
@@ -516,7 +598,7 @@ class Header extends React.Component {
                   alt="Royal Canin"
                   height="100"
                   src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
-                  style={{ backgroundImage: "url(" + logoAnimatedPng + ")" }}
+                  style={{ backgroundImage: 'url(' + logoAnimatedPng + ')' }}
                   width="135"
                 />
               </object>
@@ -532,14 +614,14 @@ class Header extends React.Component {
                     <div className="inlineblock">
                       <button
                         className={[
-                          "rc-btn",
-                          "less-width-xs",
-                          "rc-btn--icon",
-                          "rc-icon",
-                          "rc-search--xs",
-                          "rc-iconography",
-                          this.state.showSearchInput ? "rc-hidden" : "",
-                        ].join(" ")}
+                          'rc-btn',
+                          'less-width-xs',
+                          'rc-btn--icon',
+                          'rc-icon',
+                          'rc-search--xs',
+                          'rc-iconography',
+                          this.state.showSearchInput ? 'rc-hidden' : ''
+                        ].join(' ')}
                         aria-label="Search"
                         onClick={this.hanldeSearchClick}
                       >
@@ -550,12 +632,12 @@ class Header extends React.Component {
                       <div className="rc-sm-up">
                         <form
                           className={[
-                            "inlineblock",
-                            "headerSearch",
-                            "headerSearchDesktop",
-                            "relative",
-                            this.state.showSearchInput ? "" : "rc-hidden",
-                          ].join(" ")}
+                            'inlineblock',
+                            'headerSearch',
+                            'headerSearchDesktop',
+                            'relative',
+                            this.state.showSearchInput ? '' : 'rc-hidden'
+                          ].join(' ')}
                           role="search"
                           name="simpleSearch"
                           onSubmit={(e) => {
@@ -654,16 +736,16 @@ class Header extends React.Component {
                     {!this.isLogin ? (
                       <div
                         className={[
-                          "popover",
-                          "popover-bottom",
-                          this.state.showCenter ? "show" : "",
-                        ].join(" ")}
-                        style={{ minWidth: "13rem" }}
+                          'popover',
+                          'popover-bottom',
+                          this.state.showCenter ? 'show' : ''
+                        ].join(' ')}
+                        style={{ minWidth: '13rem' }}
                       >
                         <div className="container cart">
                           <div className="login-style">
                             <LoginButton
-                              btnStyle={{ width: "11rem", margin: "2rem 0" }}
+                              btnStyle={{ width: '11rem', margin: '2rem 0' }}
                               history={this.props.history}
                             />
                             {/* <button onClick={() => {
@@ -725,11 +807,11 @@ class Header extends React.Component {
                     ) : (
                       <div
                         className={[
-                          "popover",
-                          "popover-bottom",
-                          this.state.showCenter ? "show" : "",
-                        ].join(" ")}
-                        style={{ minWidth: "13rem" }}
+                          'popover',
+                          'popover-bottom',
+                          this.state.showCenter ? 'show' : ''
+                        ].join(' ')}
+                        style={{ minWidth: '13rem' }}
                         onMouseOver={this.handleMouseOver}
                         onMouseOut={this.handleMouseOut}
                       >
@@ -789,11 +871,6 @@ class Header extends React.Component {
                             )}
                           </div>
                           <LogoutButton />
-                          {/* <div className="logoff-style">
-                                <a className="rc-styled-link--external" onClick={() => this.clickLogoff()}>
-                                  <FormattedMessage id="logOff" />
-                                </a>
-                              </div> */}
                         </div>
                       </div>
                     )}
@@ -805,59 +882,46 @@ class Header extends React.Component {
 
           <nav className="rc-header__nav rc-header__nav--secondary rc-md-up ">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
-              <li className="rc-list__item">
-                <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
-                  <li className="rc-list__item">
-                    <Link to="/list/cats" className="rc-list__header">
-                      <FormattedMessage id="cats" />
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-
-              <li className="rc-list__item">
-                <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
-                  <li className="rc-list__item">
-                    <Link className="rc-list__header" to="/list/dogs">
-                      <FormattedMessage id="dogs" />
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-
-              <li className="rc-list__item">
-                <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
-                  <li className="rc-list__item">
-                    <a
-                      className="rc-list__header"
-                      href={this.props.configStore.contactUsUrl}
-                      target="_blank"
-                    >
-                      <FormattedMessage id="aboutUs" />
-                    </a>
-                  </li>
-                </ul>
-              </li>
-
-              <li className="rc-list__item">
-                <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
-                  <li className="rc-list__item">
-                    <Link className="rc-list__header" to="/help">
-                      <FormattedMessage id="contactUs" />
-                    </Link>
-                  </li>
-                </ul>
-              </li>
+              {this._catogryCfg(process.env.REACT_APP_LANG).map((item, i) => (
+                <li
+                  className={`rc-list__item ${
+                    item.subMenuKey ? 'dropdown' : ''
+                  } ${this.state.visibleType === item.type ? 'active' : ''}`}
+                  key={i}
+                  onMouseOver={(e) => this.hanldeListItemMouseOver(e, item)}
+                  onMouseOut={(e) => this.hanldeListItemMouseOut(e, item)}
+                >
+                  <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
+                    <li className="rc-list__item">
+                      {item.link ? (
+                        <a href={item.link} className="rc-list__header">
+                          {this._renderDropDownText(item)}
+                        </a>
+                      ) : (
+                        <Link to={item.linkObj} className="rc-list__header">
+                          {this._renderDropDownText(item)}
+                        </Link>
+                      )}
+                    </li>
+                  </ul>
+                </li>
+              ))}
             </ul>
           </nav>
+          <DropDownMenu
+            visibleType={this.state.visibleType}
+            updateVisibleType={(val) => {
+              this.setState({ visibleType: val });
+            }}
+          />
           <div className="search">
             <div className="rc-sm-down">
               <form
                 className={[
-                  "rc-header__search-bar",
-                  "headerSearch",
-                  this.state.showSearchInput ? "" : "rc-hidden",
-                ].join(" ")}
+                  'rc-header__search-bar',
+                  'headerSearch',
+                  this.state.showSearchInput ? '' : 'rc-hidden'
+                ].join(' ')}
                 role="search"
                 name="simpleSearch"
                 onSubmit={(e) => {
@@ -884,7 +948,7 @@ class Header extends React.Component {
                       aria-label="Start typing to search"
                       value={this.state.keywords}
                       onChange={this.handleSearchInputChange}
-                      style={{ padding: "1rem 4rem" }}
+                      style={{ padding: '1rem 4rem' }}
                     />
                   )}
                 </FormattedMessage>
@@ -906,7 +970,8 @@ class Header extends React.Component {
           </div>
           {this.state.loading ? <Loading /> : null}
         </header>
-        {this.renderClinic()}
+        {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+          this.renderClinic()}
       </>
     );
   }

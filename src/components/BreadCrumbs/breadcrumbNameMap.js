@@ -11,6 +11,12 @@ const breadcrumbNameMap = {
   '/list/vd': [{ name: 'product.catogery4.name' }],
   '/list/prescription-dogs': [{ name: 'product.catogery1.name' }],
   '/list/prescription-cats': [{ name: 'product.catogery2.name' }], 
+  '/list/breed-dogs': [{ name: 'product.catogery8.name' }],
+  '/list/breed-cats': [{ name: 'product.catogery7.name' }],   
+  '/list/chien': [{ name: 'home.catogery6' }],
+  '/list/chat': [{ name: 'home.catogery5' }],
+  '/list/chiot': [{ name: 'product.fr.catogery3.name' }],
+  '/list/chaton': [{ name: 'product.fr.catogery4.name' }],   
   '/list/keywords': [{ name: 'viewResults' }],
   '/account': [
     { name: 'account.personalArea' }

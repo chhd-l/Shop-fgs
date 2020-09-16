@@ -85,8 +85,8 @@ class AccountProfile extends React.Component {
             birthdate: context.birthDay
               ? context.birthDay.split('-').join('/')
               : context.birthDay,
-            // country: context.countryId,
-            country: 6, //先写死墨西哥id
+            country: context.countryId,
+            // country: 6, //先写死墨西哥id
             phoneNumber: context.contactPhone,
             rfc: context.reference
           },
@@ -184,27 +184,30 @@ class AccountProfile extends React.Component {
                           )}
                         </div>
                       </div>
-                      <div className="rc-layout-container rc-two-column">
-                        <div className="rc-column rc-padding-x--none--mobile">
-                          {loading ? (
-                            <Skeleton
-                              color="#f5f5f5"
-                              width="100%"
-                              height="10%"
-                              count={5}
-                            />
-                          ) : (
-                            <ClinicEditForm
-                              originData={this.state.originData}
-                              data={this.state.clinicData}
-                              updateData={() => this.queryCustomerBaseInfo()}
-                            />
-                          )}
-                        </div>
-                        {/* <div className="rc-column rc-padding-x--none--mobile">
+                      {process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
+                        'true' && (
+                        <div className="rc-layout-container rc-two-column">
+                          <div className="rc-column rc-padding-x--none--mobile">
+                            {loading ? (
+                              <Skeleton
+                                color="#f5f5f5"
+                                width="100%"
+                                height="10%"
+                                count={5}
+                              />
+                            ) : (
+                              <ClinicEditForm
+                                originData={this.state.originData}
+                                data={this.state.clinicData}
+                                updateData={() => this.queryCustomerBaseInfo()}
+                              />
+                            )}
+                          </div>
+                          {/* <div className="rc-column rc-padding-x--none--mobile">
                       <PasswordForm />
                     </div> */}
-                      </div>
+                        </div>
+                      )}
                     </>
                   )}
                 </div>

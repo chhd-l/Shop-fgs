@@ -190,11 +190,86 @@ export const menubar = {
         titleId: 'footer.Additionally2',
         list: [
           {
-            url: 'https://www.mars.com/privacy-policy-germany',
+            url: 'https://www.royalcanin.com/de/about-us/data-protection',
             messageId: 'footer.privacyPolicy2'
           },
           { link: '/Terms-And-Conditions', messageId: 'footer.termsOfService' },
           { link: '/Widerrufsbelehrung', messageId: 'footer.withdrawal' }
+        ]
+      }
+    ]
+  ],
+  fr: [
+    [
+      {
+        titleId: 'ROYAL CANIN',
+        list: [
+          {
+            url:
+              'https://shop.royalcanin.fr/About-Us.html',
+            messageId: 'A propos'
+          },
+          {
+            url:
+              'https://shop.royalcanin.fr/Values.html',
+            messageId: 'Nos valeurs'
+          },
+          {
+            url:
+              'https://shop.royalcanin.fr/Quality-safety.html',
+            messageId: 'Qualité et sécurité alimentaire'
+          },
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'ALIMENTS',
+        list: [
+          { link: '/list/cats', messageId: 'Chat' },
+          { link: '/list/dogs', messageId: 'Chien' },
+          {
+            url:'https://shop.royalcanin.fr/Tailorednutrition.html',messageId:'Santé et bien-être'
+          }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'COMPTE',
+        list: [
+          // 我的账户，订单，订阅单
+          {
+            link: '/account',
+            messageId: 'Mon compte'
+          },
+          { link: '/account/orders', 
+          messageId: 'Mes commandes' },
+          { link: '/account/subscription', 
+          messageId: 'Mes abonnements' }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'AIDE',
+        list: [
+          {
+            link: '/help',
+            messageId: 'Aide'
+          },
+          { link: '/FAQ/all', messageId: 'FAQ' },
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'AUTRES',
+        list: [
+          {
+            url: 'https://shop.royalcanin.fr/general-terms-conditions.html',
+            messageId: 'Conditions Générales de Vente'
+          },
         ]
       }
     ]

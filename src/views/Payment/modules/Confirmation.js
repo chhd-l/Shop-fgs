@@ -66,58 +66,65 @@ class Confirmation extends React.Component {
     if (!this.state.isValid) {
       return false;
     }
+    this.props.clickPay();
   };
   render() {
-    const redColor = false;
     return (
       <>
         <div class="card-panel checkout--padding rc-bg-colour--brand3 rounded">
           <div className="card-header bg-transparent pt-0 pb-0">
-            <h5 className={`pull-left mb-0`}>
+            <h5
+              className={`pull-left mb-0 ${
+                this.panelStatus.isEdit ? 'red' : ''
+              }`}
+            >
               <em className="iconfont font-weight-bold">&#xe68c;</em>{' '}
               <FormattedMessage id="confirmation" />
             </h5>
           </div>
-          {/* {} */}
-          <div className="pt-3">
-            {/* 条款 */}
-            {this.state.terms.map((item, i) => (
-              <div className="footerCheckbox ml-custom mr-custom" key={i}>
-                <input
-                  className="form-check-input ui-cursor-pointer-pure"
-                  id={`id-checkbox-term-${i}`}
-                  value=""
-                  type="checkbox"
-                  name="checkbox-2"
-                  onChange={() => this.handleChange(item)}
-                  checked={item.isRead}
-                />
-                <label
-                  htmlFor={`id-checkbox-term-${i}`}
-                  className="rc-input__label--inline ui-cursor-pointer-pure"
-                >
-                  {item.label}
-                  {item.warningLabel && (
-                    <div className={`warning hidden`}>{item.warningLabel}</div>
-                  )}
-                </label>
-              </div>
-            ))}
-            <div className="next-step-button">
-              <div className="rc-text--right">
-                <button
-                  className={`rc-btn rc-btn--one submit-payment`}
-                  type="submit"
-                  name="submit"
-                  value="submit-shipping"
-                  disabled={!this.state.isValid}
-                  onClick={this.clickPay}
-                >
-                  <FormattedMessage id="payment.further" />
-                </button>
+          {!this.panelStatus.isPrepare && (
+            <div className="pt-3">
+              {/* 条款 */}
+              {this.state.terms.map((item, i) => (
+                <div className="footerCheckbox ml-custom mr-custom" key={i}>
+                  <input
+                    className="form-check-input ui-cursor-pointer-pure"
+                    id={`id-checkbox-term-${i}`}
+                    value=""
+                    type="checkbox"
+                    name="checkbox-2"
+                    onChange={() => this.handleChange(item)}
+                    checked={item.isRead}
+                  />
+                  <label
+                    htmlFor={`id-checkbox-term-${i}`}
+                    className="rc-input__label--inline ui-cursor-pointer-pure"
+                  >
+                    {item.label}
+                    {item.warningLabel && (
+                      <div className={`warning hidden`}>
+                        {item.warningLabel}
+                      </div>
+                    )}
+                  </label>
+                </div>
+              ))}
+              <div className="next-step-button">
+                <div className="rc-text--right">
+                  <button
+                    className={`rc-btn rc-btn--one submit-payment`}
+                    type="submit"
+                    name="submit"
+                    value="submit-shipping"
+                    disabled={!this.state.isValid}
+                    onClick={this.clickPay}
+                  >
+                    <FormattedMessage id="payment.further" />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </>
     );

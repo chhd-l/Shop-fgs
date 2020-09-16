@@ -1,16 +1,16 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { Link } from "react-router-dom";
-import "./index.css";
-import { inject, observer } from "mobx-react";
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+import './index.css';
+import { inject, observer } from 'mobx-react';
 
-@inject("configStore")
+@inject('configStore')
 @observer
 class MegaMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMegaMenu: false,
+      showMegaMenu: false
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -19,7 +19,7 @@ class MegaMenu extends React.Component {
   handleMouseOver() {
     this.flag = 1;
     this.setState({
-      showMegaMenu: true,
+      showMegaMenu: true
     });
   }
   handleMouseOut() {
@@ -27,16 +27,36 @@ class MegaMenu extends React.Component {
     setTimeout(() => {
       if (!this.flag) {
         this.setState({
-          showMegaMenu: false,
+          showMegaMenu: false
         });
       }
     }, 200);
   }
   toggleMenu() {
     this.setState({
-      showMegaMenu: !this.state.showMegaMenu,
+      showMegaMenu: !this.state.showMegaMenu
     });
   }
+  _renderLinkItem = (item) => {
+    return item.link ? (
+      <a
+        className="rc-list__header"
+        href={item.link}
+        target="_blank"
+        aria-haspopup={!!item.subMenuKey}
+      >
+        <FormattedMessage id={item.langKey} />
+      </a>
+    ) : (
+      <Link
+        className="rc-list__header"
+        to={item.linkObj}
+        aria-haspopup={!!item.subMenuKey}
+      >
+        <FormattedMessage id={item.langKey} />
+      </Link>
+    );
+  };
   render() {
     return (
       <>
@@ -51,15 +71,9 @@ class MegaMenu extends React.Component {
         </button>
         <button
           id="J-btn-menu"
-          className={[
-            "rc-btn",
-            "rc-btn--icon",
-            "rc-icon",
-            "rc-menu--xs",
-            "rc-iconography",
-            "rc-md-down",
-            this.state.showMegaMenu ? "btn-close" : "",
-          ].join(" ")}
+          className={`rc-btn rc-btn--icon rc-icon rc-menu--xs rc-iconography rc-md-down ${
+            this.state.showMegaMenu ? 'btn-close' : ''
+          }`}
           aria-label="Menu"
           onClick={this.toggleMenu}
         >
@@ -67,7 +81,7 @@ class MegaMenu extends React.Component {
             <FormattedMessage id="menu" />
           </span>
         </button>
-        <div className={[this.state.showMegaMenu ? "" : "rc-hidden"].join(" ")}>
+        <div className={`${this.state.showMegaMenu ? '' : 'rc-hidden'}`}>
           <section className="rc-max-width--xl">
             <nav
               className="rc-nav rc-md-down"
@@ -80,30 +94,14 @@ class MegaMenu extends React.Component {
                     className="rc-list rc-list--blank rc-list--align"
                     role="menubar"
                   >
-                    <li className="rc-list__item rc-list__item--group">
-                      <Link className="rc-list__header" to="/list/cats">
-                        <FormattedMessage id="cats" />
-                      </Link>
-                    </li>
-                    <li className="rc-list__item rc-list__item--group">
-                      <Link className="rc-list__header" to="/list/dogs">
-                        <FormattedMessage id="dogs" />
-                      </Link>
-                    </li>
-                    <li className="rc-list__item rc-list__item--group">
-                      <a
-                        className="rc-list__header"
-                        href={this.props.configStore.contactUsUrl}
-                        target="_blank"
+                    {this.props.menuData.map((item, i) => (
+                      <li
+                        className="rc-list__item rc-list__item--group w-100"
+                        key={i}
                       >
-                        <FormattedMessage id="aboutUs" />
-                      </a>
-                    </li>
-                    <li className="rc-list__item rc-list__item--group">
-                      <Link className="rc-list__header" to="/help">
-                        <FormattedMessage id="contactUs" />
-                      </Link>
-                    </li>
+                        {this._renderLinkItem(item)}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>

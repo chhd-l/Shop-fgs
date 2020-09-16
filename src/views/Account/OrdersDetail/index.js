@@ -313,6 +313,7 @@ class AccountOrders extends React.Component {
         theme: ''
       }
     };
+    
     const { details, payRecord, currentProgerssIndex } = this.state;
     return (
       <div>
@@ -412,13 +413,16 @@ class AccountOrders extends React.Component {
                                 ] || details.tradeState.flowState}
                               </span>
                             </div>
-                            <div className="text-center">
-                              <FormattedMessage id="payment.clinicTitle3" />:
-                              <br />
-                              <span className="medium">
-                                {details.clinicsName}
-                              </span>
-                            </div>
+                            {process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
+                              'true' && (
+                              <div className="text-center">
+                                <FormattedMessage id="payment.clinicTitle3" />:
+                                <br />
+                                <span className="medium">
+                                  {details.clinicsName}
+                                </span>
+                              </div>
+                            )}
                             {/* {this.returnOrExchangeBtnJSX()} */}
                             {/* {this.cancelOrderBtnJSX()} */}
                           </div>
@@ -602,7 +606,7 @@ class AccountOrders extends React.Component {
                               </div>
                             </div>
                             <div className="col-12 col-md-4 mb-2">
-                              {payRecord ? (
+                              {payRecord.last4Digits ? (
                                 <>
                                   <div className="d-flex align-items-center">
                                     <i className="rc-icon rc-payment--sm rc-brand1 ml-1 mr-1 mt-1" />

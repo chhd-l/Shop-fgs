@@ -4,7 +4,8 @@ const api = {
     findUserConsentList: '/consent/findUserConsentList',
     consentListDetail:'/consent/detail/list',
     userBindConsent:'/consent/userBindConsent',
-    getStoreOpenConsentList:'/consent/getStoreOpenConsentList'
+    getStoreOpenConsentList:'/consent/getStoreOpenConsentList',
+    findUserSelectedList:'/consent/findUserSelectedList'
 }
 
 export default api
@@ -36,6 +37,14 @@ export function userBindConsent (parameter) {
 export function getStoreOpenConsentList (parameter) {
   return axios({
       url: `${api.getStoreOpenConsentList}`,
+      method: 'post',
+      data: parameter
+  })
+}
+
+export function findUserSelectedList (parameter) {
+  return axios({
+      url: `${api.findUserSelectedList}`,
       method: 'post',
       data: parameter
   })

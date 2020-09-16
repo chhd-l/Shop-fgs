@@ -553,7 +553,7 @@ class AddressList extends React.Component {
                     <Loading positionAbsolute="true" />
                   ) : null}
                   <div className="rc-layout-container">
-                    <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down d-flex flex-wrap justify-content-between align-items-center">
+                    <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down d-flex flex-wrap justify-content-between align-items-center pl-0 pr-0">
                       <div>
                         {this.props.type === 'delivery' ? (
                           <div
