@@ -25,7 +25,8 @@ class CommunicationDataEditForm extends React.Component {
             })
 
             let tempArr = [...this.state.list]
-            tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
+            //tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
+            tempArr[index].innerHtml = tempArr[index].innerHtml?'':arr[0].contentBody
            
             this.setState({list: tempArr})
 
