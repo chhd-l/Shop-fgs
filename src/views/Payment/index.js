@@ -1582,10 +1582,7 @@ class Payment extends React.Component {
                     {this._renderSubSelect()}
                   </>
                 )}
-                <div
-                  className="card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3"
-                  style={{ paddingBottom: '1px' }}
-                >
+                <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0">
                   <h5 className="ml-custom mr-custom">
                     <i
                       class="rc-icon rc-payment--sm rc-iconography"

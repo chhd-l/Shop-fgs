@@ -617,33 +617,35 @@ class PayOs extends React.Component {
             </div>
           </label>
         </div> */}
-        <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
-          <div className="next-step-button">
-            <div className="rc-text--right">
-              {this.state.inited ? (
-                <button
-                  className={`rc-btn rc-btn--one submit-payment`}
-                  type="submit"
-                  name="submit"
-                  value="submit-shipping"
-                  onClick={this.clickPay}
-                >
-                  <FormattedMessage id="payment.further" />
-                </button>
-              ) : (
-                <button
-                  className={`rc-btn rc-btn--one submit-payment`}
-                  type="submit"
-                  name="submit"
-                  value="submit-shipping"
-                  disabled
-                >
-                  <FormattedMessage id="payment.further" />
-                </button>
-              )}
+        {process.env.REACT_APP_ONEPAGE_CHECKOUT !== 'true' && (
+          <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
+            <div className="next-step-button">
+              <div className="rc-text--right">
+                {this.state.inited ? (
+                  <button
+                    className={`rc-btn rc-btn--one submit-payment`}
+                    type="submit"
+                    name="submit"
+                    value="submit-shipping"
+                    onClick={this.clickPay}
+                  >
+                    <FormattedMessage id="payment.further" />
+                  </button>
+                ) : (
+                  <button
+                    className={`rc-btn rc-btn--one submit-payment`}
+                    type="submit"
+                    name="submit"
+                    value="submit-shipping"
+                    disabled
+                  >
+                    <FormattedMessage id="payment.further" />
+                  </button>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </>
     );
   }
