@@ -868,7 +868,8 @@ class Payment extends React.Component {
       param.tradeItems = loginCartData.map((ele) => {
         return {
           num: ele.buyCount,
-          skuId: ele.goodsInfoId
+          skuId: ele.goodsInfoId,
+          petsId: ele.petsId
         };
       });
     } else {
@@ -886,7 +887,8 @@ class Payment extends React.Component {
         .map((g) => {
           return {
             num: g.buyCount,
-            skuId: g.goodsInfoId
+            skuId: g.goodsInfoId,
+            petsId: g.petsId
           };
         });
       param.subTradeItems = loginCartData
@@ -1391,8 +1393,19 @@ class Payment extends React.Component {
       petModalVisible: false
     });
   }
-  petComfirm() {
-    this.props.history.push('/prescription');
+  petComfirm(data) {
+    let loginCartData = this.loginCartData
+    // console.log(data, this.props, toJS(loginCartData) )
+    loginCartData = loginCartData.map((el, i) => {
+      if(i === this.state.currentProIndex) {
+        el.petsId = data.value
+        el.petName = data.name
+      }
+      return el 
+    })
+    this.props.checkoutStore.setLoginCartData(loginCartData)
+    this.closePetModal()
+    // this.props.history.push('/prescription');
   }
   openNew() {
     this.setState({
@@ -1405,6 +1418,11 @@ class Payment extends React.Component {
       isAdd: 2
     });
     this.openPetModal();
+  }
+  openPetModal() {
+    this.setState({
+      petModalVisible: true
+    });
   }
   render() {
     const event = {
@@ -1467,13 +1485,13 @@ class Payment extends React.Component {
                     <FormattedMessage id="Pet information" />
                     <p>We need your pet information to authorize these items.</p>
                     {
-                      this.loginCartData.map(el => {
+                      this.loginCartData.map((el, i) => {
                         console.log(el, 'hahah')
                         return (<div className="petProduct">
                           <img src={el.goodsInfoImg} style={{float: 'left'}}/>
                           <div style={{float: 'left', marginTop: '20px', marginLeft: '20px'}}>
                             <p>
-                              <span>Pet:</span><span>{'required'}</span>
+                              <span>Pet:</span><span>{el.petName? el.petName:'required'}</span>
                             </p>
                             <p>
                               <span>Qty:</span><span>{el.buyCount}</span>
@@ -1481,12 +1499,12 @@ class Payment extends React.Component {
                           </div>
                           <div style={{float: 'right', marginTop: '30px', marginLeft: '20px'}}>
                             <button class="rc-btn rc-btn--sm rc-btn--one" onClick={() =>  {
-                              this.setState({petModalVisible: true})
+                              this.setState({petModalVisible: true, currentProIndex: i})
                             }}>Select a pet</button>
-                            &nbsp;&nbsp;
+                            {/* &nbsp;&nbsp;
                             or
                             &nbsp;&nbsp;
-                            <a class="rc-styled-link rc-btn--sm" href="#/">add a pet</a>
+                            <a class="rc-styled-link rc-btn--sm" href="#/">add a pet</a> */}
                           </div>
                         </div>)
                       })
@@ -1537,7 +1555,7 @@ class Payment extends React.Component {
           productList={this.state.productList}
           openNew={() => this.openNew()}
           closeNew={() => this.closeNew()}
-          confirm={() => this.petComfirm()}
+          confirm={(data) => this.petComfirm(data)}
           close={() => this.closePetModal()} />
       </div>
     );

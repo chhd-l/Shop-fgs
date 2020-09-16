@@ -37,8 +37,11 @@ export default class SelectPetModal extends Component { // 新建Pet
     }
     hanldeConfirm() {
         //调用创建宠物和产品的接口
-        console.log('产品，宠物关联成功', this.state.selectedPet)
-        this.props.confirm()
+        // console.log('产品，宠物关联成功', this.state.selectedPet)
+        // console.log(this.state)
+        const { pets, selectedPet } = this.state
+        let currentPet = pets.filter(el => el.value === selectedPet)[0]
+        this.props.confirm(currentPet)
     }
     getUserInfo () {
         let userinfo = {}
