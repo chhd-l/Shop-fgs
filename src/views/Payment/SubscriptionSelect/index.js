@@ -99,6 +99,7 @@ class SubscriptionSelect extends Component {
     });
   }
   handleSelectedItemChange(data) {
+    console.log(data)
     const { form } = this.state;
     form.frequencyVal = data.value;
     form.frequencyName = data.name;

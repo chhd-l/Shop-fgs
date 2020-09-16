@@ -92,6 +92,7 @@ class RegisterRequired extends Component {
         }    
     }
     async componentDidMount () {
+
         document.getElementById('wrap').addEventListener('click',(e)=>{     
             if(e.target.localName === 'span'){
                 let keyWords = e.target.innerText
