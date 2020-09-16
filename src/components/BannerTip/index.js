@@ -37,7 +37,7 @@ class BannerTip extends React.Component {
             <FormattedMessage id="home.promotionTip" />
             {
               process.env.REACT_APP_HOMEPAGE === '/fr'?(<button class="rc-btn rc-btn--sm rc-btn--two" style={{marginLeft: '20px'}} onClick={() => {
-                window.location.href = process.env.REACT_APP_ACCESS_PATH + '/subscription-landing'
+                window.location.href = process.env.REACT_APP_ACCESS_PATH + 'subscription-landing'
               }}>En savoir plus</button>): ''
             }
           </div>

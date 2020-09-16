@@ -609,7 +609,7 @@ class Payment extends React.Component {
             adyenType: 'klarna',
             payChannelItem:
               this.state.subForm.buyWay === 'frequency'
-                ? 'adyen_klarna_subscription'
+                ? 'adyen_later_subscription'
                 : 'adyen_klarna_pay_lat',
             shopperLocale: 'en_US',
             currency: 'EUR',
@@ -633,7 +633,10 @@ class Payment extends React.Component {
         sofort: () => {
           parameters = Object.assign(commonParameter, {
             adyenType: 'directEbanking',
-            payChannelItem: 'directEbanking',
+            payChannelItem:
+              this.state.subForm.buyWay === 'frequency'
+                ? 'adyen_sofort_subscription'
+                : 'directEbanking',
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: 'DE',
@@ -833,7 +836,13 @@ class Payment extends React.Component {
           () => this.queryOrderDetails()
         );
       }
-      throw new Error(err);
+      throw new Error(
+        typeof err === 'string'
+          ? err
+          : typeof err === 'object'
+          ? err.message
+          : 'Error'
+      );
     } finally {
       this.endLoading();
     }

@@ -12,3 +12,11 @@
 .required-wrap .footerCheckbox .description p>span{
     cursor: pointer;
 }
+
+.required-wrap.common  .required-checkbox{
+    max-width:700px;
+    margin: 0 auto;
+}
+.required-wrap .description>p{
+    margin-bottom: 5px;
+}
