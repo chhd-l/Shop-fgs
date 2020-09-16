@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { findIndex, find } from 'lodash';
+import { findIndex } from 'lodash';
 import PaymentComp from '../PaymentComp';
 import {
   CREDIT_CARD_IMG_ENUM,
@@ -10,7 +9,6 @@ import {
 import { validData } from '@/utils/utils';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import axios from 'axios';
 import TermsCommon from '../Terms/common';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -124,7 +122,7 @@ class PayOs extends React.Component {
     creditCardInfoForm[name] = value;
     this.inputBlur(e);
     this.setState({ creditCardInfoForm: creditCardInfoForm }, () => {
-      this.props.onCardInfoChange(this.state.creditCardInfoForm);
+      this.props.onVisitorCardInfoChange(this.state.creditCardInfoForm);
       this.validFormData();
     });
     if (value) {
@@ -179,7 +177,8 @@ class PayOs extends React.Component {
               payosdata: payosdata
             },
             () => {
-              this.props.onPayosDataChange(this.state.payosdata);
+              this.props.onVisitorPayosDataConfirm(this.state.payosdata);
+              this.updateConfirmationPanelStatus();
             }
           );
           if (payosdata.category === 'client_validation_error') {
@@ -200,45 +199,6 @@ class PayOs extends React.Component {
       }
     }, 1000);
   }
-  // 获取选中卡的token
-  async getPayMentOSToken() {
-    let selectedCard = this.state.selectedCardInfo;
-    this.props.startLoading();
-    try {
-      let res = await axios.post(
-        'https://api.paymentsos.com/tokens',
-        {
-          token_type: 'credit_card',
-          card_number: selectedCard.cardNumber,
-          expiration_date: selectedCard.cardMmyy.replace(/\//, '-'),
-          holder_name: selectedCard.cardOwner,
-          credit_card_cvv: selectedCard.cardCvv
-        },
-        {
-          headers: {
-            public_key: process.env.REACT_APP_PaymentKEY_VISITOR,
-            'x-payments-os-env': process.env.REACT_APP_PaymentENV,
-            'Content-type': 'application/json',
-            app_id: process.env.REACT_APP_PaymentAPPID_VISITOR,
-            'api-version': '1.3.0'
-          }
-        }
-      );
-      this.setState(
-        {
-          payosdata: res.data,
-          creditCardInfoForm: Object.assign({}, selectedCard)
-        },
-        () => {
-          this.props.onPayosDataChange(this.state.payosdata);
-          this.props.onCardInfoChange(this.state.creditCardInfoForm);
-        }
-      );
-    } catch (err) {
-      this.props.endLoading();
-      throw new Error(err);
-    }
-  }
   clickPay = async () => {
     if (!this.state.inited) {
       return false;
@@ -251,12 +211,7 @@ class PayOs extends React.Component {
         throw new Error('agreement failed');
       }
       const { needReConfirmCVV } = this.props;
-      let {
-        isEighteen,
-        isReadPrivacyPolicy,
-        payosdata,
-        selectedCardInfo
-      } = this.state;
+      let { payosdata, selectedCardInfo } = this.state;
       if (this.isLogin) {
         if (
           needReConfirmCVV &&
@@ -273,40 +228,11 @@ class PayOs extends React.Component {
           throw new Error(this.props.intl.messages['payment.errTip']);
         }
         this.props.startLoading();
-        const result = await this.payUTokenPromise({
-          cvv: selectedCardInfo.cardCvv,
-          token: selectedCardInfo.paymentMethod.token
-        });
-        try {
-          const parsedRes = JSON.parse(result);
-          this.setState(
-            {
-              creditCardInfoForm: Object.assign({}, selectedCardInfo, {
-                creditDardCvv: parsedRes.token
-              })
-            },
-            () => {
-              this.props.onCardInfoChange(this.state.creditCardInfoForm);
-            }
-          );
-        } catch (err) {
-          this.props.endLoading();
-          throw new Error(err.message);
-        }
       } else {
         if (!payosdata.token) {
           throw new Error(this.props.intl.messages.clickConfirmCardButton);
         }
       }
-
-      // if (!isEighteen || !isReadPrivacyPolicy) {
-      //   this.setState({
-      //     isEighteenInit: false,
-      //     isReadPrivacyPolicyInit: false
-      //   });
-      //   throw new Error('agreement failed');
-      // }
-
       this.props.clickPay();
     } catch (err) {
       if (err.message !== 'agreement failed') {
@@ -317,42 +243,23 @@ class PayOs extends React.Component {
       this.props.endLoading();
     }
   };
-  // 获取token，避免传给接口明文cvv
-  payUTokenPromise({ cvv, token }) {
-    return new Promise((resolve) => {
-      window.POS.tokenize(
-        {
-          token_type: 'card_cvv_code',
-          credit_card_cvv: cvv,
-          payment_method_token: token
-        },
-        function (result) {
-          console.log('result obtained' + result);
-          resolve(result);
-        }
-      );
-    });
-  }
   onPaymentCompDataChange = (data) => {
-    this.props.paymentStore.updatePanelStatus('confirmation', {
-      isPrepare: false,
-      isEdit: false,
-      isCompleted: true
-    });
+    this.updateConfirmationPanelStatus();
     this.setState({ selectedCardInfo: data }, () => {
       this.props.onPaymentCompDataChange(data);
     });
   };
+  updateConfirmationPanelStatus() {
+    this.props.paymentStore.updatePanelStatus('confirmation', {
+      isPrepare: false,
+      isEdit: true
+    });
+  }
   checkRequiredItem = (list) => {
     let requiredList = list.filter((item) => item.isRequired);
-    this.setState(
-      {
-        requiredList
-      },
-      () => {
-        console.log({ requiredList: this.state.requiredList });
-      }
-    );
+    this.setState({
+      requiredList
+    });
   };
   render() {
     const { creditCardInfoForm } = this.state;
@@ -383,7 +290,6 @@ class PayOs extends React.Component {
                   {this.isLogin ? (
                     <div className="rc-border-colour--interface">
                       <PaymentComp
-                        deliveryAddress={this.props.deliveryAddress}
                         getSelectedValue={this.onPaymentCompDataChange}
                         needReConfirmCVV={this.props.needReConfirmCVV}
                         selectedDeliveryAddress={

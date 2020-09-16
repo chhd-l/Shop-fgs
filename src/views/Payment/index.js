@@ -18,8 +18,7 @@ import OnePageClinicForm from './OnePage/ClinicForm';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import { formatMoney, validData } from '@/utils/utils';
-import { ADDRESS_RULE } from '@/utils/constant';
-import { ADYEN_CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
+import { ADDRESS_RULE, ADYEN_CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
 import {
   postVisitorRegisterAndLogin,
@@ -222,7 +221,11 @@ class Payment extends React.Component {
     const payWay = await getWays();
     // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
     const payuMethodsObj = {
-      PAYU: { name: 'payu', id: 'creditCard', paymentTypeVal: 'creditCard' },
+      PAYU: {
+        name: 'payu',
+        id: 'creditCard',
+        paymentTypeVal: 'payUCreditCard'
+      },
       PAYUOXXO: { name: 'payuoxxo', id: 'oxxo', paymentTypeVal: 'oxxo' },
       adyen_credit_card: {
         name: 'adyen_credit_card',
@@ -319,7 +322,7 @@ class Payment extends React.Component {
         this.setState({ paymentTypeVal: 'directEbanking' });
       },
       payu: () => {
-        this.setState({ paymentTypeVal: 'creditCard' });
+        this.setState({ paymentTypeVal: 'payUCreditCard' });
       },
       payuoxxo: () => {
         this.setState({ paymentTypeVal: 'oxxo' });
@@ -469,6 +472,29 @@ class Payment extends React.Component {
       });
     }, 5000);
   };
+
+  // 总分发clickPay
+  distributeClickPay = (email) => {
+    switch (this.state.paymentTypeVal) {
+      case 'adyenKlarnaPayLater':
+        this.initKlarnaPayLater(email);
+        break;
+      case 'adyenKlarnaPayNow':
+        this.initKlarnaPayNow(email);
+        break;
+      case 'directEbanking':
+        this.initSofort();
+        break;
+      case 'payUCreditCard':
+        // todo one page checkout时，此时可能不存在cvv
+        this.initPayUCreditCard();
+        break;
+      case 'oxxo':
+        this.initOxxo(email);
+        break;
+    }
+  };
+
   //支付1.初始化adyen_credit_card
   initAdyenPay() {
     this.setState({ paymentTypeVal: 'adyenCard' });
@@ -571,14 +597,34 @@ class Payment extends React.Component {
             email: this.state.email
           });
         },
-        payu_credit_card: () => {
-          const { selectedCardInfo, creditCardInfo } = this.state;
+        payu_credit_card: async () => {
+          const { selectedCardInfo } = this.state;
           if (!this.isLogin) {
             parameters = Object.assign({}, commonParameter);
           } else {
+            // 获取token，避免传给接口明文cvv
+            let cvvResult = await new Promise((resolve) => {
+              window.POS.tokenize(
+                {
+                  token_type: 'card_cvv_code',
+                  credit_card_cvv: selectedCardInfo.cardCvv,
+                  payment_method_token: selectedCardInfo.paymentMethod.token
+                },
+                function (result) {
+                  console.log('result obtained' + result);
+                  resolve(result);
+                }
+              );
+            });
+            try {
+              cvvResult = JSON.parse(cvvResult);
+            } catch (err) {
+              throw new Error(err.message);
+            }
+
             const tempPublicParams = Object.assign({}, commonParameter, {
               paymentMethodId: selectedCardInfo.id,
-              creditDardCvv: creditCardInfo.creditDardCvv
+              creditDardCvv: cvvResult && cvvResult.token
             });
             if (this.state.subForm.buyWay === 'frequency') {
               parameters = Object.assign({}, tempPublicParams, {
@@ -644,7 +690,7 @@ class Payment extends React.Component {
           });
         }
       };
-      actions[type]();
+      await actions[type]();
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
         successUrl: process.env.REACT_APP_SUCCESSFUL_URL + '/payResult',
@@ -778,7 +824,6 @@ class Payment extends React.Component {
           gotoConfirmationPage = true;
           break;
         case 'payu_credit_card':
-          debugger;
           orderNumber =
             tid || (res.context && res.context[0] && res.context[0].tid);
           subNumber =
@@ -821,7 +866,6 @@ class Payment extends React.Component {
         this.props.history.push('/confirmation');
       }
     } catch (err) {
-      debugger;
       console.log(err);
       if (!this.isLogin) {
         sessionItemRoyal.remove('rc-token');
@@ -1310,7 +1354,7 @@ class Payment extends React.Component {
               this.state.paymentTypeVal === 'oxxo'
             ) {
               this.setState({
-                paymentTypeVal: 'creditCard'
+                paymentTypeVal: 'payUCreditCard'
               });
             }
             this.setState(
@@ -1343,8 +1387,12 @@ class Payment extends React.Component {
   _renderPayTab = () => {
     return (
       <div
-      // todo
-      // className={`${this.paymentMethodPanelStatus.isEdit ? '' : 'hidden'}`}
+        // 编辑 或者 没有开启onepagecheckout时，才会显示
+        className={`${
+          !this.isOnepageCheckout || this.paymentMethodPanelStatus.isEdit
+            ? ''
+            : 'hidden'
+        }`}
       >
         {/* *******************支付tab栏start************************************ */}
         <div className={`ml-custom mr-custom `}>
@@ -1358,11 +1406,7 @@ class Payment extends React.Component {
                   type="radio"
                   name="payment-info"
                   onChange={(event) => this.handlePaymentTypeChange(event)}
-                  checked={
-                    this.state.paymentTypeVal === item[1].paymentTypeVal
-                      ? true
-                      : false
-                  }
+                  checked={this.state.paymentTypeVal === item[1].paymentTypeVal}
                   key={item[1].id}
                 />
                 <label
@@ -1384,13 +1428,14 @@ class Payment extends React.Component {
             history={this.props.history}
             startLoading={() => this.startLoading()}
             endLoading={() => this.endLoading()}
-            clickPay={this.initOxxo}
+            // clickPay={this.initOxxo}
+            clickPay={this.distributeClickPay}
           />
         )}
         {/* payu creditCard */}
         <div
           className={`${
-            this.state.paymentTypeVal === 'creditCard' ? '' : 'hidden'
+            this.state.paymentTypeVal === 'payUCreditCard' ? '' : 'hidden'
           }`}
         >
           <PayUCreditCard
@@ -1398,11 +1443,12 @@ class Payment extends React.Component {
             startLoading={() => this.startLoading()}
             endLoading={() => this.endLoading()}
             showErrorMsg={(data) => this.showErrorMsg(data)}
-            clickPay={this.initPayUCreditCard}
-            onPayosDataChange={(data) => {
+            // clickPay={this.initPayUCreditCard}
+            clickPay={this.distributeClickPay}
+            onVisitorPayosDataConfirm={(data) => {
               this.setState({ payosdata: data });
             }}
-            onCardInfoChange={(data) => {
+            onVisitorCardInfoChange={(data) => {
               this.setState({ creditCardInfo: data });
             }}
             onPaymentCompDataChange={(data) => {
@@ -1410,7 +1456,6 @@ class Payment extends React.Component {
             }}
             isApplyCvv={false}
             needReConfirmCVV={true}
-            deliveryAddress={this.state.deliveryAddress}
             selectedDeliveryAddress={this.selectedDeliveryAddress}
           />
         </div>
@@ -1449,7 +1494,8 @@ class Payment extends React.Component {
           }`}
         >
           <KlarnaPayLater
-            clickPay={this.initKlarnaPayLater}
+            // clickPay={this.initKlarnaPayLater}
+            clickPay={this.distributeClickPay}
             showErrorMsg={this.showErrorMsg}
           />
         </div>
@@ -1460,7 +1506,8 @@ class Payment extends React.Component {
           }`}
         >
           <KlarnaPayNow
-            clickPay={this.initKlarnaPayNow}
+            // clickPay={this.initKlarnaPayNow}
+            clickPay={this.distributeClickPay}
             showErrorMsg={this.showErrorMsg}
           />
         </div>
@@ -1470,7 +1517,11 @@ class Payment extends React.Component {
             this.state.paymentTypeVal === 'directEbanking' ? '' : 'hidden'
           }`}
         >
-          <Sofort clickPay={this.initSofort} showErrorMsg={this.showErrorMsg} />
+          <Sofort
+            // clickPay={this.initSofort}
+            clickPay={this.distributeClickPay}
+            showErrorMsg={this.showErrorMsg}
+          />
         </div>
         {/* ***********************支付选项卡的内容end******************************* */}
       </div>
@@ -1542,7 +1593,9 @@ class Payment extends React.Component {
 
                   {this._renderPayTab()}
                 </div>
-                {this.isOnepageCheckout && <Confirmation />}
+                {this.isOnepageCheckout && (
+                  <Confirmation clickPay={this.distributeClickPay} />
+                )}
               </div>
               <div className="rc-column pl-md-0">
                 {this.state.tid ? (

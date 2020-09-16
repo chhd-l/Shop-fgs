@@ -62,44 +62,41 @@ class PaymentComp extends React.Component {
     };
   }
   async componentDidMount() {
-    if (this.props.loginStore.isLogin) {
-      if (localItemRoyal.get('loginDeliveryInfo')) {
-        let deliveryInfo = localItemRoyal.get('loginDeliveryInfo');
-        deliveryInfo.deliveryAddress.cardOwner =
-          deliveryInfo.deliveryAddress.firstName +
-          '' +
-          deliveryInfo.deliveryAddress.lastName;
-        deliveryInfo.deliveryAddress.phoneNumber =
-          deliveryInfo.deliveryAddress.phoneNumber;
+    if (localItemRoyal.get('loginDeliveryInfo')) {
+      let deliveryInfo = localItemRoyal.get('loginDeliveryInfo');
+      deliveryInfo.deliveryAddress.cardOwner =
+        deliveryInfo.deliveryAddress.firstName +
+        '' +
+        deliveryInfo.deliveryAddress.lastName;
+      deliveryInfo.deliveryAddress.phoneNumber =
+        deliveryInfo.deliveryAddress.phoneNumber;
 
-        this.setState({ deliveryAddress: deliveryInfo.deliveryAddress }, () => {
-          this.initCardInfo();
-        });
-      }
-
-      await this.getPaymentMethodList();
-      let filterList = this.state.creditCardList.filter((el) => {
-        if (el.isDefault === 1) {
-          el.selected = true;
-          return true;
-        } else {
-          el.selected = false;
-          return false;
-        }
+      this.setState({ deliveryAddress: deliveryInfo.deliveryAddress }, () => {
+        this.initCardInfo();
       });
-      if (filterList.length) {
-      } else if (this.state.creditCardList.length) {
-        this.state.creditCardList[0].selected = true;
-      }
-      let selectedCard = this.state.creditCardList.filter(
-        (el) => el.selected
-      )[0];
-      if (!selectedCard) {
-        selectedCard = null;
-      }
-      this.props.getSelectedValue && this.props.getSelectedValue(selectedCard);
-      this.setState({ creditCardList: this.state.creditCardList });
     }
+
+    await this.getPaymentMethodList();
+
+    let filterList = this.state.creditCardList.filter((el) => {
+      if (el.isDefault === 1) {
+        el.selected = true;
+        return true;
+      } else {
+        el.selected = false;
+        return false;
+      }
+    });
+    if (filterList.length) {
+    } else if (this.state.creditCardList.length) {
+      this.state.creditCardList[0].selected = true;
+    }
+    let selectedCard = this.state.creditCardList.filter((el) => el.selected)[0];
+    if (!selectedCard) {
+      selectedCard = null;
+    }
+    this.props.getSelectedValue && this.props.getSelectedValue(selectedCard);
+    this.setState({ creditCardList: this.state.creditCardList });
   }
   componentWillReceiveProps(nextProps) {
     const { creditCardInfoForm } = this.state;
@@ -483,7 +480,6 @@ class PaymentComp extends React.Component {
             el.cardCvv = this.state.creditCardInfoForm.cardCvv;
           }
         });
-
         this.props.getSelectedValue &&
           this.props.getSelectedValue(
             this.state.creditCardList.filter((c) => c.selected)[0]
@@ -578,8 +574,7 @@ class PaymentComp extends React.Component {
     });
   }
   render() {
-    const { creditCardInfoForm, creditCardList, currentCardInfo } = this.state;
-    const { isLogin } = this.props.loginStore;
+    const { creditCardInfoForm, creditCardList } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card ml-0">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
@@ -594,10 +589,7 @@ class PaymentComp extends React.Component {
     );
 
     return (
-      <div
-        id="PaymentComp"
-        className={`loginCardBox ${isLogin ? '' : 'hidden'}`}
-      >
+      <div id="PaymentComp" className={`loginCardBox`}>
         {this.state.loading ? <Loading positionFixed="true" /> : null}
         <div
           className={`table-toolbar d-flex flex-wrap justify-content-between p-0 ${
