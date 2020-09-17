@@ -18,7 +18,11 @@ import OnePageClinicForm from './OnePage/ClinicForm';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import { formatMoney, validData } from '@/utils/utils';
-import { ADDRESS_RULE, ADYEN_CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
+import {
+  ADDRESS_RULE,
+  ADYEN_CREDIT_CARD_IMGURL_ENUM,
+  CREDIT_CARD_IMG_ENUM
+} from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
 import {
   postVisitorRegisterAndLogin,
@@ -476,6 +480,9 @@ class Payment extends React.Component {
   // 总分发clickPay
   distributeClickPay = (email) => {
     switch (this.state.paymentTypeVal) {
+      case 'adyenCard':
+        this.gotoAdyenCreditCardPay();
+        break;
       case 'adyenKlarnaPayLater':
         this.initKlarnaPayLater(email);
         break;
@@ -506,7 +513,7 @@ class Payment extends React.Component {
         environment: 'test',
         originKey: process.env.REACT_APP_AdyenOriginKEY,
         // originKey:
-        //   'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
+          // 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
         locale: process.env.REACT_APP_Adyen_locale
       });
 
@@ -524,16 +531,26 @@ class Payment extends React.Component {
             if (state.isValid) {
               //勾选条款验证
               try {
-                this.isTestPolicy();
-                this.isShipTrackingFun();
-                //this.isNewsLetterFun();
+                if (!this.isOnepageCheckout) {
+                  this.isTestPolicy();
+                  this.isShipTrackingFun();
+                  //this.isNewsLetterFun();
+                } else {
+                  this.props.paymentStore.updatePanelStatus('paymentMethod', {
+                    isPrepare: false,
+                    isEdit: false,
+                    isCompleted: true
+                  });
+                }
                 let adyenPayParam = getAdyenParam(card.data);
                 this.setState(
                   {
                     adyenPayParam
                   },
                   () => {
-                    this.doGetAdyenPayParam('adyen_credit_card');
+                    if (!this.isOnepageCheckout) {
+                      this.gotoAdyenCreditCardPay();
+                    }
                   }
                 );
               } catch (err) {
@@ -546,6 +563,10 @@ class Payment extends React.Component {
         .mount('#card-container');
     }
   }
+
+  gotoAdyenCreditCardPay = () => {
+    this.doGetAdyenPayParam('adyen_credit_card');
+  };
 
   //支付2.初始化KlarnaPayLater
   initKlarnaPayLater = (email) => {
@@ -1363,15 +1384,10 @@ class Payment extends React.Component {
               },
               () => {
                 if (!sessionItemRoyal.get('recommend_product')) {
-                  this.state.subForm.buyWay == 'once'
-                    ? this.props.checkoutStore.updateLoginCart(
-                        this.state.promotionCode,
-                        false
-                      )
-                    : this.props.checkoutStore.updateLoginCart(
-                        this.state.promotionCode,
-                        true
-                      );
+                  this.props.checkoutStore.updateLoginCart(
+                    this.state.promotionCode,
+                    this.state.subForm.buyWay !== 'once'
+                  );
                 }
               }
             );
@@ -1385,11 +1401,12 @@ class Payment extends React.Component {
    * 渲染支付方式
    */
   _renderPayTab = () => {
+    const { adyenPayParam } = this.state;
     return (
       <div
-        // 编辑 或者 没有开启onepagecheckout时，才会显示
+        // 没有开启onepagecheckout 或者 不是prepare状态时，才会显示
         className={`${
-          !this.isOnepageCheckout || this.paymentMethodPanelStatus.isEdit
+          !this.isOnepageCheckout || !this.paymentMethodPanelStatus.isPrepare
             ? ''
             : 'hidden'
         }`}
@@ -1479,7 +1496,80 @@ class Payment extends React.Component {
                 ))}
               </span>
             </p>
-            <div id="card-container" class="payment-method__container"></div>
+            <div
+              id="card-container"
+              className={`payment-method__container ${
+                !this.isOnepageCheckout || this.paymentMethodPanelStatus.isEdit
+                  ? ''
+                  : 'hidden'
+              }`}
+            />
+            {this.isOnepageCheckout &&
+              this.paymentMethodPanelStatus.isCompleted && (
+                <div className="border pb-2">
+                  <p>
+                    <span
+                      className="pull-right ui-cursor-pointer-pure mr-2"
+                      onClick={() => {
+                        this.props.paymentStore.updatePanelStatus(
+                          'paymentMethod',
+                          {
+                            isPrepare: false,
+                            isEdit: true,
+                            isCompleted: false
+                          }
+                        );
+                      }}
+                    >
+                      <FormattedMessage id="edit" />
+                    </span>
+                  </p>
+                  <div className="row">
+                    <div className="col-6 col-sm-3 d-flex flex-column justify-content-center ">
+                      <img
+                        className="PayCardImgFitScreen"
+                        src={
+                          CREDIT_CARD_IMG_ENUM[
+                            adyenPayParam.adyenBrands.toUpperCase()
+                          ] ||
+                          'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                        }
+                      />
+                    </div>
+                    <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
+                      <div className="row creditCompleteInfo ui-margin-top-1-md-down">
+                        <div className="col-12 color-999">
+                          <FormattedMessage id="name2" />
+                          <br />
+                          <span className="creditCompleteInfo">
+                            {adyenPayParam.hasHolderName}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="row creditCompleteInfo ui-margin-top-1-md-down">
+                        <div className="col-6 color-999">
+                          <FormattedMessage id="payment.cardNumber2" />
+                          <br />
+                          <span className="creditCompleteInfo">
+                            xxxx xxxx xxxx {/* todo */}
+                            {/* {this.state.payosdata
+                              ? this.state.payosdata.last_4_digits
+                              : ''} */}
+                          </span>
+                        </div>
+                        <div className="col-6 color-999">
+                          <FormattedMessage id="payment.cardType" />
+                          <br />
+                          <span className="creditCompleteInfo">
+                            {adyenPayParam.adyenName}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
             <Terms
               sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy}
               sendIsShipTracking={this.sendIsShipTracking}
