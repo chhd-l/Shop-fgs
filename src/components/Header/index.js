@@ -467,48 +467,61 @@ class Header extends React.Component {
   }
   _catogryCfg = (lang) => {
     const defaultVal = [
-      { link: '/list/cats', langKey: 'cats' },
-      { link: '/list/dogs', langKey: 'dogs' },
+      { linkObj: { pathname: '/list/cats' }, langKey: 'cats' },
+      { linkObj: { pathname: '/list/dogs' }, langKey: 'dogs' },
       {
         link: this.props.configStore.contactUsUrl,
-        langKey: 'aboutUs',
-        isOutLink: true
+        langKey: 'aboutUs'
       },
-      { link: 'help', langKey: 'contactUs' }
+      { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
     ];
     return (
       {
+        de: [
+          {
+            linkObj: { pathname: '/list/cats', search: '?fid=481|1784' },
+            langKey: 'cats'
+          },
+          {
+            linkObj: { pathname: '/list/dogs', search: '?fid=481|1783' },
+            langKey: 'dogs'
+          },
+          {
+            link: this.props.configStore.contactUsUrl,
+            langKey: 'aboutUs'
+          },
+          { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
+        ],
         fr: [
           {
-            link: '/list/dogs',
+            linkObj: { pathname: '/list/dogs' },
             langKey: 'dogs',
             subMenuKey: 'dogs',
             type: 'dogs'
           },
           {
-            link: '/list/cats',
+            linkObj: { pathname: '/list/cats' },
             langKey: 'cats',
             subMenuKey: 'cats',
             type: 'cats'
           },
           {
-            link: '/subscription-landing',
+            linkObj: { pathname: '/subscription-landing' },
             langKey: 'account.subscription',
             type: 'subscription'
           },
           {
-            link: '/Tailorednutrition',
+            linkObj: { pathname: '/Tailorednutrition' },
             langKey: 'healthAndWellbeing',
             type: 'healthAndWellbeing'
           },
           {
             link: this.props.configStore.contactUsUrl,
             langKey: 'aboutUs',
-            isOutLink: true,
             type: 'aboutUs'
           },
           {
-            link: 'help',
+            linkObj: { pathname: '/help' },
             langKey: 'contactUs',
             subMenuKey: 'help',
             type: 'help'
@@ -880,12 +893,12 @@ class Header extends React.Component {
                 >
                   <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                     <li className="rc-list__item">
-                      {item.isOutLink ? (
+                      {item.link ? (
                         <a href={item.link} className="rc-list__header">
                           {this._renderDropDownText(item)}
                         </a>
                       ) : (
-                        <Link to={item.link} className="rc-list__header">
+                        <Link to={item.linkObj} className="rc-list__header">
                           {this._renderDropDownText(item)}
                         </Link>
                       )}

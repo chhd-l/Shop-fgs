@@ -92,6 +92,7 @@ class RegisterRequired extends Component {
         }    
     }
     async componentDidMount () {
+
         document.getElementById('wrap').addEventListener('click',(e)=>{     
             if(e.target.localName === 'span'){
                 let keyWords = e.target.innerText
@@ -101,7 +102,8 @@ class RegisterRequired extends Component {
                 })
 
                 let tempArr = [...this.state.list]
-                tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
+                //tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
+                tempArr[index].innerHtml = tempArr[index].innerHtml?'':arr[0].contentBody
                
                 this.setState({list: tempArr})
 

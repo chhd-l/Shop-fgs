@@ -8414,6 +8414,9 @@ html .miaa {
 .required-wrap .footerCheckbox>.form-check-input{
   margin-top:4px;
 }
+.required-wrap .footerCheckbox .description p{
+  user-select: none;
+}
 .required-wrap .footerCheckbox .description p a{
   color:#c0392b;
 }

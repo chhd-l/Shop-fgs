@@ -38,7 +38,7 @@ class MegaMenu extends React.Component {
     });
   }
   _renderLinkItem = (item) => {
-    return item.isOutLink ? (
+    return item.link ? (
       <a
         className="rc-list__header"
         href={item.link}
@@ -50,7 +50,7 @@ class MegaMenu extends React.Component {
     ) : (
       <Link
         className="rc-list__header"
-        to={item.link}
+        to={item.linkObj}
         aria-haspopup={!!item.subMenuKey}
       >
         <FormattedMessage id={item.langKey} />
