@@ -615,6 +615,7 @@ const en_US = {
   'payStatus.REFUND': 'rembourser',
   'payStatus.NOT_PAID': 'pas encore payé',
   'payStatus.PAID': 'payé',
+  'payStatus.PAID_IN': 'Payé en',
 
   'biliingAddressSameAs': 'L\'adresse de facturation est la même que l\'adresse de livraison',
   'deleteAddressTip': 'Cette adresse a déjà été abonnée et ne peut donc pas être supprimée.',
