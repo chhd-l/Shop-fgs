@@ -19,4 +19,5 @@
 }
 .required-wrap .description>p{
     margin-bottom: 5px;
+    user-select: none;
 }
