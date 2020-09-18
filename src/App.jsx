@@ -114,11 +114,11 @@ const App = () => (
       >
         <RouteFilter />
         <ScrollToTop>
-          <Switch>
-            <Security {...config.oidc}>
+          <Security {...config.oidc}>
+            <Switch>
               {/* <Route path="/mx" exact component={Home} />
               <Route path="/mx/implicit/callback" component={LoginCallback} /> */}
-              <Route path={'/'}  component={Home} />
+              <Route exact path={'/'} component={Home} />
               <Route
                 exact
                 path="/implicit/callback"
@@ -302,9 +302,9 @@ const App = () => (
               />
               <Route exact path="/forgetPassword" component={ForgetPassword} />
 
-              {/* <Route path="*" component={Exception} /> */}
-            </Security>
-          </Switch>
+              <Route path="*" component={Exception} />
+            </Switch>
+          </Security>
         </ScrollToTop>
       </Router>
     </IntlProvider>
