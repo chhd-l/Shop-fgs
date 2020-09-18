@@ -76,26 +76,21 @@ import ForgetPassword from '@/views/ForgetPassword';
 
 import RequestInvoices from '@/views/RequestInvoices';
 
-import Widerrufsbelehrung from '@/components/Footer/link/Widerrufsbelehrung';
 import Recommendation from '@/views/Recommendation';
 
 const localItemRoyal = window.__.localItemRoyal;
 const token = localItemRoyal.get('rc-token');
 
 const LoginCallback = (props) => {
-  console.log(111);
   const { authService, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
 
   useEffect(async () => {
-    console.log(props);
-    console.log(authService);
     if (authStateReady) {
     } else {
       await authService.handleAuthentication();
     }
     window.location.href = process.env.REACT_APP_ACCESS_PATH;
-    // props.history.push('/')
   }, [authService, authStateReady]);
 
   return <div>2</div>;
@@ -107,17 +102,11 @@ const App = () => (
       locale={process.env.REACT_APP_LANG}
       messages={ENUM_LANGFILE[process.env.REACT_APP_LANG]}
     >
-      <Router
-        // basename="/aa/"
-        basename={process.env.REACT_APP_HOMEPAGE}
-        path={'/'}
-      >
+      <Router basename={process.env.REACT_APP_HOMEPAGE} path={'/'}>
         <RouteFilter />
         <ScrollToTop>
           <Security {...config.oidc}>
             <Switch>
-              {/* <Route path="/mx" exact component={Home} />
-              <Route path="/mx/implicit/callback" component={LoginCallback} /> */}
               <Route exact path={'/'} component={Home} />
               <Route
                 exact
