@@ -301,7 +301,7 @@ const App = () => (
               />
               <Route exact path="/forgetPassword" component={ForgetPassword} />
 
-              {/* <Route exact component={Exception} /> */}
+              {/* <Route component={Exception} /> */}
             </Security>
           </Switch>
         </ScrollToTop>
