@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import { find } from 'lodash';
 import {
   ADYEN_CREDIT_CARD_IMGURL_ENUM,
   CREDIT_CARD_IMG_ENUM
@@ -22,7 +23,8 @@ class AdyenCreditCardList extends React.Component {
     this.state = {
       listLoading: false,
       listErr: '',
-      cardList: []
+      cardList: [],
+      selectedId: ''
     };
   }
   componentDidMount() {}
@@ -44,7 +46,14 @@ class AdyenCreditCardList extends React.Component {
       let res = await getPaymentMethod({
         customerId: this.userInfo ? this.userInfo.customerId : ''
       });
-      this.setState({ cardList: res.context });
+      let cardList = res.context;
+      const defaultItem = find(cardList, (ele) => ele.isDefaltAddress === 1);
+      let tmpId =
+        this.state.selectedId ||
+        (defaultItem && defaultItem.id) ||
+        cardList[0].id;
+      Array.from(cardList, (ele) => (ele.selected = ele.id == tmpId));
+      this.setState({ cardList, selectedId: tmpId });
     } catch (err) {
       console.log(err);
       this.setState({ listErr: err.toString() });
