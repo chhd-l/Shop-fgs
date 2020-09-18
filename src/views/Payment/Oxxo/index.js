@@ -43,7 +43,10 @@ class OxxoConfirm extends Component {
         throw new Error('agreement failed');
       }
 
-      this.props.clickPay(this.state.email);
+      this.props.clickPay({
+        type: 'payu_credit_card',
+        email: this.state.email
+      });
     } catch (e) {
       if (e.message !== 'agreement failed') {
         this.showErrorMsg(e.message ? e.message.toString() : e.toString());

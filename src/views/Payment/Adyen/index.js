@@ -8,6 +8,7 @@ import {
 import { loadJS } from '@/utils/utils';
 import { getAdyenParam } from './utils';
 import EditForm from './form';
+import TermsCommon from '../Terms/common';
 
 @inject('loginStore')
 @observer
@@ -18,73 +19,7 @@ class AdyenCreditCard extends React.Component {
       adyenPayParam: {}
     };
   }
-  componentDidMount() {
-    loadJS(
-      'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
-      function () {
-        if (!!window.AdyenCheckout) {
-          //要有值
-          const AdyenCheckout = window.AdyenCheckout;
-          // (1) Create an instance of AdyenCheckout
-          const checkout = new AdyenCheckout({
-            environment: 'test',
-            // originKey: process.env.REACT_APP_AdyenOriginKEY,
-            originKey:
-              'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
-            locale: process.env.REACT_APP_Adyen_locale
-          });
-
-          // (2). Create and mount the Component
-          const card = checkout
-            .create('card', {
-              hasHolderName: true,
-              holderNameRequired: true,
-              enableStoreDetails: false,
-              styles: {},
-              placeholders: {},
-              showPayButton: true,
-              brands: ['mc', 'visa', 'amex', 'cartebancaire'],
-              onSubmit: (state, component) => {
-                if (state.isValid) {
-                  //勾选条款验证
-                  try {
-                    if (!this.isOnepageCheckout) {
-                      // this.isTestPolicy();
-                      // this.isShipTrackingFun();
-                      //this.isNewsLetterFun();
-                    } else {
-                      this.props.paymentStore.updatePanelStatus(
-                        'paymentMethod',
-                        {
-                          isPrepare: false,
-                          isEdit: false,
-                          isCompleted: true
-                        }
-                      );
-                    }
-                    let adyenPayParam = getAdyenParam(card.data);
-                    this.setState(
-                      {
-                        adyenPayParam
-                      },
-                      () => {
-                        if (!this.isOnepageCheckout) {
-                          // this.gotoAdyenCreditCardPay();
-                        }
-                      }
-                    );
-                  } catch (err) {
-                    // this.showErrorMsg(err.message);
-                  }
-                }
-              },
-              onChange: (state, component) => {}
-            })
-            .mount('#adyen-card-container');
-        }
-      }
-    );
-  }
+  componentDidMount() {}
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
@@ -95,7 +30,16 @@ class AdyenCreditCard extends React.Component {
     return process.env.REACT_APP_ONEPAGE_CHECKOUT === 'true';
   }
   render() {
-    return this.isLogin ? <EditForm /> : <EditForm />;
+    return (
+      <div class="payment-method checkout--padding">
+        {this.isLogin ? <EditForm /> : <EditForm />}
+        <TermsCommon
+          id={'adyenCreditCard'}
+          listData={this.props.listData}
+          checkRequiredItem={this.props.checkRequiredItem}
+        />
+      </div>
+    );
   }
 }
 

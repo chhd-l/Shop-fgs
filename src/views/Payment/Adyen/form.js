@@ -1,9 +1,11 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ADYEN_CREDIT_CARD_IMGURL_ENUM, CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
+import {
+  ADYEN_CREDIT_CARD_IMGURL_ENUM,
+  CREDIT_CARD_IMG_ENUM
+} from '@/utils/constant';
 import { loadJS } from '@/utils/utils';
 import { getAdyenParam } from './utils';
-
 
 class AdyenCreditCardForm extends React.Component {
   constructor(props) {
@@ -88,7 +90,7 @@ class AdyenCreditCardForm extends React.Component {
   render() {
     const { adyenPayParam } = this.state;
     return (
-      <div class="payment-method checkout--padding">
+      <>
         {/* 支持卡的类型 Visa和master */}
         <p className="mb-2">
           <span className="logo-payment-card-list logo-credit-card ml-0">
@@ -177,7 +179,7 @@ class AdyenCreditCardForm extends React.Component {
           sendIsShipTracking={this.sendIsShipTracking}
           sendIsNewsLetter={this.sendIsNewsLetter}
         /> */}
-      </div>
+      </>
     );
   }
 }

@@ -282,7 +282,7 @@ class PayOs extends React.Component {
           throw new Error(this.props.intl.messages.clickConfirmCardButton);
         }
       }
-      this.props.clickPay();
+      this.props.clickPay({ type: 'payu_credit_card' });
     } catch (err) {
       if (err.message !== 'agreement failed') {
         this.props.showErrorMsg(
