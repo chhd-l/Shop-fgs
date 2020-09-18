@@ -45,7 +45,7 @@ class PayOs extends React.Component {
       hasEditedPhone: false,
       hasEditedName: false,
       listData: [],
-      requiredList:[]
+      requiredList: []
     };
   }
   get isLogin() {
@@ -81,11 +81,11 @@ class PayOs extends React.Component {
     return tmp;
   }
 
-  componentWillReceiveProps (nextProps) {
-    let requiredList = nextProps.listData.filter(item=>item.isRequired) 
+  componentWillReceiveProps(nextProps) {
+    let requiredList = nextProps.listData.filter((item) => item.isRequired);
     this.setState({
       requiredList
-    })
+    });
   }
 
   componentDidMount() {
@@ -272,8 +272,10 @@ class PayOs extends React.Component {
       return false;
     }
     try {
-      let isAllChecked = this.state.requiredList.every(item=>item.isChecked)
-      if(!isAllChecked){
+      let isAllChecked = this.state.requiredList.every(
+        (item) => item.isChecked
+      );
+      if (!isAllChecked) {
         throw new Error('agreement failed');
       }
       const { needReConfirmCVV } = this.props;
@@ -299,6 +301,9 @@ class PayOs extends React.Component {
           throw new Error(this.props.intl.messages['payment.errTip']);
         }
         this.props.startLoading();
+        if (!selectedCardInfo.paymentMethod) {
+          throw new Error(this.props.intl.messages.changeAnotherCard);
+        }
         const result = await this.payUTokenPromise({
           cvv: selectedCardInfo.cardCvv,
           token: selectedCardInfo.paymentMethod.token
@@ -365,13 +370,16 @@ class PayOs extends React.Component {
     });
   };
   checkRequiredItem = (list) => {
-    let requiredList =  list.filter(item=>item.isRequired)
-    this.setState({
-      requiredList
-    },()=>{
-      console.log({requiredList: this.state.requiredList})
-    })
-  }
+    let requiredList = list.filter((item) => item.isRequired);
+    this.setState(
+      {
+        requiredList
+      },
+      () => {
+        console.log({ requiredList: this.state.requiredList });
+      }
+    );
+  };
   render() {
     const { creditCardInfo } = this.state;
 
@@ -660,9 +668,9 @@ class PayOs extends React.Component {
         </div>
         {/* 条款 */}
         <TermsCommon
-            listData = {this.props.listData}
-            checkRequiredItem = {this.checkRequiredItem}
-          />
+          listData={this.props.listData}
+          checkRequiredItem={this.checkRequiredItem}
+        />
         {/* <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom mt-3">
           <input
             className="form-check-input ui-cursor-pointer-pure"
