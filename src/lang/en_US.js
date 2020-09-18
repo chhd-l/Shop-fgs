@@ -452,6 +452,7 @@ const en_US = {
   paymentMethod: "Payment method",
   'payStatus.NOT_PAID': 'Unpaid',
   'payStatus.PAID': 'Paid',
+  'payStatus.PAID_IN': 'Paid in',
   'payStatus.REFUND': 'Refund',
   personal: "Personal",
   petInfo: "Pet information",

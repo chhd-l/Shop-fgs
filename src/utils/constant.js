@@ -39,7 +39,8 @@ export const ORDER_STATUS_ENUM = {
 export const PAY_STATUS_ENUM = {
   REFUND: CURRENT_LANGFILE['payStatus.REFUND'],
   NOT_PAID: CURRENT_LANGFILE['payStatus.NOT_PAID'],
-  PAID: CURRENT_LANGFILE['payStatus.PAID']
+  PAID: CURRENT_LANGFILE['payStatus.PAID'],
+  PAYING: CURRENT_LANGFILE['payStatus.PAID_IN']
 };
 
 export const STORE_CATE_ENUM = [

@@ -33,10 +33,8 @@ import {
 import PayUCreditCard from './PayUCreditCard';
 import AdyenCreditCard from './Adyen';
 import OxxoConfirm from './Oxxo';
-import KlarnaPayLater from './modules/KlarnaPayLater';
-import KlarnaPayNow from './modules/KlarnaPayNow';
-import Sofort from './modules/Sofort';
-import Terms from './Terms/index';
+import AdyenCommonPay from './modules/AdyenCommonPay';
+import TermsCommon from './Terms/common';
 
 import { getAdyenParam } from './Adyen/utils';
 import { getOrderDetails } from '@/api/order';
@@ -121,10 +119,22 @@ class Payment extends React.Component {
       tid: sessionItemRoyal.get('rc-tid'),
       recommend_data: [],
       listData: [],
+      requiredList: [],
       adyenComp: null
     };
     this.timer = null;
   }
+  checkRequiredItem = (list) => {
+    let requiredList = list.filter((item) => item.isRequired);
+    this.setState(
+      {
+        requiredList
+      },
+      () => {
+        console.log({ requiredList: this.state.requiredList });
+      }
+    );
+  };
   //总的调用consense接口
   getConsentList() {
     this.isLogin
@@ -145,9 +155,14 @@ class Payment extends React.Component {
   }
   //重新组装listData
   rebindListData(listData) {
-    this.setState({
-      listData
-    });
+    this.setState(
+      {
+        listData
+      },
+      () => {
+        this.checkRequiredItem(listData);
+      }
+    );
   }
   //判断consent接口是否存在项目
   isExistListFun(result) {
@@ -401,6 +416,13 @@ class Payment extends React.Component {
   get checkoutWithClinic() {
     return process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true';
   }
+  //是否consent必填项勾选
+  isConsentRequiredChecked() {
+    let isAllChecked = this.state.requiredList.every((item) => item.isChecked);
+    if (!isAllChecked) {
+      throw new Error(this.props.intl.messages.CompleteRequiredItems);
+    }
+  }
   queryOrderDetails() {
     getOrderDetails(this.state.tid).then(async (res) => {
       let resContext = res.context;
@@ -426,40 +448,6 @@ class Payment extends React.Component {
       ? dict.filter((c) => c.id === cityId)[0].cityName
       : cityId;
   }
-  sendIsReadPrivacyPolicy = (e) => {
-    this.setState({
-      isReadPrivacyPolicy: e
-    });
-  };
-  sendIsShipTracking = (e) => {
-    this.setState({
-      isShipTracking: e
-    });
-  };
-  sendIsNewsLetter = (e) => {
-    this.setState({
-      IsNewsLetter: e
-    });
-  };
-  //是否勾选私人政策
-  isTestPolicy() {
-    if (!this.state.isReadPrivacyPolicy) {
-      throw new Error(this.props.intl.messages.policyFalse);
-    }
-  }
-
-  //是否同意运货追踪
-  isShipTrackingFun() {
-    if (!this.state.isShipTracking) {
-      throw new Error(this.props.intl.messages.shipmentTrackingFalse);
-    }
-  }
-  //是否同意通讯
-  isNewsLetterFun() {
-    if (!this.state.IsNewsLetter) {
-      throw new Error(this.props.intl.messages.newsletterFalse);
-    }
-  }
   showErrorMsg = (msg) => {
     this.setState({
       errorMsg: msg
@@ -477,7 +465,7 @@ class Payment extends React.Component {
   };
 
   // 总分发clickPay
-  distributeClickPay = (email) => {
+  distributeClickPay = ({ email, type }) => {
     switch (this.state.paymentTypeVal) {
       case 'adyenCard':
         this.gotoAdyenCreditCardPay();
@@ -510,8 +498,8 @@ class Payment extends React.Component {
       const checkout = new AdyenCheckout({
         environment: 'test',
         originKey: process.env.REACT_APP_AdyenOriginKEY,
-        // originKey:
-        // 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
+        //  originKey:
+        //    'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
         locale: process.env.REACT_APP_Adyen_locale
       });
 
@@ -520,19 +508,18 @@ class Payment extends React.Component {
         .create('card', {
           hasHolderName: true,
           holderNameRequired: true,
-          enableStoreDetails: false,
+          enableStoreDetails: true,
           styles: {},
           placeholders: {},
           showPayButton: false,
           brands: ['mc', 'visa', 'amex', 'cartebancaire'],
           onSubmit: (state, component) => {
+            //console.log(JSON.stringify(state))
             if (state.isValid) {
               //勾选条款验证
               try {
                 if (!this.isOnepageCheckout) {
-                  this.isTestPolicy();
-                  this.isShipTrackingFun();
-                  //this.isNewsLetterFun();
+                  this.isConsentRequiredChecked();
                 } else {
                   this.props.paymentStore.updatePanelStatus('paymentMethod', {
                     isPrepare: false,
@@ -570,25 +557,12 @@ class Payment extends React.Component {
   adyenSubmit() {
     this.state.adyenComp.submit();
   }
-  //支付2.初始化KlarnaPayLater
-  initKlarnaPayLater = (email) => {
-    this.doGetAdyenPayParam('adyen_klarna_pay_lat');
+  //payLater,payNow,sofort支付公共初始化方法
+  initCommonPay = ({ email, type }) => {
+    this.doGetAdyenPayParam(type);
     this.setState({
       email
     });
-  };
-
-  //支付3,初始化KlarnaPayNow
-  initKlarnaPayNow = (email) => {
-    this.doGetAdyenPayParam('adyen_klarna_pay_now');
-    this.setState({
-      email
-    });
-  };
-
-  //支付4，初始化sofort
-  initSofort = () => {
-    this.doGetAdyenPayParam('sofort');
   };
 
   initPayUCreditCard = () => {
@@ -622,6 +596,7 @@ class Payment extends React.Component {
         },
         payu_credit_card: async () => {
           const { selectedCardInfo } = this.state;
+          // todo one page checkout时，此时可能不存在cvv
           if (!this.isLogin) {
             parameters = Object.assign({}, commonParameter);
           } else {
@@ -1448,7 +1423,7 @@ class Payment extends React.Component {
             startLoading={() => this.startLoading()}
             endLoading={() => this.endLoading()}
             // clickPay={this.initOxxo}
-            clickPay={this.distributeClickPay}
+            clickPay={this.initCommonPay}
           />
         )}
         {/* payu creditCard */}
@@ -1463,7 +1438,7 @@ class Payment extends React.Component {
             endLoading={() => this.endLoading()}
             showErrorMsg={(data) => this.showErrorMsg(data)}
             // clickPay={this.initPayUCreditCard}
-            clickPay={this.distributeClickPay}
+            clickPay={this.initCommonPay}
             onVisitorPayosDataConfirm={(data) => {
               this.setState({ payosdata: data });
             }}
@@ -1484,7 +1459,10 @@ class Payment extends React.Component {
             this.state.paymentTypeVal === 'adyenCard' ? '' : 'hidden'
           }`}
         >
-          <AdyenCreditCard />
+          <AdyenCreditCard
+            listData={this.state.listData}
+            checkRequiredItem={this.checkRequiredItem}
+          />
           {/* <div class="payment-method checkout--padding">
             <p className="mb-2">
               <span className="logo-payment-card-list logo-credit-card ml-0">
@@ -1568,12 +1546,11 @@ class Payment extends React.Component {
                   </div>
                 </div>
               )}
-
-            <Terms
-              sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy}
-              sendIsShipTracking={this.sendIsShipTracking}
-              sendIsNewsLetter={this.sendIsNewsLetter}
-            /> 
+todo
+            <TermsCommon 
+              id={'adyenCreditCard'}
+              listData = {this.state.listData}
+              checkRequiredItem = {this.checkRequiredItem}/>
           </div>*/}
         </div>
         {/* KlarnaPayLater */}
@@ -1582,9 +1559,10 @@ class Payment extends React.Component {
             this.state.paymentTypeVal === 'adyenKlarnaPayLater' ? '' : 'hidden'
           }`}
         >
-          <KlarnaPayLater
-            // clickPay={this.initKlarnaPayLater}
-            clickPay={this.distributeClickPay}
+          <AdyenCommonPay
+            type={'adyen_klarna_pay_lat'}
+            listData={this.state.listData}
+            clickPay={this.initCommonPay}
             showErrorMsg={this.showErrorMsg}
           />
         </div>
@@ -1594,9 +1572,10 @@ class Payment extends React.Component {
             this.state.paymentTypeVal === 'adyenKlarnaPayNow' ? '' : 'hidden'
           }`}
         >
-          <KlarnaPayNow
-            // clickPay={this.initKlarnaPayNow}
-            clickPay={this.distributeClickPay}
+          <AdyenCommonPay
+            type={'adyen_klarna_pay_now'}
+            listData={this.state.listData}
+            clickPay={this.initCommonPay}
             showErrorMsg={this.showErrorMsg}
           />
         </div>
@@ -1606,9 +1585,10 @@ class Payment extends React.Component {
             this.state.paymentTypeVal === 'directEbanking' ? '' : 'hidden'
           }`}
         >
-          <Sofort
-            // clickPay={this.initSofort}
-            clickPay={this.distributeClickPay}
+          <AdyenCommonPay
+            type={'sofort'}
+            listData={this.state.listData}
+            clickPay={this.initCommonPay}
             showErrorMsg={this.showErrorMsg}
           />
         </div>
@@ -1683,7 +1663,7 @@ class Payment extends React.Component {
                   {this._renderPayTab()}
                 </div>
                 {this.isOnepageCheckout && (
-                  <Confirmation clickPay={this.distributeClickPay} />
+                  <Confirmation clickPay={this.initCommonPay} />
                 )}
                 {this.state.paymentTypeVal === 'adyenCard' && (
                   <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
