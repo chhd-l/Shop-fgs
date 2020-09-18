@@ -57,7 +57,7 @@ service.interceptors.response.use(
         response.data.code === 'K-000002'
       ) {
         sessionItemRoyal.set('rc-token-lose', 1);
-        window.location.href = '/';
+        window.location.href = process.env.REACT_APP_HOMEPAGE;
       }
       console.log(response);
       let ret =
