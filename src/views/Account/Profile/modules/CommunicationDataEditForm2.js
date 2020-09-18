@@ -26,7 +26,7 @@ class CommunicationDataEditForm extends React.Component {
 
             let tempArr = [...this.state.list]
             //tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
-            tempArr[index].innerHtml = tempArr[index].innerHtml?'':arr[0].contentBody
+            tempArr[index].innerHtml = tempArr[index].innerHtml?'':arr[0]?arr[0].contentBody:''
            
             this.setState({list: tempArr})
 
@@ -177,7 +177,7 @@ class CommunicationDataEditForm extends React.Component {
                                         {item.isRequired ? <em className="pl-2 rc-text-colour--brand1">*</em> : null}
                                     </div>
                                 </div>
-                                <div style={{paddingTop:'5px',paddingLeft: '20px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
+                                <div className="consent" style={{paddingTop:'5px',paddingLeft: '20px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
                                     item.innerHtml
                                 )}>
                                 </div>

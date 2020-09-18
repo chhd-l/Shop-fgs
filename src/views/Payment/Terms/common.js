@@ -17,7 +17,7 @@ class TermsCommon extends Component {
     };
   }
   componentDidMount(){
-    document.getElementById('wrap').addEventListener('click',(e)=>{     
+    document.getElementById(`wrap${this.props.id}`).addEventListener('click',(e)=>{   
         if(e.target.localName === 'span'){
             let keyWords = e.target.innerText
             let index = Number(e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id)
@@ -27,7 +27,7 @@ class TermsCommon extends Component {
 
             let tempArr = [...this.state.list]
             //tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
-            tempArr[index].innerHtml = tempArr[index].innerHtml?'':arr[0].contentBody
+            tempArr[index].innerHtml = tempArr[index].innerHtml?'':arr[0]?arr[0].contentBody:''
           
             this.setState({list: tempArr})
 
@@ -42,9 +42,9 @@ class TermsCommon extends Component {
   render() {
     const createMarkup = (text) => ({ __html: text });
     return (
-      <div className="required-wrap common" id="wrap">
+      <div className="required-wrap common" id={`wrap${this.props.id}`}>
         {/* checkbox组 */}
-        <div className="required-checkbox" style={{margin: "15px 0 0 40px"}}>
+        <div className="required-checkbox" style={{margin: "15px 0 0 20px"}}>
           {
               this.state.isLoading
               ?
@@ -79,6 +79,7 @@ class TermsCommon extends Component {
                               checked={item.isChecked}
                           />
                           <div className="d-flex">
+                            {item.isRequired ? <span className="pl-2 rc-text-colour--brand1">*</span> : <span className="pl-2 rc-text-colour--brand1"></span>}
                               <div
                                   className="description"
                                   style={{marginLeft: '10px',marginTop: '-3px'
@@ -87,9 +88,9 @@ class TermsCommon extends Component {
                                       item.consentTitle
                                   )}
                               ></div>
-                              {item.isRequired ? <span className="pl-2 rc-text-colour--brand1">*</span> : null}
+                             
                           </div>
-                          <div style={{paddingLeft:'10px',paddingRight:'10px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
+                          <div style={{paddingLeft:'20px',paddingRight:'10px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
                               item.innerHtml
                           )}></div>
                       </div>

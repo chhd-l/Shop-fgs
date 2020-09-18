@@ -8411,10 +8411,18 @@ html .miaa {
   text-decoration: underline;
 }
 
+.required-wrap .consent p{
+  color:#000;
+  font-size: 12px;
+}
+.required-wrap .consent p a{
+  color:#c0392b;
+}
 .required-wrap .footerCheckbox>.form-check-input{
   margin-top:4px;
 }
 .required-wrap .footerCheckbox .description p{
+  color:#000;
   user-select: none;
 }
 .required-wrap .footerCheckbox .description p a{
@@ -8422,4 +8430,9 @@ html .miaa {
 }
 .required-wrap .footerCheckbox .description p>span{
   cursor: pointer;
+  color:#000!important;
+  font-weight: bold;
+}
+.required-wrap.landingPage .footerCheckbox>.form-check-input {
+  margin-top: 4px;
 }

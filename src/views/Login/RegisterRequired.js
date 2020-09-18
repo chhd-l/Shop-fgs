@@ -103,7 +103,7 @@ class RegisterRequired extends Component {
 
                 let tempArr = [...this.state.list]
                 //tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
-                tempArr[index].innerHtml = tempArr[index].innerHtml?'':arr[0].contentBody
+                tempArr[index].innerHtml = tempArr[index].innerHtml?'':arr[0]?arr[0].contentBody:''
                
                 this.setState({list: tempArr})
 
@@ -179,7 +179,7 @@ class RegisterRequired extends Component {
     render() {
         const createMarkup = (text) => ({ __html: text });
         return (
-            <div className="required-wrap" id="wrap">
+            <div className="required-wrap landingPage" id="wrap">
                 {/* Logo */}
                 <Link to="/" className="header__nav__brand logo-home pt-5">
                     <span className="rc-screen-reader-text"></span>
@@ -212,8 +212,8 @@ class RegisterRequired extends Component {
                         :
                         this.state.list.map((item, index) => {
                             return (
-                                <div id={index}> 
-                                    <div className="footerCheckbox" key={index}>
+                                <div id={index}>                  
+                                    <div className="footerCheckbox" key={index}>                      
                                     <input
                                         className="form-check-input ui-cursor-pointer-pure"
                                         id="id-checkbox-cat-2"
@@ -235,16 +235,17 @@ class RegisterRequired extends Component {
                                         checked={item.isChecked}
                                     />
                                         <div className="d-flex">
+                                        {item.isRequired ? <em className="pl-2 rc-text-colour--brand1">*</em> : <em className="pl-2 rc-text-colour--brand1"></em>}
                                             <div
                                                 className="description"
                                                 dangerouslySetInnerHTML={createMarkup(
                                                     item.consentTitle
                                                 )}
                                             ></div>
-                                            {item.isRequired ? <em className="pl-2 rc-text-colour--brand1">*</em> : null}
+                                            
                                         </div>
                                     </div>
-                                                <div style={{paddingLeft: '89px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
+                                                <div className="consent" style={{paddingLeft: '99px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
                                                     item.innerHtml
                                                 )}></div>
                                 </div>

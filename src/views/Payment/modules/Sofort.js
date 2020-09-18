@@ -4,6 +4,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
 import Terms from '../Terms/index';
+import TermsCommon from '../Terms/common';
 
 class Sofort extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class Sofort extends Component {
       text: '',
       isReadPrivacyPolicy: false,
       isShipTracking: false,
-      IsNewsLetter: false
+      IsNewsLetter: false,
+      requiredList: []
     };
   }
   //是否填写邮箱正确
@@ -42,12 +44,25 @@ class Sofort extends Component {
     }
   }
 
+  checkRequiredItem = (list) => {
+    let requiredList =  list.filter(item=>item.isRequired)
+    this.setState({
+      requiredList
+    },()=>{
+      console.log({requiredList: this.state.requiredList})
+    })
+  }
+
   clickPay = () => {
     try {
-      this.isTestPolicy();
-      this.isShipTrackingFun();
+      //this.isTestPolicy();
+      //this.isShipTrackingFun();
       //this.isNewsLetterFun();
-      this.isTestMail();
+      //this.isTestMail();
+      let isAllChecked = this.state.requiredList.every(item=>item.isChecked)
+      if(!isAllChecked){
+        throw new Error('agreement failed');
+      }
       this.props.clickPay(this.state.text);
     } catch (err) {
       this.props.showErrorMsg(err.message);
@@ -115,11 +130,15 @@ class Sofort extends Component {
             </div>
           </div>
         </div>
-        <Terms
+        {/* <Terms
           sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy}
           sendIsShipTracking={this.sendIsShipTracking}
           sendIsNewsLetter={this.sendIsNewsLetter}
-        />
+        /> */}
+        <TermsCommon 
+              id={'sofort'}
+              listData = {this.props.listData}
+              checkRequiredItem = {this.checkRequiredItem}/>
       </div>
     );
   }

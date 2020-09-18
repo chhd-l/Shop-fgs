@@ -21,3 +21,24 @@
     margin-bottom: 5px;
     user-select: none;
 }
+.required-wrap.common .footerCheckbox .d-flex p{
+    font-size: 14px;
+}
+
+.required-wrap.common .footerCheckbox .d-flex p span{
+    color: #000!important;
+    font-weight: 700;
+}
+.required-wrap.common .footerCheckbox p{
+    color: #000;
+    font-size: 12px;
+}
+
+.required-wrap.common .footerCheckbox p a{
+    color:#EC001A;
+    text-decoration: none;
+}
+
+.required-wrap .footerCheckbox>.form-check-input {
+    margin-top: 0px;
+}
