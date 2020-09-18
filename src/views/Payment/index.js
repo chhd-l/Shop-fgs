@@ -120,7 +120,8 @@ class Payment extends React.Component {
       orderDetails: null,
       tid: sessionItemRoyal.get('rc-tid'),
       recommend_data: [],
-      listData: []
+      listData: [],
+      adyenComp: null
     };
     this.timer = null;
   }
@@ -522,7 +523,7 @@ class Payment extends React.Component {
           enableStoreDetails: false,
           styles: {},
           placeholders: {},
-          showPayButton: true,
+          showPayButton: false,
           brands: ['mc', 'visa', 'amex', 'cartebancaire'],
           onSubmit: (state, component) => {
             if (state.isValid) {
@@ -558,6 +559,7 @@ class Payment extends React.Component {
           onChange: (state, component) => {}
         })
         .mount('#card-container');
+      this.setState({ adyenComp: card });
     }
   }
 
@@ -565,6 +567,9 @@ class Payment extends React.Component {
     this.doGetAdyenPayParam('adyen_credit_card');
   };
 
+  adyenSubmit() {
+    this.state.adyenComp.submit();
+  }
   //支付2.初始化KlarnaPayLater
   initKlarnaPayLater = (email) => {
     this.doGetAdyenPayParam('adyen_klarna_pay_lat');
@@ -1679,6 +1684,23 @@ class Payment extends React.Component {
                 </div>
                 {this.isOnepageCheckout && (
                   <Confirmation clickPay={this.distributeClickPay} />
+                )}
+                {this.state.paymentTypeVal === 'adyenCard' && (
+                  <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
+                    <div className="next-step-button">
+                      <div className="rc-text--right">
+                        <button
+                          className={`rc-btn rc-btn--one submit-payment`}
+                          type="submit"
+                          name="submit"
+                          value="submit-shipping"
+                          onClick={() => this.adyenSubmit()}
+                        >
+                          <FormattedMessage id="payment.further" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
               <div className="rc-column pl-md-0">

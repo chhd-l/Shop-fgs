@@ -276,7 +276,7 @@ class PersonalDataEditForm extends React.Component {
               <FormattedMessage id="payment.country" />
             </div>
             <div className="col-md-6">
-              {this.state.countryList?this.getDictValue(this.state.countryList, data.country):data.country}
+              {this.getDictValue(this.state.countryList, data.country)}
             </div>
             <div className="col-md-6">
               <FormattedMessage id="payment.phoneNumber" />
@@ -370,7 +370,6 @@ class PersonalDataEditForm extends React.Component {
                 >
                   <FormattedMessage id="account.birthDate" />
                 </label>
-                {/* <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true" style={{height: '50px'}}> */}
                 <DatePicker
                   className="receiveDate"
                   placeholder="Select Date"
@@ -381,18 +380,6 @@ class PersonalDataEditForm extends React.Component {
                   }
                   onChange={(date) => this.onDateChange(date)}
                 />
-                {/* <input
-                    className="rc-input__date rc-js-custom rc-input__control"
-                    id="birthdate"
-                    data-js-dateformat="YYYY/MM/DD"
-                    name="birthdate"
-                    type="date"
-                    value={form.birthdate}
-                    onBlur={e => this.handleInputChange(e)}
-                    style={{ padding: '.95rem 0' }}
-                  />
-                  <label className="rc-input__label" htmlFor="birthdate"></label> */}
-                {/* </span> */}
                 <div className="invalid-feedback" style={{ display: 'none' }}>
                   <FormattedMessage id="payment.errorInfo2" />
                 </div>
