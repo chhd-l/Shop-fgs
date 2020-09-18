@@ -18,11 +18,7 @@ import OnePageClinicForm from './OnePage/ClinicForm';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import { formatMoney, validData } from '@/utils/utils';
-import {
-  ADDRESS_RULE,
-  ADYEN_CREDIT_CARD_IMGURL_ENUM,
-  CREDIT_CARD_IMG_ENUM
-} from '@/utils/constant';
+import { ADDRESS_RULE } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
 import {
   postVisitorRegisterAndLogin,
@@ -35,6 +31,7 @@ import {
 } from '@/api/payment';
 
 import PayUCreditCard from './PayUCreditCard';
+import AdyenCreditCard from './Adyen';
 import OxxoConfirm from './Oxxo';
 import KlarnaPayLater from './modules/KlarnaPayLater';
 import KlarnaPayNow from './modules/KlarnaPayNow';
@@ -310,7 +307,8 @@ class Payment extends React.Component {
     //各种支付component初始化方法
     var initPaymentWay = {
       adyen_credit_card: () => {
-        this.initAdyenPay();
+        this.setState({ paymentTypeVal: 'adyenCard' });
+        // this.initAdyenPay();
       },
       adyen_klarna_slice: () => {
         console.log('initKlarnaSlice');
@@ -504,7 +502,6 @@ class Payment extends React.Component {
 
   //支付1.初始化adyen_credit_card
   initAdyenPay() {
-    this.setState({ paymentTypeVal: 'adyenCard' });
     if (!!window.AdyenCheckout) {
       //要有值
       const AdyenCheckout = window.AdyenCheckout;
@@ -513,7 +510,7 @@ class Payment extends React.Component {
         environment: 'test',
         originKey: process.env.REACT_APP_AdyenOriginKEY,
         // originKey:
-          // 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
+        // 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
         locale: process.env.REACT_APP_Adyen_locale
       });
 
@@ -1482,8 +1479,8 @@ class Payment extends React.Component {
             this.state.paymentTypeVal === 'adyenCard' ? '' : 'hidden'
           }`}
         >
-          <div class="payment-method checkout--padding">
-            {/* 支持卡的类型 Visa和master */}
+          <AdyenCreditCard />
+          {/* <div class="payment-method checkout--padding">
             <p className="mb-2">
               <span className="logo-payment-card-list logo-credit-card ml-0">
                 {ADYEN_CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
@@ -1551,10 +1548,7 @@ class Payment extends React.Component {
                           <FormattedMessage id="payment.cardNumber2" />
                           <br />
                           <span className="creditCompleteInfo">
-                            xxxx xxxx xxxx {/* todo */}
-                            {/* {this.state.payosdata
-                              ? this.state.payosdata.last_4_digits
-                              : ''} */}
+                            xxxx xxxx xxxx
                           </span>
                         </div>
                         <div className="col-6 color-999">
@@ -1574,8 +1568,8 @@ class Payment extends React.Component {
               sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy}
               sendIsShipTracking={this.sendIsShipTracking}
               sendIsNewsLetter={this.sendIsNewsLetter}
-            />
-          </div>
+            /> 
+          </div>*/}
         </div>
         {/* KlarnaPayLater */}
         <div

@@ -28,10 +28,10 @@ export function formatMoney(
   val = parseFloat(Number(val).toFixed(2)) + '';
   const tmp = mapEnum[currency];
   let ret = val.replace(/\B(?=(\d{3})+(?!\d))/g, tmp.break);
-  if(process.env.REACT_APP_HOMEPAGE === '/fr') {
-    ret = ret.replace(/\./, '#')
-    ret = ret.replace(/\,/, ' ')
-    ret = ret.replace(/\#/, ',')
+  if (process.env.REACT_APP_HOMEPAGE === '/fr') {
+    ret = ret.replace(/\./, '#');
+    ret = ret.replace(/\,/, ' ');
+    ret = ret.replace(/\#/, ',');
   }
   return tmp.atEnd ? `${ret} ${tmp.mark}` : `${tmp.mark} ${ret}`;
 }
@@ -184,4 +184,33 @@ export async function validData(rule, data) {
       }
     }
   }
+}
+
+export function loadJS(url, callback, dataSets) {
+  var script = document.createElement('script'),
+    fn = callback || function () {};
+  script.type = 'text/javascript';
+  script.charset = 'UTF-8';
+
+  if (dataSets) {
+    for (let key in dataSets) {
+      script.dataset[key] = dataSets[key];
+    }
+  }
+  //IE
+  if (script.readyState) {
+    script.onreadystatechange = function () {
+      if (script.readyState == 'loaded' || script.readyState == 'complete') {
+        script.onreadystatechange = null;
+        fn();
+      }
+    };
+  } else {
+    //其他浏览器
+    script.onload = function () {
+      fn();
+    };
+  }
+  script.src = url;
+  document.getElementsByTagName('head')[0].appendChild(script);
 }
