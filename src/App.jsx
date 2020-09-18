@@ -105,9 +105,9 @@ const App = () => (
       <Router basename={process.env.REACT_APP_HOMEPAGE} path={'/'}>
         <RouteFilter />
         <ScrollToTop>
-          <Switch>
-            <Security {...config.oidc}>
-              <Route path={'/'} exact component={Home} />
+          <Security {...config.oidc}>
+            <Switch>
+              <Route exact path={'/'} component={Home} />
               <Route
                 exact
                 path="/implicit/callback"
