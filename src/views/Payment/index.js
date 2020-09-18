@@ -122,7 +122,8 @@ class Payment extends React.Component {
       orderDetails: null,
       tid: sessionItemRoyal.get('rc-tid'),
       recommend_data: [],
-      listData: []
+      listData: [],
+      adyenComp: null
     };
     this.timer = null;
     this.loginDeliveryAddressRef = React.createRef();
@@ -523,9 +524,9 @@ class Payment extends React.Component {
       // (1) Create an instance of AdyenCheckout
       const checkout = new AdyenCheckout({
         environment: 'test',
-        originKey: process.env.REACT_APP_AdyenOriginKEY,
-        // originKey:
-        //   'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
+        // originKey: process.env.REACT_APP_AdyenOriginKEY,
+        originKey:
+          'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
         locale: process.env.REACT_APP_Adyen_locale
       });
 
@@ -537,7 +538,7 @@ class Payment extends React.Component {
           enableStoreDetails: false,
           styles: {},
           placeholders: {},
-          showPayButton: true,
+          showPayButton: false,
           brands: ['mc', 'visa', 'amex', 'cartebancaire'],
           onSubmit: (state, component) => {
             if (state.isValid) {
@@ -563,9 +564,12 @@ class Payment extends React.Component {
           onChange: (state, component) => {}
         })
         .mount('#card-container');
+        this.setState({adyenComp: card})
     }
   }
-
+  adyenSubmit() {
+    this.state.adyenComp.submit()
+  }
   //支付2.初始化KlarnaPayLater
   initKlarnaPayLater = (email) => {
     this.doGetAdyenPayParam('adyen_klarna_pay_lat');
@@ -1081,7 +1085,7 @@ class Payment extends React.Component {
   async saveAddressAndCommentPromise() {
     try {
       const { deliveryAddress, billingAddress, billingChecked } = this.state;
-      let tmpDeliveryAddress = deliveryAddress;
+      let tmpDeliveryAddress   = deliveryAddress;
       let tmpBillingAddress = billingAddress;
       if (this.isLogin) {
         const deliveryAddressEl = this.loginDeliveryAddressRef.current;
@@ -1650,6 +1654,27 @@ class Payment extends React.Component {
 
                   {this._renderPayTab()}
                 </div>
+                {
+                  this.state.paymentTypeVal === 'adyenCard' &&
+                  (
+                    <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
+                      <div className="next-step-button">
+                        <div className="rc-text--right">
+                            <button
+                              className={`rc-btn rc-btn--one submit-payment`}
+                              type="submit"
+                              name="submit"
+                              value="submit-shipping"
+                              onClick={() => this.adyenSubmit()}
+                            >
+                              <FormattedMessage id="payment.further" />
+                            </button>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                }
+                
               </div>
               <div className="rc-column pl-md-0">
                 {this.state.tid ? (
