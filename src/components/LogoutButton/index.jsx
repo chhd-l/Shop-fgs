@@ -12,7 +12,7 @@
 
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
-import { getToken } from '@/api/login'
+import { getToken, doLogout } from '@/api/login'
 import { getCustomerInfo } from "@/api/user"
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react';
@@ -43,10 +43,17 @@ const LogoutButton = () => {
   }
   const clickLogoff = () => {
     loginStore.changeLoginModal(true)
-    localItemRoyal.remove("rc-token");
-    loginStore.removeUserInfo()
-    checkoutStore.removeLoginCartData()
-    logout(process.env.REACT_APP_HOMEPAGE)
+    doLogout().then(res => {
+      localItemRoyal.remove("rc-token");
+      loginStore.removeUserInfo()
+      checkoutStore.removeLoginCartData()
+      logout(process.env.REACT_APP_HOMEPAGE)
+    }).catch(err => {
+      localItemRoyal.remove("rc-token");
+      loginStore.removeUserInfo()
+      checkoutStore.removeLoginCartData()
+      logout(process.env.REACT_APP_HOMEPAGE)
+    })
   }
   return (
     <div className="logoff-style">

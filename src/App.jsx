@@ -98,7 +98,7 @@ const LoginCallback = (props) => {
     // props.history.push('/')
   }, [authService, authStateReady]);
 
-  return <div></div>;
+  return <div>2</div>;
 };
 
 const App = () => (
@@ -118,9 +118,10 @@ const App = () => (
             <Security {...config.oidc}>
               {/* <Route path="/mx" exact component={Home} />
               <Route path="/mx/implicit/callback" component={LoginCallback} /> */}
-              <Route path={'/'} exact component={Home} />
+              <Route path={'/'}  component={Home} />
               <Route
-                path={'/implicit/callback'}
+                exact
+                path="/implicit/callback"
                 render={(props) => <LoginCallback {...props} />}
               />
               {/* <Route exact path="/login" component={Login} /> */}
@@ -301,7 +302,7 @@ const App = () => (
               />
               <Route exact path="/forgetPassword" component={ForgetPassword} />
 
-              {/* <Route component={Exception} /> */}
+              {/* <Route path="*" component={Exception} /> */}
             </Security>
           </Switch>
         </ScrollToTop>

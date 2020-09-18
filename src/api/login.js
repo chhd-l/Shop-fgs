@@ -9,7 +9,8 @@ const api = {
   getQuestions:'/questions/all',
   register:'/baseRegister',
   forgetPassword:'/base/forgetPassword',
-  modifyPassword:'/base/modifyPassword'
+  modifyPassword:'/base/modifyPassword',
+  logout: '/logout'
 }
 
 export default api
@@ -33,6 +34,12 @@ export function getToken (parameter) {
     url: api.getToken,
     method: 'post',
     data: parameter
+  })
+}
+export function doLogout () {
+  return axios({
+    url: api.logout,
+    method: 'post'
   })
 }
 
