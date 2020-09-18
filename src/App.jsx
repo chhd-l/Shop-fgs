@@ -291,9 +291,9 @@ const App = () => (
               />
               <Route exact path="/forgetPassword" component={ForgetPassword} />
 
-              {/* <Route path="*" component={Exception} /> */}
-            </Security>
-          </Switch>
+              <Route path="*" component={Exception} />
+            </Switch>
+          </Security>
         </ScrollToTop>
       </Router>
     </IntlProvider>

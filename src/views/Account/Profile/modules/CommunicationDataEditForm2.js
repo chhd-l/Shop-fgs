@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import { findUserSelectedList,userBindConsent} from "@/api/consent"
 import { inject, observer } from 'mobx-react';
+import Consent from "@/components/Consent"
 @inject('configStore')
 @observer
 class CommunicationDataEditForm extends React.Component {
@@ -52,8 +53,6 @@ class CommunicationDataEditForm extends React.Component {
         this.setState({
             list
         })
-
-        console.log(51,this.state.list)
         
     } catch (err) {
         console.log(err.message)
@@ -90,6 +89,10 @@ class CommunicationDataEditForm extends React.Component {
         editFormVisible:false
     })
   };
+  //从子组件传回
+  sendList = (list)=>{
+    this.setState({list})
+}
 
   render() {
     const {editFormVisible} = this.state
@@ -132,60 +135,9 @@ class CommunicationDataEditForm extends React.Component {
             }`}
           >
           </div>
-          <div>
+          <div id="wrap" style={{marginLeft:'20px'}}>
             {/* checkbox组 */}
-            <div className="account-infomation required-checkbox" id="wrap">
-                {
-                    this.state.isLoading
-                    ?
-                    <div className="pt-2 pb-2">
-                        <Skeleton color="#f5f5f5" width="100%" count={4} />
-                    </div>
-                    :
-                    this.state.list.map((item, index) => {
-                        return (
-                            <div id={index}> 
-                                <div className="footerCheckbox" key={index} className='d-flex align-items-sm-start' style={{paddingLeft:'20px'}}>
-                                <input
-                                    className="form-check-input ui-cursor-pointer-pure"
-                                    id="id-checkbox-cat-2"
-                                    value=""
-                                    type="checkbox"
-                                    name="checkbox-2"
-                                    onChange={() => {
-                                        //替换属性start
-                                        let itemObj = Object.assign(item, {
-                                            isChecked: !item.isChecked
-                                        })
-                                        let list = [...this.state.list]
-                                        list.splice(index, 1, itemObj)
-                                        this.setState({
-                                            list
-                                        });
-                                        //替换属性end
-                                    }}
-                                    disabled={!editFormVisible}
-                                    checked={item.isChecked}
-                                />
-                                    <div className="d-flex align-items-sm-center" style={{marginTop:'-1px'}}>
-                                        <div
-                                            className="description"
-                                            dangerouslySetInnerHTML={createMarkup(
-                                                item.consentTitle
-                                            )}
-                                        ></div>
-                                        {item.isRequired ? <em className="pl-2 rc-text-colour--brand1">*</em> : null}
-                                    </div>
-                                </div>
-                                <div className="consent" style={{paddingTop:'5px',paddingLeft: '20px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
-                                    item.innerHtml
-                                )}>
-                                </div>
-                            </div>
-                        )
-                    })
-                }
-            </div>
+            <Consent list={this.state.list} sendList={this.sendList} disabled={!this.state.editFormVisible} zoom={"150%"}/>
             {/* 取消和保存 按钮 */}
             <div className={`text-right contactPreferenceFormBtn ${
                 editFormVisible ? '' : 'hidden'

@@ -33,10 +33,7 @@ import {
 
 import PayUCreditCard from './PayUCreditCard';
 import OxxoConfirm from './Oxxo';
-import KlarnaPayLater from './modules/KlarnaPayLater';
-import KlarnaPayNow from './modules/KlarnaPayNow';
-import Sofort from './modules/Sofort';
-import Terms from './Terms/index';
+import AdyenCommonPay from './modules/AdyenCommonPay';
 import TermsCommon from './Terms/common';
 
 import { getAdyenParam } from './Adyen/utils';
@@ -162,6 +159,8 @@ class Payment extends React.Component {
   rebindListData(listData) {
     this.setState({
       listData
+    },()=>{
+      this.checkRequiredItem(listData)
     });
   }
   //判断consent接口是否存在项目
@@ -429,6 +428,13 @@ class Payment extends React.Component {
   get checkoutWithClinic() {
     return process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true';
   }
+  //是否consent必填项勾选
+  isConsentRequiredChecked(){
+    let isAllChecked = this.state.requiredList.every(item=>item.isChecked)
+      if(!isAllChecked){
+        throw new Error(this.props.intl.messages.CompleteRequiredItems);
+      }
+  }
   queryOrderDetails() {
     getOrderDetails(this.state.tid).then(async (res) => {
       let resContext = res.context;
@@ -453,40 +459,6 @@ class Payment extends React.Component {
     return dict.filter((c) => c.id === cityId).length
       ? dict.filter((c) => c.id === cityId)[0].cityName
       : cityId;
-  }
-  sendIsReadPrivacyPolicy = (e) => {
-    this.setState({
-      isReadPrivacyPolicy: e
-    });
-  };
-  sendIsShipTracking = (e) => {
-    this.setState({
-      isShipTracking: e
-    });
-  };
-  sendIsNewsLetter = (e) => {
-    this.setState({
-      IsNewsLetter: e
-    });
-  };
-  //是否勾选私人政策
-  isTestPolicy() {
-    if (!this.state.isReadPrivacyPolicy) {
-      throw new Error(this.props.intl.messages.policyFalse);
-    }
-  }
-
-  //是否同意运货追踪
-  isShipTrackingFun() {
-    if (!this.state.isShipTracking) {
-      throw new Error(this.props.intl.messages.shipmentTrackingFalse);
-    }
-  }
-  //是否同意通讯
-  isNewsLetterFun() {
-    if (!this.state.IsNewsLetter) {
-      throw new Error(this.props.intl.messages.newsletterFalse);
-    }
   }
   showErrorMsg = (msg) => {
     this.setState({
@@ -535,8 +507,8 @@ class Payment extends React.Component {
       const checkout = new AdyenCheckout({
         environment: 'test',
         originKey: process.env.REACT_APP_AdyenOriginKEY,
-        // originKey:
-        //   'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
+        //  originKey:
+        //    'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
         locale: process.env.REACT_APP_Adyen_locale
       });
 
@@ -545,22 +517,17 @@ class Payment extends React.Component {
         .create('card', {
           hasHolderName: true,
           holderNameRequired: true,
-          enableStoreDetails: false,
+          enableStoreDetails: true,
           styles: {},
           placeholders: {},
           showPayButton: false,
           brands: ['mc', 'visa', 'amex', 'cartebancaire'],
           onSubmit: (state, component) => {
+            //console.log(JSON.stringify(state))
             if (state.isValid) {
               //勾选条款验证
               try {
-                let isAllChecked = this.state.requiredList.every(item=>item.isChecked)
-                  if(!isAllChecked){
-                    throw new Error('agreement failed');
-                }
-                //this.isTestPolicy();
-                //this.isShipTrackingFun();
-                //this.isNewsLetterFun();
+                this.isConsentRequiredChecked()
                 let adyenPayParam = getAdyenParam(card.data);
                 this.setState(
                   {
@@ -584,26 +551,13 @@ class Payment extends React.Component {
   adyenSubmit() {
     this.state.adyenComp.submit()
   }
-  //支付2.初始化KlarnaPayLater
-  initKlarnaPayLater = (email) => {
-    this.doGetAdyenPayParam('adyen_klarna_pay_lat');
+  //payLater,payNow,sofort支付公共初始化方法
+  initCommonPay = ({email,type}) => {
+    this.doGetAdyenPayParam(type);
     this.setState({
       email
     });
-  };
-
-  //支付3,初始化KlarnaPayNow
-  initKlarnaPayNow = (email) => {
-    this.doGetAdyenPayParam('adyen_klarna_pay_now');
-    this.setState({
-      email
-    });
-  };
-
-  //支付4，初始化sofort
-  initSofort = () => {
-    this.doGetAdyenPayParam('sofort');
-  };
+  }
 
   initPayUCreditCard = () => {
     this.doGetAdyenPayParam('payu_credit_card');
@@ -1565,15 +1519,10 @@ class Payment extends React.Component {
               </span>
             </p>
             <div id="card-container" class="payment-method__container"></div>
-            {/* <Terms
-              sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy}
-              sendIsShipTracking={this.sendIsShipTracking}
-              sendIsNewsLetter={this.sendIsNewsLetter}
-            /> */}
             <TermsCommon 
               id={'adyenCreditCard'}
               listData = {this.state.listData}
-              checkRequiredItem = {this.checkRequiredItem} val={1}/>
+              checkRequiredItem = {this.checkRequiredItem}/>
           </div>
         </div>
         {/* KlarnaPayLater */}
@@ -1582,9 +1531,10 @@ class Payment extends React.Component {
             this.state.paymentTypeVal === 'adyenKlarnaPayLater' ? '' : 'hidden'
           }`}
         >
-          <KlarnaPayLater
+          <AdyenCommonPay
+            type={'adyen_klarna_pay_lat'}
             listData={this.state.listData}
-            clickPay={this.initKlarnaPayLater}
+            clickPay={this.initCommonPay}
             showErrorMsg={this.showErrorMsg}
           />
         </div>
@@ -1594,9 +1544,10 @@ class Payment extends React.Component {
             this.state.paymentTypeVal === 'adyenKlarnaPayNow' ? '' : 'hidden'
           }`}
         >
-          <KlarnaPayNow
+          <AdyenCommonPay
+            type={'adyen_klarna_pay_now'}
             listData={this.state.listData}
-            clickPay={this.initKlarnaPayNow}
+            clickPay={this.initCommonPay}
             showErrorMsg={this.showErrorMsg}
           />
         </div>
@@ -1606,7 +1557,12 @@ class Payment extends React.Component {
             this.state.paymentTypeVal === 'directEbanking' ? '' : 'hidden'
           }`}
         >
-          <Sofort listData={this.state.listData} clickPay={this.initSofort} showErrorMsg={this.showErrorMsg} />
+
+          <AdyenCommonPay 
+          type={'sofort'}
+          listData={this.state.listData} 
+          clickPay={this.initCommonPay} 
+          showErrorMsg={this.showErrorMsg} />
         </div>
         {/* ***********************支付选项卡的内容end******************************* */}
       </>
