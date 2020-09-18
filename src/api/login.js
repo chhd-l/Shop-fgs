@@ -39,7 +39,7 @@ export function getToken (parameter) {
 export function doLogout () {
   return axios({
     url: api.logout,
-    method: 'post'
+    method: 'get'
   })
 }
 

@@ -11,19 +11,22 @@ import { getList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { getPrescriptionById, getPrescriberByEncryptCode } from '@/api/clinic';
 import { setBuryPoint } from '@/api';
+import { doLogout } from '@/api/login';
 import LoginButton from '@/components/LoginButton';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import DropDownMenu from './modules/DropDownMenu';
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
+import { withOktaAuth } from '@okta/okta-react';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('loginStore', 'clinicStore', 'configStore')
+@inject('loginStore', 'clinicStore', 'configStore', 'checkoutStore')
 @observer // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
+@injectIntl
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
@@ -72,10 +75,8 @@ class Header extends React.Component {
   }
   async componentDidMount() {
     if (sessionItemRoyal.get('rc-token-lose')) {
-      document.querySelector('#J-btn-logoff') &&
-        document.querySelector('#J-btn-logoff').click();
-      document.querySelector('#J-btn-login') &&
-        document.querySelector('#J-btn-login').click();
+      this.handleLogout();
+      return false;
     }
 
     window.addEventListener('click', (e) => this.hideMenu(e));
@@ -159,6 +160,28 @@ class Header extends React.Component {
       })()
     );
   }
+  /**
+   * token过期时，主动登出
+   */
+  handleLogout = async () => {
+    const { loginStore, checkoutStore, authService } = this.props;
+    try {
+      sessionItemRoyal.remove('rc-token-lose');
+      loginStore.changeLoginModal(true);
+      localItemRoyal.remove('rc-token');
+      loginStore.removeUserInfo();
+      checkoutStore.removeLoginCartData();
+      await authService.logout(process.env.REACT_APP_HOMEPAGE);
+      setTimeout(async () => {
+        loginStore.changeLoginModal(false);
+        await authService.login(process.env.REACT_APP_HOMEPAGE);
+      }, 1000);
+    } catch (e) {
+      console.log(e);
+      loginStore.changeLoginModal(false);
+      // window.location.reload();
+    }
+  };
   handleScroll(e) {
     let baseEl = document.querySelector('#J_sidecart_container');
     if (!baseEl) {
@@ -977,4 +1000,4 @@ class Header extends React.Component {
   }
 }
 
-export default injectIntl(Header, { forwardRef: true });
+export default withOktaAuth(Header);
