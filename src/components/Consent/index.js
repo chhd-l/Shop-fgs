@@ -17,8 +17,7 @@ class Consent extends Component {
         const list = this.props.list
         const width = this.props.width //默认consent的宽度为500
         const disabled = this.props.disabled || false
-        const zoom = this.props.zoom || '100%'
-        debugger
+        const zoom = this.props.zoom || '120%'
         //组件传参end
         const createMarkup = (text) => ({ __html: text });
         return (
