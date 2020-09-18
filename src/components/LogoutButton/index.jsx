@@ -42,17 +42,18 @@ const LogoutButton = () => {
     
   }
   const clickLogoff = () => {
-    // try {
-    //   doLogout().then(res => {
-        
-    //   })
-    // }
     loginStore.changeLoginModal(true)
-    localItemRoyal.remove("rc-token");
-    loginStore.removeUserInfo()
-    checkoutStore.removeLoginCartData()
-    logout(process.env.REACT_APP_HOMEPAGE)
-    
+    doLogout().then(res => {
+      localItemRoyal.remove("rc-token");
+      loginStore.removeUserInfo()
+      checkoutStore.removeLoginCartData()
+      logout(process.env.REACT_APP_HOMEPAGE)
+    }).catch(err => {
+      localItemRoyal.remove("rc-token");
+      loginStore.removeUserInfo()
+      checkoutStore.removeLoginCartData()
+      logout(process.env.REACT_APP_HOMEPAGE)
+    })
   }
   return (
     <div className="logoff-style">
