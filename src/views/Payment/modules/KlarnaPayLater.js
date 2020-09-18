@@ -3,16 +3,14 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
-import Terms from '../Terms/index';
+import TermsCommon from '../Terms/common';
 
 class KlarnaPayLater extends Component {
   constructor(props) {
     super(props);
     this.state = {
       text: '',
-      isReadPrivacyPolicy: false,
-      isShipTracking: false,
-      IsNewsLetter: false
+      requiredList:[]
     };
   }
   //是否填写邮箱正确
@@ -22,32 +20,28 @@ class KlarnaPayLater extends Component {
       throw new Error(this.props.intl.messages.emailFormatFalse);
     }
   }
-  //是否勾选私人政策
-  isTestPolicy() {
-    if (!this.state.isReadPrivacyPolicy) {
-      throw new Error(this.props.intl.messages.policyFalse);
-    }
+
+  //是否consent必填项勾选
+  isConsentRequiredChecked(){
+    let isAllChecked = this.state.requiredList.every(item=>item.isChecked)
+      if(!isAllChecked){
+        throw new Error(this.props.intl.messages.CompleteRequiredItems);
+      }
   }
 
-  //是否同意运货追踪
-  isShipTrackingFun() {
-    if (!this.state.isShipTracking) {
-      throw new Error(this.props.intl.messages.shipmentTrackingFalse);
-    }
-  }
-  //是否同意通讯
-  isNewsLetterFun() {
-    if (!this.state.IsNewsLetter) {
-      throw new Error(this.props.intl.messages.newsletterFalse);
-    }
+  checkRequiredItem = (list) => {
+    let requiredList =  list.filter(item=>item.isRequired)
+    this.setState({
+      requiredList
+    },()=>{
+      console.log({requiredList: this.state.requiredList})
+    })
   }
 
   clickPay = () => {
     try {
-      this.isTestPolicy();
-      this.isShipTrackingFun();
-      //this.isNewsLetterFun();
       this.isTestMail();
+      this.isConsentRequiredChecked()
       this.props.clickPay(this.state.text);
     } catch (err) {
       this.props.showErrorMsg(err.message);
@@ -58,21 +52,9 @@ class KlarnaPayLater extends Component {
       text: e.target.value
     });
   };
-  sendIsReadPrivacyPolicy = (e) => {
-    this.setState({
-      isReadPrivacyPolicy: e
-    });
-  };
-  sendIsShipTracking = (e) => {
-    this.setState({
-      isShipTracking: e
-    });
-  };
-  sendIsNewsLetter = (e) => {
-    this.setState({
-      IsNewsLetter: e
-    });
-  };
+  componentWillReceiveProps (nextProps) {
+    this.checkRequiredItem(nextProps.listData)
+  }
   render() {
     return (
       <div className="checkout--padding">
@@ -116,11 +98,10 @@ class KlarnaPayLater extends Component {
           </div>
         </div>
         <div>
-          <Terms
-            sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy}
-            sendIsShipTracking={this.sendIsShipTracking}
-            sendIsNewsLetter={this.sendIsNewsLetter}
-          />
+          <TermsCommon 
+              id={'payLater'}
+              listData = {this.props.listData}
+              checkRequiredItem = {this.checkRequiredItem}/>
         </div>
       </div>
     );

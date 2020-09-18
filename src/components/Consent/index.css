@@ -1,0 +1,20 @@
+/* 组件 */
+.required-component .footer-checkbox-title p{
+    margin-bottom: 5px;
+  }
+  .required-component .footer-checkbox-title p span{
+    color:#000!important;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+  }
+  .required-component .footer-checkbox-title p a{
+    color:#E2001A;
+  }
+  .required-component .Checkbox-detail p{
+    font-size: 12px;
+    text-align: justify;
+  }
+  .required-component .Checkbox-detail p a{
+    color:#E2001A;
+  }

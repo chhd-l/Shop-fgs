@@ -37,6 +37,7 @@ import KlarnaPayLater from './modules/KlarnaPayLater';
 import KlarnaPayNow from './modules/KlarnaPayNow';
 import Sofort from './modules/Sofort';
 import Terms from './Terms/index';
+import TermsCommon from './Terms/common';
 
 import { getAdyenParam } from './Adyen/utils';
 import { getOrderDetails } from '@/api/order';
@@ -123,12 +124,21 @@ class Payment extends React.Component {
       tid: sessionItemRoyal.get('rc-tid'),
       recommend_data: [],
       listData: [],
+      requiredList:[],
       adyenComp: null
     };
     this.timer = null;
     this.loginDeliveryAddressRef = React.createRef();
     this.loginBillingAddressRef = React.createRef();
     this.lang = process.env.REACT_APP_LANG;
+  }
+  checkRequiredItem = (list) => {
+    let requiredList =  list.filter(item=>item.isRequired)
+    this.setState({
+      requiredList
+    },()=>{
+      console.log({requiredList: this.state.requiredList})
+    })
   }
   //总的调用consense接口
   getConsentList() {
@@ -544,8 +554,12 @@ class Payment extends React.Component {
             if (state.isValid) {
               //勾选条款验证
               try {
-                this.isTestPolicy();
-                this.isShipTrackingFun();
+                let isAllChecked = this.state.requiredList.every(item=>item.isChecked)
+                  if(!isAllChecked){
+                    throw new Error('agreement failed');
+                }
+                //this.isTestPolicy();
+                //this.isShipTrackingFun();
                 //this.isNewsLetterFun();
                 let adyenPayParam = getAdyenParam(card.data);
                 this.setState(
@@ -1551,11 +1565,15 @@ class Payment extends React.Component {
               </span>
             </p>
             <div id="card-container" class="payment-method__container"></div>
-            <Terms
+            {/* <Terms
               sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy}
               sendIsShipTracking={this.sendIsShipTracking}
               sendIsNewsLetter={this.sendIsNewsLetter}
-            />
+            /> */}
+            <TermsCommon 
+              id={'adyenCreditCard'}
+              listData = {this.state.listData}
+              checkRequiredItem = {this.checkRequiredItem} val={1}/>
           </div>
         </div>
         {/* KlarnaPayLater */}
@@ -1565,6 +1583,7 @@ class Payment extends React.Component {
           }`}
         >
           <KlarnaPayLater
+            listData={this.state.listData}
             clickPay={this.initKlarnaPayLater}
             showErrorMsg={this.showErrorMsg}
           />
@@ -1576,6 +1595,7 @@ class Payment extends React.Component {
           }`}
         >
           <KlarnaPayNow
+            listData={this.state.listData}
             clickPay={this.initKlarnaPayNow}
             showErrorMsg={this.showErrorMsg}
           />
@@ -1586,7 +1606,7 @@ class Payment extends React.Component {
             this.state.paymentTypeVal === 'directEbanking' ? '' : 'hidden'
           }`}
         >
-          <Sofort clickPay={this.initSofort} showErrorMsg={this.showErrorMsg} />
+          <Sofort listData={this.state.listData} clickPay={this.initSofort} showErrorMsg={this.showErrorMsg} />
         </div>
         {/* ***********************支付选项卡的内容end******************************* */}
       </>
