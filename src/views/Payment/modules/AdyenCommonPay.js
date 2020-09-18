@@ -5,12 +5,13 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 // import store from "storejs";
 import TermsCommon from '../Terms/common';
 
-class Sofort extends Component {
+class AdyenCommonPay extends Component {
   constructor(props) {
     super(props);
     this.state = {
       text: '',
-      requiredList: []
+      requiredList:[],
+      type:''
     };
   }
   //是否填写邮箱正确
@@ -42,7 +43,7 @@ class Sofort extends Component {
     try {
       this.isTestMail();
       this.isConsentRequiredChecked()
-      this.props.clickPay(this.state.text);
+      this.props.clickPay({email:this.state.text,type:this.state.type});
     } catch (err) {
       this.props.showErrorMsg(err.message);
     }
@@ -52,6 +53,12 @@ class Sofort extends Component {
       text: e.target.value
     });
   };
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+        type:nextProps.type
+    })
+    this.checkRequiredItem(nextProps.listData)
+  }
   render() {
     return (
       <div className="checkout--padding">
@@ -77,7 +84,11 @@ class Sofort extends Component {
                 </div>
               </div>
             </form>
-            <div class="payment-container">
+            <TermsCommon 
+              id={'payLater'}
+              listData = {this.props.listData}
+              checkRequiredItem = {this.checkRequiredItem}/>
+            <div class="payment-container" style={{ 'max-width': 'auto',marginTop:'10px' }}>
               <div id="klarna" class="payment">
                 <button
                   className="adyen-checkout__button adyen-checkout__button--standalone adyen-checkout__button--pay"
@@ -86,7 +97,7 @@ class Sofort extends Component {
                 >
                   <span className="adyen-checkout__button__content">
                     <span className="adyen-checkout__button__text">
-                    Weiter mit KlarnaSofort.
+                    Weiter mit KlarnaPayLater
                     </span>
                   </span>
                 </button>
@@ -94,13 +105,11 @@ class Sofort extends Component {
             </div>
           </div>
         </div>
-        <TermsCommon 
-              id={'sofort'}
-              listData = {this.props.listData}
-              checkRequiredItem = {this.checkRequiredItem}/>
+        <div>
+        </div>
       </div>
     );
   }
 }
 
-export default injectIntl(Sofort);
+export default injectIntl(AdyenCommonPay);
