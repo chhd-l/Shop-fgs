@@ -868,20 +868,19 @@ class List extends React.Component {
             </section>
           </div>
         </main>
-        {process.env.REACT_APP_LANG === 'de' && (
-          <div className="notate ml-2 mb-2">
-            <FormattedMessage
-              id="notate"
-              values={{
-                val: (
-                  <Link className="rc-styled-link" to="/FAQ/all">
-                    Versandkosten
-                  </Link>
-                )
-              }}
-            />
-          </div>
-        )}
+        <div className="notate ml-2 mb-2">
+          <FormattedMessage
+            id="notate"
+            values={{
+              val: (
+                <Link className="rc-styled-link" to="/FAQ/all">
+                  Versandkosten
+                </Link>
+              )
+            }}
+            defaultMessage={' '}
+          />
+        </div>
 
         <Footer />
       </div>

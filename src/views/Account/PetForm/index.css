@@ -183,7 +183,7 @@ h2{
 }
 .select-breed{
   width: 310px;
-  max-height: 100px;
+  max-height: 150px;
   margin: 0 auto;
   text-align: left;
   position: absolute;
@@ -191,7 +191,8 @@ h2{
   background-color: #ffffff;
   left: 0;
   right: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .petPropChecked:after {
   background-position: 18.18% 100%;

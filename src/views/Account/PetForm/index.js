@@ -1,5 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -10,16 +11,37 @@ import './index.css';
 import dog from '@/assets/images/animal-1.jpg';
 import cat from '@/assets/images/animal-2.jpg';
 import success from '@/assets/images/check-success.svg';
-import { Link } from 'react-router-dom';
 import edit from '@/assets/images/edit.svg';
 import { getPetList, addPet, petsById, delPets, editPets } from '@/api/pet';
 import Loading from '@/components/Loading';
 import { getDictionary } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
+import es from 'date-fns/locale/es';
+import de from 'date-fns/locale/de';
+
+const lang = process.env.REACT_APP_LANG;
+
+switch (lang) {
+  case 'de':
+    registerLocale('de', de);
+    break;
+  case 'es':
+    registerLocale('es', es);
+    break;
+}
+
+const datePickerCfg = {
+  es: { format: 'yyyy-MM-dd', locale: 'es' },
+  de: { format: 'dd.MM.yyyy', locale: 'de' },
+  default: { format: 'yyyy-MM-dd', locale: '' }
+};
+
+const curDatePickerCfg =
+  datePickerCfg[process.env.REACT_APP_LANG] || datePickerCfg.default;
 
 const selectedPet = {
   border: '3px solid #ec001a'
@@ -66,7 +88,9 @@ class PetForm extends React.Component {
       currentPet: {},
       isEdit: false,
       errorMsg: '',
-      successMsg: ''
+      successMsg: '',
+      breedListLoading: false,
+      showBreedListNoneTip: false
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -91,8 +115,6 @@ class PetForm extends React.Component {
 
     getDictionary({ type: 'dogSize' })
       .then((res) => {
-        console.log(res);
-
         this.setState({
           sizeArr: res
         });
@@ -104,7 +126,6 @@ class PetForm extends React.Component {
       });
     getDictionary({ type: 'specialNeeds' })
       .then((res) => {
-        console.log(res);
         this.setState({
           specialNeeds: res
         });
@@ -114,33 +135,6 @@ class PetForm extends React.Component {
           err.toString() || this.props.intl.messages.getDataFailed
         );
       });
-
-    try {
-      let timer = setInterval(() => {
-        const datePickerOptions = {
-          maxDate: new Date()
-          // todo
-        };
-        if (
-          window.RCDL.features.Datepickers &&
-          document.querySelector('.birthdate')
-        ) {
-          document
-            .querySelector('.birthdate')
-            .setAttribute('datepicker-setup', 'false');
-          window.RCDL.features.Datepickers.init(
-            '.birthdate',
-            null,
-            datePickerOptions
-          );
-          clearInterval(timer);
-        }
-      }, 1000);
-    } catch (e) {
-      console.log(e);
-    }
-
-    // window.RCDL.features.Datepickers.init('birthday', null, datePickerOptions);
   }
   getUserInfo() {
     return this.props.loginStore.userInfo;
@@ -443,12 +437,33 @@ class PetForm extends React.Component {
       breed: e.target.value,
       isDisabled: isDisabled,
       isUnknownDisabled: isUnknownDisabled,
-      showBreedList: showBreedList
+      showBreedList: showBreedList,
+      breedListLoading: true,
+      breedList: []
     });
-    this.getDict(
-      this.state.isCat ? 'catBreed_mx' : 'dogBreed_mx',
-      e.target.value
-    );
+
+    getDict({
+      type: this.state.isCat ? 'catBreed_mx' : 'dogBreed_mx',
+      name: e.target.value
+    })
+      .then((res) => {
+        this.setState({
+          breedList: res.context.sysDictionaryVOS,
+          breedListLoading: false,
+          showBreedListNoneTip: !res.context.sysDictionaryVOS.length
+        });
+      })
+      .catch((err) => {
+        this.showErrorMsg(
+          err.toString() || this.props.intl.messages.getDataFailed
+        );
+        this.setState({ breedListLoading: false, showBreedListNoneTip: true });
+      });
+
+    // this.getDict(
+    //   this.state.isCat ? 'catBreed_mx' : 'dogBreed_mx',
+    //   e.target.value
+    // );
   };
   selectWeight(val) {
     this.setState({
@@ -564,15 +579,10 @@ class PetForm extends React.Component {
     this.setState({ loading: true });
     getDict({ type, name })
       .then((res) => {
-        if (res.code === 'K-000000') {
-          this.setState({
-            breedList: res.context.sysDictionaryVOS,
-            loading: false
-          });
-        } else
-          this.showErrorMsg(
-            res.message || this.props.intl.messages.getDataFailed
-          );
+        this.setState({
+          breedList: res.context.sysDictionaryVOS,
+          loading: false
+        });
       })
       .catch((err) => {
         this.showErrorMsg(
@@ -949,8 +959,10 @@ class PetForm extends React.Component {
                       className="section next-step not-hidden col-lg-9 col-12"
                     >
                       <h2>
-                        <FormattedMessage id="account.breed"></FormattedMessage>{' '}
-                        {this.state.nickname}?
+                        <FormattedMessage
+                          id="account.breed"
+                          values={{ val: this.state.nickname }}
+                        />
                       </h2>
                       <div className="content-section">
                         <div className="form-group relative">
@@ -982,25 +994,45 @@ class PetForm extends React.Component {
                             disabled={
                               this.state.isInputDisabled ? 'disabled' : null
                             }
+                            onBlur={() => {
+                              this.setState({ showBreedListNoneTip: false });
+                            }}
                           />
 
                           <div
-                            className="select-breed"
-                            style={{
-                              display: this.state.showBreedList
-                                ? 'block'
-                                : 'none'
-                            }}
+                            className={`select-breed ${
+                              this.state.showBreedList ? '' : 'hidden'
+                            }`}
                           >
-                            {this.state.breedList.map((item) => (
+                            {this.state.breedListLoading ? (
+                              <div className="m-1">
+                                <Skeleton
+                                  color="#f5f5f5"
+                                  width="95%"
+                                  count={2}
+                                />
+                              </div>
+                            ) : null}
+                            {this.state.breedList.map((item, i) => (
                               <option
                                 value={item.value}
                                 key={item.id}
+                                className={`pl-2 pr-1 ui-cursor-pointer ${
+                                  i !== this.state.breedList.length - 1
+                                    ? 'border-bottom'
+                                    : ''
+                                }`}
                                 onClick={() => this.selectedBreed(item)}
+                                style={{ whiteSpace: 'initial' }}
                               >
                                 {item.name}
                               </option>
                             ))}
+                            {this.state.showBreedListNoneTip && (
+                              <span className="pl-2">
+                                <FormattedMessage id="searchNoBreed" />
+                              </span>
+                            )}
                           </div>
                         </div>
 
@@ -1042,8 +1074,10 @@ class PetForm extends React.Component {
                   {this.state.currentStep === 'step5' ? (
                     <div id="step-5" className="section next-step">
                       <h2>
-                        <FormattedMessage id="account.weight"></FormattedMessage>{' '}
-                        {this.state.nickname} ?
+                        <FormattedMessage
+                          id="account.weight"
+                          values={{ val: this.state.nickname }}
+                        />
                       </h2>
                       <div className="group-size" style={{ width: '100%' }}>
                         {this.state.sizeArr.map((item, i) => (
@@ -1176,7 +1210,8 @@ class PetForm extends React.Component {
                       <DatePicker
                         className="receiveDate"
                         placeholder="Select Date"
-                        dateFormat="yyyy-MM-dd"
+                        dateFormat={curDatePickerCfg.format}
+                        locale={curDatePickerCfg.locale}
                         maxDate={new Date()}
                         selected={
                           this.state.birthdate
@@ -1206,7 +1241,7 @@ class PetForm extends React.Component {
                   {this.state.currentStep === 'step8' ? (
                     <div id="step-8" className="section next-step not-hidden">
                       <h2>
-                        <FormattedMessage id="account.features"></FormattedMessage>
+                        <FormattedMessage id="account.features" />
                       </h2>
                       <div style={{ width: '88%', margin: '0 auto' }}>
                         {this.state.specialNeeds.map((item, i) => (
@@ -1296,15 +1331,13 @@ class PetForm extends React.Component {
                       <img
                         src={success}
                         className="img-success"
-                        alt=""
-                        title=""
                         style={{ margin: '0 auto' }}
                       />
                       <div className="text-done">
-                        <FormattedMessage id="account.fine"></FormattedMessage>{' '}
+                        <FormattedMessage id="account.fine" />
                       </div>
                       <div className="text-done">
-                        <FormattedMessage id="account.welcome"></FormattedMessage>{' '}
+                        <FormattedMessage id="account.welcome" defaultMessage={' '} />
                       </div>
                     </div>
                   ) : null}
