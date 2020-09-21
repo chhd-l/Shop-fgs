@@ -43,7 +43,7 @@ class TermsCommon extends Component {
   }
   render() {
     return (
-      <div className="required-wrap" id={`${this.props.id}`} style={{marginTop:'10px',marginLeft: '20px'}}>
+      <div className="required-wrap" id={`${this.props.id}`} style={{marginTop:'10px',marginLeft: '25px'}}>
         {/* checkbox组 */}
         <Consent list={this.state.list} sendList={this.sendList}/>
       </div>

@@ -11,7 +11,13 @@ class AdyenCommonPay extends Component {
     this.state = {
       text: '',
       requiredList:[],
-      type:''
+      type:'',
+      btnName: '',
+      btnNameObj:{
+          'adyen_klarna_pay_lat': 'Weiter mit KlarnaPayLater',
+          'adyen_klarna_pay_now': 'Weiter mit KlarnaPayNow',
+          'sofort': 'Weiter mit KlarnaSofort',
+      }
     };
   }
   //是否填写邮箱正确
@@ -56,6 +62,9 @@ class AdyenCommonPay extends Component {
   componentWillReceiveProps (nextProps) {
     this.setState({
         type:nextProps.type
+    },()=>{
+        const btnName = this.state.btnNameObj[this.state.type]
+        this.setState({btnName})
     })
     this.checkRequiredItem(nextProps.listData)
   }
@@ -85,7 +94,7 @@ class AdyenCommonPay extends Component {
               </div>
             </form>
             <TermsCommon 
-              id={'payLater'}
+              id={this.props.type}
               listData = {this.props.listData}
               checkRequiredItem = {this.checkRequiredItem}/>
             <div class="payment-container" style={{ 'max-width': 'auto',marginTop:'10px' }}>
@@ -97,7 +106,7 @@ class AdyenCommonPay extends Component {
                 >
                   <span className="adyen-checkout__button__content">
                     <span className="adyen-checkout__button__text">
-                    Weiter mit KlarnaPayLater
+                    {this.state.btnName}
                     </span>
                   </span>
                 </button>

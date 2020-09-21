@@ -16,6 +16,8 @@ class Consent extends Component {
         //组件传参start
         const list = this.props.list
         const width = this.props.width //默认consent的宽度为500
+        const disabled = this.props.disabled || false
+        const zoom = this.props.zoom || '120%'
         //组件传参end
         const createMarkup = (text) => ({ __html: text });
         return (
@@ -31,11 +33,13 @@ class Consent extends Component {
                             return (
                                 <div id={index} style={{ display: 'flex' }}>
                                     <input
+                                        style={{zoom:zoom}}
                                         className="form-check-input ui-cursor-pointer-pure"
                                         id="id-checkbox-cat-2"
                                         value=""
                                         type="checkbox"
                                         name="checkbox-2"
+                                        disabled={disabled}
                                         onChange={() => {
                                             //勾选checkbox
                                             let itemObj = Object.assign(item, {
@@ -52,8 +56,8 @@ class Consent extends Component {
                                             <div className="d-flex">
                                                 <div className="rc-text-colour--brand1" style={{ width: '20px' }}>{item.isRequired ? '*' : ''}</div>
                                                 <div
-                                                    className="footer-checkbox-title"
-                                                    style={{ width: `${width}px` }}
+                                                    className = {zoom=='150%'?'footer-checkbox-title mt':'footer-checkbox-title'}
+                                                    style={{ width: `${width}px`}}
                                                     dangerouslySetInnerHTML={createMarkup(
                                                         item.consentTitle
                                                     )}
