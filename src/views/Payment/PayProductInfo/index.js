@@ -5,6 +5,7 @@ import { inject, observer } from 'mobx-react';
 import { find } from 'lodash';
 import { formatMoney } from '@/utils/utils';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('checkoutStore', 'loginStore')
 @observer
 class PayProductInfo extends React.Component {
@@ -38,31 +39,34 @@ class PayProductInfo extends React.Component {
     //       this.setState({isShowValidCode:false})
     //     }
     // console.log(nextProps, 'props2')
-    let productList
-    if(JSON.stringify(nextProps.data) !== JSON.stringify(this.state.productList) && this.props.data.length) {
-      console.log(nextProps, 'nextProp')
-      productList = nextProps.data
+    let productList;
+    if (
+      JSON.stringify(nextProps.data) !==
+        JSON.stringify(this.state.productList) &&
+      this.props.data.length
+    ) {
+      console.log(nextProps, 'nextProp');
+      productList = nextProps.data;
       this.setState(
         Object.assign({
           productList: productList || []
         })
       );
     }
-    
   }
   async componentDidMount() {
     let productList;
-    console.log(this.props, 'props')
-    if(this.props.data.length) {
-      productList = this.props.data
-    }else if (this.isLogin) {
+    console.log(this.props, 'props');
+    if (this.props.data.length) {
+      productList = this.props.data;
+    } else if (this.isLogin) {
       productList = this.props.checkoutStore.loginCartData;
     } else {
       productList = this.props.checkoutStore.cartData.filter(
         (ele) => ele.selected
       );
     }
-    console.log(productList, 'productList111')
+    console.log(productList, 'productList111');
     this.setState(
       Object.assign({
         productList: productList || []
@@ -105,6 +109,7 @@ class PayProductInfo extends React.Component {
                   <div
                     className="line-item-name ui-text-overflow-line2 text-break"
                     title={el.goodsName}
+                    onClick={() => this.handleClickProName(el)}
                   >
                     <span className="light">{el.goodsName}</span>
                   </div>
@@ -146,6 +151,17 @@ class PayProductInfo extends React.Component {
       this.props.buyWay === 'frequency'
     );
   }
+  handleClickProName = (item) => {
+    sessionItemRoyal.set(
+      'rc-goods-cate-name',
+      (item.goodsCategory.split('/') && item.goodsCategory.split('/')[1]) || ''
+    );
+    sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
+    sessionItemRoyal.set('rc-goods-name', item.goodsName);
+    this.props.history.push(
+      `/details/${this.isLogin ? item.goodsInfoId : item.sizeList[0].goodsInfoId}`
+    );
+  };
   getProductsForLogin(plist) {
     const List = plist.map((el, i) => {
       return (
@@ -160,6 +176,7 @@ class PayProductInfo extends React.Component {
                   <div
                     className="line-item-name ui-text-overflow-line2 text-break"
                     title={el.goodsName}
+                    onClick={() => this.handleClickProName(el)}
                   >
                     <span className="light">{el.goodsName}</span>
                   </div>
@@ -255,10 +272,11 @@ class PayProductInfo extends React.Component {
   sideCart({ className = '', style = {}, id = '' } = {}) {
     const { productList, discount } = this.state;
     const { checkoutStore } = this.props;
-    const List = this.isLogin || this.props.data.length
-      ? this.getProductsForLogin(productList)
-      : this.getProducts(productList);
-      console.log(productList, 'productList111')
+    const List =
+      this.isLogin || this.props.data.length
+        ? this.getProductsForLogin(productList)
+        : this.getProducts(productList);
+    console.log(productList, 'productList111');
     return (
       <div
         className={`product-summary__inner ${className}`}
@@ -501,7 +519,7 @@ class PayProductInfo extends React.Component {
             </div>
           </div>
           <div className="product-summary__total grand-total row leading-lines checkout--padding border-top">
-            <div className="col-6 start-lines order-receipt-label">
+            <div className="col-6 start-lines">
               <span>
                 <FormattedMessage id="totalIncluIVA" />
               </span>

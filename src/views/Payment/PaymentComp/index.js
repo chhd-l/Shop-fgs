@@ -418,6 +418,7 @@ class PaymentComp extends React.Component {
       }
       if (
         k === 'email' &&
+        creditCardInfoForm[k] &&
         !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(
           creditCardInfoForm[k].replace(/\s*/g, '')
         )

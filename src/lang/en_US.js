@@ -5,7 +5,7 @@ const en_US = {
   "account.addPet": "Add Pet",
   "account.basicInfomation": "Basic Infomation",
   "account.birthDate": "Date of Birth",
-  "account.breed": "What breed",
+  "account.breed": "What breed {val}?",
   "account.cat": "Cat",
   "account.catOrDog": "Do you have a cat or dog?",
   "account.dateTip": "Please select a past date.",
@@ -46,7 +46,7 @@ const en_US = {
   "account.toComeIn": "To come in",
   "account.unknownBreed": "Unknown breed",
   "account.warmNotice": "Here you can manage your profile, edit pet information, shipping address and payment method, check status on orders and subscriptions.",
-  "account.weight": "What is the weight of an adult dog of your breed",
+  "account.weight": "What is the weight of an adult dog of your breed {val}?",
   "account.welcome": "Welcome to the ROYAL CANIN® family!",
   active: "Active",
   addNewCreditCard: "Add new credit card",
@@ -630,7 +630,9 @@ const en_US = {
   'paymethods.info':"You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!",
   'paymethods.btn':'Add Payment',
   'consent':'Consent',
-  changeAnotherCard: 'Please change to another card and try again'
+  changeAnotherCard: 'Please change to another card and try again',
+  requiredConsentCheckedTip: 'Please confirm the mandatory fields by ticking the box.',
+  searchNoBreed: 'not a pedigree'
 }
 
 export default en_US;

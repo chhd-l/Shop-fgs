@@ -121,7 +121,7 @@ class Payment extends React.Component {
       tid: sessionItemRoyal.get('rc-tid'),
       recommend_data: [],
       listData: [],
-      requiredList:[],
+      requiredList: [],
       adyenComp: null
     };
     this.timer = null;
@@ -130,13 +130,16 @@ class Payment extends React.Component {
     this.lang = process.env.REACT_APP_LANG;
   }
   checkRequiredItem = (list) => {
-    let requiredList =  list.filter(item=>item.isRequired)
-    this.setState({
-      requiredList
-    },()=>{
-      console.log({requiredList: this.state.requiredList})
-    })
-  }
+    let requiredList = list.filter((item) => item.isRequired);
+    this.setState(
+      {
+        requiredList
+      },
+      () => {
+        console.log({ requiredList: this.state.requiredList });
+      }
+    );
+  };
   //总的调用consense接口
   getConsentList() {
     this.isLogin
@@ -157,11 +160,14 @@ class Payment extends React.Component {
   }
   //重新组装listData
   rebindListData(listData) {
-    this.setState({
-      listData
-    },()=>{
-      this.checkRequiredItem(listData)
-    });
+    this.setState(
+      {
+        listData
+      },
+      () => {
+        this.checkRequiredItem(listData);
+      }
+    );
   }
   //判断consent接口是否存在项目
   isExistListFun(result) {
@@ -429,11 +435,11 @@ class Payment extends React.Component {
     return process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true';
   }
   //是否consent必填项勾选
-  isConsentRequiredChecked(){
-    let isAllChecked = this.state.requiredList.every(item=>item.isChecked)
-      if(!isAllChecked){
-        throw new Error(this.props.intl.messages.CompleteRequiredItems);
-      }
+  isConsentRequiredChecked() {
+    let isAllChecked = this.state.requiredList.every((item) => item.isChecked);
+    if (!isAllChecked) {
+      throw new Error(this.props.intl.messages.CompleteRequiredItems);
+    }
   }
   queryOrderDetails() {
     getOrderDetails(this.state.tid).then(async (res) => {
@@ -523,11 +529,11 @@ class Payment extends React.Component {
           showPayButton: false,
           brands: ['mc', 'visa', 'amex', 'cartebancaire'],
           onSubmit: (state, component) => {
-            console.log(JSON.stringify(state))
+            console.log(JSON.stringify(state));
             if (state.isValid) {
               //勾选条款验证
               try {
-                this.isConsentRequiredChecked()
+                this.isConsentRequiredChecked();
                 let adyenPayParam = getAdyenParam(card.data);
                 this.setState(
                   {
@@ -545,19 +551,19 @@ class Payment extends React.Component {
           onChange: (state, component) => {}
         })
         .mount('#card-container');
-        this.setState({adyenComp: card})
+      this.setState({ adyenComp: card });
     }
   }
   adyenSubmit() {
-    this.state.adyenComp.submit()
+    this.state.adyenComp.submit();
   }
   //payLater,payNow,sofort支付公共初始化方法
-  initCommonPay = ({email,type}) => {
+  initCommonPay = ({ email, type }) => {
     this.doGetAdyenPayParam(type);
     this.setState({
       email
     });
-  }
+  };
 
   initPayUCreditCard = () => {
     this.doGetAdyenPayParam('payu_credit_card');
@@ -1053,7 +1059,7 @@ class Payment extends React.Component {
   async saveAddressAndCommentPromise() {
     try {
       const { deliveryAddress, billingAddress, billingChecked } = this.state;
-      let tmpDeliveryAddress   = deliveryAddress;
+      let tmpDeliveryAddress = deliveryAddress;
       let tmpBillingAddress = billingAddress;
       if (this.isLogin) {
         const deliveryAddressEl = this.loginDeliveryAddressRef.current;
@@ -1261,7 +1267,7 @@ class Payment extends React.Component {
                 <FormattedMessage id="biliingAddressSameAs" />
               </label>
             </div>
-            <div className="normalDelivery  fit-mobile-normalDelivery">
+            <div className="normalDelivery fit-mobile-normalDelivery">
               <span>
                 <FormattedMessage id="payment.normalDelivery2" />
               </span>
@@ -1519,10 +1525,11 @@ class Payment extends React.Component {
               </span>
             </p>
             <div id="card-container" class="payment-method__container"></div>
-            <TermsCommon 
+            <TermsCommon
               id={'adyenCreditCard'}
-              listData = {this.state.listData}
-              checkRequiredItem = {this.checkRequiredItem}/>
+              listData={this.state.listData}
+              checkRequiredItem={this.checkRequiredItem}
+            />
           </div>
         </div>
         {/* KlarnaPayLater */}
@@ -1557,12 +1564,12 @@ class Payment extends React.Component {
             this.state.paymentTypeVal === 'directEbanking' ? '' : 'hidden'
           }`}
         >
-
-          <AdyenCommonPay 
-          type={'sofort'}
-          listData={this.state.listData} 
-          clickPay={this.initCommonPay} 
-          showErrorMsg={this.showErrorMsg} />
+          <AdyenCommonPay
+            type={'sofort'}
+            listData={this.state.listData}
+            clickPay={this.initCommonPay}
+            showErrorMsg={this.showErrorMsg}
+          />
         </div>
         {/* ***********************支付选项卡的内容end******************************* */}
       </>
@@ -1630,27 +1637,23 @@ class Payment extends React.Component {
 
                   {this._renderPayTab()}
                 </div>
-                {
-                  this.state.paymentTypeVal === 'adyenCard' &&
-                  (
-                    <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
-                      <div className="next-step-button">
-                        <div className="rc-text--right">
-                            <button
-                              className={`rc-btn rc-btn--one submit-payment`}
-                              type="submit"
-                              name="submit"
-                              value="submit-shipping"
-                              onClick={() => this.adyenSubmit()}
-                            >
-                              <FormattedMessage id="payment.further" />
-                            </button>
-                        </div>
+                {this.state.paymentTypeVal === 'adyenCard' && (
+                  <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
+                    <div className="next-step-button">
+                      <div className="rc-text--right">
+                        <button
+                          className={`rc-btn rc-btn--one submit-payment`}
+                          type="submit"
+                          name="submit"
+                          value="submit-shipping"
+                          onClick={() => this.adyenSubmit()}
+                        >
+                          <FormattedMessage id="payment.further" />
+                        </button>
                       </div>
                     </div>
-                  )
-                }
-                
+                  </div>
+                )}
               </div>
               <div className="rc-column pl-md-0">
                 {this.state.tid ? (
@@ -1658,12 +1661,14 @@ class Payment extends React.Component {
                     <RePayProductInfo
                       fixToHeader={true}
                       details={this.state.orderDetails}
+                      navigateToProDetails={true}
                     />
                   </>
                 ) : (
                   <PayProductInfo
                     data={this.state.recommend_data}
                     ref="payProductInfo"
+                    location={this.props.location}
                     history={this.props.history}
                     frequencyName={this.state.subForm.frequencyName}
                     buyWay={this.state.subForm.buyWay}
