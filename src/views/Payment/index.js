@@ -523,7 +523,7 @@ class Payment extends React.Component {
           showPayButton: false,
           brands: ['mc', 'visa', 'amex', 'cartebancaire'],
           onSubmit: (state, component) => {
-            //console.log(JSON.stringify(state))
+            console.log(JSON.stringify(state))
             if (state.isValid) {
               //勾选条款验证
               try {
