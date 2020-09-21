@@ -183,7 +183,7 @@ export async function validData(rule, data) {
       if (targetRule.require && !val) {
         throw new Error(targetRule.errMsg);
       }
-      if (targetRule.regExp && !targetRule.regExp.test(val)) {
+      if (targetRule.regExp && val && !targetRule.regExp.test(val)) {
         throw new Error(targetRule.errMsg);
       }
     }
